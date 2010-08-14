@@ -11,7 +11,7 @@
     <h1 id="package-name">{{ object.title }}</h1>
     <div id="package-version">{{ object.pypi_version }}</div>
     {% if request.user.is_authenticated %}
-        <div id="edit-link">
+        <div id="package-editlink">
             <a href="{% url edit_package object.slug %}">Edit</a>
         </div>    
     {% endif %}

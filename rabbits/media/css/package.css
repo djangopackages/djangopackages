@@ -9,6 +9,7 @@
     color: #666;
 }
 
+
 #package-statbox {
     margin: 10px auto;
     width: 800px;
@@ -16,10 +17,12 @@
     background: #DEF;
 }
 
+#package-editlink,
 #package-gridname {
     display: inline;
 }
 
+#package-editlink a,
 #package-gridname a {
     margin: 10px;
     padding: 6px;
@@ -28,6 +31,7 @@
     text-decoration: none;
 }
 
+#package-editlink a:hover,
 #package-gridname a:hover {
     background: #666;
     color: #FFF;
