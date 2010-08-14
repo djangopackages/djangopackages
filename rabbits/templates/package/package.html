@@ -1,7 +1,9 @@
 {% extends "package/base.html" %}
 
 {% load i18n %}
-{% load uni_form_tags %}
+{% load package_tags %}
+
+
 
 {% block head_title %}{{ object.title }}{% endblock %}
 
@@ -16,6 +18,7 @@
         </div>    
     {% endif %}
 
+
     <p id="package-repos">
         GitHub repo: <a href="{{ object.repo_url }}">{{ object.repo_url }}</a>
     </p>
@@ -28,8 +31,10 @@
 
     <div id="package-statbox">
       <img id="package-githubcommits" src="http://chart.apis.google.com/chart?cht=bvg&chs=450x30&chd=t:0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,5,6,8,0,0,6,0,0,0,1,2&chco=666666&chbh=a&chds=0,20" />
+      {{ object|commits_over_52 }}          
     </div>
-    
+
+
     <p>
         {{ object.repo_description }}
     </p>
@@ -69,3 +74,4 @@
     {% endwith %}
 
 {% endblock %}
+

@@ -66,6 +66,9 @@ class Package(BaseModel):
     participants    = models.TextField(_("Participants"), 
                         help_text="List of collaborats/participants on the project", blank=True)
                         
+    def active_examples(self):
+        return self.packageexample_set.filter(active=True)
+    
     def repo_name(self):
         # TODO make work under other repos
         return self.repo_url.replace('http://github.com/','')
@@ -118,7 +121,8 @@ class Package(BaseModel):
         # Get the repo watchers number
         # TODO - make this abstracted so we can plug in other repos
         github   = Github()
-        repo         = github.repos.show(self.repo_name())
+        repo_name = self.repo_name()
+        repo         = github.repos.show(repo_name)
         self.repo_watchers    = repo.watchers # set watchers
         self.repo_forks       = repo.forks # set fork
         self.repo_description = repo.description
@@ -143,8 +147,8 @@ class PackageExample(BaseModel):
     
     package      = models.ForeignKey(Package)
     title        = models.CharField(_("Title"), max_length="100")
-    url          = models.URLField(_("Repo URL"))
-    active       = models.BooleanField(_("Active"), default=False, help_text="Moderators have to approve links before they are provided")
+    url          = models.URLField(_("URL"))
+    active       = models.BooleanField(_("Active"), default=True, help_text="Moderators have to approve links before they are provided")
     
     class Meta:
         ordering = ['title']    

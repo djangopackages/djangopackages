@@ -21,6 +21,7 @@ def commits_over_52(package):
         current -= timedelta(7)        
 
     weeks.reverse()
-    return weeks
+    weeks = [str(x) for x in weeks]
+    return ','.join(weeks)
     
 
