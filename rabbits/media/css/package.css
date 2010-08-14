@@ -1,5 +1,17 @@
+#package-name {
+    display: inline;
+}
+
 #package-version {
     display: inline;
     font-weight: bold;
+    padding-left: 16px;
+    color: #666;
 }
 
+#package-statbox {
+    margin: 10px auto;
+    width: 600px;
+    height: 80px;
+    background: #333;
+}
