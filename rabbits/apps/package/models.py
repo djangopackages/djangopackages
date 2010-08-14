@@ -66,6 +66,10 @@ class Package(BaseModel):
     participants    = models.TextField(_("Participants"), 
                         help_text="List of collaborats/participants on the project", blank=True)
                         
+    def repo_name(self):
+        # TODO make work under other repos
+        return self.repo_url.replace('http://github.com/','')
+                        
     def participant_list(self):
         
         return self.participants.split(',')
@@ -114,8 +118,7 @@ class Package(BaseModel):
         # Get the repo watchers number
         # TODO - make this abstracted so we can plug in other repos
         github   = Github()
-        repo_name    = self.repo_url.replace('http://github.com/','')
-        repo         = github.repos.show(repo_name)
+        repo         = github.repos.show(self.repo_name())
         self.repo_watchers    = repo.watchers # set watchers
         self.repo_forks       = repo.forks # set fork
         self.repo_description = repo.description
