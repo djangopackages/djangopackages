@@ -1,4 +1,6 @@
-import logging 
+# TODO - cleanup regex to do proper string subs
+
+import logging
 import os
 import re
 from urllib import urlopen
@@ -8,17 +10,11 @@ from django.contrib.auth.models import User
 from django.db import models 
 from django.utils.translation import ugettext_lazy as _ 
 
-from github2.client import Github
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField 
+from github2.client import Github
 
-logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s %(levelname)s "%(message)s" in %(funcName)s() line %(lineno)d in %(pathname)s', 
-        filename='database.log',
-        filemode='a',
-)
-
-downloads_re = re.compile(r'<td style="text-align: right;">[0-9]{1,}</td>')
+class NoPyPiVersionFound(Exception):
+    pass
 
 class BaseModel(models.Model): 
     """ Base abstract base class to give creation and modified times """
@@ -44,6 +40,10 @@ REPO_CHOICES = (
     #('bitbucket', 'bitbucket',),
     #('code.google.com', 'code.google.com', ),
 )
+
+downloads_re = re.compile(r'<td style="text-align: right;">[0-9]{1,}</td>')
+doap_re      = re.compile(r"/pypi\?\:action=doap\&amp;name=[a-zA-Z0-9\.\-\_]+\&amp;version=[a-zA-Z0-9\.\-\_]+")
+version_re   = re.compile(r'<revision>[a-zA-Z0-9\.\-\_]+</revision>')
 
 class Package(BaseModel):
     
@@ -71,8 +71,23 @@ class Package(BaseModel):
         # Get the downloads from pypi
         # TODO - handle when version is added or not
         if self.pypi_url:
-            page = urlopen(self.pypi_url)
-            page = page.read()
+            page = urlopen(self.pypi_url).read()
+            # If the target page is an Index of packages
+            if 'Index of Packages' in page:
+                if self.pypi_url.endswith('/'):
+                    project_name = self.pypi_url[:-1]
+                project_name = os.path.split(project_name)[1]
+                logging.debug(project_name)
+                page_re = re.compile(r'<a href="/pypi/%s/([a-zA-Z0-9\.\-\_]{1,})">' % project_name)
+                match = page_re.search(page).group()
+                if match:
+                    url = match.replace('<a href="', 'http://pypi.python.org')
+                    url = url.replace('">', '')
+                    page = urlopen(url).read()
+                else:
+                    raise NoPyPiVersionFound('self.pypi_url')
+            
+            # We have a working page so grab the package info
             match = downloads_re.search(page).group()
             if match:
                 self.pypi_downloads = match.replace('<td style="text-align: right;">', '')
@@ -80,6 +95,15 @@ class Package(BaseModel):
                 self.pypi_downloads = int(self.pypi_downloads)
             else:
                 self.pypi_downloads = 0
+            
+            # get the version off of Pypi doap
+            match = doap_re.search(page).group()
+            if match:
+                url = 'http://pypi.python.org%s' % match
+                doap = urlopen(url).read()
+                match = version_re.search(doap).group()
+                self.pypi_version = match.replace('<revision>','').replace('</revision>','')
+            
             
         # Get the repo watchers number
         # TODO - make this abstracted so we can plug in other repos

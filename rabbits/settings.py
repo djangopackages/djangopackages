@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Django settings for basic pinax project.
 
+import logging 
 import os.path
 import posixpath
 import pinax
@@ -202,6 +203,14 @@ EMAIL_DEBUG = DEBUG
 DEBUG_TOOLBAR_CONFIG = {
     "INTERCEPT_REDIRECTS": False,
 }
+
+logging.basicConfig(
+        level=logging.DEBUG,
+        format='%(asctime)s %(levelname)s "%(message)s" in %(funcName)s() line %(lineno)d in %(pathname)s', 
+        filename='main.log',
+        filemode='a',
+)
+
 
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.
