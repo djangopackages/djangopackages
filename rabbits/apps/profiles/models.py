@@ -5,7 +5,11 @@ from idios.models import ProfileBase
 
 
 class Profile(ProfileBase):
-    name = models.CharField(_("name"), max_length=50, null=True, blank=True)
-    about = models.TextField(_("about"), null=True, blank=True)
-    location = models.CharField(_("location"), max_length=40, null=True, blank=True)
-    website = models.URLField(_("website"), null=True, blank=True, verify_exists=False)
+    github_url = models.URLField(_("Github url"), help_text="i.e. http://github.com/[my-account]", null=True, blank=True, verify_exists=True)
+    bitbucket_url = models.URLField(_("Bitbucket url"), help_text="i.e. http://bitbucket.com/[my-account]", null=True, blank=True, verify_exists=False)
+    google_code_url = models.URLField(_("Bitbucket url"), help_text="i.e. http://code.google.com/u/[my-account]/", null=True, blank=True, verify_exists=False)
+
+    class Meta:
+        permissions = (
+            ("is_moderator", "is_moderator"),
+        )

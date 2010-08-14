@@ -3,5 +3,6 @@
 
 --requirement=base.txt
 
-# Put project-specific requirements here.
-# See http://pip-installer.org/requirement-format.html for more information.
+django_extensions==0.4.1
+simplejson==2.1.1
+-e git://github.com/pydanny/python-github2.git#egg=python_github2

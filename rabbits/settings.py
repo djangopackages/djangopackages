@@ -155,6 +155,7 @@ INSTALLED_APPS = [
     "announcements",
     "pagination",
     "idios",
+    "django_extensions",
     
     # Pinax
     "pinax.apps.account",
@@ -163,6 +164,7 @@ INSTALLED_APPS = [
     
     # project
     "about",
+    "package",
     "profiles",
 ]
 
