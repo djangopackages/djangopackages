@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.db import models 
 from django.utils.translation import ugettext_lazy as _ 
 
+from github2.client import Github
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField 
 
 downloads_re = re.compile(r'<td style="text-align: right;">[0-9]{1,}</td>')
@@ -40,6 +41,8 @@ class Package(BaseModel):
     
     def save(self, *args, **kwargs):
         
+        # Get the downloads from pypi
+        # TODO - handle when version is added or not
         page = urlopen(self.pypi_url)
         page = page.read()
         match = downloads_re.search(page).group()
@@ -49,6 +52,14 @@ class Package(BaseModel):
             self.pypi_downloads = int(self.pypi_downloads)
         else:
             self.pypi_downloads = 0
+            
+        # Get the repo watchers number
+        # TODO - make this abstracted so we can plug in other repos
+        github = Github()
+        repo_name = self.repo_url.replace('http://github.com/','')
+        repo = github.repos.show(repo_name)
+        self.repo_watchers = repo.watchers
+        self.repo_forks = repo.forks        
         
         super(Package, self).save(*args, **kwargs) # Call the "real" save() method.
                     
