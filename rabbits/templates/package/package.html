@@ -58,6 +58,10 @@
     </p>
 
     <h2>Comparison Grids</h2>
+    
+    {% for grid in object.grids %}
+        <div id="package-gridname"><a href="{% url grid grid.slug %}">{{ grid }}</a></div>    
+    {% endfor %}
 
     <div id="package-gridname"><a href="#">Form Styling</a></div>
     <div id="package-gridname"><a href="#">Form Tools</a></div>

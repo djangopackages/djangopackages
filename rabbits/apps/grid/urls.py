@@ -4,24 +4,18 @@ from django.views.generic.list_detail import object_detail
 
 from grid.models import Grid
 
+from grid.views import grid, grids
+
 urlpatterns = patterns("",
     url(
-        regex = '^(?P<slug>[a-z0-9\-\_]+)/$',
-        view    = object_detail,
-        name    = 'package',
-        kwargs=dict(
-            queryset=Package.objects.select_related(),
-            template_name='package/package.html',
-            )    
+        regex = '^/$',
+        view    = grids,
+        name    = 'grids',
     ),
     
     url(
         regex = '^(?P<slug>[a-z0-9\-\_]+)/$',
-        view    = object_detail,
-        name    = 'package',
-        kwargs=dict(
-            queryset=Package.objects.select_related(),
-            template_name='package/package.html',
-            )    
+        view    = grid,
+        name    = 'grid',
     ),    
 )

@@ -7,7 +7,7 @@ from django.template import RequestContext
 
 from grid.models import Grid
 
-def grid_index(self, template_name="grid/grids.html"):
+def grids(request, template_name="grid/grids.html"):
     
     return render_to_response(template_name, {
         'grids': Grid.objects.all(),
@@ -15,5 +15,12 @@ def grid_index(self, template_name="grid/grids.html"):
         context_instance=RequestContext(request)
         )
 
-def grid(self, slug, template_name="grid/grid.html"):
-    pass
+def grid(request, slug, template_name="grid/grid.html"):
+    
+    grid = get_object_or_404(Grid, slug=slug)
+
+    return render_to_response(template_name, {
+        'grid': grid,
+        },
+        context_instance=RequestContext(request)
+        )

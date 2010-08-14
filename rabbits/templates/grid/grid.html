@@ -1,0 +1,20 @@
+{% extends "grid/base.html" %}
+
+{% load i18n %}
+
+
+
+
+
+{% block head_title %}{{ object.title }}{% endblock %}
+
+
+{% block body %}
+    
+    <h1>{{ grid.title }}</h1>
+    <div id="grid-description">
+        {{ grid.description|urlize|linebreaksbr }}
+    </div>
+
+{% endblock %}
+

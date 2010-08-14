@@ -68,6 +68,10 @@ class Package(BaseModel):
                         
     def active_examples(self):
         return self.packageexample_set.filter(active=True)
+        
+    def grids(self):
+        
+        return (x.grid for x in self.gridpackage_set.all())
     
     def repo_name(self):
         # TODO make work under other repos
