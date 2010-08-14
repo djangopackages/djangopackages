@@ -46,7 +46,8 @@ class Package(BaseModel):
     pypi_version    = models.CharField(_("Current Pypi version"), max_length="20", blank=True)    
     pypi_downloads  = models.IntegerField(_("Pypi downloads"), default=0)
     related_packages    = models.ManyToManyField("self", blank=True)
-    participants    = models.ManyToManyField(User, blank=True)
+    participants    = models.TextField(_("Participants"), 
+                        help_text="List of collaborats/participants on the project", blank=True)
     
     def save(self, *args, **kwargs):
         
@@ -71,18 +72,10 @@ class Package(BaseModel):
         self.repo_watchers   = repo.watchers # set watchers
         self.repo_forks      = repo.forks # set fork
 
-        for collab in github.repos.list_collaborators(repo_name):
-            logging.debug(collab)
-            try:
-                user = User.objects.get(username=collab)
-                logging.debug('user found!')
-            except User.DoesNotExist:
-                logging.debug('no user found')                
-                continue
-            self.participants.add(user)
-            # TODO - confirm that this works
-        
-        logging.debug(self.participants.all())
+
+        collaborators = github.repos.list_collaborators(repo_name)
+        if collaborators:
+            self.participants = ','.join(collaborators)
         
         super(Package, self).save(*args, **kwargs) # Call the "real" save() method.
         
