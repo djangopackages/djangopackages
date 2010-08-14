@@ -1,0 +1,27 @@
+#tabhead {
+    background: #fff;
+    border-bottom: 1px solid #000; /* tab border */
+    position: relative;
+}
+#tabhead .logo {
+    height: 80px;
+    padding-left: 5px;
+    padding-top: 0;
+}
+#tabhead .logo img {
+    width: 190px;
+    height: 79px;
+}
+#tabhead .login {
+    position: absolute;
+    top: 6px;
+    right: 15px;
+    color: #333; /* login bar text colour */
+}
+#tabhead .login a, #tabhead .login a:visited {
+    color: #333; /* login bar link colour */
+}
+#tabhead .login a:hover {
+    color: #DEF; /* login bar link hover colour */
+}
+
