@@ -31,6 +31,10 @@ class Category(BaseModel):
 
     class Meta:
         ordering = ['title']
+        verbose_name_plural = 'Categories'        
+
+
+        
 
     def __unicode__(self):
         return self.title
