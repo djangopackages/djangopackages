@@ -1,0 +1,23 @@
+{% extends "package/base.html" %}
+
+{% load i18n %}
+{% load uni_form_tags %}
+
+{% block head_title %}{{ object.title }}{% endblock %}
+
+{% block body %}
+
+    <h1>Django Packages</h1>
+
+    <a href="{% url add_package %}">Add new package</a>
+
+    <div id="packages">
+        {% for package in object_list %}
+            <p>
+                <a href="{% url package package.slug %}">{{ package.title }}</a><br />
+                {{ package.repo_description }}
+            </p>
+        {% endfor %}
+    </div>
+
+{% endblock %}
