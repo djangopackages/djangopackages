@@ -48,5 +48,24 @@
     <div id="package-gridname"><a href="#">Form Styling</a></div>
     <div id="package-gridname"><a href="#">Form Tools</a></div>
     <div id="package-gridname"><a href="#">508 Compliance Apps</a></div>
+    
+    <h2>Sites using this package</h2>
+    
+    <a href="{% url add_example object.slug %}">Add an example</a>
+    
+    {% with object.active_examples as examples %}
+    {% if examples %}
+    <ol>
+        {% for example in examples %}
+            <li>
+                {% if request.user.is_authenticated %}
+                    <a href="{% url edit_example object.slug example.id %}">edit</a>
+                {% endif %}
+                <a href="{{ example.url }}">{{ example.title }}</a>
+            </li>
+        {% endfor %}
+    </ol>
+    {% endif %}
+    {% endwith %}
 
 {% endblock %}

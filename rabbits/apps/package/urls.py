@@ -3,7 +3,7 @@ from django.views.generic.list_detail import object_detail, object_list
 from django.views.generic.simple import direct_to_template
 
 from package.models import Package
-from package.views import add_package, edit_package
+from package.views import add_package, edit_package, add_example, edit_example
 
 urlpatterns = patterns("",
     url(
@@ -28,6 +28,17 @@ urlpatterns = patterns("",
         name    = 'edit_package', 
     ),    
 
+    url(
+        regex = '^(?P<slug>[a-z0-9\-\_]+)/example/add$',
+        view    = add_example,
+        name    = 'add_example', 
+    ),    
+    
+    url(
+        regex = '^(?P<slug>[a-z0-9\-\_]+)/example/(?P<id>\d+)/edit/$',
+        view    = edit_example,
+        name    = 'edit_example', 
+    ),    
     
     url(
         regex = '^(?P<slug>[a-z0-9\-\_]+)/$',
