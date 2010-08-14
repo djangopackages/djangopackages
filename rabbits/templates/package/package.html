@@ -6,6 +6,8 @@
 
 {% block extra_head %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/package.css" />
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/package.js"></script>
 {% endblock %}
 
 {% block body_class %}package{% endblock %}
@@ -27,7 +29,9 @@
         PyPi page: <a href="http://pypi.python.org/pypi/django-uni-form/0.7.0">http://pypi.python.org/pypi/django-uni-form/0.7.0</a>
     </p>
 
-    <div id="package-statbox"></div>
+    <div id="package-statbox">
+        <div id="package-githubcommits"></div>
+    </div>
     
     <p>
         {{ object.repo_description }}
