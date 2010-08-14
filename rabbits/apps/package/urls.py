@@ -6,7 +6,6 @@ from package.models import Package
 
 urlpatterns = patterns("",
     url(r"^$", direct_to_template, {"template": "package/base.html"}, name="package_index"),
-    #url(r"^$", direct_to_template, {"template": "package/base.html"}, name="package"),
     
     url(
         regex = '^(?P<slug>[a-z0-9\-\_]+)/$',
