@@ -13,5 +13,13 @@
     margin: 10px auto;
     width: 600px;
     height: 80px;
-    background: #333;
+    background: #DEF;
 }
+
+#package-gridname {
+    display: inline;
+    margin: 10px;
+    padding: 6px;
+    background: #DEF;
+}
+
