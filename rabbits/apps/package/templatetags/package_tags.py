@@ -5,6 +5,8 @@ from django import template
 
 from github2.client import Github
 
+from package.models import Package
+
 register = template.Library()
 
 github = Github()
@@ -24,4 +26,6 @@ def commits_over_52(package):
     weeks = [str(x) for x in weeks]
     return ','.join(weeks)
     
-
+@register.filter
+def list_all_projects():
+        return Package.objects.all()
