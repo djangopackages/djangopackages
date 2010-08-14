@@ -1,10 +1,13 @@
-import datetime 
+import re
+from urllib import urlopen
 
 from django.contrib.auth.models import User
 from django.db import models 
 from django.utils.translation import ugettext_lazy as _ 
 
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField 
+
+downloads_re = re.compile(r'<td style="text-align: right;">[0-9]{1,}</td>')
 
 class BaseModel(models.Model): 
     """ Base abstract base class to give creation and modified times """
@@ -29,12 +32,26 @@ class Package(BaseModel):
     repo_watchers   = models.IntegerField(_("repo watchers"), default=0)
     repo_forks      = models.IntegerField(_("repo forks"), default=0)
     pypi_url        = models.URLField(_("pypi URL"))
+    pypi_version    = models.CharField(_("Current Pypi version"), max_length="20")    
     pypi_downloads  = models.IntegerField(_("Pypi downloads"), default=0)
-    pypi_version    = models.CharField(_("Current Pypi version"), max_length="20")
     related_packages    = models.ManyToManyField("self", blank=True)
     project_owners      = models.ManyToManyField(User, blank=True, related_name="project_owners")    
     project_committers  = models.ManyToManyField(User, blank=True, related_name="project_committers")
     
+    def save(self, *args, **kwargs):
+        
+        page = urlopen(self.pypi_url)
+        page = page.read()
+        match = downloads_re.search(page).group()
+        if match:
+            self.pypi_downloads = match.replace('<td style="text-align: right;">', '')
+            self.pypi_downloads = self.pypi_downloads.replace('</td>', '')
+            self.pypi_downloads = int(self.pypi_downloads)
+        else:
+            self.pypi_downloads = 0
+        
+        super(Package, self).save(*args, **kwargs) # Call the "real" save() method.
+                    
     def __unicode__(self):
         
         return self.title
