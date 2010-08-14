@@ -22,7 +22,7 @@ function drawChart() {
   data.addRows(10);
 
   data = make(data);
-  var chart = new google.visualization.ImageSparkLine(document.getElementById('package-githubcommits'));
+//  var chart = new google.visualization.ImageSparkLine(document.getElementById('package-githubcommits'));
   chart.draw(data, {width: 120, height: 40, showAxisLines: false,  showValueLabels: false, labelPosition: 'left'});
 }
 
