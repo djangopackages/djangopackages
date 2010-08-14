@@ -79,6 +79,13 @@
        inkscape:vp_y="0 : 1000 : 0"
        inkscape:vp_x="0 : 0.5 : 1"
        sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4526"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -297,4 +304,8 @@
      style="fill:#808080;stroke:none"
      d="m 140.83557,49.895924 5.3033,-0.353554 -1.06066,7.424621 2.12132,0.353554 -3.53553,4.596194 -4.5962,-4.596194 3.18198,-0.353554 -1.41421,-7.071067 z"
      id="path4451-2" />
+  <path
+     style="fill:none;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="m 195,7 0,66"
+     id="path4344-2" />
 </svg>
