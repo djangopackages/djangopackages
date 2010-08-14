@@ -23,6 +23,7 @@ urlpatterns = patterns("",
     url(r"^profiles/", include("idios.urls")),
     url(r"^notices/", include("notification.urls")),
     url(r"^announcements/", include("announcements.urls")),
+    url(r"^package/", include("package.urls")),
 )
 
 

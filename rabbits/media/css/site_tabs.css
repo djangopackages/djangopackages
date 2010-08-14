@@ -1,12 +1,14 @@
 /* SITE-SPECIFIC TAB STYLING */
 
-body.profile #tab_profile a,
-body.notices #tab_notices a
+body.watched #tab_watched a,
+body.downloaded #tab_downloaded a,
+body.latest #tab_latest a
 {
     color: #000; /* selected tab text colour */
 }
-body.profile #tab_profile,
-body.notices #tab_notices
+body.watched #tab_watched,
+body.downloaded #tab_downloaded,
+body.latest #tab_latest
 {
     margin: 0; /* to compensate for border */
     padding: 5px 0 5px;

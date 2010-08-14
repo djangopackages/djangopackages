@@ -5,20 +5,25 @@
 
 {% block extra_head_base %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/site_tabs.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/rabbits.css" />
     {% block extra_head %}{% endblock %}
 {% endblock %}
 
-{% block logo_link_image %}<a href="{% url home %}"><img src="{{ STATIC_URL }}pinax/img/logo.png" alt="Pinax"/></a>{% endblock %}
+{% block logo_link_image %}<a href="{% url home %}">scaredofrabbits<!--TODO: make header logo graphic. <img src="{{ STATIC_URL }}pinax/img/logo.png" alt="Pinax"/>--></a>{% endblock %}
 
 {% block login %}
     {% include "_account_bar.html" %}
 {% endblock %}
 
-{% block right_tabs %}
+{% block left_tabs %}
     {% if user.is_authenticated %}
         <ul class="tabs">{% spaceless %}
+            <li id="tab_watched"><a href="#">{% trans "Most Watched" %}</a></li>
+            <li id="tab_downloaded"><a href="#">{% trans "Most Downloaded" %}</a></li>
+            <li id="tab_latest"><a href="#">{% trans "Latest Releases" %}</a></li>
+<!--    TODO: replace above links with urls like this:
             <li id="tab_profile"><a href="{% url profile_detail user.username %}">{% trans "Profile" %}</a></li>
-            <li id="tab_notices"><a href="{% url notification_notices %}">{% trans "Notices" %}{% if notice_unseen_count %} ({{ notice_unseen_count }}){% endif %}</a></li>
+            <li id="tab_notices"><a href="{% url notification_notices %}">{% trans "Notices" %}{% if notice_unseen_count %} ({{ notice_unseen_count }}){% endif %}</a></li>-->
         {% endspaceless %}</ul>
     {% endif %}
 {% endblock %}
