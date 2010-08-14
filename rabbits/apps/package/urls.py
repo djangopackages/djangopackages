@@ -1,15 +1,23 @@
 from django.conf.urls.defaults import *
+from django.views.generic.list_detail import object_detail, object_list
 from django.views.generic.simple import direct_to_template
-from django.views.generic.list_detail import object_detail
 
 from package.models import Package
 from package.views import add_package, edit_package
 
 urlpatterns = patterns("",
-    url(r"^$", direct_to_template, {"template": "package/packages.html"}, name="package_index"),
+    url(
+        regex   = r"^$",
+        view    = object_list,
+        name    = "package_index",
+        kwargs  = dict(
+            queryset=Package.objects.select_related(),        
+            )
+            
+    ),
     
     url(
-        regex = '^add/$',
+        regex   = '^add/$',
         view    = add_package,
         name    = 'add_package',
     ),    
