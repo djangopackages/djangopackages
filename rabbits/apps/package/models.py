@@ -80,6 +80,8 @@ class Package(BaseModel):
             if 'Index of Packages' in page:
                 if self.pypi_url.endswith('/'):
                     project_name = self.pypi_url[:-1]
+                else:
+                    project_name = self.pypi_url
                 project_name = os.path.split(project_name)[1]
                 logging.debug(project_name)
                 page_re = re.compile(r'<a href="/pypi/%s/([a-zA-Z0-9\.\-\_]{1,})">' % project_name)

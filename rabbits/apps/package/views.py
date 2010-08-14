@@ -29,19 +29,18 @@ def add_package(request, template_name="package/add_package.html"):
 
 @login_required
 @csrf_protect
-def edit_package(request, template_name="package/edit_package.html"):
+def edit_package(request, slug, template_name="package/edit_package.html"):
 
-    new_package = Package()
-    form = PackageForm(request.POST or None, instance=new_package)    
+    package = get_object_or_404(Package, slug=slug)
+    form = PackageForm(request.POST or None, instance=package)
 
-    if form.is_valid(): 
-        new_package = form.save()
-        # TODO - add slug and return to the newly created package 
-        return HttpResponseRedirect(reverse('home'))
-
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect(reverse('package', kwargs={'slug': package.slug}))
 
     return render_to_response(template_name, { 
-        'form': form
-        },
+        'form': form,  
+        }, 
         context_instance=RequestContext(request))
+
 

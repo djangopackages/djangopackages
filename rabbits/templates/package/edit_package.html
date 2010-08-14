@@ -5,16 +5,20 @@
 
 {% block head_title %}{{ object.title }}{% endblock %}
 
+{% block subnav %}
+        &nbsp;
+{% endblock %}
+
 {% block body %}
 
-    <h1>Add new package</h1>
+    <h1>Edit package</h1>
     
     <form class="uniForm" method="post">
         {% csrf_token %}
         <fieldset>
             {{ form|as_uni_form }}
         </fieldset>
-        <input type="submit" name="add" value="Add new package">
+        <input type="submit" name="edit" value="Edit">
     </form>
 
 {% endblock %}

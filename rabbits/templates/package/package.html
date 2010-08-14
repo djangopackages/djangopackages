@@ -1,26 +1,20 @@
-{% extends "site_base.html" %}
+{% extends "package/base.html" %}
 
 {% load i18n %}
+{% load uni_form_tags %}
 
 {% block head_title %}{{ object.title }}{% endblock %}
 
-{% block extra_head %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/package.css" />
-<!-- TODO: add this back in if needed, or remove it
-    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/package.js"></script> -->
-{% endblock %}
-
-{% block body_class %}package{% endblock %}
-
-{% block subnav %}
-        &nbsp;
-{% endblock %}
 
 {% block body %}
     
     <h1 id="package-name">{{ object.title }}</h1>
     <div id="package-version">{{ object.pypi_version }}</div>
+    {% if request.user.is_authenticated %}
+        <div id="edit-link">
+            <a href="{% url edit_package object.slug %}">Edit</a>
+        </div>    
+    {% endif %}
 
     <p id="package-repos">
         GitHub repo: <a href="{{ object.repo_url }}">{{ object.repo_url }}</a>

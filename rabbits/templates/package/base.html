@@ -1,45 +1,8 @@
 {% extends "site_base.html" %}
 
-{% load i18n %}
-
 {% block extra_head %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/package.css" />
 {% endblock %}
 
+
 {% block body_class %}package{% endblock %}
-
-{% block subnav %}
-        &nbsp;
-{% endblock %}
-
-{% block body %}
-    
-    <h1 id="package-name">{% trans "django-uni-form" %}</h1>
-    <div id="package-version">{% trans "0.8" %}</div>
-
-    <div id="package-statbox"></div>
-    
-    <p>
-        {% blocktrans %}
-        Django forms are easily rendered as tables, paragraphs, and unordered lists. However, elegantly rendered div based forms is something you have to do by hand. The purpose of this application is to provide a simple tag and/or filter that lets you quickly render forms in a div format.
-        {% endblocktrans %}
-    </p>
-
-    <h2>Project collaborators</h2>
-
-    <p><a href="http://github.com/pydanny">pydanny</a>, <a href="http://github.com/digi604">digi604</a>, <a href="http://github.com/agentk">agentk</a>, <a href="http://github.com/mvaerle">mvaerle</a></p>
-
-    <h2>Comparison Grids</h2>
-
-    <div id="package-gridname">Form Styling</div>
-    <div id="package-gridname">Form Tools</div>
-    <div id="package-gridname">508 Compliance Apps</div>
-
-    <h2>Download</h2>
-
-    <p>Latest official release: 0.7.0 <a href="http://github.com/pydanny/django-uni-form/tarball/0.7.0">tgz</a> | <a href="http://github.com/pydanny/django-uni-form/zipball/0.7.0">zip</a></p>
-    <p>Previous release: 0.6.0 <a href="http://github.com/pydanny/django-uni-form/tarball/0.6.0">tgz</a> | <a href="http://github.com/pydanny/django-uni-form/zipball/0.6.0">zip</a></p>
-
-    <hr />
-
-{% endblock %}
