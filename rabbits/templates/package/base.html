@@ -1,0 +1,28 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/package.css" />
+{% endblock %}
+
+{% block body_class %}package{% endblock %}
+
+{% block subnav %}
+        &nbsp;
+{% endblock %}
+
+{% block body %}
+    
+    <h1>{% trans "django-uni-form" %}</h1>
+    <div id="package-version">{% trans "0.8" %}</div>
+    
+    <p>
+        {% blocktrans %}
+        Django forms are easily rendered as tables, paragraphs, and unordered lists. However, elegantly rendered div based forms is something you have to do by hand. The purpose of this application is to provide a simple tag and/or filter that lets you quickly render forms in a div format.
+        {% endblocktrans %}
+    </p>
+        
+    <hr />
+
+{% endblock %}
