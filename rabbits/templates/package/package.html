@@ -1,0 +1,50 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{{ object.title }}{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/package.css" />
+{% endblock %}
+
+{% block body_class %}package{% endblock %}
+
+{% block subnav %}
+        &nbsp;
+{% endblock %}
+
+{% block body %}
+    
+    <h1 id="package-name">{{ object.title }}</h1>
+    <div id="package-version">{{ object.pypi_version }}</div>
+
+    <div id="package-statbox"></div>
+    
+    <p>
+        {{ object.repo_description }}
+    </p>
+
+    <h2>Project collaborators</h2>
+
+    <p>
+        {% for collaborator in object.participant_list %}
+            <a href="http://github.com/{{ collaborator }}">{{ collaborator }}</a>
+        {% endfor %}
+        
+    </p>
+
+    <h2>Comparison Grids</h2>
+
+    <div id="package-gridname">Form Styling</div>
+    <div id="package-gridname">Form Tools</div>
+    <div id="package-gridname">508 Compliance Apps</div>
+
+    <h2>Download</h2>
+
+    <p>Latest official release: 0.7.0 <a href="http://github.com/pydanny/django-uni-form/tarball/0.7.0">tgz</a> | <a href="http://github.com/pydanny/django-uni-form/zipball/0.7.0">zip</a></p>
+    <p>Previous release: 0.6.0 <a href="http://github.com/pydanny/django-uni-form/tarball/0.6.0">tgz</a> | <a href="http://github.com/pydanny/django-uni-form/zipball/0.6.0">zip</a></p>
+
+    <hr />
+
+{% endblock %}

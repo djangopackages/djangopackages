@@ -40,7 +40,7 @@ class Category(BaseModel):
         return self.title
 
 REPO_CHOICES = (
-    ('github', 'Github',),
+    ('http://github.com', 'Github',),
     #('bitbucket', 'bitbucket',),
     #('code.google.com', 'code.google.com', ),
 )
@@ -51,6 +51,7 @@ class Package(BaseModel):
     slug            = models.SlugField(_("Slug"))
     category        = models.ForeignKey(Category)
     repo            = models.CharField(_("Repo"), max_length="50", choices=REPO_CHOICES)
+    repo_description= models.TextField(_("Repo Description"), blank=True)
     repo_url        = models.URLField(_("repo URL"))
     repo_watchers   = models.IntegerField(_("repo watchers"), default=0)
     repo_forks      = models.IntegerField(_("repo forks"), default=0)
@@ -60,6 +61,10 @@ class Package(BaseModel):
     related_packages    = models.ManyToManyField("self", blank=True)
     participants    = models.TextField(_("Participants"), 
                         help_text="List of collaborats/participants on the project", blank=True)
+                        
+    def participant_list(self):
+        
+        return self.participants.split(',')
     
     def save(self, *args, **kwargs):
         
@@ -81,8 +86,9 @@ class Package(BaseModel):
         github   = Github()
         repo_name    = self.repo_url.replace('http://github.com/','')
         repo         = github.repos.show(repo_name)
-        self.repo_watchers   = repo.watchers # set watchers
-        self.repo_forks      = repo.forks # set fork
+        self.repo_watchers    = repo.watchers # set watchers
+        self.repo_forks       = repo.forks # set fork
+        self.repo_description = repo.description
 
 
         collaborators = github.repos.list_collaborators(repo_name)
