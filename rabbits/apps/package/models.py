@@ -28,6 +28,17 @@ class BaseModel(models.Model):
     class Meta: 
         abstract = True 
 
+class Category(BaseModel):
+
+    title = models.CharField(_("Title"), max_length="50")
+    description = models.TextField(_("Participants"), blank=True)
+
+    class Meta:
+        ordering = ['title']
+
+    def __unicode__(self):
+        return self.title
+
 REPO_CHOICES = (
     ('github', 'Github',),
     #('bitbucket', 'bitbucket',),
@@ -38,6 +49,7 @@ class Package(BaseModel):
     
     title           = models.CharField(_("Title"), max_length="100")
     slug            = models.SlugField(_("Slug"))
+    category        = models.ForeignKey(Category)
     repo            = models.CharField(_("Repo"), max_length="50", choices=REPO_CHOICES)
     repo_url        = models.URLField(_("repo URL"))
     repo_watchers   = models.IntegerField(_("repo watchers"), default=0)
@@ -81,7 +93,8 @@ class Package(BaseModel):
         
         # get committers
 
-    
+    class Meta:
+        ordering = ['title']    
                     
     def __unicode__(self):
         
@@ -93,6 +106,9 @@ class PackageExample(BaseModel):
     title        = models.CharField(_("Title"), max_length="100")
     url          = models.URLField(_("Repo URL"))
     active       = models.BooleanField(_("Active"), default=False, help_text="Moderators have to approve links before they are provided")
+    
+    class Meta:
+        ordering = ['title']    
 
     def __unicode__(self):    
         return self.title
