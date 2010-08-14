@@ -16,3 +16,4 @@ def grid_index(self, template_name="grid/grids.html"):
         )
 
 def grid(self, slug, template_name="grid/grid.html"):
+    pass

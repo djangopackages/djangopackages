@@ -23,12 +23,14 @@
     <div id="package-version">{{ object.pypi_version }}</div>
 
     <p id="package-repos">
-        GitHub repo: <a href="http://github.com/pydanny/django-uni-form/">http://github.com/pydanny/django-uni-form/</a>
+        GitHub repo: <a href="{{ object.repo_url }}">{{ object.repo_url }}</a>
     </p>
 
-    <p id="package-pypilink">
-        PyPi page: <a href="http://pypi.python.org/pypi/django-uni-form/0.7.0">http://pypi.python.org/pypi/django-uni-form/0.7.0</a>
-    </p>
+    {% if object.pypi_url %}
+        <p id="package-pypilink">
+            PyPi page: <a href="{{ object.pypi_url }}">{{ object.pypi_url }}</a>
+        </p>
+    {% endif %}
 
     <img id="package-githubcommits" src="http://chart.apis.google.com/chart?cht=bvg&chs=600x30&chd=t:0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,5,6,8,0,0,6,0,0,0,1,2&chco=666666&chbh=a&chds=0,20&chm=N,000000,0,,10|N,000000,1,,10|N,000000,2,,10" />
 

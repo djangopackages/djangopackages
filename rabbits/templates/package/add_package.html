@@ -1,0 +1,33 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% load uni_form_tags %}
+
+{% block head_title %}{{ object.title }}{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/package.css" />
+<!-- TODO: add this back in if needed, or remove it
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/package.js"></script> -->
+{% endblock %}
+
+{% block body_class %}package{% endblock %}
+
+{% block subnav %}
+        &nbsp;
+{% endblock %}
+
+{% block body %}
+
+    <h1>Add new package</h1>
+    
+    <form class="uniForm" method="post">
+        {% csrf_token %}
+        <fieldset>
+            {{ form|as_uni_form }}
+        </fieldset>
+        <input type="submit" name="add" value="Add new package">
+    </form>
+
+{% endblock %}
