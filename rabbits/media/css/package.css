@@ -18,8 +18,18 @@
 
 #package-gridname {
     display: inline;
+}
+
+#package-gridname a {
     margin: 10px;
     padding: 6px;
     background: #DEF;
+    color: #333;
+    text-decoration: none;
+}
+
+#package-gridname a:hover {
+    background: #666;
+    color: #FFF;
 }
 
