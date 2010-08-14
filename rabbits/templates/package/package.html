@@ -15,7 +15,7 @@
     {% if request.user.is_authenticated %}
         <div id="package-editlink">
             <a href="{% url edit_package object.slug %}">Edit</a>
-        </div>    
+        </div>
     {% endif %}
 
 
@@ -30,11 +30,20 @@
     {% endif %}
 
     <div id="package-statbox">
-      <img id="package-githubcommits" src="http://chart.apis.google.com/chart?cht=bvg&chs=450x30&chd=t:0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,5,6,8,0,0,6,0,0,0,1,2&chco=666666&chbh=a&chds=0,20" />
-      {{ object|commits_over_52 }}          
+      <div class="package-statbox-col">
+          <img src="{{ STATIC_URL }}img/eye_20x20_clear.png" />217<br/>
+          <img src="{{ STATIC_URL }}img/fork_20x20_clear.png" />33
+      </div>
+      <div class="package-statbox-col">
+          PyPi <img src="{{ STATIC_URL }}img/grayarrow_20x20_clear.png" />:  501<br/>
+          Repo <img src="{{ STATIC_URL }}img/whitearrow_20x20_clear.png" />:  419
+      </div>
+      <div class="package-statbox-col">
+          <img id="package-githubcommits" src="http://chart.apis.google.com/chart?cht=bvg&chs=450x30&chd=t:{{ object|commits_over_52 }}&chco=666666&chbh=a&chds=0,20" />
+      </div>
     </div>
 
-
+    <div class="clear"></div>
     <p>
         {{ object.repo_description }}
     </p>

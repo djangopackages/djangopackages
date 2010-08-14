@@ -9,12 +9,16 @@
     color: #666;
 }
 
-
 #package-statbox {
     margin: 10px auto;
-    width: 800px;
+/*    width: 800px;
     height: 80px;
-    background: #DEF;
+    background: #DEF; */
+}
+
+.package-statbox-col {
+    margin: 0 10px;
+    float: left;
 }
 
 #package-editlink,
@@ -37,3 +41,6 @@
     color: #FFF;
 }
 
+.clear {
+    clear: both;
+}
