@@ -15,3 +15,11 @@
     height: 80px;
     background: #DEF;
 }
+
+#package-gridname {
+    display: inline;
+    margin: 10px;
+    padding: 6px;
+    background: #DEF;
+}
+
