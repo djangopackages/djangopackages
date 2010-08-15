@@ -32,7 +32,22 @@
     color: #DEF; /* login bar link hover colour */
 }
 
+/* Sticky footer from http://ryanfait.com/resources/footer-stick-to-bottom-of-page/
+   (still overriding base.css) */
+
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -4em;
+}
+
+.footer, .push {
+    height: 4em;
+}
+
 /* This overrides styles from tabs.css */
 #left_tabs {
     left: 20px; /* based on width and padding of logo */
 }
+
