@@ -10,8 +10,10 @@ from homepage.models import Dpotw, Gotw, Tab
 
 def homepage(request, template_name="homepage.html"):
     
+    packages = Package.objects.order_by('-pypi_downloads', '-repo_watchers', 'title')
+    
     return render_to_response(template_name, {
-        'packages': Package.objects.all(),
+        'packages': packages,
         'dpotw': Dpotw.objects.get_current(),
         'gotw': Gotw.objects.get_current(),
         'tab': Tab.objects.all()
