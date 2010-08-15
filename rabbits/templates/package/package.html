@@ -63,7 +63,7 @@
         <div id="package-gridname"><a href="{% url grid grid.slug %}">{{ grid }}</a></div>    
     {% endfor %}
     
-    <h2 id="package-sites">Sites using this package</h2>
+    <h2 id="package-sitesheading">Sites using this package</h2>
     
     <div id="package-editlink">
         {% if request.user.is_authenticated %}        
@@ -73,7 +73,7 @@
     
     {% with object.active_examples as examples %}
     {% if examples %}
-    <ol>
+    <ol id="package-sitelist">
         {% for example in examples %}
             <li>
                 <a href="{{ example.url }}">{{ example.title }}</a>
