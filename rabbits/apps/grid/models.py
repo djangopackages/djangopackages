@@ -21,6 +21,9 @@ class Grid(BaseModel):
                     
     def __unicode__(self):
         return self.title
+        
+    class Meta:
+        ordering = ['title']
 
 class GridPackage(BaseModel):
     """ These are Packages on one side of the grid 

@@ -5,9 +5,9 @@ from idios.models import ProfileBase
 
 
 class Profile(ProfileBase):
-    github_url = models.URLField(_("Github url"), help_text="i.e. http://github.com/[my-account]", null=True, blank=True, verify_exists=True)
-    bitbucket_url = models.URLField(_("Bitbucket url"), help_text="i.e. http://bitbucket.com/[my-account]", null=True, blank=True, verify_exists=False)
-    google_code_url = models.URLField(_("Google Code url"), help_text="i.e. http://code.google.com/u/[my-account]/", null=True, blank=True, verify_exists=False)
+    github_url = models.URLField(_("Github url"), help_text="http://github.com/[me]", null=True, blank=True, verify_exists=True)
+    bitbucket_url = models.URLField(_("Bitbucket url"), help_text="http://bitbucket.com/[me]", null=True, blank=True, verify_exists=False)
+    google_code_url = models.URLField(_("Google Code url"), help_text="http://code.google.com/u/[me]/", null=True, blank=True, verify_exists=False)
 
     class Meta:
         permissions = (

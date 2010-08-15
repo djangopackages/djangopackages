@@ -25,7 +25,6 @@ urlpatterns = patterns("",
     url(r"^about/", include("about.urls")),
     url(r"^account/", include("pinax.apps.account.urls")),
     url(r"^openid/(.*)", PinaxConsumer()),
-    # TODO - make the profiles view work properly
     url(r"^profiles/", include("idios.urls")),
     url(r"^notices/", include("notification.urls")),
     url(r"^announcements/", include("announcements.urls")),
