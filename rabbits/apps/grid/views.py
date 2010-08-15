@@ -6,8 +6,9 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext 
 
 
-from grid.forms import ElementForm, FeatureForm, GridForm
+from grid.forms import ElementForm, FeatureForm, GridForm, GridPackageForm
 from grid.models import Element, Feature, Grid, GridPackage
+from package.models import Package
 
 def grids(request, template_name="grid/grids.html"):
     
@@ -61,11 +62,11 @@ def edit_grid(request, slug, template_name="grid/edit_grid.html"):
 @login_required
 def add_feature(request, grid_slug, template_name="grid/add_feature.html"):
 
+    grid = get_object_or_404(Grid, slug=grid_slug)
     feature = Feature()
     form = FeatureForm(request.POST or None, instance=feature)    
 
     if form.is_valid(): 
-        grid = get_object_or_404(Grid, slug=grid_slug)
         feature = Feature(
                     grid=grid, 
                     title=request.POST['title'],
@@ -76,7 +77,8 @@ def add_feature(request, grid_slug, template_name="grid/add_feature.html"):
 
 
     return render_to_response(template_name, { 
-        'form': form
+        'form': form,
+        'grid':grid
         },
         context_instance=RequestContext(request))           
         
@@ -133,3 +135,25 @@ def edit_element(request, feature_id, package_id, template_name="grid/edit_eleme
         }, 
         context_instance=RequestContext(request))        
 
+@login_required
+def add_grid_package(request, grid_slug, template_name="grid/add_grid_package.html"):
+
+    grid = get_object_or_404(Grid, slug=grid_slug)
+    grid_package = GridPackage()
+    form = GridPackageForm(request.POST or None, instance=grid_package)    
+
+    if form.is_valid(): 
+        package = get_object_or_404(Package, id=request.POST['package'])
+        package = GridPackage(
+                    grid=grid, 
+                    package=package
+                )
+        package.save()
+        return HttpResponseRedirect(reverse('grid', kwargs={'slug':grid.slug}))
+
+
+    return render_to_response(template_name, { 
+        'form': form,
+        'grid': grid
+        },
+        context_instance=RequestContext(request))

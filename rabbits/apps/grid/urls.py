@@ -3,6 +3,7 @@ from django.conf.urls.defaults import *
 from grid.models import Grid
 
 from grid.views import (
+        add_grid_package,
         add_feature,
         add_grid, 
         delete_feature,
@@ -68,6 +69,13 @@ urlpatterns = patterns("",
         view    = delete_grid_package,
         name    = 'delete_grid_package',
     ),       
+
+    url(
+        regex = '^(?P<grid_slug>[a-z0-9\-\_]+)/package/add$',
+        view    = add_grid_package,
+        name    = 'add_grid_package',
+    ),       
+
     
     
 )
