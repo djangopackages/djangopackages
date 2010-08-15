@@ -17,7 +17,7 @@ from grid.views import (
 
 urlpatterns = patterns("",
     url(
-        regex = '^/$',
+        regex = '$',
         view    = grids,
         name    = 'grids',
     ),
