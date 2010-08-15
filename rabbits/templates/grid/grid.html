@@ -69,6 +69,12 @@
                         <th><a href="{% url package package.package.slug %}">{{ package.package.title }}</a></th>                
                     {% endfor %}
                 </tr>
+                {% if request.user.is_authenticated %}
+                    <th>Action</th>
+                    {% for package in grid_packages %}                    
+                        <td><a href="#" id="package-delete-{{ package.id }}">delete</a></td>
+                    {% endfor %}
+                {% endif %}
             </thead>
             <tbody>
                 <tr class="odd">
@@ -166,16 +172,28 @@
                         });
                     {% endfor %}                
                     
+                    delete_confirmation = function(e, url) {
+                        // The deletes are placed in here so there is just one place needed
+                        e.preventDefault();
+
+                        if(confirm('Are you sure')) {
+                            window.location = url;
+                        }
+                    };
+                    
                     // handle feature deletes
                     {% for feature in features %}
                         $("a#feature-delete-{{ feature.id }}").click(function(e) {
-                        	e.preventDefault();
-
-                        	if(confirm('Are you sure')) {
-                        		window.location = '{% url delete_feature feature.id %}';
-                        	}
+                            delete_confirmation(e, '{% url delete_feature feature.id %}')                            
                         });                            
                     {% endfor %}
+                    
+                    // handle package deletes
+                    {% for package in grid_packages %}
+                        $("a#package-delete-{{ package.id }}").click(function(e) {
+                            delete_confirmation(e, '{% url delete_grid_package package.id %}')
+                        });                            
+                    {% endfor %}                    
                     
                  {% endif %}
                  

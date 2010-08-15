@@ -71,6 +71,7 @@ def add_feature(request, grid_slug, template_name="grid/add_feature.html"):
                     title=request.POST['title'],
                     description = request.POST['description']
                 )
+        feature.save()
         return HttpResponseRedirect(reverse('grid', kwargs={'slug':feature.grid.slug}))
 
 
@@ -98,10 +99,20 @@ def edit_feature(request, id, template_name="grid/edit_feature.html"):
 def delete_feature(request, id, template_name="grid/edit_feature.html"):
 
     feature = get_object_or_404(Feature, id=id)
-    elements = Element.objects.filter(feature=feature).delete()
+    Element.objects.filter(feature=feature).delete()
     feature.delete()
 
     return HttpResponseRedirect(reverse('grid', kwargs={'slug': feature.grid.slug}))
+
+
+@login_required
+def delete_grid_package(request, id, template_name="grid/edit_feature.html"):
+
+    package = get_object_or_404(GridPackage, id=id)
+    Element.objects.filter(grid_package=package).delete()
+    package.delete()
+
+    return HttpResponseRedirect(reverse('grid', kwargs={'slug': package.grid.slug}))
 
         
 @login_required
