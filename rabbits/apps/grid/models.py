@@ -11,7 +11,14 @@ class Grid(BaseModel):
     slug         = models.SlugField(_('Slug'))    
     description  = models.TextField(_('Description'), blank=True)
     is_locked    = models.BooleanField(_('Is Locked'), default=False, help_text="Moderators can lock grid access")
-        
+    
+    def elements(self):
+        elements = []
+        for feature in self.feature_set.all(): 
+            for element in feature.element_set.all(): 
+                elements.append(element)
+        return elements
+                    
     def __unicode__(self):
         return self.title
 

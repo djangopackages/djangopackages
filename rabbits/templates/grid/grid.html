@@ -1,81 +1,150 @@
 {% extends "grid/base.html" %}
 
 {% load i18n %}
-
-
-
-
+{% load grid_tags %}
 
 {% block head_title %}{{ object.title }}{% endblock %}
 
 
 {% block body %}
     
-    <h1>{{ grid.title }}</h1>
+    <h1 id="grid-name">{{ grid.title }}</h1>
+    <div id="grid-editlink">
+        <a href="{% url edit_grid grid.slug %}">Edit</a>
+    </div>    
+    
     <div id="grid-description">
         {{ grid.description|urlize|linebreaksbr }}
     </div>
     
-    <table id="grid" border="3">
-        <thead>
-            <tr>
-                <th>Package</th>
-                {% for package in grid.gridpackage_set.all %}
-                    <th><a href="{% url package package.package.slug %}">{{ package.package.title }}</a></th>                
+    {% with grid.feature_set.all as features %}
+    
+    <div id="grid-features">
+        <h2>Features currently being evaluated</h2>
+        <table id="grid" border="3">      
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Description</th>
+                </tr> 
+            </thead>
+            <tbody>
+                {% for feature in features %}
+                    <tr>
+                        <td>{{ feature.title }}</td>
+                        <td>{{ feature.description }}</td>
+                    </tr>
                 {% endfor %}
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="odd">
-                <td>Version</td>
-                {% for package in grid.gridpackage_set.all %}
-                    <td>{{ package.package.pypi_version }}</td>
-                {% endfor %}
-                
-            </tr>
-            <tr class="even">
-                <td>Downloads</td>
-                {% for package in grid.gridpackage_set.all %}
-                    <td>
-                        {% if package.package.pypi_version %}
-                            {{ package.package.pypi_downloads }}
-                        {% else %}
-                            n/a
-                        {% endif %}
-                        
-                    </td>
-                {% endfor %}
-            </tr>
-            <tr class="odd">
-                <td>Repo</td>
-                {% for package in grid.gridpackage_set.all %}
-                    <td>{{ package.package.repo }}</td>
-                {% endfor %}
-            </tr>            
-            <tr class="even">
-                <td>Repo Watchers</td>
-                {% for package in grid.gridpackage_set.all %}
-                    <td>{{ package.package.repo_watchers }}</td>
-                {% endfor %}
-            </tr>
-            <tr class="odd">
-                <td>Repo Forks</td>
-                {% for package in grid.gridpackage_set.all %}
-                    <td>{{ package.package.repo_forks }}</td>
-                {% endfor %}
-            </tr>
-            <tr class="even">
-                <td>Participants</td>
-                {% for package in grid.gridpackage_set.all %}
-                    <td>
-                        {% for collaborator in package.package.participant_list %}
-                            <a href="{{ package.package.repo.url }}/{{ collaborator }}">{{ collaborator }}</a>
-                        {% endfor %}                        
-                    </td>
-                {% endfor %}
-            </tr>
-        </tbody>
+            </tbody>
+        </table>
         
-    </table>
+        <p><a href="#TODO">Add new feature to the grid</a></p>
+    </div>
+    
+    {% with grid.gridpackage_set.all as grid_packages %}
+    <div id="grid-parent">
+    
+        <table id="grid" border="3">
+            <thead>
+                <tr>
+                    <th>Package</th>
+                    {% for package in grid_packages %}
+                        <th><a href="{% url package package.package.slug %}">{{ package.package.title }}</a></th>                
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="odd">
+                    <td>Version</td>
+                    {% for package in grid_packages %}
+                        <td>{{ package.package.pypi_version }}</td>
+                    {% endfor %}
+                
+                </tr>
+                <tr class="even">
+                    <td>Downloads</td>
+                    {% for package in grid_packages %}
+                        <td>
+                            {% if package.package.pypi_version %}
+                                {{ package.package.pypi_downloads }}
+                            {% else %}
+                                n/a
+                            {% endif %}
+                        
+                        </td>
+                    {% endfor %}
+                </tr>
+                <tr class="odd">
+                    <td>Repo</td>
+                    {% for package in grid_packages %}
+                        <td>{{ package.package.repo }}</td>
+                    {% endfor %}
+                </tr>            
+                <tr class="even">
+                    <td>Repo Watchers</td>
+                    {% for package in grid_packages %}
+                        <td>{{ package.package.repo_watchers }}</td>
+                    {% endfor %}
+                </tr>
+                <tr class="odd">
+                    <td>Repo Forks</td>
+                    {% for package in grid_packages %}
+                        <td>{{ package.package.repo_forks }}</td>
+                    {% endfor %}
+                </tr>
+                <tr class="even">
+                    <td>Participants</td>
+                    {% for package in grid_packages %}
+                        <td>
+                            {% for collaborator in package.package.participant_list %}
+                                <a href="{{ package.package.repo.url }}/{{ collaborator }}">{{ collaborator }}</a>
+                            {% endfor %}                        
+                        </td>
+                    {% endfor %}
+                </tr>
+                {% for feature in features %}
+                    <tr class="{% cycle 'odd' 'even' %}">
+                        <td>{{ feature.title }}</td>
+                        {% for package in grid_packages %}
+                            {% get_or_create_grid_element package feature %}
+                                <td id="element-f{{ element.feature_id }}-p{{ element.grid_package_id }}">{{ element.text|style_element }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            
+            </tbody>
+        
+        </table>
+    </div>
+    
+    {% if request.user.is_authenticated %}
+        <p>Click on editable cells to change text.<br />
+            You can enter the word 'check' to place a checkmark.<br />
+            Pretty URLs are created by using this format: [http://example.com|Example].<br />
+        </p>
+    {% endif %}
+    
+    {% endwith %}
+    {% endwith %}    
 
+{% endblock %}
+
+{% block extra_body %}
+    {% with grid.gridpackage_set.all as grid_packages %}
+        <script type="text/javascript">
+        //what
+            $(function() {  
+
+                {% for element in grid.elements %}
+                    $("td#element-f{{ element.feature_id }}-p{{ element.grid_package_id }}").click(function() {
+                        alert('element-f{{ element.feature_id }}-p{{ element.grid_package_id }}');
+                    });
+                {% endfor %}                
+                
+              $(".button").click(function() {  
+                // validate and process form here  
+              });  
+            });    
+        </script>
+    {% endwith %}        
 {% endblock %}

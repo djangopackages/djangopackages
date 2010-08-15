@@ -1,10 +1,8 @@
 from django.conf.urls.defaults import *
-from django.views.generic.simple import direct_to_template
-from django.views.generic.list_detail import object_detail
 
 from grid.models import Grid
 
-from grid.views import grid, grids
+from grid.views import grid, grids, add_grid, edit_grid
 
 urlpatterns = patterns("",
     url(
@@ -12,6 +10,18 @@ urlpatterns = patterns("",
         view    = grids,
         name    = 'grids',
     ),
+    
+    url(
+        regex = '^add/$',
+        view    = add_grid,
+        name    = 'add_grid',
+    ),    
+    
+    url(
+        regex = '^(?P<slug>[a-z0-9\-\_]+)/edit/$',
+        view    = edit_grid,
+        name    = 'edit_grid',
+    ),    
     
     url(
         regex = '^(?P<slug>[a-z0-9\-\_]+)/$',
