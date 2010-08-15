@@ -107,3 +107,29 @@ ul.tabs {
     margin: 12px;
 }
 
+/* Style all tables the same way throughout the site 
+This is a very stripped version of:
+     http://veerle-v2.duoh.com/blog/comments/a_css_styled_table/ 
+     http://www.duoh.com/csstutorials/csstables/ 
+In the future, add the table gradients and bullets, maybe. */
+th {
+	  font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	  color: #4f6b72;
+	  border: 1px solid #C1DAD7;
+	  letter-spacing: 2px;
+	  text-transform: uppercase;
+	  text-align: left;
+	  padding: 6px 6px 6px 12px;
+	  background: #CAE8EA;
+}
+
+td {
+	  border: 1px solid #C1DAD7;
+	  background: #fff;
+	  padding: 6px 6px 6px 12px;
+	  color: #4f6b72;
+}
+
+.editable-cell {
+    background: #FCF1C2;
+}
