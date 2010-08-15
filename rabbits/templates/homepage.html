@@ -13,6 +13,12 @@
 {% block body_class %}home{% endblock %}
 
 {% block body %}
+    <div id="home-dpotw">
+        <h1>Django Package of the Week</h1>
+        <h2><a href="/package/django-uni-form/">django-uni-form</a></h2>
+        <p>Django forms are easily rendered as tables, paragraphs, and unordered lists. However, elegantly rendered div based forms is something you have to do by hand. The purpose of this application is to provide a simple tag and/or filter that lets you quickly render forms in a div format.</p>
+    </div>   
+
     <table id="home-packages">
         <tr>
             <td>PYPI <img src="{{ STATIC_URL }}img/grayarrow_20x20_clear.png" /></td>
@@ -33,7 +39,7 @@
             </tr>    
         {% endfor %}        
      </table>
-    
+ 
     
 
 {% endblock %}
