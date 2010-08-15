@@ -27,10 +27,11 @@ urlpatterns = patterns("",
     url(r"^profiles/", include("idios.urls")),
     url(r"^notices/", include("notification.urls")),
     url(r"^announcements/", include("announcements.urls")),
-    url(r"^package/", include("package.urls")),
-    url(r"^grid/", include("grid.urls")),    
+    url(r"^packages/", include("package.urls")),
+    url(r"^grids/", include("grid.urls")),    
     
-    url(r"^category/(?P<slug>[a-z0-9\-\_]+)/$", category, name="category"),        
+    url(r"^categories/(?P<slug>[a-z0-9\-\_]+)/$", category, name="category"),        
+    url(r"^categories/$", homepage, name="categories"),            
     
     url(
         regex = '^autocomplete/package/$',

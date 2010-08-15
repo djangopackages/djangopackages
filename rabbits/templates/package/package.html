@@ -10,7 +10,7 @@
 
 {% block body %}
     
-    <h1 id="package-name">{{ object.title }}</h1>
+    <h1 id="package-name"><a href="{% url home%}">home</a> / packages / {{ object.title }}</h1>
     <div id="package-version">{{ object.pypi_version }}</div>
     {% if request.user.is_authenticated %}
         <div id="package-editlink">

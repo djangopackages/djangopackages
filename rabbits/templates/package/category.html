@@ -15,7 +15,7 @@
 
 {% block body %}
 
-     <h1>Categories / {{ category }}s ( {{ packages.count }} )</h1>
+     <h1><a href="{% url home %}">home</a> / <a href="{% url categories %}">categories</a> / {{ category }}s ( {{ packages.count }} )</h1>
      
     <p>{{ category.description }}</p>
     <table id="home-packages">

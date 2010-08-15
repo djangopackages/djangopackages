@@ -41,7 +41,7 @@ urlpatterns = patterns("",
     ),    
     
     url(
-        regex = '^(?P<slug>[a-z0-9\-\_]+)/$',
+        regex = '^p/(?P<slug>[a-z0-9\-\_]+)/$',
         view    = object_detail,
         name    = 'package',
         kwargs=dict(
