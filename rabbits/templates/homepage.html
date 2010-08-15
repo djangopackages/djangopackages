@@ -15,6 +15,12 @@
 
 {% block body %}
     <div id="home-rightcol">
+        <div id="home-search">
+            <form action="{% url search%}">
+                <input id="id_q" type="text" name="q" maxlength="100" value="search" />
+                <input id="hidden-submit" type="submit" value="go" />
+            </form>
+        </div>        
         <div id="home-dpotw">
                 <h1>Django Package of the Week</h1>
             {% for package in dpotw %}            
@@ -64,3 +70,13 @@
     
 
 {% endblock %}
+
+{% block extra_body %}
+<script type="text/javascript">
+    $(function() {          
+        $('input#id_q').click(function() {
+            $("input#id_q").val('');
+        });                
+    });    
+</script>      
+{% endblock %}      
