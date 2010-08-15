@@ -38,16 +38,16 @@ class Category(BaseModel):
         
 class Repo(BaseModel):
     
+    is_supported = models.BooleanField(_("Supported?"), help_text="Does Django Packages support this repo site?", default=False)    
     title        = models.CharField(_("Title"), max_length="50")
     description  = models.TextField(_("description"), blank=True)
     url          = models.URLField(_("base URL of repo"))
-    supported    = models.BooleanField(_("Does Django Packages support this repo site?"), default=False)
     
     class Meta:
-        ordering = ['-supported', 'title']
+        ordering = ['-is_supported', 'title']
     
     def __unicode__(self):
-        if not self.supported:
+        if not self.is_supported:
             return '%s (unsupported)' % self.title            
         
         return self.title
