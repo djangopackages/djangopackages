@@ -32,6 +32,10 @@
     color: #DEF; /* login bar link hover colour */
 }
 
+#body {
+    width: 960px;
+}
+
 #footer {
     width: 100%;
     text-align: center;
