@@ -14,21 +14,22 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.47 r22583"
-   sodipodi:docname="icons.svg">
+   sodipodi:docname="icons.svg"
+   style="display:inline">
   <defs
      id="defs4">
     <marker
        inkscape:stockid="Arrow1Mend"
        orient="auto"
-       refY="0.0"
-       refX="0.0"
+       refY="0"
+       refX="0"
        id="Arrow1Mend"
-       style="overflow:visible;">
+       style="overflow:visible">
       <path
          id="path3679"
-         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
-         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;marker-start:none;"
-         transform="scale(0.4) rotate(180) translate(10,0)" />
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
     </marker>
     <inkscape:perspective
        sodipodi:type="inkscape:persp3d"
@@ -114,6 +115,20 @@
        inkscape:vp_y="0 : 1000 : 0"
        inkscape:vp_x="0 : 0.5 : 1"
        sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3775"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3800"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -122,11 +137,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="4"
-     inkscape:cx="215.56628"
-     inkscape:cy="37.167926"
+     inkscape:zoom="2"
+     inkscape:cx="219.77309"
+     inkscape:cy="-13.427532"
      inkscape:document-units="px"
-     inkscape:current-layer="layer3"
+     inkscape:current-layer="layer4"
      showgrid="false"
      inkscape:window-width="1280"
      inkscape:window-height="727"
@@ -141,7 +156,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -151,7 +166,7 @@
      id="layer1"
      transform="translate(0,-972.36218)"
      sodipodi:insensitive="true"
-     style="display:none">
+     style="display:inline">
     <rect
        style="color:#000000;fill:#ddeeff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="rect2816"
@@ -164,7 +179,7 @@
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="icon_squares"
-     style="display:none">
+     style="display:inline">
     <rect
        style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="rect3613"
@@ -193,6 +208,12 @@
        height="20"
        x="106"
        y="45" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="arrow_squares"
+     style="display:none">
     <rect
        style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="rect3613-7"
@@ -200,6 +221,10 @@
        height="20"
        x="203"
        y="15" />
+    <path
+       style="fill:#ffffff;stroke:#808080;stroke-width:1.27465463;display:inline"
+       d="m 210.13917,17.684995 6.75987,-0.45066 -1.35197,9.463828 2.70395,0.450659 -4.50658,5.85856 -5.85857,-5.85856 4.05593,-0.450659 -1.80263,-9.013168 z"
+       id="path4451-1" />
     <rect
        style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="rect3613-1-41"
@@ -207,12 +232,11 @@
        height="20"
        x="203"
        y="45" />
+    <path
+       style="fill:#808080;stroke:none;display:inline"
+       d="m 209.4952,47.493439 7.09211,-0.472809 -1.41842,9.928969 2.83685,0.472809 -4.72808,6.146505 -6.14651,-6.146505 4.25527,-0.472809 -1.89122,-9.45616 z"
+       id="path4451-2-0" />
   </g>
-  <g
-     inkscape:groupmode="layer"
-     id="layer4"
-     inkscape:label="arrow_squares"
-     style="display:none" />
   <g
      inkscape:groupmode="layer"
      id="layer2"
@@ -352,12 +376,4 @@
      style="fill:none;stroke:#ffffff;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
      d="m 195,7 0,66"
      id="path4344-2" />
-  <path
-     style="fill:#ffffff;stroke:#808080;stroke-width:1.27465462999999990"
-     d="m 210.13917,17.684995 6.75987,-0.45066 -1.35197,9.463828 2.70395,0.450659 -4.50658,5.85856 -5.85857,-5.85856 4.05593,-0.450659 -1.80263,-9.013168 z"
-     id="path4451-1" />
-  <path
-     style="fill:#808080;stroke:none"
-     d="m 209.4952,47.493439 7.09211,-0.472809 -1.41842,9.928969 2.83685,0.472809 -4.72808,6.146505 -6.14651,-6.146505 4.25527,-0.472809 -1.89122,-9.45616 z"
-     id="path4451-2-0" />
 </svg>
