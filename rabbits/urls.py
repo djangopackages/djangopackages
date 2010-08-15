@@ -8,19 +8,19 @@ admin.autodiscover()
 
 from pinax.apps.account.openid_consumer import PinaxConsumer
 
-from package.models import Package
+from homepage.views import homepage
 
 handler500 = "pinax.views.server_error"
 
 
 urlpatterns = patterns("",
     # TODO - convert the homepage from object_list to homepage.views.homepage
-    url(r"^$", object_list, {
-        "template_name": "homepage.html",
-        "queryset":Package.objects.all()
-    }, name="home"),
+    url(r"^$", homepage, name="home"),
+    
     url(r"^admin/invite_user/$", "pinax.apps.signup_codes.views.admin_invite_user", name="admin_invite_user"),
     url(r"^admin/", include(admin.site.urls)),
+    
+    # TODO - flesh out the about pages
     url(r"^about/", include("about.urls")),
     url(r"^account/", include("pinax.apps.account.urls")),
     url(r"^openid/(.*)", PinaxConsumer()),
