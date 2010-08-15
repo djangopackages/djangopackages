@@ -26,40 +26,47 @@
     {% with grid.feature_set.all as features %}
     
     <div id="grid-features">
-        <h2>Features currently being evaluated</h2>
-        <table id="grid" border="3">      
-            <thead>
-                <tr>
-                    {% if request.user.is_authenticated %}
-                        <th>Action</th>
-                    {% endif %}
-                    <th>Feature</th>
-                    <th>Description</th>
-                </tr> 
-            </thead>
-            <tbody>
-                {% for feature in features %}
+        {% if features.count %}
+            <h2>Features currently being evaluated</h2>
+            <table id="grid" border="3">      
+                <thead>
                     <tr>
                         {% if request.user.is_authenticated %}
-                            <td><a href="{% url edit_feature feature.id %}">Edit</a>/<a href="#" id="feature-delete-{{ feature.id }}">Delete</a></td>
+                            <th>Action</th>
                         {% endif %}
+                        <th>Feature</th>
+                        <th>Description</th>
+                    </tr> 
+                </thead>
+                <tbody>
+                    {% for feature in features %}
+                        <tr>
+                            {% if request.user.is_authenticated %}
+                                <td><a href="{% url edit_feature feature.id %}">Edit</a>/<a href="#" id="feature-delete-{{ feature.id }}">Delete</a></td>
+                            {% endif %}
                         
-                        <td>{{ feature.title }}</td>
-                        <td>{{ feature.description }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        {% if request.user.is_authenticated %}        
-            <p><a href="{% url add_feature grid.slug %}">Add new feature to the grid</a></p>
+                            <td>{{ feature.title }}</td>
+                            <td>{{ feature.description }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% if request.user.is_authenticated %}        
+                <p><a href="{% url add_feature grid.slug %}">Add new feature to the grid</a></p>
+            {% endif %}            
+        {% else %}
+            {% if request.user.is_authenticated %}        
+                <p><a href="{% url add_feature grid.slug %}">Add a feature to the grid</a></p>
+            {% endif %}        
         {% endif %}
+
+
     </div>
     
     {% with grid.gridpackage_set.all as grid_packages %}
     <div id="grid-parent"> 
 
-        {% if grid_packages %}
+        {% if grid_packages.count %}
         
             {% if request.user.is_authenticated %}        
                 <p><a href="{% url add_grid_package grid.slug %}">Add another package</a></p>
@@ -148,16 +155,18 @@
                 </tbody>
         
             </table>
+            {% if request.user.is_authenticated %}
+                <p>Click on editable cells to change text.</p>
+            {% endif %}
+                        
         {% else %}
             {% if request.user.is_authenticated %}        
-                <p><a href="{% url add_feature grid.slug %}">Add a package to get a grid view</a></p>
+                <p><a href="{% url add_grid_package grid.slug %}">Add a package to get a grid view</a></p>
             {% endif %}        
         {% endif %}
     </div>
     
-    {% if request.user.is_authenticated %}
-        <p>Click on editable cells to change text.</p>
-    {% endif %}
+
     
     {% endwith %}
     {% endwith %}    
