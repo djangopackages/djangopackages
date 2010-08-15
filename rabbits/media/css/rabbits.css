@@ -32,6 +32,11 @@
     color: #DEF; /* login bar link hover colour */
 }
 
+#footer {
+    width: 100%;
+    text-align: center;
+}
+
 /* Sticky footer from http://ryanfait.com/resources/footer-stick-to-bottom-of-page/
    (still overriding base.css) */
 
