@@ -1,5 +1,11 @@
 {% extends "grid/base.html" %}
 
+{% comment %}
+    Finish the add/edit/delete for features
+    Finish the add/edit/delete for packages    
+    Finish the edit for elements
+{% endcomment %}
+
 {% load i18n %}
 {% load grid_tags %}
 
@@ -24,6 +30,9 @@
         <table id="grid" border="3">      
             <thead>
                 <tr>
+                    {% if request.user.is_authenticated %}
+                        <th>Action</th>
+                    {% endif %}
                     <th>Feature</th>
                     <th>Description</th>
                 </tr> 
@@ -31,6 +40,10 @@
             <tbody>
                 {% for feature in features %}
                     <tr>
+                        {% if request.user.is_authenticated %}
+                            <td><a href="">Edit</a>/<a href="#" id="feature-delete-{{ feature.id }}">Delete</a></td>
+                        {% endif %}
+                        
                         <td>{{ feature.title }}</td>
                         <td>{{ feature.description }}</td>
                     </tr>

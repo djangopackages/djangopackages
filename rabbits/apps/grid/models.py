@@ -9,7 +9,7 @@ class Grid(BaseModel):
 
     title        = models.CharField(_('Title'), max_length=100)
     slug         = models.SlugField(_('Slug'))    
-    description  = models.TextField(_('Description'), blank=True)
+    description  = models.TextField(_('Description'), blank=True, help_text="Lines are broken and urls are urlized")
     is_locked    = models.BooleanField(_('Is Locked'), default=False, help_text="Moderators can lock grid access")
     
     def elements(self):
