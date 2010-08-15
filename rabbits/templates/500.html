@@ -1,0 +1,17 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Server Error" %}{% endblock %}
+
+{% block body %}
+    <div id="error-404">
+        <img src="{{ STATIC_URL }}img/logo_501x316.png" />
+        
+        <p>{% trans "We're sorry but a server error has occurred. We've been notified and will look into it as soon as possible." %}
+            <br />
+             Perhaps you would like to <a href="http://github.com/pydanny/scaredofrabbits/issues">create a ticket?</a>
+        </p>
+    </div>
+    
+{% endblock %}
