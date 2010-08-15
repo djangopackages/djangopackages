@@ -13,13 +13,23 @@
 {% block body_class %}home{% endblock %}
 
 {% block body %}
-    <div id="home-dpotw">
-            <h1>Django Package of the Week</h1>
-        {% for package in dpotw %}            
-            <h2><a href="{% url package package.package.slug %}">{{ package.package.title }}</a></h2>
-            <p>{{ package.package.description }}</p>
-        {% endfor %}
-    </div>   
+    <div id="home-rightcol">
+        <div id="home-dpotw">
+                <h1>Django Package of the Week</h1>
+            {% for package in dpotw %}            
+                <h2><a href="{% url package package.package.slug %}">{{ package.package.title }}</a></h2>
+                <p>{{ package.package.description }}</p>
+            {% endfor %}
+        </div>   
+
+        <div id="home-gotw">
+                <h1>Grid of the Week</h1>
+            {% for grid in gotw %}            
+                <h2><a href="{% url grid grid.grid.slug %}">{{ grid.grid.title }}</a></h2>
+                <p>{{ grid.grid.description }}</p>
+            {% endfor %}
+        </div>  
+    </div>
 
     <table id="home-packages">
         <tr id="home-tableheader">

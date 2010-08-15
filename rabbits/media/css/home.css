@@ -1,6 +1,16 @@
+#home-rightcol {
+    float: right;
+}
+
 #home-dpotw {
     width: 260px;
-    float: right;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #DEF;
+}
+
+#home-gotw {
+    width: 260px;
     padding: 20px;
     background-color: #DEF;
 }
