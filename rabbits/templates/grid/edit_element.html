@@ -11,20 +11,33 @@
 
 {% block body %}
 
-    <h1>Edit Element</h1>
+    <h1>Edit Element which is related to:</h1>
+    
+    <p><strong>Grid: {{ grid }}</strong></p>
+    <p><strong>Package: {{ package }}</strong></p>    
+    <p><strong>Feature: {{ feature.title }}</strong> {{ feature.description}}</p>
+    
     
     <form class="uniForm" method="post">
         {% csrf_token %}
         <fieldset>
             {{ form|as_uni_form }}
+            <div class="form_block">        
+                <input type="submit" name="edit" value="Edit">
+                <a href="{% url grid grid.slug %}">cancel</a>
+            </div>            
+            
         </fieldset>
-        
-        <input type="submit" name="edit" value="Edit">
     </form>
     
     <p>
-        You can enter the word 'check' to place a checkmark.<br />
-        Pretty URLs are created by using this format: [http://example.com|Example].
+        
     </p>
 
+{% endblock %}
+
+{% block extra_body %}
+<script>
+    $("#id_text").focus();
+</script>
 {% endblock %}

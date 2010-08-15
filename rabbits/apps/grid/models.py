@@ -52,12 +52,17 @@ class Feature(BaseModel):
     def __unicode__(self):
         return '%s : %s' % (self.grid.slug, self.title)    
     
+help_text = """
+You can enter the word 'check' to place a checkmark.<br />
+Pretty URLs are created by using this format: [http://example.com|Example].
+"""
+    
 class Element(BaseModel):
     """ The individual table elements """
     
     grid_package = models.ForeignKey(GridPackage)
     feature      = models.ForeignKey(Feature)
-    text         = models.TextField(_('text'), blank=True, help_text="very limited formatting is allowed!")
+    text         = models.TextField(_('text'), blank=True, help_text=help_text)
     
     def __unicode__(self):
         return '%s : %s : %s' % (self.grid_package.grid.slug, self.grid_package.package.slug, self.feature.title)

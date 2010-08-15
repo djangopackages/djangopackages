@@ -17,8 +17,17 @@
         {% csrf_token %}
         <fieldset>
             {{ form|as_uni_form }}
+            <div class="form_block">        
+                <input type="submit" name="edit" value="Edit">
+                <a href="{% url grid grid.slug %}">cancel</a>
+            </div>            
         </fieldset>
-        <input type="submit" name="edit" value="Edit">
     </form>
 
+{% endblock %}
+
+{% block extra_body %}
+<script>
+    $("#id_title").focus();
+</script>
 {% endblock %}

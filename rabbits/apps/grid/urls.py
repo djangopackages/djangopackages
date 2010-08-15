@@ -16,11 +16,7 @@ from grid.views import (
     )
 
 urlpatterns = patterns("",
-    url(
-        regex = '$',
-        view    = grids,
-        name    = 'grids',
-    ),
+
     
     url(
         regex = '^add/$',
@@ -76,6 +72,10 @@ urlpatterns = patterns("",
         name    = 'add_grid_package',
     ),       
 
-    
+    url(
+        regex = '$',
+        view    = grids,
+        name    = 'grids',
+    ),    
     
 )

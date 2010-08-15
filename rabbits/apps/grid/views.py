@@ -56,6 +56,7 @@ def edit_grid(request, slug, template_name="grid/edit_grid.html"):
 
     return render_to_response(template_name, { 
         'form': form,  
+        'grid': grid
         }, 
         context_instance=RequestContext(request))  
         
@@ -93,7 +94,8 @@ def edit_feature(request, id, template_name="grid/edit_feature.html"):
         return HttpResponseRedirect(reverse('grid', kwargs={'slug': feature.grid.slug}))
 
     return render_to_response(template_name, { 
-        'form': form,  
+        'form': form,
+        'grid': feature.grid  
         }, 
         context_instance=RequestContext(request))
         
@@ -131,7 +133,10 @@ def edit_element(request, feature_id, package_id, template_name="grid/edit_eleme
         return HttpResponseRedirect(reverse('grid', kwargs={'slug': feature.grid.slug}))
 
     return render_to_response(template_name, { 
-        'form': form,  
+        'form': form,
+        'feature':feature,
+        'package':grid_package.package,
+        'grid':feature.grid
         }, 
         context_instance=RequestContext(request))        
 
