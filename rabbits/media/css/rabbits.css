@@ -5,18 +5,20 @@
     position: relative;
 }
 #tabhead .logo {
-    height: 80px;
-    padding: 10px 0 0 5px;
-    text-align: center;
+    height: 42px;
+    padding: 8px 0 0 40px;
     font-weight: 700;
+    background-color: #95EDAA;
 }
 #tabhead .logo h1 {
     line-height: 80%;
     font-size: 38px;
+    display: inline;
+    padding-right: 26px;
 }
 #tabhead .logo h2 {
-    line-height: 30%;
     font-size: 17px;
+    display: inline;
 }
 #tabhead .logo a {
     color: #333;
@@ -64,6 +66,7 @@
 
 /* This overrides styles from tabs.css */
 #left_tabs {
+    position: relative;
     clear: both;
 /*    padding-top: 100px; */
     left: 0px; /* choose 120px if based on width and padding of logo */
@@ -97,3 +100,4 @@ ul.tabs {
 #tab_addgrid {
     background-color: #D9B2D3;
 }
+
