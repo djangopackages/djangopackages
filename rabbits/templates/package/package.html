@@ -21,26 +21,26 @@
 
     <p id="package-repos">
         GitHub repo: <a href="{{ object.repo_url }}">{{ object.repo_url }}</a>
+        <img src="{{ STATIC_URL }}img/eye_20x20_clear.png" />217&nbsp;
+        <img src="{{ STATIC_URL }}img/fork_20x20_clear.png" />33
+        <img src="{{ STATIC_URL }}img/whitearrow_20x20_clear.png" />419
+        &nbsp;<img src="http://chart.apis.google.com/chart?cht=bvg&chs=105x20&chd=t:{{object|commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" />
     </p>
 
     {% if object.pypi_url %}
         <p id="package-pypilink">
             PyPi page: <a href="{{ object.pypi_url }}">{{ object.pypi_url }}</a>
+            <img src="{{ STATIC_URL }}img/grayarrow_20x20_clear.png" />501
         </p>
     {% endif %}
 
     <div id="package-statbox">
-      <div class="package-statbox-col">
-          <img src="{{ STATIC_URL }}img/eye_20x20_clear.png" />217<br/>
-          <img src="{{ STATIC_URL }}img/fork_20x20_clear.png" />33
-      </div>
-      <div class="package-statbox-col">
-          PyPi <img src="{{ STATIC_URL }}img/grayarrow_20x20_clear.png" />:  501<br/>
-          Repo <img src="{{ STATIC_URL }}img/whitearrow_20x20_clear.png" />:  419
-      </div>
-      <div class="package-statbox-col">
-          <img id="package-githubcommits" src="http://chart.apis.google.com/chart?cht=bvg&chs=450x30&chd=t:{{ object|commits_over_52 }}&chco=666666&chbh=a&chds=0,20" />
-      </div>
+        <img id="package-watchers-icon" src="{{ STATIC_URL }}img/eye_20x20_clear.png" />
+        <div id="package-watchers-num">217</div>
+        <img id="package-forkers-icon" src="{{ STATIC_URL }}img/fork_20x20_clear.png" />
+        <div id="package-forkers-num">33</div>
+
+        <img id="package-githubcommits" src="http://chart.apis.google.com/chart?cht=bvg&chs=450x30&chd=t:{{ object|commits_over_52 }}&chco=666666&chbh=a&chds=0,20" />
     </div>
 
     <div class="clear"></div>

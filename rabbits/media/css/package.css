@@ -10,16 +10,42 @@
 }
 
 #package-statbox {
+    display: none;
+    position: relative;
     margin: 10px auto;
     color: #808080;
-/*    width: 800px;
-    height: 80px;
-    background: #DEF; */
+    height: 70px;
+    background: #DEF;
 }
 
-.package-statbox-col {
-    margin: 0 10px;
-    float: left;
+#package-watchers-icon {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+}
+
+#package-watchers-num {
+    position: absolute;
+    top: 14px;
+    left: 50px;
+}
+
+#package-forkers-icon {
+    position: absolute;
+    top: 40px;
+    left: 20px;
+}
+
+#package-forkers-num {
+    position: absolute;
+    top: 44px;
+    left: 50px;
+}
+
+#package-githubcommits {
+    position: absolute;
+    top: 24px;
+    left: 200px;
 }
 
 #package-editlink,
