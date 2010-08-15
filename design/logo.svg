@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="960"
+   height="50"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.47 r22583"
+   sodipodi:docname="logo.svg">
+  <defs
+     id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective10" />
+    <inkscape:perspective
+       id="perspective2836"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective2917"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective2939"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective2961"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.6568542"
+     inkscape:cx="57.450571"
+     inkscape:cy="5.4370003"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer2"
+     showgrid="false"
+     inkscape:window-width="1280"
+     inkscape:window-height="727"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="text"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-1002.3622)"
+     sodipodi:insensitive="true">
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot2816"
+       style="font-size:36px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Helvetica LT;-inkscape-font-specification:Helvetica LT"
+       transform="translate(0,1002.3622)"><flowRegion
+         id="flowRegion2818"><rect
+           id="rect2820"
+           width="226.61235"
+           height="31.327906"
+           x="50.250698"
+           y="8.6957407"
+           style="font-size:36px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Helvetica LT;-inkscape-font-specification:Helvetica LT" /></flowRegion><flowPara
+         id="flowPara2822">D</flowPara></flowRoot>    <text
+       xml:space="preserve"
+       style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Helvetica LT;-inkscape-font-specification:Helvetica LT"
+       x="79.128723"
+       y="1039.3622"
+       id="text2824"><tspan
+         sodipodi:role="line"
+         id="tspan2826"
+         x="79.128723"
+         y="1039.3622"
+         style="font-size:38px;font-weight:bold;-inkscape-font-specification:Bitstream Vera Sans Bold">Django Packages</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Helvetica LT;-inkscape-font-specification:Helvetica LT"
+       x="425.73972"
+       y="1035.2856"
+       id="text2824-1"><tspan
+         sodipodi:role="line"
+         id="tspan2826-6"
+         x="425.73972"
+         y="1035.2856"
+         style="font-size:17px;font-weight:bold;-inkscape-font-specification:Bitstream Vera Sans Bold">reusable apps, sites, tools, and more for your Django projects</tspan></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="logo">
+    <rect
+       style="color:#000000;fill:#a0892c;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.32799995;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect2907"
+       width="26.030329"
+       height="22.504442"
+       x="8.5775137"
+       y="24.728615" />
+    <path
+       transform="matrix(0.93380587,-0.35778009,0,1,0,0)"
+       style="color:#000000;fill:#786721;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.32799995;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="m 37.582966,38.236542 11.818501,-0.383142 0,21.213204 -11.818501,1.67438 0,-22.504442 z"
+       id="rect2907-6"
+       sodipodi:nodetypes="ccccc" />
+    <rect
+       style="color:#000000;fill:#504416;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.32799994999999993;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect2907-5"
+       width="26.378155"
+       height="11.80162"
+       x="71.145119"
+       y="-67.062592"
+       transform="matrix(1,0,0.93137426,-0.36406317,0,0)" />
+  </g>
+</svg>
