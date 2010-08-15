@@ -16,7 +16,7 @@
     <div id="grid-listing">
     {% for grid in grids %}
         <dl class="grid-item">
-            <dt><strong>{{ grid.title }}</strong></dt>
+            <dt><strong><a href="{% url grid grid.slug %}">{{ grid.title }}</a></strong></dt>
             <dd class="counts">
                     Packages {{ grid.gridpackage_set.count }}
                     Features {{ grid.feature_set.count }}

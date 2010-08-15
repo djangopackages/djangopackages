@@ -37,7 +37,8 @@ def edit_package(request, slug, template_name="package/edit_package.html"):
         return HttpResponseRedirect(reverse('package', kwargs={'slug': package.slug}))
 
     return render_to_response(template_name, { 
-        'form': form,  
+        'form': form, 
+        'package': package 
         }, 
         context_instance=RequestContext(request))
 
@@ -57,7 +58,8 @@ def add_example(request, slug, template_name="package/add_example.html"):
         
 
     return render_to_response(template_name, { 
-        'form': form
+        'form': form,
+        'package':package
         },
         context_instance=RequestContext(request))    
 
@@ -72,7 +74,8 @@ def edit_example(request, slug, id, template_name="package/edit_example.html"):
         return HttpResponseRedirect(reverse('package', kwargs={'slug': package_example.package.slug}))
 
     return render_to_response(template_name, { 
-        'form': form,  
+        'form': form,
+        'package':package_example.package
         }, 
         context_instance=RequestContext(request))
     

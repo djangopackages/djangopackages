@@ -3,7 +3,7 @@
 {% load i18n %}
 {% load uni_form_tags %}
 
-{% block head_title %}{{ object.title }}{% endblock %}
+{% block head_title %}Edit package{% endblock %}
 
 {% block subnav %}
         &nbsp;
@@ -18,7 +18,16 @@
         <fieldset>
             {{ form|as_uni_form }}
         </fieldset>
-        <input type="submit" name="edit" value="Edit">
+        <div class="form_block">        
+            <input type="submit" name="edit" value="Edit">
+            <a href="{% url package package.slug %}">cancel</a>
+        </div>
     </form>
 
+{% endblock %}
+
+{% block extra_body %}
+<script>
+    $("#id_title").focus();
+</script>
 {% endblock %}
