@@ -9,7 +9,7 @@ admin.autodiscover()
 from pinax.apps.account.openid_consumer import PinaxConsumer
 
 from homepage.views import homepage
-from package.views import package_autocomplete
+from package.views import package_autocomplete, category
 
 handler500 = "pinax.views.server_error"
 
@@ -17,6 +17,7 @@ handler500 = "pinax.views.server_error"
 urlpatterns = patterns("",
 
     url(r"^$", homepage, name="home"),
+
     
     url(r"^admin/invite_user/$", "pinax.apps.signup_codes.views.admin_invite_user", name="admin_invite_user"),
     url(r"^admin/", include(admin.site.urls)),
@@ -28,6 +29,8 @@ urlpatterns = patterns("",
     url(r"^announcements/", include("announcements.urls")),
     url(r"^package/", include("package.urls")),
     url(r"^grid/", include("grid.urls")),    
+    
+    url(r"^category/(?P<slug>[a-z0-9\-\_]+)/$", category, name="category"),        
     
     url(
         regex = '^autocomplete/package/$',

@@ -7,7 +7,7 @@ from django.template import RequestContext
 
 
 from package.forms import PackageForm, PackageExampleForm
-from package.models import Package, PackageExample
+from package.models import Category, Package, PackageExample
 
 
 @login_required
@@ -93,3 +93,14 @@ def package_autocomplete(request):
 
     setattr(response, "djangologging.suppress_output", True)
     return response    
+    
+def category(request, slug, template_name="package/category.html"):
+
+    category = get_object_or_404(Category, slug=slug)
+    packages = category.package_set.order_by('-pypi_downloads', '-repo_watchers', 'title')
+    return render_to_response(template_name, {
+        'category': category,
+        'packages': packages
+        },
+        context_instance=RequestContext(request)
+    )
