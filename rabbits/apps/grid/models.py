@@ -53,8 +53,11 @@ class Feature(BaseModel):
         return '%s : %s' % (self.grid.slug, self.title)    
     
 help_text = """
-You can enter the word 'check' to place a checkmark.<br />
-Pretty URLs are created by using this format: [http://example.com|Example].
+You can use 'check', 'yes', 'good' to place a checkmark icon.<br />
+Putting in just +<any-number> renders three checkmarks.<br />
+You can use 'bad', 'negative', 'evil', 'sucks', 'no' to place a negative icon.<br />
+Putting in just -<any-number> renders three checkmarks.<br />
+Urls are turned into links<br />
 """
     
 class Element(BaseModel):

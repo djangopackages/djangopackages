@@ -104,7 +104,7 @@ MIDDLEWARE_CLASSES = [
     "pagination.middleware.PaginationMiddleware",
     "pinax.middleware.security.HideSensistiveFieldsMiddleware",
     
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    #"debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "rabbits.urls"
@@ -147,7 +147,7 @@ INSTALLED_APPS = [
     # external
     "notification", # must be first
     "staticfiles",
-    "debug_toolbar",
+    #"debug_toolbar",
     "mailer",
     "uni_form",
     "django_openid",

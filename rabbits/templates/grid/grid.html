@@ -141,7 +141,7 @@
                             <td>{{ feature.title }}</td>
                             {% for package in grid_packages %}
                                 {% get_or_create_grid_element package feature %}
-                                    <td class="editable-cell" id="element-f{{ element.feature_id }}-p{{ element.grid_package_id }}">{{ element.text|style_element }}</td>
+                                    <td class="editable-cell" id="element-f{{ element.feature_id }}-p{{ element.grid_package_id }}">{{ element.text|style_element|safe|urlize }}</td>
                             {% endfor %}
                         </tr>
                     {% endfor %}
