@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load analytics %}
+{% load homepage_tags %}
 
 {% block extra_head_base %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/site_tabs.css" />
@@ -16,16 +17,13 @@
 {% endblock %}
 
 {% block left_tabs %}
-    {% if user.is_authenticated %}
         <ul class="tabs">{% spaceless %}
-            <li id="tab_home"><a href="#">{% trans "Home" %}</a></li>
-            <li id="tab_cms"><a href="#">{% trans "CMS" %}</a></li>
-            <li id="tab_forms"><a href="#">{% trans "Forms" %}</a></li>
-<!--    TODO: replace above links with urls like this:
-            <li id="tab_profile"><a href="{% url profile_detail user.username %}">{% trans "Profile" %}</a></li>
-            <li id="tab_notices"><a href="{% url notification_notices %}">{% trans "Notices" %}{% if notice_unseen_count %} ({{ notice_unseen_count }}){% endif %}</a></li>-->
+            <li id="tab_home"><a href="{% url home %}">{% trans "Home" %}</a></li>
+            {% get_tabs %}
+            {% for tab in tabs %}
+                <li id="tab_{{ tab.grid.title }}"><a href="{% url grid tab.grid.slug %}">{{ tab.grid.title }}</a></li>                
+            {% endfor %}
         {% endspaceless %}</ul>
-    {% endif %}
 {% endblock %}
 
 {% block footer %}

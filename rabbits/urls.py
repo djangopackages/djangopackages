@@ -14,7 +14,7 @@ handler500 = "pinax.views.server_error"
 
 
 urlpatterns = patterns("",
-    # TODO - convert the homepage from object_list to homepage.views.homepage
+
     url(r"^$", homepage, name="home"),
     
     url(r"^admin/invite_user/$", "pinax.apps.signup_codes.views.admin_invite_user", name="admin_invite_user"),
