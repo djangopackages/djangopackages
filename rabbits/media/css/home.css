@@ -2,16 +2,10 @@
     float: right;
 }
 
-#home-dpotw {
+.home-rightcolbox {
     width: 260px;
     padding: 20px;
     margin-bottom: 20px;
-    background-color: #DEF;
-}
-
-#home-gotw {
-    width: 260px;
-    padding: 20px;
     background-color: #DEF;
 }
 

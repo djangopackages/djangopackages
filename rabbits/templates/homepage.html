@@ -21,7 +21,7 @@
                 <input id="hidden-submit" type="submit" value="go" />
             </form>
         </div>        
-        <div id="home-dpotw">
+        <div class="home-rightcolbox">
                 <h1>Django Package of the Week</h1>
             {% for package in dpotw %}            
                 <h2><a href="{% url package package.package.slug %}">{{ package.package.title }}</a></h2>
@@ -29,7 +29,7 @@
             {% endfor %}
         </div>   
 
-        <div id="home-gotw">
+        <div class="home-rightcolbox">
                 <h1>Grid of the Week</h1>
             {% for grid in gotw %}            
                 <h2><a href="{% url grid grid.grid.slug %}">{{ grid.grid.title }}</a></h2>
