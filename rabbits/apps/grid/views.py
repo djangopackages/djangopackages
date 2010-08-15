@@ -92,7 +92,17 @@ def edit_feature(request, id, template_name="grid/edit_feature.html"):
     return render_to_response(template_name, { 
         'form': form,  
         }, 
-        context_instance=RequestContext(request))           
+        context_instance=RequestContext(request))
+        
+@login_required
+def delete_feature(request, id, template_name="grid/edit_feature.html"):
+
+    feature = get_object_or_404(Feature, id=id)
+    elements = Element.objects.filter(feature=feature).delete()
+    feature.delete()
+
+    return HttpResponseRedirect(reverse('grid', kwargs={'slug': feature.grid.slug}))
+
         
 @login_required
 def edit_element(request, feature_id, package_id, template_name="grid/edit_element.html"):

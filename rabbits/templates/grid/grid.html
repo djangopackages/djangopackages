@@ -170,8 +170,12 @@
                     
                     // handle feature deletes
                     {% for feature in features %}
-                        $("a#feature-delete-{{ feature.id }}").click(function() {
-                            $('a#feature-delete-{{ feature.id }}').confirm();
+                        $("a#feature-delete-{{ feature.id }}").click(function(e) {
+                        	e.preventDefault();
+
+                        	if(confirm('Are you sure')) {
+                        		window.location = '{% url delete_feature feature.id %}';
+                        	}
                         });                            
                     {% endfor %}
                     
