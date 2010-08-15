@@ -9,6 +9,15 @@ class PackageAdmin(admin.ModelAdmin):
     inlines = [
         PackageExampleInline,
     ]
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'slug', 'category', 'repo', 'repo_url', 'related_packages')
+        }),
+        ('Pulled data', {
+            'classes': ('collapse',),
+            'fields': ('repo_description', 'repo_watchers', 'repo_forks', 'pypi_version', 'pypi_downloads', 'participants')
+        }),
+    )    
 
 admin.site.register(Category)
 admin.site.register(Package, PackageAdmin)
