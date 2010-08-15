@@ -1,0 +1,19 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Not Found" %}{% endblock %}
+
+{% block body %}
+    <div id="error-404">
+        <img src="{{ STATIC_URL }}img/logo_501x316.png" />
+        <p>{% trans "We're sorry but that page could not be found." %}
+        
+             Perhaps you would like to create a new 
+             <a href="{% url add_package%}">package</a> or
+             <a href="{% url add_grid %}">grid?</a>
+        
+        </p>
+    </div>
+    
+{% endblock %}
