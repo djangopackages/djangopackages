@@ -57,6 +57,6 @@
 
 /* This overrides styles from tabs.css */
 #left_tabs {
-    left: 20px; /* based on width and padding of logo */
+    left: 120px; /* based on width and padding of logo */
 }
 
