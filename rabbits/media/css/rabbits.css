@@ -8,7 +8,7 @@
     height: 42px;
     padding: 8px 0 0 40px;
     font-weight: 700;
-    background-color: #95EDAA;
+    background-color: #fff;
 }
 #tabhead .logo h1 {
     line-height: 80%;
@@ -70,7 +70,8 @@
     clear: both;
 /*    padding-top: 100px; */
     left: 0px; /* choose 120px if based on width and padding of logo */
-    background: #666;
+    background: #333;
+    bottom: 0;
 }
 
 ul.tabs a, ul.tabs a:visited {
