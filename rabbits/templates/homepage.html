@@ -36,6 +36,11 @@
                 <p>{{ grid.grid.description }}</p>
             {% endfor %}
         </div>  
+
+        <div class="home-rightcolbox">
+                <h1>Contribute</h1>
+                <p>Help us make this site more useful by <a href="{% url add_package %}">adding your package</a>, <a href="{% url add_grid %}">making new comparison grids</a>, or updating our listings with relevant info.</p>
+        </div>  
     </div>        
      
      {% for category in categories %}
