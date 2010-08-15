@@ -5,8 +5,8 @@
     position: relative;
 }
 #tabhead .logo {
-    height: 42px;
-    padding: 8px 0 0 40px;
+    height: 40px;
+    padding: 6px 0 0 10px;
     font-weight: 700;
     background-color: #fff;
 }
@@ -86,8 +86,8 @@ ul.tabs li {
     list-style-type: none;
     display: inline;
     background-color: #DDD; /* unselected tab colour */
-    padding: 5px 0 4px;
-    margin: 0 2px 0 2px; /* to compensate for border */
+    padding: 4px 3px;
+    margin: 3px;
     line-height: 230%;
 }
 ul.tabs li a {
@@ -95,10 +95,15 @@ ul.tabs li a {
 }
 ul.tabs {
     margin: 0;
-    padding: 10px;
+    padding: 7px;
 }
 
 #tab_addgrid {
     background-color: #D9B2D3;
+}
+
+#cardboard-boxes {
+    float: left;
+    margin: 12px;
 }
 
