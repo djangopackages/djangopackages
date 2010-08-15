@@ -19,32 +19,7 @@ input#hidden-submit {
     display: none;
 }
 
-#home-packages img,
-#home-packages td {
+#home-packages img {
     vertical-align: middle;
-}
-
-#home-packages td {
-    padding: 2px 6px;
-}
-
-#home-tableheader td {
-    padding-bottom: 8px;
-}
-
-#home-tableheader a {
-    background-color: #DEF;
-    padding: 6px;
-    color: #333;
-    text-decoration: none;
-}
-
-#home-tableheader a:hover {
-    background: #666;
-    color: #FFF;
-}
-
-#home-tabledatarow td {
-    padding-left: 4px;
 }
 
