@@ -16,7 +16,6 @@
     <table id="home-packages">
         <tr>
             <td>PYPI <img src="{{ STATIC_URL }}img/grayarrow_20x20_clear.png" /></td>
-            <td>REPO <img src="{{ STATIC_URL }}img/whitearrow_20x20_clear.png" /></td>
             <td>NAME</td>
             <td>COMMITS</td>
             <td>VERSION</td>
@@ -26,7 +25,6 @@
         {% for package in object_list %}
             <tr>
                 <td>{{ package.pypi_downloads }}</td>
-                <td>{{ package.repo_followers }}</td>
                 <td>{{ package.title }}</td>
                 <td><img id="package-githubcommits" src="http://chart.apis.google.com/chart?cht=bvg&chs=450x30&chd=t:{{package|commits_over_52}}&chco=666666&chbh=a&chds=0,20" /></td>
                 <td>{{ package.pypi_version }}</td>
