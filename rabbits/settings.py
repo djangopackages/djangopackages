@@ -167,6 +167,7 @@ INSTALLED_APPS = [
     # project
     "about",
     "grid",
+    "homepage",
     "package",
     "profiles",
 ]
