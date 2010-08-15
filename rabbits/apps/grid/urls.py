@@ -5,6 +5,8 @@ from grid.models import Grid
 from grid.views import (
         add_feature,
         add_grid, 
+        delete_feature,
+        delete_grid_package,
         edit_element,
         edit_grid,
         edit_feature,
@@ -53,5 +55,19 @@ urlpatterns = patterns("",
         regex = '^feature/(?P<id>\d+)/$',
         view    = edit_feature,
         name    = 'edit_feature',
-    ),    
+    ), 
+    
+    url(
+        regex = '^feature/(?P<id>\d+)/delete$',
+        view    = delete_feature,
+        name    = 'delete_feature',
+    ),       
+
+    url(
+        regex = '^package/(?P<id>\d+)/delete$',
+        view    = delete_grid_package,
+        name    = 'delete_grid_package',
+    ),       
+    
+    
 )
