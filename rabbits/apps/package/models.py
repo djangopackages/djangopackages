@@ -38,11 +38,17 @@ class Category(BaseModel):
         
 class Repo(BaseModel):
     
-    title = models.CharField(_("Title"), max_length="50")
-    description = models.TextField(_("description"), blank=True)
-    url = models.URLField(_("base URL of repo"))
+    title        = models.CharField(_("Title"), max_length="50")
+    description  = models.TextField(_("description"), blank=True)
+    url          = models.URLField(_("base URL of repo"))
+    supported    = models.BooleanField(_("Does Django Packages support this repo site?"), default=False)
+    
+    class Meta:
+        ordering = ['-supported', 'title']
     
     def __unicode__(self):
+        if not self.supported:
+            return '%s (unsupported)' % self.title            
         
         return self.title
 
@@ -57,7 +63,7 @@ class Package(BaseModel):
     category        = models.ForeignKey(Category)
     repo            = models.ForeignKey(Repo, null=True)
     repo_description= models.TextField(_("Repo Description"), blank=True)
-    repo_url        = models.URLField(_("repo URL"))
+    repo_url        = models.URLField(_("repo URL"), blank=True)
     repo_watchers   = models.IntegerField(_("repo watchers"), default=0)
     repo_forks      = models.IntegerField(_("repo forks"), default=0)
     pypi_url        = models.URLField(_("pypi URL"), blank=True)
@@ -125,21 +131,26 @@ class Package(BaseModel):
             
         # Get the repo watchers number
         # TODO - make this abstracted so we can plug in other repos
-        github   = Github()
-        repo_name = self.repo_name()
-        repo         = github.repos.show(repo_name)
-        self.repo_watchers    = repo.watchers # set watchers
-        self.repo_forks       = repo.forks # set fork
-        self.repo_description = repo.description
+        if self.repo.supported and 'Github' in self.repo.title and self.repo_url:
+            github   = Github()
+            repo_name = self.repo_name()
+            repo         = github.repos.show(repo_name)
+            self.repo_watchers    = repo.watchers 
+            self.repo_forks       = repo.forks 
+            self.repo_description = repo.description
 
-
-        collaborators = github.repos.list_collaborators(repo_name)
-        if collaborators:
-            self.participants = ','.join(collaborators)
+            collaborators = github.repos.list_collaborators(repo_name)
+            if collaborators:
+                self.participants = ','.join(collaborators)
+                
+        else:
+            self.repo_watchers    = 0
+            self.repo_forks       = 0
+            self.repo_description = ''
+            self.participants     = ''
         
         super(Package, self).save(*args, **kwargs) # Call the "real" save() method.
         
-        # get committers
 
     class Meta:
         ordering = ['title']    
