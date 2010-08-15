@@ -1,7 +1,7 @@
 /* This overrides styles from base.css */
 #tabhead {
     background: #fff;
-    border-bottom: 1px solid #000; /* tab border */
+    border: 0;
     position: relative;
 }
 #tabhead .logo {
@@ -64,6 +64,36 @@
 
 /* This overrides styles from tabs.css */
 #left_tabs {
-    left: 120px; /* based on width and padding of logo */
+    clear: both;
+/*    padding-top: 100px; */
+    left: 0px; /* choose 120px if based on width and padding of logo */
+    background: #666;
 }
 
+ul.tabs a, ul.tabs a:visited {
+    color: #444; /* unselected tab text colour */
+    font-weight: bold;
+    text-decoration: none;
+}
+ul.tabs a:hover {
+    color: #666; /* unselected tab text hover colour */
+}
+ul.tabs li {
+    list-style-type: none;
+    display: inline;
+    background-color: #DDD; /* unselected tab colour */
+    padding: 5px 0 4px;
+    margin: 0 2px 0 2px; /* to compensate for border */
+    line-height: 230%;
+}
+ul.tabs li a {
+    padding: 5px 8px;
+}
+ul.tabs {
+    margin: 0;
+    padding: 10px;
+}
+
+#tab_addgrid {
+    background-color: #D9B2D3;
+}

@@ -21,8 +21,9 @@
             <li id="tab_home"><a href="{% url home %}">{% trans "Home" %}</a></li>
             {% get_tabs %}
             {% for tab in tabs %}
-                <li id="tab_{{ tab.grid.title }}"><a href="{% url grid tab.grid.slug %}">{{ tab.grid.title }}</a></li>                
+                <li id="tab_{{ tab.grid.title }}"><a href="{% url grid tab.grid.slug %}">{{ tab.grid.title }}</a></li>
             {% endfor %}
+            <li id="tab_addgrid"><a href="{% url add_grid %}">Add grid</a></li>
         {% endspaceless %}</ul>
 {% endblock %}
 
