@@ -21,7 +21,6 @@
         <img src="{{ STATIC_URL }}img/logo.png" />
     </div>
     <ul class="tabs">{% spaceless %}
-        <li id="tab_home"><a href="{% url home %}">{% trans "Home" %}</a></li>
         {% get_tabs %}
         {% for tab in tabs %}
             <li id="tab_{{ tab.grid.title }}"><a href="{% url grid tab.grid.slug %}">{{ tab.grid.title }}</a></li>
