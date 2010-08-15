@@ -150,19 +150,17 @@
 {% block extra_body %}
     {% with grid.gridpackage_set.all as grid_packages %}
         <script type="text/javascript">
-        //what
-            $(function() {  
 
-                {% for element in grid.elements %}
-                    $("td#element-f{{ element.feature_id }}-p{{ element.grid_package_id }}").click(function() {
-                        var url = "{% url edit_element element.feature_id element.grid_package_id %}";    
-                        $(location).attr('href',url);                        
-                    });
-                {% endfor %}                
+            $(function() {  
                 
-              $(".button").click(function() {  
-                // validate and process form here  
-              });  
+                {% if request.user.is_authenticated %}
+                    {% for element in grid.elements %}
+                        $("td#element-f{{ element.feature_id }}-p{{ element.grid_package_id }}").click(function() {
+                            var url = "{% url edit_element element.feature_id element.grid_package_id %}";    
+                            $(location).attr('href',url);                        
+                        });
+                    {% endfor %}                
+                 {% endif %}
             });    
         </script>
     {% endwith %}        
