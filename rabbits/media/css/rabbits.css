@@ -1,3 +1,4 @@
+/* This overrides styles from base.css */
 #tabhead {
     background: #fff;
     border-bottom: 1px solid #000; /* tab border */
@@ -7,6 +8,12 @@
     height: 80px;
     padding-left: 5px;
     padding-top: 0;
+    font-size: 36px;
+    text-align: center;
+}
+#tabhead .logo a {
+    color: #333;
+    text-decoration: none;
 }
 #tabhead .logo img {
     width: 190px;
@@ -25,3 +32,7 @@
     color: #DEF; /* login bar link hover colour */
 }
 
+/* This overrides styles from tabs.css */
+#left_tabs {
+    left: 20px; /* based on width and padding of logo */
+}
