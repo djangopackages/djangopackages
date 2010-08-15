@@ -30,4 +30,4 @@ def commits_over_52(package):
         
     else:
         
-        return ''.joine(range(52))
+        return ','.join(('0' for x in range(52)))
