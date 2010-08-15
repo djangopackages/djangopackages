@@ -53,11 +53,11 @@ class Feature(BaseModel):
         return '%s : %s' % (self.grid.slug, self.title)    
     
 help_text = """
-You can use 'check', 'yes', 'good' to place a checkmark icon.<br />
-Putting in just +<any-number> renders three checkmarks.<br />
-You can use 'bad', 'negative', 'evil', 'sucks', 'no' to place a negative icon.<br />
-Putting in just -<any-number> renders three checkmarks.<br />
 Urls are turned into links<br />
+You can use just 'check', 'yes', 'good' to place a checkmark icon.<br />
+You can use 'bad', 'negative', 'evil', 'sucks', 'no' to place a negative icon.<br />
+Plus just '+' or '-' signs can be used but cap at 3 multiples to protect layout<br/
+
 """
     
 class Element(BaseModel):

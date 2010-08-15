@@ -12,8 +12,8 @@ static_url = settings.STATIC_URL
 plus_two_re = re.compile(r'(^\+2$|\+{2})')
 minus_two_re = re.compile(r'(^\-2$|\-{2})')
 
-plus_three_re = re.compile(r'(^\+[3-9]$|\+{3,})')
-minus_three_re = re.compile(r'(^\-[3-9]$|\-{3,})')
+plus_three_re = re.compile(r'^(\+[3-9]{1,}|\+{3,}|\+[1-9][0-9]+)$')
+minus_three_re = re.compile(r'^(\-[3-9]{1,}|\-{3,}|\-[1-9][0-9]+)$')
 
 @register.filter
 def style_element(text):
@@ -29,11 +29,10 @@ def style_element(text):
     if minus_two_re.search(low_text):
         return '<img src="%simg/icon-no.gif" />' % settings.STATIC_URL * 2
 
-    
     if plus_three_re.search(low_text):
         return '<img src="%simg/icon-yes.gif" />' % settings.STATIC_URL * 3
 
-    if minus_re.search(low_text):
+    if minus_three_re.search(low_text):
         return '<img src="%simg/icon-no.gif" />' % settings.STATIC_URL * 3
 
     # TODO Replace this with SafeString class cause this SUCKS hard for security
