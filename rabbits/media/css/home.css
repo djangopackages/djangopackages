@@ -1,15 +1,36 @@
-#home-packages img,
-#home-packages td {
-    vertical-align: middle;
-}
-
-#home-packages td {
-    padding: 2px 10px;
-}
-
 #home-dpotw {
     width: 260px;
     float: right;
     padding: 20px;
     background-color: #DEF;
 }
+
+#home-packages img,
+#home-packages td {
+    vertical-align: middle;
+}
+
+#home-packages td {
+    padding: 2px 6px;
+}
+
+#home-tableheader td {
+    padding-bottom: 8px;
+}
+
+#home-tableheader a {
+    background-color: #DEF;
+    padding: 6px;
+    color: #333;
+    text-decoration: none;
+}
+
+#home-tableheader a:hover {
+    background: #666;
+    color: #FFF;
+}
+
+#home-tabledatarow td {
+    padding-left: 4px;
+}
+

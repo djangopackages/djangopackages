@@ -7,9 +7,16 @@
 #tabhead .logo {
     height: 80px;
     padding: 10px 0 0 5px;
-    font-size: 36px;
     text-align: center;
     font-weight: 700;
+}
+#tabhead .logo h1 {
+    line-height: 70%;
+    font-size: 38px;
+}
+#tabhead .logo h2 {
+    line-height: 50%;
+    font-size: 18px;
 }
 #tabhead .logo a {
     color: #333;
@@ -57,6 +64,6 @@
 
 /* This overrides styles from tabs.css */
 #left_tabs {
-    left: 20px; /* based on width and padding of logo */
+    left: 120px; /* based on width and padding of logo */
 }
 
