@@ -2,6 +2,7 @@ import re
 
 from django import template
 from django.conf import settings
+from django.template.defaultfilters import escape
 
 from grid.models import Element
 
@@ -35,8 +36,11 @@ def style_element(text):
     if minus_three_re.search(low_text):
         return '<img src="%simg/icon-no.gif" />' % settings.STATIC_URL * 3
 
-    # TODO Replace this with SafeString class cause this SUCKS hard for security
-    text = text.replace('<','[').replace('>',']')
+    # TODO Find the Django method that does this for me.
+    text = text.replace('&','&amp;')
+    text = text.replace('<','&lt;').replace('>',' &gt;')
+    text = text.replace("'",'&#39;').replace('"','&quot;')    
+
     
     return text
     
