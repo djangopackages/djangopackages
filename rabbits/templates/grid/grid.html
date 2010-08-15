@@ -153,19 +153,32 @@
 
 {% block extra_body %}
     {% with grid.gridpackage_set.all as grid_packages %}
+    {% with grid.feature_set.all as features %}    
         <script type="text/javascript">
 
             $(function() {  
                 
                 {% if request.user.is_authenticated %}
+                
+                    // Handle element edit redirects
                     {% for element in grid.elements %}
                         $("td#element-f{{ element.feature_id }}-p{{ element.grid_package_id }}").click(function() {
                             var url = "{% url edit_element element.feature_id element.grid_package_id %}";    
                             $(location).attr('href',url);                        
                         });
                     {% endfor %}                
+                    
+                    // handle feature deletes
+                    {% for feature in features %}
+                        $("a#feature-delete-{{ feature.id }}").click(function() {
+                            $('a#feature-delete-{{ feature.id }}').confirm();
+                        });                            
+                    {% endfor %}
+                    
                  {% endif %}
+                 
             });    
         </script>
-    {% endwith %}        
+    {% endwith %}
+    {% endwith %}    
 {% endblock %}

@@ -17,8 +17,11 @@
         {% csrf_token %}
         <fieldset>
             {{ form|as_uni_form }}
+            <div class="form_block">
+                <input type="submit" name="edit" value="Edit">
+            </div>            
         </fieldset>
-        <input type="submit" name="edit" value="Edit">
+
     </form>
 
 
