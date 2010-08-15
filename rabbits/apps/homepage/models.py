@@ -30,12 +30,12 @@ class Dpotw(BaseModel):
 
 class Gotw(BaseModel):
     
-    grid = models.ForeignKey(Grid)    
+    grid = models.ForeignKey(Grid)
     
     start_date = models.DateField(_("Start Date"))
-    end_date = models.DateField(_("End Date"))        
+    end_date = models.DateField(_("End Date"))
     
-    objects = RotatorManager()    
+    objects = RotatorManager()
     
     class Meta:
         
@@ -44,4 +44,18 @@ class Gotw(BaseModel):
     
     def __unicode__(self):
         return '%s : %s - %s' % (self.grid.title, self.start_date, self.end_date)
+        
+class Tab(BaseModel):
+    
+    grid = models.ForeignKey(Grid)
+    order = models.IntegerField(_("Order displayed on the home page"), default="0")
+
+    class Meta:
+        
+        ordering = ['order']
+        verbose_name         = "Tab"
+        verbose_name_plural  = "Tabs"
+    
+    def __unicode__(self):
+        return self.grid.title
     
