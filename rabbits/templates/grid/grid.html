@@ -15,6 +15,67 @@
     <div id="grid-description">
         {{ grid.description|urlize|linebreaksbr }}
     </div>
+    
+    <table id="grid" border="3">
+        <thead>
+            <tr>
+                <th>Package</th>
+                {% for package in grid.gridpackage_set.all %}
+                    <th><a href="{% url package package.package.slug %}">{{ package.package.title }}</a></th>                
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="odd">
+                <td>Version</td>
+                {% for package in grid.gridpackage_set.all %}
+                    <td>{{ package.package.pypi_version }}</td>
+                {% endfor %}
+                
+            </tr>
+            <tr class="even">
+                <td>Downloads</td>
+                {% for package in grid.gridpackage_set.all %}
+                    <td>
+                        {% if package.package.pypi_version %}
+                            {{ package.package.pypi_downloads }}
+                        {% else %}
+                            n/a
+                        {% endif %}
+                        
+                    </td>
+                {% endfor %}
+            </tr>
+            <tr class="odd">
+                <td>Repo</td>
+                {% for package in grid.gridpackage_set.all %}
+                    <td>{{ package.package.repo }}</td>
+                {% endfor %}
+            </tr>            
+            <tr class="even">
+                <td>Repo Watchers</td>
+                {% for package in grid.gridpackage_set.all %}
+                    <td>{{ package.package.repo_watchers }}</td>
+                {% endfor %}
+            </tr>
+            <tr class="odd">
+                <td>Repo Forks</td>
+                {% for package in grid.gridpackage_set.all %}
+                    <td>{{ package.package.repo_forks }}</td>
+                {% endfor %}
+            </tr>
+            <tr class="even">
+                <td>Participants</td>
+                {% for package in grid.gridpackage_set.all %}
+                    <td>
+                        {% for collaborator in package.package.participant_list %}
+                            <a href="{{ package.package.repo.url }}/{{ collaborator }}">{{ collaborator }}</a>
+                        {% endfor %}                        
+                    </td>
+                {% endfor %}
+            </tr>
+        </tbody>
+        
+    </table>
 
 {% endblock %}
-

@@ -31,19 +31,20 @@ class Category(BaseModel):
 
     class Meta:
         ordering = ['title']
-        verbose_name_plural = 'Categories'        
-
-
-        
+        verbose_name_plural = 'Categories'
 
     def __unicode__(self):
         return self.title
-
-REPO_CHOICES = (
-    ('http://github.com', 'Github',),
-    #('bitbucket', 'bitbucket',),
-    #('code.google.com', 'code.google.com', ),
-)
+        
+class Repo(BaseModel):
+    
+    title = models.CharField(_("Title"), max_length="50")
+    description = models.TextField(_("description"), blank=True)
+    url = models.URLField(_("base URL of repo"))
+    
+    def __unicode__(self):
+        
+        return self.title
 
 downloads_re = re.compile(r'<td style="text-align: right;">[0-9]{1,}</td>')
 doap_re      = re.compile(r"/pypi\?\:action=doap\&amp;name=[a-zA-Z0-9\.\-\_]+\&amp;version=[a-zA-Z0-9\.\-\_]+")
@@ -54,7 +55,7 @@ class Package(BaseModel):
     title           = models.CharField(_("Title"), max_length="100")
     slug            = models.SlugField(_("Slug"))
     category        = models.ForeignKey(Category)
-    repo            = models.CharField(_("Repo"), max_length="50", choices=REPO_CHOICES)
+    repo            = models.ForeignKey(Repo)
     repo_description= models.TextField(_("Repo Description"), blank=True)
     repo_url        = models.URLField(_("repo URL"))
     repo_watchers   = models.IntegerField(_("repo watchers"), default=0)

@@ -26,6 +26,12 @@ def commits_over_52(package):
     weeks = [str(x) for x in weeks]
     return ','.join(weeks)
     
-@register.filter
-def list_all_projects():
-        return Package.objects.all()
+@register.tag(name="list_all_packages")
+def list_all_packages(parser, token):
+    return ListAllPackagesNode()
+    
+class ListAllPackagesNode(template.Node):
+        def __init__(self):
+            pass
+        def render(self, context):
+            return Package.objects.all()
