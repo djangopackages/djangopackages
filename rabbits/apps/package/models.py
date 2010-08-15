@@ -27,7 +27,8 @@ class BaseModel(models.Model):
 class Category(BaseModel):
 
     title = models.CharField(_("Title"), max_length="50")
-    description = models.TextField(_("Participants"), blank=True)
+    slug  = models.SlugField(_("slug"))    
+    description = models.TextField(_("description"), blank=True)
 
     class Meta:
         ordering = ['title']
