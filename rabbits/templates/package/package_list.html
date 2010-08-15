@@ -13,10 +13,14 @@
 
     <div id="packages">
         {% for package in object_list %}
-            <p>
-                <a href="{% url package package.slug %}">{{ package.title }}</a><br />
-                {{ package.repo_description }}
-            </p>
+            <dl class="package-item">
+                <dt><strong><a href="{% url package package.slug %}">{{ package.title }}</a></strong></dt>
+                <dd class="counts">
+                        Downloads {{ package.pypi_downloads }}
+                        Watchers {{ package.repo_watchers }}
+                </dd>
+                <dd class="description">{{ package.repo_description }}</dd>        
+            </dl>
         {% endfor %}
     </div>
 
