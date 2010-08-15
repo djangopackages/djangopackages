@@ -139,10 +139,7 @@
     </div>
     
     {% if request.user.is_authenticated %}
-        <p>Click on editable cells to change text.<br />
-            You can enter the word 'check' to place a checkmark.<br />
-            Pretty URLs are created by using this format: [http://example.com|Example].<br />
-        </p>
+        <p>Click on editable cells to change text.</p>
     {% endif %}
     
     {% endwith %}
@@ -158,7 +155,8 @@
 
                 {% for element in grid.elements %}
                     $("td#element-f{{ element.feature_id }}-p{{ element.grid_package_id }}").click(function() {
-                        alert('element-f{{ element.feature_id }}-p{{ element.grid_package_id }}');
+                        var url = "{% url edit_element element.feature_id element.grid_package_id %}";    
+                        $(location).attr('href',url);                        
                     });
                 {% endfor %}                
                 

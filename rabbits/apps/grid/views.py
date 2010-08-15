@@ -4,10 +4,10 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import render_to_response, get_object_or_404 
 from django.template import RequestContext 
-from django.views.decorators.csrf import csrf_protect
 
-from grid.forms import GridForm
-from grid.models import Grid
+
+from grid.forms import ElementForm, GridForm
+from grid.models import Grid, Element, Feature, GridPackage
 
 def grids(request, template_name="grid/grids.html"):
     
@@ -28,7 +28,6 @@ def grid(request, slug, template_name="grid/grid.html"):
         )
         
 @login_required
-@csrf_protect
 def add_grid(request, template_name="grid/add_grid.html"):
 
     new_grid = Grid()
@@ -45,7 +44,6 @@ def add_grid(request, template_name="grid/add_grid.html"):
         context_instance=RequestContext(request))
         
 @login_required
-@csrf_protect
 def edit_grid(request, slug, template_name="grid/edit_grid.html"):
 
     grid = get_object_or_404(Grid, slug=slug)
@@ -59,3 +57,22 @@ def edit_grid(request, slug, template_name="grid/edit_grid.html"):
         'form': form,  
         }, 
         context_instance=RequestContext(request))        
+        
+@login_required
+def edit_element(request, feature_id, package_id, template_name="grid/edit_element.html"):
+    
+    feature = get_object_or_404(Feature, id=feature_id)
+    grid_package = get_object_or_404(GridPackage, id=package_id)    
+    element = get_object_or_404(Element, feature=feature, grid_package=grid_package)
+    
+    form = ElementForm(request.POST or None, instance=element)
+
+    if form.is_valid():
+        element = form.save()
+        return HttpResponseRedirect(reverse('grid', kwargs={'slug': feature.grid.slug}))
+
+    return render_to_response(template_name, { 
+        'form': form,  
+        }, 
+        context_instance=RequestContext(request))        
+

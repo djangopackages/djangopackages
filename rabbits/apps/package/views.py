@@ -4,14 +4,13 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import render_to_response, get_object_or_404 
 from django.template import RequestContext 
-from django.views.decorators.csrf import csrf_protect
+
 
 from package.forms import PackageForm, PackageExampleForm
 from package.models import Package, PackageExample
 
 
 @login_required
-@csrf_protect
 def add_package(request, template_name="package/add_package.html"):
     
     new_package = Package()
@@ -28,7 +27,6 @@ def add_package(request, template_name="package/add_package.html"):
         context_instance=RequestContext(request))
 
 @login_required
-@csrf_protect
 def edit_package(request, slug, template_name="package/edit_package.html"):
 
     package = get_object_or_404(Package, slug=slug)

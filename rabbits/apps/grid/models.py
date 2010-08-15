@@ -25,6 +25,7 @@ class Grid(BaseModel):
 class GridPackage(BaseModel):
     """ These are Packages on one side of the grid 
         Have to make this intermediary table to get things to work right
+        Otherwise would have used ManyToMany field
     """
     
     grid        = models.ForeignKey(Grid)
