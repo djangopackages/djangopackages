@@ -93,7 +93,6 @@ class Package(BaseModel):
     def save(self, *args, **kwargs):
         
         # Get the downloads from pypi
-        # TODO - handle when version is added or not
         if self.pypi_url:
             page = urlopen(self.pypi_url).read()
             # If the target page is an Index of packages
