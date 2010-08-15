@@ -55,7 +55,7 @@ class Package(BaseModel):
     title           = models.CharField(_("Title"), max_length="100")
     slug            = models.SlugField(_("Slug"))
     category        = models.ForeignKey(Category)
-    repo            = models.ForeignKey(Repo)
+    repo            = models.ForeignKey(Repo, null=True)
     repo_description= models.TextField(_("Repo Description"), blank=True)
     repo_url        = models.URLField(_("repo URL"))
     repo_watchers   = models.IntegerField(_("repo watchers"), default=0)

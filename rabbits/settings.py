@@ -214,6 +214,7 @@ logging.basicConfig(
         filemode='a',
 )
 
+CACHE_BACKEND = 'locmem://'
 
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.
