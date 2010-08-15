@@ -49,5 +49,5 @@ urlpatterns = patterns("",
             template_name='package/package.html',
             )    
     ),    
-    
+        
 )

@@ -9,6 +9,7 @@ admin.autodiscover()
 from pinax.apps.account.openid_consumer import PinaxConsumer
 
 from homepage.views import homepage
+from package.views import package_autocomplete
 
 handler500 = "pinax.views.server_error"
 
@@ -30,6 +31,13 @@ urlpatterns = patterns("",
     url(r"^announcements/", include("announcements.urls")),
     url(r"^package/", include("package.urls")),
     url(r"^grid/", include("grid.urls")),    
+    
+    url(
+        regex = '^autocomplete/package/$',
+        view = package_autocomplete,
+        name    = 'package_autocomplete',        
+    )
+    
 )
 
 

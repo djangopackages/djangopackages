@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User 
 from django.core.urlresolvers import reverse 
-from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404 
 from django.template import RequestContext 
 
@@ -157,3 +157,4 @@ def add_grid_package(request, grid_slug, template_name="grid/add_grid_package.ht
         'grid': grid
         },
         context_instance=RequestContext(request))
+        

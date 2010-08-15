@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User 
 from django.core.urlresolvers import reverse 
-from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404 
 from django.template import RequestContext 
 
@@ -76,3 +76,17 @@ def edit_example(request, slug, id, template_name="package/edit_example.html"):
         }, 
         context_instance=RequestContext(request))
     
+
+def package_autocomplete(request):
+    """
+    Provides Package matching based on matches of the beginning
+    """
+    titles = []
+    q = request.GET.get('q', '')
+    if q:
+        titles = (x.title for x in Package.objects.filter(title__startswith=q))
+        
+    response = HttpResponse("\n".join(titles))
+
+    setattr(response, "djangologging.suppress_output", True)
+    return response    
