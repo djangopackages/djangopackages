@@ -6,10 +6,10 @@
 }
 #tabhead .logo {
     height: 80px;
-    padding-left: 5px;
-    padding-top: 0;
+    padding: 10px 0 0 5px;
     font-size: 36px;
     text-align: center;
+    font-weight: 700;
 }
 #tabhead .logo a {
     color: #333;
