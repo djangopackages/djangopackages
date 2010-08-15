@@ -15,6 +15,10 @@
     background-color: #DEF;
 }
 
+input#hidden-submit {
+    display: none;
+}
+
 #home-packages img,
 #home-packages td {
     vertical-align: middle;

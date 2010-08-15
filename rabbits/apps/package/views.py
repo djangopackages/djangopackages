@@ -87,7 +87,7 @@ def package_autocomplete(request):
     titles = []
     q = request.GET.get('q', '')
     if q:
-        titles = (x.title for x in Package.objects.filter(title__startswith=q))
+        titles = (x.title for x in Package.objects.filter(title__istartswith=q))
         
     response = HttpResponse("\n".join(titles))
 

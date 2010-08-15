@@ -9,7 +9,7 @@ urlpatterns = patterns("",
     url(
         regex   = r"^$",
         view    = object_list,
-        name    = "package_index",
+        name    = "packages",
         kwargs  = dict(
             queryset=Package.objects.select_related(),        
             )

@@ -170,6 +170,7 @@ INSTALLED_APPS = [
     "homepage",
     "package",
     "profiles",
+    "searchv1",
 ]
 
 FIXTURE_DIRS = [
