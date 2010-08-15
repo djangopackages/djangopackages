@@ -2,7 +2,15 @@ from django.conf.urls.defaults import *
 
 from grid.models import Grid
 
-from grid.views import grid, grids, add_grid, edit_grid, edit_element
+from grid.views import (
+        add_feature,
+        add_grid, 
+        edit_element,
+        edit_grid,
+        edit_feature,
+        grid, 
+        grids
+    )
 
 urlpatterns = patterns("",
     url(
@@ -24,7 +32,7 @@ urlpatterns = patterns("",
     ),    
     
     url(
-        regex = '^(?P<slug>[a-z0-9\-\_]+)/$',
+        regex = '^g/(?P<slug>[a-z0-9\-\_]+)/$',
         view    = grid,
         name    = 'grid',
     ), 
@@ -33,5 +41,17 @@ urlpatterns = patterns("",
         regex = '^element/(?P<feature_id>\d+)/(?P<package_id>\d+)/$',
         view    = edit_element,
         name    = 'edit_element',
-    ),       
+    ),  
+    
+    url(
+        regex = '^feature/add/(?P<grid_slug>[a-z0-9\-\_]+)/$',
+        view    = add_feature,
+        name    = 'add_feature',
+    ),         
+    
+    url(
+        regex = '^feature/(?P<id>\d+)/$',
+        view    = edit_feature,
+        name    = 'edit_feature',
+    ),    
 )

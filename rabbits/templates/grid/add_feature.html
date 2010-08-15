@@ -1,0 +1,25 @@
+{% extends "grid/base.html" %}
+
+{% load i18n %}
+{% load uni_form_tags %}
+
+{% block head_title %}{{ object.title }}{% endblock %}
+
+{% block subnav %}
+        &nbsp;
+{% endblock %}
+
+{% block body %}
+
+    <h1>Add Feature</h1>
+    
+    <form class="uniForm" method="post">
+        {% csrf_token %}
+        <fieldset>
+            {{ form|as_uni_form }}
+        </fieldset>
+        <input type="submit" name="edit" value="Edit">
+    </form>
+
+
+{% endblock %}
