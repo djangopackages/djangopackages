@@ -11,12 +11,12 @@
     font-weight: 700;
 }
 #tabhead .logo h1 {
-    line-height: 70%;
+    line-height: 80%;
     font-size: 38px;
 }
 #tabhead .logo h2 {
-    line-height: 50%;
-    font-size: 18px;
+    line-height: 30%;
+    font-size: 17px;
 }
 #tabhead .logo a {
     color: #333;
