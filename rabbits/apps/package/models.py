@@ -66,12 +66,14 @@ class Package(BaseModel):
     repo_url        = models.URLField(_("repo URL"), blank=True)
     repo_watchers   = models.IntegerField(_("repo watchers"), default=0)
     repo_forks      = models.IntegerField(_("repo forks"), default=0)
+    repo_commits    = models.IntegerField(_("repo commits"), default=0)
     pypi_url        = models.URLField(_("pypi URL"), blank=True)
     pypi_version    = models.CharField(_("Current Pypi version"), max_length="20", blank=True)    
     pypi_downloads  = models.IntegerField(_("Pypi downloads"), default=0)
     related_packages    = models.ManyToManyField("self", blank=True)
     participants    = models.TextField(_("Participants"), 
                         help_text="List of collaborats/participants on the project", blank=True)
+
                         
     def active_examples(self):
         return self.packageexample_set.filter(active=True)
@@ -131,13 +133,15 @@ class Package(BaseModel):
             
         # Get the repo watchers number
         # TODO - make this abstracted so we can plug in other repos
-        if self.repo.supported and 'Github' in self.repo.title and self.repo_url:
+        if self.repo.is_supported and 'Github' in self.repo.title and self.repo_url:
             github   = Github()
             repo_name = self.repo_name()
             repo         = github.repos.show(repo_name)
             self.repo_watchers    = repo.watchers 
             self.repo_forks       = repo.forks 
             self.repo_description = repo.description
+            # TODO  find out why repo commits limit on github to the first 35
+            #self.repo_commits     = len(github.commits.list(repo_name, "master"))
 
             collaborators = github.repos.list_collaborators(repo_name)
             if collaborators:
@@ -148,6 +152,7 @@ class Package(BaseModel):
             self.repo_forks       = 0
             self.repo_description = ''
             self.participants     = ''
+            #self.repo_commits     = 0
         
         super(Package, self).save(*args, **kwargs) # Call the "real" save() method.
         

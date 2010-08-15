@@ -15,7 +15,7 @@ class PackageAdmin(admin.ModelAdmin):
         }),
         ('Pulled data', {
             'classes': ('collapse',),
-            'fields': ('repo_description', 'repo_watchers', 'repo_forks', 'pypi_version', 'pypi_downloads', 'participants')
+            'fields': ('repo_description', 'repo_watchers', 'repo_forks', 'repo_commits', 'pypi_version', 'pypi_downloads', 'participants')
         }),
     )    
 
