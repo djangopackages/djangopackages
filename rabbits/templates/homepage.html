@@ -27,6 +27,7 @@
                 <h2><a href="{% url package package.package.slug %}">{{ package.package.title }}</a></h2>
                 <p>{{ package.package.repo_description }}</p>
             {% endfor %}
+            <p><a href="{% url add_package%}">Add your own package!</a></p>
         </div>   
 
         <div class="home-rightcolbox">

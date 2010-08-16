@@ -61,7 +61,12 @@
     
     {% for grid in object.grids %}
         <div id="package-gridname"><a href="{% url grid grid.slug %}">{{ grid }}</a></div>    
+    {% empty %}
+        <div id="package-gridname"><a href="{% url grids %}">Find a grid to join!</a></div>
     {% endfor %}
+    {% if objects.grids.count %}
+        <div id="package-gridname"><a href="{% url grids %}">Find another grid to join!</a></div>    
+    {% endif %}
     
     <h2 id="package-sitesheading">Sites using this package</h2>
     

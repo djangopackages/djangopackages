@@ -53,6 +53,7 @@ class Feature(BaseModel):
         return '%s : %s' % (self.grid.slug, self.title)    
     
 help_text = """
+Linebreaks are turned into 'br' tags<br />
 Urls are turned into links<br />
 You can use just 'check', 'yes', 'good' to place a checkmark icon.<br />
 You can use 'bad', 'negative', 'evil', 'sucks', 'no' to place a negative icon.<br />
