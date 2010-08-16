@@ -17,21 +17,15 @@
 {% endblock %}
 
 {% block left_tabs %}
-    <div class="tabs">
-        <div id="cardboard-boxes">
-            <img src="{{ STATIC_URL }}img/logo.png" />
-        </div>
-        {% get_tabs %}
-        {% for tab in tabs|slice:":8" %}
-            <div class="tabbox"><div class="tabbox-front"></div><div class="tabbox-middle" id="tab_{{ tab.grid.title }}"><a href="{% url grid tab.grid.slug %}">{{ tab.grid.title }}</a></div><div class="tabbox-back"></div></div>
-        {% endfor %}
-        <br />
-        {% for tab in tabs|slice:"8:16" %}
-            <div class="tabbox"><div class="tabbox-front second-tabbox"></div><div class="tabbox-middle second-tabbox" id="tab_{{ tab.grid.title }}"><a href="{% url grid tab.grid.slug %}">{{ tab.grid.title }}</a></div><div class="tabbox-back second-tabbox"></div></div>
-        {% endfor %}
-        <div class="clear"></div>        
-        <div class="push"></div>
+    <div id="cardboard-boxes">
+        <img src="{{ STATIC_URL }}img/logo.png" />
     </div>
+    <ul id="multi-col-nav">
+        {% get_tabs %}
+        {% for tab in tabs %}
+            <li><a href="{% url grid tab.grid.slug %}">{{ tab.grid.title }}</a></li>
+        {% endfor %}
+    </ul>
 {% endblock %}
 
 {% block footer %}
