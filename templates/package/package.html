@@ -68,25 +68,13 @@
     {% empty %}
         <div id="package-gridname">
             <a id="find-a-grid" href="#">Find a grid to join!</a>
-            <form id="find-a-grid-form" action="" method="post"  style="display: none;">
-                {% csrf_token %}
-                <input type="hidden" name="redirect" value="{% url package object.slug %}" />
-                <input type="text" name="search-field" id="find-a-grid-input" value="" />
-                <input name="package" id="package-field" value="{{ object.id }}" type="hidden" />    
-                <div id="target-parent"><div id="target"></div></div>    
-            </span>            
+            {% include "package/_attach_grid.html" %}
         </div>
     {% endfor %}
     {% if object.grids %}
         <div id="package-gridname">
             <a id="find-a-grid" href="#">Find another grid to join!</a>
-            <form id="find-a-grid-form" action="" method="post" style="display: none;">
-                {% csrf_token %}
-                <input type="hidden" name="redirect" value="{% url package object.slug %}" />                
-                <input type="text" name="search-field" id="find-a-grid-input" value="" />
-                <input name="package" id="package-field" value="{{ object.id }}" type="hidden" />    
-                <div id="target-parent"><div id="target"></div></div>    
-            </span>            
+            {% include "package/_attach_grid.html" %}
         </div>    
     {% endif %}
     
@@ -131,7 +119,7 @@
             
             $('#find-a-grid-input').keyup(function() {
                 var search_text = $('input#find-a-grid-input').attr('value');
-                var search_text = '{% url ajax_grid_list %}?q=' + search_text;
+                var search_text = '{% url ajax_grid_list %}?q=' + search_text + '&package_id={{ object.id }}';
                 $.get(search_text, function(data) {
                   $('#target').html(data).show("slow");
                 });                
