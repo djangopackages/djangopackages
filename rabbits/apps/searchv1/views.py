@@ -16,7 +16,13 @@ def search(request, template_name='searchv1/search.html'):
     packages = []
     q = request.GET.get('q', '')
     if q:
-        packages = Package.objects.filter(Q(title__icontains=q) | Q(repo_description__icontains=q))
+        django_dash = 'django-%s' % q
+        django_space = 'django %s' % q                
+        packages = Package.objects.filter(
+                    Q(title__icontains=q) | 
+                    Q(title__istartswith=django_dash) |
+                    Q(title__istartswith=django_space) |                    
+                    Q(repo_description__icontains=q))        
         grids    = Grid.objects.filter(Q(title__icontains=q) | Q(description__icontains=q))
         
     form = SearchForm(request.GET or None)
