@@ -146,20 +146,27 @@ def add_grid_package(request, grid_slug, template_name="grid/add_grid_package.ht
     grid = get_object_or_404(Grid, slug=grid_slug)
     grid_package = GridPackage()
     form = GridPackageForm(request.POST or None, instance=grid_package)    
+    message = ''
 
     if form.is_valid(): 
-        package = get_object_or_404(Package, id=request.POST['package'])
-        package = GridPackage(
-                    grid=grid, 
-                    package=package
-                )
-        package.save()
-        return HttpResponseRedirect(reverse('grid', kwargs={'slug':grid.slug}))
+        package = get_object_or_404(Package, id=request.POST['package'])    
+        try:
+            GridPackage.objects.get(grid=grid, package=package)
+            message = "Sorry, but '%s' is already in this grid." % package.title
+        except GridPackage.DoesNotExist:
+            package = GridPackage(
+                        grid=grid, 
+                        package=package
+                    )
+            package.save()
+            return HttpResponseRedirect(reverse('grid', kwargs={'slug':grid.slug}))
+    
 
 
     return render_to_response(template_name, { 
         'form': form,
-        'grid': grid
+        'grid': grid,
+        'message': message
         },
         context_instance=RequestContext(request))
         

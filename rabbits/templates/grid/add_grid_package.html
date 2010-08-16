@@ -10,7 +10,9 @@
 
 {% block body %}
 
-    <h1>Add a package to Grid '{{ grid.title }}'</h1>
+    <h1><a href="{% url home %}">home</a> / <a href="{% url grids %}">grids</a> / Add a package to grid '<a href="{% url grid grid.slug %}">{{ grid.title }}</a>'</h1>
+    
+    {% if message|length %}<p class="editable-cell">{{ message }}</p>{% endif %}
     
     <form method="post" id="grid-package-form">
         {% csrf_token %}
@@ -21,13 +23,10 @@
                 <div id="target">
                 </div>
             </div>
-            
         
         </fieldset>
 
     </form>
-    
-
 
 
 {% endblock %}

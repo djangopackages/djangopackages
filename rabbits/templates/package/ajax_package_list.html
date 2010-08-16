@@ -1,6 +1,10 @@
 <div id="target">
     <h2>{% if packages.count %}Packages{% else %}No packages found{% endif %}</h2>
+    {% if packages.count %}
+        <p>Click to add package to the grid.</p>      
+    {% endif %}
     {% for package in packages %}
+  
 
         <dl class="package-item" id="package-{{ package.id }}">
 
