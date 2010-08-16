@@ -19,7 +19,10 @@ def commits_over_52(package):
     
         current = datetime.now()
         weeks = []
-        commits = [x.committed_date for x in github.commits.list(package.repo_name(), "master")]
+        try:
+            commits = [x.committed_date for x in github.commits.list(package.repo_name(), "master")]
+        except:
+            return ','.join(('0' for x in range(52)))            
         for week in range(52):
             weeks.append(len([x for x in commits if x < current and x > (current - timedelta(7))]))
             current -= timedelta(7)        
