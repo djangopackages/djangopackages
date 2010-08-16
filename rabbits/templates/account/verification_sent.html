@@ -1,0 +1,23 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Waiting on approval process" %}{% endblock %}
+
+{% block body %}
+    <h1>{% trans "Waiting on approval process" %}</h1>
+    
+    <p>{% blocktrans %}
+        As this is a BETA system, we are carefully approving new members.
+        We'll be sending approval emails with the final portion of the approval process.
+        
+        {% comment %}
+        We have sent you an e-mail to <b>{{ email }}</b> for verification.
+        Follow the link provided to finalize the signup process. If you do not receive it
+        within a few minutes,
+        <a href="http://github.com/pydanny/scaredofrabbits/issues">submit a ticket.</a>.
+        {% endcomment %}
+        
+        {% endblocktrans %}</p>
+    <p><a href="{{ success_url }}">Go back</a></p>
+{% endblock %}
