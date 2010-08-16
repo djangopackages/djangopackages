@@ -70,9 +70,10 @@
     clear: both;
 /*    padding-top: 100px; */
     left: 0px; /* choose 120px if based on width and padding of logo */
-    background: #333;
+    background: #DEF;
     bottom: 0;
     min-height: 80px;
+    padding-top: 20px;
 }
 div.tabs {
     position: relative;
@@ -87,7 +88,7 @@ div.tabs a, div.tabs a:visited {
 	  letter-spacing: 1px;
 }
 div.tabs a:hover {
-    color: #666; /* unselected tab text hover colour */
+    color: #fff; /* unselected tab text hover colour */
 }
 .tabbox-front {
     position: relative;
