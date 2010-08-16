@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User 
 from django.core.urlresolvers import reverse 
+from django.db.models import Q
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404 
 from django.template import RequestContext 
@@ -109,8 +110,13 @@ def ajax_package_list(request, template_name="package/ajax_package_list.html"):
     q = request.GET.get('q','')
     packages = []
     if q:
-        packages = Package.objects.filter(title__istartswith=q)
-    
+        django_dash = 'django-%s' % q
+        django_space = 'django %s' % q        
+        packages = Package.objects.filter(
+                        Q(title__istartswith=q) |
+                        Q(title__istartswith=django_dash) |
+                        Q(title__istartswith=django_space)                        
+                    )
     return render_to_response(template_name, {
         'packages': packages
         },
