@@ -180,6 +180,9 @@ def ajax_grid_list(request, template_name="grid/ajax_grid_list.html"):
     grids = []
     if q:
         grids = Grid.objects.filter(title__istartswith=q)
+    package_id = request.GET.get('package_id','')
+    if package_id:
+        grids = grids.exclude(gridpackage__package__id=package_id)
     return render_to_response(template_name, {
         'grids': grids
         },
