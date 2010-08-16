@@ -1,7 +1,7 @@
 <div id="target">
     <h2>{% if packages.count %}Packages{% else %}No packages found{% endif %}</h2>
     {% if packages.count %}
-        <p>Click to add package to the grid.</p>      
+        <p class="editable-cell">Click a package to add it to the grid.</p>      
     {% endif %}
     {% for package in packages %}
   
