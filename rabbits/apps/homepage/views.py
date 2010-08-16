@@ -9,13 +9,13 @@ def homepage(request, template_name="homepage.html"):
     
     categories = []
     for category in Category.objects.all():
-        packages = category.package_set.all()[:10]
+        packages = category.package_set.all()[:9]
         element = {
             'title':category.title,
             'description':category.description,
             'count': category.package_set.count(),
             'slug':category.slug,
-            'packages':category.package_set.order_by('-pypi_downloads', '-repo_watchers', 'title')[:10]
+            'packages':category.package_set.order_by('-pypi_downloads', '-repo_watchers', 'title')[:9]
         }
         categories.append(element)
     
