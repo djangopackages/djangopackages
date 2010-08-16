@@ -19,7 +19,7 @@
 
     <div id="grid-description">
         {{ grid.description|urlize|linebreaksbr }}
-    </div>
+    </div>    
     
     {% with grid.feature_set.all as features %}
     
@@ -57,6 +57,7 @@
 
 
     </div>
+    <p></p>
     
     {% with grid.gridpackage_set.all as grid_packages %}
     <div id="grid-parent"> 
@@ -132,6 +133,9 @@
                             <td>
                                 {% for collaborator in package.package.participant_list %}
                                     <a href="{{ package.package.repo.url }}/{{ collaborator }}">{{ collaborator }}</a>
+                                    {% if not forloop.last %}
+                                        <br />
+                                    {% endif %}
                                 {% endfor %}                        
                             </td>
                         {% endfor %}
@@ -153,10 +157,8 @@
                 <p><img src="{{ STATIC_URL }}img/icon_changelink.gif"/>&nbsp;Highlighted cells are editable.  Click highlighted cells to change text.</p>
             {% endif %}
                         
-        {% else %}
-            {% if request.user.is_authenticated %}        
-                <p><a href="{% url add_grid_package grid.slug %}">Add a package to get a grid view</a></p>
-            {% endif %}        
+        {% else %}  
+            <p><a href="{% url add_grid_package grid.slug %}">Add a package to get a grid view</a></p>
         {% endif %}
     </div>
     

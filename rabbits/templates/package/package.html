@@ -12,11 +12,11 @@
     
     <h1 id="package-name"><a href="{% url home %}">home</a> / <a href="{% url packages %}">packages</a> / {{ object.title }}</h1>
     <div id="package-version">{{ object.pypi_version }}</div>
-    {% if request.user.is_authenticated %}
-        <div id="package-editlink">
-            <a href="{% url edit_package object.slug %}">Edit</a>
-        </div>
-    {% endif %}
+
+    <div id="package-editlink">
+        <a href="{% url edit_package object.slug %}">Edit</a>
+    </div>
+
 
 
     <p id="package-repos">
