@@ -43,6 +43,15 @@ def edit_package(request, slug, template_name="package/edit_package.html"):
         }, 
         context_instance=RequestContext(request))
 
+@login_required
+def update_package(request, slug):
+
+    package = get_object_or_404(Package, slug=slug)
+    package.save()
+
+    return HttpResponseRedirect(reverse('package', kwargs={'slug': package.slug}))
+
+
 
 def add_example(request, slug, template_name="package/add_example.html"):
     
