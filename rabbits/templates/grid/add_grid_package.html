@@ -12,13 +12,14 @@
 
     <h1><a href="{% url home %}">home</a> / <a href="{% url grids %}">grids</a> / Add a package to grid '<a href="{% url grid grid.slug %}">{{ grid.title }}</a>'</h1>
     
+    {# TODO replace with a proper message #}
     {% if message|length %}<p class="editable-cell">{{ message }}</p>{% endif %}
     
     <form method="post" id="grid-package-form">
         {% csrf_token %}
         <fieldset>
             <input id="search-field" type="text" name="q" value="search packages" />
-            <input name="package" id="package-field" value="0" type="hidden" />                         
+            <input name="package" id="package-field" value="0" type="hidden" />
             <div id="target-parent">
                 <div id="target">
                 </div>
@@ -27,6 +28,10 @@
         </fieldset>
 
     </form>
+    
+    <h2>What if the Package isn't in the database?<h2>
+        
+    <p><a href="{% url add_package %}">How about adding it?</a></p>
 
 
 {% endblock %}
@@ -44,6 +49,12 @@
                $('#target').html(data).show("slow");
              });
         });
+
+        $("#grid-package-form").keypress(function(e) {
+              if (e.which == 13) {
+                return false;
+              };
+        });       
 
     });    
 </script>      

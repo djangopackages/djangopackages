@@ -114,12 +114,15 @@ class Package(BaseModel):
                     raise NoPyPiVersionFound('self.pypi_url')
             
             # We have a working page so grab the package info
-            match = downloads_re.search(page).group()
+            match = downloads_re.search(page)
             if match:
+                match = match.group()
                 self.pypi_downloads = match.replace('<td style="text-align: right;">', '')
                 self.pypi_downloads = self.pypi_downloads.replace('</td>', '')
                 self.pypi_downloads = int(self.pypi_downloads)
             else:
+                # TODO - This could actually be that they don't show downloads. 
+                #       For example, Pinax does this. Deal with this somehow when not so late
                 self.pypi_downloads = 0
             
             # get the version off of Pypi doap
