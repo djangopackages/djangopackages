@@ -11,6 +11,11 @@ Django Packages solves the problem in the Django community of being able to easi
 
 A Django package is anything that is involved in the Django ecosphere that can be stored on a repository such as Github or Bitbucket. If it can be stored in Pypi thats even better!
 
+Current Demo Site
+-----------------
+
+The site is live and functional at http://69.164.219.200:9999. We are waiting for DNS records to update so it will appear as http://djangopackages.com:9999 and http://scaredofrabbits.com .
+
 Grids!
 ~~~~~~
 
