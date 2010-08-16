@@ -72,30 +72,45 @@
     left: 0px; /* choose 120px if based on width and padding of logo */
     background: #333;
     bottom: 0;
+    min-height: 80px;
 }
-
-ul.tabs a, ul.tabs a:visited {
-    color: #444; /* unselected tab text colour */
-    font-weight: bold;
-    text-decoration: none;
-}
-ul.tabs a:hover {
-    color: #666; /* unselected tab text hover colour */
-}
-ul.tabs li {
-    list-style-type: none;
-    display: inline;
-    background-color: #DDD; /* unselected tab colour */
-    padding: 4px 3px;
-    margin: 3px;
-    line-height: 230%;
-}
-ul.tabs li a {
-    padding: 5px 8px;
-}
-ul.tabs {
+div.tabs {
+    position: relative;
     margin: 0;
     padding: 7px;
+}
+div.tabs a, div.tabs a:visited {
+    color: #28220b; /* unselected tab text colour */
+	  font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    text-decoration: none;
+	  text-transform: uppercase;
+}
+div.tabs a:hover {
+    color: #666; /* unselected tab text hover colour */
+}
+.tabbox-front {
+    position: relative;
+    width: 14px;
+    height: 33px;
+    background: url('../img/cardboardbox_front_14x33.png');
+}
+.tabbox-middle {
+    position: relative;
+    list-style-type: none;
+    display: inline;
+    background-color: #a0892c; /* unselected tab colour */
+    margin: 0;
+    height: 33px;
+    background: url('../img/cardboardbox_strip_1x33.png');
+    line-height: 300%;
+    padding-right: 14px;
+}
+.tabbox-back {
+    position: relative;
+    width: 14px;
+    height: 33px;
+    background: url('../img/cardboardbox_back_14x33.png');
+    margin-right: 3px;
 }
 
 #tab_addgrid {
@@ -105,6 +120,13 @@ ul.tabs {
 #cardboard-boxes {
     float: left;
     margin: 12px;
+}
+
+.tabbox-front, .tabbox-middle, .tabbox-back {
+    float: left;
+}
+
+.tabbox-middle {
 }
 
 /* Style all tables the same way throughout the site 
