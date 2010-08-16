@@ -158,7 +158,7 @@
             {% endif %}
                         
         {% else %}  
-            <p><a href="{% url add_grid_package grid.slug %}">Add a package to get a grid view</a></p>
+            <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_grid_package grid.slug %}">Add a package to get a grid view</a></p>
         {% endif %}
     </div>
     

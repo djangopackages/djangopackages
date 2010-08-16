@@ -104,3 +104,16 @@ def category(request, slug, template_name="package/category.html"):
         },
         context_instance=RequestContext(request)
     )
+    
+def ajax_package_list(request, template_name="package/ajax_package_list.html"):
+    q = request.GET.get('q','')
+    packages = []
+    if q:
+        packages = Package.objects.filter(title__istartswith=q)
+    
+    return render_to_response(template_name, {
+        'packages': packages
+        },
+        context_instance=RequestContext(request)
+    )
+    

@@ -3,7 +3,7 @@ from django.views.generic.list_detail import object_detail, object_list
 from django.views.generic.simple import direct_to_template
 
 from package.models import Package
-from package.views import add_package, edit_package, add_example, edit_example
+from package.views import add_package, edit_package, add_example, edit_example, ajax_package_list
 
 urlpatterns = patterns("",
     url(
@@ -48,6 +48,12 @@ urlpatterns = patterns("",
             queryset=Package.objects.select_related(),
             template_name='package/package.html',
             )    
+    ),    
+    
+    url(
+        regex = '^ajax_package_list/$',
+        view    = ajax_package_list,
+        name    = 'ajax_package_list',
     ),    
         
 )

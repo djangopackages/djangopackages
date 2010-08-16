@@ -1,0 +1,32 @@
+<div id="target">
+    <h2>{% if packages.count %}Packages{% else %}No packages found{% endif %}</h2>
+    {% for package in packages %}
+
+        <dl class="package-item" id="package-{{ package.id }}">
+
+            <dt><strong>{{ package.title }}</strong></dt>
+            <dd class="counts">
+                    Downloads {{ package.pypi_downloads }}
+                    Watchers {{ package.repo_watchers }}
+            </dd>
+            <dd class="description">{{ package.repo_description }}</dd>        
+        </dl>
+    {% endfor %}
+    <script type="text/javascript">
+       
+        {% for package in packages %}
+            $('#package-{{ package.id }}').mouseover(function() {
+                $('#package-{{ package.id }}').addClass("editable-cell");
+            });
+            $('#package-{{ package.id }}').mouseout(function() {
+                $('#package-{{ package.id }}').removeClass("editable-cell");
+            });
+            $('#package-{{ package.id }}').click(function() {
+                
+                $('#package-field').attr("value", {{ package.id }});
+                $("form#grid-package-form").submit();
+            });
+        {% endfor %}
+
+    </script>    
+</div>
