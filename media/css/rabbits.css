@@ -68,67 +68,36 @@
 #left_tabs {
     position: relative;
     clear: both;
-/*    padding-top: 100px; */
     left: 0px; /* choose 120px if based on width and padding of logo */
-    background: #DEF;
+    background: #000;
     bottom: 0;
     min-height: 80px;
-    padding-top: 20px;
+    padding: 1px;
 }
-div.tabs {
-    position: relative;
-    margin: 0;
-    padding: 7px;
+#multi-col-nav {
+    -moz-column-count: 5;
+    -webkit-column-count: 5;
 }
-div.tabs a, div.tabs a:visited {
-    color: #28220b; /* unselected tab text colour */
+#multi-col-nav li {
+    list-style-type: none;
+}
+
+#multi-col-nav li a,
+#multi-col-nav li a:visited {
+    color: #fff;
 	  font: 11px Helvetica, Arial, sans-serif;
     text-decoration: none;
 	  text-transform: uppercase;
 	  letter-spacing: 1px;
 }
-div.tabs a:hover {
-    color: #fff; /* unselected tab text hover colour */
-}
-.tabbox-front {
-    position: relative;
-    width: 14px;
-    height: 33px;
-    background: url('../img/cardboardbox_front_14x33.png');
-}
-.tabbox-middle {
-    position: relative;
-    list-style-type: none;
-    display: inline;
-    background-color: #a0892c; /* unselected tab colour */
-    margin: 0;
-    height: 33px;
-    background: url('../img/cardboardbox_strip_1x33.png');
-    line-height: 300%;
-    padding-right: 14px;
-}
-.tabbox-back {
-    position: relative;
-    width: 14px;
-    height: 33px;
-    background: url('../img/cardboardbox_back_14x33.png');
-    margin-right: 3px;
-}
 
-#tab_addgrid {
-    background-color: #D9B2D3;
+#multi-col-nav li a:hover {
+    font-weight: 800;
 }
 
 #cardboard-boxes {
     float: left;
-    margin: 12px;
-}
-
-.tabbox-front, .tabbox-middle, .tabbox-back {
-    float: left;
-}
-
-.tabbox-middle {
+    margin: 20px 12px 0 12px;
 }
 
 /* Style all tables the same way throughout the site 
