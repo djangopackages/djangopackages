@@ -159,6 +159,10 @@ def add_grid_package(request, grid_slug, template_name="grid/add_grid_package.ht
                         package=package
                     )
             package.save()
+            redirect = request.POST.get('redirect','')
+            if redirect:
+                return HttpResponseRedirect(redirect)
+            
             return HttpResponseRedirect(reverse('grid', kwargs={'slug':grid.slug}))
     
 
@@ -170,3 +174,14 @@ def add_grid_package(request, grid_slug, template_name="grid/add_grid_package.ht
         },
         context_instance=RequestContext(request))
         
+
+def ajax_grid_list(request, template_name="grid/ajax_grid_list.html"):
+    q = request.GET.get('q','')
+    grids = []
+    if q:
+        grids = Grid.objects.filter(title__istartswith=q)
+    return render_to_response(template_name, {
+        'grids': grids
+        },
+        context_instance=RequestContext(request)
+    )
