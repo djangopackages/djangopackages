@@ -3,9 +3,10 @@ from django.conf.urls.defaults import *
 from grid.models import Grid
 
 from grid.views import (
-        add_grid_package,
         add_feature,
-        add_grid, 
+        add_grid,
+        add_grid_package,
+        ajax_grid_list,
         delete_feature,
         delete_grid_package,
         edit_element,
@@ -55,27 +56,35 @@ urlpatterns = patterns("",
     ), 
     
     url(
-        regex = '^feature/(?P<id>\d+)/delete$',
+        regex = '^feature/(?P<id>\d+)/delete/$',
         view    = delete_feature,
         name    = 'delete_feature',
     ),       
 
     url(
-        regex = '^package/(?P<id>\d+)/delete$',
+        regex = '^package/(?P<id>\d+)/delete/$',
         view    = delete_grid_package,
         name    = 'delete_grid_package',
     ),       
 
     url(
-        regex = '^(?P<grid_slug>[a-z0-9\-\_]+)/package/add$',
+        regex = '^(?P<grid_slug>[a-z0-9\-\_]+)/package/add/$',
         view    = add_grid_package,
         name    = 'add_grid_package',
     ),       
+
+    url(
+        regex = '^ajax_grid_list/$',
+        view    = ajax_grid_list,
+        name    = 'ajax_grid_list',
+    ),    
 
     url(
         regex = '$',
         view    = grids,
         name    = 'grids',
     ),    
+    
+    
     
 )
