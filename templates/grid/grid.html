@@ -102,7 +102,11 @@
                         {% for package in grid_packages %}
                             <td>
                                 {% if package.package.pypi_version %}
-                                    {{ package.package.pypi_downloads }}
+                                    {% if package.package.pypi_downloads %}
+                                        {{ package.package.pypi_downloads }}
+                                    {% else %}
+                                        n/a
+                                    {% endif %}
                                 {% else %}
                                     n/a
                                 {% endif %}
