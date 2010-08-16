@@ -83,6 +83,13 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr class="even">
+                        <td>Description</td>
+                        {% for package in grid_packages %}
+                            <td>{{ package.package.repo_description|truncatewords:20|wordwrap:30|linebreaksbr }}</td>
+                        {% endfor %}
+                    </tr>                    
+                    
                     <tr class="odd">
                         <td>Version</td>
                         {% for package in grid_packages %}
@@ -126,7 +133,7 @@
                         {% for package in grid_packages %}
                             <td>{{ package.package.repo_forks }}</td>
                         {% endfor %}
-                    </tr>
+                    </tr>                  
                     <tr class="odd">
                         <td>Participants</td>
                         {% for package in grid_packages %}
