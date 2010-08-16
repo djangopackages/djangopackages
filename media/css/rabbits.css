@@ -1,6 +1,12 @@
+/* General */
+
+body { background: #FFF; font-family: "Helvetica Neue", Arial, sans-serif; font-size: 10pt; margin: 0;}
+#body { width: 960px; padding-left: 30px; }
+
+a { color: #2F1D1D; }
+
 /* This overrides styles from base.css */
 #tabhead {
-    background: #fff;
     border: 0;
     position: relative;
 }
@@ -8,7 +14,7 @@
     height: 40px;
     padding: 6px 0 0 10px;
     font-weight: 700;
-    background-color: #fff;
+    background-color: #FFF;
 }
 #tabhead .logo h1 {
     line-height: 80%;
@@ -21,12 +27,8 @@
     display: inline;
 }
 #tabhead .logo a {
-    color: #333;
+    color: #121212;
     text-decoration: none;
-}
-#tabhead .logo img {
-    width: 190px;
-    height: 79px;
 }
 #tabhead .login {
     position: absolute;
@@ -34,21 +36,10 @@
     right: 15px;
     color: #333; /* login bar text colour */
 }
-#tabhead .login a, #tabhead .login a:visited {
-    color: #333; /* login bar link colour */
-}
-#tabhead .login a:hover {
-    color: #DEF; /* login bar link hover colour */
-}
+#tabhead .login a, #tabhead .login a:visited { color: #333; }
+#tabhead .login a:hover { color: #DEF; }
 
-#body {
-    width: 960px;
-}
-
-#footer {
-    width: 100%;
-    text-align: center;
-}
+#footer { width: 100%; text-align: center; }
 
 /* Sticky footer from http://ryanfait.com/resources/footer-stick-to-bottom-of-page/
    (still overriding base.css) */
@@ -64,41 +55,17 @@
     height: 4em;
 }
 
-/* This overrides styles from tabs.css */
-#left_tabs {
-    position: relative;
-    clear: both;
-    left: 0px; /* choose 120px if based on width and padding of logo */
-    background: #000;
-    bottom: 0;
-    min-height: 80px;
-    padding: 1px;
-}
-#multi-col-nav {
-    -moz-column-count: 5;
-    -webkit-column-count: 5;
-}
-#multi-col-nav li {
-    list-style-type: none;
-}
+/* Nav bar - overrides styles from tabs.css */
+#cardboard-boxes { float: left; margin: 20px 12px 0 12px; }
+#left_tabs { position: relative; clear: both; left: 0px; background: #2F1D1D; bottom: 0; min-height: 80px; padding: 1px; }
+#multi-col-nav { -moz-column-count: 5; -webkit-column-count: 5; }
+#multi-col-nav li { list-style-type: none; }
+#multi-col-nav li a, #multi-col-nav li a:visited { color: #FFFFDD; font: 11px Helvetica, Arial, sans-serif; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
+#multi-col-nav li a:hover { font-weight: 800; }
 
-#multi-col-nav li a,
-#multi-col-nav li a:visited {
-    color: #fff;
-	  font: 11px Helvetica, Arial, sans-serif;
-    text-decoration: none;
-	  text-transform: uppercase;
-	  letter-spacing: 1px;
-}
+/* Subnav bar - overrides styles from base.css */
+#subnav { margin: 0; padding: 0; background: #815562; border-bottom: 1px solid #6F9C40; }
 
-#multi-col-nav li a:hover {
-    font-weight: 800;
-}
-
-#cardboard-boxes {
-    float: left;
-    margin: 20px 12px 0 12px;
-}
 
 /* Style all tables the same way throughout the site 
 This is a very stripped version of:
@@ -106,14 +73,14 @@ This is a very stripped version of:
      http://www.duoh.com/csstutorials/csstables/ 
 In the future, add the table gradients and bullets, maybe. */
 th {
-	  font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
 	  color: #4f6b72;
 	  border: 1px solid #C1DAD7;
 	  letter-spacing: 2px;
 	  text-transform: uppercase;
 	  text-align: left;
 	  padding: 6px 6px 6px 12px;
-	  background: #CAE8EA;
+	  background: #C0F1D1;
 }
 
 td {
