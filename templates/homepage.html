@@ -16,10 +16,10 @@
 {% block body %}
     <div id="home-rightcol">
         <div id="home-search">
-            <form action="{% url search%}">
-                <input id="id_q" type="text" name="q" maxlength="100" value="search" autocomplete="off" />
+            <form action="{% url search %}">
+                <input id="id_q_p" type="text" name="q" maxlength="100" value="search packages" autocomplete="off" />
                 <input id="hidden-submit" type="submit" value="go" />
-            </form>
+            </form>         
         </div>        
         <div class="home-rightcolbox">
                 <h1>Django Package of the Week</h1>
@@ -30,6 +30,12 @@
             <p><a href="{% url add_package %}">Add your own package!</a></p>
         </div>   
 
+        <div id="home-search">
+            <form action="{% url search %}">
+                <input id="id_q_g" type="text" name="q" maxlength="100" value="search grids" autocomplete="off" />
+                <input id="hidden-submit" type="submit" value="go" />
+            </form>
+        </div>
         <div class="home-rightcolbox">
                 <h1>Grid of the Week</h1>
             {% for grid in gotw %}            
@@ -89,9 +95,32 @@
 {% block extra_body %}
 <script type="text/javascript">
     $(function() {          
-        $('input#id_q').click(function() {
-            $("input#id_q").val('');
+        $('input#id_q_p').click(function() {
+            $("input#id_q_p").val('');
+        });                
+        
+        $('input#id_q_g').click(function() {
+            $("input#id_q_g").val('');
         });                
     });    
+
+    $('#id_q_p').autocomplete({
+      source: '{% url search_packages_autocomplete %}',
+      minLength: 1,
+      open: function(event, ui) { 
+        ac_top = $('.ui-autocomplete').css('top'); 
+        $('.ui-autocomplete').css({'width': '250px', 'top': ac_top + 10 }); 
+      }
+    });
+    
+    $('#id_q_g').autocomplete({
+      source: '{% url search_grids_autocomplete %}',
+      minLength: 1,
+      open: function(event, ui) { 
+        ac_top = $('.ui-autocomplete').css('top'); 
+        $('.ui-autocomplete').css({'width': '250px', 'top': ac_top + 10 }); 
+      }
+    });    
+        
 </script>      
 {% endblock %}      
