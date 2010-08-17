@@ -3,6 +3,8 @@
 body { background: #FFF; font-family: "Helvetica Neue", Arial, sans-serif; font-size: 10pt; margin: 0;}
 #body { width: 960px; padding-left: 30px; }
 
+table { border: 0; }
+
 a { color: #2F1D1D; }
 
 /* This overrides styles from base.css */
