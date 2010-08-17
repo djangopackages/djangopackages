@@ -68,13 +68,6 @@
                     <td>{{ package.repo_watchers }}</td>
                     <td>{{ package.repo_forks }}</td>
                 </tr>    
-            {% if forloop.last %}
-                <script type="text/javascript">
-                    gh.authenticate()
-                    //commits = [x.committed_date for x in github.commits.list(package.repo_name(), "master")]            
-                </script>
-                
-            {% endif %}
             {% endfor %}        
          </table>    
          <p><a href="{% url category category.slug %}">more {{ category.title|lower }}s...</a></p>    
