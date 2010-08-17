@@ -13,6 +13,18 @@ from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField 
 from github2.client import Github
 
+def uniquer(seq, idfun=None):
+    if idfun is None:
+        def idfun(x): return x
+    seen = {}
+    result = []
+    for item in seq:
+        marker = idfun(item)
+        if marker in seen: continue
+        seen[marker] = 1
+        result.append(item)
+    return result
+
 class NoPyPiVersionFound(Exception):
     pass
 
@@ -146,9 +158,9 @@ class Package(BaseModel):
             # TODO  find out why repo commits limit on github to the first 35
             #self.repo_commits     = len(github.commits.list(repo_name, "master"))
 
-            collaborators = github.repos.list_collaborators(repo_name)
+            collaborators = github.repos.list_collaborators(repo_name) + [x['login'] for x in github.repos.list_contributors(repo_name)]
             if collaborators:
-                self.participants = ','.join(collaborators)
+                self.participants = ','.join(uniquer(collaborators))
                 
         else:
             self.repo_watchers    = 0
