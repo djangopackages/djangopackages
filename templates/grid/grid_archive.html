@@ -13,12 +13,13 @@
     <h1>Grids</h1>
     
     <div id="grid-listing">
-    {% for grid in grids %}
+    {% for grid in latest %}
         <dl class="grid-item">
             <dt><strong><a href="{% url grid grid.slug %}">{{ grid.title }}</a></strong></dt>
+            <dd class="date"><strong>Added</strong> {{ grid.created|date:"D d M Y H:i:s" }}</dd>            
             <dd class="counts">
-                    Packages {{ grid.gridpackage_set.count }}
-                    Features {{ grid.feature_set.count }}
+                    <strong>Packages</strong> {{ grid.gridpackage_set.count }}
+                    <strong>Features</strong> {{ grid.feature_set.count }}
             </dd>
             <dd class="description">{{ grid.description }}</dd>        
         </dl>
