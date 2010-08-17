@@ -10,11 +10,12 @@
 
 {% block body %}
     
-    <h1 id="package-name"><a href="{% url home %}">home</a> / <a href="{% url packages %}">packages</a> / {{ object.title }}</h1>
+    <h1 id="package-name"><a href="{% url home %}">home</a> / <a href="{% url packages %}">packages</a> / {{ object.title }}
+        <a href="{% url edit_package object.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
+    </h1>
     <div id="package-version">{{ object.pypi_version }}</div>
 
     <div id="package-editlink">
-        <a href="{% url edit_package object.slug %}">Edit</a>
         <a href="{% url fetch_package_data object.slug %}">Fetch latest data</a>
     </div>
 
