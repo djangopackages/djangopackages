@@ -12,7 +12,7 @@ PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 # tells Pinax to use the default theme
 PINAX_THEME = "default"
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 # tells Pinax to serve media through the staticfiles app.
@@ -31,7 +31,7 @@ MANAGERS = ADMINS
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3", # Add "postgresql_psycopg2", "postgresql", "mysql", "sqlite3" or "oracle".
-        "NAME": "dev.db",                       # Or path to database file if using sqlite3.
+        "NAME": "/home/dp/djangopackages/db/dev.db",                       # Or path to database file if using sqlite3.
         "USER": "",                             # Not used with sqlite3.
         "PASSWORD": "",                         # Not used with sqlite3.
         "HOST": "",                             # Set to empty string for localhost. Not used with sqlite3.
@@ -82,7 +82,8 @@ STATICFILES_DIRS = [
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = posixpath.join(STATIC_URL, "admin/")
+# ADMIN_MEDIA_PREFIX = posixpath.join(STATIC_URL, "admin/")
+ADMIN_MEDIA_PREFIX = "/site_media/admin/"
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = "ud%a+c#@@d5k!t_)mpw!+58fztyhk_sq%c5s0p5_je-wixy#$k"
@@ -107,7 +108,7 @@ MIDDLEWARE_CLASSES = [
     #"debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
-ROOT_URLCONF = "urls"
+ROOT_URLCONF = "djangopackages.urls"
 
 TEMPLATE_DIRS = [
     os.path.join(PROJECT_ROOT, "templates"),
