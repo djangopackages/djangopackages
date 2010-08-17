@@ -23,6 +23,7 @@
     <div id="search-results">
         <div id="grid-listing">
             <h2>{% if grids.count %}Grids{% else %}No grids found{% endif %}</h2>
+            {% if grids.count %}<p><a href="{% url add_grid %}">Add a new Grid?</a></p>{% endif %}                                          
             {% for grid in grids %}
                 <dl class="grid-item">
                     <dt><strong><a href="{% url grid grid.slug %}">{{ grid.title }}</a></strong></dt>
@@ -36,6 +37,7 @@
         </div>
         <div id="package-listing">
             <h2>{% if packages.count %}Packages{% else %}No packages found{% endif %}</h2>
+            {% if packages.count %}<p><a href="{% url add_package %}">Add a new Package?</a></p>{% endif %}                                      
             {% for package in packages %}
                 <dl class="package-item">
                     <dt><strong><a href="{% url package package.slug %}">{{ package.title }}</a></strong></dt>

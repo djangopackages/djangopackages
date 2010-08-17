@@ -27,7 +27,7 @@
                 <h2><a href="{% url package package.package.slug %}">{{ package.package.title }}</a></h2>
                 <p>{{ package.package.repo_description }}</p>
             {% endfor %}
-            <p><a href="{% url add_package%}">Add your own package!</a></p>
+            <p><a href="{% url add_package %}">Add your own package!</a></p>
         </div>   
 
         <div class="home-rightcolbox">
@@ -35,6 +35,7 @@
             {% for grid in gotw %}            
                 <h2><a href="{% url grid grid.grid.slug %}">{{ grid.grid.title }}</a></h2>
                 <p>{{ grid.grid.description }}</p>
+            <p><a href="{% url add_grid %}">Add a new grid!</a></p>                
             {% endfor %}
         </div>  
 
@@ -68,6 +69,14 @@
                     <td>{{ package.repo_watchers }}</td>
                     <td>{{ package.repo_forks }}</td>
                 </tr>    
+            {% if forloop.last %}
+                <script type="text/javascript">
+
+                    gh.authenticate();                    
+                    //commits = [x.committed_date for x in github.commits.list(package.repo_name(), "master")]            
+                </script>
+                
+            {% endif %}
             {% endfor %}        
          </table>    
          <p><a href="{% url category category.slug %}">more {{ category.title|lower }}s...</a></p>    
