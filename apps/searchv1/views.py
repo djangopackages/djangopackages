@@ -16,10 +16,10 @@ def find_packages_autocomplete(q):
     return Package.objects.filter(
                 Q(title__istartswith=q) | 
                 Q(title__istartswith=django_dash) |
-                Q(title__istartswith=django_space))
+                Q(title__istartswith=django_space))[:15]
 
 def find_grids_autocomplete(q):
-    return Grid.objects.filter(title__istartswith=q)
+    return Grid.objects.filter(title__istartswith=q)[:15]
 
 def search_by_function_autocomplete(request, search_function):
     """
