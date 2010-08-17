@@ -6,6 +6,11 @@ class PackageExampleInline(admin.TabularInline):
     model = PackageExample
     
 class PackageAdmin(admin.ModelAdmin):
+    
+    search_fields = ('title',)
+    list_filter = ('category','repo')    
+    list_display = ('title', 'created', )
+    date_hierarchy = 'created'    
     inlines = [
         PackageExampleInline,
     ]

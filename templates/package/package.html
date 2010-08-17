@@ -66,18 +66,20 @@
     
     {% for grid in object.grids %}
         <div id="package-gridname"><a href="{% url grid grid.slug %}">{{ grid }}</a></div>    
+        
+        {% if forloop.last %}
+            <div id="package-gridname">
+                <a id="find-a-grid" href="#">Find another grid to join!</a>
+                {% include "package/_attach_grid.html" %}
+            </div>    
+        
+        {% endif %}
     {% empty %}
         <div id="package-gridname">
             <a id="find-a-grid" href="#">Find a grid to join!</a>
             {% include "package/_attach_grid.html" %}
         </div>
     {% endfor %}
-    {% if object.grids %}
-        <div id="package-gridname">
-            <a id="find-a-grid" href="#">Find another grid to join!</a>
-            {% include "package/_attach_grid.html" %}
-        </div>    
-    {% endif %}
     
     <h2 id="package-sitesheading">Sites using this package</h2>
     

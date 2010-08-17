@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import *
 
-from searchv1.views import search
+from searchv1.views import search, find_grids_autocomplete, find_packages_autocomplete, search_by_function_autocomplete
 
 urlpatterns = patterns("",
     
@@ -9,4 +9,23 @@ urlpatterns = patterns("",
         view    = search,
         name    = 'search',
     ),    
+    url(
+        regex   = '^grids/autocomplete/$',
+        view    = search_by_function_autocomplete,
+        name    = 'search_grids_autocomplete',
+        kwargs  = dict(
+            search_function=find_grids_autocomplete,        
+            )        
+        
+    ),    
+    url(
+        regex   = '^packages/autocomplete/$',
+        view    = search_by_function_autocomplete,
+        name    = 'search_packages_autocomplete',
+        kwargs  = dict(
+            search_function=find_packages_autocomplete,        
+            )        
+
+    ),    
+    
 )
