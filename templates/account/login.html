@@ -41,7 +41,7 @@
         </fieldset>
     </form>
     
-    <p>{% blocktrans %}If you have any trouble logging in to your account, <a href="http://github.com/pydanny/scaredofrabbits/issues">submit a Github ticket</a>.{% endblocktrans %}</p>
+    {% include "account/_trouble_ticket.html" %}
 {% endblock %}
 
 {% block extra_body %}
