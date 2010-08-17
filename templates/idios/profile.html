@@ -1,4 +1,4 @@
-{% extends "idios/base.html" %}
+{% extends "site_base.html" %}
 
 {% load i18n %}
 {% load uni_form_tags %}
@@ -20,20 +20,25 @@
             {% if other_user.get_full_name %}
                 <p><b>{% trans "Name" %}</b>: <span class="fn">{{ other_user.get_full_name }}</span></p>
             {% endif %}
-            <p><b>{% trans "Github account" %}</b>: {% if other_user.get_profile.github_url %}<span class="fn">{{ other_user.get_profile.github_url|urlize }}</span>{% endif %}</p>
-            <p><b>{% trans "BitBucket account" %}</b>: {% if other_user.get_profile.bitbucket_url %}<span class="fn">{{ other_user.get_profile.bitbucket_url|urlize }}</span>{% endif %}</p>
-            <p><b>{% trans "Google Code account" %}</b>: {% if other_user.get_profile.google_code_url %}<span class="fn">{{ other_user.get_profile.google_code_url|urlize }}</span>{% endif %}</p>
+            <p><b>{% trans "Github account" %}</b>:
+                    {% if other_user.get_profile.github_url %}
+                        <span class="fn"><a href="http://github.com/{{ other_user.get_profile.github_url }}">{{ other_user.get_profile.github_url }}</a></span>
+                    {% endif %}
+            </p>
+            <p><b>{% trans "BitBucket account" %}</b>: 
+                    {% if other_user.get_profile.bitbucket_url %}
+                        <span class="fn"><a href="http://bitbucket.com/{{ other_user.get_profile.bitbucket_url }}">{{ other_user.get_profile.bitbucket_url }}</a></span>
+                    {% endif %}</p>
+            <p><b>{% trans "Google Code account" %}</b>:
+                    {% if other_user.get_profile.google_code_url %}
+                        <span class="fn"><a href="http://code.google.com/u/{{ other_user.get_profile.google_code_url|urlize }}/">{{ other_user.get_profile.google_code_url|urlize }}</a></span>
+                    {% endif %}</p>
         </div>
                 
         {% if is_me %}
             <p><a href="{% url profile_edit %}" rel="facebox">Edit profile</a></p>
         {% endif %}
         
-    </div><!--/vcard-->
+    </div>
 {% endblock %}
 
-
-{% block extra_body %}
-    <script type="text/javascript">
-    </script>
-{% endblock %}
