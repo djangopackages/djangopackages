@@ -72,7 +72,7 @@
             {% include "package/_attach_grid.html" %}
         </div>
     {% endfor %}
-    {% if object.grids %}
+    {% if object.grids.count %}
         <div id="package-gridname">
             <a id="find-a-grid" href="#">Find another grid to join!</a>
             {% include "package/_attach_grid.html" %}
