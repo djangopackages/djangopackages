@@ -158,7 +158,7 @@ class Package(BaseModel):
             # TODO  find out why repo commits limit on github to the first 35
             #self.repo_commits     = len(github.commits.list(repo_name, "master"))
 
-            collaborators = github.repos.list_collaborators(repo_name)# + [x['login'] for x in github.repos.list_contributors(repo_name)]
+            collaborators = github.repos.list_collaborators(repo_name) + [x['login'] for x in github.repos.list_contributors(repo_name)]
             if collaborators:
                 self.participants = ','.join(uniquer(collaborators))
                 

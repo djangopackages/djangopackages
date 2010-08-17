@@ -19,8 +19,6 @@
         <a href="{% url fetch_package_data object.slug %}">Fetch latest data</a>
     </div>
 
-
-
     <p id="package-repos">
         {{ object.repo.title }} repo: <a href="{{ object.repo_url }}">{{ object.repo_url }}</a>
         <img src="{{ STATIC_URL }}img/eye_20x20_clear.png" />{{ object.repo_watchers }}&nbsp;
@@ -52,6 +50,8 @@
     <p>
         {{ object.repo_description }}
     </p>
+    
+    <p id="package-category"><strong>Category:</strong> {{ object.category }}</p>    
 
     <h2>Project collaborators</h2>
 
