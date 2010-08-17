@@ -147,7 +147,7 @@
                                     {% if not forloop.last %}
                                         <br />
                                     {% endif %}
-                                    {% if forloop.count > 10 %}
+                                    {% if forloop.counter > 10 %}
                                         <a href="{% url package package.package.slug %}">more...</a>
                                     {% endif %}
                                 {% endfor %}                        
