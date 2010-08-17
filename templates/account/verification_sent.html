@@ -10,14 +10,16 @@
     <p>{% blocktrans %}
         As this is a BETA system, we are carefully approving new members.
         We'll be sending approval emails with the final portion of the approval process.
-        
+                
+        {% endblocktrans %}</p>
+    <p><a href="{{ success_url }}">Go back</a></p>
+{% endblock %}
+
+
         {% comment %}
         We have sent you an e-mail to <b>{{ email }}</b> for verification.
         Follow the link provided to finalize the signup process. If you do not receive it
         within a few minutes,
         <a href="http://github.com/pydanny/scaredofrabbits/issues">submit a ticket.</a>.
         {% endcomment %}
-        
-        {% endblocktrans %}</p>
-    <p><a href="{{ success_url }}">Go back</a></p>
-{% endblock %}
+
