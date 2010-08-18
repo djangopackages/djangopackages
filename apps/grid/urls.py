@@ -27,13 +27,13 @@ urlpatterns = patterns("",
     ),    
     
     url(
-        regex = '^(?P<slug>[a-z0-9\-\_]+)/edit/$',
+        regex = '^(?P<slug>[-\w]+)/edit/$',
         view    = edit_grid,
         name    = 'edit_grid',
     ),    
     
     url(
-        regex = '^g/(?P<slug>[a-z0-9\-\_]+)/$',
+        regex = '^g/(?P<slug>[-\w]+)/$',
         view    = grid,
         name    = 'grid',
     ), 

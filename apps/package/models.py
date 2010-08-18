@@ -72,7 +72,7 @@ version_re   = re.compile(r'<revision>[a-zA-Z0-9\.\-\_]+</revision>')
 class Package(BaseModel):
     
     title           = models.CharField(_("Title"), max_length="100")
-    slug            = models.SlugField(_("Slug"))
+    slug            = models.SlugField(_("Slug"), help_text="Slugs will be lowercased")
     category        = models.ForeignKey(Category)
     repo            = models.ForeignKey(Repo, null=True)
     repo_description= models.TextField(_("Repo Description"), blank=True)

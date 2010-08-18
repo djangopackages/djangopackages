@@ -1,9 +1,13 @@
 from django.forms import ModelForm
+from django.template.defaultfilters import slugify
 
 from package.models import Package, PackageExample
 
 class PackageForm(ModelForm):
     
+    def clean_slug(self):
+        return self.cleaned_data['slug'].lower()
+        
     class Meta:
         model = Package
         fields = ['title', 'slug', 'category', 'repo', 'repo_url', 'pypi_url']

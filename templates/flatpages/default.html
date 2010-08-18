@@ -1,0 +1,15 @@
+{% extends "flatpages/base.html" %}
+
+
+{% block head_title %}{{ flatpage.title }}{% endblock %}
+
+
+
+{% block body %}
+
+    <h1><a href="{{ flatpage.url }}">{{ flatpage.title }}</a></h1>
+
+    {{ flatpage.content }}
+
+
+{% endblock %}

@@ -50,10 +50,16 @@ Installation
     cd scaredofrabbits/rabbits
     pip install -r requirements/project.txt
     
-Go get some coffee while all the packages install
+Go get some coffee while all the packages install. Then do::
 
     python manage.py syncdb
     python manage.py runserver
+    
+Load some fixture data::
+
+    python manage.py loaddata apps/grids/fixtures/test_initial_data.json
+    python manage.py loaddata apps/homepage/fixtures/test_initial_data.json        
+    python manage.py loaddata apps/packages/fixtures/test_initial_data.json    
     
 
 Updating Packages

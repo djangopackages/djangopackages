@@ -1,0 +1,43 @@
+{% extends "site_base.html" %}
+{% comment %}
+
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load analytics %}
+
+
+{% block extra_head_base %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/rabbits.css" />
+    {% block extra_head %}{% endblock %}
+{% endblock %}
+
+
+{% block body_class %}flatpages{% endblock %}
+
+
+{% block logo_link_image %}<h1><a href="{% url home %}">Django Packages</a></h1><h2>reusable apps, sites, tools, and more for your Django projects</h2>{% endblock %}
+
+{% block login %}
+    {% include "account/_account_bar.html" %}
+{% endblock %}
+
+
+{% block footer %}
+<div class="legal">
+    <hr />
+    {% trans "&copy; 2010 Daniel Greenfeld & Audrey Roy." %}
+    {% trans "Powered by" %} <a href="http://www.djangoproject.com/">Django</a>, <a href="http://www.pinaxproject.com/">Pinax</a> and <a href="/grids/g/this-site/">these fine packages</a>.
+    - <a href="{% url about %}">{% trans "About" %}</a>
+    - <a href="{% url terms %}">{% trans "Terms of Service" %}</a>
+</div>
+{% endblock %}
+
+{% block extra_body_base %}
+
+    # TODO get google analytics working
+    {% ga %}
+
+    {% block extra_body %}{% endblock %}
+{% endblock %}
+{% endcomment %}

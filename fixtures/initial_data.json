@@ -3,8 +3,8 @@
         "pk": 1, 
         "model": "sites.site", 
         "fields": {
-            "domain": "scaredofrabbits.com", 
-            "name": "Scared of Rabbits"
+            "domain": "djangopackages.com", 
+            "name": "Django Packages"
         }
     }
 ]
