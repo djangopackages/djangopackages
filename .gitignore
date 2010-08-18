@@ -1,4 +1,4 @@
 *.pyc
-dev.db
+dev.db*
 *.log
 local_settings.py
