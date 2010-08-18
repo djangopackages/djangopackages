@@ -53,11 +53,11 @@
     
     <p id="package-category"><strong>Category:</strong> {{ object.category }}</p>    
 
-    <h2>Project collaborators</h2>
+    <h2>Participants</h2>
 
     <p>
-        {% for collaborator in object.participant_list %}
-            <a href="{{ object.repo.url }}/{{ collaborator }}">{{ collaborator }}</a>
+        {% for participant in object.participant_list %}
+            <a href="{{ object.repo.url }}/{{ participants }}">{{ participant }}</a>
         {% endfor %}
         
     </p>
