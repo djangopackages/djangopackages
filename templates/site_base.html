@@ -24,6 +24,7 @@
         {% for tab in tabs %}
             <li><a href="{% url grid tab.grid.slug %}">{{ tab.grid.title }}</a></li>
         {% endfor %}
+        <li><a href="{% url grids %}">» more grids...</a></li>
     </ul>
 {% endblock %}
 
