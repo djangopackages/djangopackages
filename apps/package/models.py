@@ -80,7 +80,7 @@ class Package(BaseModel):
     repo_watchers   = models.IntegerField(_("repo watchers"), default=0)
     repo_forks      = models.IntegerField(_("repo forks"), default=0)
     repo_commits    = models.IntegerField(_("repo commits"), default=0)
-    pypi_url        = models.URLField(_("pypi URL"), blank=True)
+    pypi_url        = models.URLField(_("pypi URL"), blank=True, default='http://pypi.python.org/pypi/')
     pypi_version    = models.CharField(_("Current Pypi version"), max_length="20", blank=True)    
     pypi_downloads  = models.IntegerField(_("Pypi downloads"), default=0)
     related_packages    = models.ManyToManyField("self", blank=True)
@@ -106,7 +106,7 @@ class Package(BaseModel):
     def save(self, *args, **kwargs):
         
         # Get the downloads from pypi
-        if self.pypi_url:
+        if self.pypi_url and self.pypi_url != 'http://pypi.python.org/pypi/':
             page = urlopen(self.pypi_url).read()
             # If the target page is an Index of packages
             if 'Index of Packages' in page:
