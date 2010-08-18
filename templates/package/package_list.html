@@ -8,7 +8,9 @@
 
     <h1>Django Packages</h1>
 
-    <a href="{% url add_package %}">Add new package</a>
+    <p>
+        <a class="large awesome darkbrown" href="{% url add_package %}">Add new package »</a>
+    </p>
 
     <div id="packages">
         {% for package in object_list %}
