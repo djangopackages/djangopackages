@@ -3,10 +3,13 @@ from sys import stdout
 import threading
 
 from django.core.management.base import BaseCommand, CommandError, NoArgsCommand
+from django.db.models import Q
 
 from package.models import Package
 
-class Command(NoArgsCommand):
+class Command(BaseCommand):
+      
+    args = '<ascii_letter ascii_letter ...>'
       
     help = 'Updates all the packages in the system. Commands belongs to django-packages.apps.package'
     
@@ -14,8 +17,13 @@ class Command(NoArgsCommand):
 
         count = 0
         threads = []
-        for letter in ascii_lowercase:
-            packages = Package.objects.filter(title__startswith=letter)
+        for letter in args:
+            django_dash = 'django-%s' % letter
+            django_space = 'django %s' % letter
+            packages = Package.objects.filter(
+                        Q(title__istartswith=letter) | 
+                        Q(title__istartswith=django_dash) |
+                        Q(title__istartswith=django_space))            
             if packages.count():
                 print >> stdout, '\nUpdating packages starting with the letter "%s"' % letter   
                 for package in Package.objects.filter(title__startswith=letter):

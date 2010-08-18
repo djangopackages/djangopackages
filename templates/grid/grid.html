@@ -143,9 +143,14 @@
                         {% for package in grid_packages %}
                             <td>
                                 {% for collaborator in package.package.participant_list %}
-                                    <a href="{{ package.package.repo.url }}/{{ collaborator }}">{{ collaborator }}</a>
-                                    {% if not forloop.last %}
-                                        <br />
+                                    {% if forloop.counter <= 10 %}                                
+                                        <a href="{{ package.package.repo.url }}/{{ collaborator }}">{{ collaborator }}</a>
+                                        {% if not forloop.last %}
+                                            <br />
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if forloop.counter == 11 %}
+                                        <a href="{% url package package.package.slug %}">more...</a>
                                     {% endif %}
                                 {% endfor %}                        
                             </td>
