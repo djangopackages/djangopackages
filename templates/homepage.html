@@ -20,14 +20,14 @@
                 <input id="id_q_p" type="text" name="q" maxlength="100" value="search packages" autocomplete="off" />
                 <input id="hidden-submit" type="submit" value="go" />
             </form>         
-        </div>        
+        </div>
         <div class="home-rightcolbox">
                 <h1>Django Package of the Week</h1>
             {% for package in dpotw %}            
                 <h2><a href="{% url package package.package.slug %}">{{ package.package.title }}</a></h2>
                 <p>{{ package.package.repo_description }}</p>
             {% endfor %}
-            <p><a href="{% url add_package %}">Add your own package!</a></p>
+            <p><a href="{% url add_package %}">Add your own package, or someone else's!</a></p>
         </div>   
 
         <div id="home-search">
@@ -44,11 +44,17 @@
             <p><a href="{% url add_grid %}">Add a new grid!</a></p>                
             {% endfor %}
         </div>  
-
         <div class="home-rightcolbox">
-                <h1>Contribute</h1>
-                <p>Help us make this site more useful by <a href="{% url add_package %}">adding your package</a>, <a href="{% url add_grid %}">making new comparison grids</a>, or updating our listings with relevant info.</p>
-        </div>  
+            <h1>We need your help</h1>
+            <p>Help us populate our database by adding any Django package, whether it's yours or someone else's.</p>
+            <div class="large awesome darkbrown">
+                add package »
+            </div>
+            <p>Or add a grid comparing the features of 2 or more similar packages.</p>
+            <div class="large awesome purple">
+                add grid »
+            </div>
+        </div>
     </div>        
      
      {% for category in categories %}

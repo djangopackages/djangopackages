@@ -7,6 +7,32 @@ table, form, fieldset { border: 0; }
 
 a { color: #2F1D1D; }
 
+/* Awesome buttons are from http://www.zurb.com/blog_uploads/0000/0617/buttons-03.html */
+.awesome, .awesome:visited {
+	background: #222 url(/images/alert-overlay.png) repeat-x; 
+	display: inline-block; 
+	padding: 5px 10px 6px; 
+	color: #fff; 
+	text-decoration: none;
+	-moz-border-radius: 5px; 
+	-webkit-border-radius: 5px;
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+	border-bottom: 1px solid rgba(0,0,0,0.25);
+	position: relative;
+	cursor: pointer;
+}
+.awesome:hover { color: #fff; }
+.awesome:active { top: 1px; }
+.large.awesome, .large.awesome:visited { font-size: 14px; font-weight: 700; padding: 8px 14px 9px; }
+
+/* I like to use darkbrown buttons for packages, purple for grids */
+.darkbrown { background-color: #28220b; }
+.darkbrown:hover { background-color: #131005; color: #fff; }
+.purple { background-color: #2F1D1D; }
+.purple:hover { background-color: #191010; color: #fff; }
+
 /* This overrides styles from base.css */
 #tabhead {
     border: 0;
