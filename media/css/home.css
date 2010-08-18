@@ -1,22 +1,10 @@
-#home-rightcol {
-    float: right;
-    margin-left: 20px;
-}
+#home-rightcol { float: right; margin-left: 20px; }
 
-.home-rightcolbox {
-    width: 260px;
-    padding: 20px;
-    margin-bottom: 20px;
-    background-color: #C0F1D1;
-}
+.home-rightcolbox { width: 260px; padding: 20px; margin-bottom: 20px; background-color: #C0F1D1; }
 
-input#hidden-submit {
-    display: none;
-}
+input#hidden-submit { display: none; }
 
-#home-packages img {
-    vertical-align: middle;
-}
+#home-packages img { vertical-align: middle; }
 
 /* autocomplete */
 
