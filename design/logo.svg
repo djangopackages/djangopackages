@@ -179,6 +179,13 @@
        inkscape:vp_y="0 : 1000 : 0"
        inkscape:vp_x="0 : 0.5 : 1"
        sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4082"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -188,8 +195,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="5.3575373"
-     inkscape:cx="134.55202"
-     inkscape:cy="122.23072"
+     inkscape:cx="163.95797"
+     inkscape:cy="109.07575"
      inkscape:document-units="px"
      inkscape:current-layer="layer7"
      showgrid="false"
@@ -206,7 +213,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -835,5 +842,35 @@
        height="8.3912659"
        x="83.555588"
        y="-112.3637" />
+    <rect
+       style="color:#000000;fill:#28220b;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.32799994999999993;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4070"
+       width="34.116909"
+       height="17.334375"
+       x="141.9455"
+       y="-34.261623"
+       ry="0" />
+    <rect
+       style="color:#000000;fill:#1c1807;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.32799994999999993;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4072"
+       width="20.450668"
+       height="15.045849"
+       x="132.43431"
+       y="-31.843248" />
+    <rect
+       style="color:#000000;fill:#2f1d1d;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.32799994999999993;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4070-4"
+       width="34.116909"
+       height="17.334375"
+       x="186.88017"
+       y="-91.92115"
+       ry="0" />
+    <rect
+       style="color:#000000;fill:#191010;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.32799994999999993;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect4072-9"
+       width="20.450668"
+       height="15.045849"
+       x="177.93706"
+       y="-89.178162" />
   </g>
 </svg>
