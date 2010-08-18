@@ -9,6 +9,8 @@
 
     <h1>Add new grid</h1>
     
+    <p>If the Django Packages team likes your grid, we'll put it on the navigation bar!</p>
+    
     <form class="uniForm" method="post">
         {% csrf_token %}
         <fieldset>
@@ -21,3 +23,13 @@
     </form>
 
 {% endblock %}
+
+{% block extra_body %}
+<script type="text/javascript">
+    $(function() {          
+        $('input#search-field').focus();
+        
+    });    
+</script>      
+{% endblock %}      
+        
