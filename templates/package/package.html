@@ -57,7 +57,7 @@
 
     <p>
         {% for collaborator in object.participant_list %}
-            <a href="{{ object.repo.url }}{{ collaborator }}">{{ collaborator }}</a>
+            <a href="{{ object.repo.url }}/{{ collaborator }}">{{ collaborator }}</a>
         {% endfor %}
         
     </p>
