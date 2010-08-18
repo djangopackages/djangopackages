@@ -27,7 +27,12 @@
 {% endblock %}
 
 {% block extra_body %}
-<script>
-    $("#id_title").focus();
+
+<script type="text/javascript">
+    $(function() {
+        {% include "package/_edit_package.js"%}
+    });    
 </script>
+
 {% endblock %}
+

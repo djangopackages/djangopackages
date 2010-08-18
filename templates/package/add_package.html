@@ -18,3 +18,13 @@
     </form>
 
 {% endblock %}
+
+{% block extra_body %}
+
+<script type="text/javascript">
+    $(function() {
+        {% include "package/_edit_package.js"%}
+    });    
+</script>
+
+{% endblock %}

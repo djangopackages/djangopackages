@@ -57,7 +57,7 @@
 
     <p>
         {% for collaborator in object.participant_list %}
-            <a href="http://github.com/{{ collaborator }}">{{ collaborator }}</a>
+            <a href="{{ object.repo.url }}{{ collaborator }}">{{ collaborator }}</a>
         {% endfor %}
         
     </p>
@@ -113,8 +113,6 @@
 <script type="text/javascript">
     $(function() {          
 
-        //var form = $('#find-a-grid-span').html();
-
         $('#find-a-grid').click(function() {
             $('#find-a-grid').hide();
             $('#find-a-grid-form').show();
@@ -134,10 +132,7 @@
                   };
             });       
 
-            
         });
-                
-
 
     });    
 </script>      
