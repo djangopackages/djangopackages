@@ -1,3 +1,6 @@
+{% extends "site_base.html" %}
+{% comment %}
+
 {% extends "base.html" %}
 
 {% load i18n %}
@@ -31,9 +34,10 @@
 {% endblock %}
 
 {% block extra_body_base %}
-    {% comment %}
+
     # TODO get google analytics working
     {% ga %}
-    {% endcomment %}
+
     {% block extra_body %}{% endblock %}
 {% endblock %}
+{% endcomment %}
