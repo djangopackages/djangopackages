@@ -7,6 +7,7 @@ class PackageExampleInline(admin.TabularInline):
     
 class PackageAdmin(admin.ModelAdmin):
     
+    save_on_top = True    
     search_fields = ('title',)
     list_filter = ('category','repo')    
     list_display = ('title', 'created', )
