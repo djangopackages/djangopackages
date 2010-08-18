@@ -34,31 +34,31 @@ urlpatterns = patterns("",
     ),    
 
     url(
-        regex = '^(?P<slug>[a-z0-9\-\_]+)/edit/$',
+        regex = '^(?P<slug>[-\w]+)/edit/$',
         view    = edit_package,
         name    = 'edit_package', 
     ),    
     
     url(
-        regex = '^(?P<slug>[a-z0-9\-\_]+)/fetch-data/$',
+        regex = '^(?P<slug>[-\w]+)/fetch-data/$',
         view    = update_package,
         name    = 'fetch_package_data', 
     ),    
 
     url(
-        regex = '^(?P<slug>[a-z0-9\-\_]+)/example/add/$',
+        regex = '^(?P<slug>[-\w]+)/example/add/$',
         view    = add_example,
         name    = 'add_example', 
     ),    
     
     url(
-        regex = '^(?P<slug>[a-z0-9\-\_]+)/example/(?P<id>\d+)/edit/$',
+        regex = '^(?P<slug>[-\w]+)/example/(?P<id>\d+)/edit/$',
         view    = edit_example,
         name    = 'edit_example', 
     ),    
     
     url(
-        regex = '^p/(?P<slug>[a-z0-9\-\_]+)/$',
+        regex = '^p/(?P<slug>[-\w]+)/$',
         view    = object_detail,
         name    = 'package',
         kwargs=dict(

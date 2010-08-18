@@ -31,7 +31,7 @@ urlpatterns = patterns("",
     url(r"^grids/", include("grid.urls")),  
     url(r"^search/", include("searchv1.urls")),        
     
-    url(r"^categories/(?P<slug>[a-z0-9\-\_]+)/$", category, name="category"),        
+    url(r"^categories/(?P<slug>[-\w]+)/$", category, name="category"),        
     url(r"^categories/$", homepage, name="categories"),            
     
     url(
