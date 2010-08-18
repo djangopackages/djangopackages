@@ -36,8 +36,8 @@ class GridPackage(BaseModel):
     
     class Meta:
         
-        verbose_name = 'Package'
-        verbose_name_plural = 'Packages'        
+        verbose_name = 'Grid Package'
+        verbose_name_plural = 'Grid Packages'        
         
     def __unicode__(self):
         return '%s : %s' % (self.grid.slug, self.package.slug)
