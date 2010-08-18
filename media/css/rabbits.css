@@ -25,13 +25,35 @@ a { color: #2F1D1D; }
 }
 .awesome:hover { color: #fff; }
 .awesome:active { top: 1px; }
+.small.awesome { font-size: 11px; }
+.medium.awesome { font-size: 13px; }
 .large.awesome, .large.awesome:visited { font-size: 14px; font-weight: 700; padding: 8px 14px 9px; }
+
+
+.green.awesome, .green.awesome:visited { background-color: #91bd09; }
+.green.awesome:hover { background-color: #749a02; }
+.blue.awesome, .blue.awesome:visited { background-color: #2daebf; }
+.blue.awesome:hover { background-color: #007d9a; }
+.red.awesome, .red.awesome:visited { background-color: #e33100; }
+.red.awesome:hover { background-color: #872300; }
+.magenta.awesome, .magenta.awesome:visited { background-color: #a9014b; }
+.magenta.awesome:hover { background-color: #630030; }
+.orange.awesome, .orange.awesome:visited { background-color: #ff5c00; }
+.orange.awesome:hover { background-color: #d45500; }
+.yellow.awesome, .yellow.awesome:visited { background-color: #ffb515; }
+.yellow.awesome:hover { background-color: #fc9200; }
 
 /* I like to use darkbrown buttons for packages, purple for grids */
 .darkbrown, .darkbrown:visited { background-color: #28220b; }
 .darkbrown:hover { background-color: #1c1807; color: #fff; }
 .purple, .purple:visited { background-color: #2F1D1D; }
 .purple:hover { background-color: #191010; color: #fff; }
+
+.box_round {
+     -moz-border-radius: 12px; /* FF1+ */
+  -webkit-border-radius: 12px; /* Saf3-4 */
+          border-radius: 12px; /* Opera 10.5, IE 9, Saf5, Chrome */
+}
 
 /* This overrides styles from base.css */
 #tabhead {
