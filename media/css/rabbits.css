@@ -28,9 +28,9 @@ a { color: #2F1D1D; }
 .large.awesome, .large.awesome:visited { font-size: 14px; font-weight: 700; padding: 8px 14px 9px; }
 
 /* I like to use darkbrown buttons for packages, purple for grids */
-.darkbrown { background-color: #28220b; }
-.darkbrown:hover { background-color: #131005; color: #fff; }
-.purple { background-color: #2F1D1D; }
+.darkbrown, .darkbrown:visited { background-color: #28220b; }
+.darkbrown:hover { background-color: #1c1807; color: #fff; }
+.purple, .purple:visited { background-color: #2F1D1D; }
 .purple:hover { background-color: #191010; color: #fff; }
 
 /* This overrides styles from base.css */
