@@ -18,15 +18,20 @@ class Command(BaseCommand):
         count = 0
         threads = []
         for letter in args:
-            django_dash = 'django-%s' % letter
-            django_space = 'django %s' % letter
-            packages = Package.objects.filter(
-                        Q(title__istartswith=letter) | 
-                        Q(title__istartswith=django_dash) |
-                        Q(title__istartswith=django_space))            
+            letter = letter.lower()
+            if letter == 'd':
+                packages = Package.objects.filter(title__istartswith=letter).exclude(title__istartswith='django-').exclude(title__istartswith='django ')
+            else:
+                django_dash = 'django-%s' % letter
+                django_space = 'django %s' % letter                
+                packages = Package.objects.filter(
+                            Q(title__istartswith=letter) | 
+                            Q(title__istartswith=django_dash) |
+                            Q(title__istartswith=django_space))            
+            
             if packages.count():
                 print >> stdout, '\nUpdating packages starting with the letter "%s"' % letter   
-                for package in Package.objects.filter(title__startswith=letter):
+                for package in packages:
                     try:
                         package.save()
                         count += 1
