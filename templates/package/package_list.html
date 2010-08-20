@@ -14,14 +14,7 @@
 
     <div id="packages">
         {% for package in object_list %}
-            <dl class="package-item">
-                <dt><strong><a href="{% url package package.slug %}">{{ package.title }}</a></strong></dt>
-                <dd class="counts">
-                        Downloads {{ package.pypi_downloads }}
-                        Watchers {{ package.repo_watchers }}
-                </dd>
-                <dd class="description">{{ package.repo_description }}</dd>        
-            </dl>
+            {% include "package/_package.html"%}
         {% endfor %}
     </div>
 

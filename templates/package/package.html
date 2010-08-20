@@ -51,7 +51,7 @@
         {{ object.repo_description }}
     </p>
     
-    <p id="package-category"><strong>Category:</strong> {{ object.category }}</p>    
+    <p id="package-category"><strong>Category:</strong> <a href="{% url category object.category.slug %}">{{ object.category }}</a></p>    
 
     <h2>Participants</h2>
 

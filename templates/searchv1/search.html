@@ -1,4 +1,4 @@
-{% extends "package/base.html" %}
+{% extends "searchv1/base.html" %}
 
 {% load i18n %}
 {% load uni_form_tags %}
@@ -14,7 +14,7 @@
                 {{ form|as_uni_form }}
 
             <div class="form_block">        
-                <input type="submit" name="b" value="Search">
+                <input type="submit" name="b" value="Search"> 
             </div>            
         </fieldset>
     </form>
@@ -23,30 +23,20 @@
     <div id="search-results">
         <div id="grid-listing">
             <h2>{% if grids.count %}Grids{% else %}No grids found{% endif %}</h2>
-            <p><a class="medium awesome purple" href="{% url add_grid %}">add grid »</a></p>
+            <p><a class="medium awesome purple" href="{% url add_grid %}">add grid »</a>
+                <a href="{% url latest_grids %}">latest</a> <a href="{% url grids %}">all</a>
+            </p> 
             {% for grid in grids %}
-                <dl class="grid-item">
-                    <dt><strong><a href="{% url grid grid.slug %}">{{ grid.title }}</a></strong></dt>
-                    <dd class="counts">
-                            Packages {{ grid.gridpackage_set.count }}
-                            Features {{ grid.feature_set.count }}
-                    </dd>
-                    <dd class="description">{{ grid.description }}</dd>        
-                </dl>
+                {% include "grid/_grid.html" %}
             {% endfor %}
         </div>
         <div id="package-listing">
             <h2>{% if packages.count %}Packages{% else %}No packages found{% endif %}</h2>
-            <p><a class="medium awesome darkbrown" href="{% url add_package %}">add package »</a></p>
+            <p><a class="medium awesome darkbrown" href="{% url add_package %}">add package »</a>
+                <a href="{% url latest_packages %}">latest</a> <a href="{% url packages %}">all</a>
+            </p>
             {% for package in packages %}
-                <dl class="package-item">
-                    <dt><strong><a href="{% url package package.slug %}">{{ package.title }}</a></strong></dt>
-                    <dd class="counts">
-                            Downloads {{ package.pypi_downloads }}
-                            Watchers {{ package.repo_watchers }}
-                    </dd>
-                    <dd class="description">{{ package.repo_description }}</dd>        
-                </dl>
+                {% include "package/_package.html"%}
             {% endfor %}
         </div>    
     </div>
@@ -56,5 +46,29 @@
 {% block extra_body %}
 <script>
     $("#id_q").focus();
+    
+    {% for grid in grids %}
+        $('#grid-{{ grid.id }}').mouseover(function() {
+            $('#grid-{{ grid.id }}').addClass("clickable");
+        });
+        $('#grid-{{ grid.id }}').mouseout(function() {
+            $('#grid-{{ grid.id }}').removeClass("clickable");
+        });
+        $('#grid-{{ grid.id }}').click(function() {
+            $(location).attr("href","{% url grid grid.slug %}");
+        });   
+    {% endfor %}    
+    
+    {% for package in packages %}
+        $('#package-{{ package.id }}').mouseover(function() {
+            $('#package-{{ package.id }}').addClass("clickable");
+        });
+        $('#package-{{ package.id }}').mouseout(function() {
+            $('#package-{{ package.id }}').removeClass("clickable");
+        });
+        $('#package-{{ package.id }}').click(function() {
+            $(location).attr("href","{% url package package.slug %}");
+        });        
+    {% endfor %}
 </script>
 {% endblock %}

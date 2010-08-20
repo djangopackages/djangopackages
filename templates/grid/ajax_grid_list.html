@@ -1,7 +1,7 @@
 <div id="target">
     <h2>{% if grids.count %}Grids{% else %}No grids found{% endif %}</h2>
     {% if grids.count %}
-        <p class="editable-cell">Click a grid to add your grid to it.</p>      
+        <p class="clickable">Click a grid to add your grid to it.</p>      
     {% endif %}
     {% for grid in grids %}
   
@@ -16,10 +16,10 @@
        
         {% for grid in grids %}
             $('#grid-{{ grid.id }}').mouseover(function() {
-                $('#grid-{{ grid.id }}').addClass("editable-cell");
+                $('#grid-{{ grid.id }}').addClass("clickable");
             });
             $('#grid-{{ grid.id }}').mouseout(function() {
-                $('#grid-{{ grid.id }}').removeClass("editable-cell");
+                $('#grid-{{ grid.id }}').removeClass("clickable");
             });
             $('#grid-{{ grid.id }}').click(function() {
                 $('form:first').attr('action', "{% url add_grid_package grid.slug %}");                
