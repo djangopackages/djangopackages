@@ -18,14 +18,7 @@
 
     <div id="grid-listing">
     {% for grid in grids %}
-        <dl class="grid-item">
-            <dt><strong><a href="{% url grid grid.slug %}">{{ grid.title }}</a></strong></dt>
-            <dd class="counts">
-                    <strong>Packages</strong> {{ grid.gridpackage_set.count }}
-                    <strong>Features</strong> {{ grid.feature_set.count }}
-            </dd>
-            <dd class="description">{{ grid.description }}</dd>        
-        </dl>
+        {% include "grid/_grid.html" %}
     {% endfor %}
     </div>
 {% endblock %}

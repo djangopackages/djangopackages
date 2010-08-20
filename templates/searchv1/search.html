@@ -27,14 +27,7 @@
                 <a href="{% url latest_grids %}">latest</a> <a href="{% url grids %}">all</a>
             </p> 
             {% for grid in grids %}
-                <dl class="grid-item">
-                    <dt><strong><a href="{% url grid grid.slug %}">{{ grid.title }}</a></strong></dt>
-                    <dd class="counts">
-                            Packages {{ grid.gridpackage_set.count }}
-                            Features {{ grid.feature_set.count }}
-                    </dd>
-                    <dd class="description">{{ grid.description }}</dd>        
-                </dl>
+                {% include "grid/_grid.html" %}
             {% endfor %}
         </div>
         <div id="package-listing">
@@ -43,14 +36,7 @@
                 <a href="{% url latest_packages %}">latest</a> <a href="{% url packages %}">all</a>
             </p>
             {% for package in packages %}
-                <dl class="package-item">
-                    <dt><strong><a href="{% url package package.slug %}">{{ package.title }}</a></strong></dt>
-                    <dd class="counts">
-                            Downloads {{ package.pypi_downloads }}
-                            Watchers {{ package.repo_watchers }}
-                    </dd>
-                    <dd class="description">{{ package.repo_description }}</dd>        
-                </dl>
+                {% include "package/_package.html"%}
             {% endfor %}
         </div>    
     </div>
