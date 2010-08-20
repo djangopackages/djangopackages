@@ -65,7 +65,7 @@ Add symlinks to the pinax and uni_form media directories::
 
     cd media
     ln -s ../../env-djangopackages/lib/python2.6/site-packages/pinax/media/default/pinax/ pinax
-    ln -s ../../env/lib/python2.6/site-packages/uni_form/media/uni_form/ uni_form
+    ln -s ../../env-djangopackages/lib/python2.6/site-packages/uni_form/media/uni_form/ uni_form
 
 Updating Packages
 =================
