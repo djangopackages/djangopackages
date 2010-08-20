@@ -11,17 +11,17 @@ Django Packages solves the problem in the Django community of being able to easi
 
 A Django package is anything that is involved in the Django ecosphere that can be stored on a repository such as Github or Bitbucket. If it can be stored in Pypi thats even better!
 
-Current Demo Site
------------------
+The Site
+--------
 
-The site is live and functional at http://69.164.219.200:9999. We are waiting for DNS records to update so it will appear as http://djangopackages.com:9999 and http://scaredofrabbits.com .
+The site is live and functional at http://www.djangopackages.com.  
 
 Grids!
 ~~~~~~
 
 Grids let you compare Django packages to each other. A grid comes with a number of default items compared, but you can add more features in order to get a more specific comparison.
 
-For now, we are trying out Django Packages without the traditional tagging system, because we think that grids give us a lot more specificity.
+We are trying out Django Packages without the traditional tagging system, because we think that grids give us a lot more specificity.
 
 Categories of Django Packages
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -44,10 +44,10 @@ Installation
 .. parsed-literal::
 
     cd <installation-directory>
-    virtualenv env-scaredofrabbits
-    source envscaredofrabbits/bin/activate
-    git clone git://github.com/pydanny/scaredofrabbits.git
-    cd scaredofrabbits/rabbits
+    virtualenv env-djangopackages
+    source env-djangopackages/bin/activate
+    git clone git://github.com/pydanny/scaredofrabbits.git djangopackages
+    cd djangopackages
     pip install -r requirements/project.txt
     
 Go get some coffee while all the packages install. Then do::
@@ -61,6 +61,11 @@ Load some fixture data::
     python manage.py loaddata apps/homepage/fixtures/test_initial_data.json        
     python manage.py loaddata apps/packages/fixtures/test_initial_data.json    
     
+Add symlinks to the pinax and uni_form media directories::
+
+    cd media
+    ln -s ../../env-djangopackages/lib/python2.6/site-packages/pinax/media/default/pinax/ pinax
+    ln -s ../../env/lib/python2.6/site-packages/uni_form/media/uni_form/ uni_form
 
 Updating Packages
 =================
