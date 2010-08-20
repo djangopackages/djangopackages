@@ -1,4 +1,4 @@
-<dl class="grid-item">
+<dl class="grid-item" id="grid-{{ grid.id }}">
     <dt><strong><a href="{% url grid grid.slug %}">{{ grid.title }}</a></strong></dt>
     <dd class="date"><strong>Added</strong> {{ grid.created|date:"D d M Y H:i:s" }}</dd>            
     <dd class="counts">

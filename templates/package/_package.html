@@ -1,4 +1,4 @@
-<dl class="package-item">
+<dl class="package-item" id="package-{{ package.id }}">
     <dt><strong><a href="{% url package package.slug %}">{{ package.title }}</a></strong></dt>
     <dd class="date"><strong>Added</strong> {{ package.created|date:"D d M Y H:i:s" }}</dd>
     <dd class="counts">

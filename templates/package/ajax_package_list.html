@@ -20,10 +20,10 @@
        
         {% for package in packages %}
             $('#package-{{ package.id }}').mouseover(function() {
-                $('#package-{{ package.id }}').addClass("editable-cell");
+                $('#package-{{ package.id }}').addClass("clickable");
             });
             $('#package-{{ package.id }}').mouseout(function() {
-                $('#package-{{ package.id }}').removeClass("editable-cell");
+                $('#package-{{ package.id }}').removeClass("clickable");
             });
             $('#package-{{ package.id }}').click(function() {
                 
