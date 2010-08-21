@@ -45,6 +45,8 @@ a { color: #2F1D1D; }
 .darkbrown:hover { background-color: #1c1807; color: #fff; }
 .purple, .purple:visited { background-color: #2F1D1D; } /* and purple for grids */
 .purple:hover { background-color: #191010; color: #fff; }
+.lavender, .lavender:visited { background-color: #815562; }
+.lavender:hover { background-color: #714552; }
 
 .box_round {
      -moz-border-radius: 12px; /* FF1+ */
@@ -75,6 +77,7 @@ a { color: #2F1D1D; }
 
 /* Nav bar - overrides styles from tabs.css */
 #cardboard-boxes { float: left; margin: 20px 12px 0 12px; }
+#nav-help { margin: 10px 0 0 20px; } /* the top left help btn */
 #left_tabs { position: relative; clear: both; left: 0px; background: #2F1D1D; bottom: 0; min-height: 80px; padding: 1px; }
 #multi-col-nav { -moz-column-count: 5; -webkit-column-count: 5; }
 #multi-col-nav li { list-style-type: none; }
