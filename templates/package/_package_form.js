@@ -13,11 +13,7 @@ pypi_url_g = "http://pypi.python.org/pypi/";
 
 $("#id_pypi_url").val($("#id_pypi_url").val().replace(pypi_url_g,""));
 
-$("#id_pypi_url").keyup(function(e){
-    $("#id_pypi_url").val($("#id_pypi_url").val().replace(pypi_url_g,""));
-});
-
-$("#id_pypi_url").keydown(function(e){
+$("#id_pypi_url").change(function(e){
     $("#id_pypi_url").val($("#id_pypi_url").val().replace(pypi_url_g,""));
 });
     
@@ -32,7 +28,9 @@ $("#id_repo_url").change(function(e) {
         if (url.startsWith(key)){
             if (url !== key){
                 $("#id_repo").val(value);
-                $("#id_title").val(url_array[url_array.length-1]);
+                if ($("#id_title").val().length === 0) {
+                    $("#id_title").val(url_array[url_array.length-1]);
+                };
                 var slug = URLify(url_array[url_array.length-1]);
                 $("#id_slug").val(slug);
                 $("#id_pypi_url").val(slug);
