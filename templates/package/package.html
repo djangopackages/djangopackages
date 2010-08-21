@@ -38,7 +38,7 @@
         </tr>
     </table>
 
-    {% if object.pypi_url %}
+    {% if object.pypi_url and object.pypi_url != "http://pypi.python.org/pypi/" %}
         <h2>PyPI</h2>
         <table>
             <tr>
@@ -52,6 +52,8 @@
                 <td>{{ object.pypi_downloads }}</td>
             </tr>
         </table>
+    {% else %}
+        <h2>No PyPI release</h2>
     {% endif %}
 
     <h2>Participants</h2>

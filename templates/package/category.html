@@ -17,7 +17,12 @@
 
      <h1><a href="{% url home %}">home</a> / <a href="{% url categories %}">categories</a> / {{ category }}s ( {{ packages.count }} )</h1>
      
-    <p>{{ category.description }}</p>
+    <p id="description">{{ category.description }}</p>
+    
+    <p id="links"><a class="medium awesome darkbrown" href="{% url add_package %}">add package »</a>
+        <a href="{% url latest_packages %}">latest</a> <a href="{% url packages %}">all</a>
+    </p>
+
     <table id="home-packages">
         <tr id="home-tableheader">
             <td><a href="#">PYPI DOWNLOADS</a></td>
