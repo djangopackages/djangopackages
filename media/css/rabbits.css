@@ -7,6 +7,11 @@ table, form, fieldset { border: 0; }
 
 a { color: #2F1D1D; }
 
+h1 { font-size: 197%; }
+h2 { font-size: 153.9%; }
+
+li { list-style: none; }
+
 /* Awesome buttons are from http://www.zurb.com/blog_uploads/0000/0617/buttons-03.html */
 .awesome, .awesome:visited {
 	background: #222 url(/images/alert-overlay.png) repeat-x; 
@@ -76,7 +81,7 @@ a { color: #2F1D1D; }
 .footer, .push { height: 4em; }
 
 /* Nav bar - overrides styles from tabs.css */
-#cardboard-boxes { float: left; margin: 20px 12px 0 12px; }
+#cardboard-boxes { float: left; margin: 20px 20px 0 12px; }
 #nav-help { margin: 10px 0 0 20px; } /* the top left help btn */
 #left_tabs { position: relative; clear: both; left: 0px; background: #2F1D1D; bottom: 0; min-height: 80px; padding: 1px; }
 #multi-col-nav { -moz-column-count: 5; -webkit-column-count: 5; }
