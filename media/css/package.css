@@ -1,53 +1,3 @@
-#package-name {
-    display: inline;
-}
-
-#package-version {
-    display: inline;
-    font-weight: bold;
-    padding-left: 16px;
-    color: #666;
-}
-
-#package-statbox {
-    display: none;
-    position: relative;
-    margin: 10px auto;
-    color: #808080;
-    height: 70px;
-    background: #DEF;
-}
-
-#package-watchers-icon {
-    position: absolute;
-    top: 10px;
-    left: 20px;
-}
-
-#package-watchers-num {
-    position: absolute;
-    top: 14px;
-    left: 50px;
-}
-
-#package-forkers-icon {
-    position: absolute;
-    top: 40px;
-    left: 20px;
-}
-
-#package-forkers-num {
-    position: absolute;
-    top: 44px;
-    left: 50px;
-}
-
-#package-githubcommits {
-    position: absolute;
-    top: 24px;
-    left: 200px;
-}
-
 #package-editlink,
 #package-gridname {
     display: inline;
@@ -66,9 +16,6 @@
 #package-gridname a:hover {
     background: #666;
     color: #FFF;
-}
-
-#package-sitesheading {
 }
 
 #package-sitelist li {

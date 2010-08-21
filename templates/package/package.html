@@ -8,7 +8,7 @@
 
 {% block body %}
     
-    <h1 id="package-name"><a href="{% url home %}">home</a> / <a href="{% url packages %}">packages</a> / {{ object.title }}
+    <h1><a href="{% url home %}">home</a> / <a href="{% url packages %}">packages</a> / {{ object.title }}
         <a href="{% url edit_package object.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
     </h1>
 
@@ -20,7 +20,7 @@
         {{ object.repo_description }}
     </p>
     
-    <p id="package-category"><strong>Category:</strong> <a href="{% url category object.category.slug %}">{{ object.category }}</a></p>    
+    <p><strong>Category:</strong> <a href="{% url category object.category.slug %}">{{ object.category }}</a></p>    
 
     <h2>{{ object.repo.title }}</h2>
     <table>
@@ -82,7 +82,7 @@
         </div>
     {% endfor %}
     
-    <h2 id="package-sitesheading">Sites using this package</h2>
+    <h2>Sites using this package</h2>
     
     <div id="package-editlink">
         {% if request.user.is_authenticated %}        
