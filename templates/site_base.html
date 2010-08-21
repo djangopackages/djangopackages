@@ -5,8 +5,8 @@
 {% load homepage_tags %}
 
 {% block extra_head_base %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/rabbits.css" />
     {% block extra_head %}{% endblock %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/rabbits.css" />
 {% endblock %}
 
 {% block logo_link_image %}<h1><a href="{% url home %}">Django Packages</a></h1><h2>reusable apps, sites, tools, and more for your Django projects</h2>{% endblock %}

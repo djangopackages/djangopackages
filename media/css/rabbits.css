@@ -10,8 +10,6 @@ a { color: #2F1D1D; }
 h1 { font-size: 197%; }
 h2 { font-size: 153.9%; }
 
-li { list-style: none; }
-
 /* Awesome buttons are from http://www.zurb.com/blog_uploads/0000/0617/buttons-03.html */
 .awesome, .awesome:visited {
 	background: #222 url(/images/alert-overlay.png) repeat-x; 
@@ -97,3 +95,6 @@ li { list-style: none; }
 th { font-size: 11px; color: #4f6b72; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #C0F1D1; }
 td { border: 1px solid #C1DAD7; background: #fff; padding: 6px 6px 6px 12px; color: #4f6b72; }
 .clickable { background: #FCF1C2; }
+
+/* Search */
+.ui-autocomplete li { list-style: none; }
