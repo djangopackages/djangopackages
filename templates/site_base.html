@@ -17,7 +17,7 @@
 
 {% block left_tabs %}
     <div id="cardboard-boxes">
-        <img src="{{ STATIC_URL }}img/logo.png" />
+        <a href="{% url home %}"><img src="{{ STATIC_URL }}img/logo.png" /></a>
     </div>
     <ul id="multi-col-nav">
         {% get_tabs %}
