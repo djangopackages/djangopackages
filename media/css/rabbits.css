@@ -28,8 +28,6 @@ a { color: #2F1D1D; }
 .small.awesome { font-size: 11px; }
 .medium.awesome { font-size: 13px; }
 .large.awesome, .large.awesome:visited { font-size: 14px; font-weight: 700; padding: 8px 14px 9px; }
-
-
 .green.awesome, .green.awesome:visited { background-color: #91bd09; }
 .green.awesome:hover { background-color: #749a02; }
 .blue.awesome, .blue.awesome:visited { background-color: #2daebf; }
@@ -43,10 +41,9 @@ a { color: #2F1D1D; }
 .yellow.awesome, .yellow.awesome:visited { background-color: #ffb515; }
 .yellow.awesome:hover { background-color: #fc9200; }
 
-/* I like to use darkbrown buttons for packages, purple for grids */
-.darkbrown, .darkbrown:visited { background-color: #28220b; }
+.darkbrown, .darkbrown:visited { background-color: #28220b; } /* I like to use darkbrown buttons for packages */
 .darkbrown:hover { background-color: #1c1807; color: #fff; }
-.purple, .purple:visited { background-color: #2F1D1D; }
+.purple, .purple:visited { background-color: #2F1D1D; } /* and purple for grids */
 .purple:hover { background-color: #191010; color: #fff; }
 
 .box_round {
@@ -56,36 +53,14 @@ a { color: #2F1D1D; }
 }
 
 /* This overrides styles from base.css */
-#tabhead {
-    border: 0;
-    position: relative;
-}
-#tabhead .logo {
-    height: 40px;
-    padding: 6px 0 0 10px;
-    font-weight: 700;
-    background-color: #FFF;
-}
-#tabhead .logo h1 {
-    line-height: 80%;
-    font-size: 38px;
-    display: inline;
-    padding-right: 26px;
-}
-#tabhead .logo h2 {
-    font-size: 17px;
-    display: inline;
-}
-#tabhead .logo a {
-    color: #121212;
-    text-decoration: none;
-}
-#tabhead .login {
-    position: absolute;
-    top: 6px;
-    right: 15px;
-    color: #333; /* login bar text colour */
-}
+#tabhead { border: 0; position: relative; }
+
+#tabhead .logo { height: 40px; padding: 6px 0 0 10px; font-weight: 700; background-color: #FFF; }
+#tabhead .logo h1 { line-height: 80%; font-size: 38px; display: inline; padding-right: 26px; }
+#tabhead .logo h2 { font-size: 17px; display: inline; }
+#tabhead .logo a { color: #121212; text-decoration: none; }
+
+#tabhead .login { position: absolute; top: 6px; right: 15px; color: #333; } /* login bar text colour */
 #tabhead .login a, #tabhead .login a:visited { color: #333; }
 #tabhead .login a:hover { color: #DEF; }
 
@@ -94,16 +69,9 @@ a { color: #2F1D1D; }
 /* Sticky footer from http://ryanfait.com/resources/footer-stick-to-bottom-of-page/
    (still overriding base.css) */
 
-.wrapper {
-    min-height: 100%;
-    height: auto !important;
-    height: 100%;
-    margin: 0 auto -4em;
-}
+.wrapper { min-height: 100%; height: auto !important; height: 100%; margin: 0 auto -4em; }
 
-.footer, .push {
-    height: 4em;
-}
+.footer, .push { height: 4em; }
 
 /* Nav bar - overrides styles from tabs.css */
 #cardboard-boxes { float: left; margin: 20px 12px 0 12px; }
@@ -117,30 +85,7 @@ a { color: #2F1D1D; }
 #subnav { margin: 0; padding: 0; background: #815562; border-bottom: 1px solid #6F9C40; }
 
 
-/* Style all tables the same way throughout the site 
-This is a very stripped version of:
-     http://veerle-v2.duoh.com/blog/comments/a_css_styled_table/ 
-     http://www.duoh.com/csstutorials/csstables/ 
-In the future, add the table gradients and bullets, maybe. */
-th {
-    font-size: 11px;
-	  color: #4f6b72;
-	  border: 1px solid #C1DAD7;
-	  letter-spacing: 2px;
-	  text-transform: uppercase;
-	  text-align: left;
-	  padding: 6px 6px 6px 12px;
-	  background: #C0F1D1;
-}
-
-td {
-	  border: 1px solid #C1DAD7;
-	  background: #fff;
-	  padding: 6px 6px 6px 12px;
-	  color: #4f6b72;
-}
-
-
-.clickable {
-    background: #FCF1C2;    
-}
+/* Style all tables the same way throughout the site  */
+th { font-size: 11px; color: #4f6b72; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #C0F1D1; }
+td { border: 1px solid #C1DAD7; background: #fff; padding: 6px 6px 6px 12px; color: #4f6b72; }
+.clickable { background: #FCF1C2; }

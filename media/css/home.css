@@ -1,6 +1,10 @@
+/* the entire right column */
 #home-rightcol { float: right; margin-left: 20px; }
 
+/* blue boxes in the right column */
 .home-rightcolbox { width: 260px; padding: 20px; margin-bottom: 20px; background-color: #C0F1D1; }
+
+/* for search boxes */
 
 input#hidden-submit { display: none; }
 
