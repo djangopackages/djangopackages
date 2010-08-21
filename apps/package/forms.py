@@ -1,3 +1,4 @@
+from django.core.validators import URLValidator
 from django.forms import ModelForm
 from django.template.defaultfilters import slugify
 
@@ -10,7 +11,8 @@ class PackageForm(ModelForm):
         
     class Meta:
         model = Package
-        fields = ['title', 'slug', 'category', 'repo', 'repo_url', 'pypi_url']
+        fields = ['repo_url', 'title', 'slug', 'repo', 'pypi_url', 'category', ]
+        
         
 class PackageExampleForm(ModelForm):
 

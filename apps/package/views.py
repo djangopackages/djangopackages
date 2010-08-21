@@ -15,11 +15,11 @@ from package.models import Category, Package, PackageExample, Repo
 def repos_for_js():
     repos = {}
     for repo in Repo.objects.all():
-        repos[repo.id] = repo.url  
+        repos[repo.url] = repo.id
     return simplejson.dumps(repos)  
 
 @login_required
-def add_package(request, template_name="package/add_package.html"):
+def add_package(request, template_name="package/package_form.html"):
     
     new_package = Package()
     form = PackageForm(request.POST or None, instance=new_package)
@@ -27,17 +27,16 @@ def add_package(request, template_name="package/add_package.html"):
     if form.is_valid():
         new_package = form.save()
         return HttpResponseRedirect(reverse("package", kwargs={"slug":new_package.slug}))
-
-
     
     return render_to_response(template_name, {
         "form": form,
-        "repos": repos_for_js()
+        "repos": repos_for_js(),
+        "action": "add",
         },
         context_instance=RequestContext(request))
 
 @login_required
-def edit_package(request, slug, template_name="package/edit_package.html"):
+def edit_package(request, slug, template_name="package/package_form.html"):
     
     package = get_object_or_404(Package, slug=slug)
     form = PackageForm(request.POST or None, instance=package)
@@ -49,7 +48,8 @@ def edit_package(request, slug, template_name="package/edit_package.html"):
     return render_to_response(template_name, {
         "form": form,
         "package": package,
-        "repos": repos_for_js()        
+        "repos": repos_for_js(),
+        "action": "edit",
         },
         context_instance=RequestContext(request))
 

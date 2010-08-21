@@ -1,4 +1,6 @@
 # TODO - cleanup regex to do proper string subs
+# TODO - add is_other field to repo
+# TODO - add repo.user_url
 
 import logging
 import os
@@ -69,6 +71,9 @@ downloads_re = re.compile(r'<td style="text-align: right;">[0-9]{1,}</td>')
 doap_re      = re.compile(r"/pypi\?\:action=doap\&amp;name=[a-zA-Z0-9\.\-\_]+\&amp;version=[a-zA-Z0-9\.\-\_]+")
 version_re   = re.compile(r'<revision>[a-zA-Z0-9\.\-\_]+</revision>')
 
+repo_url_help_text = "Enter your project repo hosting URL here.<br />Example: http://bitbucket.com/ubernostrum/django-registration"
+pypi_url_help_text = "<strong>Leave this blank if this package does not have a PyPI release.</strong><br />What PyPI uses to index your package. <br />Example: django-registration"
+
 class Package(BaseModel):
     
     title           = models.CharField(_("Title"), max_length="100")
@@ -76,11 +81,11 @@ class Package(BaseModel):
     category        = models.ForeignKey(Category)
     repo            = models.ForeignKey(Repo, null=True)
     repo_description= models.TextField(_("Repo Description"), blank=True)
-    repo_url        = models.URLField(_("repo URL"), blank=True)
+    repo_url        = models.URLField(_("repo URL"), help_text=repo_url_help_text, blank=True)
     repo_watchers   = models.IntegerField(_("repo watchers"), default=0)
     repo_forks      = models.IntegerField(_("repo forks"), default=0)
     repo_commits    = models.IntegerField(_("repo commits"), default=0)
-    pypi_url        = models.URLField(_("pypi URL"), blank=True, default='http://pypi.python.org/pypi/')
+    pypi_url        = models.URLField(_("PyPI slug"), help_text=pypi_url_help_text, blank=True, default='')
     pypi_version    = models.CharField(_("Current Pypi version"), max_length="20", blank=True)    
     pypi_downloads  = models.IntegerField(_("Pypi downloads"), default=0)
     related_packages    = models.ManyToManyField("self", blank=True)
@@ -106,7 +111,8 @@ class Package(BaseModel):
     def save(self, *args, **kwargs):
         
         # Get the downloads from pypi
-        if self.pypi_url and self.pypi_url != 'http://pypi.python.org/pypi/':
+        if self.pypi_url.strip() and self.pypi_url != "http://pypi.python.org/pypi/":
+            
             page = urlopen(self.pypi_url).read()
             # If the target page is an Index of packages
             if 'Index of Packages' in page:

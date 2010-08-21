@@ -1,0 +1,37 @@
+{% extends "package/base.html" %}
+
+{% load i18n %}
+{% load uni_form_tags %}
+
+{% block head_title %}{{ action|title }} new package{% endblock %}
+
+{% block body %}
+
+    <h1><a href="{% url home %}">home</a> / <a href="{% url packages %}">packages</a> / {{ action|title }} new package</h1>
+    <p id="instructions">Thhe easiest way to use this form is to simply enter the
+         package repo URL into the repo URL field. Django Packages then does it's best to figure out the title,
+         slug, and then fills in the appropriate fields for you.
+    </p>
+    
+    <p id="package-form-message"></p>    
+    <form class="uniForm" method="post" id="package-form">
+        {{ form.errors }}
+        <input type="hidden" name="temp" id="temp" value="" />
+        {% csrf_token %}
+        <fieldset>
+            {{ form|as_uni_form }}
+        </fieldset>
+        <input type="submit" name="add" value="{{ action }} package">
+    </form>
+
+{% endblock %}
+
+{% block extra_body %}
+<script src="{{ STATIC_URL }}admin/js/urlify.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function() {
+        {% include "package/_package_form.js" %}
+    });
+</script>
+
+{% endblock %}
