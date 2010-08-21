@@ -3,8 +3,6 @@
 {% load i18n %}
 {% load package_tags %}
 
-
-
 {% block head_title %}{{ object.title }}{% endblock %}
 
 
@@ -13,45 +11,48 @@
     <h1 id="package-name"><a href="{% url home %}">home</a> / <a href="{% url packages %}">packages</a> / {{ object.title }}
         <a href="{% url edit_package object.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
     </h1>
-    <div id="package-version">{{ object.pypi_version }}</div>
 
     <div id="package-editlink">
         <a href="{% url fetch_package_data object.slug %}">Fetch latest data</a>
     </div>
 
-    <p id="package-repos">
-        {{ object.repo.title }} repo: <a href="{{ object.repo_url }}">{{ object.repo_url }}</a>
-        <img src="{{ STATIC_URL }}img/eye_20x20_clear.png" />{{ object.repo_watchers }}&nbsp;
-        <img src="{{ STATIC_URL }}img/fork_20x20_clear.png" />{{ object.repo_forks }}
-        {% comment %}
-            TODO - fix github's problem with just listing 35 commits
-            <img src="{{ STATIC_URL }}img/whitearrow_20x20_clear.png" />{{ object.repo_commits }}
-        {% endcomment %}            
-        &nbsp;<img src="http://chart.apis.google.com/chart?cht=bvg&chs=105x20&chd=t:{{object|commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" />
-    </p>
-
-    {% if object.pypi_url %}
-        <p id="package-pypilink">
-            PyPi: <a href="{{ object.pypi_url }}">{{ object.pypi_url }}</a>
-            <img src="{{ STATIC_URL }}img/grayarrow_20x20_clear.png" />{{ object.pypi_downloads }}
-        </p>
-    {% endif %}
-
-    <div id="package-statbox">
-        <img id="package-watchers-icon" src="{{ STATIC_URL }}img/eye_20x20_clear.png" />
-        <div id="package-watchers-num">217</div>
-        <img id="package-forkers-icon" src="{{ STATIC_URL }}img/fork_20x20_clear.png" />
-        <div id="package-forkers-num">33</div>
-
-        <img id="package-githubcommits" src="http://chart.apis.google.com/chart?cht=bvg&chs=450x30&chd=t:{{ object|commits_over_52 }}&chco=666666&chbh=a&chds=0,20" />
-    </div>
-
-    <div class="clear"></div>
     <p>
         {{ object.repo_description }}
     </p>
     
     <p id="package-category"><strong>Category:</strong> <a href="{% url category object.category.slug %}">{{ object.category }}</a></p>    
+
+    <h2>{{ object.repo.title }}</h2>
+    <table>
+        <tr>
+            <th>Repo URL</th>
+            <th>Commits</th>
+            <th><img src="{{ STATIC_URL }}img/eye_20x20_clear.png" alt="Watchers" /></th>
+            <th><img src="{{ STATIC_URL }}img/fork_20x20_clear.png" alt="Forks" /></th>
+        </tr>
+        <tr>
+            <td><a href="{{ object.repo_url }}">{{ object.repo_url }}</a></td>
+            <td><img src="http://chart.apis.google.com/chart?cht=bvg&chs=105x20&chd=t:{{object|commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
+            <td>{{ object.repo_watchers }}</td>
+            <td>{{ object.repo_forks }}</td>
+        </tr>
+    </table>
+
+    {% if object.pypi_url %}
+        <h2>PyPI</h2>
+        <table>
+            <tr>
+                <th>PyPI URL</th>
+                <th>Version</th>
+                <th><img src="{{ STATIC_URL }}img/grayarrow_20x20_clear.png" alt="Downloads" /></th>
+            </tr>
+            <tr>
+                <td><a href="{{ object.pypi_url }}">{{ object.pypi_url }}</a></td>
+                <td>{{ object.pypi_version }}</td>
+                <td>{{ object.pypi_downloads }}</td>
+            </tr>
+        </table>
+    {% endif %}
 
     <h2>Participants</h2>
 
