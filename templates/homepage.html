@@ -55,7 +55,7 @@
     </div>        
      
      {% for category in categories %}
-        <h2><a href="{% url category category.slug %}">{{ category.title }}s</a> ( {{ category.count }} )</h2>
+        <h2><a href="{% url category category.slug %}">{{ category.title_plural }}</a> ( {{ category.count }} )</h2>
         <p>{{ category.description }}</p>
         <table id="home-packages">
             <tr>
@@ -88,7 +88,7 @@
             {% endif %}
             {% endfor %}        
          </table>    
-         <p><a href="{% url category category.slug %}">more {{ category.title|lower }}s...</a></p>    
+         <p><a href="{% url category category.slug %}">more {{ category.title_plural|lower }}...</a></p>    
      {% endfor %}
  
     

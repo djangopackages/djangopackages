@@ -12,8 +12,9 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
 from github2.client import Github
+
+from package.fields import CreationDateTimeField, ModificationDateTimeField
 
 def uniquer(seq, idfun=None):
     if idfun is None:
@@ -43,6 +44,7 @@ class Category(BaseModel):
     title = models.CharField(_("Title"), max_length="50")
     slug  = models.SlugField(_("slug"))
     description = models.TextField(_("description"), blank=True)
+    title_plural = models.CharField(_("Title Plural"), max_length="50", blank=True)    
     
     class Meta:
         ordering = ['title']
@@ -57,6 +59,8 @@ class Repo(BaseModel):
     title        = models.CharField(_("Title"), max_length="50")
     description  = models.TextField(_("description"), blank=True)
     url          = models.URLField(_("base URL of repo"))
+    is_other     = models.BooleanField(_("Is Other?"), default=False, help_text="Only one can be set this way")
+    user_regex   = models.CharField(_("Regex to calculate user's name or id"), max_length="100", blank=True)
     
     class Meta:
         ordering = ['-is_supported', 'title']
@@ -205,5 +209,3 @@ class Commit(BaseModel):
         
     def __unicode__(self):
         return "Commit for '%s' on %s" % (self.package.title, unicode(self.commit_date))
-    
-    

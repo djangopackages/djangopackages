@@ -58,7 +58,7 @@ def update_package(request, slug):
     
     package = get_object_or_404(Package, slug=slug)
     package.save()
-    
+        
     return HttpResponseRedirect(reverse("package", kwargs={"slug": package.slug}))
 
 
