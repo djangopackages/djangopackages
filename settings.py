@@ -206,11 +206,13 @@ EMAIL_DEBUG = DEBUG
 
 # Added the following so that outgoing mail comes from postfix (local)
 DEFAULT_FROM_EMAIL = 'Django Packages <djangopackages-noreply@djangopackages.com>'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'localhost'
 EMAIL_HOST_USER = 'djangopackages-noreply@djangopackages.com'
 EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 25
+EMAIL_SUBJECT_PREFIX = '[Django Packages] '
 
 URCHIN_ID = "UA-18066389-1"
 
