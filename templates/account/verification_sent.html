@@ -8,8 +8,10 @@
     <h1>{% trans "Waiting on approval process" %}</h1>
     
     <p>{% blocktrans %}
-        As this is a BETA system, we are carefully approving new members.
-        We'll be sending approval emails with the final portion of the approval process.
+        We have sent you an e-mail to <b>{{ email }}</b> for verification.
+        Follow the link provided to finalize the signup process. If you do not receive it
+        within a few minutes,
+        <a href="http://github.com/pydanny/scaredofrabbits/issues">submit a ticket.</a>.
                 
         {% endblocktrans %}</p>
     <p><a href="{{ success_url }}">Go back</a></p>
@@ -17,9 +19,7 @@
 
 
         {% comment %}
-        We have sent you an e-mail to <b>{{ email }}</b> for verification.
-        Follow the link provided to finalize the signup process. If you do not receive it
-        within a few minutes,
-        <a href="http://github.com/pydanny/scaredofrabbits/issues">submit a ticket.</a>.
+        As this is a BETA system, we are carefully approving new members.
+        We'll be sending approval emails with the final portion of the approval process.
         {% endcomment %}
 
