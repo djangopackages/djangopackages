@@ -9,10 +9,10 @@ from urllib import urlopen
 
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.db import models 
-from django.utils.translation import ugettext_lazy as _ 
+from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
-from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField 
+from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
 from github2.client import Github
 
 def uniquer(seq, idfun=None):
@@ -30,30 +30,30 @@ def uniquer(seq, idfun=None):
 class NoPyPiVersionFound(Exception):
     pass
 
-class BaseModel(models.Model): 
+class BaseModel(models.Model):
     """ Base abstract base class to give creation and modified times """
     created     = CreationDateTimeField(_('created'))
     modified    = ModificationDateTimeField(_('modified'))
-
-    class Meta: 
-        abstract = True 
+    
+    class Meta:
+        abstract = True
 
 class Category(BaseModel):
-
+    
     title = models.CharField(_("Title"), max_length="50")
-    slug  = models.SlugField(_("slug"))    
+    slug  = models.SlugField(_("slug"))
     description = models.TextField(_("description"), blank=True)
-
+    
     class Meta:
         ordering = ['title']
         verbose_name_plural = 'Categories'
-
+    
     def __unicode__(self):
         return self.title
-        
+
 class Repo(BaseModel):
     
-    is_supported = models.BooleanField(_("Supported?"), help_text="Does Django Packages support this repo site?", default=False)    
+    is_supported = models.BooleanField(_("Supported?"), help_text="Does Django Packages support this repo site?", default=False)
     title        = models.CharField(_("Title"), max_length="50")
     description  = models.TextField(_("description"), blank=True)
     url          = models.URLField(_("base URL of repo"))
@@ -63,7 +63,7 @@ class Repo(BaseModel):
     
     def __unicode__(self):
         if not self.is_supported:
-            return '%s (unsupported)' % self.title            
+            return '%s (unsupported)' % self.title
         
         return self.title
 
@@ -86,16 +86,16 @@ class Package(BaseModel):
     repo_forks      = models.IntegerField(_("repo forks"), default=0)
     repo_commits    = models.IntegerField(_("repo commits"), default=0)
     pypi_url        = models.URLField(_("PyPI slug"), help_text=pypi_url_help_text, blank=True, default='')
-    pypi_version    = models.CharField(_("Current Pypi version"), max_length="20", blank=True)    
+    pypi_version    = models.CharField(_("Current Pypi version"), max_length="20", blank=True)
     pypi_downloads  = models.IntegerField(_("Pypi downloads"), default=0)
     related_packages    = models.ManyToManyField("self", blank=True)
-    participants    = models.TextField(_("Participants"), 
+    participants    = models.TextField(_("Participants"),
                         help_text="List of collaborats/participants on the project", blank=True)
-
                         
+    
     def active_examples(self):
         return self.packageexample_set.filter(active=True)
-        
+    
     def grids(self):
         
         return (x.grid for x in self.gridpackage_set.all())
@@ -103,7 +103,7 @@ class Package(BaseModel):
     def repo_name(self):
         # TODO make work under other repos
         return self.repo_url.replace('http://github.com/','')
-                        
+    
     def participant_list(self):
         
         return self.participants.split(',')
@@ -139,7 +139,7 @@ class Package(BaseModel):
                 self.pypi_downloads = self.pypi_downloads.replace('</td>', '')
                 self.pypi_downloads = int(self.pypi_downloads)
             else:
-                # TODO - This could actually be that they don't show downloads. 
+                # TODO - This could actually be that they don't show downloads.
                 #       For example, Pinax does this. Deal with this somehow when not so late
                 self.pypi_downloads = 0
             
@@ -151,40 +151,37 @@ class Package(BaseModel):
                 match = version_re.search(doap).group()
                 self.pypi_version = match.replace('<revision>','').replace('</revision>','')
             
-            
+        
         # Get the repo watchers number
         # TODO - make this abstracted so we can plug in other repos
         if self.repo.is_supported and 'Github' in self.repo.title and self.repo_url:
             github   = Github()
             repo_name = self.repo_name()
             repo         = github.repos.show(repo_name)
-            self.repo_watchers    = repo.watchers 
-            self.repo_forks       = repo.forks 
+            self.repo_watchers    = repo.watchers
+            self.repo_forks       = repo.forks
             self.repo_description = repo.description
-            # TODO  find out why repo commits limit on github to the first 35
-            #self.repo_commits     = len(github.commits.list(repo_name, "master"))
-
+            
             collaborators = github.repos.list_collaborators(repo_name) + [x['login'] for x in github.repos.list_contributors(repo_name)]
             if collaborators:
                 self.participants = ','.join(uniquer(collaborators))
-                
+        
         else:
             self.repo_watchers    = 0
             self.repo_forks       = 0
             self.repo_description = ''
             self.participants     = ''
-            #self.repo_commits     = 0
         
         super(Package, self).save(*args, **kwargs) # Call the "real" save() method.
-        
 
+    
     class Meta:
-        ordering = ['title']    
-                    
+        ordering = ['title']
+    
     def __unicode__(self):
         
         return self.title
-    
+
 class PackageExample(BaseModel):
     
     package      = models.ForeignKey(Package)
@@ -193,7 +190,20 @@ class PackageExample(BaseModel):
     active       = models.BooleanField(_("Active"), default=True, help_text="Moderators have to approve links before they are provided")
     
     class Meta:
-        ordering = ['title']    
-
-    def __unicode__(self):    
+        ordering = ['title']
+    
+    def __unicode__(self):
         return self.title
+
+class Commit(BaseModel):
+    
+    package      = models.ForeignKey(Package)
+    commit_date  = models.DateTimeField(_("Commit Date"))
+    
+    class Meta:
+        ordering = ['-commit_date']
+        
+    def __unicode__(self):
+        return "Commit for '%s' on %s" % (self.package.title, unicode(self.commit_date))
+    
+    

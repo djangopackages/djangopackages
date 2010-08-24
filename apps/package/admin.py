@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from package.models import Category, Package, PackageExample, Repo
+from package.models import Category, Package, PackageExample, Repo, Commit
 
 class PackageExampleInline(admin.TabularInline):
     model = PackageExample
@@ -28,3 +28,4 @@ class PackageAdmin(admin.ModelAdmin):
 admin.site.register(Category)
 admin.site.register(Package, PackageAdmin)
 admin.site.register(Repo)
+admin.site.register(Commit)
