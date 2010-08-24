@@ -204,6 +204,14 @@ LOGIN_REDIRECT_URLNAME = "home"
 EMAIL_CONFIRMATION_DAYS = 2
 EMAIL_DEBUG = DEBUG
 
+# Added the following so that outgoing mail comes from postfix (local)
+DEFAULT_FROM_EMAIL = 'Django Packages <djangopackages-noreply@djangopackages.com>'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'localhost'
+EMAIL_HOST_USER = 'djangopackages-noreply@djangopackages.com'
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 25
+
 URCHIN_ID = "UA-18066389-1"
 
 DEBUG_TOOLBAR_CONFIG = {
