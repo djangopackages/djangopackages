@@ -74,9 +74,9 @@
                     {% cache 500 commit_chart package %}                
                         <td><img id="package-githubcommits" src="http://chart.apis.google.com/chart?cht=bvg&chs=105x20&chd=t:{{package|commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
                     {% endcache %}                
-                    <td>{{ package.pypi_version }}</td>
-                    <td>{{ package.repo_watchers }}</td>
-                    <td>{{ package.repo_forks }}</td>
+                    <td>{{ package.pypi_version|default:"n/a" }}</td>
+                    <td>{{ package.repo_watchers|default:"n/a" }}</td>
+                    <td>{{ package.repo_forks|default:"n/a" }}</td>
                 </tr>    
             {% if forloop.last %}
                 <script type="text/javascript">

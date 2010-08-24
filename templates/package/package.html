@@ -33,8 +33,8 @@
         <tr>
             <td><a href="{{ object.repo_url }}">{{ object.repo_url }}</a></td>
             <td><img src="http://chart.apis.google.com/chart?cht=bvg&chs=105x20&chd=t:{{object|commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
-            <td>{{ object.repo_watchers }}</td>
-            <td>{{ object.repo_forks }}</td>
+            <td>{{ object.repo_watchers|default:"n/a" }}</td>
+            <td>{{ object.repo_forks|default:"n/a" }}</td>
         </tr>
     </table>
 
@@ -48,8 +48,8 @@
             </tr>
             <tr>
                 <td><a href="{{ object.pypi_url }}">{{ object.pypi_url }}</a></td>
-                <td>{{ object.pypi_version }}</td>
-                <td>{{ object.pypi_downloads }}</td>
+                <td>{{ object.pypi_version|default:"n/a" }}</td>
+                <td>{{ object.pypi_downloads|default:"n/a" }}</td>
             </tr>
         </table>
     {% else %}

@@ -87,7 +87,7 @@
                 <tr class="odd">
                     <td>Version</td>
                     {% for package in grid_packages %}
-                        <td>{{ package.package.pypi_version }}</td>
+                        <td>{{ package.package.pypi_version|default:"n/a" }}</td>
                     {% endfor %}
             
                 </tr>
@@ -123,13 +123,13 @@
                 <tr class="odd">
                     <td>Repo Watchers</td>
                     {% for package in grid_packages %}
-                        <td>{{ package.package.repo_watchers }}</td>
+                        <td>{{ package.package.repo_watchers|default:"n/a" }}</td>
                     {% endfor %}
                 </tr>
                 <tr class="even">
                     <td>Repo Forks</td>
                     {% for package in grid_packages %}
-                        <td>{{ package.package.repo_forks }}</td>
+                        <td>{{ package.package.repo_forks|default:"n/a" }}</td>
                     {% endfor %}
                 </tr>                  
                 <tr class="odd">
