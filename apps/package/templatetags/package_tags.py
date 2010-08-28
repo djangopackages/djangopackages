@@ -31,5 +31,6 @@ def usage(user, package):
     return {
                 "using": package.usage.filter(username=user) or False,
                 "package_id": package.id,
-                "user_id": user.id,                
+                "user_id": user.id,      
+                "package": package          
             }
