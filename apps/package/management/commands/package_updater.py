@@ -64,6 +64,7 @@ def get_bitbucket_commits(package):
     try:
         data = json.loads(page)
     except ValueError, e:
+        # TODO - fix this problem with bad imports from bitbucket
         print >> stdout, "Problems with %s" % package.title
         print >> stdout, target        
         print >> stdout, e
