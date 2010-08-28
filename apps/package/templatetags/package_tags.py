@@ -14,7 +14,6 @@ github = Github()
 @register.filter
 def commits_over_52(package):
 
-    
     current = datetime.now()
     weeks = []
     commits = [x.commit_date for x in Commit.objects.filter(package=package)]
@@ -25,3 +24,12 @@ def commits_over_52(package):
     weeks.reverse()
     weeks = [str(x) for x in weeks]
     return ','.join(weeks)
+    
+@register.inclusion_tag('package/templatetags/usage.html')
+def usage(user, package):
+            
+    return {
+                "using": package.usage.filter(username=user) or False,
+                "package_id": package.id,
+                "user_id": user.id,                
+            }

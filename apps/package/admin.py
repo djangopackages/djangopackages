@@ -17,7 +17,7 @@ class PackageAdmin(admin.ModelAdmin):
     ]
     fieldsets = (
         (None, {
-            'fields': ('title', 'slug', 'category', 'pypi_url', 'repo', 'repo_url', 'related_packages')
+            'fields': ('title', 'slug', 'category', 'pypi_url', 'repo', 'repo_url', 'usage')
         }),
         ('Pulled data', {
             'classes': ('collapse',),

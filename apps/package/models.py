@@ -102,6 +102,7 @@ class Package(BaseModel):
     related_packages    = models.ManyToManyField("self", blank=True)
     participants    = models.TextField(_("Participants"),
                         help_text="List of collaborats/participants on the project", blank=True)
+    usage           = models.ManyToManyField(User, blank=True)
                         
     
     def active_examples(self):
