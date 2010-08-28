@@ -24,14 +24,14 @@
     </p>
 
     <table id="home-packages">
-        <tr id="home-tableheader">
-            <td><a href="#">PYPI DOWNLOADS</a></td>
-            <td><a href="#">NAME</a></td>
-            <td><a href="#">COMMITS</a></td>
-            <td><a href="#">VERSION</a></td>
-            <td><a href="#"><img src="{{ STATIC_URL }}img/eye_20x20_clear.png" /></a></td>
-            <td><a href="#"><img src="{{ STATIC_URL }}img/fork_20x20_clear.png" /></a></td>
-        </tr>
+            <tr>
+                <th>PyPi Downloads</th>
+                <th>Name</th>
+                <th>Commits</th>
+                <th>Version</th>
+                <th><img src="{{ STATIC_URL }}img/eye_20x20_clear.png" /></th>
+                <th><img src="{{ STATIC_URL }}img/fork_20x20_clear.png" /></th>
+            </tr>
 
         {% for package in packages %}
             <tr id="home-tabledatarow">
