@@ -160,6 +160,7 @@ INSTALLED_APPS = [
     "pagination",
     "idios",
     "django_extensions",
+	"south",
     
     # Pinax
     "pinax.apps.account",
