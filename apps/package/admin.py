@@ -24,8 +24,12 @@ class PackageAdmin(admin.ModelAdmin):
             'fields': ('repo_description', 'repo_watchers', 'repo_forks', 'repo_commits', 'pypi_version', 'pypi_downloads', 'participants')
         }),
     )    
+    
+class CommitAdmin(admin.ModelAdmin):
+    list_filter = ('package',)
+    
 
 admin.site.register(Category)
 admin.site.register(Package, PackageAdmin)
 admin.site.register(Repo)
-admin.site.register(Commit)
+admin.site.register(Commit, CommitAdmin)
