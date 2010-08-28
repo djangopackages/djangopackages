@@ -59,7 +59,8 @@
         <p>{{ category.description }}</p>
         <table id="home-packages">
             <tr>
-                <th>PyPi Downloads</th>
+                <th>Usage</th>    
+                <th class="tiny-column">PyPi Downloads</th>
                 <th>Name</th>
                 <th>Commits</th>
                 <th>Version</th>
@@ -69,6 +70,7 @@
 
             {% for package in category.packages %}
                 <tr>
+                    <td>{{ package.usage.count }}</td>                        
                     <td>{{ package.pypi_downloads }}</td>
                     <td><a href="{% url package package.slug %}">{{ package.title }}</a></td>
                     {% cache 500 commit_chart package %}                

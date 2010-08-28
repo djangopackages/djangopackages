@@ -98,3 +98,5 @@ td { border: 1px solid #C1DAD7; background: #fff; padding: 6px 6px 6px 12px; col
 
 /* Search */
 .ui-autocomplete li { list-style: none; }
+
+.tiny-column {width: 60px;}
