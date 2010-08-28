@@ -49,6 +49,7 @@ class Category(BaseModel):
         
 REPO_CHOICES = (
     ("package.handlers.unsupported", "Unsupported"),
+    ("package.handlers.bitbucket", "Bitbucket"),
     ("package.handlers.github", "Github")
 )
 
@@ -111,8 +112,7 @@ class Package(BaseModel):
         return (x.grid for x in self.gridpackage_set.all())
     
     def repo_name(self):
-        # TODO make work under other repos
-        return self.repo_url.replace('http://github.com/','')
+        return self.repo_url.replace(self.repo.url + '/','')
     
     def participant_list(self):
         
