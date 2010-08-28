@@ -22,3 +22,8 @@ class RssLatestPackagesFeed(Feed):
 class AtomLatestPackagesFeed(RssLatestPackagesFeed):
     feed_type = Atom1Feed
     subtitle = RssLatestPackagesFeed.description
+    
+class RssLatestFeed(Feed):
+    title = "Last 15 things to happen"
+    link  = ""
+    description = "An aggregation of package, grid and blog entries"

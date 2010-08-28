@@ -5,6 +5,7 @@
 import logging
 import os
 import re
+import sys
 from urllib import urlopen
 
 from django.conf import settings
@@ -15,19 +16,11 @@ from django.utils.translation import ugettext_lazy as _
 
 from github2.client import Github
 
+from package.handlers import github
+
 from package.fields import CreationDateTimeField, ModificationDateTimeField
 
-def uniquer(seq, idfun=None):
-    if idfun is None:
-        def idfun(x): return x
-    seen = {}
-    result = []
-    for item in seq:
-        marker = idfun(item)
-        if marker in seen: continue
-        seen[marker] = 1
-        result.append(item)
-    return result
+from package.utils import uniquer
 
 class NoPyPiVersionFound(Exception):
     pass
@@ -53,6 +46,11 @@ class Category(BaseModel):
     
     def __unicode__(self):
         return self.title
+        
+REPO_CHOICES = (
+    ("package.handlers.unsupported", "Unsupported"),
+    ("package.handlers.github", "Github")
+)
 
 class Repo(BaseModel):
     
@@ -61,7 +59,14 @@ class Repo(BaseModel):
     description  = models.TextField(_("description"), blank=True)
     url          = models.URLField(_("base URL of repo"))
     is_other     = models.BooleanField(_("Is Other?"), default=False, help_text="Only one can be set this way")
-    user_regex   = models.CharField(_("Regex to calculate user's name or id"), max_length="100", blank=True)
+    user_regex   = models.CharField(_("User Regex"), help_text="Regex to calculate user's name or id",max_length="100", blank=True)
+    repo_regex   = models.CharField(_("Repo Regex"), help_text="Regex to get repo's name", max_length="100", blank=True)
+    slug_regex   = models.CharField(_("Slug Regex"), help_text="Regex to get repo's slug", max_length="100", blank=True)    
+    handler      = models.CharField(_("Handler"), 
+        help_text="Warning: Don't change this unless you know what you are doing!", 
+        choices=REPO_CHOICES,
+        max_length="200",
+        default="package.handlers.unsupported")
     
     class Meta:
         ordering = ['-is_supported', 'title']
@@ -159,23 +164,12 @@ class Package(BaseModel):
         
         # Get the repo watchers number
         # TODO - make this abstracted so we can plug in other repos
-        if self.repo.is_supported and 'Github' in self.repo.title and self.repo_url:
-            github   = Github()
-            repo_name = self.repo_name()
-            repo         = github.repos.show(repo_name)
-            self.repo_watchers    = repo.watchers
-            self.repo_forks       = repo.forks
-            self.repo_description = repo.description
-            
-            collaborators = github.repos.list_collaborators(repo_name) + [x['login'] for x in github.repos.list_contributors(repo_name)]
-            if collaborators:
-                self.participants = ','.join(uniquer(collaborators))
+        base_handler = __import__(self.repo.handler)
+        handler = sys.modules[self.repo.handler]
+
+        self = handler.pull(self)
         
-        else:
-            self.repo_watchers    = 0
-            self.repo_forks       = 0
-            self.repo_description = ''
-            self.participants     = ''
+
         
         super(Package, self).save(*args, **kwargs) # Call the "real" save() method.
 
