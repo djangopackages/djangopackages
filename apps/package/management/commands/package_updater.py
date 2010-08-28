@@ -33,6 +33,6 @@ class Command(NoArgsCommand):
             print >> stdout, "%s. Successfully updated package '%s'" % (index+1,package.title)
 
         print >> stdout, "-" * 40
-        print >> stdout, "%s packages updated" % index +1
+        print >> stdout, "%s packages updated" % int(index) + 1
     
                 
