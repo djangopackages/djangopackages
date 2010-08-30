@@ -83,7 +83,12 @@
                         <td>{{ package.package.repo_description|truncatewords:20|wordwrap:30|linebreaksbr }}</td>
                     {% endfor %}
                 </tr>                    
-                
+                <tr class="even">
+                    <td>Usage</td>
+                    {% for package in grid_packages %}
+                        <td>{{ package.package.usage.all.count }}</td>
+                    {% endfor %}                    
+                </td>
                 <tr class="odd">
                     <td>Version</td>
                     {% for package in grid_packages %}
