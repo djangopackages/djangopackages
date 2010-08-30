@@ -4,7 +4,7 @@ from package.models import Package
 
 class RssLatestPackagesFeed(Feed):
     title = "Latest Django packages added"
-    link = "/packages/latest"
+    link = "/packages/latest/rss/"
     description = "The last 15 packages added"
 
     def items(self):
@@ -22,8 +22,3 @@ class RssLatestPackagesFeed(Feed):
 class AtomLatestPackagesFeed(RssLatestPackagesFeed):
     feed_type = Atom1Feed
     subtitle = RssLatestPackagesFeed.description
-    
-class RssLatestFeed(Feed):
-    title = "Last 15 things to happen"
-    link  = ""
-    description = "An aggregation of package, grid and blog entries"
