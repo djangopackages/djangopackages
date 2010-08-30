@@ -27,10 +27,15 @@ def commits_over_52(package):
     
 @register.inclusion_tag('package/templatetags/usage.html')
 def usage(user, package):
+    
+    using = package.usage.filter(username=user) or False
+    count = 0
+    if using:
+        count = package.usage.count() - 1
             
     return {
-                "using": package.usage.filter(username=user) or False,
+                "using": using,
+                "count": count,
                 "package_id": package.id,
-                "user_id": user.id,      
-                "package": package          
+                "user_id": user.id,
             }
