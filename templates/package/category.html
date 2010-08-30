@@ -24,6 +24,7 @@
     </p>
 
     <table id="home-packages">
+            <thead>
             <tr>
                 <th>Usage</th>                
                 <th class="tiny-column">PyPi Downloads</th>
@@ -33,7 +34,9 @@
                 <th><img src="{{ STATIC_URL }}img/eye_20x20_clear.png" /></th>
                 <th><img src="{{ STATIC_URL }}img/fork_20x20_clear.png" /></th>
             </tr>
+            </thead>
 
+        <tbody>
         {% for package in packages %}
             <tr id="home-tabledatarow">
                 <td>{{ package.usage.all.count }}</td>                
@@ -47,7 +50,17 @@
                 <td>{{ package.repo_forks }}</td>
             </tr>    
         {% endfor %}        
+        </tbody>        
      </table>
-    
 
+{% endblock %}
+
+{% block extra_body %}    
+    <script type="text/javascript">
+         $(document).ready(function() 
+             { 
+                 $("#home-packages").tablesorter(); 
+             } 
+         );
+    </script>
 {% endblock %}
