@@ -26,12 +26,14 @@ We are trying out Django Packages without the traditional tagging system, becaus
 Categories of Django Packages
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Right now there are three categories, apps, frameworks, projects. Blogs and CMS's are invariably apps, frameworks, or projects so they don't get their own category.
+The fixtures provide four categories: apps, frameworks, projects, and utilities. 
 
-Bitbucket and Google Code are not fully supported!
+Google Code And Launchpad are not fully supported!
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Not yet. Django Packages was cooked up during Django Dash 2010. We wanted to keep the scope of our work reasonable. We'll try and include those sites in the future. We also want to include other package repo systems over time.
+
+Django Packages does support Github and Bitbucket.
 
 Acknowledged Problems
 ~~~~~~~~~~~~~~~~~~~~~
