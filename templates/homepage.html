@@ -76,18 +76,10 @@
                     {% cache 500 commit_chart package %}                
                         <td><img id="package-githubcommits" src="http://chart.apis.google.com/chart?cht=bvg&chs=105x20&chd=t:{{package|commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
                     {% endcache %}                
-                    <td>{{ package.pypi_version|default:"n/a" }}</td>
+                    <td>{{ package.pypi_version|default:"n/a"|slice:":12" }}</td>
                     <td>{{ package.repo_watchers|default:"n/a" }}</td>
                     <td>{{ package.repo_forks|default:"n/a" }}</td>
                 </tr>    
-            {% if forloop.last %}
-                <script type="text/javascript">
-
-                    gh.authenticate();                    
-                    //commits = [x.committed_date for x in github.commits.list(package.repo_name(), "master")]            
-                </script>
-                
-            {% endif %}
             {% endfor %}        
          </table>    
          <p><a href="{% url category category.slug %}">more {{ category.title_plural|lower }}...</a></p>    
