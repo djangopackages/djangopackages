@@ -70,13 +70,12 @@ Add symlinks to the pinax and uni_form media directories::
 Updating Packages
 =================
 
-You can update small blocks of packages with the following command::
+You can update all the packages with the following command::
 
-    python manage.py update_packages <letter>
+    python manage.py package_updater <letter>
     
-Where <letter> is an ASCII letter used to search the Package model in small 
-chunks so as not to cause the Github API to refuse requestions. The Github API 
-only allows 60 calls per minute.
+This takes a while because we slow down the process to accommodate the Github API 
+limit of only 60 calls per minute.
     
 
 Credits
