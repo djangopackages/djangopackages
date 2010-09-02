@@ -39,6 +39,7 @@ class Command(NoArgsCommand):
                         commit, created = Commit.objects.get_or_create(package=package, commit_date=commit.committed_date)
                     zzz += 1
                 elif package.repo == bitbucket_repo:
+                    zzz = 1
                     # do bitbucket
                     package.save()                    
                     for commit in get_bitbucket_commits(package):

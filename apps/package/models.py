@@ -155,12 +155,14 @@ class Package(BaseModel):
                 self.pypi_downloads = 0
             
             # get the version off of Pypi doap
-            match = doap_re.search(page).group()
+            match = doap_re.search(page)
             if match:
-                url = 'http://pypi.python.org%s' % match
-                doap = urlopen(url).read()
-                match = version_re.search(doap).group()
-                self.pypi_version = match.replace('<revision>','').replace('</revision>','')
+                group = match.group()
+                if group:
+                    url = 'http://pypi.python.org%s' % group
+                    doap = urlopen(url).read()
+                    match = version_re.search(doap).group()
+                    self.pypi_version = match.replace('<revision>','').replace('</revision>','')
             
         
         # Get the repo watchers number

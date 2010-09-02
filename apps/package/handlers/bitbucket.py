@@ -45,7 +45,10 @@ def pull(package):
     target += "descendants"
     html = urlopen(target)
     html = html.read()
-    package.repo_forks = descendants_re.search(html).group("descendants")
+    try:
+        package.repo_forks = descendants_re.search(html).group("descendants")
+    except AttributeError:
+        package.repo_forks = 0
     
     try:
         package.participants = package.repo_url.split("/")[3] # the only way known to fetch this from bitbucket!!!
