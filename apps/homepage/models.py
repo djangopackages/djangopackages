@@ -54,7 +54,7 @@ class Tab(BaseModel):
 
     class Meta:
         
-        ordering = ['order']
+        ordering = ['order', 'grid']
         verbose_name         = "Tab"
         verbose_name_plural  = "Tabs"
     
