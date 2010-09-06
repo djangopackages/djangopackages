@@ -22,7 +22,7 @@
             </form>         
         </div>
         <div class="home-rightcolbox">
-                <h1>Django Package of the Week</h1>
+                <h1>Django Package of the Day</h1>
             {% for package in dpotw %}            
                 <h2><a href="{% url package package.package.slug %}">{{ package.package.title }}</a></h2>
                 <p>{{ package.package.repo_description }}</p>
@@ -37,7 +37,7 @@
             </form>
         </div>
         <div class="home-rightcolbox">
-                <h1>Grid of the Week</h1>
+                <h1>Grid of the Day</h1>
             {% for grid in gotw %}            
                 <h2><a href="{% url grid grid.grid.slug %}">{{ grid.grid.title }}</a></h2>
                 <p>{{ grid.grid.description }}</p>
