@@ -38,4 +38,21 @@ def usage(user, package):
                 "count": count,
                 "package_id": package.id,
                 "user_id": user.id,
+                "show_count": True
             }
+            
+@register.inclusion_tag('package/templatetags/usage.html')
+def usage_no_count(user, package):
+
+    using = package.usage.filter(username=user) or False
+    count = 0
+    if using:
+        count = package.usage.count() - 1
+
+    return {
+                "using": using,
+                "count": count,
+                "package_id": package.id,
+                "user_id": user.id,
+                "show_count": False
+            }            

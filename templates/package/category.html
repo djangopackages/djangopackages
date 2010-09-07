@@ -26,7 +26,10 @@
     <table id="home-packages">
             <thead>
             <tr>
-                <th>Usage</th>                
+                <th>Usage</th>
+                {% if not request.user.is_anonymous %}                
+                    <th></th>
+                {% endif %}                
                 <th class="tiny-column">PyPi Downloads</th>
                 <th>Name</th>
                 <th>Commits</th>
@@ -40,6 +43,9 @@
         {% for package in packages %}
             <tr id="home-tabledatarow">
                 <td>{{ package.usage.all.count }}</td>                
+                {% if not request.user.is_anonymous %}
+                    <td>{% usage_no_count request.user package %}</td>
+                {% endif %}                                                    
                 <td>{{ package.pypi_downloads }}</td>
                 <td><a href="{% url package package.slug %}">{{ package.title }}</a></td>
                 {% cache 500 commit_chart package %}                
@@ -47,7 +53,8 @@
                 {% endcache %}                
                 <td>{{ package.pypi_version }}</td>
                 <td>{{ package.repo_watchers }}</td>
-                <td>{{ package.repo_forks }}</td>
+                <td>{{ package.repo_forks }}</td>                
+
             </tr>    
         {% endfor %}        
         </tbody>        

@@ -152,4 +152,5 @@ def usage(request, package_id, user_id):
     else:    
         package.usage.add(user)
     
-    return HttpResponseRedirect(reverse("package", kwargs={"slug": package.slug}))
+    #return HttpResponseRedirect(reverse("package", kwargs={"slug": package.slug}))
+    return HttpResponseRedirect(request.META["HTTP_REFERER"])
