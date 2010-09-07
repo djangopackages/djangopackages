@@ -3,7 +3,7 @@
     {% if show_count %}
     <h2>You use this! (so do {{ count }} others)</h2>
     {% endif %}
-    <a class="large awesome red" href="{% url usage package_id user_id %}">Unuse it</a>
+    <a class="large awesome red" href="{% url usage package_id user_id %}">Unuse it!</a>
 {% else %}
     <a class="large awesome green" href="{% url usage package_id user_id %}">I use this!</a>
 {% endif %}

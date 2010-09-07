@@ -1,0 +1,56 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% load account_tags %}
+{% load pagination_tags %}
+
+{% block head_title %}{% trans "All Profiles" %}{% endblock %}
+
+{% block body %}
+
+<h1>{% trans "All Profiles" %}</h1>
+
+<p>Click table headers to sort</p>
+
+{% comment %}{% autopaginate users %}{% endcomment %}
+
+    <table id="home-packages">
+
+        <thead>
+        <tr>
+            <th>User Name</th>
+            <th>Date Joined</th>
+            <th>Last Login</th>
+            <th>Admin</th>
+            <th>Github</th>
+            <th>BitBucket</th>
+        </tr>
+        </thead>
+        
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td><a href="{{ user.get_absolute_url }}">{% user_display user %}</a></td>
+                    <td><span class="hide">{{ user.date_joined|date:"YmdHis" }}</span>{{ user.date_joined|timesince }}</td>
+                    <td><span class="hide">{{ user.last_login|date:"YmdHis" }}</span>{{ user.last_login|timesince }}</td>                    
+                    <td>{{ user.is_superuser|yesno }}</td>
+                    <td><a href="http://github.com/{{ user.get_profile.github_url|default:"" }}">{{ user.get_profile.github_url|default:"" }}</a</td>
+                    <td><a href="http://github.com/{{ user.get_profile.bitbucket_url|default:"" }}">{{ user.get_profile.bitbucket_url|default:"" }}</a</td>                                
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+{% comment %}{% paginate %}{% endcomment %}
+
+{% endblock %}
+
+{% block extra_body %}    
+    <script type="text/javascript">
+         $(document).ready(function() 
+             { 
+                 $("#home-packages").tablesorter(); 
+             } 
+         );
+    </script>
+{% endblock %}

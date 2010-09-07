@@ -16,6 +16,8 @@
             <h1>{% blocktrans %}Profile for <span class="fn nickname">{{ other_user_display }}</span>{% endblocktrans %}</h1>
         {% endif %}
         
+        <h2><a href="{% url profile_list %}">All profiles</a></h2>
+        
         <div class="profile_info">
             {% if other_user.get_full_name %}
                 <p><b>{% trans "Name" %}</b>: <span class="fn">{{ other_user.get_full_name }}</span></p>
