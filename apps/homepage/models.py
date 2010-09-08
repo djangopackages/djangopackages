@@ -21,7 +21,7 @@ class Dpotw(BaseModel):
     objects = RotatorManager()
     
     class Meta:
-        ordering = ('start_date', 'end_date',)
+        ordering = ('-start_date', '-end_date',)
         
         verbose_name         = "Django Package of the Week"
         verbose_name_plural  = "Django Packages of the Week"
@@ -39,7 +39,7 @@ class Gotw(BaseModel):
     objects = RotatorManager()
     
     class Meta:
-        ordering = ('start_date', 'end_date',)        
+        ordering = ('-start_date', '-end_date',)        
         
         verbose_name         = "Grid of the Week"
         verbose_name_plural  = "Grids of the Week"
