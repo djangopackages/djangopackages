@@ -31,6 +31,7 @@ h2 { font-size: 153.9%; }
 .small.awesome { font-size: 11px; }
 .medium.awesome { font-size: 13px; }
 .large.awesome, .large.awesome:visited { font-size: 14px; font-weight: 700; padding: 8px 14px 9px; }
+.xlarge.awesome, .xlarge.awesome:visited { font-size: 36px; font-weight: 700; padding: 8px 14px 9px; }
 .green.awesome, .green.awesome:visited { background-color: #91bd09; }
 .green.awesome:hover { background-color: #749a02; }
 .blue.awesome, .blue.awesome:visited { background-color: #2daebf; }

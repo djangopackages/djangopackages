@@ -17,10 +17,14 @@
     <div id="home-rightcol">
         <div id="home-search">
             <form action="{% url search %}">
-                <input id="id_q_p" type="text" name="q" maxlength="100" value="search packages" autocomplete="off" />
+                <input id="id_q_p" type="text" name="q" maxlength="100" value="search" autocomplete="off" />
                 <input id="hidden-submit" type="submit" value="go" />
             </form>         
         </div>
+
+        <div>
+            <h1><a class="xlarge awesome red" href="{% url add_package %}">add package »</a></h1>
+        </div>        
         <div class="home-rightcolbox">
                 <h1>Django Package of the Day</h1>
             {% for package in dpotw %}            
@@ -30,12 +34,6 @@
             <p><a href="{% url add_package %}">Add your own package, or someone else's!</a></p>
         </div>   
 
-        <div id="home-search">
-            <form action="{% url search %}">
-                <input id="id_q_g" type="text" name="q" maxlength="100" value="search grids" autocomplete="off" />
-                <input id="hidden-submit" type="submit" value="go" />
-            </form>
-        </div>
         <div class="home-rightcolbox">
                 <h1>Grid of the Day</h1>
             {% for grid in gotw %}            
