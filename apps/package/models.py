@@ -84,12 +84,20 @@ version_re   = re.compile(r'<revision>[a-zA-Z0-9\.\-\_]+</revision>')
 
 repo_url_help_text = "Enter your project repo hosting URL here.<br />Example: http://bitbucket.com/ubernostrum/django-registration"
 pypi_url_help_text = "<strong>Leave this blank if this package does not have a PyPI release.</strong><br />What PyPI uses to index your package. <br />Example: django-registration"
+category_help_text = """
+<ul>
+ <li><strong>Apps</strong> is anything that is installed by placing in settings.INSTALLED_APPS.</li>
+ <li><strong>Frameworks</strong> are large efforts that combine many python modules or apps to build things like Pinax.</li>
+ <li><strong>Projects</strong> are individual projects such as Django Packages, DjangoProject.com, and others.</li>
+ <li><strong>Utilities</strong> are apps, frameworks or sites but help Django.</li>
+</ul>
+"""
 
 class Package(BaseModel):
     
     title           = models.CharField(_("Title"), max_length="100")
     slug            = models.SlugField(_("Slug"), help_text="Slugs will be lowercased", unique=True)
-    category        = models.ForeignKey(Category)
+    category        = models.ForeignKey(Category, help_text=category_help_text)
     repo            = models.ForeignKey(Repo, null=True)
     repo_description= models.TextField(_("Repo Description"), blank=True)
     repo_url        = models.URLField(_("repo URL"), help_text=repo_url_help_text, blank=True)
