@@ -92,11 +92,7 @@
     $(function() {          
         $('input#id_q_p').click(function() {
             $("input#id_q_p").val('');
-        });                
-        
-        $('input#id_q_g').click(function() {
-            $("input#id_q_g").val('');
-        });                
+        });                        
     });    
 
     $('#id_q_p').autocomplete({
@@ -108,14 +104,5 @@
       }
     });
     
-    $('#id_q_g').autocomplete({
-      source: '{% url search_grids_autocomplete %}',
-      minLength: 1,
-      open: function(event, ui) { 
-        ac_top = $('.ui-autocomplete').css('top'); 
-        $('.ui-autocomplete').css({'width': '250px', 'top': ac_top + 10 }); 
-      }
-    });    
-        
 </script>      
 {% endblock %}      

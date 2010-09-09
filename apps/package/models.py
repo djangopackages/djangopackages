@@ -89,7 +89,7 @@ category_help_text = """
  <li><strong>Apps</strong> is anything that is installed by placing in settings.INSTALLED_APPS.</li>
  <li><strong>Frameworks</strong> are large efforts that combine many python modules or apps to build things like Pinax.</li>
  <li><strong>Projects</strong> are individual projects such as Django Packages, DjangoProject.com, and others.</li>
- <li><strong>Utilities</strong> are apps, frameworks or sites but help Django.</li>
+ <li><strong>Utilities</strong> are not apps, frameworks or sites but still help Django in some way.</li>
 </ul>
 """
 
