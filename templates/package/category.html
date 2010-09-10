@@ -43,7 +43,7 @@
 
         <tbody>
         {% for package in packages %}
-            <tr class="home-tabledatarow">
+            <tr id="home-tabledatarow" class="usage-container">
                 <td class="usage-count">{{ package.usage_count }}</td>                
                 {% if not request.user.is_anonymous %}
                     <td class="usage-button">{% if package.pk in used_packages_list %}

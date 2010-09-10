@@ -148,11 +148,11 @@ def usage(request, slug):
     # Toggle the current user's usage of the given package.
     if package.usage.filter(username=request.user.username):
         package.usage.remove(request.user)
-        template_name = '/packages/add_usage_button.html'
+        template_name = 'package/add_usage_button.html'
         change = -1
     else:    
         package.usage.add(request.user)
-        template_name = '/packages/remove_usage_button.html'
+        template_name = 'package/remove_usage_button.html'
         change = 1
     
     if request.is_ajax():
@@ -165,9 +165,12 @@ def usage(request, slug):
             context_instance = RequestContext(request)
         )
         return HttpResponse(simplejson.dumps(response))
-    
-    #return HttpResponseRedirect(reverse("package", kwargs={"slug": package.slug}))
-    return HttpResponseRedirect(request.META["HTTP_REFERER"])
+
+    if "HTTP_REFERER" in request.META:
+        return HttpResponseRedirect(request.META["HTTP_REFERER"])
+
+    return HttpResponseRedirect(reverse("package", kwargs={"slug": package.slug}))
+
 
 
 
