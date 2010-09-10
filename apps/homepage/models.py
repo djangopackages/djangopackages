@@ -28,6 +28,10 @@ class Dpotw(BaseModel):
         
     def __unicode__(self):
         return '%s : %s - %s' % (self.package.title, self.start_date, self.end_date)
+        
+    @models.permalink
+    def get_absolute_url(self):
+        return ("package", [self.package.slug])        
 
 class Gotw(BaseModel):
     
@@ -46,6 +50,10 @@ class Gotw(BaseModel):
     
     def __unicode__(self):
         return '%s : %s - %s' % (self.grid.title, self.start_date, self.end_date)
+        
+    @models.permalink
+    def get_absolute_url(self):
+        return ("grid", [self.grid.slug])        
         
 class Tab(BaseModel):
     
