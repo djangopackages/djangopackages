@@ -36,8 +36,7 @@ def usage(user, package):
     return {
                 "using": using,
                 "count": count,
-                "package_id": package.id,
-                "user_id": user.id,
+                "package": package,
                 "show_count": True
             }
             
@@ -50,7 +49,6 @@ def usage_no_count(user, package):
     return {
                 "using": using,
                 "count": count,
-                "package_id": package.id,
-                "user_id": user.id,
+                "package": package,
                 "show_count": False
             }            

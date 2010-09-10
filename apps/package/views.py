@@ -146,15 +146,14 @@ def ajax_package_list(request, template_name="package/ajax_package_list.html"):
         context_instance=RequestContext(request)
     )
     
-def usage(request, package_id, user_id):
-    package = get_object_or_404(Package, id=package_id)
-    user = get_object_or_404(User, id=user_id)
+def usage(request, slug):
+    package = get_object_or_404(Package, slug=slug)
     
-    # user wants to be taken off
-    if package.usage.filter(username=user.username):
-        package.usage.remove(user)
+    # Toggle the current user's usage of the given package.
+    if package.usage.filter(username=request.user.username):
+        package.usage.remove(request.user)
     else:    
-        package.usage.add(user)
+        package.usage.add(request.user)
     
     #return HttpResponseRedirect(reverse("package", kwargs={"slug": package.slug}))
     return HttpResponseRedirect(request.META["HTTP_REFERER"])
