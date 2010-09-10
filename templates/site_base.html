@@ -2,7 +2,6 @@
 
 {% load i18n %}
 {% load analytics %}
-{% load homepage_tags %}
 
 {% block extra_head_base %}
     {% block extra_head %}{% endblock %}
@@ -20,8 +19,7 @@
         <a href="{% url home %}"><img src="{{ STATIC_URL }}img/logo.png" /></a>
     </div>
     <ul id="multi-col-nav">
-        {% get_tabs %}
-        {% for tab in tabs %}
+        {% for tab in grid_tabs %}
             <li><a href="{% url grid tab.grid.slug %}">{{ tab.grid.title }}</a></li>
         {% endfor %}
         <li><a href="{% url grids %}">&raquo; more grids...</a></li>
