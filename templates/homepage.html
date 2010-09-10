@@ -68,7 +68,7 @@
 
             {% for package in category.packages %}
                 <tr>
-                    <td>{{ package.usage.count }}</td>                        
+                    <td>{{ package.usage_count }}</td>                        
                     <td>{{ package.pypi_downloads }}</td>
                     <td><a href="{% url package package.slug %}">{{ package.title }}</a></td>
                     {% cache 500 commit_chart package %}                
