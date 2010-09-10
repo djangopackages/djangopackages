@@ -161,6 +161,7 @@ INSTALLED_APPS = [
     "idios",
     "django_extensions",
 	"south",
+	"tastypie",
     
     # Pinax
     "pinax.apps.account",
@@ -174,6 +175,7 @@ INSTALLED_APPS = [
     "package",
     "profiles",
     "searchv1",
+    "apiv1",
 ]
 
 FIXTURE_DIRS = [
