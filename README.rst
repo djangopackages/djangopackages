@@ -1,6 +1,6 @@
-=====================================
-Scared of Rabbits aka Django Packages
-=====================================
+===============
+Django Packages
+===============
 
 .. contents:: Contents
 
@@ -28,17 +28,12 @@ Categories of Django Packages
 
 The fixtures provide four categories: apps, frameworks, projects, and utilities. 
 
-Google Code And Launchpad are not fully supported!
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Google Project Hosting And Launchpad are not fully supported!
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Not yet. Django Packages was cooked up during Django Dash 2010. We wanted to keep the scope of our work reasonable. We'll try and include those sites in the future. We also want to include other package repo systems over time.
 
-Django Packages does support Github and Bitbucket.
-
-Acknowledged Problems
-~~~~~~~~~~~~~~~~~~~~~
-
-Performance can be readily improved via proper caching enhancements and replacement of Python based view calls to other APIs (Github, Google Charts, etc) with Javascript powered calls. We might as well have the browser do more work, right?
+Django Packages does support Github and Bitbucket. Launchpad is next. Google Project Hosting may not happen because of a lack of a formal API.
 
 Installation
 ============
