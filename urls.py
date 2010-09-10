@@ -51,7 +51,7 @@ v1_api.register(PackageResource())
 v1_api.register(CategoryResource())
 v1_api.register(RepoResource())
 
-urlpatterns = patterns('',
+urlpatterns += patterns('',
     url(r"^api/", include(v1_api.urls)), 
 )
 
