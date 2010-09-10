@@ -115,12 +115,16 @@ def package_autocomplete(request):
     return response
 
 def category(request, slug, template_name="package/category.html"):
-    
     category = get_object_or_404(Category, slug=slug)
+    used_packages = ()
+    if request.user.is_authenticated():
+        used_packages = request.user.package_set.filter(category=category).values_list("pk", flat=True)
+    
     packages = category.package_set.annotate(usage_count=Count("usage")).order_by("-pypi_downloads", "-repo_watchers", "title")
     return render_to_response(template_name, {
         "category": category,
-        "packages": packages
+        "packages": packages,
+        "used_packages": used_packages,
         },
         context_instance=RequestContext(request)
     )
