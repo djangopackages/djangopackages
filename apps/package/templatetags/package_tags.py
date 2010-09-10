@@ -46,8 +46,6 @@ def usage_no_count(user, package):
 
     using = package.usage.filter(username=user) or False
     count = 0
-    if using:
-        count = package.usage.count() - 1
 
     return {
                 "using": using,
