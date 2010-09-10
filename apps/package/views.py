@@ -7,6 +7,7 @@ from django.db.models import Q, Count
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
+from django.template.loader import render_to_string
 
 
 from package.forms import PackageForm, PackageExampleForm
@@ -116,15 +117,10 @@ def package_autocomplete(request):
 
 def category(request, slug, template_name="package/category.html"):
     category = get_object_or_404(Category, slug=slug)
-    used_packages = ()
-    if request.user.is_authenticated():
-        used_packages = request.user.package_set.filter(category=category).values_list("pk", flat=True)
-    
     packages = category.package_set.annotate(usage_count=Count("usage")).order_by("-pypi_downloads", "-repo_watchers", "title")
     return render_to_response(template_name, {
         "category": category,
         "packages": packages,
-        "used_packages": used_packages,
         },
         context_instance=RequestContext(request)
     )
@@ -152,8 +148,27 @@ def usage(request, slug):
     # Toggle the current user's usage of the given package.
     if package.usage.filter(username=request.user.username):
         package.usage.remove(request.user)
+        template_name = '/packages/add_usage_button.html'
+        change = -1
     else:    
         package.usage.add(request.user)
+        template_name = '/packages/remove_usage_button.html'
+        change = 1
+    
+    if request.is_ajax():
+        response = {}
+        response['success'] = True
+        response['change'] = change
+        response['body'] = render_to_string(
+            template_name,
+            {"package": package},
+            context_instance = RequestContext(request)
+        )
+        return HttpResponse(simplejson.dumps(response))
     
     #return HttpResponseRedirect(reverse("package", kwargs={"slug": package.slug}))
     return HttpResponseRedirect(request.META["HTTP_REFERER"])
+
+
+
+
