@@ -1,6 +1,6 @@
 from tastypie.resources import ModelResource
 
-from apps.grid.models import Grid
+from grid.models import Grid
 
 class GridResource(ModelResource):
     

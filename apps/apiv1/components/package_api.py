@@ -1,6 +1,6 @@
 from tastypie.resources import ModelResource
 
-from apps.package.models import Package, Category, Repo
+from package.models import Package, Category, Repo
 
 class PackageResource(ModelResource):
     
