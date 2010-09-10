@@ -44,7 +44,7 @@
         <tbody>
         {% for package in packages %}
             <tr id="home-tabledatarow">
-                <td>{{ package.usage.all.count }}</td>                
+                <td>{{ package.usage_count }}</td>                
                 {% if not request.user.is_anonymous %}
                     <td>{% usage_no_count request.user package %}</td>
                 {% endif %}                                                    
