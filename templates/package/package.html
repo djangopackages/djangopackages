@@ -18,18 +18,35 @@
     
     <p><strong>Category:</strong> <a href="{% url category object.category.slug %}">{{ object.category }}</a></p>    
 
-    <p>
-        {% if request.user.is_authenticated %}
-            {% with object as package %}
-                <span class="usage-button">{% if package.pk in used_packages_list %}
-                {% include "package/remove_usage_button.html" %}
-                {% else %}
-                {% include "package/add_usage_button.html" %}
-                {% endif %}</span>
-            {% endwith %}
-        {% endif %}
-        <a class="awesome lavender" href="{% url fetch_package_data object.slug %}">Fetch latest data</a>
-    </p>
+    <table>
+        <thead>
+        <tr>
+            <th>Usage</th>
+            {% if not request.user.is_anonymous %}                
+                <th></th>
+            {% endif %}                
+            <th></th>
+        </tr>
+        </thead>
+
+        <tbody>
+            <tr class="usage-container">
+                <td class="usage-count">{{ object.usage.count }}</td>                
+                {% if request.user.is_authenticated %}
+                    <td class="usage-button">{% with object as package %}
+                        {% if package.pk in used_packages_list %}
+                        {% include "package/remove_usage_button.html" %}
+                        {% else %}
+                        {% include "package/add_usage_button.html" %}
+                        {% endif %}
+                    {% endwith %}</td>
+                {% endif %}
+                <td><a class="awesome lavender" href="{% url fetch_package_data object.slug %}">Fetch latest data</a></td>
+            </tr>    
+        </tbody>        
+     </table>
+
+
 
     <h2>{{ object.repo.title }}</h2>
     <table>
