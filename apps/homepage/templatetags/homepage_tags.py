@@ -15,5 +15,5 @@ class GetElementNode(template.Node):
             pass
             
         def render(self, context):
-            context['tabs'] = Tab.objects.all()
+            context['tabs'] = Tab.objects.all().select_related('grid')
             return ''
