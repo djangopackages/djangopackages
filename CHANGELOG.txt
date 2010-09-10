@@ -1,0 +1,4 @@
+2010, September 10
+===================
+
+pydanny - Redirected all github references to github.com/djangopackages/djangopackages
