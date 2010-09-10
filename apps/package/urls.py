@@ -82,7 +82,7 @@ urlpatterns = patterns("",
     ),
     
     url(
-        regex = "^usage/(?P<package_id>\d+)/(?P<user_id>\d+)/$",
+        regex = "^usage/(?P<slug>[-\w]+)/$",
         view    = usage,
         name    = "usage",
     ),    

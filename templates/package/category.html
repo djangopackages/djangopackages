@@ -47,9 +47,9 @@
                 <td>{{ package.usage_count }}</td>                
                 {% if not request.user.is_anonymous %}
                     <td>{% if package.pk in used_packages %}
-                    <a class="large awesome red" href="{% url usage package.pk request.user.pk %}">Unuse it!</a>
+                    <a class="large awesome red" href="{% url usage package.slug %}">Unuse it!</a>
                     {% else %}
-                    <a class="large awesome green" href="{% url usage package.pk request.user.pk %}">I use this!</a>
+                    <a class="large awesome green" href="{% url usage package.slug %}">I use this!</a>
                     {% endif %}</td>
                 {% endif %}                                                    
                 <td>{{ package.pypi_downloads }}</td>
