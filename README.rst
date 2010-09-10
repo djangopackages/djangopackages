@@ -46,23 +46,20 @@ Installation
     git clone git://github.com/pydanny/scaredofrabbits.git djangopackages
     cd djangopackages
     pip install -r requirements/project.txt
-    
-Go get some coffee while all the packages install. Then do::
-
-    python manage.py syncdb
-    python manage.py runserver
-    
-Load some fixture data::
-
-    python manage.py loaddata apps/grids/fixtures/test_initial_data.json
-    python manage.py loaddata apps/homepage/fixtures/test_initial_data.json        
-    python manage.py loaddata apps/packages/fixtures/test_initial_data.json    
-    
-Add symlinks to the pinax and uni_form media directories::
+        
+In production add symlinks to the pinax and uni_form media directories::
 
     cd media
     ln -s ../../env-djangopackages/lib/python2.6/site-packages/pinax/media/default/pinax/ pinax
     ln -s ../../env-djangopackages/lib/python2.6/site-packages/uni_form/media/uni_form/ uni_form
+    
+Starting the development server
+===============================
+
+Change your local_settings.py file to point to prod.db then do::
+
+    python manage.py runserver
+
 
 Updating Packages
 =================
