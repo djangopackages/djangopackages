@@ -9,3 +9,4 @@ simplejson==2.1.1
 south==0.7.2
 -e git://github.com/toastdriven/django-tastypie.git#egg=tastypie
 mimeparse==0.1.2
+python-dateutil==1.5
