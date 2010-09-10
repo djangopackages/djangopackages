@@ -82,7 +82,7 @@ urlpatterns = patterns("",
     ),
     
     url(
-        regex = "^usage/(?P<slug>[-\w]+)/$",
+        regex = "^usage/(?P<slug>[-\w]+)/(?P<action>add|remove)/$",
         view    = usage,
         name    = "usage",
     ),    
