@@ -3,7 +3,7 @@ import simplejson
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -117,7 +117,7 @@ def package_autocomplete(request):
 def category(request, slug, template_name="package/category.html"):
     
     category = get_object_or_404(Category, slug=slug)
-    packages = category.package_set.order_by("-pypi_downloads", "-repo_watchers", "title")
+    packages = category.package_set.annotate(usage_count=Count("usage")).order_by("-pypi_downloads", "-repo_watchers", "title")
     return render_to_response(template_name, {
         "category": category,
         "packages": packages
