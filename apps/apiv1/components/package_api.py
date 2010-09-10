@@ -9,7 +9,6 @@ class PackageResource(ModelResource):
         resource_name = 'package'
         allowed_methods = ['get']
         include_absolute_url = True
-        default_format = "application/json"
         
 class CategoryResource(ModelResource):
     

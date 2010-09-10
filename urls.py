@@ -45,11 +45,13 @@ urlpatterns = patterns("",
 
 from tastypie.api import Api
 from apiv1.components.package_api import PackageResource, CategoryResource, RepoResource
+from apiv1.components.grid_api import GridResource
 
 v1_api = Api()
 v1_api.register(PackageResource())
 v1_api.register(CategoryResource())
 v1_api.register(RepoResource())
+v1_api.register(GridResource())
 
 urlpatterns += patterns('',
     url(r"^api/", include(v1_api.urls)), 
