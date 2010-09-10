@@ -1,4 +1,4 @@
-def used_packages(request):
+def used_packages_list(request):
     context = {}
     # TODO: Cache this result...
     if request.user.is_authenticated():
