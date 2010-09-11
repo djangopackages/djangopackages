@@ -1,10 +1,16 @@
+from django.conf import settings
+
 from github2.client import Github
 
 from package.utils import uniquer
 
 def pull(package):
-
-    github   = Github()
+    
+    if hasattr(settings, "GITHUB_ACCOUNT") and hasattr(settings, "GITHUB_KEY"):
+        github   = Github(username=settings.GITHUB_ACCOUNT, api_token=settings.GITHUB_KEY)
+    else:
+        github   = Github()
+        
     repo_name = package.repo_name()
     repo         = github.repos.show(repo_name)
     package.repo_watchers    = repo.watchers

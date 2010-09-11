@@ -1,8 +1,9 @@
 from tastypie.resources import ModelResource
 
+from apiv1.components.package_api import PackageResource
 from grid.models import Grid
 
-class GridResource(ModelResource):
+class GridResource(ModelResource):    
     
     class Meta:
         queryset = Grid.objects.all()

@@ -2,3 +2,5 @@
 ===================
 
 pydanny - Redirected all github references to github.com/djangopackages/djangopackages
+pydanny - API and API docs
+taavi & jpunteny - Improved querysets, caching, and "use this" controls/views

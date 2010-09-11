@@ -1,14 +1,7 @@
+from tastypie import fields
 from tastypie.resources import ModelResource
 
 from package.models import Package, Category, Repo
-
-class PackageResource(ModelResource):
-    
-    class Meta:
-        queryset = Package.objects.all()
-        resource_name = 'package'
-        allowed_methods = ['get']
-        include_absolute_url = True
         
 class CategoryResource(ModelResource):
     
@@ -22,4 +15,16 @@ class RepoResource(ModelResource):
     class Meta:
         queryset = Repo.objects.all()
         resource_name = 'repo'
-        allowed_methods = ['get']         
+        allowed_methods = ['get']
+        
+class PackageResource(ModelResource):
+    
+    category = fields.ForeignKey(CategoryResource, "category")
+    repo = fields.ForeignKey(RepoResource, "repo")    
+
+    class Meta:
+        queryset = Package.objects.all()
+        resource_name = 'package'
+        allowed_methods = ['get']
+        include_absolute_url = True
+        

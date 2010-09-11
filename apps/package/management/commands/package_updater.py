@@ -1,15 +1,14 @@
 import json
 from sys import stdout
-from time import sleep
+from time import sleep, gmtime, strftime
 from urllib import urlopen
 
+from django.conf import settings
 from django.core.management.base import CommandError, NoArgsCommand
 
 from github2.client import Github
 
 from package.models import Package, Repo, Commit
-
-
 
 
 class Command(NoArgsCommand):
@@ -18,18 +17,22 @@ class Command(NoArgsCommand):
     
     def handle(self, *args, **options):
         
-        print >> stdout, "Commencing package updating now"        
+        print >> stdout, "Commencing package updating now at %s " % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
         
         # set up various useful bits
         github_repo = Repo.objects.get(title__icontains="github")
         bitbucket_repo = Repo.objects.get(title__icontains="bitbucket")    
         
         # instantiate the github connection
-        github = Github()
+        if hasattr(settings, "GITHUB_ACCOUNT") and hasattr(settings, "GITHUB_KEY"):
+            github   = Github(username=settings.GITHUB_ACCOUNT, api_token=settings.GITHUB_KEY)
+            authed = True
+        else:
+            github   = Github()
+            authed = False
 
         for index, package in enumerate(Package.objects.all()):
             zzz = 5
-
             
             try:
                 if package.repo == github_repo:
@@ -51,10 +54,12 @@ class Command(NoArgsCommand):
             except RuntimeError, e:
                 message = "For '%s', too many requests issued to repo threw a RuntimeError: %s" % (package.title, e)
                 raise CommandError(message)
-            sleep(zzz)
+            if not authed:
+               sleep(zzz)
             print >> stdout, "%s. Successfully updated package '%s'" % (index+1,package.title)
 
         print >> stdout, "-" * 40
+        print >> stdout, "Finished at %s" % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
 
 def get_bitbucket_commits(package):
     repo_name = package.repo_name()
