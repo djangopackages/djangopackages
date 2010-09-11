@@ -135,6 +135,7 @@ TEMPLATE_CONTEXT_PROCESSORS = [
 
     "package.context_processors.used_packages_list",
     "homepage.context_processors.grid_tabs",
+    "homepage.context_processors.current_path",
 ]
 
 INSTALLED_APPS = [
