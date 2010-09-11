@@ -3,6 +3,7 @@ import simplejson
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.conf import settings
 from django.db.models import Q, Count
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
@@ -143,6 +144,14 @@ def ajax_package_list(request, template_name="package/ajax_package_list.html"):
     )
     
 def usage(request, slug):
+    if not request.user.is_authenticated():
+        if request.is_ajax():
+            response = {}
+            response['success'] = False
+            response['redirect'] = settings.LOGIN_URL
+            return HttpResponse(simplejson.dumps(response))
+        return HttpResponseRedirect(settings.LOGIN_URL)
+    
     package = get_object_or_404(Package, slug=slug)
     
     # Toggle the current user's usage of the given package.
