@@ -44,11 +44,14 @@ urlpatterns = patterns("",
 )
 
 from tastypie.api import Api
-from apiv1.components.package_api import PackageResource, CategoryResource, RepoResource
-from apiv1.components.grid_api import GridResource
-from apiv1.components.homepage_api import GotwResource, DpotwResource
+from apiv1.resources import (
+                    GotwResource, DpotwResource,
+                    PackageResource, CategoryResource, RepoResource,
+                    GridResource, PackageResourceBase
+                    )
 
 v1_api = Api()
+v1_api.register(PackageResourceBase())
 v1_api.register(PackageResource())
 v1_api.register(CategoryResource())
 v1_api.register(RepoResource())

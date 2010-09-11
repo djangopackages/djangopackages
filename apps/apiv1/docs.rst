@@ -76,6 +76,19 @@ Representation:
         id: "1"
         is_locked: false
         modified: "Sun, 15 Aug 2010 09:54:03 -0400"
+        packages: [
+            "/api/v1/package/6/"
+            "/api/v1/package/70/"
+            "/api/v1/package/36/"
+            "/api/v1/package/62/"
+            "/api/v1/package/28/"
+            "/api/v1/package/133/"
+            "/api/v1/package/135/"
+            "/api/v1/package/185/"
+            "/api/v1/package/10/"
+            "/api/v1/package/186/"
+            "/api/v1/package/5/"
+        ]        
         resource_uri: "/api/v1/grid/1/"
         slug: "cms"
         title: "CMS"
@@ -106,24 +119,29 @@ Representation:
 .. parsed-literal::
 
     {
-        absolute_url: "/packages/p/adjax/"
-        category: "/api/v1/category/1/"
-        created: "Tue, 17 Aug 2010 11:58:10 -0400"
-        id: "37"
-        modified: "Sat, 11 Sep 2010 02:19:24 -0400"
-        participants: "willhardy"
-        pypi_downloads: 156
-        pypi_url: "http://pypi.python.org/pypi/Adjax/1.0.1"
-        pypi_version: "1.0.1"
+        absolute_url: "/packages/p/pinax/"
+        category: "/api/v1/category/2/"
+        created: "Mon, 16 Aug 2010 23:25:16 -0400"
+        grids: [
+            "/api/v1/grid/4/"
+            "/api/v1/grid/33/"
+            "/api/v1/grid/21/"
+        ]
+        id: "25"
+        modified: "Sat, 11 Sep 2010 12:00:42 -0400"
+        participants: "pinax,brosner,jtauber,jezdez,ericflo,gregnewman,pydanny,edcrypt,paltman,dougn,alex,vgarvardt,alibrahim,shentonfreude,lukeman,jpic,httpdss,mikl,empty,brutasse,kwadrat,sunoano,robertrv,stephrdev,justinlilly,deepthawtz,skyl,googletorp,maicki,havan,zerok,hellp,asenchi,haplo,chimpymike,beshrkayali,zain,bartTC,ntoll,fernandoacorreia,oppianmatt,dartdog,gklein,acdha,ariddell,vikingosegundo,thraxil,rhouse2"
+        pypi_downloads: 0
+        pypi_url: "http://pypi.python.org/pypi/Pinax"
+        pypi_version: "0.9a1"
         repo: "/api/v1/repo/1/"
         repo_commits: 0
-        repo_description: "Adjax is a small framework to streamline the building of ajax-based sites using the Django web development framework. See documentation at http://readthedocs.org/projects/willhardy/adjax/docs/"
-        repo_forks: 0
-        repo_url: "http://github.com/willhardy/Adjax"
-        repo_watchers: 3
-        resource_uri: "/api/v1/package/37/"
-        slug: "adjax"
-        title: "Adjax"
+        repo_description: "a Django-based platform for rapidly developing websites"
+        repo_forks: 183
+        repo_url: "http://github.com/pinax/pinax"
+        repo_watchers: 909
+        resource_uri: "/api/v1/package/25/"
+        slug: "pinax"
+        title: "Pinax"
     }
 
 
