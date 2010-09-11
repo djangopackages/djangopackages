@@ -15,6 +15,8 @@
 {% comment %}{% autopaginate users %}{% endcomment %}
 
     <table id="home-packages">
+        
+        {{ request.user.admin }}
 
         <thead>
         <tr>
@@ -22,6 +24,9 @@
             <th>Date Joined</th>
             <th>Last Login</th>
             <th>Admin</th>
+            {% if request.user.is_staff %}            
+                <th>Active</th>            
+            {% endif %}
             <th>Github</th>
             <th>BitBucket</th>
         </tr>
@@ -33,7 +38,22 @@
                     <td><a href="{{ user.get_absolute_url }}">{% user_display user %}</a></td>
                     <td><span class="hide">{{ user.date_joined|date:"YmdHis" }}</span>{{ user.date_joined|timesince }}</td>
                     <td><span class="hide">{{ user.last_login|date:"YmdHis" }}</span>{{ user.last_login|timesince }}</td>                    
-                    <td>{{ user.is_superuser|yesno }}</td>
+                    <td>
+                        {% if user.is_staff %}
+                            <img src="{{ STATIC_URL }}img/icon-yes.gif" />                            
+                        {% else %}
+                            <img src="{{ STATIC_URL }}img/icon-no.gif" />                            
+                        {% endif %}                        
+                    </td>
+                    {% if request.user.is_staff %}
+                        <td>
+                            {% if user.is_active %}
+                                <img src="{{ STATIC_URL }}img/icon-yes.gif" />                            
+                            {% else %}
+                                <img src="{{ STATIC_URL }}img/icon-no.gif" />                            
+                            {% endif %}
+                        </td>
+                    {% endif %}
                     <td><a href="http://github.com/{{ user.get_profile.github_url|default:"" }}">{{ user.get_profile.github_url|default:"" }}</a</td>
                     <td><a href="http://github.com/{{ user.get_profile.bitbucket_url|default:"" }}">{{ user.get_profile.bitbucket_url|default:"" }}</a</td>                                
                 </tr>
