@@ -1,15 +1,10 @@
-from datetime import timedelta
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django import template
 
-from github2.client import Github
-
-from package.models import Package, Commit
+from package.models import Commit
 
 register = template.Library()
-
-github = Github()
 
 @register.filter
 def commits_over_52(package):
