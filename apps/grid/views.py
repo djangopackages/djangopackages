@@ -1,3 +1,4 @@
+from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User 
 from django.core.urlresolvers import reverse 
@@ -11,22 +12,35 @@ from grid.models import Element, Feature, Grid, GridPackage
 from package.models import Package
 
 def grids(request, template_name="grid/grids.html"):
-    
-    return render_to_response(template_name, {
-        'grids': Grid.objects.all(),
-        },
-        context_instance=RequestContext(request)
-        )
+    grids = Grid.objects.all().annotate(gridpackage_count=Count('gridpackage'), feature_count=Count('feature'))
+    return render_to_response(
+        template_name, {
+            'grids': grids,
+        }, context_instance = RequestContext(request)
+    )
 
-def grid(request, slug, template_name="grid/grid.html"):
-    
+def grid_detail(request, slug, template_name="grid/grid_detail.html"):
     grid = get_object_or_404(Grid, slug=slug)
-
-    return render_to_response(template_name, {
-        'grid': grid,
-        },
-        context_instance=RequestContext(request)
-        )
+    features = grid.feature_set.all()
+    
+    gp = grid.gridpackage_set.select_related('gridpackage', 'package__repo', 'package__category')
+    grid_packages = gp.annotate(usage_count=Count('package__usage')).order_by('-usage_count', 'package')
+    
+    # Get a list of all elements for this grid, and then package them into a
+    # dictionary so we can easily lookup the element for every
+    # feature/grid_package combination.
+    elements = {}
+    for e in Element.objects.all().filter(feature__in=features):
+        elements.setdefault(e.feature_id, {})[e.grid_package_id] = e
+    
+    return render_to_response(
+        template_name, {
+            'grid': grid,
+            'features': features,
+            'grid_packages': grid_packages,
+            'elements': elements,
+        }, context_instance = RequestContext(request)
+    )
         
 @login_required
 def add_grid(request, template_name="grid/add_grid.html"):
@@ -37,7 +51,6 @@ def add_grid(request, template_name="grid/add_grid.html"):
     if form.is_valid(): 
         new_grid = form.save()
         return HttpResponseRedirect(reverse('grid', kwargs={'slug':new_grid.slug}))
-
 
     return render_to_response(template_name, { 
         'form': form
