@@ -16,6 +16,14 @@ $("#id_pypi_url").val($("#id_pypi_url").val().replace(pypi_url_g,""));
 $("#id_pypi_url").change(function(e){
     $("#id_pypi_url").val($("#id_pypi_url").val().replace(pypi_url_g,""));
 });
+
+$("#id_repo_url").keyup(function(e) {
+    var url = $("#id_repo_url").val();
+    if (url.startsWith("https://")) {
+        url = url.replace("https", "http");
+        $("#id_repo_url").val(url);
+    };
+});
     
 $("#id_repo_url").change(function(e) {
  
@@ -23,8 +31,8 @@ $("#id_repo_url").change(function(e) {
 
     $.each(repo_urls, function(key, value) {         
     
-        var url = $("#id_repo_url").val() 
-        var url_array = url.split('/')
+        var url = $("#id_repo_url").val();
+        var url_array = url.split('/');
         if (url.startsWith(key)){
             if (url !== key){
                 $("#id_repo").val(value);
