@@ -1,6 +1,13 @@
+2010, September 11
+==================
+
+pydanny - Added revisions
+pydanny - API improvements
+taavi223 - Query optimization 
+
 2010, September 10
-===================
+==================
 
 pydanny - Redirected all github references to github.com/djangopackages/djangopackages
 pydanny - API and API docs
-taavi & jpunteny - Improved querysets, caching, and "use this" controls/views
+taavi223 & jpunteny - Improved querysets, caching, and "use this" controls/views

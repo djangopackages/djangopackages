@@ -99,6 +99,7 @@ MIDDLEWARE_CLASSES = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "reversion.middleware.RevisionMiddleware",    
     "django_openid.consumer.SessionConsumer",
     "django.contrib.messages.middleware.MessageMiddleware",
     "pinax.apps.account.middleware.LocaleMiddleware",
@@ -166,6 +167,7 @@ INSTALLED_APPS = [
     "django_extensions",
 	"south",
 	"tastypie",
+	"reversion",
     
     # Pinax
     "pinax.apps.account",

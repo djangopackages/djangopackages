@@ -37,7 +37,7 @@
                     <tr>                        
                         <td>{{ feature.title }}
                         {% if request.user.is_authenticated %}
-                            <a href="{% url edit_feature feature.pk %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>&nbsp;<a href="#" id="feature-delete-{{ feature.pk }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete" /></a>
+                            <a href="{% url edit_feature feature.pk %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>{% if request.user.is_staff %}&nbsp;<a href="#" id="feature-delete-{{ feature.pk }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete" /></a>{% endif %}
                         {% endif %}
                         </td>
                         <td>{{ feature.description }}</td>
@@ -68,7 +68,7 @@
                     <th>Package</th>
                     {% for grid_package in grid_packages %}
                         <th>
-                          <a href="{% url package grid_package.package.slug %}">{{ grid_package.package.title }}</a>{% if request.user.is_authenticated %}&nbsp;<a href="#" id="package-delete-{{ grid_package.pk }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete"/></a>{% endif %}
+                          <a href="{% url package grid_package.package.slug %}">{{ grid_package.package.title }}</a>{% if request.user.is_staff %}&nbsp;<a href="#" id="package-delete-{{ grid_package.pk }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete"/></a>{% endif %}
                         </th>
                     {% endfor %}
                 </tr>
@@ -218,18 +218,20 @@
                     };
                     
                     // handle feature deletes
-                    {% for feature in features %}
-                        $("a#feature-delete-{{ feature.pk }}").click(function(e) {
-                            delete_confirmation(e, '{% url delete_feature feature.pk %}')                            
-                        });                            
-                    {% endfor %}
+                    {% if request.user.is_staff %}
+                        {% for feature in features %}
+                            $("a#feature-delete-{{ feature.pk }}").click(function(e) {
+                                delete_confirmation(e, '{% url delete_feature feature.pk %}')                            
+                            });                            
+                        {% endfor %}
                     
-                    // handle package deletes
-                    {% for grid_package in grid_packages %}
-                        $("a#package-delete-{{ grid_package.pk }}").click(function(e) {
-                            delete_confirmation(e, '{% url delete_grid_package grid_package.pk %}')
-                        });                            
-                    {% endfor %}                    
+                        // handle package deletes
+                        {% for grid_package in grid_packages %}
+                            $("a#package-delete-{{ grid_package.pk }}").click(function(e) {
+                                delete_confirmation(e, '{% url delete_grid_package grid_package.pk %}')
+                            });
+                        {% endfor %}
+                    {% endif %}
                     
                  {% endif %}
                  

@@ -10,3 +10,4 @@ south==0.7.2
 -e git://github.com/toastdriven/django-tastypie.git#egg=tastypie
 mimeparse==0.1.2
 python-dateutil==1.5
+django-reversion==1.3.1
