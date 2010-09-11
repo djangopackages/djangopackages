@@ -21,8 +21,7 @@
         {{ grid.description|urlize|linebreaksbr }}
     </p>    
     
-    {% with grid.feature_set.all as features %}
-    {% if features.count %}
+    {% if features %}
         <h2>Features currently being evaluated</h2>
         <table id="grid" border="3">      
             <thead>
@@ -36,7 +35,7 @@
                     <tr>                        
                         <td>{{ feature.title }}
                         {% if request.user.is_authenticated %}
-                            <a href="{% url edit_feature feature.id %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>&nbsp;<a href="#" id="feature-delete-{{ feature.id }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete" /></a>
+                            <a href="{% url edit_feature feature.pk %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>&nbsp;<a href="#" id="feature-delete-{{ feature.pk }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete" /></a>
                         {% endif %}
                         </td>
                         <td>{{ feature.description }}</td>
@@ -55,7 +54,6 @@
 
     <p></p>
     
-    {% with grid.gridpackage_set.all as grid_packages %}
     {% if grid_packages.count %}
     
         {% if request.user.is_authenticated %}        
@@ -66,46 +64,39 @@
             <thead>
                 <tr>
                     <th>Package</th>
-                    {% for package in grid_packages %}
+                    {% for grid_package in grid_packages %}
                         <th>
-                          <a href="{% url package package.package.slug %}">{{ package.package.title }}</a>
-                          {% if request.user.is_authenticated %}
-                            <a href="#" id="package-delete-{{ package.id }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete"/></a>
-                          {% endif %}
-                        </th>                
+                          <a href="{% url package grid_package.package.slug %}">{{ grid_package.package.title }}</a>{% if request.user.is_authenticated %}&nbsp;<a href="#" id="package-delete-{{ grid_package.pk }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete"/></a>{% endif %}
+                        </th>
                     {% endfor %}
                 </tr>
             </thead>
             <tbody>
                 <tr class="even">
                     <td>Description</td>
-                    {% for package in grid_packages %}
-                        <td>{{ package.package.repo_description|truncatewords:20|wordwrap:30|linebreaksbr }}</td>
+                    {% for grid_package in grid_packages %}
+                        <td>{{ grid_package.package.repo_description|truncatewords:20|wordwrap:30|linebreaksbr }}</td>
                     {% endfor %}
                 </tr>                    
                 <tr class="even">
                     <td>Usage</td>
-                    {% for package in grid_packages %}
-                        <td>{{ package.package.usage.all.count }}</td>
-                    {% endfor %}                    
+                    {% for grid_package in grid_packages %}
+                        <td>{{ grid_package.usage_count }}</td>
+                    {% endfor %}
                 </td>
                 <tr class="odd">
                     <td>Version</td>
-                    {% for package in grid_packages %}
-                        <td>{{ package.package.pypi_version|default:"n/a" }}</td>
+                    {% for grid_package in grid_packages %}
+                        <td>{{ grid_package.package.pypi_version|default:"n/a" }}</td>
                     {% endfor %}
             
                 </tr>
                 <tr class="even">
                     <td>Downloads</td>
-                    {% for package in grid_packages %}
+                    {% for grid_package in grid_packages %}
                         <td>
-                            {% if package.package.pypi_version %}
-                                {% if package.package.pypi_downloads %}
-                                    {{ package.package.pypi_downloads }}
-                                {% else %}
-                                    n/a
-                                {% endif %}
+                            {% if grid_package.package.pypi_version %}
+                                {{ grid_package.package.pypi_downloads|default:"n/a" }}
                             {% else %}
                                 n/a
                             {% endif %}
@@ -115,41 +106,41 @@
                 </tr>
                 <tr class="odd">
                     <td>Category</td>
-                    {% for package in grid_packages %}
-                        <td>{{ package.package.category }}</td>
+                    {% for grid_package in grid_packages %}
+                        <td>{{ grid_package.package.category }}</td>
                     {% endfor %}
                 </tr>                
                 <tr class="even">
                     <td>Repo</td>
-                    {% for package in grid_packages %}
-                        <td>{{ package.package.repo }}</td>
+                    {% for grid_package in grid_packages %}
+                        <td>{{ grid_package.package.repo }}</td>
                     {% endfor %}
                 </tr>            
                 <tr class="odd">
                     <td>Repo Watchers</td>
-                    {% for package in grid_packages %}
-                        <td>{{ package.package.repo_watchers|default:"n/a" }}</td>
+                    {% for grid_package in grid_packages %}
+                        <td>{{ grid_package.package.repo_watchers|default:"n/a" }}</td>
                     {% endfor %}
                 </tr>
                 <tr class="even">
                     <td>Repo Forks</td>
-                    {% for package in grid_packages %}
-                        <td>{{ package.package.repo_forks|default:"n/a" }}</td>
+                    {% for grid_package in grid_packages %}
+                        <td>{{ grid_package.package.repo_forks|default:"n/a" }}</td>
                     {% endfor %}
                 </tr>                  
                 <tr class="odd">
                     <td>Participants</td>
-                    {% for package in grid_packages %}
+                    {% for grid_package in grid_packages %}
                         <td>
-                            {% for collaborator in package.package.participant_list %}
+                            {% for collaborator in grid_package.package.participant_list %}
                                 {% if forloop.counter <= 10 %}                                
-                                    <a href="{{ package.package.repo.url }}/{{ collaborator }}">{{ collaborator }}</a>
+                                    <a href="{{ grid_package.package.repo.url }}/{{ collaborator }}">{{ collaborator }}</a>
                                     {% if not forloop.last %}
                                         <br />
                                     {% endif %}
                                 {% endif %}
                                 {% if forloop.counter == 11 %}
-                                    <a href="{% url package package.package.slug %}">more...</a>
+                                    <a href="{% url package grid_package.package.slug %}">more...</a>
                                 {% endif %}
                             {% endfor %}                        
                         </td>
@@ -158,9 +149,10 @@
                 {% for feature in features %}
                     <tr class="{% cycle 'even' 'odd' %}">
                         <td>{{ feature.title }}</td>
-                        {% for package in grid_packages %}
-                            {% get_or_create_grid_element package feature %}
-                                <td class="clickable" id="element-f{{ element.feature_id }}-p{{ element.grid_package_id }}">{{ element.text|style_element|safe|urlize|linebreaksbr }}</td>
+                        {% for grid_package in grid_packages %}
+                            {% with elements|hash:feature.pk|hash:grid_package.pk as element %}
+                                <td class="clickable" id="element-f{{ feature.pk }}-p{{ grid_package.pk }}">{% if element %}{{ element.text|style_element|safe|urlize|linebreaksbr }}{% endif %}<noscript> <a class="edit" href="{% url edit_element feature.pk grid_package.pk %}">[edit]</a></noscript></td>
+                            {% endwith %}
                         {% endfor %}
                     </tr>
                 {% endfor %}
@@ -176,27 +168,24 @@
         <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_grid_package grid.slug %}">Add a package to get a grid view</a></p>
     {% endif %}
         
-    {% endwith %}
-    {% endwith %}    
 
 {% endblock %}
 
 {% block extra_body %}
-    {% with grid.gridpackage_set.all as grid_packages %}
-    {% with grid.feature_set.all as features %}    
         <script type="text/javascript">
 
             $(function() {  
                 
                 {% if request.user.is_authenticated %}
-                
                     // Handle element edit redirects
-                    {% for element in grid.elements %}
-                        $("td#element-f{{ element.feature_id }}-p{{ element.grid_package_id }}").click(function() {
-                            var url = "{% url edit_element element.feature_id element.grid_package_id %}";    
-                            $(location).attr('href',url);                        
-                        });
-                    {% endfor %}                
+                    {% for feature in features %}
+                        {% for grid_package in grid_packages %}
+                            $("td#element-f{{ feature.pk }}-p{{ grid_package.pk }}").click(function() {
+                                var url = "{% url edit_element feature.pk grid_package.pk %}";    
+                                $(location).attr('href',url);                        
+                            });
+                        {% endfor %}
+                    {% endfor %}
                     
                     delete_confirmation = function(e, url) {
                         // The deletes are placed in here so there is just one place needed
@@ -209,15 +198,15 @@
                     
                     // handle feature deletes
                     {% for feature in features %}
-                        $("a#feature-delete-{{ feature.id }}").click(function(e) {
-                            delete_confirmation(e, '{% url delete_feature feature.id %}')                            
+                        $("a#feature-delete-{{ feature.pk }}").click(function(e) {
+                            delete_confirmation(e, '{% url delete_feature feature.pk %}')                            
                         });                            
                     {% endfor %}
                     
                     // handle package deletes
-                    {% for package in grid_packages %}
-                        $("a#package-delete-{{ package.id }}").click(function(e) {
-                            delete_confirmation(e, '{% url delete_grid_package package.id %}')
+                    {% for grid_package in grid_packages %}
+                        $("a#package-delete-{{ grid_package.pk }}").click(function(e) {
+                            delete_confirmation(e, '{% url delete_grid_package grid_package.pk %}')
                         });                            
                     {% endfor %}                    
                     
@@ -225,6 +214,4 @@
                  
             });    
         </script>
-    {% endwith %}
-    {% endwith %}    
 {% endblock %}
