@@ -13,7 +13,7 @@ from grid.views import (
         edit_element,
         edit_grid,
         edit_feature,
-        grid, 
+        grid_detail, 
         grids
     )
 
@@ -34,7 +34,7 @@ urlpatterns = patterns("",
     
     url(
         regex = '^g/(?P<slug>[-\w]+)/$',
-        view    = grid,
+        view    = grid_detail,
         name    = 'grid',
     ), 
     
