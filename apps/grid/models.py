@@ -40,7 +40,6 @@ class GridPackage(BaseModel):
     package     = models.ForeignKey(Package)
     
     class Meta:
-        
         verbose_name = 'Grid Package'
         verbose_name_plural = 'Grid Packages'        
         
@@ -62,7 +61,7 @@ Linebreaks are turned into 'br' tags<br />
 Urls are turned into links<br />
 You can use just 'check', 'yes', 'good' to place a checkmark icon.<br />
 You can use 'bad', 'negative', 'evil', 'sucks', 'no' to place a negative icon.<br />
-Plus just '+' or '-' signs can be used but cap at 3 multiples to protect layout<br/
+Plus just '+' or '-' signs can be used but cap at 3 multiples to protect layout<br/>
 
 """
     
