@@ -1,3 +1,4 @@
+import urllib
 import simplejson
 
 from django.contrib.auth.decorators import login_required
@@ -145,12 +146,11 @@ def ajax_package_list(request, template_name="package/ajax_package_list.html"):
     
 def usage(request, slug, action):
     success = False
-    
     # Check if the user is authenticated, redirecting them to the login page if
     # they're not.
     if not request.user.is_authenticated():
         url = settings.LOGIN_URL + '?next=%s' % reverse('usage', args=(slug, action))
-        url += '%%3Fnext=/%s' % request.META['HTTP_REFERER'].split('/', 3)[-1]
+        url += urllib.quote_plus('?next=/%s' % request.META['HTTP_REFERER'].split('/', 3)[-1])
         if request.is_ajax():
             response = {}
             response['success'] = success
