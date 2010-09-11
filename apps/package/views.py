@@ -143,7 +143,7 @@ def ajax_package_list(request, template_name="package/ajax_package_list.html"):
         context_instance=RequestContext(request)
     )
     
-def add_usage(request, slug, action):
+def usage(request, slug, action):
     success = False
     
     # Check if the user is authenticated, redirecting them to the login page if
