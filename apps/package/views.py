@@ -1,8 +1,10 @@
+import urllib
 import simplejson
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.conf import settings
 from django.db.models import Q, Count
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
@@ -141,34 +143,51 @@ def ajax_package_list(request, template_name="package/ajax_package_list.html"):
         },
         context_instance=RequestContext(request)
     )
+
+def usage(request, slug, action):
+    success = False
+    # Check if the user is authenticated, redirecting them to the login page if
+    # they're not.
+    if not request.user.is_authenticated():
+        url = settings.LOGIN_URL + '?next=%s' % reverse('usage', args=(slug, action))
+        url += urllib.quote_plus('?next=/%s' % request.META['HTTP_REFERER'].split('/', 3)[-1])
+        if request.is_ajax():
+            response = {}
+            response['success'] = success
+            response['redirect'] = url
+            return HttpResponse(simplejson.dumps(response))
+        return HttpResponseRedirect(url)
     
-def usage(request, slug):
     package = get_object_or_404(Package, slug=slug)
     
-    # Toggle the current user's usage of the given package.
+    # Update the current user's usage of the given package as specified by the
+    # request.
     if package.usage.filter(username=request.user.username):
-        package.usage.remove(request.user)
-        template_name = '/packages/add_usage_button.html'
-        change = -1
-    else:    
-        package.usage.add(request.user)
-        template_name = '/packages/remove_usage_button.html'
-        change = 1
+        if action.lower() == 'remove':
+            package.usage.remove(request.user)
+            success = True
+            template_name = 'package/add_usage_button.html'
+            change = -1
+    else:
+        if action.lower() == 'add':
+            package.usage.add(request.user)
+            success = True
+            template_name = 'package/remove_usage_button.html'
+            change = 1
     
+    # Return an ajax-appropriate response if necessary
     if request.is_ajax():
-        response = {}
-        response['success'] = True
-        response['change'] = change
-        response['body'] = render_to_string(
-            template_name,
-            {"package": package},
-            context_instance = RequestContext(request)
-        )
+        response = {'success': success}
+        if success:
+            response['change'] = change
+            response['body'] = render_to_string(
+                template_name,
+                {"package": package},
+                context_instance = RequestContext(request)
+            )
         return HttpResponse(simplejson.dumps(response))
     
-    #return HttpResponseRedirect(reverse("package", kwargs={"slug": package.slug}))
-    return HttpResponseRedirect(request.META["HTTP_REFERER"])
-
-
-
-
+    # Intelligently determine the URL to redirect the user to based on the
+    # available information.
+    next = request.GET.get('next') or request.META.get("HTTP_REFERER") or reverse("package", kwargs={"slug": package.slug})
+    return HttpResponseRedirect(next)
