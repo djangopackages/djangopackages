@@ -1,11 +1,12 @@
 from django.contrib import admin
+from reversion.admin import VersionAdmin
 
 from package.models import Category, Package, PackageExample, Repo, Commit
 
 class PackageExampleInline(admin.TabularInline):
     model = PackageExample
     
-class PackageAdmin(admin.ModelAdmin):
+class PackageAdmin(VersionAdmin):
     
     save_on_top = True    
     search_fields = ('title',)
@@ -25,11 +26,11 @@ class PackageAdmin(admin.ModelAdmin):
         }),
     )    
     
-class CommitAdmin(admin.ModelAdmin):
+class CommitAdmin(VersionAdmin):
     list_filter = ('package',)
     
 
-admin.site.register(Category)
+admin.site.register(Category, VersionAdmin)
 admin.site.register(Package, PackageAdmin)
-admin.site.register(Repo)
+admin.site.register(Repo, VersionAdmin)
 admin.site.register(Commit, CommitAdmin)
