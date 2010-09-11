@@ -1,9 +1,0 @@
-{% comment %}used for saying if its used or not{% endcomment %}
-{% if using %}
-    {% if show_count %}
-    <h2>You use this! (so do {{ count }} others)</h2>
-    {% endif %}
-    <a class="large awesome red" href="{% url usage package.slug %}">Unuse it!</a>
-{% else %}
-    <a class="large awesome green" href="{% url usage package.slug %}">I use this!</a>
-{% endif %}

@@ -24,31 +24,3 @@ def commits_over_52(package):
     weeks.reverse()
     weeks = map(str, weeks)
     return ','.join(weeks)
-    
-@register.inclusion_tag('package/templatetags/usage.html')
-def usage(user, package):
-    
-    using = package.usage.filter(username=user) or False
-    count = 0
-    if using:
-        count = package.usage.count() - 1
-            
-    return {
-                "using": using,
-                "count": count,
-                "package": package,
-                "show_count": True
-            }
-            
-@register.inclusion_tag('package/templatetags/usage.html')
-def usage_no_count(user, package):
-
-    using = package.usage.filter(username=user) or False
-    count = 0
-
-    return {
-                "using": using,
-                "count": count,
-                "package": package,
-                "show_count": False
-            }            
