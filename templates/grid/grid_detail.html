@@ -6,7 +6,9 @@
 {% endcomment %}
 
 {% load i18n %}
+{% load cache %}
 {% load grid_tags %}
+{% load package_tags %}
 
 {% block head_title %}{{ object.title }}{% endblock %}
 
@@ -78,19 +80,18 @@
                         <td>{{ grid_package.package.repo_description|truncatewords:20|wordwrap:30|linebreaksbr }}</td>
                     {% endfor %}
                 </tr>                    
+                <tr class="odd">
+                    <td>Category</td>
+                    {% for grid_package in grid_packages %}
+                        <td>{{ grid_package.package.category }}</td>
+                    {% endfor %}
+                </tr>                
                 <tr class="even">
                     <td>Usage</td>
                     {% for grid_package in grid_packages %}
                         <td>{{ grid_package.usage_count }}</td>
                     {% endfor %}
                 </td>
-                <tr class="odd">
-                    <td>Version</td>
-                    {% for grid_package in grid_packages %}
-                        <td>{{ grid_package.package.pypi_version|default:"n/a" }}</td>
-                    {% endfor %}
-            
-                </tr>
                 <tr class="even">
                     <td>Downloads</td>
                     {% for grid_package in grid_packages %}
@@ -105,17 +106,26 @@
                     {% endfor %}
                 </tr>
                 <tr class="odd">
-                    <td>Category</td>
+                    <td>Version</td>
                     {% for grid_package in grid_packages %}
-                        <td>{{ grid_package.package.category }}</td>
+                        <td>{{ grid_package.package.pypi_version|default:"n/a" }}</td>
                     {% endfor %}
-                </tr>                
+            
+                </tr>
                 <tr class="even">
                     <td>Repo</td>
                     {% for grid_package in grid_packages %}
                         <td>{{ grid_package.package.repo }}</td>
                     {% endfor %}
                 </tr>            
+                <tr class="even">
+                    <td>Commits</td>
+                    {% for grid_package in grid_packages %}
+                        {% cache 86400 commitchart grid_package.package %}                
+                            <td><img class="package-githubcommits" src="http://chart.apis.google.com/chart?cht=bvg&chs=105x20&chd=t:{{ grid_package.package|commits_over_52 }}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
+                        {% endcache %}
+                    {% endfor %}
+                </tr>
                 <tr class="odd">
                     <td>Repo Watchers</td>
                     {% for grid_package in grid_packages %}
