@@ -13,17 +13,17 @@ from package.views import (
                             update_package,
                             usage
                             )
-                            
-from package.class_views import PackageList                        
-
 
 urlpatterns = patterns("",
     url(
         regex   = r"^$",
-        view    = PackageList(),
-        name    = "packages",      
+        view    = object_list,
+        name    = "packages",
+        kwargs  = dict(
+            queryset=Package.objects.select_related(),        
+            )            
     ),
-
+    
     url(
         regex   = r"^latest/$",
         view    = archive_index,

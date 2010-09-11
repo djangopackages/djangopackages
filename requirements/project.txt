@@ -11,4 +11,3 @@ south==0.7.2
 mimeparse==0.1.2
 python-dateutil==1.5
 django-reversion==1.3.1
--e git://github.com/pydanny/django-class-based-views.git#egg=class_based_views
