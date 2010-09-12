@@ -60,6 +60,7 @@
                     {% for message in messages %}
                     <li id="message_{{ forloop.counter }}"{% if message.tags %} class="{{ message.tags }}"{% endif %}>
                         <a href="#"><small>{% trans "clear" %}</small></a>
+                        &nbsp;
                         {{ message }}
                     </li>
                     {% endfor %}
