@@ -10,7 +10,7 @@ class RotatorManager(models.Manager):
     
     def get_current(self):
         now = datetime.datetime.now()
-        return self.get_query_set().filter(start_date__lte=now,end_date__gte=now)
+        return self.get_query_set().filter(start_date__lte=now, end_date__gte=now)
 
 class Dpotw(BaseModel):
     
