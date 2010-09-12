@@ -8,6 +8,8 @@ from grid.models import Grid
 from homepage.models import Dpotw, Gotw
 from package.models import Package, Category, Repo
 
+# TODO - exclude ID, repo_commits, and other fields not yet used
+
 class EnhancedModelResource(ModelResource):
     def obj_get(self, **kwargs):
         """
