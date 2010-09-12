@@ -39,16 +39,18 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
     # Get a list of all elements for this grid, and then package them into a
     # dictionary so we can easily lookup the element for every
     # feature/grid_package combination.
-    elements = {}
-    for e in Element.objects.all().filter(feature__in=features):
-        elements.setdefault(e.feature_id, {})[e.grid_package_id] = e
+    elements_mapping = {}
+    all_elements = Element.objects.all().filter(feature__in=features)
+    for element in all_elements:
+        grid_mapping = elements_mapping.setdefault(element.feature_id, {})
+        grid_mapping[element.grid_package_id] = element
     
     return render_to_response(
         template_name, {
             'grid': grid,
             'features': features,
             'grid_packages': grid_packages,
-            'elements': elements,
+            'elements': elements_mapping,
         }, context_instance = RequestContext(request)
     )
         
