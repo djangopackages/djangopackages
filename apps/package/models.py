@@ -17,9 +17,8 @@ from django.utils.translation import ugettext_lazy as _
 from github2.client import Github
 
 from package.handlers import github
-
 from package.fields import CreationDateTimeField, ModificationDateTimeField
-
+from package.pypi import fetch_releases
 from package.utils import uniquer
 
 class NoPyPiVersionFound(Exception):
@@ -112,7 +111,17 @@ class Package(BaseModel):
                         help_text="List of collaborats/participants on the project", blank=True)
     usage           = models.ManyToManyField(User, blank=True)
                         
-    
+    def pypi_name(self):
+        """ return the pypi name of a package"""
+        
+        if not self.pypi_url.strip():
+            return ""
+            
+        name = self.pypi_url.replace("http://pypi.python.org/pypi/","")
+        if "/" in name:
+            return name[:name.index("/")]
+        return name
+
     def active_examples(self):
         return self.packageexample_set.filter(active=True)
     
@@ -132,46 +141,16 @@ class Package(BaseModel):
         # Get the downloads from pypi
         if self.pypi_url.strip() and self.pypi_url != "http://pypi.python.org/pypi/":
             
-            page = urlopen(self.pypi_url).read()
-            # If the target page is an Index of packages
-            if 'Index of Packages' in page:
-                if self.pypi_url.endswith('/'):
-                    project_name = self.pypi_url[:-1]
-                else:
-                    project_name = self.pypi_url
-                project_name = os.path.split(project_name)[1]
-                logging.debug(project_name)
-                page_re = re.compile(r'<a href="/pypi/%s/([a-zA-Z0-9\.\-\_]{1,})">' % project_name)
-                match = page_re.search(page).group()
-                if match:
-                    url = match.replace('<a href="', 'http://pypi.python.org')
-                    url = url.replace('">', '')
-                    page = urlopen(url).read()
-                else:
-                    raise NoPyPiVersionFound('self.pypi_url')
+            for release in fetch_releases(self.pypi_name()):
             
-            # We have a working page so grab the package info
-            match = downloads_re.search(page)
-            if match:
-                match = match.group()
-                self.pypi_downloads = match.replace('<td style="text-align: right;">', '')
-                self.pypi_downloads = self.pypi_downloads.replace('</td>', '')
-                self.pypi_downloads = int(self.pypi_downloads)
-            else:
-                # TODO - This could actually be that they don't show downloads.
-                #       For example, Pinax does this. Deal with this somehow when not so late
-                self.pypi_downloads = 0
-            
-            # get the version off of Pypi doap
-            match = doap_re.search(page)
-            if match:
-                group = match.group()
-                if group:
-                    url = 'http://pypi.python.org%s' % group
-                    doap = urlopen(url).read()
-                    match = version_re.search(doap).group()
-                    self.pypi_version = match.replace('<revision>','').replace('</revision>','')
-            
+                version, created = Version.objects.get_or_create(
+                    package = self,
+                    number = release.version
+                )
+
+                version.downloads = release.downloads
+                version.license = release.license
+                version.save()
         
         # Get the repo watchers number
         # TODO - make this abstracted so we can plug in other repos
@@ -179,9 +158,8 @@ class Package(BaseModel):
         handler = sys.modules[self.repo.handler]
 
         self = handler.pull(self)
-        
 
-        
+
         super(Package, self).save(*args, **kwargs) # Call the "real" save() method.
 
     
@@ -199,10 +177,10 @@ class Package(BaseModel):
 
 class PackageExample(BaseModel):
     
-    package      = models.ForeignKey(Package)
-    title        = models.CharField(_("Title"), max_length="100")
-    url          = models.URLField(_("URL"))
-    active       = models.BooleanField(_("Active"), default=True, help_text="Moderators have to approve links before they are provided")
+    package = models.ForeignKey(Package)
+    title = models.CharField(_("Title"), max_length="100")
+    url = models.URLField(_("URL"))
+    active = models.BooleanField(_("Active"), default=True, help_text="Moderators have to approve links before they are provided")
     
     class Meta:
         ordering = ['title']
@@ -220,3 +198,17 @@ class Commit(BaseModel):
         
     def __unicode__(self):
         return "Commit for '%s' on %s" % (self.package.title, unicode(self.commit_date))
+        
+class Version(BaseModel):
+    
+    package = models.ForeignKey(Package)
+    number = models.CharField(_("Version"), max_length="100", default="", blank="")
+    downloads = models.IntegerField(_("downloads"), default=0)
+    license = models.CharField(_("Version"), max_length="100")
+    
+    class Meta:
+        ordering = ['-number']
+    
+    def __unicode__(self):
+        return "%s: %s" % (self.package.title, self.number)
+    

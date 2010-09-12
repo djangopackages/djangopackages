@@ -62,17 +62,20 @@
 
     {% if object.pypi_url and object.pypi_url != "http://pypi.python.org/pypi/" %}
         <h2>PyPI</h2>
+        <p><a href="{{ object.pypi_url }}">{{ object.pypi_url }}</a></p>
         <table>
             <tr>
-                <th>PyPI URL</th>
                 <th>Version</th>
+                <th>License</th>                
                 <th><img src="{{ STATIC_URL }}img/grayarrow_20x20_clear.png" alt="Downloads" /></th>
             </tr>
-            <tr>
-                <td><a href="{{ object.pypi_url }}">{{ object.pypi_url }}</a></td>
-                <td>{{ object.pypi_version|default:"n/a" }}</td>
-                <td>{{ object.pypi_downloads|default:"n/a" }}</td>
-            </tr>
+            {% for version in object.version_set.all %}
+                <tr>
+                    <td>{{ version.number }}</td>
+                    <td>{{ version.license|default:"none" }}</td>                    
+                    <td>{{ version.downloads|default:"n/a" }}</td>
+                </tr>
+            {% endfor %}
         </table>
     {% else %}
         <h2>No PyPI release</h2>
