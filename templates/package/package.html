@@ -61,7 +61,7 @@
     </table>
 
     {% if object.pypi_url and object.pypi_url != "http://pypi.python.org/pypi/" %}
-        <h2>PyPI</h2>
+        <h2>PyPI {% if object.pypi_downloads %}( {{ object.pypi_downloads }} downloads ){% endif %}</h2>
         <p><a href="{{ object.pypi_url }}">{{ object.pypi_url }}</a></p>
         <table>
             <tr>

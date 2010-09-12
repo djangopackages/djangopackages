@@ -141,6 +141,8 @@ class Package(BaseModel):
         # Get the downloads from pypi
         if self.pypi_url.strip() and self.pypi_url != "http://pypi.python.org/pypi/":
             
+            total_downloads = 0
+            
             for release in fetch_releases(self.pypi_name()):
             
                 version, created = Version.objects.get_or_create(
@@ -149,8 +151,11 @@ class Package(BaseModel):
                 )
 
                 version.downloads = release.downloads
+                total_downloads += release.downloads
                 version.license = release.license
                 version.save()
+            
+            self.pypi_downloads = total_downloads
         
         # Get the repo watchers number
         # TODO - make this abstracted so we can plug in other repos
