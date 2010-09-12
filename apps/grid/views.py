@@ -29,6 +29,7 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
     # Get a list of all elements for this grid, and then package them into a
     # dictionary so we can easily lookup the element for every
     # feature/grid_package combination.
+    # <!-- BUG - Taavi can you look at this?
     elements = {}
     for e in Element.objects.all().filter(feature__in=features):
         elements.setdefault(e.feature_id, {})[e.grid_package_id] = e
