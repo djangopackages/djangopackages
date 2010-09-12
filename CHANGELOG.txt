@@ -3,7 +3,6 @@
 
 taavi223 - Query optimization, caching, added functional tests for grid views, made deleting grid features and packages permission related, and graphical improvements.
 
-
 2010, September 11
 ==================
 

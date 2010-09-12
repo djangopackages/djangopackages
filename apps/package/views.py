@@ -33,6 +33,7 @@ def add_package(request, template_name="package/package_form.html"):
         new_package.created_by = request.user
         new_package.last_modified_by = request.user
         new_package.save()
+        new_package.fetch_metadata()
         return HttpResponseRedirect(reverse("package", kwargs={"slug":new_package.slug}))
     
     return render_to_response(template_name, {
@@ -67,7 +68,7 @@ def edit_package(request, slug, template_name="package/package_form.html"):
 def update_package(request, slug):
     
     package = get_object_or_404(Package, slug=slug)
-    package.save()
+    package.fetch_metadata()
         
     return HttpResponseRedirect(reverse("package", kwargs={"slug": package.slug}))
 

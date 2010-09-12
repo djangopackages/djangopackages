@@ -4,18 +4,52 @@
 
 {% block head_title %}Packages{% endblock %}
 
+{% block extra_head %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/home.css" />
+{% endblock %}
+
+
 {% block body %}
 
     <h1>Django Packages</h1>
 
-    <p>
-        <a class="large awesome darkbrown" href="{% url add_package %}">Add new package »</a>
+    <p id="links"><a class="large awesome green" href="{% url add_package %}">add package »</a>
+        <a href="{% url latest_packages %}">latest</a> <a href="{% url packages %}">all</a>
     </p>
 
-    <div id="packages">
-        {% for package in object_list %}
-            {% include "package/_package.html"%}
-        {% endfor %}
-    </div>
 
+    <p>Click table headers to sort</p>
+
+    <table id="all-packages">
+        <thead>
+        <tr>
+            <th>Usage</th>
+            <th></th>
+            <th class="tiny-column">PyPi Downloads</th>
+            <th>Name</th>
+            <th>Commits</th>
+            <th>Version</th>
+            <th><img src="{{ STATIC_URL }}img/eye_20x20_clear.png" /></th>
+            <th><img src="{{ STATIC_URL }}img/fork_20x20_clear.png" /></th>
+            <th>Added</th>
+        </tr>
+        </thead>
+        <tbody> 
+        {% for package in object_list %}
+            {% include "package/_package_row.html"%}
+        {% endfor %}
+        </tbody>         
+    </table>
+
+{% endblock %}
+
+
+{% block extra_body %}
+    <script type="text/javascript">
+         $(document).ready(function() 
+             { 
+                 $("#all-packages").tablesorter(); 
+             } 
+         );
+    </script>
 {% endblock %}

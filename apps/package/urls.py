@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from django.db.models import Count
 from django.views.generic.list_detail import object_detail, object_list
 from django.views.generic.date_based import archive_index
 from django.views.generic.simple import direct_to_template
@@ -20,7 +21,7 @@ urlpatterns = patterns("",
         view    = object_list,
         name    = "packages",
         kwargs  = dict(
-            queryset=Package.objects.select_related(),        
+            queryset=Package.objects.annotate(usage_count=Count("usage")).order_by('-pypi_downloads', '-repo_watchers', 'title')
             )            
     ),
     

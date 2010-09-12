@@ -138,7 +138,7 @@ class Package(BaseModel):
         
         return self.participants.split(',')
     
-    def save(self, *args, **kwargs):
+    def fetch_metadata(self, *args, **kwargs):
         
         # Get the downloads from pypi
         if self.pypi_url.strip() and self.pypi_url != "http://pypi.python.org/pypi/":
@@ -162,18 +162,15 @@ class Package(BaseModel):
                 version.save()
             
             self.pypi_downloads = total_downloads
+            self.save()
         
         # Get the repo watchers number
-        # TODO - make this abstracted so we can plug in other repos
         base_handler = __import__(self.repo.handler)
         handler = sys.modules[self.repo.handler]
 
         self = handler.pull(self)
 
 
-        super(Package, self).save(*args, **kwargs) # Call the "real" save() method.
-
-    
     class Meta:
         ordering = ['title']
     
