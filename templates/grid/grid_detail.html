@@ -37,7 +37,7 @@
                     <tr>                        
                         <td>{{ feature.title }}
                         {% if request.user.is_authenticated %}
-                            <a href="{% url edit_feature feature.pk %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>{% if request.user.is_staff %}&nbsp;<a href="#" id="feature-delete-{{ feature.pk }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete" /></a>{% endif %}
+                            <a href="{% url edit_feature feature.pk %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>{% if perms.grid.delete_feature %}&nbsp;<a href="#" id="feature-delete-{{ feature.pk }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete" /></a>{% endif %}
                         {% endif %}
                         </td>
                         <td>{{ feature.description }}</td>
@@ -72,7 +72,7 @@
                     <th>Package</th>
                     {% for grid_package in grid_packages %}
                         <th>
-                          <a href="{% url package grid_package.package.slug %}">{{ grid_package.package.title }}</a>{% if request.user.is_staff %}&nbsp;<a href="#" id="package-delete-{{ grid_package.pk }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete"/></a>{% endif %}
+                          <a href="{% url package grid_package.package.slug %}">{{ grid_package.package.title }}</a>{% if perms.grid.delete_gridpackage %}&nbsp;<a href="#" id="package-delete-{{ grid_package.pk }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete"/></a>{% endif %}
                         </th>
                     {% endfor %}
                 </tr>
@@ -226,13 +226,15 @@
                     };
                     
                     // handle feature deletes
-                    {% if request.user.is_staff %}
+                    {% if perms.grid.delete_feature %}
                         {% for feature in features %}
                             $("a#feature-delete-{{ feature.pk }}").click(function(e) {
                                 delete_confirmation(e, '{% url delete_feature feature.pk %}')                            
-                            });                            
+                            });                  
                         {% endfor %}
+                    {% endif %}
                     
+                    {% if perms.grid.delete_gridpackage %}
                         // handle package deletes
                         {% for grid_package in grid_packages %}
                             $("a#package-delete-{{ grid_package.pk }}").click(function(e) {
