@@ -110,6 +110,8 @@ class Package(BaseModel):
     participants    = models.TextField(_("Participants"),
                         help_text="List of collaborats/participants on the project", blank=True)
     usage           = models.ManyToManyField(User, blank=True)
+    created_by = models.ForeignKey(User, blank=True, null=True, related_name="creator")    
+    last_modified_by = models.ForeignKey(User, blank=True, null=True, related_name="modifier")
                         
     def pypi_name(self):
         """ return the pypi name of a package"""

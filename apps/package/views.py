@@ -30,6 +30,9 @@ def add_package(request, template_name="package/package_form.html"):
     
     if form.is_valid():
         new_package = form.save()
+        new_package.created_by = request.user
+        new_package.last_modified_by = request.user
+        new_package.save()
         return HttpResponseRedirect(reverse("package", kwargs={"slug":new_package.slug}))
     
     return render_to_response(template_name, {
@@ -46,8 +49,11 @@ def edit_package(request, slug, template_name="package/package_form.html"):
     form = PackageForm(request.POST or None, instance=package)
     
     if form.is_valid():
-        form.save()
-        return HttpResponseRedirect(reverse("package", kwargs={"slug": package.slug}))
+        modified_package = form.save()
+        modified_package.last_modified_by = request.user
+        modified_package.save()
+        
+        return HttpResponseRedirect(reverse("package", kwargs={"slug": modified_package.slug}))
     
     return render_to_response(template_name, {
         "form": form,
