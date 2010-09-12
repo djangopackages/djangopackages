@@ -4,6 +4,7 @@ import simplejson
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.core.cache import cache
 from django.conf import settings
 from django.db.models import Q, Count
 from django.http import HttpResponseRedirect, HttpResponse
@@ -174,6 +175,11 @@ def usage(request, slug, action):
             success = True
             template_name = 'package/remove_usage_button.html'
             change = 1
+    
+    # Invalidate the cache of this users's used_packages_list.
+    if success:
+        cache_key = "sitewide:used_packages_list:%s" % request.user.pk
+        cache.delete(cache_key)
     
     # Return an ajax-appropriate response if necessary
     if request.is_ajax():
