@@ -1,10 +1,9 @@
 2010, September 12
 ==================
 
-taavi223 - Query optimization, caching, added functional tests for grid views, and made deleting grid features and packages permission related.
+taavi223 - Query optimization, caching, added functional tests for grid views, and made deleting grid features and packages permission related, and graphical improvements.
 ojii - API now supports slugs instead of ids, ++ on grids, and tests
 pydanny - various view fixes, moved metadata handling out of Package.save() and into Package.fetch_data
-
 
 2010, September 11
 ==================
