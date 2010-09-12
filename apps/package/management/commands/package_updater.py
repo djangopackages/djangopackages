@@ -37,14 +37,14 @@ class Command(NoArgsCommand):
             try:
                 if package.repo == github_repo:
                     # Do github
-                    package.save()
+                    package.fetch_metadata()
                     for commit in github.commits.list(package.repo_name(), "master"):
                         commit, created = Commit.objects.get_or_create(package=package, commit_date=commit.committed_date)
                     zzz += 1
                 elif package.repo == bitbucket_repo:
                     zzz = 1
                     # do bitbucket
-                    package.save()                    
+                    package.fetch_metadata()                    
                     for commit in get_bitbucket_commits(package):
                         commit, created = Commit.objects.get_or_create(package=package, commit_date=commit["timestamp"])
                 else:
