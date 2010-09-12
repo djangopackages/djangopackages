@@ -28,8 +28,7 @@
     <table id="home-packages">
             <thead>
             <tr>
-                <th>Usage</th>
-                <th></th>
+                <th># Using This</th>
                 <th class="tiny-column">PyPi Downloads</th>
                 <th>Name</th>
                 <th>Commits</th>
@@ -42,13 +41,16 @@
         <tbody>
         {% for package in packages %}
             <tr class="usage-container">
-                <td class="usage-count">{{ package.usage_count }}</td>                
-                <td class="usage-button">
-                    {% if package.pk in used_packages_list %}
-                    {% include "package/remove_usage_button.html" %}
-                    {% else %}
-                    {% include "package/add_usage_button.html" %}
-                    {% endif %}
+                <td class="usage-container">
+                    <span class="usage-count">{{ package.usage_count }}</span>
+                    &nbsp;
+                    <span class="usage-button">
+                        {% if package.pk in used_packages_list %}
+                        {% include "package/remove_usage_button.html" %}
+                        {% else %}
+                        {% include "package/add_usage_button.html" %}
+                        {% endif %}
+                    </span>
                 </td>
                 <td>{{ package.pypi_downloads }}</td>
                 <td><a href="{% url package package.slug %}">{{ package.title }}</a></td>
