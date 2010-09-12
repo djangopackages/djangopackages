@@ -11,6 +11,16 @@ from grid.forms import ElementForm, FeatureForm, GridForm, GridPackageForm
 from grid.models import Element, Feature, Grid, GridPackage
 from package.models import Package
 
+def build_grids(grid):
+    # Builds the grid
+    
+    for grid_package in grid.gridpackage_set.all():
+        for feature in grid.feature_set.all():
+            element, created = Element.objects.get_or_create(
+                                            grid_package=grid_package,
+                                            feature=feature
+                                            )    
+
 def grids(request, template_name="grid/grids.html"):
     grids = Grid.objects.all().annotate(gridpackage_count=Count('gridpackage'), feature_count=Count('feature'))
     return render_to_response(
@@ -29,7 +39,6 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
     # Get a list of all elements for this grid, and then package them into a
     # dictionary so we can easily lookup the element for every
     # feature/grid_package combination.
-    # <!-- BUG - Taavi can you look at this?
     elements = {}
     for e in Element.objects.all().filter(feature__in=features):
         elements.setdefault(e.feature_id, {})[e.grid_package_id] = e
@@ -88,6 +97,7 @@ def add_feature(request, grid_slug, template_name="grid/add_feature.html"):
                     description = request.POST['description']
                 )
         feature.save()
+        build_grids(grid)
         return HttpResponseRedirect(reverse('grid', kwargs={'slug':feature.grid.slug}))
 
 
@@ -174,6 +184,7 @@ def add_grid_package(request, grid_slug, template_name="grid/add_grid_package.ht
                     )
             package.save()
             redirect = request.POST.get('redirect','')
+            build_grids(grid)
             if redirect:
                 return HttpResponseRedirect(redirect)
             
