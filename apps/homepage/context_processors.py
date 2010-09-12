@@ -8,7 +8,7 @@ def grid_tabs(request):
     grid_tabs = cache.get(cache_key)
     if grid_tabs is None:
         grid_tabs = Tab.objects.all().select_related('grid')
-        cache.set(cache_key, grid_tabs, 300)
+        cache.set(cache_key, grid_tabs, 60 * 5)
     return {'grid_tabs': grid_tabs}
 
 def current_path(request):
