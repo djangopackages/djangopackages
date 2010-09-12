@@ -189,7 +189,6 @@ def usage(request, slug, action):
             response['body'] = render_to_string(
                 template_name,
                 {"package": package},
-                context_instance = RequestContext(request)
             )
         return HttpResponse(simplejson.dumps(response))
     
