@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.test.client import Client
 from django.core.urlresolvers import reverse
 
-from grid.models import Element
+from grid.models import Element, Feature, GridPackage
 
 class FunctionalGridTest(TestCase):
     fixtures = ['test_initial_data.json']
@@ -77,6 +77,23 @@ class FunctionalGridTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'grid/edit_feature.html')
 
+    def test_delete_feature_view(self):
+        count = Feature.objects.count()
+        client = Client()
+        
+        # Since this user doesn't have the appropriate permissions, none of the
+        # features should be deleted (thus the count should be the same).
+        self.assertTrue(client.login(username='user', password='user'))
+        url = reverse('delete_feature', kwargs={'id': '1'})
+        response = client.get(url)
+        self.assertEqual(count, Feature.objects.count())
+        
+        # Once we log in with the appropriate user, the request should delete
+        # the given feature, reducing the count by one.
+        self.assertTrue(client.login(username='cleaner', password='cleaner'))
+        response = client.get(url)
+        self.assertEqual(count - 1, Feature.objects.count())
+
     def test_edit_element_view(self):
         client = Client()
         url = reverse('edit_element', kwargs={'feature_id': '1', 'package_id': '1'})
@@ -104,6 +121,23 @@ class FunctionalGridTest(TestCase):
         response = client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'grid/add_grid_package.html')
+
+    def test_delete_gridpackage_view(self):
+        count = GridPackage.objects.count()
+        client = Client()
+        
+        # Since this user doesn't have the appropriate permissions, none of the
+        # features should be deleted (thus the count should be the same).
+        self.assertTrue(client.login(username='user', password='user'))
+        url = reverse('delete_grid_package', kwargs={'id': '1'})
+        response = client.get(url)
+        self.assertEqual(count, GridPackage.objects.count())
+        
+        # Once we log in with the appropriate user, the request should delete
+        # the given feature, reducing the count by one.
+        self.assertTrue(client.login(username='cleaner', password='cleaner'))
+        response = client.get(url)
+        self.assertEqual(count - 1, GridPackage.objects.count())
 
     def test_latest_grids_view(self):
         client = Client()

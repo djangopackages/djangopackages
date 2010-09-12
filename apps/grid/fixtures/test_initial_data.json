@@ -182,6 +182,22 @@
   { "fields" : { "date_joined" : "2010-01-01 12:00:00",
         "email" : "",
         "first_name" : "",
+        "groups" : [ 1 ],
+        "is_active" : true,
+        "is_staff" : false,
+        "is_superuser" : false,
+        "last_login" : "2010-01-01 12:00:00",
+        "last_name" : "",
+        "password" : "sha1$e6fe2$78b744e21cddb39117997709218f4c6db4e91894",
+        "user_permissions" : [  ],
+        "username" : "cleaner"
+      },
+    "model" : "auth.user",
+    "pk" : 2
+  },
+  { "fields" : { "date_joined" : "2010-01-01 12:00:00",
+        "email" : "",
+        "first_name" : "",
         "groups" : [  ],
         "is_active" : true,
         "is_staff" : true,
@@ -193,7 +209,7 @@
         "username" : "staff"
       },
     "model" : "auth.user",
-    "pk" : 2
+    "pk" : 3
   },
   { "fields" : { "date_joined" : "2010-01-01 12:00:00",
         "email" : "",
@@ -207,22 +223,6 @@
         "password" : "sha1$52c7f$59b4f64ffca593e6abd23f90fd1f95cf71c367a4",
         "user_permissions" : [  ],
         "username" : "admin"
-      },
-    "model" : "auth.user",
-    "pk" : 3
-  },
-  { "fields" : { "date_joined" : "2010-01-01 12:00:00",
-        "email" : "",
-        "first_name" : "",
-        "groups" : [ 1 ],
-        "is_active" : true,
-        "is_staff" : false,
-        "is_superuser" : false,
-        "last_login" : "2010-01-01 12:00:00",
-        "last_name" : "",
-        "password" : "sha1$e6fe2$78b744e21cddb39117997709218f4c6db4e91894",
-        "user_permissions" : [  ],
-        "username" : "cleaner"
       },
     "model" : "auth.user",
     "pk" : 4
