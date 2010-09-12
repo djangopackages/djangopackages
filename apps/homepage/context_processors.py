@@ -4,10 +4,11 @@ from django.core.cache import cache
 from homepage.models import Tab
 
 def grid_tabs(request):
-    grid_tabs = cache.get('sitewide:grid_tabs')
+    cache_key = 'sitewide:grid_tabs'
+    grid_tabs = cache.get(cache_key)
     if grid_tabs is None:
         grid_tabs = Tab.objects.all().select_related('grid')
-        cache.set('sitewide:grid_tabs', grid_tabs, 300)
+        cache.set(cache_key, grid_tabs, 300)
     return {'grid_tabs': grid_tabs}
 
 def current_path(request):
