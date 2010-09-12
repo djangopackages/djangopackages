@@ -1,4 +1,5 @@
 from django.test import TestCase
+
 from grid.templatetags.grid_tags import style_element, YES_IMG, NO_IMG, \
     YES_KEYWORDS, NO_KEYWORDS
 
