@@ -27,22 +27,26 @@
         <table>
             <thead>
             <tr>
-                <th>Usage</th>
-                <th></th>
+                <th># Using This</th>
                 <th></th>
             </tr>
             </thead>
 
             <tbody>
                 <tr class="usage-container">
-                    <td class="usage-count">{{ object.usage.count }}</td>                
-                    <td class="usage-button">{% with object as package %}
-                        {% if package.pk in used_packages_list %}
-                        {% include "package/remove_usage_button.html" %}
-                        {% else %}
-                        {% include "package/add_usage_button.html" %}
-                        {% endif %}
-                    {% endwith %}</td>
+                    <td class="usage-container">
+                        <span class="usage-count">{{ object.usage.count }}</span>
+                        &nbsp;
+                        <span class="usage-button">
+                            {% with object as package %}
+                                {% if package.pk in used_packages_list %}
+                                {% include "package/remove_usage_button.html" %}
+                                {% else %}
+                                {% include "package/add_usage_button.html" %}
+                                {% endif %}
+                            {% endwith %}
+                        </span>
+                    </td>
                     <td><a class="awesome lavender" href="{% url fetch_package_data object.slug %}">Fetch latest data</a></td>
                 </tr>    
             </tbody>        
