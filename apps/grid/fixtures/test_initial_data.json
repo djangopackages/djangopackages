@@ -1,41 +1,200 @@
-[{"pk": 1, "model": "grid.grid", "fields": {"description": "This page lists a few well-known reusable Content Management System applications for Django and tries to gather a comparison of essential features in those applications.", "title": "CMS", "is_locked": false, "created": "2010-08-14 20:12:46", "modified": "2010-08-15 09:54:03", "slug": "cms"}}, 
-
-{"pk": 2, "model": "grid.grid", "fields": {"description": "This is a grid of all the projects that are being dashed on.", "title": "Django Dash", "is_locked": false, "created": "2010-08-15 01:29:37", "modified": "2010-08-15 09:49:44", "slug": "django-dash"}}, 
-
-{"pk": 3, "model": "grid.grid", "fields": {"description": "This is a grid of all apps for tagging items and generating tag clouds.", "title": "Tagging", "is_locked": false, "created": "2010-08-15 01:29:37", "modified": "2010-08-15 09:49:44", "slug": "tagging"}}, 
-
-{"pk": 4, "model": "grid.grid", "fields": {"description": "This is a grid of all user profile apps.", "title": "Profiles", "is_locked": false, "created": "2010-08-15 01:29:37", "modified": "2010-08-15 09:49:44", "slug": "profiles"}}, 
-
-{"pk": 5, "model": "grid.grid", "fields": {"description": "This is a grid of all apps for accepting payments.", "title": "Payment Processing", "is_locked": false, "created": "2010-08-15 01:29:37", "modified": "2010-08-15 09:49:44", "slug": "payment-processing"}}, 
-
-{"pk": 6, "model": "grid.grid", "fields": {"description": "This is a grid of all site frameworks built on top of Django as projects.", "title": "Site Frameworks", "is_locked": false, "created": "2010-08-15 01:29:37", "modified": "2010-08-15 09:49:44", "slug": "site-frameworks"}}, 
-
-{"pk": 7, "model": "grid.grid", "fields": {"description": "This is a grid of all packages for user authentication.", "title": "Authentication", "is_locked": false, "created": "2010-08-15 01:29:37", "modified": "2010-08-15 09:49:44", "slug": "authentication"}}, 
-
-{"pk": 8, "model": "grid.grid", "fields": {"description": "This is a grid of all form-related apps.", "title": "Forms", "is_locked": false, "created": "2010-08-15 01:29:37", "modified": "2010-08-15 09:49:44", "slug": "forms"}}, 
-
-{"pk": 9, "model": "grid.grid", "fields": {"description": "This is a grid of photo-management apps and projects.", "title": "Photos", "is_locked": false, "created": "2010-08-15 01:29:37", "modified": "2010-08-15 09:49:44", "slug": "photos"}}, 
-
-{"pk": 10, "model": "grid.grid", "fields": {"description": "This is a grid of all commenting-related apps.", "title": "Commenting", "is_locked": false, "created": "2010-08-15 01:29:37", "modified": "2010-08-15 09:49:44", "slug": "commenting"}}, 
-
-{"pk": 11, "model": "grid.grid", "fields": {"description": "This page lists Django developer tools for debugging and more.", "title": "Developer Tools", "is_locked": false, "created": "2010-08-14 20:12:46", "modified": "2010-08-15 09:54:03", "slug": "developer-tools"}}, 
-
-{"pk": 12, "model": "grid.grid", "fields": {"description": "This is a grid of generic cloud-related apps.", "title": "Cloud", "is_locked": false, "created": "2010-08-15 01:29:37", "modified": "2010-08-15 09:49:44", "slug": "cloud"}}, 
-
-{"pk": 13, "model": "grid.grid", "fields": {"description": "This is a grid of all apps/projects for exposing APIs for your Django models.", "title": "APIs", "is_locked": false, "created": "2010-08-15 01:29:37", "modified": "2010-08-15 09:49:44", "slug": "api"}}, 
-
-{"pk": 14, "model": "grid.grid", "fields": {"description": "This is a grid of search apps.", "title": "Search", "is_locked": false, "created": "2010-08-15 01:29:37", "modified": "2010-08-15 09:49:44", "slug": "search"}}, 
-
-{"pk": 15, "model": "grid.grid", "fields": {"description": "This is a grid of email-related apps.", "title": "Email", "is_locked": false, "created": "2010-08-15 01:29:37", "modified": "2010-08-15 09:49:44", "slug": "email"}}, 
-
-{"pk": 16, "model": "grid.grid", "fields": {"description": "This is a grid of auto-complete apps.", "title": "Auto-Complete", "is_locked": false, "created": "2010-08-15 01:29:37", "modified": "2010-08-15 09:49:44", "slug": "auto-complete"}}, 
-
-{"pk": 17, "model": "grid.grid", "fields": {"description": "This is a grid of all packages for routing.", "title": "Routing", "is_locked": false, "created": "2010-08-15 01:29:37", "modified": "2010-08-15 09:49:44", "slug": "routing"}}, 
-
-{"pk": 18, "model": "grid.grid", "fields": {"description": "This is a grid of all templatetag-related apps.", "title": "Templatetags", "is_locked": false, "created": "2010-08-15 01:29:37", "modified": "2010-08-15 09:49:44", "slug": "templatetags"}}, 
-
-{"pk": 19, "model": "grid.grid", "fields": {"description": "This is a grid of widget apps.", "title": "Widgets", "is_locked": false, "created": "2010-08-15 01:29:37", "modified": "2010-08-15 09:49:44", "slug": "widgets"}}, 
-
-{"pk": 20, "model": "grid.grid", "fields": {"description": "This is a grid of all pony-related apps.", "title": "Pony", "is_locked": false, "created": "2010-08-15 01:29:37", "modified": "2010-08-15 09:49:44", "slug": "pony"}}, 
-
-{"pk": 4, "model": "grid.gridpackage", "fields": {"package": 8, "grid": 2, "modified": "2010-08-15 01:32:59", "created": "2010-08-15 01:32:58"}}, {"pk": 5, "model": "grid.gridpackage", "fields": {"package": 7, "grid": 2, "modified": "2010-08-15 01:32:59", "created": "2010-08-15 01:32:58"}}, {"pk": 6, "model": "grid.gridpackage", "fields": {"package": 4, "grid": 2, "modified": "2010-08-15 01:32:59", "created": "2010-08-15 01:32:58"}}, {"pk": 7, "model": "grid.gridpackage", "fields": {"package": 6, "grid": 1, "modified": "2010-08-15 01:33:49", "created": "2010-08-15 01:33:49"}}, {"pk": 8, "model": "grid.gridpackage", "fields": {"package": 5, "grid": 1, "modified": "2010-08-15 01:33:49", "created": "2010-08-15 01:33:49"}}, {"pk": 9, "model": "grid.gridpackage", "fields": {"package": 9, "grid": 2, "modified": "2010-08-15 09:48:57", "created": "2010-08-15 09:48:57"}}, {"pk": 10, "model": "grid.gridpackage", "fields": {"package": 10, "grid": 1, "modified": "2010-08-15 09:54:03", "created": "2010-08-15 09:54:02"}}, {"pk": 1, "model": "grid.feature", "fields": {"description": "", "title": "508 compliant?", "grid": 1, "modified": "2010-08-14 20:13:55", "created": "2010-08-14 20:13:55"}}, {"pk": 1, "model": "grid.element", "fields": {"feature": 1, "text": "", "modified": "2010-08-15 01:34:37", "grid_package": 7, "created": "2010-08-15 01:34:37"}}, {"pk": 2, "model": "grid.element", "fields": {"feature": 1, "text": "", "modified": "2010-08-15 01:34:38", "grid_package": 8, "created": "2010-08-15 01:34:38"}}, {"pk": 3, "model": "grid.element", "fields": {"feature": 1, "text": "", "modified": "2010-08-15 09:54:09", "grid_package": 10, "created": "2010-08-15 09:54:09"}}]
+[ { "fields" : { "created" : "2010-01-01 12:00:00",
+        "description" : "A grid for testing.",
+        "is_locked" : false,
+        "modified" : "2010-01-01 12:00:00",
+        "slug" : "testing",
+        "title" : "Testing"
+      },
+    "model" : "grid.grid",
+    "pk" : 1
+  },
+  { "fields" : { "created" : "2010-01-01 12:00:00",
+        "grid" : 1,
+        "modified" : "2010-01-01 12:00:00",
+        "package" : 1
+      },
+    "model" : "grid.gridpackage",
+    "pk" : 1
+  },
+  { "fields" : { "created" : "2010-01-01 12:00:00",
+        "grid" : 1,
+        "modified" : "2010-01-01 12:00:00",
+        "package" : 2
+      },
+    "model" : "grid.gridpackage",
+    "pk" : 2
+  },
+  { "fields" : { "created" : "2010-01-01 12:00:00",
+        "grid" : 1,
+        "modified" : "2010-01-01 12:00:00",
+        "package" : 3
+      },
+    "model" : "grid.gridpackage",
+    "pk" : 3
+  },
+  { "fields" : { "created" : "2010-01-01 12:00:00",
+        "description" : "Does this package come with tests?",
+        "grid" : 1,
+        "modified" : "2010-01-01 12:00:00",
+        "title" : "Has tests?"
+      },
+    "model" : "grid.feature",
+    "pk" : 1
+  },
+  { "fields" : { "created" : "2010-01-01 12:00:00",
+        "feature" : 1,
+        "grid_package" : 1,
+        "modified" : "2010-01-01 12:00:00",
+        "text" : "Yes"
+      },
+    "model" : "grid.element",
+    "pk" : 1
+  },
+  { "fields" : { "created" : "2010-01-01 12:00:00",
+        "description" : "Small components used to build projects.",
+        "modified" : "2010-01-01 12:00:00",
+        "slug" : "apps",
+        "title" : "App"
+      },
+    "model" : "package.category",
+    "pk" : 1
+  },
+  { "fields" : { "created" : "2010-01-01 12:00:00",
+        "description" : "",
+        "is_supported" : true,
+        "modified" : "2010-01-01 12:00:00",
+        "title" : "Github",
+        "url" : "http://github.com"
+      },
+    "model" : "package.repo",
+    "pk" : 1
+  },
+  { "fields" : { "created" : "2010-01-01 12:00:00",
+        "description" : "",
+        "is_supported" : true,
+        "modified" : "2010-01-01 12:00:00",
+        "title" : "BitBucket",
+        "url" : "http://bitbucket.com"
+      },
+    "model" : "package.repo",
+    "pk" : 2
+  },
+  { "fields" : { "created" : "2010-01-01 12:00:00",
+        "description" : "",
+        "is_supported" : false,
+        "modified" : "2010-01-01 12:00:00",
+        "title" : "Google Code",
+        "url" : "http://code.google.com/"
+      },
+    "model" : "package.repo",
+    "pk" : 3
+  },
+  { "fields" : { "category" : 1,
+        "created" : "2010-01-01 12:00:00",
+        "modified" : "2010-01-01 12:00:00",
+        "participants" : "malcomt,jacobian",
+        "pypi_downloads" : 0,
+        "pypi_url" : "",
+        "pypi_version" : "",
+        "related_packages" : [  ],
+        "repo" : 1,
+        "repo_commits" : 0,
+        "repo_description" : "Increase your testing ability with this steroid free supplement.",
+        "repo_forks" : 0,
+        "repo_url" : "",
+        "repo_watchers" : 0,
+        "slug" : "testability",
+        "title" : "Testability"
+      },
+    "model" : "package.package",
+    "pk" : 1
+  },
+  { "fields" : { "category" : 1,
+        "created" : "2010-01-01 12:00:00",
+        "modified" : "2010-01-01 12:00:00",
+        "participants" : "thetestman",
+        "pypi_downloads" : 0,
+        "pypi_url" : "",
+        "pypi_version" : "",
+        "related_packages" : [  ],
+        "repo" : 1,
+        "repo_commits" : 0,
+        "repo_description" : "Test everything under the sun with one command!",
+        "repo_forks" : 0,
+        "repo_url" : "",
+        "repo_watchers" : 0,
+        "slug" : "supertester",
+        "title" : "Supertester"
+      },
+    "model" : "package.package",
+    "pk" : 1
+  },
+  { "fields" : { "category" : 1,
+        "created" : "2010-01-01 12:00:00",
+        "modified" : "2010-01-01 12:00:00",
+        "participants" : "pydanny",
+        "pypi_downloads" : 0,
+        "pypi_url" : "",
+        "pypi_version" : "",
+        "related_packages" : [  ],
+        "repo" : 1,
+        "repo_commits" : 0,
+        "repo_description" : "Make testing as painless as waxing your legs.",
+        "repo_forks" : 0,
+        "repo_url" : "",
+        "repo_watchers" : 0,
+        "slug" : "serious-testing",
+        "title" : "Serious Testing"
+      },
+    "model" : "package.package",
+    "pk" : 1
+  },
+  { "fields" : { "date_joined" : "2010-01-01 12:00:00",
+        "email" : "",
+        "first_name" : "",
+        "groups" : [  ],
+        "is_active" : true,
+        "is_staff" : false,
+        "is_superuser" : false,
+        "last_login" : "2010-01-01 12:00:00",
+        "last_name" : "",
+        "password" : "sha1$644c9$347f3dd85fb609a5745ebe33d0791929bf08f22e",
+        "user_permissions" : [  ],
+        "username" : "user"
+      },
+    "model" : "auth.user",
+    "pk" : 1
+  },
+  { "fields" : { "date_joined" : "2010-01-01 12:00:00",
+        "email" : "",
+        "first_name" : "",
+        "groups" : [  ],
+        "is_active" : true,
+        "is_staff" : true,
+        "is_superuser" : true,
+        "last_login" : "2010-01-01 12:00:00",
+        "last_name" : "",
+        "password" : "sha1$52c7f$59b4f64ffca593e6abd23f90fd1f95cf71c367a4",
+        "user_permissions" : [  ],
+        "username" : "admin"
+      },
+    "model" : "auth.user",
+    "pk" : 3
+  },
+  { "fields" : { "date_joined" : "2010-01-01 12:00:00",
+        "email" : "",
+        "first_name" : "",
+        "groups" : [  ],
+        "is_active" : true,
+        "is_staff" : true,
+        "is_superuser" : false,
+        "last_login" : "2010-01-01 12:00:00",
+        "last_name" : "",
+        "password" : "sha1$8894d$c4814980edd6778f0ab1632c4270673c0fd40efe",
+        "user_permissions" : [  ],
+        "username" : "staff"
+      },
+    "model" : "auth.user",
+    "pk" : 2
+  }
+]
