@@ -52,7 +52,9 @@
         {% endif %}            
     {% else %}
         {% if request.user.is_authenticated %}        
+            <!-- BUG - Taavi can you look at this?        
             <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_feature grid.slug %}">Add a feature to the grid</a></p>
+            -->            
         {% endif %}        
     {% endif %}
 
