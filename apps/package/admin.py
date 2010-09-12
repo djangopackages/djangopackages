@@ -1,7 +1,7 @@
 from django.contrib import admin
 from reversion.admin import VersionAdmin
 
-from package.models import Category, Package, PackageExample, Repo, Commit
+from package.models import Category, Package, PackageExample, Repo, Commit, Version
 
 class PackageExampleInline(admin.TabularInline):
     model = PackageExample
@@ -34,3 +34,4 @@ admin.site.register(Category, VersionAdmin)
 admin.site.register(Package, PackageAdmin)
 admin.site.register(Repo, VersionAdmin)
 admin.site.register(Commit, CommitAdmin)
+admin.site.register(Version, VersionAdmin)

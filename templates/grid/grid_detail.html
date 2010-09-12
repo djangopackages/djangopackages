@@ -46,11 +46,15 @@
             </tbody>
         </table>
         {% if request.user.is_authenticated %}        
+
             <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_feature grid.slug %}">Add new feature to the grid</a></p>
+
         {% endif %}            
     {% else %}
         {% if request.user.is_authenticated %}        
+
             <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_feature grid.slug %}">Add a feature to the grid</a></p>
+
         {% endif %}        
     {% endif %}
 
@@ -201,6 +205,10 @@
                     // Handle element edit redirects
                     {% for feature in features %}
                         {% for grid_package in grid_packages %}
+                        {% with elements|hash:feature.pk|hash:grid_package.pk as element %}
+
+                        {% endwith %}                        
+                        
                             $("td#element-f{{ feature.pk }}-p{{ grid_package.pk }}").click(function() {
                                 var url = "{% url edit_element feature.pk grid_package.pk %}";    
                                 $(location).attr('href',url);                        
