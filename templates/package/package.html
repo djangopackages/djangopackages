@@ -70,11 +70,13 @@
                 <th><img src="{{ STATIC_URL }}img/grayarrow_20x20_clear.png" alt="Downloads" /></th>
             </tr>
             {% for version in object.version_set.all %}
+                {% if not version.hidden %}
                 <tr>
                     <td>{{ version.number }}</td>
                     <td>{{ version.license|default:"none" }}</td>                    
                     <td>{{ version.downloads|default:"n/a" }}</td>
                 </tr>
+                {% endif %}
             {% endfor %}
         </table>
     {% else %}

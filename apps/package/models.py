@@ -150,9 +150,13 @@ class Package(BaseModel):
                     number = release.version
                 )
 
-                version.downloads = release.downloads
+                # add to total downloads
                 total_downloads += release.downloads
+
+                # add to versions
+                version.downloads = release.downloads
                 version.license = release.license
+                version.hidden = release._pypi_hidden                
                 version.save()
             
             self.pypi_downloads = total_downloads
@@ -210,6 +214,7 @@ class Version(BaseModel):
     number = models.CharField(_("Version"), max_length="100", default="", blank="")
     downloads = models.IntegerField(_("downloads"), default=0)
     license = models.CharField(_("Version"), max_length="100")
+    hidden = models.BooleanField(_("hidden"), default=False)    
     
     class Meta:
         ordering = ['-number']
