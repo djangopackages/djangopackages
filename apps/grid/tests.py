@@ -5,9 +5,9 @@ unittest). These will both pass when you run "manage.py test".
 Replace these with more appropriate tests for your application.
 """
 
-from django.conf import settings
 from django.test import TestCase
-from grid.templatetags.grid_tags import style_element, YES, NO
+from grid.templatetags.grid_tags import style_element, YES_IMG, NO_IMG, \
+    YES_KEYWORDS, NO_KEYWORDS
 
 class GridTest(TestCase):
     def test_01_style_element_filter(self):
@@ -28,22 +28,22 @@ class GridTest(TestCase):
             ('-3', 0, 3, ''),
             ('-4', 0, 3, ''),
             ('-42', 0, 3, ''),
-            ('+test', 1, 0, 'test'),
-            ('-test', 0, 1, 'test'),
         ]
-        for positive in YES:
+        for positive in YES_KEYWORDS:
             tests.append((positive, 1, 0, ''))
-        for negative in NO:
+            tests.append(('%stest' % positive, 1, 0, 'test'))
+        for negative in NO_KEYWORDS:
             tests.append((negative, 0, 1, ''))
+            tests.append(('%stest' % negative, 0, 1, 'test'))
         for text, yes, no, endswith in tests:
             output = style_element(text)
-            got_yes = output.count('<img src="%simg/icon-yes.gif" />' % settings.STATIC_URL)
+            got_yes = output.count(YES_IMG)
             self.assertEqual(
                 got_yes,
                 yes,
                 "%s resulted in %s yes-gifs instead of %s." % (text, got_yes, yes)
             )
-            got_no = output.count('<img src="%simg/icon-no.gif" />' % settings.STATIC_URL)
+            got_no = output.count(NO_IMG)
             self.assertEqual(
                 got_no,
                 no,
