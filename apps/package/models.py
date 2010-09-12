@@ -206,7 +206,7 @@ class Commit(BaseModel):
         
 class Version(BaseModel):
     
-    package = models.ForeignKey(Package)
+    package = models.ForeignKey(Package, blank=True, null=True)
     number = models.CharField(_("Version"), max_length="100", default="", blank="")
     downloads = models.IntegerField(_("downloads"), default=0)
     license = models.CharField(_("Version"), max_length="100")
