@@ -27,7 +27,7 @@
         </div>        
         <div class="home-rightcolbox">
             <h1>Django Package of the Day</h1>
-            {% cache 300 "homepage:dpotw" %}
+            {% cache 300 "homepage.dpotw" %}
                 {% for package in dpotw %}            
                     <h2><a href="{% url package package.package.slug %}">{{ package.package.title }}</a></h2>
                     <p>{{ package.package.repo_description }}</p>
@@ -38,7 +38,7 @@
 
         <div class="home-rightcolbox">
             <h1>Grid of the Day</h1>
-            {% cache 300 "homepage:gotw" %}
+            {% cache 300 "homepage.gotw" %}
                 {% for grid in gotw %}            
                     <h2><a href="{% url grid grid.grid.slug %}">{{ grid.grid.title }}</a></h2>
                     <p>{{ grid.grid.description }}</p>
@@ -81,7 +81,7 @@
                     {% endif %}</td>
                     <td>{{ package.pypi_downloads }}</td>
                     <td><a href="{% url package package.slug %}">{{ package.title }}</a></td>
-                    {% cache 500 commitchart package %}                
+                    {% cache 86400 package.commitchart package %}                
                         <td><img id="package-githubcommits" src="http://chart.apis.google.com/chart?cht=bvg&chs=105x20&chd=t:{{package|commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
                     {% endcache %}                
                     <td>{{ package.pypi_version|default:"n/a"|slice:":12" }}</td>
