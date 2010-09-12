@@ -33,3 +33,9 @@
 
 /* float */
 .package-rightcol { width: 260px; padding: 20px; margin-bottom: 20px; float: right; }
+
+
+#package-left { float:left; width:470px;}
+#package-right { float:left; width:470px; padding-left: 20px;}
+
+#footer { width: 100%; text-align: center; clear: both; }

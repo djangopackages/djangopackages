@@ -27,7 +27,7 @@
                 <a href="{% url latest_grids %}">latest</a> <a href="{% url grids %}">all</a>
             </p> 
             {% for grid in grids %}
-                {% include "grid/_grid.html" %}
+                {% include "grid/snippets/grid.html" %}
             {% endfor %}
         </div>
         <div id="package-listing">
