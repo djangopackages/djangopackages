@@ -1,12 +1,14 @@
 from django.core.urlresolvers import reverse
+from django.core.cache import cache
 
 from homepage.models import Tab
 
 def grid_tabs(request):
-    context = {}
-    # TODO: Cache theses...
-    context['grid_tabs'] = Tab.objects.all().select_related('grid')
-    return context
+    grid_tabs = cache.get('sitewide:grid_tabs')
+    if grid_tabs is None:
+        grid_tabs = Tab.objects.all().select_related('grid')
+        cache.set('sitewide:grid_tabs', grid_tabs, 300)
+    return {'grid_tabs': grid_tabs}
 
 def current_path(request):
     """Adds the path of the current page to template context, but only
