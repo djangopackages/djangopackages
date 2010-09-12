@@ -60,17 +60,12 @@ Change your local_settings.py file to point to prod.db then do::
 
     python manage.py runserver
 
-
 Updating Packages
 =================
 
 You can update all the packages with the following command::
 
-    python manage.py package_updater <letter>
-    
-This takes a while because we slow down the process to accommodate the Github API 
-limit of only 60 calls per minute.
-    
+    python manage.py package_updater
 
 Credits
 =======

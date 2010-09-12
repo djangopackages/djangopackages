@@ -139,12 +139,12 @@ def edit_element(request, feature_id, package_id, template_name="grid/edit_eleme
     
     feature = get_object_or_404(Feature, pk=feature_id)
     grid_package = get_object_or_404(GridPackage, pk=package_id)    
-    
+
     # Sanity check to make sure both the feature and grid_package are related to
     # the same grid!
     if feature.grid_id != grid_package.grid_id:
         raise Http404
-    
+
     element, created = Element.objects.get_or_create(
                                     grid_package=grid_package,
                                     feature=feature

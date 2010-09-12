@@ -9,25 +9,25 @@ class PackageExampleInline(admin.TabularInline):
 class PackageAdmin(VersionAdmin):
     
     save_on_top = True    
-    search_fields = ('title',)
-    list_filter = ('category','repo')    
-    list_display = ('title', 'created', )
-    date_hierarchy = 'created'    
+    search_fields = ("title",)
+    list_filter = ("category","repo")    
+    list_display = ("title", "created", )
+    date_hierarchy = "created"    
     inlines = [
         PackageExampleInline,
     ]
     fieldsets = (
         (None, {
-            'fields': ('title', 'slug', 'category', 'pypi_url', 'repo', 'repo_url', 'usage')
+            "fields": ("title", "slug", "category", "pypi_url", "repo", "repo_url", "usage", "created_by", "last_modified_by")
         }),
-        ('Pulled data', {
-            'classes': ('collapse',),
-            'fields': ('repo_description', 'repo_watchers', 'repo_forks', 'repo_commits', 'pypi_version', 'pypi_downloads', 'participants')
+        ("Pulled data", {
+            "classes": ("collapse",),
+            "fields": ("repo_description", "repo_watchers", "repo_forks", "repo_commits", "pypi_version", "pypi_downloads", "participants")
         }),
     )    
     
 class CommitAdmin(VersionAdmin):
-    list_filter = ('package',)
+    list_filter = ("package",)
     
 
 admin.site.register(Category, VersionAdmin)
