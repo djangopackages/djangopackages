@@ -1,5 +1,5 @@
 from django.db.models import Count
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User 
 from django.core.urlresolvers import reverse 
 from django.http import HttpResponseRedirect, Http404 
@@ -114,7 +114,7 @@ def edit_feature(request, id, template_name="grid/edit_feature.html"):
         }, 
         context_instance=RequestContext(request))
         
-@login_required
+@permission_required('grid.delete_feature')
 def delete_feature(request, id, template_name="grid/edit_feature.html"):
 
     feature = get_object_or_404(Feature, id=id)
@@ -124,7 +124,7 @@ def delete_feature(request, id, template_name="grid/edit_feature.html"):
     return HttpResponseRedirect(reverse('grid', kwargs={'slug': feature.grid.slug}))
 
 
-@login_required
+@permission_required('grid.delete_gridpackage')
 def delete_grid_package(request, id, template_name="grid/edit_feature.html"):
 
     package = get_object_or_404(GridPackage, id=id)
