@@ -30,7 +30,7 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
     # dictionary so we can easily lookup the element for every
     # feature/grid_package combination.
     elements_mapping = {}
-    all_elements = Element.objects.all().filter(feature__in=features)
+    all_elements = Element.objects.all().filter(feature__in=features, grid_package__in=grid_packages)
     for element in all_elements:
         grid_mapping = elements_mapping.setdefault(element.feature_id, {})
         grid_mapping[element.grid_package_id] = element
