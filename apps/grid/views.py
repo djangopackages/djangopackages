@@ -2,7 +2,7 @@ from django.db.models import Count
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User 
 from django.core.urlresolvers import reverse 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404 
 from django.shortcuts import render_to_response, get_object_or_404 
 from django.template import RequestContext 
 
@@ -10,16 +10,6 @@ from django.template import RequestContext
 from grid.forms import ElementForm, FeatureForm, GridForm, GridPackageForm
 from grid.models import Element, Feature, Grid, GridPackage
 from package.models import Package
-
-def build_grids(grid):
-    # Builds the grid
-    
-    for grid_package in grid.gridpackage_set.all():
-        for feature in grid.feature_set.all():
-            element, created = Element.objects.get_or_create(
-                                            grid_package=grid_package,
-                                            feature=feature
-                                            )    
 
 def grids(request, template_name="grid/grids.html"):
     grids = Grid.objects.all().annotate(gridpackage_count=Count('gridpackage'), feature_count=Count('feature'))
@@ -99,7 +89,6 @@ def add_feature(request, grid_slug, template_name="grid/add_feature.html"):
                     description = request.POST['description']
                 )
         feature.save()
-        build_grids(grid)
         return HttpResponseRedirect(reverse('grid', kwargs={'slug':feature.grid.slug}))
 
 
@@ -148,10 +137,19 @@ def delete_grid_package(request, id, template_name="grid/edit_feature.html"):
 @login_required
 def edit_element(request, feature_id, package_id, template_name="grid/edit_element.html"):
     
-    feature = get_object_or_404(Feature, id=feature_id)
-    grid_package = get_object_or_404(GridPackage, id=package_id)    
-    element = get_object_or_404(Element, feature=feature, grid_package=grid_package)
+    feature = get_object_or_404(Feature, pk=feature_id)
+    grid_package = get_object_or_404(GridPackage, pk=package_id)    
     
+    # Sanity check to make sure both the feature and grid_package are related to
+    # the same grid!
+    if feature.grid_id != grid_package.grid_id:
+        raise Http404
+    
+    element, created = Element.objects.get_or_create(
+                                    grid_package=grid_package,
+                                    feature=feature
+                                    )    
+        
     form = ElementForm(request.POST or None, instance=element)
 
     if form.is_valid():
@@ -186,7 +184,6 @@ def add_grid_package(request, grid_slug, template_name="grid/add_grid_package.ht
                     )
             package.save()
             redirect = request.POST.get('redirect','')
-            build_grids(grid)
             if redirect:
                 return HttpResponseRedirect(redirect)
             
