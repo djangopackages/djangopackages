@@ -1,0 +1,1 @@
+from apiv1.tests.test_resources import *
