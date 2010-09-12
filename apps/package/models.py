@@ -162,6 +162,7 @@ class Package(BaseModel):
                 version.save()
             
             self.pypi_downloads = total_downloads
+            self.save()
         
         # Get the repo watchers number
         base_handler = __import__(self.repo.handler)
