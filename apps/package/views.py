@@ -1,5 +1,6 @@
-import urllib
+from random import randrange
 import simplejson
+import urllib
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -203,3 +204,15 @@ def usage(request, slug, action):
     # available information.
     next = request.GET.get('next') or request.META.get("HTTP_REFERER") or reverse("package", kwargs={"slug": package.slug})
     return HttpResponseRedirect(next)
+    
+def packaginate(request):
+    """ Special project method - DO NOT TOUCH!!! """
+
+    packages = Package.objects.all()
+    package = packages[randrange(0, packages.count())]
+    response = dict(
+            title = package.title,
+            url = package.get_absolute_url(),
+            description=package.repo_description
+        )
+    return HttpResponse(simplejson.dumps(response))    

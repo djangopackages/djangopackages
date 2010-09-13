@@ -9,7 +9,7 @@ admin.autodiscover()
 from pinax.apps.account.openid_consumer import PinaxConsumer
 
 from homepage.views import homepage
-from package.views import package_autocomplete, category
+from package.views import package_autocomplete, category, packaginate
 
 handler500 = "pinax.views.server_error"
 
@@ -32,8 +32,16 @@ urlpatterns = patterns("",
     url(r"^search/", include("searchv1.urls")),
     url(r"^feeds/", include("feeds.urls")),      
     
-    url(r"^categories/(?P<slug>[-\w]+)/$", category, name="category"),        
-    url(r"^categories/$", homepage, name="categories"),            
+    url(r"^categories/(?P<slug>[-\w]+)/$", category, name="category"),
+    url(r"^categories/$", homepage, name="categories"),
+    url(r"^packaginator/$", 
+                direct_to_template,
+                {'template': 'package/packaginator.html'}, 
+                name="packaginator"), 
+                
+    url(r"^packaginate/$", 
+                packaginate,
+                name="packaginate"),                   
     
     url(
         regex = '^autocomplete/package/$',
