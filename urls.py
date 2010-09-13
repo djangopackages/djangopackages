@@ -55,7 +55,8 @@ from tastypie.api import Api
 from apiv1.resources import (
                     GotwResource, DpotwResource,
                     PackageResource, CategoryResource, RepoResource,
-                    GridResource, PackageResourceBase
+                    GridResource, PackageResourceBase,
+                    UserResource
                     )
 
 v1_api = Api()
@@ -66,6 +67,7 @@ v1_api.register(RepoResource())
 v1_api.register(GridResource())
 v1_api.register(GotwResource())
 v1_api.register(DpotwResource())
+v1_api.register(UserResource())
 
 urlpatterns += patterns('',
     url(r"^api/", include(v1_api.urls)), 
