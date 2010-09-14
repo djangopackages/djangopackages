@@ -127,7 +127,7 @@
         "title" : "Supertester"
       },
     "model" : "package.package",
-    "pk" : 1
+    "pk" : 2
   },
   { "fields" : { "category" : 1,
         "created" : "2010-01-01 12:00:00",
@@ -147,7 +147,7 @@
         "title" : "Serious Testing"
       },
     "model" : "package.package",
-    "pk" : 1
+    "pk" : 3
   },
   { "fields" : { "name" : "Moderators",
         "permissions" : [ [ "delete_gridpackage",
