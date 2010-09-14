@@ -4,7 +4,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext 
 
 from package.models import Category, Package
-from homepage.models import Dpotw, Gotw, Tab
+from homepage.models import Dpotw, Gotw
 
 def homepage(request, template_name="homepage.html"):
     
@@ -21,12 +21,11 @@ def homepage(request, template_name="homepage.html"):
         }
         categories.append(element)
     
-    return render_to_response(template_name, {
-        "categories": categories,
-        "dpotw": Dpotw.objects.get_current(),
-        "gotw": Gotw.objects.get_current(),
-        "tab": Tab.objects.all()
-        },
-        context_instance=RequestContext(request)
-        )
+    return render_to_response(
+        template_name, {
+            "categories": categories,
+            "dpotw": Dpotw.objects.get_current(),
+            "gotw": Gotw.objects.get_current(),
+        }, context_instance = RequestContext(request)
+    )
         
