@@ -74,7 +74,7 @@ def update_package(request, slug):
     return HttpResponseRedirect(reverse("package", kwargs={"slug": package.slug}))
 
 
-
+@login_required
 def add_example(request, slug, template_name="package/add_example.html"):
     
     package = get_object_or_404(Package, slug=slug)
@@ -95,7 +95,7 @@ def add_example(request, slug, template_name="package/add_example.html"):
         },
         context_instance=RequestContext(request))
 
-
+@login_required
 def edit_example(request, slug, id, template_name="package/edit_example.html"):
     
     package_example = get_object_or_404(PackageExample, id=id)
@@ -159,7 +159,10 @@ def usage(request, slug, action):
     # they're not.
     if not request.user.is_authenticated():
         url = settings.LOGIN_URL + '?next=%s' % reverse('usage', args=(slug, action))
-        url += urllib.quote_plus('?next=/%s' % request.META['HTTP_REFERER'].split('/', 3)[-1])
+        referer = request.META.get('HTTP_REFERER')
+        if referer:
+            url += urllib.quote_plus('?next=/%s' % referer.split('/', 3)[-1])
+        
         if request.is_ajax():
             response = {}
             response['success'] = success
