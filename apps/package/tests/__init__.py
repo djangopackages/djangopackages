@@ -1,0 +1,1 @@
+from package.tests.test_views import *
