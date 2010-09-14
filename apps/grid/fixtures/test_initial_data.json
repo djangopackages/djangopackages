@@ -226,4 +226,17 @@
       },
     "model" : "auth.user",
     "pk" : 4
-  }]
+  },
+  {
+    "pk": 1, 
+    "model": "package.packageexample", 
+    "fields": {
+      "title": "www.example.com", 
+      "url": "http://www.example.com/", 
+      "package": 1, 
+      "modified": "2010-01-01 12:00:00", 
+      "created": "2010-01-01 12:00:00", 
+      "active": true
+    }
+  }
+]
