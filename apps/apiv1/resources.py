@@ -12,7 +12,13 @@ from package.models import Package, Category, Repo
 
 # TODO - exclude ID, repo_commits, and other fields not yet used
 
-class EnhancedModelResource(ModelResource):
+class BaseResource(ModelResource):
+    
+    def determine_format(self, *args, **kwargs):
+        
+        return "application/json"
+
+class EnhancedModelResource(BaseResource):
     def obj_get(self, **kwargs):
         """
         A ORM-specific implementation of ``obj_get``.
@@ -105,7 +111,7 @@ class CategoryResource(EnhancedModelResource):
         lookup_field = 'slug'
         excludes = ["id"]        
 
-class RepoResource(ModelResource):
+class RepoResource(BaseResource):
 
     class Meta:
         queryset = Repo.objects.all()

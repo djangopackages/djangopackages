@@ -51,7 +51,7 @@ urlpatterns = patterns("",
     
 )
 
-from tastypie.api import Api
+from apiv1.api import Api
 from apiv1.resources import (
                     GotwResource, DpotwResource,
                     PackageResource, CategoryResource, RepoResource,
