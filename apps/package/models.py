@@ -163,13 +163,13 @@ class Package(BaseModel):
                 version.save()
             
             self.pypi_downloads = total_downloads
-            self.save()
         
         # Get the repo watchers number
         base_handler = __import__(self.repo.handler)
         handler = sys.modules[self.repo.handler]
 
         self = handler.pull(self)
+        self.save()        
 
 
     class Meta:

@@ -6,4 +6,5 @@ Daniel Greenfeld <pydanny@gmail.com>
 Contributors
 ============
 James Punteney
+Jonas Obrist
 Taavi Taijala

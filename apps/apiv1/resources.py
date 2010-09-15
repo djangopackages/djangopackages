@@ -1,8 +1,10 @@
+from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+
 from tastypie import fields
+from tastypie.bundle import Bundle
 from tastypie.exceptions import NotFound
 from tastypie.resources import ModelResource
-from tastypie.bundle import Bundle
-from django.core.urlresolvers import reverse
 
 from grid.models import Grid
 from homepage.models import Dpotw, Gotw
@@ -10,7 +12,13 @@ from package.models import Package, Category, Repo
 
 # TODO - exclude ID, repo_commits, and other fields not yet used
 
-class EnhancedModelResource(ModelResource):
+class BaseResource(ModelResource):
+    
+    def determine_format(self, *args, **kwargs):
+        
+        return "application/json"
+
+class EnhancedModelResource(BaseResource):
     def obj_get(self, **kwargs):
         """
         A ORM-specific implementation of ``obj_get``.
@@ -50,7 +58,7 @@ class EnhancedModelResource(ModelResource):
             kwargs['api_name'] = self._meta.api_name
         
         return reverse("api_dispatch_detail", kwargs=kwargs)
-
+        
 
 class PackageResourceBase(EnhancedModelResource):    
 
@@ -60,8 +68,7 @@ class PackageResourceBase(EnhancedModelResource):
         allowed_methods = ['get']
         include_absolute_url = True
         lookup_field = 'slug'
-
-
+        
 class GridResource(EnhancedModelResource):
     
     packages = fields.ToManyField(PackageResourceBase, "packages")    
@@ -72,6 +79,7 @@ class GridResource(EnhancedModelResource):
         allowed_methods = ['get']
         include_absolute_url = True
         lookup_field = 'slug'
+        excludes = ["id"]        
 
 class DpotwResource(EnhancedModelResource):
 
@@ -81,6 +89,7 @@ class DpotwResource(EnhancedModelResource):
         allowed_methods = ['get']
         include_absolute_url = True
         lookup_field = 'package__slug'
+        excludes = ["id"]        
 
 class GotwResource(EnhancedModelResource):
 
@@ -90,6 +99,7 @@ class GotwResource(EnhancedModelResource):
         allowed_methods = ['get']
         include_absolute_url = True
         lookup_field = 'grid__slug'
+        excludes = ["id"]        
         
 
 class CategoryResource(EnhancedModelResource):
@@ -99,19 +109,33 @@ class CategoryResource(EnhancedModelResource):
         resource_name = 'category'
         allowed_methods = ['get']
         lookup_field = 'slug'
+        excludes = ["id"]        
 
-class RepoResource(ModelResource):
+class RepoResource(BaseResource):
 
     class Meta:
         queryset = Repo.objects.all()
         resource_name = 'repo'
         allowed_methods = ['get']
+        excludes = ["id"]
+        
+class UserResource(EnhancedModelResource):
+
+    class Meta:
+        queryset = User.objects.all().order_by("-id")
+        resource_name = 'user'
+        allowed_methods = ['get']
+        lookup_field = 'username'        
+        fields = ["resource_uri", "last_login", "username", "date_joined"]
+        
 
 class PackageResource(PackageResourceBase):
 
     category    = fields.ForeignKey(CategoryResource, "category")
     repo        = fields.ForeignKey(RepoResource, "repo")    
     grids       = fields.ToManyField(GridResource, "grid_set")
+    created_by  = fields.ForeignKey(UserResource, "created_by", null=True)
+    last_modified_by  = fields.ForeignKey(UserResource, "created_by", null=True)    
 
     class Meta:
         queryset = Package.objects.all()
@@ -119,3 +143,4 @@ class PackageResource(PackageResourceBase):
         allowed_methods = ['get']
         include_absolute_url = True
         lookup_field = 'slug'
+        
