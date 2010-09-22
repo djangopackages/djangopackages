@@ -48,12 +48,14 @@ class Command(NoArgsCommand):
                     for commit in get_bitbucket_commits(package):
                         commit, created = Commit.objects.get_or_create(package=package, commit_date=commit["timestamp"])
                 else:
-                    # unsupported so we skip and go on
-                    print >> stdout, "%s. Skipped package '%s' because it uses an unsupported repo" % (index+1,package.title)
-                    continue
+                    # unsupported so we just get metadata and go on
+                    package.fetch_metadata()                    
+                    
             except RuntimeError, e:
                 message = "For '%s', too many requests issued to repo threw a RuntimeError: %s" % (package.title, e)
-                raise CommandError(message)
+                print >> stdout, message
+                continue
+                
             if not authed:
                sleep(zzz)
             print >> stdout, "%s. Successfully updated package '%s'" % (index+1,package.title)
