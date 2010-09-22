@@ -1,0 +1,8 @@
+<tr>
+    <th>Package</th>
+    {% for grid_package in grid_packages %}
+        <th>
+          <a href="{% url package grid_package.package.slug %}">{{ grid_package.package.title }}</a>{% if perms.grid.delete_gridpackage %}&nbsp;<a href="#" id="package-delete-{{ grid_package.pk }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete"/></a>{% endif %}
+        </th>
+    {% endfor %}
+</tr>

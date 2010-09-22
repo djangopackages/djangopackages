@@ -68,14 +68,7 @@
     
         <table id="grid" border="3">
             <thead>
-                <tr>
-                    <th>Package</th>
-                    {% for grid_package in grid_packages %}
-                        <th>
-                          <a href="{% url package grid_package.package.slug %}">{{ grid_package.package.title }}</a>{% if perms.grid.delete_gridpackage %}&nbsp;<a href="#" id="package-delete-{{ grid_package.pk }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete"/></a>{% endif %}
-                        </th>
-                    {% endfor %}
-                </tr>
+                {% include "grid/snippets/grid_row_header.html" %}
             </thead>
             <tbody>
                 <tr class="even">
@@ -172,6 +165,7 @@
                         </td>
                     {% endfor %}
                 </tr>
+                {% include "grid/snippets/grid_row_header.html" %}                
                 {% for feature in features %}
                     <tr class="{% cycle 'even' 'odd' %}">
                         <td>{{ feature.title }}</td>
@@ -182,6 +176,9 @@
                         {% endfor %}
                     </tr>
                 {% endfor %}
+                {% if features %}
+                    {% include "grid/snippets/grid_row_header.html" %}                
+                {% endif %}
         
             </tbody>
     
