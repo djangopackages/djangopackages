@@ -153,16 +153,3 @@ class RegressionGridTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'grid/edit_element.html')
             
-
-
-
-
-
-
-
-
-
-
-
-
-        
