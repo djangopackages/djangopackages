@@ -16,7 +16,11 @@ def find_packages_autocomplete(q):
     return Package.objects.filter(
                 Q(title__istartswith=q) | 
                 Q(title__istartswith=django_dash) |
-                Q(title__istartswith=django_space))[:15]
+                Q(title__istartswith=django_space) |
+                Q(slug__istartswith=q) | 
+                Q(slug__istartswith=django_dash) |
+                Q(slug__istartswith=django_space)                
+                )[:15]
 
 def find_grids_autocomplete(q):
     return Grid.objects.filter(title__istartswith=q)[:15]
@@ -49,7 +53,10 @@ def search(request, template_name='searchv1/search.html'):
         packages = Package.objects.filter(
                     Q(title__icontains=q) | 
                     Q(title__istartswith=django_dash) |
-                    Q(title__istartswith=django_space) |                    
+                    Q(title__istartswith=django_space) | 
+                    Q(slug__istartswith=q) | 
+                    Q(slug__istartswith=django_dash) |
+                    Q(slug__istartswith=django_space) |                                       
                     Q(repo_description__icontains=q))        
         grids    = Grid.objects.filter(Q(title__icontains=q) | Q(description__icontains=q))
         
