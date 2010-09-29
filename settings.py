@@ -12,7 +12,7 @@ PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 # tells Pinax to use the default theme
 PINAX_THEME = "default"
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 # tells Pinax to serve media through the staticfiles app.
@@ -108,7 +108,6 @@ MIDDLEWARE_CLASSES = [
     "pagination.middleware.PaginationMiddleware",
     "pinax.middleware.security.HideSensistiveFieldsMiddleware",
     "django.contrib.flatpages.middleware.FlatpageFallbackMiddleware",
-    #"debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "djangopackages.urls"
@@ -156,7 +155,6 @@ INSTALLED_APPS = [
     # external
     "notification", # must be first
     "staticfiles",
-    #"debug_toolbar",
     "mailer",
     "uni_form",
     "django_openid",
@@ -238,7 +236,10 @@ logging.basicConfig(
         filemode='a',
 )
 
-CACHE_BACKEND = 'locmem://'
+if DEBUG:
+    CACHE_BACKEND = 'locmem://'
+    MIDDLEWARE_CLASSES.append("debug_toolbar.middleware.DebugToolbarMiddleware")
+    INSTALLED_APPS.append("debug_toolbar")
 
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.
