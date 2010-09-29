@@ -35,6 +35,28 @@
                     {% if other_user.get_profile.google_code_url %}
                         <span class="fn"><a href="http://code.google.com/u/{{ other_user.get_profile.google_code_url|urlize }}/">{{ other_user.get_profile.google_code_url|urlize }}</a></span>
                     {% endif %}</p>
+
+            {% if other_user.get_profile.my_packages.count %}
+                <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Package</th>
+                        <th>Repo</th>                                                
+                    </tr>
+                </thead>                    
+                <tbody>
+                {% for package in other_user.get_profile.my_packages %}    
+                    <tr>
+                        <td>{{ forloop.counter }}</td>                        
+                        <td><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></td>
+                        <td><a href="{{ package.repo_url }}">{{ package.repo.title }}</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>                
+                </table>            
+                
+            {% endif %}
         </div>
                 
         {% if is_me %}

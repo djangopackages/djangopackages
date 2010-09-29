@@ -22,7 +22,6 @@
         <tr>
             <th>User Name</th>
             <th>Date Joined</th>
-            <th>Last Login</th>
             <th>Staff</th>
             {% if request.user.is_staff %}            
                 <th>Active</th>            
@@ -37,7 +36,6 @@
                 <tr>
                     <td><a href="{{ user.get_absolute_url }}">{% user_display user %}</a></td>
                     <td><span class="hide">{{ user.date_joined|date:"YmdHis" }}</span>{{ user.date_joined|timesince }}</td>
-                    <td><span class="hide">{{ user.last_login|date:"YmdHis" }}</span>{{ user.last_login|timesince }}</td>                    
                     <td>
                         {% if user.is_staff %}
                             <img src="{{ STATIC_URL }}img/icon-yes.gif" />                            
