@@ -105,7 +105,7 @@ class Package(BaseModel):
     repo_forks      = models.IntegerField(_("repo forks"), default=0)
     repo_commits    = models.IntegerField(_("repo commits"), default=0)
     pypi_url        = models.URLField(_("PyPI slug"), help_text=pypi_url_help_text, blank=True, default='')
-    pypi_version    = models.CharField(_("Current Pypi version"), max_length="20", blank=True)
+    #pypi_version    = models.CharField(_("Current Pypi version"), max_length="20", blank=True)
     pypi_downloads  = models.IntegerField(_("Pypi downloads"), default=0)
     related_packages    = models.ManyToManyField("self", blank=True)
     participants    = models.TextField(_("Participants"),
@@ -113,7 +113,14 @@ class Package(BaseModel):
     usage           = models.ManyToManyField(User, blank=True)
     created_by = models.ForeignKey(User, blank=True, null=True, related_name="creator")    
     last_modified_by = models.ForeignKey(User, blank=True, null=True, related_name="modifier")
-                        
+    
+    @property
+    def pypi_version(self):
+        try:
+            return self.version_set.latest()
+        except Version.DoesNotExist:
+            return ''
+                            
     def pypi_name(self):
         """ return the pypi name of a package"""
         
@@ -171,7 +178,6 @@ class Package(BaseModel):
         self = handler.pull(self)
         self.save()        
 
-
     class Meta:
         ordering = ['title']
     
@@ -206,17 +212,18 @@ class Commit(BaseModel):
         ordering = ['-commit_date']
         
     def __unicode__(self):
-        return "Commit for '%s' on %s" % (self.package.title, unicode(self.commit_date))
+        return "Commit for '%s' on %s" % (self.package.title, unicode(self.commit_date))    
         
 class Version(BaseModel):
     
     package = models.ForeignKey(Package, blank=True, null=True)
     number = models.CharField(_("Version"), max_length="100", default="", blank="")
     downloads = models.IntegerField(_("downloads"), default=0)
-    license = models.CharField(_("Version"), max_length="100")
+    license = models.CharField(_("license"), max_length="100")
     hidden = models.BooleanField(_("hidden"), default=False)    
     
     class Meta:
+        get_latest_by = 'number'
         ordering = ['-number']
     
     def __unicode__(self):
