@@ -38,8 +38,8 @@ class Command(NoArgsCommand):
                 if package.repo == github_repo:
                     # Do github
                     package.fetch_metadata()
-                    for commit in github.commits.list(package.repo_name(), "master"):
-                        commit, created = Commit.objects.get_or_create(package=package, commit_date=commit.committed_date)
+                    #for commit in github.commits.list(package.repo_name(), "master"):
+                    #    commit, created = Commit.objects.get_or_create(package=package, commit_date=commit.committed_date)
                     zzz += 1
                 elif package.repo == bitbucket_repo:
                     zzz = 1
