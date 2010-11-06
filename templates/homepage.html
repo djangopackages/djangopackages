@@ -26,7 +26,7 @@
             <h1><a class="xlarge awesome green" href="{% url add_package %}">add package »</a></h1>
         </div>        
         <div class="home-rightcolbox">
-            <h1>Django Package of the Day</h1>
+            <h1>Django Package of the Week</h1>
             {% cache 300 "homepage.dpotw" %}
                 {% for package in dpotw %}            
                     <h2><a href="{% url package package.package.slug %}">{{ package.package.title }}</a></h2>
@@ -37,7 +37,7 @@
         </div>   
 
         <div class="home-rightcolbox">
-            <h1>Grid of the Day</h1>
+            <h1>Grid of the Week</h1>
             {% cache 300 "homepage.gotw" %}
                 {% for grid in gotw %}            
                     <h2><a href="{% url grid grid.grid.slug %}">{{ grid.grid.title }}</a></h2>
@@ -94,8 +94,8 @@
                     {% cache 86400 package.commitchart package %}                
                         <td><img id="package-githubcommits" src="http://chart.apis.google.com/chart?cht=bvg&chs=105x20&chd=t:{{package|commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
                     {% endcache %}      
-                    {% if category.show_pypi %}                                                  
-                        <td>{{ package.pypi_version|default:"n/a"|slice:":12" }}</td>
+                    {% if category.show_pypi %}
+                        <td>{{ package.pypi_version.number|default:"n/a"|slice:":12" }}</td>
                     {% endif %}
                     <td>{{ package.repo_watchers|default:"n/a" }}</td>
                     <td>{{ package.repo_forks|default:"n/a" }}</td>
