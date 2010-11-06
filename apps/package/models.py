@@ -120,7 +120,8 @@ class Package(BaseModel):
             return self.version_set.latest()
         except Version.DoesNotExist:
             return ''
-                            
+                       
+    @property     
     def pypi_name(self):
         """ return the pypi name of a package"""
         
@@ -153,7 +154,7 @@ class Package(BaseModel):
             
             total_downloads = 0
             
-            for release in fetch_releases(self.pypi_name()):
+            for release in fetch_releases(self.pypi_name):
             
                 version, created = Version.objects.get_or_create(
                     package = self,
