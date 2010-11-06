@@ -18,10 +18,6 @@ def pull(package):
     
     # prep the target name
     repo_name = package.repo_name()
-    from sys import stderr
-    print >> stderr, repo_name
-    print >> stderr, repo_name
-    print >> stderr, repo_name        
     target = API_TARGET + repo_name
     if not target.endswith("/"):
         target += "/"
