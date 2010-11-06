@@ -28,12 +28,15 @@ Categories of Django Packages
 
 The fixtures provide four categories: apps, frameworks, projects, and utilities. 
 
-Google Project Hosting And Launchpad are not fully supported!
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Google Project Hosting, Launchpad, and Sourceforge are not fully supported!
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Not yet. Django Packages was cooked up during Django Dash 2010. We wanted to keep the scope of our work reasonable. We'll try and include those sites in the future. We also want to include other package repo systems over time.
+Not yet. Django Packages was cooked up during Django Dash 2010. We wanted to keep the scope of our work reasonable. We'll try and include those sites in the future. We also want to include other package repo systems over time. As for what we support:
 
-Django Packages does support Github and Bitbucket. Launchpad is next. Google Project Hosting may not happen because of a lack of a formal API.
+ * Django Packages does support Github and Bitbucket.
+ * Launchpad is next.
+ * Sourceforge comes after Launchpad
+ * Google Project Hosting may not happen because of a lack of a formal API and not much desire to screen scrape their arcane browser interface.
 
 Installation
 ============
@@ -66,6 +69,20 @@ Updating Packages
 You can update all the packages with the following command::
 
     python manage.py package_updater
+    
+PyPI Issues
+===========
+
+You may ask why the PyPI code is a bit odd in places. PyPI is an organically grown project and uses its own custom designed framework rather than the dominant frameworks that existed during its inception (these being Pylons, Django, TurboGears, and web.py). Because of this you get things like the API having in its package_releases() method an explicit license field that has been replaced by the less explicit list column in the very generic classifiers field. So we have to parse things like this to get Django's license::
+
+    ['Development Status :: 5 - Production/Stable', 'Environment :: Web Environment',
+    'Framework :: Django', 'Intended Audience :: Developers', 'License :: OSI Approved
+    :: BSD License', 'Operating System :: OS Independent', 'Programming Language ::  
+    Python', 'Topic :: Internet :: WWW/HTTP', 'Topic :: Internet :: WWW/HTTP :: 
+    Dynamic Content', 'Topic :: Internet :: WWW/HTTP :: WSGI', 'Topic :: Software
+    Development :: Libraries :: Application Frameworks', 'Topic :: Software
+    Development :: Libraries :: Python Modules']
+
 
 Credits
 =======
