@@ -1,3 +1,8 @@
+2010, November 6
+================
+
+pydanny - better license pulls from pyi, design changes, switch bitbucket handler to use https, correct links to github and bitbucket to use https.
+
 2010, September 12
 ==================
 

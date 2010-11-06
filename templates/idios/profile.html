@@ -24,12 +24,12 @@
             {% endif %}
             <p><b>{% trans "Github account" %}</b>:
                     {% if other_user.get_profile.github_url %}
-                        <span class="fn"><a href="http://github.com/{{ other_user.get_profile.github_url }}">{{ other_user.get_profile.github_url }}</a></span>
+                        <span class="fn"><a href="https://github.com/{{ other_user.get_profile.github_url }}">{{ other_user.get_profile.github_url }}</a></span>
                     {% endif %}
             </p>
             <p><b>{% trans "BitBucket account" %}</b>: 
                     {% if other_user.get_profile.bitbucket_url %}
-                        <span class="fn"><a href="http://bitbucket.org/{{ other_user.get_profile.bitbucket_url }}">{{ other_user.get_profile.bitbucket_url }}</a></span>
+                        <span class="fn"><a href="https://bitbucket.org/{{ other_user.get_profile.bitbucket_url }}">{{ other_user.get_profile.bitbucket_url }}</a></span>
                     {% endif %}</p>
             <p><b>{% trans "Google Code account" %}</b>:
                     {% if other_user.get_profile.google_code_url %}

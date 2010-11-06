@@ -133,7 +133,7 @@ Representation:
         repo_commits: 0
         repo_description: "a Django-based platform for rapidly developing websites"
         repo_forks: 184
-        repo_url: "http://github.com/pinax/pinax"
+        repo_url: "https://github.com/pinax/pinax"
         repo_watchers: 913
         resource_uri: "/api/v1/package/pinax/"
         slug: "pinax"
@@ -173,10 +173,10 @@ Representation:
         is_other: false
         is_supported: true
         modified: "Sat, 28 Aug 2010 17:12:16 -0400"
-        repo_regex: "http://github.com"
+        repo_regex: "https://github.com"
         resource_uri: "/api/v1/repo/1/"
-        slug_regex: "http://github.com/([\w\-\_]+)/([\w\-\_]+)/{0,1}"
+        slug_regex: "https://github.com/([\w\-\_]+)/([\w\-\_]+)/{0,1}"
         title: "Github"
-        url: "http://github.com"
-        user_regex: "http://github.com/([\w\-\_]+)/{0,1}"
+        url: "https://github.com"
+        user_regex: "https://github.com/([\w\-\_]+)/{0,1}"
     }

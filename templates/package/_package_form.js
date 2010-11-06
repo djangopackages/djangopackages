@@ -19,10 +19,7 @@ $("#id_pypi_url").change(function(e){
 
 $("#id_repo_url").keyup(function(e) {
     var url = $("#id_repo_url").val();
-    if (url.startsWith("https://")) {
-        url = url.replace("https", "http");
-        $("#id_repo_url").val(url);
-    };
+    return url
 });
     
 $("#id_repo_url").change(function(e) {
