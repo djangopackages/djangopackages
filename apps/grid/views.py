@@ -12,10 +12,11 @@ from grid.models import Element, Feature, Grid, GridPackage
 from package.models import Package
 
 def grids(request, template_name="grid/grids.html"):
-    grids = Grid.objects.all().annotate(gridpackage_count=Count('gridpackage'), feature_count=Count('feature'))
+    # annotations providing bad counts
+    #grids = Grid.objects.annotate(gridpackage_count=Count('gridpackage'), feature_count=Count('feature'))
     return render_to_response(
         template_name, {
-            'grids': grids,
+            'grids': Grid.objects.all(),
         }, context_instance = RequestContext(request)
     )
 
