@@ -36,7 +36,7 @@ def fetch_releases(package_name, include_hidden=True):
         for download in proxy.release_urls(package_name, version):
             release_data.downloads +=  download["downloads"]
             
-        if 'UNKNOWN' == release_data.license.upper():
+        if release_data.license == None or 'UNKNOWN' == release_data.license.upper():
             for classifier in release_data.classifiers:
                 if classifier.startswith('License'):
                     # Do it this way to cover people not quite following the spec
