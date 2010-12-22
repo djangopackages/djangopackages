@@ -1,7 +1,8 @@
 import simplejson
 
+from django.core.urlresolvers import reverse
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext 
 
@@ -47,6 +48,13 @@ def search(request, template_name='searchv1/search.html'):
     grids = []
     packages = []
     q = request.GET.get('q', '')
+    try:
+        package = Package.objects.get(title__icontains=q)
+        url = reverse("package", args=[package.slug.lower()])
+        return HttpResponseRedirect(url)
+        
+    except Package.DoesNotExist:
+        pass
     if q:
         django_dash = 'django-%s' % q
         django_space = 'django %s' % q                
