@@ -49,7 +49,7 @@ def search(request, template_name='searchv1/search.html'):
     packages = []
     q = request.GET.get('q', '')
     try:
-        package = Package.objects.get(title__icontains=q)
+        package = Package.objects.get(title=q)
         url = reverse("package", args=[package.slug.lower()])
         return HttpResponseRedirect(url)
         
