@@ -47,12 +47,21 @@
                 <div style="text-align: right;"></div>
             </div>
             <div id="left_tabs" >
-                <ul id="multi-col-nav">
-                    {% for tab in grid_tabs %}
-                        <li><a href="{% url grid tab.grid.slug %}" id="gt_{{ tab.grid.slug }}">{{ tab.grid.title }}</a></li>
-                    {% endfor %}
-                    <li><a href="{% url grids %}">&raquo; more grids...</a></li>
-                </ul>
+                {% for grid_chunk in grid_tabs %}
+                                
+                    <div style="float: left;">
+                        {% for tab in grid_chunk %}
+                            {% if tab %}
+                                <a href="{% url grid tab.grid.slug %}" id="gt_{{ tab.grid.slug }}">{{ tab.grid.title }}</a><br />
+                            {% endif %}
+                            {% if forloop.parentloop.last and forloop.last %}
+                                <a href="{% url grids %}">&raquo; more grids...</a>                            
+                            {% endif %}
+                        {% endfor %}
+
+                    </div>
+                    
+                {% endfor %}
             </div>
         </div>
         
