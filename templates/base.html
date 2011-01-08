@@ -49,7 +49,7 @@
             <div id="left_tabs" >
                 {% for grid_chunk in grid_tabs %}
                                 
-                    <div style="float: left;">
+                    <div id="multi-col-nav">
                         {% for tab in grid_chunk %}
                             {% if tab %}
                                 <a href="{% url grid tab.grid.slug %}" id="gt_{{ tab.grid.slug }}">{{ tab.grid.title }}</a><br />

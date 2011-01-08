@@ -15,16 +15,6 @@
 
 {% block body %}
     <div id="home-rightcol">
-        <div id="home-search">
-            <form action="{% url search %}">
-                <input id="id_q_p" type="text" name="q" maxlength="100" value="search" autocomplete="off" />
-                <input id="hidden-submit" type="submit" value="go" />
-            </form>         
-        </div>
-
-        <div>
-            <h1><a class="xlarge awesome forestgreen" href="{% url add_package %}">add package »</a></h1>
-        </div>        
         <div class="home-rightcolbox">
             <h1>Django Package of the Week</h1>
             {% cache 300 "homepage.dpotw" %}
@@ -54,57 +44,34 @@
             <p>Or add a grid comparing the features of 2 or more similar packages.</p>
             <p><a class="large awesome forestgreen" href="{% url add_grid %}">add grid »</a></p>
         </div>
-    </div>        
+    </div>
      
-     {% for category in categories %}
-        <h2><a href="{% url category category.slug %}">{{ category.title_plural }}</a> ( {{ category.count }} )</h2>
-        <p>{{ category.description }}</p>
-        <table id="home-packages">
-            <tr>
-                <th># Using This</th>
-                {% if category.show_pypi %}
-                    <th class="tiny-column">PyPi Downloads</th>
-                {% endif %}
-                <th>Name</th>
-                <th>Commits</th>
-                {% if category.show_pypi %}                
-                    <th>Version</th>
-                {% endif %}                    
-                <th><img src="{{ STATIC_URL }}img/eye_20x20_clear.png" /></th>
-                <th><img src="{{ STATIC_URL }}img/fork_20x20_clear.png" /></th>
-            </tr>
+    <div id="home-leftcol">
+        <p>Django Packages is a directory of reusable apps, sites, tools, and more for your Django projects.</p>
+        <p><b>XX</b> packages and counting!</p>
 
-            {% for package in category.packages %}
-                <tr class="usage-container">
-                    <td class="usage-container">
-                        <span class="usage-count">{{ package.usage_count }}</span>
-                        &nbsp;
-                        <span class="usage-button">
-                            {% if package.pk in used_packages_list %}
-                            {% include "package/remove_usage_button.html" %}
-                            {% else %}
-                            {% include "package/add_usage_button.html" %}
-                            {% endif %}
-                        </span>
-                    </td>
-                    {% if category.show_pypi %}                    
-                        <td>{{ package.pypi_downloads }}</td>
-                    {% endif %}
-                    <td><a href="{% url package package.slug %}">{{ package.title }}</a></td>
-                    {% cache 86400 package.commitchart package %}                
-                        <td><img id="package-githubcommits" src="http://chart.apis.google.com/chart?cht=bvg&chs=105x20&chd=t:{{package|commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
-                    {% endcache %}      
-                    {% if category.show_pypi %}
-                        <td>{{ package.pypi_version.number|default:"n/a"|slice:":12" }}</td>
-                    {% endif %}
-                    <td>{{ package.repo_watchers|default:"n/a" }}</td>
-                    <td>{{ package.repo_forks|default:"n/a" }}</td>
-                </tr>    
-            {% endfor %}        
-         </table>    
-         <p><a href="{% url category category.slug %}">more {{ category.title_plural|lower }}...</a></p>    
-     {% endfor %}
- 
+        <div id="home-search">
+            <form action="{% url search %}">
+                <input id="id_q_p" type="text" name="q" maxlength="100" value="search" autocomplete="off" />
+                <input id="hidden-submit" type="submit" value="go" /><br/>
+                <input type="checkbox" name="category" value="apps" />apps
+                <input type="checkbox" name="category" value="frameworks" />frameworks
+                <input type="checkbox" name="category" value="projects" />projects
+                <input type="checkbox" name="category" value="other" />other
+            </form>         
+        </div>
+
+        <div id="home-addpackage">
+            <p>Know of any packages not listed here?  Add them now!  It's quick and easy.</p>
+            <a class="large awesome forestgreen" href="{% url add_package %}">add package »</a>
+        </div>        
+
+        <h2>Package Categories</h2>
+         {% for category in categories %}
+            <h3><a href="{% url category category.slug %}">{{ category.title_plural }}</a> ( {{ category.count }} )</h3>
+            <p>{{ category.description }}</p>
+         {% endfor %}
+    </div>
     
 
 {% endblock %}
