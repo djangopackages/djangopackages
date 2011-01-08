@@ -8,36 +8,8 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}css/rabbits.css" />
 {% endblock %}
 
-{% block logo_link_image %}
-<h1><a href="{% url home %}">Django Packages</a></h1>
-{% endblock %}
-
 {% block login %}
     {% include "account/_account_bar.html" %}
-{% endblock %}
-
-{% block left_tabs %}
-    <ul id="multi-col-nav">
-        {% for tab in grid_tabs %}
-            <li><a href="{% url grid tab.grid.slug %}">{{ tab.grid.title }}</a></li>
-        {% endfor %}
-        <li><a href="{% url grids %}">&raquo; more grids...</a></li>
-    </ul>
-{% endblock %}
-
-{% block footer %}
-<div class="legal">
-    <hr />
-    &copy; 2010 <a href="http://pydanny.com">Daniel Greenfeld</a> & <a href="http://fuzzyrainbow.com">Audrey Roy</a>
-    - <a href="{% url about %}">{% trans "About" %}</a>
-    - <a href="/help/">{% trans "Help" %}</a>    
-    - <a href="{% url terms %}">{% trans "Terms of Service" %}</a>
-    - <a href="/help/team/">Team</a>
-    - <a href="/api/v1/docs/">API</a>
-    - <a href="/help/syndication/">RSS / Atom</a>
-    <br />
-    {% trans "Powered by" %} <a href="http://www.djangoproject.com/">Django</a>, <a href="http://www.pinaxproject.com/">Pinax</a> and <a href="/grids/g/this-site/">these fine packages</a>.
-</div>
 {% endblock %}
 
 {% block extra_body_base %}

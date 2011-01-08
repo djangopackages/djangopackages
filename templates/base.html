@@ -46,9 +46,18 @@
 
 
         <div id="tabhead">
-            <div class="logo" dir="ltr">{% block logo_link_image %}{% endblock %}</div>
+            <div class="logo" dir="ltr">
+                <img src="{{ STATIC_URL }}img/logo_squares.png" /><h1><a href="{% url home %}">Django Packages</a></h1>
+            </div>
             <div class="login">{% block login %}{% endblock %}{% block locale_switcher %}{% endblock %}<div style="text-align: right;"></div></div>
-            <div id="left_tabs" >{% block left_tabs %}{% endblock %}</div>
+            <div id="left_tabs" >
+                <ul id="multi-col-nav">
+                    {% for tab in grid_tabs %}
+                        <li><a href="{% url grid tab.grid.slug %}">{{ tab.grid.title }}</a></li>
+                    {% endfor %}
+                    <li><a href="{% url grids %}">&raquo; more grids...</a></li>
+                </ul>
+            </div>
             <div id="right_tabs" >{% block right_tabs %}{% endblock %}</div>
         </div>
         
@@ -72,7 +81,20 @@
         {% endblock %}
         <div class="push"></div>
     </div>
-        <div id="footer">{% block footer %}{% endblock %}</div>
+        <div id="footer">
+            <div class="legal">
+                <hr />
+                &copy; 2010 <a href="http://pydanny.com">Daniel Greenfeld</a> & <a href="http://fuzzyrainbow.com">Audrey Roy</a>
+                - <a href="{% url about %}">{% trans "About" %}</a>
+                - <a href="/help/">{% trans "Help" %}</a>    
+                - <a href="{% url terms %}">{% trans "Terms of Service" %}</a>
+                - <a href="/help/team/">Team</a>
+                - <a href="/api/v1/docs/">API</a>
+                - <a href="/help/syndication/">RSS / Atom</a>
+                <br />
+                {% trans "Powered by" %} <a href="http://www.djangoproject.com/">Django</a>, <a href="http://www.pinaxproject.com/">Pinax</a> and <a href="/grids/g/this-site/">these fine packages</a>.
+            </div>
+        </div>
 
         <script src="{% block jquery_src %}http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js{% endblock %}" type="text/javascript"></script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/jquery-ui.min.js"></script>
