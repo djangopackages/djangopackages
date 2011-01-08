@@ -65,3 +65,5 @@ ul#messages li {background-color: #FFB; border: 1px solid #EE0; list-style-type:
 
 td.usage-container {width: 8em}
 td.usage-container .usage-button {float: right}
+
+#site_wide_announcements {background-color: #75dfca;}

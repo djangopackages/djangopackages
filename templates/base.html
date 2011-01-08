@@ -18,7 +18,6 @@
         <link rel="stylesheet" href="{{ STATIC_URL }}uni_form/uni-form.css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}uni_form/uni-form-generic.css" type="text/css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/djangopackages.css" type="text/css" />
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/awesome.css" type="text/css" />
         {% block extra_head %}{% endblock %}
     </head>
     
@@ -38,17 +37,18 @@
         {% endif %}
 
         <div id="tabhead">
-            <div class="logo">
+            <div class="logo" dir="ltr">
                 <img src="{{ STATIC_URL }}img/logo_squares.png" /><h1><a href="{% url home %}">Django Packages</a></h1>
             </div>
             <div class="login">
                 {% include "account/_account_bar.html" %}
                 {% block locale_switcher %}{% endblock %}
+                <div style="text-align: right;"></div>
             </div>
             <div id="left_tabs" >
                 <ul id="multi-col-nav">
                     {% for tab in grid_tabs %}
-                        <li><a href="{% url grid tab.grid.slug %}">{{ tab.grid.title }}</a></li>
+                        <li><a href="{% url grid tab.grid.slug %}" id="gt_{{ tab.grid.slug }}">{{ tab.grid.title }}</a></li>
                     {% endfor %}
                     <li><a href="{% url grids %}">&raquo; more grids...</a></li>
                 </ul>
@@ -78,7 +78,7 @@
         <div id="footer">
             <div class="legal">
                 <hr />
-                &copy; 2010 <a href="http://pydanny.com">Daniel Greenfeld</a> & <a href="http://audreyr.posterous.com">Audrey Roy</a>
+                &copy; 2010 <a href="http://pydanny.com">Daniel Greenfeld</a> & <a href="http://fuzzyrainbow.com">Audrey Roy</a>
                 - <a href="{% url about %}">{% trans "About" %}</a>
                 - <a href="/help/">{% trans "Help" %}</a>    
                 - <a href="{% url terms %}">{% trans "Terms of Service" %}</a>
@@ -101,5 +101,9 @@
 
         {% ga %}
         {% block extra_body %}{% endblock %}
+        
+        <script type="text/javascript">
+            
+        </script>
     </body>
 </html>
