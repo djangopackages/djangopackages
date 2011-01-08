@@ -17,14 +17,7 @@
         <link rel="stylesheet" href="{{ STATIC_URL }}pinax/css/accounts.css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}uni_form/uni-form.css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}uni_form/uni-form-generic.css" type="text/css" />
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/rabbits.css" type="text/css" />
-        {% if LANGUAGE_BIDI %}
-        <style type="text/css" media="screen">
-            div.right_panel {
-                float: left; /* hotfix for sidebar */
-            }
-        </style>
-        {% endif %}
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/djangopackages.css" type="text/css" />
         {% block extra_head %}{% endblock %}
     </head>
     
@@ -42,8 +35,6 @@
                 </ul>
             </div>
         {% endif %}
-        
-
 
         <div id="tabhead">
             <div class="logo" dir="ltr">
