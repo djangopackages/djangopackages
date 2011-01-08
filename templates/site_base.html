@@ -1,13 +1,5 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load analytics %}
-
-{% block extra_head_base %}
-    {% block extra_head %}{% endblock %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/rabbits.css" />
-{% endblock %}
-
 {% block login %}
     {% include "account/_account_bar.html" %}
 {% endblock %}
