@@ -49,7 +49,11 @@
             <div class="logo" dir="ltr">
                 <img src="{{ STATIC_URL }}img/logo_squares.png" /><h1><a href="{% url home %}">Django Packages</a></h1>
             </div>
-            <div class="login">{% block login %}{% endblock %}{% block locale_switcher %}{% endblock %}<div style="text-align: right;"></div></div>
+            <div class="login">
+                {% include "account/_account_bar.html" %}
+                {% block locale_switcher %}{% endblock %}
+                <div style="text-align: right;"></div>
+            </div>
             <div id="left_tabs" >
                 <ul id="multi-col-nav">
                     {% for tab in grid_tabs %}
