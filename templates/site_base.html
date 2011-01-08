@@ -8,16 +8,15 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}css/rabbits.css" />
 {% endblock %}
 
-{% block logo_link_image %}<h1><a href="{% url home %}">Django Packages</a></h1><h2>reusable apps, sites, tools, and more for your Django projects</h2>{% endblock %}
+{% block logo_link_image %}
+<h1><a href="{% url home %}">Django Packages</a></h1>
+{% endblock %}
 
 {% block login %}
     {% include "account/_account_bar.html" %}
 {% endblock %}
 
 {% block left_tabs %}
-    <div id="cardboard-boxes">
-        <a href="{% url home %}"><img src="{{ STATIC_URL }}img/logo.png" /></a>
-    </div>
     <ul id="multi-col-nav">
         {% for tab in grid_tabs %}
             <li><a href="{% url grid tab.grid.slug %}">{{ tab.grid.title }}</a></li>

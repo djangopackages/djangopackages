@@ -4,10 +4,6 @@
 
 {% block head_title %}Add a package to Grid '{{ grid.title }}'{% endblock %}
 
-{% block subnav %}
-        &nbsp;
-{% endblock %}
-
 {% block body %}
 
     <h1><a href="{% url home %}">home</a> / <a href="{% url grids %}">grids</a> / Add a package to grid '<a href="{% url grid grid.slug %}">{{ grid.title }}</a>'</h1>

@@ -82,14 +82,11 @@ h2 { font-size: 153.9%; }
 /* Nav bar - overrides styles from tabs.css */
 #cardboard-boxes { float: left; margin: 20px 20px 0 12px; }
 #nav-help { margin: 10px 0 0 20px; } /* the top left help btn */
-#left_tabs { position: relative; clear: both; left: 0px; background: #2F1D1D; bottom: 0; min-height: 80px; padding: 1px; }
+#left_tabs { position: relative; clear: both; left: 0px; background: #FFFFFF; bottom: 0; min-height: 80px; padding: 1px; }
 #multi-col-nav { -moz-column-count: 5; -webkit-column-count: 5; }
 #multi-col-nav li { list-style-type: none; }
-#multi-col-nav li a, #multi-col-nav li a:visited { color: #FFFFDD; font: 11px Helvetica, Arial, sans-serif; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
+#multi-col-nav li a, #multi-col-nav li a:visited { color: #1a1a1a; font: 11px Helvetica, Arial, sans-serif; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
 #multi-col-nav li a:hover { font-weight: 800; }
-
-/* Subnav bar - overrides styles from base.css */
-#subnav { margin: 0; padding: 0; background: #815562; border-bottom: 1px solid #6F9C40; }
 
 
 /* Style all tables the same way throughout the site  */
