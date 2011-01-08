@@ -105,8 +105,7 @@
         <script src="{{ STATIC_URL }}js/site.js" type="text/javascript"></script>  
         {% include "facebox_js.html" %}
 
-        {% block extra_body_base %}
-            {% block extra_body %}{% endblock %}
-        {% endblock %}
+        {% ga %}
+        {% block extra_body %}{% endblock %}
     </body>
 </html>
