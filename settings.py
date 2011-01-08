@@ -89,12 +89,19 @@ ADMIN_MEDIA_PREFIX = "/site_media/admin/"
 SECRET_KEY = "ud%a+c#@@d5k!t_)mpw!+58fztyhk_sq%c5s0p5_je-wixy#$k"
 
 # List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    ('django.template.loaders.cached.Loader', (
-        'django.template.loaders.filesystem.Loader',
-        'django.template.loaders.app_directories.Loader',
-    )),
-)
+if DEBUG:
+    CACHE_BACKEND = 'dummy://'
+    TEMPLATE_LOADERS = (
+            'django.template.loaders.filesystem.Loader',
+            'django.template.loaders.app_directories.Loader',
+    )
+else:
+    TEMPLATE_LOADERS = (
+        ('django.template.loaders.cached.Loader', (
+            'django.template.loaders.filesystem.Loader',
+            'django.template.loaders.app_directories.Loader',
+        )),
+    )
 
 MIDDLEWARE_CLASSES = [
     "django.middleware.common.CommonMiddleware",
@@ -237,9 +244,12 @@ logging.basicConfig(
 )
 
 if DEBUG:
-    CACHE_BACKEND = 'locmem://'
-    MIDDLEWARE_CLASSES.append("debug_toolbar.middleware.DebugToolbarMiddleware")
-    INSTALLED_APPS.append("debug_toolbar")
+    CACHE_BACKEND = 'dummy://'
+    TEMPLATE_LOADERS = (
+            'django.template.loaders.filesystem.Loader',
+            'django.template.loaders.app_directories.Loader',
+    )
+    
 
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.
