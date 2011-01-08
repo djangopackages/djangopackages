@@ -4,7 +4,7 @@ from django.core.cache import cache
 from homepage.models import Tab
 
 def grid_tabs(request):
-    cache_key = 'sitewide:grid_tabs'
+    cache_key = 'sitewide_grid_tabs'
     grid_tabs = cache.get(cache_key)
     if grid_tabs is None:
         grid_tabs = Tab.objects.all().select_related('grid')

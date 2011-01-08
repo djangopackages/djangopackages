@@ -12,17 +12,16 @@ from package.views import (
                             edit_package, 
                             edit_example, 
                             update_package,
-                            usage
+                            usage,
+                            package_list
                             )
 
 urlpatterns = patterns("",
+
     url(
         regex   = r"^$",
-        view    = object_list,
+        view    = package_list,
         name    = "packages",
-        kwargs  = dict(
-            queryset=Package.objects.annotate(usage_count=Count("usage")).order_by('-pypi_downloads', '-repo_watchers', 'title')
-            )            
     ),
     
     url(
