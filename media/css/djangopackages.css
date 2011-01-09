@@ -56,8 +56,8 @@ margin-top:-32767px;/* thank you Erik J - negate effect of float*/
 
 /* Nav bar - overrides styles from tabs.css */
 #nav-help { margin: 10px 0 0 20px; } /* the top left help btn */
-#left_tabs { position: relative; clear: both; left: 0px; background: #FFFFFF; bottom: 0; min-height: 80px; margin: 1px 1px 40px 1px; padding-left: 20px;}
-#multi-col-nav { float: left; padding-left:4px; padding-bottom:40px; width:155px; }
+#left_tabs { position: relative; clear: both; left: 0px; background: #FFFFFF; bottom: 0; min-height: 80px; padding-left: 20px;}
+#multi-col-nav { float: left; padding-left:4px; padding-bottom:16px; width:155px; }
 #multi-col-nav a, #multi-col-nav a:visited { color: #1a1a1a; font: 11px Helvetica, Arial, sans-serif; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
 #multi-col-nav a:hover { font-weight: 800; }
 

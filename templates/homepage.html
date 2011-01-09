@@ -15,42 +15,113 @@
 
 {% block body %}
     <div id="home-rightcol">
-        <div class="home-rightcolbox">
-            <h1>Django Package of the Week</h1>
-            {% cache 300 "homepage.dpotw" %}
-                {% for package in dpotw %}            
-                    <h2><a href="{% url package package.package.slug %}">{{ package.package.title }}</a></h2>
-                    <p>{{ package.package.repo_description }}</p>
-                {% endfor %}
-            {% endcache %}
-            <p><a href="{% url add_package %}">Add your own package, or someone else's!</a></p>
-        </div>   
+        <div id="home-borderlessbox">
+            <h1>latest 5</h1>
+            <table>
+            <tr>
+                <td>
+                    <span class="home-numusers">XX</span>
+                    <span class="home-users">users</span></td>
+                <td>
+                    <span class="home-packagename">packagename</span>
+                    <span class="home-packagedesc">The description of the package, truncated to the end of the first sentence.</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="home-numusers">XX</span>
+                    <span class="home-users">users</span></td>
+                <td>
+                    <span class="home-packagename">packagename</span>
+                    <span class="home-packagedesc">The description of the package, truncated to the end of the first sentence.</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="home-numusers">XX</span>
+                    <span class="home-users">users</span></td>
+                <td>
+                    <span class="home-packagename">packagename</span>
+                    <span class="home-packagedesc">The description of the package, truncated to the end of the first sentence.</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="home-numusers">XX</span>
+                    <span class="home-users">users</span></td>
+                <td>
+                    <span class="home-packagename">packagename</span>
+                    <span class="home-packagedesc">The description of the package, truncated to the end of the first sentence.</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="home-numusers">XX</span>
+                    <span class="home-users">users</span></td>
+                <td>
+                    <span class="home-packagename">packagename</span>
+                    <span class="home-packagedesc">The description of the package, truncated to the end of the first sentence.</span>
+                </td>
+            </tr>
+            </table>
+        </div>
 
-        <div class="home-rightcolbox">
-            <h1>Grid of the Week</h1>
-            {% cache 300 "homepage.gotw" %}
-                {% for grid in gotw %}            
-                    <h2><a href="{% url grid grid.grid.slug %}">{{ grid.grid.title }}</a></h2>
-                    <p>{{ grid.grid.description }}</p>
-                <p><a href="{% url add_grid %}">Add a new grid!</a></p>                
-                {% endfor %}
-            {% endcache %}
-        </div>  
-        <div class="home-rightcolbox">
-            <h1>We need your help</h1>
-            <p>Help us populate our database by adding any Django package, whether it's yours or someone else's.</p>
-            <p><a class="large awesome forestgreen" href="{% url add_package %}">add package »</a></p>
-
-            <p>Or add a grid comparing the features of 2 or more similar packages.</p>
-            <p><a class="large awesome forestgreen" href="{% url add_grid %}">add grid »</a></p>
+        <div id="home-borderlessbox">
+            <h1>random 5</h1>
+            <table>
+            <tr>
+                <td>
+                    <span class="home-numusers">XX</span>
+                    <span class="home-users">users</span></td>
+                <td>
+                    <span class="home-packagename">packagename</span>
+                    <span class="home-packagedesc">The description of the package, truncated to the end of the first sentence.</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="home-numusers">XX</span>
+                    <span class="home-users">users</span></td>
+                <td>
+                    <span class="home-packagename">packagename</span>
+                    <span class="home-packagedesc">The description of the package, truncated to the end of the first sentence.</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="home-numusers">XX</span>
+                    <span class="home-users">users</span></td>
+                <td>
+                    <span class="home-packagename">packagename</span>
+                    <span class="home-packagedesc">The description of the package, truncated to the end of the first sentence.</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="home-numusers">XX</span>
+                    <span class="home-users">users</span></td>
+                <td>
+                    <span class="home-packagename">packagename</span>
+                    <span class="home-packagedesc">The description of the package, truncated to the end of the first sentence.</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="home-numusers">XX</span>
+                    <span class="home-users">users</span></td>
+                <td>
+                    <span class="home-packagename">packagename</span>
+                    <span class="home-packagedesc">The description of the package, truncated to the end of the first sentence.</span>
+                </td>
+            </tr>
+            </table>
         </div>
     </div>
      
     <div id="home-leftcol">
-        <p>Django Packages is a directory of reusable apps, sites, tools, and more for your Django projects.</p>
-        <p><b>XX</b> packages and counting!</p>
-
-        <div id="home-search">
+        <div id="home-borderlessbox">
+            <p>Django Packages is a directory of reusable apps, sites, tools, and more for your Django projects.</p>
+            <p><b>XX</b> packages and counting!</p>
             <form action="{% url search %}">
                 <input id="id_q_p" type="text" name="q" maxlength="100" value="search" autocomplete="off" />
                 <input id="hidden-submit" type="submit" value="go" /><br/>
@@ -61,16 +132,29 @@
             </form>         
         </div>
 
-        <div id="home-addpackage">
-            <p>Know of any packages not listed here?  Add them now!  It's quick and easy.</p>
-            <a class="large awesome forestgreen" href="{% url add_package %}">add package »</a>
-        </div>        
+        <div id="home-borderlessbox">
+            <h2>We need your help</h2>
+            <p>
+                Know of any packages not listed here?  Add them now!  It's quick and easy.
+            </p>
+            <p>
+                <a class="large awesome forestgreen" href="{% url add_package %}">add package »</a>
+            </p>
+            <p>
+                Or add a grid comparing the features of 2 or more similar packages.
+            </p>
+            <p>
+                <a class="large awesome forestgreen" href="{% url add_grid %}">add grid »</a>
+            </p>
+        </div>
 
-        <h2>Package Categories</h2>
-         {% for category in categories %}
-            <h3><a href="{% url category category.slug %}">{{ category.title_plural }}</a> ( {{ category.count }} )</h3>
-            <p>{{ category.description }}</p>
-         {% endfor %}
+        <div id="home-borderlessbox">
+            <h2>Package Categories</h2>
+             {% for category in categories %}
+                <h3><a href="{% url category category.slug %}">{{ category.title_plural }}</a> ( {{ category.count }} )</h3>
+                <p>{{ category.description }}</p>
+             {% endfor %}
+        </div>
     </div>
     
 
