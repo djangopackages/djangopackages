@@ -9,8 +9,8 @@
 .home-rightcolbox { width: 260px; padding: 1px 20px 10px 20px; margin-bottom: 20px; background-color: #C0F1D1; }
 
 /* Search box on homepage */
-#id_q_p { width:300px; height:22px; border:1px solid #999999; margin:0; padding:0; }
-input#magnifier-submit { background: url('../img/search.png') #87deaa no-repeat center; border:1px solid #999999; height:24px; width:36px; margin:0 0 6px 0; padding:0;}
+#id_q_p { width:380px; height:22px; border:1px solid #999999; margin:0; padding:0; }
+input#magnifier-submit { background: url('../img/search.png') #87deaa no-repeat center; border:1px solid #999999; height:24px; width:36px; margin:0 0 6px -5px; padding:0;}
 .home-searchcheckbox { margin: 0 2px 0 10px; }
 
 #home-packages img { vertical-align: middle; }
