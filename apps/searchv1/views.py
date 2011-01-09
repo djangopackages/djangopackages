@@ -11,7 +11,7 @@ from package.models import Package
 
 from searchv1.forms import SearchForm
 
-def find_packages_autocomplete(q):
+def package_search(q):
     django_dash = 'django-%s' % q
     django_space = 'django %s' % q    
     return Package.objects.filter(
@@ -21,7 +21,10 @@ def find_packages_autocomplete(q):
                 Q(slug__istartswith=q) | 
                 Q(slug__istartswith=django_dash) |
                 Q(slug__istartswith=django_space)                
-                )[:15]
+                )    
+
+def find_packages_autocomplete(q):
+    return package_search(q)[:15]
 
 def find_grids_autocomplete(q):
     return Grid.objects.filter(title__istartswith=q)[:15]
@@ -40,6 +43,25 @@ def search_by_function_autocomplete(request, search_function):
         json_response = simplejson.dumps([])
 
     return HttpResponse(json_response, mimetype='text/javascript')
+    
+def search_by_category_autocomplete(request):
+    """
+    Search by categories on packages
+    """    
+    q = request.GET.get('term', '')
+    packages = package_search(q)    
+    ex_cat = request.GET.get('ex_cat', '')
+    print ex_cat
+    if ex_cat.strip():
+        for cat in ex_cat.split(','):            
+            packages = packages.exclude(category__slug=cat)
+    
+    package = packages[:15]
+    
+    objects = packages.values_list('title', flat=True) 
+    json_response = simplejson.dumps(list(objects))
+    return HttpResponse(json_response, mimetype='text/javascript')    
+    
 
 def search(request, template_name='searchv1/search.html'):
     """
