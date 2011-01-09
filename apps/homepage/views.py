@@ -10,7 +10,6 @@ from homepage.models import Dpotw, Gotw
 
 def homepage(request, template_name="homepage.html"):
     
-    """
     categories = []
     for category in Category.objects.annotate(package_count=Count("package")):
         element = {
@@ -20,20 +19,14 @@ def homepage(request, template_name="homepage.html"):
             "slug": category.slug,
             "title_plural": category.title_plural,
             "show_pypi": category.show_pypi,
-            "packages": category.package_set.annotate(usage_count=Count("usage")).order_by("-pypi_downloads", "-repo_watchers", "title")[:9]
         }
         categories.append(element)
-    """
-    
+
+    # get random packages
     packages = Package.objects.all()
     package_count = packages.count()
     count_list = [x for x in range(package_count)]
     shuffle(count_list)
-    
-    #random_five_packages = []
-    #for i in count_list[:5]:
-    #    random_five_packages.append(packages[i])
-        
     random_packages = [packages[x] for x in count_list[:5]]
     
     return render_to_response(
@@ -42,6 +35,8 @@ def homepage(request, template_name="homepage.html"):
             "random_packages": random_packages,
             "dpotw": Dpotw.objects.get_current(),
             "gotw": Gotw.objects.get_current(),
+            "categories":categories,
+            "package_count":package_count
         }, context_instance = RequestContext(request)
     )
         

@@ -89,14 +89,14 @@
         <div id="home-borderlessbox">
             <p>Django Packages is a directory of reusable apps, sites, tools, and more for your Django projects.</p>
             <br/>
-            <p><b>XX</b> packages and counting!</p>
+            <p><b>{{ package_count }}</b> packages and counting!</p>
             <form action="{% url search %}">
                 <input id="id_q_p" type="text" name="q" maxlength="100" value="search" autocomplete="off" />
                 <input id="magnifier-submit" type="submit" value="&nbsp;" /><br/>
-                <input class="home-searchcheckbox" type="checkbox" name="category" value="apps" />apps
-                <input class="home-searchcheckbox" type="checkbox" name="category" value="frameworks" />frameworks
-                <input class="home-searchcheckbox" type="checkbox" name="category" value="projects" />projects
-                <input class="home-searchcheckbox" type="checkbox" name="category" value="other" />other
+                <input class="home-searchcheckbox" checked type="checkbox" name="category" value="apps" />apps
+                <input class="home-searchcheckbox" checked type="checkbox" name="category" value="frameworks" />frameworks
+                <input class="home-searchcheckbox" checked type="checkbox" name="category" value="projects" />projects
+                <input class="home-searchcheckbox" checked type="checkbox" name="category" value="other" />other
             </form>
         </div>
 
@@ -134,7 +134,9 @@
         $('input#id_q_p').click(function() {
             $("input#id_q_p").val('');
         });                        
-    });    
+    });
+    
+    
 
     $('#id_q_p').autocomplete({
       source: '{% url search_packages_autocomplete %}',
@@ -144,6 +146,7 @@
         $('.ui-autocomplete').css({'width': '250px', 'top': ac_top + 10 }); 
       }
     });
+    
     
 </script>      
 {% endblock %}      
