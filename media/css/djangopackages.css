@@ -82,3 +82,5 @@ td.usage-container {width: 8em}
 td.usage-container .usage-button {float: right}
 
 #site_wide_announcements {background-color: #75dfca;}
+
+.clearfix {clear:both;}
