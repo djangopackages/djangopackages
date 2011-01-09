@@ -8,6 +8,7 @@ from homepage.models import Dpotw, Gotw
 
 def homepage(request, template_name="homepage.html"):
     
+    """
     categories = []
     for category in Category.objects.annotate(package_count=Count("package")):
         element = {
@@ -20,10 +21,13 @@ def homepage(request, template_name="homepage.html"):
             "packages": category.package_set.annotate(usage_count=Count("usage")).order_by("-pypi_downloads", "-repo_watchers", "title")[:9]
         }
         categories.append(element)
+    """
+    
     
     return render_to_response(
         template_name, {
-            "categories": categories,
+            "latest_packages":Package.objects.all().order_by('-created')[:5],
+            #"categories": categories,
             "dpotw": Dpotw.objects.get_current(),
             "gotw": Gotw.objects.get_current(),
         }, context_instance = RequestContext(request)
