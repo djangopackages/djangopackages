@@ -61,7 +61,6 @@ margin-top:-32767px;/* thank you Erik J - negate effect of float*/
 #multi-col-nav a, #multi-col-nav a:visited { color: #1a1a1a; font: 11px Helvetica, Arial, sans-serif; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
 #multi-col-nav a:hover { font-weight: 800; }
 
-
 /* Style all tables the same way throughout the site  */
 th { font-size: 11px; color: #4f6b72; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #C0F1D1; }
 td { border: 1px solid #C1DAD7; background: #fff; padding: 6px 6px 6px 12px; color: #4f6b72; }

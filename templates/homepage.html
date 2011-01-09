@@ -124,12 +124,12 @@
             <p><b>XX</b> packages and counting!</p>
             <form action="{% url search %}">
                 <input id="id_q_p" type="text" name="q" maxlength="100" value="search" autocomplete="off" />
-                <input id="hidden-submit" type="submit" value="go" /><br/>
-                <input type="checkbox" name="category" value="apps" />apps
-                <input type="checkbox" name="category" value="frameworks" />frameworks
-                <input type="checkbox" name="category" value="projects" />projects
-                <input type="checkbox" name="category" value="other" />other
-            </form>         
+                <input id="magnifier-submit" type="submit" value="&nbsp;" /><br/>
+                <input class="home-searchcheckbox" type="checkbox" name="category" value="apps" />apps
+                <input class="home-searchcheckbox" type="checkbox" name="category" value="frameworks" />frameworks
+                <input class="home-searchcheckbox" type="checkbox" name="category" value="projects" />projects
+                <input class="home-searchcheckbox" type="checkbox" name="category" value="other" />other
+            </form>
         </div>
 
         <div id="home-borderlessbox">
