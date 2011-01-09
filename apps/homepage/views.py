@@ -1,3 +1,5 @@
+from random import shuffle
+
 from django.db.models import Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404 
@@ -23,11 +25,21 @@ def homepage(request, template_name="homepage.html"):
         categories.append(element)
     """
     
+    packages = Package.objects.all()
+    package_count = packages.count()
+    count_list = [x for x in range(package_count)]
+    shuffle(count_list)
+    
+    #random_five_packages = []
+    #for i in count_list[:5]:
+    #    random_five_packages.append(packages[i])
+        
+    random_packages = [packages[x] for x in count_list[:5]]
     
     return render_to_response(
         template_name, {
             "latest_packages":Package.objects.all().order_by('-created')[:5],
-            #"categories": categories,
+            "random_packages": random_packages,
             "dpotw": Dpotw.objects.get_current(),
             "gotw": Gotw.objects.get_current(),
         }, context_instance = RequestContext(request)
