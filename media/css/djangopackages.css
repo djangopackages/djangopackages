@@ -29,7 +29,7 @@ h2 { font-size: 153.9%; }
 #tabhead .login a, #tabhead .login a:visited { color: #333; }
 #tabhead .login a:hover { color: #DEF; }
 
-#footer { width: 100%; text-align: center; font-size:90%; }
+#footer { width: 100%; text-align: center; font-size:80%; }
 
 /* Sticky footer from http://www.cssstickyfooter.com/
    (still overriding base.css) */
