@@ -3,20 +3,6 @@
     display: inline;
 }
 
-#package-editlink a,
-#package-gridname a {
-    margin: 10px;
-    padding: 4px 6px;
-    background: #DEF;
-    color: #333;
-    text-decoration: none;
-}
-
-#package-editlink a:hover,
-#package-gridname a:hover {
-    background: #666;
-    color: #FFF;
-}
 
 #package-sitelist li {
     margin: 9px 0;
