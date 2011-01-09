@@ -98,7 +98,18 @@
                 <tr class="even">
                     <td># Using This</td>
                     {% for grid_package in grid_packages %}
-                        <td class="usage-container">
+                    
+                        <td>
+                            <span class="usage-count">{{ grid_package.usage_count }}</span>                            
+                            {% with grid_package.package as package %}
+                                {% if package.pk in used_packages_list %}
+                                {% include "package/remove_usage_button.html" %}
+                                {% else %}
+                                {% include "package/add_usage_button.html" %}
+                                {% endif %}
+                            {% endwith %}        
+                            {% comment %}       
+                            TODO - get the AJAX working again!
                             <span class="usage-count">{{ grid_package.usage_count }}</span>
                             &nbsp;
                             <span class="usage-button">
@@ -110,6 +121,7 @@
                                     {% endif %}
                                 {% endwith %}
                             </span>
+                            {% endcomment %}
                         </td>
                     {% endfor %}
                 </td>

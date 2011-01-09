@@ -22,6 +22,7 @@
                 <tr>
                     <td>
                            {% if package.pk in used_packages_list %}
+                               {# TODO - get the AJAX working again! #}
                             {% include "package/remove_usage_button.html" %}
                             {% else %}
                             {% include "package/add_usage_button.html" %}
@@ -56,6 +57,7 @@
                     <tr>
                         <td>
                                {% if package.pk in used_packages_list %}
+                                {# TODO - get the AJAX working again! #}
                                 {% include "package/remove_usage_button.html" %}
                                 {% else %}
                                 {% include "package/add_usage_button.html" %}
