@@ -72,10 +72,9 @@ urlpatterns = patterns("",
         kwargs=dict(
             queryset=Package.objects.select_related(),
             template_name="package/package.html",
-            #template_object_name="package",
             )    
     ),    
-    
+        
     url(
         regex = "^ajax_package_list/$",
         view    = ajax_package_list,
@@ -86,6 +85,18 @@ urlpatterns = patterns("",
         regex = "^usage/(?P<slug>[-\w]+)/(?P<action>add|remove)/$",
         view    = usage,
         name    = "usage",
+    ),
+    
+    # TODO make this not use a template perhaps?
+    url(
+        regex = "^p/repo_description/(?P<slug>[-\w]+)/$",
+        view    = object_detail,
+        name    = "package_repo_description",
+        kwargs=dict(
+            queryset=Package.objects.select_related(),
+            template_name="package/facebox/package_repo_description.html",
+            )        
     ),    
+   
         
 )
