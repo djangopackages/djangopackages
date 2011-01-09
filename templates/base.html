@@ -45,7 +45,7 @@
                 </div>
             {% endif %}
             <div id="tabhead">
-                <div class="logo" dir="ltr">
+                <div class="logo">
                     <img src="{{ STATIC_URL }}img/logo_squares.png" /><h1><a href="{% url home %}">Django Packages</a></h1>
                 </div>
                 <div class="login">
@@ -67,10 +67,15 @@
                         <a href="/help/">Help</a>
                         |
                         <a href="{% url acct_login %}{% if current_path %}?next={{ current_path }}{% endif %}">Log in</a> or <a href="{% url acct_signup %}">Sign Up</a>
+                        <br/>
                     {% endif %}
                     {% block locale_switcher %}{% endblock %}
-                    <div style="text-align: right;"></div>
+                    <form action="{% url search %}">
+                        <input id="id_q_p" type="text" name="q" maxlength="100" value="search" autocomplete="off" />
+                        <input id="magnifier-submit" type="submit" value="&nbsp;" /><br/>
+                    </form>
                 </div>
+
                 <div id="left_tabs" >
                     {% for grid_chunk in grid_tabs %}
                         <div id="multi-col-nav">
