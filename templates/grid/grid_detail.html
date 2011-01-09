@@ -13,6 +13,7 @@
 {% block head_title %}{{ object.title }}{% endblock %}
 
 {% block body %}
+
     
     <h1 id="grid-name">
       <a href="{% url home %}">home</a> / <a href="{% url grids %}">grids</a> / {{ grid.title }}
@@ -74,7 +75,18 @@
                 <tr class="even">
                     <td>Description</td>
                     {% for grid_package in grid_packages %}
-                        <td>{{ grid_package.package.repo_description|truncatewords:20|wordwrap:30|linebreaksbr }}</td>
+                        <td>
+                            {% with grid_package.package.repo_description|truncatewords:20 as short %}
+                          
+                                {% if grid_package.package.repo_description|length > short|length %}
+                                   {{ short|wordwrap:30|linebreaksbr|slice:"-3" }}<a rel="facebox" href="{% url package_repo_description grid_package.package.slug %}">...</a>                                    
+                                {% else %}
+                                    {{ short|wordwrap:30|linebreaksbr }}
+                                {% endif %}
+                            {% endwith %}
+                            
+                            
+                        </td>
                     {% endfor %}
                 </tr>                    
                 <tr class="odd">
