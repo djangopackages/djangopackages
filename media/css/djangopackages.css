@@ -19,7 +19,7 @@ h2 { font-size: 153.9%; }
 /* This overrides styles from base.css */
 #tabhead { border: 0; position: relative; }
 
-#tabhead .logo { height: 40px; padding: 6px 0 0 10px; font-weight: 700; background-color: #FFF; }
+#tabhead .logo { height: 40px; padding: 12px 0 4px 10px; font-weight: 700; background-color: #FFF; }
 #tabhead .logo img { height:24px; padding-left:16px; }
 #tabhead .logo h1 { line-height: 80%; font-size: 200%; display: inline; padding-left: 14px; padding-right: 26px; }
 #tabhead .logo h2 { font-size: 17px; display: inline; }
