@@ -40,7 +40,7 @@
                             <a href="{% url edit_feature feature.pk %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>{% if perms.grid.delete_feature %}&nbsp;<a href="#" id="feature-delete-{{ feature.pk }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete" /></a>{% endif %}
                         {% endif %}
                         </td>
-                        <td>{{ feature.description }}</td>
+                        <td>{{ feature.description|wordwrap:80|linebreaksbr }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
