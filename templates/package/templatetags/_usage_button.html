@@ -1,0 +1,6 @@
+<a class="usage-link"
+    id="usage-link-{{ package.slug }}"
+    href="{% url usage package.slug usage_action %}"><img 
+            class="usage-image"
+            id="usage-image-{{ package.slug }}" 
+            src="{{ STATIC_URL }}img/{{ image }}.png" /></a>

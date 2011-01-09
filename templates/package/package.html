@@ -35,17 +35,11 @@
             <tbody>
                 <tr class="usage-container">
                     <td class="usage-container">
-                        <span class="usage-count">{{ object.usage.count }}</span>
+                        <span class="usage-count" id="usage-count-{{ object.id }}">{{ object.usage.count }}</span>
                         &nbsp;
-                        <span class="usage-button">
-                            {% with object as package %}
-                                {% if package.pk in used_packages_list %}
-                                {% include "package/remove_usage_button.html" %}
-                                {% else %}
-                                {% include "package/add_usage_button.html" %}
-                                {% endif %}
-                            {% endwith %}
-                        </span>
+                        {% with object as package %}
+                            {% usage_button %} 
+                        {% endwith %}
                     </td>
                     <td><a class="awesome forestgreen" href="{% url fetch_package_data object.slug %}">Fetch latest data</a></td>
                 </tr>    

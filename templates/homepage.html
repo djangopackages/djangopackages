@@ -21,15 +21,10 @@
             {% for package in latest_packages %}
                 <tr>
                     <td>
-                           {% if package.pk in used_packages_list %}
-                               {# TODO - get the AJAX working again! #}
-                            {% include "package/remove_usage_button.html" %}
-                            {% else %}
-                            {% include "package/add_usage_button.html" %}
-                            {% endif %}                        
+                        {% usage_button %}
                     </td>
                     <td>
-                        <span class="home-numusers">{{ package.usage.count }}</span>
+                        <span class="home-numusers" id="usage-count-{{ package.id }}">{{ package.usage.count }}</span>
                         <span class="home-users">users</span></td>
                     <td>
                         <span class="home-packagename"><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></span>
@@ -56,15 +51,10 @@
                 {% for package in random_packages %}
                     <tr>
                         <td>
-                               {% if package.pk in used_packages_list %}
-                                {# TODO - get the AJAX working again! #}
-                                {% include "package/remove_usage_button.html" %}
-                                {% else %}
-                                {% include "package/add_usage_button.html" %}
-                                {% endif %}                        
+                            {% usage_button %}                       
                         </td>
                         <td>
-                            <span class="home-numusers">{{ package.usage.count }}</span>
+                            <span class="home-numusers" id="usage-count-{{ package.id }}">{{ package.usage.count }}</span>
                             <span class="home-users">users</span></td>
                         <td>
                             <span class="home-packagename"><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></span>
