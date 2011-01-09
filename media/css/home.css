@@ -3,7 +3,7 @@
 #home-leftcol { float: left; width:45%; }
 #home-rightcol { float: right; width:45%; }
 
-#home-borderlessbox { padding-top:30px; }
+.home-borderlessbox { padding-top:30px; }
 
 /* blue boxes in the right column */
 .home-rightcolbox { width: 260px; padding: 1px 20px 10px 20px; margin-bottom: 20px; background-color: #C0F1D1; }
@@ -14,6 +14,8 @@ input#magnifier-submit { background: url('../img/search.png') #87deaa no-repeat 
 .home-searchcheckbox { margin: 0 2px 0 10px; }
 
 #home-packages img { vertical-align: middle; }
+
+.home-table th, .home-table td {border:0;}
 
 .home-numusers {display:block; font-size:250%; color:#36bc6c; }
 .home-users {}

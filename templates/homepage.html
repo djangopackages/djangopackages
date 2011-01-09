@@ -15,9 +15,9 @@
 
 {% block body %}
     <div id="home-rightcol">
-        <div id="home-borderlessbox">
+        <div class="home-borderlessbox">
             <h2>latest 5</h2>
-            <table>
+            <table class="home-table">
             {% for package in latest_packages %}
                 <tr>
                     <td>
@@ -50,9 +50,9 @@
             </table>
         </div>
 
-        <div id="home-borderlessbox">
+        <div class="home-borderlessbox">
             <h2>random 5</h2>
-            <table>
+            <table class="home-table">
                 {% for package in random_packages %}
                     <tr>
                         <td>
