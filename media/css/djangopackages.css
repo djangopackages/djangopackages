@@ -29,14 +29,31 @@ h2 { font-size: 153.9%; }
 #tabhead .login a, #tabhead .login a:visited { color: #333; }
 #tabhead .login a:hover { color: #DEF; }
 
-#footer { width: 100%; text-align: center; }
+#footer { width: 100%; text-align: center; font-size:90%; }
 
-/* Sticky footer from http://ryanfait.com/resources/footer-stick-to-bottom-of-page/
+/* Sticky footer from http://www.cssstickyfooter.com/
    (still overriding base.css) */
+* {margin:0;padding:0;} 
+/* must declare 0 margins on everything, also for main layout components use padding, not 
+vertical margins (top and bottom) to add spacing, else those margins get added to total height 
+and your footer gets pushed down a bit more, creating vertical scroll bars in the browser */
+html, body {height: 100%;}
+#wrap {min-height: 100%;}
+#main {overflow:auto;
+	padding-bottom: 50px;}  /* must be same height as the footer */
+#footer {position: relative;
+	margin-top: -50px; /* negative value of footer height */
+	height: 50px;
+	clear:both;} 
+/*Opera Fix*/
+body:before {/* thanks to Maleika (Kohoutec)*/
+content:"";
+height:100%;
+float:left;
+width:0;
+margin-top:-32767px;/* thank you Erik J - negate effect of float*/
+}
 
-.wrapper { min-height: 100%; height: auto !important; height: 100%; margin: 0 auto -4em; }
-
-.footer, .push { height: 4em; }
 
 /* Nav bar - overrides styles from tabs.css */
 #nav-help { margin: 10px 0 0 20px; } /* the top left help btn */

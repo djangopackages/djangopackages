@@ -10,6 +10,12 @@
                 zoom: 1; /* trigger hasLayout */
             }
         </style><![endif]-->
+        <!-- The following is for sticky footer -->
+        <!--[if !IE 7]>
+	        <style type="text/css">
+		        #wrap {display:table;height:100%}
+	        </style>
+        <![endif]-->
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.1.2/build/cssreset/reset-min.css">
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.1.2/build/cssbase/base-min.css">
         <link rel="stylesheet" href="{{ STATIC_URL }}pinax/css/facebox.css" />
@@ -23,82 +29,77 @@
     </head>
     
     <body class="{% block body_class %}{% endblock %}">
-    <div class="wrapper">
-        {% if site_wide_announcements %}
-            <div id="site_wide_announcements">
-                <ul>
-                    {% for announcement in site_wide_announcements %}
-                    <li>
-                        <a href="{{ announcement.get_absolute_url }}">{{ announcement }}</a> -
-                        <a href="{% url announcement_hide announcement.pk %}?next={{ request.path }}">{% trans "Hide announcement" %}</a>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
-
-        <div id="tabhead">
-            <div class="logo" dir="ltr">
-                <img src="{{ STATIC_URL }}img/logo_squares.png" /><h1><a href="{% url home %}">Django Packages</a></h1>
-            </div>
-            <div class="login">
-                {% include "account/_account_bar.html" %}
-                {% block locale_switcher %}{% endblock %}
-                <div style="text-align: right;"></div>
-            </div>
-            <div id="left_tabs" >
-                {% for grid_chunk in grid_tabs %}
-                                
-                    <div id="multi-col-nav">
-                        {% for tab in grid_chunk %}
-                            {% if tab %}
-                                <a href="{% url grid tab.grid.slug %}" id="gt_{{ tab.grid.slug }}">{{ tab.grid.title }}</a><br />
-                            {% endif %}
-                            {% if forloop.parentloop.last and forloop.last %}
-                                <a href="{% url grids %}">&raquo; more grids...</a>                            
-                            {% endif %}
+    <div id="wrap">
+        <div id="main">
+            {% if site_wide_announcements %}
+                <div id="site_wide_announcements">
+                    <ul>
+                        {% for announcement in site_wide_announcements %}
+                        <li>
+                            <a href="{{ announcement.get_absolute_url }}">{{ announcement }}</a> -
+                            <a href="{% url announcement_hide announcement.pk %}?next={{ request.path }}">{% trans "Hide announcement" %}</a>
+                        </li>
                         {% endfor %}
-
-                    </div>
-                    
-                {% endfor %}
-            </div>
-        </div>
-        
-        {% block body_outer %}
-        <div id="body">
-            {% if messages %}
-                <ul id="messages">
-                    {% for message in messages %}
-                    <li id="message_{{ forloop.counter }}"{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-                        <a href="#"><small>{% trans "clear" %}</small></a>
-                        &nbsp;
-                        {{ message }}
-                    </li>
-                    {% endfor %}
-                </ul>
+                    </ul>
+                </div>
             {% endif %}
-            
-            {% block body %}
+            <div id="tabhead">
+                <div class="logo" dir="ltr">
+                    <img src="{{ STATIC_URL }}img/logo_squares.png" /><h1><a href="{% url home %}">Django Packages</a></h1>
+                </div>
+                <div class="login">
+                    {% include "account/_account_bar.html" %}
+                    {% block locale_switcher %}{% endblock %}
+                    <div style="text-align: right;"></div>
+                </div>
+                <div id="left_tabs" >
+                    {% for grid_chunk in grid_tabs %}
+                        <div id="multi-col-nav">
+                            {% for tab in grid_chunk %}
+                                {% if tab %}
+                                    <a href="{% url grid tab.grid.slug %}" id="gt_{{ tab.grid.slug }}">{{ tab.grid.title }}</a><br />
+                                {% endif %}
+                                {% if forloop.parentloop.last and forloop.last %}
+                                    <a href="{% url grids %}">&raquo; more grids...</a>                            
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>        
+            {% block body_outer %}
+            <div id="body">
+                {% if messages %}
+                    <ul id="messages">
+                        {% for message in messages %}
+                        <li id="message_{{ forloop.counter }}"{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                            <a href="#"><small>{% trans "clear" %}</small></a>
+                            &nbsp;
+                            {{ message }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% block body %}
+                {% endblock %}
+            </div>
             {% endblock %}
         </div>
-        {% endblock %}
-        <div class="push"></div>
     </div>
-        <div id="footer">
-            <div class="legal">
-                <hr />
-                &copy; 2010 <a href="http://pydanny.com">Daniel Greenfeld</a> & <a href="http://fuzzyrainbow.com">Audrey Roy</a>
-                - <a href="{% url about %}">{% trans "About" %}</a>
-                - <a href="/help/">{% trans "Help" %}</a>    
-                - <a href="{% url terms %}">{% trans "Terms of Service" %}</a>
-                - <a href="/help/team/">Team</a>
-                - <a href="/api/v1/docs/">API</a>
-                - <a href="/help/syndication/">RSS / Atom</a>
-                <br />
-                {% trans "Powered by" %} <a href="http://www.djangoproject.com/">Django</a>, <a href="http://www.pinaxproject.com/">Pinax</a> and <a href="/grids/g/this-site/">these fine packages</a>.
-            </div>
+    <div id="footer">
+        <div class="legal">
+            <hr /><br/>
+            &copy; 2010 <a href="http://pydanny.com">Daniel Greenfeld</a> & <a href="http://fuzzyrainbow.com">Audrey Roy</a>
+            - <a href="{% url about %}">{% trans "About" %}</a>
+            - <a href="/help/">{% trans "Help" %}</a>    
+            - <a href="{% url terms %}">{% trans "Terms of Service" %}</a>
+            - <a href="/help/team/">Team</a>
+            - <a href="/api/v1/docs/">API</a>
+            - <a href="/help/syndication/">RSS / Atom</a>
+            <br />
+            {% trans "Powered by" %} <a href="http://www.djangoproject.com/">Django</a>, <a href="http://www.pinaxproject.com/">Pinax</a> and <a href="/grids/g/this-site/">these fine packages</a>.
         </div>
+    </div>
 
         <script src="{% block jquery_src %}http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js{% endblock %}" type="text/javascript"></script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/jquery-ui.min.js"></script>
