@@ -64,7 +64,7 @@ margin-top:-32767px;/* thank you Erik J - negate effect of float*/
 /* Style all tables the same way throughout the site  */
 th { font-size: 11px; color: #4f6b72; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #C0F1D1; }
 td { border: 1px solid #C1DAD7; background: #fff; padding: 6px 6px 6px 12px; color: #4f6b72; }
-.clickable { background: #FFFAE3; }
+.clickable { background: #f9f6d8; cursor:pointer;}
 
 /* Search */
 .ui-autocomplete li { list-style: none; }
