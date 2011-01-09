@@ -33,7 +33,6 @@ h2 { font-size: 153.9%; }
 
 /* Sticky footer from http://www.cssstickyfooter.com/
    (still overriding base.css) */
-* {margin:0;padding:0;} 
 /* must declare 0 margins on everything, also for main layout components use padding, not 
 vertical margins (top and bottom) to add spacing, else those margins get added to total height 
 and your footer gets pushed down a bit more, creating vertical scroll bars in the browser */
@@ -57,8 +56,8 @@ margin-top:-32767px;/* thank you Erik J - negate effect of float*/
 
 /* Nav bar - overrides styles from tabs.css */
 #nav-help { margin: 10px 0 0 20px; } /* the top left help btn */
-#left_tabs { position: relative; clear: both; left: 0px; background: #FFFFFF; bottom: 0; min-height: 80px; padding: 1px 1px 20px 1px; }
-#multi-col-nav { float: left; padding-left: 24px; padding-bottom:40px; }
+#left_tabs { position: relative; clear: both; left: 0px; background: #FFFFFF; bottom: 0; min-height: 80px; margin: 1px 1px 40px 1px; padding-left: 20px;}
+#multi-col-nav { float: left; padding-left:4px; padding-bottom:40px; width:155px; }
 #multi-col-nav a, #multi-col-nav a:visited { color: #1a1a1a; font: 11px Helvetica, Arial, sans-serif; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
 #multi-col-nav a:hover { font-weight: 800; }
 
