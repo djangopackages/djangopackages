@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load ifsetting_tag account_tags openid_tags %}
 {% load analytics %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}">
@@ -48,7 +49,25 @@
                     <img src="{{ STATIC_URL }}img/logo_squares.png" /><h1><a href="{% url home %}">Django Packages</a></h1>
                 </div>
                 <div class="login">
-                    {% include "account/_account_bar.html" %}
+                    {% if user.is_authenticated %}
+                        {% ifopenid %}<img src="{{ STATIC_URL }}images/openid-icon.png" alt="Logged in with OpenID" />{% endifopenid %}<b>{% user_display user %}</b>
+                        |
+                        <a href="/help/">Help</a>
+                        |
+                        <a href="{% url acct_email %}">Account</a>
+                        |
+                        <a href="{% url profile_detail request.user %}">Profile</a>    
+                        |
+                        {% if user.is_staff %}
+                            <a href="/admin/">Admin</a>
+                            |
+                        {% endif %}
+                        <a href="{% if request.openid %}/openid/logout/?next={% url acct_logout %}{% else %}{% url acct_logout %}{% endif %}">Logout</a>
+                    {% else %}
+                        <a href="/help/">Help</a>
+                        |
+                        <a href="{% url acct_login %}{% if current_path %}?next={{ current_path }}{% endif %}">Log in</a> or <a href="{% url acct_signup %}">Sign Up</a>
+                    {% endif %}
                     {% block locale_switcher %}{% endblock %}
                     <div style="text-align: right;"></div>
                 </div>
