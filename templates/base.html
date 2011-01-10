@@ -70,10 +70,12 @@
                         <br/>
                     {% endif %}
                     {% block locale_switcher %}{% endblock %}
+                    {% comment %}
                     <form action="{% url search %}">
                         <input id="id_q_p" type="text" name="q" maxlength="100" value="search" autocomplete="off" />
                         <input id="magnifier-submit" type="submit" value="&nbsp;" /><br/>
                     </form>
+                    {% endcomment %}                    
                 </div>
 
                 <div id="left_tabs" >

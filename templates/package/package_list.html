@@ -14,6 +14,7 @@
 {% block body_class %}home{% endblock %}
 
 {% block body %}
+    {% comment %}
     <div id="home-rightcol">
         <div id="home-search">
             <form action="{% url search %}">
@@ -54,7 +55,8 @@
             <p>Or add a grid comparing the features of 2 or more similar packages.</p>
             <p><a class="large awesome forestgreen" href="{% url add_grid %}">add grid »</a></p>
         </div>
-    </div>        
+    </div>    
+    {% endcomment %}        
      
      {% for category in categories %}
         <h2><a href="{% url category category.slug %}">{{ category.title_plural }}</a> ( {{ category.count }} )</h2>
@@ -77,15 +79,9 @@
             {% for package in category.packages %}
                 <tr class="usage-container">
                     <td class="usage-container">
-                        <span class="usage-count">{{ package.usage_count }}</span>
+                        {% usage_button %}                    
                         &nbsp;
-                        <span class="usage-button">
-                            {% if package.pk in used_packages_list %}
-                            {% include "package/remove_usage_button.html" %}
-                            {% else %}
-                            {% include "package/add_usage_button.html" %}
-                            {% endif %}
-                        </span>
+                        <span class="usage-count">{{ package.usage_count }}</span>
                     </td>
                     {% if category.show_pypi %}                    
                         <td>{{ package.pypi_downloads }}</td>

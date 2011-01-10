@@ -20,7 +20,7 @@
             <table class="home-table">
             {% for package in latest_packages %}
                 <tr>
-                    <td>
+                    <td class="home-usage-button-cell">
                         {% usage_button %}
                     </td>
                     <td>
@@ -44,7 +44,7 @@
 
             </table>
         </div>
-
+        {% comment %}
         <div class="home-borderlessbox">
             <h2>random 5</h2>
             <table class="home-table">
@@ -54,7 +54,7 @@
                             {% usage_button %}                       
                         </td>
                         <td>
-                            <span class="home-numusers" id="usage-count-{{ package.id }}">{{ package.usage.count }}</span>
+                            <span class="home-numusers" id="usage-count-{{ package.id }}">{{ package.usage.count }}</span>                            
                             <span class="home-users">users</span></td>
                         <td>
                             <span class="home-packagename"><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></span>
@@ -73,6 +73,7 @@
                 {% endfor %}
             </table>
         </div>
+        {% endcomment %}
     </div>
      
     <div id="home-leftcol">
@@ -83,10 +84,12 @@
             <form action="{% url search %}">
                 <input id="id_q_p" type="text" name="q" maxlength="100" value="search" autocomplete="off" />
                 <input id="magnifier-submit" type="submit" value="&nbsp;" /><br/>
+                {% comment %}
                 <input class="home-searchcheckbox" checked="checked" type="checkbox" name="category" value="apps" />apps
                 <input class="home-searchcheckbox" type="checkbox" name="category" value="frameworks" />frameworks
                 <input class="home-searchcheckbox" type="checkbox" name="category" value="projects" />projects
                 <input class="home-searchcheckbox" type="checkbox" name="category" value="other" />other
+                {% endcomment %}                
             </form>
         </div>
 
