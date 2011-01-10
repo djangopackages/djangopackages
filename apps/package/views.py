@@ -190,7 +190,7 @@ def usage(request, slug, action):
     
     # Invalidate the cache of this users's used_packages_list.
     if success:
-        cache_key = "sitewide:used_packages_list:%s" % request.user.pk
+        cache_key = "sitewide_used_packages_list_%s" % request.user.pk
         cache.delete(cache_key)
     
     # Return an ajax-appropriate response if necessary
