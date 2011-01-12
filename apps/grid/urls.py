@@ -7,6 +7,7 @@ from grid.views import (
         add_feature,
         add_grid,
         add_grid_package,
+        add_new_grid_package,
         ajax_grid_list,
         delete_feature,
         delete_grid_package,
@@ -72,7 +73,13 @@ urlpatterns = patterns("",
         regex = '^(?P<grid_slug>[a-z0-9\-\_]+)/package/add/$',
         view    = add_grid_package,
         name    = 'add_grid_package',
-    ),       
+    ),           
+
+    url(
+        regex = '^(?P<grid_slug>[a-z0-9\-\_]+)/package/add/new$',
+        view    = add_new_grid_package,
+        name    = 'add_new_grid_package',
+    ),
 
     url(
         regex = '^ajax_grid_list/$',

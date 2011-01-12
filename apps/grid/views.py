@@ -10,6 +10,8 @@ from django.template import RequestContext
 from grid.forms import ElementForm, FeatureForm, GridForm, GridPackageForm
 from grid.models import Element, Feature, Grid, GridPackage
 from package.models import Package
+from package.forms import PackageForm
+from package.views import repos_for_js
 
 def grids(request, template_name="grid/grids.html"):
     grids = Grid.objects.all().annotate(gridpackage_count=Count('gridpackage'), feature_count=Count('feature'))
@@ -184,6 +186,29 @@ def add_grid_package(request, grid_slug, template_name="grid/add_grid_package.ht
         'form': form,
         'grid': grid,
         'message': message
+        },
+        context_instance=RequestContext(request))
+
+@login_required
+def add_new_grid_package(request, grid_slug, template_name="package/package_form.html"):
+    
+    grid = get_object_or_404(Grid, slug=grid_slug)
+    
+    new_package = Package()
+    form = PackageForm(request.POST or None, instance=new_package)
+    
+    if form.is_valid():
+        new_package = form.save()
+        GridPackage.objects.create(
+            grid=grid, 
+            package=new_package
+        )
+        return HttpResponseRedirect(reverse("grid", kwargs={"slug":grid_slug}))
+    
+    return render_to_response(template_name, {
+        "form": form,
+        "repos": repos_for_js(),
+        "action": "add",
         },
         context_instance=RequestContext(request))
         
