@@ -1,45 +1,99 @@
 {% extends "site_base.html" %}
 
 {% load i18n %}
-{% load uni_form_tags %}
 {% load account_tags %}
+{% load profile_tags %}
+{% load uni_form_tags %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/package.css" />
+{% endblock %}
 
 {% block head_title %}{% user_display other_user as other_user_display %}{% blocktrans %}Profile for {{ other_user_display }}{% endblocktrans %}{% endblock %}
 
 {% block body %}
     {% user_display other_user as other_user_display %}
-    
-    <div class="vcard">
-        {% if other_user.get_profile.name %}
-            <h1>{% blocktrans %}Profile for <span class="nickname">{{ other_user_display }}</span>{% endblocktrans %}</h1>
-        {% else %}
-            <h1>{% blocktrans %}Profile for <span class="fn nickname">{{ other_user_display }}</span>{% endblocktrans %}</h1>
-        {% endif %}
         
-        <h2><a href="{% url profile_list %}">All profiles</a></h2>
+    <div id="package-wrap">       
         
-        <div class="profile_info">
+        <div id="package-left">
+            {% if other_user.get_profile.name %}
+                <h1>{% blocktrans %}Profile for <span class="nickname">{{ other_user_display }}</span>{% endblocktrans %}</h1>
+            {% else %}
+                <h1>{% blocktrans %}Profile for <span class="fn nickname">{{ other_user_display }}</span>{% endblocktrans %}</h1>
+            {% endif %}
+
+            {% if is_me %}
+                <p><a href="{% url profile_edit %}" rel="facebox">Edit my profile</a></p>
+            {% endif %}    
+
+            <h2><a href="{% url profile_list %}">All profiles</a></h2>            
+            
             {% if other_user.get_full_name %}
                 <p><b>{% trans "Name" %}</b>: <span class="fn">{{ other_user.get_full_name }}</span></p>
             {% endif %}
             <p><b>{% trans "Github account" %}</b>:
                     {% if other_user.get_profile.github_url %}
-                        <span class="fn"><a href="http://github.com/{{ other_user.get_profile.github_url }}">{{ other_user.get_profile.github_url }}</a></span>
+                        <span class="fn"><a href="https://github.com/{{ other_user.get_profile.github_url }}">{{ other_user.get_profile.github_url }}</a></span>
                     {% endif %}
             </p>
             <p><b>{% trans "BitBucket account" %}</b>: 
                     {% if other_user.get_profile.bitbucket_url %}
-                        <span class="fn"><a href="http://bitbucket.org/{{ other_user.get_profile.bitbucket_url }}">{{ other_user.get_profile.bitbucket_url }}</a></span>
+                        <span class="fn"><a href="https://bitbucket.org/{{ other_user.get_profile.bitbucket_url }}">{{ other_user.get_profile.bitbucket_url }}</a></span>
                     {% endif %}</p>
             <p><b>{% trans "Google Code account" %}</b>:
                     {% if other_user.get_profile.google_code_url %}
                         <span class="fn"><a href="http://code.google.com/u/{{ other_user.get_profile.google_code_url|urlize }}/">{{ other_user.get_profile.google_code_url|urlize }}</a></span>
                     {% endif %}</p>
-        </div>
+
+            {% if other_user.get_profile.my_packages.count %}
+                <h2>Packages I contribute to</h2>
+                <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Package</th>
+                        <th>Repo</th>                                                
+                    </tr>
+                </thead>                    
+                <tbody>
+                {% for package in other_user.get_profile.my_packages %}    
+                    <tr>
+                        <td>{{ forloop.counter }}</td>                        
+                        <td><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></td>
+                        <td><a href="{{ package.repo_url }}">{{ package.repo.title }}</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>                
+                </table>            
                 
-        {% if is_me %}
-            <p><a href="{% url profile_edit %}" rel="facebox">Edit profile</a></p>
-        {% endif %}
+            {% endif %}
+            </div>
+            
+            <div id="package-right">
+                <h2>Packages I use</h2>
+                <ul class="usage-list">
+                    <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Package</th>
+                            <th>Repo</th>                                                
+                        </tr>
+                    </thead>                    
+                    <tbody>
+                        {% for package in other_user|package_usage %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>                        
+                            <td><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></td>
+                            <td><a href="{{ package.repo_url }}">{{ package.repo.title }}</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>                
+                    </table>                    
+                </ul>
+            </div>
+        </div>
         
     </div>
 {% endblock %}

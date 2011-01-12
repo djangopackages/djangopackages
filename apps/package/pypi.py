@@ -36,5 +36,14 @@ def fetch_releases(package_name, include_hidden=True):
         for download in proxy.release_urls(package_name, version):
             release_data.downloads +=  download["downloads"]
             
-        releases.append(release_data)    
+        if release_data.license == None or 'UNKNOWN' == release_data.license.upper():
+            for classifier in release_data.classifiers:
+                if classifier.startswith('License'):
+                    # Do it this way to cover people not quite following the spec
+                    # at http://docs.python.org/distutils/setupscript.html#additional-meta-data
+                    release_data.license = classifier.replace('License ::', '')                    
+                    release_data.license = release_data.license.replace('OSI Approved :: ', '')
+                    break
+            
+        releases.append(release_data)
     return releases

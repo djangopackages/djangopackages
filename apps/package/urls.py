@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from django.db.models import Count
 from django.views.generic.list_detail import object_detail, object_list
 from django.views.generic.date_based import archive_index
 from django.views.generic.simple import direct_to_template
@@ -11,17 +12,16 @@ from package.views import (
                             edit_package, 
                             edit_example, 
                             update_package,
-                            usage
+                            usage,
+                            package_list
                             )
 
 urlpatterns = patterns("",
+
     url(
         regex   = r"^$",
-        view    = object_list,
+        view    = package_list,
         name    = "packages",
-        kwargs  = dict(
-            queryset=Package.objects.select_related(),        
-            )            
     ),
     
     url(
@@ -72,10 +72,9 @@ urlpatterns = patterns("",
         kwargs=dict(
             queryset=Package.objects.select_related(),
             template_name="package/package.html",
-            #template_object_name="package",
             )    
     ),    
-    
+        
     url(
         regex = "^ajax_package_list/$",
         view    = ajax_package_list,
@@ -86,6 +85,18 @@ urlpatterns = patterns("",
         regex = "^usage/(?P<slug>[-\w]+)/(?P<action>add|remove)/$",
         view    = usage,
         name    = "usage",
+    ),
+    
+    # TODO make this not use a template perhaps?
+    url(
+        regex = "^p/repo_description/(?P<slug>[-\w]+)/$",
+        view    = object_detail,
+        name    = "package_repo_description",
+        kwargs=dict(
+            queryset=Package.objects.select_related(),
+            template_name="package/facebox/package_repo_description.html",
+            )        
     ),    
+   
         
 )

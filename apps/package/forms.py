@@ -8,7 +8,7 @@ class PackageForm(ModelForm):
     
     def clean_slug(self):
         return self.cleaned_data['slug'].lower()
-        
+                
     class Meta:
         model = Package
         fields = ['repo_url', 'title', 'slug', 'repo', 'pypi_url', 'category', ]

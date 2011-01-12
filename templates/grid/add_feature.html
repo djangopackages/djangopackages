@@ -5,10 +5,6 @@
 
 {% block head_title %}Add feature for comparison to grid '{{ grid.title }}'{% endblock %}
 
-{% block subnav %}
-        &nbsp;
-{% endblock %}
-
 {% block body %}
 
     <h1><a href="{% url home %}">home</a> / <a href="{% url grids %}">grids</a> / Add feature for comparison to grid '<a href="{% url grid grid.slug %}">{{ grid.title }}</a>'</h1>    
@@ -19,7 +15,7 @@
         <fieldset>
             {{ form|as_uni_form }}
             <div class="form_block">
-                <input type="submit" name="edit" value="Edit">
+                <input class="awesome forestgreen" type="submit" name="edit" value="Edit">
                 <a href="{% url grid grid.slug %}">cancel</a>    
             </div>            
         </fieldset>

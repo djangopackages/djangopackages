@@ -9,7 +9,7 @@ except ImportError:
 
 from package.utils import uniquer
 
-API_TARGET = "http://api.bitbucket.org/1.0/repositories/"
+API_TARGET = "https://api.bitbucket.org/1.0/repositories/"
 
 descendants_re = re.compile(r"Forks/Queues \((?P<descendants>\d+)\)")
 

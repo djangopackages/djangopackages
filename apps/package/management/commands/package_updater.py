@@ -1,4 +1,5 @@
 import json
+from socket import error as socket_error
 from sys import stdout
 from time import sleep, gmtime, strftime
 from urllib import urlopen
@@ -9,7 +10,6 @@ from django.core.management.base import CommandError, NoArgsCommand
 from github2.client import Github
 
 from package.models import Package, Repo, Commit
-
 
 class Command(NoArgsCommand):
     
@@ -37,23 +37,37 @@ class Command(NoArgsCommand):
             try:
                 if package.repo == github_repo:
                     # Do github
-                    package.save()
+                    try:
+                        package.fetch_metadata()
+                    except socket_error, e:
+                        print >> stdout, "For '%s', threw a socket.error: %s" % (package.title, e)
+                        continue
                     for commit in github.commits.list(package.repo_name(), "master"):
                         commit, created = Commit.objects.get_or_create(package=package, commit_date=commit.committed_date)
                     zzz += 1
                 elif package.repo == bitbucket_repo:
                     zzz = 1
                     # do bitbucket
-                    package.save()                    
+                    try:
+                        package.fetch_metadata()
+                    except socket_error, e:
+                        print >> stdout, "For '%s', threw a socket.error: %s" % (package.title, e)
+                        continue                  
                     for commit in get_bitbucket_commits(package):
                         commit, created = Commit.objects.get_or_create(package=package, commit_date=commit["timestamp"])
                 else:
-                    # unsupported so we skip and go on
-                    print >> stdout, "%s. Skipped package '%s' because it uses an unsupported repo" % (index+1,package.title)
-                    continue
+                    # unsupported so we just get metadata and go on
+                    try:
+                        package.fetch_metadata()
+                    except socket_error, e:
+                        print >> stdout, "For '%s', threw a socket.error: %s" % (package.title, e)
+                        continue               
+                    
             except RuntimeError, e:
                 message = "For '%s', too many requests issued to repo threw a RuntimeError: %s" % (package.title, e)
-                raise CommandError(message)
+                print >> stdout, message
+                continue
+                
             if not authed:
                sleep(zzz)
             print >> stdout, "%s. Successfully updated package '%s'" % (index+1,package.title)
@@ -65,7 +79,7 @@ def get_bitbucket_commits(package):
     repo_name = package.repo_name()
     if repo_name.endswith("/"):
         repo_name = repo_name[0:-1]
-    target = "http://api.bitbucket.org/1.0/repositories/%s/changesets/?limit=50" % repo_name
+    target = "https://api.bitbucket.org/1.0/repositories/%s/changesets/?limit=50" % repo_name
     page = urlopen(target).read()
     try:
         data = json.loads(page)

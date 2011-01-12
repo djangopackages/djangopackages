@@ -19,10 +19,7 @@ $("#id_pypi_url").change(function(e){
 
 $("#id_repo_url").keyup(function(e) {
     var url = $("#id_repo_url").val();
-    if (url.startsWith("https://")) {
-        url = url.replace("https", "http");
-        $("#id_repo_url").val(url);
-    };
+    return url
 });
     
 $("#id_repo_url").change(function(e) {
@@ -39,7 +36,7 @@ $("#id_repo_url").change(function(e) {
                 if ($("#id_title").val().length === 0) {
                     $("#id_title").val(url_array[url_array.length-1]);
                 };
-                var slug = URLify(url_array[url_array.length-1]);
+                var slug = DPSlugify(url_array[url_array.length-1]);
                 $("#id_slug").val(slug);
                 $("#id_pypi_url").val(slug);
                 $("#package-form-message").text("Your package is hosted at " + key)

@@ -72,6 +72,10 @@ class Element(BaseModel):
     feature      = models.ForeignKey(Feature)
     text         = models.TextField(_('text'), blank=True, help_text=help_text)
     
+    class Meta:
+        
+        ordering = ["-id"]
+    
     def __unicode__(self):
         return '%s : %s : %s' % (self.grid_package.grid.slug, self.grid_package.package.slug, self.feature.title)
     

@@ -5,10 +5,6 @@
 
 {% block head_title %}Edit package example{% endblock %}
 
-{% block subnav %}
-        &nbsp;
-{% endblock %}
-
 {% block body %}
 
     <h1>Edit package example</h1>
@@ -18,7 +14,7 @@
         <fieldset>
             {{ form|as_uni_form }}
             <div class="form_block">
-                <input type="submit" name="edit" value="Edit">            
+                <input class="awesome forestgreen" type="submit" name="edit" value="Edit">            
                 <a href="{% url package package.slug %}">cancel</a>     
             </div>
         </fieldset>

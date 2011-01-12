@@ -1,4 +1,6 @@
 {% load i18n %}
+{% load ifsetting_tag account_tags openid_tags %}
+{% load analytics %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}">
     <head>
@@ -9,6 +11,12 @@
                 zoom: 1; /* trigger hasLayout */
             }
         </style><![endif]-->
+        <!-- The following is for sticky footer -->
+        <!--[if !IE 7]>
+	        <style type="text/css">
+		        #wrap {display:table;height:100%}
+	        </style>
+        <![endif]-->
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.1.2/build/cssreset/reset-min.css">
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.1.2/build/cssbase/base-min.css">
         <link rel="stylesheet" href="{{ STATIC_URL }}pinax/css/facebox.css" />
@@ -16,63 +24,109 @@
         <link rel="stylesheet" href="{{ STATIC_URL }}pinax/css/accounts.css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}uni_form/uni-form.css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}uni_form/uni-form-generic.css" type="text/css" />
-        {% if LANGUAGE_BIDI %}
-        <style type="text/css" media="screen">
-            div.right_panel {
-                float: left; /* hotfix for sidebar */
-            }
-        </style>
-        {% endif %}
-        {% block extra_head_base %}
-            {% block extra_head %}{% endblock %}
-        {% endblock %}
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/djangopackages.css" type="text/css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/awesome.css" type="text/css" />
+        {% block extra_head %}{% endblock %}
     </head>
     
     <body class="{% block body_class %}{% endblock %}">
-    <div class="wrapper">
-        {% if site_wide_announcements %}
-            <div id="site_wide_announcements">
-                <ul>
-                    {% for announcement in site_wide_announcements %}
-                    <li>
-                        <a href="{{ announcement.get_absolute_url }}">{{ announcement }}</a> -
-                        <a href="{% url announcement_hide announcement.pk %}?next={{ request.path }}">{% trans "Hide announcement" %}</a>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
-        
-
-
-        <div id="tabhead">
-            <div class="logo" dir="ltr">{% block logo_link_image %}{% endblock %}</div>
-            <div class="login">{% block login %}{% endblock %}{% block locale_switcher %}{% endblock %}<div style="text-align: right;"></div></div>
-            <div id="left_tabs" >{% block left_tabs %}{% endblock %}</div>
-            <div id="right_tabs" >{% block right_tabs %}{% endblock %}</div>
-        </div>
-        <div id="subnav" class="clearfix">{% block subnav_base %}<div class="clearfix">&nbsp;</div>{% endblock %}</div>
-        
-        {% block body_outer %}
-        <div id="body">
-            {% if messages %}
-                <ul id="messages">
-                    {% for message in messages %}
-                    <li id="message_{{ forloop.counter }}"{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-                        <a href="#"><small>{% trans "clear" %}</small></a>
-                        {{ message }}
-                    </li>
-                    {% endfor %}
-                </ul>
+    <div id="wrap">
+        <div id="main">
+            {% if site_wide_announcements %}
+                <div id="site_wide_announcements">
+                    <ul>
+                        {% for announcement in site_wide_announcements %}
+                        <li>
+                            <a href="{{ announcement.get_absolute_url }}">{{ announcement }}</a> -
+                            <a href="{% url announcement_hide announcement.pk %}?next={{ request.path }}">{% trans "Hide announcement" %}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             {% endif %}
-            
-            {% block body %}
+            <div id="tabhead">
+                <div class="logo">
+                    <img src="{{ STATIC_URL }}img/logo_squares.png" /><h1><a href="{% url home %}">Django Packages</a></h1>
+                </div>
+                <div class="login">
+                    {% if user.is_authenticated %}
+                        {% ifopenid %}<img src="{{ STATIC_URL }}images/openid-icon.png" alt="Logged in with OpenID" />{% endifopenid %}<b>{% user_display user %}</b>
+                        |
+                        <a href="/help/">Help</a>
+                        |
+                        <a href="{% url acct_email %}">Account</a>
+                        |
+                        <a href="{% url profile_detail request.user %}">Profile</a>    
+                        |
+                        {% if user.is_staff %}
+                            <a href="/admin/">Admin</a>
+                            |
+                        {% endif %}
+                        <a href="{% if request.openid %}/openid/logout/?next={% url acct_logout %}{% else %}{% url acct_logout %}{% endif %}">Logout</a>
+                    {% else %}
+                        <a href="/help/">Help</a>
+                        |
+                        <a href="{% url acct_login %}{% if current_path %}?next={{ current_path }}{% endif %}">Log in</a> or <a href="{% url acct_signup %}">Sign Up</a>
+                        <br/>
+                    {% endif %}
+                    {% block locale_switcher %}{% endblock %}
+                    {% comment %}
+                    <form action="{% url search %}">
+                        <input id="id_q_p" type="text" name="q" maxlength="100" value="search" autocomplete="off" />
+                        <input id="magnifier-submit" type="submit" value="&nbsp;" /><br/>
+                    </form>
+                    {% endcomment %}                    
+                </div>
+
+                <div id="left_tabs" >
+                    {% for grid_chunk in grid_tabs %}
+                        <div id="multi-col-nav">
+                            {% for tab in grid_chunk %}
+                                {% if tab %}
+                                    <a href="{% url grid tab.grid.slug %}" title="{{ tab.grid.description }}">{{ tab.grid.title }}</a><br />
+                                {% endif %}
+                                {% if forloop.parentloop.last and forloop.last %}
+                                    <a href="{% url grids %}">&raquo; more grids...</a>                            
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            {% block body_outer %}
+            <div id="body">
+                {% if messages %}
+                    <ul id="messages">
+                        {% for message in messages %}
+                        <li id="message_{{ forloop.counter }}"{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                            <a href="#"><small>{% trans "clear" %}</small></a>
+                            &nbsp;
+                            {{ message }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% block body %}
+                {% endblock %}
+            </div>
             {% endblock %}
         </div>
-        {% endblock %}
-        <div class="push"></div>
     </div>
-        <div id="footer">{% block footer %}{% endblock %}</div>
+    <div id="footer">
+        <div class="legal">
+            <hr /><br/>
+            &copy; 2010 <a href="http://pydanny.com">Daniel Greenfeld</a> & <a href="http://www.audreymroy.com">Audrey Roy</a>
+            - <a href="{% url about %}">{% trans "About" %}</a>
+            - <a href="/help/">{% trans "Help" %}</a>    
+            - <a href="{% url terms %}">{% trans "Terms of Service" %}</a>
+            - <a href="/help/team/">Team</a>
+            - <a href="/api/v1/docs/">API</a>
+            - <a href="/help/syndication/">RSS / Atom</a>
+            <br />
+            {% trans "Powered by" %} <a href="http://www.djangoproject.com/">Django</a>, <a href="http://www.pinaxproject.com/">Pinax</a> and <a href="/grids/g/this-site/">these fine packages</a>.
+        </div>
+    </div>
 
         <script src="{% block jquery_src %}http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js{% endblock %}" type="text/javascript"></script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/jquery-ui.min.js"></script>
@@ -83,8 +137,11 @@
         <script src="{{ STATIC_URL }}js/site.js" type="text/javascript"></script>  
         {% include "facebox_js.html" %}
 
-        {% block extra_body_base %}
-            {% block extra_body %}{% endblock %}
-        {% endblock %}
+        {% ga %}
+        {% block extra_body %}{% endblock %}
+        
+        <script type="text/javascript">
+            
+        </script>
     </body>
 </html>

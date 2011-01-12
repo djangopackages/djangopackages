@@ -22,7 +22,6 @@
         <tr>
             <th>User Name</th>
             <th>Date Joined</th>
-            <th>Last Login</th>
             <th>Staff</th>
             {% if request.user.is_staff %}            
                 <th>Active</th>            
@@ -37,7 +36,6 @@
                 <tr>
                     <td><a href="{{ user.get_absolute_url }}">{% user_display user %}</a></td>
                     <td><span class="hide">{{ user.date_joined|date:"YmdHis" }}</span>{{ user.date_joined|timesince }}</td>
-                    <td><span class="hide">{{ user.last_login|date:"YmdHis" }}</span>{{ user.last_login|timesince }}</td>                    
                     <td>
                         {% if user.is_staff %}
                             <img src="{{ STATIC_URL }}img/icon-yes.gif" />                            
@@ -54,8 +52,8 @@
                             {% endif %}
                         </td>
                     {% endif %}
-                    <td><a href="http://github.com/{{ user.get_profile.github_url|default:"" }}">{{ user.get_profile.github_url|default:"" }}</a</td>
-                    <td><a href="http://github.com/{{ user.get_profile.bitbucket_url|default:"" }}">{{ user.get_profile.bitbucket_url|default:"" }}</a</td>                                
+                    <td><a href="https://github.com/{{ user.get_profile.github_url|default:"" }}">{{ user.get_profile.github_url|default:"" }}</a</td>
+                    <td><a href="https://bitbucket.org/{{ user.get_profile.bitbucket_url|default:"" }}">{{ user.get_profile.bitbucket_url|default:"" }}</a</td>                                
                 </tr>
             {% endfor %}
         </tbody>

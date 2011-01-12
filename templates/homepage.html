@@ -9,90 +9,114 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}css/home.css" />
 {% endblock %}
 
-{% block head_title %}{% trans "Welcome" %}{% endblock %}
+{% block head_title %}{% trans "django reusable apps, sites and tools directory" %}{% endblock %}
 
 {% block body_class %}home{% endblock %}
 
 {% block body %}
     <div id="home-rightcol">
-        <div id="home-search">
+        <div class="home-borderlessbox">
+            <h2>latest 5</h2>
+            <table class="home-table">
+            {% for package in latest_packages %}
+                <tr>
+                    <td class="home-usage-button-cell">
+                        {% usage_button %}
+                    </td>
+                    <td>
+                        <span class="home-numusers" id="usage-count-{{ package.id }}">{{ package.usage.count }}</span>
+                        <span class="home-users">users</span></td>
+                    <td>
+                        <span class="home-packagename"><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></span>
+                        <span class="home-packagedesc">
+                            {# TODO - make this a template tag! #}
+                            {% with package.repo_description|truncatewords:15 as short %}
+                                {% if package.repo_description|length > short|length %}
+                                   {{ short|slice:"-3" }}<a rel="facebox" href="{% url package_repo_description package.slug %}">...</a>                                    
+                                {% else %}
+                                    {{ short }}
+                                {% endif %}
+                            {% endwith %}                            
+                        </span>
+                    </td>
+                </tr>            
+            {% endfor %}
+
+            </table>
+        </div>
+        {% comment %}
+        <div class="home-borderlessbox">
+            <h2>random 5</h2>
+            <table class="home-table">
+                {% for package in random_packages %}
+                    <tr>
+                        <td>
+                            {% usage_button %}                       
+                        </td>
+                        <td>
+                            <span class="home-numusers" id="usage-count-{{ package.id }}">{{ package.usage.count }}</span>                            
+                            <span class="home-users">users</span></td>
+                        <td>
+                            <span class="home-packagename"><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></span>
+                            <span class="home-packagedesc">
+                            {# TODO - make this a template tag! #}                                
+                                {% with package.repo_description|truncatewords:10 as short %}
+                                    {% if package.repo_description|length > short|length %}
+                                       {{ short|slice:"-3" }}<a rel="facebox" href="{% url package_repo_description package.slug %}">...</a>                                    
+                                    {% else %}
+                                        {{ short }}
+                                    {% endif %}
+                                {% endwith %}
+                            </span>
+                        </td>
+                    </tr>            
+                {% endfor %}
+            </table>
+        </div>
+        {% endcomment %}
+    </div>
+     
+    <div id="home-leftcol">
+        <div id="home-borderlessbox">
+            <p>Django Packages is a directory of reusable apps, sites, tools, and more for your Django projects.</p>
+            <br/>
+            <p><b>{{ package_count }}</b> packages and counting!</p>
             <form action="{% url search %}">
                 <input id="id_q_p" type="text" name="q" maxlength="100" value="search" autocomplete="off" />
-                <input id="hidden-submit" type="submit" value="go" />
-            </form>         
+                <input id="magnifier-submit" type="submit" value="&nbsp;" /><br/>
+                {% comment %}
+                <input class="home-searchcheckbox" checked="checked" type="checkbox" name="category" value="apps" />apps
+                <input class="home-searchcheckbox" type="checkbox" name="category" value="frameworks" />frameworks
+                <input class="home-searchcheckbox" type="checkbox" name="category" value="projects" />projects
+                <input class="home-searchcheckbox" type="checkbox" name="category" value="other" />other
+                {% endcomment %}                
+            </form>
         </div>
 
-        <div>
-            <h1><a class="xlarge awesome green" href="{% url add_package %}">add package »</a></h1>
-        </div>        
-        <div class="home-rightcolbox">
-            <h1>Django Package of the Day</h1>
-            {% cache 300 "homepage:dpotw" %}
-                {% for package in dpotw %}            
-                    <h2><a href="{% url package package.package.slug %}">{{ package.package.title }}</a></h2>
-                    <p>{{ package.package.repo_description }}</p>
-                {% endfor %}
-            {% endcache %}
-            <p><a href="{% url add_package %}">Add your own package, or someone else's!</a></p>
-        </div>   
-
-        <div class="home-rightcolbox">
-            <h1>Grid of the Day</h1>
-            {% cache 300 "homepage:gotw" %}
-                {% for grid in gotw %}            
-                    <h2><a href="{% url grid grid.grid.slug %}">{{ grid.grid.title }}</a></h2>
-                    <p>{{ grid.grid.description }}</p>
-                <p><a href="{% url add_grid %}">Add a new grid!</a></p>                
-                {% endfor %}
-            {% endcache %}
-        </div>  
-        <div class="home-rightcolbox">
-            <h1>We need your help</h1>
-            <p>Help us populate our database by adding any Django package, whether it's yours or someone else's.</p>
-            <p><a class="large awesome green" href="{% url add_package %}">add package »</a></p>
-
-            <p>Or add a grid comparing the features of 2 or more similar packages.</p>
-            <p><a class="large awesome blue" href="{% url add_grid %}">add grid »</a></p>
+        <div id="home-borderlessbox">
+            <h2>We need your help</h2>
+            <p>
+                Know of any packages not listed here?  Add them now!  It's quick and easy.
+            </p>
+            <p>
+                <a class="large awesome forestgreen" href="{% url add_package %}">add package »</a>
+            </p>
+            <p>
+                Or add a grid comparing the features of 2 or more similar packages.
+            </p>
+            <p>
+                <a class="large awesome forestgreen" href="{% url add_grid %}">add grid »</a>
+            </p>
         </div>
-    </div>        
-     
-     {% for category in categories %}
-        <h2><a href="{% url category category.slug %}">{{ category.title_plural }}</a> ( {{ category.count }} )</h2>
-        <p>{{ category.description }}</p>
-        <table id="home-packages">
-            <tr>
-                <th>Usage</th>
-                <th></th>
-                <th class="tiny-column">PyPi Downloads</th>
-                <th>Name</th>
-                <th>Commits</th>
-                <th>Version</th>
-                <th><img src="{{ STATIC_URL }}img/eye_20x20_clear.png" /></th>
-                <th><img src="{{ STATIC_URL }}img/fork_20x20_clear.png" /></th>
-            </tr>
 
-            {% for package in category.packages %}
-                <tr class="usage-container">
-                    <td class="usage-count">{{ package.usage_count }}</td>                        
-                    <td class="usage-button">{% if package.pk in used_packages_list %}
-                    {% include "package/remove_usage_button.html" %}
-                    {% else %}
-                    {% include "package/add_usage_button.html" %}
-                    {% endif %}</td>
-                    <td>{{ package.pypi_downloads }}</td>
-                    <td><a href="{% url package package.slug %}">{{ package.title }}</a></td>
-                    {% cache 500 commitchart package %}                
-                        <td><img id="package-githubcommits" src="http://chart.apis.google.com/chart?cht=bvg&chs=105x20&chd=t:{{package|commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
-                    {% endcache %}                
-                    <td>{{ package.pypi_version|default:"n/a"|slice:":12" }}</td>
-                    <td>{{ package.repo_watchers|default:"n/a" }}</td>
-                    <td>{{ package.repo_forks|default:"n/a" }}</td>
-                </tr>    
-            {% endfor %}        
-         </table>    
-         <p><a href="{% url category category.slug %}">more {{ category.title_plural|lower }}...</a></p>    
-     {% endfor %}
- 
+        <div id="home-borderlessbox">
+            <h2>Package Categories</h2>
+             {% for category in categories %}
+                <h3><a href="{% url category category.slug %}">{{ category.title_plural }}</a> ( {{ category.count }} )</h3>
+                <p>{{ category.description }}</p>
+             {% endfor %}
+        </div>
+    </div>
     
 
 {% endblock %}
@@ -103,16 +127,26 @@
         $('input#id_q_p').click(function() {
             $("input#id_q_p").val('');
         });                        
-    });    
+    });
+    
+    /*
+    categories = 'frameworks,projects,other';
+    $("input:checkbox[name=category]").click(function(){
+        categories = $('input:checkbox[name=category]').not(':checked').map(function() {
+            return this.value
+        }).get();
+    });
+    */
 
     $('#id_q_p').autocomplete({
       source: '{% url search_packages_autocomplete %}',
       minLength: 1,
-      open: function(event, ui) { 
+      open: function(event, ui) {           
         ac_top = $('.ui-autocomplete').css('top'); 
         $('.ui-autocomplete').css({'width': '250px', 'top': ac_top + 10 }); 
       }
     });
+    
     
 </script>      
 {% endblock %}      

@@ -1,21 +1,126 @@
-{% extends "package/base.html" %}
+{% extends "site_base.html" %}
 
+{% load cache %}
 {% load i18n %}
+{% load ifsetting_tag %}
+{% load package_tags %}
 
-{% block head_title %}Packages{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/home.css" />
+{% endblock %}
+
+{% block head_title %}{% trans "django reusable apps, sites and tools directory" %}{% endblock %}
+
+{% block body_class %}home{% endblock %}
 
 {% block body %}
+    {% comment %}
+    <div id="home-rightcol">
+        <div id="home-search">
+            <form action="{% url search %}">
+                <input id="id_q_p" type="text" name="q" maxlength="100" value="search" autocomplete="off" />
+                <input id="hidden-submit" type="submit" value="go" />
+            </form>         
+        </div>
 
-    <h1>Django Packages</h1>
+        <div>
+            <h1><a class="xlarge awesome forestgreen" href="{% url add_package %}">add package »</a></h1>
+        </div>        
+        <div class="home-rightcolbox">
+            <h1>Django Package of the Week</h1>
+            {% cache 300 "homepage.dpotw" %}
+                {% for package in dpotw %}            
+                    <h2><a href="{% url package package.package.slug %}">{{ package.package.title }}</a></h2>
+                    <p>{{ package.package.repo_description }}</p>
+                {% endfor %}
+            {% endcache %}
+            <p><a href="{% url add_package %}">Add your own package, or someone else's!</a></p>
+        </div>   
 
-    <p>
-        <a class="large awesome darkbrown" href="{% url add_package %}">Add new package »</a>
-    </p>
+        <div class="home-rightcolbox">
+            <h1>Grid of the Week</h1>
+            {% cache 300 "homepage.gotw" %}
+                {% for grid in gotw %}            
+                    <h2><a href="{% url grid grid.grid.slug %}">{{ grid.grid.title }}</a></h2>
+                    <p>{{ grid.grid.description }}</p>
+                <p><a href="{% url add_grid %}">Add a new grid!</a></p>                
+                {% endfor %}
+            {% endcache %}
+        </div>  
+        <div class="home-rightcolbox">
+            <h1>We need your help</h1>
+            <p>Help us populate our database by adding any Django package, whether it's yours or someone else's.</p>
+            <p><a class="large awesome forestgreen" href="{% url add_package %}">add package »</a></p>
 
-    <div id="packages">
-        {% for package in object_list %}
-            {% include "package/_package.html"%}
-        {% endfor %}
-    </div>
+            <p>Or add a grid comparing the features of 2 or more similar packages.</p>
+            <p><a class="large awesome forestgreen" href="{% url add_grid %}">add grid »</a></p>
+        </div>
+    </div>    
+    {% endcomment %}        
+     
+     {% for category in categories %}
+        <h2><a href="{% url category category.slug %}">{{ category.title_plural }}</a> ( {{ category.count }} )</h2>
+        <p>{{ category.description }}</p>
+        <table id="home-packages">
+            <tr>
+                <th># Using This</th>
+                {% if category.show_pypi %}
+                    <th class="tiny-column">PyPi Downloads</th>
+                {% endif %}
+                <th>Name</th>
+                <th>Commits</th>
+                {% if category.show_pypi %}                
+                    <th>Version</th>
+                {% endif %}                    
+                <th><img src="{{ STATIC_URL }}img/eye_20x20_clear.png" /></th>
+                <th><img src="{{ STATIC_URL }}img/fork_20x20_clear.png" /></th>
+            </tr>
+
+            {% for package in category.packages %}
+                <tr class="usage-container">
+                    <td class="usage-container">
+                        {% usage_button %}                    
+                        &nbsp;
+                        <span class="usage-count">{{ package.usage_count }}</span>
+                    </td>
+                    {% if category.show_pypi %}                    
+                        <td>{{ package.pypi_downloads }}</td>
+                    {% endif %}
+                    <td><a href="{% url package package.slug %}">{{ package.title }}</a></td>
+                    {% cache 86400 package.commitchart package %}                
+                        <td><img id="package-githubcommits" src="http://chart.apis.google.com/chart?cht=bvg&chs=105x20&chd=t:{{package|commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
+                    {% endcache %}      
+                    {% if category.show_pypi %}
+                        <td>{{ package.pypi_version.number|default:"n/a"|slice:":12" }}</td>
+                    {% endif %}
+                    <td>{{ package.repo_watchers|default:"n/a" }}</td>
+                    <td>{{ package.repo_forks|default:"n/a" }}</td>
+                </tr>    
+            {% endfor %}        
+         </table>    
+         <p><a href="{% url category category.slug %}">more {{ category.title_plural|lower }}...</a></p>    
+     {% endfor %}
+ 
+    
 
 {% endblock %}
+
+{% block extra_body %}
+<script type="text/javascript">
+    $(function() {          
+        $('input#id_q_p').click(function() {
+            $("input#id_q_p").val('');
+        });                        
+    });    
+
+    $('#id_q_p').autocomplete({
+      source: '{% url search_packages_autocomplete %}',
+      minLength: 1,
+      open: function(event, ui) { 
+        ac_top = $('.ui-autocomplete').css('top'); 
+        $('.ui-autocomplete').css({'width': '250px', 'top': ac_top + 10 }); 
+      }
+    });
+    
+</script>      
+{% endblock %}      

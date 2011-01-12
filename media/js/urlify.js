@@ -137,3 +137,17 @@ function URLify(s, num_chars) {
     s = s.toLowerCase();             // convert to lowercase
     return s.substring(0, num_chars);// trim to first num_chars chars
 }
+
+function DPSlugify(s, num_chars) {
+    // changes, e.g., "Petty theft" to "petty_theft"
+    // remove all these words from the string before urlifying
+    s = downcode(s);
+    r = new RegExp('\\b(' + ')\\b', 'gi');
+    s = s.replace(r, '');
+    // if downcode doesn't hit, the char will be stripped here
+    s = s.replace(/[^-\w\s]/g, '');  // remove unneeded chars
+    s = s.replace(/^\s+|\s+$/g, ''); // trim leading/trailing spaces
+    s = s.replace(/[-\s]+/g, '-');   // convert spaces to hyphens
+    s = s.toLowerCase();             // convert to lowercase
+    return s.substring(0, num_chars);// trim to first num_chars chars
+}

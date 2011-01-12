@@ -37,7 +37,8 @@ class Category(BaseModel):
     title = models.CharField(_("Title"), max_length="50")
     slug  = models.SlugField(_("slug"))
     description = models.TextField(_("description"), blank=True)
-    title_plural = models.CharField(_("Title Plural"), max_length="50", blank=True)    
+    title_plural = models.CharField(_("Title Plural"), max_length="50", blank=True) 
+    show_pypi = models.BooleanField(_("Show pypi stats & version"), default=True)
     
     class Meta:
         ordering = ['title']
@@ -81,14 +82,14 @@ downloads_re = re.compile(r'<td style="text-align: right;">[0-9]{1,}</td>')
 doap_re      = re.compile(r"/pypi\?\:action=doap\&amp;name=[a-zA-Z0-9\.\-\_]+\&amp;version=[a-zA-Z0-9\.\-\_]+")
 version_re   = re.compile(r'<revision>[a-zA-Z0-9\.\-\_]+</revision>')
 
-repo_url_help_text = "Enter your project repo hosting URL here.<br />Example: http://bitbucket.com/ubernostrum/django-registration"
+repo_url_help_text = "Enter your project repo hosting URL here.<br />Example: https://bitbucket.com/ubernostrum/django-registration"
 pypi_url_help_text = "<strong>Leave this blank if this package does not have a PyPI release.</strong><br />What PyPI uses to index your package. <br />Example: django-registration"
 category_help_text = """
 <ul>
  <li><strong>Apps</strong> is anything that is installed by placing in settings.INSTALLED_APPS.</li>
  <li><strong>Frameworks</strong> are large efforts that combine many python modules or apps to build things like Pinax.</li>
+ <li><strong>Other</strong> are not installed by settings.INSTALLED_APPS, are not frameworks or sites but still help Django in some way.</li>
  <li><strong>Projects</strong> are individual projects such as Django Packages, DjangoProject.com, and others.</li>
- <li><strong>Utilities</strong> are not apps, frameworks or sites but still help Django in some way.</li>
 </ul>
 """
 
@@ -96,7 +97,7 @@ class Package(BaseModel):
     
     title           = models.CharField(_("Title"), max_length="100")
     slug            = models.SlugField(_("Slug"), help_text="Slugs will be lowercased", unique=True)
-    category        = models.ForeignKey(Category, help_text=category_help_text)
+    category        = models.ForeignKey(Category, verbose_name="Installation", help_text=category_help_text)
     repo            = models.ForeignKey(Repo, null=True)
     repo_description= models.TextField(_("Repo Description"), blank=True)
     repo_url        = models.URLField(_("repo URL"), help_text=repo_url_help_text, blank=True)
@@ -104,13 +105,23 @@ class Package(BaseModel):
     repo_forks      = models.IntegerField(_("repo forks"), default=0)
     repo_commits    = models.IntegerField(_("repo commits"), default=0)
     pypi_url        = models.URLField(_("PyPI slug"), help_text=pypi_url_help_text, blank=True, default='')
-    pypi_version    = models.CharField(_("Current Pypi version"), max_length="20", blank=True)
+    #pypi_version    = models.CharField(_("Current Pypi version"), max_length="20", blank=True)
     pypi_downloads  = models.IntegerField(_("Pypi downloads"), default=0)
     related_packages    = models.ManyToManyField("self", blank=True)
     participants    = models.TextField(_("Participants"),
                         help_text="List of collaborats/participants on the project", blank=True)
     usage           = models.ManyToManyField(User, blank=True)
-                        
+    created_by = models.ForeignKey(User, blank=True, null=True, related_name="creator")    
+    last_modified_by = models.ForeignKey(User, blank=True, null=True, related_name="modifier")
+    
+    @property
+    def pypi_version(self):
+        try:
+            return self.version_set.latest()
+        except Version.DoesNotExist:
+            return ''
+                       
+    @property     
     def pypi_name(self):
         """ return the pypi name of a package"""
         
@@ -136,14 +147,14 @@ class Package(BaseModel):
         
         return self.participants.split(',')
     
-    def save(self, *args, **kwargs):
+    def fetch_metadata(self, *args, **kwargs):
         
         # Get the downloads from pypi
         if self.pypi_url.strip() and self.pypi_url != "http://pypi.python.org/pypi/":
             
             total_downloads = 0
             
-            for release in fetch_releases(self.pypi_name()):
+            for release in fetch_releases(self.pypi_name):
             
                 version, created = Version.objects.get_or_create(
                     package = self,
@@ -162,16 +173,12 @@ class Package(BaseModel):
             self.pypi_downloads = total_downloads
         
         # Get the repo watchers number
-        # TODO - make this abstracted so we can plug in other repos
         base_handler = __import__(self.repo.handler)
         handler = sys.modules[self.repo.handler]
 
         self = handler.pull(self)
+        self.save()        
 
-
-        super(Package, self).save(*args, **kwargs) # Call the "real" save() method.
-
-    
     class Meta:
         ordering = ['title']
     
@@ -206,17 +213,18 @@ class Commit(BaseModel):
         ordering = ['-commit_date']
         
     def __unicode__(self):
-        return "Commit for '%s' on %s" % (self.package.title, unicode(self.commit_date))
+        return "Commit for '%s' on %s" % (self.package.title, unicode(self.commit_date))    
         
 class Version(BaseModel):
     
     package = models.ForeignKey(Package, blank=True, null=True)
     number = models.CharField(_("Version"), max_length="100", default="", blank="")
     downloads = models.IntegerField(_("downloads"), default=0)
-    license = models.CharField(_("Version"), max_length="100")
+    license = models.CharField(_("license"), max_length="100")
     hidden = models.BooleanField(_("hidden"), default=False)    
     
     class Meta:
+        get_latest_by = 'number'
         ordering = ['-number']
     
     def __unicode__(self):

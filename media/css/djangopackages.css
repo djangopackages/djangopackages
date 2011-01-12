@@ -1,0 +1,87 @@
+/* General */
+
+body { background: #FFF; font-family: "Helvetica Neue", Arial, sans-serif; font-size: 10pt; margin: 0;}
+#body { width: 960px; padding-left: 30px; }
+
+table, form, fieldset { border: 0; }
+
+a { color: #2F1D1D; }
+
+h1 { font-size: 197%; }
+h2 { font-size: 153.9%; }
+
+.box_round {
+     -moz-border-radius: 12px; /* FF1+ */
+  -webkit-border-radius: 12px; /* Saf3-4 */
+          border-radius: 12px; /* Opera 10.5, IE 9, Saf5, Chrome */
+}
+
+/* This overrides styles from base.css */
+#tabhead { border: 0; position: relative; }
+
+#tabhead .logo { height: 40px; padding: 12px 0 4px 10px; font-weight: 700; background-color: #FFF; float:left;}
+#tabhead .logo img { height:24px; padding-left:16px; }
+#tabhead .logo h1 { line-height: 80%; font-size: 200%; display: inline; padding-left: 14px; padding-right: 26px; }
+#tabhead .logo h2 { font-size: 17px; display: inline; }
+#tabhead .logo a { color: #121212; text-decoration: none; }
+
+#tabhead #header-search { float:right; padding:10px 10px 0 10px;}
+
+#tabhead .login { float:right; color:#333; padding:14px 10px 0 10px; } /* login bar text colour */
+#tabhead .login a, #tabhead .login a:visited { color: #333; }
+#tabhead .login a:hover { color: #DEF; }
+
+#footer { width: 100%; text-align: center; font-size:80%; }
+
+/* Sticky footer from http://www.cssstickyfooter.com/
+   (still overriding base.css) */
+/* must declare 0 margins on everything, also for main layout components use padding, not 
+vertical margins (top and bottom) to add spacing, else those margins get added to total height 
+and your footer gets pushed down a bit more, creating vertical scroll bars in the browser */
+html, body {height: 100%;}
+#wrap {min-height: 100%;}
+#main {overflow:auto;
+	padding-bottom: 50px;}  /* must be same height as the footer */
+#footer {position: relative;
+	margin-top: -50px; /* negative value of footer height */
+	height: 50px;
+	clear:both;} 
+/*Opera Fix*/
+body:before {/* thanks to Maleika (Kohoutec)*/
+content:"";
+height:100%;
+float:left;
+width:0;
+margin-top:-32767px;/* thank you Erik J - negate effect of float*/
+}
+
+
+/* Nav bar - overrides styles from tabs.css */
+#nav-help { margin: 10px 0 0 20px; } /* the top left help btn */
+#left_tabs { position: relative; clear: both; left: 0px; background: #FFFFFF; bottom: 0; min-height: 80px; padding-left: 20px;}
+#multi-col-nav { float: left; padding-left:4px; padding-bottom:16px; width:155px; }
+#multi-col-nav a, #multi-col-nav a:visited { color: #1a1a1a; font: 11px Helvetica, Arial, sans-serif; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
+#multi-col-nav a:hover { font-weight: 800; }
+
+/* Style all tables the same way throughout the site  */
+th { font-size: 11px; color: #4f6b72; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #C0F1D1; }
+td { border: 1px solid #C1DAD7; background: #fff; padding: 6px 6px 6px 12px; color: #4f6b72; }
+.clickable { background: #f9f6d8; cursor:pointer;}
+
+/* Search */
+.ui-autocomplete li { list-style: none; }
+
+.tiny-column {width: 60px;}
+
+.hide {display:none;}
+
+.edit {font-style: italic; color: #999; float: right; font-size: .85em}
+ul#messages {padding: 0; margin: 10px 0}
+ul#messages li {background-color: #FFB; border: 1px solid #EE0; list-style-type: none; padding: 5px 10px}
+
+td.usage-container {width: 8em}
+td.usage-container .usage-button {float: right}
+
+#site_wide_announcements {background-color: #75dfca;}
+
+.clearfix {clear:both;}

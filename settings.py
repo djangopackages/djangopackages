@@ -89,12 +89,18 @@ ADMIN_MEDIA_PREFIX = "/site_media/admin/"
 SECRET_KEY = "ud%a+c#@@d5k!t_)mpw!+58fztyhk_sq%c5s0p5_je-wixy#$k"
 
 # List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    ('django.template.loaders.cached.Loader', (
-        'django.template.loaders.filesystem.Loader',
-        'django.template.loaders.app_directories.Loader',
-    )),
-)
+if DEBUG:
+    CACHE_BACKEND = 'dummy://'
+    TEMPLATE_LOADERS = (
+            'django.template.loaders.filesystem.Loader',
+            'django.template.loaders.app_directories.Loader',
+    )
+else:
+    CACHE_BACKEND = 'dummy://'
+    TEMPLATE_LOADERS = (
+            'django.template.loaders.filesystem.Loader',
+            'django.template.loaders.app_directories.Loader',
+    )
 
 MIDDLEWARE_CLASSES = [
     "django.middleware.common.CommonMiddleware",
@@ -108,7 +114,6 @@ MIDDLEWARE_CLASSES = [
     "pagination.middleware.PaginationMiddleware",
     "pinax.middleware.security.HideSensistiveFieldsMiddleware",
     "django.contrib.flatpages.middleware.FlatpageFallbackMiddleware",
-    #"debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "djangopackages.urls"
@@ -156,7 +161,6 @@ INSTALLED_APPS = [
     # external
     "notification", # must be first
     "staticfiles",
-    #"debug_toolbar",
     "mailer",
     "uni_form",
     "django_openid",
@@ -238,7 +242,13 @@ logging.basicConfig(
         filemode='a',
 )
 
-CACHE_BACKEND = 'locmem://'
+if DEBUG:
+    CACHE_BACKEND = 'dummy://'
+    TEMPLATE_LOADERS = (
+            'django.template.loaders.filesystem.Loader',
+            'django.template.loaders.app_directories.Loader',
+    )
+    
 
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.

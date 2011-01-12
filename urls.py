@@ -9,7 +9,7 @@ admin.autodiscover()
 from pinax.apps.account.openid_consumer import PinaxConsumer
 
 from homepage.views import homepage
-from package.views import package_autocomplete, category
+from package.views import package_autocomplete, category, packaginate
 
 handler500 = "pinax.views.server_error"
 
@@ -32,8 +32,16 @@ urlpatterns = patterns("",
     url(r"^search/", include("searchv1.urls")),
     url(r"^feeds/", include("feeds.urls")),      
     
-    url(r"^categories/(?P<slug>[-\w]+)/$", category, name="category"),        
-    url(r"^categories/$", homepage, name="categories"),            
+    url(r"^categories/(?P<slug>[-\w]+)/$", category, name="category"),
+    url(r"^categories/$", homepage, name="categories"),
+    url(r"^packaginator/$", 
+                direct_to_template,
+                {'template': 'package/packaginator.html'}, 
+                name="packaginator"), 
+                
+    url(r"^packaginate/$", 
+                packaginate,
+                name="packaginate"),                   
     
     url(
         regex = '^autocomplete/package/$',
@@ -43,11 +51,12 @@ urlpatterns = patterns("",
     
 )
 
-from tastypie.api import Api
+from apiv1.api import Api
 from apiv1.resources import (
                     GotwResource, DpotwResource,
                     PackageResource, CategoryResource, RepoResource,
-                    GridResource, PackageResourceBase
+                    GridResource, PackageResourceBase,
+                    UserResource
                     )
 
 v1_api = Api()
@@ -58,6 +67,7 @@ v1_api.register(RepoResource())
 v1_api.register(GridResource())
 v1_api.register(GotwResource())
 v1_api.register(DpotwResource())
+v1_api.register(UserResource())
 
 urlpatterns += patterns('',
     url(r"^api/", include(v1_api.urls)), 
