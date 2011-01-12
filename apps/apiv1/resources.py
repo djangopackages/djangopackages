@@ -6,9 +6,13 @@ from tastypie.bundle import Bundle
 from tastypie.exceptions import NotFound
 from tastypie.resources import ModelResource
 
+from django.conf.urls.defaults import url
 from grid.models import Grid
 from homepage.models import Dpotw, Gotw
 from package.models import Package, Category, Repo
+from tastypie import fields
+from tastypie.resources import ModelResource
+
 
 # TODO - exclude ID, repo_commits, and other fields not yet used
 
@@ -71,7 +75,7 @@ class PackageResourceBase(EnhancedModelResource):
         
 class GridResource(EnhancedModelResource):
     
-    packages = fields.ToManyField(PackageResourceBase, "packages")    
+    packages = fields.ToManyField(PackageResourceBase, "packages")
     
     class Meta:
         queryset = Grid.objects.all()
@@ -79,9 +83,39 @@ class GridResource(EnhancedModelResource):
         allowed_methods = ['get']
         include_absolute_url = True
         lookup_field = 'slug'
-        excludes = ["id"]        
+        excludes = ["id"]
+        
+    def override_urls(self):
+        return [
+            url(
+                r"^%s/(?P<grid_name>[-\w]+)/packages/$" % GridResource._meta.resource_name,
+                self.get_packages,
+            ),
+        ] 
 
-class DpotwResource(EnhancedModelResource):
+    def get_packages(self, request, **kwargs):
+        """
+        Returns a serialized list of resources based on the identifiers
+        from the URL.
+        
+        Calls ``obj_get`` to fetch only the objects requested. This method
+        only responds to HTTP GET.
+        
+        Should return a HttpResponse (200 OK).
+        """
+        self.method_check(request, allowed=['get'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+        
+        qs = Package.objects.filter(grid__slug=kwargs['grid_name'])
+        pkg = PackageResource()
+        object_list = [pkg.full_dehydrate(obj) for obj in qs]
+        
+        self.log_throttled_access(request)
+        return self.create_response(request, object_list)
+
+
+class DpotwResource(ModelResource):
 
     class Meta:
         queryset = Dpotw.objects.all()
