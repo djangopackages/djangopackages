@@ -169,7 +169,8 @@ class PackageResource(PackageResourceBase):
     repo        = fields.ForeignKey(RepoResource, "repo")    
     grids       = fields.ToManyField(GridResource, "grid_set")
     created_by  = fields.ForeignKey(UserResource, "created_by", null=True)
-    last_modified_by  = fields.ForeignKey(UserResource, "created_by", null=True)    
+    last_modified_by  = fields.ForeignKey(UserResource, "created_by", null=True)
+    pypi_version = fields.CharField('pypi_version')
 
     class Meta:
         queryset = Package.objects.all()
