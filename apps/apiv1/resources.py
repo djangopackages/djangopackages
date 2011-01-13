@@ -171,6 +171,7 @@ class PackageResource(PackageResourceBase):
     created_by  = fields.ForeignKey(UserResource, "created_by", null=True)
     last_modified_by  = fields.ForeignKey(UserResource, "created_by", null=True)
     pypi_version = fields.CharField('pypi_version')
+    commits_over_52 = fields.CharField('commits_over_52')
 
     class Meta:
         queryset = Package.objects.all()

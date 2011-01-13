@@ -2,24 +2,24 @@
 # TODO - add is_other field to repo
 # TODO - add repo.user_url
 
-import logging
-import os
-import re
-import sys
-from urllib import urlopen
-
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-
 from github2.client import Github
-
-from package.handlers import github
 from package.fields import CreationDateTimeField, ModificationDateTimeField
+from package.handlers import github
 from package.pypi import fetch_releases
 from package.utils import uniquer
+from urllib import urlopen
+import logging
+import os
+import re
+import sys
+
+
+
 
 class NoPyPiVersionFound(Exception):
     pass
@@ -146,6 +146,10 @@ class Package(BaseModel):
     def participant_list(self):
         
         return self.participants.split(',')
+    
+    def commits_over_52(self):
+        from package.templatetags.package_tags import commits_over_52
+        return commits_over_52(self)
     
     def fetch_metadata(self, *args, **kwargs):
         
