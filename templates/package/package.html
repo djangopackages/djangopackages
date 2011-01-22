@@ -81,6 +81,9 @@
     </div>
     <div id="package-right">
         
+        <h2 class="rtd" style="display: none;">Documentation</h2>
+        <p class="rtd" style="display: none;">This project has documentation available for it on <a class="rtd">Read the Docs!</a></p>
+
         <h2>{{ object.repo.title }}</h2>
         <table>
             <tr>
@@ -171,6 +174,12 @@
                   };
             });       
 
+        });
+        var url = "http://readthedocs.org/api/v1/project/{{ object.slug }}/?format=json";
+        $.getJSON(url, function(data){
+            var href = "http://readthedocs.org/" + data.absolute_url;
+            $("a.rtd").attr("href", href);
+            $(".rtd").show();            
         });
 
     });    
