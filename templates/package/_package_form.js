@@ -4,6 +4,10 @@ String.prototype.starts_with = function(str){
     return (this.indexOf(str) === 0);
 }
 
+String.prototype.ends_with = function(str){
+    return (this.lastIndexOf(str) === this.length-str.length);
+}
+
 $("#id_repo_url").focus();
 $("#div_id_repo").hide();
 
@@ -24,12 +28,13 @@ $("#id_repo_url").keyup(function(e) {
     
 $("#id_repo_url").change(function(e) {
  
-    $("#target").text($("#id_repo_url").val());      
+    $("#target").text($("#id_repo_url").val());
     
     var url = $("#id_repo_url").val();
+    
     // this fixes the problem with trailing slashes
     while (1==1){
-            if (url.slice(url.length-1) === '/'){
+            if (url.ends_with('/')){
                 url = url.slice(0, url.length-1);
                 $("#id_repo_url").val(url);
                 }
@@ -44,8 +49,14 @@ $("#id_repo_url").change(function(e) {
     };
     if (url.starts_with('git@github.com:')){
         url = url.replace("git@github.com:","https://github.com/");
+    };
+    if (url.starts_with('git://github.com/')){
+        url = url.replace("git://github.com/","https://github.com/");
+        $("#id_repo_url").val(url);                
+    };
+    if (url.ends_with('.git')){
         url = url.slice(0, url.length-4);
-        $("#id_repo_url").val(url);        
+        $("#id_repo_url").val(url);                
     };
     // for bitbucket
     if (url.starts_with('http://bitbucket.org')){
