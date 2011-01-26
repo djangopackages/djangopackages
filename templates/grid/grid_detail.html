@@ -130,7 +130,7 @@
                 <tr class="even">
                     <td>Repo</td>
                     {% for grid_package in grid_packages %}
-                        <td>{{ grid_package.package.repo }}</td>
+                        <td><a href="{{ grid_package.package.repo_url }}">{{ grid_package.package.repo }}</a></td>
                     {% endfor %}
                 </tr>            
                 <tr class="even">
