@@ -1,7 +1,7 @@
 
 /* left and right columns */
-#home-leftcol { float: left; width:45%; }
-#home-rightcol { float: right; width:45%; }
+#home-leftcol { float: left; width:50%; }
+#home-rightcol { float: right; width:50%; }
 
 .home-borderlessbox { padding-top:30px; }
 
