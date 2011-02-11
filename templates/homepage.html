@@ -112,32 +112,3 @@
 
 {% endblock %}
 
-{% block extra_body %}
-<script type="text/javascript">
-    $(function() {          
-        $('input#id_q_p').click(function() {
-            $("input#id_q_p").val('');
-        });                        
-    });
-    
-    /*
-    categories = 'frameworks,projects,other';
-    $("input:checkbox[name=category]").click(function(){
-        categories = $('input:checkbox[name=category]').not(':checked').map(function() {
-            return this.value
-        }).get();
-    });
-    */
-
-    $('#id_q_p').autocomplete({
-      source: '{% url search_packages_autocomplete %}',
-      minLength: 1,
-      open: function(event, ui) {           
-        ac_top = $('.ui-autocomplete').css('top'); 
-        $('.ui-autocomplete').css({'width': '250px', 'top': ac_top + 10 }); 
-      }
-    });
-    
-    
-</script>      
-{% endblock %}      
