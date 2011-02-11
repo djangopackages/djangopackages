@@ -81,16 +81,7 @@
             <p>Django Packages is a directory of reusable apps, sites, tools, and more for your Django projects.</p>
             <br/>
             <p><b>{{ package_count }}</b> packages and counting!</p>
-            <form action="{% url search %}">
-                <input id="id_q_p" type="text" name="q" maxlength="100" value="search" autocomplete="off" />
-                <input id="magnifier-submit" type="submit" value="&nbsp;" /><br/>
-                {% comment %}
-                <input class="home-searchcheckbox" checked="checked" type="checkbox" name="category" value="apps" />apps
-                <input class="home-searchcheckbox" type="checkbox" name="category" value="frameworks" />frameworks
-                <input class="home-searchcheckbox" type="checkbox" name="category" value="projects" />projects
-                <input class="home-searchcheckbox" type="checkbox" name="category" value="other" />other
-                {% endcomment %}                
-            </form>
+
         </div>
 
         <div id="home-borderlessbox">
