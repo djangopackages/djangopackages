@@ -175,14 +175,16 @@
             });       
 
         });
-        var url = "http://readthedocs.org/api/v1/project/{{ object.slug }}/?format=jsonp";
+        var url = "http://readthedocs.org/api/v1/build/{{ object.slug }}/?format=jsonp";
         $.ajax({
           url: url,
           dataType: 'jsonp',
           success:function(data){
-              var href = "http://readthedocs.org" + data.absolute_url;
-              $("a.rtd").attr("href", href);
-              $(".rtd").show();            
+              if (data.objects.length > 0){
+                  var href = "http://readthedocs.org" + data.absolute_url;
+                  $("a.rtd").attr("href", href);
+                  $(".rtd").show();            
+              };
           }
         });
 
