@@ -48,8 +48,9 @@ Installation
     source env-djangopackages/bin/activate
     git clone git://github.com/djangopackages/djangopackages.git djangopackages
     cd djangopackages
+    cp backup.db dev.db
     pip install -r requirements/project.txt
-        
+
 In production add symlinks to the pinax and uni_form media directories::
 
     cd media
