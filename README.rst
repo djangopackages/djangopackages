@@ -59,9 +59,16 @@ In production add symlinks to the pinax and uni_form media directories::
 Starting the development server
 ===============================
 
-Change your local_settings.py file to point to prod.db then do::
+Change your local_settings.py file to point to dev.db then do::
 
     python manage.py runserver
+
+Create a Django superuser for yourself
+======================================
+
+Replace joe with your username/email::
+
+    python manage.py createsuperuser --username=joe --email=joe@example.com
 
 Updating Packages
 =================
