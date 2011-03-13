@@ -48,6 +48,7 @@
                 <div class="logo">
                     <img src="{{ STATIC_URL }}img/logo_squares.png" /><h1><a href="{% url home %}">Django Packages</a></h1>
                 </div>
+
                 <div class="login">
                     {% if user.is_authenticated %}
                         {% ifopenid %}<img src="{{ STATIC_URL }}images/openid-icon.png" alt="Logged in with OpenID" />{% endifopenid %}<b>{% user_display user %}</b>
@@ -78,6 +79,19 @@
                     {% endcomment %}                    
                 </div>
 
+                <div class="searchform">
+                    <form action="{% url search %}">
+                        <input id="id_q_p" type="text" name="q" maxlength="100" value="search" autocomplete="off" />
+                        <input id="magnifier-submit" type="submit" value="&nbsp;" /><br/>
+                        {% comment %}
+                        <input class="home-searchcheckbox" checked="checked" type="checkbox" name="category" value="apps" />apps
+                        <input class="home-searchcheckbox" type="checkbox" name="category" value="frameworks" />frameworks
+                        <input class="home-searchcheckbox" type="checkbox" name="category" value="projects" />projects
+                        <input class="home-searchcheckbox" type="checkbox" name="category" value="other" />other
+                        {% endcomment %}                
+                    </form>
+                </div>
+
                 <div id="left_tabs" >
                     {% for grid_chunk in grid_tabs %}
                         <div id="multi-col-nav">
@@ -96,6 +110,7 @@
             <div class="clearfix"></div>
             {% block body_outer %}
             <div id="body">
+                
                 {% if messages %}
                     <ul id="messages">
                         {% for message in messages %}
@@ -143,6 +158,30 @@
         
         <script type="text/javascript">
             
+            $(function() {          
+                $('input#id_q_p').click(function() {
+                    $("input#id_q_p").val('');
+                });                        
+            });
+            
+            /*
+            categories = 'frameworks,projects,other';
+            $("input:checkbox[name=category]").click(function(){
+                categories = $('input:checkbox[name=category]').not(':checked').map(function() {
+                    return this.value
+                }).get();
+            });
+            */
+
+            $('#id_q_p').autocomplete({
+              source: '{% url search_packages_autocomplete %}',
+              minLength: 1,
+              open: function(event, ui) {           
+                ac_top = $('.ui-autocomplete').css('top'); 
+                $('.ui-autocomplete').css({'width': '250px', 'top': ac_top + 10 }); 
+              }
+            });
+    
         </script>
     </body>
 </html>
