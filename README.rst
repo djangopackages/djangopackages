@@ -46,7 +46,7 @@ Installation
     cd <installation-directory>
     virtualenv env-djangopackages
     source env-djangopackages/bin/activate
-    git clone git://github.com/pydanny/djangopackages.git djangopackages
+    git clone git://github.com/djangopackages/djangopackages.git djangopackages
     cd djangopackages
     pip install -r requirements/project.txt
         
