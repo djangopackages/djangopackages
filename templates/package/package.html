@@ -181,7 +181,7 @@
           dataType: 'jsonp',
           success:function(data){
               if (data.objects.length > 0){
-                  var href = "http://readthedocs.org" + data.absolute_url;
+                  var href = "http://readthedocs.org/projects/{{ object.slug }}";
                   $("a.rtd").attr("href", href);
                   $(".rtd").show();            
               };
