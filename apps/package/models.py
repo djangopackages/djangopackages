@@ -50,7 +50,8 @@ class Category(BaseModel):
 REPO_CHOICES = (
     ("package.handlers.unsupported", "Unsupported"),
     ("package.handlers.bitbucket", "Bitbucket"),
-    ("package.handlers.github", "Github")
+    ("package.handlers.github", "Github"),
+    ("package.handlers.launchpad", "Launchpad")
 )
 
 class Repo(BaseModel):
@@ -100,7 +101,7 @@ class Package(BaseModel):
     category        = models.ForeignKey(Category, verbose_name="Installation", help_text=category_help_text)
     repo            = models.ForeignKey(Repo, null=True)
     repo_description= models.TextField(_("Repo Description"), blank=True)
-    repo_url        = models.URLField(_("repo URL"), help_text=repo_url_help_text, blank=True,unique=True)
+    repo_url        = models.URLField(_("repo URL"), help_text=repo_url_help_text, blank=True)
     repo_watchers   = models.IntegerField(_("repo watchers"), default=0)
     repo_forks      = models.IntegerField(_("repo forks"), default=0)
     repo_commits    = models.IntegerField(_("repo commits"), default=0)
