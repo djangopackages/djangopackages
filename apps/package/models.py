@@ -51,7 +51,8 @@ class Category(BaseModel):
 REPO_CHOICES = (
     ("package.handlers.unsupported", "Unsupported"),
     ("package.handlers.bitbucket", "Bitbucket"),
-    ("package.handlers.github", "Github")
+    ("package.handlers.github", "Github"),
+    ("package.handlers.launchpad", "Launchpad")
 )
 
 class Repo(BaseModel):
