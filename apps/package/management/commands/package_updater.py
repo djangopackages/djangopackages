@@ -81,6 +81,10 @@ class Command(NoArgsCommand):
                 message = "For '%s', too many requests issued to repo threw a RuntimeError: %s" % (package.title, e)
                 print >> stdout, message
                 continue
+            except UnicodeDecodeError, e:
+                message = "For '%s', UnicodeDecodeError: %s" % (package.title, e)
+                print >> stdout, message
+                continue                
                 
             if not authed:
                sleep(zzz)
