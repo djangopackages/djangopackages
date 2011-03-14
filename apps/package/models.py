@@ -6,6 +6,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
+from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 from github2.client import Github
 from package.fields import CreationDateTimeField, ModificationDateTimeField
@@ -70,6 +71,16 @@ class Repo(BaseModel):
         max_length="200",
         default="package.handlers.unsupported")
     
+    def packages_for_profile(self, profile):
+        """Return a list of all packages contributed to by a profile."""
+        repo_url = profile.url_for_repo(self)
+        if repo_url:
+            regex = r'^{0},|,{0},|{0}$'.format(repo_url)
+            query = Q(participants__regex=regex) & Q(repo=self)
+            return list(Package.objects.filter(query))
+        else:
+            return []
+
     class Meta:
         ordering = ['-is_supported', 'title']
     

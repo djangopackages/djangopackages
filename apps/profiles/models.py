@@ -19,20 +19,25 @@ class Profile(ProfileBase):
             ("is_moderator", "is_moderator"),
         )
         
+    def url_for_repo(self, repo):
+        """Return the profile's URL for a given repo.
+        
+        If url doesn't exist return None.
+        """
+        url_mapping = {
+            'Github': self.github_url,
+            'BitBucket': self.bitbucket_url,
+            'Google Code': self.google_code_url}
+        return url_mapping.get(repo.title)
+        
     def my_packages(self):
-        # Move these bits into the Repo model
-        name = self.bitbucket_url
-        bitbucket_regex = r'^%s,|,%s,|%s$' % (name, name, name)
-        bitbucket_repo = Repo.objects.get(title = 'BitBucket')
+        """Return a list of all packages the user contributes to.
         
-        name = self.github_url
-        github_regex = r'^%s,|,%s,|%s$' % (name, name, name)
-        github_repo = Repo.objects.get(title = 'Github')
-
-        
-        return Package.objects.filter(
-                (Q(participants__regex=bitbucket_regex) & Q(repo=bitbucket_repo)) |
-                (Q(participants__regex=github_regex) & Q(repo=github_repo))                
-        )
-        
-        
+        List is sorted by package name.
+        """
+        packages = []
+        for repo in Repo.objects.filter(is_supported=True):
+            repo_packages = repo.packages_for_profile(self)
+            packages.extend(repo_packages)
+        packages.sort(lambda a, b: cmp(a.title, b.title))
+        return packages

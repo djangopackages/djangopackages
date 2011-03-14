@@ -46,7 +46,7 @@
                         <span class="fn"><a href="http://code.google.com/u/{{ other_user.get_profile.google_code_url|urlize }}/">{{ other_user.get_profile.google_code_url|urlize }}</a></span>
                     {% endif %}</p>
 
-            {% if other_user.get_profile.my_packages.count %}
+            {% if other_user.get_profile.my_packages %}
                 <h2>Packages I contribute to</h2>
                 <table>
                 <thead>
