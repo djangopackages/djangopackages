@@ -1,3 +1,10 @@
+2011, March 13
+==============
+
+* Add unique constraint to slug field
+* Search box on every page
+* Sorting
+
 2010, November 6
 ================
 
