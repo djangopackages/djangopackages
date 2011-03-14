@@ -11,7 +11,7 @@ register = template.Library()
 from django.core.cache import cache
 
 
-class ParticipantNode(template.Node):
+class ParticipantURLNode(template.Node):
 
     def __init__(self, repo, participant):
         self.repo = template.Variable(repo)
@@ -44,12 +44,12 @@ def commits_over_52(package):
 
 
 @register.tag
-def print_participant(parser, token):
+def participant_url(parser, token):
     try:
         tag_name, repo, participant = token.split_contents()
     except ValueError:
         raise template.TemplateSyntaxError, "%r tag requires exactly two arguments" % token.contents.split()[0]
-    return ParticipantNode(repo, participant)
+    return ParticipantURLNode(repo, participant)
 
 
 @register.inclusion_tag('package/templatetags/_usage_button.html', takes_context=True)
