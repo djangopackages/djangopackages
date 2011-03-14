@@ -8,10 +8,6 @@
 /* blue boxes in the right column */
 .home-rightcolbox { width: 260px; padding: 1px 20px 10px 20px; margin-bottom: 20px; background-color: #C0F1D1; }
 
-/* Search box on homepage */
-#id_q_p { width:380px; height:22px; border:1px solid #999999; margin:0; padding:0; vertical-align:top;}
-input#magnifier-submit { background: url('../img/search.png') #87deaa no-repeat center; border:0; height:24px; width:36px; margin:0 0 6px -5px; padding:0; vertical-align:top;}
-.home-searchcheckbox { margin: 0 2px 0 10px; }
 
 #home-packages img { vertical-align: middle; }
 
@@ -24,8 +20,3 @@ input#magnifier-submit { background: url('../img/search.png') #87deaa no-repeat 
 .home-packagedesc {}
 
 
-/* autocomplete */
-
-.ui-autocomplete { background: #fff; text-align: left; border: 1px solid #bfbfbf; }
-.ui-state-hover { background: #eee; }
-.ui-menu-item a { display: block; padding: 3px 10px; }
