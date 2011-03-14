@@ -12,6 +12,7 @@ from package.fields import CreationDateTimeField, ModificationDateTimeField
 from package.handlers import github
 from package.pypi import fetch_releases
 from package.utils import uniquer
+from distutils.version import LooseVersion as versioner
 from urllib import urlopen
 import logging
 import os
@@ -116,11 +117,13 @@ class Package(BaseModel):
     
     @property
     def pypi_version(self):
-        try:
-            return self.version_set.latest()
-        except Version.DoesNotExist:
-            return ''
-                       
+        string_ver_list = self.version_set.values_list('number', flat=True)
+        if string_ver_list:
+            vers_list = [versioner(v) for v in string_ver_list]
+            latest = sorted(vers_list)[-1]
+            return str(latest)
+        return ''
+
     @property     
     def pypi_name(self):
         """ return the pypi name of a package"""

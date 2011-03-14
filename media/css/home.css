@@ -10,6 +10,25 @@
 
 
 #home-packages img { vertical-align: middle; }
+#home-packages .repo-watchers a {
+  background-image: url(../img/eye_20x20_clear.png);
+  background-repeat: no-repeat;
+  width: 20px;
+  height: 20px;
+  display: block;
+  text-indent: -9999px;
+  overflow: hidden;
+}
+
+#home-packages .repo-forks a {
+  background-image: url(../img/fork_20x20_clear.png);
+  background-repeat: no-repeat;
+  width: 20px;
+  height: 20px;
+  display: block;
+  text-indent: -9999px;
+  overflow: hidden;
+}
 
 .home-table th, .home-table td {border:0;}
 .home-usage-button-cell { margin:0; padding:0;}

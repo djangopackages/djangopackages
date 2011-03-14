@@ -4,6 +4,8 @@
 {% load i18n %}
 {% load ifsetting_tag %}
 {% load package_tags %}
+{% load pagination_tags %}
+{% load sorting_tags %}
 
 {% block extra_head %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/home.css" />
@@ -25,16 +27,19 @@
     
     <p>Click table headers to sort</p>
 
+    {% autosort packages %}
+    {% autopaginate packages %}
+    {% paginate %}
     <table id="home-packages">
             <thead>
             <tr>
-                <th># Using This</th>
-                <th class="tiny-column">PyPi Downloads</th>
-                <th>Name</th>
+              <th>{% anchor usage_count "# Using This" %}</th>
+              <th class="tiny-column">{% anchor pypi_downloads "PyPi Downloads" %}</th>
+              <th>{% anchor title "Name" %}</th>
                 <th>Commits</th>
                 <th>Version</th>
-                <th><img src="{{ STATIC_URL }}img/eye_20x20_clear.png" /></th>
-                <th><img src="{{ STATIC_URL }}img/fork_20x20_clear.png" /></th>
+                <th class="repo-watchers">{% anchor repo_watchers "Watchers" %}</th>
+                <th class="repo-forks">{% anchor repo_forks "Forks" %}</th>
             </tr>
             </thead>
 
@@ -59,15 +64,6 @@
         {% endfor %}        
         </tbody>        
      </table>
+     {% paginate %}
 
-{% endblock %}
-
-{% block extra_body %}    
-    <script type="text/javascript">
-         $(document).ready(function() 
-             { 
-                 $("#home-packages").tablesorter(); 
-             } 
-         );
-    </script>
 {% endblock %}
