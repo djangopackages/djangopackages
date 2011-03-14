@@ -5,6 +5,10 @@
 
 {% block head_title %}{{ object.title }}{% endblock %}
 
+{% block extra_head %}
+    <meta name="description" content="{{ object.repo_description }}" />
+    <meta name="keywords" content="{{ object.grid_set.all|join:',' }}" />
+{% endblock %}
 
 {% block body %}
     
