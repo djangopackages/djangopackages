@@ -156,7 +156,7 @@ PROJECT_APPS = [
     "apiv1",
 ]
 
-INSTALLED_APPS = [
+PREREQ_APPS = [
     # Django
     "django.contrib.admin",
     "django.contrib.auth",
@@ -191,7 +191,9 @@ INSTALLED_APPS = [
     "pinax.apps.account",
     "pinax.apps.signup_codes",
     "pinax.apps.analytics",
-] + PROJECT_APPS
+]
+
+INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
 
 FIXTURE_DIRS = [
     os.path.join(PROJECT_ROOT, "fixtures"),
@@ -256,8 +258,10 @@ if DEBUG:
 TEST_RUNNER = 'testrunner.OurCoverageRunner'
 
 COVERAGE_MODULE_EXCLUDES = [
-    'tests$', 'settings$', 'urls$', 'locale$', 'migrations', 'fixtures',
-] + INSTALLED_APPS[:-len(PROJECT_APPS)]
+    'tests$', 'settings$', 'urls$', 'locale$',
+    'migrations', 'fixtures',
+]
+COVERAGE_MODULE_EXCLUDES += PREREQ_APPS
 COVERAGE_REPORT_HTML_OUTPUT_DIR = "coverage"
 
 
