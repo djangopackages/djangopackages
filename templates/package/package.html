@@ -77,7 +77,7 @@
 
         <p>
             {% for participant in object.participant_list %}
-                <a href="{{ object.repo.url }}/{{ participant }}">{{ participant }}</a>
+                <a href="{% participant_url object.repo participant %}">{{ participant }}</a>
             {% endfor %}
         
         </p>
