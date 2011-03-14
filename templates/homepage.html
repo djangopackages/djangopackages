@@ -30,7 +30,7 @@
                         <span class="home-packagename"><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></span>
                         <span class="home-packagedesc">
                             {# TODO - make this a template tag! #}
-                            {% with package.repo_description|truncatewords:15 as short %}
+                            {% with package.repo_description|truncatewords:25 as short %}
                                 {% if package.repo_description|length > short|length %}
                                    {{ short|slice:"-3" }}<a rel="facebox" href="{% url package_repo_description package.slug %}">...</a>                                    
                                 {% else %}

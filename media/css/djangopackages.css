@@ -1,7 +1,7 @@
 /* General */
 
 body { background: #FFF; font-family: "Helvetica Neue", Arial, sans-serif; font-size: 10pt; margin: 0;}
-#body { width: 960px; padding-left: 30px; }
+#body { padding-left: 30px; }
 
 table, form, fieldset { border: 0; }
 
