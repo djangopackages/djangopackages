@@ -13,16 +13,19 @@ from django.core.cache import cache
 @register.filter
 def commits_over_52(package):
 
-    current = datetime.now()
-    weeks = []
-    commits = Commit.objects.filter(package=package).values_list('commit_date', flat=True)
-    for week in range(52):
-        weeks.append(len([x for x in commits if x < current and x > (current - timedelta(7))]))
-        current -= timedelta(7)        
+    now = datetime.now()
+    commits = Commit.objects.filter(
+        package=package,
+        commit_date__gt=now - timedelta(weeks=52),
+    ).values_list('commit_date', flat=True)
 
-    weeks.reverse()
-    weeks = map(str, weeks)
-    return ','.join(weeks)
+    weeks = [0] * 52
+    for cdate in commits:
+        age_weeks = (now - cdate).days // 7
+        if age_weeks < 52:
+            weeks[age_weeks] += 1
+
+    return ','.join(map(str,reversed(weeks)))
 
 @register.inclusion_tag('package/templatetags/_usage_button.html', takes_context=True)
 def usage_button(context):

@@ -1,3 +1,4 @@
+import datetime
 import json
 from socket import error as socket_error
 from sys import stdout
@@ -7,6 +8,7 @@ from urllib import urlopen
 from django.conf import settings
 from django.core.management.base import CommandError, NoArgsCommand
 
+from bzrlib.branch import Branch
 from github2.client import Github
 
 from package.models import Package, Repo, Commit
@@ -21,7 +23,8 @@ class Command(NoArgsCommand):
         
         # set up various useful bits
         github_repo = Repo.objects.get(title__icontains="github")
-        bitbucket_repo = Repo.objects.get(title__icontains="bitbucket")    
+        bitbucket_repo = Repo.objects.get(title__icontains="bitbucket") 
+        launchpad_repo = Repo.objects.get(title__icontains="launchpad")
         
         # instantiate the github connection
         if hasattr(settings, "GITHUB_ACCOUNT") and hasattr(settings, "GITHUB_KEY"):
@@ -55,6 +58,17 @@ class Command(NoArgsCommand):
                         continue                  
                     for commit in get_bitbucket_commits(package):
                         commit, created = Commit.objects.get_or_create(package=package, commit_date=commit["timestamp"])
+                elif package.repo == launchpad_repo:
+                    try:
+                        branch = Branch.open(package.repo_url)
+                        repository = branch.repository
+                        for revision_id in branch.revision_history():
+                            revision = repository.get_revision(revision_id)
+                            timestamp = datetime.datetime.fromtimestamp(revision.timestamp)
+                            commit, created = Commit.objects.get_or_create(package=package, commit_date=timestamp)
+                    except Exception, e:
+                        print >> stdout, "For '%s', threw an exception: %s" % (package.title, e)
+                        continue
                 else:
                     # unsupported so we just get metadata and go on
                     try:
@@ -67,6 +81,10 @@ class Command(NoArgsCommand):
                 message = "For '%s', too many requests issued to repo threw a RuntimeError: %s" % (package.title, e)
                 print >> stdout, message
                 continue
+            except UnicodeDecodeError, e:
+                message = "For '%s', UnicodeDecodeError: %s" % (package.title, e)
+                print >> stdout, message
+                continue                
                 
             if not authed:
                sleep(zzz)

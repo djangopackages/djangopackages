@@ -126,13 +126,23 @@
                     {% endfor %}
                 </tr>
                 <tr class="odd">
+                    <td>Last updated</td>
+                    {% for grid_package in grid_packages %}
+                        <td>
+                        {% if grid_package.package.last_updated %}
+                           {{ grid_package.package.last_updated|date:"DATETIME_FORMAT" }}
+                        {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+                <tr class="even">
                     <td>Version</td>
                     {% for grid_package in grid_packages %}
                         <td>{{ grid_package.package.pypi_version|default:"n/a" }}</td>
                     {% endfor %}
             
                 </tr>
-                <tr class="even">
+                <tr class="odd">
                     <td>Repo</td>
                     {% for grid_package in grid_packages %}
                         <td><a href="{{ grid_package.package.repo_url }}">{{ grid_package.package.repo }}</a></td>
@@ -184,6 +194,7 @@
                         </td>
                     {% endfor %}
                 </tr>
+                
                 {% include "grid/snippets/grid_row_header.html" %}
                 {% for feature in features %}
                     <tr class="{% cycle 'even' 'odd' %}">
