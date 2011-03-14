@@ -27,6 +27,15 @@ class ParticipantURLNode(template.Node):
         return user_url
 
 
+@register.tag
+def participant_url(parser, token):
+    try:
+        tag_name, repo, participant = token.split_contents()
+    except ValueError:
+        raise template.TemplateSyntaxError, "%r tag requires exactly two arguments" % token.contents.split()[0]
+    return ParticipantURLNode(repo, participant)
+
+
 @register.filter
 def commits_over_52(package):
 
@@ -40,15 +49,6 @@ def commits_over_52(package):
     weeks.reverse()
     weeks = map(str, weeks)
     return ','.join(weeks)
-
-
-@register.tag
-def participant_url(parser, token):
-    try:
-        tag_name, repo, participant = token.split_contents()
-    except ValueError:
-        raise template.TemplateSyntaxError, "%r tag requires exactly two arguments" % token.contents.split()[0]
-    return ParticipantURLNode(repo, participant)
 
 
 @register.inclusion_tag('package/templatetags/_usage_button.html', takes_context=True)
