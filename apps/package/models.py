@@ -238,8 +238,8 @@ class Version(BaseModel):
     hidden = models.BooleanField(_("hidden"), default=False)    
     
     class Meta:
-        get_latest_by = 'number'
-        ordering = ['-number']
+        get_latest_by = 'created'
+        ordering = ['-created']
     
     def __unicode__(self):
         return "%s: %s" % (self.package.title, self.number)
