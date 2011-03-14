@@ -63,6 +63,11 @@ $("#id_repo_url").change(function(e) {
         url = url.replace('http://bitbucket.org','https://bitbucket.org');
         $("#id_repo_url").val(url);        
     };
+    // for launchpad
+    if (url.starts_with('lp:')){
+        url = url.replace('lp:', 'https://code.launchpad.net/');
+        $("#id_repo_url").val(url);
+    };
     
     var url_array = url.split('/');
     $.each(repo_urls, function(key, value) {
