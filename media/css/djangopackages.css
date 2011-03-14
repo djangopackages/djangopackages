@@ -75,3 +75,8 @@ td.usage-container .usage-button {float: right}
 #site_wide_announcements {background-color: #75dfca;}
 
 .clearfix {clear:both;}
+
+/* Pagination */
+.pagination {
+  margin-bottom: 15px;
+}
