@@ -15,7 +15,10 @@ def commits_over_52(package):
 
     current = datetime.now()
     weeks = []
-    commits = Commit.objects.filter(package=package).values_list('commit_date', flat=True)
+    commits = Commit.objects.filter(
+        package=package,
+        commit_date__gt=current - timedelta(weeks=52),
+    ).values_list('commit_date', flat=True)
     for week in range(52):
         weeks.append(len([x for x in commits if x < current and x > (current - timedelta(7))]))
         current -= timedelta(7)        
