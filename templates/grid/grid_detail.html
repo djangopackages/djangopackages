@@ -10,7 +10,12 @@
 {% load grid_tags %}
 {% load package_tags %}
 
-{% block head_title %}{{ object.title }}{% endblock %}
+{% block head_title %}{{ grid.title }}{% endblock %}
+
+{% block extra_head %}
+    <meta name="description" content="{{ grid.description }}" />
+    <meta name="keywords" content="{{ grid.packages.all|join:',' }}" />
+{% endblock %}
 
 {% block body %}
 
