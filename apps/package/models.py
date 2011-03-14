@@ -137,6 +137,12 @@ class Package(BaseModel):
             return name[:name.index("/")]
         return name
 
+    @property
+    def last_updated(self):
+        last_commit = self.commit_set.latest('commit_date')
+        if last_commit: return last_commit.commit_date
+        return None
+
     def active_examples(self):
         return self.packageexample_set.filter(active=True)
     
@@ -232,8 +238,8 @@ class Version(BaseModel):
     hidden = models.BooleanField(_("hidden"), default=False)    
     
     class Meta:
-        get_latest_by = 'number'
-        ordering = ['-number']
+        get_latest_by = 'created'
+        ordering = ['-created']
     
     def __unicode__(self):
         return "%s: %s" % (self.package.title, self.number)
