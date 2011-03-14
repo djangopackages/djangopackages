@@ -49,9 +49,10 @@ Installation
     git clone git://github.com/djangopackages/djangopackages.git djangopackages
     cd djangopackages
     cp backup.db dev.db
+    cp local_settings.py.example local_settings.py
     pip install -r requirements/project.txt
 
-In production add symlinks to the pinax and uni_form media directories::
+Add symlinks to the pinax and uni_form media directories::
 
     cd media
     ln -s ../../env-djangopackages/lib/python2.6/site-packages/pinax/media/default/pinax/ pinax
