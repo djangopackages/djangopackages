@@ -1,11 +1,12 @@
 {% load i18n %}
 {% load ifsetting_tag account_tags openid_tags %}
 {% load analytics %}
+{% load flatblock_tags %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <title>{% block head_title_base %}{% if SITE_NAME %}{{ SITE_NAME }} : {% endif %}{% block head_title %}{% endblock %}{% endblock %}</title>
+        <title>{% block head_title_base %}{% plain_flatblock 'site.name' | trans %} : {% block head_title %}{% endblock %}{% endblock %}</title>
         <!--[if IE]><style>
             div {
                 zoom: 1; /* trigger hasLayout */
@@ -49,7 +50,7 @@
             {% endif %}
             <div id="tabhead">
                 <div class="logo">
-                    <img src="{{ STATIC_URL }}img/logo_squares.png" /><h1><a href="{% url home %}">Django Packages</a></h1>
+                    <img src="{{ STATIC_URL }}img/logo_squares.png" /><h1><a href="{% url home %}">{% plain_flatblock 'site.name' | trans %}</a></h1>
                 </div>
 
                 <div class="login">
@@ -135,15 +136,15 @@
     <div id="footer">
         <div class="legal">
             <hr /><br/>
-            &copy; 2010 <a href="http://pydanny.com">Daniel Greenfeld</a> & <a href="http://www.audreymroy.com">Audrey Roy</a>
-            - <a href="{% url about %}">{% trans "About" %}</a>
+            {% plain_flatblock 'copyright.text' | blocktrans %}
+            - <a href="/about/">{% trans "About" %}</a>
             - <a href="/help/">{% trans "Help" %}</a>    
-            - <a href="{% url terms %}">{% trans "Terms of Service" %}</a>
+            - <a href="/terms/">{% trans "Terms of Service" %}</a>
             - <a href="/help/team/">Team</a>
             - <a href="/api/v1/docs/">API</a>
             - <a href="/help/syndication/">RSS / Atom</a>
             <br />
-            {% trans "Hosted by" %} <a href="http://www.cartwheelweb.com/">Cartwheel, LLC</a>.  {% trans "Powered by" %} <a href="http://www.djangoproject.com/">Django</a>, <a href="http://www.pinaxproject.com/">Pinax</a> and <a href="/grids/g/this-site/">these fine packages</a>.
+            {% plain_flatblock 'footer.text' | blocktrans %}
         </div>
     </div>
 
