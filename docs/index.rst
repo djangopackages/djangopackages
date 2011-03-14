@@ -9,7 +9,17 @@ Welcome to Python Packages's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
+
+   introduction
+   install
+   updating
+   pypi_issues
+   license
+   leads
+   contributors
+   credits
+
 
 Indices and tables
 ==================
