@@ -30,7 +30,7 @@
         {% url privacy as privacy_url %}
         <p>{% blocktrans %}By clicking "Sign Up", you are indicating that you have read and agree to the <a href="{{ terms_url }}">Terms of Use</a>.{% endblocktrans %}</p>
         
-        {% include "account/_trouble_ticket.html" %}
+        {% include "account/includes/_trouble_ticket.html" %}
         
     {% endif %}
 {% endblock %}

@@ -2,6 +2,7 @@
 ==============
 
 * Add unique constraint to slug field
+* Relocated partial templates to 'includes' directories.
 * Search box on every page
 * Sorting
 
