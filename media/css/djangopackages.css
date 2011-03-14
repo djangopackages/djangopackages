@@ -17,6 +17,8 @@ h2 { font-size: 153.9%; }
 }
 
 /* This overrides styles from base.css */
+#top_border { height:10px; background: #75DFCA; }
+
 #tabhead { border: 0; position: relative; }
 
 #tabhead .logo { height: 40px; padding: 12px 0 4px 10px; font-weight: 700; background-color: #FFF; float:left;}
