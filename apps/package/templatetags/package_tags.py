@@ -10,6 +10,24 @@ register = template.Library()
 
 from django.core.cache import cache
 
+
+class ParticipantNode(template.Node):
+
+    def __init__(self, repo, participant):
+        self.repo = template.Variable(repo)
+        self.participant = template.Variable(participant)
+
+    def render(self, context):
+        repo = self.repo.resolve(context)
+        participant = self.participant.resolve(context)
+        if repo.user_url:
+            user_url = repo.user_url % participant
+        else:
+            user_url = '%s/%s' % (repo.url, participant)
+        return user_url
+
+
+
 @register.filter
 def commits_over_52(package):
 
@@ -23,6 +41,16 @@ def commits_over_52(package):
     weeks.reverse()
     weeks = map(str, weeks)
     return ','.join(weeks)
+
+
+@register.tag
+def print_participant(parser, token):
+    try:
+        tag_name, repo, participant = token.split_contents()
+    except ValueError:
+        raise template.TemplateSyntaxError, "%r tag requires exactly two arguments" % token.contents.split()[0]
+    return ParticipantNode(repo, participant)
+
 
 @register.inclusion_tag('package/templatetags/_usage_button.html', takes_context=True)
 def usage_button(context):

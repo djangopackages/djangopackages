@@ -62,6 +62,7 @@ class Repo(BaseModel):
     url          = models.URLField(_("base URL of repo"))
     is_other     = models.BooleanField(_("Is Other?"), default=False, help_text="Only one can be set this way")
     user_regex   = models.CharField(_("User Regex"), help_text="Regex to calculate user's name or id",max_length="100", blank=True)
+    user_url     = models.CharField(_("User URL"), help_text="Use %s to mark the username", max_length="100", blank=True)
     repo_regex   = models.CharField(_("Repo Regex"), help_text="Regex to get repo's name", max_length="100", blank=True)
     slug_regex   = models.CharField(_("Slug Regex"), help_text="Regex to get repo's slug", max_length="100", blank=True)    
     handler      = models.CharField(_("Handler"), 
