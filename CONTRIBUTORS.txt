@@ -5,9 +5,17 @@ Daniel Greenfeld <pydanny@gmail.com>
 
 Contributors
 ============
+Adam Sadgebrath
 Andrii Kurinny
+Bryan Weingarten
+Eric Spunagle
+Gisle Aas
+James Pacileo
 James Punteney
+jrothenbuhler
+Jim Allman
 Jonas Obrist
+Nate Aune
 Nolan Bruabker
 Preston Holmes
 Szilveszter Farkas
