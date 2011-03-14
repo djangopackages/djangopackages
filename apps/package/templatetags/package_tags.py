@@ -27,7 +27,6 @@ class ParticipantURLNode(template.Node):
         return user_url
 
 
-
 @register.filter
 def commits_over_52(package):
 
