@@ -112,6 +112,7 @@ MIDDLEWARE_CLASSES = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "pinax.apps.account.middleware.LocaleMiddleware",
     "pagination.middleware.PaginationMiddleware",
+    "django_sorting.middleware.SortingMiddleware",
     "pinax.middleware.security.HideSensistiveFieldsMiddleware",
     "django.contrib.flatpages.middleware.FlatpageFallbackMiddleware",
 ]
@@ -174,6 +175,7 @@ INSTALLED_APPS = [
 	"south",
 	"tastypie",
 	"reversion",
+    "django_sorting",
     
     # Pinax
     "pinax.apps.account",

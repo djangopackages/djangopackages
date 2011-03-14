@@ -5,8 +5,10 @@ Daniel Greenfeld <pydanny@gmail.com>
 
 Contributors
 ============
+Andrii Kurinny
 James Punteney
 Jonas Obrist
-Taavi Taijala
+Nolan Bruabker
 Preston Holmes
 Szilveszter Farkas
+Taavi Taijala

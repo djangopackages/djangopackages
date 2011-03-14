@@ -108,14 +108,14 @@
             {% if forloop.last %}
                 <div id="package-gridname">
                     <a class="awesome forestgreen" id="find-a-grid" href="#">Find another grid to join!</a>
-                    {% include "package/_attach_grid.html" %}
+                    {% include "package/includes/_attach_grid.html" %}
                 </div>    
         
             {% endif %}
         {% empty %}
             <div id="package-gridname">
                 <a class="awesome forestgreen" id="find-a-grid" href="#">Find a grid to join!</a>
-                {% include "package/_attach_grid.html" %}
+                {% include "package/includes/_attach_grid.html" %}
             </div>
         {% endfor %}
     

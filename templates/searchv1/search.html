@@ -36,7 +36,7 @@
                 <a href="{% url latest_packages %}">latest</a> <a href="{% url packages %}">all</a>
             </p>
             {% for package in packages %}
-                {% include "package/_package.html"%}
+                {% include "package/includes/_package.html"%}
             {% endfor %}
         </div>    
     </div>
