@@ -140,7 +140,8 @@ class Package(BaseModel):
     @property
     def last_updated(self):
         last_commit = self.commit_set.latest('commit_date')
-        if last_commit: return last_commit.commit_date
+        if last_commit: 
+            return last_commit.commit_date
         return None
 
     def active_examples(self):
