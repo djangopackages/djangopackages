@@ -53,7 +53,8 @@ REPO_CHOICES = (
     ("package.handlers.unsupported", "Unsupported"),
     ("package.handlers.bitbucket", "Bitbucket"),
     ("package.handlers.github", "Github"),
-    ("package.handlers.launchpad", "Launchpad")
+    ("package.handlers.launchpad", "Launchpad"),
+    ("package.handlers.sourceforge", "Sourceforge")    
 )
 
 class Repo(BaseModel):
@@ -119,7 +120,6 @@ class Package(BaseModel):
     repo_forks      = models.IntegerField(_("repo forks"), default=0)
     repo_commits    = models.IntegerField(_("repo commits"), default=0)
     pypi_url        = models.URLField(_("PyPI slug"), help_text=pypi_url_help_text, blank=True, default='')
-    #pypi_version    = models.CharField(_("Current Pypi version"), max_length="20", blank=True)
     pypi_downloads  = models.IntegerField(_("Pypi downloads"), default=0)
     related_packages    = models.ManyToManyField("self", blank=True)
     participants    = models.TextField(_("Participants"),
@@ -127,6 +127,7 @@ class Package(BaseModel):
     usage           = models.ManyToManyField(User, blank=True)
     created_by = models.ForeignKey(User, blank=True, null=True, related_name="creator")    
     last_modified_by = models.ForeignKey(User, blank=True, null=True, related_name="modifier")
+    pypi_home_page  = models.URLField(_("homepage on PyPI for a project"), blank=True, null=True)
     
     @property
     def pypi_version(self):

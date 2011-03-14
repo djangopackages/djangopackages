@@ -59,7 +59,7 @@ def _get_sourceforge_participants(sourceforge_package_data):
     maintainers = [maintainer['name'] for maintainer in sourceforge_package_data['maintainers']]
     developers  = [developer['name'] for developer in sourceforge_package_data['developers']]
     participants = maintainers + developers
-    return participants
+    return ','.join(participants)
 
 
 def pull(package):
@@ -79,4 +79,6 @@ def pull(package):
     package.repo_url = _get_sourceforge_repo_url(sf_package_data)
     package.repo_forks = None
     package.participants = _get_sourceforge_participants(sf_package_data)
+    
+    return package
     

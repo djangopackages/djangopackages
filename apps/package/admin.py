@@ -18,7 +18,7 @@ class PackageAdmin(VersionAdmin):
     ]
     fieldsets = (
         (None, {
-            "fields": ("title", "slug", "category", "pypi_url", "repo", "repo_url", "usage", "created_by", "last_modified_by")
+            "fields": ("title", "slug", "category", "pypi_url", "repo", "repo_url", "usage", "created_by", "last_modified_by","pypi_home_page",)
         }),
         ("Pulled data", {
             "classes": ("collapse",),
