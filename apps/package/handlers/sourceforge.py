@@ -12,6 +12,7 @@ project_name1_RE = re.compile(r'projects/([^/]+)/?$')
 project_name2_RE = re.compile(r'^http://([^/]+).sourceforge')
 
 def _sourceforge_name_from_pypi_home_page(home_page):
+
     name1 = project_name1_RE.search(home_page)
     if name1:
         name1 = name1.group(1)
@@ -76,6 +77,7 @@ def pull(package):
     
     package.repo_watchers = len(sf_package_data.get('maintainers', [])) + len(sf_package_data.get('developers', [])) 
     package.repo_description = sf_package_data.get('description', '')
+    # TODO - remove the line below and use repo_url as your foundation    
     package.repo_url = _get_sourceforge_repo_url(sf_package_data)
     package.repo_forks = None
     package.participants = _get_sourceforge_participants(sf_package_data)
