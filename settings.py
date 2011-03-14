@@ -261,7 +261,7 @@ COVERAGE_MODULE_EXCLUDES = [
     'tests$', 'settings$', 'urls$', 'locale$',
     'migrations', 'fixtures',
 ]
-COVERAGE_MODULE_EXCLUES += PREREQ_APPS
+COVERAGE_MODULE_EXCLUDES += PREREQ_APPS
 COVERAGE_REPORT_HTML_OUTPUT_DIR = "coverage"
 
 
