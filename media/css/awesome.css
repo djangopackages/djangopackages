@@ -1,7 +1,7 @@
 /* Awesome buttons are from http://www.zurb.com/blog_uploads/0000/0617/buttons-03.html */
 
 .awesome, .awesome:visited {
-	background: #222 url(/images/alert-overlay.png) repeat-x; 
+	background: #222 url(../img/alert-overlay.png) repeat-x; 
 	display: inline-block; 
 	padding: 2px 5px 3px; 
 	color: #fff; 
