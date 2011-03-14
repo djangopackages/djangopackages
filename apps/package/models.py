@@ -140,6 +140,7 @@ class Package(BaseModel):
         
         return (x.grid for x in self.gridpackage_set.all())
     
+    @property
     def repo_name(self):
         return self.repo_url.replace(self.repo.url + '/','')
     
