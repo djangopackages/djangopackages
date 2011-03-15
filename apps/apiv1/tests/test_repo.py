@@ -1,7 +1,8 @@
 import json
-from django.test import TestCase
-from django.core.urlresolvers import reverse
 import os
+
+from django.core.urlresolvers import reverse
+from django.test import TestCase
 
 this_directory = os.path.dirname(__file__)
 apps_directory = os.path.join(this_directory, '..', '..')
@@ -12,8 +13,7 @@ class RepoTests(TestCase):
     fixtures = [fixture_path]
     base_kwargs = {'api_name': 'v1'}
     
-        
-    def test_repo(self):
+    def grab_response(self):
         # Fetch the response        
         kwargs = {'resource_name': 'repo'}
         kwargs.update(self.base_kwargs)
@@ -24,8 +24,13 @@ class RepoTests(TestCase):
         self.assertEqual(response.status_code, 200)
         
         # confirm data points
-        data = json.loads(response.content)
+        return json.loads(response.content)        
+    
         
-        self.assertEquals(data["meta"]["limit"], 20)
-        self.assertEquals(data["meta"]["limit"], 20)
-        self.assertEquals(data["objects"][0]["is_supported"], True)
+    def test_repo_object_attributes(self):
+        # confirm data points
+        data = self.grab_response()
+        
+        objects = data["objects"][0]
+        
+        self.assertEquals(objects['is_supported'], True)
