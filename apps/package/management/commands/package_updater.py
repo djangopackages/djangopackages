@@ -1,9 +1,6 @@
-import datetime
-import json
 from socket import error as socket_error
 from sys import stdout
 from time import sleep, gmtime, strftime
-from urllib import urlopen
 
 from django.conf import settings
 from django.core.management.base import CommandError, NoArgsCommand
