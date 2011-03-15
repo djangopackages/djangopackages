@@ -16,11 +16,11 @@ from django.template.loader import render_to_string
 from homepage.models import Dpotw, Gotw
 
 from package.forms import PackageForm, PackageExampleForm
-from package.models import Category, Package, PackageExample, Repo
+from package.models import Category, Package, PackageExample
 
 def repos_for_js():
     repos = {}
-    for repo in Repo.objects.all():
+    for repo in []: #XXX Repo.objects.all():
         repos[repo.url] = repo.id
     return simplejson.dumps(repos)  
 

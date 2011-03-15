@@ -54,7 +54,7 @@ urlpatterns = patterns("",
 from apiv1.api import Api
 from apiv1.resources import (
                     GotwResource, DpotwResource,
-                    PackageResource, CategoryResource, RepoResource,
+                    PackageResource, CategoryResource,
                     GridResource, PackageResourceBase,
                     UserResource
                     )
@@ -63,7 +63,6 @@ v1_api = Api()
 v1_api.register(PackageResourceBase())
 v1_api.register(PackageResource())
 v1_api.register(CategoryResource())
-v1_api.register(RepoResource())
 v1_api.register(GridResource())
 v1_api.register(GotwResource())
 v1_api.register(DpotwResource())

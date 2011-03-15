@@ -37,16 +37,3 @@ class ResourcesV1Tests(TestCase):
         self.assertTrue(grid_url in response.content)
         response = self.client.get(grid_url)
         self.assertEqual(response.status_code, 200)
-        
-    def test_03_repo(self):
-        kwargs = {'resource_name': 'repo'}
-        kwargs.update(self.base_kwargs)
-        # check 200's
-        list_url = reverse('api_dispatch_list', kwargs=kwargs)
-        response = self.client.get(list_url)
-        self.assertEqual(response.status_code, 200)
-        kwargs['pk'] = '1'
-        repo_url = reverse('api_dispatch_detail', kwargs=kwargs)
-        self.assertTrue(repo_url in response.content)
-        response = self.client.get(repo_url)
-        self.assertEqual(response.status_code, 200)

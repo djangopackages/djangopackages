@@ -9,7 +9,7 @@ from tastypie.resources import ModelResource
 from django.conf.urls.defaults import url
 from grid.models import Grid
 from homepage.models import Dpotw, Gotw
-from package.models import Package, Category, Repo
+from package.models import Package, Category
 from tastypie import fields
 from tastypie.resources import ModelResource
 
@@ -145,14 +145,6 @@ class CategoryResource(EnhancedModelResource):
         lookup_field = 'slug'
         excludes = ["id"]        
 
-class RepoResource(BaseResource):
-
-    class Meta:
-        queryset = Repo.objects.all()
-        resource_name = 'repo'
-        allowed_methods = ['get']
-        excludes = ["id"]
-        
 class UserResource(EnhancedModelResource):
 
     class Meta:
@@ -166,7 +158,6 @@ class UserResource(EnhancedModelResource):
 class PackageResource(PackageResourceBase):
 
     category    = fields.ForeignKey(CategoryResource, "category")
-    repo        = fields.ForeignKey(RepoResource, "repo")    
     grids       = fields.ToManyField(GridResource, "grid_set")
     created_by  = fields.ForeignKey(UserResource, "created_by", null=True)
     last_modified_by  = fields.ForeignKey(UserResource, "created_by", null=True)

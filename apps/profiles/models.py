@@ -5,7 +5,6 @@ from django.utils.translation import ugettext_lazy as _
 from idios.models import ProfileBase
 
 from package.models import Package
-from package.models import Repo
 
 
 
