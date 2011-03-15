@@ -12,6 +12,7 @@ def pull(package):
 
 
 class UnsupportedHandler(BaseHandler):
+    title = 'Other'
     is_other = True
     url = ''
     user_url = ''
