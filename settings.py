@@ -30,7 +30,7 @@ MANAGERS = ADMINS
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3", # Add "postgresql_psycopg2", "postgresql", "mysql", "sqlite3" or "oracle".
-        "NAME": "/home/dp/djangopackages/db/dev.db",                       # Or path to database file if using sqlite3.
+        "NAME": "dev.db",                       # Or path to database file if using sqlite3.
         "USER": "",                             # Not used with sqlite3.
         "PASSWORD": "",                         # Not used with sqlite3.
         "HOST": "",                             # Set to empty string for localhost. Not used with sqlite3.
@@ -153,6 +153,7 @@ PROJECT_APPS = [
     "profiles",
     "searchv1",
     "apiv1",
+    "pypi",
 ]
 
 PREREQ_APPS = [
@@ -181,9 +182,9 @@ PREREQ_APPS = [
     "pagination",
     "idios",
     "django_extensions",
-	"south",
-	"tastypie",
-	"reversion",
+    "south",
+    "tastypie",
+    "reversion",
     "django_sorting",
     "flatblocks",
     
@@ -256,6 +257,19 @@ COVERAGE_MODULE_EXCLUDES = [
 ]
 COVERAGE_MODULE_EXCLUDES += PREREQ_APPS
 COVERAGE_REPORT_HTML_OUTPUT_DIR = "coverage"
+
+PACKAGINATOR_HELP_TEXT = {
+    "REPO_URL" : "Enter your project repo hosting URL here.<br />Example: https://bitbucket.com/ubernostrum/django-registration",
+    "PYPI_URL" : "<strong>Leave this blank if this package does not have a PyPI release.</strong><br />What PyPI uses to index your package. <br />Example: django-registration",
+    "CATEGORY" : """
+    <ul>
+     <li><strong>Apps</strong> is anything that is installed by placing in settings.INSTALLED_APPS.</li>
+     <li><strong>Frameworks</strong> are large efforts that combine many python modules or apps to build things like Pinax.</li>
+     <li><strong>Other</strong> are not installed by settings.INSTALLED_APPS, are not frameworks or sites but still help Django in some way.</li>
+     <li><strong>Projects</strong> are individual projects such as Django Packages, DjangoProject.com, and others.</li>
+    </ul>
+"""
+}
 
 
 # local_settings.py can be used to override environment-specific settings
