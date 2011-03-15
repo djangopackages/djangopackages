@@ -20,6 +20,24 @@ class BitbucketHandler(BaseHandler):
     repo_regex = r'https://bitbucket.org/[\w\-\_]+/([\w\-\_]+)/{0,1}'
     slug_regex = r'https://bitbucket.org/[\w\-\_]+/([\w\-\_]+)/{0,1}'
 
+    def _get_bitbucket_commits(self, package):
+        repo_name = package.repo_name()
+        if repo_name.endswith("/"):
+            repo_name = repo_name[0:-1]
+        target = "https://api.bitbucket.org/1.0/repositories/%s/changesets/?limit=50" % repo_name
+        page = urlopen(target).read()
+        try:
+            data = json.loads(page)
+        except ValueError, e:
+            # TODO - fix this problem with bad imports from bitbucket
+            data = {}
+        return data.get("changesets", [])
+
+    def fetch_commits(self, package):
+        from package.models import Commit
+        for commit in self._get_bitbucket_commits(package):
+            commit, created = Commit.objects.get_or_create(package=package, commit_date=commit["timestamp"])
+
     def pull(self, package):
         # prep the target name
         repo_name = package.repo_name()
@@ -61,3 +79,5 @@ class BitbucketHandler(BaseHandler):
             package.participants = ""
             
         return package
+
+repo_handler = BitbucketHandler()

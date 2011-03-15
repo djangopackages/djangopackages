@@ -1,5 +1,7 @@
+import datetime
 import os
 
+from bzrlib.branch import Branch
 from django.conf import settings
 from launchpadlib.launchpad import Launchpad
 
@@ -12,6 +14,15 @@ class LaunchpadHandler(BaseHandler):
     user_url = 'https://launchpad.net/~%s'
     repo_regex = r'https://code.launchpad.net/~[\w\-\_]+/([\w\-\_]+)/[\w\-\_]+/{0,1}'
     slug_regex = r'https://code.launchpad.net/~[\w\-\_]+/([\w\-\_]+)/[\w\-\_]+/{0,1}'
+
+    def fetch_commits(self, package):
+        from package.models import Commit
+        branch = Branch.open(package.repo_url)
+        repository = branch.repository
+        for revision_id in branch.revision_history():
+            revision = repository.get_revision(revision_id)
+            timestamp = datetime.datetime.fromtimestamp(revision.timestamp)
+            commit, created = Commit.objects.get_or_create(package=package, commit_date=timestamp)
 
     def pull(self, package):
         cachedir = getattr(settings, 'LAUNCHPAD_CACHE_DIR', os.path.join(settings.PROJECT_ROOT, 'lp-cache'))

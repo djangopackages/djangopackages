@@ -84,9 +84,10 @@ class BaseHandler(object):
         
     @property
     def package_updater(self):
-        """ Used by the JavaScript forms """        
         raise NotImplemented()
-        
+
+    def fetch_commits(self, package):
+        raise NotImplemented()
         
     def packages_for_profile(self, profile):
         """ Return a list of all packages contributed to by a profile. """
