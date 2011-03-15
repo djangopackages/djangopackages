@@ -18,10 +18,9 @@ Contents:
    license
    contributors
    contributing_to_djangopackages
-   repo_handlers   
+   repo_handlers
    credits
-   
-================================
+
 Contributing to Django Packages
 ================================
 
