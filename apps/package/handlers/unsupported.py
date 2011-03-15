@@ -13,5 +13,7 @@ def pull(package):
 
 class UnsupportedHandler(BaseHandler):
     is_other = True
+    url = ''
+    user_url = ''
 
 repo_handler = UnsupportedHandler()
