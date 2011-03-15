@@ -7,7 +7,7 @@ try:
 except ImportError:
     import json
 
-from package.handlers.base_handler import BaseHandler
+from .base_handler import BaseHandler
 
 API_TARGET = "https://api.bitbucket.org/1.0/repositories/"
 

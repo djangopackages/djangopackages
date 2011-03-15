@@ -1,4 +1,4 @@
-from package.handlers.base_handler import BaseHandler
+from .base_handler import BaseHandler
 
 class UnsupportedHandler(BaseHandler):
     title = 'Other'

@@ -10,10 +10,10 @@ from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 from github2.client import Github
 from package.fields import CreationDateTimeField, ModificationDateTimeField
-from package.handlers import github
+from package.repos import github
 from package.pypi import fetch_releases
 from package.utils import uniquer
-from package.handlers import get_repo_for_repo_url
+from package.repos import get_repo_for_repo_url
 from distutils.version import LooseVersion as versioner
 from urllib import urlopen
 import logging

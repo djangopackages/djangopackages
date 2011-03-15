@@ -1,12 +1,12 @@
 from django.test import TestCase
 
-from package.handlers.launchpad import repo_handler as launchpad_handler
+from package.repos.launchpad import repo_handler as launchpad_handler
 from package.models import Package
 
 
 class TestRepoHandlers(TestCase):
     def test_repo_registry(self):
-        from package.handlers import get_repo, supported_repos
+        from package.repos import get_repo, supported_repos
 
         g = get_repo("github")
         self.assertEqual(g.title, "Github")

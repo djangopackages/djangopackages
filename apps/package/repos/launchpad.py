@@ -3,7 +3,7 @@ import os
 from django.conf import settings
 from launchpadlib.launchpad import Launchpad
 
-from package.handlers.base_handler import BaseHandler
+from .base_handler import BaseHandler
 
 
 class LaunchpadHandler(BaseHandler):

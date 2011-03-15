@@ -1,5 +1,5 @@
 from django.test import TestCase
-from package.handlers import sourceforge
+from package.repos import sourceforge
 
 class MockPackage(object):
     def __init__(self, home_page):

@@ -34,7 +34,7 @@ class Profile(ProfileBase):
         
         List is sorted by package name.
         """
-        from package.handlers import get_repo, supported_repos
+        from package.repos import get_repo, supported_repos
 
         packages = []
         for repo in supported_repos():

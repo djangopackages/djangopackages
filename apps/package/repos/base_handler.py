@@ -1,5 +1,5 @@
 """
-github = package.handlers.Gibhut()
+github = package.repos.Gibhut()
 github.repo_url
 
 package = github.pull()
