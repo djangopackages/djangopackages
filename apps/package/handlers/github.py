@@ -25,8 +25,8 @@ def pull(package):
 
 from base_handler import BaseHandler
 class GitHubHandler(BaseHandler):
-    title = "GitHub"
+    title = "Github"
     url = "https://github.com"
     user_url = ""
 
-handler = GitHubHandler()
+repo_handler = GitHubHandler()

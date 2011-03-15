@@ -34,8 +34,11 @@ class Profile(ProfileBase):
         
         List is sorted by package name.
         """
+        from package.handlers import get_repo, supported_repos
+
         packages = []
-        for repo in Repo.objects.filter(is_supported=True):
+        for repo in supported_repos():
+            repo = get_repo(repo)
             repo_packages = repo.packages_for_profile(self)
             packages.extend(repo_packages)
         packages.sort(lambda a, b: cmp(a.title, b.title))
