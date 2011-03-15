@@ -23,17 +23,32 @@ Remove the existing pinax & uni_form symlinks.  Add symlinks to the correct pina
     ln -s ../../env-pythonpackages/lib/python2.6/site-packages/pinax/media/default/pinax/ pinax
     ln -s ../../env-pythonpackages/lib/python2.6/site-packages/uni_form/media/uni_form/ uni_form
 
-URL Configuration
-=================
+Setup local settings
+========================
 
-In the settings.py file::
+Copy the local_settings.py.example to local_settings.py::
 
-    ROOT_URLCONF = 'pythonpackages.url'
+    cp local_settings.py.example local_settings.py
 
-Starting the development server
-===============================
+Change the rool URLS conf from `<root_directory_name>` to the correct value::
 
-Change your local_settings.py file to point to dev.db then do::
+    ROOT_URLCONF = '<root_directory_name>.url'
+    
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3", 
+            "NAME": "dev.db",  
+            "USER": "", 
+            "PASSWORD": "", 
+            "HOST": "", 
+            "PORT": "", 
+        }
+    }    
+
+Running the development server
+==============================
+
+The normal sort of thing::
 
     python manage.py runserver
 
