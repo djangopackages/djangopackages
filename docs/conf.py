@@ -40,7 +40,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Python Packages'
+project = u'Packaginator'
 copyright = u'2011, Audrey Roy, Daniel Greenfeld and contributors'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -164,7 +164,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'PythonPackagesdoc'
+htmlhelp_basename = 'Packaginatordoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -178,7 +178,7 @@ htmlhelp_basename = 'PythonPackagesdoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'PythonPackages.tex', u'Python Packages Documentation',
+  ('index', 'Packaginator.tex', u'Packaginator Documentation',
    u'Audrey Roy, Daniel Greenfeld and contributors', 'manual'),
 ]
 
@@ -211,6 +211,6 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'pythonpackages', u'Python Packages Documentation',
+    ('index', 'packaginator', u'Packaginator Documentation',
      [u'Audrey Roy, Daniel Greenfeld and contributors'], 1)
 ]
