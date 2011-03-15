@@ -161,6 +161,9 @@ class Package(BaseModel):
         self.repo.pull(self)
         self.save()        
 
+    def fetch_commits(self):
+        self.repo.fetch_commits(self)
+
     class Meta:
         ordering = ['title']
     

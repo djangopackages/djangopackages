@@ -10,11 +10,15 @@ class GitHubHandler(BaseHandler):
     repo_regex = r'https://github.com/[\w\-\_]+/([\w\-\_]+)/{0,1}'
     slug_regex = r'https://github.com/[\w\-\_]+/([\w\-\_]+)/{0,1}'
 
-    def pull(self, package):
+    def _github_client(self):
         if hasattr(settings, "GITHUB_ACCOUNT") and hasattr(settings, "GITHUB_KEY"):
             github   = Github(username=settings.GITHUB_ACCOUNT, api_token=settings.GITHUB_KEY)
         else:
             github   = Github()
+        return github
+
+    def pull(self, package):
+        github = self._github_client()
 
         repo_name = package.repo_name
         repo = github.repos.show(repo_name)
@@ -25,5 +29,11 @@ class GitHubHandler(BaseHandler):
         collaborators = github.repos.list_collaborators(repo_name) + [x['login'] for x in github.repos.list_contributors(repo_name)]
         if collaborators:
             package.participants = ','.join(uniquer(collaborators))
+
+    def fetch_commits(self, package):
+        from package.models import Commit
+        github = self._github_client()
+        for commit in github.commits.list(package.repo_name, "master"):
+            commit, created = Commit.objects.get_or_create(package=package, commit_date=commit.committed_date)
 
 repo_handler = GitHubHandler()
