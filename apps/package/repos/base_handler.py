@@ -57,7 +57,7 @@ class BaseHandler(object):
         
                 example: 
         """
-        raise NotImplemented()
+        return ''
         
     @property
     def repo_regex(self):

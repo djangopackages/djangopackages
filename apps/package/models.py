@@ -1,6 +1,5 @@
 # TODO - cleanup regex to do proper string subs
 # TODO - add is_other field to repo
-# TODO - add repo.user_url
 
 from django.conf import settings
 from django.contrib.auth.models import User

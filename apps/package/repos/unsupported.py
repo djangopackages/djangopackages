@@ -4,7 +4,6 @@ class UnsupportedHandler(BaseHandler):
     title = 'Other'
     is_other = True
     url = ''
-    user_url = ''
 
     def fetch_metadata(self, package):
         package.repo_watchers    = 0
