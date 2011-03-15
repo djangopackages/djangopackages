@@ -124,7 +124,7 @@ class Package(BaseModel):
     @property
     def repo(self):
         import package.handlers
-        handler = package.handlers.get_handler("github")
+        handler = package.handlers.get_repo("github")
         return handler
 
     def active_examples(self):
