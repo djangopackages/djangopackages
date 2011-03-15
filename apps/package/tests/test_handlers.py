@@ -37,6 +37,7 @@ class TestRepoHandlers(TestCase):
         p.fetch_metadata()
         self.assertEqual(p.repo_description, "")
         self.assertEqual(p.repo_watchers, 0)
+        p.fetch_commits()
 
     def test_launchpad_pull(self):
         # TODO: mock these so no network access is required

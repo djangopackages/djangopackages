@@ -45,6 +45,11 @@ class BaseHandler(object):
         """
         raise NotImplemented()
 
+    def get_commits(self, package):
+        """ Accepts a package.models.Package instance:
+        """
+        raise NotImplemented()
+
     @property
     def is_other(self):
         """ DON'T CHANGE THIS PROPERTY! This should only be overridden by
