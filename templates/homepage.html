@@ -4,6 +4,7 @@
 {% load i18n %}
 {% load ifsetting_tag %}
 {% load package_tags %}
+{% load flatblock_tags %}
 
 {% block extra_head %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/home.css" />
@@ -78,7 +79,7 @@
      
     <div id="home-leftcol">
         <div id="home-borderlessbox">
-            <p>Django Packages is a directory of reusable apps, sites, tools, and more for your Django projects.</p>
+            <p>{% flatblock 'site.description' %}</p>
             <br/>
             <p><b>{{ package_count }}</b> packages and counting!</p>
 

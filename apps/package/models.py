@@ -21,8 +21,9 @@ import os
 import re
 import sys
 
-
-
+repo_url_help_text = settings.PACKAGINATOR_HELP_TEXT['REPO_URL']
+pypi_url_help_text = settings.PACKAGINATOR_HELP_TEXT['PYPI_URL']
+category_help_text = settings.PACKAGINATOR_HELP_TEXT['CATEGORY']
 
 class NoPyPiVersionFound(Exception):
     pass
@@ -121,7 +122,6 @@ class Package(BaseModel):
         
         return (x.grid for x in self.gridpackage_set.all())
     
-    @property
     def repo_name(self):
         return self.repo_url.replace(self.repo.url + '/','')
     

@@ -1,0 +1,167 @@
+[
+    {
+        "pk": 9, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "About", 
+            "url": "/about/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<h1>About Adam's Package&#39;s</h1> \r\n    \r\n    <p>Django Packages solves the problem in the Django community of being able to easily identify good \r\n        apps, frameworks, and packages. Ever want to know which is the most popular or well supported Django \r\n        blog, content management system, or api tool? Django Packages solves that problem for you!\r\n    </p> \r\n    \r\n    <h2>What is a Python?</h2> \r\n    \r\n    <p>A Django package is anything that is involved in the Django ecosphere that can be stored on a \r\n        repository such as Github or Bitbucket. If it can be stored in <a href=\"http://pypi.org\">PyPI</a>,\r\n        that's even better!\r\n    </p> \r\n    \r\n    <h2>When did you code this?</h2> \r\n    \r\n    <p>Django Packages was conceived for and coding during <a href=\"http://djangodash.com\">Django Dash 2010</a>.\r\n        Since then we've been feverishly adding more features, improving the design, and trying to make data entry\r\n         as easy/intuitive as possible.\r\n    </p> \r\n \r\n    <h2>Who built this thing?</h2> \r\n    \r\n    <p>Daniel Greenfeld and Audrey Roy are the creators of this project. Additional contributing members are detailed in\r\n        the <a href=\"/help/team/\">team page.</a>        \r\n    </p> \r\n    \r\n    <h2>Can I help?</h2> \r\n    \r\n    <p> \r\n        Django Packages is an volunteer based <a href=\"http://github.com/djangopackages/djangopackages\">open source effort</a>.\r\n        Please <a href=\"http://github.com/djangopackages/djangopackages/issues\">submit any ideas or issues</a> and \r\n        also fork and submit back patches and enhancements.\r\n    </p> \r\n \r\n    <h2>I want to know more!</h2>    \r\n    \r\n    <p>Django Packages also has a <a href=\"/help/\">help</a> section.</p> ", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "API Documentation", 
+            "url": "/api/v1/docs/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<style type=\"text/css\">\r\n\r\n/*\r\n:Author: David Goodger (goodger@python.org)\r\n:Id: $Id: html4css1.css 5951 2009-05-18 18:03:10Z milde $\r\n:Copyright: This stylesheet has been placed in the public domain.\r\n\r\nDefault cascading style sheet for the HTML output of Docutils.\r\n\r\nSee http://docutils.sf.net/docs/howto/html-stylesheets.html for how to\r\ncustomize this style sheet.\r\n*/\r\n\r\n/* used to remove borders from tables and images */\r\n.borderless, table.borderless td, table.borderless th {\r\n  border: 0 }\r\n\r\ntable.borderless td, table.borderless th {\r\n  /* Override padding for \"table.docutils td\" with \"! important\".\r\n     The right padding separates the table cells. */\r\n  padding: 0 0.5em 0 0 ! important }\r\n\r\n.first {\r\n  /* Override more specific margin styles with \"! important\". */\r\n  margin-top: 0 ! important }\r\n\r\n.last, .with-subtitle {\r\n  margin-bottom: 0 ! important }\r\n\r\n.hidden {\r\n  display: none }\r\n\r\na.toc-backref {\r\n  color: black }\r\n\r\nblockquote.epigraph {\r\n  margin: 2em 5em ; }\r\n\r\ndl.docutils dd {\r\n  margin-bottom: 0.5em }\r\n\r\n/* Uncomment (and remove this text!) to get bold-faced definition list terms\r\ndl.docutils dt {\r\n  font-weight: bold }\r\n*/\r\n\r\ndiv.abstract {\r\n  margin: 2em 5em }\r\n\r\ndiv.abstract p.topic-title {\r\n  font-weight: bold ;\r\n  text-align: center }\r\n\r\ndiv.admonition, div.attention, div.caution, div.danger, div.error,\r\ndiv.hint, div.important, div.note, div.tip, div.warning {\r\n  margin: 2em ;\r\n  border: medium outset ;\r\n  padding: 1em }\r\n\r\ndiv.admonition p.admonition-title, div.hint p.admonition-title,\r\ndiv.important p.admonition-title, div.note p.admonition-title,\r\ndiv.tip p.admonition-title {\r\n  font-weight: bold ;\r\n  font-family: sans-serif }\r\n\r\ndiv.attention p.admonition-title, div.caution p.admonition-title,\r\ndiv.danger p.admonition-title, div.error p.admonition-title,\r\ndiv.warning p.admonition-title {\r\n  color: red ;\r\n  font-weight: bold ;\r\n  font-family: sans-serif }\r\n\r\n/* Uncomment (and remove this text!) to get reduced vertical space in\r\n   compound paragraphs.\r\ndiv.compound .compound-first, div.compound .compound-middle {\r\n  margin-bottom: 0.5em }\r\n\r\ndiv.compound .compound-last, div.compound .compound-middle {\r\n  margin-top: 0.5em }\r\n*/\r\n\r\ndiv.dedication {\r\n  margin: 2em 5em ;\r\n  text-align: center ;\r\n  font-style: italic }\r\n\r\ndiv.dedication p.topic-title {\r\n  font-weight: bold ;\r\n  font-style: normal }\r\n\r\ndiv.figure {\r\n  margin-left: 2em ;\r\n  margin-right: 2em }\r\n\r\ndiv.footer, div.header {\r\n  clear: both;\r\n  font-size: smaller }\r\n\r\ndiv.line-block {\r\n  display: block ;\r\n  margin-top: 1em ;\r\n  margin-bottom: 1em }\r\n\r\ndiv.line-block div.line-block {\r\n  margin-top: 0 ;\r\n  margin-bottom: 0 ;\r\n  margin-left: 1.5em }\r\n\r\ndiv.sidebar {\r\n  margin: 0 0 0.5em 1em ;\r\n  border: medium outset ;\r\n  padding: 1em ;\r\n  background-color: #ffffee ;\r\n  width: 40% ;\r\n  float: right ;\r\n  clear: right }\r\n\r\ndiv.sidebar p.rubric {\r\n  font-family: sans-serif ;\r\n  font-size: medium }\r\n\r\ndiv.system-messages {\r\n  margin: 5em }\r\n\r\ndiv.system-messages h1 {\r\n  color: red }\r\n\r\ndiv.system-message {\r\n  border: medium outset ;\r\n  padding: 1em }\r\n\r\ndiv.system-message p.system-message-title {\r\n  color: red ;\r\n  font-weight: bold }\r\n\r\ndiv.topic {\r\n  margin: 2em }\r\n\r\nh1.section-subtitle, h2.section-subtitle, h3.section-subtitle,\r\nh4.section-subtitle, h5.section-subtitle, h6.section-subtitle {\r\n  margin-top: 0.4em }\r\n\r\nh1.title {\r\n  text-align: center }\r\n\r\nh2.subtitle {\r\n  text-align: center }\r\n\r\nhr.docutils {\r\n  width: 75% }\r\n\r\nimg.align-left, .figure.align-left{\r\n  clear: left ;\r\n  float: left ;\r\n  margin-right: 1em }\r\n\r\nimg.align-right, .figure.align-right {\r\n  clear: right ;\r\n  float: right ;\r\n  margin-left: 1em }\r\n\r\n.align-left {\r\n  text-align: left }\r\n\r\n.align-center {\r\n  clear: both ;\r\n  text-align: center }\r\n\r\n.align-right {\r\n  text-align: right }\r\n\r\n/* reset inner alignment in figures */\r\ndiv.align-right {\r\n  text-align: left }\r\n\r\n/* div.align-center * { */\r\n/*   text-align: left } */\r\n\r\nol.simple, ul.simple {\r\n  margin-bottom: 1em }\r\n\r\nol.arabic {\r\n  list-style: decimal }\r\n\r\nol.loweralpha {\r\n  list-style: lower-alpha }\r\n\r\nol.upperalpha {\r\n  list-style: upper-alpha }\r\n\r\nol.lowerroman {\r\n  list-style: lower-roman }\r\n\r\nol.upperroman {\r\n  list-style: upper-roman }\r\n\r\np.attribution {\r\n  text-align: right ;\r\n  margin-left: 50% }\r\n\r\np.caption {\r\n  font-style: italic }\r\n\r\np.credits {\r\n  font-style: italic ;\r\n  font-size: smaller }\r\n\r\np.label {\r\n  white-space: nowrap }\r\n\r\np.rubric {\r\n  font-weight: bold ;\r\n  font-size: larger ;\r\n  color: maroon ;\r\n  text-align: center }\r\n\r\np.sidebar-title {\r\n  font-family: sans-serif ;\r\n  font-weight: bold ;\r\n  font-size: larger }\r\n\r\np.sidebar-subtitle {\r\n  font-family: sans-serif ;\r\n  font-weight: bold }\r\n\r\np.topic-title {\r\n  font-weight: bold }\r\n\r\npre.address {\r\n  margin-bottom: 0 ;\r\n  margin-top: 0 ;\r\n  font: inherit }\r\n\r\npre.literal-block, pre.doctest-block {\r\n  margin-left: 2em ;\r\n  margin-right: 2em }\r\n\r\nspan.classifier {\r\n  font-family: sans-serif ;\r\n  font-style: oblique }\r\n\r\nspan.classifier-delimiter {\r\n  font-family: sans-serif ;\r\n  font-weight: bold }\r\n\r\nspan.interpreted {\r\n  font-family: sans-serif }\r\n\r\nspan.option {\r\n  white-space: nowrap }\r\n\r\nspan.pre {\r\n  white-space: pre }\r\n\r\nspan.problematic {\r\n  color: red }\r\n\r\nspan.section-subtitle {\r\n  /* font-size relative to parent (h1..h6 element) */\r\n  font-size: 80% }\r\n\r\ntable.citation {\r\n  border-left: solid 1px gray;\r\n  margin-left: 1px }\r\n\r\ntable.docinfo {\r\n  margin: 2em 4em }\r\n\r\ntable.docutils {\r\n  margin-top: 0.5em ;\r\n  margin-bottom: 0.5em }\r\n\r\ntable.footnote {\r\n  border-left: solid 1px black;\r\n  margin-left: 1px }\r\n\r\ntable.docutils td, table.docutils th,\r\ntable.docinfo td, table.docinfo th {\r\n  padding-left: 0.5em ;\r\n  padding-right: 0.5em ;\r\n  vertical-align: top }\r\n\r\ntable.docutils th.field-name, table.docinfo th.docinfo-name {\r\n  font-weight: bold ;\r\n  text-align: left ;\r\n  white-space: nowrap ;\r\n  padding-left: 0 }\r\n\r\nh1 tt.docutils, h2 tt.docutils, h3 tt.docutils,\r\nh4 tt.docutils, h5 tt.docutils, h6 tt.docutils {\r\n  font-size: 100% }\r\n\r\nul.auto-toc {\r\n  list-style-type: none }\r\n\r\n</style>\r\n\r\n<div class=\"document\" id=\"django-packages-api-v1\">\r\n<h2 class=\"title\">Django Packages API v1</h2>\r\n\r\n<p>This is the API documentation for Django Packages. It is designed to be language and tool agnostic.</p>\r\n<div class=\"contents topic\" id=\"contents\">\r\n<p class=\"topic-title first\">Contents</p>\r\n<ul class=\"simple\">\r\n<li><a class=\"reference internal\" href=\"#api-usage\" id=\"id1\">API Usage</a></li>\r\n<li><a class=\"reference internal\" href=\"#api-reference\" id=\"id2\">API Reference</a><ul>\r\n<li><a class=\"reference internal\" href=\"#representation-formats\" id=\"id3\">Representation formats</a></li>\r\n<li><a class=\"reference internal\" href=\"#base-uri\" id=\"id12\">Base URI</a></li>\r\n<li><a class=\"reference internal\" href=\"#uris\" id=\"id4\">URIs</a></li>\r\n<li><a class=\"reference internal\" href=\"#resources\" id=\"id5\">Resources</a><ul>\r\n<li><a class=\"reference internal\" href=\"#category\" id=\"id6\">Category</a></li>\r\n<li><a class=\"reference internal\" href=\"#grid\" id=\"id7\">Grid</a></li>\r\n<li><a class=\"reference internal\" href=\"#grid-of-the-week\" id=\"id8\">Grid-of-the-week</a></li>\r\n<li><a class=\"reference internal\" href=\"#package\" id=\"id9\">Package</a></li>\r\n<li><a class=\"reference internal\" href=\"#package-of-the-week\" id=\"id10\">Package-of-the-week</a></li>\r\n<li><a class=\"reference internal\" href=\"#repo\" id=\"id11\">Repo</a></li>\r\n</ul>\r\n</li>\r\n</ul>\r\n</li>\r\n</ul>\r\n</div>\r\n<div class=\"section\" id=\"api-usage\">\r\n<h1><a class=\"toc-backref\" href=\"#id1\">API Usage</a></h1>\r\n<p>The current API is limited to read-only GET requests. Other HTTP methods will fail. Only JSON is provided.</p>\r\n</div>\r\n<div class=\"section\" id=\"api-reference\">\r\n<h1><a class=\"toc-backref\" href=\"#id2\">API Reference</a></h1>\r\n<div class=\"section\" id=\"representation-formats\">\r\n<h2><a class=\"toc-backref\" href=\"#id3\">Representation formats</a></h2>\r\n<ul class=\"simple\">\r\n<li>JSON.</li>\r\n<li>UTF-8.</li>\r\n</ul>\r\n</div>\r\n<div class=\"section\" id=\"base-uri\">\r\n<h2><a class=\"toc-backref\" href=\"#id12\">Base URI</a></h2>\r\n\r\n<table border=\"1\" class=\"docutils\">\r\n<colgroup>\r\n<col width=\"53%\" />\r\n<col width=\"26%\" />\r\n<col width=\"21%\" />\r\n</colgroup>\r\n<thead valign=\"bottom\">\r\n<tr><th class=\"head\">URI</th>\r\n<th class=\"head\">Resource</th>\r\n<th class=\"head\">Methods</th>\r\n</tr>\r\n</thead>\r\n<tbody valign=\"top\">\r\n<tr><td><a href=\"http://djangopackages.com/api/v1/\">http://djangopackages.com/api/v1/</a></td>\r\n<td>Root</td>\r\n<td>GET</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n\r\n</div>\r\n<div class=\"section\" id=\"uris\">\r\n<h2><a class=\"toc-backref\" href=\"#id4\">URIs</a></h2>\r\n\r\n<table border=\"1\" class=\"docutils\">\r\n<colgroup>\r\n<col width=\"53%\" />\r\n<col width=\"26%\" />\r\n<col width=\"21%\" />\r\n</colgroup>\r\n<thead valign=\"bottom\">\r\n<tr><th class=\"head\">URI</th>\r\n<th class=\"head\">Resource</th>\r\n<th class=\"head\">Methods</th>\r\n</tr>\r\n</thead>\r\n<tbody valign=\"top\">\r\n<tr><td>/<a class=\"reference internal\" href=\"#category\">category</a>/</td>\r\n<td>Category list</td>\r\n<td>GET</td>\r\n</tr>\r\n<tr><td>/<a class=\"reference internal\" href=\"#category\">category</a>/{slug}/</td>\r\n<td>Category</td>\r\n<td>GET</td>\r\n</tr>\r\n<tr><td>/<a class=\"reference internal\" href=\"#grid\">grid</a>/</td>\r\n<td>Grid list</td>\r\n<td>GET</td>\r\n</tr>\r\n<tr><td>/<a class=\"reference internal\" href=\"#grid\">grid</a>/{slug}/</td>\r\n<td>Grid</td>\r\n<td>GET</td>\r\n</tr>\r\n<tr><td>/<a class=\"reference internal\" href=\"#grid\">grid</a>/{slug}/<a class=\"reference internal\" href=\"#package\">packages</a>/</td>\r\n<td>Grid Packages list</td>\r\n<td>GET</td>\r\n</tr>\r\n<tr><td>/<a class=\"reference internal\" href=\"#grid-of-the-week\">grid-of-the-week</a>/</td>\r\n<td>Featured Grid list</td>\r\n<td>GET</td>\r\n</tr>\r\n<tr><td>/<a class=\"reference internal\" href=\"#grid-of-the-week\">grid-of-the-week</a>/{slug}/</td>\r\n<td>Featured Grid</td>\r\n<td>GET</td>\r\n</tr>\r\n<tr><td>/<a class=\"reference internal\" href=\"#package\">package</a>/</td>\r\n<td>Package list</td>\r\n<td>GET</td>\r\n</tr>\r\n<tr><td>/<a class=\"reference internal\" href=\"#package\">package</a>/{slug}/</td>\r\n<td>Package</td>\r\n<td>GET</td>\r\n</tr>\r\n<tr><td>/<a class=\"reference internal\" href=\"#package-of-the-week\">package-of-the-week</a>/</td>\r\n<td>Featured Package list</td>\r\n<td>GET</td>\r\n</tr>\r\n<tr><td>/<a class=\"reference internal\" href=\"#package-of-the-week\">package-of-the-week</a>/{slug}/</td>\r\n<td>Featured Package</td>\r\n<td>GET</td>\r\n</tr>\r\n<tr><td>/<a class=\"reference internal\" href=\"#repo\">repo</a>/</td>\r\n<td>Repo list</td>\r\n<td>GET</td>\r\n</tr>\r\n<tr><td>/<a class=\"reference internal\" href=\"#repo\">repo</a>/{slug}/</td>\r\n<td>Repo</td>\r\n<td>GET</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</div>\r\n<div class=\"section\" id=\"resources\">\r\n<h2><a class=\"toc-backref\" href=\"#id5\">Resources</a></h2>\r\n<div class=\"section\" id=\"category\">\r\n<h3><a class=\"toc-backref\" href=\"#id6\">Category</a></h3>\r\n<p>Representation:</p>\r\n<pre class=\"literal-block\">\r\n{\r\n    created: &quot;Sat, 14 Aug 2010 19:47:52 -0400&quot;\r\n    description: &quot;Small components used to build projects. An app is anything that is installed by placing in settings.INSTALLED_APPS.&quot;\r\n    modified: &quot;Sat, 28 Aug 2010 11:20:36 -0400&quot;\r\n    resource_uri: &quot;/api/v1/category/apps/&quot;\r\n    slug: &quot;apps&quot;\r\n    title: &quot;App&quot;\r\n    title_plural: &quot;Apps&quot;\r\n}\r\n</pre>\r\n</div>\r\n<div class=\"section\" id=\"grid\">\r\n<h3><a class=\"toc-backref\" href=\"#id7\">Grid</a></h3>\r\n<p>Representation:</p>\r\n<pre class=\"literal-block\">\r\n{\r\nabsolute_url: &quot;/grids/g/cms/&quot;\r\ncreated: &quot;Sat, 14 Aug 2010 20:12:46 -0400&quot;\r\ndescription: &quot;This page lists a few well-known reusable Content Management System applications for Django and tries to gather a comparison of essential features in those applications.&quot;\r\nis_locked: false\r\nmodified: &quot;Sat, 11 Sep 2010 14:57:16 -0400&quot;\r\npackages: [\r\n    &quot;/api/v1/package/django-cms/&quot;\r\n    &quot;/api/v1/package/django-page-cms/&quot;\r\n    &quot;/api/v1/package/django-lfc/&quot;\r\n    &quot;/api/v1/package/merengue/&quot;\r\n    &quot;/api/v1/package/mezzanine/&quot;\r\n    &quot;/api/v1/package/philo/&quot;\r\n    &quot;/api/v1/package/pylucid/&quot;\r\n    &quot;/api/v1/package/django-gitcms/&quot;\r\n    &quot;/api/v1/package/django-simplepages/&quot;\r\n    &quot;/api/v1/package/djpcms/&quot;\r\n    &quot;/api/v1/package/feincms/&quot;\r\n]\r\nresource_uri: &quot;/api/v1/grid/cms/&quot;\r\nslug: &quot;cms&quot;\r\ntitle: &quot;CMS&quot;\r\n}\r\n</pre>\r\n</div>\r\n<div class=\"section\" id=\"grid-of-the-week\">\r\n<h3><a class=\"toc-backref\" href=\"#id8\">Grid-of-the-week</a></h3>\r\n<p>Representation:</p>\r\n<pre class=\"literal-block\">\r\n{\r\n    absolute_url: &quot;/grids/g/cms/&quot;\r\n    created: &quot;Sun, 15 Aug 2010 01:36:59 -0400&quot;\r\n    end_date: &quot;22 Aug 2010&quot;\r\n    modified: &quot;Sun, 15 Aug 2010 01:36:59 -0400&quot;\r\n    resource_uri: &quot;/api/v1/grid-of-the-week/cms/&quot;\r\n    start_date: &quot;15 Aug 2010&quot;\r\n}\r\n</pre>\r\n</div>\r\n<div class=\"section\" id=\"package\">\r\n<h3><a class=\"toc-backref\" href=\"#id9\">Package</a></h3>\r\n<p>Representation:</p>\r\n<pre class=\"literal-block\">\r\n{\r\n    absolute_url: &quot;/packages/p/pinax/&quot;\r\n    category: &quot;/api/v1/category/frameworks/&quot;\r\n    created: &quot;Mon, 16 Aug 2010 23:25:16 -0400&quot;\r\n    grids: [\r\n        &quot;/api/v1/grid/profiles/&quot;\r\n        &quot;/api/v1/grid/social/&quot;\r\n        &quot;/api/v1/grid/this-site/&quot;\r\n    ]\r\n    modified: &quot;Sun, 12 Sep 2010 17:02:10 -0400&quot;\r\n    participants: &quot;pinax,brosner,jtauber,jezdez,ericflo,gregnewman,pydanny,edcrypt,paltman,dougn,alex,vgarvardt,alibrahim,lukeman,shentonfreude,jpic,httpdss,mikl,empty,brutasse,kwadrat,sunoano,robertrv,stephrdev,justinlilly,deepthawtz,skyl,googletorp,maicki,havan,zerok,hellp,asenchi,haplo,chimpymike,beshrkayali,zain,bartTC,ntoll,fernandoacorreia,oppianmatt,dartdog,gklein,acdha,ariddell,vikingosegundo,thraxil,rhouse2&quot;\r\n    pypi_downloads: 0\r\n    pypi_url: &quot;<a class=\"reference external\" href=\"http://pypi.python.org/pypi/Pinax\">http://pypi.python.org/pypi/Pinax</a>&quot;\r\n    pypi_version: &quot;0.9a1&quot;\r\n    repo: &quot;/api/v1/repo/1/&quot;\r\n    repo_commits: 0\r\n    repo_description: &quot;a Django-based platform for rapidly developing websites&quot;\r\n    repo_forks: 184\r\n    repo_url: &quot;<a class=\"reference external\" href=\"http://github.com/pinax/pinax\">http://github.com/pinax/pinax</a>&quot;\r\n    repo_watchers: 913\r\n    resource_uri: &quot;/api/v1/package/pinax/&quot;\r\n    slug: &quot;pinax&quot;\r\n    title: &quot;Pinax&quot;\r\n}\r\n</pre>\r\n</div>\r\n<div class=\"section\" id=\"package-of-the-week\">\r\n<h3><a class=\"toc-backref\" href=\"#id10\">Package-of-the-week</a></h3>\r\n<p>Representation:</p>\r\n<pre class=\"literal-block\">\r\n{\r\n    absolute_url: &quot;/packages/p/django-uni-form/&quot;\r\n    created: &quot;Sun, 15 Aug 2010 01:36:38 -0400&quot;\r\n    end_date: &quot;15 Aug 2010&quot;\r\n    modified: &quot;Mon, 16 Aug 2010 23:54:36 -0400&quot;\r\n    resource_uri: &quot;/api/v1/package-of-the-week/django-uni-form/&quot;\r\n    start_date: &quot;14 Aug 2010&quot;\r\n}\r\n</pre>\r\n</div>\r\n<div class=\"section\" id=\"repo\">\r\n<h3><a class=\"toc-backref\" href=\"#id11\">Repo</a></h3>\r\n<p>Representation:</p>\r\n<pre class=\"literal-block\">\r\n{\r\n    created: &quot;Sat, 14 Aug 2010 19:50:11 -0400&quot;\r\n    description: &quot;&quot;\r\n    handler: &quot;package.handlers.github&quot;\r\n    is_other: false\r\n    is_supported: true\r\n    modified: &quot;Sat, 28 Aug 2010 17:12:16 -0400&quot;\r\n    repo_regex: &quot;<a class=\"reference external\" href=\"http://github.com\">http://github.com</a>&quot;\r\n    resource_uri: &quot;/api/v1/repo/1/&quot;\r\n    slug_regex: &quot;<a class=\"reference external\" href=\"http://github.com/([w-_]+)/([w-_]+\">http://github.com/([w-_]+)/([w-_]+</a>)/{0,1}&quot;\r\n    title: &quot;Github&quot;\r\n    url: &quot;<a class=\"reference external\" href=\"http://github.com\">http://github.com</a>&quot;\r\n    user_regex: &quot;<a class=\"reference external\" href=\"http://github.com/([w-_]+\">http://github.com/([w-_]+</a>)/{0,1}&quot;\r\n}\r\n</pre>\r\n</div>\r\n</div>\r\n</div>\r\n</div>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 10, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "FAQ", 
+            "url": "/faq/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<h1><a href=\"/help/faq/\">Frequently Asked Questions</a></h1> \r\n <h2>What are grids?</h2>    \r\n\r\n<p><a href=\"/grids/\">Grids</a> let you compare Django packages to each other. A grid comes with a number of default items compared,\r\n    but you can add more features in order to get a more specific comparison.</p>\r\n    \r\n<p>For now, we are trying out Django Packages without the traditional tagging system, because we think that\r\n    grids give us a lot more specificity.\r\n</p>\r\n\r\n<h2>What categories of Django Packages are listed?</h2>\r\n\r\n<p>Right now there are three categories, <strong><a href=\"/categories/apps/\">apps</a></strong>, <strong><a href=\"/categories/frameworks/\">frameworks</a></strong>, <strong><a href=\"/categories/projects/\">projects</a></strong>.\r\n    Blogs and CMS's are invariably apps, frameworks, or projects so they don't get their own category.\r\n</p>\r\n\r\n<h2>Google Project Hosting, Launchpad, Sourceforge, and others are not fully supported!</h2>\r\n\r\n<p>Not yet. Django Packages was cooked up during <a href=\"http://djangodash.com\">Django Dash 2010</a>. \r\n    We wanted to keep the scope of our work reasonable. We'll try and include those sites in the future.\r\n</p>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Help", 
+            "url": "/help/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<ul>\r\n  <li><a href=\"/help/contribute/\">I want to contribute!</a></li>\r\n  <li><a href=\"/help/tools/\">Tools used to build Django Packages</a></li>\r\n  <li><a href=\"/help/faq/\">Frequently Asked Questions</a></li>\r\n  <li><a href=\"/help/syndication/\">RSS and Atom feeds</a></li>\r\n  <li><a href=\"/help/changelog/\">Change Log</a></li>\r\n</ul>\r\n\r\n", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Change Log", 
+            "url": "/help/changelog/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<div class=\"section\" id=\"september-13\">\r\n<h1>2010, September 13</h1>\r\n<p>pydanny - forcing JSON on API V1.</p>\r\n</div>\r\n<div class=\"section\" id=\"september-12\">\r\n<h1>2010, September 12</h1>\r\n<p>taavi223 - Query optimization, caching, added functional tests for grid views, and made deleting grid features and packages permission related, and graphical improvements.\r\nojii - API now supports slugs instead of ids, ++ on grids, and tests\r\npydanny - various view fixes, moved metadata handling out of Package.save() and into Package.fetch_data</p>\r\n</div>\r\n<div class=\"section\" id=\"september-11\">\r\n<h1>2010, September 11</h1>\r\n<p>pydanny - Added revervsion, API improvements, PyPI XMLRPC connector, improved download listings, admin view of profiles improvements for tracking user actions\r\ntaavi223 - Query optimization, code clean up, adding commit history graphs to grid views, improve login functionality to redirect a user back to their previous page, added &quot;I use this&quot; buttons to grid pages, and caching.</p>\r\n</div>\r\n<div class=\"section\" id=\"september-10\">\r\n<h1>2010, September 10</h1>\r\n<p>pydanny - Redirected all github references to github.com/djangopackages/djangopackages, API and API docs\r\ntaavi223 - Query optimization, caching, and &quot;I use this&quot; controls\r\njpunteny - Added javascript to enable AJAX &quot;I use this&quot; buttons</p>\r\n</div>\r\n\r\n\r\n<h2>August 28th, 2010</h2>\r\n\r\n<ul>\r\n  <li><a href=\"http://bitbucket.org\">Bitbucket</a> Support!</li>\r\n  <li>Added BSD license</li>\r\n  <li>Created package_updater that can handle Github commit limits</li>\r\n  <li>Fixed a display issue in category pages</li>\r\n  <li>Added Utility category</li>\r\n  <li>Got South working</li>\r\n  <li>Latest packages RSS/Atom feeds</li>\r\n  <li>Created repo handler abstraction system so we can easily integrate new repos</li>\r\n<ul>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "I want to contribute!", 
+            "url": "/help/contribute/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<p>Django Packages is an open source project so we are happy to consider all offers of help. The best place to get started is to fork <a href=\"http://github.com/djangopackages/djangopackages\">Django Packages on Github</a>. We do have a few guidelines for submission of code:</p>\r\n\r\n<blockquote>Python code with a test will get accept a lot faster than code without a test. So far Django Packages has no tests, but we plan to change this in order to increase quality of code and provide a standard for the community. Your code will be accepted a lot faster if it has a test.</blockquote>\r\n\r\n<blockquote>Please work off the <a href=\"http://github.com/djangopackages/djangopackages/issues\">issues list</a> or add an issue if what you are working on is not there.</blockquote>\r\n\r\n<blockquote>Don't mix a whitespace cleanup with a bugfix or enhancement.</blockquote>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Frequently Asked Questions", 
+            "url": "/help/faq/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<h2>What are grids?</h2>    \r\n\r\n<p><a href=\"/grids/\">Grids</a> let you compare Django packages to each other. A grid comes with a number of default items compared,\r\n    but you can add more features in order to get a more specific comparison.</p>\r\n    \r\n<p>For now, we are trying out Django Packages without the traditional tagging system, because we think that\r\n    grids give us a lot more specificity.\r\n</p>\r\n\r\n<h2>What categories of Django Packages are listed?</h2>\r\n\r\n<p>Right now there are three categories, <strong><a href=\"/categories/apps/\">apps</a></strong>, <strong><a href=\"/categories/frameworks/\">frameworks</a></strong>, <strong><a href=\"/categories/projects/\">projects</a></strong>.\r\n    Blogs and CMS's are invariably apps, frameworks, or projects so they don't get their own category.\r\n</p>\r\n\r\n<h2>Google Project Hosting, Launchpad, Sourceforge, and others are not fully supported!</h2>\r\n\r\n<p>Not yet. Django Packages was cooked up during <a href=\"http://djangodash.com\">Django Dash 2010</a>. \r\n    We wanted to keep the scope of our work reasonable. We'll try and include those sites in the future.\r\n</p>\r\n", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Syndication (RSS & Atom)", 
+            "url": "/help/syndication/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<h2></h2>\r\n\r\nDjango Packages provides the following feeds for finding out the latest news about the site:\r\n\r\n<ul>\r\n  <li><a href=\"http://djangopackages.com/feeds/packages/latest/rss/\">Latest 15 packages (RSS 2.0)</li>\r\n  <li><a href=\"http://djangopackages.com/feeds/packages/latest/atom/\">Latest 15 packages (Atom)</li>\r\n</ul>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Team", 
+            "url": "/help/team/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<h2>Project Leads</h2>\r\n<ul>\r\n  <li>Audrey Roy</li>\r\n  <li>Daniel Greenfeld</li>\r\n</ul>\r\n\r\n<h2>Contributors</h2>\r\n<ul>\r\n  <li>James Punteney</li>\r\n  <li>Jonas Obrist</li>\r\n  <li>Taavi Taijala</li>\r\n</ul>", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "What we used to build Django Packages", 
+            "url": "/help/tools/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<h2>Django Packages</h2>\r\n<ul>\r\n<li><a href=\"http://www.djangopackages.com/grids/g/this-site/\">Grid of the Django Packages used for this site</a></li>\r\n</ul>\r\n\r\n<h2>Operating Systems</h2>\r\n<ul>\r\n<li><a href=\"http://www.ubuntu.com/\">Ubuntu Lucid 10.04</a></li>\r\n<li><a href=\"http://en.wikipedia.org/wiki/Mac_OS_X/\">Mac OS X</a></li>\r\n</ul>\r\n\r\n<h2>Webserver</h2>\r\n<ul>\r\n<li><a href=\"http://httpd.apache.org/\">Apache</a></li>\r\n</ul>\r\n\r\n<h2>Text Editors</h2>\r\n<ul>\r\n<li>TextMate</li>\r\n<li>gEdit</li>\r\n</ul>\r\n\r\n<h2>Hosting</h2>\r\n<ul>\r\n<li><a href=\"http://www.linode.com/?r=ea15a78a097b852ee74341711db49434908d6b5a\">Linode</a> (affiliate link)</li>\r\n</ul>\r\n", 
+            "enable_comments": false
+        }
+    }, 
+    {
+        "pk": 11, 
+        "model": "flatpages.flatpage", 
+        "fields": {
+            "registration_required": false, 
+            "title": "Terms", 
+            "url": "/terms/", 
+            "template_name": "", 
+            "sites": [
+                1
+            ], 
+            "content": "<h1>Terms of Service</h1>\r\n\r\n    <h2>Account Terms</h2> \r\n \r\n    <ol> \r\n        <li> \r\n        <p>You must be 13 years or older to use this Service.</p> \r\n        </li> \r\n \r\n        <li> \r\n        <p>You must be a human. Accounts registered by &#8220;bots&#8221; or other automated methods are not permitted.</p> \r\n        </li> \r\n \r\n        <li> \r\n        <p>You are responsible for maintaining the security of your account and password. Django Packages cannot and will not be liable for any loss or damage from your failure to comply with this security obligation.</p> \r\n        </li> \r\n \r\n        <li> \r\n        <p>You are responsible for all Content posted and activity that occurs under your account.</p> \r\n        </li> \r\n \r\n        <li> \r\n        <p>You may not use the Service for any illegal or unauthorized purpose. You must not, in the use of the Service, violate any laws in your jurisdiction (including but not limited to copyright or trademark laws).</p> \r\n        </li> \r\n        \r\n        <li> \r\n        <p>Using this service to post content that does not belong in the Django community will cause your account to be revoked and the Content removed.</p> \r\n        </li>        \r\n    </ol>", 
+            "enable_comments": false
+        }
+    }
+]
