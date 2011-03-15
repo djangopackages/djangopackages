@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # Django settings for basic pinax project.
 
-import logging 
 import os.path
 import posixpath
 import pinax
