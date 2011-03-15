@@ -20,7 +20,7 @@ class GitHubHandler(BaseHandler):
     def pull(self, package):
         github = self._github_client()
 
-        repo_name = package.repo_name
+        repo_name = package.repo_name()
         repo = github.repos.show(repo_name)
         package.repo_watchers    = repo.watchers
         package.repo_forks       = repo.forks

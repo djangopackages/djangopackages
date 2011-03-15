@@ -16,7 +16,7 @@ class LaunchpadHandler(BaseHandler):
     def pull(self, package):
         cachedir = getattr(settings, 'LAUNCHPAD_CACHE_DIR', os.path.join(settings.PROJECT_ROOT, 'lp-cache'))
         launchpad = Launchpad.login_anonymously('djangopackages.com', 'production', cachedir)
-        repo_name = package.repo_name
+        repo_name = package.repo_name()
 
         branch = launchpad.branches.getByUrl(url='lp:%s' % repo_name)
 
