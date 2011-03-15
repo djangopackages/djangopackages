@@ -64,4 +64,7 @@ class ResourcesV1Tests(TestCase):
         
         # confirm data points
         data = json.loads(response.content)
+        
         self.assertEquals(data["meta"]["limit"], 20)
+        self.assertEquals(data["meta"]["limit"], 20)
+        self.assertEquals(data["objects"][0]["is_supported"], True)
