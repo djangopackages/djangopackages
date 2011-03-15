@@ -158,10 +158,7 @@ class Package(BaseModel):
             
             self.pypi_downloads = total_downloads
         
-        # Get the repo watchers number
-        handler = self.repo.__module__
-
-        self = handler.pull(self)
+        self.repo.pull(self)
         self.save()        
 
     class Meta:

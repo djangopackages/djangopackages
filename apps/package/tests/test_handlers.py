@@ -10,3 +10,15 @@ class TestRepoHandlers(TestCase):
         self.assertTrue("github" in supported_repos())
 
         self.assertRaises(ImportError, lambda: get_repo("xyzzy"))
+
+    def test_github_pull(self):
+        # Currently a live tests that access github
+        from package.models import Package
+        p = Package(
+            title="Django",
+            slug="django",
+            repo_url="https://github.com/django/django",
+        )
+        p.fetch_metadata()
+        self.assertEqual(p.repo_description, "Official clone of the Subversion repository.")
+        self.assertTrue(p.repo_watchers > 100)
