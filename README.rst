@@ -19,7 +19,7 @@ The most current example is live and functional at http://www.djangopackages.com
 The Documentation
 -----------------
 
-The documentation is hosted at http://django-packages.rtfd.org
+The documentation is hosted at http://packaginator.rtfd.org
 
 Credits
 =======
