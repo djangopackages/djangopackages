@@ -12,9 +12,6 @@ def pull(package):
 
 
 class UnsupportedHandler(BaseHandler):
-
-    @property
-    def is_other(self):
-        return True
+    is_other = True
 
 repo_handler = UnsupportedHandler()

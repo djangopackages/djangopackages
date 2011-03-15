@@ -28,5 +28,6 @@ class GitHubHandler(BaseHandler):
     title = "Github"
     url = "https://github.com"
     user_url = ""
+    repo_regex = r'https://github.com/[\w\-\_]+/([\w\-\_]+)/{0,1}'
 
 repo_handler = GitHubHandler()

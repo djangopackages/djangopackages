@@ -1,3 +1,6 @@
+import re
+
+
 def get_repo(repo_id):
     mod = __import__("package.handlers." + repo_id)
     return getattr(mod.handlers, repo_id).repo_handler
@@ -9,7 +12,7 @@ def get_handler_for_repo_url(repo_url):
 
     supported_handlers = (github_handler,)
     for handler in supported_handlers:
-        if handler.repo_regex.match(repo_url):
+        if re.match(handler.repo_regex, repo_url):
             return handler
 
     return unsupported_handler
