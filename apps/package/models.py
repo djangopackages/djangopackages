@@ -147,7 +147,7 @@ class Package(BaseModel):
             
             self.pypi_downloads = total_downloads
         
-        self.repo.pull(self)
+        self.repo.fetch_metadata(self)
         self.save()        
 
     def fetch_commits(self):

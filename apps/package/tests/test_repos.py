@@ -45,7 +45,7 @@ class TestRepoHandlers(TestCase):
             title="Django-PreFlight",
             slug="django-preflight",
             repo_url="https://code.launchpad.net/~canonical-isd-hackers/django-preflight/trunk")
-        p_ret = launchpad_handler.pull(p)
+        p_ret = launchpad_handler.fetch_metadata(p)
         self.assertTrue(p_ret.repo_watchers > 0)
         self.assertTrue(p_ret.repo_forks > 0)
         self.assertEqual(p_ret.participants, 'canonical-isd-hackers')

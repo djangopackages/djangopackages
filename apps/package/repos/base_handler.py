@@ -1,11 +1,3 @@
-"""
-github = package.repos.Gibhut()
-github.repo_url
-
-package = github.pull()
-
-"""
-#from package.models import Package
 
 class BaseHandler(object):
 
@@ -30,7 +22,7 @@ class BaseHandler(object):
         """
         raise NotImplemented()
             
-    def pull(self, package):
+    def fetch_metadata(self, package):
         """ Accepts a package.models.Package instance:
             
                 return: package.models.Package instance

@@ -17,7 +17,7 @@ class GitHubHandler(BaseHandler):
             github   = Github()
         return github
 
-    def pull(self, package):
+    def fetch_metadata(self, package):
         github = self._github_client()
 
         repo_name = package.repo_name()

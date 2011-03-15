@@ -20,7 +20,7 @@ class BitbucketHandler(BaseHandler):
     repo_regex = r'https://bitbucket.org/[\w\-\_]+/([\w\-\_]+)/{0,1}'
     slug_regex = r'https://bitbucket.org/[\w\-\_]+/([\w\-\_]+)/{0,1}'
 
-    def pull(self, package):
+    def fetch_metadata(self, package):
         # prep the target name
         repo_name = package.repo_name()
         target = API_TARGET + repo_name

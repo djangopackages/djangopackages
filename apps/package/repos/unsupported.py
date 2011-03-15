@@ -6,7 +6,7 @@ class UnsupportedHandler(BaseHandler):
     url = ''
     user_url = ''
 
-    def pull(self, package):
+    def fetch_metadata(self, package):
         package.repo_watchers    = 0
         package.repo_forks       = 0
         package.repo_description = ''
