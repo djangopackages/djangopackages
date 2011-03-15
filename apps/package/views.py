@@ -17,11 +17,12 @@ from homepage.models import Dpotw, Gotw
 
 from package.forms import PackageForm, PackageExampleForm
 from package.models import Category, Package, PackageExample
+from package.repos import supported_repos, get_repo
 
 def repos_for_js():
     repos = {}
-    for repo in []: #XXX Repo.objects.all():
-        repos[repo.url] = repo.id
+    for repo_id in supported_repos():
+        repos[get_repo(repo_id).url] = repo_id
     return simplejson.dumps(repos)  
 
 @login_required
