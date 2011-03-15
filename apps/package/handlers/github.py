@@ -22,3 +22,11 @@ def pull(package):
         package.participants = ','.join(uniquer(collaborators))
         
     return package
+
+from base_handler import BaseHandler
+class GitHubHandler(BaseHandler):
+    title = "GitHub"
+    url = "https://github.com"
+    user_url = ""
+
+handler = GitHubHandler()

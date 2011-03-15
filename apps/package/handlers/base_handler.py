@@ -5,7 +5,7 @@ github.repo_url
 package = github.pull()
 
 """
-from package.models import Package
+#from package.models import Package
 
 class BaseHandler(object):
 

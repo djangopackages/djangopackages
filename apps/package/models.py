@@ -124,7 +124,8 @@ class Package(BaseModel):
     @property
     def repo(self):
         import package.handlers
-        return package.handlers.handler("github")
+        handler = package.handlers.get_handler("github")
+        return handler
 
     def active_examples(self):
         return self.packageexample_set.filter(active=True)
@@ -171,8 +172,7 @@ class Package(BaseModel):
             self.pypi_downloads = total_downloads
         
         # Get the repo watchers number
-        base_handler = __import__(self.repo.handler)
-        handler = sys.modules[self.repo.handler]
+        handler = self.repo.__module__
 
         self = handler.pull(self)
         self.save()        
