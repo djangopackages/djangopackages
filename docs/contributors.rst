@@ -12,6 +12,7 @@ Direct Contributors
 ===================
 
 * Adam Saegebarth
+* Alex Robbins
 * Andrii Kurinny
 * Brian Ball
 * Bryan Weingarten
@@ -26,8 +27,10 @@ Direct Contributors
 * Nate Aune
 * Nolan Bruabker
 * Preston Holmes
+* Stuart Powers
 * Szilveszter Farkas
 * Taavi Taijala
+* Tom Brander
 
 Other Contributors
 ==================

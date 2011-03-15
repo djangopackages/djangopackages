@@ -16,10 +16,11 @@ Contents:
    :maxdepth: 1
 
    introduction
+   license   
    install
    management_commands
    pypi_issues
-   license
+   api_v2_docs
    contributors
    contributing_to_djangopackages
    repo_handlers
@@ -32,6 +33,25 @@ Contributing to Packaginator
 #. Fork and branch on github before submitting a pull request
 #. Tests and additions to the docs greatly increases the chances of your pull request being accepted.
 #. Any css or layout changes (besides what you do in custom.css) for your own project must work in Chrome, Safari, Firefox and IE8 and IE9. 
+
+Pull upstream changes into your fork regularly
+----------------------------------------------
+
+To pull in upstream changes::
+
+    git remote add packaginator git://github.com/cartwheelweb/packaginator.git
+    git fetch packaginator
+
+Check the log to be sure that you actually want the changes, before merging::
+
+    git log ..packaginator/master
+
+Then merge the changes that you fetched::
+
+    git merge packaginator/master
+
+For more info, see http://help.github.com/fork-a-repo/
+
 
 Indices and tables
 ==================
