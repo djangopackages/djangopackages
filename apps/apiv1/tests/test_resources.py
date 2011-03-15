@@ -53,11 +53,15 @@ class ResourcesV1Tests(TestCase):
         self.assertEqual(response.status_code, 200)
         
     def test_repo(self):
+        # Fetch the response        
         kwargs = {'resource_name': 'repo'}
         kwargs.update(self.base_kwargs)
-        # check 200's
         url = reverse('api_dispatch_list', kwargs=kwargs)
         response = self.client.get(url)
+        
+        # check 200
         self.assertEqual(response.status_code, 200)
+        
+        # confirm data points
         data = json.loads(response.content)
         self.assertEquals(data["meta"]["limit"], 20)
