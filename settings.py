@@ -153,6 +153,7 @@ PROJECT_APPS = [
     "profiles",
     "searchv1",
     "apiv1",
+    "feeds",
 ]
 
 PREREQ_APPS = [
