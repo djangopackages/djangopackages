@@ -4,8 +4,8 @@ def get_repo(repo_id):
 
 
 def get_handler_for_repo_url(repo_url):
-    from package.handlers.github import handler as github_handler
-    from package.handlers.unsupported import handler as unsupported_handler
+    from package.handlers.github import repo_handler as github_handler
+    from package.handlers.unsupported import repo_handler as unsupported_handler
 
     supported_handlers = (github_handler,)
     for handler in supported_handlers:

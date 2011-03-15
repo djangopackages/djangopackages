@@ -17,4 +17,4 @@ class UnsupportedHandler(BaseHandler):
     def is_other(self):
         return True
 
-handler = UnsupportedHandler()
+repo_handler = UnsupportedHandler()
