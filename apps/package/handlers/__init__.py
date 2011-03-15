@@ -6,7 +6,7 @@ def get_repo(repo_id):
     return getattr(mod.handlers, repo_id).repo_handler
 
 
-def get_handler_for_repo_url(repo_url):
+def get_repo_for_repo_url(repo_url):
     from package.handlers.github import repo_handler as github_handler
     from package.handlers.unsupported import repo_handler as unsupported_handler
 

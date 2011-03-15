@@ -13,6 +13,7 @@ from package.fields import CreationDateTimeField, ModificationDateTimeField
 from package.handlers import github
 from package.pypi import fetch_releases
 from package.utils import uniquer
+from package.handlers import get_repo_for_repo_url
 from distutils.version import LooseVersion as versioner
 from urllib import urlopen
 import logging
@@ -110,8 +111,7 @@ class Package(BaseModel):
 
     @property
     def repo(self):
-        from package.handlers import get_handler_for_repo_url
-        handler = get_handler_for_repo_url(self.repo_url)
+        handler = get_repo_for_repo_url(self.repo_url)
         return handler
 
     def active_examples(self):
