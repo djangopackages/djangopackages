@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Python Packages's documentation!
+Welcome to Packaginator's documentation!
 ===========================================
 
 Contents:
@@ -13,7 +13,7 @@ Contents:
 
    introduction
    install
-   updating
+   management_commands
    pypi_issues
    license
    contributors
@@ -21,13 +21,13 @@ Contents:
    repo_handlers
    credits
 
-Contributing to Django Packages
+Contributing to Packaginator
 ================================
 
 #. Follow the installation instructions!
 #. Fork and branch on github before submitting a pull request
 #. Tests and additions to the docs greatly increases the chances of your pull request being accepted.
-#. Any css or layout changes must work in Chrome, Safari, Firefox and IE8 and IE9. 
+#. Any css or layout changes (besides what you do in custom.css) for your own project must work in Chrome, Safari, Firefox and IE8 and IE9. 
 
 Indices and tables
 ==================

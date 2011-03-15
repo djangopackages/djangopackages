@@ -2,13 +2,15 @@
 Installation
 ============
 
+The following instructions are how you would install an instance of Python Packages. Change the name '*Python*' as needed for your own project.
+
 .. parsed-literal::
 
     cd <installation-directory>
-    virtualenv env-djangopackages
-    source env-djangopackages/bin/activate
-    git clone git://github.com/djangopackages/djangopackages.git djangopackages
-    cd djangopackages
+    virtualenv env-pythonpackages
+    source env-pythonpackages/bin/activate
+    git clone git://github.com/cartwheelweb/packaginator.git pythonpackages
+    cd pythonpackages
     cp backup.db dev.db
     cp local_settings.py.example local_settings.py
     pip install -r requirements/project.txt
@@ -18,8 +20,8 @@ Remove the existing pinax & uni_form symlinks.  Add symlinks to the correct pina
     cd media
     rm pinax
     rm uni_form
-    ln -s ../../env-djangopackages/lib/python2.6/site-packages/pinax/media/default/pinax/ pinax
-    ln -s ../../env-djangopackages/lib/python2.6/site-packages/uni_form/media/uni_form/ uni_form
+    ln -s ../../env-pythonpackages/lib/python2.6/site-packages/pinax/media/default/pinax/ pinax
+    ln -s ../../env-pythonpackages/lib/python2.6/site-packages/uni_form/media/uni_form/ uni_form
 
 Starting the development server
 ===============================

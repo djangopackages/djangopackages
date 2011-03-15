@@ -7,14 +7,14 @@ Django Packages
 Introduction
 =============
 
-Django Packages solves the problem in the Django community of being able to easily identify good apps, frameworks, and packages. Ever want to know which is the most popular or well supported Django blog, content management system, or api tool? Django Packages solves that problem for you!
+Packaginator solves the problem in the Python community of being able to easily identify good apps, frameworks, and packages. Ever want to know which is the most popular or well supported Python httplib replacement, web framework, or api tool? Packaginator solves that problem for you! 
 
-A Django package is anything that is involved in the Django ecosphere that can be stored on a repository such as Github or Bitbucket. If it can be stored in PyPI thats even better!
+It does this by storing information on packages fetched from public APIs provided by PyPI, Github, BitBucket, Launchpad, and SourceForge, and then provides extremely useful comparison tools for them. 
 
 The Site
 --------
 
-The site is live and functional at http://www.djangopackages.com.
+The most current example is live and functional at http://www.djangopackages.com.
 
 The Documentation
 -----------------
