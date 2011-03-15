@@ -153,7 +153,6 @@ PROJECT_APPS = [
     "profiles",
     "searchv1",
     "apiv1",
-    "pypi",
 ]
 
 PREREQ_APPS = [
