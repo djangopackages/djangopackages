@@ -117,7 +117,7 @@ MIDDLEWARE_CLASSES = [
     "django.contrib.flatpages.middleware.FlatpageFallbackMiddleware",
 ]
 
-ROOT_URLCONF = "djangopackages.urls"
+ROOT_URLCONF = "packaginator.urls"
 
 TEMPLATE_DIRS = [
     os.path.join(PROJECT_ROOT, "templates"),
@@ -240,13 +240,6 @@ URCHIN_ID = "UA-18066389-1"
 DEBUG_TOOLBAR_CONFIG = {
     "INTERCEPT_REDIRECTS": False,
 }
-
-logging.basicConfig(
-        level=logging.DEBUG,
-        format='%(asctime)s %(levelname)s "%(message)s" in %(funcName)s() line %(lineno)d in %(pathname)s', 
-        filename='main.log',
-        filemode='a',
-)
 
 if DEBUG:
     CACHE_BACKEND = 'dummy://'
