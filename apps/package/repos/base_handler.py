@@ -82,12 +82,6 @@ class BaseHandler(object):
         """ Used by the JavaScript forms """        
         raise NotImplemented()
         
-    @property
-    def package_updater(self):
-        """ Used by the JavaScript forms """        
-        raise NotImplemented()
-        
-        
     def packages_for_profile(self, profile):
         """ Return a list of all packages contributed to by a profile. """
         repo_url = profile.url_for_repo(self)
