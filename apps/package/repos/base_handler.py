@@ -81,8 +81,8 @@ class BaseHandler(object):
         """ Return a list of all packages contributed to by a profile. """
         repo_url = profile.url_for_repo(self)
         if repo_url:
+            from package.models import Package
             regex = r'^{0},|,{0},|{0}$'.format(repo_url)
-            query = Q(participants__regex=regex) & Q(repo=self)
-            return list(Package.objects.filter(query))
+            return list(Package.objects.filter(participants__regex=regex, repo_url__regex=self.repo_regex))
         else:
             return []
