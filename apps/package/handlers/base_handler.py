@@ -9,6 +9,9 @@ package = github.pull()
 
 class BaseHandler(object):
 
+    def __str__(self):
+        return self.title
+
     @property
     def title(self):
         """ title for display in drop downs:
