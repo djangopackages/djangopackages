@@ -1,0 +1,83 @@
+[
+    {
+        "pk": 1, 
+        "model": "flatblocks.flatblock", 
+        "fields": {
+            "content": "Django Packages", 
+            "header": "", 
+            "slug": "site.name"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "flatblocks.flatblock", 
+        "fields": {
+            "content": "We're sorry but a server error has occurred. We've been notified and will look into it as soon as possible.\"\r\n<br />\r\nPerhaps you would like to <a href=\"http://github.com/djangopackages/djangopackages/issues\">create a ticket?</a>", 
+            "header": "Server Error!", 
+            "slug": "error.404"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "flatblocks.flatblock", 
+        "fields": {
+            "content": "We're sorry but a server error has occurred. We've been notified and will look into it as soon as possible.\"\r\n<br />\r\nPerhaps you would like to <a href=\"http://github.com/djangopackages/djangopackages/issues\">create a ticket?</a>", 
+            "header": "Server Error!", 
+            "slug": "error.500"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "flatblocks.flatblock", 
+        "fields": {
+            "content": "Django", 
+            "header": "", 
+            "slug": "site.package_type"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "flatblocks.flatblock", 
+        "fields": {
+            "content": "Django Packages is a directory of reusable apps, sites, tools, and more for your Django projects.", 
+            "header": "", 
+            "slug": "site.description"
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "flatblocks.flatblock", 
+        "fields": {
+            "content": "We have sent you an e-mail. If you do not receive it within a few minutes, contact us at <a href=\"mailto:pydanny@djangopackages.com\">pydanny@djangopackages.com</a>.", 
+            "header": "", 
+            "slug": "email.text"
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "flatblocks.flatblock", 
+        "fields": {
+            "content": "Hosted By:<a href=\"http://www.cartwheelweb.com/\">Cartwheel, LLC</a>.  Powered by <a href=\"http://www.djangoproject.com/\">Django</a>, <a href=\"http://www.pinaxproject.com/\">Pinax</a> and <a href=\"/grids/g/this-site/\">these fine packages</a>.", 
+            "header": "", 
+            "slug": "footer.text"
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "flatblocks.flatblock", 
+        "fields": {
+            "content": "&copy; 2010 <a href=\"http://pydanny.com\">Daniel Greenfeld</a> & <a href=\"http://www.audreymroy.com\">Audrey Roy</a>", 
+            "header": "", 
+            "slug": "copyright.text"
+        }
+    }, 
+    {
+        "pk": 9, 
+        "model": "flatblocks.flatblock", 
+        "fields": {
+            "content": "If you have any problems, please <a href=\"http://github.com/djangopackages/djangopackages/issues\">submit a ticket</a>.", 
+            "header": "", 
+            "slug": "issue.text"
+        }
+    }
+]
