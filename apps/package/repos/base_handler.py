@@ -45,7 +45,7 @@ class BaseHandler(object):
         """
         raise NotImplemented()
 
-    def get_commits(self, package):
+    def fetch_commits(self, package):
         """ Accepts a package.models.Package instance:
         """
         raise NotImplemented()
