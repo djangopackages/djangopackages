@@ -8,6 +8,7 @@ class GitHubHandler(BaseHandler):
     url = "https://github.com"
     user_url = ""
     repo_regex = r'https://github.com/[\w\-\_]+/([\w\-\_]+)/{0,1}'
+    slug_regex = r'https://github.com/[\w\-\_]+/([\w\-\_]+)/{0,1}'
 
     def pull(self, package):
         if hasattr(settings, "GITHUB_ACCOUNT") and hasattr(settings, "GITHUB_KEY"):
