@@ -3,6 +3,6 @@ from django.conf.urls.defaults import *
 from feeds import *
 
 urlpatterns = patterns("",
-    (r'^packages/latest/rss/$', RssLatestPackagesFeed()),
-    (r'^packages/latest/atom/$', AtomLatestPackagesFeed()),    
+    url(r'^packages/latest/rss/$', RssLatestPackagesFeed(), name="feeds_latest_packages_rss"),
+    url(r'^packages/latest/atom/$', AtomLatestPackagesFeed(), name="feeds_latest_packages_atom"),
 )
