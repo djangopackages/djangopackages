@@ -12,4 +12,8 @@ class UnsupportedHandler(BaseHandler):
         package.repo_description = ''
         package.participants     = ''
 
+    def fetch_commits(self, package):
+        package.commit_set.all().delete()
+
+
 repo_handler = UnsupportedHandler()
