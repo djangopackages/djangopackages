@@ -186,6 +186,7 @@ PREREQ_APPS = [
 	"tastypie",
 	"reversion",
     "django_sorting",
+    "flatblocks",
     
     # Pinax
     "pinax.apps.account",
