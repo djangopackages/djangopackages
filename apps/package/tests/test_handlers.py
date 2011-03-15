@@ -23,6 +23,7 @@ class TestRepoHandlers(TestCase):
         self.assertEqual(p.repo_description, "Official clone of the Subversion repository.")
         self.assertTrue(p.repo_watchers > 100)
 
+        # test what happens when setting up an unsupported repo
         p.repo_url = "https://example.com"
         p.fetch_metadata()
         self.assertEqual(p.repo_description, "")
