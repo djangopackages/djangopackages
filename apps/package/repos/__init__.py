@@ -13,4 +13,4 @@ def get_repo_for_repo_url(repo_url):
     return unsupported_handler
 
 def supported_repos():
-    return ["github", "launchpad"]
+    return ["bitbucket", "github", "launchpad"]
