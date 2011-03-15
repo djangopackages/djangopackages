@@ -23,6 +23,13 @@ Remove the existing pinax & uni_form symlinks.  Add symlinks to the correct pina
     ln -s ../../env-pythonpackages/lib/python2.6/site-packages/pinax/media/default/pinax/ pinax
     ln -s ../../env-pythonpackages/lib/python2.6/site-packages/uni_form/media/uni_form/ uni_form
 
+URL Configuration
+=================
+
+In the settings.py file::
+
+    ROOT_URLCONF = 'pythonpackages.url'
+
 Starting the development server
 ===============================
 
