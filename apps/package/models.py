@@ -49,19 +49,6 @@ class Category(BaseModel):
     def __unicode__(self):
         return self.title
         
-REPO_CHOICES = (
-    ("package.handlers.unsupported", "Unsupported"),
-    ("package.handlers.bitbucket", "Bitbucket"),
-    ("package.handlers.github", "Github"),
-    ("package.handlers.launchpad", "Launchpad"),
-    ("package.handlers.sourceforge", "Sourceforge")    
-)
-
-# XXX Repo stuff ???
-downloads_re = re.compile(r'<td style="text-align: right;">[0-9]{1,}</td>')
-doap_re      = re.compile(r"/pypi\?\:action=doap\&amp;name=[a-zA-Z0-9\.\-\_]+\&amp;version=[a-zA-Z0-9\.\-\_]+")
-version_re   = re.compile(r'<revision>[a-zA-Z0-9\.\-\_]+</revision>')
-
 repo_url_help_text = "Enter your project repo hosting URL here.<br />Example: https://bitbucket.com/ubernostrum/django-registration"
 pypi_url_help_text = "<strong>Leave this blank if this package does not have a PyPI release.</strong><br />What PyPI uses to index your package. <br />Example: django-registration"
 category_help_text = """
