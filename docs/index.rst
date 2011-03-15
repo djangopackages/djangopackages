@@ -27,7 +27,7 @@ Contributing to Django Packages
 #. Follow the installation instructions!
 #. Fork and branch on github before submitting a pull request
 #. Tests and additions to the docs greatly increases the chances of your pull request being accepted.
-#. Any layout changes must work in Chrome, Safari, Firefox and IE8 and IE9. 
+#. Any css or layout changes must work in Chrome, Safari, Firefox and IE8 and IE9. 
 
 Indices and tables
 ==================
