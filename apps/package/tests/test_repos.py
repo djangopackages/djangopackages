@@ -1,7 +1,35 @@
 from django.test import TestCase
 
+from package.repos.github import repo_handler as github_handler
 from package.repos.launchpad import repo_handler as launchpad_handler
 from package.models import Commit, Package
+
+
+class TestGithubRepo(TestCase):
+    def setUp(self):
+        self.package = Package.objects.create(
+            title="Django",
+            slug="django",
+            repo_url="https://github.com/django/django",
+        )
+
+    def test_fetch_commits(self):
+        self.assertEqual(Commit.objects.count(), 0)
+        github_handler.fetch_commits(self.package)
+        self.assertNotEqual(Commit.objects.count(), 0)
+
+    def test_fetch_metadata(self):
+        # Currently a live tests that access github
+        package = github_handler.fetch_metadata(self.package)
+        self.assertEqual(package.repo_description, "Official clone of the Subversion repository.")
+        self.assertTrue(package.repo_watchers > 100)
+
+        # test what happens when setting up an unsupported repo
+        self.package.repo_url = "https://example.com"
+        self.package.fetch_metadata()
+        self.assertEqual(self.package.repo_description, "")
+        self.assertEqual(self.package.repo_watchers, 0)
+        self.package.fetch_commits()    
 
 
 class TestLaunchpadRepo(TestCase):
@@ -19,13 +47,13 @@ class TestLaunchpadRepo(TestCase):
 
     def test_fetch_metadata(self):
         # TODO: mock these so no network access is required
-        p_ret = launchpad_handler.fetch_metadata(self.package)
-        self.assertTrue(p_ret.repo_watchers > 0)
-        self.assertTrue(p_ret.repo_forks > 0)
-        self.assertEqual(p_ret.participants, 'canonical-isd-hackers')
+        package = launchpad_handler.fetch_metadata(self.package)
+        self.assertTrue(package.repo_watchers > 0)
+        self.assertTrue(package.repo_forks > 0)
+        self.assertEqual(package.participants, 'canonical-isd-hackers')
 
 
-class TestRepoHandlers(TestCase):
+class TestRepos(TestCase):
     def test_repo_registry(self):
         from package.repos import get_repo, supported_repos
 
@@ -41,21 +69,3 @@ class TestRepoHandlers(TestCase):
         self.assertTrue("launchpad" in supported_repos())
 
         self.assertRaises(ImportError, lambda: get_repo("xyzzy"))
-
-    def test_github_pull(self):
-        # Currently a live tests that access github
-        p = Package(
-            title="Django",
-            slug="django",
-            repo_url="https://github.com/django/django",
-        )
-        p.fetch_metadata()
-        self.assertEqual(p.repo_description, "Official clone of the Subversion repository.")
-        self.assertTrue(p.repo_watchers > 100)
-
-        # test what happens when setting up an unsupported repo
-        p.repo_url = "https://example.com"
-        p.fetch_metadata()
-        self.assertEqual(p.repo_description, "")
-        self.assertEqual(p.repo_watchers, 0)
-        p.fetch_commits()

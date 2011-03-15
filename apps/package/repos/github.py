@@ -30,10 +30,12 @@ class GitHubHandler(BaseHandler):
         if collaborators:
             package.participants = ','.join(uniquer(collaborators))
 
+        return package
+
     def fetch_commits(self, package):
         from package.models import Commit
         github = self._github_client()
-        for commit in github.commits.list(package.repo_name, "master"):
+        for commit in github.commits.list(package.repo_name(), "master"):
             commit, created = Commit.objects.get_or_create(package=package, commit_date=commit.committed_date)
 
 repo_handler = GitHubHandler()
