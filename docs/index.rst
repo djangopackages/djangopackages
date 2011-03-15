@@ -22,7 +22,6 @@ Contents:
    pypi_issues
    api_v2_docs
    contributors
-   contributing_to_djangopackages
    repo_handlers
    credits
 
