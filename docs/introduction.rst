@@ -22,12 +22,11 @@ Categories of Django Packages
 
 The fixtures provide four categories: apps, frameworks, projects, and utilities.
 
-Google Project Hosting, Launchpad, and Sourceforge are not fully supported!
+Google Project Hosting and Sourceforge are not fully supported!
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Not yet. Django Packages was cooked up during Django Dash 2010. We wanted to keep the scope of our work reasonable. We'll try and include those sites in the future. We also want to include other package repo systems over time. As for what we support:
 
- * Django Packages does support Github and Bitbucket.
- * Launchpad is next.
- * Sourceforge comes after Launchpad
+ * Django Packages does support Github and Bitbucket and Launchpad.
+ * Sourceforge needs some tweaking but is otherwise it is done.
  * Google Project Hosting may not happen because of a lack of a formal API and not much desire to screen scrape their arcane browser interface.
