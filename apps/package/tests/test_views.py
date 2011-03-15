@@ -2,6 +2,9 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
+from package.models import Package
+
+
 class FunctionalPackageTest(TestCase):
     fixtures = ['test_initial_data.json']
     
@@ -10,12 +13,24 @@ class FunctionalPackageTest(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'package/package_list.html')
+        packages = Package.objects.all()
+        for p in packages:
+            self.assertContains(response, p.title)
+            
         
     def test_package_detail_view(self):
         url = reverse('package', kwargs={'slug': 'testability'})
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'package/package.html')
+        testability = Package.objects.get(slug='testability')
+        self.assertContains(response, testability.title, status_code=200)
+        self.assertContains(response, testability.repo_description,
+                status_code=200)
+        for p in testability.participant_list():
+            self.assertContains(response, p)
+        for g in testability.grids():
+            self.assertContains(response, g.title)
+
     
     def test_latest_packages_view(self):
         url = reverse('latest_packages')
