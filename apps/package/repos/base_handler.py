@@ -60,11 +60,6 @@ class BaseHandler(object):
         raise NotImplemented()
         
     @property
-    def user_regex(self):
-        """ Used by the JavaScript forms """
-        raise NotImplemented()
-
-    @property
     def repo_regex(self):
         """ Used by the JavaScript forms """        
         raise NotImplemented()
