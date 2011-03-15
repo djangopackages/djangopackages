@@ -123,8 +123,8 @@ class Package(BaseModel):
 
     @property
     def repo(self):
-        import package.handlers
-        handler = package.handlers.get_handler("github")
+        from package.handlers import get_handler_for_repo_url
+        handler = get_handler_for_repo_url(self.repo_url)
         return handler
 
     def active_examples(self):

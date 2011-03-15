@@ -44,12 +44,11 @@ class BaseHandler(object):
 
     @property
     def is_other(self):
-        """ DON'T CHANGE THIS PROPERTY!
+        """ DON'T CHANGE THIS PROPERTY! This should only be overridden by
+        the unsupported handler.
 
                 return: False
         """
-        if self.title == 'Other':
-            return True
         return False
         
     @property
