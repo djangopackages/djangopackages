@@ -63,7 +63,7 @@ def _get_sourceforge_participants(sourceforge_package_data):
     return ','.join(participants)
 
 
-def pull(package):
+def fetch_metadata(package):
     sourceforge_project_name = _sourceforge_name_from_pypi_home_page(package.pypi_home_page)
     
     # dejsonify the results

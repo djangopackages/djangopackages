@@ -38,7 +38,7 @@ class BitbucketHandler(BaseHandler):
         for commit in self._get_bitbucket_commits(package):
             commit, created = Commit.objects.get_or_create(package=package, commit_date=commit["timestamp"])
 
-    def pull(self, package):
+    def fetch_metadata(self, package):
         # prep the target name
         repo_name = package.repo_name()
         target = API_TARGET + repo_name

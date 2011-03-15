@@ -24,7 +24,7 @@ class LaunchpadHandler(BaseHandler):
             timestamp = datetime.datetime.fromtimestamp(revision.timestamp)
             commit, created = Commit.objects.get_or_create(package=package, commit_date=timestamp)
 
-    def pull(self, package):
+    def fetch_metadata(self, package):
         cachedir = getattr(settings, 'LAUNCHPAD_CACHE_DIR', os.path.join(settings.PROJECT_ROOT, 'lp-cache'))
         launchpad = Launchpad.login_anonymously('djangopackages.com', 'production', cachedir)
         repo_name = package.repo_name()

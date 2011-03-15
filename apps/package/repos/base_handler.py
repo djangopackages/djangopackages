@@ -1,11 +1,3 @@
-"""
-github = package.repos.Gibhut()
-github.repo_url
-
-package = github.pull()
-
-"""
-#from package.models import Package
 
 class BaseHandler(object):
 
@@ -30,7 +22,7 @@ class BaseHandler(object):
         """
         raise NotImplemented()
             
-    def pull(self, package):
+    def fetch_metadata(self, package):
         """ Accepts a package.models.Package instance:
             
                 return: package.models.Package instance
@@ -45,7 +37,7 @@ class BaseHandler(object):
         """
         raise NotImplemented()
 
-    def get_commits(self, package):
+    def fetch_commits(self, package):
         """ Accepts a package.models.Package instance:
         """
         raise NotImplemented()
@@ -82,10 +74,6 @@ class BaseHandler(object):
         """ Used by the JavaScript forms """        
         raise NotImplemented()
         
-    @property
-    def package_updater(self):
-        raise NotImplemented()
-
     def fetch_commits(self, package):
         raise NotImplemented()
         

@@ -8,6 +8,6 @@ class MockPackage(object):
 class TestSourceForge(TestCase):
     def test_pull(self):
         package = MockPackage('http://epydoc.sourceforge.net')
-        sourceforge.pull(package)
+        sourceforge.fetch_metadata(package)
         self.assertEqual(package.repo_watchers, 6)
         self.assertEqual(package.repo_url, 'http://epydoc.svn.sourceforge.net/svnroot/epydoc')
