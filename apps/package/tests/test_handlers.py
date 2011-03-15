@@ -8,3 +8,5 @@ class TestRepoHandlers(TestCase):
         self.assertEqual(g.url, "https://github.com")
 
         self.assertTrue("github" in supported_repos())
+
+        self.assertRaises(ImportError, lambda: get_repo("xyzzy"))
