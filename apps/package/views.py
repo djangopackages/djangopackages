@@ -3,7 +3,6 @@ import simplejson
 import urllib
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.core.cache import cache
 from django.conf import settings
@@ -17,13 +16,13 @@ from homepage.models import Dpotw, Gotw
 
 from package.forms import PackageForm, PackageExampleForm
 from package.models import Category, Package, PackageExample
-from package.repos import supported_repos, get_repo
+from package.repos import get_all_repos
 
-def repos_for_js():
-    repos = {}
-    for repo_id in supported_repos():
-        repos[get_repo(repo_id).url] = repo_id
-    return simplejson.dumps(repos)  
+
+def repo_data_for_js():
+    repos = [handler.serialize() for handler in get_all_repos()]
+    return simplejson.dumps(repos)
+
 
 @login_required
 def add_package(request, template_name="package/package_form.html"):
@@ -41,7 +40,7 @@ def add_package(request, template_name="package/package_form.html"):
     
     return render_to_response(template_name, {
         "form": form,
-        "repos": repos_for_js(),
+        "repo_data": repo_data_for_js(),
         "action": "add",
         },
         context_instance=RequestContext(request))
@@ -62,7 +61,7 @@ def edit_package(request, slug, template_name="package/package_form.html"):
     return render_to_response(template_name, {
         "form": form,
         "package": package,
-        "repos": repos_for_js(),
+        "repo_data": repo_data_for_js(),
         "action": "edit",
         },
         context_instance=RequestContext(request))
