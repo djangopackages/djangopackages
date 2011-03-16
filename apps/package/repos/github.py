@@ -32,7 +32,7 @@ class GitHubHandler(BaseHandler):
         return package
 
     def fetch_commits(self, package):
-        from package.models import Commit
+        from package.models import Commit # Import placed here to avoid circular dependencies
         github = self._github_client()
         for commit in github.commits.list(package.repo_name(), "master"):
             commit, created = Commit.objects.get_or_create(package=package, commit_date=commit.committed_date)
