@@ -1,16 +1,10 @@
 import json
 from django.test import TestCase
 from django.core.urlresolvers import reverse
-import os
-
-this_directory = os.path.dirname(__file__)
-apps_directory = os.path.join(this_directory, '..', '..')
-fixtures_directory = os.path.join(apps_directory, 'grid', 'fixtures')
-fixture_path = os.path.join(fixtures_directory, 'test_initial_data.json')
 
 
 class ResourcesV1Tests(TestCase):
-    fixtures = [fixture_path]
+    fixtures = ['test_initial_data.json']
     base_kwargs = {'api_name': 'v1'}
     
     def test_01_category(self):
