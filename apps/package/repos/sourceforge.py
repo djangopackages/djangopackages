@@ -75,29 +75,3 @@ class SourceforgeHandler(BaseHandler):
         package.repo_forks = None
 
         return package
-
-    def _get_project_data(project_name):
-        if project_name == None:
-            return None
-        project_json_path = 'http://sourceforge.net/api/project/name/%s/json/' % project_name
-        # open the target and read the content
-        response = urlopen(project_json_path)
-        response = response.read()
-        # dejsonify the results
-        try:
-            project_data = json.loads(response)['Project']
-        except KeyError:  # project does not exist
-            project_data = None
-        except ValueError:  # likely invalid chars in json file
-            project_data = None
-        return project_data
-
-
-    def _get_repo_url(package_data):
-        # Sourceforge API does not have Hg, Bzr, or Git support
-        if 'SVNRepository' in package_data:
-            return package_data['SVNRepository'].get('location', '')
-        elif 'CVSRepository' in package_data:
-            return package_data['CVSRepository'].get('anon-root', '')
-        else:
-            return ''
