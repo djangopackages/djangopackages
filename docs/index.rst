@@ -26,6 +26,7 @@ Contents:
    api_v2_docs
    contributors
    repo_handlers
+   vcs_protocols_research
    credits
 
 Contributing to Packaginator
