@@ -9,7 +9,7 @@ except ImportError:
 
 from .base_handler import BaseHandler
 
-API_TARGET = "https://api.bitbucket.org/1.0/repositories"
+API_TARGET = "https://api.bitbucket.org/1.0/repositories/"
 
 descendants_re = re.compile(r"Forks/Queues \((?P<descendants>\d+)\)")
 
@@ -24,7 +24,7 @@ class BitbucketHandler(BaseHandler):
         repo_name = package.repo_name()
         if repo_name.endswith("/"):
             repo_name = repo_name[0:-1]
-        target = "%s/%s/changesets/?limit=50" % (API_TARGET, repo_name)
+        target = "https://api.bitbucket.org/1.0/repositories/%s/changesets/?limit=50" % repo_name
         page = urlopen(target).read()
         try:
             data = json.loads(page)
