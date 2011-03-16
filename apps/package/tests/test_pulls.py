@@ -72,4 +72,3 @@ class GitHubTest(TestCase):
 
             # check that package metadata is not empty or incorrect
             self._is_package_empty(package)
-
