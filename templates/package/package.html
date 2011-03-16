@@ -45,7 +45,7 @@
                             {% usage_button %} 
                         {% endwith %}
                     </td>
-                    <td><a class="awesome forestgreen" href="{% url fetch_package_data object.slug %}">Fetch latest data</a></td>
+                    <td id="fetch-cell"><a class="awesome forestgreen" href="{% url fetch_package_data object.slug %}">Fetch latest data</a></td>
                 </tr>    
             </tbody>        
          </table>
@@ -157,7 +157,17 @@
 {% block extra_body %}
 
 <script type="text/javascript">
-    $(function() {          
+    $(function() {
+
+        $('#fetch-cell > a').click(function(){
+            $('#fetch-cell').html('Updating <img src="{{ STATIC_URL }}img/progress.gif">');
+            }
+        )
+            });
+</script>
+
+<script type="text/javascript">
+    $(function() {          '
 
         $('#find-a-grid').click(function() {
             $('#find-a-grid').hide();
