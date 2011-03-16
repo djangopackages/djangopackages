@@ -11,7 +11,6 @@ from github2.client import Github
 from package.fields import CreationDateTimeField, ModificationDateTimeField
 from package.repos import github
 from package.pypi import fetch_releases
-from package.utils import uniquer
 from package.repos import get_repo_for_repo_url
 from distutils.version import LooseVersion as versioner
 from urllib import urlopen
