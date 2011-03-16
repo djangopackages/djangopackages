@@ -24,12 +24,12 @@
 <tr>
 	<td>type</td>
 	<td>id_username</td>
-	<td>pydanny</td>
+	<td>test</td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>id_password</td>
-	<td>wa2zib</td>
+	<td>test</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -46,7 +46,6 @@
 	<td>You've been logged out.</td>
 	<td></td>
 </tr>
-
 </tbody></table>
 </body>
 </html>

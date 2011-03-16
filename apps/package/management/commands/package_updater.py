@@ -1,6 +1,7 @@
 from socket import error as socket_error
 from sys import stdout
 from time import sleep, gmtime, strftime
+from xml.parsers.expat import ExpatError
 from xmlrpclib import ProtocolError
 
 from django.conf import settings
@@ -34,6 +35,10 @@ class Command(NoArgsCommand):
                 continue
             except ProtocolError, e:
                 message = "For '%s', xmlrpc.ProtocolError: %s" % (package.title, e)
+                print >> stdout, message
+                continue
+            except ExpatError, e:
+                message = "For '%s', ExpatError: %s" % (package.title, e)
                 print >> stdout, message
                 continue                
                 
