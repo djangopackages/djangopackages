@@ -17,7 +17,7 @@ Direct Contributors
 * Brian Ball
 * Bryan Weingarten
 * Eric Spunagle
-* Gisle Aas
+* Gisle Aas  (member of the Repo Men)
 * James Pacileo
 * James Punteney
 * Jim Allman
@@ -28,7 +28,7 @@ Direct Contributors
 * Nolan Bruabker
 * Preston Holmes
 * Stuart Powers
-* Szilveszter Farkas
+* Szilveszter Farkas (member of the Repo Men)
 * Taavi Taijala
 * Tom Brander
 
