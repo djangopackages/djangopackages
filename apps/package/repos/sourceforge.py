@@ -1,5 +1,4 @@
 import re
-import xmlrpclib
 from urllib import urlopen
 
 try:
@@ -13,6 +12,13 @@ class SourceforgeError(Exception):
     """An error occurred when making a request to the Sourceforge API"""
 
 class SourceforgeHandler(BaseHandler):
+    """
+    The Sourceforge API has some tricky stuff in it - some sections are fed
+    via xml/rss, some are via json. As of 03/16/2011, the xml API is the most
+    up-to-date, but a bug has been opened to fix the json side. This API is
+    on hold until it is fixed.
+    """
+
     title = "Sourceforge"
     url = "https://sourceforge.net"
     repo_regex = r'https://sourceforge.com/[\w\-\_]+/([\w\-\_]+)/{0,1}'
@@ -26,7 +32,7 @@ class SourceforgeHandler(BaseHandler):
         if not target.endswith("/"):
             target += "/"
 
-        # sourceforge project API requires ending with /json/
+        # sourceforge project API requires ending with /doap/
         target += "json/"
 
         # open the target and read the content
@@ -62,3 +68,5 @@ class SourceforgeHandler(BaseHandler):
         package.repo_forks = None
 
         return package
+
+repo_handler = SourceforgeHandler()
