@@ -278,3 +278,5 @@ try:
     from local_settings import *
 except ImportError:
     pass
+if LOCAL_INSTALLED_APPS:
+    INSTALLED_APPS.extend(LOCAL_INSTALLED_APPS)
