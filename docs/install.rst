@@ -46,7 +46,6 @@ The following instructions are how you would install an instance of Python Packa
     git clone git://github.com/cartwheelweb/packaginator.git pythonpackages
     cd pythonpackages
     cp backup.db dev.db
-    cp local_settings.py.example local_settings.py
     pip install -r requirements/project.txt
 
 Remove the existing pinax & uni_form symlinks.  Add symlinks to the correct pinax and uni_form media directories::
@@ -60,25 +59,26 @@ Remove the existing pinax & uni_form symlinks.  Add symlinks to the correct pina
 Setup local settings
 ========================
 
-Copy the local_settings.py.example to local_settings.py::
+Copy the local_settings.py.example to ```local_settings.py```::
 
     cp local_settings.py.example local_settings.py
 
-Change the root URLS conf from `<root_directory_name>` to the correct value (i.e. the name of your repo)::
+Change the ``ROOT_URLS`` setting in ``local_settings.py`` from `<root_directory_name>` to the correct value (i.e. the name of your repo)::
 
     ROOT_URLCONF = '<root_directory_name>.url'
-    
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3", 
-            "NAME": "dev.db",  
-            "USER": "", 
-            "PASSWORD": "", 
-            "HOST": "", 
-            "PORT": "", 
-        }
-    }    
 
+Add a Google Analytics code if you have one::
+
+    URCHIN_ID = "UA-YOURID123-1"
+
+Setup your email settings::
+
+    DEFAULT_FROM_EMAIL = 'Your Name <me@mydomain.com>'
+    EMAIL_SUBJECT_PREFIX = '[Your Site Name] '
+
+Change the ``SECRET_KEY`` setting in ```local_settings.py``` to your own secret key::
+
+    SECRET_KEY = "CHANGE-THIS-KEY-TO-SOMETHING-ELSE"
 
 Running the development server
 ==============================
