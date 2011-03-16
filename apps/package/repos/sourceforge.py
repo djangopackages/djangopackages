@@ -39,7 +39,7 @@ class SourceforgeHandler(BaseHandler):
         if not target.endswith("/"):
             target += "/"
 
-        # sourceforge requires ending with /json/
+        # sourceforge project API requires ending with /json/
         target += "json/"
 
         # open the target and read the content
@@ -94,10 +94,10 @@ class SourceforgeHandler(BaseHandler):
 
 
     def _get_repo_url(package_data):
-        # TODO: add support for hg and git.
+        # Sourceforge API does not have Hg, Bzr, or Git support
         if 'SVNRepository' in package_data:
             return package_data['SVNRepository'].get('location', '')
         elif 'CVSRepository' in package_data:
-            return package_data['SVNRepository'].get('anon-root', '')
+            return package_data['CVSRepository'].get('anon-root', '')
         else:
             return ''
