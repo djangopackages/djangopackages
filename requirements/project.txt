@@ -5,7 +5,7 @@
 
 django_extensions==0.4.1
 simplejson==2.1.1
--e git://github.com/pydanny/python-github2.git#egg=python_github2
+github2==0.2.0
 south==0.7.2
 django-tastypie==0.9.7
 mimeparse==0.1.2
