@@ -1,6 +1,5 @@
 # TODO - cleanup regex to do proper string subs
 # TODO - add is_other field to repo
-# TODO - add repo.user_url
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -10,9 +9,10 @@ from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 from github2.client import Github
 from package.fields import CreationDateTimeField, ModificationDateTimeField
-from package.handlers import github
+from package.repos import github
 from package.pypi import fetch_releases
 from package.utils import uniquer
+from package.repos import get_repo_for_repo_url
 from distutils.version import LooseVersion as versioner
 from urllib import urlopen
 import logging
@@ -50,60 +50,11 @@ class Category(BaseModel):
     def __unicode__(self):
         return self.title
         
-REPO_CHOICES = (
-    ("package.handlers.unsupported", "Unsupported"),
-    ("package.handlers.bitbucket", "Bitbucket"),
-    ("package.handlers.github", "Github"),
-    ("package.handlers.launchpad", "Launchpad"),
-    ("package.handlers.sourceforge", "Sourceforge")    
-)
-
-class Repo(BaseModel):
-    
-    is_supported = models.BooleanField(_("Supported?"), help_text="Does Django Packages support this repo site?", default=False)
-    title        = models.CharField(_("Title"), max_length="50")
-    description  = models.TextField(_("description"), blank=True)
-    url          = models.URLField(_("base URL of repo"))
-    is_other     = models.BooleanField(_("Is Other?"), default=False, help_text="Only one can be set this way")
-    user_regex   = models.CharField(_("User Regex"), help_text="Regex to calculate user's name or id",max_length="100", blank=True)
-    user_url     = models.CharField(_("User URL"), help_text="Use %s to mark the username", max_length="100", blank=True)
-    repo_regex   = models.CharField(_("Repo Regex"), help_text="Regex to get repo's name", max_length="100", blank=True)
-    slug_regex   = models.CharField(_("Slug Regex"), help_text="Regex to get repo's slug", max_length="100", blank=True)    
-    handler      = models.CharField(_("Handler"), 
-        help_text="Warning: Don't change this unless you know what you are doing!", 
-        choices=REPO_CHOICES,
-        max_length="200",
-        default="package.handlers.unsupported")
-    
-    def packages_for_profile(self, profile):
-        """Return a list of all packages contributed to by a profile."""
-        repo_url = profile.url_for_repo(self)
-        if repo_url:
-            regex = r'^{0},|,{0},|{0}$'.format(repo_url)
-            query = Q(participants__regex=regex) & Q(repo=self)
-            return list(Package.objects.filter(query))
-        else:
-            return []
-
-    class Meta:
-        ordering = ['-is_supported', 'title']
-    
-    def __unicode__(self):
-        if not self.is_supported:
-            return '%s (unsupported)' % self.title
-        
-        return self.title
-
-downloads_re = re.compile(r'<td style="text-align: right;">[0-9]{1,}</td>')
-doap_re      = re.compile(r"/pypi\?\:action=doap\&amp;name=[a-zA-Z0-9\.\-\_]+\&amp;version=[a-zA-Z0-9\.\-\_]+")
-version_re   = re.compile(r'<revision>[a-zA-Z0-9\.\-\_]+</revision>')
-
 class Package(BaseModel):
     
     title           = models.CharField(_("Title"), max_length="100")
     slug            = models.SlugField(_("Slug"), help_text="Slugs will be lowercased", unique=True)
     category        = models.ForeignKey(Category, verbose_name="Installation", help_text=category_help_text)
-    repo            = models.ForeignKey(Repo, null=True)
     repo_description= models.TextField(_("Repo Description"), blank=True)
     repo_url        = models.URLField(_("repo URL"), help_text=repo_url_help_text, blank=True,unique=True)
     repo_watchers   = models.IntegerField(_("repo watchers"), default=0)
@@ -146,6 +97,11 @@ class Package(BaseModel):
         if last_commit: 
             return last_commit.commit_date
         return None
+
+    @property
+    def repo(self):
+        handler = get_repo_for_repo_url(self.repo_url)
+        return handler
 
     def active_examples(self):
         return self.packageexample_set.filter(active=True)
@@ -190,12 +146,11 @@ class Package(BaseModel):
             
             self.pypi_downloads = total_downloads
         
-        # Get the repo watchers number
-        base_handler = __import__(self.repo.handler)
-        handler = sys.modules[self.repo.handler]
-
-        self = handler.pull(self)
+        self.repo.fetch_metadata(self)
         self.save()        
+
+    def fetch_commits(self):
+        self.repo.fetch_commits(self)
 
     class Meta:
         ordering = ['title']

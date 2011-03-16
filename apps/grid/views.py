@@ -11,7 +11,7 @@ from grid.forms import ElementForm, FeatureForm, GridForm, GridPackageForm
 from grid.models import Element, Feature, Grid, GridPackage
 from package.models import Package
 from package.forms import PackageForm
-from package.views import repos_for_js
+from package.views import repo_data_for_js
 
 def grids(request, template_name="grid/grids.html"):
     # annotations providing bad counts
@@ -219,7 +219,7 @@ def add_new_grid_package(request, grid_slug, template_name="package/package_form
     
     return render_to_response(template_name, {
         "form": form,
-        "repos": repos_for_js(),
+        "repo_data": repo_data_for_js(),
         "action": "add",
         },
         context_instance=RequestContext(request))

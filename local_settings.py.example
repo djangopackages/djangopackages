@@ -14,6 +14,7 @@ DATABASES = {
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 SERVE_MEDIA = DEBUG
+#TEST_RUNNER = 'testrunner.OurTestRunner'
 
 logging.basicConfig(
         level=logging.DEBUG,
