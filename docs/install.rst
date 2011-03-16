@@ -69,6 +69,10 @@ Change the ``ROOT_URLS`` setting in ``local_settings.py`` from `<root_directory_
 
     ROOT_URLCONF = '<root_directory_name>.urls'
 
+You can enable launchpad support in the local settings file. Launchpad's dependencies can be a little fussy, so this will probably require some additional tweaking on your part::
+
+    LAUNCHPAD_ACTIVE = True
+
 Add a Google Analytics code if you have one::
 
     URCHIN_ID = "UA-YOURID123-1"
