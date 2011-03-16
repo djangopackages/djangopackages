@@ -43,7 +43,7 @@ The following instructions are how you would install an instance of Python Packa
     cd <installation-directory>
     virtualenv env-pythonpackages
     source env-pythonpackages/bin/activate
-    git clone git://github.com/cartwheelweb/packaginator.git pythonpackages
+    git clone git://github.com/cartwheelweb/packaginator.git packaginator
     cd pythonpackages
     cp backup.db dev.db
     pip install -r requirements/project.txt
@@ -65,7 +65,7 @@ Copy the local_settings.py.example to ```local_settings.py```::
 
 Change the ``ROOT_URLS`` setting in ``local_settings.py`` from `<root_directory_name>` to the correct value (i.e. the name of your repo)::
 
-    ROOT_URLCONF = '<root_directory_name>.url'
+    ROOT_URLCONF = '<root_directory_name>.urls'
 
 Add a Google Analytics code if you have one::
 
@@ -90,9 +90,9 @@ The normal sort of thing::
 Production/Staging gotcha fix
 =============================
 
-Launchpad needs this for caching::
+Launchpad needs this in settings.py for caching::
 
-    LAUNCHPAD_CACHE_DIR = "/tmp/lp-cache"
+    LAUNCHPAD_CACHE_DIR="/tmp/lp-cache"
 
 Create a Django superuser for yourself
 ======================================
