@@ -187,6 +187,11 @@ class Commit(BaseModel):
     def __unicode__(self):
         return "Commit for '%s' on %s" % (self.package.title, unicode(self.commit_date))    
         
+class VersionManager(models.Manager):
+    def by_version(self, *args, **kwargs):
+        qs = self.get_query_set().filter(*args, **kwargs)
+        return sorted(qs,key=lambda v: versioner(v.number))
+
 class Version(BaseModel):
     
     package = models.ForeignKey(Package, blank=True, null=True)
@@ -195,6 +200,8 @@ class Version(BaseModel):
     license = models.CharField(_("license"), max_length="100")
     hidden = models.BooleanField(_("hidden"), default=False)    
     
+    objects = VersionManager()
+
     class Meta:
         get_latest_by = 'created'
         ordering = ['-created']
