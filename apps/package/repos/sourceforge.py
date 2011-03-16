@@ -6,6 +6,8 @@ try:
 except ImportError:
     import json
 
+from .base_handler import BaseHandler
+
 API_TARGET = "https://sourceforge.net/api"
 
 class SourceforgeError(Exception):
