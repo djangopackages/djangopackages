@@ -90,8 +90,8 @@
     "pk" : 3
   },
   { "fields" : { "category" : 1,
-        "created" : "2010-01-01 12:00:00",
-        "modified" : "2010-01-01 12:00:00",
+        "created" : "2010-01-01 13:00:00",
+        "modified" : "2010-01-02 18:00:00",
         "participants" : "malcomt,jacobian",
         "pypi_downloads" : 0,
         "pypi_url" : "",
@@ -109,8 +109,8 @@
     "pk" : 1
   },
   { "fields" : { "category" : 1,
-        "created" : "2010-01-01 12:00:00",
-        "modified" : "2010-01-01 12:00:00",
+        "created" : "2010-01-01 14:00:00",
+        "modified" : "2010-01-02 19:00:00",
         "participants" : "thetestman",
         "pypi_downloads" : 0,
         "pypi_url" : "",
@@ -128,8 +128,8 @@
     "pk" : 2
   },
   { "fields" : { "category" : 1,
-        "created" : "2010-01-01 12:00:00",
-        "modified" : "2010-01-01 12:00:00",
+        "created" : "2010-01-01 15:00:00",
+        "modified" : "2010-01-02 20:00:00",
         "participants" : "pydanny",
         "pypi_downloads" : 0,
         "pypi_url" : "",
