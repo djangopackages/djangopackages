@@ -23,7 +23,7 @@ Contents:
    testing_instructions
    management_commands
    pypi_issues
-   api_v2_docs
+   api_docs
    contributors
    repo_handlers
    vcs_protocols_research
