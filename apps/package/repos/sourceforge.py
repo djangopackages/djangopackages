@@ -18,19 +18,6 @@ class SourceforgeHandler(BaseHandler):
     repo_regex = r'https://sourceforge.com/[\w\-\_]+/([\w\-\_]+)/{0,1}'
     slug_regex = r'https://sourceforge.com/[\w\-\_]+/([\w\-\_]+)/{0,1}'
 
-    '''
-    def _name_from_pypi_home_page(home_page):
-        name1 = project_name1_RE.search(home_page)
-        if name1:
-            name1 = name1.group(1)
-        name2 = project_name2_RE.search(home_page)
-        if name2:
-            name2 = name2.group(1)
-            if name2 == 'www':
-                name2 = None
-        return name1 or name2
-    '''
-
     def fetch_metadata(self, package):
         sourceforge = '';
 
