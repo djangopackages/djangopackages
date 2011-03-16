@@ -18,7 +18,8 @@ class SourceforgeHandler(BaseHandler):
     repo_regex = r'https://sourceforge.com/[\w\-\_]+/([\w\-\_]+)/{0,1}'
     slug_regex = r'https://sourceforge.com/[\w\-\_]+/([\w\-\_]+)/{0,1}'
 
-    def _sourceforge_name_from_pypi_home_page(home_page):
+    '''
+    def _name_from_pypi_home_page(home_page):
         name1 = project_name1_RE.search(home_page)
         if name1:
             name1 = name1.group(1)
@@ -28,6 +29,7 @@ class SourceforgeHandler(BaseHandler):
             if name2 == 'www':
                 name2 = None
         return name1 or name2
+    '''
 
     def fetch_metadata(self, package):
         sourceforge = '';
@@ -57,10 +59,10 @@ class SourceforgeHandler(BaseHandler):
 
         package.repo_description = data.get("description")
 
-        sourceforge_project_name = _sourceforge_name_from_pypi_home_page(package.pypi_home_page)
+        project_name = _name_from_pypi_home_page(package.pypi_home_page)
         # dejsonify the results
         try:
-            sf_package_data = _get_sourceforge_project_data(sourceforge_project_name)
+            sf_package_data = _get_project_data(project_name)
         except json.decoder.JSONDecodeError:
             message = "%s had a JSONDecodeError while loading %s" % (package.title,
                                                                      package_json_path)
@@ -69,16 +71,15 @@ class SourceforgeHandler(BaseHandler):
         package.repo_watchers = len(sf_package_data.get('maintainers', [])) + len(sf_package_data.get('developers', [])) 
         package.repo_description = sf_package_data.get('description', '')
         # TODO - remove the line below and use repo_url as your foundation    
-        package.repo_url = _get_sourceforge_repo_url(sf_package_data)
+        package.repo_url = _get_repo_url(sf_package_data)
         package.repo_forks = None
-        package.participants = _get_sourceforge_participants(sf_package_data)
 
         return package
 
-    def _get_sourceforge_project_data(sourceforge_project_name):
-        if sourceforge_project_name == None:
+    def _get_project_data(project_name):
+        if project_name == None:
             return None
-        project_json_path = 'http://sourceforge.net/api/project/name/%s/json/' % sourceforge_project_name
+        project_json_path = 'http://sourceforge.net/api/project/name/%s/json/' % project_name
         # open the target and read the content
         response = urlopen(project_json_path)
         response = response.read()
@@ -92,17 +93,11 @@ class SourceforgeHandler(BaseHandler):
         return project_data
 
 
-    def _get_sourceforge_repo_url(sourceforge_package_data):
+    def _get_repo_url(package_data):
         # TODO: add support for hg and git.
-        if 'SVNRepository' in sourceforge_package_data:
-            return sourceforge_package_data['SVNRepository'].get('location', '')
-        elif 'CVSRepository' in sourceforge_package_data:
-            return sourceforge_package_data['SVNRepository'].get('anon-root', '')
+        if 'SVNRepository' in package_data:
+            return package_data['SVNRepository'].get('location', '')
+        elif 'CVSRepository' in package_data:
+            return package_data['SVNRepository'].get('anon-root', '')
         else:
             return ''
-
-    def _get_sourceforge_participants(sourceforge_package_data):
-        maintainers = [maintainer['name'] for maintainer in sourceforge_package_data['maintainers']]
-        developers  = [developer['name'] for developer in sourceforge_package_data['developers']]
-        participants = maintainers + developers
-        return ','.join(participants)
