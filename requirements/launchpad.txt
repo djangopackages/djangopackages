@@ -1,0 +1,5 @@
+# launchpad.txt is a pip requirements file which describes the distributions
+# required by your project to run launchpad data pulls.
+
+bzr==2.3.1
+launchpadlib==1.9.8

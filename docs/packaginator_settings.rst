@@ -4,6 +4,15 @@ Settings
 
 How to customize the settings to suit your needs. Do this in local_settings so patches and upstream pulls don't cause havoc to your installation
 
+LAUNCHPAD_CACHE_DIR
+===================
+
+Used to point LAUNCHPAD commands against the appropriate cache. Important in real hosting machines.
+
+Example::
+
+    LAUNCHPAD_CACHE_DIR = "/tmp/lp-cache"
+
 PACKAGE_HELP_TEXT
 =================
 
