@@ -17,6 +17,7 @@ Direct Contributors
 * Brian Ball
 * Bryan Weingarten
 * Eric Spunagle
+* Flaviu Simihaian
 * Gisle Aas  (member of the Repo Men)
 * James Pacileo
 * James Punteney
