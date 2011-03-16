@@ -41,12 +41,11 @@ The following instructions are how you would install an instance of Python Packa
 .. parsed-literal::
 
     cd <installation-directory>
-    virtualenv env-pythonpackages
+    virtualenv env-pythonpackages --no-site-packages
     source env-pythonpackages/bin/activate
-    git clone git://github.com/cartwheelweb/packaginator.git pythonpackages
+    git clone git://github.com/cartwheelweb/packaginator.git packaginator
     cd pythonpackages
     cp backup.db dev.db
-    cp local_settings.py.example local_settings.py
     pip install -r requirements/project.txt
 
 Remove the existing pinax & uni_form symlinks.  Add symlinks to the correct pinax and uni_form media directories::
@@ -66,7 +65,7 @@ Copy the local_settings.py.example to local_settings.py::
 
 Change the root URLS conf from `<root_directory_name>` to the correct value (i.e. the name of your repo)::
 
-    ROOT_URLCONF = '<root_directory_name>.url'
+    ROOT_URLCONF = '<root_directory_name>.urls'
     
     DATABASES = {
         "default": {
