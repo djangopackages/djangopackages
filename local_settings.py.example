@@ -23,6 +23,8 @@ logging.basicConfig(
         filemode='a',
 )
 
+LOCAL_INSTALLED_APPS = []
+
 ROOT_URLCONF = "packaginator.urls"
 
 # Analytics ID
