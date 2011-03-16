@@ -18,6 +18,7 @@ Contents:
    introduction
    license   
    install
+   troubleshooting
    packaginator_settings
    testing_instructions
    management_commands
