@@ -23,3 +23,22 @@ logging.basicConfig(
         filemode='a',
 )
 
+LOCAL_INSTALLED_APPS = []
+
+ROOT_URLCONF = "packaginator.urls"
+
+# Analytics ID
+URCHIN_ID = ""
+
+# Email Settings
+DEFAULT_FROM_EMAIL = \
+        'Django Packages <djangopackages-noreply@djangopackages.com>'
+EMAIL_SUBJECT_PREFIX = '[Django Packages] '
+
+# Make this unique, and don't share it with anybody.
+SECRET_KEY = "CHANGE-THIS-KEY-TO-SOMETHING-ELSE"
+
+# You can remove this after you change your SECRET_KEY
+if SECRET_KEY == "CHANGE-THIS-KEY-TO-SOMETHING-ELSE":
+    raise Exception('You must change your SECRET_KEY settings in '
+            'local_settings.py.')
