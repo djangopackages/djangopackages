@@ -1,13 +1,8 @@
-"""
-github = package.handlers.Gibhut()
-github.repo_url
-
-package = github.pull()
-
-"""
-from package.models import Package
 
 class BaseHandler(object):
+
+    def __str__(self):
+        return self.title
 
     @property
     def title(self):
@@ -27,7 +22,7 @@ class BaseHandler(object):
         """
         raise NotImplemented()
             
-    def pull(self, package):
+    def fetch_metadata(self, package):
         """ Accepts a package.models.Package instance:
             
                 return: package.models.Package instance
@@ -42,14 +37,18 @@ class BaseHandler(object):
         """
         raise NotImplemented()
 
+    def fetch_commits(self, package):
+        """ Accepts a package.models.Package instance:
+        """
+        raise NotImplemented()
+
     @property
     def is_other(self):
-        """ DON'T CHANGE THIS PROPERTY!
+        """ DON'T CHANGE THIS PROPERTY! This should only be overridden by
+        the unsupported handler.
 
                 return: False
         """
-        if self.title == 'Other':
-            return True
         return False
         
     @property
@@ -58,13 +57,8 @@ class BaseHandler(object):
         
                 example: 
         """
-        raise NotImplemented()
+        return ''
         
-    @property
-    def user_regex(self):
-        """ Used by the JavaScript forms """
-        raise NotImplemented()
-
     @property
     def repo_regex(self):
         """ Used by the JavaScript forms """        
@@ -75,18 +69,19 @@ class BaseHandler(object):
         """ Used by the JavaScript forms """        
         raise NotImplemented()
         
-    @property
-    def package_updater(self):
-        """ Used by the JavaScript forms """        
-        raise NotImplemented()
-        
-        
     def packages_for_profile(self, profile):
         """ Return a list of all packages contributed to by a profile. """
         repo_url = profile.url_for_repo(self)
         if repo_url:
+            from package.models import Package
             regex = r'^{0},|,{0},|{0}$'.format(repo_url)
-            query = Q(participants__regex=regex) & Q(repo=self)
-            return list(Package.objects.filter(query))
+            return list(Package.objects.filter(participants__regex=regex, repo_url__regex=self.repo_regex))
         else:
             return []
+
+    def serialize(self):
+        return {
+            "title": self.title,
+            "url": self.url,
+            "repo_regex": self.repo_regex,
+        }
