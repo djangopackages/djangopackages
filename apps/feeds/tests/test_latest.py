@@ -22,11 +22,11 @@ class LatestFeedsTest(TestCase):
             expect_titles = [p.title for p in packages]
             actual_titles = [e['title'] for e in feed.entries]
 
-            for i,j in zip(expect_titles, actual_titles):
-                self.assertEqual(i,j)
+            for expected_title, actual_title in zip(expect_titles, actual_titles):
+                self.assertEqual(expected_title, actual_title)
 
             expect_summaries = [p.repo_description for p in packages]
             actual_summaries = [e['summary'] for e in feed.entries]
 
-            for i,j in zip(expect_summaries, actual_summaries):
-                self.assertEqual(i,j)
+            for expected_summary, actual_summary in zip(expect_summaries, actual_summaries):
+                self.assertEqual(expected_summary, actual_summary)
