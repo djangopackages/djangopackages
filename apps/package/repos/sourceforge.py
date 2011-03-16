@@ -84,3 +84,7 @@ def fetch_metadata(package):
     
     return package
     
+class SourceforgeHandler(object):
+    pass
+    
+repo_handler = SourceforgeHandler()
