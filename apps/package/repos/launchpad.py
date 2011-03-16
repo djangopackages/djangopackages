@@ -16,7 +16,7 @@ class LaunchpadHandler(BaseHandler):
     slug_regex = r'https://code.launchpad.net/~[\w\-\_]+/([\w\-\_]+)/[\w\-\_]+/{0,1}'
 
     def fetch_commits(self, package):
-        from package.models import Commit
+        from package.models import Commit # Import placed here to avoid circular dependencies
         branch = Branch.open(package.repo_url)
         repository = branch.repository
         for revision_id in branch.revision_history():
