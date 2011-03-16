@@ -84,9 +84,6 @@ STATICFILES_DIRS = [
 # ADMIN_MEDIA_PREFIX = posixpath.join(STATIC_URL, "admin/")
 ADMIN_MEDIA_PREFIX = "/site_media/admin/"
 
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = "ud%a+c#@@d5k!t_)mpw!+58fztyhk_sq%c5s0p5_je-wixy#$k"
-
 # List of callables that know how to import templates from various sources.
 if DEBUG:
     CACHE_BACKEND = 'dummy://'
@@ -115,8 +112,6 @@ MIDDLEWARE_CLASSES = [
     "pinax.middleware.security.HideSensistiveFieldsMiddleware",
     "django.contrib.flatpages.middleware.FlatpageFallbackMiddleware",
 ]
-
-ROOT_URLCONF = "packaginator.urls"
 
 TEMPLATE_DIRS = [
     os.path.join(PROJECT_ROOT, "templates"),
@@ -225,7 +220,12 @@ LOGIN_REDIRECT_URLNAME = "home"
 EMAIL_CONFIRMATION_DAYS = 2
 EMAIL_DEBUG = DEBUG
 
-# Added the following so that outgoing mail comes from postfix (local)
+ROOT_URLCONF = "packaginator.urls"
+
+SECRET_KEY = "ud%a+c#@@d5k!t_)mpw!+58fztyhk_sq%c5s0p5_je-wixy#$k"
+
+URCHIN_ID = ""
+
 DEFAULT_FROM_EMAIL = 'Django Packages <djangopackages-noreply@djangopackages.com>'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
@@ -234,8 +234,6 @@ EMAIL_HOST_USER = 'djangopackages-noreply@djangopackages.com'
 EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 25
 EMAIL_SUBJECT_PREFIX = '[Django Packages] '
-
-URCHIN_ID = "UA-18066389-1"
 
 DEBUG_TOOLBAR_CONFIG = {
     "INTERCEPT_REDIRECTS": False,
