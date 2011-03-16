@@ -30,7 +30,7 @@ Copy the local_settings.py.example to local_settings.py::
 
     cp local_settings.py.example local_settings.py
 
-Change the rool URLS conf from `<root_directory_name>` to the correct value::
+Change the root URLS conf from `<root_directory_name>` to the correct value::
 
     ROOT_URLCONF = '<root_directory_name>.url'
     

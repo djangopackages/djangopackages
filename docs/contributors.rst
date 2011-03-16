@@ -25,7 +25,7 @@ Direct Contributors
 * Jonas Obrist
 * jrothenbuhler
 * Nate Aune
-* Nolan Bruabker
+* Nolan Brubaker
 * Preston Holmes
 * Stuart Powers
 * Szilveszter Farkas (member of the Repo Men)
