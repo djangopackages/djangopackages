@@ -34,7 +34,7 @@ class BitbucketHandler(BaseHandler):
         return data.get("changesets", [])
 
     def fetch_commits(self, package):
-        from package.models import Commit
+        from package.models import Commit # Import placed here to avoid circular dependencies
         for commit in self._get_bitbucket_commits(package):
             commit, created = Commit.objects.get_or_create(package=package, commit_date=commit["timestamp"])
 
