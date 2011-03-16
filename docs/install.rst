@@ -52,6 +52,13 @@ The normal sort of thing::
 
     python manage.py runserver
 
+Production/Staging gotcha fix
+=============================
+
+Launchpad needs this for caching::
+
+    LAUNCHPAD_CACHE_DIR = "/tmp/lp-cache"
+
 Create a Django superuser for yourself
 ======================================
 
