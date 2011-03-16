@@ -272,8 +272,8 @@ PACKAGINATOR_HELP_TEXT = {
 """
 }
 
-#: See http://ask.github.com/celery/configuration.html
 CELERYD_TASK_TIME_LIMIT = 300
+LAUNCHPAD_ACTIVE = False
 
 LOCAL_INSTALLED_APPS = []
 
