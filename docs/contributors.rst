@@ -32,6 +32,7 @@ Direct Contributors
 * Szilveszter Farkas (member of the Repo Men)
 * Taavi Taijala
 * Tom Brander
+* Vasja Volin
 
 Other Contributors
 ==================
