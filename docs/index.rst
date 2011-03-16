@@ -18,6 +18,8 @@ Contents:
    introduction
    license   
    install
+   packaginator_settings
+   testing_instructions
    management_commands
    pypi_issues
    api_v2_docs
