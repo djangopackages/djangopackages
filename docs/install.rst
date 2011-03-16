@@ -2,6 +2,8 @@
 Installation
 ============
 
+Do everything listed in this section to get your site up and running locally.  If you run into problems, see the Troubleshooting section.
+
 Pre-requisites
 ==============
 
@@ -104,9 +106,13 @@ Replace joe with your username/email::
 Install Djangopackages flatblocks and flatpages
 ===============================================
 
-Packaginator makes use of several flatblocks and flatpages. To load fixtures
-that show how these are used on djangopackages.com, you can load two fixtures
-containing this information::
+Packaginator makes use of several flatblocks and flatpages. 
+
+To see how the flatblocks and flatpages are used on djangopackages.com, open fixtures/flatblocks.json and fixtures/flatpages.json in a text editor.  Change "Django Packages" to "Python Packages" or whatever the name of your site is.  
+
+Change other parts of the text if you want (note: you can do this later via the Django admin interface under flatblocks/flatpages as well).
+
+Then, you can load the two flatblocks and flatpages fixtures::
 
     python manage.py loaddata fixtures/flatblocks.json
     python manage.py loaddata fixtures/flatpages.json
