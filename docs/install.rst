@@ -79,6 +79,7 @@ Change the root URLS conf from `<root_directory_name>` to the correct value (i.e
         }
     }    
 
+
 Running the development server
 ==============================
 
@@ -99,6 +100,16 @@ Create a Django superuser for yourself
 Replace joe with your username/email::
 
     python manage.py createsuperuser --username=joe --email=joe@example.com
+
+Install Djangopackages flatblocks and flatpages
+===============================================
+
+Packaginator makes use of several flatblocks and flatpages. To load fixtures
+that show how these are used on djangopackages.com, you can load two fixtures
+containing this information::
+
+    python manage.py loaddata fixtures/flatblocks.json
+    python manage.py loaddata fixtures/flatpages.json
 
 Updating Packages
 =================
