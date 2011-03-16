@@ -18,6 +18,8 @@ Contents:
    introduction
    license   
    install
+   packaginator_settings
+   testing_instructions
    management_commands
    pypi_issues
    api_v2_docs
@@ -29,8 +31,9 @@ Contributing to Packaginator
 ================================
 
 #. Follow the installation instructions!
-#. Fork and branch on github before submitting a pull request
-#. Tests and additions to the docs greatly increases the chances of your pull request being accepted.
+#. Fork and branch on github (http://github.com/cartwheelweb/packaginator) before submitting a pull request
+#. All pull requests (outside of documentation) require test coverage. Packaginator uses Django's test suite and Selenium to check against multiple browsers.
+#. Packaginator pull requests should be as small/atomic as possible. Large, wide-sweeping changes in a pull request will be rejected.
 #. Any css or layout changes (besides what you do in custom.css) for your own project must work in Chrome, Safari, Firefox and IE8 and IE9. 
 
 Pull upstream changes into your fork regularly
