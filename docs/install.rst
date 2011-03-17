@@ -7,6 +7,14 @@ Do everything listed in this section to get your site up and running locally.  I
 Pre-requisites
 ==============
 
+Mac
+---
+
+Download and install setuptools from http://pypi.python.org/pypi/setuptools.  Setuptools gives you easy_install. Then run the following commands::
+
+    easy_install pip
+    pip install virtualenv
+
 Ubuntu
 ------
 
