@@ -1,6 +1,6 @@
 from celery.decorators import task
 
-from packaginator.apps.package.models import Package
+from package.models import Package
 
 
 @task()
