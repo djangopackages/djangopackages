@@ -72,12 +72,16 @@ Before you submit a pull request, please run the entire Packaginator test suite 
 
     python manage.py test
 
-The first thing the core committers will do is run this command. Any pull request that fails this test suite will be summarily **rejected**.
+The first thing the core committers will do is run this command. Any pull request that fails this test suite will be **rejected**.
 
 If you add code/views you need to add tests!
 --------------------------------------------
 
-We've learned the hard way that code without tests is undependable. If your pull request reduces our test coverage because it lacks tests then it will be summarily **rejected**.
+We've learned the hard way that code without tests is undependable. If your pull request reduces our test coverage because it lacks tests then it will be **rejected**.
+
+For now, we use the Django Test framework (based on unittest) and Selenium.
+
+Also, keep your tests as simple as possible. Complex tests end up requiring their own tests. We would rather see duplicated assertions across test methods then cunning utility methods that magically determine which assertions are needed at a particular stage. Remember: `Explicit is better than implicit`.
 
 Don't mix code changes with whitespace cleanup
 ----------------------------------------------
@@ -92,6 +96,21 @@ Packaginator pull requests should be as small/atomic as possible. Large, wide-sw
 #. Adding a new `repo handler`_ must not touch the Package model or its methods.
 #. If you are making spelling corrections in the docs, don't modify the settings.py file (pydanny_ is guilty of this mistake).
 #. If you are adding a new view don't '*cleanup*' unrelated views. That cleanup belongs in another pull request.
+
+Follow pep-8 and keep your code simple!
+---------------------------------------
+
+Memorize the Zen of Python::
+
+    >>> python -c 'import this'
+
+Please keep your code as clean and straightforward as possible. When we see more than one or two functions/methods starting with `_my_special_function` or things like `__builtins__.object = str` we start to get worried. Rather than try and figure out your brilliant work we'll just **reject** it and send along a request for simplification.
+
+Furthermore, the pixel shortage is over. We want to see:
+
+* `package` instead of `pkg`
+* `grid` instead of `g`
+* `my_function_that_does_things` instead of `mftdt`
 
 Test any css/layout changes in multiple browsers
 ------------------------------------------------
