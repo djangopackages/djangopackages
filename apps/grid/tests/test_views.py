@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 
-from grid.models import Element, Feature, GridPackage
+from grid.models import Grid, Element, Feature, GridPackage
 
 class FunctionalGridTest(TestCase):
     fixtures = ['test_initial_data.json']
@@ -31,6 +31,16 @@ class FunctionalGridTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'grid/add_grid.html')
     
+        # Test form post
+        count = Grid.objects.count()
+        response = self.client.post(url, {
+            'title': 'TEST TITLE',
+            'slug': 'test-title',
+            'description': 'Just a test description'
+        }, follow=True)
+        self.assertEqual(Grid.objects.count(), count + 1)
+        self.assertContains(response, 'TEST TITLE')
+
     def test_edit_grid_view(self):
         url = reverse('edit_grid', kwargs={'slug': 'testing'})
         response = self.client.get(url)
@@ -44,6 +54,16 @@ class FunctionalGridTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'grid/edit_grid.html')
     
+        # Test form post
+        count = Grid.objects.count()
+        response = self.client.post(url, {
+            'title': 'TEST TITLE',
+            'slug': 'testing',
+            'description': 'Just a test description'
+        }, follow=True)
+        self.assertEqual(Grid.objects.count(), count)
+        self.assertContains(response, 'TEST TITLE')
+
     def test_add_feature_view(self):
         url = reverse('add_feature', kwargs={'grid_slug': 'testing'})
         response = self.client.get(url)
@@ -57,6 +77,15 @@ class FunctionalGridTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'grid/add_feature.html')
         
+        # Test form post
+        count = Feature.objects.count()
+        response = self.client.post(url, {
+            'title': 'TEST TITLE',
+            'description': 'Just a test description'
+        }, follow=True)
+        self.assertEqual(Feature.objects.count(), count + 1)
+        self.assertContains(response, 'TEST TITLE')
+
     def test_edit_feature_view(self):
         url = reverse('edit_feature', kwargs={'id': '1'})
         response = self.client.get(url)
@@ -69,6 +98,15 @@ class FunctionalGridTest(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'grid/edit_feature.html')
+
+        # Test form post
+        count = Feature.objects.count()
+        response = self.client.post(url, {
+            'title': 'TEST TITLE',
+            'description': 'Just a test description'
+        }, follow=True)
+        self.assertEqual(Feature.objects.count(), count)
+        self.assertContains(response, 'TEST TITLE')
 
     def test_delete_feature_view(self):
         count = Feature.objects.count()
@@ -84,7 +122,7 @@ class FunctionalGridTest(TestCase):
         # the given feature, reducing the count by one.
         self.assertTrue(self.client.login(username='cleaner', password='cleaner'))
         response = self.client.get(url)
-        self.assertEqual(count - 1, Feature.objects.count())
+        self.assertEqual(Feature.objects.count(), count - 1)
 
     def test_edit_element_view(self):
         url = reverse('edit_element', kwargs={'feature_id': '1', 'package_id': '1'})
@@ -98,6 +136,19 @@ class FunctionalGridTest(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'grid/edit_element.html')
+
+        # Test form post
+        count = Element.objects.count()
+        response = self.client.post(url, {
+            'text': 'Some random text',
+        }, follow=True)
+        self.assertEqual(Element.objects.count(), count)
+        self.assertContains(response, 'Some random text')
+
+        # Confirm 404 if grid IDs differ
+        url = reverse('edit_element', kwargs={'feature_id': '1', 'package_id': '4'})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
 
     def test_add_gridpackage_view(self):
         url = reverse('add_grid_package', kwargs={'grid_slug': 'testing'})
