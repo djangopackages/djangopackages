@@ -1,4 +1,7 @@
+from django.conf import settings
+
 import re
+
 
 def get_all_repos():
     return (get_repo(repo_id) for repo_id in supported_repos())
@@ -16,4 +19,7 @@ def get_repo_for_repo_url(repo_url):
     return unsupported_handler
 
 def supported_repos():
-    return ["bitbucket", "github", "launchpad"]
+    supported = ["bitbucket", "github"]
+    if settings.LAUNCHPAD_ACTIVE:
+        supported += ["launchpad"]
+    return supported

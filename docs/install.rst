@@ -2,6 +2,8 @@
 Installation
 ============
 
+Do everything listed in this section to get your site up and running locally.  If you run into problems, see the Troubleshooting section.
+
 Pre-requisites
 ==============
 
@@ -43,10 +45,9 @@ The following instructions are how you would install an instance of Python Packa
     cd <installation-directory>
     virtualenv env-pythonpackages
     source env-pythonpackages/bin/activate
-    git clone git://github.com/cartwheelweb/packaginator.git pythonpackages
+    git clone git://github.com/cartwheelweb/packaginator.git packaginator
     cd pythonpackages
     cp backup.db dev.db
-    cp local_settings.py.example local_settings.py
     pip install -r requirements/project.txt
 
 Remove the existing pinax & uni_form symlinks.  Add symlinks to the correct pinax and uni_form media directories::
@@ -60,25 +61,30 @@ Remove the existing pinax & uni_form symlinks.  Add symlinks to the correct pina
 Setup local settings
 ========================
 
-Copy the local_settings.py.example to local_settings.py::
+Copy the local_settings.py.example to ```local_settings.py```::
 
     cp local_settings.py.example local_settings.py
 
-Change the root URLS conf from `<root_directory_name>` to the correct value (i.e. the name of your repo)::
+Change the ``ROOT_URLS`` setting in ``local_settings.py`` from `<root_directory_name>` to the correct value (i.e. the name of your repo)::
 
-    ROOT_URLCONF = '<root_directory_name>.url'
-    
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3", 
-            "NAME": "dev.db",  
-            "USER": "", 
-            "PASSWORD": "", 
-            "HOST": "", 
-            "PORT": "", 
-        }
-    }    
+    ROOT_URLCONF = '<root_directory_name>.urls'
 
+You can enable launchpad support in the local settings file. Launchpad's dependencies can be a little fussy, so this will probably require some additional tweaking on your part::
+
+    LAUNCHPAD_ACTIVE = True
+
+Add a Google Analytics code if you have one::
+
+    URCHIN_ID = "UA-YOURID123-1"
+
+Setup your email settings::
+
+    DEFAULT_FROM_EMAIL = 'Your Name <me@mydomain.com>'
+    EMAIL_SUBJECT_PREFIX = '[Your Site Name] '
+
+Change the ``SECRET_KEY`` setting in ```local_settings.py``` to your own secret key::
+
+    SECRET_KEY = "CHANGE-THIS-KEY-TO-SOMETHING-ELSE"
 
 Running the development server
 ==============================
@@ -90,9 +96,9 @@ The normal sort of thing::
 Production/Staging gotcha fix
 =============================
 
-Launchpad needs this for caching::
+Launchpad needs this in settings.py for caching::
 
-    LAUNCHPAD_CACHE_DIR = "/tmp/lp-cache"
+    LAUNCHPAD_CACHE_DIR="/tmp/lp-cache"
 
 Create a Django superuser for yourself
 ======================================
@@ -104,9 +110,13 @@ Replace joe with your username/email::
 Install Djangopackages flatblocks and flatpages
 ===============================================
 
-Packaginator makes use of several flatblocks and flatpages. To load fixtures
-that show how these are used on djangopackages.com, you can load two fixtures
-containing this information::
+Packaginator makes use of several flatblocks and flatpages. 
+
+To see how the flatblocks and flatpages are used on djangopackages.com, open fixtures/flatblocks.json and fixtures/flatpages.json in a text editor.  Change "Django Packages" to "Python Packages" or whatever the name of your site is.  
+
+Change other parts of the text if you want (note: you can do this later via the Django admin interface under flatblocks/flatpages as well).
+
+Then, you can load the two flatblocks and flatpages fixtures::
 
     python manage.py loaddata fixtures/flatblocks.json
     python manage.py loaddata fixtures/flatpages.json
