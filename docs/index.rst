@@ -27,7 +27,8 @@ Contents:
    contributors
    contributing
    repo_handlers
-   api_docs   
+   api_docs
+   lessons_learned
 
 Contributing to Packaginator
 ================================
