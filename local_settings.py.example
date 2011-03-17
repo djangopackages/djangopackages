@@ -32,3 +32,31 @@ logging.basicConfig(
         filemode='a',
 )
 
+LOCAL_INSTALLED_APPS = []
+
+ROOT_URLCONF = "packaginator.urls"
+
+LAUNCHPAD_ACTIVE = False
+
+# Analytics ID
+URCHIN_ID = ""
+
+# Email Settings
+DEFAULT_FROM_EMAIL = \
+        'Django Packages <djangopackages-noreply@djangopackages.com>'
+EMAIL_SUBJECT_PREFIX = '[Django Packages] '
+
+# Make this unique, and don't share it with anybody.
+SECRET_KEY = "CHANGE-THIS-KEY-TO-SOMETHING-ELSE"
+
+# You can remove this after you change your SECRET_KEY
+if SECRET_KEY == "CHANGE-THIS-KEY-TO-SOMETHING-ELSE":
+    raise Exception('You must change your SECRET_KEY settings in '
+            'local_settings.py.')
+
+# See http://celeryproject.org/docs/configuration.html#task-execution-settings
+CELERY_ALWAYS_EAGER = True
+CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
+BROKER_BACKEND = "django"
+
+LOCAL_INSTALLED_APPS = ('djkombu', )

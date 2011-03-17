@@ -15,6 +15,7 @@ sys.path.insert(0, abspath(join(dirname(__file__), "../../")))
 
 from django.conf import settings
 os.environ["DJANGO_SETTINGS_MODULE"] = "djangopackages.settings"
+os.environ["CELERY_LOADER"] = "django"
 
 sys.path.insert(0, join(settings.PROJECT_ROOT, "apps"))
 

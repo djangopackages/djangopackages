@@ -44,6 +44,9 @@ def fetch_releases(package_name, include_hidden=True):
                     release_data.license = classifier.replace('License ::', '')                    
                     release_data.license = release_data.license.replace('OSI Approved :: ', '')
                     break
-            
+        
+        if release_data.license and len(release_data.license) > 100:
+            release_data.license = "Other (see http://pypi.python.org/pypi/%s)" % package_name
+        
         releases.append(release_data)
     return releases
