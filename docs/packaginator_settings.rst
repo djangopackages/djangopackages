@@ -4,6 +4,15 @@ Settings
 
 How to customize the settings to suit your needs. Do this in local_settings so patches and upstream pulls don't cause havoc to your installation
 
+LAUNCHPAD_ACTIVE (Default: False)
+=================================
+
+The launchpad Python client tool requires an unbelievable amount of requirements to handle a simple JSON ReST based webservice. These requirements can be tricky to install. Therefore, Packaginator out of the box does not support Launchpad. 
+
+If you want your instance of Packaginator to support Launchpad, simply set this setting to true in local_settings.py::
+
+    LAUNCHPAD_ACTIVE = True
+
 LAUNCHPAD_CACHE_DIR
 ===================
 
@@ -13,8 +22,8 @@ Example::
 
     LAUNCHPAD_CACHE_DIR = "/tmp/lp-cache"
 
-PACKAGE_HELP_TEXT
-=================
+PACKAGE_HELP_TEXT (Default: Included in settings.py)
+====================================================
 
 Used in the Package add/edit form in both the admin and the UI, these are assigned to model form help text arguments.
 
