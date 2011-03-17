@@ -11,6 +11,7 @@ Project Leads
 Direct Contributors
 ===================
 
+* Aaron Kavlie
 * Adam Saegebarth
 * Alex Robbins
 * Andrii Kurinny
