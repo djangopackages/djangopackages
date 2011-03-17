@@ -33,6 +33,14 @@
     "pk" : 3
   },
   { "fields" : { "created" : "2010-01-01 12:00:00",
+        "grid" : 2,
+        "modified" : "2010-01-01 12:00:00",
+        "package" : 3
+      },
+    "model" : "grid.gridpackage",
+    "pk" : 4
+  },
+  { "fields" : { "created" : "2010-01-01 12:00:00",
         "description" : "Does this package come with tests?",
         "grid" : 1,
         "modified" : "2010-01-01 12:00:00",
@@ -40,6 +48,15 @@
       },
     "model" : "grid.feature",
     "pk" : 1
+  },
+  { "fields" : { "created" : "2010-01-01 12:00:00",
+        "description" : "Is this package cool?",
+        "grid" : 1,
+        "modified" : "2010-01-01 12:00:00",
+        "title" : "Coolness?"
+      },
+    "model" : "grid.feature",
+    "pk" : 2
   },
   { "fields" : { "created" : "2010-01-01 12:00:00",
         "feature" : 1,
