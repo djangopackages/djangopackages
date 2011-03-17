@@ -287,6 +287,10 @@ except ImportError:
 if LOCAL_INSTALLED_APPS:
     INSTALLED_APPS.extend(LOCAL_INSTALLED_APPS)
 
+SUPPORTED_REPO = ["bitbucket", "github"]
+if LAUNCHPAD_ACTIVE:
+    SUPPORTED_REPO += ["launchpad"]
+
 import djcelery
 djcelery.setup_loader()
 
