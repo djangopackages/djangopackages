@@ -3,17 +3,17 @@
 {% load i18n %}
 {% load package_tags %}
 
-{% block head_title %}{{ object.title }}{% endblock %}
+{% block head_title %}{{ package.title }}{% endblock %}
 
 {% block extra_head %}
-    <meta name="description" content="{{ object.repo_description }}" />
-    <meta name="keywords" content="{{ object.grid_set.all|join:',' }}" />
+    <meta name="description" content="{{ package.repo_description }}" />
+    <meta name="keywords" content="{{ package.grid_set.all|join:',' }}" />
 {% endblock %}
 
 {% block body %}
     
-    <h1><a href="{% url home %}">home</a> / <a href="{% url packages %}">packages</a> / {{ object.title }}
-        <a href="{% url edit_package object.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
+    <h1><a href="{% url home %}">home</a> / <a href="{% url packages %}">packages</a> / {{ package.title }}
+        <a href="{% url edit_package package.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
     </h1>
     
     
@@ -23,10 +23,10 @@
     <div id="package-left">
         
         <p>
-            {{ object.repo_description }}
+            {{ package.repo_description }}
         </p>
 
-        <p><strong>Category:</strong> <a href="{% url category object.category.slug %}">{{ object.category }}</a></p>
+        <p><strong>Category:</strong> <a href="{% url category package.category.slug %}">{{ package.category }}</a></p>
 
         <table>
             <thead>
@@ -39,27 +39,27 @@
             <tbody>
                 <tr class="usage-container">
                     <td class="usage-container">
-                        <span class="usage-count" id="usage-count-{{ object.id }}">{{ object.usage.count }}</span>
+                        <span class="usage-count" id="usage-count-{{ package.id }}">{{ package.usage.count }}</span>
                         &nbsp;
-                        {% with object as package %}
+                        {% with package as package %}
                             {% usage_button %} 
                         {% endwith %}
                     </td>
-                    <td id="fetch-cell"><a class="awesome forestgreen" href="{% url fetch_package_data object.slug %}">Fetch latest data</a></td>
+                    <td id="fetch-cell"><a class="awesome forestgreen" href="{% url fetch_package_data package.slug %}">Fetch latest data</a></td>
                 </tr>    
             </tbody>        
          </table>
 
-        {% if object.pypi_url and object.pypi_url != "http://pypi.python.org/pypi/" %}
-            <h2>PyPI {% if object.pypi_downloads %}( {{ object.pypi_downloads }} downloads ){% endif %}</h2>
-            <p><a href="{{ object.pypi_url }}">{{ object.pypi_url }}</a></p>
+        {% if package.pypi_url and package.pypi_url != "http://pypi.python.org/pypi/" %}
+            <h2>PyPI {% if package.pypi_downloads %}( {{ package.pypi_downloads }} downloads ){% endif %}</h2>
+            <p><a href="{{ package.pypi_url }}">{{ package.pypi_url }}</a></p>
             <table>
                 <tr>
                     <th>Version</th>
                     <th>License</th>                
                     <th><img src="{{ STATIC_URL }}img/grayarrow_20x20_clear.png" alt="Downloads" /></th>
                 </tr>
-                {% for version in object.version_set.by_version %}
+                {% for version in package.version_set.by_version %}
                     {% if not version.hidden %}
                     <tr>
                         <td>{{ version.number }}</td>
@@ -76,8 +76,8 @@
         <h2>Participants</h2>
 
         <p>
-            {% for participant in object.participant_list %}
-                <a href="{% participant_url object.repo participant %}">{{ participant }}</a>
+            {% for participant in package.participant_list %}
+                <a href="{% participant_url package.repo participant %}">{{ participant }}</a>
             {% endfor %}
         
         </p>
@@ -88,7 +88,7 @@
         <h2 class="rtd" style="display: none;">Read the Docs</h2>
         <p class="rtd" style="display: none;">This project has documentation available for it on <a class="rtd">Read the Docs!</a></p>
 
-        <h2>{{ object.repo.title }}</h2>
+        <h2>{{ package.repo.title }}</h2>
         <table>
             <tr>
                 <th>Repo URL</th>
@@ -97,16 +97,16 @@
                 <th><img src="{{ STATIC_URL }}img/fork_20x20_clear.png" alt="Forks" /></th>
             </tr>
             <tr>
-                <td><a href="{{ object.repo_url }}">{{ object.repo_url }}</a></td>
-                <td><img src="http://chart.apis.google.com/chart?cht=bvg&chs=105x20&chd=t:{{object|commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
-                <td>{{ object.repo_watchers|default:"n/a" }}</td>
-                <td>{{ object.repo_forks|default:"n/a" }}</td>
+                <td><a href="{{ package.repo_url }}">{{ package.repo_url }}</a></td>
+                <td><img src="http://chart.apis.google.com/chart?cht=bvg&chs=105x20&chd=t:{{package|commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
+                <td>{{ package.repo_watchers|default:"n/a" }}</td>
+                <td>{{ package.repo_forks|default:"n/a" }}</td>
             </tr>
         </table>        
 
         <h2>Comparison Grids</h2>
     
-        {% for grid in object.grids %}
+        {% for grid in package.grids %}
             <a href="{% url grid grid.slug %}" title="{{ grid.description }}">{{ grid }}</a>
         
             {% if forloop.last %}
@@ -127,11 +127,11 @@
     
         <div id="package-editlink">
             {% if request.user.is_authenticated %}        
-                <a class="awesome forestgreen" href="{% url add_example object.slug %}">Add an example</a>
+                <a class="awesome forestgreen" href="{% url add_example package.slug %}">Add an example</a>
             {% endif %}
         </div>
     
-        {% with object.active_examples as examples %}
+        {% with package.active_examples as examples %}
         {% if examples %}
         <ol id="package-sitelist">
             {% for example in examples %}
@@ -139,7 +139,7 @@
                     <a href="{{ example.url }}">{{ example.title }}</a>
                     {% if request.user.is_authenticated %}
                         <div id="package-editlink">
-                            <a class="awesome forestgreen" href="{% url edit_example object.slug example.id %}">edit</a>
+                            <a class="awesome forestgreen" href="{% url edit_example package.slug example.id %}">edit</a>
                         </div>
                     {% endif %}
                 </li>
@@ -176,7 +176,7 @@
             
             $('#find-a-grid-input').keyup(function() {
                 var search_text = $('input#find-a-grid-input').attr('value');
-                var search_text = '{% url ajax_grid_list %}?q=' + search_text + '&package_id={{ object.id }}';
+                var search_text = '{% url ajax_grid_list %}?q=' + search_text + '&package_id={{ package.id }}';
                 $.get(search_text, function(data) {
                   $('#target').html(data).show("slow");
                 });                
@@ -189,13 +189,13 @@
             });       
 
         });
-        var url = "http://readthedocs.org/api/v1/build/{{ object.slug }}/?format=jsonp";
+        var url = "http://readthedocs.org/api/v1/build/{{ package.slug }}/?format=jsonp";
         $.ajax({
           url: url,
           dataType: 'jsonp',
           success:function(data){
               if (data.objects.length > 0){
-                  var href = "http://readthedocs.org/projects/{{ object.slug }}";
+                  var href = "http://readthedocs.org/projects/{{ package.slug }}";
                   $("a.rtd").attr("href", href);
                   $(".rtd").show();            
               };
