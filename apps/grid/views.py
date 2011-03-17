@@ -54,20 +54,22 @@ def grid_detail_feature(request, slug, feature_id, bogus_slug, template_name="gr
     gp = grid.gridpackage_set.select_related('gridpackage', 'package__repo', 'package__category')
     grid_packages = gp.annotate(usage_count=Count('package__usage')).order_by('-usage_count', 'package')
 
-    elements_mapping = {}
-    all_elements = Element.objects.all().filter(feature__in=features, grid_package__in=grid_packages)
-    # Builds a two-level dictionary that is unpacked in the template via hash()
-    # Horrifying, needs refactoring :P
-    for element in all_elements:
-        grid_mapping = elements_mapping.setdefault(element.feature_id, {})
-        grid_mapping[element.grid_package_id] = element
+    '''Horrifying two-level dict due to needing to use hash() function later'''
+    element_map = {}
+    elements = Element.objects.all() \
+                .filter(feature__in=features,
+                        grid_package__in=grid_packages)
+    for element in elements:
+        element_map.setdefault(element.feature_id, {})
+        element_map[element.feature_id][element.grid_package_id] = element
+
 
     return render_to_response(
         template_name, {
             'grid': grid,
             'feature': features[0],
             'grid_packages': grid_packages,
-            'elements': elements_mapping,
+            'elements': element_map,
         }, context_instance = RequestContext(request)
     )
     
