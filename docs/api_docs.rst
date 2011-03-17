@@ -1,6 +1,6 @@
-========
-API Docs
-========
+==============
+Webservice API
+==============
 
 This is the API documentation for Packaginator. It is designed to be language and tool agnostic.
 
