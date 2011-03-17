@@ -2,7 +2,7 @@
 
 {% comment %}
     Figure out how to use facebox for the forms cause right now the edits don't stick
-     rel="facebox"
+    rel="facebox"
 {% endcomment %}
 
 {% load i18n %}
@@ -19,7 +19,6 @@
 
 {% block body %}
 
-    
     <h1 id="grid-name">
       <a href="{% url home %}">home</a> / <a href="{% url grids %}">grids</a> / {{ grid.title }}
       <a href="{% url edit_grid grid.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
@@ -27,11 +26,11 @@
 
     <p>
         {{ grid.description|urlize|linebreaksbr }}
-    </p>    
-    
+    </p>
+
     {% if features %}
         <h2>Features currently being evaluated</h2>
-        <table id="grid" border="3">      
+        <table id="grid" border="3">
             <thead>
                 <tr>
                     <th>Feature</th>
@@ -40,7 +39,7 @@
             </thead>
             <tbody>
                 {% for feature in features %}
-                    <tr>                        
+                    <tr>
                         <td>{{ feature.title }}
                         {% if request.user.is_authenticated %}
                             <a href="{% url edit_feature feature.pk %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>{% if perms.grid.delete_feature %}&nbsp;<a href="#" id="feature-delete-{{ feature.pk }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete" /></a>{% endif %}
@@ -51,13 +50,13 @@
                 {% endfor %}
             </tbody>
         </table>
-        {% if request.user.is_authenticated %}        
+        {% if request.user.is_authenticated %}
 
             <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_feature grid.slug %}">Add new feature to the grid</a></p>
 
-        {% endif %}            
+        {% endif %}
     {% else %}
-        {% if request.user.is_authenticated %}        
+        {% if request.user.is_authenticated %}
 
             <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_feature grid.slug %}">Add a feature to the grid</a></p>
 
