@@ -27,6 +27,7 @@ Contents:
    contributors
    repo_handlers
    vcs_protocols_research
+   database
    credits
 
 Contributing to Packaginator
