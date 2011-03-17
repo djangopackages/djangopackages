@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
@@ -26,13 +27,14 @@ class GenericPullTests(TestCase):
         )        
         package.save()
         
-        package = Package.objects.create(
-            title="Django-PreFlight",
-            slug="django-preflight",
-            repo_url="https://code.launchpad.net/~canonical-isd-hackers/django-preflight/trunk",
-            pypi_url="django-preflight"            
-        )
-        package.save()
+        if settings.LAUNCHPAD_ACTIVE:
+            package = Package.objects.create(
+                title="Django-PreFlight",
+                slug="django-preflight",
+                repo_url="https://code.launchpad.net/~canonical-isd-hackers/django-preflight/trunk",
+                pypi_url="django-preflight"            
+            )
+            package.save()
                 
         # package list is needed throughout the app
         self.packages = Package.objects.all()

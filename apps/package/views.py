@@ -2,10 +2,11 @@ from random import randrange
 import simplejson
 import urllib
 
-from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
-from django.core.cache import cache
 from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.core.cache import cache
+from django.core.urlresolvers import reverse
 from django.db.models import Q, Count
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
@@ -71,6 +72,7 @@ def update_package(request, slug):
     
     package = get_object_or_404(Package, slug=slug)
     package.fetch_metadata()
+    messages.add_message(request, messages.INFO, 'Package updated successfully')
         
     return HttpResponseRedirect(reverse("package", kwargs={"slug": package.slug}))
 

@@ -17,3 +17,9 @@ coverage==3.4
 django-coverage==1.1.1
 django-flatblocks==0.5.0
 feedparser==5.0.1
+
+# Celery dependencies:
+celery==2.2.4
+kombu==1.0.4
+django-celery==2.2.4
+django-kombu==0.9.2

@@ -3,6 +3,7 @@
 {% load i18n %}
 {% load account_tags %}
 {% load pagination_tags %}
+{% load sorting_tags %}
 
 {% block head_title %}{% trans "All Profiles" %}{% endblock %}
 
@@ -12,7 +13,9 @@
 
 <p>Click table headers to sort</p>
 
-{% comment %}{% autopaginate users %}{% endcomment %}
+{% autosort users %}
+{% autopaginate users %}
+{% paginate %}
 
     <table id="home-packages">
         
@@ -20,9 +23,9 @@
 
         <thead>
         <tr>
-            <th>User Name</th>
-            <th>Date Joined</th>
-            <th>Staff</th>
+            <th>{% anchor username User Name %}</th>
+            <th>{% anchor date_joined Date Joined %}</th>
+            <th>{% anchor is_staff Staff %}</th>
             {% if request.user.is_staff %}            
                 <th>Active</th>            
             {% endif %}
@@ -59,16 +62,9 @@
         </tbody>
     </table>
     
-{% comment %}{% paginate %}{% endcomment %}
+{% paginate %}
 
 {% endblock %}
 
 {% block extra_body %}    
-    <script type="text/javascript">
-         $(document).ready(function() 
-             { 
-                 $("#home-packages").tablesorter(); 
-             } 
-         );
-    </script>
 {% endblock %}
