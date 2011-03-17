@@ -187,6 +187,9 @@ PREREQ_APPS = [
     "pinax.apps.account",
     "pinax.apps.signup_codes",
     "pinax.apps.analytics",
+
+    # Celery task queue:
+    'djcelery',
 ]
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
@@ -269,6 +272,9 @@ PACKAGINATOR_HELP_TEXT = {
 """
 }
 
+CELERYD_TASK_TIME_LIMIT = 300
+LAUNCHPAD_ACTIVE = False
+
 LOCAL_INSTALLED_APPS = []
 
 # local_settings.py can be used to override environment-specific settings
@@ -280,3 +286,7 @@ except ImportError:
 
 if LOCAL_INSTALLED_APPS:
     INSTALLED_APPS.extend(LOCAL_INSTALLED_APPS)
+
+import djcelery
+djcelery.setup_loader()
+

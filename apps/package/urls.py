@@ -72,6 +72,7 @@ urlpatterns = patterns("",
         kwargs=dict(
             queryset=Package.objects.select_related(),
             template_name="package/package.html",
+            template_object_name="package"
             )    
     ),    
         

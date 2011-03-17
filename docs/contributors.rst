@@ -11,11 +11,13 @@ Project Leads
 Direct Contributors
 ===================
 
+* Aaron Kavlie
 * Adam Saegebarth
 * Alex Robbins
 * Andrii Kurinny
 * Brian Ball
 * Bryan Weingarten
+* Chris Adams
 * Eric Spunagle
 * Flaviu Simihaian
 * Gisle Aas  (member of the Repo Men)

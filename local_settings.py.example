@@ -27,6 +27,8 @@ LOCAL_INSTALLED_APPS = []
 
 ROOT_URLCONF = "packaginator.urls"
 
+LAUNCHPAD_ACTIVE = False
+
 # Analytics ID
 URCHIN_ID = ""
 
@@ -42,3 +44,10 @@ SECRET_KEY = "CHANGE-THIS-KEY-TO-SOMETHING-ELSE"
 if SECRET_KEY == "CHANGE-THIS-KEY-TO-SOMETHING-ELSE":
     raise Exception('You must change your SECRET_KEY settings in '
             'local_settings.py.')
+
+# See http://celeryproject.org/docs/configuration.html#task-execution-settings
+CELERY_ALWAYS_EAGER = True
+CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
+BROKER_BACKEND = "django"
+
+LOCAL_INSTALLED_APPS = ('djkombu', )
