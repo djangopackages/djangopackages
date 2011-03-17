@@ -169,6 +169,7 @@ def edit_element(request, feature_id, package_id, template_name="grid/edit_eleme
 
 @login_required
 def add_grid_package(request, grid_slug, template_name="grid/add_grid_package.html"):
+    """Add an existing package to this grid."""
 
     grid = get_object_or_404(Grid, slug=grid_slug)
     grid_package = GridPackage()
