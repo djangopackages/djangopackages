@@ -167,9 +167,10 @@
 </script>
 
 <script type="text/javascript">
-    $(function() {          '
+    $(function() {
 
-        $('#find-a-grid').click(function() {
+        $('#find-a-grid').click(function(e) {
+            e.preventDefault();
             $('#find-a-grid').hide();
             $('#find-a-grid-form').show();
             $('#find-a-grid-input').focus();
