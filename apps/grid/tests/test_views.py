@@ -200,10 +200,10 @@ class FunctionalGridTest(TestCase):
         self.assertContains(response, 'Test package')
 
 
-    #def test_ajax_grid_list_view(self):
-        #url = reverse('ajax_grid_list') + '?q=django&package_id=1' 
-        #response = self.client.get(url)
-        #self.assertContains(grid, 'django-cms')
+    def test_ajax_grid_list_view(self):
+        url = reverse('ajax_grid_list') + '?q=Testing&package_id=2' 
+        response = self.client.get(url)
+        self.assertContains(response, 'Testing')
 
 
     def test_delete_gridpackage_view(self):

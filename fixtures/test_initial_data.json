@@ -19,7 +19,7 @@
   { "fields" : { "created" : "2010-01-01 12:00:00",
         "grid" : 1,
         "modified" : "2010-01-01 12:00:00",
-        "package" : 2
+        "package" : 1
       },
     "model" : "grid.gridpackage",
     "pk" : 2
