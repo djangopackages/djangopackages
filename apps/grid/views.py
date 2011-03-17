@@ -204,6 +204,7 @@ def add_grid_package(request, grid_slug, template_name="grid/add_grid_package.ht
 
 @login_required
 def add_new_grid_package(request, grid_slug, template_name="package/package_form.html"):
+    """Add a package to a grid that isn't yet represented on the site."""
     
     grid = get_object_or_404(Grid, slug=grid_slug)
     
