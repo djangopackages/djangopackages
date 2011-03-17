@@ -33,12 +33,28 @@
     "pk" : 3
   },
   { "fields" : { "created" : "2010-01-01 12:00:00",
+        "grid" : 1,
+        "modified" : "2010-01-01 12:00:00",
+        "package" : 3
+      },
+    "model" : "grid.gridpackage",
+    "pk" : 3
+  },
+  { "fields" : { "created" : "2010-01-01 12:00:00",
         "grid" : 2,
         "modified" : "2010-01-01 12:00:00",
         "package" : 3
       },
     "model" : "grid.gridpackage",
     "pk" : 4
+  },
+  { "fields" : { "created" : "2010-01-01 12:00:00",
+        "grid" : 1,
+        "modified" : "2010-01-01 12:00:00",
+        "package" : 2
+      },
+    "model" : "grid.gridpackage",
+    "pk" : 5
   },
   { "fields" : { "created" : "2010-01-01 12:00:00",
         "description" : "Does this package come with tests?",
@@ -129,6 +145,24 @@
       },
     "model" : "package.package",
     "pk" : 3
+  },
+  { "fields" : { "category" : 1,
+        "created" : "2010-01-01 15:00:00",
+        "modified" : "2010-01-02 20:00:00",
+        "participants" : "pydanny",
+        "pypi_downloads" : 0,
+        "pypi_url" : "",
+        "related_packages" : [  ],
+        "repo_commits" : 0,
+        "repo_description" : "Yet another test package, with no grid affiliation.",
+        "repo_forks" : 0,
+        "repo_url" : "",
+        "repo_watchers" : 0,
+        "slug" : "another-test",
+        "title" : "Another Test"
+      },
+    "model" : "package.package",
+    "pk" : 4
   },
   { "fields" : { "name" : "Moderators",
         "permissions" : [ [ "delete_gridpackage",
