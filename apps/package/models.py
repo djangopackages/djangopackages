@@ -1,5 +1,9 @@
 # TODO - cleanup regex to do proper string subs
-# TODO - add is_other field to repo
+
+import logging
+import os
+import re
+import sys
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -7,17 +11,14 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
+
+from distutils.version import LooseVersion as versioner
 from github2.client import Github
+
 from package.fields import CreationDateTimeField, ModificationDateTimeField
 from package.repos import github
 from package.pypi import fetch_releases
 from package.repos import get_repo_for_repo_url
-from distutils.version import LooseVersion as versioner
-from urllib import urlopen
-import logging
-import os
-import re
-import sys
 
 repo_url_help_text = settings.PACKAGINATOR_HELP_TEXT['REPO_URL']
 pypi_url_help_text = settings.PACKAGINATOR_HELP_TEXT['PYPI_URL']
