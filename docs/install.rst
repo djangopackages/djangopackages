@@ -69,7 +69,7 @@ Change the ``ROOT_URLS`` setting in ``local_settings.py`` from `<root_directory_
 
     ROOT_URLCONF = '<root_directory_name>.urls'
 
-You can enable launchpad support in the local settings file. Launchpad's dependencies can be a little fussy, so this will probably require some additional tweaking on your part::
+OPTIONAL! You can enable launchpad support in the local settings file. Launchpad's dependencies can be a little fussy, so this will probably require some additional tweaking on your part::
 
     LAUNCHPAD_ACTIVE = True
 
@@ -93,10 +93,10 @@ The normal sort of thing::
 
     python manage.py runserver
 
-Production/Staging gotcha fix
-=============================
+OPTIONAL! Production/Staging fix
+=================================
 
-Launchpad needs this in settings.py for caching::
+You only need to set this if you are supporting Launchpad. Launchpad needs this in settings.py for caching::
 
     LAUNCHPAD_CACHE_DIR="/tmp/lp-cache"
 
