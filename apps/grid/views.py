@@ -182,11 +182,11 @@ def add_grid_package(request, grid_slug, template_name="grid/add_grid_package.ht
             GridPackage.objects.get(grid=grid, package=package)
             message = "Sorry, but '%s' is already in this grid." % package.title
         except GridPackage.DoesNotExist:
-            package = GridPackage(
+            grid_package = GridPackage(
                         grid=grid, 
                         package=package
                     )
-            package.save()
+            grid_package.save()
             redirect = request.POST.get('redirect','')
             if redirect:
                 return HttpResponseRedirect(redirect)
