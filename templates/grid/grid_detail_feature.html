@@ -14,7 +14,7 @@
         <a href="{% url home %}">home</a> /
         <a href="{% url grids %}">grids</a> /
         <a href="{% url grid grid.slug %}">{{ grid.title }}</a> /
-        <a href="">{{ feature.title }}</a>
+        {{ feature.title }}
         <a href="{% url edit_grid grid.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
     </h1>
 
@@ -29,8 +29,13 @@
             <tbody>
                 <tr>
                     <td>{{ feature.title }}
-                    {% if request.user.is_authenticated %}
-                        <a href="{% url edit_feature feature.pk %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>{% if perms.grid.delete_feature %}&nbsp;<a href="#" id="feature-delete-{{ feature.pk }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete" /></a>{% endif %}
+                    {% if request.user.is_authenticated %}&nbsp;
+                        <a href="{% url edit_feature feature.pk %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
+                        {% if perms.grid.delete_feature %}
+                            <a href="#" id="feature-delete-{{ feature.pk }}">
+                                <img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete" />
+                            </a>
+                        {% endif %}
                     {% endif %}
                     </td>
                     <td>{{ feature.description|wordwrap:80|linebreaksbr }}</td>
