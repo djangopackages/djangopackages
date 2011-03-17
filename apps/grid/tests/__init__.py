@@ -1,2 +1,2 @@
-from grid.tests.test_templatetags import *
-from grid.tests.test_views import *
+from grid.tests.test_templatetags import GridTest 
+from grid.tests.test_views import FunctionalGridTest, RegressionGridTest 
