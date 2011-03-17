@@ -56,6 +56,8 @@ def grid_detail_feature(request, slug, feature_id, bogus_slug, template_name="gr
 
     elements_mapping = {}
     all_elements = Element.objects.all().filter(feature__in=features, grid_package__in=grid_packages)
+    # Builds a two-level dictionary that is unpacked in the template via hash()
+    # Horrifying, needs refactoring :P
     for element in all_elements:
         grid_mapping = elements_mapping.setdefault(element.feature_id, {})
         grid_mapping[element.grid_package_id] = element
