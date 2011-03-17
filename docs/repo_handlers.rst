@@ -1,6 +1,6 @@
-=============
-repo handlers
-=============
+====================
+Adding Repo Handlers
+====================
 
 Adding a new repo in Packaginator is a relatively straightforward task. You need to provide two things:
 
