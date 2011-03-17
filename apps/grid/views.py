@@ -47,7 +47,7 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
         }, context_instance = RequestContext(request)
     )
 
-def grid_detail_feature(request, slug, feature_id, template_name="grid/grid_detail_feature.html"):
+def grid_detail_feature(request, slug, feature_id, bogus_slug, template_name="grid/grid_detail_feature.html"):
     grid = get_object_or_404(Grid, slug=slug)
     features = grid.feature_set.all().filter(id=feature_id)
 
