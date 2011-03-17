@@ -23,7 +23,7 @@ The Packaginator community uses convore (http://convore.com/packaginator) becaus
 How can I contribute?
 ----------------------
 
-blah blahb lah
+Read the page on contributions_. 
 
 What browsers does Packaginator support?
 ----------------------------------------
@@ -47,3 +47,5 @@ What about just screen scraping their site?
 --------------------------------------------
 
 Too brittle for our tastes. The Google Project hosting site uses a lot of JavaScript and AJAX to deliver content. Besides, we would like to think our fellow developers at Google will provide us with a really awesome, well-documented, stable API.
+
+.. _contributions: contributing.html

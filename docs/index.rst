@@ -24,10 +24,10 @@ Contents:
    testing_instructions
    management_commands
    pypi_issues
-   api_docs
    contributors
    contributing
    repo_handlers
+   api_docs   
 
 Contributing to Packaginator
 ================================
