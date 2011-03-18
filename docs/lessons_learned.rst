@@ -34,6 +34,15 @@ Assigning Work
 
 * Tell people if they get stuck on something for 30 minutes to ask questions. We are all beginners and the hardest problems often become simple spelling mistakes when you try and explain them.
 
+Be conservative
+---------------
+
+You don't want to stall people from doing the work they are trying to get done. So that means:
+
+* Keep the database as stable as possible during a large sprint.
+
+* Freeze the design during a sprint. Have designer-oriented people prettify neglected views e.g. the login page, server error pages.
+
 Helping people get stuff done
 ------------------------------
 
@@ -42,8 +51,6 @@ Helping people get stuff done
 * Go around and ask questions of your sprinters periodically. People are often too shy to come up to you but if you go up to them they'll readily ask for help.
 
 * Update your install documentation as your sprinters discover problems.
-
-* Keep the database as stable as possible during a large sprint.
 
 * If you have new dependencies, let everyone know as soon and as loudly as possible.
 
