@@ -29,7 +29,7 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
     gp = grid.gridpackage_set.select_related('gridpackage', 'package__repo', 'package__category')
     grid_packages = gp.annotate(usage_count=Count('package__usage')).order_by('-usage_count', 'package')
 
-    '''Horrifying two-level dict due to needing to use hash() function later'''
+    # Horrifying two-level dict due to needing to use hash() function later
     element_map = {}
     elements = Element.objects.all() \
                 .filter(feature__in=features,
@@ -52,7 +52,7 @@ def grid_detail_feature(request, slug, feature_id, bogus_slug, template_name="gr
     features = grid.feature_set.filter(id=feature_id)
     grid_packages = grid.gridpackage_set.select_related('gridpackage')
 
-    '''Horrifying two-level dict due to needing to use hash() function later'''
+    # Horrifying two-level dict due to needing to use hash() function later
     element_map = {}
     elements = Element.objects.all() \
                 .filter(feature__in=features,
