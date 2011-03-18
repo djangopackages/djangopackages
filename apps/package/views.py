@@ -143,8 +143,8 @@ def ajax_package_list(request, template_name="package/ajax_package_list.html"):
     q = request.GET.get("q","")
     packages = []
     if q:
-        django_dash = "django-%s" % q
-        django_space = "django %s" % q
+        django_dash = "%s-%s" % (settings.PACKAGINATOR_SEARCH_PREFIX, q)
+        django_space = "%s %s" % (settings.PACKAGINATOR_SEARCH_PREFIX, q)
         packages = Package.objects.filter(
                         Q(title__istartswith=q) |
                         Q(title__istartswith=django_dash) |

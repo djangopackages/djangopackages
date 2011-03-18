@@ -7,6 +7,14 @@ Do everything listed in this section to get your site up and running locally.  I
 Pre-requisites
 ==============
 
+Mac
+---
+
+Download and install setuptools from http://pypi.python.org/pypi/setuptools.  Setuptools gives you easy_install. Then run the following commands::
+
+    easy_install pip
+    pip install virtualenv
+
 Ubuntu
 ------
 
@@ -57,6 +65,7 @@ Remove the existing pinax & uni_form symlinks.  Add symlinks to the correct pina
     rm uni_form
     ln -s ../../env-pythonpackages/lib/python2.6/site-packages/pinax/media/default/pinax/ pinax
     ln -s ../../env-pythonpackages/lib/python2.6/site-packages/uni_form/media/uni_form/ uni_form
+    cd ..
 
 Setup local settings
 ========================
@@ -69,7 +78,7 @@ Change the ``ROOT_URLS`` setting in ``local_settings.py`` from `<root_directory_
 
     ROOT_URLCONF = '<root_directory_name>.urls'
 
-You can enable launchpad support in the local settings file. Launchpad's dependencies can be a little fussy, so this will probably require some additional tweaking on your part::
+OPTIONAL! You can enable launchpad support in the local settings file. Launchpad's dependencies can be a little fussy, so this will probably require some additional tweaking on your part::
 
     LAUNCHPAD_ACTIVE = True
 
@@ -93,10 +102,10 @@ The normal sort of thing::
 
     python manage.py runserver
 
-Production/Staging gotcha fix
-=============================
+OPTIONAL! Production/Staging fix
+=================================
 
-Launchpad needs this in settings.py for caching::
+You only need to set this if you are supporting Launchpad. Launchpad needs this in settings.py for caching::
 
     LAUNCHPAD_CACHE_DIR="/tmp/lp-cache"
 
