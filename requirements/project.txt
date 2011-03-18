@@ -2,7 +2,9 @@
 # required by your project to run.
 
 --requirement=base.txt
---requirement=launchpad.txt
+
+# Uncomment this if you want to support launchpad
+#--requirement=launchpad.txt
 
 django_extensions==0.4.1
 simplejson==2.1.1

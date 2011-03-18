@@ -152,7 +152,7 @@ class FunctionalGridTest(TestCase):
         self.assertEqual(response.status_code, 404)
 
 
-    def test_add_gridpackage_view(self):
+    def test_add_grid_package_view(self):
         url = reverse('add_grid_package', kwargs={'grid_slug': 'testing'})
         response = self.client.get(url)
         
@@ -165,13 +165,19 @@ class FunctionalGridTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'grid/add_grid_package.html')
 
-        # Test form post
-        #count = GridPackage.objects.count()
-        #response = self.client.post(url, {
-            #'package': 'TEST NAME',
-        #}, follow=True)
-        #self.assertEqual(GridPackage.objects.count(), count + 1)
-        #self.assertContains(response, 'TEST TITLE')
+        # Test form post for existing grid package
+        response = self.client.post(url, {
+            'package': 2,
+        })
+        self.assertContains(response, 
+                            '&#39;Supertester&#39; is already in this grid.')
+        # Test form post for new grid package
+        count = GridPackage.objects.count()
+        response = self.client.post(url, {
+            'package': 4,
+        }, follow=True)
+        self.assertEqual(GridPackage.objects.count(), count + 1)
+        self.assertContains(response, 'Another Test')
 
 
     def test_add_new_grid_package_view(self):
@@ -201,7 +207,7 @@ class FunctionalGridTest(TestCase):
 
 
     def test_ajax_grid_list_view(self):
-        url = reverse('ajax_grid_list') + '?q=Testing&package_id=2' 
+        url = reverse('ajax_grid_list') + '?q=Testing&package_id=4' 
         response = self.client.get(url)
         self.assertContains(response, 'Testing')
 

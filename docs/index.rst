@@ -18,44 +18,30 @@ Contents:
    introduction
    license   
    install
+   faq
    troubleshooting
    packaginator_settings
    testing_instructions
    management_commands
    pypi_issues
-   api_docs
    contributors
+   contributing
    repo_handlers
-   vcs_protocols_research
-   credits
+   api_docs
+   lessons_learned
 
 Contributing to Packaginator
 ================================
 
-#. Follow the installation instructions!
-#. Fork and branch on github (http://github.com/cartwheelweb/packaginator) before submitting a pull request
-#. All pull requests (outside of documentation) require test coverage. Packaginator uses Django's test suite and Selenium to check against multiple browsers.
-#. Packaginator pull requests should be as small/atomic as possible. Large, wide-sweeping changes in a pull request will be rejected.
-#. Any css or layout changes (besides what you do in custom.css) for your own project must work in Chrome, Safari, Firefox and IE8 and IE9. 
+#. Follow the installation_ instructions!
+#. Follow the contributing_ instructions!
 
-Pull upstream changes into your fork regularly
-----------------------------------------------
+Credits
+=======
 
-To pull in upstream changes::
+For Django Dash 2010, @pydanny and @audreyr were scared of rabbits.
 
-    git remote add packaginator git://github.com/cartwheelweb/packaginator.git
-    git fetch packaginator
-
-Check the log to be sure that you actually want the changes, before merging::
-
-    git log ..packaginator/master
-
-Then merge the changes that you fetched::
-
-    git merge packaginator/master
-
-For more info, see http://help.github.com/fork-a-repo/
-
+Since then the project has had many contributors_.
 
 Indices and tables
 ==================
@@ -64,3 +50,6 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+.. _installation: install.html
+.. _contributing: contributing.html
+.. _contributors: contributors.html

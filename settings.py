@@ -272,10 +272,13 @@ PACKAGINATOR_HELP_TEXT = {
 """
 }
 
+PACKAGINATOR_SEARCH_PREFIX = "django"
+
 CELERYD_TASK_TIME_LIMIT = 300
 LAUNCHPAD_ACTIVE = False
 
 LOCAL_INSTALLED_APPS = []
+SUPPORTED_REPO = []
 
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.
@@ -286,6 +289,10 @@ except ImportError:
 
 if LOCAL_INSTALLED_APPS:
     INSTALLED_APPS.extend(LOCAL_INSTALLED_APPS)
+
+SUPPORTED_REPO.extend(["bitbucket", "github"])
+if LAUNCHPAD_ACTIVE:
+    SUPPORTED_REPO += ["launchpad"]
 
 import djcelery
 djcelery.setup_loader()

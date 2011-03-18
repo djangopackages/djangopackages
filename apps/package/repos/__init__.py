@@ -19,7 +19,4 @@ def get_repo_for_repo_url(repo_url):
     return unsupported_handler
 
 def supported_repos():
-    supported = ["bitbucket", "github"]
-    if settings.LAUNCHPAD_ACTIVE:
-        supported += ["launchpad"]
-    return supported
+    return settings.SUPPORTED_REPO

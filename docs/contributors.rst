@@ -20,9 +20,10 @@ Direct Contributors
 * Chris Adams
 * Eric Spunagle
 * Flaviu Simihaian
-* Gisle Aas  (member of the Repo Men)
+* Gisle Aas  (Repo Man)
 * James Pacileo
 * James Punteney
+* Jeff Schenck
 * Jim Allman
 * John M. Camara
 * Jonas Obrist
@@ -31,7 +32,7 @@ Direct Contributors
 * Nolan Brubaker
 * Preston Holmes
 * Stuart Powers
-* Szilveszter Farkas (member of the Repo Men)
+* Szilveszter Farkas (Repo Man)
 * Taavi Taijala
 * Tom Brander
 * Vasja Volin
