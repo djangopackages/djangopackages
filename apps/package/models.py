@@ -50,16 +50,6 @@ class Category(BaseModel):
     def __unicode__(self):
         return self.title
         
-class PackageManager(models.Manager):
-
-    def get_query_set(self):
-        package_app = getattr(settings, 'PACKAGE_APP', 'package')
-        package_model = getattr(settings, 'PACKAGE_MODEL', 'Package')        
-        if package_app == 'package' and package_model == 'Package':
-            return super(PackageManager, self).get_query_set()
-        model = models.get_model(package_app, package_model)
-        return model.objects.all()
-        
 class Package(BaseModel):
     
     title           = models.CharField(_("Title"), max_length="100")
@@ -79,8 +69,6 @@ class Package(BaseModel):
     created_by = models.ForeignKey(User, blank=True, null=True, related_name="creator")    
     last_modified_by = models.ForeignKey(User, blank=True, null=True, related_name="modifier")
     pypi_home_page  = models.URLField(_("homepage on PyPI for a project"), blank=True, null=True)
-    
-    objects = PackageManager()            
     
     @property
     def pypi_version(self):
