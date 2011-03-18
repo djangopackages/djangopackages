@@ -65,6 +65,7 @@ Remove the existing pinax & uni_form symlinks.  Add symlinks to the correct pina
     rm uni_form
     ln -s ../../env-pythonpackages/lib/python2.6/site-packages/pinax/media/default/pinax/ pinax
     ln -s ../../env-pythonpackages/lib/python2.6/site-packages/uni_form/media/uni_form/ uni_form
+    cd ..
 
 Setup local settings
 ========================
