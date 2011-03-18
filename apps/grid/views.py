@@ -169,6 +169,7 @@ def edit_element(request, feature_id, package_id, template_name="grid/edit_eleme
 
 @login_required
 def add_grid_package(request, grid_slug, template_name="grid/add_grid_package.html"):
+    """Add an existing package to this grid."""
 
     grid = get_object_or_404(Grid, slug=grid_slug)
     grid_package = GridPackage()
@@ -181,11 +182,11 @@ def add_grid_package(request, grid_slug, template_name="grid/add_grid_package.ht
             GridPackage.objects.get(grid=grid, package=package)
             message = "Sorry, but '%s' is already in this grid." % package.title
         except GridPackage.DoesNotExist:
-            package = GridPackage(
+            grid_package = GridPackage(
                         grid=grid, 
                         package=package
                     )
-            package.save()
+            grid_package.save()
             redirect = request.POST.get('redirect','')
             if redirect:
                 return HttpResponseRedirect(redirect)
@@ -203,6 +204,7 @@ def add_grid_package(request, grid_slug, template_name="grid/add_grid_package.ht
 
 @login_required
 def add_new_grid_package(request, grid_slug, template_name="package/package_form.html"):
+    """Add a package to a grid that isn't yet represented on the site."""
     
     grid = get_object_or_404(Grid, slug=grid_slug)
     
