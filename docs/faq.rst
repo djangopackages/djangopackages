@@ -13,7 +13,7 @@ Blah blah
 Are there any Case Studies?
 ---------------------------
 
-* PyCon 2011 Django Packages Case Study
+* http://www.slideshare.net/pydanny/django-packages-a-case-study
 
 Is there an on-line community
 -----------------------------
@@ -29,6 +29,11 @@ What browsers does Packaginator support?
 ----------------------------------------
 
 We do formal tests on Chrome, Safari, Firefox, IE8, and IE9.
+
+How hard is it to add support for a new repo?
+----------------------------------------------
+
+We've done a lot of work to make it as straightforward as possible. At PyCon 2011 we launched our formal `Repo Handler API`_.
 
 Google Project Hosting
 ======================
@@ -49,3 +54,4 @@ What about just screen scraping their site?
 Too brittle for our tastes. The Google Project hosting site uses a lot of JavaScript and AJAX to deliver content. Besides, we would like to think our fellow developers at Google will provide us with a really awesome, well-documented, stable API.
 
 .. _contributions: contributing.html
+.. _Repo Handler API: repo_handlers.html
