@@ -49,10 +49,8 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
 
 def grid_detail_feature(request, slug, feature_id, bogus_slug, template_name="grid/grid_detail_feature.html"):
     grid = get_object_or_404(Grid, slug=slug)
-    features = grid.feature_set.all().filter(id=feature_id)
-
-    gp = grid.gridpackage_set.select_related('gridpackage', 'package__repo', 'package__category')
-    grid_packages = gp.annotate(usage_count=Count('package__usage')).order_by('-usage_count', 'package')
+    features = grid.feature_set.filter(id=feature_id)
+    grid_packages = grid.gridpackage_set.select_related('gridpackage')
 
     '''Horrifying two-level dict due to needing to use hash() function later'''
     element_map = {}
@@ -72,28 +70,6 @@ def grid_detail_feature(request, slug, feature_id, bogus_slug, template_name="gr
             'elements': element_map,
         }, context_instance = RequestContext(request)
     )
-    
-'''def grid_detail_feature(request, slug, feature_id, bogus_slug, template_name="grid/grid_detail_feature.html"):
-    feature = get_object_or_404(Feature,id=feature_id)
-    grid = feature.grid
-    
-    grid_packages = feature.grid.packages.all()
-
-    elements_mapping = {}
-    all_elements = Element.objects.all()
-    all_elements = all_elements.filter(feature=feature, grid_package__in=[x.gridpackage_set.all()[0] for x in grid_packages])
-    for element in all_elements:
-        grid_mapping = elements_mapping.setdefault(element.feature_id, {})
-        grid_mapping[element.grid_package_id] = element
-
-    return render_to_response(
-        template_name, {
-            'grid': grid,
-            'feature': feature,
-            'grid_packages': grid_packages,
-            'elements': elements_mapping,
-        }, context_instance = RequestContext(request)
-    )'''
 
 @login_required
 def add_grid(request, template_name="grid/add_grid.html"):
