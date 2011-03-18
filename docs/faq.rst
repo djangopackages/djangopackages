@@ -15,10 +15,12 @@ Are there any Case Studies?
 
 * http://www.slideshare.net/pydanny/django-packages-a-case-study
 
-Is there an on-line community
------------------------------
+Is there an on-line community?
+------------------------------
 
-The Packaginator community uses convore (http://convore.com/packaginator) because it replaces the functions of IRC and a mailing list and is accessible to more users.
+The Packaginator community uses convore because it replaces the functions of IRC and a mailing list and is accessible to more users.
+
+* http://convore.com/packaginator
 
 How can I contribute?
 ----------------------
