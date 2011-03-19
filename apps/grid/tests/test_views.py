@@ -25,7 +25,6 @@ class FunctionalGridTest(TestCase):
                               'feature_id':'1',
                               'bogus_slug':'508-compliant'})
         response = self.client.get(url)
-        print response.request
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'grid/grid_detail_feature.html')
 
