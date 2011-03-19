@@ -53,7 +53,7 @@ The following instructions are how you would install an instance of Python Packa
     cd <installation-directory>
     virtualenv env-pythonpackages
     source env-pythonpackages/bin/activate
-    git clone git://github.com/cartwheelweb/packaginator.git packaginator
+    git clone git://github.com/cartwheelweb/packaginator.git pythonpackages
     cd pythonpackages
     cp backup.db dev.db
     pip install -r requirements/project.txt
