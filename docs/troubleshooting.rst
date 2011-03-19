@@ -24,6 +24,15 @@ We have a very successful installation story for development and production host
 * Don't do it.
 * We won't accept pull requests for it.
 
+bz2 not found
+-------------
+
+Install the appropriate systemwide package.  For example, on Ubuntu do:
+
+    sudo apt-get install bzip2
+
+If this doesn't work, please let us know (create an issue at http://github.com/cartwheelweb/packaginator/issues)
+
 Other problems
 --------------
 
@@ -31,3 +40,5 @@ Don't give up!  Join us at http://convore.com/packaginator and ask your question
 
 #. Be polite! We are all volunteers.
 #. Don't paste huge chunks of code into convore blocks. Use a code pasting service like http://dpaste.com or http://djaste.de.
+
+
