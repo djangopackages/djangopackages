@@ -17,5 +17,6 @@ class LogTests(TestCase):
         log = PypiUpdateLog()
         log.save()        
         self.assertTrue(PypiUpdateLog.last_update())
-        print PypiUpdateLog.last_update()
+        # Todo - check the type
+        
         
