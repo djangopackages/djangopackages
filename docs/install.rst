@@ -129,10 +129,3 @@ Then, you can load the two flatblocks and flatpages fixtures::
 
     python manage.py loaddata fixtures/flatblocks.json
     python manage.py loaddata fixtures/flatpages.json
-
-Updating Packages
-=================
-
-You can update all the packages with the following command::
-
-    python manage.py package_updater
