@@ -3,11 +3,11 @@
 {% load i18n %}
 {% load uni_form_tags %}
 
-{% block head_title %}{{ action|title }} new package{% endblock %}
+{% block head_title %}{{ action|title }} package{% endblock %}
 
 {% block body %}
 
-    <h1><a href="{% url home %}">home</a> / <a href="{% url packages %}">packages</a> / {{ action|title }} new package</h1>
+    <h1><a href="{% url home %}">home</a> / <a href="{% url packages %}">packages</a> / {{ action|title }} package</h1>
     <p id="instructions">The easiest way to use this form is to simply enter the
          package repo URL into the repo URL field. Django Packages then does it's best to figure out the title,
          slug, and then fills in the appropriate fields for you.
