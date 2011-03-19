@@ -18,6 +18,15 @@ class FunctionalGridTest(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'grid/grid_detail.html')
+
+    def test_grid_detail_feature_view(self):
+        url = reverse('grid_detail_feature',
+                      kwargs={'slug':'cms',
+                              'feature_id':'1',
+                              'bogus_slug':'508-compliant'})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'grid/grid_detail_feature.html')
     
     def test_add_grid_view(self):
         url = reverse('add_grid')
