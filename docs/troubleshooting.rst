@@ -12,9 +12,9 @@ If you're getting something like "ImportError: No module named abc", you probabl
 No module named psycopg2
 ------------------------
 
-If you're getting something like "ImproperlyConfigured: Error loading psycopg2 module: No module named psycopg2" while accessing the website, you need to install the psycopg2 module.  Try::
+If you're getting something like "ImproperlyConfigured: Error loading psycopg2 module: No module named psycopg2" while accessing the website, you need to install the psycopg2 module.  It has recently been added to requirements/project.txt (the line that says "psycopg2==2.4").  Try::
 
-    pip install psycopg2
+    pip install -r requirements/project.txt
 
 If you're getting an error like "Error: pg_config executable not found." while installing the module, you need the PostgreSQL development package. On Ubuntu, do::
 
