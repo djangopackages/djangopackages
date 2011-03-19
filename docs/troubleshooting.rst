@@ -29,7 +29,7 @@ bz2 not found
 
 Install the appropriate systemwide package.  For example, on Ubuntu do:
 
-    sudo apt-get install bzip2
+    sudo apt-get install libbz2-dev
 
 If this doesn't work, please let us know (create an issue at http://github.com/cartwheelweb/packaginator/issues)
 
