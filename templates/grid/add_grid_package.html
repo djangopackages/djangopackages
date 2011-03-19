@@ -37,9 +37,9 @@
 
         $('input#search-field').keyup(function() {
              var search_text = $('input#search-field').attr('value');
-             var search_text = '{% url ajax_package_list %}?q=' + search_text;
+             var search_url = '{% url ajax_package_list %}?q=' + search_text;
 
-             $.get(search_text, function(data) {
+             $.get(search_url, function(data) {
                $('#target').html(data).show("slow");
              });
         });
