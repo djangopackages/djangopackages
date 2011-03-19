@@ -9,6 +9,17 @@ If you're getting something like "ImportError: No module named abc", you probabl
 
     pip install -r requirements/project.txt
 
+No module named psycopg2
+------------------------
+
+If you're getting something like "ImproperlyConfigured: Error loading psycopg2 module: No module named psycopg2" while accessing the website, you need to install the psycopg2 module.  Try::
+
+    pip install psycopg2
+
+If you're getting an error like "Error: pg_config executable not found." while installing the module, you need the PostgreSQL development package. On Ubuntu, do::
+
+    sudo apt-get install libpq-dev
+
 ImportError related to launchpad.py
 -----------------------------------
 
