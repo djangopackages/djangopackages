@@ -2,8 +2,10 @@
 for the :mod:`apps.grid` app"""
 from django import template
 from django.conf import settings
-from django.template.defaultfilters import escape
+from django.template.defaultfilters import escape, truncatewords
 from grid.models import Element
+from django.template.loader import render_to_string
+
 import re
 
 register = template.Library()
@@ -64,3 +66,43 @@ def hash(h, key):
     Code there, and possible here, should be refactored.
     """
     return h.get(key, {})
+
+@register.filter
+def style_attribute(attribute_name, package):
+    mappings = {
+            'title': style_title,
+            'repo_description': style_repo_description,
+            'commits_over_52': style_commits,
+    }
+
+    value = getattr(package, attribute_name, '')
+
+    if hasattr(value, '__call__'):
+        value = value()
+
+    if attribute_name in mappings.keys():
+        return  mappings[attribute_name](value)
+
+    return style_default(value)
+
+@register.filter
+def style_title(value):
+    value = value[:20]
+    return render_to_string('grid/snippets/_title.html', { 'value': value })
+
+def style_commits(value):
+    return render_to_string('grid/snippets/_commits.html', { 'value': value })
+
+@register.filter
+def style_description(value):
+    return style_default(value[:20])
+
+@register.filter
+def style_default(value):
+    return value
+
+@register.filter
+def style_repo_description(var):
+    truncated_desc = truncatewords(var, 20)
+    return truncated_desc
+
