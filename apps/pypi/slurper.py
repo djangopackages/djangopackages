@@ -7,6 +7,7 @@ PyPI interface (see http://wiki.python.org/moin/PyPiXmlRpc)
 
 from datetime import datetime
 import itertools
+import re
 import xmlrpclib
 
 from django.template.defaultfilters import slugify
@@ -46,10 +47,14 @@ class Slurper(object):
         package.repo_description = data['summary'] or data['description']
         if not package.repo_url:
             url = data.get("home_page", None) or data.get('project_url',"") or pypi_url
-            # TODO - do some github cleanup so that 
-            #           github.com/pydanny/django-uni-form/master 
-            #           will cleanup to github/pydanny/django-uni-form/
-            package.repo_url = url
+            repo_pattern = '((?:http|https|git)://github.com/[^/]*/[^/]*)/{0,1}'
+            match = re.match(repo_pattern, url)
+            if match and match.group(1):
+                package.repo_url = match.group(1)
+            else:
+                # TODO do we want to assume this is a repo url?
+                # should there be more checking for repo patterns?
+                package.repo_url = url
         package.save()
         package.fetch_metadata()
         return (package, created)
