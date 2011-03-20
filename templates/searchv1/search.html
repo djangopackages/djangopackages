@@ -3,18 +3,18 @@
 {% load i18n %}
 {% load uni_form_tags %}
 
-{% block head_title %}Search{% endblock %}
+{% block head_title %}{% trans "Search" %}{% endblock %}
 
 {% block body %}
 
-    <h1>Search</h1>
+    <h1>{% trans "Search" %}</h1>
     
     <form class="uniForm">
         <fieldset>
                 {{ form|as_uni_form }}
 
             <div class="form_block">        
-                <input type="submit" name="b" value="Search" class="medium awesome forestgreen"> 
+                <input type="submit" name="b" value="{% trans "Search" %}" class="medium awesome forestgreen"> 
             </div>            
         </fieldset>
     </form>
@@ -22,18 +22,18 @@
     
     <div id="search-results">
         <div id="grid-listing">
-            <h2>{% if grids.count %}Grids{% else %}No grids found{% endif %}</h2>
-            <p><a class="medium awesome forestgreen" href="{% url add_grid %}">add grid »</a>
-                <a href="{% url latest_grids %}">latest</a> <a href="{% url grids %}">all</a>
+            <h2>{% if grids.count %}{% trans "Grids" %}{% else %}{% trans "No grids found" %}{% endif %}</h2>
+            <p><a class="medium awesome forestgreen" href="{% url add_grid %}">{% trans "add grid »" %}</a>
+                <a href="{% url latest_grids %}">{% trans "latest" %}</a> <a href="{% url grids %}">{% trans "all" %}</a>
             </p> 
             {% for grid in grids %}
                 {% include "grid/snippets/grid.html" %}
             {% endfor %}
         </div>
         <div id="package-listing">
-            <h2>{% if packages.count %}Packages{% else %}No packages found{% endif %}</h2>
-            <p><a class="medium awesome forestgreen" href="{% url add_package %}">add package »</a>
-                <a href="{% url latest_packages %}">latest</a> <a href="{% url packages %}">all</a>
+            <h2>{% if packages.count %}{% trans "Packages" %}{% else %}{% trans "No packages found" %}{% endif %}</h2>
+            <p><a class="medium awesome forestgreen" href="{% url add_package %}">{% trans "add package »" %}</a>
+                <a href="{% url latest_packages %}">{% trans "latest" %}</a> <a href="{% url packages %}">{% trans "all" %}</a>
             </p>
             {% for package in packages %}
                 {% include "package/includes/_package.html"%}
