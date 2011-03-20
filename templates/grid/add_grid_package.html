@@ -33,21 +33,34 @@
 {% block extra_body %}
 <script type="text/javascript">
     $(function() {          
+
         $('input#search-field').focus();
 
+        var timer = null;
         $('input#search-field').keyup(function() {
-             var search_text = $('input#search-field').attr('value');
-             var search_text = '{% url ajax_package_list %}?q=' + search_text;
+            var search_text = $('input#search-field').attr('value');
+            var search_url = '{% url ajax_package_list %}?q=' + search_text;
 
-             $.get(search_text, function(data) {
-               $('#target').html(data).show("slow");
-             });
+            // Short delay so keystrokes don't pound search URL
+            if(timer) {
+                window.clearTimeout(timer);
+            }
+
+            timer = window.setTimeout(function() {
+                $.get(search_url, function(data) {
+                    $('#target').fadeTo('fast', 0.3, function() {
+                        $('#target').html(data);
+                        $('#target').fadeTo('slow', 1.0);
+                    });
+                });
+            }, .4 * 1000);
         });
 
+        // Ignore 'enter' key if pressed
         $("#grid-package-form").keypress(function(e) {
-              if (e.which == 13) {
+            if (e.which == 13) {
                 return false;
-              };
+            };
         });       
 
     });    
