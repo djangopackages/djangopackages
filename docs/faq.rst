@@ -13,6 +13,7 @@ Blah blah
 Are there any Case Studies?
 ---------------------------
 
+* http://pycon.blip.tv/file/4878766
 * http://www.slideshare.net/pydanny/django-packages-a-case-study
 
 Is there an on-line community?
