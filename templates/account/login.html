@@ -10,7 +10,7 @@
 {% block body %}
     
     {% if openid and not user.is_authenticated %}
-        <p><span class="warning">It appears you have started to login using OpenID. Want to <a href="/openid/register/">finish logging in</a>?</span></p>
+        <p><span class="warning">{% blocktrans %}It appears you have started to login using OpenID. Want to <a href="/openid/register/">finish logging in</a>?{% endblocktrans %}</span></p>
     {% endif %}
     
     <h1>{% trans "Log In" %}</h1>
