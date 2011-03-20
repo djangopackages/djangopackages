@@ -298,7 +298,9 @@ if LAUNCHPAD_ACTIVE:
 
 try:
     import djcelery
+
+    djcelery.setup_loader()
 except ImportError:
-    sys.stderr.write("Error: Can't import djcelery. Make sure you are in a virtual environment that has\ndjcelery installed.\n")
-    sys.exit(1)
-djcelery.setup_loader()
+    # skipping this so we can generate docs
+    # Doing this cause most development doesn't need it.
+    pass

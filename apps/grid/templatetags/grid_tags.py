@@ -1,3 +1,5 @@
+"""template tags and filters
+for the :mod:`apps.grid` app"""
 from django import template
 from django.conf import settings
 from django.template.defaultfilters import escape, truncatewords
@@ -5,8 +7,6 @@ from grid.models import Element
 from django.template.loader import render_to_string
 
 import re
-
-
 
 register = template.Library()
 
@@ -61,11 +61,10 @@ def style_element(text):
     
 @register.filter
 def hash(h, key):
-    '''
-    Function leaves considerable overhead in the grid_detail views.
+    """Function leaves considerable overhead in the grid_detail views.
     each element of the list results in two calls to this hash function.
     Code there, and possible here, should be refactored.
-    '''
+    """
     return h.get(key, {})
 
 @register.filter

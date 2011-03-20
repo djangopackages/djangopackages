@@ -1,3 +1,4 @@
+"""views for the :mod:`apps.grid` app"""
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User 
@@ -14,6 +15,12 @@ from package.forms import PackageForm
 from package.views import repo_data_for_js
 
 def grids(request, template_name="grid/grids.html"):
+    """lists grids
+
+    Template context:
+
+    * ``grids`` - all grid objects
+    """
     # annotations providing bad counts
     #grids = Grid.objects.annotate(gridpackage_count=Count('gridpackage'), feature_count=Count('feature'))
     return render_to_response(
@@ -23,6 +30,15 @@ def grids(request, template_name="grid/grids.html"):
     )
 
 def grid_detail(request, slug, template_name="grid/grid_detail.html"):
+    """displays a grid in detail
+
+    Template context:
+
+    * ``grid`` - the grid object
+    * ``elements`` - elements of the grid
+    * ``features`` - feature set used in the grid
+    * ``grid_packages`` - packages involved in the current grid
+    """
     grid = get_object_or_404(Grid, slug=slug)
     features = grid.feature_set.all()
 
@@ -55,6 +71,12 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
     )
 
 def grid_detail_feature(request, slug, feature_id, bogus_slug, template_name="grid/grid_detail_feature.html"):
+    """a slightly more focused view than :func:`grid.views.grid_detail`
+    shows comparison for only one feature, and does not show the basic
+    grid parameters
+
+    Template context is the same as in :func:`grid.views.grid_detail`
+    """
     grid = get_object_or_404(Grid, slug=slug)
     features = grid.feature_set.filter(id=feature_id)
     grid_packages = grid.gridpackage_set.select_related('gridpackage')
@@ -80,6 +102,13 @@ def grid_detail_feature(request, slug, feature_id, bogus_slug, template_name="gr
 
 @login_required
 def add_grid(request, template_name="grid/add_grid.html"):
+    """Creates a new grid, requires user to be logged in.
+    Works for both GET and POST request methods
+
+    Template context:
+
+    * ``form`` - an instance of :class:`~app.grid.forms.GridForm`
+    """
 
     new_grid = Grid()
     form = GridForm(request.POST or None, instance=new_grid)    
@@ -95,6 +124,13 @@ def add_grid(request, template_name="grid/add_grid.html"):
         
 @login_required
 def edit_grid(request, slug, template_name="grid/edit_grid.html"):
+    """View to modify the grid, handles GET and POST requests.
+    This view requires user to be logged in.
+
+    Template context:
+
+    * ``form`` - instance of :class:`grid.forms.GridForm`
+    """
 
     grid = get_object_or_404(Grid, slug=slug)
     form = GridForm(request.POST or None, instance=grid)
@@ -111,6 +147,15 @@ def edit_grid(request, slug, template_name="grid/edit_grid.html"):
         
 @login_required
 def add_feature(request, grid_slug, template_name="grid/add_feature.html"):
+    """Adds a feature to the grid, accepts GET and POST requests.
+
+    Requires user to be logged in
+
+    Template context:
+
+    * ``form`` - instance of :class:`grid.forms.FeatureForm` form
+    * ``grid`` - instance of :class:`grid.models.Grid` model
+    """
 
     grid = get_object_or_404(Grid, slug=grid_slug)
     feature = Feature()
@@ -125,7 +170,6 @@ def add_feature(request, grid_slug, template_name="grid/add_feature.html"):
         feature.save()
         return HttpResponseRedirect(reverse('grid', kwargs={'slug':feature.grid.slug}))
 
-
     return render_to_response(template_name, { 
         'form': form,
         'grid':grid
@@ -134,6 +178,11 @@ def add_feature(request, grid_slug, template_name="grid/add_feature.html"):
         
 @login_required
 def edit_feature(request, id, template_name="grid/edit_feature.html"):
+    """edits feature on a grid - this view has the same
+    semantics as :func:`grid.views.add_feature`.
+
+    Requires the user to be logged in.
+    """
 
     feature = get_object_or_404(Feature, id=id)
     form = FeatureForm(request.POST or None, instance=feature)
@@ -150,6 +199,13 @@ def edit_feature(request, id, template_name="grid/edit_feature.html"):
         
 @permission_required('grid.delete_feature')
 def delete_feature(request, id, template_name="grid/edit_feature.html"):
+    """deletes a feature from the grid, ``id`` is id of the 
+    :class:`grid.models.Feature` model that is to be deleted
+
+    Requires permission `grid.delete_feature`.
+
+    Redirects to the parent :func:`grid.views.grid_detail`
+    """
 
     feature = get_object_or_404(Feature, id=id)
     Element.objects.filter(feature=feature).delete()
@@ -160,6 +216,14 @@ def delete_feature(request, id, template_name="grid/edit_feature.html"):
 
 @permission_required('grid.delete_gridpackage')
 def delete_grid_package(request, id, template_name="grid/edit_feature.html"):
+    """Deletes package from the grid, ``id`` is the id of the 
+    :class:`grid.models.GridPackage` instance
+
+    Requires permission ``grid.delete_gridpackage``.
+
+    Redirects to :func:`grid.views.grid_detail`.
+    """
+
 
     package = get_object_or_404(GridPackage, id=id)
     Element.objects.filter(grid_package=package).delete()

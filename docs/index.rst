@@ -30,6 +30,7 @@ Contents:
    api_docs
    database
    lessons_learned
+   reference
 
 Contributing to Packaginator
 ================================
