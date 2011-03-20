@@ -18,7 +18,36 @@ class FunctionalGridTest(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'grid/grid_detail.html')
-    
+
+    def test_grid_detail_feature_view(self):
+        url = reverse('grid_detail_feature',
+                      kwargs={'slug':'testing',
+                              'feature_id':'1',
+                              'bogus_slug':'508-compliant'})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'grid/grid_detail_feature.html')
+
+    def test_grid_detail_feature_view_contents(self):
+        url = reverse('grid_detail_feature',
+                      kwargs={'slug':'testing',
+                              'feature_id':'1',
+                              'bogus_slug':'508-compliant'})
+        response = self.client.get(url)
+        self.assertContains(response, '<a href="/">home</a>')
+        self.assertContains(response, '<a href="/grids/">grids</a>')
+        self.assertContains(response, '<a href="/grids/g/testing/">Testing</a>')
+        self.assertContains(response, '<a href="/grids/testing/edit/">')
+        self.assertContains(response, 'Has tests?')
+        self.assertContains(response,
+                            '<a href="/packages/p/testability/">Testability')
+        self.assertContains(response,
+                            '<a href="/packages/p/supertester/">Supertester')
+        self.assertContains(response,
+                            '<td class="clickable" id="element-f1-p1"><img')
+        self.assertNotContains(response,
+                            '<td class="clickable" id="element-f1-p2"><img')
+
     def test_add_grid_view(self):
         url = reverse('add_grid')
         response = self.client.get(url)

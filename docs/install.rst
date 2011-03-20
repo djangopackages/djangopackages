@@ -20,7 +20,7 @@ Ubuntu
 
 Install the following::
 
-    sudo apt-get install python-setuptools python-dev
+    sudo apt-get install python-setuptools python-dev libpq-dev
     sudo easy_install pip
     sudo pip install virtualenv
 
@@ -53,7 +53,7 @@ The following instructions are how you would install an instance of Python Packa
     cd <installation-directory>
     virtualenv env-pythonpackages
     source env-pythonpackages/bin/activate
-    git clone git://github.com/cartwheelweb/packaginator.git packaginator
+    git clone git://github.com/cartwheelweb/packaginator.git pythonpackages
     cd pythonpackages
     cp backup.db dev.db
     pip install -r requirements/project.txt
@@ -129,10 +129,3 @@ Then, you can load the two flatblocks and flatpages fixtures::
 
     python manage.py loaddata fixtures/flatblocks.json
     python manage.py loaddata fixtures/flatpages.json
-
-Updating Packages
-=================
-
-You can update all the packages with the following command::
-
-    python manage.py package_updater
