@@ -1,0 +1,76 @@
+{% extends "grid/base.html" %}
+
+{% load i18n %}
+{% load uni_form_tags %}
+{% load cache %}
+{% load grid_tags %}
+{% load package_tags %}
+
+{% block head_title %}{{ feature.title|slugify }} details{% endblock %}
+
+{% block body %}
+
+    <h1 id="grid-name">
+        <a href="{% url home %}">home</a> /
+        <a href="{% url grids %}">grids</a> /
+        <a href="{% url grid grid.slug %}">{{ grid.title }}</a> /
+        {{ feature.title }}
+        <a href="{% url edit_grid grid.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
+    </h1>
+
+    <h2>Feature currently being evaluated</h2>
+        <table id="grid" border="3">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Description</th>
+                </tr> 
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ feature.title }}
+                    {% if request.user.is_authenticated %}&nbsp;
+                        <a href="{% url edit_feature feature.pk %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
+                        {% if perms.grid.delete_feature %}
+                            <a href="#" id="feature-delete-{{ feature.pk }}">
+                                <img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete" />
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                    </td>
+                    <td>{{ feature.description|wordwrap:80|linebreaksbr }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    {% if feature %}
+        {% if grid_packages.count %}
+            {% if request.user.is_authenticated %}
+            <p>
+                <img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;
+                <a href="{% url add_grid_package grid.slug %}">Add another package</a>
+            </p>
+            {% endif %}
+        <table id="grid" border="3">
+            <tbody>
+            {% include "grid/snippets/grid_row_header.html" %}
+                <tr class="odd">
+                    <td>{{ feature.title }}</td>
+                    {% for grid_package in grid_packages %}
+                        {% with elements|hash:feature.pk|hash:grid_package.pk as element %}
+                            <td class="clickable" id="element-f{{ feature.pk }}-p{{ grid_package.pk }}">{% if element %}{{ element.text|style_element|safe|urlize|linebreaksbr }}{% endif %}<noscript> <a class="edit" href="{% url edit_element feature.pk grid_package.pk %}">[edit]</a></noscript></td>
+                        {% endwith %}
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+        {% endif %}
+    {% endif %}
+
+{% endblock %}
+
+{% block extra_body %}
+<script>
+    $("#id_title").focus();
+</script>
+{% endblock %}

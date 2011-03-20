@@ -1,0 +1,113 @@
+[
+    {
+        "pk": 1, 
+        "model": "package.category", 
+        "fields": {
+            "description": "Desc for test category A.", 
+            "title": "Test Category A", 
+            "created": "2011-03-19 21:47:59", 
+            "modified": "2011-03-19 21:47:59", 
+            "show_pypi": true, 
+            "title_plural": "Test Category As", 
+            "slug": "test-category-a"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "package.category", 
+        "fields": {
+            "description": "Desc for test category B", 
+            "title": "Test Category B", 
+            "created": "2011-03-19 21:48:21", 
+            "modified": "2011-03-19 21:48:21", 
+            "show_pypi": true, 
+            "title_plural": "Test Category Bs", 
+            "slug": "test-category-b"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "package.package", 
+        "fields": {
+            "category": 1, 
+            "pypi_home_page": null, 
+            "title": "django-registration", 
+            "created": "2011-03-19 21:56:23", 
+            "modified": "2011-03-19 21:56:27", 
+            "created_by": 1, 
+            "repo_watchers": 542, 
+            "pypi_url": "http://pypi.python.org/pypi/django-registration", 
+            "pypi_downloads": 47795, 
+            "last_modified_by": 1, 
+            "repo_url": "https://bitbucket.org/ubernostrum/django-registration", 
+            "participants": "ubernostrum", 
+            "usage": [], 
+            "related_packages": [], 
+            "repo_commits": 0, 
+            "repo_forks": 79, 
+            "slug": "django-registration", 
+            "repo_description": "A user-registration application for Django."
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "package.version", 
+        "fields": {
+            "license": " BSD License", 
+            "package": 1, 
+            "downloads": 0, 
+            "created": "2011-03-19 21:56:26", 
+            "number": "0.5", 
+            "modified": "2011-03-19 21:56:26", 
+            "hidden": true
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "package.version", 
+        "fields": {
+            "license": " BSD License", 
+            "package": 1, 
+            "downloads": 0, 
+            "created": "2011-03-19 21:56:26", 
+            "number": "0.6", 
+            "modified": "2011-03-19 21:56:26", 
+            "hidden": true
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "package.version", 
+        "fields": {
+            "license": " BSD License", 
+            "package": 1, 
+            "downloads": 47795, 
+            "created": "2011-03-19 21:56:26", 
+            "number": "0.7", 
+            "modified": "2011-03-19 21:56:26", 
+            "hidden": false
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "grid.grid", 
+        "fields": {
+            "description": "Desc for grid A", 
+            "title": "Grid A", 
+            "is_locked": false, 
+            "created": "2011-03-19 21:57:51", 
+            "modified": "2011-03-19 21:57:51", 
+            "slug": "grid-a"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "grid.gridpackage", 
+        "fields": {
+            "package": 1, 
+            "grid": 1, 
+            "modified": "2011-03-19 21:58:01", 
+            "created": "2011-03-19 21:58:01"
+        }
+    }
+]

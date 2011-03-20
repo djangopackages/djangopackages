@@ -19,19 +19,23 @@ Direct Contributors
 * Bryan Weingarten
 * Chris Adams
 * Eric Spunagle
+* Evgeny Fadeev
 * Flaviu Simihaian
-* Gisle Aas  (member of the Repo Men)
+* Gisle Aas  (Repo Man)
+* Jacob Burch
 * James Pacileo
 * James Punteney
+* Jeff Schenck
 * Jim Allman
 * John M. Camara
 * Jonas Obrist
 * jrothenbuhler
 * Nate Aune
 * Nolan Brubaker
+* PA Parent
 * Preston Holmes
 * Stuart Powers
-* Szilveszter Farkas (member of the Repo Men)
+* Szilveszter Farkas (Repo Man)
 * Taavi Taijala
 * Tom Brander
 * Vasja Volin

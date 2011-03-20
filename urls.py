@@ -30,7 +30,7 @@ urlpatterns = patterns("",
     url(r"^packages/", include("package.urls")),
     url(r"^grids/", include("grid.urls")),  
     url(r"^search/", include("searchv1.urls")),
-    url(r"^feeds/", include("feeds.urls")),      
+    url(r"^feeds/", include("feeds.urls")),
     
     url(r"^categories/(?P<slug>[-\w]+)/$", category, name="category"),
     url(r"^categories/$", homepage, name="categories"),

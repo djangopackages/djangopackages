@@ -25,28 +25,52 @@ def grids(request, template_name="grid/grids.html"):
 def grid_detail(request, slug, template_name="grid/grid_detail.html"):
     grid = get_object_or_404(Grid, slug=slug)
     features = grid.feature_set.all()
-    
+
     gp = grid.gridpackage_set.select_related('gridpackage', 'package__repo', 'package__category')
     grid_packages = gp.annotate(usage_count=Count('package__usage')).order_by('-usage_count', 'package')
-    
-    # Get a list of all elements for this grid, and then package them into a
-    # dictionary so we can easily lookup the element for every
-    # feature/grid_package combination.
-    elements_mapping = {}
-    all_elements = Element.objects.all().filter(feature__in=features, grid_package__in=grid_packages)
-    for element in all_elements:
-        grid_mapping = elements_mapping.setdefault(element.feature_id, {})
-        grid_mapping[element.grid_package_id] = element
-    
+
+    # Horrifying two-level dict due to needing to use hash() function later
+    element_map = {}
+    elements = Element.objects.all() \
+                .filter(feature__in=features,
+                        grid_package__in=grid_packages)
+    for element in elements:
+        element_map.setdefault(element.feature_id, {})
+        element_map[element.feature_id][element.grid_package_id] = element
+
     return render_to_response(
         template_name, {
             'grid': grid,
             'features': features,
             'grid_packages': grid_packages,
-            'elements': elements_mapping,
+            'elements': element_map,
         }, context_instance = RequestContext(request)
     )
-        
+
+def grid_detail_feature(request, slug, feature_id, bogus_slug, template_name="grid/grid_detail_feature.html"):
+    grid = get_object_or_404(Grid, slug=slug)
+    features = grid.feature_set.filter(id=feature_id)
+    grid_packages = grid.gridpackage_set.select_related('gridpackage')
+
+    # Horrifying two-level dict due to needing to use hash() function later
+    element_map = {}
+    elements = Element.objects.all() \
+                .filter(feature__in=features,
+                        grid_package__in=grid_packages)
+    for element in elements:
+        element_map.setdefault(element.feature_id, {})
+        element_map[element.feature_id][element.grid_package_id] = element
+
+
+    return render_to_response(
+        template_name, {
+            'grid': grid,
+            'feature': features[0],
+            'grid_packages': grid_packages,
+            'elements': element_map,
+        }, context_instance = RequestContext(request)
+    )
+
 @login_required
 def add_grid(request, template_name="grid/add_grid.html"):
 

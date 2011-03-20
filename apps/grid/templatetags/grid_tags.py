@@ -59,4 +59,9 @@ def style_element(text):
     
 @register.filter
 def hash(h, key):
+    '''
+    Function leaves considerable overhead in the grid_detail views.
+    each element of the list results in two calls to this hash function.
+    Code there, and possible here, should be refactored.
+    '''
     return h.get(key, {})
