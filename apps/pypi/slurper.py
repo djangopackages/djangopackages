@@ -16,13 +16,20 @@ from package.repos import get_repo_for_repo_url
 from pypi.models import PypiUpdateLog
 from pypi.versioning import highest_version
 
+from celery.decorators import task
+
 base_url = "http://pypi.python.org/pypi/"
 PYPI = xmlrpclib.Server(base_url)
 
 class Slurper(object):
     
-    def __init__(self):
-        self.package_names = PYPI.list_packages()
+    def __init__(self, all_packages=False, package=None):
+        if all_packages:
+            self.package_names = PYPI.list_packages()
+        elif package and not hasattr(package, '__iter__'):
+            self.package_name = [package]
+        elif package:
+            self.package_name = package
         self.dumb_category, created = Category.objects.get_or_create(
                                 title='dummy', slug='dummy')
         self.dumb_category.save()
@@ -62,14 +69,8 @@ class Slurper(object):
         for i, package_name in enumerate(self.package_names):
             if package_limit and i > package_limit:
                 break
-            versions = PYPI.package_releases(package_name)
-            highest_version = self.get_latest_version(package_name, versions)
-            package = self.get_or_create_package(package_name, highest_version)            
-            print package
-            for version in versions:
-                if version == highest_version:
-                    continue
-                print version
-                
-            
-            
+            from pypi.tasks import get_package_pypi
+            try:
+                get_package_pypi.delay(package_name)
+            except UnicodeDecodeError, UnicodeError:
+                print package_name
