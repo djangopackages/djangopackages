@@ -13,7 +13,6 @@ from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 
 from distutils.version import LooseVersion as versioner
-from github2.client import Github
 
 from package.fields import CreationDateTimeField, ModificationDateTimeField
 from package.repos import github
