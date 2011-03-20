@@ -1,0 +1,221 @@
+{% extends "grid/base.html" %}
+
+{% comment %}
+    Figure out how to use facebox for the forms cause right now the edits don't stick
+     rel="facebox"
+{% endcomment %}
+
+{% load i18n %}
+{% load cache %}
+{% load grid_tags %}
+{% load package_tags %}
+
+{% block head_title %}{{ grid.title }}{% endblock %}
+
+{% block extra_head %}
+    <meta name="description" content="{{ grid.description }}" />
+    <meta name="keywords" content="{{ grid.packages.all|join:',' }}" />
+{% endblock %}
+
+{% block body %}
+
+    
+    <h1 id="grid-name">
+      <a href="{% url home %}">home</a> / <a href="{% url grids %}">grids</a> / {{ grid.title }}
+      <a href="{% url edit_grid grid.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
+    </h1>
+
+    <p>
+        {{ grid.description|urlize|linebreaksbr }}
+    </p>    
+    
+    {% if features %}
+        <h2>Features currently being evaluated</h2>
+        <table id="grid" border="3">      
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Description</th>
+                </tr> 
+            </thead>
+            <tbody>
+                {% for feature in features %}
+                    <tr>                        
+                        <td>{{ feature.title }}
+                        {% if request.user.is_authenticated %}
+                            <a href="{% url edit_feature feature.pk %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>{% if perms.grid.delete_feature %}&nbsp;<a href="#" id="feature-delete-{{ feature.pk }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete" /></a>{% endif %}
+                        {% endif %}
+                        </td>
+                        <td>{{ feature.description|wordwrap:80|linebreaksbr }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if request.user.is_authenticated %}        
+
+            <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_feature grid.slug %}">Add new feature to the grid</a></p>
+
+        {% endif %}            
+    {% else %}
+        {% if request.user.is_authenticated %}        
+
+            <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_feature grid.slug %}">Add a feature to the grid</a></p>
+
+        {% endif %}        
+    {% endif %}
+
+    <p></p>
+    
+    {% if grid_packages.count %}
+    
+        {% if request.user.is_authenticated %}        
+            <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_grid_package grid.slug %}">Add another package</a></p>
+        {% endif %}        
+        <table id="sortable-table" cellpadding="0" cellspace="0" class="display">
+            <thead>
+                <tr>
+                    <th>Package</th>
+                    {% for attribute_name, display_name in attributes %}
+                    {% if display_name %}
+                        <th>{{ display_name }}</th>
+                    {% else %}
+                        <th>{{ attribute_name }}</th>
+                    {% endif %}
+
+                    {% endfor %}
+                    {% for feature in features %}
+                        <th>{{ feature.title }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+            {% for package in grid_packages %}
+                <tr class="{% cycle 'even' 'odd' %}">
+                    <td>{{ package.package.title }}</td>
+                    {% for attribute_name, display_name in attributes %}
+                        {% ifequal attribute_name "participant_list" %}
+                            <td>
+                                {% for collaborator in package.package.participant_list %}
+                                    {% if forloop.counter <= 10 %}                                
+                                        <a href="{{ package.repo.url }}/{{ collaborator }}">{{ collaborator }}</a>
+                                        {% if not forloop.last %}
+                                            <br />
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if forloop.counter == 11 %}
+                                        <a href="{% url package package.package.slug %}">more...</a>
+                                    {% endif %}
+                                {% endfor %}                        
+                            </td>
+                        {% else %}
+                            {% ifequal attribute_name "repo" %}
+                                <td><a href="{{ package.package.repo_url }}">{{ package.package.repo }}</a></td>
+                            {% else %}
+                                {% with attribute_name|style_attribute:package.package as val %}
+                                    <td>
+                                        {{ val }}
+                                    </td>
+                                {% endwith %}
+                            {% endifequal %}
+                        {% endifequal %}
+                    {% endfor %}
+                    {% for feature in features %}
+                        {% with elements|hash:feature.pk|hash:package.pk as element %}
+                            <td id="element-f{{ feature.pk }}-p{{ package.pk }}">{% if element %}{{ element.text|style_element|safe|urlize|linebreaksbr }}{% endif %}<noscript> <a class="edit" href="{% url edit_element feature.pk package.pk %}">[edit]</a></noscript></td>
+                        {% endwith %}
+                    {% endfor %}
+                </tr>
+            {% endfor %} 
+            </tbody>
+        </table>
+                    
+        {% if request.user.is_authenticated %}
+            <p><img src="{{ STATIC_URL }}img/icon_changelink.gif"/>&nbsp;Highlighted cells are editable.  Click highlighted cells to change text.</p>
+        {% endif %}
+                    
+    {% else %}  
+        <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_grid_package grid.slug %}">Add a package to get a grid view</a></p>
+    {% endif %}
+        
+
+{% endblock %}
+
+{% block extra_body %}
+        <script type="text/javascript">
+
+            $(function() {  
+                
+                {% if request.user.is_authenticated %}
+                    // Handle element edit redirects
+                    {% for feature in features %}
+                        {% for grid_package in grid_packages %}
+                        {% with elements|hash:feature.pk|hash:grid_package.pk as element %}
+
+                        {% endwith %}                        
+                        
+                            $("td#element-f{{ feature.pk }}-p{{ grid_package.pk }}").click(function() {
+                                var url = "{% url edit_element feature.pk grid_package.pk %}";    
+                                $(location).attr('href',url);                        
+                            });
+                        {% endfor %}
+                    {% endfor %}
+                    
+                    delete_confirmation = function(e, url) {
+                        // The deletes are placed in here so there is just one place needed
+                        e.preventDefault();
+
+                        if(confirm('Are you sure?')) {
+                            window.location = url;
+                        }
+                    };
+                    
+                    // handle feature deletes
+                    {% if perms.grid.delete_feature %}
+                        {% for feature in features %}
+                            $("a#feature-delete-{{ feature.pk }}").click(function(e) {
+                                delete_confirmation(e, '{% url delete_feature feature.pk %}')                            
+                            });                  
+                        {% endfor %}
+                    {% endif %}
+                    
+                    {% if perms.grid.delete_gridpackage %}
+                        // handle package deletes
+                        {% for grid_package in grid_packages %}
+                            $("a#package-delete-{{ grid_package.pk }}").click(function(e) {
+                                delete_confirmation(e, '{% url delete_grid_package grid_package.pk %}')
+                            });
+                        {% endfor %}
+                    {% endif %}
+                    
+                 {% endif %}
+
+                 function handleRTD(elements) {
+                     if (!elements.length){
+                         return;
+                     }
+                     var ele = $(elements.shift());
+                     if (!ele){
+                         return;
+                     }
+                     var slug = ele.attr('rel');
+                     var url = "http://readthedocs.org/api/v1/build/"+ slug +"/?format=jsonp";
+                     $.ajax({
+                       url: url,
+                       dataType: 'jsonp',
+                       success:function(data){
+                           if (data.objects.length > 0){
+                               var href = "http://readthedocs.org/projects/" + slug;
+                               var a = "<a href='" + href + "'>Yes</a>";
+                               ele.html(a);
+                               handleRTD(elements);
+                           } else {
+                               ele.text("No");
+                               handleRTD(elements);
+                           }
+                       }
+                     });
+                 }
+                 handleRTD($.makeArray($('table#grid span.rtd-status')));
+            });    
+        </script>
+{% endblock %}
