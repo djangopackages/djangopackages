@@ -1,0 +1,191 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Lessons Learned &mdash; Packaginator v1.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Packaginator v1.0 documentation" href="index.html" />
+    <link rel="next" title="Development reference documentation" href="reference.html" />
+    <link rel="prev" title="Database migration from SQLite to PostgreSQL" href="database.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="reference.html" title="Development reference documentation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="database.html" title="Database migration from SQLite to PostgreSQL"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Packaginator v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="lessons-learned">
+<h1>Lessons Learned<a class="headerlink" href="#lessons-learned" title="Permalink to this headline">¶</a></h1>
+<p>Some of these are common sense, and others we learned during the events in question.</p>
+<div class="section" id="djangocon-2010">
+<h2>DjangoCon 2010<a class="headerlink" href="#djangocon-2010" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>For sprints, show up early the first day.</li>
+<li>Stay in a hotel near the sprint. If you have to spend an hour going each way that&#8217;s up to 20% of sprint time you are wasting each day. If necessary, switch hotels.</li>
+</ul>
+</div>
+<div class="section" id="pycon-2011">
+<h2>PyCon 2011<a class="headerlink" href="#pycon-2011" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="getting-sprinters">
+<h3>Getting Sprinters<a class="headerlink" href="#getting-sprinters" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Mark easy stuff for beginners. After they knock out an issue or two the stuff they&#8217;ve learned lets them handle harder tasks.</li>
+<li>Sit-down with each new contributor individually for at least 15 minutes to help them through the installation process. They get started much faster. you&#8217;ll spot the mistakes in your docs, and they&#8217;ll hang around longer.</li>
+<li>If you see anyone during the sprints who looks lost or without a project, invite them to join you.</li>
+<li>If you have a full sprint table and a non-sprinter is sitting with you get them to contribute something small. They go from being a distraction to a valued member of the team.</li>
+<li>Go out for dinner at a fun restaurant the first night with just your team. On other nights try to keep meals short since long meals mean hours of missed sprint time.</li>
+</ul>
+</div>
+<div class="section" id="assigning-work">
+<h3>Assigning Work<a class="headerlink" href="#assigning-work" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Assign issues in the issue tracker to specific people. No one should work a task unless they have had it assigned to them. This way you avoid duplication of effort.</li>
+<li>Tell people if they get stuck on something for 30 minutes to ask questions. We are all beginners and the hardest problems often become simple spelling mistakes when you try and explain them.</li>
+</ul>
+</div>
+<div class="section" id="be-conservative">
+<h3>Be conservative<a class="headerlink" href="#be-conservative" title="Permalink to this headline">¶</a></h3>
+<p>You don&#8217;t want to stall people from doing the work they are trying to get done. So that means:</p>
+<ul class="simple">
+<li>Keep the database as stable as possible during a large sprint.</li>
+<li>Freeze the design during a sprint. Have designer-oriented people prettify neglected views e.g. the login page, server error pages.</li>
+</ul>
+</div>
+<div class="section" id="helping-people-get-stuff-done">
+<h3>Helping people get stuff done<a class="headerlink" href="#helping-people-get-stuff-done" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>If you are leading a sprint don&#8217;t expect to get any code done yourself. Your job is to facilitate other people to have fun hacking, learning, and getting things done.</li>
+<li>Go around and ask questions of your sprinters periodically. People are often too shy to come up to you but if you go up to them they&#8217;ll readily ask for help.</li>
+<li>Update your install documentation as your sprinters discover problems.</li>
+<li>If you have new dependencies, let everyone know as soon and as loudly as possible.</li>
+<li>Good documentation is as important as code. When people ask questions rather than just answering the question, walk them through the specific answer in your docs. If the answer doesn&#8217;t exist, document it yourself and have them help you write the answer.</li>
+<li>Demonstrate coverage.py to the sprinters, show them how to write tests, and provide good test examples. Good test coverage will save everyone a lot of grief during development and deployment.</li>
+<li>Have your code working on all major platforms with installation instructions for each platform. Your code on all platforms will be that much stable for it.</li>
+<li>Have a portable drive with the dependencies for your project on it. You can never count on the network being reliable at a sprint.</li>
+<li>If a beginning developer asks for help, try to get your advanced sprinters to answer the questions and possibly pair with them for a while.</li>
+<li>When someone is working really hard and is trying to focus, run interference for them.</li>
+</ul>
+</div>
+<div class="section" id="pull-requests">
+<h3>Pull Requests<a class="headerlink" href="#pull-requests" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Provide good and bad pull request examples.</li>
+<li>Don&#8217;t be afraid of sounding stupid if you don&#8217;t understand someone&#8217;s pull request. If it confuses you it&#8217;s going to confuse newcomers even more and hence make your code unmaintainable. Remember that simplicity is a virtue and is one of the best things of projects like Python, Pyramid, and Flask.</li>
+<li>Each time someone submits a pull request, ask them if they&#8217;ve run the full test suite. Yeah, it&#8217;s repetitive but they&#8217;ll thank you for it.</li>
+<li>If someone submits a broken pull request, see if you can work out the issue with them. If the problem is not easily corrected, ask them to fix the problem and resubmit the pull request.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Lessons Learned</a><ul>
+<li><a class="reference internal" href="#djangocon-2010">DjangoCon 2010</a></li>
+<li><a class="reference internal" href="#pycon-2011">PyCon 2011</a><ul>
+<li><a class="reference internal" href="#getting-sprinters">Getting Sprinters</a></li>
+<li><a class="reference internal" href="#assigning-work">Assigning Work</a></li>
+<li><a class="reference internal" href="#be-conservative">Be conservative</a></li>
+<li><a class="reference internal" href="#helping-people-get-stuff-done">Helping people get stuff done</a></li>
+<li><a class="reference internal" href="#pull-requests">Pull Requests</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="database.html"
+                        title="previous chapter">Database migration from SQLite to PostgreSQL</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="reference.html"
+                        title="next chapter">Development reference documentation</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/lessons_learned.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="reference.html" title="Development reference documentation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="database.html" title="Database migration from SQLite to PostgreSQL"
+             >previous</a> |</li>
+        <li><a href="index.html">Packaginator v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Audrey Roy, Daniel Greenfeld and contributors.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

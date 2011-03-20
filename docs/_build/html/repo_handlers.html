@@ -1,0 +1,178 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Repo Handler API &mdash; Packaginator v1.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Packaginator v1.0 documentation" href="index.html" />
+    <link rel="next" title="Webservice API" href="api_docs.html" />
+    <link rel="prev" title="Contributing" href="contributing.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="api_docs.html" title="Webservice API"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="contributing.html" title="Contributing"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Packaginator v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="repo-handler-api">
+<h1>Repo Handler API<a class="headerlink" href="#repo-handler-api" title="Permalink to this headline">¶</a></h1>
+<p>Adding a new repo in Packaginator is a relatively straightforward task. You need to provide two things:</p>
+<ol class="arabic simple">
+<li>Add a new repo handler in the apps.models.repos directory that follows the described API</li>
+<li>Add tests to check your work</li>
+<li>Document any special settings.</li>
+<li>Change the SUPPORTED_REPO to include the name of the new repo handler.</li>
+</ol>
+<div class="section" id="what-if-my-target-repo-doesn-t-support-all-the-necessary-fields">
+<h2>What if my target repo doesn&#8217;t support all the necessary fields?<a class="headerlink" href="#what-if-my-target-repo-doesn-t-support-all-the-necessary-fields" title="Permalink to this headline">¶</a></h2>
+<p>Lets say you want to use <em>GitBlarg</em>, a new service whose API doesn&#8217;t provide the number of repo_watchers or participants. In order to handle them you would just set those values until such a time as <em>GitBlarg</em> would support the right data.</p>
+<p>For example, as you can see in the <cite>apps.models.repos.base_handler.BaseHandler.fetch_metadata()</cite> method, the Package instance that it expects to see is a comma-seperated value:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">fetch_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">package</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Accepts a package.models.Package instance:</span>
+
+<span class="sd">            return: package.models.Package instance</span>
+
+<span class="sd">        Must set the following fields:</span>
+
+<span class="sd">            package.repo_watchers (int)</span>
+<span class="sd">            package.repo_forks (int)</span>
+<span class="sd">            package.repo_description (text )</span>
+<span class="sd">            package.participants = (comma-seperated value)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="bp">NotImplemented</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>So your code might do the following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">GitBlargLib</span> <span class="kn">import</span> <span class="n">GitBlargAPI</span>
+<span class="k">def</span> <span class="nf">fetch_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">package</span><span class="p">):</span>
+
+    <span class="c"># fetch the GitBlarg data</span>
+    <span class="n">git_blarg_data</span> <span class="o">=</span> <span class="n">GitBlargAPI</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">package</span><span class="o">.</span><span class="n">repo_name</span><span class="p">())</span>
+
+    <span class="c"># set the package attributes</span>
+    <span class="n">package</span><span class="o">.</span><span class="n">repo_watchers</span> <span class="o">=</span> <span class="mi">0</span> <span class="c"># GitBlagAPI doesn&#39;t have this so we set to 0</span>
+    <span class="n">package</span><span class="o">.</span><span class="n">repo_forks</span> <span class="o">=</span> <span class="n">git_blarg_data</span><span class="o">.</span><span class="n">forks</span>
+    <span class="n">package</span><span class="o">.</span><span class="n">repo_description</span> <span class="o">=</span> <span class="n">git_blarg_data</span><span class="o">.</span><span class="n">note</span>
+    <span class="n">package</span><span class="o">.</span><span class="n">participants</span> <span class="o">=</span> <span class="s">u&quot;&quot;</span> <span class="c"># GitBlagAPI doesn&#39;t have this so we set to an empty string</span>
+
+    <span class="k">return</span> <span class="n">package</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-about-cloning-gitblarg-s-repos-so-we-can-get-a-better-view-of-the-data">
+<h2>How about cloning GitBlarg&#8217;s repos so we can get a better view of the data?<a class="headerlink" href="#how-about-cloning-gitblarg-s-repos-so-we-can-get-a-better-view-of-the-data" title="Permalink to this headline">¶</a></h2>
+<p>The problem is that developers, designers, and managers will happily put gigabytes of data into a git/hg/svn/fossil/cvs repo. For a single project that doesn&#8217;t sound like much, but when you are dealing with thousands of packages in a Packaginator instance the scale of the data becomes... well... terrifying. What is now a mild annoyance becomes a staggeringly large problem.</p>
+<p>Therefore, pull requests on repo handlers that attempt to solve the problem this way will be summarily <strong>rejected</strong>.</p>
+</div>
+<div class="section" id="can-i-make-a-repo-handler-for-google-project-hosting">
+<h2>Can I make a repo handler for Google Project Hosting?<a class="headerlink" href="#can-i-make-a-repo-handler-for-google-project-hosting" title="Permalink to this headline">¶</a></h2>
+<p>Not at this time. Please read the <a class="reference external" href="faq.html">FAQ</a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Repo Handler API</a><ul>
+<li><a class="reference internal" href="#what-if-my-target-repo-doesn-t-support-all-the-necessary-fields">What if my target repo doesn&#8217;t support all the necessary fields?</a></li>
+<li><a class="reference internal" href="#how-about-cloning-gitblarg-s-repos-so-we-can-get-a-better-view-of-the-data">How about cloning GitBlarg&#8217;s repos so we can get a better view of the data?</a></li>
+<li><a class="reference internal" href="#can-i-make-a-repo-handler-for-google-project-hosting">Can I make a repo handler for Google Project Hosting?</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="contributing.html"
+                        title="previous chapter">Contributing</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="api_docs.html"
+                        title="next chapter">Webservice API</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/repo_handlers.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="api_docs.html" title="Webservice API"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="contributing.html" title="Contributing"
+             >previous</a> |</li>
+        <li><a href="index.html">Packaginator v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Audrey Roy, Daniel Greenfeld and contributors.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

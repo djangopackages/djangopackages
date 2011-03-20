@@ -1,0 +1,357 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>apps.grid.views &mdash; Packaginator v1.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Packaginator v1.0 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">Packaginator v1.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for apps.grid.views</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">django.db.models</span> <span class="kn">import</span> <span class="n">Count</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">login_required</span><span class="p">,</span> <span class="n">permission_required</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span> 
+<span class="kn">from</span> <span class="nn">django.core.urlresolvers</span> <span class="kn">import</span> <span class="n">reverse</span> 
+<span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponseRedirect</span><span class="p">,</span> <span class="n">Http404</span> 
+<span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render_to_response</span><span class="p">,</span> <span class="n">get_object_or_404</span> 
+<span class="kn">from</span> <span class="nn">django.template</span> <span class="kn">import</span> <span class="n">RequestContext</span> 
+
+
+<span class="kn">from</span> <span class="nn">grid.forms</span> <span class="kn">import</span> <span class="n">ElementForm</span><span class="p">,</span> <span class="n">FeatureForm</span><span class="p">,</span> <span class="n">GridForm</span><span class="p">,</span> <span class="n">GridPackageForm</span>
+<span class="kn">from</span> <span class="nn">grid.models</span> <span class="kn">import</span> <span class="n">Element</span><span class="p">,</span> <span class="n">Feature</span><span class="p">,</span> <span class="n">Grid</span><span class="p">,</span> <span class="n">GridPackage</span>
+<span class="kn">from</span> <span class="nn">package.models</span> <span class="kn">import</span> <span class="n">Package</span>
+<span class="kn">from</span> <span class="nn">package.forms</span> <span class="kn">import</span> <span class="n">PackageForm</span>
+<span class="kn">from</span> <span class="nn">package.views</span> <span class="kn">import</span> <span class="n">repo_data_for_js</span>
+
+<span class="k">def</span> <span class="nf">grids</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">template_name</span><span class="o">=</span><span class="s">&quot;grid/grids.html&quot;</span><span class="p">):</span>
+    <span class="c"># annotations providing bad counts</span>
+    <span class="c">#grids = Grid.objects.annotate(gridpackage_count=Count(&#39;gridpackage&#39;), feature_count=Count(&#39;feature&#39;))</span>
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span>
+        <span class="n">template_name</span><span class="p">,</span> <span class="p">{</span>
+            <span class="s">&#39;grids&#39;</span><span class="p">:</span> <span class="n">Grid</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span>
+        <span class="p">},</span> <span class="n">context_instance</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">grid_detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">slug</span><span class="p">,</span> <span class="n">template_name</span><span class="o">=</span><span class="s">&quot;grid/grid_detail.html&quot;</span><span class="p">):</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Grid</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="n">slug</span><span class="p">)</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">feature_set</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+    <span class="n">gp</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">gridpackage_set</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s">&#39;gridpackage&#39;</span><span class="p">,</span> <span class="s">&#39;package__repo&#39;</span><span class="p">,</span> <span class="s">&#39;package__category&#39;</span><span class="p">)</span>
+    <span class="n">grid_packages</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">usage_count</span><span class="o">=</span><span class="n">Count</span><span class="p">(</span><span class="s">&#39;package__usage&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;-usage_count&#39;</span><span class="p">,</span> <span class="s">&#39;package&#39;</span><span class="p">)</span>
+
+    <span class="c"># Horrifying two-level dict due to needing to use hash() function later</span>
+    <span class="n">element_map</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">elements</span> <span class="o">=</span> <span class="n">Element</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span> \
+                <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">feature__in</span><span class="o">=</span><span class="n">features</span><span class="p">,</span>
+                        <span class="n">grid_package__in</span><span class="o">=</span><span class="n">grid_packages</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">:</span>
+        <span class="n">element_map</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">feature_id</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">element_map</span><span class="p">[</span><span class="n">element</span><span class="o">.</span><span class="n">feature_id</span><span class="p">][</span><span class="n">element</span><span class="o">.</span><span class="n">grid_package_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">element</span>
+
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span>
+        <span class="n">template_name</span><span class="p">,</span> <span class="p">{</span>
+            <span class="s">&#39;grid&#39;</span><span class="p">:</span> <span class="n">grid</span><span class="p">,</span>
+            <span class="s">&#39;features&#39;</span><span class="p">:</span> <span class="n">features</span><span class="p">,</span>
+            <span class="s">&#39;grid_packages&#39;</span><span class="p">:</span> <span class="n">grid_packages</span><span class="p">,</span>
+            <span class="s">&#39;elements&#39;</span><span class="p">:</span> <span class="n">element_map</span><span class="p">,</span>
+        <span class="p">},</span> <span class="n">context_instance</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">grid_detail_feature</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">slug</span><span class="p">,</span> <span class="n">feature_id</span><span class="p">,</span> <span class="n">bogus_slug</span><span class="p">,</span> <span class="n">template_name</span><span class="o">=</span><span class="s">&quot;grid/grid_detail_feature.html&quot;</span><span class="p">):</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Grid</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="n">slug</span><span class="p">)</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">feature_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">feature_id</span><span class="p">)</span>
+    <span class="n">grid_packages</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">gridpackage_set</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s">&#39;gridpackage&#39;</span><span class="p">)</span>
+
+    <span class="c"># Horrifying two-level dict due to needing to use hash() function later</span>
+    <span class="n">element_map</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">elements</span> <span class="o">=</span> <span class="n">Element</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span> \
+                <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">feature__in</span><span class="o">=</span><span class="n">features</span><span class="p">,</span>
+                        <span class="n">grid_package__in</span><span class="o">=</span><span class="n">grid_packages</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">:</span>
+        <span class="n">element_map</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">feature_id</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">element_map</span><span class="p">[</span><span class="n">element</span><span class="o">.</span><span class="n">feature_id</span><span class="p">][</span><span class="n">element</span><span class="o">.</span><span class="n">grid_package_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">element</span>
+
+
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span>
+        <span class="n">template_name</span><span class="p">,</span> <span class="p">{</span>
+            <span class="s">&#39;grid&#39;</span><span class="p">:</span> <span class="n">grid</span><span class="p">,</span>
+            <span class="s">&#39;feature&#39;</span><span class="p">:</span> <span class="n">features</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="s">&#39;grid_packages&#39;</span><span class="p">:</span> <span class="n">grid_packages</span><span class="p">,</span>
+            <span class="s">&#39;elements&#39;</span><span class="p">:</span> <span class="n">element_map</span><span class="p">,</span>
+        <span class="p">},</span> <span class="n">context_instance</span> <span class="o">=</span> <span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="p">)</span>
+
+<span class="nd">@login_required</span>
+<span class="k">def</span> <span class="nf">add_grid</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">template_name</span><span class="o">=</span><span class="s">&quot;grid/add_grid.html&quot;</span><span class="p">):</span>
+
+    <span class="n">new_grid</span> <span class="o">=</span> <span class="n">Grid</span><span class="p">()</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">GridForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span> <span class="ow">or</span> <span class="bp">None</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">new_grid</span><span class="p">)</span>    
+
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span> 
+        <span class="n">new_grid</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">&#39;grid&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;slug&#39;</span><span class="p">:</span><span class="n">new_grid</span><span class="o">.</span><span class="n">slug</span><span class="p">}))</span>
+
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="n">template_name</span><span class="p">,</span> <span class="p">{</span> 
+        <span class="s">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span>
+        <span class="p">},</span>
+        <span class="n">context_instance</span><span class="o">=</span><span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
+        
+<span class="nd">@login_required</span>
+<span class="k">def</span> <span class="nf">edit_grid</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">slug</span><span class="p">,</span> <span class="n">template_name</span><span class="o">=</span><span class="s">&quot;grid/edit_grid.html&quot;</span><span class="p">):</span>
+
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Grid</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="n">slug</span><span class="p">)</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">GridForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span> <span class="ow">or</span> <span class="bp">None</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">grid</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+        <span class="n">grid</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">&#39;grid&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;slug&#39;</span><span class="p">:</span> <span class="n">grid</span><span class="o">.</span><span class="n">slug</span><span class="p">}))</span>
+
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="n">template_name</span><span class="p">,</span> <span class="p">{</span> 
+        <span class="s">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span>  
+        <span class="s">&#39;grid&#39;</span><span class="p">:</span> <span class="n">grid</span>
+        <span class="p">},</span> 
+        <span class="n">context_instance</span><span class="o">=</span><span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>  
+        
+<span class="nd">@login_required</span>
+<span class="k">def</span> <span class="nf">add_feature</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">grid_slug</span><span class="p">,</span> <span class="n">template_name</span><span class="o">=</span><span class="s">&quot;grid/add_feature.html&quot;</span><span class="p">):</span>
+
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Grid</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="n">grid_slug</span><span class="p">)</span>
+    <span class="n">feature</span> <span class="o">=</span> <span class="n">Feature</span><span class="p">()</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">FeatureForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span> <span class="ow">or</span> <span class="bp">None</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">feature</span><span class="p">)</span>    
+
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span> 
+        <span class="n">feature</span> <span class="o">=</span> <span class="n">Feature</span><span class="p">(</span>
+                    <span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span> 
+                    <span class="n">title</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s">&#39;title&#39;</span><span class="p">],</span>
+                    <span class="n">description</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s">&#39;description&#39;</span><span class="p">]</span>
+                <span class="p">)</span>
+        <span class="n">feature</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">&#39;grid&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;slug&#39;</span><span class="p">:</span><span class="n">feature</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">slug</span><span class="p">}))</span>
+
+
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="n">template_name</span><span class="p">,</span> <span class="p">{</span> 
+        <span class="s">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span>
+        <span class="s">&#39;grid&#39;</span><span class="p">:</span><span class="n">grid</span>
+        <span class="p">},</span>
+        <span class="n">context_instance</span><span class="o">=</span><span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>           
+        
+<span class="nd">@login_required</span>
+<span class="k">def</span> <span class="nf">edit_feature</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">template_name</span><span class="o">=</span><span class="s">&quot;grid/edit_feature.html&quot;</span><span class="p">):</span>
+
+    <span class="n">feature</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Feature</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">FeatureForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span> <span class="ow">or</span> <span class="bp">None</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">feature</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+        <span class="n">feature</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">&#39;grid&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;slug&#39;</span><span class="p">:</span> <span class="n">feature</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">slug</span><span class="p">}))</span>
+
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="n">template_name</span><span class="p">,</span> <span class="p">{</span> 
+        <span class="s">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span>
+        <span class="s">&#39;grid&#39;</span><span class="p">:</span> <span class="n">feature</span><span class="o">.</span><span class="n">grid</span>  
+        <span class="p">},</span> 
+        <span class="n">context_instance</span><span class="o">=</span><span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
+        
+<span class="nd">@permission_required</span><span class="p">(</span><span class="s">&#39;grid.delete_feature&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">delete_feature</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">template_name</span><span class="o">=</span><span class="s">&quot;grid/edit_feature.html&quot;</span><span class="p">):</span>
+
+    <span class="n">feature</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Feature</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
+    <span class="n">Element</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">feature</span><span class="o">=</span><span class="n">feature</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+    <span class="n">feature</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">&#39;grid&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;slug&#39;</span><span class="p">:</span> <span class="n">feature</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">slug</span><span class="p">}))</span>
+
+
+<span class="nd">@permission_required</span><span class="p">(</span><span class="s">&#39;grid.delete_gridpackage&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">delete_grid_package</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">template_name</span><span class="o">=</span><span class="s">&quot;grid/edit_feature.html&quot;</span><span class="p">):</span>
+
+    <span class="n">package</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">GridPackage</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
+    <span class="n">Element</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">grid_package</span><span class="o">=</span><span class="n">package</span><span class="p">)</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+    <span class="n">package</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">&#39;grid&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;slug&#39;</span><span class="p">:</span> <span class="n">package</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">slug</span><span class="p">}))</span>
+
+        
+<span class="nd">@login_required</span>
+<span class="k">def</span> <span class="nf">edit_element</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">feature_id</span><span class="p">,</span> <span class="n">package_id</span><span class="p">,</span> <span class="n">template_name</span><span class="o">=</span><span class="s">&quot;grid/edit_element.html&quot;</span><span class="p">):</span>
+    
+    <span class="n">feature</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Feature</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">feature_id</span><span class="p">)</span>
+    <span class="n">grid_package</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">GridPackage</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">package_id</span><span class="p">)</span>    
+
+    <span class="c"># Sanity check to make sure both the feature and grid_package are related to</span>
+    <span class="c"># the same grid!</span>
+    <span class="k">if</span> <span class="n">feature</span><span class="o">.</span><span class="n">grid_id</span> <span class="o">!=</span> <span class="n">grid_package</span><span class="o">.</span><span class="n">grid_id</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">Http404</span>
+
+    <span class="n">element</span><span class="p">,</span> <span class="n">created</span> <span class="o">=</span> <span class="n">Element</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span>
+                                    <span class="n">grid_package</span><span class="o">=</span><span class="n">grid_package</span><span class="p">,</span>
+                                    <span class="n">feature</span><span class="o">=</span><span class="n">feature</span>
+                                    <span class="p">)</span>    
+        
+    <span class="n">form</span> <span class="o">=</span> <span class="n">ElementForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span> <span class="ow">or</span> <span class="bp">None</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">element</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+        <span class="n">element</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">&#39;grid&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;slug&#39;</span><span class="p">:</span> <span class="n">feature</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">slug</span><span class="p">}))</span>
+
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="n">template_name</span><span class="p">,</span> <span class="p">{</span> 
+        <span class="s">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span>
+        <span class="s">&#39;feature&#39;</span><span class="p">:</span><span class="n">feature</span><span class="p">,</span>
+        <span class="s">&#39;package&#39;</span><span class="p">:</span><span class="n">grid_package</span><span class="o">.</span><span class="n">package</span><span class="p">,</span>
+        <span class="s">&#39;grid&#39;</span><span class="p">:</span><span class="n">feature</span><span class="o">.</span><span class="n">grid</span>
+        <span class="p">},</span> 
+        <span class="n">context_instance</span><span class="o">=</span><span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>        
+
+<span class="nd">@login_required</span>
+<div class="viewcode-block" id="add_grid_package"><a class="viewcode-back" href="../../../reference.html#apps.grid.views.add_grid_package">[docs]</a><span class="k">def</span> <span class="nf">add_grid_package</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">grid_slug</span><span class="p">,</span> <span class="n">template_name</span><span class="o">=</span><span class="s">&quot;grid/add_grid_package.html&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Add an existing package to this grid.&quot;&quot;&quot;</span>
+
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Grid</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="n">grid_slug</span><span class="p">)</span>
+    <span class="n">grid_package</span> <span class="o">=</span> <span class="n">GridPackage</span><span class="p">()</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">GridPackageForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span> <span class="ow">or</span> <span class="bp">None</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">grid_package</span><span class="p">)</span>    
+    <span class="n">message</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span> 
+        <span class="n">package</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Package</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s">&#39;package&#39;</span><span class="p">])</span>    
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">GridPackage</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span> <span class="n">package</span><span class="o">=</span><span class="n">package</span><span class="p">)</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s">&quot;Sorry, but &#39;</span><span class="si">%s</span><span class="s">&#39; is already in this grid.&quot;</span> <span class="o">%</span> <span class="n">package</span><span class="o">.</span><span class="n">title</span>
+        <span class="k">except</span> <span class="n">GridPackage</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+            <span class="n">grid_package</span> <span class="o">=</span> <span class="n">GridPackage</span><span class="p">(</span>
+                        <span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span> 
+                        <span class="n">package</span><span class="o">=</span><span class="n">package</span>
+                    <span class="p">)</span>
+            <span class="n">grid_package</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="n">redirect</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;redirect&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">redirect</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">redirect</span><span class="p">)</span>
+            
+            <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">&#39;grid&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;slug&#39;</span><span class="p">:</span><span class="n">grid</span><span class="o">.</span><span class="n">slug</span><span class="p">}))</span>
+    
+
+
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="n">template_name</span><span class="p">,</span> <span class="p">{</span> 
+        <span class="s">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span>
+        <span class="s">&#39;grid&#39;</span><span class="p">:</span> <span class="n">grid</span><span class="p">,</span>
+        <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="n">message</span>
+        <span class="p">},</span>
+        <span class="n">context_instance</span><span class="o">=</span><span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
+</div>
+<span class="nd">@login_required</span>
+<div class="viewcode-block" id="add_new_grid_package"><a class="viewcode-back" href="../../../reference.html#apps.grid.views.add_new_grid_package">[docs]</a><span class="k">def</span> <span class="nf">add_new_grid_package</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">grid_slug</span><span class="p">,</span> <span class="n">template_name</span><span class="o">=</span><span class="s">&quot;package/package_form.html&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Add a package to a grid that isn&#39;t yet represented on the site.&quot;&quot;&quot;</span>
+    
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Grid</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="n">grid_slug</span><span class="p">)</span>
+    
+    <span class="n">new_package</span> <span class="o">=</span> <span class="n">Package</span><span class="p">()</span>
+    <span class="n">form</span> <span class="o">=</span> <span class="n">PackageForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span> <span class="ow">or</span> <span class="bp">None</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">new_package</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+        <span class="n">new_package</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="n">GridPackage</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span> 
+            <span class="n">package</span><span class="o">=</span><span class="n">new_package</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">&quot;grid&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s">&quot;slug&quot;</span><span class="p">:</span><span class="n">grid_slug</span><span class="p">}))</span>
+    
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="n">template_name</span><span class="p">,</span> <span class="p">{</span>
+        <span class="s">&quot;form&quot;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span>
+        <span class="s">&quot;repo_data&quot;</span><span class="p">:</span> <span class="n">repo_data_for_js</span><span class="p">(),</span>
+        <span class="s">&quot;action&quot;</span><span class="p">:</span> <span class="s">&quot;add&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="n">context_instance</span><span class="o">=</span><span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
+        
+</div>
+<span class="k">def</span> <span class="nf">ajax_grid_list</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">template_name</span><span class="o">=</span><span class="s">&quot;grid/ajax_grid_list.html&quot;</span><span class="p">):</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;q&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">grids</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">q</span><span class="p">:</span>
+        <span class="n">grids</span> <span class="o">=</span> <span class="n">Grid</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">title__istartswith</span><span class="o">=</span><span class="n">q</span><span class="p">)</span>
+    <span class="n">package_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;package_id&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">package_id</span><span class="p">:</span>
+        <span class="n">grids</span> <span class="o">=</span> <span class="n">grids</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">gridpackage__package__id</span><span class="o">=</span><span class="n">package_id</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">render_to_response</span><span class="p">(</span><span class="n">template_name</span><span class="p">,</span> <span class="p">{</span>
+        <span class="s">&#39;grids&#39;</span><span class="p">:</span> <span class="n">grids</span>
+        <span class="p">},</span>
+        <span class="n">context_instance</span><span class="o">=</span><span class="n">RequestContext</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">Packaginator v1.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Audrey Roy, Daniel Greenfeld and contributors.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

@@ -1,3 +1,4 @@
+"""grid url patterns"""
 from django.conf.urls.defaults import *
 from django.views.generic.date_based import archive_index
 
