@@ -2,6 +2,7 @@
 # Django settings for basic pinax project.
 
 import os.path
+import sys
 import posixpath
 import pinax
 
@@ -295,6 +296,9 @@ SUPPORTED_REPO.extend(["bitbucket", "github"])
 if LAUNCHPAD_ACTIVE:
     SUPPORTED_REPO += ["launchpad"]
 
-import djcelery
+try:
+    import djcelery
+except ImportError:
+    sys.stderr.write("Error: Can't import djcelery. Make sure you are in a virtual environment that has\ndjcelery installed.\n")
+    sys.exit(1)
 djcelery.setup_loader()
-
