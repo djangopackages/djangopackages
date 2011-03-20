@@ -24,7 +24,7 @@
                 <tr>
                     <th>Feature</th>
                     <th>Description</th>
-                </tr> 
+                </tr>
             </thead>
             <tbody>
                 <tr>
@@ -73,4 +73,34 @@
 <script>
     $("#id_title").focus();
 </script>
+
+<script type="text/javascript">
+
+    $(function() {
+                {% if request.user.is_authenticated %}
+                    // Handle element edit redirects
+                        {% for grid_package in grid_packages %}
+                        {% with elements|hash:feature.pk|hash:grid_package.pk as element %}
+
+                        {% endwith %}
+
+                            $("td#element-f{{ feature.pk }}-p{{ grid_package.pk }}").click(function() {
+                                var url = "{% url edit_element feature.pk grid_package.pk %}";
+                                $(location).attr('href',url);
+                            });
+                        {% endfor %}
+
+                    delete_confirmation = function(e, url) {
+                        // The deletes are placed in here so there is just one place needed
+                        e.preventDefault();
+
+                        if(confirm('Are you sure?')) {
+                            window.location = url;
+                        }
+                    };
+
+            {% endif %}
+            });
+</script>
+
 {% endblock %}
