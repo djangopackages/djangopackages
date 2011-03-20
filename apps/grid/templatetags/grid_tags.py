@@ -1,6 +1,6 @@
 from django import template
 from django.conf import settings
-from django.template.defaultfilters import escape
+from django.template.defaultfilters import escape, truncatewords
 from grid.models import Element
 from django.template.loader import render_to_string
 
@@ -104,9 +104,6 @@ def style_default(value):
 
 @register.filter
 def style_repo_description(var):
-    words = [word for word in re.split(r"\s+",var) if word ]
-    if len(words) > 20:
-        return " ".join(words[:17]) + "..."
-    else:
-        return " ".join(words)
+    truncated_desc = truncatewords(var, 20)
+    return truncated_desc
 
