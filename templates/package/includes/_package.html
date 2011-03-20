@@ -1,9 +1,10 @@
+{% load i18n %}
 <dl class="package-item" id="package-{{ package.id }}">
     <dt><strong><a href="{% url package package.slug %}">{{ package.title }}</a></strong></dt>
-    <dd class="date"><strong>Added</strong> {{ package.created|timesince }} ago</dd>
+    <dd class="date"><strong>{% trans "Added" %}</strong> {{ package.created|timesince }} ago</dd>
     <dd class="counts">
-            <strong>Downloads</strong> {{ package.pypi_downloads }}
-            <strong>Watchers</strong> {{ package.repo_watchers }}
+            <strong>{% trans "Downloads" %}</strong> {{ package.pypi_downloads }}
+            <strong>{% trans "Watchers" %}</strong> {{ package.repo_watchers }}
     </dd>
     <dd class="description">{{ package.repo_description }}</dd>        
 </dl>

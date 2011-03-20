@@ -3,11 +3,11 @@
 {% load i18n %}
 {% load uni_form_tags %}
 
-{% block head_title %}Add new example{% endblock %}
+{% block head_title %}{% trans "Add new example" %}{% endblock %}
 
 {% block body %}
 
-    <h1>Add new example</h1>
+    <h1>{% trans "Add new example" %}</h1>
     
     <form class="uniForm" method="post">
         {% csrf_token %}
@@ -15,8 +15,8 @@
             {{ form|as_uni_form }}
 
             <div class="form_block">        
-                <input class="awesome forestgreen" type="submit" name="add" value="Add new example">
-                <a href="{% url package package.slug %}">cancel</a>
+                <input class="awesome forestgreen" type="submit" name="add" value="{% trans "Add new example" %}">
+                <a href="{% url package package.slug %}">{% trans "cancel" %}</a>
             </div>            
         </fieldset>
 
