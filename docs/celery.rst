@@ -10,7 +10,7 @@ Install redis (Ubuntu)::
 
     apt-get redis
 
-local_settings::
+Necessary changes to local_settings::
 
     CELERY_ALWAYS_EAGER = False
     CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
@@ -18,12 +18,16 @@ local_settings::
     BROKER_HOST = "localhost"
     BROKER_POST = 6379
     BROKER_VHOST = "0"
+    
+Start redis::
 
-Packaginator shell commands to get all packages::
+    redis-server
 
-    from pypi import slurper
-    s = slurper.Slurper(all_packages=True)
-    s.get_or_create_all_packages()
+In a Packaginator shell enter to fire off queue::
+
+    python manage.py shell
+    >>> from pypi.tasks import queue_all_pypi_packages
+    >>> queue_all_pypi_packages()
     
 In another Packaginator shell::
 
