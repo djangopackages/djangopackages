@@ -13,7 +13,6 @@ from django.template.defaultfilters import slugify
 
 from package.models import Category, Package, Version
 from package.repos import get_repo_for_repo_url
-from pypi.models import PypiUpdateLog
 from pypi.versioning import highest_version
 
 from celery.decorators import task
@@ -54,15 +53,3 @@ class Slurper(object):
         package.save()
         package.fetch_metadata()
         return (package, created)
-        
-"""
-    def get_versions(self, package_name):        
-        try:
-            package = Package.objects.get(slug=slugify(package_name))
-        except Package.DoesNotExist:
-            # Maybe doesn't exist yet so we skip it in this batch
-            return False
-        
-        package.fetch_metadata()
-        return True
- """
