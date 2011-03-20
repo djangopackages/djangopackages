@@ -7,16 +7,29 @@ from package.repos.bitbucket import repo_handler as bitbucket_handler
 from package.repos.github import repo_handler as github_handler
 from package.repos.launchpad import repo_handler as launchpad_handler
 #from package.repos.sourceforge import repo_handler as sourceforge_handler
-from package.models import Commit, Package
+from package.models import Commit, Package, Category
 
-
-class TestBitbucketRepo(TestCase):
+class BaseBase(TestCase):
+    
     def setUp(self):
+        
+        self.category = Category.objects.create(
+            title='dummy',
+            slug='dummy'            
+        )
+        self.category.save()
+
+
+class TestBitbucketRepo(BaseBase):
+    def setUp(self):
+        super(TestBitbucketRepo, self).setUp()
         self.package = Package.objects.create(
             title="Django Piston",
             slug="django-piston",
             repo_url="https://bitbucket.org/jespern/django-piston",
+            category=self.category
         )
+
 
     def test_fetch_commits(self):
         self.assertEqual(Commit.objects.count(), 0)
@@ -32,12 +45,14 @@ class TestBitbucketRepo(TestCase):
         self.assertTrue(package.participants, "")
 
 
-class TestGithubRepo(TestCase):
+class TestGithubRepo(BaseBase):
     def setUp(self):
+        super(TestGithubRepo, self).setUp()
         self.package = Package.objects.create(
             title="Django",
             slug="django",
             repo_url="https://github.com/django/django",
+            category=self.category
         )
 
     def test_fetch_commits(self):
@@ -60,12 +75,17 @@ class TestGithubRepo(TestCase):
 
 
 if settings.LAUNCHPAD_ACTIVE:
-    class TestLaunchpadRepo(TestCase):
+    class TestLaunchpadRepo(BaseBase):
         def setUp(self):
+            super(TestLaunchpadRepo, self).setUp()            
             self.package = Package.objects.create(
                 title="Django-PreFlight",
                 slug="django-preflight",
-                repo_url="https://code.launchpad.net/~canonical-isd-hackers/django-preflight/trunk")
+                repo_url="https://code.launchpad.net/~canonical-isd-hackers/django-preflight/trunk",
+                category=self.category
+            )
+                
+            super(TestGithubRepo, self).setUp(*args, **kwargs)
         
         def test_fetch_commits(self):
             self.assertEqual(Commit.objects.count(), 0)
@@ -98,7 +118,7 @@ class TestSourceforgeRepo(TestCase):
         self.assertTrue(package.repo_forks > 0)
         self.assertEqual(package.participants, '')'''
 
-class TestRepos(TestCase):
+class TestRepos(BaseBase):
     def test_repo_registry(self):
         from package.repos import get_repo, supported_repos
 

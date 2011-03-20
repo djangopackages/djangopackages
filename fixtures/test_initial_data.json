@@ -9,6 +9,16 @@
     "pk" : 1
   },
   { "fields" : { "created" : "2010-01-01 12:00:00",
+          "description" : "Another grid for testing.",
+          "is_locked" : false,
+          "modified" : "2010-01-01 12:00:00",
+          "slug" : "another-testing",
+          "title" : "Another Testing"
+        },
+      "model" : "grid.grid",
+      "pk" : 2
+    },  
+  { "fields" : { "created" : "2010-01-01 12:00:00",
         "grid" : 1,
         "modified" : "2010-01-01 12:00:00",
         "package" : 1
@@ -102,7 +112,7 @@
         "repo_commits" : 0,
         "repo_description" : "Increase your testing ability with this steroid free supplement.",
         "repo_forks" : 0,
-        "repo_url" : "",
+        "repo_url" : "https://github.com/pydanny/django-la-facebook",
         "repo_watchers" : 0,
         "slug" : "testability",
         "title" : "Testability"
@@ -120,7 +130,7 @@
         "repo_commits" : 0,
         "repo_description" : "Test everything under the sun with one command!",
         "repo_forks" : 0,
-        "repo_url" : "",
+        "repo_url" : "https://github.com/pydanny/django-uni-form",
         "repo_watchers" : 0,
         "slug" : "supertester",
         "title" : "Supertester"
@@ -138,7 +148,7 @@
         "repo_commits" : 0,
         "repo_description" : "Make testing as painless as waxing your legs.",
         "repo_forks" : 0,
-        "repo_url" : "",
+        "repo_url" : "https://github.com/cartwheelweb/packaginator",
         "repo_watchers" : 0,
         "slug" : "serious-testing",
         "title" : "Serious Testing"
@@ -156,7 +166,7 @@
         "repo_commits" : 0,
         "repo_description" : "Yet another test package, with no grid affiliation.",
         "repo_forks" : 0,
-        "repo_url" : "",
+        "repo_url" : "https://github.com/djangopackages/djangopackages",
         "repo_watchers" : 0,
         "slug" : "another-test",
         "title" : "Another Test"
