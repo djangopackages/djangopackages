@@ -2,6 +2,7 @@
 # Django settings for basic pinax project.
 
 import os.path
+import sys
 import posixpath
 import pinax
 
