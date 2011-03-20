@@ -17,7 +17,7 @@
 {% block body %}
     <div id="home-rightcol">
         <div class="home-borderlessbox">
-            <h2>latest 5</h2>
+            <h2>{% trans "latest 5" %}</h2>
             <table class="home-table">
             {% for package in latest_packages %}
                 <tr>
@@ -26,7 +26,7 @@
                     </td>
                     <td>
                         <span class="home-numusers" id="usage-count-{{ package.id }}">{{ package.usage.count }}</span>
-                        <span class="home-users">users</span></td>
+                        <span class="home-users">{% trans "users" %}</span></td>
                     <td>
                         <span class="home-packagename"><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></span>
                         <span class="home-packagedesc">
@@ -81,28 +81,28 @@
         <div id="home-borderlessbox">
             <p>{% flatblock 'site.description' %}</p>
             <br/>
-            <p><b>{{ package_count }}</b> packages and counting!</p>
+            <p><b>{{ package_count }}</b> {% trans "packages and counting!" %}</p>
 
         </div>
 
         <div id="home-borderlessbox">
-            <h2>We need your help</h2>
+            <h2>{% trans "We need your help" %}</h2>
             <p>
-                Know of any packages not listed here?  Add them now!  It's quick and easy.
+                {% trans "Know of any packages not listed here?  Add them now!  It's quick and easy." %}
             </p>
             <p>
-                <a class="large awesome forestgreen" href="{% url add_package %}">add package »</a>
+                <a class="large awesome forestgreen" href="{% url add_package %}">{% trans "add package »" %}</a>
             </p>
             <p>
-                Or add a grid comparing the features of 2 or more similar packages.
+                {% trans "Or add a grid comparing the features of 2 or more similar packages." %}
             </p>
             <p>
-                <a class="large awesome forestgreen" href="{% url add_grid %}">add grid »</a>
+                <a class="large awesome forestgreen" href="{% url add_grid %}">{% trans "add grid »" %}</a>
             </p>
         </div>
 
         <div id="home-borderlessbox">
-            <h2>Package Categories</h2>
+            <h2>{% trans "Package Categories" %}</h2>
              {% for category in categories %}
                 <h3><a href="{% url category category.slug %}">{{ category.title_plural }}</a> ( {{ category.count }} )</h3>
                 <p>{{ category.description }}</p>
