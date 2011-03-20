@@ -13,6 +13,14 @@ from package.models import Package
 from package.forms import PackageForm
 from package.views import repo_data_for_js
 
+def build_element_map(elements):
+    # Horrifying two-level dict due to needing to use hash() function later
+    element_map = {}
+    for element in elements:
+        element_map.setdefault(element.feature_id, {})
+        element_map[element.feature_id][element.grid_package_id] = element
+    return element_map
+
 def grids(request, template_name="grid/grids.html"):
     # annotations providing bad counts
     #grids = Grid.objects.annotate(gridpackage_count=Count('gridpackage'), feature_count=Count('feature'))
@@ -29,14 +37,11 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
     gp = grid.gridpackage_set.select_related('gridpackage', 'package__repo', 'package__category')
     grid_packages = gp.annotate(usage_count=Count('package__usage')).order_by('-usage_count', 'package')
 
-    # Horrifying two-level dict due to needing to use hash() function later
-    element_map = {}
     elements = Element.objects.all() \
                 .filter(feature__in=features,
                         grid_package__in=grid_packages)
-    for element in elements:
-        element_map.setdefault(element.feature_id, {})
-        element_map[element.feature_id][element.grid_package_id] = element
+
+    element_map = build_element_map(elements)
 
     return render_to_response(
         template_name, {
@@ -54,15 +59,11 @@ def grid_detail_feature(request, slug, feature_id, bogus_slug, template_name="gr
         raise Http404
     grid_packages = grid.gridpackage_set.select_related('gridpackage')
 
-    # Horrifying two-level dict due to needing to use hash() function later
-    element_map = {}
     elements = Element.objects.all() \
                 .filter(feature__in=features,
                         grid_package__in=grid_packages)
-    for element in elements:
-        element_map.setdefault(element.feature_id, {})
-        element_map[element.feature_id][element.grid_package_id] = element
 
+    element_map = build_element_map(elements)
 
     return render_to_response(
         template_name, {
