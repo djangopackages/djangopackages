@@ -1,7 +1,7 @@
 from django.template.defaultfilters import slugify
 from django.test import TestCase
 
-from package.models import Package, Category
+from package.models import Package, Version
 from pypi.models import PypiUpdateLog
 from pypi.slurper import Slurper
 
@@ -42,5 +42,20 @@ class SlurpAllTests(TestCase):
         
     def test_get_or_create_all_packages(self):
         
-        self.slurper.get_or_create_all_packages(10)
-        print Package.objects.all()
+        self.slurper.get_or_create_all_packages(3)
+        self.assertEquals(Package.objects.all().count(), 4)
+        
+    def test_get_versions(self):
+        
+        version = self.slurper.get_latest_version_number(TEST_PACKAGE_REPO_NAME)
+                
+        # make me a package
+        self.slurper.get_or_create_package(TEST_PACKAGE_REPO_NAME, version)
+        
+        # get versions
+        success = self.slurper.get_versions(TEST_PACKAGE_REPO_NAME)
+        
+        # fetch the package for testing
+        package = Package.objects.get(title=TEST_PACKAGE_REPO_NAME)
+        
+        self.assertTrue(package.pypi_downloads > 1000)
