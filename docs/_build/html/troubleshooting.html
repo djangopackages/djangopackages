@@ -1,0 +1,153 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Troubleshooting &mdash; Packaginator v1.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Packaginator v1.0 documentation" href="index.html" />
+    <link rel="next" title="Settings" href="packaginator_settings.html" />
+    <link rel="prev" title="FAQ" href="faq.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="packaginator_settings.html" title="Settings"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="faq.html" title="FAQ"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Packaginator v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="troubleshooting">
+<h1>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="no-module-named-abc">
+<h2>No module named abc<a class="headerlink" href="#no-module-named-abc" title="Permalink to this headline">¶</a></h2>
+<p>If you&#8217;re getting something like &#8220;ImportError: No module named abc&#8221;, you probably don&#8217;t have all the required packages installed.  Try:</p>
+<div class="highlight-python"><pre>pip install -r requirements/project.txt</pre>
+</div>
+</div>
+<div class="section" id="importerror-related-to-launchpad-py">
+<h2>ImportError related to launchpad.py<a class="headerlink" href="#importerror-related-to-launchpad-py" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes this shows up as &#8220;Caught ImportError while rendering: cannot import name ScalarValue&#8221;.</p>
+<p>You&#8217;re having Launchpad/bzr installation problems.  Most likely cause is your C compiler.  On Windows, make sure you have MinGW installed as per the installation instructions.  On Linux, make sure you have the python-dev and gcc packages.</p>
+</div>
+<div class="section" id="i-can-t-get-it-to-work-in-buildout">
+<h2>I can&#8217;t get it to work in buildout!<a class="headerlink" href="#i-can-t-get-it-to-work-in-buildout" title="Permalink to this headline">¶</a></h2>
+<p>We have a very successful installation story for development and production hosting using virtualenv. While buildout is a wonderful tool we simply don&#8217;t want to spend the time supporting two installation methods. Therefore:</p>
+<ul class="simple">
+<li>Don&#8217;t do it.</li>
+<li>We won&#8217;t accept pull requests for it.</li>
+</ul>
+</div>
+<div class="section" id="other-problems">
+<h2>Other problems<a class="headerlink" href="#other-problems" title="Permalink to this headline">¶</a></h2>
+<p>Don&#8217;t give up!  Join us at <a class="reference external" href="http://convore.com/packaginator">http://convore.com/packaginator</a> and ask your questions there. Some quick rules of thumb to optimize the help from the Packaginator community:</p>
+<ol class="arabic simple">
+<li>Be polite! We are all volunteers.</li>
+<li>Don&#8217;t paste huge chunks of code into convore blocks. Use a code pasting service like <a class="reference external" href="http://dpaste.com">http://dpaste.com</a> or <a class="reference external" href="http://djaste.de">http://djaste.de</a>.</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Troubleshooting</a><ul>
+<li><a class="reference internal" href="#no-module-named-abc">No module named abc</a></li>
+<li><a class="reference internal" href="#importerror-related-to-launchpad-py">ImportError related to launchpad.py</a></li>
+<li><a class="reference internal" href="#i-can-t-get-it-to-work-in-buildout">I can&#8217;t get it to work in buildout!</a></li>
+<li><a class="reference internal" href="#other-problems">Other problems</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="faq.html"
+                        title="previous chapter">FAQ</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="packaginator_settings.html"
+                        title="next chapter">Settings</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/troubleshooting.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="packaginator_settings.html" title="Settings"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="faq.html" title="FAQ"
+             >previous</a> |</li>
+        <li><a href="index.html">Packaginator v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Audrey Roy, Daniel Greenfeld and contributors.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

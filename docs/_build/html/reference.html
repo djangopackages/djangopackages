@@ -1,0 +1,367 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Development reference documentation &mdash; Packaginator v1.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Packaginator v1.0 documentation" href="index.html" />
+    <link rel="prev" title="Lessons Learned" href="lessons_learned.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="lessons_learned.html" title="Lessons Learned"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Packaginator v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="development-reference-documentation">
+<h1>Development reference documentation<a class="headerlink" href="#development-reference-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-apps">
+<span id="top-level-module-apps"></span><h2>Top level module <tt class="docutils literal"><span class="pre">apps</span></tt><a class="headerlink" href="#module-apps" title="Permalink to this headline">¶</a></h2>
+<p>Module containing the django applications
+that together make up the packaginator site.</p>
+<p>All of the modules listed below are the sub-applications.</p>
+</div>
+<div class="section" id="module-apps.apiv1">
+<span id="apiv1-restful-api"></span><h2><tt class="docutils literal"><span class="pre">apiv1</span></tt> - restful API<a class="headerlink" href="#module-apps.apiv1" title="Permalink to this headline">¶</a></h2>
+<p>Restful api for the packaginator, based on <a class="reference external" href="http://pypi.python.org/pypi/django-piston/">django-piston</a>.</p>
+</div>
+<div class="section" id="module-apps.feeds">
+<span id="feeds-rss-and-atom-feeds"></span><h2><tt class="docutils literal"><span class="pre">feeds</span></tt> - RSS and Atom feeds<a class="headerlink" href="#module-apps.feeds" title="Permalink to this headline">¶</a></h2>
+<p>This application defines RSS and Atom feeds
+that are made available to the users of the
+packaginator</p>
+<p><tt class="xref py py-mod docutils literal"><span class="pre">feeds.urls</span></tt></p>
+<span class="target" id="module-apps.feeds.urls"></span><p>url patterns for the feeds</p>
+<p><tt class="xref py py-mod docutils literal"><span class="pre">feeds.feeds</span></tt></p>
+<span class="target" id="module-apps.feeds.feeds"></span><p>Contains classes for the feeds</p>
+<dl class="class">
+<dt id="apps.feeds.feeds.AtomLatestPackagesFeed">
+<em class="property">class </em><tt class="descclassname">apps.feeds.feeds.</tt><tt class="descname">AtomLatestPackagesFeed</tt><a class="reference internal" href="_modules/apps/feeds/feeds.html#AtomLatestPackagesFeed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.feeds.feeds.AtomLatestPackagesFeed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Atom feed for the packages</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="apps.feeds.feeds.RssLatestPackagesFeed">
+<em class="property">class </em><tt class="descclassname">apps.feeds.feeds.</tt><tt class="descname">RssLatestPackagesFeed</tt><a class="reference internal" href="_modules/apps/feeds/feeds.html#RssLatestPackagesFeed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.feeds.feeds.RssLatestPackagesFeed" title="Permalink to this definition">¶</a></dt>
+<dd><p>RSS Feed for the packages</p>
+<dl class="method">
+<dt id="apps.feeds.feeds.RssLatestPackagesFeed.item_description">
+<tt class="descname">item_description</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="_modules/apps/feeds/feeds.html#RssLatestPackagesFeed.item_description"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.feeds.feeds.RssLatestPackagesFeed.item_description" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get description of the repository</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apps.feeds.feeds.RssLatestPackagesFeed.item_pubdate">
+<tt class="descname">item_pubdate</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="_modules/apps/feeds/feeds.html#RssLatestPackagesFeed.item_pubdate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.feeds.feeds.RssLatestPackagesFeed.item_pubdate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get publication date</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apps.feeds.feeds.RssLatestPackagesFeed.item_title">
+<tt class="descname">item_title</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="_modules/apps/feeds/feeds.html#RssLatestPackagesFeed.item_title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.feeds.feeds.RssLatestPackagesFeed.item_title" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get title of the repository</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apps.feeds.feeds.RssLatestPackagesFeed.items">
+<tt class="descname">items</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/apps/feeds/feeds.html#RssLatestPackagesFeed.items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.feeds.feeds.RssLatestPackagesFeed.items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns 15 most recently created repositories</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-apps.grid">
+<span id="grid-package-grid-app"></span><h2><tt class="docutils literal"><span class="pre">grid</span></tt> - package grid app<a class="headerlink" href="#module-apps.grid" title="Permalink to this headline">¶</a></h2>
+<p>Grid application - displays and 
+manipulates the package grid</p>
+<div class="section" id="module-grid.views">
+<span id="grid-views"></span><h3><tt class="docutils literal"><span class="pre">grid.views</span></tt><a class="headerlink" href="#module-grid.views" title="Permalink to this headline">¶</a></h3>
+<p>views for the <a class="reference internal" href="#module-apps.grid" title="apps.grid"><tt class="xref py py-mod docutils literal"><span class="pre">apps.grid</span></tt></a> app</p>
+<dl class="function">
+<dt id="grid.views.add_feature">
+<tt class="descclassname">grid.views.</tt><tt class="descname">add_feature</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/grid/views.html#add_feature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grid.views.add_feature" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a feature to the grid, accepts GET and POST requests.</p>
+<p>Requires user to be logged in</p>
+<p>Template context:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">form</span></tt> - instance of <a class="reference internal" href="#grid.forms.FeatureForm" title="grid.forms.FeatureForm"><tt class="xref py py-class docutils literal"><span class="pre">grid.forms.FeatureForm</span></tt></a> form</li>
+<li><tt class="docutils literal"><span class="pre">grid</span></tt> - instance of <a class="reference internal" href="#grid.models.Grid" title="grid.models.Grid"><tt class="xref py py-class docutils literal"><span class="pre">grid.models.Grid</span></tt></a> model</li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="grid.views.add_grid">
+<tt class="descclassname">grid.views.</tt><tt class="descname">add_grid</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/grid/views.html#add_grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grid.views.add_grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new grid, requires user to be logged in.
+Works for both GET and POST request methods</p>
+<p>Template context:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">form</span></tt> - an instance of <tt class="xref py py-class docutils literal"><span class="pre">GridForm</span></tt></li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="grid.views.add_grid_package">
+<tt class="descclassname">grid.views.</tt><tt class="descname">add_grid_package</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/grid/views.html#add_grid_package"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grid.views.add_grid_package" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an existing package to this grid.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="grid.views.add_new_grid_package">
+<tt class="descclassname">grid.views.</tt><tt class="descname">add_new_grid_package</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/grid/views.html#add_new_grid_package"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grid.views.add_new_grid_package" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a package to a grid that isn&#8217;t yet represented on the site.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="grid.views.delete_feature">
+<tt class="descclassname">grid.views.</tt><tt class="descname">delete_feature</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/grid/views.html#delete_feature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grid.views.delete_feature" title="Permalink to this definition">¶</a></dt>
+<dd><p>deletes a feature from the grid, <tt class="docutils literal"><span class="pre">id</span></tt> is id of the 
+<a class="reference internal" href="#grid.models.Feature" title="grid.models.Feature"><tt class="xref py py-class docutils literal"><span class="pre">grid.models.Feature</span></tt></a> model that is to be deleted</p>
+<p>Requires permission <cite>grid.delete_feature</cite>.</p>
+<p>Redirects to the parent <a class="reference internal" href="#grid.views.grid_detail" title="grid.views.grid_detail"><tt class="xref py py-func docutils literal"><span class="pre">grid.views.grid_detail()</span></tt></a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="grid.views.delete_grid_package">
+<tt class="descclassname">grid.views.</tt><tt class="descname">delete_grid_package</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/grid/views.html#delete_grid_package"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grid.views.delete_grid_package" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes package from the grid, <tt class="docutils literal"><span class="pre">id</span></tt> is the id of the 
+<a class="reference internal" href="#grid.models.GridPackage" title="grid.models.GridPackage"><tt class="xref py py-class docutils literal"><span class="pre">grid.models.GridPackage</span></tt></a> instance</p>
+<p>Requires permission <tt class="docutils literal"><span class="pre">grid.delete_gridpackage</span></tt>.</p>
+<p>Redirects to <a class="reference internal" href="#grid.views.grid_detail" title="grid.views.grid_detail"><tt class="xref py py-func docutils literal"><span class="pre">grid.views.grid_detail()</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="grid.views.edit_feature">
+<tt class="descclassname">grid.views.</tt><tt class="descname">edit_feature</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/grid/views.html#edit_feature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grid.views.edit_feature" title="Permalink to this definition">¶</a></dt>
+<dd><p>edits feature on a grid - this view has the same
+semantics as <a class="reference internal" href="#grid.views.add_feature" title="grid.views.add_feature"><tt class="xref py py-func docutils literal"><span class="pre">grid.views.add_feature()</span></tt></a>.</p>
+<p>Requires the user to be logged in.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="grid.views.edit_grid">
+<tt class="descclassname">grid.views.</tt><tt class="descname">edit_grid</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/grid/views.html#edit_grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grid.views.edit_grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>View to modify the grid, handles GET and POST requests.
+This view requires user to be logged in.</p>
+<p>Template context:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">form</span></tt> - instance of <a class="reference internal" href="#grid.forms.GridForm" title="grid.forms.GridForm"><tt class="xref py py-class docutils literal"><span class="pre">grid.forms.GridForm</span></tt></a></li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="grid.views.grid_detail">
+<tt class="descclassname">grid.views.</tt><tt class="descname">grid_detail</tt><big>(</big><em>request</em>, <em>slug</em>, <em>template_name='grid/grid_detail.html'</em><big>)</big><a class="reference internal" href="_modules/grid/views.html#grid_detail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grid.views.grid_detail" title="Permalink to this definition">¶</a></dt>
+<dd><p>displays a grid in detail</p>
+<p>Template context:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">grid</span></tt> - the grid object</li>
+<li><tt class="docutils literal"><span class="pre">elements</span></tt> - elements of the grid</li>
+<li><tt class="docutils literal"><span class="pre">features</span></tt> - feature set used in the grid</li>
+<li><tt class="docutils literal"><span class="pre">grid_packages</span></tt> - packages involved in the current grid</li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="grid.views.grid_detail_feature">
+<tt class="descclassname">grid.views.</tt><tt class="descname">grid_detail_feature</tt><big>(</big><em>request</em>, <em>slug</em>, <em>feature_id</em>, <em>bogus_slug</em>, <em>template_name='grid/grid_detail_feature.html'</em><big>)</big><a class="reference internal" href="_modules/grid/views.html#grid_detail_feature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grid.views.grid_detail_feature" title="Permalink to this definition">¶</a></dt>
+<dd><p>a slightly more focused view than <a class="reference internal" href="#grid.views.grid_detail" title="grid.views.grid_detail"><tt class="xref py py-func docutils literal"><span class="pre">grid.views.grid_detail()</span></tt></a>
+shows comparison for only one feature, and does not show the basic
+grid parameters</p>
+<p>Template context is the same as in <a class="reference internal" href="#grid.views.grid_detail" title="grid.views.grid_detail"><tt class="xref py py-func docutils literal"><span class="pre">grid.views.grid_detail()</span></tt></a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="grid.views.grids">
+<tt class="descclassname">grid.views.</tt><tt class="descname">grids</tt><big>(</big><em>request</em>, <em>template_name='grid/grids.html'</em><big>)</big><a class="reference internal" href="_modules/grid/views.html#grids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grid.views.grids" title="Permalink to this definition">¶</a></dt>
+<dd><p>lists grids</p>
+<p>Template context:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">grids</span></tt> - all grid objects</li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="module-grid.models">
+<span id="grid-models"></span><h3><tt class="docutils literal"><span class="pre">grid.models</span></tt><a class="headerlink" href="#module-grid.models" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="grid.models.Element">
+<em class="property">class </em><tt class="descclassname">grid.models.</tt><tt class="descname">Element</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/grid/models.html#Element"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grid.models.Element" title="Permalink to this definition">¶</a></dt>
+<dd><p>The individual grid table elements</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="grid.models.Feature">
+<em class="property">class </em><tt class="descclassname">grid.models.</tt><tt class="descname">Feature</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/grid/models.html#Feature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grid.models.Feature" title="Permalink to this definition">¶</a></dt>
+<dd><p>These are the features measured against a grid</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="grid.models.Grid">
+<em class="property">class </em><tt class="descclassname">grid.models.</tt><tt class="descname">Grid</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/grid/models.html#Grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grid.models.Grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Grid object, inherits form <tt class="xref py py-class docutils literal"><span class="pre">package.models.BaseModel</span></tt></p>
+<ul class="simple">
+<li><tt class="xref py py-attr docutils literal"><span class="pre">title</span></tt> - grid title</li>
+<li><tt class="xref py py-attr docutils literal"><span class="pre">slug</span></tt> - grid slug for SEO</li>
+<li><tt class="xref py py-attr docutils literal"><span class="pre">description</span></tt> - description of the grid 
+with line breaks and urlized links</li>
+<li><tt class="xref py py-attr docutils literal"><span class="pre">is_locked</span></tt> - boolean field accessible
+to moderators</li>
+<li><tt class="xref py py-attr docutils literal"><span class="pre">packages</span></tt> - many-to-many relation 
+with :class:~`grid.models.GridPackage` objects</li>
+</ul>
+</dd></dl>
+
+<dl class="class">
+<dt id="grid.models.GridPackage">
+<em class="property">class </em><tt class="descclassname">grid.models.</tt><tt class="descname">GridPackage</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/grid/models.html#GridPackage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grid.models.GridPackage" title="Permalink to this definition">¶</a></dt>
+<dd><p>These are Packages on one side of the grid 
+Have to make this intermediary table to get things to work right
+Otherwise would have used ManyToMany field</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-grid.forms">
+<span id="grid-forms"></span><h3><tt class="docutils literal"><span class="pre">grid.forms</span></tt><a class="headerlink" href="#module-grid.forms" title="Permalink to this headline">¶</a></h3>
+<p>Forms for the <tt class="xref py py-mod docutils literal"><span class="pre">grid</span></tt> app</p>
+<dl class="class">
+<dt id="grid.forms.ElementForm">
+<em class="property">class </em><tt class="descclassname">grid.forms.</tt><tt class="descname">ElementForm</tt><big>(</big><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.util.ErrorList'&gt;</em>, <em>label_suffix=':'</em>, <em>empty_permitted=False</em>, <em>instance=None</em><big>)</big><a class="reference internal" href="_modules/grid/forms.html#ElementForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grid.forms.ElementForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>collects data for a new grid element - 
+a <tt class="docutils literal"><span class="pre">ModelForm</span></tt> for <a class="reference internal" href="#grid.models.Element" title="grid.models.Element"><tt class="xref py py-class docutils literal"><span class="pre">grid.models.Element</span></tt></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="grid.forms.FeatureForm">
+<em class="property">class </em><tt class="descclassname">grid.forms.</tt><tt class="descname">FeatureForm</tt><big>(</big><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.util.ErrorList'&gt;</em>, <em>label_suffix=':'</em>, <em>empty_permitted=False</em>, <em>instance=None</em><big>)</big><a class="reference internal" href="_modules/grid/forms.html#FeatureForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grid.forms.FeatureForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>collects data for the feature -
+a <tt class="docutils literal"><span class="pre">ModelForm</span></tt> for <a class="reference internal" href="#grid.models.Feature" title="grid.models.Feature"><tt class="xref py py-class docutils literal"><span class="pre">grid.models.Feature</span></tt></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="grid.forms.GridForm">
+<em class="property">class </em><tt class="descclassname">grid.forms.</tt><tt class="descname">GridForm</tt><big>(</big><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.util.ErrorList'&gt;</em>, <em>label_suffix=':'</em>, <em>empty_permitted=False</em>, <em>instance=None</em><big>)</big><a class="reference internal" href="_modules/grid/forms.html#GridForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grid.forms.GridForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>collects data for the new grid - a 
+django <tt class="docutils literal"><span class="pre">ModelForm</span></tt> for <a class="reference internal" href="#grid.models.Grid" title="grid.models.Grid"><tt class="xref py py-class docutils literal"><span class="pre">grid.models.Grid</span></tt></a></p>
+<dl class="method">
+<dt id="grid.forms.GridForm.clean_slug">
+<tt class="descname">clean_slug</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/grid/forms.html#GridForm.clean_slug"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grid.forms.GridForm.clean_slug" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns lower-cased slug</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="grid.forms.GridPackageForm">
+<em class="property">class </em><tt class="descclassname">grid.forms.</tt><tt class="descname">GridPackageForm</tt><big>(</big><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.util.ErrorList'&gt;</em>, <em>label_suffix=':'</em>, <em>empty_permitted=False</em>, <em>instance=None</em><big>)</big><a class="reference internal" href="_modules/grid/forms.html#GridPackageForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#grid.forms.GridPackageForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>collects data for a new package -
+a <tt class="docutils literal"><span class="pre">ModelForm</span></tt> for <a class="reference internal" href="#grid.models.GridPackage" title="grid.models.GridPackage"><tt class="xref py py-class docutils literal"><span class="pre">grid.models.GridPackage</span></tt></a></p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Development reference documentation</a><ul>
+<li><a class="reference internal" href="#module-apps">Top level module <tt class="docutils literal"><span class="pre">apps</span></tt></a></li>
+<li><a class="reference internal" href="#module-apps.apiv1"><tt class="docutils literal"><span class="pre">apiv1</span></tt> - restful API</a></li>
+<li><a class="reference internal" href="#module-apps.feeds"><tt class="docutils literal"><span class="pre">feeds</span></tt> - RSS and Atom feeds</a></li>
+<li><a class="reference internal" href="#module-apps.grid"><tt class="docutils literal"><span class="pre">grid</span></tt> - package grid app</a><ul>
+<li><a class="reference internal" href="#module-grid.views"><tt class="docutils literal"><span class="pre">grid.views</span></tt></a></li>
+<li><a class="reference internal" href="#module-grid.models"><tt class="docutils literal"><span class="pre">grid.models</span></tt></a></li>
+<li><a class="reference internal" href="#module-grid.forms"><tt class="docutils literal"><span class="pre">grid.forms</span></tt></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="lessons_learned.html"
+                        title="previous chapter">Lessons Learned</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/reference.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="lessons_learned.html" title="Lessons Learned"
+             >previous</a> |</li>
+        <li><a href="index.html">Packaginator v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Audrey Roy, Daniel Greenfeld and contributors.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

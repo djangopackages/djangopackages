@@ -1,0 +1,251 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installation &mdash; Packaginator v1.0 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Packaginator v1.0 documentation" href="index.html" />
+    <link rel="next" title="FAQ" href="faq.html" />
+    <link rel="prev" title="License" href="license.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="faq.html" title="FAQ"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="license.html" title="License"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Packaginator v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>Do everything listed in this section to get your site up and running locally.  If you run into problems, see the Troubleshooting section.</p>
+<div class="section" id="pre-requisites">
+<h2>Pre-requisites<a class="headerlink" href="#pre-requisites" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="mac">
+<h3>Mac<a class="headerlink" href="#mac" title="Permalink to this headline">¶</a></h3>
+<p>Download and install setuptools from <a class="reference external" href="http://pypi.python.org/pypi/setuptools">http://pypi.python.org/pypi/setuptools</a>.  Setuptools gives you easy_install. Then run the following commands:</p>
+<div class="highlight-python"><pre>easy_install pip
+pip install virtualenv</pre>
+</div>
+</div>
+<div class="section" id="ubuntu">
+<h3>Ubuntu<a class="headerlink" href="#ubuntu" title="Permalink to this headline">¶</a></h3>
+<p>Install the following:</p>
+<div class="highlight-python"><pre>sudo apt-get install python-setuptools python-dev
+sudo easy_install pip
+sudo pip install virtualenv</pre>
+</div>
+</div>
+<div class="section" id="windows">
+<h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
+<p>Download and install Python 2.6 or 2.7 using the Windows 32-bit installer from <a class="reference external" href="http://www.python.org/download/">http://www.python.org/download/</a>.  Even if you&#8217;re on a 64-bit system, 32-bit is recommended (Michael Foord told me this).</p>
+<p>Download and install setuptools from <a class="reference external" href="http://pypi.python.org/pypi/setuptools">http://pypi.python.org/pypi/setuptools</a>.  Setuptools gives you easy_install.</p>
+<p>Install MinGW from <a class="reference external" href="http://www.mingw.org/">http://www.mingw.org/</a>.  Add the bin/ directory of your MinGW installation to your PATH environment variable (under Control Panel &gt; System &gt; Advanced system settings &gt; Environment variables).</p>
+<p>Create or open C:Python26Libdistutilsdistutils.cfg (Note: this may be inside the Python27 directory if you&#8217;re using Python 2.7).  Add the following lines to the bottom of the file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">build</span><span class="p">]</span>
+<span class="n">compiler</span><span class="o">=</span><span class="n">mingw32</span>
+</pre></div>
+</div>
+<p>Open up a command prompt.  Install pip and virtualenv:</p>
+<div class="highlight-python"><pre>easy_install pip
+pip install virtualenv</pre>
+</div>
+</div>
+</div>
+<div class="section" id="main-instructions">
+<h2>Main instructions<a class="headerlink" href="#main-instructions" title="Permalink to this headline">¶</a></h2>
+<p>The following instructions are how you would install an instance of Python Packages. Change the name &#8216;<em>Python</em>&#8216; as needed for your own project.</p>
+<div class="highlight-python"><pre>cd &lt;installation-directory&gt;
+virtualenv env-pythonpackages
+source env-pythonpackages/bin/activate
+git clone git://github.com/cartwheelweb/packaginator.git packaginator
+cd pythonpackages
+cp backup.db dev.db
+pip install -r requirements/project.txt</pre>
+</div>
+<p>Remove the existing pinax &amp; uni_form symlinks.  Add symlinks to the correct pinax and uni_form media directories:</p>
+<div class="highlight-python"><pre>cd media
+rm pinax
+rm uni_form
+ln -s ../../env-pythonpackages/lib/python2.6/site-packages/pinax/media/default/pinax/ pinax
+ln -s ../../env-pythonpackages/lib/python2.6/site-packages/uni_form/media/uni_form/ uni_form
+cd ..</pre>
+</div>
+</div>
+<div class="section" id="setup-local-settings">
+<h2>Setup local settings<a class="headerlink" href="#setup-local-settings" title="Permalink to this headline">¶</a></h2>
+<p>Copy the local_settings.py.example to <tt class="docutils literal"><span class="pre">`local_settings.py`</span></tt>:</p>
+<div class="highlight-python"><pre>cp local_settings.py.example local_settings.py</pre>
+</div>
+<p>Change the <tt class="docutils literal"><span class="pre">ROOT_URLS</span></tt> setting in <tt class="docutils literal"><span class="pre">local_settings.py</span></tt> from <cite>&lt;root_directory_name&gt;</cite> to the correct value (i.e. the name of your repo):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ROOT_URLCONF</span> <span class="o">=</span> <span class="s">&#39;&lt;root_directory_name&gt;.urls&#39;</span>
+</pre></div>
+</div>
+<p>OPTIONAL! You can enable launchpad support in the local settings file. Launchpad&#8217;s dependencies can be a little fussy, so this will probably require some additional tweaking on your part:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">LAUNCHPAD_ACTIVE</span> <span class="o">=</span> <span class="bp">True</span>
+</pre></div>
+</div>
+<p>Add a Google Analytics code if you have one:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">URCHIN_ID</span> <span class="o">=</span> <span class="s">&quot;UA-YOURID123-1&quot;</span>
+</pre></div>
+</div>
+<p>Setup your email settings:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">DEFAULT_FROM_EMAIL</span> <span class="o">=</span> <span class="s">&#39;Your Name &lt;me@mydomain.com&gt;&#39;</span>
+<span class="n">EMAIL_SUBJECT_PREFIX</span> <span class="o">=</span> <span class="s">&#39;[Your Site Name] &#39;</span>
+</pre></div>
+</div>
+<p>Change the <tt class="docutils literal"><span class="pre">SECRET_KEY</span></tt> setting in <tt class="docutils literal"><span class="pre">`local_settings.py`</span></tt> to your own secret key:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="s">&quot;CHANGE-THIS-KEY-TO-SOMETHING-ELSE&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="running-the-development-server">
+<h2>Running the development server<a class="headerlink" href="#running-the-development-server" title="Permalink to this headline">¶</a></h2>
+<p>The normal sort of thing:</p>
+<div class="highlight-python"><pre>python manage.py runserver</pre>
+</div>
+</div>
+<div class="section" id="optional-production-staging-fix">
+<h2>OPTIONAL! Production/Staging fix<a class="headerlink" href="#optional-production-staging-fix" title="Permalink to this headline">¶</a></h2>
+<p>You only need to set this if you are supporting Launchpad. Launchpad needs this in settings.py for caching:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">LAUNCHPAD_CACHE_DIR</span><span class="o">=</span><span class="s">&quot;/tmp/lp-cache&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-a-django-superuser-for-yourself">
+<h2>Create a Django superuser for yourself<a class="headerlink" href="#create-a-django-superuser-for-yourself" title="Permalink to this headline">¶</a></h2>
+<p>Replace joe with your username/email:</p>
+<div class="highlight-python"><pre>python manage.py createsuperuser --username=joe --email=joe@example.com</pre>
+</div>
+</div>
+<div class="section" id="install-djangopackages-flatblocks-and-flatpages">
+<h2>Install Djangopackages flatblocks and flatpages<a class="headerlink" href="#install-djangopackages-flatblocks-and-flatpages" title="Permalink to this headline">¶</a></h2>
+<p>Packaginator makes use of several flatblocks and flatpages.</p>
+<p>To see how the flatblocks and flatpages are used on djangopackages.com, open fixtures/flatblocks.json and fixtures/flatpages.json in a text editor.  Change &#8220;Django Packages&#8221; to &#8220;Python Packages&#8221; or whatever the name of your site is.</p>
+<p>Change other parts of the text if you want (note: you can do this later via the Django admin interface under flatblocks/flatpages as well).</p>
+<p>Then, you can load the two flatblocks and flatpages fixtures:</p>
+<div class="highlight-python"><pre>python manage.py loaddata fixtures/flatblocks.json
+python manage.py loaddata fixtures/flatpages.json</pre>
+</div>
+</div>
+<div class="section" id="updating-packages">
+<h2>Updating Packages<a class="headerlink" href="#updating-packages" title="Permalink to this headline">¶</a></h2>
+<p>You can update all the packages with the following command:</p>
+<div class="highlight-python"><pre>python manage.py package_updater</pre>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Installation</a><ul>
+<li><a class="reference internal" href="#pre-requisites">Pre-requisites</a><ul>
+<li><a class="reference internal" href="#mac">Mac</a></li>
+<li><a class="reference internal" href="#ubuntu">Ubuntu</a></li>
+<li><a class="reference internal" href="#windows">Windows</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#main-instructions">Main instructions</a></li>
+<li><a class="reference internal" href="#setup-local-settings">Setup local settings</a></li>
+<li><a class="reference internal" href="#running-the-development-server">Running the development server</a></li>
+<li><a class="reference internal" href="#optional-production-staging-fix">OPTIONAL! Production/Staging fix</a></li>
+<li><a class="reference internal" href="#create-a-django-superuser-for-yourself">Create a Django superuser for yourself</a></li>
+<li><a class="reference internal" href="#install-djangopackages-flatblocks-and-flatpages">Install Djangopackages flatblocks and flatpages</a></li>
+<li><a class="reference internal" href="#updating-packages">Updating Packages</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="license.html"
+                        title="previous chapter">License</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="faq.html"
+                        title="next chapter">FAQ</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/install.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="faq.html" title="FAQ"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="license.html" title="License"
+             >previous</a> |</li>
+        <li><a href="index.html">Packaginator v1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Audrey Roy, Daniel Greenfeld and contributors.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>
