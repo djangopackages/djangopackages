@@ -52,8 +52,17 @@ class Slurper(object):
         package.save()
         return package
         
-    def get_versions(self, package_name):
-        pass
+    def get_versions(self, package_name):        
+        try:
+            package = Package.objects.get(slug=slugify(package_name))
+        except Package.DoesNotExist:
+            # Maybe doesn't exist yet so we skip it in this batch
+            return False
+        
+        package.fetch_metadata()
+        return True
+        
+            
         
         
     def get_or_create_all_packages(self, package_limit=None):
