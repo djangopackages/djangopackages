@@ -24,10 +24,10 @@ class Slurper(object):
     def __init__(self):
         self.package_names = PYPI.list_packages()
         self.dumb_category, created = Category.objects.get_or_create(
-                                title='dummy', slug='dummy')
+                                title='Python', slug='python')
         self.dumb_category.save()
         
-    def get_latest_version(self, package_name, versions=None):
+    def get_latest_version_number(self, package_name, versions=None):
         if versions:
             return highest_version(versions)
         else:
@@ -35,10 +35,10 @@ class Slurper(object):
         
     def get_or_create_package(self, package_name, version):
         data = PYPI.release_data(package_name, version)
-        pypi_url = base_url + slugify(data['name'])
+        pypi_url = base_url + package_name
         package, created = Package.objects.get_or_create(
             title           = data['name'],
-            slug            = slugify(data['name']),
+            slug            = slugify(package_name),
             category        = self.dumb_category,
             pypi_url        = base_url + data['name']
         )
@@ -52,6 +52,10 @@ class Slurper(object):
         package.save()
         return package
         
+    def get_versions(self, package_name):
+        pass
+        
+        
     def get_or_create_all_packages(self, package_limit=None):
         """ 
             gets or creates packages
@@ -63,13 +67,10 @@ class Slurper(object):
             if package_limit and i > package_limit:
                 break
             versions = PYPI.package_releases(package_name)
-            highest_version = self.get_latest_version(package_name, versions)
+            highest_version = self.get_latest_version_number(package_name, versions)
             package = self.get_or_create_package(package_name, highest_version)            
             print package
             for version in versions:
                 if version == highest_version:
                     continue
                 print version
-                
-            
-            
