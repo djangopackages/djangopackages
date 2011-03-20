@@ -7,6 +7,7 @@ PyPI interface (see http://wiki.python.org/moin/PyPiXmlRpc)
 
 from datetime import datetime
 import itertools
+import re
 import xmlrpclib
 
 from django.template.defaultfilters import slugify
