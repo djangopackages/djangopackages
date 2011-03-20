@@ -20,7 +20,7 @@ Ubuntu
 
 Install the following::
 
-    sudo apt-get install python-setuptools python-dev
+    sudo apt-get install python-setuptools python-dev libpq-dev
     sudo easy_install pip
     sudo pip install virtualenv
 
