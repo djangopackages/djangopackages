@@ -111,7 +111,7 @@ class Package(BaseModel):
         return (x.grid for x in self.gridpackage_set.all())
     
     def repo_name(self):
-        return self.repo_url.replace(self.repo.url + '/','')
+        return re.sub(self.repo.url_regex, '', self.repo_url)
     
     def participant_list(self):
         
