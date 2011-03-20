@@ -23,13 +23,8 @@ PYPI = xmlrpclib.Server(base_url)
 
 class Slurper(object):
     
-    def __init__(self, all_packages=False, package=None):
-        if all_packages:
-            self.package_names = PYPI.list_packages()
-        elif package and not hasattr(package, '__iter__'):
-            self.package_name = [package]
-        elif package:
-            self.package_name = package
+    def __init__(self, package):
+        self.package_name = package
         self.dumb_category, created = Category.objects.get_or_create(
                                 title='Python', slug='python')
         self.dumb_category.save()
@@ -57,8 +52,10 @@ class Slurper(object):
             #           will cleanup to github/pydanny/django-uni-form/
             package.repo_url = url
         package.save()
-        return package
+        package.fetch_metadata()
+        return (package, created)
         
+"""
     def get_versions(self, package_name):        
         try:
             package = Package.objects.get(slug=slugify(package_name))
@@ -68,23 +65,4 @@ class Slurper(object):
         
         package.fetch_metadata()
         return True
-        
-            
-        
-        
-    def get_or_create_all_packages(self, package_limit=None):
-        """ 
-            gets or creates packages
-        
-                package_limit: None or Integer. Limits the number of packages
-            
-        """
-        for i, package_name in enumerate(self.package_names):
-            if package_limit and i > package_limit:
-                break
-
-            from pypi.tasks import get_package_pypi
-            try:
-                get_package_pypi.delay(package_name)
-            except UnicodeDecodeError, UnicodeError:
-                print package_name
+ """
