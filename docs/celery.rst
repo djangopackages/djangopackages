@@ -10,7 +10,7 @@ Install redis (Ubuntu)::
 
     apt-get redis
 
-Necessary changes to local_settings::
+Necessary changes to local_settings.py::
 
     CELERY_ALWAYS_EAGER = False
     CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
