@@ -57,27 +57,27 @@
                     {% if user.is_authenticated %}
                         {% ifopenid %}<img src="{{ STATIC_URL }}images/openid-icon.png" alt="Logged in with OpenID" />{% endifopenid %}<b>{% user_display user %}</b>
                         |
-                        <a href="/help/">Help</a>
+                        <a href="/help/">{% trans "Help" %}</a>
                         |
-                        <a href="{% url acct_email %}">Account</a>
+                        <a href="{% url acct_email %}">{% trans "Account" %}</a>
                         |
-                        <a href="{% url profile_detail request.user %}">Profile</a>    
+                        <a href="{% url profile_detail request.user %}">{% trans "Profile" %}</a>    
                         |
                         {% if user.is_staff %}
-                            <a href="/admin/">Admin</a>
+                            <a href="/admin/">{% trans "Admin" %}</a>
                             |
                         {% endif %}
-                        <a href="{% if request.openid %}/openid/logout/?next={% url acct_logout %}{% else %}{% url acct_logout %}{% endif %}">Logout</a>
+                        <a href="{% if request.openid %}/openid/logout/?next={% url acct_logout %}{% else %}{% url acct_logout %}{% endif %}">{% trans "Logout" %}</a>
                     {% else %}
-                        <a href="/help/">Help</a>
+                        <a href="/help/">{% trans "Help" %}</a>
                         |
-                        <a href="{% url acct_login %}{% if current_path %}?next={{ current_path }}{% endif %}">Log in</a> or <a href="{% url acct_signup %}">Sign Up</a>
+                        <a href="{% url acct_login %}{% if current_path %}?next={{ current_path }}{% endif %}">{% trans "Log in" %}</a> {% trans "or" %} <a href="{% url acct_signup %}">{% trans "Sign Up" %}</a>
                         <br/>
                     {% endif %}
                     {% block locale_switcher %}{% endblock %}
                     {% comment %}
                     <form action="{% url search %}">
-                        <input id="id_q_p" type="text" name="q" maxlength="100" value="search" autocomplete="off" />
+                        <input id="id_q_p" type="text" name="q" maxlength="100" value="{% trans "search" %}" autocomplete="off" />
                         <input id="magnifier-submit" type="submit" value="&nbsp;" /><br/>
                     </form>
                     {% endcomment %}                    
@@ -85,13 +85,13 @@
 
                 <div class="searchform">
                     <form action="{% url search %}">
-                        <input id="id_q_p" type="text" name="q" maxlength="100" value="search" autocomplete="off" />
+                        <input id="id_q_p" type="text" name="q" maxlength="100" value="{% trans "search" %}" autocomplete="off" />
                         <input id="magnifier-submit" type="submit" value="&nbsp;" /><br/>
                         {% comment %}
-                        <input class="home-searchcheckbox" checked="checked" type="checkbox" name="category" value="apps" />apps
-                        <input class="home-searchcheckbox" type="checkbox" name="category" value="frameworks" />frameworks
-                        <input class="home-searchcheckbox" type="checkbox" name="category" value="projects" />projects
-                        <input class="home-searchcheckbox" type="checkbox" name="category" value="other" />other
+                        <input class="home-searchcheckbox" checked="checked" type="checkbox" name="category" value="apps" />{% trans "apps" %}
+                        <input class="home-searchcheckbox" type="checkbox" name="category" value="frameworks" />{% trans "frameworks" %}
+                        <input class="home-searchcheckbox" type="checkbox" name="category" value="projects" />{% trans "projects" %}
+                        <input class="home-searchcheckbox" type="checkbox" name="category" value="other" />{% trans "other" %}
                         {% endcomment %}                
                     </form>
                 </div>
@@ -104,7 +104,7 @@
                                     <a href="{% url grid tab.grid.slug %}" title="{{ tab.grid.description }}">{{ tab.grid.title }}</a><br />
                                 {% endif %}
                                 {% if forloop.parentloop.last and forloop.last %}
-                                    <a href="{% url grids %}">&raquo; more grids...</a>                            
+                                    <a href="{% url grids %}">{% trans "&raquo; more grids..." %}</a>                            
                                 {% endif %}
                             {% endfor %}
                         </div>
@@ -140,9 +140,9 @@
             - <a href="/about/">{% trans "About" %}</a>
             - <a href="/help/">{% trans "Help" %}</a>    
             - <a href="/terms/">{% trans "Terms of Service" %}</a>
-            - <a href="/help/team/">Team</a>
-            - <a href="http://readthedocs.org/docs/packaginator/en/latest/api_docs.html">API</a>
-            - <a href="/help/syndication/">RSS / Atom</a>
+            - <a href="/help/team/">{% trans "Team" %}</a>
+            - <a href="http://readthedocs.org/docs/packaginator/en/latest/api_docs.html">{% trans "API" %}</a>
+            - <a href="/help/syndication/">{% trans "RSS / Atom" %}</a>
             <br />
             {% plain_flatblock 'footer.text' %}
         </div>
