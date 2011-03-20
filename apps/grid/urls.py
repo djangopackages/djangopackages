@@ -39,6 +39,11 @@ urlpatterns = patterns("",
         regex = '^g/(?P<slug>[-\w]+)/$',
         view    = grid_detail,
         name    = 'grid',
+# Note: Uncomment the following if you are working on grid rotation, grid permissions, 
+#  or other grid detail related code.  This is @sontek's new grid detail template.
+#  The grid_detail2.html file will replace grid_detail.html once it is fully stable
+#  in all browsers and production-ready.
+#        kwargs  = {'template_name': 'grid/grid_detail2.html'},
     ), 
     
     url(

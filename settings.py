@@ -2,6 +2,7 @@
 # Django settings for basic pinax project.
 
 import os.path
+import sys
 import posixpath
 import pinax
 
@@ -297,7 +298,9 @@ if LAUNCHPAD_ACTIVE:
 
 try:
     import djcelery
+
     djcelery.setup_loader()
 except ImportError:
     # skipping this so we can generate docs
+    # Doing this cause most development doesn't need it.
     pass

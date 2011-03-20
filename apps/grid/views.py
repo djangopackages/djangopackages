@@ -54,11 +54,18 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
         element_map.setdefault(element.feature_id, {})
         element_map[element.feature_id][element.grid_package_id] = element
 
+    default_attributes = [('repo_description', 'Description'), 
+                ('Category',), ('pypi_downloads', 'Downloads'), ('last_updated', 'Last Updated'), ('pypi_version', 'Version'),
+                ('repo', 'Repo'), ('commits_over_52', 'Commits'), ('repo_watchers', 'Repo watchers'), ('repo_forks', 'Forks'),
+                ('participant_list', 'Participants')
+            ]
+
     return render_to_response(
         template_name, {
             'grid': grid,
             'features': features,
             'grid_packages': grid_packages,
+            'attributes': default_attributes,
             'elements': element_map,
         }, context_instance = RequestContext(request)
     )
