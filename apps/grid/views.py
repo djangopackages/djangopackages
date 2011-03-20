@@ -50,6 +50,8 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
 def grid_detail_feature(request, slug, feature_id, bogus_slug, template_name="grid/grid_detail_feature.html"):
     grid = get_object_or_404(Grid, slug=slug)
     features = grid.feature_set.filter(id=feature_id)
+    if not features.count():
+        raise Http404
     grid_packages = grid.gridpackage_set.select_related('gridpackage')
 
     # Horrifying two-level dict due to needing to use hash() function later
