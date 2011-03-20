@@ -38,6 +38,7 @@ urlpatterns = patterns("",
         regex = '^g/(?P<slug>[-\w]+)/$',
         view    = grid_detail,
         name    = 'grid',
+        kwargs  = {'template_name': 'grid/grid_detail2.html'},
     ), 
     
     url(
