@@ -1,2 +1,2 @@
 from pypi.tests.test_models import *
-from pypi.tests.test_slurp_all import *
+from pypi.tests.test_slurper import *
