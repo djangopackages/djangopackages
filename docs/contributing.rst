@@ -13,9 +13,9 @@ Before you do anything else, login/signup on Github.com and fork Packaginator fr
 Clone your package locally
 --------------------------
 
-If you have git-scm installed, you now clone your git repo using the following command-line argument::
+If you have git-scm installed, you now clone your git repo using the following command-line argument where <my-github-name> is your account name on github::
 
-    git clone git@github.com/cartwheelweb/packaginator.git
+    git clone git@github.com/<my-github-name>/packaginator.git
 
 Installing Packaginator
 -----------------------
