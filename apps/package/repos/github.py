@@ -13,8 +13,8 @@ class GitHubHandler(BaseHandler):
     title = "Github"
     url_regex = '(http|https|git)://github.com/'
     url = 'https://github.com'
-    repo_regex = r'(http|https|git)://github.com/[^/]*/[^/]*/{0,1}'
-    slug_regex = r'(http|https|git)://github.com/[^/]*/[^/]*/{0,1}'
+    repo_regex = r'(?:http|https|git)://github.com/[^/]*/([^/]*)/{0,1}'
+    slug_regex = repo_regex
 
     def _github_client(self):
         if hasattr(settings, "GITHUB_ACCOUNT") and hasattr(settings, "GITHUB_KEY"):
