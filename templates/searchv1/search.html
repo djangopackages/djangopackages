@@ -23,17 +23,22 @@
     <div id="search-results">
         <div id="grid-listing">
             <h2>{% if grids.count %}{% trans "Grids" %}{% else %}{% trans "No grids found" %}{% endif %}</h2>
+            {% if request.user.is_authenticated and profile.can_add_grid %}
             <p><a class="medium awesome forestgreen" href="{% url add_grid %}">{% trans "add grid »" %}</a>
-                <a href="{% url latest_grids %}">{% trans "latest" %}</a> <a href="{% url grids %}">{% trans "all" %}</a>
+                <a href="{% url latest_grids %}">latest</a> <a href="{% url grids %}">{% trans "all" %}</a>
             </p> 
+            {% endif %}
             {% for grid in grids %}
                 {% include "grid/snippets/grid.html" %}
             {% endfor %}
         </div>
         <div id="package-listing">
             <h2>{% if packages.count %}{% trans "Packages" %}{% else %}{% trans "No packages found" %}{% endif %}</h2>
-            <p><a class="medium awesome forestgreen" href="{% url add_package %}">{% trans "add package »" %}</a>
-                <a href="{% url latest_packages %}">{% trans "latest" %}</a> <a href="{% url packages %}">{% trans "all" %}</a>
+            <p>
+            {% if request.user.is_authenticated and profile.can_add_package %}
+                <a class="medium awesome forestgreen" href="{% url add_package %}">{% trans "add package »" %}</a>
+            {% endif %}
+                <a href="{% url latest_packages %}">latest</a> <a href="{% url packages %}">{% trans "all" %}</a>
             </p>
             {% for package in packages %}
                 {% include "package/includes/_package.html"%}
