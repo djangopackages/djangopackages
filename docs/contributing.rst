@@ -13,9 +13,9 @@ Before you do anything else, login/signup on Github.com and fork Packaginator fr
 Clone your package locally
 --------------------------
 
-If you have git-scm installed, you now clone your git repo using the following command-line argument::
+If you have git-scm installed, you now clone your git repo using the following command-line argument where <my-github-name> is your account name on github::
 
-    git clone git@github.com/cartwheelweb/packaginator.git
+    git clone git@github.com/<my-github-name>/packaginator.git
 
 Installing Packaginator
 -----------------------
@@ -38,14 +38,16 @@ Tips
 Setting up topic branches and generating pull requests
 ======================================================
 
-While its handy to provide useful code snippets in an issue, it is better for
+While it's handy to provide useful code snippets in an issue, it is better for
 you as a developer to submit pull requests. By submitting pull request your
 contribution to Packaginator will be recorded by Github. 
 
-In git it is best to isolate each topic or feature into a branch.  While
-individual commits allow you control over how small individual changes,
-branches are a great way to group a set of related commits all related to one
-feature, or where you might be working on multiple topics at the same time.
+In git it is best to isolate each topic or feature into a "topic branch".  While
+individual commits allow you control over how small individual changes are made
+to the code, branches are a great way to group a set of commits all related to
+one feature together, or to isolate different efforts when you might be working
+on multiple topics at the same time.
+
 While it takes some experience to get the right feel about how to break up
 commits, a topic branch should be limited in scope to a single ``issue`` as
 submitted to an issue tracker.
@@ -55,15 +57,15 @@ Also since github pegs and syncs a pull request to a specific branch, it is the
 a pull from your master branch, you can't make any more commits to your master
 without those getting added to the pull.
 
-To create a topic branch, its easiest to use the convenient argument to ``git
+To create a topic branch, its easiest to use the convenient ``-b`` argument to ``git
 checkout``::
 
     git checkout -b fix-broken-thing
     Switched to a new branch 'fix-broken-thing'
 
-Use a verbose enough name so it is clear what your branch is about. 
-Now you can commit your changes and regularly merge in the upstream master as
-described below.
+You should use a verbose enough name for your branch so it is clear what it is
+about.  Now you can commit your changes and regularly merge in the upstream
+master as described below.
 
 When you are ready to generate a pull request, either for preliminary review,
 or for consideration of merging into the project you must first push your local
