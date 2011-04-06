@@ -1,7 +1,8 @@
+{% load i18n %}
 <div id="target">
-    <h2>{% if packages.count %}Packages{% else %}No packages found{% endif %}</h2>
+    <h2>{% if packages.count %}{% trans "Packages" %}{% else %}{% trans "No packages found" %}{% endif %}</h2>
     {% if packages.count %}
-        <p class="editable-cell">Click a package to add it to the grid.</p>      
+        <p class="editable-cell">{% trans "Click a package to add it to the grid." %}</p>      
     {% endif %}
     {% for package in packages %}
         {% include "package/includes/_package.html" %}

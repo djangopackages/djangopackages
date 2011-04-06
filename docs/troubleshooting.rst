@@ -2,8 +2,8 @@
 Troubleshooting
 ===============
 
-No module named abc
--------------------
+How come no module named abc?
+-----------------------------
 
 If you're getting something like "ImportError: No module named abc", you probably don't have all the required packages installed.  Try::
 

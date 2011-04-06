@@ -42,14 +42,14 @@ The launchpad Python client tool requires an unbelievable amount of requirements
 If you have problems, please refer to troubleshooting_.
 
 LAUNCHPAD_ACTIVE (Default: False)
-=================================
+---------------------------------
 
 If you want your instance of Packaginator to support Launchpad, set this setting to true in local_settings.py::
 
     LAUNCHPAD_ACTIVE = True
 
 LAUNCHPAD_CACHE_DIR
-===================
+-------------------
 
 Used to point LAUNCHPAD commands against the appropriate cache. Important in real hosting machines.
 

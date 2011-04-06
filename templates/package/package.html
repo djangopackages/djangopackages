@@ -12,7 +12,7 @@
 
 {% block body %}
     
-    <h1><a href="{% url home %}">home</a> / <a href="{% url packages %}">packages</a> / {{ package.title }}
+    <h1><a href="{% url home %}">{% trans "home" %}</a> / <a href="{% url packages %}">{% trans "packages" %}</a> / {{ package.title }}
         <a href="{% url edit_package package.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
     </h1>
     
@@ -26,12 +26,12 @@
             {{ package.repo_description }}
         </p>
 
-        <p><strong>Category:</strong> <a href="{% url category package.category.slug %}">{{ package.category }}</a></p>
+        <p><strong>{% trans "Category:" %}</strong> <a href="{% url category package.category.slug %}">{{ package.category }}</a></p>
 
         <table>
             <thead>
             <tr>
-                <th># Using This</th>
+                <th>{% trans "# Using This" %}</th>
                 <th></th>
             </tr>
             </thead>
@@ -45,18 +45,18 @@
                             {% usage_button %} 
                         {% endwith %}
                     </td>
-                    <td id="fetch-cell"><a class="awesome forestgreen" href="{% url fetch_package_data package.slug %}">Fetch latest data</a></td>
+                    <td id="fetch-cell"><a class="awesome forestgreen" href="{% url fetch_package_data package.slug %}">{% trans "Fetch latest data" %}</a></td>
                 </tr>    
             </tbody>        
          </table>
 
         {% if package.pypi_url and package.pypi_url != "http://pypi.python.org/pypi/" %}
-            <h2>PyPI {% if package.pypi_downloads %}( {{ package.pypi_downloads }} downloads ){% endif %}</h2>
+            <h2>PyPI {% if package.pypi_downloads %}{% blocktrans with package.pypi_downloads as pypi_downloads %}( {{ pypi_downloads }} downloads ){% endblocktrans %}{% endif %}</h2>
             <p><a href="{{ package.pypi_url }}">{{ package.pypi_url }}</a></p>
             <table>
                 <tr>
-                    <th>Version</th>
-                    <th>License</th>                
+                    <th>{% trans "Version" %}</th>
+                    <th>{% trans "License" %}</th>                
                     <th><img src="{{ STATIC_URL }}img/grayarrow_20x20_clear.png" alt="Downloads" /></th>
                 </tr>
                 {% for version in package.version_set.by_version %}
@@ -70,10 +70,10 @@
                 {% endfor %}
             </table>
         {% else %}
-            <h2>No PyPI release</h2>
+            <h2>{% trans "No PyPI release" %}</h2>
         {% endif %}
 
-        <h2>Participants</h2>
+        <h2>{% trans "Participants" %}</h2>
 
         <p>
             {% for participant in package.participant_list %}
@@ -85,14 +85,14 @@
     </div>
     <div id="package-right">
         
-        <h2 class="rtd" style="display: none;">Read the Docs</h2>
-        <p class="rtd" style="display: none;">This project has documentation available for it on <a class="rtd">Read the Docs!</a></p>
+        <h2 class="rtd" style="display: none;">{% trans "Read the Docs" %}</h2>
+        <p class="rtd" style="display: none;">{% blocktrans %}This project has documentation available for it on <a class="rtd">Read the Docs!</a>{% endblocktrans %}</p>
 
         <h2>{{ package.repo.title }}</h2>
         <table>
             <tr>
-                <th>Repo URL</th>
-                <th>Commits</th>
+                <th>{% trans "Repo URL" %}</th>
+                <th>{% trans "Commits" %}</th>
                 <th><img src="{{ STATIC_URL }}img/eye_20x20_clear.png" alt="Watchers" /></th>
                 <th><img src="{{ STATIC_URL }}img/fork_20x20_clear.png" alt="Forks" /></th>
             </tr>
@@ -104,30 +104,30 @@
             </tr>
         </table>        
 
-        <h2>Comparison Grids</h2>
+        <h2>{% trans "Comparison Grids" %}</h2>
     
         {% for grid in package.grids %}
             <a href="{% url grid grid.slug %}" title="{{ grid.description }}">{{ grid }}</a>
         
             {% if forloop.last %}
                 <div id="package-gridname">
-                    <a class="awesome forestgreen" id="find-a-grid" href="#">Find another grid to join!</a>
+                    <a class="awesome forestgreen" id="find-a-grid" href="#">{% trans "Find another grid to join!" %}</a>
                     {% include "package/includes/_attach_grid.html" %}
                 </div>    
         
             {% endif %}
         {% empty %}
             <div id="package-gridname">
-                <a class="awesome forestgreen" id="find-a-grid" href="#">Find a grid to join!</a>
+                <a class="awesome forestgreen" id="find-a-grid" href="#">{% trans "Find a grid to join!" %}</a>
                 {% include "package/includes/_attach_grid.html" %}
             </div>
         {% endfor %}
     
-        <h2>Sites using this package</h2>
+        <h2>{% trans "Sites using this package" %}</h2>
     
         <div id="package-editlink">
             {% if request.user.is_authenticated %}        
-                <a class="awesome forestgreen" href="{% url add_example package.slug %}">Add an example</a>
+                <a class="awesome forestgreen" href="{% url add_example package.slug %}">{% trans "Add an example" %}</a>
             {% endif %}
         </div>
     
@@ -139,7 +139,7 @@
                     <a href="{{ example.url }}">{{ example.title }}</a>
                     {% if request.user.is_authenticated %}
                         <div id="package-editlink">
-                            <a class="awesome forestgreen" href="{% url edit_example package.slug example.id %}">edit</a>
+                            <a class="awesome forestgreen" href="{% url edit_example package.slug example.id %}">{% trans "edit" %}</a>
                         </div>
                     {% endif %}
                 </li>
