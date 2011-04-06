@@ -1,7 +1,8 @@
+{% load i18n %}
 <div id="target">
-    <h2>{% if grids.count %}Grids{% else %}No grids found{% endif %}</h2>
+    <h2>{% if grids.count %}{% trans "Grids" %}{% else %}{% trans "No grids found" %}{% endif %}</h2>
     {% if grids.count %}
-        <p class="clickable">Click a grid to add your grid to it.</p>      
+        <p class="clickable">{% trans "Click a grid to add your grid to it." %}</p>      
     {% endif %}
     {% for grid in grids %}
   

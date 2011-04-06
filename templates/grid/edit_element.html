@@ -3,15 +3,15 @@
 {% load i18n %}
 {% load uni_form_tags %}
 
-{% block head_title %}Edit Element{% endblock %}
+{% block head_title %}{% trans "Edit Element" %}{% endblock %}
 
 {% block body %}
 
-    <h1>Edit Element which is related to:</h1>
+    <h1>{% trans "Edit Element which is related to:" %}</h1>
     
-    <p><strong>Grid: {{ grid }}</strong></p>
-    <p><strong>Package: {{ package }}</strong></p>    
-    <p><strong>Feature: {{ feature.title }}</strong> {{ feature.description}}</p>
+    <p><strong>{% trans "Grid:" %} {{ grid }}</strong></p>
+    <p><strong>{% trans "Package:" %} {{ package }}</strong></p>    
+    <p><strong>{% trans "Feature:" %} {{ feature.title }}</strong> {{ feature.description}}</p>
     
     
     <form class="uniForm" method="post">
@@ -19,8 +19,8 @@
         <fieldset>
             {{ form|as_uni_form }}
             <div class="form_block">        
-                <input class="awesome forestgreen" type="submit" name="edit" value="Edit">
-                <a href="{% url grid grid.slug %}">cancel</a>
+                <input class="awesome forestgreen" type="submit" name="edit" value="{% trans "Edit" %}">
+                <a href="{% url grid grid.slug %}">{% trans "cancel" %}</a>
             </div>            
             
         </fieldset>

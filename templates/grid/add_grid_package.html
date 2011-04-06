@@ -2,11 +2,12 @@
 
 {% load i18n %}
 
-{% block head_title %}Add a package to Grid '{{ grid.title }}'{% endblock %}
+{% block head_title %}{% blocktrans with grid.title as grid_title %}Add a package to Grid '{{ grid_title }}'{% endblocktrans %}{% endblock %}
 
 {% block body %}
 
-    <h1><a href="{% url home %}">home</a> / <a href="{% url grids %}">grids</a> / Add a package to grid '<a href="{% url grid grid.slug %}">{{ grid.title }}</a>'</h1>
+    {% url grid grid.slug as grid_url %}
+    <h1><a href="{% url home %}">{% trans "home" %}</a> / <a href="{% url grids %}">{% trans "grids" %}</a> / {% blocktrans with grid.title as grid_title %}Add a package to grid '<a href="{{ grid_url }}">{{ grid_title }}</a>'{% endblocktrans %}</h1>
     
     {# TODO replace with a proper message #}
     {% if message|length %}<p class="editable-cell">{{ message }}</p>{% endif %}
@@ -24,7 +25,7 @@
     
     <h2>What if the Package isn't in the database?<h2>
         
-    <p><a class="large awesome forestgreen" href="{% url add_new_grid_package grid.slug %}">How about adding it? »</a></p>
+    <p><a class="large awesome forestgreen" href="{% url add_new_grid_package grid.slug %}">{% trans "How about adding it? »" %}</a></p>
                 
 
 
