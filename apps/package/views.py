@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 from django.core.urlresolvers import reverse
 from django.db.models import Q, Count
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.template.loader import render_to_string
@@ -27,7 +27,11 @@ def repo_data_for_js():
 
 @login_required
 def add_package(request, template_name="package/package_form.html"):
-    
+
+    if not request.user.get_profile().can_add_package:
+        return HttpResponseForbidden("permission denied")
+
+
     new_package = Package()
     form = PackageForm(request.POST or None, instance=new_package)
     
@@ -49,6 +53,9 @@ def add_package(request, template_name="package/package_form.html"):
 @login_required
 def edit_package(request, slug, template_name="package/package_form.html"):
     
+    if not request.user.get_profile().can_edit_package:
+        return HttpResponseForbidden("permission denied")
+
     package = get_object_or_404(Package, slug=slug)
     form = PackageForm(request.POST or None, instance=package)
     

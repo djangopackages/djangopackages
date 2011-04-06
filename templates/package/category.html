@@ -21,7 +21,10 @@
      
     <p id="description">{{ category.description }}</p>
     
-    <p id="links"><a class="large awesome forestgreen" href="{% url add_package %}">{% trans "add package »" %}</a>
+    <p id="links">
+        {% if profile.can_add_package %}
+        <a class="large awesome forestgreen" href="{% url add_package %}">{% trans "add package »" %}</a>
+        {% endif %}
         <a href="{% url latest_packages %}">{% trans "latest" %}</a> <a href="{% url packages %}">{% trans "all" %}</a>
     </p>
     

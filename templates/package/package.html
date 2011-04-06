@@ -104,25 +104,26 @@
             </tr>
         </table>        
 
-        <h2>{% trans "Comparison Grids" %}</h2>
-    
-        {% for grid in package.grids %}
-            <a href="{% url grid grid.slug %}" title="{{ grid.description }}">{{ grid }}</a>
+        {% if request.user.is_authenticated and profile.can_add_grid %}
+            <h2>{% trans "Comparison Grids" %}</h2>
         
-            {% if forloop.last %}
+            {% for grid in package.grids %}
+                <a href="{% url grid grid.slug %}" title="{{ grid.description }}">{{ grid }}</a>
+            
+                {% if forloop.last %}
+                    <div id="package-gridname">
+                        <a class="awesome forestgreen" id="find-a-grid" href="#">Find another grid to join!</a>
+                        {% include "package/includes/_attach_grid.html" %}
+                    </div>    
+            
+                {% endif %}
+            {% empty %}
                 <div id="package-gridname">
                     <a class="awesome forestgreen" id="find-a-grid" href="#">{% trans "Find another grid to join!" %}</a>
                     {% include "package/includes/_attach_grid.html" %}
-                </div>    
-        
-            {% endif %}
-        {% empty %}
-            <div id="package-gridname">
-                <a class="awesome forestgreen" id="find-a-grid" href="#">{% trans "Find a grid to join!" %}</a>
-                {% include "package/includes/_attach_grid.html" %}
-            </div>
-        {% endfor %}
-    
+                </div>
+            {% endfor %}
+        {% endif %}
         <h2>{% trans "Sites using this package" %}</h2>
     
         <div id="package-editlink">
