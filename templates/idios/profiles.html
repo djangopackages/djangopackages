@@ -11,7 +11,7 @@
 
 <h1>{% trans "All Profiles" %}</h1>
 
-<p>Click table headers to sort</p>
+<p>{% trans "Click table headers to sort" %}</p>
 
 {% autosort users %}
 {% autopaginate users %}
@@ -27,10 +27,10 @@
             <th>{% anchor date_joined Date Joined %}</th>
             <th>{% anchor is_staff Staff %}</th>
             {% if request.user.is_staff %}            
-                <th>Active</th>            
+                <th>{% trans "Active" %}</th>            
             {% endif %}
-            <th>Github</th>
-            <th>BitBucket</th>
+            <th>{% trans "Github" %}</th>
+            <th>{% trans "BitBucket" %}</th>
         </tr>
         </thead>
         
