@@ -3,21 +3,23 @@
 {% load i18n %}
 {% load uni_form_tags %}
 
-{% block head_title %}Add new grid{% endblock %}
+{% block head_title %}{% trans "Add new grid" %}{% endblock %}
 
 {% block body %}
 
-    <h1>Add new grid</h1>
+    <h1>{% trans "Add new grid" %}</h1>
     
+    {% blocktrans %}
     <p>Grids added here are publicly listed at <a href="http://www.djangopackages.com/grids/">http://www.djangopackages.com/grids/</a>.</p>
     <p>Periodically, the Django Packages team will add some of these grids to the top navigation bar!</p>
+    {% endblocktrans %}
     
     <form class="uniForm" method="post">
         {% csrf_token %}
         <fieldset>
             {{ form|as_uni_form }}
             <div class="form_block">
-                <input class="awesome forestgreen" type="submit" name="add" value="Add new grid »">
+                <input class="awesome forestgreen" type="submit" name="add" value="{% trans "Add new grid »" %}">
             </div>            
         </fieldset>
 

@@ -3,19 +3,19 @@
 {% load i18n %}
 {% load uni_form_tags %}
 
-{% block head_title %}Edit grid{% endblock %}
+{% block head_title %}{% trans "Edit grid" %}{% endblock %}
 
 {% block body %}
 
-    <h1>Edit grid</h1>
+    <h1>{% trans "Edit grid" %}</h1>
     
     <form class="uniForm" method="post">
         {% csrf_token %}
         <fieldset>
             {{ form|as_uni_form }}
             <div class="form_block">        
-                <input class="awesome forestgreen" type="submit" name="edit" value="Edit">
-                <a href="{% url grid grid.slug %}">cancel</a>
+                <input class="awesome forestgreen" type="submit" name="edit" value="{% trans "Edit" %}">
+                <a href="{% url grid grid.slug %}">{% trans "cancel" %}</a>
             </div>            
         </fieldset>
     </form>
