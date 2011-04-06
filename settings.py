@@ -139,6 +139,7 @@ TEMPLATE_CONTEXT_PROCESSORS = [
     "package.context_processors.used_packages_list",
     "homepage.context_processors.grid_tabs",
     "homepage.context_processors.current_path",
+    "profiles.context_processors.lazy_profile",
 ]
 
 PROJECT_APPS = [
@@ -275,6 +276,17 @@ PACKAGINATOR_HELP_TEXT = {
 }
 
 PACKAGINATOR_SEARCH_PREFIX = "django"
+
+# if set to False (default) any auth user can add/modify packages
+# only django admins can delete
+RESTRICT_PACKAGE_EDITORS = False
+
+# if set to False (default) any auth user can add/modify grids
+# only django admins can delete
+RESTRICT_GRID_EDITORS = False
+
+
+
 
 CELERYD_TASK_TIME_LIMIT = 300
 LAUNCHPAD_ACTIVE = False

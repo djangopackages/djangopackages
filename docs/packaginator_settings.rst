@@ -57,4 +57,65 @@ Example::
 
     LAUNCHPAD_CACHE_DIR = "/tmp/lp-cache"
 
+Permissions Settings
+====================
+
+Packaginator provides several ways to control who can make what changes to
+things like packages, features, and grids. By default, a Packaginator project
+is open to contributions from any registered user. If a given project would
+like more control over this, there are two settings that can be used.
+
+    RESTRICT_PACKAGE_EDITORS
+    RESTRICT_GRID_EDITORS
+
+If these are not set, the assumption is that you do not want to restrict
+editing.
+
+If set to True, a user must have permission to add or edit the given object.
+These permissions are set in the Django admin, and can be applied per user, or per group.
+
+Settings that are on by default
+-------------------------------
+
+By default registered users can do the following:
+
+**Packages**
+
+* Can add package
+* Can change package
+
+**Grids**
+
+* Can add Package
+* Can change Package
+* Can add feature
+* Can change feature
+* Can change element
+
+In the default condition, only super users or those with permission can delete.
+
+Testing permissions in templates
+--------------------------------
+
+A context processor will add the user profile to every template context, the
+profile model also handles checking for permissions::
+
+    {% if profile.can_edit_package %}
+        <edit package UI here>
+    {% endif %}
+
+The follow properties can be used in templates:
+
+* can_add_package
+* can_edit_package
+* can_edit_grid
+* can_add_grid
+* can_add_grid_feature
+* can_edit_grid_feature
+* can_delete_grid_feature
+* can_add_grid_package
+* can_delete_grid_package
+* can_edit_grid_element
+
 .. _troubleshooting: troubleshooting.html    
+
