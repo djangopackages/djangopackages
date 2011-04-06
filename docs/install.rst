@@ -53,10 +53,11 @@ The following instructions are how you would install an instance of Python Packa
     cd <installation-directory>
     virtualenv env-pythonpackages
     source env-pythonpackages/bin/activate
-    git clone git://github.com/cartwheelweb/packaginator.git pythonpackages
+    git clone git@github.com:cartwheelweb/packaginator.git packaginator
     cd pythonpackages
-    cp backup.db dev.db
     pip install -r requirements/project.txt
+    
+**Note:** We've removed sample data for the time being because of immediately forthcoming architectural changes. Database setup is now a new step.
 
 Remove the existing pinax & uni_form symlinks.  Add symlinks to the correct pinax and uni_form media directories::
 
@@ -94,6 +95,14 @@ Setup your email settings::
 Change the ``SECRET_KEY`` setting in ```local_settings.py``` to your own secret key::
 
     SECRET_KEY = "CHANGE-THIS-KEY-TO-SOMETHING-ELSE"
+
+Database setup
+==============
+
+This will create a mostly empty database::
+
+    python manage.py syncdb
+    python manage.py migrate
 
 Running the development server
 ==============================

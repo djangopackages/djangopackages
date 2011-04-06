@@ -6,6 +6,17 @@ from package.models import BaseModel, Package
 
 
 class Grid(BaseModel):
+    """Grid object, inherits form :class:`package.models.BaseModel`
+
+    * :attr:`~grid.models.Grid.title` - grid title
+    * :attr:`~grid.models.Grid.slug` - grid slug for SEO
+    * :attr:`~grid.models.Grid.description` - description of the grid 
+      with line breaks and urlized links
+    * :attr:`~grid.models.Grid.is_locked` - boolean field accessible
+      to moderators
+    * :attr:`~grid.models.Grid.packages` - many-to-many relation 
+      with :class:~`grid.models.GridPackage` objects
+    """
 
     title        = models.CharField(_('Title'), max_length=100)
     slug         = models.SlugField(_('Slug'), help_text="Slugs will be lowercased", unique=True)    
@@ -31,9 +42,9 @@ class Grid(BaseModel):
         ordering = ['title']
 
 class GridPackage(BaseModel):
-    """ These are Packages on one side of the grid 
-        Have to make this intermediary table to get things to work right
-        Otherwise would have used ManyToMany field
+    """These are Packages on one side of the grid 
+    Have to make this intermediary table to get things to work right
+    Otherwise would have used ManyToMany field
     """
     
     grid        = models.ForeignKey(Grid)
@@ -66,7 +77,7 @@ Plus just '+' or '-' signs can be used but cap at 3 multiples to protect layout<
 """
     
 class Element(BaseModel):
-    """ The individual table elements """
+    """ The individual grid table elements """
     
     grid_package = models.ForeignKey(GridPackage)
     feature      = models.ForeignKey(Feature)

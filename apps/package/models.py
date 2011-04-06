@@ -4,6 +4,7 @@ import logging
 import os
 import re
 import sys
+from datetime import datetime, timedelta
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -11,9 +12,9 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
+from django.core.exceptions import ObjectDoesNotExist
 
 from distutils.version import LooseVersion as versioner
-from github2.client import Github
 
 from package.fields import CreationDateTimeField, ModificationDateTimeField
 from package.repos import github
@@ -93,9 +94,13 @@ class Package(BaseModel):
 
     @property
     def last_updated(self):
-        last_commit = self.commit_set.latest('commit_date')
-        if last_commit: 
-            return last_commit.commit_date
+        try:
+            last_commit = self.commit_set.latest('commit_date')
+            if last_commit: 
+                return last_commit.commit_date
+        except ObjectDoesNotExist:
+            pass
+
         return None
 
     @property
@@ -118,8 +123,19 @@ class Package(BaseModel):
         return self.participants.split(',')
     
     def commits_over_52(self):
-        from package.templatetags.package_tags import commits_over_52
-        return commits_over_52(self)
+        now = datetime.now()
+        commits = Commit.objects.filter(
+            package=self,
+            commit_date__gt=now - timedelta(weeks=52),
+        ).values_list('commit_date', flat=True)
+
+        weeks = [0] * 52
+        for cdate in commits:
+            age_weeks = (now - cdate).days // 7
+            if age_weeks < 52:
+                weeks[age_weeks] += 1
+
+        return ','.join(map(str,reversed(weeks)))
     
     def fetch_metadata(self, *args, **kwargs):
         

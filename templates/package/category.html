@@ -17,15 +17,15 @@
 
 {% block body %}
 
-     <h1><a href="{% url home %}">home</a> / <a href="{% url categories %}">categories</a> / {{ category }}s ( {{ packages.count }} )</h1>
+    <h1><a href="{% url home %}">{% trans "home" %}</a> / <a href="{% url categories %}">{% trans "categories" %}</a> / {{ category }}s ( {{ packages.count }} )</h1>
      
     <p id="description">{{ category.description }}</p>
     
-    <p id="links"><a class="large awesome forestgreen" href="{% url add_package %}">add package »</a>
-        <a href="{% url latest_packages %}">latest</a> <a href="{% url packages %}">all</a>
+    <p id="links"><a class="large awesome forestgreen" href="{% url add_package %}">{% trans "add package »" %}</a>
+        <a href="{% url latest_packages %}">{% trans "latest" %}</a> <a href="{% url packages %}">{% trans "all" %}</a>
     </p>
     
-    <p>Click table headers to sort</p>
+    <p>{% trans "Click table headers to sort" %}</p>
 
     {% autosort packages %}
     {% autopaginate packages %}
@@ -36,8 +36,8 @@
               <th>{% anchor usage_count "# Using This" %}</th>
               <th class="tiny-column">{% anchor pypi_downloads "PyPi Downloads" %}</th>
               <th>{% anchor title "Name" %}</th>
-                <th>Commits</th>
-                <th>Version</th>
+              <th>{% trans "Commits" %}</th>
+              <th>{% trans "Version" %}</th>
                 <th class="repo-watchers">{% anchor repo_watchers "Watchers" %}</th>
                 <th class="repo-forks">{% anchor repo_forks "Forks" %}</th>
             </tr>

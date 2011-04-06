@@ -18,8 +18,9 @@ Contents:
    introduction
    license   
    install
-   faq
+   celery
    troubleshooting
+   faq   
    packaginator_settings
    testing_instructions
    management_commands
@@ -30,6 +31,7 @@ Contents:
    api_docs
    database
    lessons_learned
+   reference
 
 Contributing to Packaginator
 ================================

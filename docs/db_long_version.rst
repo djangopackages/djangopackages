@@ -222,10 +222,10 @@ Comment out the following line::
 
 And in idios/models.py::
 
-def create_profile(sender, instance=None, **kwargs):
-    if instance is None:
-        return
-    profile, created = get_profile_model().objects.get_or_create(user=instance)
+    def create_profile(sender, instance=None, **kwargs):
+        if instance is None:
+            return
+        profile, created = get_profile_model().objects.get_or_create(user=instance)
 
 Comment out the following line::
 

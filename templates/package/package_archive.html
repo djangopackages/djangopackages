@@ -2,13 +2,13 @@
 
 {% load i18n %}
 
-{% block head_title %}Packages{% endblock %}
+{% block head_title %}{% trans "Packages" %}{% endblock %}
 
 {% block body %}
 
-    <h1>Latest 15 packages added</h1>
+    <h1>{% trans "Latest 15 packages added" %}</h1>
 
-    <a href="{% url add_package %}">Add a new package!</a>
+    <a href="{% url add_package %}">{% trans "Add a new package!" %}</a>
 
     <div id="packages">
         {% for package in latest %}

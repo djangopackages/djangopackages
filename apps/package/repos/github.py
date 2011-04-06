@@ -1,5 +1,11 @@
 from django.conf import settings
-from github2.client import Github
+
+try:
+    from github2.client import Github
+except ImportError:
+    # skipping this so we can generate docs
+    pass
+
 from package.utils import uniquer
 from base_handler import BaseHandler
 

@@ -21,8 +21,8 @@
 
     
     <h1 id="grid-name">
-      <a href="{% url home %}">home</a> / <a href="{% url grids %}">grids</a> / {{ grid.title }}
-      <a href="{% url edit_grid grid.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
+        <a href="{% url home %}">{% trans "home" %}</a> / <a href="{% url grids %}">{% trans "grids" %}</a> / {{ grid.title }}
+        <a href="{% url edit_grid grid.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
     </h1>
 
     <p>
@@ -30,12 +30,12 @@
     </p>    
     
     {% if features %}
-        <h2>Features currently being evaluated</h2>
+        <h2>{% trans "Features currently being evaluated" %}</h2>
         <table id="grid" border="3">      
             <thead>
                 <tr>
-                    <th>Feature</th>
-                    <th>Description</th>
+                    <th>{% trans "Feature" %}</th>
+                    <th>{% trans "Description" %}</th>
                 </tr> 
             </thead>
             <tbody>
@@ -53,13 +53,13 @@
         </table>
         {% if request.user.is_authenticated %}        
 
-            <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_feature grid.slug %}">Add new feature to the grid</a></p>
+            <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_feature grid.slug %}">{% trans "Add new feature to the grid" %}</a></p>
 
         {% endif %}            
     {% else %}
         {% if request.user.is_authenticated %}        
 
-            <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_feature grid.slug %}">Add a feature to the grid</a></p>
+            <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_feature grid.slug %}">{% trans "Add a feature to the grid" %}</a></p>
 
         {% endif %}        
     {% endif %}
@@ -69,7 +69,7 @@
     {% if grid_packages.count %}
     
         {% if request.user.is_authenticated %}        
-            <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_grid_package grid.slug %}">Add another package</a></p>
+            <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_grid_package grid.slug %}">{% trans "Add another package" %}</a></p>
         {% endif %}        
     
         <table id="grid" border="3">
@@ -78,7 +78,7 @@
             </thead>
             <tbody>
                 <tr class="even">
-                    <td>Description</td>
+                    <td>{% trans "Description" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>
                             {% with grid_package.package.repo_description|truncatewords:20 as short %}
@@ -95,13 +95,13 @@
                     {% endfor %}
                 </tr>                    
                 <tr class="odd">
-                    <td>Category</td>
+                    <td>{% trans "Category" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>{{ grid_package.package.category }}</td>
                     {% endfor %}
                 </tr>                
                 <tr class="even">
-                    <td># Using This</td>
+                    <td>{% trans "# Using This" %}</td>
                     {% for grid_package in grid_packages %}
                     
                         <td>
@@ -113,7 +113,7 @@
                     {% endfor %}
                 </td>
                 <tr class="even">
-                    <td>Downloads</td>
+                    <td>{% trans "Downloads" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>
                             {% if grid_package.package.pypi_version %}
@@ -126,7 +126,7 @@
                     {% endfor %}
                 </tr>
                 <tr class="odd">
-                    <td>Last updated</td>
+                    <td>{% trans "Last updated" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>
                         {% if grid_package.package.last_updated %}
@@ -136,20 +136,20 @@
                     {% endfor %}
                 </tr>
                 <tr class="even">
-                    <td>Version</td>
+                    <td>{% trans "Version" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>{{ grid_package.package.pypi_version|default:"n/a" }}</td>
                     {% endfor %}
             
                 </tr>
                 <tr class="odd">
-                    <td>Repo</td>
+                    <td>{% trans "Repo" %}</td>
                     {% for grid_package in grid_packages %}
                         <td><a href="{{ grid_package.package.repo_url }}">{{ grid_package.package.repo }}</a></td>
                     {% endfor %}
                 </tr>            
                 <tr class="even">
-                    <td>Commits</td>
+                    <td>{% trans "Commits" %}</td>
                     {% for grid_package in grid_packages %}
                         {% cache 86400 package.commitchart grid_package.package %}
                             <td><img class="package-githubcommits" src="http://chart.apis.google.com/chart?cht=bvg&chs=105x20&chd=t:{{ grid_package.package|commits_over_52 }}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
@@ -157,19 +157,19 @@
                     {% endfor %}
                 </tr>
                 <tr class="odd">
-                    <td>Repo Watchers</td>
+                    <td>{% trans "Repo Watchers" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>{{ grid_package.package.repo_watchers|default:"n/a" }}</td>
                     {% endfor %}
                 </tr>
                 <tr class="even">
-                    <td>Repo Forks</td>
+                    <td>{% trans "Repo Forks" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>{{ grid_package.package.repo_forks|default:"n/a" }}</td>
                     {% endfor %}
                 </tr>
                 <tr class="odd">
-                    <td>Participants</td>
+                    <td>{% trans "Participants" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>
                             {% for collaborator in grid_package.package.participant_list %}
@@ -180,17 +180,17 @@
                                     {% endif %}
                                 {% endif %}
                                 {% if forloop.counter == 11 %}
-                                    <a href="{% url package grid_package.package.slug %}">more...</a>
+                                    <a href="{% url package grid_package.package.slug %}">{% trans "more..." %}</a>
                                 {% endif %}
                             {% endfor %}                        
                         </td>
                     {% endfor %}
                 </tr>
                 <tr class="even">
-                    <td>Docs on RTD</td>
+                    <td>{% trans "Docs on RTD" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>
-                            <span class="rtd-status" rel="{{ grid_package.package.slug }}">Checking...</span>
+                            <span class="rtd-status" rel="{{ grid_package.package.slug }}">{% trans "Checking..." %}</span>
                         </td>
                     {% endfor %}
                 </tr>
@@ -201,7 +201,7 @@
                         <td>{{ feature.title }}</td>
                         {% for grid_package in grid_packages %}
                             {% with elements|hash:feature.pk|hash:grid_package.pk as element %}
-                                <td class="clickable" id="element-f{{ feature.pk }}-p{{ grid_package.pk }}">{% if element %}{{ element.text|style_element|safe|urlize|linebreaksbr }}{% endif %}<noscript> <a class="edit" href="{% url edit_element feature.pk grid_package.pk %}">[edit]</a></noscript></td>
+                                <td class="clickable" id="element-f{{ feature.pk }}-p{{ grid_package.pk }}">{% if element %}{{ element.text|style_element|safe|urlize|linebreaksbr }}{% endif %}<noscript> <a class="edit" href="{% url edit_element feature.pk grid_package.pk %}">{% trans "[edit]" %}</a></noscript></td>
                             {% endwith %}
                         {% endfor %}
                     </tr>
@@ -214,11 +214,11 @@
     
         </table>
         {% if request.user.is_authenticated %}
-            <p><img src="{{ STATIC_URL }}img/icon_changelink.gif"/>&nbsp;Highlighted cells are editable.  Click highlighted cells to change text.</p>
+            <p><img src="{{ STATIC_URL }}img/icon_changelink.gif"/>&nbsp;{% trans "Highlighted cells are editable.  Click highlighted cells to change text." %}</p>
         {% endif %}
                     
     {% else %}  
-        <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_grid_package grid.slug %}">Add a package to get a grid view</a></p>
+        <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_grid_package grid.slug %}">{% trans "Add a package to get a grid view" %}</a></p>
     {% endif %}
         
 
@@ -248,7 +248,7 @@
                         // The deletes are placed in here so there is just one place needed
                         e.preventDefault();
 
-                        if(confirm('Are you sure?')) {
+                        if(confirm('{% trans "Are you sure?" %}')) {
                             window.location = url;
                         }
                     };

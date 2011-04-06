@@ -24,10 +24,10 @@
             {% endif %}
 
             {% if is_me %}
-                <p><a href="{% url profile_edit %}" rel="facebox">Edit my profile</a></p>
+                <p><a href="{% url profile_edit %}" rel="facebox">{% trans "Edit my profile" %}</a></p>
             {% endif %}    
 
-            <h2><a href="{% url profile_list %}">All profiles</a></h2>            
+            <h2><a href="{% url profile_list %}">{% trans "All profiles" %}</a></h2>            
             
             {% if other_user.get_full_name %}
                 <p><b>{% trans "Name" %}</b>: <span class="fn">{{ other_user.get_full_name }}</span></p>
@@ -47,13 +47,13 @@
                     {% endif %}</p>
 
             {% if other_user.get_profile.my_packages %}
-                <h2>Packages I contribute to</h2>
+                <h2>{% trans "Packages I contribute to" %}</h2>
                 <table>
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Package</th>
-                        <th>Repo</th>                                                
+                        <th>{% trans "Package" %}</th>
+                        <th>{% trans "Repo" %}</th>                                                
                     </tr>
                 </thead>                    
                 <tbody>
@@ -71,14 +71,14 @@
             </div>
             
             <div id="package-right">
-                <h2>Packages I use</h2>
+                <h2>{% trans "Packages I use" %}</h2>
                 <ul class="usage-list">
                     <table>
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Package</th>
-                            <th>Repo</th>                                                
+                            <th>{% trans "Package" %}</th>
+                            <th>{% trans "Repo" %}</th>                                                
                         </tr>
                     </thead>                    
                     <tbody>
