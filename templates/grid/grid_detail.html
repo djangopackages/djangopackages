@@ -21,8 +21,11 @@
 
     
     <h1 id="grid-name">
-        <a href="{% url home %}">{% trans "home" %}</a> / <a href="{% url grids %}">{% trans "grids" %}</a> / {{ grid.title }}
-        <a href="{% url edit_grid grid.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
+
+      <a href="{% url home %}">{% trans "home" %}</a> / <a href="{% url grids %}">{% trans "grids" %}</a> / {{ grid.title }}
+      {% if request.user.is_authenticated and profile.can_edit_grid %}
+      <a href="{% url edit_grid grid.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
+      {% endif %}
     </h1>
 
     <p>
@@ -42,7 +45,7 @@
                 {% for feature in features %}
                     <tr>                        
                         <td>{{ feature.title }}
-                        {% if request.user.is_authenticated %}
+                        {% if request.user.is_authenticated and profile.can_edit_grid_feature %}
                             <a href="{% url edit_feature feature.pk %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>{% if perms.grid.delete_feature %}&nbsp;<a href="#" id="feature-delete-{{ feature.pk }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete" /></a>{% endif %}
                         {% endif %}
                         </td>
@@ -51,13 +54,13 @@
                 {% endfor %}
             </tbody>
         </table>
-        {% if request.user.is_authenticated %}        
+        {% if request.user.is_authenticated and profile.can_add_grid_feature %}        
 
             <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_feature grid.slug %}">{% trans "Add new feature to the grid" %}</a></p>
 
         {% endif %}            
     {% else %}
-        {% if request.user.is_authenticated %}        
+        {% if request.user.is_authenticated and profile.can_add_grid_feature %}        
 
             <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_feature grid.slug %}">{% trans "Add a feature to the grid" %}</a></p>
 
@@ -68,7 +71,7 @@
     
     {% if grid_packages.count %}
     
-        {% if request.user.is_authenticated %}        
+        {% if request.user.is_authenticated and profile.can_add_grid_package %}        
             <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_grid_package grid.slug %}">{% trans "Add another package" %}</a></p>
         {% endif %}        
     
@@ -201,7 +204,11 @@
                         <td>{{ feature.title }}</td>
                         {% for grid_package in grid_packages %}
                             {% with elements|hash:feature.pk|hash:grid_package.pk as element %}
-                                <td class="clickable" id="element-f{{ feature.pk }}-p{{ grid_package.pk }}">{% if element %}{{ element.text|style_element|safe|urlize|linebreaksbr }}{% endif %}<noscript> <a class="edit" href="{% url edit_element feature.pk grid_package.pk %}">{% trans "[edit]" %}</a></noscript></td>
+                            <td class="clickable" id="element-f{{ feature.pk }}-p{{ grid_package.pk }}">{% if element %}{{ element.text|style_element|safe|urlize|linebreaksbr }}{% endif %}<noscript> 
+                                    {% if request.user.is_authenticated and profile.can_edit_grid_element %}
+                                    <a class="edit" href="{% url edit_element feature.pk grid_package.pk %}">{% trans "[edit]" %}</a>
+                                    {% endif %}
+                            </noscript></td>
                             {% endwith %}
                         {% endfor %}
                     </tr>
@@ -213,12 +220,15 @@
             </tbody>
     
         </table>
-        {% if request.user.is_authenticated %}
+
+        {% if request.user.is_authenticated and profile.can_edit_grid_element %}
             <p><img src="{{ STATIC_URL }}img/icon_changelink.gif"/>&nbsp;{% trans "Highlighted cells are editable.  Click highlighted cells to change text." %}</p>
         {% endif %}
                     
-    {% else %}  
+    {% else %}
+        {% if request.user.is_authenticated and profile.can_add_grid_package %}
         <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_grid_package grid.slug %}">{% trans "Add a package to get a grid view" %}</a></p>
+        {% endif %}
     {% endif %}
         
 
@@ -231,6 +241,7 @@
                 
                 {% if request.user.is_authenticated %}
                     // Handle element edit redirects
+                {% if profile.can_edit_grid_element %}
                     {% for feature in features %}
                         {% for grid_package in grid_packages %}
                         {% with elements|hash:feature.pk|hash:grid_package.pk as element %}
@@ -252,7 +263,7 @@
                             window.location = url;
                         }
                     };
-                    
+                {% endif %}
                     // handle feature deletes
                     {% if perms.grid.delete_feature %}
                         {% for feature in features %}

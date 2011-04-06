@@ -1,11 +1,16 @@
+from django.conf import settings
 from django.test import TestCase
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User, Permission
 
 from grid.models import Grid, Element, Feature, GridPackage
 from package.models import Package
 
 class FunctionalGridTest(TestCase):
     fixtures = ['test_initial_data.json']
+    
+    def setUp(self):
+        settings.RESTRICT_GRID_EDITORS = False
     
     def test_grid_list_view(self):
         url = reverse('grids')
@@ -37,7 +42,6 @@ class FunctionalGridTest(TestCase):
         self.assertContains(response, '<a href="/">home</a>')
         self.assertContains(response, '<a href="/grids/">grids</a>')
         self.assertContains(response, '<a href="/grids/g/testing/">Testing</a>')
-        self.assertContains(response, '<a href="/grids/testing/edit/">')
         self.assertContains(response, 'Has tests?')
         self.assertContains(response,
                             '<a href="/packages/p/testability/">Testability')
@@ -265,6 +269,9 @@ class FunctionalGridTest(TestCase):
 
 class RegressionGridTest(TestCase):
     fixtures = ['test_initial_data.json']
+
+    def setUp(self):
+        settings.RESTRICT_GRID_EDITORS = False
     
     def test_edit_element_view_for_nonexistent_elements(self):
         """Make sure that attempts to edit nonexistent elements succeed.
@@ -281,4 +288,146 @@ class RegressionGridTest(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'grid/edit_element.html')
-            
+
+class GridPermissionTest(TestCase):
+    fixtures = ['test_initial_data.json']
+
+    def setUp(self):
+        settings.RESTRICT_GRID_EDITORS = True
+        self.test_add_url = reverse('add_grid')
+        self.test_edit_url = reverse('edit_grid', kwargs={'slug':'testing'})
+        self.login = self.client.login(username='user', password='user')
+        self.user = User.objects.get(username='user')
+    
+    def test_add_grid_permission_fail(self):
+        response = self.client.get(self.test_add_url)
+        self.assertEqual(response.status_code, 403)
+
+    def test_add_grid_permission_success(self):
+        add_grid_perm = Permission.objects.get(codename='add_grid')
+        self.user.user_permissions.add(add_grid_perm)
+        response = self.client.get(self.test_add_url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_edit_grid_permission_fail(self):
+        response = self.client.get(self.test_edit_url)
+        self.assertEqual(response.status_code, 403)
+
+    def test_edit_grid_permission_success(self):
+        edit_grid_perm = Permission.objects.get(codename='change_grid')
+        self.user.user_permissions.add(edit_grid_perm)
+        response = self.client.get(self.test_edit_url)
+        self.assertEqual(response.status_code, 200)
+
+
+class GridPackagePermissionTest(TestCase):
+    fixtures = ['test_initial_data.json']
+
+    def setUp(self):
+        settings.RESTRICT_GRID_EDITORS = True
+        self.test_add_url = reverse('add_grid_package', 
+                                    kwargs={'grid_slug':'testing'})
+        self.test_add_new_url = reverse('add_new_grid_package',
+                                        kwargs={'grid_slug':'testing'})
+        self.test_delete_url = reverse('delete_grid_package',
+                                       kwargs={'id':'1'})
+        self.login = self.client.login(username='user', password='user')
+        self.user = User.objects.get(username='user')
+
+    def test_login(self):
+        self.assertTrue(self.login)
+
+    def test_add_grid_package_permission_fail(self):
+        response = self.client.get(self.test_add_url)
+        self.assertEqual(response.status_code, 403)
+
+    def test_add_grid_package_permission_success(self):
+        add_grid_perm = Permission.objects.get(codename='add_gridpackage')
+        self.user.user_permissions.add(add_grid_perm)
+        response = self.client.get(self.test_add_url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_new_grid_package_permission_fail(self):
+        response = self.client.get(self.test_add_new_url)
+        self.assertEqual(response.status_code, 403)
+
+    def test_add_new_grid_package_permission_success(self):
+        add_new_grid_perm = Permission.objects.get(codename='add_gridpackage')
+        self.user.user_permissions.add(add_new_grid_perm)
+        response = self.client.get(self.test_add_new_url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_delete_grid_package_permission_fail(self):
+        response = self.client.get(self.test_delete_url)
+        self.assertEqual(response.status_code, 302)
+
+    def test_delete_grid_package_permission_success(self):
+        delete_grid_perm = Permission.objects.get(codename=
+                                                  'delete_gridpackage')
+        self.user.user_permissions.add(delete_grid_perm)
+        response = self.client.get(self.test_delete_url)
+        self.assertEqual(response.status_code, 302)
+
+class GridFeaturePermissionTest(TestCase):
+    fixtures = ['test_initial_data.json']
+
+    def setUp(self):
+        settings.RESTRICT_GRID_EDITORS = True
+        self.test_add_url = reverse('add_feature',
+                                    kwargs={'grid_slug':'testing'})
+        self.test_edit_url = reverse('edit_feature', kwargs={'id':'1'})
+        self.test_delete_url = reverse('delete_feature',  kwargs={'id':'1'})
+        self.login = self.client.login(username='user', password='user')
+        self.user = User.objects.get(username='user')
+
+    def test_add_feature_permission_fail(self):
+        response = self.client.get(self.test_add_url)
+        self.assertEqual(response.status_code, 403)
+
+    def test_add_feature_permission_success(self):
+        add_feature = Permission.objects.get(codename='add_feature')
+        self.user.user_permissions.add(add_feature)
+        response = self.client.get(self.test_add_url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_edit_feature_permission_fail(self):
+        response = self.client.get(self.test_edit_url)
+        self.assertEqual(response.status_code, 403)
+
+    def test_edit_feature_permission_success(self):
+        edit_feature = Permission.objects.get(codename='change_feature')
+        self.user.user_permissions.add(edit_feature)
+        response = self.client.get(self.test_edit_url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_delete_feature_permission_fail(self):
+        response = self.client.get(self.test_delete_url)
+        self.assertEqual(response.status_code, 302)
+
+    def test_delete_feature_permission_success(self):
+        delete_feature = Permission.objects.get(codename='delete_feature')
+        self.user.user_permissions.add(delete_feature)
+        response = self.client.get(self.test_delete_url)
+        self.assertEqual(response.status_code, 302)
+
+class GridElementPermissionTest(TestCase):
+    fixtures = ['test_initial_data.json']
+
+    def setUp(self):
+        settings.RESTRICT_GRID_EDITORS = True
+        self.test_edit_url = reverse('edit_element',
+                                     kwargs={'feature_id':'1',
+                                             'package_id':'1'})
+        self.login = self.client.login(username='user', password='user')
+        self.user = User.objects.get(username='user')
+
+    def test_edit_element_permission_fail(self):
+        response = self.client.get(self.test_edit_url)
+        self.assertEqual(response.status_code, 403)
+
+    def test_edit_element_permission_success(self):
+        edit_element = Permission.objects.get(codename='change_element')
+        self.user.user_permissions.add(edit_element)
+        response = self.client.get(self.test_edit_url)
+        self.assertEqual(response.status_code, 200)
+

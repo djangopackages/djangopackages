@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
@@ -13,11 +14,6 @@ class Profile(ProfileBase):
     bitbucket_url = models.CharField(_("Bitbucket account"), null=True, blank=True, max_length=100)
     google_code_url = models.CharField(_("Google Code account"), null=True, blank=True, max_length=100)
 
-    class Meta:
-        permissions = (
-            ("is_moderator", "is_moderator"),
-        )
-        
     def url_for_repo(self, repo):
         """Return the profile's URL for a given repo.
         
@@ -43,3 +39,73 @@ class Profile(ProfileBase):
             packages.extend(repo_packages)
         packages.sort(lambda a, b: cmp(a.title, b.title))
         return packages
+
+    # define permission properties as properties so we can access in templates
+
+    @property
+    def can_add_package(self):
+        if getattr(settings, 'RESTRICT_PACKAGE_EDITORS', False):
+            return self.user.has_perm('package.add_package')
+        # anyone can add
+        return True
+
+    @property
+    def can_edit_package(self):
+        if getattr(settings, 'RESTRICT_PACKAGE_EDITORS', False):
+            # this is inconsistent, fix later?
+            return self.user.has_perm('package.change_package')
+        # anyone can edit
+        return True
+
+    # Grids
+    @property
+    def can_edit_grid(self):
+        if getattr(settings, 'RESTRICT_GRID_EDITORS', False):
+            return self.user.has_perm('grid.change_grid')
+        return True
+
+    @property
+    def can_add_grid(self):
+        if getattr(settings, 'RESTRICT_GRID_EDITORS', False):
+            return self.user.has_perm('grid.add_grid')
+        return True
+
+    # Grid Features
+    @property
+    def can_add_grid_feature(self):
+        if getattr(settings, 'RESTRICT_GRID_EDITORS', False):
+            return self.user.has_perm('grid.add_feature')
+        return True
+
+    @property
+    def can_edit_grid_feature(self):
+        if getattr(settings, 'RESTRICT_GRID_EDITORS', False):
+            return self.user.has_perm('grid.change_feature')
+        return True
+
+    @property
+    def can_delete_grid_feature(self):
+        if getattr(settings, 'RESTRICT_GRID_EDITORS', False):
+            return self.user.has_perm('grid.delete_feature')
+        return True
+
+    # Grid Packages
+    @property
+    def can_add_grid_package(self):
+        if getattr(settings, 'RESTRICT_GRID_EDITORS', False):
+            return self.user.has_perm('grid.add_gridpackage')
+        return True
+
+    @property
+    def can_delete_grid_package(self):
+        if getattr(settings, 'RESTRICT_GRID_EDITORS', False):
+            return self.user.has_perm('grid.delete_gridpackage')
+        return True
+
+    # Grid Element (cells in grid)
+    @property
+    def can_edit_grid_element(self):
+        if getattr(settings, 'RESTRICT_GRID_EDITORS', False):
+            return self.user.has_perm('grid.change_element')
+        return True
+

@@ -15,7 +15,9 @@
         <a href="{% url grids %}">{% trans "grids" %}</a> /
         <a href="{% url grid grid.slug %}">{{ grid.title }}</a> /
         {{ feature.title }}
-        <a href="{% url edit_grid grid.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
+        {% if request.user.is_authenticated and profile.can_edit_grid %}
+            <a href="{% url edit_grid grid.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
+        {% endif %}
     </h1>
 
     <h2>{% trans "Feature currently being evaluated" %}</h2>
@@ -29,7 +31,7 @@
             <tbody>
                 <tr>
                     <td>{{ feature.title }}
-                    {% if request.user.is_authenticated %}&nbsp;
+                    {% if request.user.is_authenticated and profile.can_edit_grid_feature %}&nbsp;
                         <a href="{% url edit_feature feature.pk %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
                         {% if perms.grid.delete_feature %}
                             <a href="#" id="feature-delete-{{ feature.pk }}">
@@ -45,7 +47,7 @@
 
     {% if feature %}
         {% if grid_packages.count %}
-            {% if request.user.is_authenticated %}
+            {% if request.user.is_authenticated and profile.can_add_grid_package %}
             <p>
                 <img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;
                 <a href="{% url add_grid_package grid.slug %}">{% trans "Add another package" %}</a>
@@ -58,7 +60,11 @@
                     <td>{{ feature.title }}</td>
                     {% for grid_package in grid_packages %}
                         {% with elements|hash:feature.pk|hash:grid_package.pk as element %}
-                            <td class="clickable" id="element-f{{ feature.pk }}-p{{ grid_package.pk }}">{% if element %}{{ element.text|style_element|safe|urlize|linebreaksbr }}{% endif %}<noscript> <a class="edit" href="{% url edit_element feature.pk grid_package.pk %}">{% trans "[edit]" %}</a></noscript></td>
+                        <td class="clickable" id="element-f{{ feature.pk }}-p{{ grid_package.pk }}">{% if element %}{{ element.text|style_element|safe|urlize|linebreaksbr }}{% endif %}<noscript> 
+                                {% if request.user.is_authenticated and profile.can_edit_grid_element %}
+                                <a class="edit" href="{% url edit_element feature.pk grid_package.pk %}">{% trans "[edit]" %}</a>
+                                {% endif %}
+                        </noscript></td>
                         {% endwith %}
                     {% endfor %}
                 </tr>
