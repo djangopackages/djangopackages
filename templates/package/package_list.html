@@ -14,63 +14,20 @@
 {% block body_class %}home{% endblock %}
 
 {% block body %}
-    {% comment %}
-    <div id="home-rightcol">
-        <div id="home-search">
-            <form action="{% url search %}">
-                <input id="id_q_p" type="text" name="q" maxlength="100" value="search" autocomplete="off" />
-                <input id="hidden-submit" type="submit" value="go" />
-            </form>         
-        </div>
-
-        <div>
-            <h1><a class="xlarge awesome forestgreen" href="{% url add_package %}">add package »</a></h1>
-        </div>        
-        <div class="home-rightcolbox">
-            <h1>Django Package of the Week</h1>
-            {% cache 300 "homepage.dpotw" %}
-                {% for package in dpotw %}            
-                    <h2><a href="{% url package package.package.slug %}">{{ package.package.title }}</a></h2>
-                    <p>{{ package.package.repo_description }}</p>
-                {% endfor %}
-            {% endcache %}
-            <p><a href="{% url add_package %}">Add your own package, or someone else's!</a></p>
-        </div>   
-
-        <div class="home-rightcolbox">
-            <h1>Grid of the Week</h1>
-            {% cache 300 "homepage.gotw" %}
-                {% for grid in gotw %}            
-                    <h2><a href="{% url grid grid.grid.slug %}">{{ grid.grid.title }}</a></h2>
-                    <p>{{ grid.grid.description }}</p>
-                <p><a href="{% url add_grid %}">Add a new grid!</a></p>                
-                {% endfor %}
-            {% endcache %}
-        </div>  
-        <div class="home-rightcolbox">
-            <h1>We need your help</h1>
-            <p>Help us populate our database by adding any Django package, whether it's yours or someone else's.</p>
-            <p><a class="large awesome forestgreen" href="{% url add_package %}">add package »</a></p>
-
-            <p>Or add a grid comparing the features of 2 or more similar packages.</p>
-            <p><a class="large awesome forestgreen" href="{% url add_grid %}">add grid »</a></p>
-        </div>
-    </div>    
-    {% endcomment %}        
      
      {% for category in categories %}
         <h2><a href="{% url category category.slug %}">{{ category.title_plural }}</a> ( {{ category.count }} )</h2>
         <p>{{ category.description }}</p>
         <table id="home-packages">
             <tr>
-                <th># Using This</th>
+                <th>{% trans "# Using This" %}</th>
                 {% if category.show_pypi %}
-                    <th class="tiny-column">PyPi Downloads</th>
+                    <th class="tiny-column">{% trans "PyPi Downloads" %}</th>
                 {% endif %}
-                <th>Name</th>
-                <th>Commits</th>
+                <th>{% trans "Name" %}</th>
+                <th>{% trans "Commits" %}</th>
                 {% if category.show_pypi %}                
-                    <th>Version</th>
+                    <th>{% trans "Version" %}</th>
                 {% endif %}                    
                 <th><img src="{{ STATIC_URL }}img/eye_20x20_clear.png" /></th>
                 <th><img src="{{ STATIC_URL }}img/fork_20x20_clear.png" /></th>
@@ -98,7 +55,7 @@
                 </tr>    
             {% endfor %}        
          </table>    
-         <p><a href="{% url category category.slug %}">more {{ category.title_plural|lower }}...</a></p>    
+         <p><a href="{% url category category.slug %}">{% trans "more " %}{{ category.title_plural|lower }}...</a></p>    
      {% endfor %}
  
     

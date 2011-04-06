@@ -3,3 +3,6 @@ dev.db*
 *.log
 local_settings.py
 lp-cache
+coverage
+docs/_build
+docs/_static

@@ -2,11 +2,11 @@
 
 {% load i18n %}
 
-{% block head_title %}Grids{% endblock %}
+{% block head_title %}{% trans "Grids" %}{% endblock %}
 
 {% block body %}
 
-    <h1>Grids</h1>
+    <h1>{% trans "Grids" %}</h1>
     
     <div id="grid-listing">
     {% for grid in latest %}
