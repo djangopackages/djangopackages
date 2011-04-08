@@ -164,7 +164,7 @@ class Package(BaseModel):
             self.pypi_downloads = total_downloads
         
         self.repo.fetch_metadata(self)
-        signal_fetch_latest_metadata(sender=self)
+        signal_fetch_latest_metadata.send(sender=self)
         self.save()        
 
     def fetch_commits(self):

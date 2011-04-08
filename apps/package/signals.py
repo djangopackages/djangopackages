@@ -1,5 +1,5 @@
-from django.dispatch import Signal
+import django.dispatch
 
-signal_fetch_latest_metadata = Signal()
+signal_fetch_latest_metadata = django.dispatch.Signal()
 
 
