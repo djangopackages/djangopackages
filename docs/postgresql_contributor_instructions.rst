@@ -4,43 +4,33 @@ PostgreSQL setup instructions for new contributors
 Mac
 ---
 
-If you're on the Mac, add this to /etc/sysctl.conf::
+EnterpriseDB maintains a Mac OS X binary installer. First, download and install from here:
 
-    kern.sysv.shmmax=8388608
-    kern.sysv.shmmin=1
-    kern.sysv.shmmni=64
-    kern.sysv.shmseg=8
-    kern.sysv.shmall=32768
+http://www.enterprisedb.com/products-services-training/pgdownload#osx
 
-Add this to your .bashrc::
+The package will take care of most installation needs, but it doesn't
+listen on localhost by default.
 
-    export PGDATA="/path/to/home/folder/for/db/tables", such as /home/audreyr/pgdata or /Users/audreyr/pgdata
+Become the new postgres user that the package added:
 
-Reload your .bashrc::
+    sudu su - postgres
 
-    source ~/.bashrc
+Source the environment file:
 
-Initialize PostgreSQL::
+    source pg_env.sh
 
-    initdb
+Next, setup postgres to listen on TCP/IP sockets. Edit `$PGDATA/postgresql.conf` and listen_addresses  is set to 'localhost'.
 
-Edit your pg_hba.conf::
+Also, for a more convenient development server setup, it is nice to loosen the host-based security settings for localhost. Edit `$PGDATA/pg_hba.conf` and set the local and 127.0.0.1/32 lines to use "trust" authentication (change the last column from md5 to trust).
 
-    sudo su - postgres
-    
+Lastly, apply the changes using `pg_ctl reload` and `exit` to log out as the postgres user.
 
-Start the database server::
-
-    pg_ctl start
-
-Create a PostgreSQL database::
-
-    createdb packaginator
+Now you should be able to access postgres using `psql -U postgres`. Create a new database using `createdb -U packaginator`.
 
 Ubuntu
 ------
 
-tbd
+
 
 Windows
 -------
