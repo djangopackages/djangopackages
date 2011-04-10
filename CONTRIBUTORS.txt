@@ -30,6 +30,7 @@ Direct Contributors
 * John M. Camara
 * Jonas Obrist
 * jrothenbuhler
+* Mike Johnson
 * Nate Aune
 * Nolan Brubaker
 * PA Parent
