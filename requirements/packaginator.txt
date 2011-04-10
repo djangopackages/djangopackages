@@ -26,3 +26,9 @@ celery==2.2.4
 kombu==1.0.4
 django-celery==2.2.4
 django-kombu==0.9.2
+
+# Sentry
+django-sentry==1.6.9.1
+django-paging==0.2.2
+django-indexer==0.2.1
+uuid==1.30
