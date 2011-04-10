@@ -18,13 +18,13 @@ Source the environment file:
 
     source pg_env.sh
 
-Next, setup postgres to listen on TCP/IP sockets. Edit `$PGDATA/postgresql.conf` and listen_addresses  is set to 'localhost'.
+Next, setup postgres to listen on TCP/IP sockets. Edit ``$PGDATA/postgresql.conf`` and listen_addresses  is set to 'localhost'.
 
-Also, for a more convenient development server setup, it is nice to loosen the host-based security settings for localhost. Edit `$PGDATA/pg_hba.conf` and set the local and 127.0.0.1/32 lines to use "trust" authentication (change the last column from md5 to trust).
+Also, for a more convenient development server setup, it is nice to loosen the host-based security settings for localhost. Edit ``$PGDATA/pg_hba.conf`` and set the local and 127.0.0.1/32 lines to use "trust" authentication (change the last column from md5 to trust).
 
-Lastly, apply the changes using `pg_ctl reload` and `exit` to log out as the postgres user.
+Lastly, apply the changes using ``pg_ctl reload`` and ``exit`` to log out as the postgres user.
 
-Now you should be able to access postgres using `psql -U postgres`. Create a new database using `createdb -U packaginator`.
+Now you should be able to access postgres using ``psql -U postgres``. Create a new database using ``createdb -U packaginator``.
 
 Ubuntu
 ------
