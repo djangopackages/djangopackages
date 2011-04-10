@@ -55,7 +55,7 @@ The following instructions are how you would install an instance of Python Packa
     source env-pythonpackages/bin/activate
     git clone git@github.com:cartwheelweb/packaginator.git packaginator
     cd pythonpackages
-    pip install -r requirements/project.txt
+    pip install -r requirements/packaginator.txt
     
 **Note:** We've removed sample data for the time being because of immediately forthcoming architectural changes. Database setup is now a new step.
 
