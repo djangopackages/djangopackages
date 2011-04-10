@@ -18,6 +18,7 @@ Direct Contributors
 * Brian Ball
 * Bryan Weingarten
 * Chris Adams
+* David Peters
 * Eric Spunagle
 * Evgeny Fadeev
 * Flaviu Simihaian
@@ -35,9 +36,11 @@ Direct Contributors
 * Nolan Brubaker
 * PA Parent
 * Preston Holmes
+* Skot Carruth
 * Stuart Powers
 * Szilveszter Farkas (Repo Man)
 * Taavi Taijala
+* Taylor Mitchell
 * Tom Brander
 * Vasja Volin
 
