@@ -10,6 +10,12 @@ Packaginator solves the problem in the Python community of being able to easily 
 
 It does this by storing information on packages fetched from public APIs provided by PyPI, Github, BitBucket, Launchpad, and SourceForge, and then provides extremely useful comparison tools for them.
 
+Contributing to Packaginator
+================================
+
+#. Follow the installation_ instructions!
+#. Follow the contributing_ instructions!
+
 Contents:
 
 .. toctree::
@@ -32,12 +38,6 @@ Contents:
    database
    lessons_learned
    reference
-
-Contributing to Packaginator
-================================
-
-#. Follow the installation_ instructions!
-#. Follow the contributing_ instructions!
 
 Credits
 =======
