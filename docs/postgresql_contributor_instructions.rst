@@ -8,8 +8,7 @@ EnterpriseDB maintains a Mac OS X binary installer. First, download and install 
 
 http://www.enterprisedb.com/products-services-training/pgdownload#osx
 
-The package will take care of most installation needs, but it doesn't
-listen on localhost by default.
+The package will take care of most of the PostgreSQL installation needs but it needs a couple of small tweaks.
 
 Become the new postgres user that the package added:
 
