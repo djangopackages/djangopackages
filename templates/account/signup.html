@@ -5,13 +5,19 @@
 
 {% block head_title %}{% trans "Signup" %}{% endblock %}
 
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/account.css" />
+{% endblock %}
+
+
+<body class="{% block body_class %}account{% endblock %}">
 {% block body %}
     <h1>{% trans "Sign Up" %}</h1>
     
     {% if user.is_authenticated %}
         <p>{% trans "You are already logged in." %}</p>
     {% else %}
-        <p>{% trans "Already have an account?" %} <a href="{% url acct_login %}">{% trans "Log In" %}</a>!</p>
+        <p>{% trans "Already have an account?" %} <a class="sign_up" href="{% url acct_login %}">{% trans "Log In" %}</a>!</p>
         
         <form class="signup uniForm" id="signup_form" method="post" action="{% url acct_signup %}">
             {% csrf_token %}
@@ -21,7 +27,7 @@
                     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                 {% endif %}
                 <div class="form_block">
-                    <input type="submit" value="{% trans "Sign Up &raquo;" %}" />
+                    <input class="signup_submit" type="submit" value="{% trans "Sign Up &raquo;" %}" />
                 </div>
             </fieldset>
         </form>
