@@ -23,3 +23,9 @@ class VersionTests(TestCase):
                             '2.1.3']
         returned_values = [v.number for v in versions]
         self.assertEquals(returned_values,expected_values)
+
+    def test_version_license_length(self):
+        v = Version.objects.all()[0]
+        v.license = "x"*50
+        v.save()
+        self.assertEquals(v.license,"Custom")
