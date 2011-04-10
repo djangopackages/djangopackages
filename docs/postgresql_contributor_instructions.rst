@@ -41,7 +41,7 @@ Ubuntu
 
 Install Postgres 8.4 (the version used on the site, as of this writing) with:
 
-    sudo apt-get install postgresql-8.4
+    sudo apt-get install postgresql-8.4 libpq-dev
 
 Edit ``/etc/postgresql/8.4/main/postgresql.conf`` and make sure the
 listen line is either ``listen = 'localhost'`` or ``listen = '*'`` to
