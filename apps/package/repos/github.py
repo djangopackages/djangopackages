@@ -11,9 +11,10 @@ from base_handler import BaseHandler
 
 class GitHubHandler(BaseHandler):
     title = "Github"
-    url = "https://github.com"
-    repo_regex = r'https://github.com/[\w\-\_]+/([\w\-\_]+)/{0,1}'
-    slug_regex = r'https://github.com/[\w\-\_]+/([\w\-\_]+)/{0,1}'
+    url_regex = '(http|https|git)://github.com/'
+    url = 'https://github.com'
+    repo_regex = r'(?:http|https|git)://github.com/[^/]*/([^/]*)/{0,1}'
+    slug_regex = repo_regex
 
     def _github_client(self):
         if hasattr(settings, "GITHUB_ACCOUNT") and hasattr(settings, "GITHUB_KEY"):

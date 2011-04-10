@@ -22,6 +22,7 @@ class SourceforgeHandler(BaseHandler):
     """
 
     title = "Sourceforge"
+    url_regex = "https://sourceforge.net/"
     url = "https://sourceforge.net"
     repo_regex = r'https://sourceforge.com/[\w\-\_]+/([\w\-\_]+)/{0,1}'
     slug_regex = r'https://sourceforge.com/[\w\-\_]+/([\w\-\_]+)/{0,1}'
