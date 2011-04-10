@@ -24,12 +24,22 @@ Also, for a more convenient development server setup, it is nice to loosen the h
 
 Lastly, apply the changes using ``pg_ctl reload`` and ``exit`` to log out as the postgres user.
 
-Now you should be able to access postgres using ``psql -U postgres``. Create a new database using ``createdb -U packaginator``.
+Now you should be able to access postgres using ``psql -U postgres``. Create a new database using ``createdb -U postgres packaginator``.
 
 Ubuntu
 ------
 
+Install Postgres 8.4 (the version used on the site, as of this writing) with:
 
+    sudo apt-get install postgresql-8.4
+
+Edit ``/etc/postgresql/8.4/main/postgresql.conf`` and make sure the listen line is either ``listen = 'localhost'`` or ``listen = '*'`` to listen on all interfaces.
+
+Also, for a more convenient development server setup, it is nice to loosen the host-based security settings for localhost. Edit ``/etc/postgresql/8.4/main/pg_hba.conf`` and set the local and 127.0.0.1/32 lines to use "trust" authentication (change the last column from md5 to trust).
+
+Apply those changes with ``/etc/init.d/postgresql-8.4 reload``.
+
+Lastly, create a new database using ``createdb -U postgres packaginator``.
 
 Windows
 -------
