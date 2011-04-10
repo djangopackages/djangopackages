@@ -105,8 +105,7 @@ Set up PostgreSQL and create a database as per the postgresql_ contributor instr
 
 Then, load the PostgreSQL dump::
 
-    bzip2 -d sanitized.sql.bz2
-    pg_restore fixtures/sanitized.sql
+    bzcat sanitized.sql.bz2 | psql packaginator
 
 Then, load the two flatblocks and flatpages fixtures::
 
