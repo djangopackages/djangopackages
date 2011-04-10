@@ -90,6 +90,7 @@ class GridResource(EnhancedModelResource):
             url(
                 r"^%s/(?P<grid_name>[-\w]+)/packages/$" % GridResource._meta.resource_name,
                 self.get_packages,
+                name='api_grid_packages',
             ),
         ] 
 
@@ -163,6 +164,7 @@ class PackageResource(PackageResourceBase):
     last_modified_by  = fields.ForeignKey(UserResource, "created_by", null=True)
     pypi_version = fields.CharField('pypi_version')
     commits_over_52 = fields.CharField('commits_over_52')
+    usage_count = fields.CharField('get_usage_count')
 
     class Meta:
         queryset = Package.objects.all()
