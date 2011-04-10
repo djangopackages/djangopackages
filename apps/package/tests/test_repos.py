@@ -5,9 +5,12 @@ from django.test import TestCase
 
 from package.repos.bitbucket import repo_handler as bitbucket_handler
 from package.repos.github import repo_handler as github_handler
-from package.repos.launchpad import repo_handler as launchpad_handler
 #from package.repos.sourceforge import repo_handler as sourceforge_handler
 from package.models import Commit, Package, Category
+
+if settings.LAUNCHPAD_ACTIVE:
+    from package.repos.launchpad import repo_handler as launchpad_handler
+
 
 class BaseBase(TestCase):
     
