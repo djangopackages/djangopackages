@@ -197,7 +197,8 @@ class PackagePermissionTest(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_add_package_permission_success(self):
-        add_package_perm = Permission.objects.get(codename="add_package")
+        add_package_perm = Permission.objects.get(codename="add_package",
+                content_type__app_label='package')
         self.user.user_permissions.add(add_package_perm)
         response = self.client.get(self.test_add_url)
         self.assertEqual(response.status_code, 200)
@@ -207,7 +208,8 @@ class PackagePermissionTest(TestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_edit_package_permission_success(self):
-        edit_package_perm = Permission.objects.get(codename="change_package")
+        edit_package_perm = Permission.objects.get(codename="change_package",
+                content_type__app_label='package')
         self.user.user_permissions.add(edit_package_perm)
         response = self.client.get(self.test_edit_url)
         self.assertEqual(response.status_code, 200)
