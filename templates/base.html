@@ -50,7 +50,7 @@
             {% endif %}
             <div id="tabhead">
                 <div class="logo">
-                    <img src="{{ STATIC_URL }}img/logo_squares.png" /><h1><a href="{% url home %}">{% plain_flatblock 'site.name' %}</a></h1>
+                    <a href="{% url home %}"><img src="{{ STATIC_URL }}img/logo_squares.png" /></a><h1><a href="{% url home %}">{% plain_flatblock 'site.name' %}</a></h1>
                 </div>
 
                 <div class="login">
