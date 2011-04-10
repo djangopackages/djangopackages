@@ -103,6 +103,11 @@ Set up your PostgreSQL database
 
 Set up PostgreSQL and create a database as per the postgresql_ contributor instructions.
 
+Then, load the PostgreSQL dump::
+
+    bzip2 -d sanitized.sql.bz2
+    pg_restore fixtures/sanitized.sql
+
 Then, load the two flatblocks and flatpages fixtures::
 
     python manage.py loaddata fixtures/flatblocks.json
