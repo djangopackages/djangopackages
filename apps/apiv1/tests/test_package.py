@@ -24,11 +24,13 @@ class PackageV1Tests(TestCase):
             title='Package1',
             slug='package1',
             category=app,
+            repo_url='https://github.com/pydanny/django-uni-form'
         )
         self.pkg2 = Package.objects.create(
             title='Package2',
             slug='package2',
             category=app,
+            repo_url='https://github.com/cartwheelweb/packaginator'  
         )
         GridPackage.objects.create(package=self.pkg1, grid=self.grid)
         GridPackage.objects.create(package=self.pkg2, grid=self.grid)
