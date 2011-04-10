@@ -23,11 +23,12 @@
     <div id="search-results">
         <div id="grid-listing">
             <h2>{% if grids.count %}{% trans "Grids" %}{% else %}{% trans "No grids found" %}{% endif %}</h2>
+            <p>
             {% if request.user.is_authenticated and profile.can_add_grid %}
-            <p><a class="medium awesome forestgreen" href="{% url add_grid %}">{% trans "add grid »" %}</a>
+              <a class="medium awesome forestgreen" href="{% url add_grid %}">{% trans "add grid »" %}</a>
+            {% endif %}
                 <a href="{% url latest_grids %}">latest</a> <a href="{% url grids %}">{% trans "all" %}</a>
             </p> 
-            {% endif %}
             {% for grid in grids %}
                 {% include "grid/snippets/grid.html" %}
             {% endfor %}
