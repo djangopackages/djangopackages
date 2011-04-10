@@ -1,6 +1,6 @@
-============================================
-Database migration from SQLite to PostgreSQL
-============================================
+======================================================
+DjangoPackages.com migration from SQLite to PostgreSQL
+======================================================
 
 Packaginator developers working on actual code: ignore this section.
 
