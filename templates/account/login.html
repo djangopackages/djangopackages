@@ -7,6 +7,12 @@
 
 {% block head_title %}{% trans "Login" %}{% endblock %}
 
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/account.css" />
+{% endblock %}
+
+
+<body class="{% block body_class %}account{% endblock %}">
 {% block body %}
     
     {% if openid and not user.is_authenticated %}
@@ -21,7 +27,7 @@
     {% else %}
         {% ifsetting ACCOUNT_OPEN_SIGNUP %}
         {% url acct_signup as signup_url %}
-        <p>{% blocktrans %}Don't have an account? <a href="{{ signup_url }}">Sign up</a>!{% endblocktrans %}</p>
+        <p>{% blocktrans %}Don't have an account? <a class="sign_up" href="{{ signup_url }}">Sign up</a>!{% endblocktrans %}</p>
         {% endifsetting %}
     {% endif %}
     
@@ -29,14 +35,14 @@
         {% csrf_token %}
         <fieldset class="inlineLabels">
             <div class="form_block">
-                <a href="{% url acct_passwd_reset %}">{% trans "Forgot password?" %}</a>
+                <a class="forgot_password" href="{% url acct_passwd_reset %}">{% trans "Forgot password?" %}</a>
             </div>
             {{ form|as_uni_form }}
             {% if redirect_field_value %}
                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
             {% endif %}
             <div class="form_block">
-                <input type="submit" value="{% trans "Log in &raquo;" %}" />
+                <input class="login_submit" type="submit" value="{% trans "Log in &raquo;" %}" />
             </div>
         </fieldset>
     </form>
