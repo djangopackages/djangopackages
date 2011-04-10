@@ -13,7 +13,7 @@ listen on localhost by default.
 
 Become the new postgres user that the package added:
 
-    sudu su - postgres
+    sudo su - postgres
 
 Source the environment file:
 
