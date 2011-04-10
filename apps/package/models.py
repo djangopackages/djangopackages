@@ -20,6 +20,7 @@ from package.fields import CreationDateTimeField, ModificationDateTimeField
 from package.repos import github
 from package.pypi import fetch_releases
 from package.repos import get_repo_for_repo_url
+from package.signals import signal_fetch_latest_metadata
 
 repo_url_help_text = settings.PACKAGINATOR_HELP_TEXT['REPO_URL']
 pypi_url_help_text = settings.PACKAGINATOR_HELP_TEXT['PYPI_URL']
@@ -163,6 +164,7 @@ class Package(BaseModel):
             self.pypi_downloads = total_downloads
         
         self.repo.fetch_metadata(self)
+        signal_fetch_latest_metadata.send(sender=self)
         self.save()        
 
     def fetch_commits(self):
