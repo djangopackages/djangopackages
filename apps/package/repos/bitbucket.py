@@ -16,6 +16,7 @@ descendants_re = re.compile(r"Forks/Queues \((?P<descendants>\d+)\)")
 
 class BitbucketHandler(BaseHandler):
     title = 'Bitbucket'
+    url_regex = 'https://bitbucket.org/'
     url = 'https://bitbucket.org'
     repo_regex = r'https://bitbucket.org/[\w\-\_]+/([\w\-\_]+)/{0,1}'
     slug_regex = r'https://bitbucket.org/[\w\-\_]+/([\w\-\_]+)/{0,1}'

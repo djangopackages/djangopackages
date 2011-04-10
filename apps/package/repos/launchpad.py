@@ -10,6 +10,7 @@ from .base_handler import BaseHandler
 
 class LaunchpadHandler(BaseHandler):
     title = 'Launchpad'
+    url_regex = 'https://code.launchpad.net/'
     url = 'https://code.launchpad.net'
     user_url = 'https://launchpad.net/~%s'
     repo_regex = r'https://code.launchpad.net/~[\w\-\_]+/([\w\-\_]+)/[\w\-\_]+/{0,1}'

@@ -3,6 +3,7 @@ from .base_handler import BaseHandler
 class UnsupportedHandler(BaseHandler):
     title = 'Other'
     is_other = True
+    url_regex = ''
     url = ''
 
     def fetch_metadata(self, package):
