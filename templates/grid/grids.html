@@ -12,9 +12,9 @@
             <a class="large awesome forestgreen" href="{% url add_grid %}">{% trans "add grid »" %}</a>
         </p>
     {% endif %}
-    <div id="grid-listing">
+    <div id="grids">
     {% for grid in grids %}
-        {% include "grid/snippets/grid.html" %}
+        {% include "grid/snippets/grid2.html" %}
     {% endfor %}
     </div>
 {% endblock %}
