@@ -1,3 +1,8 @@
+"""``Api`` resource definition module.
+
+All of the resource classes in this module are registered with
+the :class:`~apps.apiv1.api.Api` in the main :mod:`urls.py <urls>`.
+"""
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
@@ -17,8 +22,10 @@ from tastypie.resources import ModelResource
 # TODO - exclude ID, repo_commits, and other fields not yet used
 
 class BaseResource(ModelResource):
+    """Base resource class - a subclass of tastypie's ``ModelResource``"""
     
     def determine_format(self, *args, **kwargs):
+        """defines all resources as returning json data"""
         
         return "application/json"
 
@@ -74,6 +81,9 @@ class PackageResourceBase(EnhancedModelResource):
         lookup_field = 'slug'
         
 class GridResource(EnhancedModelResource):
+    """Provides information about the grid.
+    Pulls data from the :class:`~apps.grid.models.Grid` model.
+    """
     
     packages = fields.ToManyField(PackageResourceBase, "packages")
     
@@ -98,11 +108,13 @@ class GridResource(EnhancedModelResource):
         """
         Returns a serialized list of resources based on the identifiers
         from the URL.
+
+        Pulls the data from the model :class:`~apps.package.models.Package`.
         
         Calls ``obj_get`` to fetch only the objects requested. This method
         only responds to HTTP GET.
         
-        Should return a HttpResponse (200 OK).
+        Should return a ``HttpResponse`` (200 OK).
         """
         self.method_check(request, allowed=['get'])
         self.is_authenticated(request)
@@ -117,6 +129,9 @@ class GridResource(EnhancedModelResource):
 
 
 class DpotwResource(ModelResource):
+    """Package of the week resource.
+    Pulls data from :class:`~apps.homepage.models.Dpotw`.
+    """
 
     class Meta:
         queryset = Dpotw.objects.all()
@@ -127,6 +142,9 @@ class DpotwResource(ModelResource):
         excludes = ["id"]        
 
 class GotwResource(EnhancedModelResource):
+    """Grid of the week resource.
+    The data comes from :class:`~apps.homepage.models.GotwResource`
+    """
 
     class Meta:
         queryset = Gotw.objects.all()
@@ -138,6 +156,9 @@ class GotwResource(EnhancedModelResource):
         
 
 class CategoryResource(EnhancedModelResource):
+    """Category resource.
+    The data is from :class:`~apps.package.models.Category`.
+    """
 
     class Meta:
         queryset = Category.objects.all()
@@ -147,6 +168,10 @@ class CategoryResource(EnhancedModelResource):
         excludes = ["id"]        
 
 class UserResource(EnhancedModelResource):
+    """User resource.
+    The data is from the :class:`contrib.auth.models.User`.
+    Exposes ``last_login``, ``username`` and ``date_joined``.
+    """
 
     class Meta:
         queryset = User.objects.all().order_by("-id")
@@ -157,6 +182,16 @@ class UserResource(EnhancedModelResource):
         
 
 class PackageResource(PackageResourceBase):
+    """Package resource.
+    Pulls data from :class:`~apps.package.models.Package` and provides
+    additional related data:
+
+    * :attr:`category`
+    * :attr:`grids`
+    * :attr:`created_by`
+    * :attr:`last_modified_by`
+    * :attr:`pypi_vesion`
+    """
 
     category    = fields.ForeignKey(CategoryResource, "category")
     grids       = fields.ToManyField(GridResource, "grid_set")
