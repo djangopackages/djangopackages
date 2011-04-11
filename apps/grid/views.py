@@ -37,7 +37,7 @@ def grids(request, template_name="grid/grids.html"):
         }, context_instance = RequestContext(request)
     )
 
-def grid_detail(request, slug, template_name="grid/grid_detail.html"):
+def grid_detail(request, slug, template_name="grid/grid_detail2.html"):
     """displays a grid in detail
 
     Template context:
