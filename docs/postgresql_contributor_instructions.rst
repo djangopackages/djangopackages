@@ -60,4 +60,19 @@ Lastly, create a new database using ``createdb -U postgres packaginator``.
 Windows
 -------
 
-tbd
+EnterpriseDB maintains a Windows binary installer. First, download
+and install from here:
+
+http://www.enterprisedb.com/products-services-training/pgdownload#windows
+
+The package will take care of most of the PostgreSQL installation
+needs but it needs a couple of small tweaks.
+
+Install the Windows port of psycopg2 from http://www.stickpeople.com/projects/python/win-psycopg/
+
+Open pgAdmin III.  Right-click on PostgreSQL 8.4 (localhost:5432) and 
+choose Connect.  Enter the Postgres user password.
+
+Right-click Databases and choose New Database.  Give it the name 
+packaginator and the owner postgres.  Click OK.
+
