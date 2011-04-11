@@ -6,7 +6,7 @@ from package.models import BaseModel, Package
 
 
 class Grid(BaseModel):
-    """Grid object, inherits form :class:`package.models.BaseModel`
+    """Grid object, inherits form :class:`package.models.BaseModel`. Attributes:
 
     * :attr:`~grid.models.Grid.title` - grid title
     * :attr:`~grid.models.Grid.slug` - grid slug for SEO
@@ -42,9 +42,17 @@ class Grid(BaseModel):
         ordering = ['title']
 
 class GridPackage(BaseModel):
-    """These are Packages on one side of the grid 
-    Have to make this intermediary table to get things to work right
-    Otherwise would have used ManyToMany field
+    """Grid package.
+    This model describes packages listed on one side of the grids
+    and
+    explicitly defines the many-to-many relationship between grids
+    and the packages
+    (i.e - allows any given package to be assigned to several grids at once).
+
+    Attributes:
+
+    * :attr:`grid` - the :class:`~apps.grid.models.Grid` to which the package is assigned
+    * :attr:`package` - the :class:`~apps.grid.models.Package`
     """
     
     grid        = models.ForeignKey(Grid)
@@ -58,7 +66,13 @@ class GridPackage(BaseModel):
         return '%s : %s' % (self.grid.slug, self.package.slug)
     
 class Feature(BaseModel):
-    """ These are the features measured against a grid """
+    """ These are the features measured against a grid.
+    ``Feature`` has the following attributes:
+
+    * :attr:`grid` - the grid to which the feature is assigned
+    * :attr:`title` - name of the feature (100 chars is max)
+    * :attr:`description` - plain-text description
+    """
     
     grid         = models.ForeignKey(Grid)
     title        = models.CharField(_('Title'), max_length=100)
@@ -77,7 +91,13 @@ Plus just '+' or '-' signs can be used but cap at 3 multiples to protect layout<
 """
     
 class Element(BaseModel):
-    """ The individual grid table elements """
+    """ The individual cells on the grid.
+    The ``Element`` grid attributes are:
+
+    * :attr:`grid_package` - foreign key to :class:`~apps.grid.models.GridPackage`
+    * :attr:`feature` - foreign key to :class:`~apps.grid.models.Feature`
+    * :attr:`text` - the actual contents of the grid cell
+    """
     
     grid_package = models.ForeignKey(GridPackage)
     feature      = models.ForeignKey(Feature)
