@@ -73,9 +73,9 @@ function package_form(data){
 		$.each(REPLACEMENTS, function(key, value){
 			$.each(value, function(index, prefix){
 				if (url.starts_with(prefix)){
-					url = key + url.slice(prefix.length);s
+					url = key + url.slice(prefix.length);
 				}
-			}
+            });
 		});
 		if (url.ends_with('.git')){
 			url = url.slice(0, url.length-4);
@@ -107,10 +107,10 @@ function package_form(data){
 	
 	$("#package-form").submit(function(e) {
 		// hack to get around some database vs front end weirdness
-		var pypi_url = pypi_url.val();
-		if (pypi_url.length > 0){
+		var url = pypi_url.val();
+		if (url.length > 0){
 		  pypi_url.attr("name", "nuke");
-		  $("#temp").val(pypi_url_g + pypi_url);
+		  $("#temp").val(pypi_url_g + url);
 		  $("#temp").attr("name", "pypi_url");	 
 		};
 		
