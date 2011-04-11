@@ -1,10 +1,11 @@
 {% load i18n %}
-<dl class="grid-item" id="grid-{{ grid.id }}">
-    <dt><strong><a href="{% url grid grid.slug %}">{{ grid.title }}</a></strong></dt>
-    <dd class="date"><strong>{% trans "Added" %}</strong> {{ grid.created|date:"D d M Y H:i:s" }}</dd>            
-    <dd class="counts">
-            <strong>{% trans "Packages" %}</strong> {{ grid.gridpackage_set.count }}
-            <strong>{% trans "Features" %}</strong> {{ grid.feature_set.count }}
-    </dd>
-    <dd class="description">{{ grid.description }}</dd>        
-</dl>
+
+<li class="grid-item" id="grid-{{ grid.id }}">
+  <h3><a href="{% url grid grid.slug %}">{{ grid.title }}</a></h3>
+  <p class="date">{% trans "Added" %} {{ grid.created|date:"D d M Y H:i:s" }}</p>
+  <p>
+    <strong>{% trans "Packages" %}:</strong> {{ grid.gridpackage_set.count }},
+    <strong>{% trans "Features" %}:</strong> {{ grid.feature_set.count }}
+  </p>
+  <p class="description">{{ grid.description }}</p>
+</li>
