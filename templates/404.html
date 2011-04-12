@@ -1,14 +1,22 @@
 {% extends "site_base.html" %}
 
 {% load i18n %}
-{% load flatblock_tags %}
 
 {% block head_title %}{% trans "Not Found" %}{% endblock %}
 
 {% block body %}
     <div id="error-404">
         <img src="{{ STATIC_URL }}img/logo_501x316.png" />
-        {% flatblock 'error.404' %}
+        <h1>{% trans "Not Found" %}</h1>
+
+        <div class="content">
+            <p>
+            {% trans "We can't find it!  Oh no!  The page isn't here!" %}
+            </p>
+            <p>
+           {% trans "If it's our fault, would you please do us a favor and" %} <a href="http://github.com/djangopackages/djangopackages/issues">{% trans "create a ticket?" %}</a></div>
+            </p>            
+        </div>        
     </div>
     
 {% endblock %}

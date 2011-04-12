@@ -8,7 +8,11 @@
 {% block body %}
     <div id="error-404">
         <img src="{{ STATIC_URL }}img/logo_501x316.png" />
-        {% flatblock 'error.500' %}
+
+        <h1>{% trans "Server Error" %}</h1> 
+        <p>       
+        We're sorry but a server error has occurred. We've been notified and will look into it as soon as possible.\"\r\n<br />\r\nPerhaps you would like to <a href=\"http://github.com/cartwheelweb/packaginator/issues\">create a ticket?</a>
+        </p>
     </div>
     
 {% endblock %}
