@@ -7,16 +7,16 @@ Do everything listed in this section to get your site up and running locally.  I
 Pre-requisites
 ==============
 
-Mac
----
+Mac OS X 10.6
+-------------
 
 Download and install setuptools from http://pypi.python.org/pypi/setuptools.  Setuptools gives you easy_install. Then run the following commands::
 
     easy_install pip
     pip install virtualenv
 
-Ubuntu
-------
+Ubuntu (10+ /  Lucid or Higher)
+--------------------------------
 
 Install the following::
 
@@ -24,8 +24,8 @@ Install the following::
     sudo easy_install pip
     sudo pip install virtualenv
 
-Windows
--------
+Windows 7
+---------
 
 Download and install Python 2.6 or 2.7 using the Windows 32-bit installer from http://www.python.org/download/.  Even if you're on a 64-bit system, 32-bit is recommended (Michael Foord told me this).
 
@@ -42,6 +42,11 @@ Open up a command prompt.  Install pip and virtualenv::
 
     easy_install pip
     pip install virtualenv
+    
+Other operating systems (including various Linux flavors)
+---------------------------------------------------------
+
+No. See the faq_.
 
 Main instructions
 =================
@@ -131,3 +136,4 @@ Create a Django superuser for yourself, replacing joe with your username/email::
 
 
 .. _postgresql: postgresql_contributor_instructions.html
+.. _faq: faq
