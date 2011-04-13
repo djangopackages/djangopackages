@@ -75,10 +75,11 @@ def style_attribute(attribute_name, package):
             'commits_over_52': style_commits,
     }
 
-    value = getattr(package, attribute_name, '')
-
-    if hasattr(value, '__call__'):
-        value = value()
+    as_var = template.Variable('package.' + attribute_name)
+    try:
+        value = as_var.resolve({'package': package})
+    except template.VariableDoesNotExist:
+        value = ''
 
     if attribute_name in mappings.keys():
         return  mappings[attribute_name](value)
