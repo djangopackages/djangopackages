@@ -11,9 +11,11 @@
     <a href="{% url add_package %}">{% trans "Add a new package!" %}</a>
     {% endif %}
     <div id="packages">
+    <ul id="package-archive-list">
         {% for package in latest %}
             {% include "package/includes/_package.html"%}
         {% endfor %}
+    </ul>
     </div>
 
 {% endblock %}
