@@ -281,13 +281,13 @@ PACKAGINATOR_HELP_TEXT = {
 
 PACKAGINATOR_SEARCH_PREFIX = "django"
 
-# if set to False (default) any auth user can add/modify packages
+# if set to False any auth user can add/modify packages
 # only django admins can delete
-RESTRICT_PACKAGE_EDITORS = False
+RESTRICT_PACKAGE_EDITORS = True
 
-# if set to False (default) any auth user can add/modify grids
+# if set to False  any auth user can add/modify grids
 # only django admins can delete
-RESTRICT_GRID_EDITORS = False
+RESTRICT_GRID_EDITORS = True
 
 
 
