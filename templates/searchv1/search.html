@@ -31,7 +31,7 @@
               <a href="{% url latest_packages %}">{% trans "latest" %}</a> <a href="{% url packages %}">{% trans "all" %}</a>
           </p>
           {% for package in packages %}
-              {% include "package/includes/_package3.html"%}
+              {% include "package/includes/_package.html"%}
           {% endfor %}
       </div>    
       <div id="grid-listing">
@@ -43,7 +43,7 @@
               <a href="{% url latest_grids %}">{% trans "latest" %}</a> <a href="{% url grids %}">{% trans "all" %}</a>
           </p>
           {% for grid in grids %}
-              {% include "grid/snippets/grid2.html" %}
+              {% include "grid/snippets/grid.html" %}
           {% endfor %}
       </div>
     </div>
