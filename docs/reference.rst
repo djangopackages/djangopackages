@@ -16,6 +16,19 @@ All of the modules listed below are the sub-applications.
 .. automodule:: apps.apiv1
     :members:
 
+``apiv1.api``
+-------------
+
+.. automodule:: apps.apiv1.api
+    :members:
+
+``apiv1.resources``
+-------------------
+
+.. automodule:: apps.apiv1.resources
+    :members:
+
+
 ``feeds`` - RSS and Atom feeds
 ==============================
 .. automodule:: apps.feeds

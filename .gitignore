@@ -6,3 +6,4 @@ lp-cache
 coverage
 docs/_build
 docs/_static
+*~

@@ -227,7 +227,12 @@ class Version(BaseModel):
     class Meta:
         get_latest_by = 'created'
         ordering = ['-created']
-    
+
+    def save(self, *args, **kwargs):
+        if len(self.license) > 20:
+            self.license = "Custom"
+        super(Version, self).save(*args, **kwargs)
+
     def __unicode__(self):
         return "%s: %s" % (self.package.title, self.number)
     

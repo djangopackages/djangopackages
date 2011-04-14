@@ -23,7 +23,7 @@
                 $('#grid-{{ grid.id }}').removeClass("clickable");
             });
             $('#grid-{{ grid.id }}').click(function() {
-                $('form:first').attr('action', "{% url add_grid_package grid.slug %}");                
+                $('form#find-a-grid-form').attr('action', "{% url add_grid_package grid.slug %}");
                 $("form#find-a-grid-form").submit();
             });
         {% endfor %}

@@ -1,3 +1,4 @@
+"""The ``Api`` definition module"""
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 
@@ -6,11 +7,14 @@ from tastypie.serializers import Serializer
 from tastypie.utils.mime import build_content_type
 
 class Api(TastyPieApi):
+    """A sub-class of ``TastyPieApi`` - 
+    the actual Api class
+    """
 
     def top_level(self, request, api_name=None):
         """
-        A view that returns a serialized list of all resources registers
-        to the ``Api``. Useful for discovery.
+        A view that returns a serialized list of all resources registered
+        to the ``Api``. Useful for the resource discovery.
         """
         serializer = Serializer()
         available_resources = {}
