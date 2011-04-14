@@ -30,10 +30,7 @@ You're having Launchpad/bzr installation problems.  Most likely cause is your C 
 I can't get it to work in buildout!
 -----------------------------------
 
-We have a very successful installation story for development and production hosting using virtualenv. While buildout is a wonderful tool we simply don't want to spend the time supporting two installation methods. Therefore:
-
-* Don't do it.
-* We won't accept pull requests for it.
+We don't support buildout. See the faq_.
 
 bz2 not found
 -------------
@@ -53,3 +50,4 @@ Don't give up!  Join us at http://convore.com/packaginator and ask your question
 #. Don't paste huge chunks of code into convore blocks. Use a code pasting service like http://dpaste.com or http://djaste.de.
 
 
+.. _faq: faq

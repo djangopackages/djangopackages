@@ -8,7 +8,8 @@
 
     <h1>{% trans "Grids" %}</h1>
     
-    <div id="grid-listing">
+    <div id="grids">
+    <ul id="grid-archive-list">
     {% for grid in latest %}
         {% include "grid/snippets/grid.html" %}
     {% endfor %}

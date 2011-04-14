@@ -91,7 +91,9 @@
             <tbody>
             {% for package in grid_packages %}
                 <tr class="{% cycle 'even' 'odd' %}">
-                    <td>{{ package.package.title }}</td>
+                    <td><a href="{% url package package.package.slug %}">{{ package.package.title }}</a>
+                        {% if perms.grid.delete_gridpackage %}&nbsp;<a href="#" id="package-delete-{{ package.pk }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete"/></a>{% endif %}
+                    </td>
                     {% for attribute_name, display_name in attributes %}
                         {% ifequal attribute_name "participant_list" %}
                             <td>

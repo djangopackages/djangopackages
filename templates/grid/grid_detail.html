@@ -241,19 +241,13 @@
                 
                 {% if request.user.is_authenticated %}
                     // Handle element edit redirects
-                {% if profile.can_edit_grid_element %}
-                    {% for feature in features %}
-                        {% for grid_package in grid_packages %}
-                        {% with elements|hash:feature.pk|hash:grid_package.pk as element %}
 
-                        {% endwith %}                        
-                        
-                            $("td#element-f{{ feature.pk }}-p{{ grid_package.pk }}").click(function() {
-                                var url = "{% url edit_element feature.pk grid_package.pk %}";    
-                                $(location).attr('href',url);                        
-                            });
-                        {% endfor %}
-                    {% endfor %}
+                {% if profile.can_edit_grid_element %}
+                    $("td.clickable").click(function() {
+                       var array = $(this).attr("id").split("-");
+                       var url = "/grids/element/" + array[1].substr(1) + "/" + array[2].substr(1) + "/";
+                       $(location).attr('href', url);
+                    });
                     
                     delete_confirmation = function(e, url) {
                         // The deletes are placed in here so there is just one place needed
@@ -266,20 +260,20 @@
                 {% endif %}
                     // handle feature deletes
                     {% if perms.grid.delete_feature %}
-                        {% for feature in features %}
-                            $("a#feature-delete-{{ feature.pk }}").click(function(e) {
-                                delete_confirmation(e, '{% url delete_feature feature.pk %}')                            
-                            });                  
-                        {% endfor %}
+                        $("a[id|='feature-delete']").click(function(e) {
+                            var array = $(this).attr("id").split("-");
+                            var url = "/grids/feature/" + array[2] + "/delete/";
+                            delete_confirmation(e,url);
+                        });
                     {% endif %}
                     
                     {% if perms.grid.delete_gridpackage %}
                         // handle package deletes
-                        {% for grid_package in grid_packages %}
-                            $("a#package-delete-{{ grid_package.pk }}").click(function(e) {
-                                delete_confirmation(e, '{% url delete_grid_package grid_package.pk %}')
-                            });
-                        {% endfor %}
+                        $("a[id|='package-delete']").click(function(e) {
+                            var array = $(this).attr("id").split("-");
+                            var url = "/grids/package/" + array[2] + "/delete/";
+                            delete_confirmation(e,url);
+                        });
                     {% endif %}
                     
                  {% endif %}

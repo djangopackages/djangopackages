@@ -20,6 +20,7 @@
 /* float */
 .package-rightcol { width: 260px; padding: 20px; margin-bottom: 20px; float: right; }
 
+#package-archive-list, #package-archive-list li { list-style:none; }
 
 #package-left { float:left; width:470px;}
 #package-right { float:left; width:470px; padding-left: 20px;}

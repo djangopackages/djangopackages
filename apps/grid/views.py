@@ -37,7 +37,7 @@ def grids(request, template_name="grid/grids.html"):
         }, context_instance = RequestContext(request)
     )
 
-def grid_detail(request, slug, template_name="grid/grid_detail.html"):
+def grid_detail(request, slug, template_name="grid/grid_detail2.html"):
     """displays a grid in detail
 
     Template context:
@@ -60,7 +60,7 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
     element_map = build_element_map(elements)
 
     default_attributes = [('repo_description', 'Description'), 
-                ('Category',), ('pypi_downloads', 'Downloads'), ('last_updated', 'Last Updated'), ('pypi_version', 'Version'),
+                ('category','Category'), ('pypi_downloads', 'Downloads'), ('last_updated', 'Last Updated'), ('pypi_version', 'Version'),
                 ('repo', 'Repo'), ('commits_over_52', 'Commits'), ('repo_watchers', 'Repo watchers'), ('repo_forks', 'Forks'),
                 ('participant_list', 'Participants')
             ]

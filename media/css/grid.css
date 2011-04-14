@@ -1,3 +1,7 @@
 table#grid th { background: #75dfca;}
 
 .hidden {display:none;}
+
+#grids-list, #grids-list li,
+#grid-archive-list, #grid-archive-list li { list-style:none; }
+
