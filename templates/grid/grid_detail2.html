@@ -129,6 +129,22 @@
                 </tr>
             {% endfor %} 
             </tbody>
+            <tfoot>
+                <tr>
+                    <th>Package</th>
+                    {% for attribute_name, display_name in attributes %}
+                    {% if display_name %}
+                        <th>{{ display_name }}</th>
+                    {% else %}
+                        <th>{{ attribute_name }}</th>
+                    {% endif %}
+
+                    {% endfor %}
+                    {% for feature in features %}
+                        <th>{{ feature.title }}</th>
+                    {% endfor %}
+                </tr>
+            </tfoot>
         </table>
                     
         {% if request.user.is_authenticated %}
