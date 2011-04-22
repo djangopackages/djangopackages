@@ -236,6 +236,12 @@
                  // SEE http://www.quirksmode.org/css/tables.html
                  $('.dataTables_wrapper table').css('table-layout', 'fixed');
 
+                 // style first cell (package name) in each scrolling row
+                 $('#sortable-table td:first-child').css({
+                     'font-weight': 'bold', 
+                     'color': '#000000;', 
+                     'background-color': '#E0FBE9'
+                 });j
 
                  function handleRTD(elements) {
                      if (!elements.length){
