@@ -236,6 +236,9 @@
                  // SEE http://www.quirksmode.org/css/tables.html
                  $('.dataTables_wrapper table').css('table-layout', 'fixed');
 
+                 // reverse IE8-only style hack (to support sticky footer, which we won't need here)
+                 $('#wrap').css('display','block');
+
                  function handleRTD(elements) {
                      if (!elements.length){
                          return;
