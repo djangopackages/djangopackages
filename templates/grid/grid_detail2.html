@@ -13,6 +13,7 @@
 {% block head_title %}{{ grid.title }}{% endblock %}
 
 {% block extra_head %}
+    {{ block.super }}
     <meta name="description" content="{{ grid.description }}" />
     <meta name="keywords" content="{{ grid.packages.all|join:',' }}" />
 {% endblock %}
@@ -206,6 +207,35 @@
                     {% endif %}
                     
                  {% endif %}
+
+
+                 /* freeze table-column widths before splitting the package grid */
+
+                 // capture "natural" widths of all table headers
+                 var $headers = $('#sortable-table thead th');
+                 var howManyColumns = $headers.length;
+                 var $topmostCells = $('#sortable-table tbody tr:first-child td');
+
+                 $topmostCells.each(function(index, element) {
+                     ///var matchingWidth = $headers.eq(index).width();
+                     var matchingWidth = $headers.eq(index).css('width'); // || $headers.eq(index).width();
+                     $(this).css('width', matchingWidth);
+                 });
+
+                 // apply dataTable plugin to package grid (will split tables)
+                 $('#sortable-table').dataTable({
+                     // "bScrollInfinite": true,
+                     "bSort": false, // disable default sorting
+                     "bAutoWidth": true,
+                     "sScrollY": "600px",
+                     "sScrollX": "100%",
+                     //"sScrollXInner": "110%",
+                     "bScrollCollapse": true
+                 });
+                 // now freeze these widths in all tables! 
+                 // SEE http://www.quirksmode.org/css/tables.html
+                 $('.dataTables_wrapper table').css('table-layout', 'fixed');
+
 
                  function handleRTD(elements) {
                      if (!elements.length){
