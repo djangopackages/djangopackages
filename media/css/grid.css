@@ -27,3 +27,11 @@ td.package-name {
     color: #000000; 
     background-color: #E0FBE9;
 }
+#grid-toggle a {
+    background-color: #C0F1D1;
+    border: 1px solid #C1DAD7;
+    padding: 6px 25px;
+    display: inline-block;
+    text-align: center;
+    font-weight: bold;
+}
