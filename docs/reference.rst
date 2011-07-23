@@ -56,6 +56,7 @@ All of the modules listed below are the sub-applications.
 
 .. automodule:: grid.views
     :members:
+    :undoc-members:
 
 ``grid.models``
 ---------------
@@ -67,4 +68,22 @@ All of the modules listed below are the sub-applications.
 --------------
 
 .. automodule:: grid.forms
+    :members:
+
+``profiles`` - package grid app 
+===============================
+.. automodule:: apps.profiles
+
+.. currentmodule:: profiles
+
+``profiles.models``
+-------------------
+
+.. automodule:: profiles.models
+    :members:
+
+``profiles.context_processors``
+-------------------------------
+
+.. automodule:: profiles.context_processors
     :members:
