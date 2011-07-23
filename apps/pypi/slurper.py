@@ -23,6 +23,8 @@ PYPI = xmlrpclib.Server(base_url)
 
 class Slurper(object):
     
+    """ Fetches data from PyPI """
+    
     def __init__(self, package):
         self.package_name = package
         self.dumb_category, created = Category.objects.get_or_create(
@@ -30,6 +32,7 @@ class Slurper(object):
         self.dumb_category.save()
         
     def get_latest_version_number(self, package_name, versions=None):
+        """ Returns the latest version number for a package """        
         if versions:
             return highest_version(versions)
         else:

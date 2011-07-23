@@ -38,6 +38,18 @@ Contents:
    database
    lessons_learned
    reference
+   
+In development
+==============
+
+ * test refactor
+ * data migration
+ * caching
+
+.. toctree::
+   :maxdepth: 1
+
+   package_extenders
 
 Credits
 =======
