@@ -70,7 +70,7 @@ All of the modules listed below are the sub-applications.
 .. automodule:: grid.forms
     :members:
 
-``profiles`` - package grid app 
+``profiles`` - profiles app 
 ===============================
 .. automodule:: apps.profiles
 
@@ -87,3 +87,35 @@ All of the modules listed below are the sub-applications.
 
 .. automodule:: profiles.context_processors
     :members:
+
+``pypi`` - pypi app 
+===============================
+.. automodule:: apps.pypi
+
+.. currentmodule:: pypi
+
+``pypi.slurper``
+-------------------
+
+.. automodule:: pypi.slurper
+    :members:
+    :undoc-members:
+
+``pypi.versioning``
+-------------------------------
+
+.. automodule:: pypi.versioning
+    :members:
+
+``searchv1`` - searchv1 app 
+===============================
+.. automodule:: apps.searchv1
+
+.. currentmodule:: searchv1
+
+``searchv1.views``
+-------------------
+
+.. automodule:: searchv1.views
+    :members:
+    :undoc-members:
