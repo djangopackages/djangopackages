@@ -16,6 +16,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from distutils.version import LooseVersion as versioner
 
+from core.models import BaseModel
 from package.fields import CreationDateTimeField, ModificationDateTimeField
 from package.repos import github
 from package.pypi import fetch_releases
@@ -28,14 +29,6 @@ category_help_text = settings.PACKAGINATOR_HELP_TEXT['CATEGORY']
 
 class NoPyPiVersionFound(Exception):
     pass
-
-class BaseModel(models.Model):
-    """ Base abstract base class to give creation and modified times """
-    created     = CreationDateTimeField(_('created'))
-    modified    = ModificationDateTimeField(_('modified'))
-    
-    class Meta:
-        abstract = True
 
 class Category(BaseModel):
     
