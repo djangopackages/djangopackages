@@ -6,10 +6,11 @@ from django.contrib.auth.models import User, Permission
 from grid.models import Grid, Element, Feature, GridPackage
 from package.models import Package
 
+from grid.tests import data
+
 class FunctionalGridTest(TestCase):
-    fixtures = ['test_initial_data.json']
-    
     def setUp(self):
+        data.load()
         settings.RESTRICT_GRID_EDITORS = False
     
     def test_grid_list_view(self):
@@ -268,9 +269,8 @@ class FunctionalGridTest(TestCase):
         self.assertTemplateUsed(response, 'grid/grid_archive.html')
 
 class RegressionGridTest(TestCase):
-    fixtures = ['test_initial_data.json']
-
     def setUp(self):
+        data.load()
         settings.RESTRICT_GRID_EDITORS = False
     
     def test_edit_element_view_for_nonexistent_elements(self):
@@ -290,9 +290,8 @@ class RegressionGridTest(TestCase):
         self.assertTemplateUsed(response, 'grid/edit_element.html')
 
 class GridPermissionTest(TestCase):
-    fixtures = ['test_initial_data.json']
-
     def setUp(self):
+        data.load()
         settings.RESTRICT_GRID_EDITORS = True
         self.test_add_url = reverse('add_grid')
         self.test_edit_url = reverse('edit_grid', kwargs={'slug':'testing'})
@@ -323,9 +322,8 @@ class GridPermissionTest(TestCase):
 
 
 class GridPackagePermissionTest(TestCase):
-    fixtures = ['test_initial_data.json']
-
     def setUp(self):
+        data.load()
         settings.RESTRICT_GRID_EDITORS = True
         self.test_add_url = reverse('add_grid_package', 
                                     kwargs={'grid_slug':'testing'})
@@ -373,9 +371,8 @@ class GridPackagePermissionTest(TestCase):
         self.assertEqual(response.status_code, 302)
 
 class GridFeaturePermissionTest(TestCase):
-    fixtures = ['test_initial_data.json']
-
     def setUp(self):
+        data.load()
         settings.RESTRICT_GRID_EDITORS = True
         self.test_add_url = reverse('add_feature',
                                     kwargs={'grid_slug':'testing'})
@@ -418,9 +415,8 @@ class GridFeaturePermissionTest(TestCase):
         self.assertEqual(response.status_code, 302)
 
 class GridElementPermissionTest(TestCase):
-    fixtures = ['test_initial_data.json']
-
     def setUp(self):
+        data.load()
         settings.RESTRICT_GRID_EDITORS = True
         self.test_edit_url = reverse('edit_element',
                                      kwargs={'feature_id':'1',
