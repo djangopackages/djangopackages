@@ -3,7 +3,6 @@
 
 # grabbed from base.txt
 Django==1.2.5
-Pinax==0.9a1
 
 django-debug-toolbar==0.8.3
 django-staticfiles==0.2.0
@@ -44,3 +43,4 @@ django-kombu==0.9.2
 
 --extra-index-url=http://dist.pinaxproject.com/dev/
 django-mailer==0.2a1.dev1
+Pinax==0.9a1
