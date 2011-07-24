@@ -27,6 +27,25 @@ All of the modules listed below are the sub-applications.
 
 .. automodule:: apps.apiv1.resources
     :members:
+    
+``core`` - Kernal bits
+=======================
+
+.. automodule:: apps.core
+    :members:
+
+``core.fields``
+----------------
+
+.. automodule:: apps.core.fields
+    :members:
+    :undoc-members:
+
+``core.models``
+-------------------
+
+.. automodule:: apps.core.models
+    :members:    
 
 
 ``feeds`` - RSS and Atom feeds
@@ -56,6 +75,7 @@ All of the modules listed below are the sub-applications.
 
 .. automodule:: grid.views
     :members:
+    :undoc-members:
 
 ``grid.models``
 ---------------
@@ -68,3 +88,53 @@ All of the modules listed below are the sub-applications.
 
 .. automodule:: grid.forms
     :members:
+
+``profiles`` - profiles app 
+===============================
+.. automodule:: apps.profiles
+
+.. currentmodule:: profiles
+
+``profiles.models``
+-------------------
+
+.. automodule:: profiles.models
+    :members:
+
+``profiles.context_processors``
+-------------------------------
+
+.. automodule:: profiles.context_processors
+    :members:
+
+``pypi`` - pypi app 
+===============================
+.. automodule:: apps.pypi
+
+.. currentmodule:: pypi
+
+``pypi.slurper``
+-------------------
+
+.. automodule:: pypi.slurper
+    :members:
+    :undoc-members:
+
+``pypi.versioning``
+-------------------------------
+
+.. automodule:: pypi.versioning
+    :members:
+
+``searchv1`` - searchv1 app 
+===============================
+.. automodule:: apps.searchv1
+
+.. currentmodule:: searchv1
+
+``searchv1.views``
+-------------------
+
+.. automodule:: searchv1.views
+    :members:
+    :undoc-members:

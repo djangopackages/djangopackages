@@ -230,6 +230,8 @@ LOGIN_REDIRECT_URLNAME = "home"
 EMAIL_CONFIRMATION_DAYS = 2
 EMAIL_DEBUG = DEBUG
 
+CACHE_TIMEOUT = 60 * 60
+
 ROOT_URLCONF = "packaginator.urls"
 
 SECRET_KEY = "ud%a+c#@@d5k!t_)mpw!+58fztyhk_sq%c5s0p5_je-wixy#$k"
