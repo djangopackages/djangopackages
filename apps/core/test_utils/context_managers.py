@@ -12,7 +12,7 @@ class SettingsOverride(object):
     Overrides Django settings within a context and resets them to their inital
     values on exit.
     
-    Example:
+    Example::
     
         with SettingsOverride(DEBUG=True):
             # do something
@@ -50,7 +50,7 @@ class LanguageOverride(object):
 class TemporaryDirectory:
     """Create and return a temporary directory.  This has the same
     behavior as mkdtemp but can be used as a context manager.  For
-    example:
+    example::
 
         with TemporaryDirectory() as tmpdir:
             ...
