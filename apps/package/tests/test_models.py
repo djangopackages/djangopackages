@@ -1,11 +1,11 @@
 from django.test import TestCase
 
 from package.models import Package, Version, versioner
+from package.tests import data
 
 class VersionTests(TestCase):
-
-    fixtures = ['apps/package/tests/test_data/versioner_test_fixture.json',
-                'apps/package/tests/test_data/versioner_versions_fixture.json']
+    def setUp(self):
+        data.load()
 
     def test_version_order(self):
         p = Package.objects.get(slug='django-cms')
