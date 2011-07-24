@@ -27,6 +27,25 @@ All of the modules listed below are the sub-applications.
 
 .. automodule:: apps.apiv1.resources
     :members:
+    
+``core`` - Kernal bits
+=======================
+
+.. automodule:: apps.core
+    :members:
+
+``core.fields``
+----------------
+
+.. automodule:: apps.core.fields
+    :members:
+    :undoc-members:
+
+``core.models``
+-------------------
+
+.. automodule:: apps.core.models
+    :members:    
 
 
 ``feeds`` - RSS and Atom feeds
