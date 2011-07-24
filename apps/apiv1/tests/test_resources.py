@@ -1,11 +1,13 @@
 import json
 from django.test import TestCase
 from django.core.urlresolvers import reverse
-
+from apiv1.tests import data
 
 class ResourcesV1Tests(TestCase):
-    fixtures = ['test_initial_data.json']
     base_kwargs = {'api_name': 'v1'}
+
+    def setUp(self):
+        data.load()
     
     def test_01_category(self):
         kwargs = {'resource_name': 'category'}

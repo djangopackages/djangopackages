@@ -5,11 +5,11 @@ from django.test import TestCase
 
 from package.models import Category, Package, PackageExample
 
+from package.tests import initial_data
 
 class FunctionalPackageTest(TestCase):
-    fixtures = ['test_initial_data.json']
-
     def setUp(self):
+        initial_data.load()
         settings.RESTRICT_PACKAGE_EDITORS = False
         settings.RESTRICT_GRID_EDITORS = True
 
@@ -171,9 +171,8 @@ class RegressionPackageTest(TestCase):
     pass
 
 class PackagePermissionTest(TestCase):
-    fixtures = ['test_initial_data.json']
-
     def setUp(self):
+        initial_data.load()
         settings.RESTRICT_PACKAGE_EDITORS = True
         self.test_add_url = reverse('add_package')
         self.test_edit_url = reverse('edit_package',
