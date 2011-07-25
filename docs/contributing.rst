@@ -165,6 +165,25 @@ Test any css/layout changes in multiple browsers
 
 Any css/layout changes need to be tested in Chrome, Safari, Firefox, IE8, and IE9 across Mac, Linux, and Windows. If it fails on any of those browsers your pull request will be **rejected** with a note explaining which browsers are not working.
 
+How merges are checked, tested, and done
+========================================
+
+First we pull the code into a local branch::
+
+    git checkout master
+    git remote add <your-github-name> git@github.com:<your-github-name>/packaginator.git
+    git checkout -b <your-github-name>-<your-branch-name>
+    git pull <your-github-name> <your-branch-name>
+
+Then we run the tests::
+
+    python manage.py test
+
+We finish with a merge and push to github::
+
+    git merge <your-branch-name>
+    git push origin master
+
 .. _installation: install.html
 .. _issue tracker: https://github.com/cartwheelweb/packaginator/issues
 .. _issues: https://github.com/cartwheelweb/packaginator/issues
