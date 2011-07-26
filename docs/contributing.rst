@@ -171,9 +171,9 @@ How merges are checked, tested, and done
 First we pull the code into a local branch::
 
     git checkout master
-    git remote add <your-github-name> git@github.com:<your-github-name>/packaginator.git
-    git checkout -b <your-github-name>-<your-branch-name>
-    git pull <your-github-name> <your-branch-name>
+    git remote add <submiter-github-name> git@github.com:<submiter-github-name>/packaginator.git
+    git checkout -b <submiter-github-name>-<branch-name>
+    git pull <submiter-github-name> <branch-name>
 
 Then we run the tests::
 
@@ -181,7 +181,8 @@ Then we run the tests::
 
 We finish with a merge and push to github::
 
-    git merge <your-branch-name>
+    git checkout master
+    git merge <branch-name>
     git push origin master
 
 .. _installation: install.html
