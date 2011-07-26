@@ -1,9 +1,13 @@
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.cache import cache
 from django.db import models
 from django.utils.translation import ugettext_lazy as _ 
 
-from package.models import BaseModel, Package
-
+from core.models import BaseModel
+from core.utils import cache_fetcher
+from grid import cachekeys
+from package.models import Package
 
 class Grid(BaseModel):
     """Grid object, inherits form :class:`package.models.BaseModel`. Attributes:
@@ -37,12 +41,19 @@ class Grid(BaseModel):
     @property
     def grid_packages(self):
         """ Gets all the packages and orders them for views and other things
-            TODO: Cache this thing!
          """
+        key, grid_packages = cache_fetcher(cachekeys.grid_grid_packages, self)
+        if grid_packages is not None:
+            return grid_packages
         gp = self.gridpackage_set.select_related('gridpackage', 'package__repo', 'package__category')
-        return gp.annotate(usage_count=models.Count('package__usage')).order_by('-usage_count', 'package')
-
+        grid_packages = gp.annotate(usage_count=models.Count('package__usage')).order_by('-usage_count', 'package')
+        cache.set(key, grid_packages, settings.CACHE_TIMEOUT)
+        return grid_packages
         
+    def save(self, *args, **kwargs):
+        self.grid_packages # fire the cache
+        super(Grid, self).save(*args, **kwargs)
+
     @models.permalink
     def get_absolute_url(self):
         return ("grid", [self.slug])
@@ -69,7 +80,12 @@ class GridPackage(BaseModel):
     
     class Meta:
         verbose_name = 'Grid Package'
-        verbose_name_plural = 'Grid Packages'        
+        verbose_name_plural = 'Grid Packages'
+        
+    def save(self, *args, **kwargs):
+        self.grid.grid_packages # fire the cache
+        super(GridPackage, self).save(*args, **kwargs)
+        
         
     def __unicode__(self):
         return '%s : %s' % (self.grid.slug, self.package.slug)
@@ -86,6 +102,10 @@ class Feature(BaseModel):
     grid         = models.ForeignKey(Grid)
     title        = models.CharField(_('Title'), max_length=100)
     description  = models.TextField(_('Description'), blank=True)
+    
+    def save(self, *args, **kwargs):
+        self.grid.grid_packages # fire the cache
+        super(Feature, self).save(*args, **kwargs)
     
     def __unicode__(self):
         return '%s : %s' % (self.grid.slug, self.title)    
@@ -115,6 +135,10 @@ class Element(BaseModel):
     class Meta:
         
         ordering = ["-id"]
+
+    def save(self, *args, **kwargs):
+        self.feature.save() # fire grid_packages cache
+        super(Element, self).save(*args, **kwargs)
     
     def __unicode__(self):
         return '%s : %s : %s' % (self.grid_package.grid.slug, self.grid_package.package.slug, self.feature.title)

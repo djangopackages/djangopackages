@@ -1,2 +1,2 @@
-def element_map(grid):
-    return "element_map:%s" % grid.id
+def grid_grid_packages(grid):
+    return "grid:grid_packages:%s" % grid.id
