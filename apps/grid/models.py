@@ -33,7 +33,16 @@ class Grid(BaseModel):
                     
     def __unicode__(self):
         return self.title
+    
+    @property
+    def grid_packages(self):
+        """ Gets all the packages and orders them for views and other things
+            TODO: Cache this thing!
+         """
+        gp = self.gridpackage_set.select_related('gridpackage', 'package__repo', 'package__category')
+        return gp.annotate(usage_count=models.Count('package__usage')).order_by('-usage_count', 'package')
 
+        
     @models.permalink
     def get_absolute_url(self):
         return ("grid", [self.slug])

@@ -10,6 +10,7 @@ from django.http import HttpResponseRedirect, Http404, HttpResponseForbidden
 from django.shortcuts import render_to_response, get_object_or_404 
 from django.template import RequestContext 
 
+from core.utils import cache_fetcher
 from grid import cachekeys
 from grid.forms import ElementForm, FeatureForm, GridForm, GridPackageForm
 from grid.models import Element, Feature, Grid, GridPackage
@@ -17,20 +18,12 @@ from package.models import Package
 from package.forms import PackageForm
 from package.views import repo_data_for_js
 
-def cache_fetcher(cachekey_func, identifier_model):
-    key = cachekey_func(identifier_model)
-    return (key, cache.get(key))
-
-def build_element_map(elements, grid):
+def build_element_map(elements):
     # Horrifying two-level dict due to needing to use hash() function later
-    key, element_map = cache_fetcher(cachekeys.element_map, grid)
-    if element_map is not None:
-        return element_map
     element_map = {}
     for element in elements:
         element_map.setdefault(element.feature_id, {})
         element_map[element.feature_id][element.grid_package_id] = element
-    cache.set(key, element_map, settings.CACHE_TIMEOUT)
     return element_map
 
 def grids(request, template_name="grid/grids.html"):
@@ -61,14 +54,13 @@ def grid_detail(request, slug, template_name="grid/grid_detail2.html"):
     grid = get_object_or_404(Grid, slug=slug)
     features = grid.feature_set.all()
 
-    gp = grid.gridpackage_set.select_related('gridpackage', 'package__repo', 'package__category')
-    grid_packages = gp.annotate(usage_count=Count('package__usage')).order_by('-usage_count', 'package')
+    grid_packages = grid.grid_packages
 
     elements = Element.objects.all() \
                 .filter(feature__in=features,
                         grid_package__in=grid_packages)
 
-    element_map = build_element_map(elements, grid)
+    element_map = build_element_map(elements)
 
     default_attributes = [('repo_description', 'Description'), 
                 ('category','Category'), ('pypi_downloads', 'Downloads'), ('last_updated', 'Last Updated'), ('pypi_version', 'Version'),
@@ -103,7 +95,7 @@ def grid_detail_feature(request, slug, feature_id, bogus_slug, template_name="gr
                 .filter(feature__in=features,
                         grid_package__in=grid_packages)
 
-    element_map = build_element_map(elements, grid)
+    element_map = build_element_map(elements)
 
     return render_to_response(
         template_name, {
