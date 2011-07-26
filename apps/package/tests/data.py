@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from packaginator.apps.package.models import Category, Package, Version
+from core.tests import datautil
 
 def load():
     category, created = Category.objects.get_or_create(
@@ -1202,4 +1203,6 @@ def load():
         number=u'2.1.0.beta3',
         hidden=False,
     )
+
+    datautil.reset_sequences(Category, Package, Version, User)
 
