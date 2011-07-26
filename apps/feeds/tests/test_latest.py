@@ -4,8 +4,11 @@ from package.models import Package
 
 import feedparser
 
+from feeds.tests import data
+
 class LatestFeedsTest(TestCase):
-    fixtures = ['test_initial_data.json']
+    def setUp(self):
+        data.load()
 
     def test_latest_feeds(self):
 

@@ -8,9 +8,11 @@ from grid.models import Grid
 from homepage.models import Dpotw, Gotw
 from package.models import Package, Category
 
+from homepage.tests import data
 
 class FunctionalHomepageTest(TestCase):
-    fixtures = ['test_initial_data.json']
+    def setUp(self):
+        data.load()
 
     def test_homepage_view(self):
         url = reverse('home')
