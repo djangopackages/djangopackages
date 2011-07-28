@@ -45,11 +45,16 @@ We have a very successful installation story for development and production host
 
 * Don't do it.
 * We won't accept pull requests for it.
+* We won't help you debug **anything** if we discover you are deploying or developing using buildout.
 
 Why don't you have install instructions for BSD? Or Debian? Or Windows XP?
 --------------------------------------------------------------------------
 
-If you are using something else besides Ubuntu, Mac OS X 10.6, or Windows 7, you obviously have mad skills. We have a very successful installation story for development on three very common operating systems and production hosting is assumed to be on Ubuntu. Trying to support more than those operating systems is a HUGE amount of time taken away from making improvements - especially since the core developers insist on testing everything themselves.
+We have a very successful installation story for development on three very common operating systems and production hosting is assumed to be on Ubuntu. Trying to support more than those operating systems is a HUGE amount of time taken away from making improvements - especially since the core developers insist on testing everything themselves.
+
+If you are using something else besides Ubuntu, Mac OS X 10.6, or Windows 7, **you obviously have mad skills**.
+
+Therefore, if you do insist on using an unusual operating system, expect to do it on your own.
 
 What happened to the fixtures? I want to fire up SQLite!
 --------------------------------------------------------
