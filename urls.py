@@ -6,27 +6,17 @@ from django.views.generic.list_detail import object_list
 from django.contrib import admin
 admin.autodiscover()
 
-from pinax.apps.account.openid_consumer import PinaxConsumer
-
 from homepage.views import homepage
 from package.views import package_autocomplete, category, packaginate
-
-handler500 = "pinax.views.server_error"
 
 
 urlpatterns = patterns("",
 
     url(r"^$", homepage, name="home"),
-
-    
-    url(r"^admin/invite_user/$", "pinax.apps.signup_codes.views.admin_invite_user", name="admin_invite_user"),
     url(r"^admin/", include(admin.site.urls)),
     url(r"^about/", include("about.urls")),
-    url(r"^account/", include("pinax.apps.account.urls")),   
-    url(r"^openid/(.*)", PinaxConsumer()),
-    url(r"^profiles/", include("idios.urls")),
+    url(r"^profiles/", include("profiles.urls")),
     url(r"^notices/", include("notification.urls")),
-    url(r"^announcements/", include("announcements.urls")),
     url(r"^packages/", include("package.urls")),
     url(r"^grids/", include("grid.urls")),  
     url(r"^search/", include("searchv1.urls")),
@@ -47,7 +37,13 @@ urlpatterns = patterns("",
         regex = '^autocomplete/package/$',
         view = package_autocomplete,
         name    = 'package_autocomplete',        
-    )
+    ),
+
+    #TODO - fix these by using django-registration
+    url(r"^account/login/$", direct_to_template, {"template": "about/about.html"}, name="acct_login"),    
+    url(r"^signup/$", direct_to_template, {"template": "about/about.html"}, name="acct_signup"), 
+    url(r"^logout/$", direct_to_template, {"template": "about/about.html"}, name="acct_logout"), 
+    url(r"^email/$", direct_to_template, {"template": "about/about.html"}, name="acct_email"), 
     
 )
 

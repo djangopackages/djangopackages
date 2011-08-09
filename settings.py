@@ -4,18 +4,13 @@
 import os.path
 import sys
 import posixpath
-import pinax
 
-PINAX_ROOT = os.path.abspath(os.path.dirname(pinax.__file__))
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
-
-# tells Pinax to use the default theme
-PINAX_THEME = "default"
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
-# tells Pinax to serve media through the staticfiles app.
+# serve media through the staticfiles app.
 SERVE_MEDIA = DEBUG
 
 INTERNAL_IPS = [
@@ -76,7 +71,6 @@ STATIC_URL = "/site_media/static/"
 # Additional directories which hold static files
 STATICFILES_DIRS = [
     os.path.join(PROJECT_ROOT, "media"),
-    os.path.join(PINAX_ROOT, "media", PINAX_THEME),
 ]
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
@@ -105,18 +99,14 @@ MIDDLEWARE_CLASSES = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "reversion.middleware.RevisionMiddleware",    
-    "django_openid.consumer.SessionConsumer",
     "django.contrib.messages.middleware.MessageMiddleware",
-    "pinax.apps.account.middleware.LocaleMiddleware",
     "pagination.middleware.PaginationMiddleware",
     "django_sorting.middleware.SortingMiddleware",
-    "pinax.middleware.security.HideSensistiveFieldsMiddleware",
     "django.contrib.flatpages.middleware.FlatpageFallbackMiddleware",
 ]
 
 TEMPLATE_DIRS = [
     os.path.join(PROJECT_ROOT, "templates"),
-    os.path.join(PINAX_ROOT, "templates", PINAX_THEME),
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = [
@@ -129,12 +119,7 @@ TEMPLATE_CONTEXT_PROCESSORS = [
     
     "staticfiles.context_processors.static_url",
     
-    "pinax.core.context_processors.pinax_settings",
-    
-    "pinax.apps.account.context_processors.account",
-    
     "notification.context_processors.notification",
-    "announcements.context_processors.site_wide_announcements",
 
     "package.context_processors.used_packages_list",
     "homepage.context_processors.grid_tabs",
@@ -166,20 +151,11 @@ PREREQ_APPS = [
     "django.contrib.humanize",
     "django.contrib.flatpages",
     
-    "pinax.templatetags",
-    
     # external
     "notification", # must be first
     "staticfiles",
-    "mailer",
     "uni_form",
-    "django_openid",
-    "ajax_validation",
-    "timezones",
-    "emailconfirmation",
-    "announcements",
     "pagination",
-    "idios",
     "django_extensions",
     "south",
     "tastypie",
@@ -187,16 +163,9 @@ PREREQ_APPS = [
     "django_sorting",
     "flatblocks",
     
-    # Pinax
-    "pinax.apps.account",
-    "pinax.apps.signup_codes",
-    "pinax.apps.analytics",
-
     # Celery task queue:
     'djcelery',
     
-    # Sentry error logging:
-    'sentry.client',
 ]
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
@@ -219,10 +188,6 @@ ACCOUNT_REQUIRED_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = True
 ACCOUNT_EMAIL_AUTHENTICATION = False
 ACCOUNT_UNIQUE_EMAIL = EMAIL_CONFIRMATION_UNIQUE_EMAIL = False
-
-AUTHENTICATION_BACKENDS = [
-    "pinax.apps.account.auth_backends.AuthenticationBackend",
-]
 
 LOGIN_URL = "/account/login/" # @@@ any way this can be a url name?
 LOGIN_REDIRECT_URLNAME = "home"

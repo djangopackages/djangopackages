@@ -1,15 +1,17 @@
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 
-from idios.models import ProfileBase
+from core.models import BaseModel
 
 from package.models import Package
 
 
 
-class Profile(ProfileBase):
+class Profile(BaseModel):
+    user = models.OneToOneField(User)    
     github_url = models.CharField(_("Github account"), null=True, blank=True, max_length=100)
     bitbucket_url = models.CharField(_("Bitbucket account"), null=True, blank=True, max_length=100)
     google_code_url = models.CharField(_("Google Code account"), null=True, blank=True, max_length=100)

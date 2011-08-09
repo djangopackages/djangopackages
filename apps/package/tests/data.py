@@ -1,6 +1,9 @@
 from django.contrib.auth.models import User
-from packaginator.apps.package.models import Category, Package, Version
+
 from core.tests import datautil
+from package.models import Category, Package, Version
+from profiles.models import Profile
+
 
 def load():
     category, created = Category.objects.get_or_create(
@@ -1204,5 +1207,5 @@ def load():
         hidden=False,
     )
 
-    datautil.reset_sequences(Category, Package, Version, User)
+    datautil.reset_sequences(Category, Package, Profile, Version, User)
 
