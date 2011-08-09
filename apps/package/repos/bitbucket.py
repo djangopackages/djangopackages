@@ -37,7 +37,12 @@ class BitbucketHandler(BaseHandler):
     def fetch_commits(self, package):
         from package.models import Commit # Import placed here to avoid circular dependencies
         for commit in self._get_bitbucket_commits(package):
-            commit, created = Commit.objects.get_or_create(package=package, commit_date=commit["timestamp"])
+            timestamp = commit["timestamp"].split("+")
+            if len(timestamp) > 1:
+                timestamp = timestamp[0]
+            else:
+                timestamp = commit["timestamp"]
+            commit, created = Commit.objects.get_or_create(package=package, commit_date=timestamp)
 
     def fetch_metadata(self, package):
         # prep the target name

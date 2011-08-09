@@ -4,12 +4,16 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 
 from package.models import Category, Package, PackageExample
-
 from package.tests import initial_data
+
+from profiles.models import Profile
 
 class FunctionalPackageTest(TestCase):
     def setUp(self):
         initial_data.load()
+        for user in User.objects.all():
+            profile = Profile.objects.create(user=user)
+            profile.save()
         settings.RESTRICT_PACKAGE_EDITORS = False
         settings.RESTRICT_GRID_EDITORS = True
 
@@ -173,6 +177,11 @@ class RegressionPackageTest(TestCase):
 class PackagePermissionTest(TestCase):
     def setUp(self):
         initial_data.load()
+        for user in User.objects.all():
+            profile = Profile.objects.create(user=user)
+            profile.save()
+
+
         settings.RESTRICT_PACKAGE_EDITORS = True
         self.test_add_url = reverse('add_package')
         self.test_edit_url = reverse('edit_package',

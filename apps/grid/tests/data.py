@@ -1,8 +1,11 @@
-from grid.models import Grid
 from django.contrib.auth.models import Group, User, Permission
-from package.models import Category, PackageExample, Package
-from grid.models import Element, Feature, GridPackage
+
 from core.tests import datautil
+from grid.models import Grid
+from grid.models import Element, Feature, GridPackage
+from package.models import Category, PackageExample, Package
+from profiles.models import Profile
+
 
 def load():
     category, created = Category.objects.get_or_create(
@@ -204,6 +207,8 @@ def load():
         active=True,
         title=u'www.example.com',
     )
+    for user in User.objects.all():
+        profile = Profile.objects.create(user=user)
 
     datautil.reset_sequences(Grid, Group, User, Permission, Category, PackageExample,
                              Package, Element, Feature, GridPackage)

@@ -1,7 +1,7 @@
 {% load i18n %}
-{% load ifsetting_tag account_tags openid_tags %}
 {% load packaginator_tags %}
 {% load flatblock_tags %}
+{% load profile_tags %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}">
     <head>
@@ -55,7 +55,7 @@
 
                 <div class="login">
                     {% if user.is_authenticated %}
-                        {% ifopenid %}<img src="{{ STATIC_URL }}images/openid-icon.png" alt="Logged in with OpenID" />{% endifopenid %}<b>{% user_display user %}</b>
+                        <b>{% user_display user %}</b>
                         |
                         <a href="/help/">{% trans "Help" %}</a>
                         |
@@ -155,7 +155,6 @@
 
         <script src="{{ STATIC_URL }}pinax/js/base.js" type="text/javascript"></script>
         <script src="{{ STATIC_URL }}js/site.js" type="text/javascript"></script>  
-        {% include "facebox_js.html" %}
 
         {% fixed_ga %}
         {% block extra_body %}{% endblock %}
