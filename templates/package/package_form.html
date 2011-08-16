@@ -12,7 +12,7 @@
          package repo URL into the repo URL field. Django Packages then does it's best to figure out the title,
          slug, and then fills in the appropriate fields for you.{% endblocktrans %}
     </p>
-    
+
     <p id="package-form-message"></p>    
     <form class="uniForm" method="post" id="package-form">
         {{ form.errors }}
@@ -21,6 +21,12 @@
         <fieldset>
             {{ form|as_uni_form }}
         </fieldset>
+        {% for package_extender in package_extenders %}
+            <fieldset>
+            {{ package_extender.form|as_uni_form }}
+            </fieldset>
+        {% endfor %}
+        
         <input class="awesome forestgreen" type="submit" name="add" value="{{ action }} {% trans "package" %}">
     </form>
 
