@@ -1,3 +1,4 @@
+import importlib
 from random import randrange
 import simplejson
 import urllib
@@ -7,7 +8,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 from django.core.urlresolvers import reverse
-from django.db.models import Q, Count
+from django.db.models import Q, Count, get_model
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -23,6 +24,34 @@ from package.repos import get_all_repos
 def repo_data_for_js():
     repos = [handler.serialize() for handler in get_all_repos()]
     return simplejson.dumps(repos)
+    
+def get_form_class(form_name):
+    bits = form_name.split('.')
+    form_module_name = '.'.join(bits[:-1])
+    form_module = importlib.import_module(form_module_name)
+    form_name = bits[-1]
+    return getattr(form_module, form_name)
+    
+    
+def build_package_extenders(request):
+    """ package extenders machinery 
+            TODO: change the ID prefix in this form to be unique
+    
+    """
+    package_extenders = []
+    for item in getattr(settings, "PACKAGE_EXTENDERS", []):
+        package_extenders_dict = {}
+        form_class = get_form_class(item['form'])        
+        if 'model' in item:
+            app_name, app_model = item['model'].split('.')
+            package_extenders_dict['model'] = get_model(app_name, app_model)
+            package_extenders_dict['model_instance'] = package_extenders_dict['model']()
+            print package_extenders_dict
+            package_extenders_dict['form'] = form_class(request.POST or None, instance=package_extenders_dict['model_instance'])
+        else:
+            package_extenders_dict['form'] = form_class(request.POST or None)
+        package_extenders.append(package_extenders_dict)    
+    return package_extenders
 
 
 @login_required
@@ -35,18 +64,26 @@ def add_package(request, template_name="package/package_form.html"):
     new_package = Package()
     form = PackageForm(request.POST or None, instance=new_package)
     
+    package_extenders = build_package_extenders(request)
+        
     if form.is_valid():
         new_package = form.save()
         new_package.created_by = request.user
         new_package.last_modified_by = request.user
         new_package.save()
         new_package.fetch_metadata()
+        
+        # stick in package_extender form processing
+        for package_extender in package_extenders:
+            if package_extender['form'].is_valid():
+                package_extender['form'].save()        
         return HttpResponseRedirect(reverse("package", kwargs={"slug":new_package.slug}))
     
     return render_to_response(template_name, {
         "form": form,
         "repo_data": repo_data_for_js(),
         "action": "add",
+        "package_extenders":package_extenders
         },
         context_instance=RequestContext(request))
 
@@ -59,11 +96,16 @@ def edit_package(request, slug, template_name="package/package_form.html"):
     package = get_object_or_404(Package, slug=slug)
     form = PackageForm(request.POST or None, instance=package)
     
+    package_extenders = build_package_extenders(request)    
+    
     if form.is_valid():
         modified_package = form.save()
         modified_package.last_modified_by = request.user
-        modified_package.save()
-        
+        modified_package.save()    
+        # stick in package_extender form processing
+        for package_extender in package_extenders:
+            if package_extender['form'].is_valid():
+                package_extender['form'].save()            
         return HttpResponseRedirect(reverse("package", kwargs={"slug": modified_package.slug}))
     
     return render_to_response(template_name, {
