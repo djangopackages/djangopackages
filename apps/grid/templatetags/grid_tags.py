@@ -1,10 +1,13 @@
 """template tags and filters
 for the :mod:`apps.grid` app"""
+
 from django import template
 from django.conf import settings
 from django.template.defaultfilters import escape, truncatewords
-from grid.models import Element
 from django.template.loader import render_to_string
+
+from grid.models import Element
+
 
 import re
 

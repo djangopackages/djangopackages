@@ -46,7 +46,6 @@ def build_package_extenders(request):
             app_name, app_model = item['model'].split('.')
             package_extenders_dict['model'] = get_model(app_name, app_model)
             package_extenders_dict['model_instance'] = package_extenders_dict['model']()
-            print package_extenders_dict
             package_extenders_dict['form'] = form_class(request.POST or None, instance=package_extenders_dict['model_instance'])
         else:
             package_extenders_dict['form'] = form_class(request.POST or None)
