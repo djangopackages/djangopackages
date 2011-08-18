@@ -1,0 +1,12 @@
+{% extends "profiles/base.html" %}
+
+{% load i18n %}
+{% load uni_form_tags %}
+
+{% block head_title %}Profile form for {{ profile.user.username }}{% endblock %}
+
+{% block body %}
+
+    {% uni_form form helper %}
+
+{% endblock body %}

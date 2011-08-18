@@ -13,4 +13,3 @@ def lazy_profile(request):
             return request.user.get_profile()
 
     return {'profile': SimpleLazyObject(get_user_profile)}
-
