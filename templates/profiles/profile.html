@@ -8,21 +8,17 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}css/package.css" />
 {% endblock %}
 
-{% block head_title %}{% user_display other_user as other_user_display %}{% blocktrans %}Profile for {{ other_user_display }}{% endblocktrans %}{% endblock %}
+{% block head_title %}Profile for {{ user }}{% endblock %}
 
 {% block body %}
-    {% user_display other_user as other_user_display %}
         
     <div id="package-wrap">       
         
         <div id="package-left">
-            {% if other_user.get_profile.name %}
-                <h1>{% blocktrans %}Profile for <span class="nickname">{{ other_user_display }}</span>{% endblocktrans %}</h1>
-            {% else %}
-                <h1>{% blocktrans %}Profile for <span class="fn nickname">{{ other_user_display }}</span>{% endblocktrans %}</h1>
-            {% endif %}
+                <h1>{% blocktrans %}Profile for <span class="fn nickname">{{ user }}</span>{% endblocktrans %}</h1>
 
-            {% if is_me %}
+
+            {% if request.user == user %}
                 <p><a href="{% url profile_edit %}" rel="facebox">{% trans "Edit my profile" %}</a></p>
             {% endif %}    
 
@@ -81,7 +77,7 @@
                         </tr>
                     </thead>                    
                     <tbody>
-                        {% for package in other_user|package_usage %}
+                        {% for package in user|package_usage %}
                         <tr>
                             <td>{{ forloop.counter }}</td>                        
                             <td><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></td>

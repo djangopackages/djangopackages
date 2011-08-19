@@ -17,7 +17,7 @@
     {% if user.is_authenticated %}
         <p>{% trans "You are already logged in." %}</p>
     {% else %}
-        <p>{% trans "Already have an account?" %} <a class="sign_up" href="{% url acct_login %}">{% trans "Log In" %}</a>!</p>
+        <p>{% trans "Already have an account?" %} <a class="sign_up" href="{% url login %}">{% trans "Log In" %}</a>!</p>
         
         <form class="signup uniForm" id="signup_form" method="post" action="{% url acct_signup %}">
             {% csrf_token %}
