@@ -30,7 +30,7 @@
         {% endifsetting %}
     {% endif %}
     
-    <form class="login uniForm" method="POST" action="{% url acct_login %}">
+    <form class="login uniForm" method="POST" action="{% url login %}">
         {% csrf_token %}
         <fieldset class="inlineLabels">
             <div class="form_block">

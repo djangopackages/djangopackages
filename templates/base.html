@@ -67,20 +67,14 @@
                             <a href="/admin/">{% trans "Admin" %}</a>
                             |
                         {% endif %}
-                        <a href="{% if request.openid %}/openid/logout/?next={% url acct_logout %}{% else %}{% url acct_logout %}{% endif %}">{% trans "Logout" %}</a>
+                        <a href="{% if request.openid %}/openid/logout/?next={% url logout %}{% else %}{% url logout %}{% endif %}">{% trans "Logout" %}</a>
                     {% else %}
                         <a href="/help/">{% trans "Help" %}</a>
                         |
-                        <a href="{% url acct_login %}{% if current_path %}?next={{ current_path }}{% endif %}">{% trans "Log in" %}</a> {% trans "or" %} <a href="{% url acct_signup %}">{% trans "Sign Up" %}</a>
+                        <a href="{% url login %}{% if current_path %}?next={{ current_path }}{% endif %}">{% trans "Log in" %}</a> {% trans "or" %} <a href="{% url acct_signup %}">{% trans "Sign Up" %}</a>
                         <br/>
                     {% endif %}
-                    {% block locale_switcher %}{% endblock %}
-                    {% comment %}
-                    <form action="{% url search %}">
-                        <input id="id_q_p" type="text" name="q" maxlength="100" value="{% trans "search" %}" autocomplete="off" />
-                        <input id="magnifier-submit" type="submit" value="&nbsp;" /><br/>
-                    </form>
-                    {% endcomment %}                    
+                    {% block locale_switcher %}{% endblock %}                  
                 </div>
 
                 <div class="searchform">
