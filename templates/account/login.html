@@ -21,13 +21,11 @@
     <h1>{% trans "Log In" %}</h1>
     
     {% if user.is_authenticated %}
-        {% user_display user as user_display %}
-        <p><span class="warning">{% trans "Note" %}</span>: {% blocktrans %}you are already logged in as {{ user_display }}.{% endblocktrans %}</p>
+        <p><span class="warning">{% trans "Note" %}</span>: {% blocktrans %}you are already logged in as {{ request.user }}.{% endblocktrans %}</p>
     {% else %}
-        {% ifsetting ACCOUNT_OPEN_SIGNUP %}
-        {% url acct_signup as signup_url %}
-        <p>{% blocktrans %}Don't have an account? <a class="sign_up" href="{{ signup_url }}">Sign up</a>!{% endblocktrans %}</p>
-        {% endifsetting %}
+        {% if request.ACCOUNT_OPEN_SIGNUP %}
+        <p>Don't have an account? <a class="sign_up" href="{% url registration_register %}">Sign up</a>!</p>
+        {% endif %}
     {% endif %}
     
     <form class="login uniForm" method="POST" action="{% url login %}">

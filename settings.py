@@ -162,6 +162,7 @@ PREREQ_APPS = [
     "reversion",
     "django_sorting",
     "flatblocks",
+    "registration",
     
     # Celery task queue:
     'djcelery',
@@ -269,6 +270,11 @@ LAUNCHPAD_ACTIVE = False
 
 LOCAL_INSTALLED_APPS = []
 SUPPORTED_REPO = []
+
+# accounts settings
+ACCOUNTS_ACTIVATION_EMAIL = True
+if DEBUG:
+    ACCOUNTS_ACTIVATION_EMAIL = False
 
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.
