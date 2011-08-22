@@ -42,3 +42,7 @@ django-social-auth==0.5.6
 
 # WARNING: you may need to update this
 -e hg+https://bitbucket.org/ubernostrum/django-registration/#egg=django-registration
+
+# export stuff
+# pip install -U -e git://github.com/mrj0/django-modeler#egg=django-modeler-0.1.0-dev
+-e git://github.com/mrj0/django-modeler#egg=django-modeler-0.1.0-dev

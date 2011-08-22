@@ -163,6 +163,7 @@ PREREQ_APPS = [
     "django_sorting",
     "flatblocks",
     "registration",
+    "django_modeler",
     
     # Celery task queue:
     'djcelery',
