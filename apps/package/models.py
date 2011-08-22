@@ -43,7 +43,7 @@ class Category(BaseModel):
         verbose_name_plural = 'Categories'
     
     def __unicode__(self):
-        return self.title
+        return self.title    
         
 class Package(BaseModel):
     
