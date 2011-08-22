@@ -30,8 +30,7 @@
             
             <p class="what_next">
                 {% ifsetting ACCOUNT_OPEN_SIGNUP %}
-                    {% url acct_signup as signup_url %}
-                    {% blocktrans %}Start by <a href="{{ signup_url }}">signing up</a> and <a href="{{ login_url }}">logging in</a>.{% endblocktrans %}
+                    {% blocktrans %}Start by <a href="{% url registration_register %}">signing up</a> and <a href="{{ login_url }}">logging in</a>.{% endblocktrans %}
                 {% else %}
                     {% blocktrans %}Start by <a href="{{ login_url }}">logging in</a>.{% endblocktrans %}
                 {% endifsetting %}

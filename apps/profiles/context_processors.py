@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.utils.functional import lazy, memoize, SimpleLazyObject
 
 def lazy_profile(request):
@@ -12,4 +13,8 @@ def lazy_profile(request):
         else:
             return request.user.get_profile()
 
-    return {'profile': SimpleLazyObject(get_user_profile)}
+    data = {
+        'profile': SimpleLazyObject(get_user_profile),
+        'ACCOUNT_OPEN_SIGNUP': settings.ACCOUNT_OPEN_SIGNUP, # TODO - put this into the request some other, better way
+        }
+    return data
