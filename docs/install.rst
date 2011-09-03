@@ -63,7 +63,7 @@ Create a virtualenv, activate it, git clone the Packaginator project, and instal
     source env-packaginator/bin/activate
     git clone git@github.com:cartwheelweb/packaginator.git packaginator
     cd packaginator
-    pip install -r requirements/packaginator.txt
+    pip install -r requirements/mkii.txt
 
 Remove the existing pinax & uni_form symlinks.  Add symlinks to the correct pinax and uni_form media directories::
 
