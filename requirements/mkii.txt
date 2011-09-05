@@ -33,9 +33,6 @@ kombu==1.0.4
 django-celery==2.2.4
 django-kombu==0.9.2
 
-# django modeler work
-django-modeler==0.1
-
 # Open ID
 python-openid==2.2.5
 django-social-auth==0.5.6
