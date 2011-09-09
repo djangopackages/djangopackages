@@ -65,7 +65,7 @@
         {% endif %}        
     {% endif %}
 
-    <p></p>
+    <p id="grid-toggle">&nbsp;</p>
     
     {% if grid_packages.count %}
     
@@ -162,8 +162,65 @@
 {% block extra_body %}
         <script type="text/javascript">
 
+            function getParameterByName(name) {
+                // short and sweet reading of query-string parameters
+                // SEE http://stackoverflow.com/questions/901115/get-querystring-values-with-jquery/5158301#5158301
+                var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+                return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+            }
+
             $(function() {  
                 
+                // allow user override of fancy JS-grid by adding "?simpleGrid=true" to URL
+                var usingSimpleGrid = getParameterByName('simpleGrid') == 'true';
+                var toggleURL = window.location.href;
+                if (usingSimpleGrid) {
+                    // just keep the simple table, then set the toggle to reload to a smart grid
+                    toggleURL = toggleURL.replace('?simpleGrid=true','');
+                    $('#grid-toggle').html('<a href="'+ toggleURL +'">Switch to smart grid</a>');
+                } else {
+                    // set the toggle to reload to a simple table, then build a smart grid
+                    if (window.location.search.indexOf('simpleGrid=true') === -1) {
+                        if (window.location.search === "") {
+                            toggleURL = toggleURL + '?simpleGrid=true';
+                        } else {
+                            toggleURL = toggleURL.replace('?', '?simpleGrid=true&');
+                        }
+                    }
+                    $('#grid-toggle').html('<a href="'+ toggleURL +'">Switch to simple table</a>');
+
+
+                    /* freeze table-column widths before splitting the package grid */
+
+                    // capture "natural" widths of all table headers
+                    var $headers = $('#sortable-table thead th');
+                    var howManyColumns = $headers.length;
+                    var $topmostCells = $('#sortable-table tbody tr:first-child td');
+
+                    $topmostCells.each(function(index, element) {
+                        ///var matchingWidth = $headers.eq(index).width();
+                        var matchingWidth = $headers.eq(index).css('width'); // || $headers.eq(index).width();
+                        $(this).css('width', matchingWidth);
+                    });
+
+                    // apply dataTable plugin to package grid (will split tables)
+                    $('#sortable-table').dataTable({
+                        // "bScrollInfinite": true,
+                        "bSort": false, // disable default sorting
+                        "bAutoWidth": true,
+                        "sScrollY": "600px",
+                        "sScrollX": "100%",
+                        //"sScrollXInner": "110%",
+                        "bScrollCollapse": true
+                    });
+                    // now freeze these widths in all tables! 
+                    // SEE http://www.quirksmode.org/css/tables.html
+                    $('.dataTables_wrapper table').css('table-layout', 'fixed');
+
+                    // reverse IE8-only style hack (to support sticky footer, which we won't need here)
+                    $('#wrap').css('display','block');
+                }
+
                 {% if request.user.is_authenticated %}
                     // Handle element edit redirects
                     {% for feature in features %}
@@ -208,36 +265,6 @@
                     
                  {% endif %}
 
-
-                 /* freeze table-column widths before splitting the package grid */
-
-                 // capture "natural" widths of all table headers
-                 var $headers = $('#sortable-table thead th');
-                 var howManyColumns = $headers.length;
-                 var $topmostCells = $('#sortable-table tbody tr:first-child td');
-
-                 $topmostCells.each(function(index, element) {
-                     ///var matchingWidth = $headers.eq(index).width();
-                     var matchingWidth = $headers.eq(index).css('width'); // || $headers.eq(index).width();
-                     $(this).css('width', matchingWidth);
-                 });
-
-                 // apply dataTable plugin to package grid (will split tables)
-                 $('#sortable-table').dataTable({
-                     // "bScrollInfinite": true,
-                     "bSort": false, // disable default sorting
-                     "bAutoWidth": true,
-                     "sScrollY": "600px",
-                     "sScrollX": "100%",
-                     //"sScrollXInner": "110%",
-                     "bScrollCollapse": true
-                 });
-                 // now freeze these widths in all tables! 
-                 // SEE http://www.quirksmode.org/css/tables.html
-                 $('.dataTables_wrapper table').css('table-layout', 'fixed');
-
-                 // reverse IE8-only style hack (to support sticky footer, which we won't need here)
-                 $('#wrap').css('display','block');
 
                  function handleRTD(elements) {
                      if (!elements.length){
