@@ -5,3 +5,25 @@ table#grid th { background: #75dfca;}
 #grids-list, #grids-list li,
 #grid-archive-list, #grid-archive-list li { list-style:none; }
 
+div#body {
+    width: auto;
+    padding-right: 30px;
+}
+
+/* additional style to look good with dataTable plugin */
+.dataTables_wrapper table {
+    /* position: absolute; */
+}
+.dataTables_wrapper table {
+    margin-bottom: 0 !important;
+    /* table-layout: fixed; */
+}
+.dataTables_filter, 
+.dataTables_info {
+    margin: 8px 0;
+}
+td.package-name {
+    font-weight: bold; 
+    color: #000000; 
+    background-color: #E0FBE9;
+}
