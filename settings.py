@@ -281,7 +281,7 @@ if DEBUG:
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.
 try:
-    from local_settings import *
+    from djangozoom import *
 except ImportError:
     pass
 
