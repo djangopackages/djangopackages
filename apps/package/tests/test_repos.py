@@ -33,7 +33,6 @@ class TestBitbucketRepo(BaseBase):
             category=self.category
         )
 
-
     def test_fetch_commits(self):
         self.assertEqual(Commit.objects.count(), 0)
         bitbucket_handler.fetch_commits(self.package)
@@ -44,8 +43,8 @@ class TestBitbucketRepo(BaseBase):
         self.assertEqual(package.repo_description,
             "Piston is a Django mini-framework creating APIs.")
         self.assertTrue(package.repo_watchers > 0)
-        self.assertTrue(package.repo_forks == 0)
-        self.assertTrue(package.participants, "")
+        self.assertTrue(package.repo_forks > 0)
+        self.assertTrue(package.participants, "jespern")
 
 
 class TestGithubRepo(BaseBase):
