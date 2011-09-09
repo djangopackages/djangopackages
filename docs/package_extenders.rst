@@ -11,16 +11,21 @@ What remains
  
 How it works
 ============
+
+.. sourcecode:: python
     
     settings.PACKAGE_EXTENDERS = [
         {   
             'form':'apps.dummy.forms.DummyForm',
             'model':'dummy.DummyModel'
-
+            # form
+            # model
+            # grid_items
+            # package_displays
         },
     ]    
 
-Originally Packaginator packages just dealt with packages stored in the Python Package Index (PyPI) and with extra data provided by common repo systems like Bitbucket, Github and Launchpad. The purpose of this setting is to remove the tight coupling used for that and allow for Packages. This abstraction is designed to allow Django apps that follow a standard interface to be plugged seamlessly into Packaginator, and unplugged - all without additional wiring in regards to settings, templates, and urls.
+Originally Open Comparison packages just dealt with packages stored in the Python Package Index (PyPI) and with extra data provided by common repo systems like Bitbucket, Github and Launchpad. The purpose of this setting is to remove the tight coupling used for that and allow for Packages. This abstraction is designed to allow Django apps that follow a standard interface to be plugged seamlessly into Open Comparison, and unplugged - all without additional wiring in regards to settings, templates, and urls.
  
 The interface system is described as follows:
 
