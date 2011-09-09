@@ -4,6 +4,11 @@ Settings
 
 How to customize the settings to suit your needs. Do this in local_settings so patches and upstream pulls don't cause havoc to your installation
 
+PACKAGE_EXTENDERS
+==================
+
+Used to determine how packages have extended data sets. See package_extenders_ 
+
 PACKAGINATOR_SEARCH_PREFIX (Default: "django")
 ==============================================
 
@@ -118,4 +123,4 @@ The follow properties can be used in templates:
 * can_edit_grid_element
 
 .. _troubleshooting: troubleshooting.html    
-
+.. _package_extenders: package_extenders.html

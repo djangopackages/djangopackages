@@ -11,12 +11,17 @@ What remains
  
 How it works
 ============
+
+.. sourcecode:: python
     
     settings.PACKAGE_EXTENDERS = [
         {   
             'form':'apps.dummy.forms.DummyForm',
             'model':'dummy.DummyModel'
-
+            # form
+            # model
+            # grid_items
+            # package_displays
         },
     ]    
 
