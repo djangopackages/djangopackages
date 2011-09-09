@@ -115,9 +115,10 @@ TEMPLATE_CONTEXT_PROCESSORS = [
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",
     "django.core.context_processors.request",
+    "django.core.context_processors.static",
     "django.contrib.messages.context_processors.messages",
     
-    "staticfiles.context_processors.static_url",
+#    "staticfiles.context_processors.static_url",
     
     "notification.context_processors.notification",
 
