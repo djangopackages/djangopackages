@@ -6,7 +6,7 @@ $(".usage-link").live('click', function(e) {
         
     $.getJSON(link.attr('href'), function(data) {
         if (data.success === true) {
-            container = link.parents('.usage-container');
+            container = link.parents('.usage-holder');
             
             // Update the count
             count_el = container.find('.usage-count');
