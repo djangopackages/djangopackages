@@ -33,9 +33,9 @@
             </tr>
 
             {% for package in category.packages %}
-                <tr class="usage-container">
-                    <td class="usage-container">
-                        {% usage_button %}                    
+                <tr>
+                    <td class="usage-container usage-holder">
+                        {% usage_button %}          
                         &nbsp;
                         <span class="usage-count">{{ package.usage_count }}</span>
                     </td>
