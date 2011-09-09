@@ -65,7 +65,7 @@ def grid_detail(request, slug, template_name="grid/grid_detail2.html"):
     default_attributes = [('repo_description', 'Description'), 
                 ('category','Category'), ('pypi_downloads', 'Downloads'), ('last_updated', 'Last Updated'), ('pypi_version', 'Version'),
                 ('repo', 'Repo'), ('commits_over_52', 'Commits'), ('repo_watchers', 'Repo watchers'), ('repo_forks', 'Forks'),
-                ('participant_list', 'Participants')
+                ('participant_list', 'Participants'), ('license_latest', 'License')                
             ]
 
     return render_to_response(
