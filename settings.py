@@ -150,10 +150,11 @@ PREREQ_APPS = [
     "django.contrib.messages",
     "django.contrib.humanize",
     "django.contrib.flatpages",
+    "django.contrib.staticfiles",
     
     # external
     "notification", # must be first
-    "staticfiles",
+#    "staticfiles",
     "uni_form",
     "pagination",
     "django_extensions",
