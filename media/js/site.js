@@ -1,23 +1,32 @@
 // Ajax submit for the package usage
-$(".usage-button a").live('click', function(e) {
-    var url = e.target.href,
-        container = $(e.target).parent();
-    e.target.href = ''; // Disabling the link to hopefully avoid double clicks
-    
-    $.getJSON(url, function(data) {
+$(".usage-link").live('click', function(e) {
+    e.preventDefault();
+    var link = $(this),
+        container, count_el, usage_icon, icon_src;
+        
+    $.getJSON(link.attr('href'), function(data) {
         if (data.success === true) {
-            container.html(data.body); // Sets the button to be the rendered template
-            // Looking to update the count, the usage count needs to be within the usage-container
-            var count_el = container.parent('.usage-container').children('.usage-count');
-            if (count_el) {
-                count_el.html(parseInt(count_el.html(), 10)+data.change);
-            }            
+            container = link.parents('.usage-container');
+            
+            // Update the count
+            count_el = container.find('.usage-count');
+            count_el.html(parseInt(count_el.html(), 10) + data.change);
+            
+            // Update the image & link
+            usage_icon = container.find('.usage-image');
+            icon_src = usage_icon.attr('src');
+            if (data.change == -1) {
+                usage_icon.attr('src', icon_src.replace('_filled.png', '_hollow.png'));
+                link.attr('href', link.attr('href').replace('/remove/', '/add/'));
+            } else if (data.change == 1) {
+                usage_icon.attr('src', icon_src.replace('_hollow.png', '_filled.png'));
+                link.attr('href', link.attr('href').replace('/add/', '/remove/'));
+            }
         } else {
             if (data.redirect) {
                 window.location = data.redirect;
             }
         }
     });
-    e.preventDefault();
 });
 
