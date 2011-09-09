@@ -11,6 +11,7 @@ Project Leads
 Core Developers
 ===============
 
+* Mike Johnson
 * Taylor Mitchell
 
 Direct Contributors
@@ -36,7 +37,6 @@ Direct Contributors
 * John M. Camara
 * Jonas Obrist
 * jrothenbuhler
-* Mike Johnson
 * Nate Aune
 * Nolan Brubaker
 * PA Parent
@@ -45,7 +45,6 @@ Direct Contributors
 * Stuart Powers
 * Szilveszter Farkas (Repo Man)
 * Taavi Taijala
-* Taylor Mitchell
 * Tom Brander
 * Vasja Volin
 
