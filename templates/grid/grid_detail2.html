@@ -177,7 +177,7 @@
                 if (usingSimpleGrid) {
                     // just keep the simple table, then set the toggle to reload to a smart grid
                     toggleURL = toggleURL.replace('?simpleGrid=true','');
-                    $('#grid-toggle').html('<a href="'+ toggleURL +'">Switch to smart grid</a>');
+                    $('#grid-toggle').html('<a href="'+ toggleURL +'">{% trans "Switch to smart grid" %}</a>');
                 } else {
                     // set the toggle to reload to a simple table, then build a smart grid
                     if (window.location.search.indexOf('simpleGrid=true') === -1) {
@@ -187,7 +187,7 @@
                             toggleURL = toggleURL.replace('?', '?simpleGrid=true&');
                         }
                     }
-                    $('#grid-toggle').html('<a href="'+ toggleURL +'">Switch to simple table</a>');
+                    $('#grid-toggle').html('<a href="'+ toggleURL +'">{% trans "Switch to simple table" %}</a>');
 
 
                     /* freeze table-column widths before splitting the package grid */
