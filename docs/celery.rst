@@ -23,13 +23,13 @@ Start redis::
 
     redis-server
 
-In a Packaginator shell enter to fire off queue::
+In the Django shell enter to fire off queue::
 
     python manage.py shell
     >>> from pypi.tasks import queue_all_pypi_packages
     >>> queue_all_pypi_packages()
     
-In another Packaginator shell::
+In another Django shell::
 
     python manage.py celeryd -c 4
     
