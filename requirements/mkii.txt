@@ -2,7 +2,7 @@
 # required by your project to run.
 
 # grabbed from base.txt
-Django==1.3
+Django==1.3.1
 
 django-debug-toolbar==0.8.3
 # django-staticfiles==0.2.0
