@@ -44,7 +44,7 @@ class TestBitbucketRepo(BaseBase):
             "Piston is a Django mini-framework creating APIs.")
         self.assertTrue(package.repo_watchers > 0)
         self.assertTrue(package.repo_forks > 0)
-        self.assertTrue(package.participants, "jespern")
+        self.assertEquals(package.participants, "jespern")
 
 
 class TestGithubRepo(BaseBase):
