@@ -115,10 +115,9 @@ TEMPLATE_CONTEXT_PROCESSORS = [
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",
     "django.core.context_processors.request",
-    "django.core.context_processors.static",
     "django.contrib.messages.context_processors.messages",
     
-#    "staticfiles.context_processors.static_url",
+    "staticfiles.context_processors.static_url",
     
     "notification.context_processors.notification",
 
@@ -151,11 +150,10 @@ PREREQ_APPS = [
     "django.contrib.messages",
     "django.contrib.humanize",
     "django.contrib.flatpages",
-    "django.contrib.staticfiles",
     
     # external
     "notification", # must be first
-#    "staticfiles",
+    "staticfiles",
     "uni_form",
     "pagination",
     "django_extensions",
@@ -192,6 +190,7 @@ ACCOUNT_REQUIRED_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = True
 ACCOUNT_EMAIL_AUTHENTICATION = False
 ACCOUNT_UNIQUE_EMAIL = EMAIL_CONFIRMATION_UNIQUE_EMAIL = False
+ACCOUNT_ACTIVATION_DAYS = 7
 
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URLNAME = "home"
@@ -201,7 +200,7 @@ EMAIL_DEBUG = DEBUG
 
 CACHE_TIMEOUT = 60 * 60
 
-ROOT_URLCONF = "opencomparison.urls"
+ROOT_URLCONF = "packaginator.urls"
 
 SECRET_KEY = "ud%a+c#@@d5k!t_)mpw!+58fztyhk_sq%c5s0p5_je-wixy#$k"
 
@@ -282,7 +281,7 @@ if DEBUG:
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.
 try:
-    from djangozoom import *
+    from local_settings import *
 except ImportError:
     pass
 
