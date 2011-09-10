@@ -1,20 +1,30 @@
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 
 from core.models import BaseModel
 
 from package.models import Package
 
-
-
 class Profile(BaseModel):
     user = models.OneToOneField(User)    
     github_url = models.CharField(_("Github account"), null=True, blank=True, max_length=100)
     bitbucket_url = models.CharField(_("Bitbucket account"), null=True, blank=True, max_length=100)
     google_code_url = models.CharField(_("Google Code account"), null=True, blank=True, max_length=100)
+    email = models.EmailField(_("Email"), null=True, blank=True)
+    
+    def save(self, **kwargs):
+        """ Override save to always populate email changes to auth.user model
+        """
+        if self.email is not None:
+            
+            email = self.email.strip()
+            user_obj = User.objects.get(username=self.user.username)
+            user_obj.email = email
+            user_obj.save()
+
+        super(Profile,self).save(**kwargs)
 
     def url_for_repo(self, repo):
         """Return the profile's URL for a given repo.
@@ -110,4 +120,3 @@ class Profile(BaseModel):
         if getattr(settings, 'RESTRICT_GRID_EDITORS', False):
             return self.user.has_perm('grid.change_element')
         return True
-
