@@ -103,7 +103,15 @@ class Package(BaseModel):
         return handler
 
     def active_examples(self):
+        # TODO - convert to property
         return self.packageexample_set.filter(active=True)
+        
+    @property
+    def license_latest(self):
+        try:
+            return self.version_set.latest().license
+        except Version.DoesNotExist:
+            return "UNKNOWN"
     
     def grids(self):
         
