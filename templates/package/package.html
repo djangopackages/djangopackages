@@ -8,6 +8,7 @@
 {% block extra_head %}
     <meta name="description" content="{{ package.repo_description }}" />
     <meta name="keywords" content="{{ package.grid_set.all|join:',' }}" />
+    {{ block.super }}
 {% endblock %}
 
 {% block body %}
