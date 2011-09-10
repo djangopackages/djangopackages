@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 from package.models import Package, Version, versioner
-from package.tests import data
+from package.tests import data, initial_data
 
 class VersionTests(TestCase):
     def setUp(self):
@@ -29,3 +29,11 @@ class VersionTests(TestCase):
         v.license = "x"*50
         v.save()
         self.assertEquals(v.license,"Custom")
+
+class PackageTests(TestCase):
+    def setUp(self):
+        initial_data.load()
+
+    def test_license_latest(self):
+        for p in Package.objects.all():
+            self.assertEquals("UNKNOWN", p.license_latest)
