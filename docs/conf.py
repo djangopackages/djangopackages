@@ -52,7 +52,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Packaginator'
+project = u'OpenComparison'
 copyright = u'2011, Audrey Roy, Daniel Greenfeld and contributors'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -176,7 +176,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'Packaginatordoc'
+htmlhelp_basename = 'opencomparisondoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -190,7 +190,7 @@ htmlhelp_basename = 'Packaginatordoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'Packaginator.tex', u'Packaginator Documentation',
+  ('index', 'OpenComparison.tex', u'OpenComparison Documentation',
    u'Audrey Roy, Daniel Greenfeld and contributors', 'manual'),
 ]
 
@@ -223,6 +223,6 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'packaginator', u'Packaginator Documentation',
+    ('index', 'OpenComparison', u'OpenComparison Documentation',
      [u'Audrey Roy, Daniel Greenfeld and contributors'], 1)
 ]
