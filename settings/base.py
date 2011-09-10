@@ -115,8 +115,6 @@ TEMPLATE_CONTEXT_PROCESSORS = [
     "django.core.context_processors.static",
     "django.contrib.messages.context_processors.messages",
     
-#    "staticfiles.context_processors.static_url",
-    
     "notification.context_processors.notification",
 
     "package.context_processors.used_packages_list",
@@ -152,7 +150,6 @@ PREREQ_APPS = [
     
     # external
     "notification", # must be first
-#    "staticfiles",
     "uni_form",
     "pagination",
     "django_extensions",
@@ -189,6 +186,7 @@ ACCOUNT_REQUIRED_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = True
 ACCOUNT_EMAIL_AUTHENTICATION = False
 ACCOUNT_UNIQUE_EMAIL = EMAIL_CONFIRMATION_UNIQUE_EMAIL = False
+ACCOUNT_ACTIVATION_DAYS = 7
 
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URLNAME = "home"

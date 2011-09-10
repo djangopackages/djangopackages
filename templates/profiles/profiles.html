@@ -36,8 +36,9 @@
         
         <tbody>
             {% for user in users %}
+                {% with user.get_profile as profile %}
                 <tr>
-                    <td><a href="{{ user.get_absolute_url }}">{% user_display user %}</a></td>
+                    <td><a href="{% url profile_detail user.username %}">{{ user.username }}</a></td>
                     <td><span class="hide">{{ user.date_joined|date:"YmdHis" }}</span>{{ user.date_joined|timesince }}</td>
                     <td>
                         {% if user.is_staff %}
@@ -55,10 +56,11 @@
                             {% endif %}
                         </td>
                     {% endif %}
-                    <td><a href="https://github.com/{{ user.get_profile.github_url|default:"" }}">{{ user.get_profile.github_url|default:"" }}</a</td>
-                    <td><a href="https://bitbucket.org/{{ user.get_profile.bitbucket_url|default:"" }}">{{ user.get_profile.bitbucket_url|default:"" }}</a</td>                                
+                    <td><a href="https://github.com/{{ profile.github_url|default:"" }}">{{ user.get_profile.github_url|default:"" }}</a</td>
+                    <td><a href="https://bitbucket.org/{{ user.get_profile.bitbucket_url|default:"" }}">{{ profile.bitbucket_url|default:"" }}</a</td>
                 </tr>
-            {% endfor %}
+                {% endwith %}
+        {% endfor %}
         </tbody>
     </table>
     

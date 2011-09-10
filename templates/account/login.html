@@ -30,6 +30,8 @@
     
     <form class="login uniForm" method="POST" action="{% url login %}">
         {% csrf_token %}
+        <input type="hidden" name="next" value="{% if next %}{{ next }}{% else %}{% url home %}{% endif %}">
+        
         <fieldset class="inlineLabels">
             <div class="form_block">
                 <a class="forgot_password" href="{% url acct_passwd_reset %}">{% trans "Forgot password?" %}</a>
