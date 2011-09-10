@@ -1,3 +1,0 @@
-# These are requirements to get the new apps.pypi module working
-
-redis==2.2.2
