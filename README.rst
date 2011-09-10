@@ -9,7 +9,7 @@ Introduction
 
 OpenComparison helps you easily identify and compare good apps, frameworks, and packages. 
 
-Features::
+Features:
 
     * comparison grids with wiki-like editing capability
     * storage of package info, fetched from public APIs (currently PyPI, Github, BitBucket, Launchpad, and SourceForge)
