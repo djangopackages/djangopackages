@@ -7,17 +7,37 @@ OpenComparison
 Introduction
 =============
 
-OpenComparison helps you easily identify and compare good apps, frameworks, and packages. 
+OpenComparison helps you easily identify and compare good apps, frameworks, plugins, and other types of packages, using comparison grids.
 
 Features:
 
-    * comparison grids with wiki-like editing capability
-    * storage of package info, fetched from public APIs (currently PyPI, Github, BitBucket, Launchpad, and SourceForge)
+    * Comparison grids with wiki-like editing capability
+        * Add packages to grid
+        * Add/edit grid features
+        * Toggle between simple and smart grids
+        * Filter grid by search text
+        * Extendable grid templatetags for custom feature display/styling
+    * Storage of package info, fetched from public APIs
+        * PyPI
+        * Github
+        * BitBucket
+        * Launchpad
+        * SourceForge
+    * Basic search
+        * Autocomplete packages/grids
+    * Social features
+        * "I use this" button
+        * Latest packages featured on homepage
+    * "Add package" and "Add grid" forms
+    * Extendable package model, using package extenders
+    * Customizable navigation menus, editable via admin
 
 The Site
 --------
 
 The most current example is live and functional at http://www.djangopackages.com.
+
+We are getting ready to launch opencomparison.org.  Subdomains such as python.opencomparison.org and django.opencomparison.org will be available shortly.
 
 The Documentation
 -----------------
