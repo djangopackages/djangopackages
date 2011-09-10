@@ -20,11 +20,9 @@
         <![endif]-->
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.1.2/build/cssreset/reset-min.css">
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.1.2/build/cssbase/base-min.css">
-        <link rel="stylesheet" href="{{ STATIC_URL }}pinax/css/facebox.css" />
-        <link rel="stylesheet" href="{{ STATIC_URL }}pinax/css/announcements.css" />
-        <link rel="stylesheet" href="{{ STATIC_URL }}pinax/css/accounts.css" />
-        <link rel="stylesheet" href="{{ STATIC_URL }}uni_form/uni-form.css" />
-        <link rel="stylesheet" href="{{ STATIC_URL }}uni_form/uni-form-generic.css" type="text/css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}uni_form/uni-form.css" type="text/css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}uni_form/default.uni-form.css" type="text/css" />        
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/account.css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/base.css" type="text/css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/awesome.css" type="text/css" />
         {% block extra_head %}{% endblock %}
@@ -145,8 +143,6 @@
         <script src="{{ STATIC_URL }}uni_form/uni-form.jquery.js" type="text/javascript"></script>
         <script src="{{ STATIC_URL }}js/jquery.tablesorter.min.js" type="text/javascript"></script>        
         <script src="{{ STATIC_URL }}js/jquery.dataTables.min.js" type="text/javascript"></script>        
-
-        <script src="{{ STATIC_URL }}pinax/js/base.js" type="text/javascript"></script>
         <script src="{{ STATIC_URL }}js/site.js" type="text/javascript"></script>  
 
         {% fixed_ga %}
