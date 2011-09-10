@@ -108,11 +108,11 @@
                     <td>{% trans "# Using This" %}</td>
                     {% for grid_package in grid_packages %}
                     
-                        <td>
+                        <td class="usage-holder">
                             {% with grid_package.package as package %}
                                 <span class="usage-count" id="usage-count-{{ package.id }}">{{ grid_package.usage_count }}</span>                                                        
                                 {% usage_button %}
-                            {% endwith %}        
+                            {% endwith %}  
                         </td>
                     {% endfor %}
                 </td>
