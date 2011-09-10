@@ -78,8 +78,9 @@ Remove the existing pinax & uni_form symlinks.  Add symlinks to the correct pina
 Set up local settings
 ---------------------
 
-Copy the local_settings.py.example to ```local_settings.py```::
+In the ``settings/`` directory, Copy the ``local_settings.py.example`` to ``local_settings.py``::
 
+    cd settings
     cp local_settings.py.example local_settings.py
 
 Change the ``ROOT_URLS`` setting in ``local_settings.py`` from `<root_directory_name>` to the correct value (i.e. the name of your repo)::

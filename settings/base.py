@@ -5,17 +5,14 @@ import os.path
 import sys
 import posixpath
 
-PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+sys.path.append(os.path.join(PROJECT_ROOT, 'apps')) # ensure we can find the apps
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 # serve media through the staticfiles app.
 SERVE_MEDIA = DEBUG
-
-INTERNAL_IPS = [
-    "127.0.0.1",
-]
 
 ADMINS = [
     # ("Your Name", "your_email@domain.com"),
@@ -276,13 +273,6 @@ SUPPORTED_REPO = []
 ACCOUNTS_ACTIVATION_EMAIL = True
 if DEBUG:
     ACCOUNTS_ACTIVATION_EMAIL = False
-
-# local_settings.py can be used to override environment-specific settings
-# like database and email that differ between development and production.
-try:
-    from djangozoom import *
-except ImportError:
-    pass
 
 if LOCAL_INSTALLED_APPS:
     INSTALLED_APPS.extend(LOCAL_INSTALLED_APPS)
