@@ -15,14 +15,14 @@
     <div id="package-wrap">       
         
         <div id="package-left">
-                <h1>{% blocktrans %}Profile for <span class="fn nickname">{{ user }}</span>{% endblocktrans %}</h1>
+            <h1>{% blocktrans %}Profile for <span class="fn nickname">{{ user }}</span>{% endblocktrans %}</h1>
+                
+            <h2><a href="{% url profile_list %}">{% trans "All profiles" %}</a></h2>                            
 
 
             {% if request.user == user %}
                 <p><a href="{% url profile_edit %}" rel="facebox">{% trans "Edit my profile" %}</a></p>
             {% endif %}    
-
-            <h2><a href="{% url profile_list %}">{% trans "All profiles" %}</a></h2>            
             
             {% if profile.github_url %}
                 <p><b>{% trans "Github account" %}</b>:
