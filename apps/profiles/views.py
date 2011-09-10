@@ -1,5 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib import messages
+from django.core.urlresolvers import reverse
+from django import forms
+from django.http import HttpResponseRedirect, Http404, HttpResponseForbidden
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 
@@ -19,9 +23,14 @@ def profile_detail(request, username, template_name="profiles/profile.html"):
 
 def profile_list(request, template_name="profiles/profiles.html"):
     
+    if request.user.is_staff:
+        users = User.objects.all()
+    else:
+        users = User.objects.filter(is_active=True)
+    
     return render_to_response(template_name,
         {
-            "users": Profile.objects.all()
+            "users": users
         },
         RequestContext(request))
 
@@ -37,7 +46,6 @@ def profile_edit(request, template_name="profiles/profile_edit.html"):
     profile = get_object_or_404(Profile, user=request.user)
     form = ProfileForm(request.POST or None, instance=profile)
 
-    
     if form.is_valid():
         form.save()
         msg = 'Profile edited'

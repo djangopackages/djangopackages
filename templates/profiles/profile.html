@@ -15,33 +15,34 @@
     <div id="package-wrap">       
         
         <div id="package-left">
-                <h1>{% blocktrans %}Profile for <span class="fn nickname">{{ user }}</span>{% endblocktrans %}</h1>
+            <h1>{% blocktrans %}Profile for <span class="fn nickname">{{ user }}</span>{% endblocktrans %}</h1>
+                
+            <h2><a href="{% url profile_list %}">{% trans "All profiles" %}</a></h2>                            
 
 
             {% if request.user == user %}
                 <p><a href="{% url profile_edit %}" rel="facebox">{% trans "Edit my profile" %}</a></p>
             {% endif %}    
-
-            <h2><a href="{% url profile_list %}">{% trans "All profiles" %}</a></h2>            
             
-            {% if other_user.get_full_name %}
-                <p><b>{% trans "Name" %}</b>: <span class="fn">{{ other_user.get_full_name }}</span></p>
+            {% if profile.github_url %}
+                <p><b>{% trans "Github account" %}</b>:
+                            <span class="fn"><a href="https://github.com/{{ profile.github_url }}">{{ profile.github_url }}</a></span>
+                </p>
             {% endif %}
-            <p><b>{% trans "Github account" %}</b>:
-                    {% if other_user.get_profile.github_url %}
-                        <span class="fn"><a href="https://github.com/{{ other_user.get_profile.github_url }}">{{ other_user.get_profile.github_url }}</a></span>
-                    {% endif %}
-            </p>
-            <p><b>{% trans "BitBucket account" %}</b>: 
-                    {% if other_user.get_profile.bitbucket_url %}
-                        <span class="fn"><a href="https://bitbucket.org/{{ other_user.get_profile.bitbucket_url }}">{{ other_user.get_profile.bitbucket_url }}</a></span>
-                    {% endif %}</p>
-            <p><b>{% trans "Google Code account" %}</b>:
-                    {% if other_user.get_profile.google_code_url %}
-                        <span class="fn"><a href="http://code.google.com/u/{{ other_user.get_profile.google_code_url|urlize }}/">{{ other_user.get_profile.google_code_url|urlize }}</a></span>
-                    {% endif %}</p>
 
-            {% if other_user.get_profile.my_packages %}
+            {% if profile.bitbucket_url %}            
+                <p><b>{% trans "BitBucket account" %}</b>: 
+                            <span class="fn"><a href="https://bitbucket.org/{{ profile.bitbucket_url     }}">{{ profile.bitbucket_url }}</a></span>
+                </p>
+            {% endif %}
+
+            {% if profile.google_code_url %}                
+                <p><b>{% trans "Google Code account" %}</b>:
+                            <span class="fn"><a href="http://code.google.com/u/{{ profile.google_code_url|urlize }}/">{{ profile.google_code_url|urlize }}</a></span>
+                </p>
+            {% endif %}            
+
+            {% if profile.my_packages %}
                 <h2>{% trans "Packages I contribute to" %}</h2>
                 <table>
                 <thead>
@@ -52,7 +53,7 @@
                     </tr>
                 </thead>                    
                 <tbody>
-                {% for package in other_user.get_profile.my_packages %}    
+                {% for package in profile.my_packages %}    
                     <tr>
                         <td>{{ forloop.counter }}</td>                        
                         <td><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></td>
