@@ -26,8 +26,6 @@ logging.basicConfig(
 
 LOCAL_INSTALLED_APPS = []
 
-ROOT_URLCONF = "packaginator.urls"
-
 LAUNCHPAD_ACTIVE = False
 
 # Analytics ID
