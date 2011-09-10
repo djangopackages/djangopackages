@@ -1,0 +1,25 @@
+[gondor]
+site_key = 9R2HG48R3FK
+vcs = git
+
+[app]
+; This path is relative to your project root (the directory .gondor is in)
+requirements_file = requirements/project.txt
+
+; The wsgi entry point of your application in two parts separated by a colon.
+; wsgi:deploy where wsgi is the Python module which should be importable and
+; application which represents the callable in the module.
+wsgi_entry_point = wsgi:application
+
+; Can be either nashvegas, south or none
+migrations = south
+
+; Whether or not to run collectstatic during deployment
+staticfiles = on
+
+; Path to map frontend servers to for your site media (includes both STATIC_URL
+; and MEDIA_URL; you must ensure they are under the same path)
+site_media_url = /site_media
+
+[files]
+include = opencomparison/settings/secret.py
