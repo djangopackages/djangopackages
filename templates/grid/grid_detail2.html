@@ -96,7 +96,7 @@
                         {% if perms.grid.delete_gridpackage %}&nbsp;<a href="#" id="package-delete-{{ package.pk }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete"/></a>{% endif %}
                     </td>
                     {% for attribute_name, display_name in attributes %}
-                        {% ifequal attribute_name "participant_list" %}
+                        {% if attribute_name == "participant_list" %}
                             <td>
                                 {% for collaborator in package.package.participant_list %}
                                     {% if forloop.counter <= 10 %}                                
@@ -111,7 +111,7 @@
                                 {% endfor %}                        
                             </td>
                         {% else %}
-                            {% ifequal attribute_name "repo" %}
+                            {% if attribute_name == "repo" %}
                                 <td><a href="{{ package.package.repo_url }}">{{ package.package.repo }}</a></td>
                             {% else %}
                                 {% with attribute_name|style_attribute:package.package as val %}
@@ -119,8 +119,8 @@
                                         {{ val }}
                                     </td>
                                 {% endwith %}
-                            {% endifequal %}
-                        {% endifequal %}
+                            {% endif %}
+                        {% endif %}
                     {% endfor %}
                     {% for feature in features %}
                         {% with elements|hash:feature.pk|hash:package.pk as element %}
