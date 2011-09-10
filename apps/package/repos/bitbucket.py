@@ -64,25 +64,34 @@ class BitbucketHandler(BaseHandler):
             warn(message)
             return package
 
-        package.repo_watchers    = data.get("followers_count",0)
+        # description
         package.repo_description = data.get("description","")
         
         # screen scrape to get the repo_forks off of bitbucket HTML pages
-        target = package.repo_url
-        if not target.endswith("/"):
-            target += "/"
-        target += "descendants"
-        html = urlopen(target)
+        descendants_target = package.repo_url
+        if not descendants_target.endswith("/"):
+            descendants_target += "/"
+        descendants_target += "descendants"
+        html = urlopen(descendants_target)
         html = html.read()
         try:
             package.repo_forks = descendants_re.search(html).group("descendants")
         except AttributeError:
             package.repo_forks = 0
+                    
+        # get the followers of a repo
+        # get the followers of a repo
+        # get the followers of a repo                
+        url = "{0}followers/".format(target)
+        page = urlopen(url).read()
+        data = json.loads(page)
+        package.repo_watchers = data['count']      
         
+        # Getting participants
         try:
             package.participants = package.repo_url.split("/")[3] # the only way known to fetch this from bitbucket!!!
         except IndexError:
-            package.participants = ""
+            package.participants = ""          
             
         return package
 
