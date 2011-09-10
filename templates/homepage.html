@@ -19,12 +19,12 @@
             <h2>{% trans "latest 5" %}</h2>
             <table class="home-table">
             {% for package in latest_packages %}
-                <tr>
+                <tr class="usage-holder">
                     <td class="home-usage-button-cell">
                         {% usage_button %}
                     </td>
                     <td>
-                        <span class="home-numusers" id="usage-count-{{ package.id }}">{{ package.usage.count }}</span>
+                        <span class="home-numusers usage-count" id="usage-count-{{ package.id }}">{{ package.usage.count }}</span>
                         <span class="home-users">{% trans "users" %}</span></td>
                     <td>
                         <span class="home-packagename"><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></span>
@@ -49,12 +49,12 @@
             <h2>random 5</h2>
             <table class="home-table">
                 {% for package in random_packages %}
-                    <tr>
+                    <tr class="usage-holder">
                         <td>
                             {% usage_button %}                       
                         </td>
                         <td>
-                            <span class="home-numusers" id="usage-count-{{ package.id }}">{{ package.usage.count }}</span>                            
+                            <span class="home-numusers usage-count" id="usage-count-{{ package.id }}">{{ package.usage.count }}</span>                            
                             <span class="home-users">users</span></td>
                         <td>
                             <span class="home-packagename"><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></span>
