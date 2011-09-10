@@ -115,9 +115,8 @@ TEMPLATE_CONTEXT_PROCESSORS = [
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",
     "django.core.context_processors.request",
+    "django.core.context_processors.static",
     "django.contrib.messages.context_processors.messages",
-    
-    "staticfiles.context_processors.static_url",
     
     "notification.context_processors.notification",
 
@@ -150,10 +149,10 @@ PREREQ_APPS = [
     "django.contrib.messages",
     "django.contrib.humanize",
     "django.contrib.flatpages",
+    "django.contrib.staticfiles",
     
     # external
     "notification", # must be first
-    "staticfiles",
     "uni_form",
     "pagination",
     "django_extensions",
@@ -200,7 +199,7 @@ EMAIL_DEBUG = DEBUG
 
 CACHE_TIMEOUT = 60 * 60
 
-ROOT_URLCONF = "packaginator.urls"
+ROOT_URLCONF = "opencomparison.urls"
 
 SECRET_KEY = "ud%a+c#@@d5k!t_)mpw!+58fztyhk_sq%c5s0p5_je-wixy#$k"
 
@@ -281,7 +280,7 @@ if DEBUG:
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.
 try:
-    from local_settings import *
+    from djangozoom import *
 except ImportError:
     pass
 
