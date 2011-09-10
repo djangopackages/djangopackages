@@ -47,8 +47,8 @@
 
         <tbody>
         {% for package in packages %}
-            <tr class="usage-container">
-                <td class="usage-container">
+            <tr>
+                <td class="usage-container usage-holder">
                     {% usage_button %}                    
                     &nbsp;
                     <span class="usage-count">{{ package.usage_count }}</span>
