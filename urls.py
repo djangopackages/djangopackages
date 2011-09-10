@@ -80,5 +80,5 @@ urlpatterns += patterns('',
 
 if settings.SERVE_MEDIA:
     urlpatterns += patterns("",
-        url(r"", include("staticfiles.urls")),
+        url(r"", include("django.contrib.staticfiles.urls")),
     )
