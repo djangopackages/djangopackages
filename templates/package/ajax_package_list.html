@@ -5,7 +5,7 @@
         <p class="editable-cell">{% trans "Click a package to add it to the grid." %}</p>      
     {% endif %}
     {% for package in packages %}
-        {% include "package/includes/_package.html" %}
+        {% include "package/includes/_package_no_link.html" %}
     {% endfor %}
     <script type="text/javascript">
        
