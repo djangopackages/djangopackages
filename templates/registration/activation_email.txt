@@ -1,4 +1,4 @@
-Activate your OpenComparison Account.
+Activate your Django Packages Account.
 
 Click the link below in the next {{ expiration_days }} days:
 http://{{ site.domain }}{% url registration_activate activation_key %}
