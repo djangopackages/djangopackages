@@ -7,9 +7,12 @@ OpenComparison
 Introduction
 =============
 
-OpenComparison solves the problem in the Python community of being able to easily identify and compare good apps, frameworks, and packages. Ever want to know which is the most popular or well supported Python httplib replacement, web framework, or api tool? OpenComparison solves that problem for you! 
+OpenComparison helps you easily identify and compare good apps, frameworks, and packages. 
 
-It does this by storing information on packages fetched from public APIs provided by PyPI, Github, BitBucket, Launchpad, and SourceForge, and then provides extremely useful comparison tools for them. 
+Features::
+
+    * comparison grids with wiki-like editing capability
+    * storage of package info, fetched from public APIs (currently PyPI, Github, BitBucket, Launchpad, and SourceForge)
 
 The Site
 --------
@@ -21,7 +24,14 @@ The Documentation
 
 The documentation is hosted at http://opencomparison.rtfd.org
 
+License
+-------
+
+The code is open-source and licensed under the MIT license.
+
 Credits
 =======
 
-For Django Dash 2010, @pydanny and @audreyr (the "Scared of Rabbits" team) created Django Packages and have been working on it since then, turning it into the OpenComparison framework. They are joined by a host of core developers and contributors.
+For Django Dash 2010, @pydanny and @audreyr (the "Scared of Rabbits" team) created Django Packages and have been working on it since then, turning it into the OpenComparison framework. 
+
+They are joined by a host of core developers and contributors.  See https://github.com/opencomparison/opencomparison/blob/master/CONTRIBUTORS.txt
