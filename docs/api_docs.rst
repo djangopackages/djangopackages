@@ -2,7 +2,7 @@
 Webservice API
 ==============
 
-This is the API documentation for Packaginator. It is designed to be language and tool agnostic.
+This is the API documentation for OpenComparison. It is designed to be language and tool agnostic.
 
 API Usage
 =========

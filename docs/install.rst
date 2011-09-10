@@ -51,12 +51,12 @@ No. See the faq_.
 Main instructions
 =================
 
-These instructions install Packaginator on your computer, using PostgreSQL and sample data.
+These instructions install OpenComparison on your computer, using PostgreSQL and sample data.
 
 Git clone the project and install requirements
 ------------------------------------------------
 
-Create a virtualenv, activate it, git clone the Packaginator project, and install its requirements::
+Create a virtualenv, activate it, git clone the OpenComparison project, and install its requirements::
 
     cd <installation-directory>
     virtualenv env-packaginator
