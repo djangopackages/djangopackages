@@ -5,7 +5,7 @@ import os.path
 import sys
 import posixpath
 
-PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 sys.path.append(os.path.join(PROJECT_ROOT, 'apps')) # ensure we can find the apps
 
 DEBUG = False
