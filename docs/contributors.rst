@@ -8,11 +8,24 @@ Project Leads
 * Audrey Roy <audreyr@gmail.com>
 * Daniel Greenfeld <pydanny@gmail.com>
 
-Core Developers
-===============
+Core Developers at DjangoCon 2011
+=================================
 
+* James Punteney
 * Mike Johnson
 * Taylor Mitchell
+
+Core Developers at DataMigrationCon 2011
+========================================
+
+* Katharine Jarmul
+
+Core Developers at PyCon 2011
+=============================
+
+* Gisle Aas
+* Nate Aune
+* Szilveszter Farkas
 
 Direct Contributors
 ===================
@@ -37,6 +50,7 @@ Direct Contributors
 * John M. Camara
 * Jonas Obrist
 * jrothenbuhler
+* Mike Johnson
 * Nate Aune
 * Nolan Brubaker
 * PA Parent
@@ -45,6 +59,7 @@ Direct Contributors
 * Stuart Powers
 * Szilveszter Farkas (Repo Man)
 * Taavi Taijala
+* Taylor Mitchell
 * Tom Brander
 * Vasja Volin
 
