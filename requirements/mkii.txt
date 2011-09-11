@@ -26,6 +26,8 @@ django-flatblocks==0.5.0
 feedparser==5.0.1
 psycopg2==2.4
 django-classy-tags==0.3.3.1
+django-bcrypt==0.9.2
+py-bcrypt==0.2
 
 # Celery dependencies:
 celery==2.2.4

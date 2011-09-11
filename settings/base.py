@@ -159,6 +159,7 @@ PREREQ_APPS = [
     "flatblocks",
     "registration",
     "django_modeler",
+    "django_bcrypt",
     
     # Celery task queue:
     'djcelery',
