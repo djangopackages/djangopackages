@@ -27,6 +27,13 @@ Core Developers at PyCon 2011
 * Nate Aune
 * Szilveszter Farkas
 
+Core Developers at DjangoCon 2011
+=================================
+
+* James Punteney
+* Jonas Obrist
+* Taavi Taijala
+
 Direct Contributors
 ===================
 
