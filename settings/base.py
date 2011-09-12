@@ -99,6 +99,7 @@ MIDDLEWARE_CLASSES = [
     "pagination.middleware.PaginationMiddleware",
     "django_sorting.middleware.SortingMiddleware",
     "django.contrib.flatpages.middleware.FlatpageFallbackMiddleware",
+    "djangosecure.middleware.SecurityMiddleware"
 ]
 
 TEMPLATE_DIRS = [
@@ -159,6 +160,8 @@ PREREQ_APPS = [
     "flatblocks",
     "registration",
     "django_modeler",
+    "django_bcrypt",
+    "djangosecure",
     
     # Celery task queue:
     'djcelery',
@@ -279,6 +282,11 @@ if LOCAL_INSTALLED_APPS:
 SUPPORTED_REPO.extend(["bitbucket", "github"])
 if LAUNCHPAD_ACTIVE:
     SUPPORTED_REPO += ["launchpad"]
+
+# django-secure settings
+SECURE_FRAME_DENY = True
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = True
 
 try:
     import djcelery
