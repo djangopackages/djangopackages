@@ -117,7 +117,7 @@ TEMPLATE_CONTEXT_PROCESSORS = [
     "django.core.context_processors.request",
     "django.contrib.messages.context_processors.messages",
     
-    "staticfiles.context_processors.static_url",
+    "django.core.context_processors.static",
     
     "notification.context_processors.notification",
 
@@ -150,10 +150,10 @@ PREREQ_APPS = [
     "django.contrib.messages",
     "django.contrib.humanize",
     "django.contrib.flatpages",
+    "django.contrib.staticfiles",    
     
     # external
     "notification", # must be first
-    "staticfiles",
     "uni_form",
     "pagination",
     "django_extensions",
