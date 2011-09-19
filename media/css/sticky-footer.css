@@ -1,0 +1,26 @@
+/* This file contains the old sticky footer code that was causing the horizontal scroll bar 
+problem.  It has been separated out into this file from djangopackages.css.  Currently, this
+file is not being used by the site.  In the future, it may be integrated back in or deleted 
+entirely. */
+
+/* Sticky footer from http://www.cssstickyfooter.com/
+   (still overriding base.css) */
+/* must declare 0 margins on everything, also for main layout components use padding, not 
+vertical margins (top and bottom) to add spacing, else those margins get added to total height 
+and your footer gets pushed down a bit more, creating vertical scroll bars in the browser */
+html, body {height: 100%;}
+#wrap {min-height: 100%;}
+#main {overflow:auto;
+	padding-bottom: 50px;}  /* must be same height as the footer */
+#footer {position: relative;
+	margin-top: -50px; /* negative value of footer height */
+	height: 50px;
+	clear:both;} 
+/*Opera Fix*/
+body:before {/* thanks to Maleika (Kohoutec)*/
+content:"";
+height:100%;
+float:left;
+width:0;
+margin-top:-32767px;/* thank you Erik J - negate effect of float*/
+}

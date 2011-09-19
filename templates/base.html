@@ -1,0 +1,179 @@
+{% load i18n %}
+{% load packaginator_tags %}
+{% load flatblock_tags %}
+{% load profile_tags %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>{% block head_title_base %}{% plain_flatblock 'site.name' %} : {% block head_title %}{% endblock %}{% endblock %}</title>
+        <!--[if IE]><style>
+            div {
+                zoom: 1; /* trigger hasLayout */
+            }
+        </style><![endif]-->
+        <!-- The following is for sticky footer -->
+        <!--[if !IE 7]>
+	        <style type="text/css">
+		        #wrap {display:table;height:100%}
+	        </style>
+        <![endif]-->
+        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.1.2/build/cssreset/reset-min.css">
+        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.1.2/build/cssbase/base-min.css">
+        <link rel="stylesheet" href="{{ STATIC_URL }}uni_form/uni-form.css" type="text/css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}uni_form/default.uni-form.css" type="text/css" />        
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/account.css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/base.css" type="text/css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/awesome.css" type="text/css" />
+        {% block extra_head %}{% endblock %}
+    </head>
+    
+    <body class="{% block body_class %}{% endblock %}">
+    <div id="wrap">
+        <div id="main">
+            {% if site_wide_announcements %}
+                <div id="site_wide_announcements">
+                    <ul>
+                        {% for announcement in site_wide_announcements %}
+                        <li>
+                            <a href="{{ announcement.get_absolute_url }}">{{ announcement }}</a> -
+                            <a href="{% url announcement_hide announcement.pk %}?next={{ request.path }}">{% trans "Hide announcement" %}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                <div id="top_border">
+                </div>
+            {% endif %}
+            <div id="tabhead">
+                <div class="logo">
+                    <a href="{% url home %}"><img src="{{ STATIC_URL }}img/logo_squares.png" /></a><h1><a href="{% url home %}">{% plain_flatblock 'site.name' %}</a></h1>
+                </div>
+
+                <div class="login">
+                    {% if user.is_authenticated %}
+                        <b>{% user_display user %}</b>
+                        |
+                        <a href="/help/">{% trans "Help" %}</a>
+                        |
+                        <a href="{% url profile_detail request.user %}">{% trans "Profile" %}</a>    
+                        |
+                        {% if user.is_staff %}
+                            <a href="/admin/">{% trans "Admin" %}</a>
+                            |
+                        {% endif %}
+                        <a href="{% if request.openid %}/openid/logout/?next={% url logout %}{% else %}{% url logout %}{% endif %}">{% trans "Logout" %}</a>
+                    {% else %}
+                        <a href="/help/">{% trans "Help" %}</a>
+                        |
+                        <a href="{% url login %}{% if current_path %}?next={{ current_path }}{% endif %}">{% trans "Log in" %}</a> {% trans "or" %} <a href="{% url registration_register %}">{% trans "Sign Up" %}</a>
+                        <br/>
+                    {% endif %}
+                    {% block locale_switcher %}{% endblock %}                  
+                </div>
+
+                <div class="searchform">
+                    <form action="{% url search %}">
+                        <input id="id_q_p" type="text" name="q" maxlength="100" value="{% trans "search" %}" autocomplete="off" />
+                        <input id="magnifier-submit" type="submit" value="&nbsp;" /><br/>
+                        {% comment %}
+                        <input class="home-searchcheckbox" checked="checked" type="checkbox" name="category" value="apps" />{% trans "apps" %}
+                        <input class="home-searchcheckbox" type="checkbox" name="category" value="frameworks" />{% trans "frameworks" %}
+                        <input class="home-searchcheckbox" type="checkbox" name="category" value="projects" />{% trans "projects" %}
+                        <input class="home-searchcheckbox" type="checkbox" name="category" value="other" />{% trans "other" %}
+                        {% endcomment %}                
+                    </form>
+                </div>
+
+                <div id="left_tabs" >
+                    {% for grid_chunk in grid_tabs %}
+                        <div id="multi-col-nav">
+                            {% for tab in grid_chunk %}
+                                {% if tab %}
+                                    <a href="{% url grid tab.grid.slug %}" title="{{ tab.grid.description }}">{{ tab.grid.title }}</a><br />
+                                {% endif %}
+                                {% if forloop.parentloop.last and forloop.last %}
+                                    <a href="{% url grids %}">{% trans "&raquo; more grids..." %}</a>                            
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            {% block body_outer %}
+            <div id="body">
+                
+                {% if messages %}
+                    <ul id="messages">
+                        {% for message in messages %}
+                        <li id="message_{{ forloop.counter }}"{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                            <a href="#"><small>{% trans "clear" %}</small></a>
+                            &nbsp;
+                            {{ message }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% block body %}
+                {% endblock %}
+            </div>
+            {% endblock %}
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="footer">
+        <div class="legal">
+            <hr /><br/>
+            {% plain_flatblock 'copyright.text' %}
+            - <a href="/about/">{% trans "About" %}</a>
+            - <a href="/help/">{% trans "Help" %}</a>    
+            - <a href="/terms/">{% trans "Terms of Service" %}</a>
+            - <a href="/help/team/">{% trans "Team" %}</a>
+            - <a href="http://readthedocs.org/docs/packaginator/en/latest/api_docs.html">{% trans "API" %}</a>
+            - <a href="/help/syndication/">{% trans "RSS / Atom" %}</a>
+            <br />
+            {% plain_flatblock 'footer.text' %}
+        </div>
+    </div>
+
+        <script src="{% block jquery_src %}http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js{% endblock %}" type="text/javascript"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/jquery-ui.min.js"></script>
+        <script src="{{ STATIC_URL }}uni_form/uni-form.jquery.js" type="text/javascript"></script>
+        <script src="{{ STATIC_URL }}js/jquery.tablesorter.min.js" type="text/javascript"></script>        
+        <script src="{{ STATIC_URL }}js/jquery.dataTables.min.js" type="text/javascript"></script>        
+        <script src="{{ STATIC_URL }}js/site.js" type="text/javascript"></script>  
+
+        {% fixed_ga %}
+        {% block extra_body %}{% endblock %}
+        
+        <script type="text/javascript">
+            
+            $(function() {          
+                $('input#id_q_p').click(function() {
+                    $("input#id_q_p").val('');
+                });                        
+            });
+            
+            /*
+            categories = 'frameworks,projects,other';
+            $("input:checkbox[name=category]").click(function(){
+                categories = $('input:checkbox[name=category]').not(':checked').map(function() {
+                    return this.value
+                }).get();
+            });
+            */
+
+            $('#id_q_p').autocomplete({
+              source: '{% url search_packages_autocomplete %}',
+              minLength: 1,
+              open: function(event, ui) {           
+                ac_top = $('.ui-autocomplete').css('top'); 
+                $('.ui-autocomplete').css({'width': '250px', 'top': ac_top + 10 }); 
+              }
+            });
+    
+        </script>
+    </body>
+</html>

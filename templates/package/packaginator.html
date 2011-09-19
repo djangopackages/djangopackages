@@ -1,0 +1,40 @@
+<!-- only graphic designer touch this page!!! -->
+{% extends "package/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Packages" %}{% endblock %}
+
+{% block body %}
+
+    <h1>{% trans "Packaginator" %}</h1>
+
+    <a id="packaginate">{% trans "Press me!" %}</a>
+
+    <div id="packaginatee">blah blah</div>
+    <p id="url">blah blah</p>
+    <p id="title">blah blah</p>
+    <p id="description">blah blah</p>
+
+{% endblock %}
+
+{% block extra_body %}
+<script type="text/javascript">
+    $(function() {
+        $('#packaginate').click(function() {
+
+             $.get("{% url packaginate %}", function(data) {
+               $('#packaginatee').text(data);
+               var pkg = eval('(' + data + ')');
+               $('#url').text(pkg.url);
+               $('#title').text(pkg.title);
+               $('#description').text(pkg.description);                              
+             });
+        });
+
+    });
+</script>
+
+{% endblock %}
+
+

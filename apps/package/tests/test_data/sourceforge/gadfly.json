@@ -1,0 +1,62 @@
+{"Project":{
+    "name":"gadfly",
+    "created":"Dec 10, 1999",
+    "created_timestamp":944856738,
+    "id":662,
+    "shortdesc":"gadfly",
+    "description":"Highly portable SQL query engine based in Python with transactions, recovery and client server mode.",
+    "percentile":95.3073978995,
+    "ranking":22046,
+    "status":"A",
+    "related-projects":[
+        {"name":"AppServ",
+        "url":"http://sourceforge.net/projects/appserv"
+    },        {"name":"eXist",
+        "url":"http://sourceforge.net/projects/exist"
+    },        {"name":"Mondrian",
+        "url":"http://sourceforge.net/projects/mondrian"
+    },        {"name":"HyperSQL Database Engine (HSQLDB)",
+        "url":"http://sourceforge.net/projects/hsqldb"
+    },        {"name":"Firebird",
+        "url":"http://sourceforge.net/projects/firebird"
+    }        ],
+    "download-page":"http://sourceforge.net/project/showfiles.php?group_id=662",
+    "support-page":"http://sourceforge.net/projects/gadfly/support",
+    "summary-page":"http://sourceforge.net/projects/gadfly",
+    "mailing-list":"http://sourceforge.net/mail/?group_id=662",
+    "homepage":"gadfly.sf.net/",
+    "base_url":"http://sourceforge.net",
+    "CVSRepository":{
+        "anon-root":":pserver:anonymous@gadfly.cvs.sourceforge.net:/cvsroot/gadfly",
+        "module":"gadfly",
+        "browse":"http://gadfly.cvs.sourceforge.net/gadfly"
+        },
+    "licenses":[
+            {"name":"Python License (CNRI Python License)","url":"http://www.opensource.org/licenses/pythonpl.php"}        ],
+    "os":[
+    "OS Independent (Written in an interpreted language)"    ],
+    "topics":[
+    "Database Engines/Servers"    ],
+    "programming-languages":[
+    "Python"    ],
+    "audiences":[
+    "Developers"    ],
+    "translations":[
+    "English"    ],
+    "categories": [
+            "Developers",            "5 - Production/Stable",            "Database Engines/Servers",            "OS Independent (Written in an interpreted language)",            "Python License (CNRI Python License)",            "Python",            "English"        ],
+    "trackers":[
+    {"name":"Bugs","location":"http://sourceforge.net/tracker/?group_id=662&atid=100662"},    {"name":"Patches","location":"http://sourceforge.net/tracker/?group_id=662&atid=300662"}    ],
+    "maintainers":[
+        {"name":"aaron_watters","homepage":"http://sourceforge.net/users/aaron_watters","mbox_sha1sum":"93730d472d7aaf146e36be1830e5e5f3eacd461c"},        {"name":"richard","homepage":"http://sourceforge.net/users/richard","mbox_sha1sum":"1967eb0b0ab9ee0e04f6264cff74e73fea43b144"}    ],
+    "developers":[
+        {"name":"mauriceling","homepage":"http://sourceforge.net/users/mauriceling","mbox_sha1sum":"4f942e9d3a1719a6ddb8d4c5382c39bdc5b6584c"},        {"name":"moellenbeck","homepage":"http://sourceforge.net/users/moellenbeck","mbox_sha1sum":"5aa454a96a7f169d0a7c219d0b672c0619e8a201"},        {"name":"anthonybaxter","homepage":"http://sourceforge.net/users/anthonybaxter","mbox_sha1sum":"d85791b7b5cdb4a75753eacf93706bc5ac679b95"},        {"name":"andy47","homepage":"http://sourceforge.net/users/andy47","mbox_sha1sum":"76e7804ef0a653dbe471afc8023e70ab1b0a0528"},        {"name":"zenzen","homepage":"http://sourceforge.net/users/zenzen","mbox_sha1sum":"eae4416374b132825c78f0eed312e8313369e6f9"}    
+    ],
+    "donation": {
+        "comment":"",
+        "status":"Not Accepting",
+        "charities":[
+        ]
+    
+    }
+}}

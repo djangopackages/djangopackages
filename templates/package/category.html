@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% load cache %}
+{% load i18n %}
+{% load package_tags %}
+{% load pagination_tags %}
+{% load sorting_tags %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/home.css" />
+{% endblock %}
+
+{% block head_title %}{% trans "Welcome" %}{% endblock %}
+
+{% block body_class %}home{% endblock %}
+
+{% block body %}
+
+    <h1><a href="{% url home %}">{% trans "home" %}</a> / <a href="{% url categories %}">{% trans "categories" %}</a> / {{ category }}s ( {{ packages.count }} )</h1>
+     
+    <p id="description">{{ category.description }}</p>
+    
+    <p id="links">
+        {% if profile.can_add_package %}
+        <a class="large awesome forestgreen" href="{% url add_package %}">{% trans "add package »" %}</a>
+        {% endif %}
+        <a href="{% url latest_packages %}">{% trans "latest" %}</a> <a href="{% url packages %}">{% trans "all" %}</a>
+    </p>
+    
+    <p>{% trans "Click table headers to sort" %}</p>
+
+    {% autosort packages %}
+    {% autopaginate packages %}
+    {% paginate %}
+    <table id="home-packages">
+            <thead>
+            <tr>
+              <th>{% anchor usage_count "# Using This" %}</th>
+              <th class="tiny-column">{% anchor pypi_downloads "PyPi Downloads" %}</th>
+              <th>{% anchor title "Name" %}</th>
+              <th>{% trans "Commits" %}</th>
+              <th>{% trans "Version" %}</th>
+                <th class="repo-watchers">{% anchor repo_watchers "Watchers" %}</th>
+                <th class="repo-forks">{% anchor repo_forks "Forks" %}</th>
+            </tr>
+            </thead>
+
+        <tbody>
+        {% for package in packages %}
+            <tr>
+                <td class="usage-container usage-holder">
+                    {% usage_button %}                    
+                    &nbsp;
+                    <span class="usage-count">{{ package.usage_count }}</span>
+                </td>
+                <td>{{ package.pypi_downloads }}</td>
+                <td><a href="{% url package package.slug %}">{{ package.title }}</a></td>
+                {% cache 86400 package.commitchart package %}                
+                    <td><img class="package-githubcommits" src="http://chart.apis.google.com/chart?cht=bvg&chs=105x20&chd=t:{{package|commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
+                {% endcache %}                
+                <td>{{ package.pypi_version }}</td>
+                <td>{{ package.repo_watchers }}</td>
+                <td>{{ package.repo_forks }}</td>                
+
+            </tr>    
+        {% endfor %}        
+        </tbody>        
+     </table>
+     {% paginate %}
+
+{% endblock %}

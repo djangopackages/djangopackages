@@ -1,0 +1,314 @@
+{% extends "grid/base.html" %}
+
+{% comment %}
+    Figure out how to use facebox for the forms cause right now the edits don't stick
+     rel="facebox"
+{% endcomment %}
+
+{% load i18n %}
+{% load cache %}
+{% load grid_tags %}
+{% load package_tags %}
+
+{% block head_title %}{{ grid.title }}{% endblock %}
+
+{% block extra_head %}
+    {{ block.super }}
+    <meta name="description" content="{{ grid.description }}" />
+    <meta name="keywords" content="{{ grid.packages.all|join:',' }}" />
+{% endblock %}
+
+{% block body %}
+
+    
+    <h1 id="grid-name">
+
+      <a href="{% url home %}">{% trans "home" %}</a> / <a href="{% url grids %}">{% trans "grids" %}</a> / {{ grid.title }}
+      {% if request.user.is_authenticated and profile.can_edit_grid %}
+      <a href="{% url edit_grid grid.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
+      {% endif %}
+    </h1>
+
+    <p>
+        {{ grid.description|urlize|linebreaksbr }}
+    </p>    
+    
+    {% if features %}
+        <h2>{% trans "Features currently being evaluated" %}</h2>
+        <table id="grid" border="3">      
+            <thead>
+                <tr>
+                    <th>{% trans "Feature" %}</th>
+                    <th>{% trans "Description" %}</th>
+                </tr> 
+            </thead>
+            <tbody>
+                {% for feature in features %}
+                    <tr>                        
+                        <td>{{ feature.title }}
+                        {% if request.user.is_authenticated and profile.can_edit_grid_feature %}
+                            <a href="{% url edit_feature feature.pk %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>{% if perms.grid.delete_feature %}&nbsp;<a href="#" id="feature-delete-{{ feature.pk }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete" /></a>{% endif %}
+                        {% endif %}
+                        </td>
+                        <td>{{ feature.description|wordwrap:80|linebreaksbr }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if request.user.is_authenticated and profile.can_add_grid_feature %}        
+
+            <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_feature grid.slug %}">{% trans "Add new feature to the grid" %}</a></p>
+
+        {% endif %}            
+    {% else %}
+        {% if request.user.is_authenticated and profile.can_add_grid_feature %}        
+
+            <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_feature grid.slug %}">{% trans "Add a feature to the grid" %}</a></p>
+
+        {% endif %}        
+    {% endif %}
+
+    <p></p>
+    
+    {% if grid_packages.count %}
+    
+        {% if request.user.is_authenticated and profile.can_add_grid_package %}        
+            <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_grid_package grid.slug %}">{% trans "Add another package" %}</a></p>
+        {% endif %}        
+    
+        <table id="grid" border="3">
+            <thead>
+                {% include "grid/snippets/grid_row_header.html" %}
+            </thead>
+            <tbody>
+                <tr class="even">
+                    <td>{% trans "Description" %}</td>
+                    {% for grid_package in grid_packages %}
+                        <td>
+                            {% with grid_package.package.repo_description|truncatewords:20 as short %}
+                          
+                                {% if grid_package.package.repo_description|length > short|length %}
+                                   {{ short|wordwrap:30|linebreaksbr|slice:"-3" }}<a rel="facebox" href="{% url package_repo_description grid_package.package.slug %}">...</a>                                    
+                                {% else %}
+                                    {{ short|wordwrap:30|linebreaksbr }}
+                                {% endif %}
+                            {% endwith %}
+                            
+                            
+                        </td>
+                    {% endfor %}
+                </tr>                    
+                <tr class="odd">
+                    <td>{% trans "Category" %}</td>
+                    {% for grid_package in grid_packages %}
+                        <td>{{ grid_package.package.category }}</td>
+                    {% endfor %}
+                </tr>                
+                <tr class="even">
+                    <td>{% trans "# Using This" %}</td>
+                    {% for grid_package in grid_packages %}
+                    
+                        <td class="usage-holder">
+                            {% with grid_package.package as package %}
+                                <span class="usage-count" id="usage-count-{{ package.id }}">{{ grid_package.usage_count }}</span>                                                        
+                                {% usage_button %}
+                            {% endwith %}  
+                        </td>
+                    {% endfor %}
+                </td>
+                <tr class="even">
+                    <td>{% trans "Downloads" %}</td>
+                    {% for grid_package in grid_packages %}
+                        <td>
+                            {% if grid_package.package.pypi_version %}
+                                {{ grid_package.package.pypi_downloads|default:"n/a" }}
+                            {% else %}
+                                n/a
+                            {% endif %}
+                    
+                        </td>
+                    {% endfor %}
+                </tr>
+                <tr class="odd">
+                    <td>{% trans "Last updated" %}</td>
+                    {% for grid_package in grid_packages %}
+                        <td>
+                        {% if grid_package.package.last_updated %}
+                           {{ grid_package.package.last_updated|date:"DATETIME_FORMAT" }}
+                        {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+                <tr class="even">
+                    <td>{% trans "Version" %}</td>
+                    {% for grid_package in grid_packages %}
+                        <td>{{ grid_package.package.pypi_version|default:"n/a" }}</td>
+                    {% endfor %}
+            
+                </tr>
+                <tr class="odd">
+                    <td>{% trans "Repo" %}</td>
+                    {% for grid_package in grid_packages %}
+                        <td><a href="{{ grid_package.package.repo_url }}">{{ grid_package.package.repo }}</a></td>
+                    {% endfor %}
+                </tr>            
+                <tr class="even">
+                    <td>{% trans "Commits" %}</td>
+                    {% for grid_package in grid_packages %}
+                        {% cache 86400 package.commitchart grid_package.package %}
+                            <td><img class="package-githubcommits" src="http://chart.apis.google.com/chart?cht=bvg&chs=105x20&chd=t:{{ grid_package.package|commits_over_52 }}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
+                        {% endcache %}
+                    {% endfor %}
+                </tr>
+                <tr class="odd">
+                    <td>{% trans "Repo Watchers" %}</td>
+                    {% for grid_package in grid_packages %}
+                        <td>{{ grid_package.package.repo_watchers|default:"n/a" }}</td>
+                    {% endfor %}
+                </tr>
+                <tr class="even">
+                    <td>{% trans "Repo Forks" %}</td>
+                    {% for grid_package in grid_packages %}
+                        <td>{{ grid_package.package.repo_forks|default:"n/a" }}</td>
+                    {% endfor %}
+                </tr>
+                <tr class="odd">
+                    <td>{% trans "Participants" %}</td>
+                    {% for grid_package in grid_packages %}
+                        <td>
+                            {% for collaborator in grid_package.package.participant_list %}
+                                {% if forloop.counter <= 10 %}                                
+                                    <a href="{{ grid_package.package.repo.url }}/{{ collaborator }}">{{ collaborator }}</a>
+                                    {% if not forloop.last %}
+                                        <br />
+                                    {% endif %}
+                                {% endif %}
+                                {% if forloop.counter == 11 %}
+                                    <a href="{% url package grid_package.package.slug %}">{% trans "more..." %}</a>
+                                {% endif %}
+                            {% endfor %}                        
+                        </td>
+                    {% endfor %}
+                </tr>
+                <tr class="even">
+                    <td>{% trans "Docs on RTD" %}</td>
+                    {% for grid_package in grid_packages %}
+                        <td>
+                            <span class="rtd-status" rel="{{ grid_package.package.slug }}">{% trans "Checking..." %}</span>
+                        </td>
+                    {% endfor %}
+                </tr>
+                
+                {% include "grid/snippets/grid_row_header.html" %}
+                {% for feature in features %}
+                    <tr class="{% cycle 'even' 'odd' %}">
+                        <td>{{ feature.title }}</td>
+                        {% for grid_package in grid_packages %}
+                            {% with elements|hash:feature.pk|hash:grid_package.pk as element %}
+                            <td class="clickable" id="element-f{{ feature.pk }}-p{{ grid_package.pk }}">{% if element %}{{ element.text|style_element|safe|urlize|linebreaksbr }}{% endif %}<noscript> 
+                                    {% if request.user.is_authenticated and profile.can_edit_grid_element %}
+                                    <a class="edit" href="{% url edit_element feature.pk grid_package.pk %}">{% trans "[edit]" %}</a>
+                                    {% endif %}
+                            </noscript></td>
+                            {% endwith %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                {% if features %}
+                    {% include "grid/snippets/grid_row_header.html" %}
+                {% endif %}
+        
+            </tbody>
+    
+        </table>
+
+        {% if request.user.is_authenticated and profile.can_edit_grid_element %}
+            <p><img src="{{ STATIC_URL }}img/icon_changelink.gif"/>&nbsp;{% trans "Highlighted cells are editable.  Click highlighted cells to change text." %}</p>
+        {% endif %}
+                    
+    {% else %}
+        {% if request.user.is_authenticated and profile.can_add_grid_package %}
+        <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_grid_package grid.slug %}">{% trans "Add a package to get a grid view" %}</a></p>
+        {% endif %}
+    {% endif %}
+        
+
+{% endblock %}
+
+{% block extra_body %}
+        <script type="text/javascript">
+
+            $(function() {  
+                
+                {% if request.user.is_authenticated %}
+                    // Handle element edit redirects
+
+                {% if profile.can_edit_grid_element %}
+                    $("td.clickable").click(function() {
+                       var array = $(this).attr("id").split("-");
+                       var url = "/grids/element/" + array[1].substr(1) + "/" + array[2].substr(1) + "/";
+                       $(location).attr('href', url);
+                    });
+                    
+                    delete_confirmation = function(e, url) {
+                        // The deletes are placed in here so there is just one place needed
+                        e.preventDefault();
+
+                        if(confirm('{% trans "Are you sure?" %}')) {
+                            window.location = url;
+                        }
+                    };
+                {% endif %}
+                    // handle feature deletes
+                    {% if perms.grid.delete_feature %}
+                        $("a[id|='feature-delete']").click(function(e) {
+                            var array = $(this).attr("id").split("-");
+                            var url = "/grids/feature/" + array[2] + "/delete/";
+                            delete_confirmation(e,url);
+                        });
+                    {% endif %}
+                    
+                    {% if perms.grid.delete_gridpackage %}
+                        // handle package deletes
+                        $("a[id|='package-delete']").click(function(e) {
+                            var array = $(this).attr("id").split("-");
+                            var url = "/grids/package/" + array[2] + "/delete/";
+                            delete_confirmation(e,url);
+                        });
+                    {% endif %}
+                    
+                 {% endif %}
+
+                 function handleRTD(elements) {
+                     if (!elements.length){
+                         return;
+                     }
+                     var ele = $(elements.shift());
+                     if (!ele){
+                         return;
+                     }
+                     var slug = ele.attr('rel');
+                     var url = "http://readthedocs.org/api/v1/build/"+ slug +"/?format=jsonp";
+                     $.ajax({
+                       url: url,
+                       dataType: 'jsonp',
+                       success:function(data){
+                           if (data.objects.length > 0){
+                               var href = "http://readthedocs.org/projects/" + slug;
+                               var a = "<a href='" + href + "'>Yes</a>";
+                               ele.html(a);
+                               handleRTD(elements);
+                           } else {
+                               ele.text("No");
+                               handleRTD(elements);
+                           }
+                       },
+                       error: function(){
+                           ele.text("No");    
+                       }
+                     });
+                 }
+                 handleRTD($.makeArray($('table#grid span.rtd-status')));
+            });    
+        </script>
+{% endblock %}

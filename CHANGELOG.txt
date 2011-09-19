@@ -1,0 +1,32 @@
+2011, March 13
+==============
+
+* Add unique constraint to slug field
+* Relocated partial templates to 'includes' directories.
+* Search box on every page
+* Sorting
+
+2010, November 6
+================
+
+pydanny - better license pulls from pyi, design changes, switch bitbucket handler to use https, correct links to github and bitbucket to use https.
+
+2010, September 12
+==================
+
+taavi223 - Query optimization, caching, added functional tests for grid views, and made deleting grid features and packages permission related, and graphical improvements.
+ojii - API now supports slugs instead of ids, ++ on grids, and tests
+pydanny - various view fixes, moved metadata handling out of Package.save() and into Package.fetch_data
+
+2010, September 11
+==================
+
+pydanny - Added revervsion, API improvements, PyPI XMLRPC connector, improved download listings, admin view of profiles improvements for tracking user actions
+taavi223 - Query optimization, code clean up, adding commit history graphs to grid views, improve login functionality to redirect a user back to their previous page, added "I use this" buttons to grid pages, and caching.
+
+2010, September 10
+==================
+
+pydanny - Redirected all github references to github.com/djangopackages/djangopackages, API and API docs
+taavi223 - Query optimization, caching, and "I use this" controls
+jpunteny - Added javascript to enable AJAX "I use this" buttons

@@ -1,0 +1,112 @@
+{% extends "grid/base.html" %}
+
+{% load i18n %}
+{% load uni_form_tags %}
+{% load cache %}
+{% load grid_tags %}
+{% load package_tags %}
+
+{% block head_title %}{{ feature.title|slugify }} {% trans "details" %}{% endblock %}
+
+{% block body %}
+
+    <h1 id="grid-name">
+        <a href="{% url home %}">{% trans "home" %}</a> /
+        <a href="{% url grids %}">{% trans "grids" %}</a> /
+        <a href="{% url grid grid.slug %}">{{ grid.title }}</a> /
+        {{ feature.title }}
+        {% if request.user.is_authenticated and profile.can_edit_grid %}
+            <a href="{% url edit_grid grid.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
+        {% endif %}
+    </h1>
+
+    <h2>{% trans "Feature currently being evaluated" %}</h2>
+        <table id="grid" border="3">
+            <thead>
+                <tr>
+                    <th>{% trans "Feature" %}</th>
+                    <th>{% trans "Description" %}</th>
+                </tr> 
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ feature.title }}
+                    {% if request.user.is_authenticated and profile.can_edit_grid_feature %}&nbsp;
+                        <a href="{% url edit_feature feature.pk %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
+                        {% if perms.grid.delete_feature %}
+                            <a href="#" id="feature-delete-{{ feature.pk }}">
+                                <img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete" />
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                    </td>
+                    <td>{{ feature.description|wordwrap:80|linebreaksbr }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    {% if feature %}
+        {% if grid_packages.count %}
+            {% if request.user.is_authenticated and profile.can_add_grid_package %}
+            <p>
+                <img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;
+                <a href="{% url add_grid_package grid.slug %}">{% trans "Add another package" %}</a>
+            </p>
+            {% endif %}
+        <table id="grid" border="3">
+            <tbody>
+            {% include "grid/snippets/grid_row_header.html" %}
+                <tr class="odd">
+                    <td>{{ feature.title }}</td>
+                    {% for grid_package in grid_packages %}
+                        {% with elements|hash:feature.pk|hash:grid_package.pk as element %}
+                        <td class="clickable" id="element-f{{ feature.pk }}-p{{ grid_package.pk }}">{% if element %}{{ element.text|style_element|safe|urlize|linebreaksbr }}{% endif %}<noscript> 
+                                {% if request.user.is_authenticated and profile.can_edit_grid_element %}
+                                <a class="edit" href="{% url edit_element feature.pk grid_package.pk %}">{% trans "[edit]" %}</a>
+                                {% endif %}
+                        </noscript></td>
+                        {% endwith %}
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+        {% endif %}
+    {% endif %}
+
+{% endblock %}
+
+{% block extra_body %}
+<script>
+    $("#id_title").focus();
+</script>
+
+<script type="text/javascript">
+
+    $(function() {
+                {% if request.user.is_authenticated %}
+                    // Handle element edit redirects
+                        {% for grid_package in grid_packages %}
+                        {% with elements|hash:feature.pk|hash:grid_package.pk as element %}
+
+                        {% endwith %}
+
+                            $("td#element-f{{ feature.pk }}-p{{ grid_package.pk }}").click(function() {
+                                var url = "{% url edit_element feature.pk grid_package.pk %}";
+                                $(location).attr('href',url);
+                            });
+                        {% endfor %}
+
+                    delete_confirmation = function(e, url) {
+                        // The deletes are placed in here so there is just one place needed
+                        e.preventDefault();
+
+                        if(confirm('Are you sure?')) {
+                            window.location = url;
+                        }
+                    };
+
+            {% endif %}
+            });
+</script>
+
+{% endblock %}
