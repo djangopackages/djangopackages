@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% load cache %}
+{% load i18n %}
+{% load package_tags %}
+{% load flatblock_tags %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/home.css" />
+{% endblock %}
+
+{% block head_title %}{% trans "django reusable apps, sites and tools directory" %}{% endblock %}
+
+{% block body_class %}home{% endblock %}
+
+{% block body %}
+    <div id="home-rightcol">
+        <div class="home-borderlessbox">
+            <h2>{% trans "latest 5" %}</h2>
+            <table class="home-table">
+            {% for package in latest_packages %}
+                <tr class="usage-holder">
+                    <td class="home-usage-button-cell">
+                        {% usage_button %}
+                    </td>
+                    <td>
+                        <span class="home-numusers usage-count" id="usage-count-{{ package.id }}">{{ package.usage.count }}</span>
+                        <span class="home-users">{% trans "users" %}</span></td>
+                    <td>
+                        <span class="home-packagename"><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></span>
+                        <span class="home-packagedesc">
+                            {# TODO - make this a template tag! #}
+                            {% with package.repo_description|truncatewords:25 as short %}
+                                {% if package.repo_description|length > short|length %}
+                                   {{ short|slice:"-3" }}<a rel="facebox" href="{% url package_repo_description package.slug %}">...</a>                                    
+                                {% else %}
+                                    {{ short }}
+                                {% endif %}
+                            {% endwith %}                            
+                        </span>
+                    </td>
+                </tr>            
+            {% endfor %}
+
+            </table>
+        </div>
+        {% comment %}
+        <div class="home-borderlessbox">
+            <h2>random 5</h2>
+            <table class="home-table">
+                {% for package in random_packages %}
+                    <tr class="usage-holder">
+                        <td>
+                            {% usage_button %}                       
+                        </td>
+                        <td>
+                            <span class="home-numusers usage-count" id="usage-count-{{ package.id }}">{{ package.usage.count }}</span>                            
+                            <span class="home-users">users</span></td>
+                        <td>
+                            <span class="home-packagename"><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></span>
+                            <span class="home-packagedesc">
+                            {# TODO - make this a template tag! #}                                
+                                {% with package.repo_description|truncatewords:10 as short %}
+                                    {% if package.repo_description|length > short|length %}
+                                       {{ short|slice:"-3" }}<a rel="facebox" href="{% url package_repo_description package.slug %}">...</a>                                    
+                                    {% else %}
+                                        {{ short }}
+                                    {% endif %}
+                                {% endwith %}
+                            </span>
+                        </td>
+                    </tr>            
+                {% endfor %}
+            </table>
+        </div>
+        {% endcomment %}
+    </div>
+     
+    <div id="home-leftcol">
+        <div id="home-borderlessbox">
+            <p>{% flatblock 'site.description' %}</p>
+            <br/>
+            <p><b>{{ package_count }}</b> {% trans "packages and counting!" %}</p>
+
+        </div>
+
+        <div id="home-borderlessbox">
+            <h2>{% trans "We need your help" %}</h2>
+            {% if request.user.is_authenticated and profile.can_add_package %}
+            <p>
+                {% trans "Know of any packages not listed here?  Add them now!  It's quick and easy." %}
+            </p>
+            <p>
+                <a class="large awesome forestgreen" href="{% url add_package %}">{% trans "add package »" %}</a>
+            </p>
+            {% endif %}
+            {% if request.user.is_authenticated and profile.can_add_grid %}
+            <p>
+                {% trans "Or add a grid comparing the features of 2 or more similar packages." %}
+            </p>
+            <p>
+                <a class="large awesome forestgreen" href="{% url add_grid %}">{% trans "add grid »" %}</a>
+            </p>
+            {% endif %}
+        </div>
+
+        <div id="home-borderlessbox">
+            <h2>{% trans "Package Categories" %}</h2>
+             {% for category in categories %}
+                <h3><a href="{% url category category.slug %}">{{ category.title_plural }}</a> ( {{ category.count }} )</h3>
+                <p>{{ category.description }}</p>
+             {% endfor %}
+        </div>
+    </div>
+    
+
+{% endblock %}
+

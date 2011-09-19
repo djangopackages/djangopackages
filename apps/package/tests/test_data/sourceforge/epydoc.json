@@ -1,0 +1,62 @@
+{"Project":{
+    "name":"Python API documentation generation tool",
+    "created":"Jul 30, 2001",
+    "created_timestamp":996513814,
+    "id":32455,
+    "shortdesc":"epydoc",
+    "description":"Epydoc is a tool for generating API documentation for Python modules,  based on their docstrings.  Epydoc supports two output formats (HTML  and PDF), and four markup languages for docstrings (Epytext, Javadoc,  ReStructuredText, and plaintext).",
+    "percentile":97.9169061394,
+    "ranking":9787,
+    "status":"A",
+    "related-projects":[
+        {"name":"Wicket",
+        "url":"http://sourceforge.net/projects/wicket"
+    },        {"name":"OpenWFE",
+        "url":"http://sourceforge.net/projects/openwfe"
+    },        {"name":"ZK - Simply Ajax and Mobile",
+        "url":"http://sourceforge.net/projects/zk1"
+    },        {"name":"jEdit",
+        "url":"http://sourceforge.net/projects/jedit"
+    },        {"name":"XOOPS Web Application Platform",
+        "url":"http://sourceforge.net/projects/xoops"
+    }        ],
+    "download-page":"http://sourceforge.net/project/showfiles.php?group_id=32455",
+    "support-page":"http://sourceforge.net/projects/epydoc/support",
+    "summary-page":"http://sourceforge.net/projects/epydoc",
+    "mailing-list":"http://sourceforge.net/mail/?group_id=32455",
+    "homepage":"epydoc.sourceforge.net",
+    "base_url":"http://sourceforge.net",
+ 
+    "SVNRepository":{
+        "location":"http://epydoc.svn.sourceforge.net/svnroot/epydoc",
+        "browse":"http://epydoc.svn.sourceforge.net/"
+        },
+    "licenses":[
+            {"name":"IBM Public License","url":"http://www.opensource.org/licenses/ibmpl.php"}        ],
+    "os":[
+    "OS Independent (Written in an interpreted language)"    ],
+    "topics":[
+    "Software Development",    "Documentation"    ],
+    "programming-languages":[
+    "Python"    ],
+    "audiences":[
+    "Developers",    "Education"    ],
+    "translations":[
+    "English"    ],
+    "categories": [
+            "IBM Public License",            "OS Independent (Written in an interpreted language)",            "Python",            "5 - Production/Stable",            "Developers",            "Education",            "English",            "Software Development",            "Documentation"        ],
+    "trackers":[
+    {"name":"Bugs","location":"http://sourceforge.net/tracker/?group_id=32455&atid=405618"},    {"name":"Patches","location":"http://sourceforge.net/tracker/?group_id=32455&atid=405620"},    {"name":"Feature Requests","location":"http://sourceforge.net/tracker/?group_id=32455&atid=405621"}    ],
+    "maintainers":[
+        {"name":"edloper","homepage":"http://sourceforge.net/users/edloper","mbox_sha1sum":"26e3f5c762826c0554c9d3f1cf31fadfce242551"}    ],
+    "developers":[
+        {"name":"raychorn","homepage":"http://sourceforge.net/users/raychorn","mbox_sha1sum":"6eaaa1a45a45f3a26f3607f45ce9da1ea06a1ebb"},        {"name":"jhermann","homepage":"http://sourceforge.net/users/jhermann","mbox_sha1sum":"d9c72215ec0765c3d642043e1e2a779ffe27587c"},        {"name":"kiko_async","homepage":"http://sourceforge.net/users/kiko_async","mbox_sha1sum":"a67668a624e4f467226dd8e7c70214a8763924b9"},        {"name":"dvarrazzo","homepage":"http://sourceforge.net/users/dvarrazzo","mbox_sha1sum":"9978b5028358840bc5948df193cb7e43219c74c3"},        {"name":"brucem","homepage":"http://sourceforge.net/users/brucem","mbox_sha1sum":"ad9d4f32734eca5562ca2dd1e4b137b5e5931bca"}    
+    ],
+    "donation": {
+        "comment":"",
+        "status":"Not Accepting",
+        "charities":[
+        ]
+    
+    }
+}}

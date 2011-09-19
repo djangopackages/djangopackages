@@ -1,0 +1,1 @@
+from core.tests.test_ga import *

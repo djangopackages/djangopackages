@@ -1,0 +1,27 @@
+{% load i18n %}
+<div id="target">
+    <h2>{% if packages.count %}{% trans "Packages" %}{% else %}{% trans "No packages found" %}{% endif %}</h2>
+    {% if packages.count %}
+        <p class="editable-cell">{% trans "Click a package to add it to the grid." %}</p>      
+    {% endif %}
+    {% for package in packages %}
+        {% include "package/includes/_package.html" %}
+    {% endfor %}
+    <script type="text/javascript">
+       
+        {% for package in packages %}
+            $('#package-{{ package.id }}').mouseover(function() {
+                $('#package-{{ package.id }}').addClass("clickable");
+            });
+            $('#package-{{ package.id }}').mouseout(function() {
+                $('#package-{{ package.id }}').removeClass("clickable");
+            });
+            $('#package-{{ package.id }}').click(function() {
+                
+                $('#package-field').attr("value", {{ package.id }});
+                $("form#grid-package-form").submit();
+            });
+        {% endfor %}
+
+    </script>    
+</div>

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load uni_form_tags %}
+
+{% block head_title %}Sign in to Django Packages{% endblock %} 
+
+{% block extra_body %} 
+<script type="text/javascript">
+    $().ready(function() { 
+            $("input#id_username").focus();
+            });
+
+</script> 
+{% endblock %}
+
+{% block body %}
+    <h1>Login to your account</h1>
+    
+    <form method="POST" action="" class="uniForm">{% csrf_token %}
+        {{ form|as_uni_form }}
+        <button type="submit">Sign in</button>
+    </form> 
+
+    <p>
+    <a href="{% url password_reset %}">Forgot your password?</a>
+    </p>
+{% endblock body %}

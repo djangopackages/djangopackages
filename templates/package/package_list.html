@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% load cache %}
+{% load i18n %}
+{% load package_tags %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/home.css" />
+{% endblock %}
+
+{% block head_title %}{% trans "django reusable apps, sites and tools directory" %}{% endblock %}
+
+{% block body_class %}home{% endblock %}
+
+{% block body %}
+     
+     {% for category in categories %}
+        <h2><a href="{% url category category.slug %}">{{ category.title_plural }}</a> ( {{ category.count }} )</h2>
+        <p>{{ category.description }}</p>
+        <table id="home-packages">
+            <tr>
+                <th>{% trans "# Using This" %}</th>
+                {% if category.show_pypi %}
+                    <th class="tiny-column">{% trans "PyPi Downloads" %}</th>
+                {% endif %}
+                <th>{% trans "Name" %}</th>
+                <th>{% trans "Commits" %}</th>
+                {% if category.show_pypi %}                
+                    <th>{% trans "Version" %}</th>
+                {% endif %}                    
+                <th><img src="{{ STATIC_URL }}img/eye_20x20_clear.png" /></th>
+                <th><img src="{{ STATIC_URL }}img/fork_20x20_clear.png" /></th>
+            </tr>
+
+            {% for package in category.packages %}
+                <tr>
+                    <td class="usage-container usage-holder">
+                        {% usage_button %}          
+                        &nbsp;
+                        <span class="usage-count">{{ package.usage_count }}</span>
+                    </td>
+                    {% if category.show_pypi %}                    
+                        <td>{{ package.pypi_downloads }}</td>
+                    {% endif %}
+                    <td><a href="{% url package package.slug %}">{{ package.title }}</a></td>
+                    {% cache 86400 package.commitchart package %}                
+                        <td><img id="package-githubcommits" src="http://chart.apis.google.com/chart?cht=bvg&chs=105x20&chd=t:{{package|commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
+                    {% endcache %}      
+                    {% if category.show_pypi %}
+                        <td>{{ package.pypi_version.number|default:"n/a"|slice:":12" }}</td>
+                    {% endif %}
+                    <td>{{ package.repo_watchers|default:"n/a" }}</td>
+                    <td>{{ package.repo_forks|default:"n/a" }}</td>
+                </tr>    
+            {% endfor %}        
+         </table>    
+         <p><a href="{% url category category.slug %}">{% trans "more " %}{{ category.title_plural|lower }}...</a></p>    
+     {% endfor %}
+ 
+    
+
+{% endblock %}
+
+{% block extra_body %}
+<script type="text/javascript">
+    $(function() {          
+        $('input#id_q_p').click(function() {
+            $("input#id_q_p").val('');
+        });                        
+    });    
+
+    $('#id_q_p').autocomplete({
+      source: '{% url search_packages_autocomplete %}',
+      minLength: 1,
+      open: function(event, ui) { 
+        ac_top = $('.ui-autocomplete').css('top'); 
+        $('.ui-autocomplete').css({'width': '250px', 'top': ac_top + 10 }); 
+      }
+    });
+    
+</script>      
+{% endblock %}      

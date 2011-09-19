@@ -1,0 +1,22 @@
+{% extends "grid/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Grids" %}{% endblock %}
+
+{% block body %}
+
+    <h1>{% trans "Grids" %}</h1>
+    {% if request.user.is_authenticated and profile.can_add_grid %}
+        <p>
+            <a class="large awesome forestgreen" href="{% url add_grid %}">{% trans "add grid »" %}</a>
+        </p>
+    {% endif %}
+    <div id="grids">
+    <ul id="grids-list">
+    {% for grid in grids %}
+        {% include "grid/snippets/grid.html" %}
+    {% endfor %}
+    </ul>
+    </div>
+{% endblock %}

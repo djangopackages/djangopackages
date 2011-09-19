@@ -1,0 +1,7 @@
+<form id="find-a-grid-form" action="" method="post" style="display: none;">
+    {% csrf_token %}
+    <input type="hidden" name="redirect" value="{% url package package.slug %}" />                
+    <input type="text" name="search-field" id="find-a-grid-input" value="" autocomplete="off" />
+    <input name="package" id="package-field" value="{{ package.id }}" type="hidden" />    
+    <div id="target-parent"><div id="target"></div></div>
+</form>
