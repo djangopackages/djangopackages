@@ -12,7 +12,7 @@ def get_package_by_pypi_name(self, pypi_name):
     return self.get_query_set().get(pypi_url=base_url)
 
 
-class PackageStaff(BaseModel):
+class PackageStaff(object):
     """ This represents the management of the canonical source. 
         Can be implemented for other things besides Python. Say gems or whacks
         This through table is isolated to make the coupling with Package.package very loose.
