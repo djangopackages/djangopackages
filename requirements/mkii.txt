@@ -24,7 +24,6 @@ coverage==3.4
 django-coverage==1.1.1
 django-flatblocks==0.5.0
 feedparser==5.0.1
-psycopg2==2.4
 django-classy-tags==0.3.3.1
 
 # Celery dependencies:
@@ -43,3 +42,7 @@ django-social-auth==0.5.6
 # export stuff
 # pip install -U -e git://github.com/mrj0/django-modeler#egg=django-modeler-0.1.0-dev
 -e git://github.com/mrj0/django-modeler#egg=django-modeler-0.1.0-dev
+
+# The following must be installed system-wide using the appropriate package manager
+# sudo apt-get install python-psycopg2
+# psycopg2==2.4
