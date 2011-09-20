@@ -34,7 +34,7 @@ django-kombu==0.9.2
 
 # Open ID
 python-openid==2.2.5
-django-social-auth==0.5.6
+django-social-auth==0.5.12
 
 # WARNING: you may need to update this
 -e hg+https://bitbucket.org/ubernostrum/django-registration/#egg=django-registration
