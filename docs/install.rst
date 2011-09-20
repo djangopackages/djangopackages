@@ -59,21 +59,11 @@ Git clone the project and install requirements
 Create a virtualenv, activate it, git clone the OpenComparison project, and install its requirements::
 
     cd <installation-directory>
-    virtualenv env-packaginator
-    source env-packaginator/bin/activate
-    git clone git@github.com:cartwheelweb/packaginator.git packaginator
+    virtualenv env-oc
+    source env-oc/bin/activate
+    git clone git@github.com:opencomparison/opencomparison.git opencomparison
     cd packaginator
     pip install -r requirements/mkii.txt
-
-Remove the existing pinax & uni_form symlinks.  Add symlinks to the correct pinax and uni_form media directories::
-
-    cd media
-    rm pinax
-    rm uni_form
-    ln -s ../../env-packaginator/lib/python2.6/site-packages/pinax/media/default/pinax/ pinax
-    ln -s ../../env-packaginator/lib/python2.6/site-packages/uni_form/media/uni_form/ uni_form
-    cd ..
-
 
 Set up local settings
 ---------------------
@@ -109,10 +99,10 @@ Set up your PostgreSQL database
 
 Set up PostgreSQL and create a database as per the postgresql_ contributor instructions.
 
-Then, load the PostgreSQL dump::
+Make your database::
 
-    bzip -d sanitized.sql.bz2
-    psql -U postgres -d packaginator -f sanitized.sql
+    python manage.py syncdb
+    python manage.py migrate
 
 Then, load the two flatblocks and flatpages fixtures::
 
