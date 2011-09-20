@@ -57,7 +57,7 @@
         "pk": 7, 
         "model": "flatblocks.flatblock", 
         "fields": {
-            "content": "Hosted By:<a href=\"http://www.cartwheelweb.com/\">Cartwheel, LLC</a>.  Powered by <a href=\"http://www.djangoproject.com/\">Django</a>, <a href=\"http://www.pinaxproject.com/\">Pinax</a> and <a href=\"/grids/g/this-site/\">these fine packages</a>.", 
+            "content": "Hosted By:<a href=\"http://www.cartwheelweb.com/\">Cartwheel, LLC</a>.  Powered by <a href=\"http://www.djangoproject.com/\">Django</a> and <a href=\"/grids/g/this-site/\">these fine packages</a>.", 
             "header": "", 
             "slug": "footer.text"
         }
