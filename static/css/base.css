@@ -35,7 +35,7 @@ h2 { font-size: 153.9%; }
 
 #tabhead .searchform { float:right; padding:10px 10px 0 10px;}
 
-#footer { margin-top:20px; clear:both; width: 100%; text-align: center; font-size:80%; }
+#footer { padding-top:10px; padding-bottom:10px; clear:both; width: 100%; text-align: center; font-size:80%; background: #75DFCA; }
 
 
 /* Search box */
