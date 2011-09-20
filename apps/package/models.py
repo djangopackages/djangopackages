@@ -230,7 +230,9 @@ class Version(BaseModel):
         ordering = ['-created']
 
     def save(self, *args, **kwargs):
-        if len(self.license) > 20:
+        if self.license is None:
+            self.license = "UNKNOWN"            
+        elif len(self.license) > 20:
             self.license = "Custom"
         super(Version, self).save(*args, **kwargs)
 
