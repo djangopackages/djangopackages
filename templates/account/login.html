@@ -45,6 +45,10 @@
             </div>
         </fieldset>
     </form>
+
+	<p>
+		<a href="{% url socialauth_begin 'github' %}">Log in with Github</a>
+	</p>
     
     {% include "account/includes/_trouble_ticket.html" %}
 {% endblock %}
