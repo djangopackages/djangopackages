@@ -57,6 +57,7 @@ Direct Contributors
 * John M. Camara
 * Jonas Obrist
 * jrothenbuhler
+* Kenneth Love
 * Mike Johnson
 * Nate Aune
 * Nolan Brubaker
