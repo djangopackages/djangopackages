@@ -5,6 +5,8 @@ import os.path
 import sys
 import posixpath
 
+from django.template.defaultfilters import slugify
+
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 DEBUG = False
@@ -95,7 +97,7 @@ MIDDLEWARE_CLASSES = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "reversion.middleware.RevisionMiddleware",    
+    "reversion.middleware.RevisionMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "pagination.middleware.PaginationMiddleware",
     "django_sorting.middleware.SortingMiddleware",
@@ -113,9 +115,9 @@ TEMPLATE_CONTEXT_PROCESSORS = [
     "django.core.context_processors.media",
     "django.core.context_processors.request",
     "django.contrib.messages.context_processors.messages",
-    
+
     "django.core.context_processors.static",
-    
+
     "notification.context_processors.notification",
 
     "package.context_processors.used_packages_list",
@@ -147,8 +149,8 @@ PREREQ_APPS = [
     "django.contrib.messages",
     "django.contrib.humanize",
     "django.contrib.flatpages",
-    "django.contrib.staticfiles",    
-    
+    "django.contrib.staticfiles",
+
     # external
     "notification", # must be first
     "uni_form",
@@ -161,10 +163,12 @@ PREREQ_APPS = [
     "flatblocks",
     "registration",
     "django_modeler",
-    
+
     # Celery task queue:
     'djcelery',
-    
+
+    'social_auth',
+
 ]
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
@@ -296,3 +300,20 @@ except ImportError:
     # skipping this so we can generate docs
     # Doing this cause most development doesn't need it.
     pass
+
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.OpenIDBackend',
+    'social_auth.backends.contrib.github.GithubBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_ENABLED_BACKENDS = ('openid', 'github')
+SOCIAL_AUTH_COMPLETE_URL_NAME = 'socialauth_complete'
+SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'associate_complete'
+SOCIAL_AUTH_DEFAULT_USERNAME = lambda u: slugify(u)
+SOCIAL_AUTH_EXTRA_DATA = False
+SOCIAL_AUTH_CHANGE_SIGNAL_ONLY = True
+LOGIN_REDIRECT_URL = '/'
+
+# associate user via email
+SOCIAL_AUTH_ASSOCIATE_BY_MAIL = True
