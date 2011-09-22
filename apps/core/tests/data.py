@@ -2,6 +2,8 @@ from django.contrib.auth.models import Group, Permission, User
 
 from package.models import Category, Package
 
+STOCK_PASSWORD = "stock_password"
+
 def make():
     
     create_users()
@@ -54,7 +56,7 @@ def create_users():
     
     user = User.objects.create_user(
         username="user",
-        password="user",
+        password=STOCK_PASSWORD,
         email="user@example.com"
     )
     user.is_active = True
