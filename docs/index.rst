@@ -35,15 +35,12 @@ Contents:
    contributing
    repo_handlers
    api_docs
-   database
    lessons_learned
    reference
    
 In development
 ==============
 
- * test refactor
- * data migration
  * caching
 
 .. toctree::
