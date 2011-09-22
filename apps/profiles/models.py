@@ -8,7 +8,13 @@ from core.models import BaseModel
 from package.models import Package
 
 class Profile(BaseModel):
-    user = models.OneToOneField(User)    
+    user = models.OneToOneField(User)  
+    
+    # Note to coders: The '_url' fields below need to JUST be the name of the account.
+    #     Examples:
+    #       github_url = 'pydanny'
+    #       bitbucket_url = 'pydanny'
+    #       google_code_url = 'pydanny'    
     github_url = models.CharField(_("Github account"), null=True, blank=True, max_length=100)
     bitbucket_url = models.CharField(_("Bitbucket account"), null=True, blank=True, max_length=100)
     google_code_url = models.CharField(_("Google Code account"), null=True, blank=True, max_length=100)

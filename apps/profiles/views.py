@@ -66,10 +66,9 @@ def profile_edit(request, template_name="profiles/profile_edit.html"):
 
 def github_user_update(sender, user, response, details, **kwargs):
     profile_instance, created = Profile.objects.get_or_create(user=user)
-    profile_instance.github_url = 'https://github.com/%s' % details['username']
+    profile_instance.github_url = details['username']
     profile_instance.email = details['email']
     profile_instance.save()
-
     return True
 
 pre_update.connect(github_user_update, sender=GithubBackend)
