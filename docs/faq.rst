@@ -5,10 +5,11 @@ FAQ
 General
 =======
 
-How did Packaginator get started?
----------------------------------
+How did Open Comparison get started?
+------------------------------------
 
-We realized there was no effective method for finding apps in the Django community.
+* In 2010 We realized there was no effective method for finding apps in the Django community.
+* After launch we realized it might be good to use the same software system for other package sets.
 
 Are there any Case Studies?
 ---------------------------
@@ -19,17 +20,15 @@ Are there any Case Studies?
 Is there an on-line community?
 ------------------------------
 
-The Packaginator community uses convore because it replaces the functions of IRC and a mailing list and is accessible to more users.
-
-* http://convore.com/packaginator
+We'll be opening an IRC channel shortly.
 
 How can I contribute?
 ----------------------
 
 Read the page on contributions_. 
 
-What browsers does Packaginator support?
-----------------------------------------
+What browsers does Open Comparison support?
+-------------------------------------------
 
 We do formal tests on Chrome, Safari, Firefox, IE8, and IE9.
 
@@ -51,14 +50,14 @@ Why don't you have install instructions for BSD? Or Debian? Or Windows XP?
 
 If you are using something else besides Ubuntu, Mac OS X 10.6, or Windows 7, you obviously have mad skills. We have a very successful installation story for development on three very common operating systems and production hosting is assumed to be on Ubuntu. Trying to support more than those operating systems is a HUGE amount of time taken away from making improvements - especially since the core developers insist on testing everything themselves.
 
-What happened to the fixtures? I want to fire up SQLite!
---------------------------------------------------------
+What happened to the fixtures?
+------------------------------
 
-The effort to support SQLite3 and MySQL is a matter of edge cases caused by a third party package I'm not going to identify. This is actually a significant issue in Packaginator, and dealing with it now, **or spending time debating it**, will push back the launch of Python Packages and other sites by a significant amount. We would rather launch Python Packages on PostGreSQL soon and then go back and support SQLite3 or MySQL.
+The effort to support databases besides PostGreSQL was hampered for long time, all caused by a third party package I'm not going to identify that caused grief in the use of fixtures. This was a significant issue in Open Comparison, and used up a lot of development cycles. 
 
-**Please do us a favor and let us get to this in due time.** 
+So we use a **Mock** system of creating sample data in our tests and for running a development version of the site. To create some development data, just run::
 
-Please give us the time to help the Python community at large before we open this up to general debate and bugfixes.
+    python manage.py load_dev_data
 
 Google Project Hosting
 ======================
@@ -71,7 +70,7 @@ They don't have an API. We've filed ticket #5088 and we hope the nice people the
 What about the Google Project Hosting Issue API?
 ------------------------------------------------
 
-Packaginator doesn't track a project's tickets/issues.
+Open Comparison doesn't track a project's tickets/issues.
 
 What about just screen scraping their site?
 --------------------------------------------
