@@ -62,7 +62,7 @@ Create a virtualenv, activate it, git clone the OpenComparison project, and inst
     virtualenv env-oc
     source env-oc/bin/activate
     git clone git@github.com:opencomparison/opencomparison.git opencomparison
-    cd packaginator
+    cd opencomparison
     pip install -r requirements/mkii.txt
 
 Set up local settings

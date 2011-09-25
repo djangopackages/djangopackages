@@ -38,8 +38,8 @@ Dump the data from the apps that don't cause migration problems::
 
 Create the PostgreSQL database from scratch (dropping the old PostgreSQL database if needed)::
 
-    psql -U postgres -c "DROP DATABASE packaginator;"
-    psql -U postgres -c "CREATE DATABASE packaginator OWNER packaginator;"
+    psql -U postgres -c "DROP DATABASE opencomparison;"
+    psql -U postgres -c "CREATE DATABASE opencomparison OWNER opencomparison;"
 
 Set up the new PostgreSQL database::
 
@@ -86,7 +86,7 @@ Each time you finish troubleshooting a migration problem, update sanitized.db an
 
 Once you finally get to the point where "python manage.py loaddata fixtures/sanitized.json" works without errors, dump out the PostgreSQL database::
 
-    $ pg_dump -fC sample.sql -U postgres packaginator
+    $ pg_dump -fC sample.sql -U postgres opencomparison
 
 Which file is which?
 ====================

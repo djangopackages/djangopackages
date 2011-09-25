@@ -27,7 +27,7 @@ Contents:
    celery
    troubleshooting
    faq   
-   packaginator_settings
+   opencomparison_settings
    testing_instructions
    management_commands
    pypi_issues

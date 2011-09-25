@@ -39,15 +39,15 @@ Install the appropriate systemwide package.  For example, on Ubuntu do:
 
     sudo apt-get install libbz2-dev
 
-If this doesn't work, please let us know (create an issue at http://github.com/cartwheelweb/packaginator/issues)
+If this doesn't work, please let us know (create an issue at http://github.com/opencomparison/opencomparison/issues)
 
 Other problems
 --------------
 
-Don't give up!  Join us at http://convore.com/packaginator and ask your questions there. Some quick rules of thumb to optimize the help from the Packaginator community:
+Don't give up!  Submit problems to http://github.com/opencomparison/opencomparison/issues. And don't forget:
 
 #. Be polite! We are all volunteers.
-#. Don't paste huge chunks of code into convore blocks. Use a code pasting service like http://dpaste.com or http://djaste.de.
+#. Spend the time to learn Github markup
 
 
 .. _faq: faq
