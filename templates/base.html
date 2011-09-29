@@ -1,3 +1,4 @@
+{% spaceless %}
 {% load i18n %}
 {% load packaginator_tags %}
 {% load flatblock_tags %}
@@ -27,7 +28,6 @@
         <link rel="stylesheet" href="{{ STATIC_URL }}css/awesome.css" type="text/css" />
         {% block extra_head %}{% endblock %}
     </head>
-    
     <body class="{% block body_class %}{% endblock %}">
     <div id="wrap">
         <div id="main">
@@ -189,3 +189,4 @@
         <!-- End Piwik Tracking Code -->
     </body>
 </html>
+{% endspaceless %}

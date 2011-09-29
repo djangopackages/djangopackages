@@ -110,9 +110,7 @@
                                 <td><a href="{{ package.package.repo_url }}">{{ package.package.repo }}</a></td>
                             {% else %}
                                 {% with attribute_name|style_attribute:package.package as val %}
-                                    <td>
-                                        {{ val }}
-                                    </td>
+                                    <td>{{ val }}</td>
                                 {% endwith %}
                             {% endif %}
                         {% endif %}
