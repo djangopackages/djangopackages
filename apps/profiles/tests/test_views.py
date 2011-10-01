@@ -29,7 +29,7 @@ class TestProfile(TestCase):
         # give me a view
         url = reverse('profile_edit')
         response = self.client.get(url)
-        stuff = """<input name="email" value="user@example.com" class="textinput textInput" maxlength="75" type="text" id="id_email" />"""
+        stuff = """<input name="email" value="user@example.com" class="textInput textinput" maxlength="75" type="text" id="id_email" />"""
         self.assertContains(response, stuff)
         
         # submit some content

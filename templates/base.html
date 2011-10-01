@@ -67,7 +67,7 @@
                     {% else %}
                         <a href="/help/">{% trans "Help" %}</a>
                         |
-                        <a href="{% url login %}{% if current_path %}?next={{ current_path }}{% endif %}">{% trans "Log in" %}</a> {% trans "or" %} <a href="{% url registration_register %}">{% trans "Sign Up" %}</a>
+                        <a href="{% url login %}{% if current_path %}?next={{ current_path }}{% endif %}">{% trans "Log in / Sign up" %}</a>
                         <br/>
                     {% endif %}
                     {% block locale_switcher %}{% endblock %}                  

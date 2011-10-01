@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load uni_form_tags %}
+{% load profile_tags %}
+
+{% block head_title %}{% trans "Login" %}{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/account.css" />
+{% endblock %}
+
+
+<body class="{% block body_class %}account{% endblock %}">
+{% block body %}
+    
+    <p>
+        <a href="{% url socialauth_begin 'github' %}">
+            <img class="social-button" src="{{ STATIC_URL }}img/github-48x48.png"/>
+        </a> 
+        <a class="social-sign-in" href="{% url socialauth_begin 'github' %}">Sign Up / Login with Github</a>
+    </p>
+
+    <p>
+        {% blocktrans %}If you have any problems, please <a href="http://github.com/opencomparison/opencomparison/issues">submit an issue</a>.{% endblocktrans %}
+    </p>
+{% endblock %}
+

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Django settings for basic pinax project.
+# Django settings 
 
 import os.path
 import sys
@@ -184,7 +184,6 @@ ABSOLUTE_URL_OVERRIDES = {
 }
 
 AUTH_PROFILE_MODULE = "profiles.Profile"
-NOTIFICATION_LANGUAGE_MODULE = "account.Account"
 
 ACCOUNT_OPEN_SIGNUP = True
 ACCOUNT_REQUIRED_EMAIL = True
@@ -273,11 +272,6 @@ LAUNCHPAD_ACTIVE = False
 LOCAL_INSTALLED_APPS = []
 SUPPORTED_REPO = []
 
-# accounts settings
-ACCOUNTS_ACTIVATION_EMAIL = True
-if DEBUG:
-    ACCOUNTS_ACTIVATION_EMAIL = False
-
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.
 try:
@@ -302,12 +296,12 @@ except ImportError:
     pass
 
 AUTHENTICATION_BACKENDS = (
-    'social_auth.backends.OpenIDBackend',
+    #'social_auth.backends.OpenIDBackend',
     'social_auth.backends.contrib.github.GithubBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
-SOCIAL_AUTH_ENABLED_BACKENDS = ('openid', 'github')
+SOCIAL_AUTH_ENABLED_BACKENDS = ('github')#('openid', 'github')
 SOCIAL_AUTH_COMPLETE_URL_NAME = 'socialauth_complete'
 SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'associate_complete'
 SOCIAL_AUTH_DEFAULT_USERNAME = lambda u: slugify(u)

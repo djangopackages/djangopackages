@@ -14,8 +14,9 @@ class Profile(BaseModel):
     #     Examples:
     #       github_url = 'pydanny'
     #       bitbucket_url = 'pydanny'
-    #       google_code_url = 'pydanny'    
-    github_url = models.CharField(_("Github account"), null=True, blank=True, max_length=100)
+    #       google_code_url = 'pydanny' 
+    github_account = models.CharField(_("Github account"), null=True, blank=True, max_length=40)
+    github_url = models.CharField(_("Github account"), null=True, blank=True, max_length=100, editable=False)
     bitbucket_url = models.CharField(_("Bitbucket account"), null=True, blank=True, max_length=100)
     google_code_url = models.CharField(_("Google Code account"), null=True, blank=True, max_length=100)
     email = models.EmailField(_("Email"), null=True, blank=True)
@@ -38,7 +39,7 @@ class Profile(BaseModel):
         If url doesn't exist return None.
         """
         url_mapping = {
-            'Github': self.github_url,
+            'Github': self.github_account,
             'BitBucket': self.bitbucket_url,
             'Google Code': self.google_code_url}
         return url_mapping.get(repo.title)

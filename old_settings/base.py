@@ -157,7 +157,6 @@ PREREQ_APPS = [
     "reversion",
     "django_sorting",
     "flatblocks",
-    "registration",
     "django_modeler",
     
     # Celery task queue:
@@ -178,7 +177,6 @@ ABSOLUTE_URL_OVERRIDES = {
 }
 
 AUTH_PROFILE_MODULE = "profiles.Profile"
-NOTIFICATION_LANGUAGE_MODULE = "account.Account"
 
 ACCOUNT_OPEN_SIGNUP = True
 ACCOUNT_REQUIRED_EMAIL = True

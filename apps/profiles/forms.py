@@ -27,7 +27,6 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         
         fields = (
-                    'github_url',
                     'bitbucket_url',
                     'google_code_url',
                     'email',

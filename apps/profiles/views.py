@@ -7,7 +7,8 @@ from django.http import HttpResponseRedirect, Http404, HttpResponseForbidden
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 
-from uni_form.helpers import FormHelper, Submit, Reset
+from uni_form.helpers import FormHelper, Submit, HTML
+from uni_form.layout import Layout, Fieldset, ButtonHolder
 
 from social_auth.signals import pre_update
 from social_auth.backends.contrib.github import GithubBackend
@@ -40,12 +41,6 @@ def profile_list(request, template_name="profiles/profiles.html"):
 @login_required
 def profile_edit(request, template_name="profiles/profile_edit.html"):
 
-    helper = FormHelper()
-    submit = Submit('edit','Edit')
-    helper.add_input(submit)
-    reset = Reset('reset','Reset')
-    helper.add_input(reset)
-
     profile = get_object_or_404(Profile, user=request.user)
     form = ProfileForm(request.POST or None, instance=profile)
 
@@ -54,6 +49,28 @@ def profile_edit(request, template_name="profiles/profile_edit.html"):
         msg = 'Profile edited'
         messages.add_message(request, messages.INFO, msg)
         return HttpResponseRedirect(reverse("profile_detail", kwargs={"username":profile.user.username }))
+        
+    # TODO - move this to a template
+    github_account = """
+    <div 
+        id="div_id_github_account" 
+        class="ctrlHolder"><label for="id_github_account" >Github account</label><strong>{0}</strong></div>
+    """.format(profile.github_account)
+        
+    helper = FormHelper()
+    helper.form_class = "profile-edit-form"
+    helper.layout = Layout(
+        Fieldset(
+            '',
+            HTML(github_account),
+            'bitbucket_url',
+            'google_code_url',
+            'email',
+        ),
+        ButtonHolder(
+            Submit('edit', 'Edit', css_class="awesome forestgreen"),
+        )
+    )        
 
     return render_to_response(template_name,
         {
@@ -66,7 +83,7 @@ def profile_edit(request, template_name="profiles/profile_edit.html"):
 
 def github_user_update(sender, user, response, details, **kwargs):
     profile_instance, created = Profile.objects.get_or_create(user=user)
-    profile_instance.github_url = details['username']
+    profile_instance.github_account = details['username']
     profile_instance.email = details['email']
     profile_instance.save()
     return True

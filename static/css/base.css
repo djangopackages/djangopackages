@@ -102,3 +102,7 @@ p.date { font-style: italic; }
   margin-bottom: 15px;
 }
 
+.profile-edit-form {
+    width: 500px;
+
+};

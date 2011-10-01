@@ -26,6 +26,6 @@ def current_path(request):
     
     """
     context = {}
-    if request.path not in (reverse('logout'), reverse('registration_register')):
+    if request.path.strip() != reverse('logout'):
         context['current_path'] = request.path
     return context

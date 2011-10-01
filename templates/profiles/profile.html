@@ -24,9 +24,9 @@
                 <p><a href="{% url profile_edit %}" rel="facebox">{% trans "Edit my profile" %}</a></p>
             {% endif %}    
             
-            {% if profile.github_url %}
+            {% if profile.github_account %}
                 <p><b>{% trans "Github account" %}</b>:
-                            <span class="fn"><a href="https://github.com/{{ profile.github_url }}">{{ profile.github_url }}</a></span>
+                            <span class="fn"><a href="https://github.com/{{ profile.github_account }}">{{ profile.github_url }}</a></span>
                 </p>
             {% endif %}
 

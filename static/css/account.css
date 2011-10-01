@@ -25,3 +25,13 @@
 .account #body #errorMsg {border: none; background: none; padding: 0px 0px 2px 4px; margin: 0px;}
 .account #body #errorMsg ul {margin: 0px; padding: 2px 0px 0px;}
 .account #body #errorMsg li {list-style: none; padding: 0px; margin: 0px; color: #AF4C4C;}
+
+.social-button {
+    vertical-align:middle;
+}
+
+.social-sign-in {
+    font-size:1.5em;
+    font-style:italic;
+    padding-left:10px;
+}

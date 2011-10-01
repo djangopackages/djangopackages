@@ -14,7 +14,6 @@ urlpatterns = patterns("",
 
     url('', include('social_auth.urls')),
     url(r"^$", homepage, name="home"),
-    url(r"^accounts/", include("accounts.urls")),
     url(r"^admin/", include(admin.site.urls)),
     url(r"^about/", include("about.urls")),
     url(r"^profiles/", include("profiles.urls")),
@@ -41,19 +40,9 @@ urlpatterns = patterns("",
         name    = 'package_autocomplete',
     ),
 
-    #TODO - fix these by using django-registration
-
-    url(r"^email/$", direct_to_template, {"template": "about/about.html"}, name="acct_email"),
-    url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'account/login.html', }, 'login',),
+    url(r'^login/$', direct_to_template, {'template': 'pages/login.html', }, 'login',),
     url(r'^logout/$', 'django.contrib.auth.views.logout_then_login', {}, 'logout',),
 
-    # Built-in django auth views
-     (r'^changepassword/$', 'django.contrib.auth.views.password_change', {}, 'change_password',),
-     (r'^changepassword/done/$', 'django.contrib.auth.views.password_change_done', {}, 'change_password_done'),
-     (r'^password_reset/$', 'django.contrib.auth.views.password_reset', {'is_admin_site': False},'acct_passwd_reset'),
-     (r'^password_reset/done/$', 'django.contrib.auth.views.password_reset_done'),
-     (r'^password/reset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', 'django.contrib.auth.views.password_reset_confirm', {}, 'password_reset_confirm'),
-     (r'^reset/done/$', 'django.contrib.auth.views.password_reset_complete'),
 
 )
 
