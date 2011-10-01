@@ -78,7 +78,7 @@
 
         <p>
             {% for participant in package.participant_list %}
-                <a href="{% participant_url package.repo participant %}">{{ participant }}</a>
+                <a href="{% participant_url package.repo participant %}">{{ participant }}</a>&nbsp;
             {% endfor %}
         
         </p>
@@ -109,7 +109,7 @@
             <h2>{% trans "Comparison Grids" %}</h2>
         
             {% for grid in package.grids %}
-                <a href="{% url grid grid.slug %}" title="{{ grid.description }}">{{ grid }}</a>
+                <a href="{% url grid grid.slug %}" title="{{ grid.description }}">{{ grid }}</a> &nbsp;
             
                 {% if forloop.last %}
                     <div id="package-gridname">
@@ -139,7 +139,7 @@
             {% for example in examples %}
                 <li>
                     <a href="{{ example.url }}">{{ example.title }}</a>
-                    {% if request.user.is_authenticated %}
+                    {% if request.user.is_authenticated %}&nbsp;
                         <div id="package-editlink">
                             <a class="awesome forestgreen" href="{% url edit_example package.slug example.id %}">{% trans "edit" %}</a>
                         </div>
