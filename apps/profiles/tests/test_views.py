@@ -30,16 +30,14 @@ class TestProfile(TestCase):
         # give me a view
         url = reverse('profile_edit')
         response = self.client.get(url)
-        stuff = """<input name="email" value="user@example.com" class="textInput textinput" maxlength="75" type="text" id="id_email" />"""
+        stuff = """<input id="id_bitbucket_url" type="text" class="textInput textinput" name="bitbucket_url" maxlength="100" />"""
         self.assertContains(response, stuff)
         
         # submit some content
         data = {
-            'email':'blarg@example.com',
+            'bitbucket_url':'zerg',
             }
         response = self.client.post(url, data, follow=True)
         self.assertContains(response, "Profile for user")
         p = Profile.objects.get(user=self.user)
-        self.assertEquals(p.email, "blarg@example.com")
-        u = User.objects.get(username=self.user.username)
-        self.assertEquals(u.email, "blarg@example.com")
+        self.assertEquals(p.bitbucket_url, "zerg")

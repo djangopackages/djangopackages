@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Syndication (RSS & Atom)" %}{% endblock %}
+
+{% block body %}
+
+<h1>Syndication (RSS & Atom)</h1>
+
+{{ SITE_TITLE }} provides the following feeds for finding out the latest news about the site:
+
+<ul>
+  <li><a href="/feeds/packages/latest/rss/">Latest 15 packages (RSS 2.0)</li>
+  <li><a href="/feeds/packages/latest/atom/">Latest 15 packages (Atom)</li>
+</ul>
+
+{% endblock %}

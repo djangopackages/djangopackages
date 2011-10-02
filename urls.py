@@ -45,6 +45,8 @@ urlpatterns = patterns("",
     url(r"^about/$", direct_to_template, {"template": "pages/about.html"}, name="about"),
     url(r"^terms/$", direct_to_template, {"template": "pages/terms.html"}, name="terms"),
     url(r"^faq/$", direct_to_template, {"template": "pages/faq.html"}, name="faq"),    
+    url(r"^syndication/$", direct_to_template, {"template": "pages/syndication.html"}, name="syndication"),
+    url(r"^contribute/$", direct_to_template, {"template": "pages/contribute.html"}, name="contribute"),
 
 )
 
