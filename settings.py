@@ -117,8 +117,6 @@ TEMPLATE_CONTEXT_PROCESSORS = [
 
     "django.core.context_processors.static",
 
-    "notification.context_processors.notification",
-
     "package.context_processors.used_packages_list",
     "homepage.context_processors.grid_tabs",
     "homepage.context_processors.current_path",
