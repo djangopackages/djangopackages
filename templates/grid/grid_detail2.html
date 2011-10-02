@@ -95,7 +95,7 @@
                             <td>
                                 {% for collaborator in package.package.participant_list %}
                                     {% if forloop.counter <= 10 %}                                
-                                        <a href="{{ package.repo.url }}/{{ collaborator }}">{{ collaborator }}</a>
+                                        <a href="{{ package.package.repo.url }}/{{ collaborator }}">{{ collaborator }}</a>
                                         {% if not forloop.last %}
                                             <br />
                                         {% endif %}

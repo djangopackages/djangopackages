@@ -99,8 +99,7 @@ class Package(BaseModel):
 
     @property
     def repo(self):
-        handler = get_repo_for_repo_url(self.repo_url)
-        return handler
+        return get_repo_for_repo_url(self.repo_url)
 
     def active_examples(self):
         # TODO - convert to property
