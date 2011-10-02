@@ -18,7 +18,6 @@ def load():
     package, created = Package.objects.get_or_create(
         pk=6,
         category=category,
-        pypi_home_page=None,
         title=u'Django CMS',
         created_by=None,
         repo_watchers=967,
