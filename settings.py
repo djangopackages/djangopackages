@@ -224,16 +224,8 @@ COVERAGE_MODULE_EXCLUDES += PREREQ_APPS + ["djkombu",]
 COVERAGE_REPORT_HTML_OUTPUT_DIR = "coverage"
 
 PACKAGINATOR_HELP_TEXT = {
-    "REPO_URL" : "Enter your project repo hosting URL here.<br />Example: https://bitbucket.org/ubernostrum/django-registration",
-    "PYPI_URL" : "<strong>Leave this blank if this package does not have a PyPI release.</strong><br />What PyPI uses to index your package. <br />Example: django-registration",
-    "CATEGORY" : """
-    <ul>
-     <li><strong>Apps</strong> is anything that is installed by placing in settings.INSTALLED_APPS.</li>
-     <li><strong>Frameworks</strong> are large efforts that combine many python modules or apps to build things like Pinax.</li>
-     <li><strong>Other</strong> are not installed by settings.INSTALLED_APPS, are not frameworks or sites but still help Django in some way.</li>
-     <li><strong>Projects</strong> are individual projects such as Django Packages, DjangoProject.com, and others.</li>
-    </ul>
-"""
+    "REPO_URL" : "Enter your project repo hosting URL here.<br />Example: https://github.com/pydanny/django-uni-form",
+    "PYPI_URL" : "<strong>Leave this blank if this package does not have a PyPI release.</strong><br />What PyPI uses to index your package. <br />Example: django-uni-form",
 }
 
 PACKAGINATOR_SEARCH_PREFIX = "django"
