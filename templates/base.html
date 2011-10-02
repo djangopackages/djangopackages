@@ -85,12 +85,13 @@
     <div id="footer">
         <div class="legal">
             &copy; 2010 <a href="http://pydanny.com">Daniel Greenfeld</a> & <a href="http://twitter.com/audreyr">Audrey Roy</a>
-            - <a href="/about/">{% trans "About" %}</a>
-            - <a href="/help/">{% trans "Help" %}</a>    
-            - <a href="/terms/">{% trans "Terms of Service" %}</a>
+            - <a href="{% url about %}">{% trans "About" %}</a>
+            - <a href="{% url faq %}">{% trans "FAQ" %}</a>    
+            - <a href="{% url terms %}">{% trans "Terms of Service" %}</a>
+            - <a href="{% url contribute %}">{% trans "Contribute" %}</a>            
             - <a href="http://opencomparison.readthedocs.org/en/latest/contributors.html">{% trans "Team" %}</a>
             - <a href="http://readthedocs.org/docs/opencomparison/en/latest/api_docs.html">{% trans "API" %}</a>
-            - <a href="/help/syndication/">{% trans "RSS / Atom" %}</a> - 
+            - <a href="{% url syndication %}">{% trans "RSS / Atom" %}</a> - 
             <a href="http://www.cartwheelweb.com/">Cartwheel Web</a>: Giving back to the Python community.  Powered by <a href="http://www.djangoproject.com/">Django</a> and <a href="/grids/g/this-site/">these fine packages</a>.
         </div>
     </div>
