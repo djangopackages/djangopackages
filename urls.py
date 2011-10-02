@@ -15,7 +15,6 @@ urlpatterns = patterns("",
     url('', include('social_auth.urls')),
     url(r"^$", homepage, name="home"),
     url(r"^admin/", include(admin.site.urls)),
-    url(r"^about/", include("about.urls")),
     url(r"^profiles/", include("profiles.urls")),
     url(r"^notices/", include("notification.urls")),
     url(r"^packages/", include("package.urls")),
@@ -39,10 +38,13 @@ urlpatterns = patterns("",
         view = package_autocomplete,
         name    = 'package_autocomplete',
     ),
-
     url(r'^login/$', direct_to_template, {'template': 'pages/login.html', }, 'login',),
     url(r'^logout/$', 'django.contrib.auth.views.logout_then_login', {}, 'logout',),
 
+    # static pages
+    url(r"^about/$", direct_to_template, {"template": "pages/about.html"}, name="about"),
+    url(r"^terms/$", direct_to_template, {"template": "pages/terms.html"}, name="terms"),
+    url(r"^faq/$", direct_to_template, {"template": "pages/faq.html"}, name="faq"),    
 
 )
 
