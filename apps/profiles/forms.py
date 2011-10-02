@@ -29,6 +29,5 @@ class ProfileForm(forms.ModelForm):
         fields = (
                     'bitbucket_url',
                     'google_code_url',
-                    'email',
                     )
         model = Profile

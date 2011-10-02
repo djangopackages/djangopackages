@@ -101,7 +101,6 @@ MIDDLEWARE_CLASSES = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "pagination.middleware.PaginationMiddleware",
     "django_sorting.middleware.SortingMiddleware",
-    "django.contrib.flatpages.middleware.FlatpageFallbackMiddleware",
 ]
 
 TEMPLATE_DIRS = [
@@ -149,7 +148,6 @@ PREREQ_APPS = [
     "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.humanize",
-    "django.contrib.flatpages",
     "django.contrib.staticfiles",
 
     # external

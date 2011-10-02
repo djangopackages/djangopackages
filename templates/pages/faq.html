@@ -7,6 +7,7 @@
 {% block body %}
 
 <h1><a href="{% url faq %}">Frequently Asked Questions</a></h1> 
+
  <h2>What are grids?</h2>    
 
 <p><a href="/grids/">Grids</a> let you compare {{ FRAMEWORK_TITLE }} packages to each other. A grid comes with a number of default items compared,
@@ -40,5 +41,12 @@
 
 <p>Fetching meaningful information from those systems would require downloaded the repos and then doing heavy calculations. That's way beyond the scope of this project, unless you're willing to pay serious money for development and architecture. We're open to that, so if you are, please contact us.</p>
 
+<h2>What about RSS & Atom Syndication?</h2>
+
+The <a href="{% url syndication %}">Syndication page</a> has more details.
+
+<h2>How can I contribute?</h2>
+
+This is an open source project, which means it takes <a href="{% url contribute %}">all sorts of contributions</a>.
     
 {% endblock %}
