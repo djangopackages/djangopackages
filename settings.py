@@ -124,6 +124,7 @@ TEMPLATE_CONTEXT_PROCESSORS = [
     "homepage.context_processors.grid_tabs",
     "homepage.context_processors.current_path",
     "profiles.context_processors.lazy_profile",
+    "core.context_processors.core_values",
 ]
 
 PROJECT_APPS = [
@@ -161,7 +162,6 @@ PREREQ_APPS = [
     "reversion",
     "django_sorting",
     "flatblocks",
-    "registration",
     "django_modeler",
 
     # Celery task queue:
