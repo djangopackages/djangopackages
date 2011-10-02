@@ -5,10 +5,12 @@ table#grid th { background: #75dfca;}
 #grids-list, #grids-list li,
 #grid-archive-list, #grid-archive-list li { list-style:none; }
 
+/*  Note: audreyr commented this out b/c it appears to be doing nothing. 10/1/2011
 div#body {
     width: auto;
     padding-right: 30px;
 }
+*/
 
 /* additional style to look good with dataTable plugin */
 .dataTables_wrapper table {
