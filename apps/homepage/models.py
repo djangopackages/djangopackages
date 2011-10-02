@@ -54,18 +54,3 @@ class Gotw(BaseModel):
     @models.permalink
     def get_absolute_url(self):
         return ("grid", [self.grid.slug])        
-        
-class Tab(BaseModel):
-    
-    grid = models.ForeignKey(Grid)
-    order = models.IntegerField(_("Order displayed on the home page"), default="0")
-
-    class Meta:
-        
-        ordering = ['order', 'grid']
-        verbose_name         = "Tab"
-        verbose_name_plural  = "Tabs"
-    
-    def __unicode__(self):
-        return self.grid.title
-    
