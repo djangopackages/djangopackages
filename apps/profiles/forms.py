@@ -9,20 +9,6 @@ class ProfileForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)
-        self.fields['email'].required = True
-        
-    def clean_email(self):
-        email = self.cleaned_data.get("email", "").strip()
-
-        if not email:
-            self._errors["email"] = self.error_class(["Email is a required field"])
-            return ""
-
-        if User.objects.filter(email=email).exclude(username=self.instance.user.username):
-            self._errors["email"] = self.error_class(["%s is already in use in the system" % email])
-            return ""            
-
-        return email
 
     class Meta:
         
