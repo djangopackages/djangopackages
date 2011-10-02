@@ -104,9 +104,8 @@ Make your database::
     python manage.py syncdb
     python manage.py migrate
 
-Then, load the two flatblocks and flatpages fixtures::
+Then, load the flatpages fixtures::
 
-    python manage.py loaddata fixtures/flatblocks.json
     python manage.py loaddata fixtures/flatpages.json
 
 OPTIONAL! Load some base data for development usage. This should not be loaded on the production site::

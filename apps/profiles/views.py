@@ -16,13 +16,12 @@ from social_auth.backends.contrib.github import GithubBackend
 from profiles.forms import ProfileForm
 from profiles.models import Profile
 
-def profile_detail(request, username, template_name="profiles/profile.html"):
+def profile_detail(request, github_account, template_name="profiles/profile.html"):
 
-    user = get_object_or_404(User, username=username)
-    profile = user.get_profile()
+    profile = get_object_or_404(Profile, github_account=github_account)
 
     return render_to_response(template_name,
-        {"profile": profile, "user":user},
+        {"profile": profile, "user":profile.user},
         RequestContext(request))
 
 def profile_list(request, template_name="profiles/profiles.html"):
@@ -41,14 +40,14 @@ def profile_list(request, template_name="profiles/profiles.html"):
 @login_required
 def profile_edit(request, template_name="profiles/profile_edit.html"):
 
-    profile = get_object_or_404(Profile, user=request.user)
+    profile = request.user.get_profile()
     form = ProfileForm(request.POST or None, instance=profile)
 
     if form.is_valid():
         form.save()
         msg = 'Profile edited'
         messages.add_message(request, messages.INFO, msg)
-        return HttpResponseRedirect(reverse("profile_detail", kwargs={"username":profile.user.username }))
+        return HttpResponseRedirect(reverse("profile_detail", kwargs={"github_account":profile.github_account }))
         
     # TODO - move this to a template
     github_account = """

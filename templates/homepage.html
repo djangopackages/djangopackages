@@ -3,13 +3,12 @@
 {% load cache %}
 {% load i18n %}
 {% load package_tags %}
-{% load flatblock_tags %}
 
 {% block extra_head %}
     <link rel="stylesheet" href="{{ STATIC_URL }}css/home.css" />
 {% endblock %}
 
-{% block head_title %}{% trans "django reusable apps, sites and tools directory" %}{% endblock %}
+{% block head_title %}{{ SITE_TITLE }} reusable apps, sites and tools directory{% endblock %}
 
 {% block body_class %}home{% endblock %}
 
@@ -78,7 +77,7 @@
      
     <div id="home-leftcol">
         <div id="home-borderlessbox">
-            <p>{% flatblock 'site.description' %}</p>
+            <p>{{ SITE_TITLE }} is a directory of reusable apps, sites, tools, and more for your {{ FRAMEWORK_TITLE }} projects.</p>
             <br/>
             <p><b>{{ package_count }}</b> {% trans "packages and counting!" %}</p>
 

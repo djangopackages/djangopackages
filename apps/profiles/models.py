@@ -21,6 +21,11 @@ class Profile(BaseModel):
     google_code_url = models.CharField(_("Google Code account"), null=True, blank=True, max_length=100)
     email = models.EmailField(_("Email"), null=True, blank=True)
     
+    def __unicode__(self):
+        if not self.github_account:
+            return self.user.username
+        return self.github_account
+    
     def save(self, **kwargs):
         """ Override save to always populate email changes to auth.user model
         """

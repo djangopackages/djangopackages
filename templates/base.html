@@ -1,13 +1,12 @@
 {% spaceless %}
 {% load i18n %}
 {% load packaginator_tags %}
-{% load flatblock_tags %}
 {% load profile_tags %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <title>{% block head_title_base %}{% plain_flatblock 'site.name' %} : {% block head_title %}{% endblock %}{% endblock %}</title>
+        <title>{% block head_title_base %}{{ SITE_TITLE }} : {% block head_title %}{% endblock %}{% endblock %}</title>
         <!--[if IE]><style>
             div {
                 zoom: 1; /* trigger hasLayout */
@@ -48,16 +47,16 @@
             {% endif %}
             <div id="tabhead">
                 <div class="logo">
-                    <a href="{% url home %}"><img src="{{ STATIC_URL }}img/logo_squares.png" /></a><h1><a href="{% url home %}">{% plain_flatblock 'site.name' %}</a></h1>
+                    <a href="{% url home %}"><img src="{{ STATIC_URL }}img/logo_squares.png" /></a><h1><a href="{% url home %}">{{ SITE_TITLE }}</a></h1>
                 </div>
 
                 <div class="login">
                     {% if user.is_authenticated %}
-                        <b>{% user_display user %}</b>
+                        <b>{{ profile.github_account }}</b>
                         |
                         <a href="/help/">{% trans "Help" %}</a>
                         |
-                        <a href="{% url profile_detail request.user %}">{% trans "Profile" %}</a>    
+                        <a href="{% url profile_detail profile.github_account %}">{% trans "Profile" %}</a>    
                         |
                         {% if user.is_staff %}
                             <a href="/admin/">{% trans "Admin" %}</a>
@@ -125,7 +124,7 @@
     <div class="clear"></div>
     <div id="footer">
         <div class="legal">
-            {% plain_flatblock 'copyright.text' %}
+            &copy; 2010 <a href="http://pydanny.com">Daniel Greenfeld</a> & <a href="http://www.audreymroy.com">Audrey Roy</a>
             - <a href="/about/">{% trans "About" %}</a>
             - <a href="/help/">{% trans "Help" %}</a>    
             - <a href="/terms/">{% trans "Terms of Service" %}</a>
@@ -133,7 +132,7 @@
             - <a href="http://readthedocs.org/docs/opencomparison/en/latest/api_docs.html">{% trans "API" %}</a>
             - <a href="/help/syndication/">{% trans "RSS / Atom" %}</a>
             <br />
-            {% plain_flatblock 'footer.text' %}
+            <a href="http://www.cartwheelweb.com/">Cartwheel Web</a>: Giving back to the Python community.  Powered by <a href="http://www.djangoproject.com/">Django</a> and <a href="/grids/g/this-site/">these fine packages</a>.
         </div>
     </div>
 

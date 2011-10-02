@@ -13,13 +13,14 @@ class TestProfile(TestCase):
         create_users()
         self.user = User.objects.get(username="user")
         self.profile = Profile.objects.create(
+            github_account="user",
             user=self.user,
             email=self.user.email,
         )
         
     def test_view(self):
         self.assertTrue(self.client.login(username=self.user.username, password=STOCK_PASSWORD))        
-        url = reverse('profile_detail', kwargs={'username':self.user.username})
+        url = reverse('profile_detail', kwargs={'github_account':self.profile.github_account})
         response = self.client.get(url)
         self.assertContains(response, "Profile for user")
         

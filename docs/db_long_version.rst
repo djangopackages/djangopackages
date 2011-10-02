@@ -7,7 +7,7 @@ Dump the data from the SQLite3
 
 Run this command to dump the data::
 
-    $ python manage.py dumpdata --traceback --indent=4 --database=sqlite --natural auth.User auth.Group about grid homepage package searchv1 apiv1 feeds admin sites messages flatpages notification staticfiles mailer uni_form django_openid ajax_validation timezones emailconfirmation announcements pagination idios django_sorting flatblocks account signup_codes analytics south > fixtures/dump_clean_data.json
+    $ python manage.py dumpdata --traceback --indent=4 --database=sqlite --natural auth.User auth.Group about grid homepage package searchv1 apiv1 feeds admin sites messages flatpages notification staticfiles mailer uni_form django_openid ajax_validation timezones emailconfirmation announcements pagination idios django_sorting account signup_codes analytics south > fixtures/dump_clean_data.json
     
 Note that we had to use auth.User and auth.Group because just using auth causes the auth.Permissions to be exported which causes problems (see below). We also don't need to export contenttypes because they are created when we do a syncdb.
 
