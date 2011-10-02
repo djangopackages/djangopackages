@@ -15,6 +15,5 @@ def lazy_profile(request):
 
     data = {
         'profile': SimpleLazyObject(get_user_profile),
-        'ACCOUNT_OPEN_SIGNUP': settings.ACCOUNT_OPEN_SIGNUP, # TODO - put this into the request some other, better way
         }
     return data

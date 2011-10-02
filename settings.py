@@ -161,7 +161,6 @@ PREREQ_APPS = [
     "tastypie",
     "reversion",
     "django_sorting",
-    "flatblocks",
     "django_modeler",
 
     # Celery task queue:
@@ -184,12 +183,6 @@ ABSOLUTE_URL_OVERRIDES = {
 }
 
 AUTH_PROFILE_MODULE = "profiles.Profile"
-
-ACCOUNT_OPEN_SIGNUP = True
-ACCOUNT_REQUIRED_EMAIL = True
-ACCOUNT_EMAIL_VERIFICATION = True
-ACCOUNT_EMAIL_AUTHENTICATION = False
-ACCOUNT_UNIQUE_EMAIL = EMAIL_CONFIRMATION_UNIQUE_EMAIL = False
 
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URLNAME = "home"
