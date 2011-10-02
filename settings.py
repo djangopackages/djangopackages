@@ -118,7 +118,7 @@ TEMPLATE_CONTEXT_PROCESSORS = [
     "django.core.context_processors.static",
 
     "package.context_processors.used_packages_list",
-    "homepage.context_processors.grid_tabs",
+    "grid.context_processors.grid_headers",
     "homepage.context_processors.current_path",
     "profiles.context_processors.lazy_profile",
     "core.context_processors.core_values",

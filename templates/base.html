@@ -39,22 +39,16 @@
             <div class="searchform">
                 <form action="{% url search %}">
                     <input id="id_q_p" type="text" name="q" maxlength="100" value="{% trans "search" %}" autocomplete="off" />
-                    <input id="magnifier-submit" type="submit" value="&nbsp;" /><br/>
-                    {% comment %}
-                    <input class="home-searchcheckbox" checked="checked" type="checkbox" name="category" value="apps" />{% trans "apps" %}
-                    <input class="home-searchcheckbox" type="checkbox" name="category" value="frameworks" />{% trans "frameworks" %}
-                    <input class="home-searchcheckbox" type="checkbox" name="category" value="projects" />{% trans "projects" %}
-                    <input class="home-searchcheckbox" type="checkbox" name="category" value="other" />{% trans "other" %}
-                    {% endcomment %}                
+                    <input id="magnifier-submit" type="submit" value="&nbsp;" /><br/>              
                 </form>
             </div>
 
             <div id="left_tabs" >
-                {% for grid_chunk in grid_tabs %}
+                {% for grid_chunk in grid_headers %}
                     <div id="multi-col-nav">
                         {% for tab in grid_chunk %}
                             {% if tab %}
-                                <a href="{% url grid tab.grid.slug %}" title="{{ tab.grid.description }}">{{ tab.grid.title }}</a><br />
+                                <a href="{% url grid tab.slug %}" title="{{ tab.description }}">{{ tab.title|truncatewords:"2" }}</a><br />
                             {% endif %}
                             {% if forloop.parentloop.last and forloop.last %}
                                 <a href="{% url grids %}">{% trans "&raquo; more grids..." %}</a>                            

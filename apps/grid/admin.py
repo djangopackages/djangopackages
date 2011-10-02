@@ -7,6 +7,9 @@ class GridPackageInline(admin.TabularInline):
     model = GridPackage
     
 class GridAdmin(VersionAdmin):
+    list_display_links = ('title',)
+    list_display = ('title','header',)
+    list_editable = ('header',)
     inlines = [
         GridPackageInline,
     ]
