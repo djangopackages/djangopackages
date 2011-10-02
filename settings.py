@@ -127,7 +127,6 @@ TEMPLATE_CONTEXT_PROCESSORS = [
 ]
 
 PROJECT_APPS = [
-    "about",
     "grid",
     'core',
     "homepage",
