@@ -15,7 +15,6 @@ class TestProfile(TestCase):
         self.profile = Profile.objects.create(
             github_account="user",
             user=self.user,
-            email=self.user.email,
         )
         
     def test_view(self):
