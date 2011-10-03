@@ -11,6 +11,8 @@
         <link rel="stylesheet" href="{{ STATIC_URL }}uni_form/default.uni-form.css" type="text/css" />        
         <link rel="stylesheet" href="{{ STATIC_URL }}css/account.css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/base.css" type="text/css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/scrollable-buttons.css" type="text/css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/scrollable-horizontal.css" type="text/css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/awesome.css" type="text/css" />
         {% block extra_head %}{% endblock %}
     </head>
@@ -45,14 +47,14 @@
             </div>
 
             <div class="clearfix"></div>
-            <a id="nav_previous" href="#">previous</a> | <a id="nav_next" href="#">next</a>
-            <div id="left_tabs" >
-            
-            
-                <table id="nav-table"><tr>
+            <a class="prev browse left">prev</a>
+           <!-- <div id="left_tabs"> -->
+            <div class="scrollable">
+<!--                <table class="items" id="nav-table"><tr> -->
+                <div class="items">
                 {% for grid_chunk in grid_headers %}
-<!--                    <div id="multi-col-nav"> -->
-                    <td>
+<!--                    <td> -->
+                    <div>
                         {% for tab in grid_chunk %}
                             {% if tab %}
                                 <a href="{% url grid tab.slug %}" title="{{ tab.description }}">{{ tab.title|truncatewords:"2" }}</a><br />
@@ -61,14 +63,15 @@
                                 <a href="{% url grids %}">{% trans "&raquo; more grids..." %}</a>                            
                             {% endif %}
                         {% endfor %}
-                    </td>
-<!--                    </div> -->
+                    </div>
+<!--                    </td> -->
                 {% endfor %}
-                </tr></table>
-<!--
-                    <div class="clearfix"></div> -->
-            </div> 
+<!--                </tr></table>   -->
+                </div>
+            </div>
+            <a class="next browse right">next</a>
         </div> <!-- tabhead -->
+        <div class="clearfix"></div> <!-- TODO: start using fluid columns on all pages, which may let us get rid of this -->
         {% block body_outer %}
             {% if messages %}
                 <ul id="messages">
@@ -105,6 +108,7 @@
         <script src="{{ STATIC_URL }}uni_form/uni-form.jquery.js" type="text/javascript"></script>
         <script src="{{ STATIC_URL }}js/jquery.tablesorter.min.js" type="text/javascript"></script>        
         <script src="{{ STATIC_URL }}js/jquery.dataTables.min.js" type="text/javascript"></script>        
+        <script src="{{ STATIC_URL }}js/jquery.tools.min.js" type="text/javascript"></script>        
         <script src="{{ STATIC_URL }}js/site.js" type="text/javascript"></script>  
 
         {% fixed_ga %}
@@ -115,6 +119,9 @@
                 $('input#id_q_p').click(function() {
                     $("input#id_q_p").val('');
                 });                        
+
+                // initialize scrollable
+                $(".scrollable").scrollable();
             });
 
             $('#id_q_p').autocomplete({
@@ -124,20 +131,6 @@
                 ac_top = $('.ui-autocomplete').css('top'); 
                 $('.ui-autocomplete').css({'width': '250px', 'top': ac_top + 10 }); 
               }
-            });
-
-            var nav_position = 900;
-
-            $('#nav_previous').click(function() {
-                nav_position -= 190;
-                if (nav_position < 0) {
-                    nav_position = 0;
-                }
-                $('#left_tabs').scrollLeft(nav_position);
-            });
-
-            $('#nav_next').click(function() {
-                $('#left_tabs').scrollLeft(190);
             });
         </script>
 
