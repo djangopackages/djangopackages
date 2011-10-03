@@ -37,6 +37,9 @@ How hard is it to add support for a new repo?
 
 We've done a lot of work to make it as straightforward as possible. At PyCon 2011 we launched our formal `Repo Handler API`_.
 
+Installation
+============
+
 How come you don't support buildout?
 ------------------------------------
 
