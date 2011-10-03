@@ -31,7 +31,7 @@ a.left:active  	{ background-position:-60px 0; }
 a.up, a.down		{ 
 	background:url(../img/scrollable/arrow/vert_large.png) no-repeat; 
 	float: none;
-	margin: 10px 50px;
+	margin: 10px 20px;
 }
 
 /* up */
