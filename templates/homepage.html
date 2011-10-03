@@ -80,6 +80,9 @@
              <h2>Featured Package</h2>
              <a href="{{ potw.get_absolute_url }}">{{ potw.title }}</a>
              <p>{{ potw.repo_description }}</p>
+             <p class="date">{% trans "Added" %} {{ potw.created|timesince }} ago</p>
+             <div class="package-downloads">{{ potw.pypi_downloads }}</div>
+             <div class="package-watchers">{{ potw.repo_watchers }}</div>             
          {% endif %}
         <h3>How to get your {{ FRAMEWORK_TITLE }} package featured here</h3>
         <p>Do you have a package that you'd like us to feature?</p>
@@ -91,7 +94,12 @@
         {% if gotw %}
             <h2>Featured Grid</h2>            
             <a href="{{ gotw.get_absolute_url }}">{{ gotw.title }}</a>
-            <p>{{ gotw.repo_description }}</p>
+            <p>{{ gotw.description }}</p>
+            <p class="date">{% trans "Added" %} {{ gotw.created|timesince }} ago</p>
+            <p>
+              <strong>{% trans "Packages" %}:</strong> {{ gotw.gridpackage_set.count }},
+              <strong>{% trans "Features" %}:</strong> {{ gotw.feature_set.count }}
+            </p>            
         {% endif %}
         <h3>How to get your {{ SITE_TITLE }} grid featured here</h3>
         <p>Have you created a new and interesting grid?</p>
