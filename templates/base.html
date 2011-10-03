@@ -45,6 +45,9 @@
             </div>
 
             <div id="left_tabs" >
+            <!--
+                <a id="nav_previous" href="#">previous</a> | <a id="nav_next" href="#">next</a>
+            -->
                 {% for grid_chunk in grid_headers %}
                     <div id="multi-col-nav">
                         {% for tab in grid_chunk %}
@@ -57,6 +60,7 @@
                         {% endfor %}
                     </div>
                 {% endfor %}
+
                     <div class="clearfix"></div>
             </div>
         </div> <!-- tabhead -->
@@ -75,7 +79,7 @@
             {% block body %}
             {% endblock %}
         {% endblock %}
-    </div>
+    </div> <!-- main -->
     <div class="clear"></div>
     <div id="footer">
         <div class="legal">
@@ -87,7 +91,7 @@
             - <a href="http://opencomparison.readthedocs.org/en/latest/contributors.html">{% trans "Team" %}</a>
             - <a href="http://readthedocs.org/docs/opencomparison/en/latest/api_docs.html">{% trans "API" %}</a>
             - <a href="{% url syndication %}">{% trans "RSS / Atom" %}</a> - 
-            <a href="http://www.cartwheelweb.com/">Cartwheel Web</a>: Giving back to the Python community.  Powered by <a href="http://www.djangoproject.com/">Django</a> and <a href="/grids/g/this-site/">these fine packages</a>.
+            <a href="http://www.cartwheelweb.com/">Cartwheel Web</a>: Giving back to the Python and {{ FRAMEWORK_TITLE }} community.
         </div>
     </div>
 
@@ -115,6 +119,14 @@
                 ac_top = $('.ui-autocomplete').css('top'); 
                 $('.ui-autocomplete').css({'width': '250px', 'top': ac_top + 10 }); 
               }
+            });
+
+            $('#nav_previous').click(function() {
+                $('#left_tabs').css({'background': '#ffffff'});
+            });
+
+            $('#nav_next').click(function() {
+                $('#left_tabs').css({'background': '#ff3333'});
             });
         </script>
 

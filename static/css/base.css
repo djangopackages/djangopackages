@@ -50,7 +50,10 @@ input#magnifier-submit { background: url('../img/search.png') #87deaa no-repeat 
 
 /* Nav bar - overrides styles from tabs.css */
 #nav-help { margin: 10px 0 0 20px; } /* the top left help btn */
-#left_tabs { position: relative; clear: both; left: 0px; background: #FFFFFF; bottom: 0; min-height: 80px; }
+#left_tabs { position: relative; clear: both; left: 0px; background: #FFFFFF; bottom: 0; /* min-height: 80px; */ 
+/* the following creates the horiz scrollbar nav 
+height: 120px; overflow: auto; */
+ }
 #multi-col-nav { float: left; padding-left:4px; padding-bottom:16px; width:155px; }
 #multi-col-nav a, #multi-col-nav a:visited { color: #1a1a1a; font: 11px Helvetica, Arial, sans-serif; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
 #multi-col-nav a:hover { font-weight: 800; }
@@ -97,7 +100,7 @@ p.date { font-style: italic; }
 .description { clear: both; margin-bottom: 5px;}
 
 
-/* Pagination */
+/* Pagination of grids, profiles, and other things */
 .pagination {
   margin-bottom: 15px;
 }
@@ -106,3 +109,39 @@ p.date { font-style: italic; }
     width: 500px;
 
 };
+
+/* Bottom sitemap, which is used to provide content for the top nav bar */
+#sitemap a, #sitemap a:visited {font-size:8px;}
+
+/* Fluid columns, from http://fluid.newgoldleaf.com/ */
+/* .section and .column are required in your HTML */
+div.section {display:table; width:100%; border-collapse:collapse;}
+div.column {display:table-cell;}
+
+/* .column widths, -10% of "perceived width" for 6 column layouts */
+div.six_column.section div.one {width:15%;}
+div.six_column.section div.two {width:30%;}
+div.six_column.section div.three {width:45%;}
+div.six_column.section div.four {width:60%;}
+div.six_column.section div.five {width:75%;}
+div.six_column.section div.six {width:90%;}
+
+/* nine columns */
+div.nine_column.section div.one {width:10%;}
+div.nine_column.section div.two {width:20%;}
+div.nine_column.section div.three {width:30%;}
+div.nine_column.section div.four {width:40%;}
+div.nine_column.section div.five {width:50%;}
+div.nine_column.section div.six {width:60%;}
+div.nine_column.section div.seven {width:70%;}
+div.nine_column.section div.eight {width:80%;}
+div.nine_column.section div.nine {width:90%;}
+
+/* twelve columns */
+div.twelve_column.section div.one {width:8%;}
+div.twelve_column.section div.two {width:16%;}
+div.twelve_column.section div.three {width:24%;}
+div.twelve_column.section div.four {width:32%;}
+div.twelve_column.section div.six {width:48%;}
+div.twelve_column.section div.eight {width:64%;}
+div.twelve_column.section div.twelve {width:96%;}

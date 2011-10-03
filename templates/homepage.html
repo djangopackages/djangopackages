@@ -13,100 +13,96 @@
 {% block body_class %}home{% endblock %}
 
 {% block body %}
-    <div id="home-rightcol">
-        <div class="home-borderlessbox">
-            <h2>{% trans "latest 5" %}</h2>
-            <table class="home-table">
-            {% for package in latest_packages %}
+<div class="twelve_column section">
+    <div class="three column">
+        <h2><i>{{ SITE_TITLE }} is a directory of reusable apps, sites, tools, and more for your {{ FRAMEWORK_TITLE }} projects.</i></h2>
+        <p><b>{{ package_count }}</b> {% trans "packages and counting!" %}</p>
+        <p>
+            {% trans "Know of any packages not listed here?  Add them now!  It's quick and easy." %}
+        </p>
+        <p>
+            <a class="large awesome forestgreen" href="{% url add_package %}">{% trans "add package »" %}</a>
+        </p>
+        <p>
+            {% trans "Or add a grid comparing the features of 2 or more similar packages." %}
+        </p>
+        <p>
+            <a class="large awesome forestgreen" href="{% url add_grid %}">{% trans "add grid »" %}</a>
+        </p>
+    </div> <!-- two column (1st) -->
+
+    <div class="one column"></div>
+
+    <div class="three column">
+        <h2>{% trans "Package Categories" %}</h2>
+         {% for category in categories %}
+            <h3><a href="{% url category category.slug %}">{{ category.title_plural }}</a> ( {{ category.count }} )</h3>
+            <p>{{ category.description }}</p>
+         {% endfor %}
+    </div> <!-- two column (2nd) -->
+     
+    <div class="one column"></div>
+
+    <div class="three column">
+        <h2>{% trans "latest 5" %}</h2>
+        <table class="home-table">
+        {% for package in latest_packages %}
+            <tr class="usage-holder">
+                <td class="home-usage-button-cell">
+                    {% usage_button %}
+                </td>
+                <td>
+                    <span class="home-numusers usage-count" id="usage-count-{{ package.id }}">{{ package.usage.count }}</span>
+                    <span class="home-users">{% trans "users" %}</span></td>
+                <td>
+                    <span class="home-packagename"><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></span>
+                    <span class="home-packagedesc">
+                        {# TODO - make this a template tag! #}
+                        {% with package.repo_description|truncatewords:25 as short %}
+                            {% if package.repo_description|length > short|length %}
+                               {{ short|slice:"-3" }}<a rel="facebox" href="{% url package_repo_description package.slug %}">...</a>                                    
+                            {% else %}
+                                {{ short }}
+                            {% endif %}
+                        {% endwith %}                            
+                    </span>
+                </td>
+            </tr>            
+        {% endfor %}
+
+        </table>
+        {% comment %}
+        <h2>random 5</h2>
+        <table class="home-table">
+            {% for package in random_packages %}
                 <tr class="usage-holder">
-                    <td class="home-usage-button-cell">
-                        {% usage_button %}
+                    <td>
+                        {% usage_button %}                       
                     </td>
                     <td>
-                        <span class="home-numusers usage-count" id="usage-count-{{ package.id }}">{{ package.usage.count }}</span>
-                        <span class="home-users">{% trans "users" %}</span></td>
+                        <span class="home-numusers usage-count" id="usage-count-{{ package.id }}">{{ package.usage.count }}</span>                            
+                        <span class="home-users">users</span></td>
                     <td>
                         <span class="home-packagename"><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></span>
                         <span class="home-packagedesc">
-                            {# TODO - make this a template tag! #}
-                            {% with package.repo_description|truncatewords:25 as short %}
+                        {# TODO - make this a template tag! #}                                
+                            {% with package.repo_description|truncatewords:10 as short %}
                                 {% if package.repo_description|length > short|length %}
                                    {{ short|slice:"-3" }}<a rel="facebox" href="{% url package_repo_description package.slug %}">...</a>                                    
                                 {% else %}
                                     {{ short }}
                                 {% endif %}
-                            {% endwith %}                            
+                            {% endwith %}
                         </span>
                     </td>
                 </tr>            
             {% endfor %}
-
-            </table>
-        </div>
-        {% comment %}
-        <div class="home-borderlessbox">
-            <h2>random 5</h2>
-            <table class="home-table">
-                {% for package in random_packages %}
-                    <tr class="usage-holder">
-                        <td>
-                            {% usage_button %}                       
-                        </td>
-                        <td>
-                            <span class="home-numusers usage-count" id="usage-count-{{ package.id }}">{{ package.usage.count }}</span>                            
-                            <span class="home-users">users</span></td>
-                        <td>
-                            <span class="home-packagename"><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></span>
-                            <span class="home-packagedesc">
-                            {# TODO - make this a template tag! #}                                
-                                {% with package.repo_description|truncatewords:10 as short %}
-                                    {% if package.repo_description|length > short|length %}
-                                       {{ short|slice:"-3" }}<a rel="facebox" href="{% url package_repo_description package.slug %}">...</a>                                    
-                                    {% else %}
-                                        {{ short }}
-                                    {% endif %}
-                                {% endwith %}
-                            </span>
-                        </td>
-                    </tr>            
-                {% endfor %}
-            </table>
-        </div>
+        </table>
         {% endcomment %}
-    </div>
-     
-    <div id="home-leftcol">
-        <div id="home-borderlessbox">
-            <p>{{ SITE_TITLE }} is a directory of reusable apps, sites, tools, and more for your {{ FRAMEWORK_TITLE }} projects.</p>
-            <br/>
-            <p><b>{{ package_count }}</b> {% trans "packages and counting!" %}</p>
+    </div> <!-- two column (3rd) -->
+    <div class="one column"></div>
 
-        </div>
-
-        <div id="home-borderlessbox">
-            <p>
-                {% trans "Know of any packages not listed here?  Add them now!  It's quick and easy." %}
-            </p>
-            <p>
-                <a class="large awesome forestgreen" href="{% url add_package %}">{% trans "add package »" %}</a>
-            </p>
-            <p>
-                {% trans "Or add a grid comparing the features of 2 or more similar packages." %}
-            </p>
-            <p>
-                <a class="large awesome forestgreen" href="{% url add_grid %}">{% trans "add grid »" %}</a>
-            </p>
-        </div>
-
-        <div id="home-borderlessbox">
-            <h2>{% trans "Package Categories" %}</h2>
-             {% for category in categories %}
-                <h3><a href="{% url category category.slug %}">{{ category.title_plural }}</a> ( {{ category.count }} )</h3>
-                <p>{{ category.description }}</p>
-             {% endfor %}
-        </div>
-    </div>
-    
+</div> <!-- six_column section -->
 
 {% endblock %}
 

@@ -1,14 +1,3 @@
-
-/* left and right columns */
-#home-leftcol { float: left; width:45%; }
-#home-rightcol { float: right; width:45%; padding-right:5%;}
-
-.home-borderlessbox { padding-top:30px; }
-
-/* blue boxes in the right column */
-.home-rightcolbox { width: 260px; padding: 1px 20px 10px 20px; margin-bottom: 20px; background-color: #C0F1D1; }
-
-
 #home-packages img { vertical-align: middle; }
 #home-packages .repo-watchers a {
   background-image: url(../img/eye_20x20_clear.png);
@@ -37,5 +26,3 @@
 .home-users {}
 .home-packagename {display:block; font-size:110%; font-weight:800; }
 .home-packagedesc {}
-
-
