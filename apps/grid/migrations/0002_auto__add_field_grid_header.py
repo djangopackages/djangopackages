@@ -5,6 +5,11 @@ from south.v2 import SchemaMigration
 from django.db import models
 
 class Migration(SchemaMigration):
+    
+    depends_on = (
+            ("package", "0016_auto__del_field_package_pypi_home_page"),
+        )    
+    
 
     def forwards(self, orm):
         
