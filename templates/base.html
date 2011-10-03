@@ -44,12 +44,15 @@
                 </form>
             </div>
 
+            <div class="clearfix"></div>
             <div id="left_tabs" >
             <!--
                 <a id="nav_previous" href="#">previous</a> | <a id="nav_next" href="#">next</a>
             -->
+                <table id="nav-table"><tr>
                 {% for grid_chunk in grid_headers %}
-                    <div id="multi-col-nav">
+<!--                    <div id="multi-col-nav"> -->
+                    <td>
                         {% for tab in grid_chunk %}
                             {% if tab %}
                                 <a href="{% url grid tab.slug %}" title="{{ tab.description }}">{{ tab.title|truncatewords:"2" }}</a><br />
@@ -58,11 +61,13 @@
                                 <a href="{% url grids %}">{% trans "&raquo; more grids..." %}</a>                            
                             {% endif %}
                         {% endfor %}
-                    </div>
+                    </td>
+<!--                    </div> -->
                 {% endfor %}
-
-                    <div class="clearfix"></div>
-            </div>
+                </tr></table>
+<!--
+                    <div class="clearfix"></div> -->
+            </div> 
         </div> <!-- tabhead -->
         {% block body_outer %}
             {% if messages %}

@@ -50,13 +50,19 @@ input#magnifier-submit { background: url('../img/search.png') #87deaa no-repeat 
 
 /* Nav bar - overrides styles from tabs.css */
 #nav-help { margin: 10px 0 0 20px; } /* the top left help btn */
-#left_tabs { position: relative; clear: both; left: 0px; background: #FFFFFF; bottom: 0; /* min-height: 80px; */ 
+/*#left_tabs { position: relative; clear: both; left: 0px; background: #FFFFFF; bottom: 0;  min-height: 80px; */ 
 /* the following creates the horiz scrollbar nav 
-height: 120px; overflow: auto; */
- }
+height: 120px; overflow: auto; 
+ } */
+#left_tabs {width: 100%; overflow:auto;}
 #multi-col-nav { float: left; padding-left:4px; padding-bottom:16px; width:155px; }
 #multi-col-nav a, #multi-col-nav a:visited { color: #1a1a1a; font: 11px Helvetica, Arial, sans-serif; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
 #multi-col-nav a:hover { font-weight: 800; }
+
+/*#nav-table tr { width: 100%; overflow:scroll; margin-right: -5px;} */
+#nav-table td { border: 0; font: 11px Helvetica, Arial, sans-serif; letter-spacing: 1px; text-transform: uppercase; padding:0 5px 0 0; vertical-align: top; line-height: 1.3em; min-width:190px;}
+#nav-table td a, #nav-table td a:visited { color: #1a1a1a; text-decoration: none; }
+#nav-table td a:hover { text-decoration: underline; }
 
 /* Style all tables the same way throughout the site  */
 th { font-size: 11px; color: #4f6b72; border: 1px solid #C1DAD7; letter-spacing: 2px; text-transform: uppercase; text-align: left; padding: 6px 6px 6px 12px; background: #C0F1D1; }
