@@ -1,4 +1,4 @@
-from random import shuffle
+from random import randrange
 
 from django.db.models import Count
 from django.http import HttpResponseRedirect
@@ -22,12 +22,23 @@ def homepage(request, template_name="homepage.html"):
         }
         categories.append(element)
 
-    # get random packages
-    packages = Package.objects.all()
-    package_count = packages.count()
-    count_list = [x for x in range(package_count)]
-    shuffle(count_list)
-    random_packages = [packages[x] for x in count_list[:5]]
+    # get up to 5 random packages
+    package_count = Package.objects.count()
+    random_packages = []
+    if package_count > 1:
+        package_ids = set([])
+   
+        for i in range(10):
+            package_ids.add(randrange(1,package_count+1))
+        
+        for i, package_id in enumerate(package_ids):
+            try:
+                random_packages.append(Package.objects.get(id=package_id))
+            except Package.DoesNoteExist:
+                pass
+            if len(random_packages) == 5:
+                break
+
     
     return render_to_response(
         template_name, {
