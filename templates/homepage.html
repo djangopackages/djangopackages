@@ -80,7 +80,10 @@
              <h2>Featured Package</h2>
              <a href="{{ potw.get_absolute_url }}">{{ potw.title }}</a>
              <p>{{ potw.repo_description }}</p>
-         {% endif %}        
+         {% endif %}
+        <h3>How to get your {{ FRAMEWORK_TITLE }} package featured here</h3>
+        <p>Do you have a package that you'd like us to feature?</p>
+        <p>If so, tweet at <a href="http://twitter.com/opencomparison">@OpenComparison</a> with a link, and make sure the description field in your repo has been filled out.</p>
     </div> <!-- three column (1st) -->
     <div class="one column"></div>
 
@@ -90,6 +93,9 @@
             <a href="{{ gotw.get_absolute_url }}">{{ gotw.title }}</a>
             <p>{{ gotw.repo_description }}</p>
         {% endif %}
+        <h3>How to get your {{ SITE_TITLE }} grid featured here</h3>
+        <p>Have you created a new and interesting grid?</p>
+        <p>Tweet at <a href="http://twitter.com/opencomparison">@OpenComparison</a> with a link.  We'll consider featuring it.
     </div> <!-- three column (2nd) -->
     <div class="one column"></div>
 
