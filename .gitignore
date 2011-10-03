@@ -8,3 +8,5 @@ docs/_build
 docs/_static
 *~
 _data
+collected_static/
+.DS_Store

@@ -48,25 +48,20 @@
 
             <div class="clearfix"></div>
             <a class="prev browse left">prev</a>
-           <!-- <div id="left_tabs"> -->
             <div class="scrollable">
-<!--                <table class="items" id="nav-table"><tr> -->
                 <div class="items">
                 {% for grid_chunk in grid_headers %}
-<!--                    <td> -->
                     <div>
                         {% for tab in grid_chunk %}
                             {% if tab %}
                                 <a href="{% url grid tab.slug %}" title="{{ tab.description }}">{{ tab.title|truncatewords:"2" }}</a><br />
                             {% endif %}
                             {% if forloop.parentloop.last and forloop.last %}
-                                <a href="{% url grids %}">{% trans "&raquo; more grids..." %}</a>                            
+                                <a href="{% url grids %}">{% trans "&raquo; more grids..." %}</a>
                             {% endif %}
                         {% endfor %}
                     </div>
-<!--                    </td> -->
                 {% endfor %}
-<!--                </tr></table>   -->
                 </div>
             </div>
             <a class="next browse right">next</a>
