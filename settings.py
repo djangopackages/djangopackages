@@ -148,7 +148,6 @@ PREREQ_APPS = [
     "django.contrib.staticfiles",
 
     # external
-    "notification", # must be first
     "uni_form",
     "pagination",
     "django_extensions",
