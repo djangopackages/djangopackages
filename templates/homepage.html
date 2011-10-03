@@ -29,15 +29,6 @@
         <p>
             <a class="large awesome forestgreen" href="{% url add_grid %}">{% trans "add grid »" %}</a>
         </p>
-        
-        {% if potw %}        
-        <div style="background:limegreen;">
-                <h2>Featured Grid</h2>            
-            <a href="{{ gotw.get_absolute_url }}">{{ gotw.title }}</a>
-            <p>{{ gotw.repo_description }}</p>
-        </div>
-        {% endif %}        
-        
     </div> <!-- three column (1st) -->
 
     <div class="one column"></div>
@@ -48,16 +39,6 @@
             <h3><a href="{% url category category.slug %}">{{ category.title_plural }}</a> ( {{ category.count }} )</h3>
             <p>{{ category.description }}</p>
          {% endfor %}
-         
-         
-         {% if potw %}
-             <div style="background:yellow;">
-                 <h2>Featured Package</h2>
-                 <a href="{{ potw.get_absolute_url }}">{{ potw.title }}</a>
-                 <p>{{ potw.repo_description }}</p>
-
-             </div>
-         {% endif %}         
     </div> <!-- three column (2nd) -->
      
     <div class="one column"></div>
@@ -89,7 +70,30 @@
                 </tr>            
             {% endfor %}
         </table>
+    </div> <!-- three column (3rd) -->
+    <div class="one column"></div>
+</div> <!-- twelve_column section -->
 
+<div class="twelve_column section">
+    <div class="three column">
+         {% if potw %}
+             <h2>Featured Package</h2>
+             <a href="{{ potw.get_absolute_url }}">{{ potw.title }}</a>
+             <p>{{ potw.repo_description }}</p>
+         {% endif %}        
+    </div> <!-- three column (1st) -->
+    <div class="one column"></div>
+
+    <div class="three column">
+        {% if gotw %}
+            <h2>Featured Grid</h2>            
+            <a href="{{ gotw.get_absolute_url }}">{{ gotw.title }}</a>
+            <p>{{ gotw.repo_description }}</p>
+        {% endif %}
+    </div> <!-- three column (2nd) -->
+    <div class="one column"></div>
+
+    <div class="three column">
         <h2>{% trans "latest 5" %}</h2>
         <table class="home-table">
         {% for package in latest_packages %}
@@ -115,16 +119,10 @@
                 </td>
             </tr>            
         {% endfor %}
-
         </table>
-
     </div> <!-- three column (3rd) -->
     <div class="one column"></div>
-
-      
-
-
-</div> <!-- six_column section -->
+</div> <!-- twelve_column section -->
 
 {% endblock %}
 
