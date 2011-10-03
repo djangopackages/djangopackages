@@ -47,15 +47,11 @@ class FunctionalHomepageTest(TestCase):
         g = Grid.objects.all()[0]
 
         d_live = Dpotw.objects.create(package=p, start_date=yesterday, end_date=tomorrow)
-        d_not_live = Dpotw.objects.create(package=p, start_date=two_days_ago, end_date=yesterday)
 
         g_live = Gotw.objects.create(grid=g, start_date=yesterday, end_date=tomorrow)
-        g_not_live = Gotw.objects.create(grid=g, start_date=two_days_ago, end_date=yesterday)
 
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'homepage.html')
-        self.assert_(d_live in response.context['potw'])
-        self.assert_(d_not_live not in response.context['potw'])
-        self.assert_(g_live in response.context['gotw'])
-        self.assert_(g_not_live not in response.context['gotw'])
+        self.assertContains(response, d_live.package.title)
+        self.assertContains(response, g_live.grid.title)        
