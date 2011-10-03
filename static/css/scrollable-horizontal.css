@@ -39,7 +39,11 @@
 	text-transform: uppercase; 
 	vertical-align: top; 
 	line-height: 1.3em; 
+	color: #1a1a1a; 
+	text-decoration: none;
 }
+
+.items div a:hover { text-decoration: underline; }
 
 /* single scrollable item */
 .scrollable img {
