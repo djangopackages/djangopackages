@@ -5,8 +5,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404 
 from django.template import RequestContext 
 
-from package.models import Category, Package
+from grid.models import Grid
 from homepage.models import Dpotw, Gotw
+from package.models import Category, Package
 
 def homepage(request, template_name="homepage.html"):
     
@@ -34,18 +35,31 @@ def homepage(request, template_name="homepage.html"):
         for i, package_id in enumerate(package_ids):
             try:
                 random_packages.append(Package.objects.get(id=package_id))
-            except Package.DoesNoteExist:
+            except Package.DoesNotExist:
                 pass
             if len(random_packages) == 5:
                 break
-
+                
+    try:
+        potw = Dpotw.objects.latest().package
+    except Dpotw.DoesNotExist:
+        potw = None
+    except Package.DoesNotExist:
+        potw = None
+        
+    try:
+        gotw = Gotw.objects.latest().grid
+    except Gotw.DoesNotExist:
+        gotw = None
+    except Grid.DoesNotExist:
+        gotw = None        
     
     return render_to_response(
         template_name, {
             "latest_packages":Package.objects.all().order_by('-created')[:5],
             "random_packages": random_packages,
-            "dpotw": Dpotw.objects.get_current(),
-            "gotw": Gotw.objects.get_current(),
+            "potw": potw,
+            "gotw": gotw,
             "categories":categories,
             "package_count":package_count
         }, context_instance = RequestContext(request)

@@ -98,6 +98,21 @@
                 </tr>            
             {% endfor %}
         </table>
+        
+        {% if potw %}
+            <div style="background:yellow;">
+                <a href="{{ potw.get_absolute_url }}">{{ potw.title }}</a>
+                <p>{{ potw.repo_description }}</p>
+
+            </div>
+        {% endif %}
+        {% if potw %}        
+        <div style="background:limegreen;">
+            <a href="{{ gotw.get_absolute_url }}">{{ gotw.title }}</a>
+            <p>{{ gotw.repo_description }}</p>
+        </div>
+        {% endif %}        
+        
     </div> <!-- two column (3rd) -->
     <div class="one column"></div>
 
