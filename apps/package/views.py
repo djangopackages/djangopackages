@@ -193,10 +193,12 @@ def ajax_package_list(request, template_name="package/ajax_package_list.html"):
     if q:
         django_dash = "%s-%s" % (settings.PACKAGINATOR_SEARCH_PREFIX, q)
         django_space = "%s %s" % (settings.PACKAGINATOR_SEARCH_PREFIX, q)
+        django_underscore = '%s_%s' % (settings.PACKAGINATOR_SEARCH_PREFIX, q)          
         packages = Package.objects.filter(
                         Q(title__istartswith=q) |
                         Q(title__istartswith=django_dash) |
-                        Q(title__istartswith=django_space)
+                        Q(title__istartswith=django_space) | 
+                        Q(title__istartswith=django_underscore)
                     )
     return render_to_response(template_name, {
         "packages": packages

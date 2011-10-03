@@ -12,19 +12,25 @@ from package.models import Package
 
 from searchv1.forms import SearchForm
 
+
+
 def package_search(q):
     """ Generic package search function. It makes it so things starting with 'django' don't get automatic preference
     
     """
+    django_underscore = '%s_%s' % (settings.PACKAGINATOR_SEARCH_PREFIX, q)    
     django_dash = '%s-%s' % (settings.PACKAGINATOR_SEARCH_PREFIX, q)
-    django_space = '%s %s' % (settings.PACKAGINATOR_SEARCH_PREFIX, q)
+    django_space = '%s %s' % (settings.PACKAGINATOR_SEARCH_PREFIX, q)    
+    
     return Package.objects.filter(
                 Q(title__istartswith=q) | 
+                Q(title__istartswith=django_underscore) |                
                 Q(title__istartswith=django_dash) |
                 Q(title__istartswith=django_space) |
                 Q(slug__istartswith=q) | 
+                Q(slug__istartswith=django_underscore) |                                
                 Q(slug__istartswith=django_dash) |
-                Q(slug__istartswith=django_space)                
+                Q(slug__istartswith=django_space)
                 )    
 
 def find_packages_autocomplete(q):
@@ -84,13 +90,16 @@ def search(request, template_name='searchv1/search.html'):
     except Package.DoesNotExist:
         pass
     if q:
+        django_underscore = '%s_%s' % (settings.PACKAGINATOR_SEARCH_PREFIX, q)        
         django_dash = '%s-%s' % (settings.PACKAGINATOR_SEARCH_PREFIX, q)
         django_space = '%s %s' % (settings.PACKAGINATOR_SEARCH_PREFIX, q)
         packages = Package.objects.filter(
                     Q(title__icontains=q) | 
+                    Q(title__istartswith=django_underscore) |                      
                     Q(title__istartswith=django_dash) |
                     Q(title__istartswith=django_space) | 
                     Q(slug__istartswith=q) | 
+                    Q(slug__istartswith=django_underscore) |                                                    
                     Q(slug__istartswith=django_dash) |
                     Q(slug__istartswith=django_space) |                                       
                     Q(repo_description__icontains=q))        

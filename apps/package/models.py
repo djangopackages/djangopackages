@@ -25,10 +25,10 @@ from package.signals import signal_fetch_latest_metadata
 
 repo_url_help_text = settings.PACKAGINATOR_HELP_TEXT['REPO_URL']
 pypi_url_help_text = settings.PACKAGINATOR_HELP_TEXT['PYPI_URL']
-category_help_text = settings.PACKAGINATOR_HELP_TEXT['CATEGORY']
 
 class NoPyPiVersionFound(Exception):
     pass
+    
 
 class Category(BaseModel):
     
@@ -49,7 +49,7 @@ class Package(BaseModel):
     
     title           = models.CharField(_("Title"), max_length="100")
     slug            = models.SlugField(_("Slug"), help_text="Slugs will be lowercased", unique=True)
-    category        = models.ForeignKey(Category, verbose_name="Installation", help_text=category_help_text)
+    category        = models.ForeignKey(Category, verbose_name="Installation")
     repo_description= models.TextField(_("Repo Description"), blank=True)
     repo_url        = models.URLField(_("repo URL"), help_text=repo_url_help_text, blank=True,unique=True)
     repo_watchers   = models.IntegerField(_("repo watchers"), default=0)
@@ -57,13 +57,11 @@ class Package(BaseModel):
     repo_commits    = models.IntegerField(_("repo commits"), default=0)
     pypi_url        = models.URLField(_("PyPI slug"), help_text=pypi_url_help_text, blank=True, default='')
     pypi_downloads  = models.IntegerField(_("Pypi downloads"), default=0)
-    #related_packages    = models.ManyToManyField("self", blank=True)
     participants    = models.TextField(_("Participants"),
                         help_text="List of collaborats/participants on the project", blank=True)
     usage           = models.ManyToManyField(User, blank=True)
     created_by = models.ForeignKey(User, blank=True, null=True, related_name="creator")    
     last_modified_by = models.ForeignKey(User, blank=True, null=True, related_name="modifier")
-    #pypi_home_page  = models.URLField(_("homepage on PyPI for a project"), blank=True, null=True)
     
     @property
     def pypi_version(self):
