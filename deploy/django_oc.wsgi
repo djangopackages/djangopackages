@@ -8,7 +8,7 @@ from os.path import abspath, dirname, join
 from site import addsitedir
 
 # Virtualenv django_oc is in ~/.virtualenvs
-site_packages = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), '.virtualenvs/django_oc/lib/python2.6/site-packages')
+site_packages = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), '.virtualenvs/django_oc/lib/python2.7/site-packages')
 site.addsitedir(os.path.abspath(site_packages))
 
 sys.path.insert(0, abspath(join(dirname(__file__), "../../")))
