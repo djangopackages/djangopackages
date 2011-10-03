@@ -45,10 +45,10 @@
             </div>
 
             <div class="clearfix"></div>
+            <a id="nav_previous" href="#">previous</a> | <a id="nav_next" href="#">next</a>
             <div id="left_tabs" >
-            <!--
-                <a id="nav_previous" href="#">previous</a> | <a id="nav_next" href="#">next</a>
-            -->
+            
+            
                 <table id="nav-table"><tr>
                 {% for grid_chunk in grid_headers %}
 <!--                    <div id="multi-col-nav"> -->
@@ -126,12 +126,18 @@
               }
             });
 
+            var nav_position = 900;
+
             $('#nav_previous').click(function() {
-                $('#left_tabs').css({'background': '#ffffff'});
+                nav_position -= 190;
+                if (nav_position < 0) {
+                    nav_position = 0;
+                }
+                $('#left_tabs').scrollLeft(nav_position);
             });
 
             $('#nav_next').click(function() {
-                $('#left_tabs').css({'background': '#ff3333'});
+                $('#left_tabs').scrollLeft(190);
             });
         </script>
 
