@@ -18,11 +18,8 @@
     </h1>
     
     
-<div id="package-wrap">    
-      
-      
-    <div id="package-left">
-        
+<div class="twelve_column section">    
+    <div class="six column">
         <p>
             {{ package.repo_description }}
         </p>
@@ -83,8 +80,8 @@
         
         </p>
     
-    </div>
-    <div id="package-right">
+    </div> <!-- end six column section -->
+    <div class="six column section">
         
         <h2 class="rtd" style="display: none;">{% trans "Read the Docs" %}</h2>
         <p class="rtd" style="display: none;">{% blocktrans %}This project has documentation available for it on <a class="rtd">Read the Docs!</a>{% endblocktrans %}</p>
@@ -149,10 +146,8 @@
         </ol>
         {% endif %}
         {% endwith %}
-    
-    </div>
-    
-</div>    
+    </div> <!-- end six column section -->
+</div>    <!-- end twelve_column section -->
 
 {% endblock %}
 
