@@ -37,6 +37,9 @@ How hard is it to add support for a new repo?
 
 We've done a lot of work to make it as straightforward as possible. At PyCon 2011 we launched our formal `Repo Handler API`_.
 
+Installation
+============
+
 How come you don't support buildout?
 ------------------------------------
 
@@ -53,7 +56,7 @@ If you are using something else besides Ubuntu, Mac OS X 10.6, or Windows 7, you
 What happened to the fixtures?
 ------------------------------
 
-The effort to support databases besides PostGreSQL was hampered for long time, all caused by a third party package I'm not going to identify that caused grief in the use of fixtures. This was a significant issue in Open Comparison, and used up a lot of development cycles. 
+The effort to support databases besides PostGreSQL was hampered for long time, all caused by a third party package we're not going to identify that caused grief in the use of fixtures. This was a significant issue in Open Comparison, and used up a lot of development cycles. 
 
 So we use a **Mock** system of creating sample data in our tests and for running a development version of the site. To create some development data, just run::
 
