@@ -29,7 +29,7 @@
         <p>
             <a class="large awesome forestgreen" href="{% url add_grid %}">{% trans "add grid »" %}</a>
         </p>
-    </div> <!-- two column (1st) -->
+    </div> <!-- three column (1st) -->
 
     <div class="one column"></div>
 
@@ -39,11 +39,38 @@
             <h3><a href="{% url category category.slug %}">{{ category.title_plural }}</a> ( {{ category.count }} )</h3>
             <p>{{ category.description }}</p>
          {% endfor %}
-    </div> <!-- two column (2nd) -->
+    </div> <!-- three column (2nd) -->
      
     <div class="one column"></div>
 
     <div class="three column">
+        <h2>random 5</h2>
+        <table class="home-table">
+            {% for package in random_packages %}
+                <tr class="usage-holder">
+                    <td>
+                        {% usage_button %}                       
+                    </td>
+                    <td>
+                        <span class="home-numusers usage-count" id="usage-count-{{ package.id }}">{{ package.usage.count }}</span>                            
+                        <span class="home-users">users</span></td>
+                    <td>
+                        <span class="home-packagename"><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></span>
+                        <span class="home-packagedesc">
+                        {# TODO - make this a template tag! #}                                
+                            {% with package.repo_description|truncatewords:25 as short %}
+                                {% if package.repo_description|length > short|length %}
+                                   {{ short|slice:"-3" }}<a rel="facebox" href="{% url package_repo_description package.slug %}">...</a>                                    
+                                {% else %}
+                                    {{ short }}
+                                {% endif %}
+                            {% endwith %}
+                        </span>
+                    </td>
+                </tr>            
+            {% endfor %}
+        </table>
+
         <h2>{% trans "latest 5" %}</h2>
         <table class="home-table">
         {% for package in latest_packages %}
@@ -72,33 +99,7 @@
 
         </table>
 
-        <h2>random 5</h2>
-        <table class="home-table">
-            {% for package in random_packages %}
-                <tr class="usage-holder">
-                    <td>
-                        {% usage_button %}                       
-                    </td>
-                    <td>
-                        <span class="home-numusers usage-count" id="usage-count-{{ package.id }}">{{ package.usage.count }}</span>                            
-                        <span class="home-users">users</span></td>
-                    <td>
-                        <span class="home-packagename"><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></span>
-                        <span class="home-packagedesc">
-                        {# TODO - make this a template tag! #}                                
-                            {% with package.repo_description|truncatewords:25 as short %}
-                                {% if package.repo_description|length > short|length %}
-                                   {{ short|slice:"-3" }}<a rel="facebox" href="{% url package_repo_description package.slug %}">...</a>                                    
-                                {% else %}
-                                    {{ short }}
-                                {% endif %}
-                            {% endwith %}
-                        </span>
-                    </td>
-                </tr>            
-            {% endfor %}
-        </table>
-    </div> <!-- two column (3rd) -->
+    </div> <!-- three column (3rd) -->
     <div class="one column"></div>
 
 </div> <!-- six_column section -->
