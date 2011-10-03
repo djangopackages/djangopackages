@@ -55,7 +55,7 @@
                 <tr>
                     <th>{% trans "Version" %}</th>
                     <th>{% trans "License" %}</th>                
-                    <th><img src="{{ STATIC_URL }}img/grayarrow_20x20_clear.png" alt="Downloads" /></th>
+                    <th><img src="{{ STATIC_URL }}img/download_20x20_clear.png" alt="Downloads" /></th>
                 </tr>
                 {% for version in package.version_set.by_version %}
                     {% if not version.hidden %}
