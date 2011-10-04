@@ -38,7 +38,13 @@
             {% for user in users %}
                 {% with user.get_profile as profile %}
                 <tr>
-                    <td><a href="{% url profile_detail profile.github_account %}">{{ profile.github_account }}</a></td>
+                    <td>
+                        
+                        {% if profile.github_account %}<a href="{% url profile_detail profile.github_account %}">{{ profile.github_account }}</a>
+                        {% else %}
+                        {{ user.username }}
+                        {% endif %}
+                    </td>
                     <td><span class="hide">{{ user.date_joined|date:"YmdHis" }}</span>{{ user.date_joined|timesince }}</td>
                     <td>
                         {% if user.is_staff %}
