@@ -26,19 +26,19 @@
             
             {% if profile.github_account %}
                 <p><b>{% trans "Github account" %}</b>:
-                            <span class="fn"><a href="https://github.com/{{ profile.github_account }}">{{ profile.github_url }}</a></span>
+                            <span class="fn"><a href="https://github.com/{{ local_profile.github_account }}">{{ local_profile.github_url }}</a></span>
                 </p>
             {% endif %}
 
-            {% if profile.bitbucket_url %}            
+            {% if local_profile.bitbucket_url %}            
                 <p><b>{% trans "BitBucket account" %}</b>: 
-                            <span class="fn"><a href="https://bitbucket.org/{{ profile.bitbucket_url     }}">{{ profile.bitbucket_url }}</a></span>
+                            <span class="fn"><a href="https://bitbucket.org/{{ local_profile.bitbucket_url     }}">{{ local_profile.bitbucket_url }}</a></span>
                 </p>
             {% endif %}
 
-            {% if profile.google_code_url %}                
+            {% if local_profile.google_code_url %}                
                 <p><b>{% trans "Google Code account" %}</b>:
-                            <span class="fn"><a href="http://code.google.com/u/{{ profile.google_code_url|urlize }}/">{{ profile.google_code_url|urlize }}</a></span>
+                            <span class="fn"><a href="http://code.google.com/u/{{ local_profile.google_code_url|urlize }}/">{{ profile.google_code_url|urlize }}</a></span>
                 </p>
             {% endif %}            
 
