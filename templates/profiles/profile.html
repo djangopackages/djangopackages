@@ -24,7 +24,7 @@
                 <p><a href="{% url profile_edit %}" rel="facebox">{% trans "Edit my profile" %}</a></p>
             {% endif %}    
             
-            {% if profile.github_account %}
+            {% if local_profile.github_account %}
                 <p><b>{% trans "Github account" %}</b>:
                             <span class="fn"><a href="https://github.com/{{ local_profile.github_account }}">{{ local_profile.github_url }}</a></span>
                 </p>
@@ -38,11 +38,11 @@
 
             {% if local_profile.google_code_url %}                
                 <p><b>{% trans "Google Code account" %}</b>:
-                            <span class="fn"><a href="http://code.google.com/u/{{ local_profile.google_code_url|urlize }}/">{{ profile.google_code_url|urlize }}</a></span>
+                            <span class="fn"><a href="http://code.google.com/u/{{ local_profile.google_code_url|urlize }}/">{{ local_profile.google_code_url|urlize }}</a></span>
                 </p>
             {% endif %}            
 
-            {% if profile.my_packages %}
+            {% if local_profile.my_packages %}
                 <h2>{% trans "Packages I contribute to" %}</h2>
                 <table>
                 <thead>
@@ -53,7 +53,7 @@
                     </tr>
                 </thead>                    
                 <tbody>
-                {% for package in profile.my_packages %}    
+                {% for package in local_profile.my_packages %}    
                     <tr>
                         <td>{{ forloop.counter }}</td>                        
                         <td><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></td>
