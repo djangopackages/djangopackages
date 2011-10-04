@@ -20,9 +20,10 @@ class Command(NoArgsCommand):
         users = User.objects.filter(username__in=("pydanny","audreyr"))
 
         for index, user in enumerate(users):
-
+            if not user.email.strip():
+                continue
             send_mail(
-                subject="",
+                subject=settings.BIG_EMAIL_SEND_SUBJECT,
                 message=settings.BIG_EMAIL_SEND,
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[user.email,],
