@@ -21,7 +21,7 @@ def profile_detail(request, github_account, template_name="profiles/profile.html
     profile = get_object_or_404(Profile, github_account=github_account)
 
     return render_to_response(template_name,
-        {"profile": profile, "user":profile.user},
+        {"local_profile": profile, "user":profile.user},
         RequestContext(request))
 
 def profile_list(request, template_name="profiles/profiles.html"):
