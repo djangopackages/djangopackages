@@ -9,7 +9,6 @@ from django.utils.module_loading import module_has_submodule
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 
-
 class Command(NoArgsCommand):
     
     help = "Send out email to everyone"
@@ -21,13 +20,10 @@ class Command(NoArgsCommand):
         users = User.objects.filter(username__in=("pydanny","audreyr"))
 
         for index, user in enumerate(users):
-            
-            message = """
-"""            
 
             send_mail(
                 subject="",
-                message=message,
+                message=settings.BIG_EMAIL_SEND,
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[user.email,],
             )            
