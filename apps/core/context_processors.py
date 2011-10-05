@@ -8,7 +8,8 @@ def core_values(request):
     
     data = {
         'SITE_TITLE': getattr(settings, "SITE_TITLE", "Django Packages"),
-        'FRAMEWORK_TITLE': getattr(settings, "FRAMEWORK_TITLE", "Django")        
+        'FRAMEWORK_TITLE': getattr(settings, "FRAMEWORK_TITLE", "Django"),
+        'PIWIK_CODE':getattr(settings, "PIWIK_CODE", "")
         }
     return data
 
