@@ -211,13 +211,14 @@ def usage(request, slug, action):
     # Check if the user is authenticated, redirecting them to the login page if
     # they're not.
     if not request.user.is_authenticated():
+        
         url = settings.LOGIN_URL
         referer = request.META.get('HTTP_REFERER')
         if referer:
             url += urllib.quote_plus('?next=/%s' % referer.split('/', 3)[-1])
         else:
             url += '?next=%s' % reverse('usage', args=(slug, action))
-        
+        url = reverse("login")
         if request.is_ajax():
             response = {}
             response['success'] = success
