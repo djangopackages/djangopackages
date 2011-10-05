@@ -1,12 +1,13 @@
 """Contains classes for the feeds"""
 
+from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.utils.feedgenerator import Atom1Feed
 from package.models import Package
 
 class RssLatestPackagesFeed(Feed):
     """RSS Feed for the packages"""
-    title = "Latest Django packages added"
+    title = "Latest {0} packages added".format(settings.FRAMEWORK_TITLE)
     link = "/packages/latest/"
     description = "The last 15 packages added"
 
