@@ -166,7 +166,13 @@ class Package(BaseModel):
         
         self.repo.fetch_metadata(self)
         signal_fetch_latest_metadata.send(sender=self)
-        self.save()        
+        self.save() 
+        
+    def save(self, *args, **kwargs):
+        if not self.repo_description:
+            self.repo_description = ""
+        super(Package, self).save(*args, **kwargs)
+       
 
     def fetch_commits(self):
         self.repo.fetch_commits(self)
