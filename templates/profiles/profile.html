@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "profiles/base.html" %}
 
 {% load i18n %}
 {% load profile_tags %}
@@ -12,9 +12,9 @@
 
 {% block body %}
         
-    <div id="package-wrap">       
+    <div class="twelve_column section">
         
-        <div id="package-left">
+        <div class="six column">
             <h1>{% blocktrans %}Profile for <span class="fn nickname">{{ user }}</span>{% endblocktrans %}</h1>
                 
             <h2><a href="{% url profile_list %}">{% trans "All profiles" %}</a></h2>                            
@@ -66,7 +66,7 @@
             {% endif %}
             </div>
             
-            <div id="package-right">
+            <div class="six column section">
                 <h2>{% trans "Packages I use" %}</h2>
                 <ul class="usage-list">
                     <table>
