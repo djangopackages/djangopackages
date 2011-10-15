@@ -23,7 +23,7 @@ class BaseBase(TestCase):
         self.category.save()
 
 
-class TestBitbucketRepo(BaseBase):
+class TestBitbucketRepo(object):
     def setUp(self):
         super(TestBitbucketRepo, self).setUp()
         self.package = Package.objects.create(
@@ -47,7 +47,7 @@ class TestBitbucketRepo(BaseBase):
         self.assertEquals(package.participants, "jespern")
 
 
-class TestGithubRepo(BaseBase):
+class TestGithubRepo(object):
     def setUp(self):
         super(TestGithubRepo, self).setUp()
         self.package = Package.objects.create(
@@ -78,16 +78,14 @@ class TestGithubRepo(BaseBase):
 
 if settings.LAUNCHPAD_ACTIVE:
     class TestLaunchpadRepo(BaseBase):
-        def setUp(self):
-            super(TestLaunchpadRepo, self).setUp()            
+        def setUp(self):         
+            super(TestLaunchpadRepo, self).setUp()              
             self.package = Package.objects.create(
                 title="Django-PreFlight",
                 slug="django-preflight",
                 repo_url="https://code.launchpad.net/~canonical-isd-hackers/django-preflight/trunk",
                 category=self.category
             )
-                
-            super(TestGithubRepo, self).setUp(*args, **kwargs)
         
         def test_fetch_commits(self):
             self.assertEqual(Commit.objects.count(), 0)

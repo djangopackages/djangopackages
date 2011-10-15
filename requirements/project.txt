@@ -22,6 +22,7 @@ coverage==3.4
 django-coverage==1.1.1
 feedparser==5.0.1
 django-classy-tags==0.3.3.1
+requests==0.6.4 # for launchpad
 
 # Celery dependencies:
 celery==2.2.4
