@@ -171,9 +171,6 @@ class FunctionalPackageTest(TestCase):
         response = self.client.get(url)
         self.assertEqual(count, user.package_set.count())
 
-class RegressionPackageTest(TestCase):
-    pass
-
 class PackagePermissionTest(TestCase):
     def setUp(self):
         initial_data.load()
