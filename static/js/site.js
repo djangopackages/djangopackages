@@ -30,3 +30,8 @@ $(".usage-link").live('click', function(e) {
     });
 });
 
+
+$("#messages li a").click(function() {
+    $(this).parent().fadeOut();
+    return false;
+});

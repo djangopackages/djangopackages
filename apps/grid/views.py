@@ -3,6 +3,7 @@
 from django.conf import settings
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User 
+from django.contrib import messages
 from django.core.cache import cache
 from django.core.urlresolvers import reverse 
 from django.db.models import Count
@@ -299,13 +300,13 @@ def add_grid_package(request, grid_slug, template_name="grid/add_grid_package.ht
     grid = get_object_or_404(Grid, slug=grid_slug)
     grid_package = GridPackage()
     form = GridPackageForm(request.POST or None, instance=grid_package)    
-    message = ''
 
     if form.is_valid(): 
         package = get_object_or_404(Package, id=request.POST['package'])    
         try:
             GridPackage.objects.get(grid=grid, package=package)
             message = "Sorry, but '%s' is already in this grid." % package.title
+            messages.add_message(request, messages.ERROR, message)            
         except GridPackage.DoesNotExist:
             grid_package = GridPackage(
                         grid=grid, 
@@ -322,8 +323,7 @@ def add_grid_package(request, grid_slug, template_name="grid/add_grid_package.ht
 
     return render_to_response(template_name, { 
         'form': form,
-        'grid': grid,
-        'message': message
+        'grid': grid
         },
         context_instance=RequestContext(request))
 

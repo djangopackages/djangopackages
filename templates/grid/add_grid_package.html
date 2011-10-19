@@ -8,10 +8,7 @@
 
     {% url grid grid.slug as grid_url %}
     <h1><a href="{% url home %}">{% trans "home" %}</a> / <a href="{% url grids %}">{% trans "grids" %}</a> / {% blocktrans with grid.title as grid_title %}Add a package to grid '<a href="{{ grid_url }}">{{ grid_title }}</a>'{% endblocktrans %}</h1>
-    
-    {# TODO replace with a proper message #}
-    {% if message|length %}<p class="editable-cell">{{ message }}</p>{% endif %}
-    
+        
     <form method="post" id="grid-package-form">
         {% csrf_token %}
         <fieldset>

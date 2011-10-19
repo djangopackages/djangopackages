@@ -60,8 +60,8 @@ class Package(BaseModel):
     participants    = models.TextField(_("Participants"),
                         help_text="List of collaborats/participants on the project", blank=True)
     usage           = models.ManyToManyField(User, blank=True)
-    created_by = models.ForeignKey(User, blank=True, null=True, related_name="creator")    
-    last_modified_by = models.ForeignKey(User, blank=True, null=True, related_name="modifier")
+    created_by = models.ForeignKey(User, blank=True, null=True, related_name="creator", on_delete=models.SET_NULL)
+    last_modified_by = models.ForeignKey(User, blank=True, null=True, related_name="modifier", on_delete=models.SET_NULL)
     
     @property
     def pypi_version(self):
