@@ -88,7 +88,6 @@ urlpatterns = patterns("",
         name    = "usage",
     ),
     
-    # TODO make this not use a template perhaps?
     url(
         regex = "^p/repo_description/(?P<slug>[-\w]+)/$",
         view    = object_detail,
