@@ -1,5 +1,3 @@
-# TODO: mock these tests so no network access is required
-
 from django.conf import settings
 from django.test import TestCase
 
