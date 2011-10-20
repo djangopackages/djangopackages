@@ -1,10 +1,5 @@
 {% extends "grid/base.html" %}
 
-{% comment %}
-    Figure out how to use facebox for the forms cause right now the edits don't stick
-     rel="facebox"
-{% endcomment %}
-
 {% load i18n %}
 {% load cache %}
 {% load grid_tags %}
@@ -86,15 +81,12 @@
                     {% for grid_package in grid_packages %}
                         <td>
                             {% with grid_package.package.repo_description|truncatewords:20 as short %}
-                          
                                 {% if grid_package.package.repo_description|length > short|length %}
-                                   {{ short|wordwrap:30|linebreaksbr|slice:"-3" }}<a rel="facebox" href="{% url package_repo_description grid_package.package.slug %}">...</a>                                    
+                                   {{ short|wordwrap:30|linebreaksbr|slice:"-3" }}<a href="{{ grid_package.package.get_absolute_url }}">...</a>                                    
                                 {% else %}
                                     {{ short|wordwrap:30|linebreaksbr }}
                                 {% endif %}
                             {% endwith %}
-                            
-                            
                         </td>
                     {% endfor %}
                 </tr>                    

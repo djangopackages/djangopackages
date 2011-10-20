@@ -21,7 +21,7 @@
 
 
             {% if request.user == user %}
-                <p><a href="{% url profile_edit %}" rel="facebox">{% trans "Edit my profile" %}</a></p>
+                <p><a href="{% url profile_edit %}">{% trans "Edit my profile" %}</a></p>
             {% endif %}    
             
             {% if local_profile.github_account %}

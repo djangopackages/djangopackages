@@ -87,16 +87,6 @@ urlpatterns = patterns("",
         view    = usage,
         name    = "usage",
     ),
-    
-    url(
-        regex = "^p/repo_description/(?P<slug>[-\w]+)/$",
-        view    = object_detail,
-        name    = "package_repo_description",
-        kwargs=dict(
-            queryset=Package.objects.select_related(),
-            template_name="package/facebox/package_repo_description.html",
-            )        
-    ),    
    
         
 )
