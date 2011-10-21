@@ -37,7 +37,7 @@ class FunctionalPackageTest(TestCase):
             self.assertContains(response, participant)
         for g in p.grids():
             self.assertContains(response, g.title)
-        for e in p.active_examples():
+        for e in p.active_examples:
             self.assertContains(response, e.title)
 
     def test_latest_packages_view(self):

@@ -99,8 +99,8 @@ class Package(BaseModel):
     def repo(self):
         return get_repo_for_repo_url(self.repo_url)
 
+    @property
     def active_examples(self):
-        # TODO - convert to property
         return self.packageexample_set.filter(active=True)
         
     @property
