@@ -48,7 +48,7 @@ class Category(BaseModel):
 class Package(BaseModel):
     
     title           = models.CharField(_("Title"), max_length="100")
-    slug            = models.SlugField(_("Slug"), help_text="Slugs will be lowercased", unique=True)
+    slug            = models.SlugField(_("Slug"), help_text="Enter a valid 'slug' consisting of letters, numbers, underscores or hyphens.<br />Values will be converted to lowercase.", unique=True)
     category        = models.ForeignKey(Category, verbose_name="Installation")
     repo_description= models.TextField(_("Repo Description"), blank=True)
     repo_url        = models.URLField(_("repo URL"), help_text=repo_url_help_text, blank=True,unique=True)

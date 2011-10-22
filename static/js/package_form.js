@@ -51,7 +51,7 @@ function package_form(data){
 	repo_url.keyup(function(e) {
 		var url = repo_url.val();
 		return url
-	});
+	});	
 		
 	repo_url.change(function(e) {
 	 
@@ -97,12 +97,22 @@ function package_form(data){
 						// fallback slug detector
 						slug = DPSlugify(url_array[url_array.length-1]);
 					}
-					$("#id_slug").val(slug);
 					pypi_url.val(slug);
+					for (i=0;i<10;i++) {
+					    slug = slug.replace('.','-');
+				    };
+				    $("#id_slug").val(slug);				    
 					$("#package-form-message").text("Your package is hosted at " + item.title)
 				};
 			};
 		});
+	});
+	
+	var slug = $("#id_slug");
+	slug.change(function(e) {
+		for (i=0;i<10;i++) {
+		    slug.val(slug.val().replace('.','-'));
+	    };	    
 	});
 	
 	$("#package-form").submit(function(e) {
