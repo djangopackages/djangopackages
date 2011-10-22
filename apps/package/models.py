@@ -17,7 +17,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from distutils.version import LooseVersion as versioner
 
 from core.models import BaseModel
-from package.fields import CreationDateTimeField, ModificationDateTimeField
 from package.repos import github
 from package.pypi import fetch_releases
 from package.repos import get_repo_for_repo_url
