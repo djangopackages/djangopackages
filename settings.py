@@ -134,6 +134,7 @@ PROJECT_APPS = [
     "apiv1",
     "feeds",
     "pypi",
+    "searchv2"
 ]
 
 PREREQ_APPS = [

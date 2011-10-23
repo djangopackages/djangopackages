@@ -45,7 +45,7 @@ class Gotw(BaseModel):
     
     class Meta:
         ordering = ('-start_date', '-end_date',)   
-        get_latest_by = 'created'             
+        get_latest_by = 'created'
         
         verbose_name         = "Grid of the Week"
         verbose_name_plural  = "Grids of the Week"

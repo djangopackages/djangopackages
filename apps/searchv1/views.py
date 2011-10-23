@@ -12,8 +12,6 @@ from package.models import Package
 
 from searchv1.forms import SearchForm
 
-
-
 def package_search(q):
     """ Generic package search function. It makes it so things starting with 'django' don't get automatic preference
     

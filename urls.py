@@ -46,7 +46,7 @@ urlpatterns = patterns("",
     url(r"^faq/$", direct_to_template, {"template": "pages/faq.html"}, name="faq"),    
     url(r"^syndication/$", direct_to_template, {"template": "pages/syndication.html"}, name="syndication"),
     url(r"^contribute/$", direct_to_template, {"template": "pages/contribute.html"}, name="contribute"),
-
+    url(r"^searchv2/", include("searchv2.urls")),
 )
 
 from apiv1.api import Api

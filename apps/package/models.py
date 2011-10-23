@@ -208,6 +208,7 @@ class Commit(BaseModel):
     
     class Meta:
         ordering = ['-commit_date']
+        get_latest_by = 'commit_date'
         
     def __unicode__(self):
         return "Commit for '%s' on %s" % (self.package.title, unicode(self.commit_date))    
