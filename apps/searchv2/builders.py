@@ -31,7 +31,7 @@ def build_1():
     year_delta = timedelta(365)
     
     SearchV2.objects.all().delete()
-    for package in Package.objects.all():
+    for package in Package.objects.filter(title="django-registration"):
         
         obj = SearchV2.objects.create(
             item_type="package",
