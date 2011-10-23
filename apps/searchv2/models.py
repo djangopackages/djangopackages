@@ -29,6 +29,8 @@ class SearchV2(BaseModel):
     item_type       = models.CharField(_("Item Type"), max_length=40, choices=ITEM_TYPE_CHOICES)
     title           = models.CharField(_("Title"), max_length="100")
     title_no_prefix = models.CharField(_("No Prefix Title"), max_length="100")
+    slug            = models.SlugField(_("Slug"))
+    slug_no_prefix  = models.SlugField(_("No Prefix Slug"))    
     description     = models.TextField(_("Repo Description"), blank=True)    
     category        = models.CharField(_("Category"), blank=True, max_length=50)
     absolute_url    = models.CharField(_("Absolute URL"), max_length="255")

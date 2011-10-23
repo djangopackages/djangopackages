@@ -8,6 +8,12 @@ urlpatterns = patterns("",
         regex   = '^build$',
         view    = views.build_search,
         name    = 'build_search',
-    ),    
+    ),  
+    
+    url(
+        regex   = '^$',
+        view    = views.search,
+        name    = 'searchv2',
+    ),      
 
 )

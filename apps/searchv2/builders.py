@@ -10,11 +10,11 @@ _dash = '%s-%s' % (settings.PACKAGINATOR_SEARCH_PREFIX, q)
 _space = '%s %s' % (settings.PACKAGINATOR_SEARCH_PREFIX, q)    
 """
 
-def remove_title_prefix(title):
-    title = title.lower()
+def remove_prefix(value):
+    value = value.lower()
     for char in ["_", ",", ".", "-", " ", "/",]:
-        title = title.replace("{0}{1}".format(settings.PACKAGINATOR_SEARCH_PREFIX, char), "")
-    return title
+        value = value.replace("{0}{1}".format(settings.PACKAGINATOR_SEARCH_PREFIX, char), "")
+    return value
 
 def build_1():
     
@@ -25,7 +25,9 @@ def build_1():
             weight=0,
             item_type="package",
             title=package.title,
-            title_no_prefix=remove_title_prefix(package.title),
+            title_no_prefix=remove_prefix(package.title),
+            slug=package.slug,
+            slug_no_prefix=remove_prefix(package.slug),
             description=package.repo_description,
             category=package.category.title,
             absolute_url=package.get_absolute_url(),

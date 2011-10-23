@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load uni_form_tags %}
+
+{% block head_title %}{% trans "Search" %}{% endblock %}
+{% block body_class %}search{% endblock %}
+
+{% block body %}
+
+    <h1>{% trans "Search" %}</h1>
+    
+    <form class="uniForm">
+        <fieldset>
+                {{ form|as_uni_form }}
+
+            <div class="form_block">        
+                <input type="submit" name="b" value="{% trans "Search" %}" class="medium awesome forestgreen"> 
+            </div>            
+        </fieldset>
+    </form>
+
+    
+    <div id="search-results">
+        {% for package in items %}
+            {% include "package/includes/_package.html"%}
+        {% endfor %}
+    </div>
+
+{% endblock %}
+
+{% block extra_body %}
+<script>
+    $("#id_q").focus();
+    
+    {% for grid in grids %}
+        $('#grid-{{ grid.id }}').mouseover(function() {
+            $('#grid-{{ grid.id }}').addClass("clickable");
+        });
+        $('#grid-{{ grid.id }}').mouseout(function() {
+            $('#grid-{{ grid.id }}').removeClass("clickable");
+        });
+        $('#grid-{{ grid.id }}').click(function() {
+            $(location).attr("href","{% url grid grid.slug %}");
+        });   
+    {% endfor %}    
+    
+    {% for package in packages %}
+        $('#package-{{ package.id }}').mouseover(function() {
+            $('#package-{{ package.id }}').addClass("clickable");
+        });
+        $('#package-{{ package.id }}').mouseout(function() {
+            $('#package-{{ package.id }}').removeClass("clickable");
+        });
+        $('#package-{{ package.id }}').click(function() {
+            $(location).attr("href","{% url package package.slug %}");
+        });        
+    {% endfor %}
+</script>
+{% endblock %}
