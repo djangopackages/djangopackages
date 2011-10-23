@@ -1,0 +1,1 @@
+from searchv2.tests.test_performance import *

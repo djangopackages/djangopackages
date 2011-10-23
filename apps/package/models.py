@@ -157,6 +157,8 @@ class Package(BaseModel):
 
                 # add to versions
                 version.downloads = release.downloads
+                if hasattr(release, "upload_time"):
+                    version.upload_time = release.upload_time
                 version.license = release.license
                 version.hidden = release._pypi_hidden                
                 version.save()
@@ -224,7 +226,8 @@ class Version(BaseModel):
     number = models.CharField(_("Version"), max_length="100", default="", blank="")
     downloads = models.IntegerField(_("downloads"), default=0)
     license = models.CharField(_("license"), max_length="100")
-    hidden = models.BooleanField(_("hidden"), default=False)    
+    hidden = models.BooleanField(_("hidden"), default=False)
+    upload_time = models.DateTimeField(_("upload_time"), help_text=_("When this was uploaded to PyPI"), blank=True, null=True)
     
     objects = VersionManager()
 

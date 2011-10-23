@@ -1,33 +1,45 @@
+from datetime import datetime, timedelta
+
 from django.conf import settings
+from django.template.defaultfilters import slugify
+
+import requests
 
 from grid.models import Grid
 from package.models import Package, Commit, Version
 from searchv2.models import SearchV2
 
-"""
-_underscore = '%s_%s' % (settings.PACKAGINATOR_SEARCH_PREFIX, q)    
-_dash = '%s-%s' % (settings.PACKAGINATOR_SEARCH_PREFIX, q)
-_space = '%s %s' % (settings.PACKAGINATOR_SEARCH_PREFIX, q)    
-"""
+CHARS = ["_", ",", ".", "-", " ", "/",]
 
 def remove_prefix(value):
     value = value.lower()
-    for char in ["_", ",", ".", "-", " ", "/",]:
+    for char in CHARS:
         value = value.replace("{0}{1}".format(settings.PACKAGINATOR_SEARCH_PREFIX, char), "")
+    return value
+    
+def clean_title(value):
+    value = slugify(value)
+    for char in CHARS:
+        value = value.replace(char,"")
     return value
 
 def build_1():
+    
+    now = datetime.now()
+    quarter_delta = timedelta(90)    
+    half_year_delta = timedelta(182)    
+    year_delta = timedelta(365)
     
     SearchV2.objects.all().delete()
     for package in Package.objects.all():
         
         obj = SearchV2.objects.create(
-            weight=0,
             item_type="package",
             title=package.title,
             title_no_prefix=remove_prefix(package.title),
             slug=package.slug,
             slug_no_prefix=remove_prefix(package.slug),
+            clean_title=clean_title(remove_prefix(package.slug)),
             description=package.repo_description,
             category=package.category.title,
             absolute_url=package.get_absolute_url(),
@@ -36,31 +48,67 @@ def build_1():
             pypi_downloads=package.pypi_downloads,
             usage=package.usage.count(),
             participants=package.participants,
-            #last_released not yet supported
         )
+        
+        optional_save = False
         try:
             obj.last_committed=package.commit_set.latest().commit_date
-            obj.save()
+            optional_save = True
         except Commit.DoesNotExist:
             pass
             
-    return SearchV2.objects.all()
-                    
+        try:
+            obj.last_released=package.version_set.latest().upload_time
+            optional_save = True
+        except Version.DoesNotExist:
+            pass            
+            
+        if optional_save:
+            obj.save()
+          
+        # Weighting part
+        # Weighting part
+        # Weighting part
+        weight = 0
+        optional_save = False
+        rtfd_url = "http://{0}.rtfd.org".format(package.slug)
+        if requests.get(rtfd_url).status_code == 200:
+            weight += 20
+            
+        if obj.description.strip():
+            weight += 20
+            
+        if obj.repo_watchers:
+            weight += min(obj.repo_watchers, 20)
+
+        if obj.repo_forks:
+            weight += min(obj.repo_forks, 20)
+            
+        if obj.pypi_downloads:
+            weight += min(obj.pypi_downloads / 1000, 20)
+
+        if obj.usage:
+            weight += min(obj.usage, 20)
+                
+        # Is there ongoing work or is this forgotten?
+        if obj.last_committed:
+            if now - obj.last_committed < quarter_delta:                        
+                weight += 20
+            elif now - obj.last_committed < half_year_delta:
+                weight += 10
+            elif now - obj.last_committed < year_delta:                
+                weight += 5
+                
+        # Is the last release less than a year old?
+        if obj.last_released:
+            if now - obj.last_released < year_delta:
+                weight += 20                
+
+        if weight:
+            obj.weight = weight
+            obj.save()
+            print obj
+            
         
-"""  
-weight          = models.IntegerField(_("Weight"), default=0)
-item_type       = models.CharField(_("Item Type"), max_length=40, choices=ITEM_TYPE_CHOICES)
-title           = models.CharField(_("Title"), max_length="100")
-title_no_prefix = models.CharField(_("No prefix Title"), max_length="100")
-description     = models.TextField(_("Repo Description"), blank=True)    
-category        = models.CharField(_("Category"), blank=True, max_length=50)
-absolute_url    = models.CharField(_("Absolute URL"), max_length="255")
-repo_watchers   = models.IntegerField(_("repo watchers"), default=0)    
-repo_forks      = models.IntegerField(_("repo forks"), default=0)
-pypi_downloads  = models.IntegerField(_("Pypi downloads"), default=0)
-usage           = models.IntegerField(_("Number of users"), default=0)    
-participants    = models.TextField(_("Participants"),
-                    help_text="List of collaborats/participants on the project", blank=True)                    
-last_committed  = models.DateTimeField(_("Last commit"), blank=True, null=True)
-last_released   = models.DateTimeField(_("Last release"), blank=True, null=True)
-"""
+            
+    return SearchV2.objects.all()
