@@ -8,10 +8,10 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 from package.models import Package
-from searchv2.builders import remove_prefix, clean_title
 from searchv2.forms import SearchForm
 from searchv2.builders import build_1
 from searchv2.models import SearchV2
+from searchv2.utils import remove_prefix, clean_title
 
 @login_required
 def build_search(request, template_name="searchv2/build_results.html"):

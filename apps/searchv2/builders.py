@@ -1,29 +1,13 @@
 from datetime import datetime, timedelta
 from sys import stdout
 
-from django.conf import settings
-from django.template.defaultfilters import slugify
-
 import simplejson
 import requests
 
 from grid.models import Grid
 from package.models import Package, Commit, Version
 from searchv2.models import SearchV2
-
-CHARS = ["_", ",", ".", "-", " ", "/",]
-
-def remove_prefix(value):
-    value = value.lower()
-    for char in CHARS:
-        value = value.replace("{0}{1}".format(settings.PACKAGINATOR_SEARCH_PREFIX, char), "")
-    return value
-    
-def clean_title(value):
-    value = slugify(value)
-    for char in CHARS:
-        value = value.replace(char,"")
-    return value
+from searchv2.utils import remove_prefix, clean_title
 
 def build_1():
     
