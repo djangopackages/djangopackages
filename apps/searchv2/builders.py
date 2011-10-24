@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from sys import stdout
 
 from django.conf import settings
 from django.template.defaultfilters import slugify
@@ -29,26 +30,28 @@ def build_1():
     quarter_delta = timedelta(90)    
     half_year_delta = timedelta(182)    
     year_delta = timedelta(365)
+    last_week = now - timedelta(7)
     
-    SearchV2.objects.all().delete()
-    for package in Package.objects.filter(title="django-registration"):
+    SearchV2.objects.filter(created__lte=last_week).delete()
+    for package in Package.objects.filter():
         
-        obj = SearchV2.objects.create(
+        obj, created = SearchV2.objects.get_or_create(
             item_type="package",
             title=package.title,
             title_no_prefix=remove_prefix(package.title),
             slug=package.slug,
             slug_no_prefix=remove_prefix(package.slug),
             clean_title=clean_title(remove_prefix(package.slug)),
-            description=package.repo_description,
-            category=package.category.title,
-            absolute_url=package.get_absolute_url(),
-            repo_watchers=package.repo_watchers,
-            repo_forks=package.repo_forks,
-            pypi_downloads=package.pypi_downloads,
-            usage=package.usage.count(),
-            participants=package.participants,
         )
+        
+        obj.description=package.repo_description
+        obj.category=package.category.title
+        obj.absolute_url=package.get_absolute_url()
+        obj.repo_watchers=package.repo_watchers
+        obj.repo_forks=package.repo_forks
+        obj.pypi_downloads=package.pypi_downloads
+        obj.usage=package.usage.count()
+        obj.participants=package.participants
         
         optional_save = False
         try:
@@ -107,8 +110,7 @@ def build_1():
         if weight:
             obj.weight = weight
             obj.save()
-            print obj
-            
         
+        print >> stdout, obj, created
             
     return SearchV2.objects.all()

@@ -13,7 +13,13 @@ urlpatterns = patterns("",
     url(
         regex   = '^$',
         view    = views.search,
-        name    = 'searchv2',
-    ),      
+        name    = 'search',
+    ), 
+    
+    url(
+        regex   = '^packages/autocomplete/$',
+        view    = views.search_packages_autocomplete,
+        name    = 'search_packages_autocomplete',
+    ),         
 
 )

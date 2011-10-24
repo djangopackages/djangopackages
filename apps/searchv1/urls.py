@@ -10,7 +10,7 @@ urlpatterns = patterns("",
     url(
         regex   = '^$',
         view    = search,
-        name    = 'search',
+        name    = 'old_search',
     ),    
     url(
         regex   = '^grids/autocomplete/$',
@@ -24,7 +24,7 @@ urlpatterns = patterns("",
     url(
         regex   = '^packages/autocomplete/$',
         view    = search_by_function_autocomplete,
-        name    = 'search_packages_autocomplete',
+        name    = 'old_search_packages_autocomplete',
         kwargs  = dict(
             search_function=find_packages_autocomplete,        
             )

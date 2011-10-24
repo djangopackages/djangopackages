@@ -1,7 +1,9 @@
+import simplejson
+
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.db.models import Q
-from django.http import HttpResponseForbidden, HttpResponseRedirect
+from django.http import HttpResponseForbidden, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
@@ -19,7 +21,22 @@ def build_search(request, template_name="searchv2/build_results.html"):
     
     results = build_1()
 
-    return render_to_response(template_name,{'results':results},context_instance=RequestContext(request))
+    return render_to_response(template_name,
+                {'results':results},
+                context_instance=RequestContext(request))
+    
+def search_function(q):
+    
+    items = []
+    if q:
+        items = SearchV2.objects.filter(
+                    Q(clean_title__startswith=clean_title(remove_prefix(q))) |
+                    Q(title__icontains=q) | 
+                    Q(title_no_prefix__startswith=q.lower()) |
+                    Q(slug__startswith=q.lower()) | 
+                    Q(slug_no_prefix__startswith=q.lower()))
+        #grids    = Grid.objects.filter(Q(title__icontains=q) | Q(description__icontains=q))
+    return items
     
 def search(request, template_name='searchv2/search.html'):
     """
@@ -40,22 +57,27 @@ def search(request, template_name='searchv2/search.html'):
     except Package.DoesNotExist:
         pass
 
-        
-    items = []
-    if q:
-        items = SearchV2.objects.filter(
-                    Q(clean_title__startswith=clean_title(remove_prefix(q))) |
-                    Q(title__startswith=q) | 
-                    Q(title_no_prefix__startswith=q.lower()) |
-                    Q(slug__startswith=q.lower()) | 
-                    Q(slug_no_prefix__startswith=q.lower()))
-        #grids    = Grid.objects.filter(Q(title__icontains=q) | Q(description__icontains=q))
-
     form = SearchForm(request.GET or None)
 
     return render_to_response(template_name, {
-        'items': items,
+        'items': search_function(q),
         'form':form
         },
         context_instance=RequestContext(request)
     )
+    
+def search_packages_autocomplete(request):
+    """
+    Searches in Packages
+    """
+    q = request.GET.get('term', '')
+    form = SearchForm(request.GET or None)  
+    if q:
+        objects    = search_function(q)[:15]
+        objects    = objects.values_list('title', flat=True)    
+        json_response = simplejson.dumps(list(objects))
+    else:
+        json_response = simplejson.dumps([])
+
+    return HttpResponse(json_response, mimetype='text/javascript')
+    
