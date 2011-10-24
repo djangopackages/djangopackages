@@ -26,11 +26,14 @@ class PackageAdmin(VersionAdmin):
         }),
     )    
     
-class CommitAdmin(VersionAdmin):
+class CommitAdmin(admin.ModelAdmin):
     list_filter = ("package",)
+    
+class VersionLocalAdmin(admin.ModelAdmin):
+    search_fields = ("package__title",)    
     
 
 admin.site.register(Category, VersionAdmin)
 admin.site.register(Package, PackageAdmin)
 admin.site.register(Commit, CommitAdmin)
-admin.site.register(Version, VersionAdmin)
+admin.site.register(Version, VersionLocalAdmin)
