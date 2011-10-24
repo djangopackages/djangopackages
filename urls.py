@@ -18,7 +18,6 @@ urlpatterns = patterns("",
     url(r"^profiles/", include("profiles.urls")),
     url(r"^packages/", include("package.urls")),
     url(r"^grids/", include("grid.urls")),
-    url(r"^search/", include("searchv1.urls")),
     url(r"^feeds/", include("feeds.urls")),
 
     url(r"^categories/(?P<slug>[-\w]+)/$", category, name="category"),
@@ -46,7 +45,8 @@ urlpatterns = patterns("",
     url(r"^faq/$", direct_to_template, {"template": "pages/faq.html"}, name="faq"),    
     url(r"^syndication/$", direct_to_template, {"template": "pages/syndication.html"}, name="syndication"),
     url(r"^contribute/$", direct_to_template, {"template": "pages/contribute.html"}, name="contribute"),
-    url(r"^searchv2/", include("searchv2.urls")),
+    url(r"^searchv1/", include("searchv1.urls")),    
+    url(r"^search/", include("searchv2.urls")),
 )
 
 from apiv1.api import Api
