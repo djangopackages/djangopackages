@@ -224,7 +224,7 @@ COVERAGE_MODULE_EXCLUDES += PREREQ_APPS + ["djkombu",]
 COVERAGE_REPORT_HTML_OUTPUT_DIR = "coverage"
 
 PACKAGINATOR_HELP_TEXT = {
-    "REPO_URL" : "Enter your project repo hosting URL here.<br />Example: https://github.com/pydanny/django-uni-form",
+    "REPO_URL" : "Enter your project repo hosting URL here.<br />Example: https://github.com/opencomparison/opencomparison",
     "PYPI_URL" : "<strong>Leave this blank if this package does not have a PyPI release.</strong><br />What PyPI uses to index your package. <br />Example: django-uni-form",
 }
 
