@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
+import requests
+
 from grid.models import Grid
 from homepage.models import Dpotw, Gotw
 from package.models import Package, Category
@@ -25,6 +27,11 @@ class FunctionalHomepageTest(TestCase):
             self.assertContains(response, p.repo_description)
 
         self.assertEquals(response.context['package_count'], Package.objects.count())
+
+    def test_opencomparison_blog_feed(self):
+        feed = 'http://opencomparison.blogspot.com/feeds/posts/default'
+        response = requests.get(feed)
+        self.assertEqual(response.status_code, 200)
 
     def test_categories_on_homepage(self):
         url = reverse('home')
@@ -55,3 +62,14 @@ class FunctionalHomepageTest(TestCase):
         self.assertTemplateUsed(response, 'homepage.html')
         self.assertContains(response, d_live.package.title)
         self.assertContains(response, g_live.grid.title)        
+
+class FunctionalHomepageTestWithoutPackages(TestCase):
+    def setUp(self):
+        data.load()
+
+    def test_homepage_view(self):
+        Package.objects.all().delete()
+        url = reverse('home')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'homepage.html')
