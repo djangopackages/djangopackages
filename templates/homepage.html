@@ -145,7 +145,14 @@
 
     <div class="three column">
         <h2>Thank you</h2>
-        <p>The following individuals have been the most active contributors to this site over the past week:</p>
+        <p>The following individuals have been the most active contributors to this site over the past week.</p>
+        <h3>Most Packages Added</h3>
+        <ul>
+            <li><a href="#">Someone Blarg</a></li>
+            <li><a href="#">Someone Blarg</a></li>
+            <li><a href="#">Someone Blarg</a></li>
+        </ul>
+        <h3>Most Edits to Grids</h3>
         <ul>
             <li><a href="#">Someone Blarg</a></li>
             <li><a href="#">Someone Blarg</a></li>
@@ -156,7 +163,9 @@
 
     <div class="three column">
         <h2>From the Official OpenComparison Blog</h2>
-        <p>(blog posts go here)</p>
+        <h3>{{ blogpost_title }}</h3>
+        {{ blogpost_body|safe|truncatewords_html:50 }} 
+        <p><a href="http://blog.opencomparison.org">read more...</a></p>
     </div> <!-- three column (3rd) -->
     <div class="one column"></div>
 </div> <!-- twelve_column section -->

@@ -3,7 +3,9 @@ from random import randrange
 from django.db.models import Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404 
-from django.template import RequestContext 
+from django.template import RequestContext
+
+import feedparser
 
 from grid.models import Grid
 from homepage.models import Dpotw, Gotw, PSA
@@ -60,6 +62,11 @@ def homepage(request, template_name="homepage.html"):
     except PSA.DoesNotExist:
         psa_body = '<p>There are currently no announcements.  To request a PSA, tweet at <a href="http://twitter.com/open_comparison">@Open_Comparison</a>.</p>'
 
+    # Latest OpenComparison blog post on homepage
+    feed = 'http://opencomparison.blogspot.com/feeds/posts/default'
+    blogpost_title = feedparser.parse(feed).entries[0].title
+    blogpost_body = feedparser.parse(feed).entries[0].summary
+
     return render_to_response(
         template_name, {
             "latest_packages":Package.objects.all().order_by('-created')[:5],
@@ -67,6 +74,8 @@ def homepage(request, template_name="homepage.html"):
             "potw": potw,
             "gotw": gotw,
             "psa_body": psa_body,
+            "blogpost_title": blogpost_title,
+            "blogpost_body": blogpost_body,
             "categories":categories,
             "package_count":package_count
         }, context_instance = RequestContext(request)
