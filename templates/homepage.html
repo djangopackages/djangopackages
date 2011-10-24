@@ -136,5 +136,29 @@
     <div class="one column"></div>
 </div> <!-- twelve_column section -->
 
+<div class="twelve_column section">
+    <div class="three column">
+       <h2>Public Service Announcements</h2>
+       {{ psa_body|safe }}
+    </div> <!-- three column (1st) -->
+    <div class="one column"></div>
+
+    <div class="three column">
+        <h2>Thank you</h2>
+        <p>The following individuals have been the most active contributors to this site over the past week:</p>
+        <ul>
+            <li><a href="#">Someone Blarg</a></li>
+            <li><a href="#">Someone Blarg</a></li>
+            <li><a href="#">Someone Blarg</a></li>
+        </ul>
+    </div> <!-- three column (2nd) -->
+    <div class="one column"></div>
+
+    <div class="three column">
+        <h2>From the Official OpenComparison Blog</h2>
+        <p>(blog posts go here)</p>
+    </div> <!-- three column (3rd) -->
+    <div class="one column"></div>
+</div> <!-- twelve_column section -->
 {% endblock %}
 

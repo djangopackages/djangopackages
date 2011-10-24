@@ -6,7 +6,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext 
 
 from grid.models import Grid
-from homepage.models import Dpotw, Gotw
+from homepage.models import Dpotw, Gotw, PSA
 from package.models import Category, Package
 
 def homepage(request, template_name="homepage.html"):
@@ -53,13 +53,20 @@ def homepage(request, template_name="homepage.html"):
         gotw = None
     except Grid.DoesNotExist:
         gotw = None        
-    
+
+    # Public Service Announcement on homepage
+    try:
+        psa_body = PSA.objects.latest().body_text
+    except PSA.DoesNotExist:
+        psa_body = '<p>There are currently no announcements.  To request a PSA, tweet at <a href="http://twitter.com/open_comparison">@Open_Comparison</a>.</p>'
+
     return render_to_response(
         template_name, {
             "latest_packages":Package.objects.all().order_by('-created')[:5],
             "random_packages": random_packages,
             "potw": potw,
             "gotw": gotw,
+            "psa_body": psa_body,
             "categories":categories,
             "package_count":package_count
         }, context_instance = RequestContext(request)
