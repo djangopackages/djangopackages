@@ -187,10 +187,10 @@ class Package(BaseModel):
 
     @property
     def no_development(self):
-        try:        
-            return self.commit_set.latest().commit_date < datetime.now() - timedelta(365)
-        except Commit.DoesNotExist:
-            return None
+        commit_date = self.last_updated
+        if commit_date is not None:
+            return commit_date < datetime.now() - timedelta(365)
+        return None
 
 
     class Meta:
