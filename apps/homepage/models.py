@@ -55,4 +55,19 @@ class Gotw(BaseModel):
         
     @models.permalink
     def get_absolute_url(self):
-        return ("grid", [self.grid.slug])        
+        return ("grid", [self.grid.slug])
+
+class PSA(BaseModel):
+    """ Public Service Announcement on the homepage """
+
+    body_text = models.TextField(_("PSA Body Text"), blank=True, null=True)
+    
+    class Meta:
+        ordering = ('-created',)
+        get_latest_by = 'created'
+        
+        verbose_name         = "Public Service Announcement"
+        verbose_name_plural  = "Public Service Announcements"
+
+    def __unicode__(self):
+        return "{0} : {1}".format(self.created, self.body_text)
