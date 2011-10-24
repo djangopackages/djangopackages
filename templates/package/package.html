@@ -17,10 +17,10 @@
 {% if package.pypi_ancient or no_development %}
     <ul class="messages">
         {% if pypi_ancient %}
-            <li class="warning">WARNING: This package's most recent PyPI release is from over a year ago.</li>
+            <li class="warning">WARNING: This package's most recent PyPI release is from over a year ago and may no longer be maintained.</li>
         {% endif %}
         {% if no_development %}
-            <li class="warning">WARNING: This package has not seen any development in over a year.</li>            
+            <li class="warning">WARNING: This package has not seen any development in over a year and may no longer be maintained.</li>            
         {% endif %}
     </ul>
 {% endif %}
