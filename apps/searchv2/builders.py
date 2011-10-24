@@ -4,6 +4,7 @@ from sys import stdout
 from django.conf import settings
 from django.template.defaultfilters import slugify
 
+import simplejson
 import requests
 
 from grid.models import Grid
@@ -37,13 +38,12 @@ def build_1():
         
         obj, created = SearchV2.objects.get_or_create(
             item_type="package",
-            title=package.title,
-            title_no_prefix=remove_prefix(package.title),
             slug=package.slug,
-            slug_no_prefix=remove_prefix(package.slug),
-            clean_title=clean_title(remove_prefix(package.slug)),
         )
-        
+        obj.slug_no_prefix=remove_prefix(package.slug)
+        obj.clean_title=clean_title(remove_prefix(package.slug))
+        obj.title=package.title
+        obj.title_no_prefix=remove_prefix(package.title)        
         obj.description=package.repo_description
         obj.category=package.category.title
         obj.absolute_url=package.get_absolute_url()
@@ -74,9 +74,14 @@ def build_1():
         # Weighting part
         weight = 0
         optional_save = False
-        rtfd_url = "http://{0}.rtfd.org".format(package.slug)
-        if requests.get(rtfd_url).status_code == 200:
-            weight += 20
+        
+        # Read the docs!
+        rtfd_url = "http://readthedocs.org/api/v1/build/{0}/".format(obj.slug)
+        r = requests.get(rtfd_url)
+        if r.status_code == 200:
+            data = simplejson.loads(r.content)
+            if data['meta']['total_count']:
+                weight += 20
             
         if obj.description.strip():
             weight += 20
