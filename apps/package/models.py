@@ -253,8 +253,8 @@ class Version(BaseModel):
     objects = VersionManager()
 
     class Meta:
-        get_latest_by = 'created'
-        ordering = ['-created']
+        get_latest_by = 'upload_time'
+        ordering = ['-upload_time']
 
     def save(self, *args, **kwargs):
         if self.license is None:
