@@ -14,11 +14,12 @@
 {% block body %}
 {% with package.pypi_ancient as pypi_ancient %}
 {% with package.no_development as no_development %}
-{% if package.pypi_ancient or no_development %}
+{% if pypi_ancient or no_development %}
     <ul class="messages">
         {% if pypi_ancient %}
             <li class="warning">WARNING: This package's most recent PyPI release is from over a year ago and may no longer be maintained.</li>
         {% endif %}
+
         {% if no_development %}
             <li class="warning">WARNING: This package has not seen any development in over a year and may no longer be maintained.</li>            
         {% endif %}

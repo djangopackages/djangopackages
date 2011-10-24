@@ -180,10 +180,10 @@ class Package(BaseModel):
         
     @property
     def pypi_ancient(self):
-        try:        
-            return self.version_set.latest().upload_time < datetime.now() - timedelta(365)
-        except Version.DoesNotExist:
-            return None
+        versions = self.version_set.exclude(upload_time=None)
+        if versions:
+            return versions.latest().upload_time < datetime.now() - timedelta(365)
+        return None
 
     @property
     def no_development(self):
