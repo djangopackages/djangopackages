@@ -177,6 +177,21 @@ class Package(BaseModel):
 
     def fetch_commits(self):
         self.repo.fetch_commits(self)
+        
+    @property
+    def pypi_ancient(self):
+        try:        
+            return self.version_set.latest().upload_time < datetime.now() - timedelta(365)
+        except Version.DoesNotExist:
+            return None
+
+    @property
+    def no_development(self):
+        try:        
+            return self.commit_set.latest().commit_date < datetime.now() - timedelta(365)
+        except Commit.DoesNotExist:
+            return None
+
 
     class Meta:
         ordering = ['title']
@@ -219,6 +234,12 @@ class VersionManager(models.Manager):
     def by_version(self, *args, **kwargs):
         qs = self.get_query_set().filter(*args, **kwargs)
         return sorted(qs,key=lambda v: versioner(v.number))
+
+    def by_version_not_hidden(self, *args, **kwargs):
+        qs = self.get_query_set().filter(*args, **kwargs)
+        qs = qs.filter(hidden=False)
+        return sorted(qs,key=lambda v: versioner(v.number))
+
 
 class Version(BaseModel):
     

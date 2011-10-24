@@ -61,8 +61,8 @@ td { border: 1px solid #C1DAD7; background: #fff; padding: 6px 6px 6px 12px; col
 .hide {display:none;}
 
 .edit {font-style: italic; color: #999; float: right; font-size: .85em}
-ul#messages {padding: 0; margin: 10px 0}
-ul#messages li {background-color: #FFB; border: 1px solid #EE0; list-style-type: none; padding: 5px 10px}
+ul.messages {padding: 0; margin: 10px 0}
+ul.messages li {background-color: #FFB; border: 1px solid #EE0; list-style-type: none; padding: 5px 10px}
 
 td.usage-container {width: 8em}
 td.usage-container .usage-button {float: right}

@@ -12,10 +12,25 @@
 {% endblock %}
 
 {% block body %}
+{% with package.pypi_ancient as pypi_ancient %}
+{% with package.no_development as no_development %}
+{% if package.pypi_ancient or no_development %}
+    <ul class="messages">
+        {% if pypi_ancient %}
+            <li class="warning">WARNING: This package's most recent PyPI release is from over a year ago.</li>
+        {% endif %}
+        {% if no_development %}
+            <li class="warning">WARNING: This package has not seen any development in over a year.</li>            
+        {% endif %}
+    </ul>
+{% endif %}
+{% endwith %}
+{% endwith %}
+
     
-    <h1><a href="{% url home %}">{% trans "home" %}</a> / <a href="{% url packages %}">{% trans "packages" %}</a> / {{ package.title }}
-        <a href="{% url edit_package package.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
-    </h1>
+<h1><a href="{% url home %}">{% trans "home" %}</a> / <a href="{% url packages %}">{% trans "packages" %}</a> / {{ package.title }}
+    <a href="{% url edit_package package.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
+</h1>
     
     
 <div class="twelve_column section">
@@ -49,23 +64,23 @@
          </table>
 
         {% if package.pypi_url and package.pypi_url != "http://pypi.python.org/pypi/" %}
-            <h2>PyPI {% if package.pypi_downloads %}{% blocktrans with package.pypi_downloads as pypi_downloads %}( {{ pypi_downloads }} downloads ){% endblocktrans %}{% endif %}</h2>
-            <p><a href="{{ package.pypi_url }}">{{ package.pypi_url }}</a></p>
-            <table>
-                <tr>
-                    <th>{% trans "Version" %}</th>
-                    <th>{% trans "License" %}</th>                
-                    <th><img src="{{ STATIC_URL }}img/download_20x20_clear.png" alt="Downloads" /></th>
-                </tr>
-                {% for version in package.version_set.by_version %}
-                    {% if not version.hidden %}
+                <h2>PyPI {% if package.pypi_downloads %}{% blocktrans with package.pypi_downloads as pypi_downloads %}( {{ pypi_downloads }} downloads ){% endblocktrans %}{% endif %}</h2>                           
+                <p><a href="{{ package.pypi_url }}">{{ package.pypi_url }}</a></p>
+                <table>
                     <tr>
-                        <td>{{ version.number }}</td>
-                        <td>{{ version.license|default:"none" }}</td>                    
-                        <td>{{ version.downloads|default:"n/a" }}</td>
+                        <th>{% trans "Version" %}</th>
+                        <th>{% trans "License" %}</th>
+                        <th>{% trans "Release Date" %}</th>                      
+                        <th><img src="{{ STATIC_URL }}img/download_20x20_clear.png" alt="Downloads" /></th>
                     </tr>
-                    {% endif %}
-                {% endfor %}
+                    {% for version in package.version_set.by_version_not_hidden %}
+                        <tr>
+                            <td>{{ version.number }}</td>
+                            <td>{{ version.license|default:"none" }}</td>                        
+                            <td>{{ version.upload_time|date:"SHORT_DATE_FORMAT" }}</td>
+                            <td>{{ version.downloads|default:"n/a" }}</td>
+                        </tr>
+                    {% endfor %}
             </table>
         {% else %}
             <h2>{% trans "No PyPI release" %}</h2>
@@ -148,7 +163,6 @@
         {% endwith %}
     </div> <!-- end six column section -->
 </div>    <!-- end twelve_column section -->
-
 {% endblock %}
 
 {% block extra_body %}
