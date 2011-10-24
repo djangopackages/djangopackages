@@ -8,7 +8,7 @@ from django.core.cache import cache
 from django.core.urlresolvers import reverse 
 from django.db.models import Count
 from django.http import HttpResponseRedirect, Http404, HttpResponseForbidden
-from django.shortcuts import render_to_response, get_object_or_404 
+from django.shortcuts import render_to_response, get_object_or_404, render
 from django.template import RequestContext 
 
 from core.utils import cache_fetcher
@@ -36,11 +36,7 @@ def grids(request, template_name="grid/grids.html"):
     """
     # annotations providing bad counts
     #grids = Grid.objects.annotate(gridpackage_count=Count('gridpackage'), feature_count=Count('feature'))
-    return render_to_response(
-        template_name, {
-            'grids': Grid.objects.all(),
-        }, context_instance = RequestContext(request)
-    )
+    return render(request, template_name, {'grids': Grid.objects.all(),})
 
 def grid_detail(request, slug, template_name="grid/grid_detail2.html"):
     """displays a grid in detail
