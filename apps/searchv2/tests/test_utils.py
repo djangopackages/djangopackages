@@ -1,19 +1,26 @@
 from datetime import datetime
 
+from django.conf import settings
 from django.test import TestCase
 
 from package.tests import data, initial_data
 from searchv2.utils import remove_prefix, clean_title
 
+
 class UtilFunctionTest(TestCase):  
+    
+    def setUp(self):
+        self.values = []
+        for value in ["-me",".me","/me","_me"]:
+            value = "{0}{1}".format(settings.PACKAGINATOR_SEARCH_PREFIX, value)
+            self.values.append(value)
         
     def test_remove_prefix(self):
-        values = ["django-me","django.me","django/me","django_me"]
-        for value in values:
+        for value in self.values:
             self.assertEqual(remove_prefix(value), "me")
             
     def test_clean_title(self):
-        values = ["django-me","django.me","django/me","django_me"]
-        for value in values:
-            self.assertEqual(clean_title(value), "djangome")
+        test_value = "{0}me".format(settings.PACKAGINATOR_SEARCH_PREFIX)
+        for value in self.values:
+            self.assertEqual(clean_title(value), test_value)
         
