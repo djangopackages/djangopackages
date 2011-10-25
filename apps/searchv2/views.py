@@ -18,8 +18,10 @@ def build_search(request, template_name="searchv2/build_results.html"):
     
     if not request.user.is_superuser:
         return HttpResponseForbidden()
-    
-    results = build_1()
+        
+    results = []
+    if request.method == 'POST':
+        results = build_1()
 
     return render_to_response(template_name,
                 {'results':results},

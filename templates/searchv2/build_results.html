@@ -1,3 +1,11 @@
 <h1>Build results</h1>
 
-{{ results|length }}
+{% if results %}
+    {{ results|length }} Items In Search
+{% endif %}
+
+<form method="post" action="">
+    {% csrf_token %}
+    <input type="submit" value="Build Search">
+</form>
+    
