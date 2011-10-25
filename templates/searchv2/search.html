@@ -13,10 +13,9 @@
     <form class="uniForm">
         <fieldset>
                 {{ form|as_uni_form }}
-
-            <div class="form_block">        
-                <input type="submit" name="b" value="{% trans "Search" %}" class="medium awesome forestgreen"> 
-            </div>            
+            <div id="search-big-button-holder" class="ctrlHolder">        
+                <input type="submit" name="b" value="{% trans "Search" %}" id="search-big-button"> 
+            </div>
         </fieldset>
     </form>
 
