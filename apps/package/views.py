@@ -10,7 +10,7 @@ from django.core.cache import cache
 from django.core.urlresolvers import reverse
 from django.db.models import Q, Count, get_model
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, render
 from django.template import RequestContext
 from django.template.loader import render_to_string
 
@@ -305,3 +305,37 @@ def package_list(request, template_name="package/package_list.html"):
             "gotw": Gotw.objects.get_current(),
         }, context_instance = RequestContext(request)
     )
+
+def package_detail(request, slug, template_name="package/package.html"):
+    
+    package = get_object_or_404(Package, slug=slug)
+    no_development = package.no_development
+    try:
+        if package.category == Category.objects.get(slug='projects'):
+            # projects get a bye because they are a website
+            pypi_ancient = False
+            pypi_no_release = False
+        else:
+            pypi_ancient = package.pypi_ancient
+            pypi_no_release = package.pypi_ancient is None
+        warnings = no_development or pypi_ancient or pypi_no_release
+    except Category.DoesNotExist:
+        pypi_ancient = False
+        pypi_no_release = False
+        warnings = no_development
+    
+    return render(request, template_name, 
+            dict(
+                package = package,
+                pypi_ancient=pypi_ancient,
+                no_development=no_development,
+                pypi_no_release=pypi_no_release,
+                warnings=warnings
+                
+            )
+        )
+
+
+
+
+

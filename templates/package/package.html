@@ -12,21 +12,19 @@
 {% endblock %}
 
 {% block body %}
-{% with package.pypi_ancient as pypi_ancient %}
-{% with package.no_development as no_development %}
-{% if pypi_ancient or no_development %}
+{% if warnings %}
     <ul class="messages">
         {% if pypi_ancient %}
             <li class="warning">WARNING: This package's most recent PyPI release is from over a year ago and may no longer be maintained.</li>
         {% endif %}
-
         {% if no_development %}
-            <li class="warning">WARNING: This package has not seen any development in over a year and may no longer be maintained.</li>            
+            <li class="warning">WARNING: This package has not seen any development in over a year and may no longer be maintained.</li>
+        {% endif %}
+        {% if pypi_no_release %}
+            <li class="note">NOTE: This package is not available for download from PyPI. It may be using a third-party site to host its downloadable package files.</li>
         {% endif %}
     </ul>
 {% endif %}
-{% endwith %}
-{% endwith %}
 
     
 <h1><a href="{% url home %}">{% trans "home" %}</a> / <a href="{% url packages %}">{% trans "packages" %}</a> / {{ package.title }}
@@ -40,7 +38,7 @@
             {{ package.repo_description }}
         </p>
 
-        <p><strong>{% trans "Category:" %}</strong> <a href="{% url category package.category.slug %}">{{ package.category }}</a></p>
+        <p><strong>{% trans "Category:" %}</strong>&nbsp;<a href="{% url category package.category.slug %}">{{ package.category }}</a></p>
 
         <table>
             <thead>

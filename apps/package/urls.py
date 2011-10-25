@@ -13,7 +13,8 @@ from package.views import (
                             edit_example, 
                             update_package,
                             usage,
-                            package_list
+                            package_list,
+                            package_detail
                             )
 
 urlpatterns = patterns("",
@@ -67,14 +68,9 @@ urlpatterns = patterns("",
     
     url(
         regex = "^p/(?P<slug>[-\w]+)/$",
-        view    = object_detail,
+        view    = package_detail,
         name    = "package",
-        kwargs=dict(
-            queryset=Package.objects.select_related(),
-            template_name="package/package.html",
-            template_object_name="package"
-            )    
-    ),    
+    ),      
         
     url(
         regex = "^ajax_package_list/$",
