@@ -177,12 +177,20 @@ class Package(BaseModel):
 
     def fetch_commits(self):
         self.repo.fetch_commits(self)
+
+    @property
+    def last_released(self):
+        versions = self.version_set.exclude(upload_time=None)
+        if versions:
+            return versions.latest()
+        return None
+
         
     @property
     def pypi_ancient(self):
-        versions = self.version_set.exclude(upload_time=None)
-        if versions:
-            return versions.latest().upload_time < datetime.now() - timedelta(365)
+        release = self.last_released
+        if release:
+            return release.upload_time < datetime.now() - timedelta(365)
         return None
 
     @property

@@ -39,16 +39,14 @@ def build_1():
         
         optional_save = False
         try:
-            obj.last_committed=package.commit_set.latest().commit_date
+            obj.last_committed=package.last_updated
             optional_save = True
         except Commit.DoesNotExist:
             pass
-            
-        try:
-            obj.last_released=package.version_set.latest().upload_time
+        
+        obj.last_released=package.last_released
+        if obj.last_released:
             optional_save = True
-        except Version.DoesNotExist:
-            pass            
             
         if optional_save:
             obj.save()
