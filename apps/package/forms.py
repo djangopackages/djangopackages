@@ -1,11 +1,9 @@
-from django.core.validators import URLValidator
 from django.forms import ModelForm
-from django.template.defaultfilters import slugify
 
 from package.models import Category, Package, PackageExample
 
 def package_help_text():
-    help_text = "" 
+    help_text = ""
     for category in Category.objects.all():
         help_text += """<li><strong>{title_plural}</strong> {description}</li>""".format(
                         title_plural=category.title_plural,
@@ -33,7 +31,7 @@ class PackageExampleForm(ModelForm):
 
     class Meta:
         model = PackageExample
-        fields = ['title', 'url']        
+        fields = ['title', 'url']
         
 class PackageExampleModeratorForm(ModelForm):
 
