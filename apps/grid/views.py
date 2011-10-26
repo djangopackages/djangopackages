@@ -65,16 +65,14 @@ def grid_detail(request, slug, template_name="grid/grid_detail2.html"):
                 ('repo', 'Repo'), ('commits_over_52', 'Commits'), ('repo_watchers', 'Repo watchers'), ('repo_forks', 'Forks'),
                 ('participant_list', 'Participants'), ('license_latest', 'License')                
             ]
-
-    return render_to_response(
-        template_name, {
+            
+    return render(request, template_name, {
             'grid': grid,
             'features': features,
             'grid_packages': grid_packages,
             'attributes': default_attributes,
             'elements': element_map,
-        }, context_instance = RequestContext(request)
-    )
+        })
 
 def grid_detail_feature(request, slug, feature_id, bogus_slug, template_name="grid/grid_detail_feature.html"):
     """a slightly more focused view than :func:`grid.views.grid_detail`
