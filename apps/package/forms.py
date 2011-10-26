@@ -18,6 +18,7 @@ class PackageForm(ModelForm):
     def __init__(self, *args, **kwargs):
          super(PackageForm,self).__init__(*args, **kwargs)
          self.fields['category'].help_text = package_help_text()
+         self.fields['repo_url'].required = True
     
     def clean_slug(self):
         return self.cleaned_data['slug'].lower()
