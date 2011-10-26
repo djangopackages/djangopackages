@@ -18,10 +18,8 @@ def import_packages(request, template_name="importer/import_packages.html"):
     results = []
     if request.method == 'POST':
         github_name = request.POST.get('github_name')
-        print github_name
         user_type = request.POST.get('user_type')
         category_slug = request.POST.get('category_slug')
-        print category_slug
         results = import_from_github_acct(github_name, user_type, category_slug)
 
     return render_to_response(template_name,

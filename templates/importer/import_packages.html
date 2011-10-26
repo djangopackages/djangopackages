@@ -31,4 +31,15 @@
 
     <input type="submit" value="Import packages from Github account">
 </form>
+
+
+<ul>
+{% for result in results %}
+<li><a href="{{ result.get_absolute_url }}">{{ result.title }}</a><br/>
+    <a href="{{ result.repo_url }}">{{ result.repo_url }}</a><br />    
+    {% if result.pypi_url %}<a href="{{ result.pypi_url }}">{{ result.pypi_url }}</a><br />{% endif %}
+    
+</li>    
+{% endfor %}
+</ul>
 {% endblock %}
