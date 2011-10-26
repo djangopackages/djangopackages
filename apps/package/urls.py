@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
 from django.db.models import Count
 from django.views.generic.list_detail import object_detail, object_list
-from django.views.generic.date_based import archive_index
+from django.views.generic.dates import ArchiveIndexView
 from django.views.generic.simple import direct_to_template
 
 from package.models import Package
@@ -27,12 +27,11 @@ urlpatterns = patterns("",
     
     url(
         regex   = r"^latest/$",
-        view    = archive_index,
-        name    = "latest_packages",
-        kwargs  = dict(
-            queryset=Package.objects.select_related(),     
-            date_field="created"   
-            )            
+        view    = ArchiveIndexView.as_view(
+                        queryset=Package.objects.select_related(), 
+                        date_field="created"   
+        ),
+        name    = "latest_packages",          
     ),
     
     
