@@ -3,6 +3,7 @@ import requests
 import re
 
 from django.db import IntegrityError
+from django.db.models import Q # for 'OR' queries
 
 from core.utils import oc_slugify
 from package.models import Package, Category
@@ -25,13 +26,18 @@ def import_from_github_acct(github_name, user_type, category_slug):
          # Need: title, slug, category, repo_url
          # Optional but recommended: pypi_url
         category = Category.objects.get(slug=category_slug)
-        try:
-            Package.objects.get(slug=slug)
-        except Package.DoesNotExist:
-            package = Package.objects.create(title=slug, slug=slug, category=category, repo_url=html_url)
-            package.save()
-            imported_packages += slug
-        else:
+
+        # Does the slug or repo already exist?
+        packages = Package.objects.filter(Q(slug=slug) | Q(repo_url=html_url))
+
+        if packages.count():
             continue
+        else:
+            try:
+                package = Package.objects.create(title=slug, slug=slug, category=category, repo_url=html_url)
+                package.save()
+                imported_packages += slug
+            except IntegrityError:
+                print "Could not save package %s" % html_url
         
     return imported_packages
