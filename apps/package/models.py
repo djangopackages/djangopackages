@@ -17,7 +17,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from distutils.version import LooseVersion as versioner
 
 from core.models import BaseModel
-from package.repos import github
 from package.pypi import fetch_releases
 from package.repos import get_repo_for_repo_url
 from package.signals import signal_fetch_latest_metadata
@@ -160,7 +159,7 @@ class Package(BaseModel):
                 if hasattr(release, "upload_time"):
                     version.upload_time = release.upload_time
                 version.license = release.license
-                version.hidden = release._pypi_hidden                
+                version.hidden = release._pypi_hidden
                 version.save()
             
             self.pypi_downloads = total_downloads
@@ -273,4 +272,3 @@ class Version(BaseModel):
 
     def __unicode__(self):
         return "%s: %s" % (self.package.title, self.number)
-    
