@@ -64,7 +64,6 @@ def profile_edit(request, template_name="profiles/profile_edit.html"):
             HTML(github_account),
             'bitbucket_url',
             'google_code_url',
-            'email',
         ),
         ButtonHolder(
             Submit('edit', 'Edit', css_class="awesome forestgreen"),

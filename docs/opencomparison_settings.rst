@@ -4,6 +4,11 @@ Settings
 
 How to customize the settings to suit your needs. Do this in local_settings so patches and upstream pulls don't cause havoc to your installation
 
+FRAMEWORK_TITLE (Default: "Django")
+====================================
+
+Used to create the name of the site.
+
 PACKAGE_EXTENDERS
 ==================
 
