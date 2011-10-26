@@ -108,6 +108,8 @@ p.date { font-style: italic; }
 
 };
 
+.in-grid-already { font-style: italic; font-size:8px;}
+
 /* Bottom sitemap, which is used to provide content for the top nav bar */
 #sitemap a, #sitemap a:visited {font-size:8px;}
 

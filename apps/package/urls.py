@@ -72,7 +72,7 @@ urlpatterns = patterns("",
         regex = "^ajax_package_list/$",
         view    = ajax_package_list,
         name    = "ajax_package_list",
-    ),
+    ), 
     
     url(
         regex = "^usage/(?P<slug>[-\w]+)/(?P<action>add|remove)/$",

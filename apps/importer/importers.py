@@ -8,7 +8,7 @@ from django.db.models import Q # for 'OR' queries
 from core.utils import oc_slugify
 from package.models import Package, Category
 
-
+from sys import stdout
 def import_from_github_acct(github_name, user_type, category_slug):
     """ Imports all packages from a specified Github account """
 

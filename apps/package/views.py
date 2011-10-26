@@ -15,6 +15,7 @@ from django.template import RequestContext
 
 from homepage.models import Dpotw, Gotw
 
+from grid.models import Grid
 from package.forms import PackageForm, PackageExampleForm
 from package.models import Category, Package, PackageExample
 from package.repos import get_all_repos
@@ -199,8 +200,18 @@ def ajax_package_list(request, template_name="package/ajax_package_list.html"):
                         Q(title__istartswith=django_space) | 
                         Q(title__istartswith=django_underscore)
                     )
+                    
+    packages_already_added_list = []
+    grid_slug = request.GET.get("grid","")
+    if packages and grid_slug:
+        grids = Grid.objects.filter(slug=grid_slug)
+        if grids:
+            grid = grids[0]
+            packages_already_added_list = [x['slug'] for x in grid.packages.all().values('slug')]
+        
     return render_to_response(template_name, {
-        "packages": packages
+        "packages": packages,
+        'packages_already_added_list':packages_already_added_list,
         },
         context_instance=RequestContext(request)
     )

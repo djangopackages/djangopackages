@@ -37,7 +37,7 @@
         var timer = null;
         $('input#search-field').keyup(function() {
             var search_text = $('input#search-field').attr('value');
-            var search_url = '{% url ajax_package_list %}?q=' + search_text;
+            var search_url = '{% url ajax_package_list %}?q=' + search_text + '&grid={{ grid.slug }}';
 
             // Short delay so keystrokes don't pound search URL
             if(timer) {
