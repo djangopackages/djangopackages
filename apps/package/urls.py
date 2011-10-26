@@ -1,8 +1,5 @@
 from django.conf.urls.defaults import *
-from django.db.models import Count
-from django.views.generic.list_detail import object_detail, object_list
 from django.views.generic.dates import ArchiveIndexView
-from django.views.generic.simple import direct_to_template
 
 from package.models import Package
 from package.views import (
