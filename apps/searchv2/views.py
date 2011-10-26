@@ -45,6 +45,17 @@ def search(request, template_name='searchv2/search.html'):
     Searches in Grids and Packages
     """
     q = request.GET.get('q', '')
+    
+    if '/' in q:
+        lst = q.split('/')
+        try:
+            if lst[-1]:
+                q = lst[-1]
+            else:
+                q = lst[-2]
+        except IndexError:
+            pass
+    print q   
     try:
         package = Package.objects.get(title=q)
         url = reverse("package", args=[package.slug.lower()])
