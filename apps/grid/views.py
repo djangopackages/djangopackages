@@ -93,13 +93,15 @@ def grid_detail_feature(request, slug, feature_id, bogus_slug, template_name="gr
 
     element_map = build_element_map(elements)
 
-    return render_to_response(
-        template_name, {
+    return render(
+        request,
+        template_name, 
+        {
             'grid': grid,
             'feature': features[0],
             'grid_packages': grid_packages,
             'elements': element_map,
-        }, context_instance = RequestContext(request)
+        }
     )
 
 @login_required
