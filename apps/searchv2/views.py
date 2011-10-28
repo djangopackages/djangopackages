@@ -28,6 +28,7 @@ def build_search(request, template_name="searchv2/build_results.html"):
                 context_instance=RequestContext(request))
     
 def search_function(q):
+    """ TODO - make generic title searches have lower weight """
     
     items = []
     if q:

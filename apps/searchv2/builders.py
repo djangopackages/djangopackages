@@ -44,8 +44,9 @@ def build_1():
         except Commit.DoesNotExist:
             pass
         
-        obj.last_released=package.last_released
-        if obj.last_released:
+        last_released=package.last_released
+        if last_released and last_released.upload_time:
+            obj.last_released=last_released.upload_time
             optional_save = True
             
         if optional_save:

@@ -34,7 +34,7 @@ Save a sanitized copy of the active dev database::
 
 Dump the data from the apps that don't cause migration problems::
 
-    python manage.py dumpdata --database=sqlite --indent=4 --natural auth.User auth.Group about grid homepage package searchv1 apiv1 feeds admin sites messages flatpages notification staticfiles mailer uni_form django_openid ajax_validation timezones emailconfirmation announcements pagination idios django_sorting flatblocks account signup_codes analytics south > fixtures/sanitized.json
+    python manage.py dumpdata --database=sqlite --indent=4 --natural auth.User auth.Group about grid homepage package searchv1 apiv1 feeds admin sites messages notification staticfiles mailer uni_form django_openid ajax_validation timezones emailconfirmation announcements pagination idios django_sorting account signup_codes analytics south > fixtures/sanitized.json
 
 Create the PostgreSQL database from scratch (dropping the old PostgreSQL database if needed)::
 
@@ -72,7 +72,7 @@ Troubleshoot errors related to migration problems, for example::
 
     ----------------------------------------------------------------
 
-    python manage.py dumpdata --database=sqlite --indent=4 --natural auth.User auth.Group about grid homepage package searchv1 apiv1 feeds admin sites messages flatpages notification staticfiles mailer uni_form django_openid ajax_validation timezones emailconfirmation announcements pagination idios django_sorting flatblocks account signup_codes analytics south > fixtures/sanitized.json
+    python manage.py dumpdata --database=sqlite --indent=4 --natural auth.User auth.Group about grid homepage package searchv1 apiv1 feeds admin sites messages notification staticfiles mailer uni_form django_openid ajax_validation timezones emailconfirmation announcements pagination idios django_sorting flatblocks account signup_codes analytics south > fixtures/sanitized.json
 
     psql -U dp -c "DROP DATABASE dp;"
     psql -U postgres -c "CREATE DATABASE dp OWNER dp;"
