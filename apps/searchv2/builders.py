@@ -18,7 +18,7 @@ def build_1():
     last_week = now - timedelta(7)
     
     SearchV2.objects.filter(created__lte=last_week).delete()
-    for package in Package.objects.filter():
+    for package in Package.objects.filter()[:20]:
         
         obj, created = SearchV2.objects.get_or_create(
             item_type="package",
@@ -100,5 +100,36 @@ def build_1():
             obj.save()
         
         print >> stdout, obj, created
+        
+    print >> stdout, '----------------------'
+    max_weight = SearchV2.objects.all()[0].weight
+    increment = max_weight / 5
+    for grid in Grid.objects.all():
+        obj, created = SearchV2.objects.get_or_create(
+            item_type="grid",
+            slug=grid.slug,
+        )
+        obj.slug_no_prefix=remove_prefix(grid.slug)
+        obj.clean_title=clean_title(remove_prefix(grid.slug))
+        obj.title=grid.title
+        obj.title_no_prefix=remove_prefix(grid.title)        
+        obj.description=grid.description
+        obj.absolute_url=grid.get_absolute_url()
+        
+        weight = max_weight - increment
+        
+        if not grid.is_locked:
+            weight -= increment
+            
+        if not grid.header:
+            weight -= increment
+                    
+        if not grid.packages.count():
+            weight -= increment
+            
+        obj.weight = weight
+        obj.save()            
+        
+        print >> stdout, obj, created        
             
     return SearchV2.objects.all()
