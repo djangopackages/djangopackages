@@ -124,10 +124,7 @@ def add_grid(request, template_name="grid/add_grid.html"):
         new_grid = form.save()
         return HttpResponseRedirect(reverse('grid', kwargs={'slug':new_grid.slug}))
 
-    return render_to_response(template_name, { 
-        'form': form
-        },
-        context_instance=RequestContext(request))
+    return render(request, template_name, { 'form': form })
         
 @login_required
 def edit_grid(request, slug, template_name="grid/edit_grid.html"):
