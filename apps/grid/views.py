@@ -357,3 +357,40 @@ def ajax_grid_list(request, template_name="grid/ajax_grid_list.html"):
         },
         context_instance=RequestContext(request)
     )
+
+
+def classic_grid_detail(request, slug, template_name="grid/grid_detail.html"):
+    """displays a grid in detail
+
+    Template context:
+
+    * ``grid`` - the grid object
+    * ``elements`` - elements of the grid
+    * ``features`` - feature set used in the grid
+    * ``grid_packages`` - packages involved in the current grid
+    """
+    grid = get_object_or_404(Grid, slug=slug)
+    features = grid.feature_set.all()
+
+    grid_packages = grid.grid_packages
+
+    elements = Element.objects.all() \
+                .filter(feature__in=features,
+                        grid_package__in=grid_packages)
+
+    element_map = build_element_map(elements)
+
+    # These attributes are how we determine what is displayed in the grid
+    default_attributes = [('repo_description', 'Description'), 
+                ('category','Category'), ('pypi_downloads', 'Downloads'), ('last_updated', 'Last Updated'), ('pypi_version', 'Version'),
+                ('repo', 'Repo'), ('commits_over_52', 'Commits'), ('repo_watchers', 'Repo watchers'), ('repo_forks', 'Forks'),
+                ('participant_list', 'Participants'), ('license_latest', 'License')                
+            ]
+            
+    return render(request, template_name, {
+            'grid': grid,
+            'features': features,
+            'grid_packages': grid_packages,
+            'attributes': default_attributes,
+            'elements': element_map,
+        })

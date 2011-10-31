@@ -25,6 +25,9 @@
         {{ grid.description|urlize|linebreaksbr }}
     </p>    
     
+    <p id="grid-toggle">&nbsp;</p>
+    <p id="grid-classic"><a href="{% url classic_grid_detail grid.slug %}">Classic View</a></p>    
+    
     {% if features %}
         <h2>Features currently being evaluated</h2>
         <table id="grid" border="3">      
@@ -60,7 +63,6 @@
         {% endif %}        
     {% endif %}
 
-    <p id="grid-toggle">&nbsp;</p>
     
     {% if grid_packages.count %}
     

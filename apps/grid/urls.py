@@ -4,6 +4,8 @@ from django.views.generic.date_based import archive_index
 
 from grid.models import Grid
 
+from grid import views
+
 from grid.views import (
         add_feature,
         add_grid,
@@ -33,7 +35,7 @@ urlpatterns = patterns("",
         regex = '^(?P<slug>[-\w]+)/edit/$',
         view    = edit_grid,
         name    = 'edit_grid',
-    ),    
+    ),      
     
     url(
         regex = '^g/(?P<slug>[-\w]+)/$',
@@ -110,5 +112,11 @@ urlpatterns = patterns("",
         view    = grid_detail_feature,
         name    = 'grid_detail_feature',
     ),
+    
+    url(
+        regex = '^g/(?P<slug>[-\w]+)/classic/$',
+        view    = views.classic_grid_detail,
+        name    = 'classic_grid_detail',
+    ),    
     
 )
