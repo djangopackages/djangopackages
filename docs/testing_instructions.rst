@@ -25,10 +25,3 @@ To run the test server with a particular Packaginator fixture, for example with 
     python manage.py testserver test_initial_data
 
 Open up a web browser.  You'll see the Packaginator site, populated with test data from that file.
-
---------
-Selenium
---------
-
-TODO: replace this text with instructions for running the Selenium tests.
-

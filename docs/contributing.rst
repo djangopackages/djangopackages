@@ -126,7 +126,7 @@ If you add code/views you need to add tests!
 
 We've learned the hard way that code without tests is undependable. If your pull request reduces our test coverage because it lacks tests then it will be **rejected**.
 
-For now, we use the Django Test framework (based on unittest) and Selenium.
+For now, we use the Django Test framework (based on unittest).
 
 Also, keep your tests as simple as possible. Complex tests end up requiring their own tests. We would rather see duplicated assertions across test methods then cunning utility methods that magically determine which assertions are needed at a particular stage. Remember: `Explicit is better than implicit`.
 
