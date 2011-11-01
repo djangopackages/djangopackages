@@ -10,7 +10,7 @@ from importer.importers import import_from_github_acct
 
 
 @login_required
-def import_packages(request, template_name="importer/import_packages.html"):
+def import_github(request, template_name="importer/github.html"):
     
     if not request.user.is_superuser:
         return HttpResponseForbidden()

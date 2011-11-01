@@ -11,7 +11,7 @@ class ImportPackagesTest(TestCase):
         initial_data.load()
 
     def test_importer_page_view(self):
-        url = reverse('import_packages')
+        url = reverse('import_github')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
         

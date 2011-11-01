@@ -5,8 +5,8 @@ from importer import views
 urlpatterns = patterns("",
 
     url(
-        regex   = r'^package$',
-        view    = views.import_packages,
-        name    = 'import_packages',
+        regex   = r'^github/$',
+        view    = views.import_github,
+        name    = 'import_github',
     ),  
 )
