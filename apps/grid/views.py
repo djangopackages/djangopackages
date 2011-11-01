@@ -176,11 +176,7 @@ def add_feature(request, grid_slug, template_name="grid/add_feature.html"):
         feature.save()
         return HttpResponseRedirect(reverse('grid', kwargs={'slug':feature.grid.slug}))
 
-    return render_to_response(template_name, { 
-        'form': form,
-        'grid':grid
-        },
-        context_instance=RequestContext(request))           
+    return render(request, template_name, { 'form': form,'grid':grid })
         
 @login_required
 def edit_feature(request, id, template_name="grid/edit_feature.html"):
