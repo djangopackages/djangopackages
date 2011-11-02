@@ -18,7 +18,7 @@ def build_1():
     last_week = now - timedelta(7)
     
     SearchV2.objects.filter(created__lte=last_week).delete()
-    for package in Package.objects.filter()[:20]:
+    for package in Package.objects.filter():
         
         obj, created = SearchV2.objects.get_or_create(
             item_type="package",
