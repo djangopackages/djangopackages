@@ -22,20 +22,28 @@
     
     <div id="search-results">
         {% for item in items %}
-
-            <li class="package-item" id="package-{{ item.id }}">
-              <h3><a href="{{ item.absolute_url }}">{{ item.title }}</a></h3>
-              {% if item.last_released or item.last_committed  %}
-                <p class="date">
-                    {% if item.last_released %}{% trans "Last PyPI release:" %} {{ item.last_released|timesince }} ago{% endif %}
-                    {% if item.last_released and item.last_committed  %}<br />{% endif %}
-                    {% if item.last_committed %}{% trans "Last source code commit:" %} {{ item.last_committed|timesince }} ago{% endif %}
-                </p>
-              {% endif %}
-              <div class="package-downloads">{{ item.pypi_downloads }}</div>
-              <div class="package-watchers">{{ item.repo_watchers }}</div>
-              <p class="description">{{ item.description }}</p>
-            </li>
+        
+            {% if item.item_type == 'package' %}
+                <li class="package-item" id="package-{{ item.id }}">
+                  <h3><a href="{{ item.absolute_url }}">{{ item.title }}</a> (Package)</h3>
+                  {% if item.last_released or item.last_committed  %}
+                    <p class="date">
+                        {% if item.last_released %}{% trans "Last PyPI release:" %} {{ item.last_released|timesince }} ago{% endif %}
+                        {% if item.last_released and item.last_committed  %}<br />{% endif %}
+                        {% if item.last_committed %}{% trans "Last source code commit:" %} {{ item.last_committed|timesince }} ago{% endif %}
+                    </p>
+                  {% endif %}
+                  <div class="package-downloads">{{ item.pypi_downloads }}</div>
+                  <div class="package-watchers">{{ item.repo_watchers }}</div>
+                  <p class="description">{{ item.description }}</p>
+                </li>
+            {% endif %}
+            {% if item.item_type == 'grid' %}
+                <li class="grid-item" id="grid-{{ item.id }}">
+                  <h3><a href="{{ item.absolute_url }}">{{ item.title }}</a> (Grid)</h3>
+                  <p class="description">{{ item.description }}</p>
+                </li>            
+            {% endif %}            
 
         {% endfor %}
     </div>

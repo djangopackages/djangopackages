@@ -103,7 +103,7 @@ def build_1():
         
     print >> stdout, '----------------------'
     max_weight = SearchV2.objects.all()[0].weight
-    increment = max_weight / 5
+    increment = max_weight / 6
     for grid in Grid.objects.all():
         obj, created = SearchV2.objects.get_or_create(
             item_type="grid",
