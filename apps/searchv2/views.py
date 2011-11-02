@@ -56,7 +56,6 @@ def search(request, template_name='searchv2/search.html'):
                 q = lst[-2]
         except IndexError:
             pass
-    print q   
     try:
         package = Package.objects.get(title=q)
         url = reverse("package", args=[package.slug.lower()])
