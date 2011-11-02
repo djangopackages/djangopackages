@@ -144,6 +144,8 @@ def edit_grid(request, slug, template_name="grid/edit_grid.html"):
 
     if form.is_valid():
         grid = form.save()
+        message = "Grid has been edited"
+        messages.add_message(request, messages.INFO, message)                    
         return HttpResponseRedirect(reverse('grid', kwargs={'slug': grid.slug}))
 
     return render(request, template_name, { 'form': form,  'grid': grid } )  
@@ -197,11 +199,7 @@ def edit_feature(request, id, template_name="grid/edit_feature.html"):
         feature = form.save()
         return HttpResponseRedirect(reverse('grid', kwargs={'slug': feature.grid.slug}))
 
-    return render_to_response(template_name, { 
-        'form': form,
-        'grid': feature.grid  
-        }, 
-        context_instance=RequestContext(request))
+    return render(request, template_name, { 'form': form,'grid': feature.grid })
         
 @permission_required('grid.delete_feature')
 def delete_feature(request, id, template_name="grid/edit_feature.html"):
@@ -264,7 +262,7 @@ def edit_element(request, feature_id, package_id, template_name="grid/edit_eleme
     form = ElementForm(request.POST or None, instance=element)
 
     if form.is_valid():
-        element = form.save()
+        element = form.save()        
         return HttpResponseRedirect(reverse('grid', kwargs={'slug': feature.grid.slug}))
 
     return render_to_response(template_name, { 
