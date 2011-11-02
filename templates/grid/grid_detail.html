@@ -15,7 +15,6 @@
 
 {% block body %}
 
-    
     <h1 id="grid-name">
 
       <a href="{% url home %}">{% trans "home" %}</a> / <a href="{% url grids %}">{% trans "grids" %}</a> / {{ grid.title }}
@@ -27,6 +26,8 @@
     <p>
         {{ grid.description|urlize|linebreaksbr }}
     </p>    
+    
+    <p id="grid-classic"><a href="{% url grid_landscape grid.slug %}">Landscape View</a></p>    
     
     {% if features %}
         <h2>{% trans "Features currently being evaluated" %}</h2>

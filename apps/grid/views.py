@@ -38,7 +38,7 @@ def grids(request, template_name="grid/grids.html"):
     #grids = Grid.objects.annotate(gridpackage_count=Count('gridpackage'), feature_count=Count('feature'))
     return render(request, template_name, {'grids': Grid.objects.all(),})
 
-def grid_detail(request, slug, template_name="grid/grid_detail2.html"):
+def grid_detail_landscape(request, slug, template_name="grid/grid_detail2.html"):
     """displays a grid in detail
 
     Template context:
@@ -355,7 +355,7 @@ def ajax_grid_list(request, template_name="grid/ajax_grid_list.html"):
     )
 
 
-def classic_grid_detail(request, slug, template_name="grid/grid_detail.html"):
+def grid_detail(request, slug, template_name="grid/grid_detail.html"):
     """displays a grid in detail
 
     Template context:

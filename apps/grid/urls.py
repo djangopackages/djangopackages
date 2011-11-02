@@ -38,12 +38,6 @@ urlpatterns = patterns("",
     ),      
     
     url(
-        regex = '^g/(?P<slug>[-\w]+)/$',
-        view    = grid_detail,
-        name    = 'grid',
-    ), 
-    
-    url(
         regex = '^element/(?P<feature_id>\d+)/(?P<package_id>\d+)/$',
         view    = edit_element,
         name    = 'edit_element',
@@ -114,9 +108,15 @@ urlpatterns = patterns("",
     ),
     
     url(
-        regex = '^g/(?P<slug>[-\w]+)/classic/$',
-        view    = views.classic_grid_detail,
-        name    = 'classic_grid_detail',
+        regex = '^g/(?P<slug>[-\w]+)/$',
+        view    = grid_detail,
+        name    = 'grid',
+    ),    
+    
+    url(
+        regex = '^g/(?P<slug>[-\w]+)/landscape/$',
+        view    = views.grid_detail_landscape,
+        name    = 'grid_landscape',
     ),    
     
 )

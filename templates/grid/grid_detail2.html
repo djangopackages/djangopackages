@@ -18,15 +18,16 @@
     
     <h1 id="grid-name">
       <a href="{% url home %}">home</a> / <a href="{% url grids %}">grids</a> / {{ grid.title }}
-      <a href="{% url edit_grid grid.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
-    </h1>
 
+      <a href="{% url edit_grid grid.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
+      
+    </h1>
     <p>
         {{ grid.description|urlize|linebreaksbr }}
     </p>    
     
     <p id="grid-toggle">&nbsp;</p>
-    <p id="grid-classic"><a href="{% url classic_grid_detail grid.slug %}">Classic View</a></p>    
+    <p id="grid-classic"><a href="{% url grid grid.slug %}">Standard View</a></p>
     
     {% if features %}
         <h2>Features currently being evaluated</h2>
