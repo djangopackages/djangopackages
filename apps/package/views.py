@@ -191,14 +191,14 @@ def ajax_package_list(request, template_name="package/ajax_package_list.html"):
     q = request.GET.get("q","")
     packages = []
     if q:
-        django_dash = "%s-%s" % (settings.PACKAGINATOR_SEARCH_PREFIX, q)
-        django_space = "%s %s" % (settings.PACKAGINATOR_SEARCH_PREFIX, q)
-        django_underscore = '%s_%s' % (settings.PACKAGINATOR_SEARCH_PREFIX, q)          
+        _dash = "%s-%s" % (settings.PACKAGINATOR_SEARCH_PREFIX, q)
+        _space = "%s %s" % (settings.PACKAGINATOR_SEARCH_PREFIX, q)
+        _underscore = '%s_%s' % (settings.PACKAGINATOR_SEARCH_PREFIX, q)          
         packages = Package.objects.filter(
                         Q(title__istartswith=q) |
-                        Q(title__istartswith=django_dash) |
-                        Q(title__istartswith=django_space) | 
-                        Q(title__istartswith=django_underscore)
+                        Q(title__istartswith=_dash) |
+                        Q(title__istartswith=_space) | 
+                        Q(title__istartswith=_underscore)
                     )
                     
     packages_already_added_list = []
