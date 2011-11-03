@@ -265,13 +265,12 @@ def edit_element(request, feature_id, package_id, template_name="grid/edit_eleme
         element = form.save()        
         return HttpResponseRedirect(reverse('grid', kwargs={'slug': feature.grid.slug}))
 
-    return render_to_response(template_name, { 
+    return render(request, template_name, { 
         'form': form,
         'feature':feature,
         'package':grid_package.package,
         'grid':feature.grid
-        }, 
-        context_instance=RequestContext(request))        
+        })        
 
 @login_required
 def add_grid_package(request, grid_slug, template_name="grid/add_grid_package.html"):
