@@ -281,17 +281,6 @@ def usage(request, slug, action):
     next = request.GET.get('next') or request.META.get("HTTP_REFERER") or reverse("package", kwargs={"slug": package.slug})
     return HttpResponseRedirect(next)
     
-def packaginate(request):
-    """ Special project method - DO NOT TOUCH!!! """
-
-    packages = Package.objects.all()
-    package = packages[randrange(0, packages.count())]
-    response = dict(
-            title = package.title,
-            url = package.get_absolute_url(),
-            description=package.repo_description
-        )
-    return HttpResponse(simplejson.dumps(response))    
 
 def package_list(request, template_name="package/package_list.html"):
 

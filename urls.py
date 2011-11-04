@@ -7,7 +7,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 from homepage.views import homepage
-from package.views import package_autocomplete, category, packaginate
+from package.views import package_autocomplete, category
 
 
 urlpatterns = patterns("",
@@ -22,20 +22,7 @@ urlpatterns = patterns("",
 
     url(r"^categories/(?P<slug>[-\w]+)/$", category, name="category"),
     url(r"^categories/$", homepage, name="categories"),
-    url(r"^packaginator/$",
-                direct_to_template,
-                {'template': 'package/packaginator.html'},
-                name="packaginator"),
 
-    url(r"^packaginate/$",
-                packaginate,
-                name="packaginate"),
-
-    url(
-        regex = '^autocomplete/package/$',
-        view = package_autocomplete,
-        name    = 'package_autocomplete',
-    ),
     url(r'^login/$', direct_to_template, {'template': 'pages/login.html', }, 'login',),
     url(r'^logout/$', 'django.contrib.auth.views.logout_then_login', {}, 'logout',),
 
