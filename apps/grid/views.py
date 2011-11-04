@@ -303,11 +303,10 @@ def add_grid_package(request, grid_slug, template_name="grid/add_grid_package.ht
     
 
 
-    return render_to_response(template_name, { 
+    return render(request, template_name, { 
         'form': form,
         'grid': grid
-        },
-        context_instance=RequestContext(request))
+        })
 
 @login_required
 def add_new_grid_package(request, grid_slug, template_name="package/package_form.html"):
