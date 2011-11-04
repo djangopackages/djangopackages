@@ -126,15 +126,15 @@ All of the modules listed below are the sub-applications.
 .. automodule:: pypi.versioning
     :members:
 
-``searchv1`` - searchv1 app 
+``searchv2`` - searchv2 app 
 ===============================
-.. automodule:: apps.searchv1
+.. automodule:: apps.searchv2
 
-.. currentmodule:: searchv1
+.. currentmodule:: searchv2
 
-``searchv1.views``
+``searchv2.views``
 -------------------
 
-.. automodule:: searchv1.views
+.. automodule:: searchv2.views
     :members:
     :undoc-members:

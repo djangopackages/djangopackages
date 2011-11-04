@@ -130,7 +130,6 @@ PROJECT_APPS = [
     "homepage",
     "package",
     "profiles",
-    "searchv1",
     "apiv1",
     "feeds",
     "pypi",
