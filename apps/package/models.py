@@ -1,18 +1,17 @@
-# TODO - cleanup regex to do proper string subs
-
+from datetime import datetime, timedelta
 import logging
 import os
 import re
 import sys
-from datetime import datetime, timedelta
+
 
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
-from django.core.exceptions import ObjectDoesNotExist
 
 from distutils.version import LooseVersion as versioner
 
@@ -26,7 +25,7 @@ pypi_url_help_text = settings.PACKAGINATOR_HELP_TEXT['PYPI_URL']
 
 class NoPyPiVersionFound(Exception):
     pass
-    
+
 
 class Category(BaseModel):
     

@@ -187,6 +187,7 @@ def category(request, slug, template_name="package/category.html"):
         context_instance=RequestContext(request)
     )
 
+
 def ajax_package_list(request, template_name="package/ajax_package_list.html"):
     q = request.GET.get("q","")
     packages = []
@@ -208,7 +209,20 @@ def ajax_package_list(request, template_name="package/ajax_package_list.html"):
         if grids:
             grid = grids[0]
             packages_already_added_list = [x['slug'] for x in grid.packages.all().values('slug')]
-        
+            new_packages = tuple(packages.exclude(slug__in=packages_already_added_list))[:20]
+            number_of_packages = len(new_packages)
+            if number_of_packages < 20:
+                try:
+                    old_packages = packages.filter(slug__in=packages_already_added_list)[:20-number_of_packages]
+                except AssertionError:
+                    old_packages = None
+                    
+                if old_packages:
+                    old_packages = tuple(old_packages)
+                    packages = new_packages + old_packages
+            else:
+                packages = new_packages
+
     return render_to_response(template_name, {
         "packages": packages,
         'packages_already_added_list':packages_already_added_list,
