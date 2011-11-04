@@ -17,5 +17,5 @@ def get_pypi_url(title):
         value = 'http://pypi.python.org/pypi/' + value
         r = requests.get(value)
         if r.status_code == 200:
-            return value    
+            return value
     return None
