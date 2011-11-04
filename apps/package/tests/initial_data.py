@@ -141,6 +141,7 @@ def load():
         Permission.objects.get(codename='delete_feature')
         ]
 
+    # password is 'user'
     user1, created = User.objects.get_or_create(
         pk=1,
         username=u'user',
@@ -183,6 +184,7 @@ def load():
         email='',
         date_joined=u'2010-01-01 12:00:00',
     )
+    # password is 'admin'
     user4, created = User.objects.get_or_create(
         pk=4,
         username=u'admin',

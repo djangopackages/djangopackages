@@ -155,7 +155,7 @@ def edit_example(request, slug, id, template_name="package/edit_example.html"):
     if form.is_valid():
         form.save()
         return HttpResponseRedirect(reverse("package", kwargs={"slug": package_example.package.slug}))
-    
+
     return render_to_response(template_name, {
         "form": form,
         "package":package_example.package
