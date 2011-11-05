@@ -21,7 +21,7 @@ def build_search(request, template_name="searchv2/build_results.html"):
         
     results = []
     if request.method == 'POST':
-        results = build_1()
+        results = build_1(False)
 
     return render_to_response(template_name,
                 {'results':results},

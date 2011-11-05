@@ -328,12 +328,7 @@ def add_new_grid_package(request, grid_slug, template_name="package/package_form
         )
         return HttpResponseRedirect(reverse("grid", kwargs={"slug":grid_slug}))
     
-    return render_to_response(template_name, {
-        "form": form,
-        "repo_data": repo_data_for_js(),
-        "action": "add",
-        },
-        context_instance=RequestContext(request))
+    return render(request, template_name, {"form": form,"repo_data": repo_data_for_js(),"action": "add",})
         
 
 def ajax_grid_list(request, template_name="grid/ajax_grid_list.html"):

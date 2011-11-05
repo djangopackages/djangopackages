@@ -9,7 +9,7 @@ from package.models import Package, Commit, Version
 from searchv2.models import SearchV2
 from searchv2.utils import remove_prefix, clean_title
 
-def build_1():
+def build_1(print_out=True):
     
     now = datetime.now()
     quarter_delta = timedelta(90)    
@@ -99,7 +99,8 @@ def build_1():
             obj.weight = weight
             obj.save()
         
-        print >> stdout, obj, created
+        if print_out:
+            print >> stdout, obj, created
         
     print >> stdout, '----------------------'
     max_weight = SearchV2.objects.all()[0].weight
