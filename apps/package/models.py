@@ -201,6 +201,7 @@ class Package(BaseModel):
 
     class Meta:
         ordering = ['title']
+        get_latest_by = 'id'
     
     def __unicode__(self):
         
