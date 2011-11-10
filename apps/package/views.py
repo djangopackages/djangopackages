@@ -106,13 +106,12 @@ def edit_package(request, slug, template_name="package/package_form.html"):
                 package_extender['form'].save()            
         return HttpResponseRedirect(reverse("package", kwargs={"slug": modified_package.slug}))
     
-    return render_to_response(template_name, {
+    return render(request, template_name, {
         "form": form,
         "package": package,
         "repo_data": repo_data_for_js(),
         "action": "edit",
-        },
-        context_instance=RequestContext(request))
+        })
 
 @login_required
 def update_package(request, slug):
