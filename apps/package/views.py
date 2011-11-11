@@ -138,11 +138,10 @@ def add_example(request, slug, template_name="package/add_example.html"):
         return HttpResponseRedirect(reverse("package", kwargs={"slug":package_example.package.slug}))
 
     
-    return render_to_response(template_name, {
+    return render(request, template_name, {
         "form": form,
         "package":package
-        },
-        context_instance=RequestContext(request))
+        })
 
 @login_required
 def edit_example(request, slug, id, template_name="package/edit_example.html"):
