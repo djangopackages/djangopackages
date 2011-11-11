@@ -229,6 +229,7 @@
 {% endblock %}
 
 {% block extra_body %}
+        <script type="text/javascript" src="{{ STATIC_URL }}js/rtd.js"></script>
         <script type="text/javascript">
 
             $(function() {  
@@ -272,36 +273,10 @@
                     
                  {% endif %}
 
-                 function handleRTD(elements) {
-                     if (!elements.length){
-                         return;
-                     }
-                     var ele = $(elements.shift());
-                     if (!ele){
-                         return;
-                     }
-                     var slug = ele.attr('rel');
-                     var url = "http://readthedocs.org/api/v1/build/"+ slug +"/?format=jsonp";
-                     $.ajax({
-                       url: url,
-                       dataType: 'jsonp',
-                       success:function(data){
-                           if (data.objects.length > 0){
-                               var href = "http://readthedocs.org/projects/" + slug;
-                               var a = "<a href='" + href + "'>Yes</a>";
-                               ele.html(a);
-                               handleRTD(elements);
-                           } else {
-                               ele.text("No");
-                               handleRTD(elements);
-                           }
-                       },
-                       error: function(){
-                           ele.text("No");    
-                       }
-                     });
-                 }
-                 handleRTD($.makeArray($('table#grid span.rtd-status')));
+                 $('table#grid span.rtd-status').checkRTD({
+                	 'yes': '{% trans "Yes" %}',
+                	 'no': '{% trans "No" %}',
+                 });
             });    
         </script>
 {% endblock %}
