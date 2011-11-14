@@ -8,11 +8,8 @@ from django.core.cache import cache
 from django.core.urlresolvers import reverse 
 from django.db.models import Count
 from django.http import HttpResponseRedirect, Http404, HttpResponseForbidden
-from django.shortcuts import render_to_response, get_object_or_404, render
-from django.template import RequestContext 
+from django.shortcuts import get_object_or_404, render
 
-from core.utils import cache_fetcher
-from grid import cachekeys
 from grid.forms import ElementForm, FeatureForm, GridForm, GridPackageForm
 from grid.models import Element, Feature, Grid, GridPackage
 from package.models import Package
