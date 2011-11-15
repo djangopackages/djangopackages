@@ -1,9 +1,7 @@
 from random import randrange
 
 from django.db.models import Count
-from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response, get_object_or_404 
-from django.template import RequestContext
+from django.shortcuts import get_object_or_404, render 
 
 import feedparser
 
@@ -67,7 +65,7 @@ def homepage(request, template_name="homepage.html"):
     blogpost_title = feedparser.parse(feed).entries[0].title
     blogpost_body = feedparser.parse(feed).entries[0].summary
 
-    return render_to_response(
+    return render(request,
         template_name, {
             "latest_packages":Package.objects.all().order_by('-created')[:5],
             "random_packages": random_packages,
@@ -78,6 +76,6 @@ def homepage(request, template_name="homepage.html"):
             "blogpost_body": blogpost_body,
             "categories":categories,
             "package_count":package_count
-        }, context_instance = RequestContext(request)
+        }
     )
         
