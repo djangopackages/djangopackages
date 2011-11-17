@@ -13,9 +13,8 @@ from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidde
 from django.shortcuts import render_to_response, get_object_or_404, render
 from django.template import RequestContext
 
-from homepage.models import Dpotw, Gotw
-
 from grid.models import Grid
+from homepage.models import Dpotw, Gotw
 from package.forms import PackageForm, PackageExampleForm
 from package.models import Category, Package, PackageExample
 from package.repos import get_all_repos
@@ -176,11 +175,10 @@ def package_autocomplete(request):
 def category(request, slug, template_name="package/category.html"):
     category = get_object_or_404(Category, slug=slug)
     packages = category.package_set.annotate(usage_count=Count("usage")).order_by("-pypi_downloads", "-repo_watchers", "title")
-    return render_to_response(template_name, {
+    return render(request, template_name, {
         "category": category,
         "packages": packages,
-        },
-        context_instance=RequestContext(request)
+        }
     )
 
 
