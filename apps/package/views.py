@@ -217,11 +217,10 @@ def ajax_package_list(request, template_name="package/ajax_package_list.html"):
             else:
                 packages = new_packages
 
-    return render_to_response(template_name, {
+    return render(request, template_name, {
         "packages": packages,
         'packages_already_added_list':packages_already_added_list,
-        },
-        context_instance=RequestContext(request)
+        }
     )
 
 def usage(request, slug, action):
