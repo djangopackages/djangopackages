@@ -10,7 +10,7 @@ from django.core.cache import cache
 from django.core.urlresolvers import reverse
 from django.db.models import Q, Count, get_model
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
-from django.shortcuts import render_to_response, get_object_or_404, render
+from django.shortcuts import get_object_or_404, render
 from django.template import RequestContext
 
 from grid.models import Grid
@@ -304,12 +304,13 @@ def package_list(request, template_name="package/package_list.html"):
         }
         categories.append(element)
 
-    return render_to_response(
+    return render(
+        request,
         template_name, {
             "categories": categories,
             "dpotw": Dpotw.objects.get_current(),
             "gotw": Gotw.objects.get_current(),
-        }, context_instance = RequestContext(request)
+        }
     )
 
 def package_detail(request, slug, template_name="package/package.html"):
