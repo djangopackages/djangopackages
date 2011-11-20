@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render, render_to_response, get_object_or_404
 from django.template import RequestContext
 
 from uni_form.helpers import FormHelper, Submit, HTML
@@ -19,9 +19,8 @@ def profile_detail(request, github_account, template_name="profiles/profile.html
 
     profile = get_object_or_404(Profile, github_account=github_account)
 
-    return render_to_response(template_name,
-        {"local_profile": profile, "user":profile.user},
-        RequestContext(request))
+    return render(request, template_name,
+        {"local_profile": profile, "user":profile.user},)
 
 def profile_list(request, template_name="profiles/profiles.html"):
 
