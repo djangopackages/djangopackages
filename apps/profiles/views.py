@@ -29,11 +29,10 @@ def profile_list(request, template_name="profiles/profiles.html"):
     else:
         users = User.objects.filter(is_active=True)
 
-    return render_to_response(template_name,
+    return render(request, template_name,
         {
             "users": users
-        },
-        RequestContext(request))
+        })
 
 @login_required
 def profile_edit(request, template_name="profiles/profile_edit.html"):
