@@ -3,8 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, render_to_response, get_object_or_404
-from django.template import RequestContext
+from django.shortcuts import render, get_object_or_404
 
 from uni_form.helpers import FormHelper, Submit, HTML
 from uni_form.layout import Layout, Fieldset, ButtonHolder
@@ -67,14 +66,12 @@ def profile_edit(request, template_name="profiles/profile_edit.html"):
         )
     )        
 
-    return render_to_response(template_name,
+    return render(request, template_name,
         {
             "profile": profile,
             "form": form,
             "helper":helper,
-        },
-        context_instance=RequestContext(request)
-    )
+        })
 
 def github_user_update(sender, user, response, details, **kwargs):
     profile_instance, created = Profile.objects.get_or_create(user=user)
