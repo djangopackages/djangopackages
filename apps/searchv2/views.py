@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import HttpResponseForbidden, HttpResponseRedirect, HttpResponse
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, render
 from django.template import RequestContext
 
 from package.models import Package
@@ -23,9 +23,8 @@ def build_search(request, template_name="searchv2/build_results.html"):
     if request.method == 'POST':
         results = build_1(False)
 
-    return render_to_response(template_name,
-                {'results':results},
-                context_instance=RequestContext(request))
+    return render(request, template_name,
+                {'results':results})
     
 def search_function(q):
     """ TODO - make generic title searches have lower weight """
