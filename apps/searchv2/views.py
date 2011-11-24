@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import HttpResponseForbidden, HttpResponseRedirect, HttpResponse
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render
 from django.template import RequestContext
 
 from package.models import Package
@@ -71,12 +71,10 @@ def search(request, template_name='searchv2/search.html'):
 
     form = SearchForm(request.GET or None)
 
-    return render_to_response(template_name, {
-        'items': search_function(q),
-        'form':form
-        },
-        context_instance=RequestContext(request)
-    )
+    return render(request. template_name, {
+            'items': search_function(q),
+            'form':form
+        })
     
 def search_packages_autocomplete(request):
     """
