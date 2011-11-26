@@ -108,7 +108,6 @@ TEMPLATE_DIRS = [
 ]
 
 TEMPLATE_CONTEXT_PROCESSORS = [
-    #"django.contrib.auth.context_processors.auth",
     "django.contrib.auth.context_processors.auth",
     "django.core.context_processors.debug",
     "django.core.context_processors.i18n",
@@ -294,3 +293,7 @@ LOGIN_REDIRECT_URL = '/'
 
 # associate user via email
 SOCIAL_AUTH_ASSOCIATE_BY_MAIL = True
+
+########################## Site specific stuff
+FRAMEWORK_TITLE = "Django"
+SITE_TITLE = "Django Packages"
