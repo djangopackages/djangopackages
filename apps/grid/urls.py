@@ -1,6 +1,7 @@
 """grid url patterns"""
 from django.conf.urls.defaults import *
 from django.views.generic.date_based import archive_index
+from django.views.generic.dates import ArchiveIndexView
 
 from grid.models import Grid
 
@@ -87,12 +88,11 @@ urlpatterns = patterns("",
 
     url(
         regex   = r"^latest/$",
-        view    = archive_index,
+        view    = ArchiveIndexView.as_view(
+                    queryset=Grid.objects.select_related(),
+                    date_field='created'
+        ),
         name    = "latest_grids",
-        kwargs  = dict(
-            queryset=Grid.objects.select_related(),     
-            date_field='created'   
-            )            
     ),
 
     url(
