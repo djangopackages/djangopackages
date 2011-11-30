@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.conf.urls.defaults import *
+from django.views.generic.base import TemplateView
 from django.views.generic.simple import direct_to_template
-from django.views.generic.list_detail import object_list
 
 from django.contrib import admin
 admin.autodiscover()
@@ -23,7 +23,7 @@ urlpatterns = patterns("",
     url(r"^categories/(?P<slug>[-\w]+)/$", category, name="category"),
     url(r"^categories/$", homepage, name="categories"),
 
-    url(r'^login/$', direct_to_template, {'template': 'pages/login.html', }, 'login',),
+    url(regex=r'^login/$', view=TemplateView.as_view(template_name= 'pages/login.html'), name='login',),
     url(r'^logout/$', 'django.contrib.auth.views.logout_then_login', {}, 'logout',),
 
     # static pages
