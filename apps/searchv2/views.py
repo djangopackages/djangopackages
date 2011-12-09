@@ -71,7 +71,7 @@ def search(request, template_name='searchv2/search.html'):
 
     form = SearchForm(request.GET or None)
 
-    return render(request. template_name, {
+    return render(request, template_name, {
             'items': search_function(q),
             'form':form
         })
