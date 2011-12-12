@@ -254,6 +254,10 @@ LAUNCHPAD_ACTIVE = False
 LOCAL_INSTALLED_APPS = []
 SUPPORTED_REPO = []
 
+########################## Site specific stuff
+FRAMEWORK_TITLE = "Django"
+SITE_TITLE = "Django Packages"
+
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.
 try:
@@ -293,7 +297,3 @@ LOGIN_REDIRECT_URL = '/'
 
 # associate user via email
 SOCIAL_AUTH_ASSOCIATE_BY_MAIL = True
-
-########################## Site specific stuff
-FRAMEWORK_TITLE = "Django"
-SITE_TITLE = "Django Packages"
