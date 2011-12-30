@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Help" %}{% endblock %}
+
+{% block body %}
+
+<h1><a href="{% url help %}">Help</a></h1> 
+
+ <h2>Need some help?</h2>    
+
+<ul>
+    <li>Tweet at <a href="http://twitter.com/pydanny">pydanny</a> or <a href="https://twitter.com/open_comparison">Open Comparison</a> itself.</li>
+    <li>Submit an <a href="http://github.com/opencomparison/opencomparison/issues">issue</a>.</li>
+    <li>Send an <a href="mailto:info@cartwheelweb.com">email to the team</a>.</li>    
+</ul>    
+
+<h3>We'll be adding more to this section soon!</h3>
+{# TODO - flesh out this page #}
+{% endblock %}

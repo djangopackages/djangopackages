@@ -31,6 +31,9 @@ urlpatterns = patterns("",
     url(r"^faq/$", TemplateView.as_view(template_name='pages/faq.html'), name="faq"),    
     url(r"^syndication/$", TemplateView.as_view(template_name='pages/syndication.html'), name="syndication"),
     url(r"^contribute/$", TemplateView.as_view(template_name='pages/contribute.html'), name="contribute"),
+    url(r"^help/$", TemplateView.as_view(template_name='pages/help.html'), name="help"),    
+
+    # new apps
     url(r"^search/", include("searchv2.urls")),
     url(r"^importer/", include("importer.urls")),
 )
