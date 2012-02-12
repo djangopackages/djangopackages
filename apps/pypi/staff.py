@@ -9,8 +9,6 @@ import xmlrpclib
 
 from django.contrib.auth.models import User
 
-from celery.decorators import task
-
 from package.models import Package
 from pypi.models import PackageStaff, get_package_by_pypi_name
 from pypi.slurper import Slurper
