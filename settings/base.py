@@ -7,7 +7,7 @@ import posixpath
 
 from django.template.defaultfilters import slugify
 
-PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -145,7 +145,7 @@ PREREQ_APPS = [
     "tastypie",
     "reversion",
     "django_sorting",
-    "django_modeler",
+    #"django_modeler",
 
     # Celery task queue:
     'djcelery',
@@ -176,7 +176,7 @@ EMAIL_DEBUG = DEBUG
 
 CACHE_TIMEOUT = 60 * 60
 
-ROOT_URLCONF = "django_oc.urls"
+ROOT_URLCONF = "opencomparison.urls"
 
 SECRET_KEY = "CHANGEME"
 
@@ -286,3 +286,16 @@ LOGIN_REDIRECT_URL = '/'
 
 # associate user via email
 SOCIAL_AUTH_ASSOCIATE_BY_MAIL = True
+
+DATABASES = {
+
+    "default": {
+        "ENGINE": "postgresql_psycopg2",
+        "NAME": "oc",          # Or path to database file if using sqlite3.
+        "USER": "",              # Not used with sqlite3.
+        "PASSWORD": "",                  # Not used with sqlite3.
+        "HOST": "",             # Set to empty string for localhost. Not used with sqlite3.
+        "PORT": "",                  # Set to empty string for default. Not used with sqlite3.
+    },
+    
+}
