@@ -21,5 +21,8 @@ requests==0.8.7 # for launchpad
 # Open ID
 python-openid==2.2.5
 django-social-auth==0.5.12
+gunicorn==0.13.4
+gevent==0.13.6
+eventlet==0.9.16
 
 psycopg2==2.4.1
