@@ -49,7 +49,7 @@ BROKER_BACKEND = "django"
 RESTRICT_PACKAGE_EDITORS = False
 RESTRICT_GRID_EDITORS = False
 
-ROOT_URLCONF = "opencomparison.urls"
+ROOT_URLCONF = "app.urls"
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
