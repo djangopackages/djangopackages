@@ -10,7 +10,7 @@ import os, sys, urlparse, traceback
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
-SERVE_MEDIA = DEBUG
+SERVE_MEDIA = True
 
 INSTALLED_APPS += ['gunicorn']
 CACHE_TIMEOUT = 60 * 60 * 24
