@@ -148,7 +148,7 @@ PREREQ_APPS = [
     #"django_modeler",
 
     # Celery task queue:
-    'djcelery',
+    #'djcelery',
 
     'social_auth',
 
@@ -261,6 +261,7 @@ SUPPORTED_REPO.extend(["bitbucket", "github"])
 if LAUNCHPAD_ACTIVE:
     SUPPORTED_REPO += ["launchpad"]
 
+"""
 try:
     import djcelery
 
@@ -269,6 +270,7 @@ except ImportError:
     # skipping this so we can generate docs
     # Doing this cause most development doesn't need it.
     pass
+"""
 
 AUTHENTICATION_BACKENDS = (
     #'social_auth.backends.OpenIDBackend',
