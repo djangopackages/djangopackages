@@ -1,0 +1,37 @@
+/* CSS for account pages  */
+.account #body {width: 60%;}
+.account #body h1 {margin-bottom: 0px;}
+
+.account #body form {border-top: 1px solid #ccc;}
+.account #body .ctrlHolder {padding:12px 0px; margin: 3px 0px; border: none;}
+.account #body label {width: 20%; padding: 2px 4px 3px; margin: 3px 12px 3px 0px; display: inline-block;}
+    
+.account #body input {padding: 2px 4px 3px; width: 40%;}
+
+.account #body #hint_id_remember {margin: 0px; padding: 2px 4px 3px; width: auto; display: inline-block;}
+.account #body input#id_remember {width: auto;}
+
+.account #body a.forgot_password {margin: 2px 4px 3px; display: block;}
+.account .signup_submit, .account .login_submit {background-color: #81DEA5; border: none; color: #fff; float: left; margin: 12px 0px; padding:12px 0px 0px; width: 72px !important;}
+.account .signup_submit:hover, .account .login_submit:hover {cursor: pointer;}
+.account #body a.sign_up:hover, .account #body a.forgot_password:hover {color: #34BD6D;}
+
+.account #body .uniForm .error {background: none;}
+.account #body .uniForm .focused {background: #DDFFEB;}
+.account #body .uniForm .focused.error, .account #body .uniForm .focused.error p.errorField {background: #DDFFEB;}
+.account #body .uniForm .error label {color: #AF4C4C;}
+.account #body p.errorField {margin: 0px; padding: 0px 0px 2px 4px; background: none;}
+
+.account #body #errorMsg {border: none; background: none; padding: 0px 0px 2px 4px; margin: 0px;}
+.account #body #errorMsg ul {margin: 0px; padding: 2px 0px 0px;}
+.account #body #errorMsg li {list-style: none; padding: 0px; margin: 0px; color: #AF4C4C;}
+
+.social-button {
+    vertical-align:middle;
+}
+
+.social-sign-in {
+    font-size:1.5em;
+    font-style:italic;
+    padding-left:10px;
+}

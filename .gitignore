@@ -30,7 +30,7 @@ pip-log.txt
 dev.db*
 *.log
 local_settings.py
-collected_static/
+
 
 # Local file cruft/auto-backups
 .DS_Store

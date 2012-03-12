@@ -1,0 +1,20 @@
+#package-editlink,
+#package-gridname {
+    display: inline;
+}
+
+
+#package-sitelist li {
+    margin: 9px 0;
+}
+
+.clear {
+    clear: both;
+}
+
+.badges { line-height: 26px; list-style: none; display: inline; }
+/* .badges li { display: inline; } */
+.badges a, .badges a:visited { border-bottom-left-radius: 5px 5px; border-bottom-right-radius: 5px 5px; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; font-size: 11px; height: 16px; margin: 0px; padding: 5px 10px; background: #444; color: white; text-decoration: none; font-weight: 700; }
+.badges a:hover { background: #2F1D1D; }
+
+#package-archive-list, #package-archive-list li { list-style:none; }

@@ -1,3 +1,9 @@
+"""
+heroku addons:add heroku-shared-postgresql
+heroku run python manage.py syncdb --settings=settings.prod
+heroku run python manage.py migrate --settings=settings.prod
+"""
+
 from settings.base import *
 
 import os, sys, urlparse, traceback
