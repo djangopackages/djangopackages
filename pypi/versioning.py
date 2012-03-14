@@ -12,14 +12,3 @@ def compare_versions(version1, version2):
 def highest_version(versions):
     """ returns the highest version """
     return reduce((lambda v1, v2: compare_versions(v1, v2) == 1 and v1 or v2), versions)
-
-# -------------------------------------------------------
-# simpler
-"""
-from distutils.version import LooseVersion as versioner
-
-class VersionManager(models.Manager):
-    def by_version(self, *args, **kwargs):
-        qs = self.get_query_set().filter(*args, **kwargs)
-        return sorted(qs,key=lambda v: versioner(v.number))
-"""

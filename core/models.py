@@ -7,7 +7,7 @@ class BaseModel(models.Model):
     """ Base abstract base class to give creation and modified times """
     created     = CreationDateTimeField(_('created'))
     modified    = ModificationDateTimeField(_('modified'))
-    
+
 
     class Meta:
         abstract = True
