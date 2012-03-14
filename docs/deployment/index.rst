@@ -10,4 +10,3 @@ Contents:
    :maxdepth: 1
 
    heroku
-   djangozoom

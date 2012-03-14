@@ -63,19 +63,12 @@ Create a virtualenv, activate it, git clone the OpenComparison project, and inst
     source env-oc/bin/activate
     git clone git@github.com:opencomparison/opencomparison.git opencomparison
     cd opencomparison
-    pip install -r requirements/mkii.txt
+    pip install -r requirements/project.txt
 
-Set up local settings
----------------------
+Set up server specific settings
+-------------------------------
 
-In the ``settings/`` directory, Copy the ``local_settings.py.example`` to ``local_settings.py``::
-
-    cd settings
-    cp local_settings.py.example local_settings.py
-
-Change the ``ROOT_URLS`` setting in ``local_settings.py`` from `<root_directory_name>` to the correct value (i.e. the name of your repo)::
-
-    ROOT_URLCONF = '<root_directory_name>.urls'
+Don't change ``settings/base.py``. Instead extend it as you see in ``settings/heroku.py``. In the new file make the following specifications:
 
 OPTIONAL! You can enable launchpad support in the local settings file. Launchpad's dependencies can be a little fussy, so this will probably require some additional tweaking on your part::
 
@@ -99,21 +92,25 @@ Set up your PostgreSQL database
 
 Set up PostgreSQL and create a database as per the postgresql_ contributor instructions.
 
-Make your database::
+Make your database:
 
-    python manage.py syncdb
-    python manage.py migrate
+.. sourcecode:: bash
+
+    $ python manage.py syncdb --settings=settings.<my-custom>
+    $ python manage.py migrate --settings=settings.<my-custom>
 
 OPTIONAL! Load some base data for development usage. This should not be loaded on the production site::
 
-    python manage.py loaddata
+.. sourcecode:: bash
+
+    $ python manage.py loaddata --settings=settings.<my-custom>
 
 Load the site in your browser
 -----------------------------
 
 Run the development server::
 
-    python manage.py runserver
+    python manage.py runserver --settings=settings.<my-custom>
 
 Then point your browser to http://127.0.0.1:8000
 
@@ -125,5 +122,5 @@ Create a Django superuser for yourself, replacing joe with your username/email::
     python manage.py createsuperuser --username=joe --email=joe@example.com
 
 
-.. _postgresql: postgresql_contributor_instructions.html
+.. _PostgreSQL: postgresql_contributor_instructions.html
 .. _faq: faq

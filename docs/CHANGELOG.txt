@@ -1,3 +1,16 @@
+2012, March
+=============
+
+* Removal of Celery
+* Docs overhaul
+* Moving of apps outside of the apps directory and into the project root
+* Generic deployable design to make it easier to work with PaaS. First PaaS supported is Heroku.
+
+2011, Autumn
+=============
+
+* Lintification
+
 2011, March 13
 ==============
 

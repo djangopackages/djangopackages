@@ -44,6 +44,7 @@ Direct Contributors
 * Brian Ball
 * Bryan Weingarten
 * Chris Adams
+* Christopher Clark
 * David Peters
 * Eric Spunagle
 * Evgeny Fadeev
@@ -58,6 +59,7 @@ Direct Contributors
 * Jonas Obrist
 * jrothenbuhler
 * Kenneth Love
+* Kenneth Reitz
 * Mike Johnson
 * Nate Aune
 * Nolan Brubaker

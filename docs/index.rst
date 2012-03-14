@@ -24,7 +24,7 @@ Contents:
    introduction
    license   
    install
-   celery
+   deployment
    troubleshooting
    faq   
    opencomparison_settings
