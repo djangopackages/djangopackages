@@ -5,8 +5,6 @@
 PyPI interface (see http://wiki.python.org/moin/PyPiXmlRpc)
 """
 
-from datetime import datetime
-import itertools
 import re
 import xmlrpclib
 
@@ -27,14 +25,14 @@ class Slurper(object):
         self.dumb_category, created = Category.objects.get_or_create(
                                 title='Python', slug='python')
         self.dumb_category.save()
-        
+    
     def get_latest_version_number(self, package_name, versions=None):
-        """ Returns the latest version number for a package """        
+        """ Returns the latest version number for a package """
         if versions:
             return highest_version(versions)
         else:
             return highest_version(PYPI.package_releases(package_name))
-        
+    
     def get_or_create_package(self, package_name, version):
         data = PYPI.release_data(package_name, version)
         pypi_url = base_url + package_name
