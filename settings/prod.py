@@ -81,3 +81,35 @@ piwikTracker.enableLinkTracking();
 </script><noscript><p><img src="http://manage.cartwheelweb.com/piwik/piwik.php?idsite=4" style="border:0" alt="" /></p></noscript>
 <!-- End Piwik Tracking Code -->
 """
+
+########## STORAGE CONFIGURATION
+
+INSTALLED_APPS += ['storages',]
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
+AWS_QUERYSTRING_AUTH = False
+
+AWS_HEADERS = {
+    'Expires': 'Thu, 15 Apr 2020 20:00:00 GMT',
+    'Cache-Control': 'max-age=86400',
+}
+
+# Boto requires subdomain formatting.
+from S3 import CallingFormat
+AWS_CALLING_FORMAT = CallingFormat.SUBDOMAIN
+
+# Amazon S3 configuration.
+if os.environ.has_key('AWS_ACCESS_KEY_ID'):
+    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+else:
+    AWS_ACCESS_KEY_ID = AWS_KEY
+    AWS_SECRET_ACCESS_KEY = AWS_SECRET_KEY
+    
+AWS_STORAGE_BUCKET_NAME = 'consumernotebook'
+
+STATIC_URL = 'https://s3.amazonaws.com/consumernotebook/'
+MEDIA_URL = STATIC_URL
+########## END STORAGE CONFIGURATION
