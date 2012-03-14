@@ -53,7 +53,7 @@ ROOT_URLCONF = "app.urls"
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-SECRET_KEY = os.environ.has_key('SECRET_KEY')
+SECRET_KEY = os.environ['SECRET_KEY']
 
 GITHUB_API_SECRET = os.environ['GITHUB_API_SECRET']
 GITHUB_APP_ID     = os.environ['GITHUB_APP_ID']
