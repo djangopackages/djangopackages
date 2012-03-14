@@ -101,9 +101,9 @@ from S3 import CallingFormat
 AWS_CALLING_FORMAT = CallingFormat.SUBDOMAIN
 
 # Amazon S3 configuration.
-if os.environ.has_key('AWS_ACCESS_KEY_ID'):
-    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
-    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+if os.environ.has_key('S3_KEY'):
+    AWS_ACCESS_KEY_ID = os.environ['S3_KEY']
+    AWS_SECRET_ACCESS_KEY = os.environ['S3_SECRET']
 else:
     AWS_ACCESS_KEY_ID = AWS_KEY
     AWS_SECRET_ACCESS_KEY = AWS_SECRET_KEY
