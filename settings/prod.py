@@ -109,17 +109,8 @@ MEDIA_URL = STATIC_URL
 ########## END STORAGE CONFIGURATION
 
 
-########## STORAGE CONFIGURATION
-if 'SENTRY_DSN' in os.environ:
-    try:
-        import raven
+########## SENTRY CONFIGURATION
+SENTRY_DSN = 'SENTRY_DSN'
 
-        # Configure raven
-        raven.load(os.environ['SENTRY_DSN'], locals())
-
-        # Add raven to the list of installed apps
-        INSTALLED_APPS += ('raven.contrib.django',)
-    except Exception, e:
-        print "Unexpected error:", e
-        traceback.print_exc()
-########## END STORAGE CONFIGURATION
+INSTALLED_APPS.append('raven.contrib.django')
+########## END SENTRY CONFIGURATION
