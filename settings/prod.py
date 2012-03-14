@@ -107,3 +107,19 @@ AWS_STORAGE_BUCKET_NAME = 'opencomparison'
 STATIC_URL = 'https://s3.amazonaws.com/opencomparison/'
 MEDIA_URL = STATIC_URL
 ########## END STORAGE CONFIGURATION
+
+
+########## STORAGE CONFIGURATION
+if 'SENTRY_DSN' in os.environ:
+    try:
+        import raven
+
+        # Configure raven
+        raven.load(os.environ['SENTRY_DSN'], locals())
+
+        # Add raven to the list of installed apps
+        INSTALLED_APPS += ('raven.contrib.django',)
+    except Exception, e:
+        print "Unexpected error:", e
+        traceback.print_exc()
+########## END STORAGE CONFIGURATION
