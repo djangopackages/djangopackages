@@ -54,10 +54,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 SECRET_KEY = os.environ['SECRET_KEY']
 
 GITHUB_API_SECRET = os.environ['GITHUB_API_SECRET']
-GITHUB_APP_ID     = os.environ['GITHUB_APP_ID']
-
-SITE_TITLE = "Django Packages"
-FRAMEWORK_TITLE = "Django"
+GITHUB_APP_ID = os.environ['GITHUB_APP_ID']
+SITE_TITLE = os.environ['SITE_TITLE']
+FRAMEWORK_TITLE = os.environ['FRAMEWORK_TITLE']
 
 PIWIK_CODE ="""
 <!-- Piwik --> 
