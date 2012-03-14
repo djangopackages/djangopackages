@@ -49,3 +49,5 @@ _data
 
 # PostgreSQL
 logfile
+
+collected_static
