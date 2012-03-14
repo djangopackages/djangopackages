@@ -261,24 +261,13 @@ SUPPORTED_REPO.extend(["bitbucket", "github"])
 if LAUNCHPAD_ACTIVE:
     SUPPORTED_REPO += ["launchpad"]
 
-"""
-try:
-    import djcelery
-
-    djcelery.setup_loader()
-except ImportError:
-    # skipping this so we can generate docs
-    # Doing this cause most development doesn't need it.
-    pass
-"""
 
 AUTHENTICATION_BACKENDS = (
-    #'social_auth.backends.OpenIDBackend',
     'social_auth.backends.contrib.github.GithubBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
-SOCIAL_AUTH_ENABLED_BACKENDS = ('github')#('openid', 'github')
+SOCIAL_AUTH_ENABLED_BACKENDS = ('github')
 SOCIAL_AUTH_COMPLETE_URL_NAME = 'socialauth_complete'
 SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'associate_complete'
 SOCIAL_AUTH_DEFAULT_USERNAME = lambda u: slugify(u)

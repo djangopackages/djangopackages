@@ -1,9 +1,3 @@
-"""
-heroku addons:add heroku-shared-postgresql
-heroku run python manage.py syncdb --settings=settings.prod
-heroku run python manage.py migrate --settings=settings.prod
-"""
-
 from settings.base import *
 
 import os, sys, urlparse, traceback
@@ -61,8 +55,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 SECRET_KEY = os.environ.has_key('SECRET_KEY')
 
-GITHUB_API_SECRET = os.environ.has_key('GITHUB_API_SECRET')
-GITHUB_APP_ID     = os.environ.has_key('GITHUB_APP_ID')
+GITHUB_API_SECRET = os.environ['GITHUB_API_SECRET']
+GITHUB_APP_ID     = os.environ['GITHUB_APP_ID']
 
 SITE_TITLE = "Django Packages"
 FRAMEWORK_TITLE = "Django"

@@ -6,3 +6,4 @@ deploying to heroku::
     heroku pg:promote HEROKU_SHARED_POSTGRESQL_BROWN
     heroku pg:psql HEROKU_SHARED_POSTGRESQL_BROWN
     \i django_oc.sql
+    heroku run python manage.py collectstatic --noinput --settings=settings.prod
