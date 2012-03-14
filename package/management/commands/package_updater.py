@@ -11,7 +11,7 @@ from package.models import Package
 
 class Command(NoArgsCommand):
     
-    help = "Updates all the packages in the system. Commands belongs to django-packages.apps.package"    
+    help = "Updates all the packages in the system. Commands belongs to django-packages.package"    
     
     def handle(self, *args, **options):
         

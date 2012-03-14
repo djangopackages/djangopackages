@@ -72,8 +72,8 @@ class GridPackage(BaseModel):
 
     Attributes:
 
-    * :attr:`grid` - the :class:`~apps.grid.models.Grid` to which the package is assigned
-    * :attr:`package` - the :class:`~apps.grid.models.Package`
+    * :attr:`grid` - the :class:`~grid.models.Grid` to which the package is assigned
+    * :attr:`package` - the :class:`~grid.models.Package`
     """
     
     grid        = models.ForeignKey(Grid)
@@ -124,8 +124,8 @@ class Element(BaseModel):
     """ The individual cells on the grid.
     The ``Element`` grid attributes are:
 
-    * :attr:`grid_package` - foreign key to :class:`~apps.grid.models.GridPackage`
-    * :attr:`feature` - foreign key to :class:`~apps.grid.models.Feature`
+    * :attr:`grid_package` - foreign key to :class:`~grid.models.GridPackage`
+    * :attr:`feature` - foreign key to :class:`~grid.models.Feature`
     * :attr:`text` - the actual contents of the grid cell
     """
     

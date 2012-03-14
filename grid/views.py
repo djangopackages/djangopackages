@@ -1,4 +1,4 @@
-"""views for the :mod:`apps.grid` app"""
+"""views for the :mod:`grid` app"""
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required, permission_required

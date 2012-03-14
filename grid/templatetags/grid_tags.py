@@ -1,5 +1,5 @@
 """template tags and filters
-for the :mod:`apps.grid` app"""
+for the :mod:`grid` app"""
 
 from django import template
 from django.conf import settings

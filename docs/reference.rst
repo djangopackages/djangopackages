@@ -2,71 +2,65 @@
 Development reference documentation
 ===================================
 
-.. currentmodule:: apps
-
-Top level module ``apps``
-=========================
-.. automodule:: apps
-
-All of the modules listed below are the sub-applications.
+All of the modules listed are applications.
 
 ``apiv1`` - restful API
 =======================
 
-.. automodule:: apps.apiv1
+.. automodule:: apiv1
     :members:
 
 ``apiv1.api``
 -------------
 
-.. automodule:: apps.apiv1.api
+.. automodule:: apiv1.api
     :members:
 
 ``apiv1.resources``
 -------------------
 
-.. automodule:: apps.apiv1.resources
+.. automodule:: apiv1.resources
     :members:
     
 ``core`` - Kernal bits
 =======================
 
-.. automodule:: apps.core
+.. automodule:: core
     :members:
 
 ``core.fields``
 ----------------
 
-.. automodule:: apps.core.fields
+.. automodule:: core.fields
     :members:
     :undoc-members:
 
 ``core.models``
 -------------------
 
-.. automodule:: apps.core.models
+.. automodule:: core.models
     :members:    
 
 
 ``feeds`` - RSS and Atom feeds
 ==============================
-.. automodule:: apps.feeds
+.. automodule:: feeds
     :members:
 
 :mod:`feeds.urls`
 
-.. automodule:: apps.feeds.urls
+.. automodule:: feeds.urls
 
-.. currentmodule:: apps.feeds
+.. currentmodule:: feeds
 
 :mod:`feeds.feeds`
 
-.. automodule:: apps.feeds.feeds
+.. automodule:: feeds.feeds
     :members:
 
 ``grid`` - package grid app 
 ===========================
-.. automodule:: apps.grid
+.. automodule:: grid
 
 .. currentmodule:: apps
 
@@ -91,7 +85,7 @@ All of the modules listed below are the sub-applications.
 
 ``profiles`` - profiles app 
 ===============================
-.. automodule:: apps.profiles
+.. automodule:: profiles
 
 .. currentmodule:: profiles
 
@@ -109,7 +103,7 @@ All of the modules listed below are the sub-applications.
 
 ``pypi`` - pypi app 
 ===============================
-.. automodule:: apps.pypi
+.. automodule:: pypi
 
 .. currentmodule:: pypi
 
@@ -128,7 +122,7 @@ All of the modules listed below are the sub-applications.
 
 ``searchv2`` - searchv2 app 
 ===============================
-.. automodule:: apps.searchv2
+.. automodule:: searchv2
 
 .. currentmodule:: searchv2
 

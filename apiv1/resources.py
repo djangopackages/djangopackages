@@ -1,7 +1,7 @@
 """``Api`` resource definition module.
 
 All of the resource classes in this module are registered with
-the :class:`~apps.apiv1.api.Api` in the main :mod:`urls.py <urls>`.
+the :class:`~apiv1.api.Api` in the main :mod:`urls.py <urls>`.
 """
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -82,7 +82,7 @@ class PackageResourceBase(EnhancedModelResource):
         
 class GridResource(EnhancedModelResource):
     """Provides information about the grid.
-    Pulls data from the :class:`~apps.grid.models.Grid` model.
+    Pulls data from the :class:`~grid.models.Grid` model.
     """
     
     packages = fields.ToManyField(PackageResourceBase, "packages")
@@ -109,7 +109,7 @@ class GridResource(EnhancedModelResource):
         Returns a serialized list of resources based on the identifiers
         from the URL.
 
-        Pulls the data from the model :class:`~apps.package.models.Package`.
+        Pulls the data from the model :class:`~package.models.Package`.
         
         Calls ``obj_get`` to fetch only the objects requested. This method
         only responds to HTTP GET.
@@ -130,7 +130,7 @@ class GridResource(EnhancedModelResource):
 
 class DpotwResource(ModelResource):
     """Package of the week resource.
-    Pulls data from :class:`~apps.homepage.models.Dpotw`.
+    Pulls data from :class:`~homepage.models.Dpotw`.
     """
 
     class Meta:
@@ -143,7 +143,7 @@ class DpotwResource(ModelResource):
 
 class GotwResource(EnhancedModelResource):
     """Grid of the week resource.
-    The data comes from :class:`~apps.homepage.models.GotwResource`
+    The data comes from :class:`~homepage.models.GotwResource`
     """
 
     class Meta:
@@ -157,7 +157,7 @@ class GotwResource(EnhancedModelResource):
 
 class CategoryResource(EnhancedModelResource):
     """Category resource.
-    The data is from :class:`~apps.package.models.Category`.
+    The data is from :class:`~package.models.Category`.
     """
 
     class Meta:
@@ -183,7 +183,7 @@ class UserResource(EnhancedModelResource):
 
 class PackageResource(PackageResourceBase):
     """Package resource.
-    Pulls data from :class:`~apps.package.models.Package` and provides
+    Pulls data from :class:`~package.models.Package` and provides
     additional related data:
 
     * :attr:`category`
