@@ -43,8 +43,6 @@ DEFAULT_FROM_EMAIL = \
         'Django Packages <djangopackages-noreply@djangopackages.com>'
 EMAIL_SUBJECT_PREFIX = '[Django Packages] '
 
-# See http://celeryproject.org/docs/configuration.html#task-execution-settings
-BROKER_BACKEND = "django"
 
 RESTRICT_PACKAGE_EDITORS = False
 RESTRICT_GRID_EDITORS = False
