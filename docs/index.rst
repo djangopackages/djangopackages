@@ -24,7 +24,7 @@ Contents:
    introduction
    license   
    install
-   deployment
+   deployment/index
    troubleshooting
    faq   
    opencomparison_settings

@@ -34,7 +34,7 @@ pydanny - various view fixes, moved metadata handling out of Package.save() and 
 2010, September 11
 ==================
 
-pydanny - Added revervsion, API improvements, PyPI XMLRPC connector, improved download listings, admin view of profiles improvements for tracking user actions
+pydanny - Added reversion, API improvements, PyPI XMLRPC connector, improved download listings, admin view of profiles improvements for tracking user actions
 taavi223 - Query optimization, code clean up, adding commit history graphs to grid views, improve login functionality to redirect a user back to their previous page, added "I use this" buttons to grid pages, and caching.
 
 2010, September 10
@@ -43,3 +43,16 @@ taavi223 - Query optimization, code clean up, adding commit history graphs to gr
 pydanny - Redirected all github references to github.com/djangopackages/djangopackages, API and API docs
 taavi223 - Query optimization, caching, and "I use this" controls
 jpunteny - Added javascript to enable AJAX "I use this" buttons
+
+
+2010, August 28
+================
+
+Bitbucket Support!
+Added BSD license
+Created package_updater that can handle Github commit limits
+Fixed a display issue in category pages
+Added Utility category
+Got South working
+Latest packages RSS/Atom feeds
+Created repo handler abstraction system so we can easily integrate new repos
