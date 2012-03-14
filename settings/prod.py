@@ -108,8 +108,8 @@ else:
     AWS_ACCESS_KEY_ID = AWS_KEY
     AWS_SECRET_ACCESS_KEY = AWS_SECRET_KEY
     
-AWS_STORAGE_BUCKET_NAME = 'consumernotebook'
+AWS_STORAGE_BUCKET_NAME = 'opencomparison'
 
-STATIC_URL = 'https://s3.amazonaws.com/consumernotebook/'
+STATIC_URL = 'https://s3.amazonaws.com/opencomparison/'
 MEDIA_URL = STATIC_URL
 ########## END STORAGE CONFIGURATION
