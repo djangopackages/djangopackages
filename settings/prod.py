@@ -2,7 +2,7 @@ from settings.base import *
 
 import os, sys, urlparse, traceback
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 SERVE_MEDIA = True
 
