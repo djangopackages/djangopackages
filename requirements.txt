@@ -15,15 +15,15 @@ coverage==3.4
 django-coverage==1.2.1
 feedparser==5.0.1
 django-classy-tags==0.3.3.1
-requests==0.8.7 # for launchpad
+requests==0.10.7
 
 
 # Open ID
 python-openid==2.2.5
 django-social-auth==0.5.12
-gunicorn==0.13.4
-gevent==0.13.6
-eventlet==0.9.16
+#gunicorn==0.13.4
+#gevent==0.13.6
+#eventlet==0.9.16
 
 psycopg2==2.4.1
 

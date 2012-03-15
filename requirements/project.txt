@@ -17,7 +17,7 @@ coverage==3.4
 django-coverage==1.2.1
 feedparser==5.0.1
 django-classy-tags==0.3.3.1
-requests==0.8.7 # for launchpad
+requests==0.10.7
 
 # Celery dependencies:
 celery==2.2.4
@@ -30,3 +30,5 @@ python-openid==2.2.5
 django-social-auth==0.5.12
 
 psycopg2==2.4.1
+
+-e git://github.com/becomingGuru/python-restconsumer.git#egg=restconsumer
