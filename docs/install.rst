@@ -99,7 +99,7 @@ Make your database:
     $ python manage.py syncdb --settings=settings.<my-custom>
     $ python manage.py migrate --settings=settings.<my-custom>
 
-OPTIONAL! Load some base data for development usage. This should not be loaded on the production site::
+OPTIONAL! Load some base data for development usage. This should not be loaded on the production site:
 
 .. sourcecode:: bash
 
