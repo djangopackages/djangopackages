@@ -60,6 +60,7 @@ Direct Contributors
 * jrothenbuhler
 * Kenneth Love
 * Kenneth Reitz
+* Marc Tamlyn
 * Mike Johnson
 * Nate Aune
 * Nolan Brubaker
