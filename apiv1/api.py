@@ -6,6 +6,7 @@ from tastypie.api import Api as TastyPieApi
 from tastypie.serializers import Serializer
 from tastypie.utils.mime import build_content_type
 
+
 class Api(TastyPieApi):
     """A sub-class of ``TastyPieApi`` -
     the actual Api class
