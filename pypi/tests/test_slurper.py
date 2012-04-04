@@ -1,11 +1,11 @@
 from django.template.defaultfilters import slugify
 from django.test import TestCase
 
-from package.models import Package, Version
+from package.models import Package
 from pypi.slurper import Slurper
 
 TEST_PACKAGE_NAME = 'Django'
-TEST_PACKAGE_VERSION = '1.3.1'
+TEST_PACKAGE_VERSION = '1.4'
 TEST_PACKAGE_REPO_NAME = 'django-uni-form'
 
 class SlurpAllTests(TestCase):
