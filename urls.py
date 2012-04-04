@@ -7,7 +7,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 from homepage.views import homepage
-from package.views import package_autocomplete, category
+from package.views import category
 
 
 urlpatterns = patterns("",
@@ -23,16 +23,16 @@ urlpatterns = patterns("",
     url(r"^categories/(?P<slug>[-\w]+)/$", category, name="category"),
     url(r"^categories/$", homepage, name="categories"),
 
-    url(regex=r'^login/$', view=TemplateView.as_view(template_name= 'pages/login.html'), name='login',),
+    url(regex=r'^login/$', view=TemplateView.as_view(template_name='pages/login.html'), name='login',),
     url(r'^logout/$', 'django.contrib.auth.views.logout_then_login', {}, 'logout',),
 
     # static pages
     url(r"^about/$", TemplateView.as_view(template_name='pages/about.html'), name="about"),
     url(r"^terms/$", TemplateView.as_view(template_name='pages/terms.html'), name="terms"),
-    url(r"^faq/$", TemplateView.as_view(template_name='pages/faq.html'), name="faq"),    
+    url(r"^faq/$", TemplateView.as_view(template_name='pages/faq.html'), name="faq"),
     url(r"^syndication/$", TemplateView.as_view(template_name='pages/syndication.html'), name="syndication"),
     url(r"^contribute/$", TemplateView.as_view(template_name='pages/contribute.html'), name="contribute"),
-    url(r"^help/$", TemplateView.as_view(template_name='pages/help.html'), name="help"),    
+    url(r"^help/$", TemplateView.as_view(template_name='pages/help.html'), name="help"),
 
     # new apps
     url(r"^search/", include("searchv2.urls")),
