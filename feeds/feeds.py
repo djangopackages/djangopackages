@@ -3,7 +3,9 @@
 from django.conf import settings
 from django.contrib.syndication.views import Feed
 from django.utils.feedgenerator import Atom1Feed
+
 from package.models import Package
+
 
 class RssLatestPackagesFeed(Feed):
     """RSS Feed for the packages"""
@@ -22,11 +24,12 @@ class RssLatestPackagesFeed(Feed):
     def item_description(self, item):
         """Get description of the repository"""
         return item.repo_description
-        
+
     def item_pubdate(self, item):
         """Get publication date"""
         return item.created
-        
+
+
 class AtomLatestPackagesFeed(RssLatestPackagesFeed):
     """Atom feed for the packages"""
     feed_type = Atom1Feed

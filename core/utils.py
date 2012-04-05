@@ -3,13 +3,16 @@ from django.template.defaultfilters import slugify
 
 import requests
 
+
 def cache_fetcher(cachekey_func, identifier_model):
     key = cachekey_func(identifier_model)
     return (key, cache.get(key))
 
+
 def oc_slugify(value):
     value = value.replace('.', '-')
     return slugify(value)
+
 
 def get_pypi_url(title):
     title = title.strip()

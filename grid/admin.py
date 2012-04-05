@@ -3,12 +3,14 @@ from reversion.admin import VersionAdmin
 
 from grid.models import Element, Feature, Grid, GridPackage
 
+
 class GridPackageInline(admin.TabularInline):
     model = GridPackage
-    
+
+
 class GridAdmin(VersionAdmin):
     list_display_links = ('title',)
-    list_display = ('title','header',)
+    list_display = ('title', 'header',)
     list_editable = ('header',)
     inlines = [
         GridPackageInline,
