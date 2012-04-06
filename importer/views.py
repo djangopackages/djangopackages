@@ -1,17 +1,14 @@
-import simplejson
-
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from django.shortcuts import render
-from django.template import RequestContext
 
-from package.models import Package, Category
+from package.models import Category
 from importer.importers import import_from_github_acct
 
 
 @login_required
 def import_github(request, template_name="importer/github.html"):
-    
+
     if not request.user.is_superuser:
         return HttpResponseForbidden()
 
@@ -23,5 +20,5 @@ def import_github(request, template_name="importer/github.html"):
         results = import_from_github_acct(github_name, user_type, category_slug)
 
     return render(request, template_name,
-                    {'results':results, 'categories':Category.objects.all()}, 
+                    {'results': results, 'categories': Category.objects.all()},
                 )

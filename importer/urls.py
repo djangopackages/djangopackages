@@ -8,5 +8,5 @@ urlpatterns = patterns("",
         regex   = r'^github/$',
         view    = views.import_github,
         name    = 'import_github',
-    ),  
+    ),
 )

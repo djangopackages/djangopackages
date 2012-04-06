@@ -2,11 +2,11 @@ import json
 import requests
 import re
 
-from django.db import IntegrityError
-from django.db.models import Q # for 'OR' queries
+from django.db.models import Q  # for 'OR' queries
 
 from core.utils import oc_slugify, get_pypi_url
 from package.models import Package, Category
+
 
 def import_from_github_acct(github_name, user_type, category_slug):
     """ Imports all packages from a specified Github account """
@@ -33,12 +33,12 @@ def import_from_github_acct(github_name, user_type, category_slug):
         if packages.count():
             continue
 
-        package = Package.objects.create(title=title, slug=slug, category=category, repo_url=html_url)        
+        package = Package.objects.create(title=title, slug=slug, category=category, repo_url=html_url)
         pypi_url = get_pypi_url(title)
         if pypi_url:
             package.pypi_url = pypi_url
-        package.save()            
-        
+        package.save()
+
         imported_packages.append(package)
-        
+
     return imported_packages
