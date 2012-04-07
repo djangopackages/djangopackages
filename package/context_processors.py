@@ -1,5 +1,6 @@
 from django.core.cache import cache
 
+
 def used_packages_list(request):
     context = {}
     if request.user.is_authenticated():
