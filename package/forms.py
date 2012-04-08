@@ -17,7 +17,7 @@ def package_help_text():
 class PackageForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
-            super(PackageForm,self).__init__(*args, **kwargs)
+            super(PackageForm, self).__init__(*args, **kwargs)
             self.fields['category'].help_text = package_help_text()
             self.fields['repo_url'].required = True
 

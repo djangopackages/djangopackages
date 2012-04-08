@@ -3,16 +3,18 @@ from reversion.admin import VersionAdmin
 
 from package.models import Category, Package, PackageExample, Commit, Version
 
+
 class PackageExampleInline(admin.TabularInline):
     model = PackageExample
-    
+
+
 class PackageAdmin(VersionAdmin):
-    
-    save_on_top = True    
+
+    save_on_top = True
     search_fields = ("title",)
     list_filter = ("category",)
     list_display = ("title", "created", )
-    date_hierarchy = "created"    
+    date_hierarchy = "created"
     inlines = [
         PackageExampleInline,
     ]
@@ -24,14 +26,15 @@ class PackageAdmin(VersionAdmin):
             "classes": ("collapse",),
             "fields": ("repo_description", "repo_watchers", "repo_forks", "repo_commits", "pypi_downloads", "participants")
         }),
-    )    
-    
+    )
+
+
 class CommitAdmin(admin.ModelAdmin):
     list_filter = ("package",)
-    
+
+
 class VersionLocalAdmin(admin.ModelAdmin):
-    search_fields = ("package__title",)    
-    
+    search_fields = ("package__title",)
 
 admin.site.register(Category, VersionAdmin)
 admin.site.register(Package, PackageAdmin)

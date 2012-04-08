@@ -6,7 +6,6 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
-from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
 
 from distutils.version import LooseVersion as versioner
@@ -19,43 +18,45 @@ from package.signals import signal_fetch_latest_metadata
 repo_url_help_text = settings.PACKAGINATOR_HELP_TEXT['REPO_URL']
 pypi_url_help_text = settings.PACKAGINATOR_HELP_TEXT['PYPI_URL']
 
+
 class NoPyPiVersionFound(Exception):
     pass
 
 
 class Category(BaseModel):
-    
+
     title = models.CharField(_("Title"), max_length="50")
-    slug  = models.SlugField(_("slug"))
+    slug = models.SlugField(_("slug"))
     description = models.TextField(_("description"), blank=True)
-    title_plural = models.CharField(_("Title Plural"), max_length="50", blank=True) 
+    title_plural = models.CharField(_("Title Plural"), max_length="50", blank=True)
     show_pypi = models.BooleanField(_("Show pypi stats & version"), default=True)
-    
+
     class Meta:
         ordering = ['title']
         verbose_name_plural = 'Categories'
-    
+
     def __unicode__(self):
-        return self.title    
-        
+        return self.title
+
+
 class Package(BaseModel):
-    
-    title           = models.CharField(_("Title"), max_length="100")
-    slug            = models.SlugField(_("Slug"), help_text="Enter a valid 'slug' consisting of letters, numbers, underscores or hyphens.<br />Values will be converted to lowercase.", unique=True)
-    category        = models.ForeignKey(Category, verbose_name="Installation")
-    repo_description= models.TextField(_("Repo Description"), blank=True)
-    repo_url        = models.URLField(_("repo URL"), help_text=repo_url_help_text, blank=True,unique=True, verify_exists=True)
-    repo_watchers   = models.IntegerField(_("repo watchers"), default=0)
-    repo_forks      = models.IntegerField(_("repo forks"), default=0)
-    repo_commits    = models.IntegerField(_("repo commits"), default=0)
-    pypi_url        = models.URLField(_("PyPI slug"), help_text=pypi_url_help_text, blank=True, default='', verify_exists=True)
-    pypi_downloads  = models.IntegerField(_("Pypi downloads"), default=0)
-    participants    = models.TextField(_("Participants"),
+
+    title = models.CharField(_("Title"), max_length="100")
+    slug = models.SlugField(_("Slug"), help_text="Enter a valid 'slug' consisting of letters, numbers, underscores or hyphens.<br />Values will be converted to lowercase.", unique=True)
+    category = models.ForeignKey(Category, verbose_name="Installation")
+    repo_description = models.TextField(_("Repo Description"), blank=True)
+    repo_url = models.URLField(_("repo URL"), help_text=repo_url_help_text, blank=True, unique=True, verify_exists=True)
+    repo_watchers = models.IntegerField(_("repo watchers"), default=0)
+    repo_forks = models.IntegerField(_("repo forks"), default=0)
+    repo_commits = models.IntegerField(_("repo commits"), default=0)
+    pypi_url = models.URLField(_("PyPI slug"), help_text=pypi_url_help_text, blank=True, default='', verify_exists=True)
+    pypi_downloads = models.IntegerField(_("Pypi downloads"), default=0)
+    participants = models.TextField(_("Participants"),
                         help_text="List of collaborats/participants on the project", blank=True)
-    usage           = models.ManyToManyField(User, blank=True)
+    usage = models.ManyToManyField(User, blank=True)
     created_by = models.ForeignKey(User, blank=True, null=True, related_name="creator", on_delete=models.SET_NULL)
     last_modified_by = models.ForeignKey(User, blank=True, null=True, related_name="modifier", on_delete=models.SET_NULL)
-    
+
     @property
     def pypi_version(self):
         string_ver_list = self.version_set.values_list('number', flat=True)
@@ -65,7 +66,7 @@ class Package(BaseModel):
             return str(latest)
         return ''
 
-    @property     
+    @property
     def pypi_name(self):
         """ return the pypi name of a package"""
         
