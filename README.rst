@@ -26,7 +26,7 @@ Features:
     
         * Autocomplete packages/grids
         
-    * Social features
+    * Social features:
     
         * "I use this" button
         * Latest packages featured on homepage
