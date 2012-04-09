@@ -10,7 +10,7 @@ import xmlrpclib
 
 from django.template.defaultfilters import slugify
 
-from package.models import Category, Package, Version
+from package.models import Category, Package
 from pypi.versioning import highest_version
 
 base_url = "http://pypi.python.org/pypi/"
