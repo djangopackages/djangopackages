@@ -1,5 +1,6 @@
 from distutils.version import StrictVersion, LooseVersion
 
+
 def compare_versions(version1, version2):
     """ Determines the order of versions"""
     try:

@@ -11,7 +11,6 @@ from django.contrib.auth.models import User
 
 from package.models import Package
 from pypi.models import PackageStaff, get_package_by_pypi_name
-from pypi.slurper import Slurper
 
 base_url = "http://pypi.python.org/pypi/"
 PYPI = xmlrpclib.Server(base_url)
@@ -20,13 +19,15 @@ PYPI = xmlrpclib.Server(base_url)
 def get_package_name(package):
     if isinstance(package, Package):
         return package.pypi_name
-    return package    
+    return package
+
 
 def get_package_staff(package):
     """ Get the staff associated to a given package name """
     package_name = get_package_name(package)
     return [x[1] for x in PYPI.package_roles(package_name)]
-    
+
+
 def build_staff_for_package(package):
     """ TODO check for people no longer staff of a package """
     package_name = get_package_name(package)
@@ -37,14 +38,13 @@ def build_staff_for_package(package):
         except User.DoesNotExist:
             # User not in system yet so we skip them
             continue
-        
+
         package_staff = PackageStaff.objects.get_or_create(
             user=user,
             package=package
         )
         package_staff.save()
-        
-    
+
 
 def get_user_packages(username):
     """ roles and packages associated to a given user name """
@@ -53,4 +53,4 @@ def get_user_packages(username):
 
 def build_packages_for_staff(username):
     pass
-    
+
