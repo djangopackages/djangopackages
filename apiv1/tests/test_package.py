@@ -4,6 +4,7 @@ from django.test import TestCase
 from grid.models import Grid, GridPackage
 from package.models import Package, Category
 import json
+import urllib
 
 
 class PackageV1Tests(TestCase):
@@ -12,9 +13,13 @@ class PackageV1Tests(TestCase):
         Set up initial data, done through Python because fixtures break way too
         quickly with migrations and are terribly hard to maintain.
         """
-        app = Category.objects.create(
+        self.app = Category.objects.create(
             title='App',
             slug='app',
+        )
+        self.framework = Category.objects.create(
+            title='Framework',
+            slug='framework',
         )
         self.grid = Grid.objects.create(
             title='A Grid',
@@ -23,14 +28,20 @@ class PackageV1Tests(TestCase):
         self.pkg1 = Package.objects.create(
             title='Package1',
             slug='package1',
-            category=app,
+            category=self.app,
             repo_url='https://github.com/pydanny/django-uni-form'
         )
         self.pkg2 = Package.objects.create(
             title='Package2',
             slug='package2',
-            category=app,
+            category=self.app,
             repo_url='https://github.com/cartwheelweb/packaginator'  
+        )
+        self.pkg3 = Package.objects.create(
+            title='Package3',
+            slug='package3',
+            category=self.framework,
+            repo_url='https://github.com/divio/django-cms'
         )
         GridPackage.objects.create(package=self.pkg1, grid=self.grid)
         GridPackage.objects.create(package=self.pkg2, grid=self.grid)
@@ -68,3 +79,26 @@ class PackageV1Tests(TestCase):
         pkg_2 = json.loads(raw_json_pkg2)
         usage_count_pkg2 = int(pkg_2['usage_count'])
         self.assertEqual(usage_count_pkg2, self.pkg2.usage.count())
+
+    def test_02_category_packages(self):
+        urlkwargs_pkg_list = {
+            'api_name': 'v1',
+            'resource_name': 'package',
+        }
+        querystring_filter_app = {
+            'category__slug': self.app.slug
+        }
+        url_app_pkg = "%s?%s" % (reverse('api_dispatch_list',
+            kwargs=urlkwargs_pkg_list), urllib.urlencode(querystring_filter_app))
+        response_app_pkg = self.client.get(url_app_pkg)
+        # check that the request was successful
+        self.assertEqual(response_app_pkg.status_code, 200)
+        # check that we have correct number of packages in filter
+        raw_json_app_pkg = response_app_pkg.content
+        app_pkg = json.loads(raw_json_app_pkg)
+        app_pkg_count = int(app_pkg['meta']['total_count'])
+        self.assertEqual(app_pkg_count, self.app.package_set.count())
+        # Check that we have filter applied correclty
+        app_package_slug_list = self.app.package_set.values_list('slug', flat=True)
+        self.assertIn(self.pkg1.slug, app_package_slug_list)
+        self.assertIn(self.pkg2.slug, app_package_slug_list)
