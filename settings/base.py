@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
-# Django settings 
+# Django settings
 
 import os.path
-import sys
-import posixpath
 
 from django.template.defaultfilters import slugify
 
@@ -207,16 +205,16 @@ TEST_RUNNER = 'testrunner.OurCoverageRunner'
 
 COVERAGE_MODULE_EXCLUDES = [
     'tests$', 'settings$', 'urls$', 'locale$',
-    'migrations', 'fixtures','big_email_send$', 
-    'load_dev_data$', 'fix_grid_element$', 
+    'migrations', 'fixtures', 'big_email_send$',
+    'load_dev_data$', 'fix_grid_element$',
     'package_updater$', 'searchv2_build$'
 ]
-COVERAGE_MODULE_EXCLUDES += PREREQ_APPS + ["djkombu",]
+COVERAGE_MODULE_EXCLUDES += PREREQ_APPS + ["djkombu", ]
 COVERAGE_REPORT_HTML_OUTPUT_DIR = "coverage"
 
 PACKAGINATOR_HELP_TEXT = {
-    "REPO_URL" : "Enter your project repo hosting URL here.<br />Example: https://github.com/opencomparison/opencomparison",
-    "PYPI_URL" : "<strong>Leave this blank if this package does not have a PyPI release.</strong><br />What PyPI uses to index your package. <br />Example: django-uni-form",
+    "REPO_URL": "Enter your project repo hosting URL here.<br />Example: https://github.com/opencomparison/opencomparison",
+    "PYPI_URL": "<strong>Leave this blank if this package does not have a PyPI release.</strong><br />What PyPI uses to index your package. <br />Example: django-uni-form",
 }
 
 PACKAGINATOR_SEARCH_PREFIX = "django"
@@ -288,5 +286,4 @@ DATABASES = {
         "HOST": "",             # Set to empty string for localhost. Not used with sqlite3.
         "PORT": "",                  # Set to empty string for default. Not used with sqlite3.
     },
-    
 }

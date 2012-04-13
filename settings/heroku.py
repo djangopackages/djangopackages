@@ -1,6 +1,7 @@
 from settings.base import *
 
-import os, sys, urlparse, traceback
+import sys
+import urlparse
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
@@ -58,8 +59,8 @@ GITHUB_APP_ID = os.environ['GITHUB_APP_ID']
 SITE_TITLE = os.environ['SITE_TITLE']
 FRAMEWORK_TITLE = os.environ['FRAMEWORK_TITLE']
 
-PIWIK_CODE ="""
-<!-- Piwik --> 
+PIWIK_CODE = """
+<!-- Piwik -->
 <script type="text/javascript">
 var pkBaseURL = (("https:" == document.location.protocol) ? "https://manage.cartwheelweb.com/piwik/" : "http://manage.cartwheelweb.com/piwik/");
 document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
@@ -75,7 +76,7 @@ piwikTracker.enableLinkTracking();
 
 ########## STORAGE CONFIGURATION
 
-INSTALLED_APPS += ['storages',]
+INSTALLED_APPS += ['storages', ]
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
@@ -98,7 +99,7 @@ if os.environ.has_key('S3_KEY'):
 else:
     AWS_ACCESS_KEY_ID = AWS_KEY
     AWS_SECRET_ACCESS_KEY = AWS_SECRET_KEY
-    
+
 AWS_STORAGE_BUCKET_NAME = 'opencomparison'
 
 STATIC_URL = 'https://s3.amazonaws.com/opencomparison/'
