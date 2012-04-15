@@ -6,6 +6,7 @@ import feedparser
 
 from feeds.tests import data
 
+
 class LatestFeedsTest(TestCase):
     def setUp(self):
         data.load()

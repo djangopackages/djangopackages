@@ -2,6 +2,7 @@ from django.test import TestCase
 
 from core.fields import CreationDateTimeField, ModificationDateTimeField
 
+
 class TestFields(TestCase):
 
     def test_create_override(self):

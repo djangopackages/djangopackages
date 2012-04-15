@@ -3,6 +3,7 @@ from django.test import TestCase
 from grid.templatetags.grid_tags import style_element, YES_IMG, NO_IMG, \
     YES_KEYWORDS, NO_KEYWORDS
 
+
 class GridTest(TestCase):
     def test_01_style_element_filter(self):
         tests = [

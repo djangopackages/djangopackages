@@ -11,19 +11,19 @@ class PackaginatorTagsTests(TestCase):
             {% fixed_ga %}
         """)
         context = template.Context()
-        
+
         with SettingsOverride(URCHIN_ID='testid', DEBUG=False):
             output = tpl.render(context)
             self.assertTrue('var pageTracker = _gat._getTracker("testid");' in output)
-        
+
         with SettingsOverride(URCHIN_ID='testid', DEBUG=True):
             output = tpl.render(context)
             self.assertEqual(output.strip(), "")
-        
+
         with SettingsOverride(URCHIN_ID=None, DEBUG=True):
             output = tpl.render(context)
             self.assertEqual(output.strip(), "")
-        
+
         with SettingsOverride(URCHIN_ID=None, DEBUG=False):
             output = tpl.render(context)
             self.assertEqual(output.strip(), "")

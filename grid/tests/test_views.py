@@ -8,6 +8,7 @@ from package.models import Package
 
 from grid.tests import data
 
+
 class FunctionalGridTest(TestCase):
     def setUp(self):
         data.load()
@@ -268,19 +269,20 @@ class FunctionalGridTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'grid/grid_archive.html')
 
+
 class RegressionGridTest(TestCase):
     def setUp(self):
         data.load()
         settings.RESTRICT_GRID_EDITORS = False
-    
+
     def test_edit_element_view_for_nonexistent_elements(self):
         """Make sure that attempts to edit nonexistent elements succeed.
-        
+
         """
-        # Delete the element for the sepcified feature and package.        
+        # Delete the element for the sepcified feature and package.
         element, created = Element.objects.get_or_create(feature=1, grid_package=1)
         element.delete()
-        
+
         # Log in the test user and attempt to edit the element.
         self.assertTrue(self.client.login(username='user', password='user'))
 
@@ -289,15 +291,16 @@ class RegressionGridTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'grid/edit_element.html')
 
+
 class GridPermissionTest(TestCase):
     def setUp(self):
         data.load()
         settings.RESTRICT_GRID_EDITORS = True
         self.test_add_url = reverse('add_grid')
-        self.test_edit_url = reverse('edit_grid', kwargs={'slug':'testing'})
+        self.test_edit_url = reverse('edit_grid', kwargs={'slug': 'testing'})
         self.login = self.client.login(username='user', password='user')
         self.user = User.objects.get(username='user')
-    
+
     def test_add_grid_permission_fail(self):
         response = self.client.get(self.test_add_url)
         self.assertEqual(response.status_code, 403)
@@ -325,12 +328,12 @@ class GridPackagePermissionTest(TestCase):
     def setUp(self):
         data.load()
         settings.RESTRICT_GRID_EDITORS = True
-        self.test_add_url = reverse('add_grid_package', 
-                                    kwargs={'grid_slug':'testing'})
+        self.test_add_url = reverse('add_grid_package',
+                                    kwargs={'grid_slug': 'testing'})
         self.test_add_new_url = reverse('add_new_grid_package',
-                                        kwargs={'grid_slug':'testing'})
+                                        kwargs={'grid_slug': 'testing'})
         self.test_delete_url = reverse('delete_grid_package',
-                                       kwargs={'id':'1'})
+                                       kwargs={'id': '1'})
         self.login = self.client.login(username='user', password='user')
         self.user = User.objects.get(username='user')
 
@@ -370,14 +373,15 @@ class GridPackagePermissionTest(TestCase):
         response = self.client.get(self.test_delete_url)
         self.assertEqual(response.status_code, 302)
 
+
 class GridFeaturePermissionTest(TestCase):
     def setUp(self):
         data.load()
         settings.RESTRICT_GRID_EDITORS = True
         self.test_add_url = reverse('add_feature',
-                                    kwargs={'grid_slug':'testing'})
-        self.test_edit_url = reverse('edit_feature', kwargs={'id':'1'})
-        self.test_delete_url = reverse('delete_feature',  kwargs={'id':'1'})
+                                    kwargs={'grid_slug': 'testing'})
+        self.test_edit_url = reverse('edit_feature', kwargs={'id': '1'})
+        self.test_delete_url = reverse('delete_feature',  kwargs={'id': '1'})
         self.login = self.client.login(username='user', password='user')
         self.user = User.objects.get(username='user')
 
@@ -414,13 +418,14 @@ class GridFeaturePermissionTest(TestCase):
         response = self.client.get(self.test_delete_url)
         self.assertEqual(response.status_code, 302)
 
+
 class GridElementPermissionTest(TestCase):
     def setUp(self):
         data.load()
         settings.RESTRICT_GRID_EDITORS = True
         self.test_edit_url = reverse('edit_element',
-                                     kwargs={'feature_id':'1',
-                                             'package_id':'1'})
+                                     kwargs={'feature_id': '1',
+                                             'package_id': '1'})
         self.login = self.client.login(username='user', password='user')
         self.user = User.objects.get(username='user')
 

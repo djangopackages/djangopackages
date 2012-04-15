@@ -6,8 +6,6 @@ from django.conf import settings
 from django.template.defaultfilters import escape, truncatewords
 from django.template.loader import render_to_string
 
-from grid.models import Element
-
 
 import re
 
@@ -25,6 +23,7 @@ YES_KEYWORDS = ('check', 'yes', 'good', '+1', '+')
 NO_KEYWORDS = ('bad', 'negative', 'evil', 'sucks', 'no', '-1', '-')
 YES_IMG = '<img src="%simg/icon-yes.gif" />' % settings.STATIC_URL
 NO_IMG = '<img src="%simg/icon-no.gif" />' % settings.STATIC_URL
+
 
 @register.filter
 def style_element(text):
@@ -45,9 +44,9 @@ def style_element(text):
 
     if minus_three_re.search(low_text):
         return NO_IMG * 3
-    
+
     text = escape(text)
-    
+
     found = False
     for positive in YES_KEYWORDS:
         if text.startswith(positive):
@@ -59,9 +58,10 @@ def style_element(text):
             if text.startswith(negative):
                 text = '%s&nbsp;%s' % (NO_IMG, text[len(negative):])
                 break
-    
+
     return text
-    
+
+
 @register.filter
 def hash(h, key):
     """Function leaves considerable overhead in the grid_detail views.
@@ -69,6 +69,7 @@ def hash(h, key):
     Code there, and possible here, should be refactored.
     """
     return h.get(key, {})
+
 
 @register.filter
 def style_attribute(attribute_name, package):
@@ -89,24 +90,28 @@ def style_attribute(attribute_name, package):
 
     return style_default(value)
 
+
 @register.filter
 def style_title(value):
     value = value[:20]
-    return render_to_string('grid/snippets/_title.html', { 'value': value })
+    return render_to_string('grid/snippets/_title.html', {'value': value})
+
 
 def style_commits(value):
-    return render_to_string('grid/snippets/_commits.html', { 'value': value })
+    return render_to_string('grid/snippets/_commits.html', {'value': value})
+
 
 @register.filter
 def style_description(value):
     return style_default(value[:20])
 
+
 @register.filter
 def style_default(value):
     return value
+
 
 @register.filter
 def style_repo_description(var):
     truncated_desc = truncatewords(var, 20)
     return truncated_desc
-
