@@ -1,7 +1,9 @@
 from django.test import TestCase
 
+
 class MockGithubRepo(object):
     title = "Github"
+
 
 class TestModel(TestCase):
     def test_profile(self):

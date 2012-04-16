@@ -8,8 +8,6 @@ from package.context_processors import used_packages_list
 
 register = template.Library()
 
-from django.core.cache import cache
-
 
 class ParticipantURLNode(template.Node):
 
@@ -51,7 +49,7 @@ def commits_over_52(package):
         if age_weeks < 52:
             weeks[age_weeks] += 1
 
-    return ','.join(map(str,reversed(weeks)))
+    return ','.join(map(str, reversed(weeks)))
 
 
 @register.inclusion_tag('package/templatetags/_usage_button.html', takes_context=True)
@@ -64,5 +62,5 @@ def usage_button(context):
         response['image'] = "usage_triangle_filled"
     else:
         response['usage_action'] = "add"
-        response['image'] = "usage_triangle_hollow"    
+        response['image'] = "usage_triangle_hollow"
     return response

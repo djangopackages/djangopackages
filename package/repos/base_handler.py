@@ -1,3 +1,5 @@
+""" TODO - document what this does """
+
 
 class BaseHandler(object):
 
@@ -12,21 +14,21 @@ class BaseHandler(object):
                 example: 'Github'
         """
         raise NotImplemented()
-    
+
     @property
     def url(self):
         """ base value for url API interation:
 
-                return: URL string        
+                return: URL string
                 example: 'https://github.com'
         """
         raise NotImplemented()
-            
+
     def fetch_metadata(self, package):
         """ Accepts a package.models.Package instance:
-            
+
                 return: package.models.Package instance
-                
+
             Must set the following fields:
 
                 package.repo_watchers (int)
@@ -50,25 +52,25 @@ class BaseHandler(object):
                 return: False
         """
         return False
-        
+
     @property
     def user_url(self):
         """ identifies the user URL:
-        
-                example: 
+
+                example:
         """
         return ''
-        
+
     @property
     def repo_regex(self):
-        """ Used by the JavaScript forms """        
+        """ Used by the JavaScript forms """
         raise NotImplemented()
 
     @property
     def slug_regex(self):
-        """ Used by the JavaScript forms """        
+        """ Used by the JavaScript forms """
         raise NotImplemented()
-        
+
     def packages_for_profile(self, profile):
         """ Return a list of all packages contributed to by a profile. """
         repo_url = profile.url_for_repo(self)
