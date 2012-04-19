@@ -31,4 +31,4 @@ django-social-auth==0.5.12
 
 psycopg2==2.4.1
 
--e git://github.com/becomingGuru/python-restconsumer.git#egg=restconsumer
+#-e git://github.com/becomingGuru/python-restconsumer.git#egg=restconsumer
