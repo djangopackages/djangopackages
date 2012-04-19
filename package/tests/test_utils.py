@@ -1,5 +1,7 @@
 from django.test import TestCase
+
 from package.utils import uniquer
+
 
 class UtilsTest(TestCase):
     def test_uniquer(self):

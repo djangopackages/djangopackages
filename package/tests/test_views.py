@@ -8,6 +8,7 @@ from package.tests import initial_data
 
 from profiles.models import Profile
 
+
 class FunctionalPackageTest(TestCase):
     def setUp(self):
         initial_data.load()
@@ -159,7 +160,6 @@ class FunctionalPackageTest(TestCase):
         count = user.package_set.count()
         self.assertTrue(self.client.login(username='user', password='user'))
 
-
         # Now that the user is logged in, make sure that the number of packages
         # they use has increased by one.
         response = self.client.get(url)
@@ -171,6 +171,7 @@ class FunctionalPackageTest(TestCase):
         response = self.client.get(url)
         self.assertEqual(count, user.package_set.count())
 
+
 class PackagePermissionTest(TestCase):
     def setUp(self):
         initial_data.load()
@@ -178,11 +179,10 @@ class PackagePermissionTest(TestCase):
             profile = Profile.objects.create(user=user)
             profile.save()
 
-
         settings.RESTRICT_PACKAGE_EDITORS = True
         self.test_add_url = reverse('add_package')
         self.test_edit_url = reverse('edit_package',
-                                     kwargs={'slug':'testability'})
+                                     kwargs={'slug': 'testability'})
         self.login = self.client.login(username='user', password='user')
         self.user = User.objects.get(username='user')
 
@@ -195,7 +195,7 @@ class PackagePermissionTest(TestCase):
         self.assertEqual(response.status_code, 200)
         settings.RESTRICT_PACKAGE_EDITORS = True
         response = self.client.get(self.test_add_url)
-        self.assertEqual(response.status_code, 403) 
+        self.assertEqual(response.status_code, 403)
 
     def test_add_package_permission_fail(self):
         response = self.client.get(self.test_add_url)
