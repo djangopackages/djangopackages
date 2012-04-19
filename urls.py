@@ -43,12 +43,10 @@ from apiv1.api import Api
 from apiv1.resources import (
                     GotwResource, DpotwResource,
                     PackageResource, CategoryResource,
-                    GridResource, PackageResourceBase,
-                    UserResource
+                    GridResource, UserResource
                     )
 
 v1_api = Api()
-v1_api.register(PackageResourceBase())
 v1_api.register(PackageResource())
 v1_api.register(CategoryResource())
 v1_api.register(GridResource())
