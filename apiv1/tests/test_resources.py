@@ -1,14 +1,14 @@
-import json
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from apiv1.tests import data
+
 
 class ResourcesV1Tests(TestCase):
     base_kwargs = {'api_name': 'v1'}
 
     def setUp(self):
         data.load()
-    
+
     def test_01_category(self):
         kwargs = {'resource_name': 'category'}
         kwargs.update(self.base_kwargs)
@@ -21,7 +21,7 @@ class ResourcesV1Tests(TestCase):
         self.assertTrue(cat_url in response.content)
         response = self.client.get(cat_url)
         self.assertEqual(response.status_code, 200)
-        
+
     def test_02_grid(self):
         kwargs = {'resource_name': 'grid'}
         kwargs.update(self.base_kwargs)

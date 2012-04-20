@@ -4,6 +4,7 @@ from package.models import Category, PackageExample, Package
 from grid.models import Element, Feature, GridPackage
 from core.tests import datautil
 
+
 def load():
     category, created = Category.objects.get_or_create(
         pk=1,

@@ -30,14 +30,13 @@ class PackageV1Tests(TestCase):
             title='Package2',
             slug='package2',
             category=app,
-            repo_url='https://github.com/cartwheelweb/packaginator'  
+            repo_url='https://github.com/cartwheelweb/packaginator'
         )
         GridPackage.objects.create(package=self.pkg1, grid=self.grid)
         GridPackage.objects.create(package=self.pkg2, grid=self.grid)
         user = User.objects.create_user('user', 'user@packaginator.com', 'user')
         self.pkg1.usage.add(user)
-        
-        
+
     def test_01_packages_usage(self):
         urlkwargs_pkg1 = {
             'api_name': 'v1',
