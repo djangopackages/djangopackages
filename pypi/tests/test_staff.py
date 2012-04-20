@@ -1,4 +1,3 @@
-from django.template.defaultfilters import slugify
 from django.test import TestCase
 
 from package.models import Package
