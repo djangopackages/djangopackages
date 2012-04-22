@@ -5,18 +5,19 @@ from xml.parsers.expat import ExpatError
 from xmlrpclib import ProtocolError
 
 from django.conf import settings
-from django.core.management.base import CommandError, NoArgsCommand
+from django.core.management.base import NoArgsCommand
 
 from package.models import Package
 
+
 class Command(NoArgsCommand):
-    
-    help = "Updates all the packages in the system. Commands belongs to django-packages.package"    
-    
+
+    help = "Updates all the packages in the system. Commands belongs to django-packages.package"
+
     def handle(self, *args, **options):
-        
+
         print >> stdout, "Commencing package updating now at %s " % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
-        
+
         for index, package in enumerate(Package.objects.all()):
             try:
                 try:
@@ -40,11 +41,11 @@ class Command(NoArgsCommand):
             except ExpatError, e:
                 message = "For '%s', ExpatError: %s" % (package.title, e)
                 print >> stdout, message
-                continue                
-                
+                continue
+
             if not hasattr(settings, "GITHUB_ACCOUNT"):
-               sleep(5)
-            print >> stdout, "%s. Successfully updated package '%s'" % (index+1,package.title)
+                sleep(5)
+            print >> stdout, "%s. Successfully updated package '%s'" % (index + 1, package.title)
 
         print >> stdout, "-" * 40
         print >> stdout, "Finished at %s" % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())

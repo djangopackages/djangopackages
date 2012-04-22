@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta
 
-from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
@@ -11,6 +10,7 @@ from homepage.models import Dpotw, Gotw
 from package.models import Package, Category
 
 from homepage.tests import data
+
 
 class FunctionalHomepageTest(TestCase):
     def setUp(self):
@@ -46,7 +46,6 @@ class FunctionalHomepageTest(TestCase):
     def test_items_of_the_week(self):
         url = reverse('home')
         today = datetime.now()
-        two_days_ago = today - timedelta(days=2)
         yesterday = today - timedelta(days=1)
         tomorrow = today + timedelta(days=1)
 
@@ -61,7 +60,8 @@ class FunctionalHomepageTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'homepage.html')
         self.assertContains(response, d_live.package.title)
-        self.assertContains(response, g_live.grid.title)        
+        self.assertContains(response, g_live.grid.title)
+
 
 class FunctionalHomepageTestWithoutPackages(TestCase):
     def setUp(self):
