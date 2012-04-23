@@ -222,18 +222,21 @@ class PackageExample(BaseModel):
     def __unicode__(self):
         return self.title
 
+
 class Commit(BaseModel):
-    
-    package      = models.ForeignKey(Package)
-    commit_date  = models.DateTimeField(_("Commit Date"))
-    
+
+    package = models.ForeignKey(Package)
+    commit_date = models.DateTimeField(_("Commit Date"))
+    commit_hash = models.CharField(_("Commit Hash"), help_text="Example: Git sha or SVN commit id", max_length=150, blank=True, default="")
+
     class Meta:
         ordering = ['-commit_date']
         get_latest_by = 'commit_date'
-        
+
     def __unicode__(self):
-        return "Commit for '%s' on %s" % (self.package.title, unicode(self.commit_date))    
-        
+        return "Commit for '%s' on %s" % (self.package.title, unicode(self.commit_date))
+
+
 class VersionManager(models.Manager):
     def by_version(self, *args, **kwargs):
         qs = self.get_query_set().filter(*args, **kwargs)

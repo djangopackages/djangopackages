@@ -11,12 +11,12 @@ if settings.LAUNCHPAD_ACTIVE:
 
 
 class BaseBase(TestCase):
-    
+
     def setUp(self):
-        
+
         self.category = Category.objects.create(
             title='dummy',
-            slug='dummy'            
+            slug='dummy'
         )
         self.category.save()
 
@@ -71,20 +71,20 @@ class TestGithubRepo(object):
         self.package.fetch_metadata()
         self.assertEqual(self.package.repo_description, "")
         self.assertEqual(self.package.repo_watchers, 0)
-        self.package.fetch_commits()    
+        self.package.fetch_commits()
 
 
 if settings.LAUNCHPAD_ACTIVE:
     class TestLaunchpadRepo(BaseBase):
-        def setUp(self):         
-            super(TestLaunchpadRepo, self).setUp()              
+        def setUp(self):
+            super(TestLaunchpadRepo, self).setUp()
             self.package = Package.objects.create(
                 title="Django-PreFlight",
                 slug="django-preflight",
                 repo_url="https://code.launchpad.net/~canonical-isd-hackers/django-preflight/trunk",
                 category=self.category
             )
-        
+
         def test_fetch_commits(self):
             self.assertEqual(Commit.objects.count(), 0)
             launchpad_handler.fetch_commits(self.package)
@@ -106,8 +106,8 @@ class TestSourceforgeRepo(TestCase):
         )
 
     def test_fetch_commits(self):
-	self.assertEqual(Commit.objects.count(), 0)
-	sourceforge_handler.fetch_commits(self.package)
+        self.assertEqual(Commit.objects.count(), 0)
+        sourceforge_handler.fetch_commits(self.package)
         self.assertEqual(Commit.objects.count(), 0)
 
     def test_fetch_metadata(self):
@@ -115,6 +115,7 @@ class TestSourceforgeRepo(TestCase):
         self.assertTrue(package.repo_watchers > 0)
         self.assertTrue(package.repo_forks > 0)
         self.assertEqual(package.participants, '')'''
+
 
 class TestRepos(BaseBase):
     def test_repo_registry(self):
