@@ -3,6 +3,7 @@ from django.test import TestCase
 
 from package.repos.bitbucket import repo_handler as bitbucket_handler
 from package.repos.github import repo_handler as github_handler
+from package.repos.base_handler import BaseHandler
 #from package.repos.sourceforge import repo_handler as sourceforge_handler
 from package.models import Commit, Package, Category
 
@@ -19,6 +20,32 @@ class BaseBase(TestCase):
             slug='dummy'
         )
         self.category.save()
+
+
+class TestBaseHandler(BaseBase):
+    def setUp(self):
+        super(TestBaseHandler, self).setUp()
+        self.package = Package.objects.create(
+            title="Django Piston",
+            slug="django-piston",
+            repo_url="https://bitbucket.org/jespern/django-piston",
+            category=self.category
+        )
+
+    def test_not_implemented(self):
+        # TODO switch the NotImplemented to the other side
+        handler = BaseHandler()
+        self.assertEquals(NotImplemented, handler.title)
+        self.assertEquals(NotImplemented, handler.url)
+        self.assertEquals(NotImplemented, handler.repo_regex)
+        self.assertEquals(NotImplemented, handler.slug_regex)
+        self.assertEquals(NotImplemented, handler.__str__())
+        self.assertEquals(NotImplemented, handler.fetch_metadata(self.package))
+        self.assertEquals(NotImplemented, handler.fetch_commits(self.package))
+
+    def test_is_other(self):
+        handler = BaseHandler()
+        self.assertEquals(handler.title, False)
 
 
 class TestBitbucketRepo(object):

@@ -13,7 +13,7 @@ class BaseHandler(object):
                 return: string
                 example: 'Github'
         """
-        raise NotImplemented()
+        return NotImplemented
 
     @property
     def url(self):
@@ -22,7 +22,7 @@ class BaseHandler(object):
                 return: URL string
                 example: 'https://github.com'
         """
-        raise NotImplemented()
+        return NotImplemented
 
     def fetch_metadata(self, package):
         """ Accepts a package.models.Package instance:
@@ -37,12 +37,12 @@ class BaseHandler(object):
                 package.participants = (comma-seperated value)
 
         """
-        raise NotImplemented()
+        return NotImplemented
 
     def fetch_commits(self, package):
         """ Accepts a package.models.Package instance:
         """
-        raise NotImplemented()
+        return NotImplemented
 
     @property
     def is_other(self):
@@ -64,12 +64,12 @@ class BaseHandler(object):
     @property
     def repo_regex(self):
         """ Used by the JavaScript forms """
-        raise NotImplemented()
+        return NotImplemented
 
     @property
     def slug_regex(self):
         """ Used by the JavaScript forms """
-        raise NotImplemented()
+        return NotImplemented
 
     def packages_for_profile(self, profile):
         """ Return a list of all packages contributed to by a profile. """
