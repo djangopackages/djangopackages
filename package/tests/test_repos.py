@@ -45,7 +45,7 @@ class TestBaseHandler(BaseBase):
 
     def test_is_other(self):
         handler = BaseHandler()
-        self.assertEquals(handler.title, False)
+        self.assertEquals(handler.is_other, False)
 
 
 class TestBitbucketRepo(object):
