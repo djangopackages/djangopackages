@@ -9,7 +9,10 @@ from package.models import Package, Category
 
 
 def import_from_github_acct(github_name, user_type, category_slug):
-    """ Imports all packages from a specified Github account """
+    """ Imports all packages from a specified Github account
+
+        TODO: Migrate to new Github API
+    """
 
     url = 'https://api.github.com/%ss/%s/repos' % (user_type, github_name)
     r = requests.get(url)
