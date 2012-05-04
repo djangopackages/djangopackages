@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.conf import settings
 
 try:
@@ -11,7 +13,7 @@ from core.restconsumer import RestConsumer
 from package.utils import uniquer
 
 
-class OldGitHubHandler(BaseHandler):
+class GitHubHandler(BaseHandler):
     title = "Github"
     url_regex = '(http|https|git)://github.com/'
     url = 'https://github.com'
@@ -47,11 +49,13 @@ class OldGitHubHandler(BaseHandler):
         github = self._github_client()
         username, repo_name = package.repo_name().split('/')
         # /repos/:user/:repo/commits
-        for commit in github.github.repos[username][repo_name].commits():
-            commit, created = Commit.objects.get_or_create(package=package, commit_date=commit.committed_date)
+        for commit in github.repos[username][repo_name].commits():
+            raw_date = commit['commit']['committer']['date']
+            date = datetime.strptime(raw_date[0:19], "%Y-%m-%dT%H:%M:%S")
+            commit, created = Commit.objects.get_or_create(package=package, commit_date=date)
 
 
-class GitHubHandler(BaseHandler):
+class OldGitHubHandler(BaseHandler):
     title = "Github"
     url_regex = '(http|https|git)://github.com/'
     url = 'https://github.com'
