@@ -1,3 +1,15 @@
+2012, May
+==========
+
+* Fixing the Github access code
+* Increase of test coverage
+
+2012, April
+=============
+
+* Lots of lintification
+* Increase of test coverage
+
 2012, March
 =============
 
