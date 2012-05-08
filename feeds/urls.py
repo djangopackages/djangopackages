@@ -1,6 +1,6 @@
 """url patterns for the feeds"""
 
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import patterns, url
 
 from feeds import *
 

@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import patterns, url, include
 from django.views.generic.base import TemplateView
 from django.conf.urls.static import static
 

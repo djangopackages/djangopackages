@@ -1,5 +1,5 @@
 """grid url patterns"""
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import patterns, url
 from django.views.generic.dates import ArchiveIndexView
 
 from grid.models import Grid
