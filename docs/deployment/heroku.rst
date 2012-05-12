@@ -24,8 +24,9 @@ Chron Jobs that need to be set up
 =================================
 
 Sample::
-
-    # # 0 23 * * * cd /home/django_oc/django_oc; /home/django_oc/.virtualenvs/django_oc/bin/python manage.py package_updater >> ../package_updater.log 2>&1
+    
+    python manage.py package_updater --settings=settings.heroku
+    python manage.py searchv2_build --settings=settings.heroku
     
 TODO: Email admins with the log
 
