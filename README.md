@@ -5,34 +5,34 @@ OpenComparison helps you easily identify and compare good apps, frameworks, plug
 
 Features:
 
-    * Comparison grids with wiki-like editing capability
+* Comparison grids with wiki-like editing capability
 
-        * Add packages to grid
-        * Add/edit grid features
-        * Toggle between simple and smart grids
-        * Filter grid by search text
-        * Extendable grid templatetags for custom feature display/styling
+    * Add packages to grid
+    * Add/edit grid features
+    * Toggle between simple and smart grids
+    * Filter grid by search text
+    * Extendable grid templatetags for custom feature display/styling
 
-    * Storage of package info, fetched from public APIs
+* Storage of package info, fetched from public APIs
 
-        * PyPI
-        * Github
-        * BitBucket
-        * Launchpad
-        * SourceForge (forthcoming)
+    * PyPI
+    * Github
+    * BitBucket
+    * Launchpad
+    * SourceForge (forthcoming)
 
-    * Basic search
+* Basic search
 
-        * Autocomplete packages/grids
+    * Autocomplete packages/grids
 
-    * Social features:
+* Social features:
 
-        * "I use this" button
-        * Latest packages featured on homepage
+    * "I use this" button
+    * Latest packages featured on homepage
 
-    * "Add package" and "Add grid" forms
-    * Extendable package model, using package extenders
-    * Customizable navigation menus, editable via admin
+* "Add package" and "Add grid" forms
+* Extendable package model, using package extenders
+* Customizable navigation menus, editable via admin
 
 The Site
 --------
