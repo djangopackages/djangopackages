@@ -1,3 +1,6 @@
+""" This code was authored by Raymond Hettiger. """
+
+
 import collections
 import functools
 from itertools import ifilterfalse
