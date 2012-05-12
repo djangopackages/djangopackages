@@ -32,6 +32,9 @@ class GitHubHandler(BaseHandler):
 
         username, repo_name = package.repo_name().split('/')
         repo = github.repos[username][repo_name]()
+        if repo.get('message', '') == u'Not Found':
+            return package
+
         package.repo_watchers = repo['watchers']
         package.repo_forks = repo['forks']
         package.repo_description = repo['description']
@@ -50,6 +53,8 @@ class GitHubHandler(BaseHandler):
         username, repo_name = package.repo_name().split('/')
         # /repos/:user/:repo/commits
         for commit in github.repos[username][repo_name].commits():
+            if isinstance(commit, unicode):
+                continue
             raw_date = commit['commit']['committer']['date']
             date = datetime.strptime(raw_date[0:19], "%Y-%m-%dT%H:%M:%S")
             commit, created = Commit.objects.get_or_create(package=package, commit_date=date)
