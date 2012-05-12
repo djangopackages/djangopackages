@@ -18,6 +18,15 @@ Deploying to heroku:
     heroku pg:promote HEROKU_SHARED_POSTGRESQL_BROWN
     heroku pg:psql HEROKU_SHARED_POSTGRESQL_BROWN
     \i django_oc.sql
+    
+Chron Jobs that need to be set up
+=================================
+
+Sample::
+
+    # # 0 23 * * * cd /home/django_oc/django_oc; /home/django_oc/.virtualenvs/django_oc/bin/python manage.py package_updater >> ../package_updater.log 2>&1
+    
+TODO: Email admins with the log
 
 Custom settings that need to be added
 =======================================
