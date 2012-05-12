@@ -64,6 +64,7 @@ Direct Contributors
 * Mike Johnson
 * Nate Aune
 * Nolan Brubaker
+* Randall Degges
 * PA Parent
 * Preston Holmes
 * Skot Carruth
