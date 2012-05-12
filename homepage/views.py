@@ -5,10 +5,15 @@ from django.shortcuts import render
 
 import feedparser
 
+from core.decorators import lru_cache
 from grid.models import Grid
 from homepage.models import Dpotw, Gotw, PSA
 from package.models import Category, Package
 
+@lru_cache()
+def get_feed():
+    feed = 'http://opencomparison.blogspot.com/feeds/posts/default'
+    return feedparser.parse(feed)
 
 def homepage(request, template_name="homepage.html"):
 
@@ -62,9 +67,14 @@ def homepage(request, template_name="homepage.html"):
         psa_body = '<p>There are currently no announcements.  To request a PSA, tweet at <a href="http://twitter.com/open_comparison">@Open_Comparison</a>.</p>'
 
     # Latest OpenComparison blog post on homepage
-    feed = 'http://opencomparison.blogspot.com/feeds/posts/default'
-    blogpost_title = feedparser.parse(feed).entries[0].title
-    blogpost_body = feedparser.parse(feed).entries[0].summary
+
+    feed_result = get_feed()
+    if len(feed_result.entries):
+        blogpost_title = feed_result.entries[0].title
+        blogpost_body = feed_result.entries[0].summary
+    else:
+        blogpost_title = ''
+        blogpost_body = ''        
 
     return render(request,
         template_name, {
