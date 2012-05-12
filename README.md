@@ -49,7 +49,7 @@ The documentation is hosted at http://opencomparison.rtfd.org
 Test Status
 -----------
 
-![Build Status](https://secure.travis-ci.org/audreyr/opencomparison.png?branch=master)](http://travis-ci.org/audreyr/opencomparison)
+[![Build Status](https://secure.travis-ci.org/audreyr/opencomparison.png?branch=master)](http://travis-ci.org/audreyr/opencomparison)
 
 License
 -------
