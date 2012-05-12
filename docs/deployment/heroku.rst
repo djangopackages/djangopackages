@@ -15,6 +15,7 @@ Deploying to heroku:
     heroku addons:add heroku-shared-postgresql
     heroku addons:add memcache
     heroku addons:add sendgrid:starter    
+    heroku addons:add scheduler:standard
     heroku pg:promote HEROKU_SHARED_POSTGRESQL_GOLD
     heroku pg:psql HEROKU_SHARED_POSTGRESQL_GOLD
     \i django_oc.sql
