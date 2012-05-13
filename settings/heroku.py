@@ -33,6 +33,7 @@ EMAIL_HOST_USER = environ.get('EMAIL_HOST_USER', 'your_email@example.com')
 EMAIL_PORT = environ.get('EMAIL_PORT', 587)
 EMAIL_SUBJECT_PREFIX = environ.get('EMAIL_SUBJECT_PREFIX', '[Django Packages] ')
 EMAIL_USE_TLS = True
+SERVER_EMAIL = EMAIL_HOST_USER
 
 
 RESTRICT_PACKAGE_EDITORS = False
