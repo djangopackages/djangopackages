@@ -117,7 +117,7 @@ Run the tests!
 
 Before you submit a pull request, please run the entire OpenComparison test suite via::
 
-    python manage.py test --settings=settings.base
+    python manage.py test --settings=settings.test
 
 The first thing the core committers will do is run this command. Any pull request that fails this test suite will be **rejected**.
 
