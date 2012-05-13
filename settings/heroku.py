@@ -1,107 +1,73 @@
-from settings.base import *
-
-import sys
-import urlparse
-
-DEBUG = False
-TEMPLATE_DEBUG = DEBUG
-SERVE_MEDIA = True
-
-INSTALLED_APPS += ['gunicorn']
-CACHE_TIMEOUT = 60 * 60 * 24
-
-urlparse.uses_netloc.append('postgres')
-urlparse.uses_netloc.append('mysql')
-try:
-    if os.environ.has_key('DATABASE_URL'):
-        url = urlparse.urlparse(os.environ['DATABASE_URL'])
-        DATABASES = {}
-        DATABASES['default'] = {
-            'NAME':     url.path[1:],
-            'USER':     url.username,
-            'PASSWORD': url.password,
-            'HOST':     url.hostname,
-            'PORT':     url.port,
-        }
-        if url.scheme == 'postgres':
-            DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
-        if url.scheme == 'mysql':
-            DATABASES['default']['ENGINE'] = 'django.db.backends.mysql'
-except Exception as e:
-
-    print "Unexpected error:", sys.exc_info()
-
-
-LOCAL_INSTALLED_APPS = []
-
-LAUNCHPAD_ACTIVE = False
-
-# Analytics ID
-URCHIN_ID = ""
-
-# Email Settings
-DEFAULT_FROM_EMAIL = \
-        'Django Packages <djangopackages-noreply@djangopackages.com>'
-EMAIL_SUBJECT_PREFIX = '[Django Packages] '
-
-
-RESTRICT_PACKAGE_EDITORS = False
-RESTRICT_GRID_EDITORS = False
-
-ROOT_URLCONF = "app.urls"
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-SECRET_KEY = os.environ['SECRET_KEY']
-
-GITHUB_API_SECRET = os.environ['GITHUB_API_SECRET']
-GITHUB_APP_ID = os.environ['GITHUB_APP_ID']
-SITE_TITLE = os.environ['SITE_TITLE']
-FRAMEWORK_TITLE = os.environ['FRAMEWORK_TITLE']
-
-PIWIK_CODE = """
-<!-- Piwik -->
-<script type="text/javascript">
-var pkBaseURL = (("https:" == document.location.protocol) ? "https://manage.cartwheelweb.com/piwik/" : "http://manage.cartwheelweb.com/piwik/");
-document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-</script><script type="text/javascript">
-try {
-var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 4);
-piwikTracker.trackPageView();
-piwikTracker.enableLinkTracking();
-} catch( err ) {}
-</script><noscript><p><img src="http://manage.cartwheelweb.com/piwik/piwik.php?idsite=4" style="border:0" alt="" /></p></noscript>
-<!-- End Piwik Tracking Code -->
+# -*- coding: utf-8 -*-
+"""Heroku specific settings. These are used to deploy opencomparison to
+Heroku's platform.
 """
 
-########## STORAGE CONFIGURATION
 
-INSTALLED_APPS += ['storages', ]
+from os import environ
 
+from memcacheify import memcacheify
+from postgresify import postgresify
+from S3 import CallingFormat
+
+from settings.base import *
+
+
+########## DATABASES
+DATABASES = postgresify()
+
+
+########## CACHE
+CACHE_TIMEOUT = 60 * 60 * 24
+CACHES = memcacheify()
+
+
+########## WSGI SERVER
+INSTALLED_APPS += ['gunicorn']
+
+
+########## EMAIL
+DEFAULT_FROM_EMAIL = environ.get('DEFAULT_FROM_EMAIL',
+        'Django Packages <djangopackages-noreply@djangopackages.com>')
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = environ.get('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_HOST_PASSWORD = environ.get('EMAIL_HOST_PASSWORD', '')
+EMAIL_HOST_USER = environ.get('EMAIL_HOST_USER', 'your_email@example.com')
+EMAIL_PORT = environ.get('EMAIL_PORT', 587)
+EMAIL_SUBJECT_PREFIX = environ.get('EMAIL_SUBJECT_PREFIX', '[Django Packages] ')
+EMAIL_USE_TLS = True
+SERVER_EMAIL = EMAIL_HOST_USER
+
+
+########## SECRET
+SECRET_KEY = environ.get('SECRET_KEY', '')
+
+
+########## GITHUB
+GITHUB_API_SECRET = environ.get('GITHUB_API_SECRET')
+GITHUB_APP_ID = environ.get('GITHUB_APP_ID')
+
+
+########## SITE
+SITE_TITLE = environ.get('SITE_TITLE')
+FRAMEWORK_TITLE = environ.get('FRAMEWORK_TITLE')
+
+
+########## STORAGE
+INSTALLED_APPS += ['storages']
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
-AWS_QUERYSTRING_AUTH = False
+AWS_ACCESS_KEY_ID = environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = environ.get('AWS_STORAGE_BUCKET_NAME')
 
+AWS_CALLING_FORMAT = CallingFormat.SUBDOMAIN
 AWS_HEADERS = {
     'Expires': 'Thu, 15 Apr 2020 20:00:00 GMT',
     'Cache-Control': 'max-age=86400',
 }
+AWS_QUERYSTRING_AUTH = False
 
-# Boto requires subdomain formatting.
-from S3 import CallingFormat
-AWS_CALLING_FORMAT = CallingFormat.SUBDOMAIN
-
-# Amazon S3 configuration.
-if os.environ.has_key('S3_KEY'):
-    AWS_ACCESS_KEY_ID = os.environ['S3_KEY']
-    AWS_SECRET_ACCESS_KEY = os.environ['S3_SECRET']
-else:
-    AWS_ACCESS_KEY_ID = AWS_KEY
-    AWS_SECRET_ACCESS_KEY = AWS_SECRET_KEY
-
-AWS_STORAGE_BUCKET_NAME = 'opencomparison'
-
-STATIC_URL = 'https://s3.amazonaws.com/opencomparison/'
+STATIC_URL = 'https://s3.amazonaws.com/%s/' % AWS_STORAGE_BUCKET_NAME
 MEDIA_URL = STATIC_URL
-########## END STORAGE CONFIGURATION
