@@ -56,7 +56,7 @@ FRAMEWORK_TITLE = environ.get('FRAMEWORK_TITLE')
 
 
 ########## STORAGE
-INSTALLED_APPS += ['storages', ]
+INSTALLED_APPS += ['storages']
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
