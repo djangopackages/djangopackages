@@ -174,7 +174,7 @@ EMAIL_DEBUG = DEBUG
 
 CACHE_TIMEOUT = 60 * 60
 
-ROOT_URLCONF = "opencomparison.urls"
+ROOT_URLCONF = "%s.urls" % os.path.basename(PROJECT_ROOT)
 
 SECRET_KEY = "CHANGEME"
 

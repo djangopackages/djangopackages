@@ -43,10 +43,6 @@ SERVER_EMAIL = EMAIL_HOST_USER
 SECRET_KEY = environ.get('SECRET_KEY', '')
 
 
-########## URLS
-ROOT_URLCONF = "app.urls"
-
-
 ########## GITHUB
 GITHUB_API_SECRET = environ.get('GITHUB_API_SECRET')
 GITHUB_APP_ID = environ.get('GITHUB_APP_ID')
