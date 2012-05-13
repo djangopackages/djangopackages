@@ -4,35 +4,16 @@ Heroku's platform.
 """
 
 
-from settings.base import *
+from postgresify import postgresify
 
-import sys
-import urlparse
+from settings.base import *
 
 
 INSTALLED_APPS += ['gunicorn']
 CACHE_TIMEOUT = 60 * 60 * 24
 
-urlparse.uses_netloc.append('postgres')
-urlparse.uses_netloc.append('mysql')
-try:
-    if os.environ.has_key('DATABASE_URL'):
-        url = urlparse.urlparse(os.environ['DATABASE_URL'])
-        DATABASES = {}
-        DATABASES['default'] = {
-            'NAME':     url.path[1:],
-            'USER':     url.username,
-            'PASSWORD': url.password,
-            'HOST':     url.hostname,
-            'PORT':     url.port,
-        }
-        if url.scheme == 'postgres':
-            DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
-        if url.scheme == 'mysql':
-            DATABASES['default']['ENGINE'] = 'django.db.backends.mysql'
-except Exception as e:
 
-    print "Unexpected error:", sys.exc_info()
+DATABASES = postgresify()
 
 
 LOCAL_INSTALLED_APPS = []
