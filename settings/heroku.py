@@ -9,11 +9,12 @@ from postgresify import postgresify
 from settings.base import *
 
 
-CACHE_TIMEOUT = 60 * 60 * 24
-
-
 ########## DATABASES
 DATABASES = postgresify()
+
+
+########## CACHE
+CACHE_TIMEOUT = 60 * 60 * 24
 
 
 ########## WSGI SERVER
