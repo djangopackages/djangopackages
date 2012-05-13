@@ -5,4 +5,4 @@ python:
 install:
   - pip install -r requirements/project.txt
 script:
-  - python manage.py test --settings=settings.travis
+  - python manage.py test --settings=settings.test
