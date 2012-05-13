@@ -8,8 +8,8 @@ Project Leads
 * Audrey Roy <audreyr@gmail.com>
 * Daniel Greenfeld <pydanny@gmail.com>
 
-Core Developer at LA Open Source Sprint May 2012
-=================================================
+Core Developer at Server Move 2012
+==================================
 
 * Randall Degges
 
