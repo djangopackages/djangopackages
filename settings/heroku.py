@@ -16,7 +16,10 @@ CACHE_TIMEOUT = 60 * 60 * 24
 DATABASES = postgresify()
 
 
+########## WSGI SERVER
 INSTALLED_APPS += ['gunicorn']
+
+
 LOCAL_INSTALLED_APPS = []
 
 LAUNCHPAD_ACTIVE = False
