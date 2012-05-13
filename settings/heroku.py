@@ -49,7 +49,7 @@ SITE_TITLE = os.environ['SITE_TITLE']
 FRAMEWORK_TITLE = os.environ['FRAMEWORK_TITLE']
 
 
-########## STORAGE CONFIGURATION
+########## STORAGE
 
 INSTALLED_APPS += ['storages', ]
 
