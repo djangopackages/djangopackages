@@ -38,9 +38,10 @@ Do the following:
 .. sourcecode:: bash
 
     heroku config:add SECRET_KEY=<random-key>
-    heroku config:add GITHUB_API_SECRET=<your-github-api-secret>
-    heroku config:add GITHUB_APP_ID=<your-github-app-id>
-    heroku config:add S3_KEY=<your-s3-key>  
-    heroku config:add S3_SECRET=<your-s3-secret>  
+    heroku config:add GITHUB_API_SECRET=CUSTOM
+    heroku config:add GITHUB_APP_ID=CUSTOM
     heroku config:add SITE_TITLE=Django Packages
     heroku config:add FRAMEWORK_TITLE=Django
+    heroku config:add AWS_ACCESS_KEY_ID=CUSTOM 
+    heroku config:add AWS_SECRET_ACCESS_KEY=CUSTOM
+    heroku config:add AWS_STORAGE_BUCKET_NAME=CUSTOM    
