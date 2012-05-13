@@ -31,3 +31,6 @@ django-storages==1.1.3
 boto==2.1.0
 
 raven>=1.4.6
+
+# Heroku specific helpers:
+django-heroku-postgresify==0.2
