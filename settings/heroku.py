@@ -37,7 +37,7 @@ SERVER_EMAIL = EMAIL_HOST_USER
 
 
 ########## SECRET
-SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = environ.get('SECRET_KEY', '')
 
 
 ROOT_URLCONF = "app.urls"
