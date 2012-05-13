@@ -8,6 +8,11 @@ Project Leads
 * Audrey Roy <audreyr@gmail.com>
 * Daniel Greenfeld <pydanny@gmail.com>
 
+Core Developer at LA Open Source Sprint May 2012
+=================================================
+
+* Randall Degges
+
 Core Developers at DjangoCon 2011
 =================================
 
@@ -15,7 +20,7 @@ Core Developers at DjangoCon 2011
 * Mike Johnson
 * Taylor Mitchell
 
-Core Developers at DataMigrationCon 2011
+Core Developer at DataMigrationCon 2011
 ========================================
 
 * Katharine Jarmul
@@ -64,9 +69,9 @@ Direct Contributors
 * Mike Johnson
 * Nate Aune
 * Nolan Brubaker
-* Randall Degges
 * PA Parent
 * Preston Holmes
+* Randall Degges
 * Skot Carruth
 * Stuart Powers
 * Szilveszter Farkas (Repo Man)
