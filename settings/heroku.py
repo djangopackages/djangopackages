@@ -26,6 +26,7 @@ INSTALLED_APPS += ['gunicorn']
 # Email Settings
 DEFAULT_FROM_EMAIL = environ.get('DEFAULT_FROM_EMAIL',
         'Django Packages <djangopackages-noreply@djangopackages.com>')
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_SUBJECT_PREFIX = environ.get('EMAIL_SUBJECT_PREFIX', '[Django Packages] ')
 
 
@@ -33,8 +34,6 @@ RESTRICT_PACKAGE_EDITORS = False
 RESTRICT_GRID_EDITORS = False
 
 ROOT_URLCONF = "app.urls"
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 SECRET_KEY = os.environ['SECRET_KEY']
 
