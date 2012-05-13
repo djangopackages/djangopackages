@@ -66,6 +66,7 @@ Direct Contributors
 * Nolan Brubaker
 * PA Parent
 * Preston Holmes
+* Randall Degges
 * Skot Carruth
 * Stuart Powers
 * Szilveszter Farkas (Repo Man)
