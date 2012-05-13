@@ -36,9 +36,12 @@ EMAIL_USE_TLS = True
 SERVER_EMAIL = EMAIL_HOST_USER
 
 
+########## SECRET
+SECRET_KEY = os.environ['SECRET_KEY']
+
+
 ROOT_URLCONF = "app.urls"
 
-SECRET_KEY = os.environ['SECRET_KEY']
 
 GITHUB_API_SECRET = os.environ['GITHUB_API_SECRET']
 GITHUB_APP_ID = os.environ['GITHUB_APP_ID']
