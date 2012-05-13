@@ -66,5 +66,5 @@ AWS_HEADERS = {
 }
 AWS_QUERYSTRING_AUTH = False
 
-STATIC_URL = 'https://s3.amazonaws.com/opencomparison/'
+STATIC_URL = 'https://s3.amazonaws.com/%s/' % AWS_STORAGE_BUCKET_NAME
 MEDIA_URL = STATIC_URL
