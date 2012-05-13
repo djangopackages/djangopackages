@@ -4,7 +4,7 @@ continuous integration service.
 """
 
 
-from settings.base import *
+from settings.test import *
 
 
 DATABASES = {
