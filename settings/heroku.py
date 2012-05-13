@@ -41,6 +41,7 @@ SERVER_EMAIL = EMAIL_HOST_USER
 SECRET_KEY = environ.get('SECRET_KEY', '')
 
 
+########## URLS
 ROOT_URLCONF = "app.urls"
 
 
