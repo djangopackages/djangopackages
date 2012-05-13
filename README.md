@@ -3,7 +3,13 @@ OpenComparison
 
 OpenComparison helps you easily identify and compare good apps, frameworks, plugins, and other types of packages, using comparison grids.
 
-Features:
+Test Status
+-----------
+
+[![Build Status](https://secure.travis-ci.org/audreyr/opencomparison.png?branch=master)](http://travis-ci.org/audreyr/opencomparison)
+
+Features
+--------
 
 * Comparison grids with wiki-like editing capability
 
@@ -32,7 +38,6 @@ Features:
 
 * "Add package" and "Add grid" forms
 * Extendable package model, using package extenders
-* Customizable navigation menus, editable via admin
 
 The Site
 --------
@@ -45,11 +50,6 @@ The Documentation
 -----------------
 
 The documentation is hosted at http://opencomparison.rtfd.org
-
-Test Status
------------
-
-[![Build Status](https://secure.travis-ci.org/audreyr/opencomparison.png?branch=master)](http://travis-ci.org/audreyr/opencomparison)
 
 License
 -------
