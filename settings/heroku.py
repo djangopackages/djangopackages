@@ -9,7 +9,6 @@ from postgresify import postgresify
 from settings.base import *
 
 
-INSTALLED_APPS += ['gunicorn']
 CACHE_TIMEOUT = 60 * 60 * 24
 
 
@@ -17,6 +16,7 @@ CACHE_TIMEOUT = 60 * 60 * 24
 DATABASES = postgresify()
 
 
+INSTALLED_APPS += ['gunicorn']
 LOCAL_INSTALLED_APPS = []
 
 LAUNCHPAD_ACTIVE = False
