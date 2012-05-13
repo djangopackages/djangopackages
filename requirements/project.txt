@@ -30,3 +30,6 @@ python-openid==2.2.5
 django-social-auth==0.5.12
 
 psycopg2==2.4.1
+
+# Heroku specific helpers:
+django-heroku-postgresify==0.2
