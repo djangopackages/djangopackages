@@ -20,8 +20,6 @@ DATABASES = postgresify()
 INSTALLED_APPS += ['gunicorn']
 
 
-LOCAL_INSTALLED_APPS = []
-
 LAUNCHPAD_ACTIVE = False
 
 # Analytics ID
