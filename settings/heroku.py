@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+"""Heroku specific settings. These are used to deploy opencomparison to
+Heroku's platform.
+"""
+
 from settings.base import *
 
 import sys
