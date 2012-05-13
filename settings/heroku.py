@@ -7,6 +7,7 @@ Heroku's platform.
 from os import environ
 
 from postgresify import postgresify
+from S3 import CallingFormat
 
 from settings.base import *
 
@@ -64,7 +65,6 @@ AWS_HEADERS = {
 }
 
 # Boto requires subdomain formatting.
-from S3 import CallingFormat
 AWS_CALLING_FORMAT = CallingFormat.SUBDOMAIN
 
 # Amazon S3 configuration.
