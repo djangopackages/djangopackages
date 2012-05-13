@@ -10,8 +10,6 @@ from settings.base import *
 ########## DEBUG
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-
-# serve media through the staticfiles app.
 SERVE_MEDIA = DEBUG
 
 
