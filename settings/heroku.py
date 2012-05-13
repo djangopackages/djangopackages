@@ -4,6 +4,8 @@ Heroku's platform.
 """
 
 
+from os import environ
+
 from postgresify import postgresify
 
 from settings.base import *
@@ -27,9 +29,9 @@ LAUNCHPAD_ACTIVE = False
 URCHIN_ID = ""
 
 # Email Settings
-DEFAULT_FROM_EMAIL = \
-        'Django Packages <djangopackages-noreply@djangopackages.com>'
-EMAIL_SUBJECT_PREFIX = '[Django Packages] '
+DEFAULT_FROM_EMAIL = environ.get('DEFAULT_FROM_EMAIL',
+        'Django Packages <djangopackages-noreply@djangopackages.com>')
+EMAIL_SUBJECT_PREFIX = environ.get('EMAIL_SUBJECT_PREFIX', '[Django Packages] ')
 
 
 RESTRICT_PACKAGE_EDITORS = False
