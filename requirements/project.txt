@@ -33,3 +33,6 @@ psycopg2==2.4.1
 
 # Heroku specific helpers:
 django-heroku-postgresify==0.2
+
+# WSGI server:
+gunicorn==0.14.2

@@ -34,3 +34,6 @@ raven>=1.4.6
 
 # Heroku specific helpers:
 django-heroku-postgresify==0.2
+
+# WSGI server:
+gunicorn==0.14.2
