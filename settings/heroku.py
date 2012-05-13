@@ -6,6 +6,7 @@ Heroku's platform.
 
 from os import environ
 
+from memcacheify import memcacheify
 from postgresify import postgresify
 from S3 import CallingFormat
 
@@ -18,6 +19,7 @@ DATABASES = postgresify()
 
 ########## CACHE
 CACHE_TIMEOUT = 60 * 60 * 24
+CACHES = memcacheify()
 
 
 ########## WSGI SERVER

@@ -33,6 +33,7 @@ boto==2.1.0
 raven>=1.4.6
 
 # Heroku specific helpers:
+django-heroku-memcacheify==0.1
 django-heroku-postgresify==0.2
 
 # WSGI server:
