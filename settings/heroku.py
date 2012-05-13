@@ -26,7 +26,7 @@ INSTALLED_APPS += ['gunicorn']
 ########## EMAIL
 DEFAULT_FROM_EMAIL = environ.get('DEFAULT_FROM_EMAIL',
         'Django Packages <djangopackages-noreply@djangopackages.com>')
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_SUBJECT_PREFIX = environ.get('EMAIL_SUBJECT_PREFIX', '[Django Packages] ')
 
 
