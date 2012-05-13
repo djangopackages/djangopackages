@@ -28,6 +28,7 @@ DEFAULT_FROM_EMAIL = environ.get('DEFAULT_FROM_EMAIL',
         'Django Packages <djangopackages-noreply@djangopackages.com>')
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = environ.get('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_HOST_PASSWORD = environ.get('EMAIL_HOST_PASSWORD', '')
 EMAIL_SUBJECT_PREFIX = environ.get('EMAIL_SUBJECT_PREFIX', '[Django Packages] ')
 
 
