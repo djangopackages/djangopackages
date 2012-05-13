@@ -7,7 +7,7 @@ from django.template.defaultfilters import slugify
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 # serve media through the staticfiles app.
@@ -174,7 +174,7 @@ EMAIL_DEBUG = DEBUG
 
 CACHE_TIMEOUT = 60 * 60
 
-ROOT_URLCONF = "opencomparison.urls"
+ROOT_URLCONF = "%s.urls" % os.path.basename(PROJECT_ROOT)
 
 SECRET_KEY = "CHANGEME"
 

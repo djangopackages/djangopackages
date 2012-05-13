@@ -30,3 +30,11 @@ python-openid==2.2.5
 django-social-auth==0.5.12
 
 psycopg2==2.4.1
+
+# Heroku specific helpers:
+django-heroku-memcacheify==0.1
+django-heroku-postgresify==0.2
+pylibmc==1.2.3
+
+# WSGI server:
+gunicorn==0.14.2
