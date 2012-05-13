@@ -10,7 +10,7 @@ from django.core.urlresolvers import reverse
 from tastypie import fields
 from tastypie.bundle import Bundle
 from tastypie.exceptions import NotFound
-from tastypie.resources import ModelResource
+from tastypie.resources import ModelResource, ALL_WITH_RELATIONS
 
 from grid.models import Grid
 from homepage.models import Dpotw, Gotw
@@ -209,3 +209,6 @@ class PackageResource(PackageResourceBase):
         allowed_methods = ['get']
         include_absolute_url = True
         lookup_field = 'slug'
+        filtering = {
+            "category": ALL_WITH_RELATIONS
+        }
