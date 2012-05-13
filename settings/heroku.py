@@ -51,20 +51,15 @@ FRAMEWORK_TITLE = os.environ['FRAMEWORK_TITLE']
 
 
 ########## STORAGE
-
 INSTALLED_APPS += ['storages', ]
-
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 AWS_QUERYSTRING_AUTH = False
-
 AWS_HEADERS = {
     'Expires': 'Thu, 15 Apr 2020 20:00:00 GMT',
     'Cache-Control': 'max-age=86400',
 }
-
-# Boto requires subdomain formatting.
 AWS_CALLING_FORMAT = CallingFormat.SUBDOMAIN
 
 # Amazon S3 configuration.
