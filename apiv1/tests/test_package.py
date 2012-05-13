@@ -4,8 +4,7 @@ from django.test import TestCase
 from grid.models import Grid, GridPackage
 from package.models import Package, Category
 import json
-import urllib
-
+import requests
 
 class PackageV1Tests(TestCase):
     def setUp(self):
@@ -55,7 +54,7 @@ class PackageV1Tests(TestCase):
             'pk': self.pkg1.slug,
         }
         url_pkg1 = reverse('api_dispatch_detail', kwargs=urlkwargs_pkg1)
-        response_pkg1 = self.client.get(url_pkg1)
+        response_pkg1 = requests.get(url_pkg1)
         # check that the request was successful
         self.assertEqual(response_pkg1.status_code, 200)
         # check that we have a usage_count equal to the one in the DB
@@ -70,7 +69,7 @@ class PackageV1Tests(TestCase):
             'pk': self.pkg2.slug,
         }
         url_pkg2 = reverse('api_dispatch_detail', kwargs=urlkwargs_pkg2)
-        response_pkg2 = self.client.get(url_pkg2)
+        response_pkg2 = requests.get(url_pkg2)
         # check that the request was successful
         self.assertEqual(response_pkg2.status_code, 200)
         # check that we have a usage_count equal to the one in the DB
@@ -88,8 +87,8 @@ class PackageV1Tests(TestCase):
             'category__slug': self.app.slug
         }
         url_app_pkg = "%s?%s" % (reverse('api_dispatch_list',
-            kwargs=urlkwargs_pkg_list), urllib.urlencode(querystring_filter_app))
-        response_app_pkg = self.client.get(url_app_pkg)
+            kwargs=urlkwargs_pkg_list), querystring_filter_app)
+        response_app_pkg = requests.get(url_app_pkg)
         # check that the request was successful
         self.assertEqual(response_app_pkg.status_code, 200)
         # check that we have correct number of packages in filter
