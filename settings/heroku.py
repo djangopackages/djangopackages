@@ -48,20 +48,6 @@ GITHUB_APP_ID = os.environ['GITHUB_APP_ID']
 SITE_TITLE = os.environ['SITE_TITLE']
 FRAMEWORK_TITLE = os.environ['FRAMEWORK_TITLE']
 
-PIWIK_CODE = """
-<!-- Piwik -->
-<script type="text/javascript">
-var pkBaseURL = (("https:" == document.location.protocol) ? "https://manage.cartwheelweb.com/piwik/" : "http://manage.cartwheelweb.com/piwik/");
-document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-</script><script type="text/javascript">
-try {
-var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 4);
-piwikTracker.trackPageView();
-piwikTracker.enableLinkTracking();
-} catch( err ) {}
-</script><noscript><p><img src="http://manage.cartwheelweb.com/piwik/piwik.php?idsite=4" style="border:0" alt="" /></p></noscript>
-<!-- End Piwik Tracking Code -->
-"""
 
 ########## STORAGE CONFIGURATION
 
