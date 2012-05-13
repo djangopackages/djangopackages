@@ -67,7 +67,6 @@ Direct Contributors
 * Randall Degges
 * PA Parent
 * Preston Holmes
-* Randall Degges
 * Skot Carruth
 * Stuart Powers
 * Szilveszter Farkas (Repo Man)
