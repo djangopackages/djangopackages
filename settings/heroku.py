@@ -44,10 +44,14 @@ SECRET_KEY = environ.get('SECRET_KEY', '')
 ROOT_URLCONF = "app.urls"
 
 
-GITHUB_API_SECRET = os.environ['GITHUB_API_SECRET']
-GITHUB_APP_ID = os.environ['GITHUB_APP_ID']
-SITE_TITLE = os.environ['SITE_TITLE']
-FRAMEWORK_TITLE = os.environ['FRAMEWORK_TITLE']
+########## GITHUB
+GITHUB_API_SECRET = environ.get('GITHUB_API_SECRET')
+GITHUB_APP_ID = environ.get('GITHUB_APP_ID')
+
+
+########## SITE
+SITE_TITLE = environ.get('SITE_TITLE')
+FRAMEWORK_TITLE = environ.get('FRAMEWORK_TITLE')
 
 
 ########## STORAGE
