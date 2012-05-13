@@ -36,4 +36,4 @@ Not yet!
 The progenitor of Packaginator, Django Packages was cooked up during Django Dash 2010. We wanted to keep the scope of our work reasonable. We'll try to include more sites in the future. Here are some details:
 
  * Sourceforge needs needs to repair their API and then we can play.
- * Google's lack of a formal API leaves us the option of screen-scraping their content. We're not excited about introducing that sort of brittle activity into Packaginater.
+ * Google's lack of a formal API leaves us the option of screen-scraping their content. We're not excited about introducing that sort of brittle activity into OpenComparison.

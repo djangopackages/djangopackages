@@ -1,4 +1,4 @@
-"""Restful api for the packaginator, based on ``django-tastypie``
+"""Restful api for opencomparison, based on ``django-tastypie``
 (`docs <http://django-tastypie.readthedocs.org/>`_
 |
 `pypi <http://pypi.python.org/pypi/django-tastypie/>`_

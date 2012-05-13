@@ -39,16 +39,20 @@ Example (also the default)::
 Launchpad Specific settings
 ===========================
 
-The launchpad Python client tool requires an unbelievable amount of requirements to handle a simple JSON ReST based webservice. These requirements can be tricky to install. Therefore, Packaginator out of the box does not support Launchpad.
+The launchpad Python client tool requires an unbelievable amount of requirements to handle a simple JSON ReST based webservice. These requirements can be tricky to install. Therefore, OpenComparison out of the box does not support Launchpad.
+
+.. warning:: Launchpad hasn't been tested or maintained in a while. This probably won't work at this time.
 
 If you have problems, please refer to troubleshooting_.
 
 LAUNCHPAD_ACTIVE (Default: False)
 ---------------------------------
 
-If you want your instance of Packaginator to support Launchpad, set this setting to true in local_settings.py::
+If you want your instance of OpenComparison to support Launchpad, set this setting to true in local_settings.py::
 
     LAUNCHPAD_ACTIVE = True
+    
+
 
 LAUNCHPAD_CACHE_DIR
 -------------------
@@ -62,8 +66,8 @@ Example::
 Permissions Settings
 ====================
 
-Packaginator provides several ways to control who can make what changes to
-things like packages, features, and grids. By default, a Packaginator project
+OpenComparison provides several ways to control who can make what changes to
+things like packages, features, and grids. By default, a OpenComparison project
 is open to contributions from any registered user. If a given project would
 like more control over this, there are two settings that can be used.
 

@@ -49,7 +49,7 @@ def load():
         pypi_url='',
         participants=u'pydanny',
         pypi_downloads=0,
-        repo_url=u'https://github.com/cartwheelweb/packaginator',
+        repo_url=u'https://github.com/opencomparison/opencomparison',
         repo_commits=0,
         repo_forks=0,
         slug=u'serious-testing',

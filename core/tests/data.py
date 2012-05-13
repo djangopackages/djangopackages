@@ -38,7 +38,7 @@ def make():
         category = category,
         participants = "pydanny",
         repo_description = "Make testing as painless as waxing your legs.",
-        repo_url = "https://github.com/cartwheelweb/packaginator",
+        repo_url = "https://github.com/opencomparison/opencomparison",
         slug = "serious-testing",
         title="Serious Testing"
     )

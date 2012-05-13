@@ -34,7 +34,7 @@ out as the postgres user.
 
 Now you should be able to access postgres using ``psql -U
 postgres``. Create a new database using ``createdb -U postgres
-packaginator``.
+opencomparison``.
 
 Ubuntu
 ------
@@ -55,7 +55,7 @@ column from md5 to trust).
 
 Apply those changes with ``/etc/init.d/postgresql-8.4 reload``.
 
-Lastly, create a new database using ``createdb -U postgres packaginator``.
+Lastly, create a new database using ``createdb -U postgres opencomparison``.
 
 Windows
 -------
@@ -74,5 +74,5 @@ Open pgAdmin III.  Right-click on PostgreSQL 8.4 (localhost:5432) and
 choose Connect.  Enter the Postgres user password.
 
 Right-click Databases and choose New Database.  Give it the name 
-packaginator and the owner postgres.  Click OK.
+opencomparison and the owner postgres.  Click OK.
 
