@@ -123,4 +123,4 @@ Create a Django superuser for yourself, replacing joe with your username/email::
 
 
 .. _PostgreSQL: postgresql_contributor_instructions.html
-.. _faq: faq
+.. _faq: http://opencomparison.readthedocs.org/en/latest/faq.html
