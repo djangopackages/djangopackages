@@ -23,7 +23,7 @@ CACHE_TIMEOUT = 60 * 60 * 24
 INSTALLED_APPS += ['gunicorn']
 
 
-# Email Settings
+########## EMAIL
 DEFAULT_FROM_EMAIL = environ.get('DEFAULT_FROM_EMAIL',
         'Django Packages <djangopackages-noreply@djangopackages.com>')
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
