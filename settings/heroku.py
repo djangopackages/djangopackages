@@ -55,23 +55,16 @@ INSTALLED_APPS += ['storages', ]
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
-AWS_QUERYSTRING_AUTH = False
+AWS_ACCESS_KEY_ID = environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = environ.get('AWS_STORAGE_BUCKET_NAME')
+
+AWS_CALLING_FORMAT = CallingFormat.SUBDOMAIN
 AWS_HEADERS = {
     'Expires': 'Thu, 15 Apr 2020 20:00:00 GMT',
     'Cache-Control': 'max-age=86400',
 }
-AWS_CALLING_FORMAT = CallingFormat.SUBDOMAIN
-
-# Amazon S3 configuration.
-if os.environ.has_key('S3_KEY'):
-    AWS_ACCESS_KEY_ID = os.environ['S3_KEY']
-    AWS_SECRET_ACCESS_KEY = os.environ['S3_SECRET']
-else:
-    AWS_ACCESS_KEY_ID = AWS_KEY
-    AWS_SECRET_ACCESS_KEY = AWS_SECRET_KEY
-
-AWS_STORAGE_BUCKET_NAME = 'opencomparison'
+AWS_QUERYSTRING_AUTH = False
 
 STATIC_URL = 'https://s3.amazonaws.com/opencomparison/'
 MEDIA_URL = STATIC_URL
-########## END STORAGE CONFIGURATION
