@@ -4,7 +4,6 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User 
 from django.contrib import messages
-from django.core.cache import cache
 from django.core.urlresolvers import reverse 
 from django.db.models import Count
 from django.http import HttpResponseRedirect, Http404, HttpResponseForbidden

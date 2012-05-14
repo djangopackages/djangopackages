@@ -1,5 +1,4 @@
 import importlib
-from random import randrange
 import simplejson
 import urllib
 
@@ -11,7 +10,6 @@ from django.core.urlresolvers import reverse
 from django.db.models import Q, Count, get_model
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render
-from django.template import RequestContext
 
 from grid.models import Grid
 from homepage.models import Dpotw, Gotw
@@ -23,24 +21,25 @@ from package.repos import get_all_repos
 def repo_data_for_js():
     repos = [handler.serialize() for handler in get_all_repos()]
     return simplejson.dumps(repos)
-    
+
+
 def get_form_class(form_name):
     bits = form_name.split('.')
     form_module_name = '.'.join(bits[:-1])
     form_module = importlib.import_module(form_module_name)
     form_name = bits[-1]
     return getattr(form_module, form_name)
-    
-    
+
+
 def build_package_extenders(request):
-    """ package extenders machinery 
+    """ package extenders machinery
             TODO: change the ID prefix in this form to be unique
-    
+
     """
     package_extenders = []
     for item in getattr(settings, "PACKAGE_EXTENDERS", []):
         package_extenders_dict = {}
-        form_class = get_form_class(item['form'])        
+        form_class = get_form_class(item['form'])
         if 'model' in item:
             app_name, app_model = item['model'].split('.')
             package_extenders_dict['model'] = get_model(app_name, app_model)
@@ -48,7 +47,7 @@ def build_package_extenders(request):
             package_extenders_dict['form'] = form_class(request.POST or None, instance=package_extenders_dict['model_instance'])
         else:
             package_extenders_dict['form'] = form_class(request.POST or None)
-        package_extenders.append(package_extenders_dict)    
+        package_extenders.append(package_extenders_dict)
     return package_extenders
 
 
