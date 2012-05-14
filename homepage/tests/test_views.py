@@ -3,8 +3,6 @@ from datetime import datetime, timedelta
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
-import requests
-
 from grid.models import Grid
 from homepage.models import Dpotw, Gotw
 from package.models import Package, Category
@@ -27,13 +25,6 @@ class FunctionalHomepageTest(TestCase):
             self.assertContains(response, p.repo_description)
 
         self.assertEquals(response.context['package_count'], Package.objects.count())
-
-    # Removed cause this tests NOTHING of our system
-    # Maybe Mock this feed?
-    #def test_opencomparison_blog_feed(self):
-    #    feed = 'http://opencomparison.blogspot.com/feeds/posts/default'
-    #    response = requests.get(feed)
-    #    self.assertEqual(response.status_code, 200)
 
     def test_categories_on_homepage(self):
         url = reverse('home')

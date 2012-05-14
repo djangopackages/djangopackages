@@ -29,13 +29,13 @@ class BitbucketHandler(BaseHandler):
         page = urlopen(target).read()
         try:
             data = json.loads(page)
-        except ValueError, e:
+        except ValueError:
             # TODO - fix this problem with bad imports from bitbucket
             data = {}
         return data.get("changesets", [])
 
     def fetch_commits(self, package):
-        from package.models import Commit # Import placed here to avoid circular dependencies
+        from package.models import Commit  # Import placed here to avoid circular dependencies
         for commit in self._get_bitbucket_commits(package):
             timestamp = commit["timestamp"].split("+")
             if len(timestamp) > 1:
@@ -50,11 +50,11 @@ class BitbucketHandler(BaseHandler):
         target = API_TARGET + "/" + repo_name
         if not target.endswith("/"):
             target += "/"
-        
+
         # open the target and read the content
         response = urlopen(target)
         response = response.read()
-        
+
         # dejsonify the results
         try:
             data = json.loads(response)
@@ -65,8 +65,8 @@ class BitbucketHandler(BaseHandler):
             return package
 
         # description
-        package.repo_description = data.get("description","")
-        
+        package.repo_description = data.get("description", "")
+
         # screen scrape to get the repo_forks off of bitbucket HTML pages
         descendants_target = package.repo_url
         if not descendants_target.endswith("/"):
@@ -78,21 +78,21 @@ class BitbucketHandler(BaseHandler):
             package.repo_forks = descendants_re.search(html).group("descendants")
         except AttributeError:
             package.repo_forks = 0
-                    
+
         # get the followers of a repo
         # get the followers of a repo
-        # get the followers of a repo                
+        # get the followers of a repo
         url = "{0}followers/".format(target)
         page = urlopen(url).read()
         data = json.loads(page)
-        package.repo_watchers = data['count']      
-        
+        package.repo_watchers = data['count']
+
         # Getting participants
         try:
-            package.participants = package.repo_url.split("/")[3] # the only way known to fetch this from bitbucket!!!
+            package.participants = package.repo_url.split("/")[3]  # the only way known to fetch this from bitbucket!!!
         except IndexError:
-            package.participants = ""          
-            
+            package.participants = ""
+
         return package
 
 repo_handler = BitbucketHandler()

@@ -2,12 +2,6 @@ from datetime import datetime
 
 from django.conf import settings
 
-try:
-    from github2.client import Github
-except ImportError:
-    # skipping this so we can generate docs
-    pass
-
 from base_handler import BaseHandler
 from core.restconsumer import RestConsumer
 from package.utils import uniquer
