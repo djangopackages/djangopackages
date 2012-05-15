@@ -21,9 +21,6 @@ class Command(NoArgsCommand):
         text = "Commencing package updating now at %s " % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
 
         for index, package in enumerate(Package.objects.all()):
-            print index
-            if index > 3:
-                break
             try:
                 try:
                     package.fetch_metadata()
@@ -63,5 +60,10 @@ class Command(NoArgsCommand):
         #print >> stdout, "Finished at %s" % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
         text += "\nFinished at %s" % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
 
-        print text
+        send_mail(
+            subject="Package Updating complete",
+            message=text,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=["pydanny@gmail.com", "pydanny@cartwheelweb.com", ],
+        )
 
