@@ -182,12 +182,21 @@ URCHIN_ID = ""
 
 DEFAULT_FROM_EMAIL = 'Django Packages <djangopackages-noreply@djangopackages.com>'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'localhost'
-EMAIL_HOST_USER = 'djangopackages-noreply@djangopackages.com'
-EMAIL_HOST_PASSWORD = ''
-EMAIL_PORT = 25
 EMAIL_SUBJECT_PREFIX = '[Django Packages] '
+try:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'smtp.sendgrid.net'
+    EMAIL_HOST_PASSWORD = os.environ['SENDGRID_PASSWORD']
+    EMAIL_HOST_USER = os.environ['SENDGRID_USERNAME']
+    EMAIL_PORT = 587
+    SERVER_EMAIL = 'info@cartwheelweb.com'
+    EMAIL_USE_TLS = True
+    DEBUG = False
+except Exception as e:
+    EMAIL_HOST = 'localhost'
+    EMAIL_PORT = 1025
+    
+EMAIL_SUBJECT_PREFIX = '[Cartwheel Web]'
 
 DEBUG_TOOLBAR_CONFIG = {
     "INTERCEPT_REDIRECTS": False,

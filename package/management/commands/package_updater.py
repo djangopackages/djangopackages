@@ -21,6 +21,8 @@ class Command(NoArgsCommand):
         text = "Commencing package updating now at %s " % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
 
         for index, package in enumerate(Package.objects.all()):
+            if index > 3:
+                break
             try:
                 try:
                     package.fetch_metadata()
@@ -49,7 +51,7 @@ class Command(NoArgsCommand):
                 text += "\nFor '%s', ExpatError: %s" % (package.title, e)
                 continue
 
-            if not hasattr(settings, "GITHUB_ACCOUNT"):
+            if not hasattr(settings, "GITHUB_API_SECRET"):
                 sleep(5)
             #print >> stdout, "%s. Successfully updated package '%s'" % (index + 1, package.title)
             text += "\n%s. Successfully updated package '%s'" % (index + 1, package.title)
