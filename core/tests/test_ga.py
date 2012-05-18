@@ -7,7 +7,7 @@ from django.test.testcases import TestCase
 class PackaginatorTagsTests(TestCase):
     def test_fixed_ga(self):
         tpl = template.Template("""
-            {% load packaginator_tags %}
+            {% load opencomparison_tags %}
             {% fixed_ga %}
         """)
         context = template.Context()
