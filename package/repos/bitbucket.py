@@ -2,10 +2,7 @@ import re
 from urllib import urlopen
 from warnings import warn
 
-try:
-    import simplejson as json
-except ImportError:
-    import json
+import json
 
 from .base_handler import BaseHandler
 
