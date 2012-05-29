@@ -42,3 +42,16 @@ class FunctionalPackageTest(TestCase):
         build_1(False)
         results = search_function('ser')
         self.assertEquals(results[0].title, 'Serious Testing')
+        
+class ViewTest(TestCase):
+    
+    def setUp(self):
+        initial_data.load()
+        url = reverse('build_search')
+        response = self.client.get(url)
+        
+    def test_search(self):
+        url = reverse('search') + '?q=django'
+        response = self.client.get(url)
+
+        #print response
