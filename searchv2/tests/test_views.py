@@ -27,12 +27,12 @@ class FunctionalPackageTest(TestCase):
         self.assertTrue(self.client.login(username='user', password='user'))
         response = self.client.get(url)
         self.assertEquals(response.status_code, 403)
-        self.assertEquals(count, 0)
+        self.assertEquals(SearchV2.objects.count(), 0)
 
         self.assertTrue(self.client.login(username='admin', password='admin'))
         response = self.client.get(url)
         self.assertEquals(response.status_code, 200)
-        self.assertEquals(count, 0)
+        self.assertEquals(SearchV2.objects.count(), 0)
 
         response = self.client.post(url)
         self.assertEquals(response.status_code, 200)
@@ -47,11 +47,15 @@ class ViewTest(TestCase):
     
     def setUp(self):
         initial_data.load()
-        url = reverse('build_search')
+        for user in User.objects.all():
+            profile = Profile.objects.create(user=user)
+            profile.save() 
+        url = reverse('build_search')                   
         response = self.client.get(url)
         
     def test_search(self):
-        url = reverse('search') + '?q=django'
+        url = reverse('search') + '?q=django-uni-form'
         response = self.client.get(url)
-
-        #print response
+        self.assertContains(response, 'django')
+        self.assertContains(response, 'django-uni-form')
+        
