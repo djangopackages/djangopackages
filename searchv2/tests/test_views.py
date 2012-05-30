@@ -49,13 +49,15 @@ class ViewTest(TestCase):
         initial_data.load()
         for user in User.objects.all():
             profile = Profile.objects.create(user=user)
-            profile.save() 
-        url = reverse('build_search')                   
-        response = self.client.get(url)
+            profile.save()         
         
     def test_search(self):
-        url = reverse('search') + '?q=django-uni-form'
+        """ TODO Get this stupid test working """
+        self.client.login(username='admin', password='admin')
+        url = reverse('build_search')
+        self.client.get(url)        
+        url = reverse('search') + '?q=django-uni-form'        
         response = self.client.get(url)
-        self.assertContains(response, 'django')
         self.assertContains(response, 'django-uni-form')
-        
+        #print response
+        print SearchV2.objects.all()
