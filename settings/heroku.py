@@ -71,3 +71,8 @@ AWS_QUERYSTRING_AUTH = False
 
 STATIC_URL = 'https://s3.amazonaws.com/%s/' % AWS_STORAGE_BUCKET_NAME
 MEDIA_URL = STATIC_URL
+
+
+########### Permissions
+RESTRICT_PACKAGE_EDITORS = False
+RESTRICT_GRID_EDITORS = False
