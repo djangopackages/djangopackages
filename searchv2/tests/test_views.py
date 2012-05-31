@@ -50,14 +50,15 @@ class ViewTest(TestCase):
         for user in User.objects.all():
             profile = Profile.objects.create(user=user)
             profile.save()         
+        build_1()    
         
     def test_search(self):
-        """ TODO Get this stupid test working """
-        self.client.login(username='admin', password='admin')
-        url = reverse('build_search')
-        self.client.get(url)        
+        """ TODO Get this stupid test working """ 
+        self.assertTrue(self.client.login(username='admin', password='admin'))     
         url = reverse('search') + '?q=django-uni-form'        
-        response = self.client.get(url)
-        self.assertContains(response, 'django-uni-form')
-        #print response
+        data = {'q':'another-test'}
+        response = self.client.get(url, data, follow=True)
+        self.assertContains(response, 'another-test')
+        print response
+        print Package.objects.all()        
         print SearchV2.objects.all()
