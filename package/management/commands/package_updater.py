@@ -47,7 +47,7 @@ class Command(NoArgsCommand):
             except ExpatError, e:
                 text += "\nFor '%s', ExpatError: %s" % (package.title, e)
                 continue
-            except Exception, e
+            except Exception, e:
                 text += "\nFor '%s', General Exception: %s" % (package.title, e)
                 continue
 
