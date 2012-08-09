@@ -55,7 +55,7 @@ class BitbucketHandler(BaseHandler):
         # dejsonify the results
         try:
             data = json.loads(response)
-        except json.decoder.JSONDecodeError:
+        except Exception as e:
             # TODO - log this better
             message = "%s had a JSONDecodeError during bitbucket.repo.pull" % (package.title)
             warn(message)
