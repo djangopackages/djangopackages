@@ -21,8 +21,6 @@ class Command(NoArgsCommand):
         text = "Commencing package updating now at %s " % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
 
         for index, package in enumerate(Package.objects.all()):
-            if index > 3:
-                break
             try:
                 try:
                     package.fetch_metadata()
