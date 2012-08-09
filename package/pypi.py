@@ -10,6 +10,8 @@ import locale
 import sys
 import xmlrpclib
 
+import requests
+
 locale.setlocale(locale.LC_ALL, '')
 
 class PypiVersion(object):
@@ -60,3 +62,9 @@ def fetch_releases(package_name, include_hidden=True):
         
         releases.append(release_data)
     return releases
+
+def fetch_licenses():
+    response = requests.get("http://pypi.python.org/pypi?%3Aaction=list_classifiers")
+    is_license = lambda x: x.startswith('License')
+    classifiers = response.content.splitlines()
+    return filter(is_license, classifiers)

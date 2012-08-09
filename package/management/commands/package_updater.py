@@ -1,5 +1,6 @@
 # python -m smtpd -n -c DebuggingServer localhost:1025
 
+from sys import stdout
 from socket import error as socket_error
 from time import sleep, gmtime, strftime
 from xml.parsers.expat import ExpatError
@@ -10,6 +11,8 @@ from django.core.management.base import NoArgsCommand
 from django.core.mail import send_mail
 
 from package.models import Package
+
+DEBUG = True
 
 
 class Command(NoArgsCommand):
@@ -27,37 +30,33 @@ class Command(NoArgsCommand):
                     package.fetch_commits()
                 except socket_error, e:
                     text += "\nFor '%s', threw a socket_error: %s" % (package.title, e)
-                    #print >> stdout, "For '%s', threw a socket.error: %s" % (package.title, e)
                     continue
                 except ValueError, e:
                     text += "\nFor '%s', threw a ValueError: %s" % (package.title, e)
+                    continue
                 
             except RuntimeError, e:
-                #message = "For '%s', too many requests issued to repo threw a RuntimeError: %s" % (package.title, e)
                 text += "\nFor '%s', too many requests issued to repo threw a RuntimeError: %s" % (package.title, e)
                 continue
             except UnicodeDecodeError, e:
-                #message = "For '%s', UnicodeDecodeError: %s" % (package.title, e)
-                #print >> stdout, message
                 text += "\nFor '%s', UnicodeDecodeError: %s" % (package.title, e)
                 continue
             except ProtocolError, e:
-                #message = "For '%s', xmlrpc.ProtocolError: %s" % (package.title, e)
-                #print >> stdout, message
                 text += "\nFor '%s', xmlrpc.ProtocolError: %s" % (package.title, e)
                 continue
             except ExpatError, e:
-                #message = "For '%s', ExpatError: %s" % (package.title, e)
-                #print >> stdout, message
                 text += "\nFor '%s', ExpatError: %s" % (package.title, e)
                 continue
             except Exception, e
                 text += "\nFor '%s', General Exception: %s" % (package.title, e)
+                continue
 
             if not hasattr(settings, "GITHUB_API_SECRET"):
                 sleep(5)
-            #print >> stdout, "%s. Successfully updated package '%s'" % (index + 1, package.title)
             text += "\n%s. Successfully updated package '%s'" % (index + 1, package.title)
+            
+            if DEBUG:
+                print(text.splitlines()[index])
 
         #print >> stdout, "-" * 40
         text += "\n"
