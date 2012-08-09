@@ -48,6 +48,8 @@ class Command(NoArgsCommand):
                 #print >> stdout, message
                 text += "\nFor '%s', ExpatError: %s" % (package.title, e)
                 continue
+            except Exception, e
+                text += "\nFor '%s', General Exception: %s" % (package.title, e)
 
             if not hasattr(settings, "GITHUB_API_SECRET"):
                 sleep(5)
