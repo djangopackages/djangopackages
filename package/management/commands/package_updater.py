@@ -26,9 +26,12 @@ class Command(NoArgsCommand):
                     package.fetch_metadata()
                     package.fetch_commits()
                 except socket_error, e:
-                    text += "\nFor '%s', threw a socket.error: %s" % (package.title, e)
+                    text += "\nFor '%s', threw a socket_error: %s" % (package.title, e)
                     #print >> stdout, "For '%s', threw a socket.error: %s" % (package.title, e)
                     continue
+                except ValueError, e:
+                    text += "\nFor '%s', threw a ValueError: %s" % (package.title, e)
+                
             except RuntimeError, e:
                 #message = "For '%s', too many requests issued to repo threw a RuntimeError: %s" % (package.title, e)
                 text += "\nFor '%s', too many requests issued to repo threw a RuntimeError: %s" % (package.title, e)
