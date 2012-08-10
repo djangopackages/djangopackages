@@ -266,7 +266,8 @@ class Version(BaseModel):
     def save(self, *args, **kwargs):
         if self.license is None:
             self.license = "UNKNOWN"
-        elif self.license.strip() == "License :: OSI Approved :: Apache Software License"
+        elif self.license.strip() == "License :: OSI Approved :: Apache Software License":
+            pass
         elif len(self.license.strip()) > 20:
             self.license = "Custom"
         super(Version, self).save(*args, **kwargs)
