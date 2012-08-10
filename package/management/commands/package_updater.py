@@ -60,7 +60,7 @@ class Command(NoArgsCommand):
             
             if DEBUG:
                 try:
-                    print(text.splitlines()[index])
+                    print(text.splitlines()[index-1154])
                 except UnicodeDecodeError, e:
                     print('Stupid unicode error on {0}'.format(index))
 
