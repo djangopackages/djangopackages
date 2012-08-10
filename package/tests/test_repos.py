@@ -90,7 +90,7 @@ class TestGithubRepo(TestBaseHandler):
     def test_fetch_metadata(self):
         # Currently a live tests that access github
         package = github_handler.fetch_metadata(self.package)
-        self.assertEqual(package.repo_description, "The Web framework for perfectionists with deadlines. Now on GitHub.")
+        self.assertEqual(package.repo_description, "The Web framework for perfectionists with deadlines.")
         self.assertTrue(package.repo_watchers > 100)
 
         # test what happens when setting up an unsupported repo

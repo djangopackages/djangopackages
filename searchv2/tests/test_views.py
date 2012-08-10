@@ -59,6 +59,6 @@ class ViewTest(TestCase):
         data = {'q':'another-test'}
         response = self.client.get(url, data, follow=True)
         self.assertContains(response, 'another-test')
-        print response
-        print Package.objects.all()        
-        print SearchV2.objects.all()
+        #print response
+        #print Package.objects.all()        
+        #print SearchV2.objects.all()
