@@ -22,8 +22,11 @@ class Command(NoArgsCommand):
     def handle(self, *args, **options):
 
         text = "Commencing package updating now at %s " % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
-
+        
         for index, package in enumerate(Package.objects.all()):
+            if index < 1154:
+                continue
+            
             try:
                 try:
                     package.fetch_metadata()
@@ -56,7 +59,10 @@ class Command(NoArgsCommand):
             text += "\n%s. Successfully updated package '%s'" % (index + 1, package.title)
             
             if DEBUG:
-                print(text.splitlines()[index])
+                try:
+                    print(text.splitlines()[index])
+                except UnicodeDecodeError, e:
+                    print('Stupid unicode error on {0}'.format(index))
 
         #print >> stdout, "-" * 40
         text += "\n"
