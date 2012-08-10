@@ -62,7 +62,11 @@ class Command(NoArgsCommand):
                 try:
                     print(text.splitlines()[index-1154])
                 except UnicodeDecodeError, e:
-                    print('Stupid unicode error on {0}'.format(index))
+                    print('Stupid UnicodeDecodeError error on {0}'.format(package.pk))
+                except UnicodeEncodeError, e:
+                    print('Stupid UnicodeEncodeError error on {0}'.format(package.pk))
+                    
+                
 
         #print >> stdout, "-" * 40
         text += "\n"
