@@ -1,4 +1,5 @@
 # python -m smtpd -n -c DebuggingServer localhost:1025
+# 538
 
 from sys import stdout
 from socket import error as socket_error
@@ -12,7 +13,7 @@ from django.core.mail import send_mail
 
 from package.models import Package
 
-DEBUG = True
+DEBUG = False
 
 
 class Command(NoArgsCommand):
@@ -24,8 +25,8 @@ class Command(NoArgsCommand):
         text = "Commencing package updating now at %s " % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
         
         for index, package in enumerate(Package.objects.all()):
-            if index < 1154:
-                continue
+            #if index < 1154:
+            #    continue
             
             try:
                 try:
