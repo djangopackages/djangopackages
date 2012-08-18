@@ -57,31 +57,31 @@ def add_package(request, template_name="package/package_form.html"):
     if not request.user.get_profile().can_add_package:
         return HttpResponseForbidden("permission denied")
 
-
     new_package = Package()
     form = PackageForm(request.POST or None, instance=new_package)
-    
+
     package_extenders = build_package_extenders(request)
-        
+
     if form.is_valid():
         new_package = form.save()
         new_package.created_by = request.user
         new_package.last_modified_by = request.user
         new_package.save()
         new_package.fetch_metadata()
-        
+
         # stick in package_extender form processing
         for package_extender in package_extenders:
             if package_extender['form'].is_valid():
-                package_extender['form'].save()        
-        return HttpResponseRedirect(reverse("package", kwargs={"slug":new_package.slug}))
-    
+                package_extender['form'].save()
+        return HttpResponseRedirect(reverse("package", kwargs={"slug": new_package.slug}))
+
     return render(request, template_name, {
         "form": form,
         "repo_data": repo_data_for_js(),
         "action": "add",
-        "package_extenders":package_extenders
+        "package_extenders": package_extenders
         })
+
 
 @login_required
 def edit_package(request, slug, template_name="package/package_form.html"):

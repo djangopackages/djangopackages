@@ -9,6 +9,7 @@ dj-database-url==0.1.2
 django-classy-tags==0.3.3.1
 django-coverage==1.2.1
 django-extensions==0.4.1
+django-floppyforms==1.0
 django-heroku-memcacheify==0.1
 django-heroku-postgresify==0.2
 django-pagination==1.0.7

@@ -149,6 +149,7 @@ PREREQ_APPS = [
     #'djcelery',
 
     'social_auth',
+    'floppyforms',
 
 ]
 
