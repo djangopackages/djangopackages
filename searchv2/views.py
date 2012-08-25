@@ -13,39 +13,42 @@ from searchv2.builders import build_1
 from searchv2.models import SearchV2
 from searchv2.utils import remove_prefix, clean_title
 
+
 @login_required
 def build_search(request, template_name="searchv2/build_results.html"):
-    
+
     if not request.user.is_superuser:
         return HttpResponseForbidden()
-        
+
     results = []
     if request.method == 'POST':
         results = build_1(False)
 
     return render(request, template_name,
-                {'results':results})
-    
+                {'results': results})
+
+
 def search_function(q):
     """ TODO - make generic title searches have lower weight """
-    
+
     items = []
     if q:
         items = SearchV2.objects.filter(
                     Q(clean_title__startswith=clean_title(remove_prefix(q))) |
-                    Q(title__icontains=q) | 
+                    Q(title__icontains=q) |
                     Q(title_no_prefix__startswith=q.lower()) |
-                    Q(slug__startswith=q.lower()) | 
+                    Q(slug__startswith=q.lower()) |
                     Q(slug_no_prefix__startswith=q.lower()))
         #grids    = Grid.objects.filter(Q(title__icontains=q) | Q(description__icontains=q))
     return items
-    
+
+
 def search(request, template_name='searchv2/search.html'):
     """
     Searches in Grids and Packages
     """
     q = request.GET.get('q', '')
-    
+
     if '/' in q:
         lst = q.split('/')
         try:
@@ -61,7 +64,7 @@ def search(request, template_name='searchv2/search.html'):
         return HttpResponseRedirect(url)
     except Package.DoesNotExist:
         pass
-        
+
     try:
         package = Package.objects.get(slug=q)
         url = reverse("package", args=[package.slug.lower()])
@@ -73,21 +76,21 @@ def search(request, template_name='searchv2/search.html'):
 
     return render(request, template_name, {
             'items': search_function(q),
-            'form':form
+            'form': form
         })
-    
+
+
 def search_packages_autocomplete(request):
     """
     Searches in Packages
     """
     q = request.GET.get('term', '')
-    form = SearchForm(request.GET or None)  
+    form = SearchForm(request.GET or None)
     if q:
-        objects    = search_function(q)[:15]
-        objects    = objects.values_list('title', flat=True)    
+        objects = search_function(q)[:15]
+        objects = objects.values_list('title', flat=True)
         json_response = simplejson.dumps(list(objects))
     else:
         json_response = simplejson.dumps([])
 
     return HttpResponse(json_response, mimetype='text/javascript')
-    
