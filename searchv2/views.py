@@ -5,7 +5,6 @@ from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http import HttpResponseForbidden, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
-from django.template import RequestContext
 
 from package.models import Package
 from searchv2.forms import SearchForm
@@ -85,7 +84,6 @@ def search_packages_autocomplete(request):
     Searches in Packages
     """
     q = request.GET.get('term', '')
-    form = SearchForm(request.GET or None)
     if q:
         objects = search_function(q)[:15]
         objects = objects.values_list('title', flat=True)
