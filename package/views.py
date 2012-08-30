@@ -1,6 +1,5 @@
 import importlib
 import simplejson
-import urllib
 
 from django.conf import settings
 from django.contrib import messages
@@ -17,6 +16,7 @@ from package.forms import PackageForm, PackageExampleForm
 from package.models import Category, Package, PackageExample
 from package.repos import get_all_repos
 
+from .utils import quote_plus
 
 def repo_data_for_js():
     repos = [handler.serialize() for handler in get_all_repos()]
@@ -231,7 +231,7 @@ def usage(request, slug, action):
         url = settings.LOGIN_URL
         referer = request.META.get('HTTP_REFERER')
         if referer:
-            url += urllib.quote_plus('?next=/%s' % referer.split('/', 3)[-1])
+            url += quote_plus('?next=/%s' % referer.split('/', 3)[-1])
         else:
             url += '?next=%s' % reverse('usage', args=(slug, action))
         url = reverse("login")
