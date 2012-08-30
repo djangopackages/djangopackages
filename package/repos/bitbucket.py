@@ -1,10 +1,9 @@
 import re
-from urllib import urlopen
 from warnings import warn
 
-import json
-
 from .base_handler import BaseHandler
+
+import requests
 
 API_TARGET = "https://api.bitbucket.org/1.0/repositories"
 
@@ -18,17 +17,17 @@ class BitbucketHandler(BaseHandler):
     repo_regex = r'https://bitbucket.org/[\w\-\_]+/([\w\-\_]+)/{0,1}'
     slug_regex = r'https://bitbucket.org/[\w\-\_]+/([\w\-\_]+)/{0,1}'
 
+
     def _get_bitbucket_commits(self, package):
         repo_name = package.repo_name()
         if repo_name.endswith("/"):
             repo_name = repo_name[0:-1]
         target = "%s/%s/changesets/?limit=50" % (API_TARGET, repo_name)
-        page = urlopen(target).read()
-        try:
-            data = json.loads(page)
-        except ValueError:
-            # TODO - fix this problem with bad imports from bitbucket
-            data = {}
+        
+        data = self.get_json(target)
+        if data is None:
+            return [] #todo: log this?
+        
         return data.get("changesets", [])
 
     def fetch_commits(self, package):
@@ -48,14 +47,9 @@ class BitbucketHandler(BaseHandler):
         if not target.endswith("/"):
             target += "/"
 
-        # open the target and read the content
-        response = urlopen(target)
-        response = response.read()
-
-        # dejsonify the results
-        try:
-            data = json.loads(response)
-        except Exception as e:
+        data = self.get_json(target)
+        
+        if data is None:
             # TODO - log this better
             message = "%s had a JSONDecodeError during bitbucket.repo.pull" % (package.title)
             warn(message)
@@ -69,19 +63,18 @@ class BitbucketHandler(BaseHandler):
         if not descendants_target.endswith("/"):
             descendants_target += "/"
         descendants_target += "descendants"
-        html = urlopen(descendants_target)
-        html = html.read()
+        
+        r = requests.get(descendants_target)
+        html = r.content
         try:
+            #todo: don't parse HTML with a regex, use BeautifulSoup.
             package.repo_forks = descendants_re.search(html).group("descendants")
         except AttributeError:
             package.repo_forks = 0
 
         # get the followers of a repo
-        # get the followers of a repo
-        # get the followers of a repo
         url = "{0}followers/".format(target)
-        page = urlopen(url).read()
-        data = json.loads(page)
+        data = self.get_json(url)
         package.repo_watchers = data['count']
 
         # Getting participants

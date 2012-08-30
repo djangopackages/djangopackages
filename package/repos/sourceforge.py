@@ -1,12 +1,6 @@
-import re
-from urllib import urlopen
-
-try:
-    import simplejson as json
-except ImportError:
-    import json
-
 from .base_handler import BaseHandler
+
+import requests
 
 API_TARGET = "https://sourceforge.net/api"
 
@@ -38,16 +32,12 @@ class SourceforgeHandler(BaseHandler):
         # sourceforge project API requires ending with /doap/
         target += "json/"
 
-        # open the target and read the content
-        response = urlopen(target)
-        response_text = response.read()
-
-        # dejson the results
         try:
-            data = json.loads(response_text)
-        except jason.decoder.JSONDecodeError:
-            raise SourceforgeError("unexpected response from sourceforge.net %d: %r" % (
-                                   response.status, response_text))
+            data = self.get_json(target)
+        except requests.HTTPError, e:
+            raise SourceforgeError("unexpected response from sourceforge.net: %s" % e)
+        except Exception, e:
+            raise SourceforgeError("unexpected exception contacting sourceforge.net: %s" % e)
 
         # sourceforge has both developers and maintainers in a list
         participants = data.get("developers").append(data.get("maintainers"))

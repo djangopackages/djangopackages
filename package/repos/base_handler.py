@@ -1,5 +1,8 @@
-""" TODO - document what this does """
+""" 
+Base class for objects that interact with third-party code repository services.
+"""
 
+import requests
 
 class BaseHandler(object):
 
@@ -87,3 +90,13 @@ class BaseHandler(object):
             "url": self.url,
             "repo_regex": self.repo_regex,
         }
+        
+    def get_json(self, target):
+        """
+        Helpful utility method to do a quick GET for JSON data.
+        """
+        r = requests.get(target)
+        if r.status_code != 200:
+            r.raise_for_status()
+        return r.json
+
