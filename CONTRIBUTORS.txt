@@ -54,6 +54,7 @@ Direct Contributors
 * Eric Spunagle
 * Evgeny Fadeev
 * Flaviu Simihaian
+* George Dorn
 * Gisle Aas  (Repo Man)
 * Jacob Burch
 * James Pacileo
