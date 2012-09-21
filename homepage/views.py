@@ -10,10 +10,12 @@ from grid.models import Grid
 from homepage.models import Dpotw, Gotw, PSA
 from package.models import Category, Package
 
+
 @lru_cache()
 def get_feed():
     feed = 'http://opencomparison.blogspot.com/feeds/posts/default'
     return feedparser.parse(feed)
+
 
 def homepage(request, template_name="homepage.html"):
 
@@ -74,7 +76,7 @@ def homepage(request, template_name="homepage.html"):
         blogpost_body = feed_result.entries[0].summary
     else:
         blogpost_title = ''
-        blogpost_body = ''        
+        blogpost_body = ''
 
     return render(request,
         template_name, {

@@ -69,11 +69,11 @@ class Package(BaseModel):
     @property
     def pypi_name(self):
         """ return the pypi name of a package"""
-        
+
         if not self.pypi_url.strip():
             return ""
-            
-        name = self.pypi_url.replace("http://pypi.python.org/pypi/","")
+
+        name = self.pypi_url.replace("http://pypi.python.org/pypi/", "")
         if "/" in name:
             return name[:name.index("/")]
         return name
@@ -82,7 +82,7 @@ class Package(BaseModel):
     def last_updated(self):
         try:
             last_commit = self.commit_set.latest('commit_date')
-            if last_commit: 
+            if last_commit:
                 return last_commit.commit_date
         except ObjectDoesNotExist:
             pass
@@ -96,28 +96,28 @@ class Package(BaseModel):
     @property
     def active_examples(self):
         return self.packageexample_set.filter(active=True)
-        
+
     @property
     def license_latest(self):
         try:
             return self.version_set.latest().license
         except Version.DoesNotExist:
             return "UNKNOWN"
-    
+
     def grids(self):
-        
+
         return (x.grid for x in self.gridpackage_set.all())
-    
+
     def repo_name(self):
         return re.sub(self.repo.url_regex, '', self.repo_url)
-    
+
     def participant_list(self):
-        
+
         return self.participants.split(',')
-    
+
     def get_usage_count(self):
         return self.usage.count()
-    
+
     def commits_over_52(self):
         now = datetime.now()
         commits = Commit.objects.filter(
@@ -131,20 +131,20 @@ class Package(BaseModel):
             if age_weeks < 52:
                 weeks[age_weeks] += 1
 
-        return ','.join(map(str,reversed(weeks)))
-    
+        return ','.join(map(str, reversed(weeks)))
+
     def fetch_metadata(self, *args, **kwargs):
-        
+
         # Get the downloads from pypi
         if self.pypi_url.strip() and self.pypi_url != "http://pypi.python.org/pypi/":
-            
+
             total_downloads = 0
-            
+
             for release in fetch_releases(self.pypi_name):
-            
+
                 version, created = Version.objects.get_or_create(
-                    package = self,
-                    number = release.version
+                    package=self,
+                    number=release.version
                 )
 
                 # add to total downloads
@@ -157,18 +157,17 @@ class Package(BaseModel):
                 version.license = release.license
                 version.hidden = release._pypi_hidden
                 version.save()
-            
+
             self.pypi_downloads = total_downloads
-        
+
         self.repo.fetch_metadata(self)
         signal_fetch_latest_metadata.send(sender=self)
-        self.save() 
-        
+        self.save()
+
     def save(self, *args, **kwargs):
         if not self.repo_description:
             self.repo_description = ""
         super(Package, self).save(*args, **kwargs)
-       
 
     def fetch_commits(self):
         self.repo.fetch_commits(self)
@@ -180,7 +179,6 @@ class Package(BaseModel):
             return versions.latest()
         return None
 
-        
     @property
     def pypi_ancient(self):
         release = self.last_released
@@ -195,30 +193,28 @@ class Package(BaseModel):
             return commit_date < datetime.now() - timedelta(365)
         return None
 
-
     class Meta:
         ordering = ['title']
         get_latest_by = 'id'
-    
+
     def __unicode__(self):
-        
         return self.title
-        
+
     @models.permalink
     def get_absolute_url(self):
         return ("package", [self.slug])
-        
+
 
 class PackageExample(BaseModel):
-    
+
     package = models.ForeignKey(Package)
     title = models.CharField(_("Title"), max_length="100")
     url = models.URLField(_("URL"))
     active = models.BooleanField(_("Active"), default=True, help_text="Moderators have to approve links before they are provided")
-    
+
     class Meta:
         ordering = ['title']
-    
+
     def __unicode__(self):
         return self.title
 
@@ -240,23 +236,23 @@ class Commit(BaseModel):
 class VersionManager(models.Manager):
     def by_version(self, *args, **kwargs):
         qs = self.get_query_set().filter(*args, **kwargs)
-        return sorted(qs,key=lambda v: versioner(v.number))
+        return sorted(qs, key=lambda v: versioner(v.number))
 
     def by_version_not_hidden(self, *args, **kwargs):
         qs = self.get_query_set().filter(*args, **kwargs)
         qs = qs.filter(hidden=False)
-        return sorted(qs,key=lambda v: versioner(v.number))
+        return sorted(qs, key=lambda v: versioner(v.number))
 
 
 class Version(BaseModel):
-    
+
     package = models.ForeignKey(Package, blank=True, null=True)
     number = models.CharField(_("Version"), max_length="100", default="", blank="")
     downloads = models.IntegerField(_("downloads"), default=0)
     license = models.CharField(_("license"), max_length="100")
     hidden = models.BooleanField(_("hidden"), default=False)
     upload_time = models.DateTimeField(_("upload_time"), help_text=_("When this was uploaded to PyPI"), blank=True, null=True)
-    
+
     objects = VersionManager()
 
     class Meta:

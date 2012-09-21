@@ -13,7 +13,7 @@ from django.core.mail import send_mail
 
 from package.models import Package
 
-DEBUG = False
+DEBUG = True
 
 
 class Command(NoArgsCommand):
@@ -27,7 +27,7 @@ class Command(NoArgsCommand):
         for index, package in enumerate(Package.objects.all()):
             #if index < 1154:
             #    continue
-            
+            print 'hi'
             try:
                 try:
                     package.fetch_metadata()
@@ -66,7 +66,7 @@ class Command(NoArgsCommand):
                     print('Stupid UnicodeDecodeError error on {0}'.format(package.pk))
                 except UnicodeEncodeError, e:
                     print('Stupid UnicodeEncodeError error on {0}'.format(package.pk))
-                    
+                    print text
                 
 
         #print >> stdout, "-" * 40
