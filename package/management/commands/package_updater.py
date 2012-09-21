@@ -25,7 +25,7 @@ class PackageUpdaterException(Exception):
             error=error
         )
         logging.critical(log_message)
-        logging.exception()
+        logging.exception(error)
 
 
 class Command(NoArgsCommand):
