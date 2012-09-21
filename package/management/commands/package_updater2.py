@@ -35,6 +35,9 @@ class Command(NoArgsCommand):
     def handle(self, *args, **options):
 
         for index, package in enumerate(Package.objects.iterator()):
+            if index > 100:
+                break
+            print index, package
             try:
                 try:
                     package.fetch_metadata()
@@ -44,13 +47,13 @@ class Command(NoArgsCommand):
             except PackageUpdaterException:
                 continue
 
-            if not hasattr(settings, "GITHUB_API_SECRET"):
-                sleep(5)
+            #if not hasattr(settings, "GITHUB_API_SECRET"):
+            #    sleep(5)
 
-    message = "TODO - load logfile here"  # TODO - make this
-    send_mail(
-        subject="Package Updating complete",
-        message=message,
-        from_email=settings.DEFAULT_FROM_EMAIL,
-        recipient_list=["pydanny@gmail.com", "pydanny@cartwheelweb.com", ],
-    )
+        message = "TODO - load logfile here"  # TODO - make this
+        send_mail(
+            subject="Package Updating complete",
+            message=message,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=["pydanny@gmail.com", "pydanny@cartwheelweb.com", ],
+        )
