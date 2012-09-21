@@ -25,7 +25,7 @@ class PackageUpdaterException(Exception):
             error=error
         )
         logging.critical(log_message)
-        logging.exception(error)
+        logging.exception()
 
 
 class Command(NoArgsCommand):
@@ -35,9 +35,9 @@ class Command(NoArgsCommand):
     def handle(self, *args, **options):
 
         for index, package in enumerate(Package.objects.iterator()):
-            #if index < 88 or index > 93:
-            #    continue
-            #print index, package, package.repo
+            if index < 88 or index > 93:
+                continue
+            print index, package, package.repo
             try:
                 try:
                     package.fetch_metadata()
