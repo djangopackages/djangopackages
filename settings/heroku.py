@@ -83,14 +83,14 @@ LOGGING = {
     'disable_existing_loggers': False,
     'handlers': {
         'mail_admins': {
-            'level': 'INFO',
+            'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler'
         }
     },
     'loggers': {
         'django': {
             'handlers': ['mail_admins'],
-            'level': 'INFO',
+            'level': 'ERROR',
             'propagate': False,
         },
     }
