@@ -76,3 +76,22 @@ MEDIA_URL = STATIC_URL
 ########### Permissions
 RESTRICT_PACKAGE_EDITORS = False
 RESTRICT_GRID_EDITORS = False
+
+########### Errors
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler'
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
+}
