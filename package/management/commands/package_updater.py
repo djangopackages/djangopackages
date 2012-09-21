@@ -1,11 +1,10 @@
-# python -m smtpd -n -c DebuggingServer localhost:1025
-# 538
+"""
+TODO - get it working with Celery
+"""
 
-from sys import stdout
-from socket import error as socket_error
-from time import sleep, gmtime, strftime
-from xml.parsers.expat import ExpatError
-from xmlrpclib import ProtocolError
+
+import logging
+from time import sleep
 
 from django.conf import settings
 from django.core.management.base import NoArgsCommand
@@ -13,7 +12,20 @@ from django.core.mail import send_mail
 
 from package.models import Package
 
+logger = logging.getLogger(__name__)
+
 DEBUG = True
+
+
+class PackageUpdaterException(Exception):
+    def __init__(self, error, title):
+        log_message = "For {title}, {error_type}: {error}".format(
+            title=title,
+            error_type=type(error),
+            error=error
+        )
+        logging.critical(log_message)
+        logging.exception(error)
 
 
 class Command(NoArgsCommand):
@@ -22,63 +34,26 @@ class Command(NoArgsCommand):
 
     def handle(self, *args, **options):
 
-        text = "Commencing package updating now at %s " % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
-        
-        for index, package in enumerate(Package.objects.all()):
-            #if index < 1154:
+        for index, package in enumerate(Package.objects.iterator()):
+            #if index < 88 or index > 93:
             #    continue
-            print 'hi'
+            #print index, package, package.repo
             try:
                 try:
                     package.fetch_metadata()
                     package.fetch_commits()
-                except socket_error, e:
-                    text += "\nFor '%s', threw a socket_error: %s" % (package.title, e)
-                    continue
-                except ValueError, e:
-                    text += "\nFor '%s', threw a ValueError: %s" % (package.title, e)
-                    continue
-                
-            except RuntimeError, e:
-                text += "\nFor '%s', too many requests issued to repo threw a RuntimeError: %s" % (package.title, e)
-                continue
-            except UnicodeDecodeError, e:
-                text += "\nFor '%s', UnicodeDecodeError: %s" % (package.title, e)
-                continue
-            except ProtocolError, e:
-                text += "\nFor '%s', xmlrpc.ProtocolError: %s" % (package.title, e)
-                continue
-            except ExpatError, e:
-                text += "\nFor '%s', ExpatError: %s" % (package.title, e)
-                continue
-            except Exception, e:
-                text += "\nFor '%s', General Exception: %s" % (package.title, e)
+                except Exception, e:
+                    raise PackageUpdaterException(e, package.title)
+            except PackageUpdaterException:
                 continue
 
             if not hasattr(settings, "GITHUB_API_SECRET"):
                 sleep(5)
-            text += "\n%s. Successfully updated package '%s'" % (index + 1, package.title)
-            
-            if DEBUG:
-                try:
-                    print(text.splitlines()[index-1154])
-                except UnicodeDecodeError, e:
-                    print('Stupid UnicodeDecodeError error on {0}'.format(package.pk))
-                except UnicodeEncodeError, e:
-                    print('Stupid UnicodeEncodeError error on {0}'.format(package.pk))
-                    print text
-                
 
-        #print >> stdout, "-" * 40
-        text += "\n"
-        text += "-" * 40
-        #print >> stdout, "Finished at %s" % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
-        text += "\nFinished at %s" % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
-
+        message = "TODO - load logfile here"  # TODO - make this
         send_mail(
             subject="Package Updating complete",
-            message=text,
+            message=message,
             from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=["pydanny@gmail.com", "pydanny@cartwheelweb.com", ],
+            recipient_list=settings.ADMINS
         )
-
