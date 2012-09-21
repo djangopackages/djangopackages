@@ -4,8 +4,10 @@ import requests
 
 API_TARGET = "https://sourceforge.net/api"
 
+
 class SourceforgeError(Exception):
     """An error occurred when making a request to the Sourceforge API"""
+
 
 class SourceforgeHandler(BaseHandler):
     """
@@ -22,7 +24,7 @@ class SourceforgeHandler(BaseHandler):
     slug_regex = r'https://sourceforge.com/[\w\-\_]+/([\w\-\_]+)/{0,1}'
 
     def fetch_metadata(self, package):
-        sourceforge = '';
+        sourceforge = ''
 
         repo_name = package.repo_name()
         target = API_TARGET + "/projects/name/" + repo_name

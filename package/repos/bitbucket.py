@@ -17,17 +17,16 @@ class BitbucketHandler(BaseHandler):
     repo_regex = r'https://bitbucket.org/[\w\-\_]+/([\w\-\_]+)/{0,1}'
     slug_regex = r'https://bitbucket.org/[\w\-\_]+/([\w\-\_]+)/{0,1}'
 
-
     def _get_bitbucket_commits(self, package):
         repo_name = package.repo_name()
         if repo_name.endswith("/"):
             repo_name = repo_name[0:-1]
         target = "%s/%s/changesets/?limit=50" % (API_TARGET, repo_name)
-        
+
         data = self.get_json(target)
         if data is None:
-            return [] #todo: log this?
-        
+            return []  # todo: log this?
+
         return data.get("changesets", [])
 
     def fetch_commits(self, package):
@@ -48,7 +47,7 @@ class BitbucketHandler(BaseHandler):
             target += "/"
 
         data = self.get_json(target)
-        
+
         if data is None:
             # TODO - log this better
             message = "%s had a JSONDecodeError during bitbucket.repo.pull" % (package.title)
@@ -63,7 +62,7 @@ class BitbucketHandler(BaseHandler):
         if not descendants_target.endswith("/"):
             descendants_target += "/"
         descendants_target += "descendants"
-        
+
         r = requests.get(descendants_target)
         html = r.content
         try:
