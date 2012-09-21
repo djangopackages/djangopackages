@@ -55,5 +55,5 @@ class Command(NoArgsCommand):
             subject="Package Updating complete",
             message=message,
             from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=settings.ADMINS,
+            recipient_list=settings.ADMINS
         )
