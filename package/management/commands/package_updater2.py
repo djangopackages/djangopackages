@@ -37,7 +37,7 @@ class Command(NoArgsCommand):
         for index, package in enumerate(Package.objects.iterator()):
             if index > 100:
                 break
-            print index, package
+            print index, package, package.repo
             try:
                 try:
                     package.fetch_metadata()
