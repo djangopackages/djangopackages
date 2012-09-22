@@ -7,7 +7,7 @@ from django.template.defaultfilters import slugify
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 # serve media through the staticfiles app.
@@ -66,18 +66,12 @@ STATICFILES_DIRS = [
 #ADMIN_MEDIA_PREFIX = "/static/admin/"
 
 # List of callables that know how to import templates from various sources.
-if DEBUG:
-    CACHE_BACKEND = 'dummy://'
-    TEMPLATE_LOADERS = (
-            'django.template.loaders.filesystem.Loader',
-            'django.template.loaders.app_directories.Loader',
-    )
-else:
-    CACHE_BACKEND = 'dummy://'
-    TEMPLATE_LOADERS = (
-            'django.template.loaders.filesystem.Loader',
-            'django.template.loaders.app_directories.Loader',
-    )
+from memcacheify import memcacheify
+CACHES = memcacheify()
+TEMPLATE_LOADERS = (
+        'django.template.loaders.filesystem.Loader',
+        'django.template.loaders.app_directories.Loader',
+)
 
 MIDDLEWARE_CLASSES = [
     "django.middleware.common.CommonMiddleware",
@@ -306,3 +300,15 @@ LOGGING = {
 }
 
 WSGI_APPLICATION = 'wsgi.application'
+
+if DEBUG:
+
+    MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+    INSTALLED_APPS += ('debug_toolbar',)
+
+    INTERNAL_IPS = ('127.0.0.1',)
+
+    DEBUG_TOOLBAR_CONFIG = {
+        'INTERCEPT_REDIRECTS': False,
+        'SHOW_TEMPLATE_CONTEXT': True,
+    }

@@ -8,6 +8,7 @@ distribute==0.6.24
 dj-database-url==0.1.2
 django-classy-tags==0.3.3.1
 django-coverage==1.2.1
+django-debug-toolbar==0.9.4
 django-extensions==0.4.1
 django-floppyforms==1.0
 django-heroku-memcacheify==0.3
