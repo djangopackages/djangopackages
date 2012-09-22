@@ -175,7 +175,7 @@ EMAIL_DEBUG = DEBUG
 
 CACHE_TIMEOUT = 60 * 60
 
-ROOT_URLCONF = "%s.urls" % os.path.basename(PROJECT_ROOT)
+ROOT_URLCONF = "urls"
 
 SECRET_KEY = "CHANGEME"
 
@@ -277,7 +277,7 @@ SOCIAL_AUTH_ASSOCIATE_BY_MAIL = True
 DATABASES = {
 
     "default": {
-        "ENGINE": "postgresql_psycopg2",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "oc",          # Or path to database file if using sqlite3.
         "USER": "",              # Not used with sqlite3.
         "PASSWORD": "",                  # Not used with sqlite3.
@@ -304,3 +304,5 @@ LOGGING = {
         },
     }
 }
+
+WSGI_APPLICATION = 'wsgi.application'
