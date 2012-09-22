@@ -1,5 +1,5 @@
 Django==1.4.1
-South==0.7.2
+South==0.7.6
 boto==2.1.0
 certifi==0.0.8
 chardet==1.0.1
@@ -10,7 +10,7 @@ django-classy-tags==0.3.3.1
 django-coverage==1.2.1
 django-extensions==0.4.1
 django-floppyforms==1.0
-django-heroku-memcacheify==0.1
+django-heroku-memcacheify==0.3
 django-heroku-postgresify==0.2
 django-pagination==1.0.7
 django-pylibmc-sasl==0.2.4
@@ -23,7 +23,6 @@ django-uni-form==0.9.0
 eventlet==0.9.16
 feedparser==5.0.1
 gevent==0.13.6
-github2==0.2.0
 greenlet==0.3.4
 gunicorn==0.14.2
 httplib2==0.7.4
