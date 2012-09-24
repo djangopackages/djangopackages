@@ -4,6 +4,7 @@ TODO - get it working with Celery
 
 
 import logging
+import logging.config
 from time import sleep
 
 from django.conf import settings
@@ -12,9 +13,8 @@ from django.core.mail import send_mail
 
 from package.models import Package
 
+logging.config.dictConfig(settings.LOGGING)
 logger = logging.getLogger(__name__)
-
-DEBUG = True
 
 
 class PackageUpdaterException(Exception):
@@ -35,9 +35,6 @@ class Command(NoArgsCommand):
     def handle(self, *args, **options):
 
         for index, package in enumerate(Package.objects.iterator()):
-            #if index < 88 or index > 93:
-            #    continue
-            #print index, package, package.repo
             try:
                 try:
                     package.fetch_metadata()
@@ -45,12 +42,12 @@ class Command(NoArgsCommand):
                 except Exception, e:
                     raise PackageUpdaterException(e, package.title)
             except PackageUpdaterException:
-                continue
+                pass  # We've already caught the error so let's move on now
 
             if not hasattr(settings, "GITHUB_API_SECRET"):
                 sleep(5)
 
-        message = "TODO - load logfile here"  # TODO - make this
+        message = "TODO - load logfile here"  # TODO
         send_mail(
             subject="Package Updating complete",
             message=message,
