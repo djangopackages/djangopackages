@@ -48,13 +48,13 @@ class TestBaseHandler(BaseBase):
         self.assertEquals(handler.is_other, False)
 
 
-class TestBitbucketRepo(object):
+class TestBitbucketRepo(TestBaseHandler):
     def setUp(self):
         super(TestBitbucketRepo, self).setUp()
         self.package = Package.objects.create(
-            title="Django Piston",
-            slug="django-piston",
-            repo_url="https://bitbucket.org/jespern/django-piston",
+            title="Django Registration",
+            slug="django-registration",
+            repo_url="https://bitbucket.org/ubernostrum/django-registration",
             category=self.category
         )
 
@@ -66,10 +66,10 @@ class TestBitbucketRepo(object):
     def test_fetch_metadata(self):
         package = bitbucket_handler.fetch_metadata(self.package)
         self.assertEqual(package.repo_description,
-            "Piston is a Django mini-framework creating APIs.")
+            "A user-registration application for Django.")
         self.assertTrue(package.repo_watchers > 0)
         self.assertTrue(package.repo_forks > 0)
-        self.assertEquals(package.participants, "jespern")
+        self.assertEquals(package.participants, "ubernostrum")
 
 
 class TestGithubRepo(TestBaseHandler):

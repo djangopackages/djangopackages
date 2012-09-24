@@ -22,7 +22,6 @@ class BitbucketHandler(BaseHandler):
         if repo_name.endswith("/"):
             repo_name = repo_name[0:-1]
         target = "%s/%s/changesets/?limit=50" % (API_TARGET, repo_name)
-
         data = self.get_json(target)
         if data is None:
             return []  # todo: log this?
