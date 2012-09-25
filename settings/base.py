@@ -296,7 +296,12 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
-    }
+        #'opencomparison.package.management.commands.package_updater': {
+        #    'handlers': ['mail_admins'],
+        #    'level': 'ERROR',
+        #    'propagate': True,
+        #},
+    },
 }
 
 WSGI_APPLICATION = 'wsgi.application'

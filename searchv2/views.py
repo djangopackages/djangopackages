@@ -63,12 +63,16 @@ def search(request, template_name='searchv2/search.html'):
         return HttpResponseRedirect(url)
     except Package.DoesNotExist:
         pass
+    except Package.MultipleObjectsReturned:
+        pass
 
     try:
         package = Package.objects.get(slug=q)
         url = reverse("package", args=[package.slug.lower()])
         return HttpResponseRedirect(url)
     except Package.DoesNotExist:
+        pass
+    except Package.MultipleObjectsReturned:
         pass
 
     form = SearchForm(request.GET or None)

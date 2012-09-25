@@ -13,7 +13,6 @@ from django.core.mail import send_mail
 
 from package.models import Package
 
-logging.config.dictConfig(settings.LOGGING)
 logger = logging.getLogger(__name__)
 
 
@@ -35,6 +34,9 @@ class Command(NoArgsCommand):
     def handle(self, *args, **options):
 
         for index, package in enumerate(Package.objects.iterator()):
+            #if index not in (89, 90, 91, 92):
+            #    continue
+            #print index
             try:
                 try:
                     package.fetch_metadata()
