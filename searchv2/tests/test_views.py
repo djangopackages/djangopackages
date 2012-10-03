@@ -75,4 +75,4 @@ class ViewTest(TestCase):
         )
         url = reverse('search') + '?q=django-uni-form'
         response = self.client.get(url)
-        print response
+        #print response
