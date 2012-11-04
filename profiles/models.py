@@ -5,42 +5,41 @@ from django.utils.translation import ugettext_lazy as _
 
 from core.models import BaseModel
 
-from package.models import Package
 
 class Profile(BaseModel):
-    user = models.OneToOneField(User)  
-    
+    user = models.OneToOneField(User)
+
     # Note to coders: The '_url' fields below need to JUST be the name of the account.
     #     Examples:
     #       github_url = 'pydanny'
     #       bitbucket_url = 'pydanny'
-    #       google_code_url = 'pydanny' 
+    #       google_code_url = 'pydanny'
     github_account = models.CharField(_("Github account"), null=True, blank=True, max_length=40)
     github_url = models.CharField(_("Github account"), null=True, blank=True, max_length=100, editable=False)
     bitbucket_url = models.CharField(_("Bitbucket account"), null=True, blank=True, max_length=100)
     google_code_url = models.CharField(_("Google Code account"), null=True, blank=True, max_length=100)
     email = models.EmailField(_("Email"), null=True, blank=True)
-    
+
     def __unicode__(self):
         if not self.github_account:
             return self.user.username
         return self.github_account
-    
+
     def save(self, **kwargs):
         """ Override save to always populate email changes to auth.user model
         """
         if self.email is not None:
-            
+
             email = self.email.strip()
             user_obj = User.objects.get(username=self.user.username)
             user_obj.email = email
             user_obj.save()
 
-        super(Profile,self).save(**kwargs)
+        super(Profile, self).save(**kwargs)
 
     def url_for_repo(self, repo):
         """Return the profile's URL for a given repo.
-        
+
         If url doesn't exist return None.
         """
         url_mapping = {
@@ -48,10 +47,10 @@ class Profile(BaseModel):
             'BitBucket': self.bitbucket_url,
             'Google Code': self.google_code_url}
         return url_mapping.get(repo.title)
-        
+
     def my_packages(self):
         """Return a list of all packages the user contributes to.
-        
+
         List is sorted by package name.
         """
         from package.repos import get_repo, supported_repos

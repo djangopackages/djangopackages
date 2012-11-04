@@ -1,5 +1,5 @@
-from django.conf import settings
 from django.utils.functional import lazy, memoize, SimpleLazyObject
+
 
 def lazy_profile(request):
     """
@@ -8,7 +8,7 @@ def lazy_profile(request):
     """
 
     def get_user_profile():
-        if hasattr(request,'profile'):
+        if hasattr(request, 'profile'):
             return request.profile
         else:
             return request.user.get_profile()
