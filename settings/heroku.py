@@ -97,7 +97,7 @@ LOGGING = {
 }
 
 DJANGOLYTICS = {
-    "CHOICES_MODELS": ('search.SearchV2', ),
+    "CHOICES_MODELS": ('searchv2.SearchV2', ),
     "CREATED_MODELS": (),
     "MODIFIED_MODELS": (),
     "TOKEN": environ.get('DJANGOLYTICS_TOKEN')
