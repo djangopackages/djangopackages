@@ -144,6 +144,7 @@ PREREQ_APPS = [
 
     'social_auth',
     'floppyforms',
+    'djangolytics'
 
 ]
 
