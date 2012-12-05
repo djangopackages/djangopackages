@@ -112,7 +112,7 @@ DJANGOLYTICS = {
 #
 # Setting PGSQL_POOLING to False means:
 #   We use the standard Django pgsql connection. The pooling isn't as good but we have more stability.
-PGSQL_POOLING = True
+PGSQL_POOLING = False
 
 
 if PGSQL_POOLING:

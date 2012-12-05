@@ -126,9 +126,11 @@
                     <td>{% trans "Last updated" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>
-                        {% if grid_package.package.last_updated %}
-                           {{ grid_package.package.last_updated|date:"DATETIME_FORMAT" }}
-                        {% endif %}
+                        {% with last_updated=grid_package.package.last_updated %}
+                            {% if last_updated %}
+                               {{ last_updated|date:"DATETIME_FORMAT" }}
+                            {% endif %}
+                        {% endwith %}
                         </td>
                     {% endfor %}
                 </tr>
