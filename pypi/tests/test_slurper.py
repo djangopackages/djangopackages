@@ -5,7 +5,7 @@ from package.models import Package
 from pypi.slurper import Slurper
 
 TEST_PACKAGE_NAME = 'Django'
-TEST_PACKAGE_VERSION = '1.4.1'
+TEST_PACKAGE_VERSION = '1.4.2'
 TEST_PACKAGE_REPO_NAME = 'django-uni-form'
 
 

@@ -102,3 +102,36 @@ DJANGOLYTICS = {
     "MODIFIED_MODELS": (),
     "TOKEN": environ.get('DJANGOLYTICS_TOKEN')
 }
+
+########## DATABASE CONFIGURATION
+# Setting PGSQL_POOLING to True means:
+#   We use django_postgrespool to handle the database connection.
+#   What this means is we use SqlAlchemy to handle the pool to PGSQL on Heroku, meaning we don't have
+#   to reestablish connection to the database as often. Which means a faster app. The downside is there
+#   is some risk as it's still a new project.
+#
+# Setting PGSQL_POOLING to False means:
+#   We use the standard Django pgsql connection. The pooling isn't as good but we have more stability.
+PGSQL_POOLING = True
+
+
+if PGSQL_POOLING:
+    import dj_database_url
+
+    DATABASES = {'default': dj_database_url.config()}
+    DATABASES['default']['ENGINE'] = 'django_postgrespool'
+
+    SOUTH_DATABASE_ADAPTERS = {
+        'default': 'south.db.postgresql_psycopg2'
+    }
+
+    DATABASE_POOL_ARGS = {
+        'max_overflow': 10,
+        'pool_size': 5,
+        'recycle': 300
+    }
+else:
+    from postgresify import postgresify
+
+    DATABASES = postgresify()
+########## END DATABASE CONFIGURATION

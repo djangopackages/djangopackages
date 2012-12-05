@@ -68,6 +68,7 @@ class TestBitbucketRepo(TestBaseHandler):
         self.assertEqual(package.repo_description,
             "A user-registration application for Django.")
         self.assertTrue(package.repo_watchers > 0)
+        print package.repo_forks
         self.assertTrue(package.repo_forks > 0)
         self.assertEquals(package.participants, "ubernostrum")
 

@@ -1,11 +1,11 @@
-Django==1.4.1
+Django==1.4.2
 South==0.7.6
 boto==2.1.0
 certifi==0.0.8
 chardet==1.0.1
 coverage==3.4
 distribute==0.6.24
-dj-database-url==0.1.2
+dj-database-url==0.2.1
 django-classy-tags==0.3.3.1
 django-coverage==1.2.1
 django-debug-toolbar==0.9.4
