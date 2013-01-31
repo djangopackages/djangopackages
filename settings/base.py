@@ -2,6 +2,7 @@
 # Django settings
 
 import os.path
+from os import environ
 
 from django.template.defaultfilters import slugify
 
@@ -325,3 +326,5 @@ DJANGOLYTICS = {
     "MODIFIED_MODELS": (),
     "TOKEN": "12345"
 }
+
+ADMIN_URL_BASE = environ.get('ADMIN_URL_BASE', r"^admin/")

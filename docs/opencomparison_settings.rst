@@ -4,6 +4,12 @@ Settings
 
 How to customize the settings to suit your needs. Do this in local_settings so patches and upstream pulls don't cause havoc to your installation
 
+ADMIN_URL_BASE (Default: r"^admin/")
+====================================
+
+Used to control the URL for the admin in production.
+
+
 FRAMEWORK_TITLE (Default: "Django")
 ====================================
 
