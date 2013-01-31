@@ -23,7 +23,7 @@ urlpatterns = patterns("",
     url(r"^categories/$", homepage, name="categories"),
 
     url(regex=r'^login/$', view=TemplateView.as_view(template_name='pages/login.html'), name='login',),
-    url(r'^logout/$', 'django.contrib.auth.views.logout_then_login', {}, 'logout',),
+    url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, 'logout',),
 
     # static pages
     url(r"^about/$", TemplateView.as_view(template_name='pages/about.html'), name="about"),
