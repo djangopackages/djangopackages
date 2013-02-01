@@ -149,5 +149,5 @@ else:
 
 
 ########## django-secure
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = False
 ########## end django-secure
