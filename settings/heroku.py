@@ -146,3 +146,8 @@ else:
 
     DATABASES = postgresify()
 ########## END DATABASE CONFIGURATION
+
+
+########## django-secure
+SECURE_SSL_REDIRECT = True
+########## end django-secure
