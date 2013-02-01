@@ -74,7 +74,7 @@ TEMPLATE_LOADERS = (
         'django.template.loaders.app_directories.Loader',
 )
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE_CLASSES = (
     "django.middleware.common.CommonMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -83,7 +83,7 @@ MIDDLEWARE_CLASSES = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "pagination.middleware.PaginationMiddleware",
     "django_sorting.middleware.SortingMiddleware",
-]
+)
 
 TEMPLATE_DIRS = [
     os.path.join(PROJECT_ROOT, "templates"),
@@ -328,3 +328,18 @@ DJANGOLYTICS = {
 }
 
 ADMIN_URL_BASE = environ.get('ADMIN_URL_BASE', r"^admin/")
+
+
+########## django-secure
+INSTALLED_APPS += ["djangosecure", ]
+MIDDLEWARE_CLASSES = ('djangosecure.middleware.SecurityMiddleware',) + MIDDLEWARE_CLASSES
+
+# set this to 60 seconds and then to 518400 when you can prove it works
+SECURE_HSTS_SECONDS = 60
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_FRAME_DENY = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
+########## end django-secure
