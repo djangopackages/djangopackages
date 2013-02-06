@@ -331,6 +331,7 @@ ADMIN_URL_BASE = environ.get('ADMIN_URL_BASE', r"^admin/")
 
 
 ########## django-secure
+"""
 INSTALLED_APPS += ["djangosecure", ]
 MIDDLEWARE_CLASSES = ('djangosecure.middleware.SecurityMiddleware',) + MIDDLEWARE_CLASSES
 
@@ -342,4 +343,5 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_HTTPONLY = True
+"""
 ########## end django-secure

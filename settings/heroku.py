@@ -148,6 +148,3 @@ else:
 ########## END DATABASE CONFIGURATION
 
 
-########## django-secure
-SECURE_SSL_REDIRECT = False
-########## end django-secure
