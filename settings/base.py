@@ -258,7 +258,8 @@ AUTHENTICATION_BACKENDS = (
     'social_auth.backends.contrib.github.GithubBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
-
+GITHUB_API_SECRET = environ.get('GITHUB_API_SECRET')
+GITHUB_APP_ID = environ.get('GITHUB_APP_ID')
 SOCIAL_AUTH_ENABLED_BACKENDS = ('github')
 SOCIAL_AUTH_COMPLETE_URL_NAME = 'socialauth_complete'
 SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'associate_complete'
@@ -286,24 +287,29 @@ DATABASES = {
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
     'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
         'mail_admins': {
             'level': 'ERROR',
+            'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         }
     },
     'loggers': {
-        'django': {
-            'handlers': ['mail_admins'],
+        'django.request': {
+            'handlers': ['mail_admins', 'console'],
             'level': 'ERROR',
             'propagate': True,
         },
-        #'opencomparison.package.management.commands.package_updater': {
-        #    'handlers': ['mail_admins'],
-        #    'level': 'ERROR',
-        #    'propagate': True,
-        #},
-    },
+    }
 }
 
 WSGI_APPLICATION = 'wsgi.application'
