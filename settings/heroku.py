@@ -148,3 +148,18 @@ else:
 ########## END DATABASE CONFIGURATION
 
 
+########## django-secure
+
+INSTALLED_APPS += ["djangosecure", ]
+#MIDDLEWARE_CLASSES = ('djangosecure.middleware.SecurityMiddleware',) + MIDDLEWARE_CLASSES
+
+# set this to 60 seconds and then to 518400 when you can prove it works
+SECURE_HSTS_SECONDS = 60
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_FRAME_DENY = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
+
+########## end django-secure
