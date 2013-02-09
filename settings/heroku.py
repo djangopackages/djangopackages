@@ -31,8 +31,8 @@ DEFAULT_FROM_EMAIL = environ.get('DEFAULT_FROM_EMAIL',
         'Django Packages <djangopackages-noreply@djangopackages.com>')
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = environ.get('EMAIL_HOST', 'smtp.sendgrid.com')
-EMAIL_HOST_PASSWORD = os.environ['SENDGRID_PASSWORD']
-EMAIL_HOST_USER = os.environ['SENDGRID_USERNAME']
+EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_PASSWORD', '')
+EMAIL_HOST_USER = os.environ.get('SENDGRID_USERNAME', '')
 EMAIL_PORT = environ.get('EMAIL_PORT', 587)
 EMAIL_SUBJECT_PREFIX = environ.get('EMAIL_SUBJECT_PREFIX', '[Django Packages] ')
 EMAIL_USE_TLS = True
