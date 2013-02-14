@@ -36,7 +36,6 @@ urlpatterns = patterns("",
     # new apps
     url(r"^search/", include("searchv2.urls")),
     url(r"^importer/", include("importer.urls")),
-    url(r"^djangolytics/", include("djangolytics.urls")),
 )
 
 from apiv1.api import Api

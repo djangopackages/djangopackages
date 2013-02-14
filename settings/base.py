@@ -145,7 +145,6 @@ PREREQ_APPS = [
 
     'social_auth',
     'floppyforms',
-    'djangolytics'
 
 ]
 
@@ -326,13 +325,6 @@ if DEBUG:
         'INTERCEPT_REDIRECTS': False,
         'SHOW_TEMPLATE_CONTEXT': True,
     }
-
-DJANGOLYTICS = {
-    "CHOICES_MODELS": ('searchv2.SearchV2', ),
-    "CREATED_MODELS": (),
-    "MODIFIED_MODELS": (),
-    "TOKEN": "12345"
-}
 
 ADMIN_URL_BASE = environ.get('ADMIN_URL_BASE', r"^admin/")
 
