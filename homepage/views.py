@@ -10,7 +10,6 @@ from grid.models import Grid
 from homepage.models import Dpotw, Gotw, PSA
 from package.models import Category, Package
 
-
 @lru_cache()
 def get_feed():
     feed = 'http://opencomparison.blogspot.com/feeds/posts/default'
