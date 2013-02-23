@@ -5,8 +5,8 @@ Team
 Project Leads
 =============
 
-* Audrey Roy <audreyr@gmail.com>
-* Daniel Greenfeld <pydanny@gmail.com>
+* Audrey Roy <audreyr@gmail.com> (@audreyr)
+* Daniel Greenfeld <pydanny@gmail.com> (@pydanny)
 
 Core Developer at Server Move 2012
 ==================================
@@ -51,6 +51,7 @@ Direct Contributors
 * Chris Adams
 * Christopher Clark
 * David Peters
+* Dougal Matthews (@d0ugal)
 * Eric Spunagle
 * Evgeny Fadeev
 * Flaviu Simihaian
