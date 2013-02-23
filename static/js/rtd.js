@@ -6,7 +6,7 @@ $.fn.checkRTD = function(options){
     return this.each(function(){
         var ele = $(this);
         var slug = ele.attr('rel');
-        var url = "http://readthedocs.org/api/v1/build/" + slug + "/?format=jsonp";
+        var url = "https://readthedocs.org/api/v1/build/" + slug + "/?format=jsonp";
         $.ajax({
             url: url,
             dataType: 'jsonp',
