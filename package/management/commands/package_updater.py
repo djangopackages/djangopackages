@@ -1,15 +1,30 @@
-# python -m smtpd -n -c DebuggingServer localhost:1025
+"""
+TODO - get it working with Celery
+"""
 
-from socket import error as socket_error
-from time import sleep, gmtime, strftime
-from xml.parsers.expat import ExpatError
-from xmlrpclib import ProtocolError
+
+import logging
+import logging.config
+from time import sleep
 
 from django.conf import settings
 from django.core.management.base import NoArgsCommand
 from django.core.mail import send_mail
 
 from package.models import Package
+
+logger = logging.getLogger(__name__)
+
+
+class PackageUpdaterException(Exception):
+    def __init__(self, error, title):
+        log_message = "For {title}, {error_type}: {error}".format(
+            title=title,
+            error_type=type(error),
+            error=error
+        )
+        logging.critical(log_message)
+        logging.exception(error)
 
 
 class Command(NoArgsCommand):
@@ -18,54 +33,26 @@ class Command(NoArgsCommand):
 
     def handle(self, *args, **options):
 
-        text = "Commencing package updating now at %s " % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
-
-        for index, package in enumerate(Package.objects.all()):
-            if index > 3:
-                break
+        for index, package in enumerate(Package.objects.iterator()):
+            #if index not in (89, 90, 91, 92):
+            #    continue
+            #print index
             try:
                 try:
                     package.fetch_metadata()
                     package.fetch_commits()
-                except socket_error, e:
-                    text += "\nFor '%s', threw a socket.error: %s" % (package.title, e)
-                    #print >> stdout, "For '%s', threw a socket.error: %s" % (package.title, e)
-                    continue
-            except RuntimeError, e:
-                #message = "For '%s', too many requests issued to repo threw a RuntimeError: %s" % (package.title, e)
-                text += "\nFor '%s', too many requests issued to repo threw a RuntimeError: %s" % (package.title, e)
-                continue
-            except UnicodeDecodeError, e:
-                #message = "For '%s', UnicodeDecodeError: %s" % (package.title, e)
-                #print >> stdout, message
-                text += "\nFor '%s', UnicodeDecodeError: %s" % (package.title, e)
-                continue
-            except ProtocolError, e:
-                #message = "For '%s', xmlrpc.ProtocolError: %s" % (package.title, e)
-                #print >> stdout, message
-                text += "\nFor '%s', xmlrpc.ProtocolError: %s" % (package.title, e)
-                continue
-            except ExpatError, e:
-                #message = "For '%s', ExpatError: %s" % (package.title, e)
-                #print >> stdout, message
-                text += "\nFor '%s', ExpatError: %s" % (package.title, e)
-                continue
+                except Exception, e:
+                    raise PackageUpdaterException(e, package.title)
+            except PackageUpdaterException:
+                pass  # We've already caught the error so let's move on now
 
             if not hasattr(settings, "GITHUB_API_SECRET"):
                 sleep(5)
-            #print >> stdout, "%s. Successfully updated package '%s'" % (index + 1, package.title)
-            text += "\n%s. Successfully updated package '%s'" % (index + 1, package.title)
 
-        #print >> stdout, "-" * 40
-        text += "\n"
-        text += "-" * 40
-        #print >> stdout, "Finished at %s" % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
-        text += "\nFinished at %s" % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
-
+        message = "TODO - load logfile here"  # TODO
         send_mail(
             subject="Package Updating complete",
-            message=text,
+            message=message,
             from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=["pydanny@gmail.com", "pydanny@cartwheelweb.com", ],
+            recipient_list=[x[1] for x in settings.ADMINS]
         )
-

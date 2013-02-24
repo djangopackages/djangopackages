@@ -2,9 +2,20 @@
 Heroku
 ===========
 
+Quick and Easy Heroku Deployment
+=================================
 
-Now begin the Heroku install process
-==============================================
+This is meant for setting up test and QA servers, not full deployments.
+
+If you have Heroku Toolbelt installed and are on Mac OS X or Linux, you can run the following from your repo:
+
+.. sourcecode:: bash
+
+    make createsite
+
+
+Real Heroku Deployment
+=====================================
 
 Deploying to heroku:
 
@@ -21,7 +32,7 @@ Deploying to heroku:
     \i django_oc.sql
     
 Chron Jobs that need to be set up
-=================================
+---------------------------------
 
 Sample::
     
@@ -31,7 +42,7 @@ Sample::
 TODO: Email admins with the log
 
 Custom settings that need to be added
-=======================================
+-------------------------------------
 
 Do the following:
 

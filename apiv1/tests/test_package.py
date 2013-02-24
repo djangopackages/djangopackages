@@ -4,7 +4,9 @@ from django.test import TestCase
 from grid.models import Grid, GridPackage
 from package.models import Package, Category
 import json
-import urllib
+from requests.compat import urlencode
+
+
 
 
 class PackageV1Tests(TestCase):
@@ -88,7 +90,7 @@ class PackageV1Tests(TestCase):
             'category__slug': self.app.slug
         }
         url_app_pkg = "%s?%s" % (reverse('api_dispatch_list',
-            kwargs=urlkwargs_pkg_list), urllib.urlencode(querystring_filter_app))
+            kwargs=urlkwargs_pkg_list), urlencode(querystring_filter_app))
         response_app_pkg = self.client.get(url_app_pkg)
         # check that the request was successful
         self.assertEqual(response_app_pkg.status_code, 200)

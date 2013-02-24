@@ -2,12 +2,13 @@
 # Django settings
 
 import os.path
+from os import environ
 
 from django.template.defaultfilters import slugify
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 # serve media through the staticfiles app.
@@ -18,7 +19,7 @@ INTERNAL_IPS = [
 ]
 
 ADMINS = [
-    # ("Your Name", "your_email@domain.com"),
+    ("Daniel Greenfeld", "pydanny@gmail.com"),
 ]
 
 MANAGERS = ADMINS
@@ -66,20 +67,14 @@ STATICFILES_DIRS = [
 #ADMIN_MEDIA_PREFIX = "/static/admin/"
 
 # List of callables that know how to import templates from various sources.
-if DEBUG:
-    CACHE_BACKEND = 'dummy://'
-    TEMPLATE_LOADERS = (
-            'django.template.loaders.filesystem.Loader',
-            'django.template.loaders.app_directories.Loader',
-    )
-else:
-    CACHE_BACKEND = 'dummy://'
-    TEMPLATE_LOADERS = (
-            'django.template.loaders.filesystem.Loader',
-            'django.template.loaders.app_directories.Loader',
-    )
+from memcacheify import memcacheify
+CACHES = memcacheify()
+TEMPLATE_LOADERS = (
+        'django.template.loaders.filesystem.Loader',
+        'django.template.loaders.app_directories.Loader',
+)
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE_CLASSES = (
     "django.middleware.common.CommonMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -88,7 +83,7 @@ MIDDLEWARE_CLASSES = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "pagination.middleware.PaginationMiddleware",
     "django_sorting.middleware.SortingMiddleware",
-]
+)
 
 TEMPLATE_DIRS = [
     os.path.join(PROJECT_ROOT, "templates"),
@@ -149,6 +144,7 @@ PREREQ_APPS = [
     #'djcelery',
 
     'social_auth',
+    'floppyforms',
 
 ]
 
@@ -166,7 +162,7 @@ ABSOLUTE_URL_OVERRIDES = {
 
 AUTH_PROFILE_MODULE = "profiles.Profile"
 
-LOGIN_URL = "/login/"
+LOGIN_URL = "/login/github/"
 LOGIN_REDIRECT_URLNAME = "home"
 
 EMAIL_CONFIRMATION_DAYS = 2
@@ -174,7 +170,7 @@ EMAIL_DEBUG = DEBUG
 
 CACHE_TIMEOUT = 60 * 60
 
-ROOT_URLCONF = "%s.urls" % os.path.basename(PROJECT_ROOT)
+ROOT_URLCONF = "urls"
 
 SECRET_KEY = "CHANGEME"
 
@@ -195,7 +191,7 @@ try:
 except Exception as e:
     EMAIL_HOST = 'localhost'
     EMAIL_PORT = 1025
-    
+
 EMAIL_SUBJECT_PREFIX = '[Cartwheel Web]'
 
 DEBUG_TOOLBAR_CONFIG = {
@@ -261,22 +257,24 @@ AUTHENTICATION_BACKENDS = (
     'social_auth.backends.contrib.github.GithubBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
-
+GITHUB_API_SECRET = environ.get('GITHUB_API_SECRET')
+GITHUB_APP_ID = environ.get('GITHUB_APP_ID')
 SOCIAL_AUTH_ENABLED_BACKENDS = ('github')
 SOCIAL_AUTH_COMPLETE_URL_NAME = 'socialauth_complete'
 SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'associate_complete'
 SOCIAL_AUTH_DEFAULT_USERNAME = lambda u: slugify(u)
 SOCIAL_AUTH_EXTRA_DATA = False
 SOCIAL_AUTH_CHANGE_SIGNAL_ONLY = True
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 LOGIN_REDIRECT_URL = '/'
 
 # associate user via email
-SOCIAL_AUTH_ASSOCIATE_BY_MAIL = True
+#SOCIAL_AUTH_ASSOCIATE_BY_MAIL = True
 
 DATABASES = {
 
     "default": {
-        "ENGINE": "postgresql_psycopg2",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "oc",          # Or path to database file if using sqlite3.
         "USER": "",              # Not used with sqlite3.
         "PASSWORD": "",                  # Not used with sqlite3.
@@ -284,3 +282,61 @@ DATABASES = {
         "PORT": "",                  # Set to empty string for default. Not used with sqlite3.
     },
 }
+
+
+WSGI_APPLICATION = 'wsgi.application'
+
+if DEBUG:
+
+    MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+    INSTALLED_APPS += ('debug_toolbar',)
+
+    INTERNAL_IPS = ('127.0.0.1',)
+
+    DEBUG_TOOLBAR_CONFIG = {
+        'INTERCEPT_REDIRECTS': False,
+        'SHOW_TEMPLATE_CONTEXT': True,
+    }
+
+ADMIN_URL_BASE = environ.get('ADMIN_URL_BASE', r"^admin/")
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'standard': {
+            'format': "[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s",
+            'datefmt': "%d/%b/%Y %H:%M:%S"
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logutils.colorize.ColorizingStreamHandler',
+            'formatter': 'standard'
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', ],
+            'propagate': True,
+            'level': 'ERROR',
+        },
+        'django.request': {
+
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        '': {
+            'handlers': ['console',],
+            'level': os.environ.get('DEBUG_LEVEL', 'ERROR'),
+        },
+    }
+}
+

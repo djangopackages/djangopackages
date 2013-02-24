@@ -1,4 +1,4 @@
-from django.forms import ModelForm
+from floppyforms import ModelForm, TextInput
 
 from package.models import Category, Package, PackageExample
 
@@ -20,6 +20,9 @@ class PackageForm(ModelForm):
             super(PackageForm, self).__init__(*args, **kwargs)
             self.fields['category'].help_text = package_help_text()
             self.fields['repo_url'].required = True
+            self.fields['repo_url'].widget = TextInput(attrs={
+                'placeholder': 'ex: https://github.com/django/django'
+            })
 
     def clean_slug(self):
         return self.cleaned_data['slug'].lower()

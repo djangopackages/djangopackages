@@ -37,4 +37,4 @@ class GetPypiUrl(TestCase):
             'php is not here'
         )
         for l in lst:
-            self.assertEquals(utils.get_pypi_url(l[0]), None)
+            self.assertEquals(utils.get_pypi_url(l), None)

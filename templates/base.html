@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="{{ STATIC_URL }}css/scrollable-buttons.css" type="text/css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/scrollable-horizontal.css" type="text/css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/awesome.css" type="text/css" />
+        <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" />
         {% block extra_head %}{% endblock %}
     </head>
     <body>
@@ -30,12 +31,12 @@
                     <a href="{% url faq %}">{% trans "FAQ" %}</a> |
                     <a href="{% url profile_detail profile.github_account %}">{% trans "Profile" %}</a> |
                     {% if request.user.is_staff %}
-                        <a href="/admin/">{% trans "Admin" %}</a> |
+                        <a href="{% url admin:index %}">{% trans "Admin" %}</a> |
                     {% endif %}
                     <a href="{% url logout %}">{% trans "Logout" %}</a>
                 {% else %}
                     <a href="{% url faq %}">{% trans "FAQ" %}</a> |
-                    <a href="{% url login %}{% if current_path %}?next={{ current_path }}{% endif %}">{% trans "Log in / Sign up" %}</a>
+                    <a href="{% url socialauth_begin 'github' %}{% if current_path %}?next={{ current_path }}{% endif %}">{% trans "Sign in with Github" %}</a>
                 {% endif %}
             </div>
 
@@ -101,8 +102,8 @@
         </div>
     </div>
 
-        <script src="{% block jquery_src %}http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js{% endblock %}" type="text/javascript"></script>
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/jquery-ui.min.js"></script>
+        <script src="{% block jquery_src %}https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js{% endblock %}" type="text/javascript"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/jquery-ui.min.js"></script>
         <script src="{{ STATIC_URL }}uni_form/uni-form.jquery.js" type="text/javascript"></script>
         <script src="{{ STATIC_URL }}js/jquery.tablesorter.min.js" type="text/javascript"></script>        
         <script src="{{ STATIC_URL }}js/jquery.dataTables.min.js" type="text/javascript"></script>        

@@ -126,9 +126,11 @@
                     <td>{% trans "Last updated" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>
-                        {% if grid_package.package.last_updated %}
-                           {{ grid_package.package.last_updated|date:"DATETIME_FORMAT" }}
-                        {% endif %}
+                        {% with last_updated=grid_package.package.last_updated %}
+                            {% if last_updated %}
+                               {{ last_updated|date:"DATETIME_FORMAT" }}
+                            {% endif %}
+                        {% endwith %}
                         </td>
                     {% endfor %}
                 </tr>
@@ -149,7 +151,7 @@
                     <td>{% trans "Commits" %}</td>
                     {% for grid_package in grid_packages %}
                         {% cache 86400 package.commitchart grid_package.package %}
-                            <td><img class="package-githubcommits" src="http://chart.apis.google.com/chart?cht=bvg&chs=105x20&chd=t:{{ grid_package.package|commits_over_52 }}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
+                            <td><img class="package-githubcommits" src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{ grid_package.package|commits_over_52 }}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
                         {% endcache %}
                     {% endfor %}
                 </tr>
