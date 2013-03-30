@@ -116,12 +116,14 @@
             </tr>
         </table>        
 
-        {% if request.user.is_authenticated and profile.can_add_grid %}
-            <h2>{% trans "Comparison Grids" %}</h2>
-        
-            {% for grid in package.grids %}
+        {% for grid in package.grids %}
+            {% if forloop.first %}
+                <h2>{% trans "Comparison Grids" %}</h2>
+            {% endif %}
+            
                 <a href="{% url grid grid.slug %}" title="{{ grid.description }}">{{ grid }}</a> &nbsp;
             
+            {% if request.user.is_authenticated and profile.can_add_grid %}
                 {% if forloop.last %}
                     <div id="package-gridname">
                         <a class="awesome forestgreen" id="find-a-grid" href="#">Find another grid to join!</a>
@@ -129,13 +131,13 @@
                     </div>    
             
                 {% endif %}
-            {% empty %}
-                <div id="package-gridname">
-                    <a class="awesome forestgreen" id="find-a-grid" href="#">{% trans "Find another grid to join!" %}</a>
-                    {% include "package/includes/_attach_grid.html" %}
-                </div>
-            {% endfor %}
-        {% endif %}
+                {% empty %}
+                    <div id="package-gridname">
+                        <a class="awesome forestgreen" id="find-a-grid" href="#">{% trans "Find another grid to join!" %}</a>
+                        {% include "package/includes/_attach_grid.html" %}
+                    </div>
+            {% endif %}
+        {% endfor %}
         <h2>{% trans "Sites using this package" %}</h2>
     
         <div id="package-editlink">
