@@ -15,7 +15,7 @@ Clone your fork locally
 
 If you have git-scm installed, you now clone your git repo using the following command-line argument where <my-github-name> is your account name on GitHub::
 
-    git clone git@github.com/<my-github-name>/opencomparison.git
+    git clone git@github.com:<my-github-name>/opencomparison.git
 
 Installing OpenComparison
 -------------------------

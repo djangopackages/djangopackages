@@ -63,7 +63,7 @@ Create a virtualenv, activate it, git clone the OpenComparison project, and inst
     source env-oc/bin/activate
     git clone git@github.com:opencomparison/opencomparison.git opencomparison
     cd opencomparison
-    pip install -r requirements/project.txt
+    pip install -r requirements.txt
 
 Set up server specific settings
 -------------------------------
