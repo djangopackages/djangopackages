@@ -68,6 +68,7 @@ Direct Contributors
 * Kenneth Love
 * Kenneth Reitz
 * Marc Tamlyn
+* Mike Fiedler
 * Mike Johnson
 * Nate Aune
 * Nolan Brubaker
