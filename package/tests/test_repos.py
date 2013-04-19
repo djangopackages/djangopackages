@@ -66,7 +66,7 @@ class TestBitbucketRepo(TestBaseHandler):
     def test_fetch_metadata(self):
         package = bitbucket_handler.fetch_metadata(self.package)
         self.assertEqual(package.repo_description,
-            "A user-registration application for Django.")
+            "A user registration app for Django.")
         self.assertTrue(package.repo_watchers > 0)
         print package.repo_forks
         self.assertTrue(package.repo_forks > 0)
