@@ -69,6 +69,7 @@ Direct Contributors
 * Kenneth Reitz
 * Marc Tamlyn
 * Mike Johnson
+* Mike Fiedler
 * Nate Aune
 * Nolan Brubaker
 * PA Parent
