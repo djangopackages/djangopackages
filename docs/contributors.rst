@@ -67,6 +67,7 @@ Direct Contributors
 * jrothenbuhler
 * Kenneth Love
 * Kenneth Reitz
+* @kerridge0
 * Marc Tamlyn
 * Mike Fiedler
 * Mike Johnson
