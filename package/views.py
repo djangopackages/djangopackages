@@ -69,6 +69,7 @@ def add_package(request, template_name="package/package_form.html"):
         new_package.last_modified_by = request.user
         new_package.save()
         new_package.fetch_metadata()
+        new_package.fetch_commits()
 
         # stick in package_extender form processing
         for package_extender in package_extenders:
@@ -118,6 +119,7 @@ def update_package(request, slug):
 
     package = get_object_or_404(Package, slug=slug)
     package.fetch_metadata()
+    package.fetch_commits()
     messages.add_message(request, messages.INFO, 'Package updated successfully')
 
     return HttpResponseRedirect(reverse("package", kwargs={"slug": package.slug}))
