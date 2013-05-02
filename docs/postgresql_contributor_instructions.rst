@@ -40,7 +40,7 @@ Another way
 ~~~~~~~~~~~
 
 If you prefer to use `Homebrew http://mxcl.github.io/homebrew/`_ to install
-your software you can do this:
+your software you can do this::
 
     brew install postgresql
     initdb /usr/local/var/postgres -E utf8
@@ -49,15 +49,15 @@ your software you can do this:
 Change the path used in ``initdb`` and other commands if you'd rather store
 your data files somewhere other than ``/usr/local/var/postgres``.
 
-Once the server is started, execute:
+Once the server is started, execute::
 
     createdb opencomparison
 
-Then you should be able to access the database you created via ``psql`` so:
+Then you should be able to access the database you created via ``psql`` so::
 
     psql --dbname opencomparison
 
-Remeber to shut down the service when not in use:
+Remeber to shut down the service when not in use::
 
     pg_ctl -D /usr/local/var/postgres stop
 
