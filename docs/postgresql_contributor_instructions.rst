@@ -39,7 +39,7 @@ opencomparison``.
 Another way
 ~~~~~~~~~~~
 
-If you prefer to use `Homebrew http://mxcl.github.io/homebrew/`_ to install
+If you prefer to use `Homebrew <http://mxcl.github.io/homebrew/>`_ to install
 your software you can do this::
 
     brew install postgresql
