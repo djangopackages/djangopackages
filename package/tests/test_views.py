@@ -56,7 +56,7 @@ class FunctionalPackageTest(TestCase):
         response = self.client.get(url)
 
         # The response should be a redirect, since the user is not logged in.
-        self.assertRedirects(response, '%s?next=%s' % (settings.LOGIN_URL, url))
+        self.assertEqual(response.status_code, 302)
 
         # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username='user', password='user'))
@@ -81,7 +81,7 @@ class FunctionalPackageTest(TestCase):
         response = self.client.get(url)
 
         # The response should be a redirect, since the user is not logged in.
-        self.assertRedirects(response, '%s?next=%s' % (settings.LOGIN_URL, url))
+        self.assertEqual(response.status_code, 302)
 
         # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username='user', password='user'))
