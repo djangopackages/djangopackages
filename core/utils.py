@@ -16,7 +16,7 @@ def oc_slugify(value):
 
 def get_pypi_url(title):
     title = title.strip()
-    for value in [title, title.lower(), oc_slugify(title), title.title(), ]:
+    for value in [oc_slugify(title.lower()), oc_slugify(title), title, title.lower(), title.title(), ]:
         value = 'http://pypi.python.org/pypi/' + value
         r = requests.get(value)
         if r.status_code == 200:

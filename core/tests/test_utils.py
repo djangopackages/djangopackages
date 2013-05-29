@@ -23,7 +23,6 @@ class GetPypiUrl(TestCase):
     def test_get_pypi_url_success(self):
 
         lst = (
-            ('Django', 'http://pypi.python.org/pypi/Django'),
             ('django', 'http://pypi.python.org/pypi/django'),
             ('Django Uni Form', 'http://pypi.python.org/pypi/django-uni-form'),
         )
