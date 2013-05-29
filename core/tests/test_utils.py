@@ -24,7 +24,7 @@ class GetPypiUrl(TestCase):
 
         lst = (
             ('Django', 'http://pypi.python.org/pypi/Django'),
-            ('django', 'http://pypi.python.org/pypi/Django'),
+            ('django', 'http://pypi.python.org/pypi/django'),
             ('Django Uni Form', 'http://pypi.python.org/pypi/django-uni-form'),
         )
         for l in lst:

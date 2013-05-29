@@ -131,11 +131,13 @@
                     </div>    
             
                 {% endif %}
-                {% empty %}
-                    <div id="package-gridname">
-                        <a class="awesome forestgreen" id="find-a-grid" href="#">{% trans "Find another grid to join!" %}</a>
-                        {% include "package/includes/_attach_grid.html" %}
-                    </div>
+            {% endif %}
+        {% empty %}
+            {% if request.user.is_authenticated and profile.can_add_grid %}
+                <div id="package-gridname">
+                    <a class="awesome forestgreen" id="find-a-grid" href="#">{% trans "Find another grid to join!" %}</a>
+                    {% include "package/includes/_attach_grid.html" %}
+                </div>
             {% endif %}
         {% endfor %}
         <h2>{% trans "Sites using this package" %}</h2>
