@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
+import json
 from sys import stdout
 
-import simplejson
 import requests
 
 from grid.models import Grid
@@ -63,7 +63,7 @@ def build_1(print_out=True):
         rtfd_url = "http://readthedocs.org/api/v1/build/{0}/".format(obj.slug)
         r = requests.get(rtfd_url)
         if r.status_code == 200:
-            data = simplejson.loads(r.content)
+            data = json.loads(r.content)
             if data['meta']['total_count']:
                 weight += 20
 

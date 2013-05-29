@@ -1,5 +1,5 @@
 import importlib
-import simplejson
+import json
 
 from django.conf import settings
 from django.contrib import messages
@@ -21,7 +21,7 @@ from .utils import quote_plus
 
 def repo_data_for_js():
     repos = [handler.serialize() for handler in get_all_repos()]
-    return simplejson.dumps(repos)
+    return json.dumps(repos)
 
 
 def get_form_class(form_name):
@@ -245,7 +245,7 @@ def usage(request, slug, action):
             response = {}
             response['success'] = success
             response['redirect'] = url
-            return HttpResponse(simplejson.dumps(response))
+            return HttpResponse(json.dumps(response))
         return HttpResponseRedirect(url)
 
     package = get_object_or_404(Package, slug=slug)
@@ -286,7 +286,7 @@ def usage(request, slug, action):
         if success:
             response['change'] = change
 
-        return HttpResponse(simplejson.dumps(response))
+        return HttpResponse(json.dumps(response))
 
     # Intelligently determine the URL to redirect the user to based on the
     # available information.

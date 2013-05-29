@@ -1,4 +1,4 @@
-import simplejson
+import json
 
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -91,8 +91,8 @@ def search_packages_autocomplete(request):
     if q:
         objects = search_function(q)[:15]
         objects = objects.values_list('title', flat=True)
-        json_response = simplejson.dumps(list(objects))
+        json_response = json.dumps(list(objects))
     else:
-        json_response = simplejson.dumps([])
+        json_response = json.dumps([])
 
     return HttpResponse(json_response, mimetype='text/javascript')

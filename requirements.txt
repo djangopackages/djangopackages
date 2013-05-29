@@ -38,7 +38,6 @@ pylibmc==1.2.3
 python-dateutil==2.1
 python-openid==2.2.5
 raven==1.4.6
-requests==0.10.7
-simplejson==2.1.1
+requests==1.2.3
 six==1.1.0
 wsgiref==0.1.2
