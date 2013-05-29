@@ -54,7 +54,7 @@ submitted to an issue tracker.
 
 Also since GitHub pegs and syncs a pull request to a specific branch, it is the
 **ONLY** way that you can submit more than one fix at a time.  If you submit
-a pull from your master branch, you can't make any more commits to your master
+a pull from your develop branch, you can't make any more commits to your develop
 without those getting added to the pull.
 
 To create a topic branch, its easiest to use the convenient ``-b`` argument to ``git
@@ -65,7 +65,7 @@ checkout``::
 
 You should use a verbose enough name for your branch so it is clear what it is
 about.  Now you can commit your changes and regularly merge in the upstream
-master as described below.
+develop as described below.
 
 When you are ready to generate a pull request, either for preliminary review,
 or for consideration of merging into the project you must first push your local
@@ -90,7 +90,7 @@ add a comment to the discussion section of the pull request.
 Pull upstream changes into your fork regularly
 ==================================================
 
-OpenComparison is advancing quickly. It is therefore critical that you pull upstream changes from master into your fork on a regular basis. Nothing is worse than putting in a days of hard work into a pull request only to have it rejected because it has diverged too far from master. 
+OpenComparison is advancing quickly. It is therefore critical that you pull upstream changes from develop into your fork on a regular basis. Nothing is worse than putting in a days of hard work into a pull request only to have it rejected because it has diverged too far from develop. 
 
 To pull in upstream changes::
 
@@ -99,11 +99,11 @@ To pull in upstream changes::
 
 Check the log to be sure that you actually want the changes, before merging::
 
-    git log upstream/master
+    git log upstream/develop
 
 Then merge the changes that you fetched::
 
-    git merge upstream/master
+    git merge upstream/develop
 
 For more info, see http://help.github.com/fork-a-repo/
 
@@ -168,21 +168,8 @@ Any css/layout changes need to be tested in Chrome, Safari, Firefox, IE8, and IE
 How pull requests are checked, tested, and done
 ===============================================
 
-First we pull the code into a local branch::
+TODO - add in the missing pieces here. We've changed and it needs to be documented.
 
-    git remote add <submitter-github-name> git@github.com:<submitter-github-name>/opencomparison.git
-    git fetch <submitter-github-name> 
-    git checkout -b <branch-name> <submitter-github-name>/<branch-name>
-
-Then we run the tests::
-
-    python manage.py test
-
-We finish with a non-fastforward merge (to preserve the branch history) and push to GitHub::
-
-    git checkout master
-    git merge --no-ff <branch-name>
-    git push upstream master
 
 .. _installation: install.html
 .. _GitHub project: https://github.com/opencomparison/opencomparison
