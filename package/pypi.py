@@ -12,6 +12,8 @@ import xmlrpclib
 from distutils.version import StrictVersion, LooseVersion
 import requests
 
+from core.utils import status_choices_switch
+
 locale.setlocale(locale.LC_ALL, '')
 
 
@@ -61,6 +63,12 @@ def fetch_releases(package_name, include_hidden=True):
 
         if release_data.license and len(release_data.license) > 100:
             release_data.license = "Other (see http://pypi.python.org/pypi/%s)" % package_name
+
+        release_data.development_status = 0
+        for classifier in release_data.classifiers:
+            if classifier.startswith('Development Status'):
+                release_data.development_status = status_choices_switch(classifier)
+                break
 
         releases.append(release_data)
     return releases

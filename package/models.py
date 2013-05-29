@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 import re
 
-
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
@@ -10,6 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from distutils.version import LooseVersion as versioner
 
+from core.utils import STATUS_CHOICES
 from core.models import BaseModel
 from package.pypi import fetch_releases
 from package.repos import get_repo_for_repo_url
@@ -165,6 +165,7 @@ class Package(BaseModel):
                     version.upload_time = release.upload_time
                 version.license = release.license
                 version.hidden = release._pypi_hidden
+                version.development_status = release.development_status
                 version.save()
 
             self.pypi_downloads = total_downloads
@@ -261,12 +262,17 @@ class Version(BaseModel):
     license = models.CharField(_("license"), max_length="100")
     hidden = models.BooleanField(_("hidden"), default=False)
     upload_time = models.DateTimeField(_("upload_time"), help_text=_("When this was uploaded to PyPI"), blank=True, null=True)
+    development_status = models.IntegerField(_("Development Status"), choices=STATUS_CHOICES, default=0)
 
     objects = VersionManager()
 
     class Meta:
         get_latest_by = 'upload_time'
         ordering = ['-upload_time']
+
+    @property
+    def pretty_status(self):
+        return self.get_development_status_display().split(" ")[-1]
 
     def save(self, *args, **kwargs):
         if self.license is None:

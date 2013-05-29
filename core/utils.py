@@ -22,3 +22,21 @@ def get_pypi_url(title):
         if r.status_code == 200:
             return value
     return None
+
+
+STATUS_CHOICES = (
+    (0, "Unknown"),
+    (1, "Development Status :: 1 - Planning"),
+    (2, "Development Status :: 2 - Pre-Alpha"),
+    (3, "Development Status :: 3 - Alpha"),
+    (4, "Development Status :: 4 - Beta"),
+    (5, "Development Status :: 5 - Production/Stable"),
+    (6, "Development Status :: 6 - Mature"),
+    (7, "Development Status :: 7 - Inactive")
+)
+
+
+def status_choices_switch(status):
+    for key, value in STATUS_CHOICES:
+        if status == value:
+            return key

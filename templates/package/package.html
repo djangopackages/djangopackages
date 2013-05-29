@@ -69,15 +69,15 @@
                     <tr>
                         <th>{% trans "Version" %}</th>
                         <th>{% trans "License" %}</th>
-                        <th>{% trans "Release Date" %}</th>                      
-                        <th><img src="{{ STATIC_URL }}img/download_20x20_clear.png" alt="Downloads" /></th>
+                        <th>{% trans "Release Date" %}</th>
+                        <th>{% trans "Status" %}</th>
                     </tr>
                     {% for version in package.version_set.by_version_not_hidden %}
                         <tr>
                             <td>{{ version.number }}</td>
                             <td>{{ version.license|default:"none" }}</td>                        
                             <td>{{ version.upload_time|date:"SHORT_DATE_FORMAT" }}</td>
-                            <td>{{ version.downloads|default:"n/a" }}</td>
+                            <td>{{ version.pretty_status }}</td>
                         </tr>
                     {% endfor %}
             </table>
