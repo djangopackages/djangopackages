@@ -24,7 +24,7 @@ class PackageAdmin(VersionAdmin):
         }),
         ("Pulled data", {
             "classes": ("collapse",),
-            "fields": ("repo_description", "repo_watchers", "repo_forks", "repo_commits", "pypi_downloads", "participants")
+            "fields": ("repo_description", "repo_watchers", "repo_forks", "commit_list", "pypi_downloads", "participants")
         }),
     )
 
@@ -35,12 +35,13 @@ class CommitAdmin(admin.ModelAdmin):
 
 class VersionLocalAdmin(admin.ModelAdmin):
     search_fields = ("package__title",)
-    
+
+
 class PackageExampleAdmin(admin.ModelAdmin):
-    
+
     list_display = ("title", )
     search_fields = ("title",)
-    
+
 
 admin.site.register(Category, VersionAdmin)
 admin.site.register(Package, PackageAdmin)

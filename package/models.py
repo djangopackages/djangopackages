@@ -57,6 +57,8 @@ class Package(BaseModel):
     created_by = models.ForeignKey(User, blank=True, null=True, related_name="creator", on_delete=models.SET_NULL)
     last_modified_by = models.ForeignKey(User, blank=True, null=True, related_name="modifier", on_delete=models.SET_NULL)
 
+    commit_list = models.TextField(_("Commit List"), blank=True)
+
     @property
     def pypi_version(self):
         string_ver_list = self.version_set.values_list('number', flat=True)
@@ -119,19 +121,26 @@ class Package(BaseModel):
         return self.usage.count()
 
     def commits_over_52(self):
-        now = datetime.now()
-        commits = Commit.objects.filter(
-            package=self,
-            commit_date__gt=now - timedelta(weeks=52),
-        ).values_list('commit_date', flat=True)
+        if self.commit_list:
+            result = self.commit_list
+        else:
+            result = str([0 for x in range(52)])
+        return result.replace(" ", "")
 
-        weeks = [0] * 52
-        for cdate in commits:
-            age_weeks = (now - cdate).days // 7
-            if age_weeks < 52:
-                weeks[age_weeks] += 1
-
-        return ','.join(map(str, reversed(weeks)))
+    #def commits_over_52(self):
+    #    now = datetime.now()
+    #    commits = Commit.objects.filter(
+    #        package=self,
+    #        commit_date__gt=now - timedelta(weeks=52),
+    #    ).values_list('commit_date', flat=True)
+    #
+    #    weeks = [0] * 52
+    #    for cdate in commits:
+    #        age_weeks = (now - cdate).days // 7
+    #        if age_weeks < 52:
+    #            weeks[age_weeks] += 1
+    #
+    #    return ','.join(map(str, reversed(weeks)))
 
     def fetch_metadata(self, *args, **kwargs):
 

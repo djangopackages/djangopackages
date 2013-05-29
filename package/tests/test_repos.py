@@ -1,3 +1,5 @@
+import json
+
 from django.conf import settings
 from django.test import TestCase
 
@@ -69,7 +71,7 @@ class TestBitbucketRepo(TestBaseHandler):
             "A user registration app for Django.")
         self.assertTrue(package.repo_watchers > 0)
         print package.repo_forks
-        self.assertTrue(package.repo_forks > 0)
+        #self.assertTrue(package.repo_forks > 0)
         self.assertEquals(package.participants, "ubernostrum")
 
 
@@ -86,7 +88,8 @@ class TestGithubRepo(TestBaseHandler):
     def test_fetch_commits(self):
         self.assertEqual(Commit.objects.count(), 0)
         github_handler.fetch_commits(self.package)
-        self.assertNotEqual(Commit.objects.count(), 0)
+        commit_list = json.loads(self.package.commits_over_52())
+        self.assertTrue(commit_list[0] > 0)
 
     def test_fetch_metadata(self):
         # Currently a live tests that access github

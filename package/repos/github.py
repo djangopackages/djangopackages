@@ -1,9 +1,8 @@
-from datetime import datetime
-
 from django.conf import settings
 
+from github3 import login as github_login
+
 from base_handler import BaseHandler
-from core.restconsumer import RestConsumer
 from package.utils import uniquer
 
 
@@ -14,43 +13,30 @@ class GitHubHandler(BaseHandler):
     repo_regex = r'(?:http|https|git)://github.com/[^/]*/([^/]*)/{0,1}'
     slug_regex = repo_regex
 
-    def _github_client(self):
-        if hasattr(settings, "GITHUB_ACCOUNT") and hasattr(settings, "GITHUB_KEY"):
-            github = RestConsumer(base_url='https://api.github.com', username=settings.GITHUB_ACCOUNT, api_token=settings.GITHUB_KEY)
-        else:
-            github = RestConsumer(base_url='https://api.github.com')
-        return github
+    def __init__(self):
+        self.github = github_login(settings.GITHUB_USERNAME, settings.GITHUB_PASSWORD)
 
     def fetch_metadata(self, package):
-        github = self._github_client()
 
         username, repo_name = package.repo_name().split('/')
-        repo = github.repos[username][repo_name]()
-        if repo.get('message', '') == u'Not Found':
+        repo = self.github.repository(username, repo_name)
+        if repo is None:
             return package
 
-        package.repo_watchers = repo['watchers']
-        package.repo_forks = repo['forks']
-        package.repo_description = repo['description']
+        package.repo_watchers = repo.watchers
+        package.repo_forks = repo.forks
+        package.repo_description = repo.description
 
-        #/repos/:user/:repo/collaborators
-        collaborators = [x['login'] for x in github.repos[username][repo_name].collaborators()]
-        collaborators += [x['login'] for x in github.repos[username][repo_name].contributors()]
-        if collaborators:
-            package.participants = ','.join(uniquer(collaborators))
+        contributors = [x.login for x in repo.iter_contributors()]
+        if contributors:
+            package.participants = ','.join(uniquer(contributors))
 
         return package
 
     def fetch_commits(self, package):
-        from package.models import Commit  # Import placed here to avoid circular dependencies
-        github = self._github_client()
         username, repo_name = package.repo_name().split('/')
-        # /repos/:user/:repo/commits
-        for commit in github.repos[username][repo_name].commits():
-            if isinstance(commit, unicode):
-                continue
-            raw_date = commit['commit']['committer']['date']
-            date = datetime.strptime(raw_date[0:19], "%Y-%m-%dT%H:%M:%S")
-            commit, created = Commit.objects.get_or_create(package=package, commit_date=date)
+        repo = self.github.repository(username, repo_name)
+        package.commit_list = str([x['total'] for x in repo.iter_commit_activity(number=52)])
+        package.save()
 
 repo_handler = GitHubHandler()
