@@ -33,7 +33,7 @@ def participant_url(parser, token):
 
 @register.filter
 def commits_over_52(package):
-    return package.commits_over_52()
+    return package.commits_over_52().replace("[", "").replace("]", "")
 
 
 @register.inclusion_tag('package/templatetags/_usage_button.html', takes_context=True)

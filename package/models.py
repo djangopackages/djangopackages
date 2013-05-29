@@ -125,7 +125,7 @@ class Package(BaseModel):
             result = self.commit_list
         else:
             result = str([0 for x in range(52)])
-        return result.replace(" ", "")
+        return result.replace(" ", "").replace("[", "").replace("]", "")
 
     #def commits_over_52(self):
     #    now = datetime.now()
