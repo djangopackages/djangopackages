@@ -17,11 +17,6 @@ Are there any Case Studies?
 * http://pycon.blip.tv/file/4878766
 * http://www.slideshare.net/pydanny/django-packages-a-case-study
 
-Is there an on-line community?
-------------------------------
-
-We'll be opening an IRC channel shortly.
-
 How can I contribute?
 ----------------------
 
@@ -30,7 +25,7 @@ Read the page on contributions_.
 What browsers does Open Comparison support?
 -------------------------------------------
 
-We do formal tests on Chrome, Safari, Firefox, IE8, and IE9.
+We do formal tests on Chrome, Safari and Firefox.
 
 How hard is it to add support for a new repo?
 ----------------------------------------------
@@ -51,7 +46,7 @@ We have a very successful installation story for development and production host
 Why don't you have install instructions for BSD? Or Debian? Or Windows XP?
 --------------------------------------------------------------------------
 
-If you are using something else besides Ubuntu, Mac OS X 10.6, or Windows 7, you obviously have mad skills. We have a very successful installation story for development on three very common operating systems and production hosting is assumed to be on Ubuntu. Trying to support more than those operating systems is a HUGE amount of time taken away from making improvements - especially since the core developers insist on testing everything themselves.
+If you are using something else besides Ubuntu, Mac OS X 10.6+, or Windows 7, you obviously have mad skills. We have a very successful installation story for development on three very common operating systems and production hosting is assumed to be on Ubuntu or any of the major PaaS vendors. Trying to support more than those operating systems is a HUGE amount of time taken away from making improvements - especially since the core developers insist on testing everything themselves.
 
 What happened to the fixtures?
 ------------------------------
