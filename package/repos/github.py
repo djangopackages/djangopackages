@@ -36,7 +36,10 @@ class GitHubHandler(BaseHandler):
     def fetch_commits(self, package):
         username, repo_name = package.repo_name().split('/')
         repo = self.github.repository(username, repo_name)
+        if repo is none:
+            return package
         package.commit_list = str([x['total'] for x in repo.iter_commit_activity(number=52)])
         package.save()
+        return package
 
 repo_handler = GitHubHandler()
