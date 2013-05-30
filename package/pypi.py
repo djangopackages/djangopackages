@@ -39,18 +39,22 @@ def fetch_releases(package_name, include_hidden=True):
         release_data.hidden = release_data._pypi_hidden
 
         release_data.downloads = 0
-        for download in proxy.release_urls(package_name, version):
-            release_data.downloads += download["downloads"]
+        try:
+            for download in proxy.release_urls(package_name, version):
+                release_data.downloads += download["downloads"]
 
-            timetuple = download['upload_time'].timetuple()
-            release_data.upload_time = datetime(
-                timetuple.tm_year,
-                timetuple.tm_mon,
-                timetuple.tm_mday,
-                timetuple.tm_hour,
-                timetuple.tm_min,
-                timetuple.tm_sec,
-            )
+                timetuple = download['upload_time'].timetuple()
+                release_data.upload_time = datetime(
+                    timetuple.tm_year,
+                    timetuple.tm_mon,
+                    timetuple.tm_mday,
+                    timetuple.tm_hour,
+                    timetuple.tm_min,
+                    timetuple.tm_sec,
+                )
+        except xmlrpc.ProtocolError:
+            # TODO - log this error and report it!
+            pass
 
         if release_data.license == None or 'UNKNOWN' == release_data.license.upper():
             for classifier in release_data.classifiers:
