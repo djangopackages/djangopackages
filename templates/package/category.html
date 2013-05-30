@@ -58,9 +58,7 @@
                 </td>
                 <td>{{ package.last_released.pretty_status }}</td>
                 <td><a href="{% url package package.slug %}">{{ package.title }}</a></td>
-                {% cache 86400 package.commitchart package %}                
-                    <td><img class="package-githubcommits" src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{package.commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
-                {% endcache %}                
+                <td><img class="package-githubcommits" src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{package.commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>             
                 <td>{{ package.pypi_version }}</td>
                 <td>{{ package.repo_watchers }}</td>
                 <td>{{ package.repo_forks }}</td>                
