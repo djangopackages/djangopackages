@@ -204,13 +204,13 @@
             });       
 
         });
-        var url = "http://readthedocs.org/api/v1/build/{{ package.slug }}/?format=jsonp";
+        var url = "https://readthedocs.org/api/v1/build/{{ package.slug }}/?format=jsonp";
         $.ajax({
           url: url,
           dataType: 'jsonp',
           success:function(data){
               if (data.objects.length > 0){
-                  var href = "http://readthedocs.org/projects/{{ package.slug }}";
+                  var href = "https://readthedocs.org/projects/{{ package.slug }}";
                   $("a.rtd").attr("href", href);
                   $(".rtd").show();            
               };
