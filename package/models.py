@@ -127,21 +127,6 @@ class Package(BaseModel):
             result = str([0 for x in range(52)])
         return result.replace(" ", "").replace("[", "").replace("]", "")
 
-    #def commits_over_52(self):
-    #    now = datetime.now()
-    #    commits = Commit.objects.filter(
-    #        package=self,
-    #        commit_date__gt=now - timedelta(weeks=52),
-    #    ).values_list('commit_date', flat=True)
-    #
-    #    weeks = [0] * 52
-    #    for cdate in commits:
-    #        age_weeks = (now - cdate).days // 7
-    #        if age_weeks < 52:
-    #            weeks[age_weeks] += 1
-    #
-    #    return ','.join(map(str, reversed(weeks)))
-
     def fetch_metadata(self, *args, **kwargs):
 
         # Get the downloads from pypi
