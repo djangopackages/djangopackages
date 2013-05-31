@@ -52,7 +52,7 @@ def fetch_releases(package_name, include_hidden=True):
                     timetuple.tm_min,
                     timetuple.tm_sec,
                 )
-        except xmlrpc.ProtocolError:
+        except xmlrpclib.ProtocolError:
             # TODO - log this error and report it!
             pass
 
