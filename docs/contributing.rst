@@ -168,7 +168,20 @@ Any css/layout changes need to be tested in Chrome, Safari, Firefox, IE8, and IE
 How pull requests are checked, tested, and done
 ===============================================
 
-TODO - add in the missing pieces here. We've changed and it needs to be documented.
+First we pull the code into a local branch::
+
+    git checkout -b <branch-name> <submitter-github-name
+    git pull git://github.com/<submitter-github-name/django-twoscoops-project.git develop
+
+Then we run the tests::
+
+    ./runtests.py
+
+We finish with a merge and push to GitHub::
+
+    git checkout develop
+    git merge <branch-name>
+    git push origin develop
 
 
 .. _installation: install.html
