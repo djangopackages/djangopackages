@@ -110,11 +110,11 @@
                     {% endfor %}
                 </td>
                 <tr class="even">
-                    <td>{% trans "Downloads" %}</td>
+                    <td>{% trans "Development Status" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>
-                            {% if grid_package.package.pypi_version %}
-                                {{ grid_package.package.pypi_downloads|default:"n/a" }}
+                            {% if grid_package.package.last_released.pretty_status %}
+                                {{ grid_package.package.last_released.pretty_status|default:"n/a" }}
                             {% else %}
                                 n/a
                             {% endif %}
