@@ -73,19 +73,10 @@ class BitbucketHandler(BaseHandler):
         # description
         package.repo_description = data.get("description", "")
 
-        # screen scrape to get the repo_forks off of bitbucket HTML pages
-        descendants_target = package.repo_url
-        if not descendants_target.endswith("/"):
-            descendants_target += "/"
-        descendants_target += "descendants"
-
-        r = requests.get(descendants_target)
-        html = r.content
-        try:
-            #todo: don't parse HTML with a regex, use BeautifulSoup.
-            package.repo_forks = descendants_re.search(html).group("descendants")
-        except AttributeError:
-            package.repo_forks = 0
+        # get the forks of a repo
+        url = "{0}forks/".format(target)
+        data = self.get_json(url)
+        package.repo_forks = len(data['forks'])
 
         # get the followers of a repo
         url = "{0}followers/".format(target)
