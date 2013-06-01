@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 import re
 from warnings import warn
 
@@ -37,6 +38,22 @@ class BitbucketHandler(BaseHandler):
             else:
                 timestamp = commit["timestamp"]
             commit, created = Commit.objects.get_or_create(package=package, commit_date=timestamp)
+
+        #  ugly way to get 52 weeks of commits
+        # TODO - make this better
+        now = datetime.now()
+        commits = package.commit_set.filter(
+            commit_date__gt=now - timedelta(weeks=52),
+        ).values_list('commit_date', flat=True)
+
+        weeks = [0] * 52
+        for cdate in commits:
+            age_weeks = (now - cdate).days // 7
+            if age_weeks < 52:
+                weeks[age_weeks] += 1
+
+        package.commit_list = ','.join(map(str, reversed(weeks)))
+        package.save()
 
     def fetch_metadata(self, package):
         # prep the target name
