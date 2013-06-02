@@ -63,21 +63,23 @@
          </table>
 
         {% if package.pypi_url and package.pypi_url != "http://pypi.python.org/pypi/" %}
-                <h2>PyPI {% if package.pypi_downloads %}{% blocktrans with package.pypi_downloads as pypi_downloads %}( {{ pypi_downloads }} downloads ){% endblocktrans %}{% endif %}</h2>                           
+                <h2>PyPI ({{ package.last_released.pretty_status }})</h2>
                 <p><a href="{{ package.pypi_url }}">{{ package.pypi_url }}</a></p>
                 <table>
                     <tr>
                         <th>{% trans "Version" %}</th>
                         <th>{% trans "License" %}</th>
-                        <th>{% trans "Release Date" %}</th>
+                        <th>{% trans "Released" %}</th>
                         <th>{% trans "Status" %}</th>
+                        <th>{% trans "Python 3?" %}</th>
                     </tr>
                     {% for version in package.version_set.by_version_not_hidden %}
                         <tr>
                             <td>{{ version.number }}</td>
-                            <td>{{ version.license|default:"none" }}</td>                        
+                            <td>{{ version.pretty_license|default:"none" }}</td>                        
                             <td>{{ version.upload_time|date:"SHORT_DATE_FORMAT" }}</td>
                             <td>{{ version.pretty_status }}</td>
+                            <td>{% if version.supports_python3 %}<img src="{{ STATIC_URL }}img/icon-yes.gif" />{% else %}<img src="{{ STATIC_URL }}img/icon-no.gif" />{% endif %}</td>
                         </tr>
                     {% endfor %}
             </table>

@@ -43,7 +43,6 @@ def profile_edit(request, template_name="profiles/profile_edit.html"):
     form = ProfileForm(request.POST or None, instance=profile)
 
     if form.is_valid():
-        print form.instance.__dict__
         form.save()
         msg = 'Profile edited'
         messages.add_message(request, messages.INFO, msg)

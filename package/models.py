@@ -151,6 +151,7 @@ class Package(BaseModel):
                 version.license = release.license
                 version.hidden = release._pypi_hidden
                 version.development_status = release.development_status
+                version.supports_python3 = release.supports_python3
                 version.save()
 
             self.pypi_downloads = total_downloads
@@ -236,7 +237,9 @@ class VersionManager(models.Manager):
     def by_version_not_hidden(self, *args, **kwargs):
         qs = self.get_query_set().filter(*args, **kwargs)
         qs = qs.filter(hidden=False)
-        return sorted(qs, key=lambda v: versioner(v.number))
+        qs = sorted(qs, key=lambda v: versioner(v.number))
+        qs.reverse()
+        return qs
 
 
 class Version(BaseModel):
@@ -248,12 +251,17 @@ class Version(BaseModel):
     hidden = models.BooleanField(_("hidden"), default=False)
     upload_time = models.DateTimeField(_("upload_time"), help_text=_("When this was uploaded to PyPI"), blank=True, null=True)
     development_status = models.IntegerField(_("Development Status"), choices=STATUS_CHOICES, default=0)
+    supports_python3 = models.BooleanField(_("Supports Python 3"), default=False)
 
     objects = VersionManager()
 
     class Meta:
         get_latest_by = 'upload_time'
         ordering = ['-upload_time']
+        
+    @property
+    def pretty_license(self):
+        return self.license.replace("License", "").replace("license", "")
 
     @property
     def pretty_status(self):

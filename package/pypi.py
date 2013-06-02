@@ -73,6 +73,12 @@ def fetch_releases(package_name, include_hidden=True):
             if classifier.startswith('Development Status'):
                 release_data.development_status = status_choices_switch(classifier)
                 break
+        
+        release_data.supports_python3 = False
+        for classifier in release_data.classifiers:
+            if classifier.startswith('Programming Language :: Python :: 3'):
+                release_data.supports_python3 = True
+                break
 
         releases.append(release_data)
     return releases
