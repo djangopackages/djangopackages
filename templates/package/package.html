@@ -63,7 +63,7 @@
          </table>
 
         {% if package.pypi_url and package.pypi_url != "http://pypi.python.org/pypi/" %}
-                <h2>PyPI ({{ package.last_released.pretty_status }})</h2>
+                <h2>PyPI ({{ latest_version.pretty_status }})</h2>
                 <p><a href="{{ package.pypi_url }}">{{ package.pypi_url }}</a></p>
                 <table>
                     <tr>

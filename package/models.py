@@ -171,9 +171,10 @@ class Package(BaseModel):
     @property
     def last_released(self):
         versions = self.version_set.exclude(upload_time=None)
-        if versions:
+        try:
             return versions.latest()
-        return None
+        except Version.DoesNotExist:
+            return None
 
     @property
     def pypi_ancient(self):

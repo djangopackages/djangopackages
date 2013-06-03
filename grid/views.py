@@ -1,11 +1,8 @@
 """views for the :mod:`grid` app"""
 
-from django.conf import settings
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.models import User 
 from django.contrib import messages
-from django.core.urlresolvers import reverse 
-from django.db.models import Count
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render
 
@@ -15,6 +12,7 @@ from package.models import Package
 from package.forms import PackageForm
 from package.views import repo_data_for_js
 
+
 def build_element_map(elements):
     # Horrifying two-level dict due to needing to use hash() function later
     element_map = {}
@@ -22,6 +20,7 @@ def build_element_map(elements):
         element_map.setdefault(element.feature_id, {})
         element_map[element.feature_id][element.grid_package_id] = element
     return element_map
+
 
 def grids(request, template_name="grid/grids.html"):
     """lists grids
@@ -32,7 +31,8 @@ def grids(request, template_name="grid/grids.html"):
     """
     # annotations providing bad counts
     #grids = Grid.objects.annotate(gridpackage_count=Count('gridpackage'), feature_count=Count('feature'))
-    return render(request, template_name, {'grids': Grid.objects.all(),})
+    return render(request, template_name, {'grids': Grid.objects.all(), })
+
 
 def grid_detail_landscape(request, slug, template_name="grid/grid_detail2.html"):
     """displays a grid in detail
@@ -70,6 +70,7 @@ def grid_detail_landscape(request, slug, template_name="grid/grid_detail2.html")
             'elements': element_map,
         })
 
+
 def grid_detail_feature(request, slug, feature_id, bogus_slug, template_name="grid/grid_detail_feature.html"):
     """a slightly more focused view than :func:`grid.views.grid_detail`
     shows comparison for only one feature, and does not show the basic
@@ -91,7 +92,7 @@ def grid_detail_feature(request, slug, feature_id, bogus_slug, template_name="gr
 
     return render(
         request,
-        template_name, 
+        template_name,
         {
             'grid': grid,
             'feature': features[0],
@@ -99,6 +100,7 @@ def grid_detail_feature(request, slug, feature_id, bogus_slug, template_name="gr
             'elements': element_map,
         }
     )
+
 
 @login_required
 def add_grid(request, template_name="grid/add_grid.html"):
@@ -114,14 +116,15 @@ def add_grid(request, template_name="grid/add_grid.html"):
         return HttpResponseForbidden("permission denied")
 
     new_grid = Grid()
-    form = GridForm(request.POST or None, instance=new_grid)    
+    form = GridForm(request.POST or None, instance=new_grid)
 
     if form.is_valid(): 
         new_grid = form.save()
         return HttpResponseRedirect(reverse('grid', kwargs={'slug':new_grid.slug}))
 
     return render(request, template_name, { 'form': form })
-        
+
+
 @login_required
 def edit_grid(request, slug, template_name="grid/edit_grid.html"):
     """View to modify the grid, handles GET and POST requests.
@@ -141,11 +144,11 @@ def edit_grid(request, slug, template_name="grid/edit_grid.html"):
     if form.is_valid():
         grid = form.save()
         message = "Grid has been edited"
-        messages.add_message(request, messages.INFO, message)                    
+        messages.add_message(request, messages.INFO, message)
         return HttpResponseRedirect(reverse('grid', kwargs={'slug': grid.slug}))
+    return render(request, template_name, {'form': form,  'grid': grid})
 
-    return render(request, template_name, { 'form': form,  'grid': grid } )  
-        
+
 @login_required
 def add_feature(request, grid_slug, template_name="grid/add_feature.html"):
     """Adds a feature to the grid, accepts GET and POST requests.
@@ -349,7 +352,7 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
     * ``grid_packages`` - packages involved in the current grid
     """
     grid = get_object_or_404(Grid, slug=slug)
-    features = grid.feature_set.all()
+    features = grid.feature_set.select_related()
 
     grid_packages = grid.grid_packages
 
@@ -360,12 +363,12 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
     element_map = build_element_map(elements)
 
     # These attributes are how we determine what is displayed in the grid
-    default_attributes = [('repo_description', 'Description'), 
+    default_attributes = [('repo_description', 'Description'),
                 ('category','Category'), ('pypi_downloads', 'Downloads'), ('last_updated', 'Last Updated'), ('pypi_version', 'Version'),
                 ('repo', 'Repo'), ('commits_over_52', 'Commits'), ('repo_watchers', 'Repo watchers'), ('repo_forks', 'Forks'),
-                ('participant_list', 'Participants'), ('license_latest', 'License')                
+                ('participant_list', 'Participants'), ('license_latest', 'License')
             ]
-            
+
     return render(request, template_name, {
             'grid': grid,
             'features': features,

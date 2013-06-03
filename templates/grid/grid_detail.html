@@ -66,7 +66,7 @@
 
     <p></p>
     
-    {% if grid_packages.count %}
+    {% if grid_packages|length %}
     
         {% if request.user.is_authenticated and profile.can_add_grid_package %}        
             <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_grid_package grid.slug %}">{% trans "Add another package" %}</a></p>
@@ -113,11 +113,13 @@
                     <td>{% trans "Development Status" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>
-                            {% if grid_package.package.last_released.pretty_status %}
-                                {{ grid_package.package.last_released.pretty_status|default:"n/a" }}
+                            {% with pretty_status=grid_package.package.last_released.pretty_status %}
+                            {% if pretty_status %}
+                                {{ pretty_status|default:"n/a" }}
                             {% else %}
                                 n/a
                             {% endif %}
+                            {% endwith %}
                     
                         </td>
                     {% endfor %}
