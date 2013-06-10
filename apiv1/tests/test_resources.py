@@ -16,6 +16,7 @@ class ResourcesV1Tests(TestCase):
         list_url = reverse('api_dispatch_list', kwargs=kwargs)
         response = self.client.get(list_url)
         self.assertEqual(response.status_code, 200)
+
         kwargs['pk'] = 'apps'
         cat_url = reverse('api_dispatch_detail', kwargs=kwargs)
         self.assertTrue(cat_url in response.content)
@@ -24,6 +25,7 @@ class ResourcesV1Tests(TestCase):
 
         query_filter = "?category__slug=apps"
         cat_filter_url = "%s%s" % (list_url, query_filter)
+        response = self.client.get(cat_url)
         self.assertEqual(response.status_code, 200)
 
     def test_02_grid(self):
@@ -33,6 +35,7 @@ class ResourcesV1Tests(TestCase):
         list_url = reverse('api_dispatch_list', kwargs=kwargs)
         response = self.client.get(list_url)
         self.assertEqual(response.status_code, 200)
+
         kwargs['pk'] = 'testing'
         grid_url = reverse('api_dispatch_detail', kwargs=kwargs)
         self.assertTrue(grid_url in response.content)
@@ -46,6 +49,7 @@ class ResourcesV1Tests(TestCase):
         list_url = reverse('api_dispatch_list', kwargs=kwargs)
         response = self.client.get(list_url)
         self.assertEqual(response.status_code, 200)
+
         kwargs['pk'] = 'testability'
         package_url = reverse('api_dispatch_detail', kwargs=kwargs)
         self.assertTrue(package_url in response.content)
