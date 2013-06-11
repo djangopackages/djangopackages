@@ -57,6 +57,7 @@ Direct Contributors
 * Flaviu Simihaian
 * George Dorn
 * Gisle Aas  (Repo Man)
+* Ilian Iliev (@IlianIliev)
 * Jacob Burch
 * James Pacileo
 * James Punteney
