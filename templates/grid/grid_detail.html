@@ -113,7 +113,7 @@
                 <tr>
                     <td>{% trans "Python 3?" %}</td>
                     {% for grid_package in grid_packages %}
-                        <td>{% if grid_package.last_released.supports_python3 %}<img src="{{ STATIC_URL }}img/icon-yes.gif" />{% else %}<img src="{{ STATIC_URL }}img/icon-no.gif" />{% endif %}</td>
+                        <td>{% if grid_package.package.last_released.supports_python3 %}<img src="{{ STATIC_URL }}img/icon-yes.gif" />{% else %}<img src="{{ STATIC_URL }}img/icon-no.gif" />{% endif %}</td>
                     {% endfor %}
                 </tr>
                 <tr>
