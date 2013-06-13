@@ -1,4 +1,5 @@
 {% extends "grid/base.html" %}
+{% load url from future %}
 
 {% load i18n %}
 {% load uni_form_tags %}
@@ -20,7 +21,7 @@
             {{ form|as_uni_form }}
             <div class="form_block">        
                 <input class="awesome forestgreen" type="submit" name="edit" value="{% trans "Edit" %}">
-                <a href="{% url grid grid.slug %}">{% trans "cancel" %}</a>
+                <a href="{% url 'grid' grid.slug %}">{% trans "cancel" %}</a>
             </div>            
             
         </fieldset>
