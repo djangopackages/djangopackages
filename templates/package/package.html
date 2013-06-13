@@ -1,5 +1,6 @@
 {% extends "package/base.html" %}
 
+{% load url from future %}
 {% load i18n %}
 {% load package_tags %}
 
@@ -27,8 +28,8 @@
 {% endif %}
 
     
-<h1><a href="{% url home %}">{% trans "home" %}</a> / <a href="{% url packages %}">{% trans "packages" %}</a> / {{ package.title }}
-    <a href="{% url edit_package package.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
+<h1><a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'packages' %}">{% trans "packages" %}</a> / {{ package.title }}
+    <a href="{% url 'edit_package' package.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
 </h1>
     
     
@@ -38,7 +39,7 @@
             {{ package.repo_description }}
         </p>
 
-        <p><strong>{% trans "Category:" %}</strong>&nbsp;<a href="{% url category package.category.slug %}">{{ package.category }}</a></p>
+        <p><strong>{% trans "Category:" %}</strong>&nbsp;<a href="{% url 'category' package.category.slug %}">{{ package.category }}</a></p>
 
         <table>
             <thead>
@@ -57,7 +58,7 @@
                             {% usage_button %} 
                         {% endwith %}
                     </td>
-                    <td id="fetch-cell"><a class="awesome forestgreen" href="{% url fetch_package_data package.slug %}">{% trans "Fetch latest data" %}</a></td>
+                    <td id="fetch-cell"><a class="awesome forestgreen" href="{% url 'fetch_package_data' package.slug %}">{% trans "Fetch latest data" %}</a></td>
                 </tr>    
             </tbody>        
          </table>
@@ -123,7 +124,7 @@
                 <h2>{% trans "Comparison Grids" %}</h2>
             {% endif %}
             
-                <a href="{% url grid grid.slug %}" title="{{ grid.description }}">{{ grid }}</a> &nbsp;
+                <a href="{% url 'grid' grid.slug %}" title="{{ grid.description }}">{{ grid }}</a> &nbsp;
             
             {% if request.user.is_authenticated and profile.can_add_grid %}
                 {% if forloop.last %}
@@ -146,7 +147,7 @@
     
         <div id="package-editlink">
             {% if request.user.is_authenticated %}        
-                <a class="awesome forestgreen" href="{% url add_example package.slug %}">{% trans "Add an example" %}</a>
+                <a class="awesome forestgreen" href="{% url 'add_example' package.slug %}">{% trans "Add an example" %}</a>
             {% endif %}
         </div>
     
@@ -158,7 +159,7 @@
                     <a href="{{ example.url }}">{{ example.title }}</a>
                     {% if request.user.is_authenticated %}&nbsp;
                         <div id="package-editlink">
-                            <a class="awesome forestgreen" href="{% url edit_example package.slug example.id %}">{% trans "edit" %}</a>
+                            <a class="awesome forestgreen" href="{% url 'edit_example' package.slug example.id %}">{% trans "edit" %}</a>
                         </div>
                     {% endif %}
                 </li>
@@ -193,7 +194,7 @@
             
             $('#find-a-grid-input').keyup(function() {
                 var search_text = $('input#find-a-grid-input').attr('value');
-                var search_text = '{% url ajax_grid_list %}?q=' + search_text + '&package_id={{ package.id }}';
+                var search_text = '{% url 'ajax_grid_list' %}?q=' + search_text + '&package_id={{ package.id }}';
                 $.get(search_text, function(data) {
                   $('#target').html(data).show("slow");
                 });                

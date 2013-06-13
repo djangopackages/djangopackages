@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+{% load url from future %}
 {% load cache %}
 {% load i18n %}
 {% load package_tags %}
@@ -15,7 +16,7 @@
 {% block body %}
      
      {% for category in categories %}
-        <h2><a href="{% url category category.slug %}">{{ category.title_plural }}</a> ( {{ category.count }} )</h2>
+        <h2><a href="{% url 'category' category.slug %}">{{ category.title_plural }}</a> ( {{ category.count }} )</h2>
         <p>{{ category.description }}</p>
         <table id="home-packages">
             <tr>
@@ -42,7 +43,7 @@
                     {% if category.show_pypi %}                    
                         <td>{{ package.pypi_downloads }}</td>
                     {% endif %}
-                    <td><a href="{% url package package.slug %}">{{ package.title }}</a></td>
+                    <td><a href="{% url 'package' package.slug %}">{{ package.title }}</a></td>
                     {% cache 86400 package.commitchart package %}                
                         <td><img id="package-githubcommits" src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{package|commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
                     {% endcache %}      
@@ -54,7 +55,7 @@
                 </tr>    
             {% endfor %}        
          </table>    
-         <p><a href="{% url category category.slug %}">{% trans "more " %}{{ category.title_plural|lower }}...</a></p>    
+         <p><a href="{% url 'category' category.slug %}">{% trans "more " %}{{ category.title_plural|lower }}...</a></p>    
      {% endfor %}
  
     
@@ -70,7 +71,7 @@
     });    
 
     $('#id_q_p').autocomplete({
-      source: '{% url search_packages_autocomplete %}',
+      source: '{% url 'search_packages_autocomplete' %}',
       minLength: 1,
       open: function(event, ui) { 
         ac_top = $('.ui-autocomplete').css('top'); 

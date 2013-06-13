@@ -1,5 +1,6 @@
 {% extends "package/base.html" %}
 
+{% load url from future %}
 {% load i18n %}
 
 {% block head_title %}{% trans "Packages" %}{% endblock %}
@@ -8,7 +9,7 @@
 
     <h1>{% trans "Latest 15 packages added" %}</h1>
     {% if profile.can_add_package %}
-    <a href="{% url add_package %}">{% trans "Add a new package!" %}</a>
+    <a href="{% url 'add_package' %}">{% trans "Add a new package!" %}</a>
     {% endif %}
     <div id="packages">
     <ul id="package-archive-list">

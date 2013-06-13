@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 
+{% load url from future %}
 {% load i18n %}
 
 {% block head_title %}{% trans "Frequently Asked Questions" %}{% endblock %}
 
 {% block body %}
 
-<h1><a href="{% url faq %}">Frequently Asked Questions</a></h1> 
+<h1><a href="{% url 'faq' %}">Frequently Asked Questions</a></h1> 
 
  <h2>What are grids?</h2>    
 
@@ -43,10 +44,10 @@
 
 <h2>What about RSS & Atom Syndication?</h2>
 
-The <a href="{% url syndication %}">Syndication page</a> has more details.
+The <a href="{% url 'syndication' %}">Syndication page</a> has more details.
 
 <h2>How can I contribute?</h2>
 
-This is an open source project, which means it takes <a href="{% url contribute %}">all sorts of contributions</a>.
+This is an open source project, which means it takes <a href="{% url 'contribute' %}">all sorts of contributions</a>.
     
 {% endblock %}

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+{% load url from future %}
 {% load i18n %}
 {% load uni_form_tags %}
 {% load profile_tags %}
@@ -15,10 +16,10 @@
 {% block body %}
     
     <p>
-        <a href="{% url socialauth_begin 'github' %}">
+        <a href="{% url 'socialauth_begin' 'github' %}">
             <img class="social-button" src="{{ STATIC_URL }}img/github-48x48.png"/>
         </a> 
-        <a class="social-sign-in" href="{% url socialauth_begin 'github' %}">Sign Up / Login with Github</a>
+        <a class="social-sign-in" href="{% url 'socialauth_begin' 'github' %}">Sign Up / Login with Github</a>
     </p>
     
     <h2>Why Github for OAUTH?</h2>

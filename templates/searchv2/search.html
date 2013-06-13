@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+{% load url from future %}
 {% load i18n %}
 {% load uni_form_tags %}
 
@@ -62,7 +63,7 @@
             $('#grid-{{ grid.id }}').removeClass("clickable");
         });
         $('#grid-{{ grid.id }}').click(function() {
-            $(location).attr("href","{% url grid grid.slug %}");
+            $(location).attr("href","{% url 'grid' grid.slug %}");
         });   
     {% endfor %}    
     
@@ -74,7 +75,7 @@
             $('#package-{{ package.id }}').removeClass("clickable");
         });
         $('#package-{{ package.id }}').click(function() {
-            $(location).attr("href","{% url package package.slug %}");
+            $(location).attr("href","{% url 'package' package.slug %}");
         });        
     {% endfor %}
 </script>

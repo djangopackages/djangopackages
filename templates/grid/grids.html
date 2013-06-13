@@ -1,4 +1,5 @@
 {% extends "grid/base.html" %}
+{% load url from future %}
 
 {% load i18n %}
 
@@ -9,7 +10,7 @@
     <h1>{% trans "Grids" %}</h1>
     {% if request.user.is_authenticated and profile.can_add_grid %}
         <p>
-            <a class="large awesome forestgreen" href="{% url add_grid %}">{% trans "add grid »" %}</a>
+            <a class="large awesome forestgreen" href="{% url 'add_grid' %}">{% trans "add grid »" %}</a>
         </p>
     {% endif %}
     <div id="grids">

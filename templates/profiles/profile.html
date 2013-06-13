@@ -1,5 +1,6 @@
 {% extends "profiles/base.html" %}
 
+{% load url from future %}
 {% load i18n %}
 {% load profile_tags %}
 {% load uni_form_tags %}
@@ -17,11 +18,11 @@
         <div class="six column">
             <h1>{% blocktrans %}Profile for <span class="fn nickname">{{ user }}</span>{% endblocktrans %}</h1>
                 
-            <h2><a href="{% url profile_list %}">{% trans "All profiles" %}</a></h2>                            
+            <h2><a href="{% url 'profile_list' %}">{% trans "All profiles" %}</a></h2>                            
 
 
             {% if request.user == user %}
-                <p><a href="{% url profile_edit %}">{% trans "Edit my profile" %}</a></p>
+                <p><a href="{% url 'profile_edit' %}">{% trans "Edit my profile" %}</a></p>
             {% endif %}    
             
             {% if local_profile.github_account %}

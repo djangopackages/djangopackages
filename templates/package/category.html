@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+{% load url from future %}
 {% load cache %}
 {% load i18n %}
 {% load package_tags %}
@@ -16,18 +17,18 @@
 
 {% block body %}
 
-    <h1><a href="{% url home %}">{% trans "home" %}</a> / <a href="{% url categories %}">{% trans "categories" %}</a> / {{ category.title_plural }} ( {{ packages.count }} )</h1>
+    <h1><a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'categories' %}">{% trans "categories" %}</a> / {{ category.title_plural }} ( {{ packages.count }} )</h1>
      
     <p id="description">{{ category.description }}</p>
     
     <p id="links">
         {% if profile.can_add_package %}
-            <a class="large awesome forestgreen" href="{% url add_package %}">{% trans "add package »" %}</a>
+            <a class="large awesome forestgreen" href="{% url 'add_package' %}">{% trans "add package »" %}</a>
         {% endif %}
         &nbsp;
-        <a href="{% url latest_packages %}">{% trans "latest" %}</a>
+        <a href="{% url 'latest_packages' %}">{% trans "latest" %}</a>
         &nbsp;
-        <a href="{% url packages %}">{% trans "all" %}</a>
+        <a href="{% url 'packages' %}">{% trans "all" %}</a>
     </p>
     
     <p>{% trans "Click table headers to sort" %}</p>
@@ -57,7 +58,7 @@
                     <span class="usage-count">{{ package.usage_count }}</span>
                 </td>
                 <td>{{ package.last_released.pretty_status }}</td>
-                <td><a href="{% url package package.slug %}">{{ package.title }}</a></td>
+                <td><a href="{% url 'package' package.slug %}">{{ package.title }}</a></td>
                 <td><img class="package-githubcommits" src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{package.commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>             
                 <td>{{ package.pypi_version }}</td>
                 <td>{{ package.repo_watchers }}</td>

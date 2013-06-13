@@ -1,4 +1,5 @@
 {% extends "package/base.html" %}
+{% load url from future %}
 
 {% load i18n %}
 {% load uni_form_tags %}
@@ -16,7 +17,7 @@
 
             <div class="form_block">        
                 <input class="awesome forestgreen" type="submit" name="add" value="{% trans "Add new example" %}">
-                <a href="{% url package package.slug %}">{% trans "cancel" %}</a>
+                <a href="{% url 'package' package.slug %}">{% trans "cancel" %}</a>
             </div>            
         </fieldset>
 

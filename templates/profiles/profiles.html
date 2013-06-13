@@ -40,7 +40,7 @@
                 <tr>
                     <td>
                         
-                        {% if profile.github_account %}<a href="{% url profile_detail profile.github_account %}">{{ profile.github_account }}</a>
+                        {% if profile.github_account %}<a href="{% url 'profile_detail' profile.github_account %}">{{ profile.github_account }}</a>
                         {% else %}
                         {{ user.username }}
                         {% endif %}
