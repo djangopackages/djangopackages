@@ -4,7 +4,7 @@ boto==2.1.0
 certifi==0.0.8
 chardet==1.0.1
 coverage==3.4
-distribute==0.6.24
+distribute==0.6.35
 dj-database-url==0.2.1
 django-classy-tags==0.3.3.1
 django-coverage==1.2.1
