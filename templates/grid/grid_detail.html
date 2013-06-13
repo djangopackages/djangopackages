@@ -78,7 +78,7 @@
                 {% include "grid/snippets/grid_row_header.html" %}
             </thead>
             <tbody>
-                <tr class="even">
+                <tr>
                     <td>{% trans "Description" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>
@@ -92,13 +92,13 @@
                         </td>
                     {% endfor %}
                 </tr>                    
-                <tr class="odd">
+                <tr>
                     <td>{% trans "Category" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>{{ grid_package.package.category }}</td>
                     {% endfor %}
                 </tr>                
-                <tr class="even">
+                <tr>
                     <td>{% trans "# Using This" %}</td>
                     {% for grid_package in grid_packages %}
                     
@@ -110,7 +110,13 @@
                         </td>
                     {% endfor %}
                 </td>
-                <tr class="even">
+                <tr>
+                    <td>{% trans "Python 3?" %}</td>
+                    {% for grid_package in grid_packages %}
+                        <td>{% if grid_package.last_released.supports_python3 %}<img src="{{ STATIC_URL }}img/icon-yes.gif" />{% else %}<img src="{{ STATIC_URL }}img/icon-no.gif" />{% endif %}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
                     <td>{% trans "Development Status" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>
@@ -125,7 +131,7 @@
                         </td>
                     {% endfor %}
                 </tr>
-                <tr class="odd">
+                <tr>
                     <td>{% trans "Last updated" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>
@@ -137,38 +143,38 @@
                         </td>
                     {% endfor %}
                 </tr>
-                <tr class="even">
+                <tr>
                     <td>{% trans "Version" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>{{ grid_package.package.pypi_version|default:"n/a" }}</td>
                     {% endfor %}
             
                 </tr>
-                <tr class="odd">
+                <tr>
                     <td>{% trans "Repo" %}</td>
                     {% for grid_package in grid_packages %}
                         <td><a href="{{ grid_package.package.repo_url }}">{{ grid_package.package.repo }}</a></td>
                     {% endfor %}
                 </tr>            
-                <tr class="even">
+                <tr>
                     <td>{% trans "Commits" %}</td>
                     {% for grid_package in grid_packages %}
                         <td><img class="package-githubcommits" src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{ grid_package.package|commits_over_52 }}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
                     {% endfor %}
                 </tr>
-                <tr class="odd">
+                <tr>
                     <td>{% trans "Repo Watchers" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>{{ grid_package.package.repo_watchers|default:"n/a" }}</td>
                     {% endfor %}
                 </tr>
-                <tr class="even">
+                <tr>
                     <td>{% trans "Repo Forks" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>{{ grid_package.package.repo_forks|default:"n/a" }}</td>
                     {% endfor %}
                 </tr>
-                <tr class="odd">
+                <tr>
                     <td>{% trans "Participants" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>
@@ -186,7 +192,7 @@
                         </td>
                     {% endfor %}
                 </tr>
-                <tr class="even">
+                <tr>
                     <td>{% trans "Docs on RTD" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>
