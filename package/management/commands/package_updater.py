@@ -46,8 +46,8 @@ class Command(NoArgsCommand):
             except PackageUpdaterException:
                 pass  # We've already caught the error so let's move on now
 
-            if not hasattr(settings, "GITHUB_API_SECRET"):
-                sleep(5)
+            #if not hasattr(settings, "GITHUB_API_SECRET"):
+            sleep(5)
 
         message = "TODO - load logfile here"  # TODO
         send_mail(

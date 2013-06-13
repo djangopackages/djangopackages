@@ -39,6 +39,8 @@ class GitHubHandler(BaseHandler):
         if repo is None:
             return package
         package.commit_list = str([x['total'] for x in repo.iter_commit_activity(number=52)])
+        if package.commit_list.strip() == '[]':
+            return package
         package.save()
         return package
 
