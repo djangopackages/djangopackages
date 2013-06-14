@@ -1,8 +1,3 @@
-"""
-TODO - get it working with Celery
-"""
-
-
 import logging
 import logging.config
 from time import sleep
@@ -10,6 +5,8 @@ from time import sleep
 from django.conf import settings
 from django.core.management.base import NoArgsCommand
 from django.core.mail import send_mail
+
+from github3 import login as github_login
 
 from package.models import Package
 
@@ -33,10 +30,16 @@ class Command(NoArgsCommand):
 
     def handle(self, *args, **options):
 
+        github = github_login(settings.GITHUB_USERNAME, settings.GITHUB_PASSWORD)
+
         for index, package in enumerate(Package.objects.iterator()):
-            #if index not in (89, 90, 91, 92):
-            #    continue
-            #print index
+
+            # Simple attempt to deal with Github rate limiting
+            while True:
+                if github.ratelimit_remaining() < 50:
+                    sleep(120)
+                break
+
             try:
                 try:
                     package.fetch_metadata()
@@ -46,7 +49,6 @@ class Command(NoArgsCommand):
             except PackageUpdaterException:
                 pass  # We've already caught the error so let's move on now
 
-            #if not hasattr(settings, "GITHUB_API_SECRET"):
             sleep(5)
 
         message = "TODO - load logfile here"  # TODO
