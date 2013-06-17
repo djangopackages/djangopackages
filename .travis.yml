@@ -4,8 +4,6 @@ python:
 before_install:
   - export PIP_USE_MIRRORS=true
   - export PIP_INDEX_URL=https://simple.crate.io/
-  - export GITHUB_USERNAME=someuserthatdoesnotexist
-  - export GITHUB_PASSWORD=anything
 install:
   - pip install -r requirements.txt
 script:
