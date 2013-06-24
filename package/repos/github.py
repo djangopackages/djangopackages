@@ -1,6 +1,6 @@
 from django.conf import settings
 
-from github3 import login as github_login
+from github3 import GitHub
 
 from base_handler import BaseHandler
 from package.utils import uniquer
@@ -14,7 +14,7 @@ class GitHubHandler(BaseHandler):
     slug_regex = repo_regex
 
     def __init__(self):
-        self.github = github_login(settings.GITHUB_USERNAME, settings.GITHUB_PASSWORD)
+        self.github = GitHub()
 
     def fetch_metadata(self, package):
 
