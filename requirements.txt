@@ -39,4 +39,3 @@ python-openid==2.2.5
 raven==1.4.6
 requests==1.2.3
 six==1.1.0
-wsgiref==0.1.2
