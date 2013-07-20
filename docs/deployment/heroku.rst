@@ -24,7 +24,7 @@ Deploying to heroku:
     heroku create --stack cedar
     git push heroku master
     heroku addons:add heroku-shared-postgresql
-    heroku addons:add memcache
+    heroku addons:add memcachier:dev
     heroku addons:add sendgrid:starter    
     heroku addons:add scheduler:standard
     heroku pg:promote HEROKU_SHARED_POSTGRESQL_GOLD

@@ -25,7 +25,7 @@ restoredata:
 
 createsite:
 	heroku create --stack cedar
-	heroku addons:add memcache:5mb
+	heroku addons:add memcachier:dev
 	heroku addons:add sendgrid:starter
 	heroku addons:add heroku-postgresql:dev
 	heroku addons:add pgbackups
