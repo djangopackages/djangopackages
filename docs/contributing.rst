@@ -95,7 +95,7 @@ OpenComparison is advancing quickly. It is therefore critical that you pull upst
 To pull in upstream changes::
 
     git remote add upstream https://github.com/opencomparison/opencomparison.git
-    git fetch upstream
+    git fetch upstream develop
 
 Check the log to be sure that you actually want the changes, before merging::
 
