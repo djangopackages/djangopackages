@@ -342,3 +342,5 @@ LOGGING = {
     }
 }
 
+
+URL_REGEX_GITHUB = r'(?:http|https|git)://github.com/[^/]*/([^/]*)/{0,1}'
