@@ -6,6 +6,8 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render
 
+from rest_framework.generics import ListAPIView, RetrieveAPIView
+
 from grid.forms import ElementForm, FeatureForm, GridForm, GridPackageForm
 from grid.models import Element, Feature, Grid, GridPackage
 from package.models import Package
@@ -364,9 +366,16 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
 
     # These attributes are how we determine what is displayed in the grid
     default_attributes = [('repo_description', 'Description'),
-                ('category','Category'), ('pypi_downloads', 'Downloads'), ('last_updated', 'Last Updated'), ('pypi_version', 'Version'),
-                ('repo', 'Repo'), ('commits_over_52', 'Commits'), ('repo_watchers', 'Repo watchers'), ('repo_forks', 'Forks'),
-                ('participant_list', 'Participants'), ('license_latest', 'License')
+                ('category', 'Category'),
+                ('pypi_downloads', 'Downloads'),
+                ('last_updated', 'Last Updated'),
+                ('pypi_version', 'Version'),
+                ('repo', 'Repo'),
+                ('commits_over_52', 'Commits'),
+                ('repo_watchers', 'Repo watchers'),
+                ('repo_forks', 'Forks'),
+                ('participant_list', 'Participants'),
+                ('license_latest', 'License')
             ]
 
     return render(request, template_name, {
@@ -376,3 +385,12 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
             'attributes': default_attributes,
             'elements': element_map,
         })
+
+
+class GridListAPIView(ListAPIView):
+    model = Grid
+    paginate_by = 20
+
+
+class GridDetailAPIView(RetrieveAPIView):
+    model = Grid

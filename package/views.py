@@ -354,3 +354,7 @@ def package_detail(request, slug, template_name="package/package.html"):
 class PackageListAPIView(ListAPIView):
     model = Package
     paginate_by = 20
+
+
+class PackageDetailAPIView(RetrieveAPIView):
+    model = Package
