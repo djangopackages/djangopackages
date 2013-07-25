@@ -145,6 +145,7 @@ PREREQ_APPS = [
 
     'social_auth',
     'floppyforms',
+    'rest_framework',
 
 ]
 

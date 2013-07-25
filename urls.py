@@ -36,6 +36,9 @@ urlpatterns = patterns("",
     # new apps
     url(r"^search/", include("searchv2.urls")),
     url(r"^importer/", include("importer.urls")),
+
+    # apiv2
+    url(r'^apiv2/', include('core.apiv2', namespace="apiv2")),
 )
 
 from apiv1.api import Api

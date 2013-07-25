@@ -10,6 +10,8 @@ from django.db.models import Q, Count, get_model
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render
 
+from rest_framework.generics import ListAPIView, RetrieveAPIView
+
 from grid.models import Grid
 from homepage.models import Dpotw, Gotw
 from package.forms import PackageForm, PackageExampleForm
@@ -347,3 +349,8 @@ def package_detail(request, slug, template_name="package/package.html"):
                 latest_version=package.last_released()
             )
         )
+
+
+class PackageListAPIView(ListAPIView):
+    model = Package
+    paginate_by = 20
