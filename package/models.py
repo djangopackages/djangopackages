@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 import re
 
+from django.core.cache import cache
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
@@ -14,6 +15,7 @@ from core.models import BaseModel
 from package.pypi import fetch_releases
 from package.repos import get_repo_for_repo_url
 from package.signals import signal_fetch_latest_metadata
+from package.utils import get_version
 
 repo_url_help_text = settings.PACKAGINATOR_HELP_TEXT['REPO_URL']
 pypi_url_help_text = settings.PACKAGINATOR_HELP_TEXT['PYPI_URL']
@@ -167,17 +169,18 @@ class Package(BaseModel):
     def fetch_commits(self):
         self.repo.fetch_commits(self)
 
-    @property
     def last_released(self):
-        versions = self.version_set.exclude(upload_time=None)
-        try:
-            return versions.latest()
-        except Version.DoesNotExist:
-            return None
+        cache_name = self.cache_namer(self.last_released)
+        version = cache.get(cache_name)
+        if version is not None:
+            return version
+        version = get_version(self)
+        cache.set(cache_name, version)
+        return version
 
     @property
     def pypi_ancient(self):
-        release = self.last_released
+        release = self.last_released()
         if release:
             return release.upload_time < datetime.now() - timedelta(365)
         return None
@@ -258,7 +261,7 @@ class Version(BaseModel):
     class Meta:
         get_latest_by = 'upload_time'
         ordering = ['-upload_time']
-        
+
     @property
     def pretty_license(self):
         return self.license.replace("License", "").replace("license", "")
@@ -274,6 +277,11 @@ class Version(BaseModel):
             pass
         elif len(self.license.strip()) > 20:
             self.license = "Custom"
+
+        # reset the latest_version cache on the package
+        latest_version = get_version(self.package)
+        cache_name = self.package.cache_namer(self.package.last_released)
+        cache.set(cache_name, latest_version)
         super(Version, self).save(*args, **kwargs)
 
     def __unicode__(self):

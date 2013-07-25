@@ -336,7 +336,7 @@ LOGGING = {
             'propagate': False,
         },
         '': {
-            'handlers': ['console',],
+            'handlers': ['console', ],
             'level': os.environ.get('DEBUG_LEVEL', 'ERROR'),
         },
     }
@@ -344,3 +344,9 @@ LOGGING = {
 
 
 URL_REGEX_GITHUB = r'(?:http|https|git)://github.com/[^/]*/([^/]*)/{0,1}'
+
+########### redis setup
+import redis
+from rq import Worker, Queue, Connection
+
+########### end redis setup

@@ -45,7 +45,7 @@ def build_1(print_out=True):
         except Commit.DoesNotExist:
             pass
 
-        last_released = package.last_released
+        last_released = package.last_released()
         if last_released and last_released.upload_time:
             obj.last_released = last_released.upload_time
             optional_save = True
@@ -92,8 +92,9 @@ def build_1(print_out=True):
                 weight += 5
 
         # Is the last release less than a year old?
-        if obj.last_released:
-            if now - obj.last_released < year_delta:
+        last_released = obj.last_released
+        if last_released:
+            if now - last_released < year_delta:
                 weight += 20
 
         if weight:

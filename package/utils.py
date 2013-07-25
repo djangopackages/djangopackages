@@ -1,4 +1,5 @@
 from requests.compat import quote
+from django.db import models
 
 
 #this is gross, but requests doesn't import quote_plus into compat,
@@ -24,3 +25,12 @@ def uniquer(seq, idfun=None):
         seen[marker] = 1
         result.append(item)
     return result
+
+
+def get_version(package):
+
+    versions = package.version_set.exclude(upload_time=None)
+    try:
+        return versions.latest()
+    except models.ObjectDoesNotExist:
+        return None

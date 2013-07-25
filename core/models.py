@@ -11,3 +11,9 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
+
+    def cache_namer(self, method):
+        return "{}:{}".format(
+            method.__name__,
+            self.pk
+        )
