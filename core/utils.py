@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.core.cache import cache
 from django.template.defaultfilters import slugify
 
@@ -40,3 +41,22 @@ def status_choices_switch(status):
     for key, value in STATUS_CHOICES:
         if status == value:
             return key
+
+def get_repo_from_url(url):
+    """ 
+        Needs to account for:
+        
+            1. GitHub Design
+            2. Ability to assign special CNAME for BitBucket repos
+            3. et al
+    """
+    
+    # Handle github repos
+    if url.startswith("https://github.com/"):
+        m = re.match(settings.URL_REGEX_GITHUB, url)
+        if m:
+            return m.group()
+            
+    return None
+    
+    

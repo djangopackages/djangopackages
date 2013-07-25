@@ -56,6 +56,13 @@ License
 
 The code is open-source and licensed under the MIT license.
 
+Next Deployment
+===============
+
+.. code-block:: bash
+
+    $ migrate package
+
 Credits
 =======
 
