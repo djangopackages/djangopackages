@@ -11,7 +11,7 @@ django-coverage==1.2.1
 django-debug-toolbar==0.9.4
 django-extensions==0.4.1
 django-floppyforms==1.0
-django-heroku-memcacheify==0.3
+django-heroku-memcacheify==0.4
 django-heroku-postgresify==0.2
 django-pagination==1.0.7
 django-pylibmc-sasl==0.2.4
