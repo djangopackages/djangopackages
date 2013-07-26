@@ -1,3 +1,5 @@
+from distutils.version import LooseVersion as versioner
+
 from requests.compat import quote
 from django.db import models
 
@@ -34,3 +36,12 @@ def get_version(package):
         return versions.latest()
     except models.ObjectDoesNotExist:
         return None
+
+
+def get_pypi_version(package):
+    string_ver_list = package.version_set.values_list('number', flat=True)
+    if string_ver_list:
+        vers_list = [versioner(v) for v in string_ver_list]
+        latest = sorted(vers_list)[-1]
+        return str(latest)
+    return ''

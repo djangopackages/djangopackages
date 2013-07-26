@@ -15,7 +15,7 @@ from core.models import BaseModel
 from package.pypi import fetch_releases
 from package.repos import get_repo_for_repo_url
 from package.signals import signal_fetch_latest_metadata
-from package.utils import get_version
+from package.utils import get_version, get_pypi_version
 
 repo_url_help_text = settings.PACKAGINATOR_HELP_TEXT['REPO_URL']
 pypi_url_help_text = settings.PACKAGINATOR_HELP_TEXT['PYPI_URL']
@@ -59,15 +59,6 @@ class Package(BaseModel):
     last_modified_by = models.ForeignKey(User, blank=True, null=True, related_name="modifier", on_delete=models.SET_NULL)
 
     commit_list = models.TextField(_("Commit List"), blank=True)
-
-    @property
-    def pypi_version(self):
-        string_ver_list = self.version_set.values_list('number', flat=True)
-        if string_ver_list:
-            vers_list = [versioner(v) for v in string_ver_list]
-            latest = sorted(vers_list)[-1]
-            return str(latest)
-        return ''
 
     @property
     def pypi_name(self):
@@ -168,6 +159,15 @@ class Package(BaseModel):
 
     def fetch_commits(self):
         self.repo.fetch_commits(self)
+
+    def pypi_version(self):
+        cache_name = self.cache_namer(self.pypi_version)
+        version = cache.get(cache_name)
+        if version is not None:
+            return version
+        version = get_pypi_version(self)
+        cache.set(cache_name, version)
+        return version
 
     def last_released(self):
         cache_name = self.cache_namer(self.last_released)
@@ -279,9 +279,15 @@ class Version(BaseModel):
             self.license = "Custom"
 
         # reset the latest_version cache on the package
-        latest_version = get_version(self.package)
         cache_name = self.package.cache_namer(self.package.last_released)
-        cache.set(cache_name, latest_version)
+        cache.delete(cache_name)
+        get_version(self.package)
+
+        # reset the pypi_version cache on the package
+        cache_name = self.package.cache_namer(self.package.pypi_version)
+        cache.delete(cache_name)
+        get_pypi_version(self.package)
+
         super(Version, self).save(*args, **kwargs)
 
     def __unicode__(self):

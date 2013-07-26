@@ -365,8 +365,7 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
 
     grid_packages = grid.grid_packages
 
-    elements = Element.objects.all() \
-                .filter(feature__in=features,
+    elements = Element.objects.filter(feature__in=features,
                         grid_package__in=grid_packages)
 
     element_map = build_element_map(elements)
