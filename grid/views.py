@@ -58,12 +58,19 @@ def grid_detail_landscape(request, slug, template_name="grid/grid_detail2.html")
     element_map = build_element_map(elements)
 
     # These attributes are how we determine what is displayed in the grid
-    default_attributes = [('repo_description', 'Description'), 
-                ('category','Category'), ('pypi_downloads', 'Downloads'), ('last_updated', 'Last Updated'), ('pypi_version', 'Version'),
-                ('repo', 'Repo'), ('commits_over_52', 'Commits'), ('repo_watchers', 'Repo watchers'), ('repo_forks', 'Forks'),
-                ('participant_list', 'Participants'), ('license_latest', 'License')                
+    default_attributes = [('repo_description', 'Description'),
+                ('category', 'Category'),
+                ('pypi_downloads', 'Downloads'),
+                ('last_updated', 'Last Updated'),
+                ('pypi_version', 'Version'),
+                ('repo', 'Repo'),
+                ('commits_over_52', 'Commits'),
+                ('repo_watchers', 'Repo watchers'),
+                ('repo_forks', 'Forks'),
+                ('participant_list', 'Participants'),
+                ('license_latest', 'License')
             ]
-            
+
     return render(request, template_name, {
             'grid': grid,
             'features': features,
@@ -120,11 +127,11 @@ def add_grid(request, template_name="grid/add_grid.html"):
     new_grid = Grid()
     form = GridForm(request.POST or None, instance=new_grid)
 
-    if form.is_valid(): 
+    if form.is_valid():
         new_grid = form.save()
-        return HttpResponseRedirect(reverse('grid', kwargs={'slug':new_grid.slug}))
+        return HttpResponseRedirect(reverse('grid', kwargs={'slug': new_grid.slug}))
 
-    return render(request, template_name, { 'form': form })
+    return render(request, template_name, {'form': form})
 
 
 @login_required
@@ -168,19 +175,20 @@ def add_feature(request, grid_slug, template_name="grid/add_feature.html"):
 
     grid = get_object_or_404(Grid, slug=grid_slug)
     feature = Feature()
-    form = FeatureForm(request.POST or None, instance=feature)    
+    form = FeatureForm(request.POST or None, instance=feature)
 
-    if form.is_valid(): 
+    if form.is_valid():
         feature = Feature(
-                    grid=grid, 
+                    grid=grid,
                     title=request.POST['title'],
-                    description = request.POST['description']
+                    description=request.POST['description']
                 )
         feature.save()
-        return HttpResponseRedirect(reverse('grid', kwargs={'slug':feature.grid.slug}))
+        return HttpResponseRedirect(reverse('grid', kwargs={'slug': feature.grid.slug}))
 
-    return render(request, template_name, { 'form': form,'grid':grid })
-        
+    return render(request, template_name, {'form': form, 'grid': grid})
+
+
 @login_required
 def edit_feature(request, id, template_name="grid/edit_feature.html"):
     """edits feature on a grid - this view has the same
@@ -192,7 +200,6 @@ def edit_feature(request, id, template_name="grid/edit_feature.html"):
     if not request.user.get_profile().can_edit_grid_feature:
         return HttpResponseForbidden("permission denied")
 
-
     feature = get_object_or_404(Feature, id=id)
     form = FeatureForm(request.POST or None, instance=feature)
 
@@ -200,13 +207,14 @@ def edit_feature(request, id, template_name="grid/edit_feature.html"):
         feature = form.save()
         return HttpResponseRedirect(reverse('grid', kwargs={'slug': feature.grid.slug}))
 
-    return render(request, template_name, { 'form': form,'grid': feature.grid })
-        
+    return render(request, template_name, {'form': form, 'grid': feature.grid})
+
+
 @permission_required('grid.delete_feature')
 def delete_feature(request, id, template_name="grid/edit_feature.html"):
     # do not need to check permission via profile because
     # we default to being strict about deleting
-    """deletes a feature from the grid, ``id`` is id of the 
+    """deletes a feature from the grid, ``id`` is id of the
     :class:`grid.models.Feature` model that is to be deleted
 
     Requires permission `grid.delete_feature`.
@@ -223,14 +231,13 @@ def delete_feature(request, id, template_name="grid/edit_feature.html"):
 
 @permission_required('grid.delete_gridpackage')
 def delete_grid_package(request, id, template_name="grid/edit_feature.html"):
-    """Deletes package from the grid, ``id`` is the id of the 
+    """Deletes package from the grid, ``id`` is the id of the
     :class:`grid.models.GridPackage` instance
 
     Requires permission ``grid.delete_gridpackage``.
 
     Redirects to :func:`grid.views.grid_detail`.
     """
-
 
     # do not need to check permission via profile because
     # we default to being strict about deleting
@@ -240,15 +247,15 @@ def delete_grid_package(request, id, template_name="grid/edit_feature.html"):
 
     return HttpResponseRedirect(reverse('grid', kwargs={'slug': package.grid.slug}))
 
-        
+
 @login_required
 def edit_element(request, feature_id, package_id, template_name="grid/edit_element.html"):
 
     if not request.user.get_profile().can_edit_grid_element:
         return HttpResponseForbidden("permission denied")
-    
+
     feature = get_object_or_404(Feature, pk=feature_id)
-    grid_package = get_object_or_404(GridPackage, pk=package_id)    
+    grid_package = get_object_or_404(GridPackage, pk=package_id)
 
     # Sanity check to make sure both the feature and grid_package are related to
     # the same grid!
@@ -258,20 +265,21 @@ def edit_element(request, feature_id, package_id, template_name="grid/edit_eleme
     element, created = Element.objects.get_or_create(
                                     grid_package=grid_package,
                                     feature=feature
-                                    )    
-        
+                                    )
+
     form = ElementForm(request.POST or None, instance=element)
 
     if form.is_valid():
-        element = form.save()        
+        element = form.save()
         return HttpResponseRedirect(reverse('grid', kwargs={'slug': feature.grid.slug}))
 
-    return render(request, template_name, { 
+    return render(request, template_name, {
         'form': form,
-        'feature':feature,
-        'package':grid_package.package,
-        'grid':feature.grid
-        })        
+        'feature': feature,
+        'package': grid_package.package,
+        'grid': feature.grid
+        })
+
 
 @login_required
 def add_grid_package(request, grid_slug, template_name="grid/add_grid_package.html"):
@@ -282,62 +290,61 @@ def add_grid_package(request, grid_slug, template_name="grid/add_grid_package.ht
 
     grid = get_object_or_404(Grid, slug=grid_slug)
     grid_package = GridPackage()
-    form = GridPackageForm(request.POST or None, instance=grid_package)    
+    form = GridPackageForm(request.POST or None, instance=grid_package)
 
-    if form.is_valid(): 
-        package = get_object_or_404(Package, id=request.POST['package'])    
+    if form.is_valid():
+        package = get_object_or_404(Package, id=request.POST['package'])
         try:
             GridPackage.objects.get(grid=grid, package=package)
             message = "Sorry, but '%s' is already in this grid." % package.title
-            messages.add_message(request, messages.ERROR, message)            
+            messages.add_message(request, messages.ERROR, message)
         except GridPackage.DoesNotExist:
             grid_package = GridPackage(
-                        grid=grid, 
+                        grid=grid,
                         package=package
                     )
             grid_package.save()
-            redirect = request.POST.get('redirect','')
+            redirect = request.POST.get('redirect', '')
             if redirect:
                 return HttpResponseRedirect(redirect)
-            
-            return HttpResponseRedirect(reverse('grid', kwargs={'slug':grid.slug}))
-    
 
+            return HttpResponseRedirect(reverse('grid', kwargs={'slug': grid.slug}))
 
-    return render(request, template_name, { 
+    return render(request, template_name, {
         'form': form,
         'grid': grid
         })
 
+
 @login_required
 def add_new_grid_package(request, grid_slug, template_name="package/package_form.html"):
     """Add a package to a grid that isn't yet represented on the site."""
-    
+
     if not request.user.get_profile().can_add_grid_package:
         return HttpResponseForbidden("permission denied")
 
     grid = get_object_or_404(Grid, slug=grid_slug)
-    
+
     new_package = Package()
     form = PackageForm(request.POST or None, instance=new_package)
-    
+
     if form.is_valid():
         new_package = form.save()
         GridPackage.objects.create(
-            grid=grid, 
+            grid=grid,
             package=new_package
         )
-        return HttpResponseRedirect(reverse("grid", kwargs={"slug":grid_slug}))
-    
-    return render(request, template_name, {"form": form,"repo_data": repo_data_for_js(),"action": "add",})
-        
+        return HttpResponseRedirect(reverse("grid", kwargs={"slug": grid_slug}))
+
+    return render(request, template_name, {"form": form, "repo_data": repo_data_for_js(), "action": "add"})
+
 
 def ajax_grid_list(request, template_name="grid/ajax_grid_list.html"):
-    q = request.GET.get('q','')
+    q = request.GET.get('q', '')
     grids = []
     if q:
         grids = Grid.objects.filter(title__istartswith=q)
-        package_id = request.GET.get('package_id','')
+        package_id = request.GET.get('package_id', '')
         if package_id:
             grids = grids.exclude(gridpackage__package__id=package_id)
     return render(request, template_name, {'grids': grids})
