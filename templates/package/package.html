@@ -69,6 +69,9 @@
         {% if package.pypi_url and package.pypi_url != "http://pypi.python.org/pypi/" %}
                 <h2>PyPI ({{ latest_version.pretty_status }})</h2>
                 <p><a href="{{ package.pypi_url }}">{{ package.pypi_url }}</a></p>
+                <p>
+                        <a href="https://crate.io/packages/{{ package.pypi_name }}/" rel="nofollow"><img src="https://pypip.in/d/{{ package.pypi_name }}/badge.png"></a>
+                </p>
                 <table>
                     <tr>
                         <th>{% trans "Version" %}</th>
