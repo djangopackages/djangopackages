@@ -1,6 +1,8 @@
+from time import sleep
+
 from django.conf import settings
 
-from github3 import GitHub
+from github3 import GitHub, login
 
 from base_handler import BaseHandler
 from package.utils import uniquer
@@ -14,9 +16,17 @@ class GitHubHandler(BaseHandler):
     slug_regex = repo_regex
 
     def __init__(self):
-        self.github = GitHub()
+        if settings.GITHUB_USERNAME:
+            self.github = login(settings.GITHUB_USERNAME, settings.GITHUB_PASSWORD)
+        else:
+            self.github = GitHub()
+
+    def manage_ratelimit(self):
+        while self.github.ratelimit_remaining < 10:
+            sleep(1)
 
     def fetch_metadata(self, package):
+        self.manage_ratelimit()
 
         username, repo_name = package.repo_name().split('/')
         repo = self.github.repository(username, repo_name)
@@ -34,6 +44,7 @@ class GitHubHandler(BaseHandler):
         return package
 
     def fetch_commits(self, package):
+        self.manage_ratelimit()
         username, repo_name = package.repo_name().split('/')
         repo = self.github.repository(username, repo_name)
         if repo is None:
