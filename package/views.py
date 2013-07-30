@@ -339,6 +339,9 @@ def package_detail(request, slug, template_name="package/package.html"):
         pypi_no_release = False
         warnings = no_development
 
+    if request.GET.get("message"):
+        messages.add_message(request, messages.INFO, request.GET.get("message"))
+
     return render(request, template_name,
             dict(
                 package=package,
@@ -359,3 +362,24 @@ class PackageListAPIView(ListAPIView):
 
 class PackageDetailAPIView(RetrieveAPIView):
     model = Package
+
+
+def int_or_0(value):
+    try:
+        return int(value)
+    except ValueError:
+        return 0
+
+@login_required
+def post_data(request, slug):
+    if request.method == "POST":
+        package = get_object_or_404(Package, slug=slug)
+        # TODO Do this this with a form, really. Duh!
+        package.repo_watchers = int_or_0(request.POST.get("repo_watchers"))
+        package.repo_forks = int_or_0(request.POST.get("repo_forks"))
+        package.repo_description = request.POST.get("repo_description")
+        package.participants = request.POST.get('contributors')
+        package.fetch_commits()  # also saves
+    return HttpResponseRedirect(reverse("package", kwargs={"slug": package.slug}))
+
+

@@ -11,7 +11,8 @@ from package.views import (
                             update_package,
                             usage,
                             package_list,
-                            package_detail
+                            package_detail,
+                            post_data
                             )
 
 urlpatterns = patterns("",
@@ -46,6 +47,12 @@ urlpatterns = patterns("",
         regex = "^(?P<slug>[-\w]+)/fetch-data/$",
         view    = update_package,
         name    = "fetch_package_data",
+    ),
+
+    url(
+        regex = "^(?P<slug>[-\w]+)/post-data/$",
+        view    = post_data,
+        name    = "post_package_data",
     ),
 
     url(
