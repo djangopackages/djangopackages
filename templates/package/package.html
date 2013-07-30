@@ -61,7 +61,11 @@
                             {% usage_button %} 
                         {% endwith %}
                     </td>
-                    <td id="fetch-cell"><a class="awesome forestgreen" href="{% url 'fetch_package_data' package.slug %}">{% trans "Fetch latest data" %}</a></td>
+                    {# if repo.title != "Github" #}
+                        <td id="fetch-cell"><a class="awesome forestgreen" href="{% url 'fetch_package_data' package.slug %}">{% trans "Fetch latest data" %}</a></td>
+                    {% if flarg %}{# if repo.title == "Github" #}
+                        <td id="fetch-cell"><a class="awesome forestgreen" href="#">{% trans "Fetch latest data" %}</a></td>
+                    {% endif %}
                 </tr>    
             </tbody>        
          </table>
@@ -177,6 +181,12 @@
 </div>    <!-- end twelve_column section -->
 {% endblock %}
 
+{% block javascript %}
+    {{ block.super }}
+    <script src="{{ STATIC_URL }}js/underscore.js" type="text/javascript"></script>
+    <script src="{{ STATIC_URL }}js/gh3.js" type="text/javascript"></script>
+{% endblock %}
+
 {% block extra_body %}
 
 <script type="text/javascript">
@@ -185,8 +195,22 @@
         pic1.src="{{ STATIC_URL }}img/progress.gif";
         $('#fetch-cell > a').click(function(){
             $('#fetch-cell').html('Updating <img src="{{ STATIC_URL }}img/progress.gif">');
-            })
+            {% if flarg %}{# if repo.title == "Github" #}
+                var user = new Gh3.User('{{ package.repo_info.username }}');
+                var repo = new Gh3.Repository("{{ package.repo_info.repo_name }}", user);
+                repo.fetch(function(err, res){
+                    if(err) { throw "outch ..." };
+                    console.log(res);
+                    data = {
+                        repo_watchers: res.watchers,
+                        repo_forks: network_count,
+                        repo_description: res.description,
+                    }
+                });
+            {% endif %}
         });
+        
+    });
 </script>
 
 <script type="text/javascript">

@@ -346,7 +346,8 @@ def package_detail(request, slug, template_name="package/package.html"):
                 no_development=no_development,
                 pypi_no_release=pypi_no_release,
                 warnings=warnings,
-                latest_version=package.last_released()
+                latest_version=package.last_released(),
+                repo=package.repo
             )
         )
 

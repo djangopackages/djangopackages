@@ -106,6 +106,12 @@ class Package(BaseModel):
     def repo_name(self):
         return re.sub(self.repo.url_regex, '', self.repo_url)
 
+    def repo_info(self):
+        return dict(
+            username=self.repo_name().split('/')[0],
+            repo_name=self.repo_name().split('/')[1],
+        )
+
     def participant_list(self):
 
         return self.participants.split(',')
