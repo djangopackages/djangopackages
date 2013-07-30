@@ -14,7 +14,6 @@ import requests
 
 from core.utils import STATUS_CHOICES, status_choices_switch
 from core.models import BaseModel
-from package.pypi import fetch_releases
 from package.repos import get_repo_for_repo_url
 from package.signals import signal_fetch_latest_metadata
 from package.utils import get_version, get_pypi_version
