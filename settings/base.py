@@ -114,7 +114,6 @@ PROJECT_APPS = [
     "profiles",
     "apiv1",
     "feeds",
-    "pypi",
     "searchv2",
     "importer",
 ]
