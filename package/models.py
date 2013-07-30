@@ -148,7 +148,6 @@ class Package(BaseModel):
             license = info['license']
             if not info['license'] or not license.strip()  or 'UNKNOWN' == license.upper():
                 for classifier in info['classifiers']:
-                    print classifier
                     if classifier.strip().startswith('License'):
                         # Do it this way to cover people not quite following the spec
                         # at http://docs.python.org/distutils/setupscript.html#additional-meta-data

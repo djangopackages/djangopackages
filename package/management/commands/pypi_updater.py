@@ -22,4 +22,6 @@ class Command(NoArgsCommand):
             if updated:
                 count_updated += 1
             count += 1
-            print(count, count_updated, package)
+            msg = "{}. {}. {}".format(count, count_updated, package)
+            logger.info(msg)
+
