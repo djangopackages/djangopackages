@@ -19,6 +19,7 @@ class GitHubHandler(BaseHandler):
         if settings.GITHUB_USERNAME:
             self.github = login(settings.GITHUB_USERNAME, settings.GITHUB_PASSWORD)
         else:
+            print "TEEESSSST"
             self.github = GitHub()
 
     def manage_ratelimit(self):
