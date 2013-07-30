@@ -206,20 +206,24 @@
                         repo_description: res.description,
                         csrfmiddlewaretoken: getCookie('csrftoken')
                     }
-                    $.get(res.contributors_url, function(contributors_list) {
-                        var contributors = "";
-                        var contributor;
-                        for (var i = 0; i < contributors_list.length; i++) {
-                            contributor = contributors_list[i].login
-                            contributors = contributors + "," + contributor;
-                        };
-                        contributors = contributors.replace(",", "");
-                        package_data.contributors = contributors;
+                    $.ajax({
+                        url: res.contributors_url,
+                        dataType: 'jsonp',
+                        success:function(contributors_list){
+                            var contributors = "";
+                            var contributor;
+                            for (var i = 0; i < contributors_list.length; i++) {
+                                contributor = contributors_list[i].login
+                                contributors = contributors + "," + contributor;
+                            };
+                            contributors = contributors.replace(",", "");
+                            package_data.contributors = contributors;
 
-                        $.post("{% url 'post_package_data' package.slug %}", package_data)
-                            .done(function(data){
-                                location.href = "{% url 'package' package.slug %}?message=Package updated successfully";
-                            });
+                            $.post("{% url 'post_package_data' package.slug %}", package_data)
+                                .done(function(data){
+                                    location.href = "{% url 'package' package.slug %}?message=Package updated successfully";
+                                });
+                        }
                     });
                 });
             {% endif %}
