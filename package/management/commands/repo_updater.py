@@ -25,4 +25,3 @@ class Command(NoArgsCommand):
             else:
                 msg = "{}. {}".format(count, package)
             logger.info(msg)
-            print(msg)
