@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import json
 import re
 
 from django.core.cache import cache
@@ -9,8 +10,9 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from distutils.version import LooseVersion as versioner
+import requests
 
-from core.utils import STATUS_CHOICES
+from core.utils import STATUS_CHOICES, status_choices_switch
 from core.models import BaseModel
 from package.pypi import fetch_releases
 from package.repos import get_repo_for_repo_url
@@ -119,35 +121,74 @@ class Package(BaseModel):
             result = str([0 for x in range(52)])
         return result.replace(" ", "").replace("[", "").replace("]", "")
 
-    def fetch_metadata(self, *args, **kwargs):
-
-        # Get the downloads from pypi
+    def fetch_pypi_data(self, *args, **kwargs):
+        # Get the releases from pypi
         if self.pypi_url.strip() and self.pypi_url != "http://pypi.python.org/pypi/":
 
             total_downloads = 0
+            url = "https://pypi.python.org/pypi/{0}/json".format(self.pypi_name)
+            response = requests.get(url)
+            if settings.DEBUG:
+                if response.status_code not in (200, 404):
+                    print("BOOM!")
+                    print(self, response.status_code)
+            if response.status_code == 404:
+                if settings.DEBUG:
+                    print("BOOM!")
+                    print(self, response.status_code)
+                return False
+            release = json.loads(response.content)
+            info = release['info']
 
-            for release in fetch_releases(self.pypi_name):
+            version, created = Version.objects.get_or_create(
+                package=self,
+                number=info['version']
+            )
 
-                version, created = Version.objects.get_or_create(
-                    package=self,
-                    number=release.version
-                )
+            # add to versions
+            license = "UNKNOWN"
+            if info['license'] is None or 'UNKNOWN' == info['license'].upper():
+                for classifier in info['classifiers']:
+                    if classifier.startswith('License'):
+                        # Do it this way to cover people not quite following the spec
+                        # at http://docs.python.org/distutils/setupscript.html#additional-meta-data
+                        license = classifier.replace('License ::', '')
+                        license = license.replace('OSI Approved :: ', '')
+                        break
 
-                # add to total downloads
-                total_downloads += release.downloads
+            if license and len(license) > 100:
+                license = "Other (see http://pypi.python.org/pypi/%s)" % self.pypi_name
 
-                # add to versions
-                version.downloads = release.downloads
-                if hasattr(release, "upload_time"):
-                    version.upload_time = release.upload_time
-                version.license = release.license
-                version.hidden = release._pypi_hidden
-                version.development_status = release.development_status
-                version.supports_python3 = release.supports_python3
-                version.save()
+            #version stuff
+            try:
+                url_data = release['urls'][0]
+                version.downloads = url_data['downloads']
+                version.upload_time = url_data['upload_time']
+            except IndexError:
+                # Not a real release so we just guess the upload_time.
+                version.upload_time = version.created
+
+            version.hidden = info['_pypi_hidden']
+            for classifier in info['classifiers']:
+                if classifier.startswith('Development Status'):
+                    version.development_status = status_choices_switch(classifier)
+                    break
+            for classifier in info['classifiers']:
+                if classifier.startswith('Programming Language :: Python :: 3'):
+                    version.supports_python3 = True
+                    break
+            version.save()
 
             self.pypi_downloads = total_downloads
+            # Calculate total downloads
 
+            return True
+        return False
+
+    def fetch_metadata(self, fetch_pypi=True):
+
+        if fetch_pypi:
+            self.fetch_pypi_data()
         self.repo.fetch_metadata(self)
         signal_fetch_latest_metadata.send(sender=self)
         self.save()

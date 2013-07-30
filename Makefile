@@ -18,7 +18,7 @@ style:
 
 restoredata:
 	heroku pgbackups:capture --expire
-	curl -o latest.dump `heroku pgbackups:url`
+	curl -o -k latest.dump `heroku pgbackups:url`
 	dropdb oc
 	createdb oc
 	pg_restore --verbose --clean --no-acl --no-owner -d oc latest.dump

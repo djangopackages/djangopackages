@@ -42,9 +42,9 @@ class Command(NoArgsCommand):
 
             try:
                 try:
-                    package.fetch_metadata()
+                    package.fetch_metadata(fetch_metadata=False)
                     package.fetch_commits()
-                except Exception, e:
+                except Exception as e:
                     raise PackageUpdaterException(e, package.title)
             except PackageUpdaterException:
                 pass  # We've already caught the error so let's move on now

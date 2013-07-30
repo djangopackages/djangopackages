@@ -7,8 +7,8 @@ PyPI information fetcher per repo
 
 from datetime import datetime
 import locale
-import xmlrpclib
 
+import xmlrpc2 as xmlrpclib
 from distutils.version import StrictVersion, LooseVersion
 import requests
 
@@ -30,7 +30,7 @@ def fetch_releases(package_name, include_hidden=True):
 
     package_name = package_name
     include_hidden = include_hidden
-    proxy = xmlrpclib.Server('http://pypi.python.org/pypi')
+    proxy = xmlrpclib.Client('http://pypi.python.org/pypi')
 
     releases = []
 
