@@ -19,7 +19,7 @@ def build_1(print_out=True):
     last_week = now - timedelta(7)
 
     SearchV2.objects.filter(created__lte=last_week).delete()
-    for package in Package.objects.filter():
+    for package in Package.objects.filter(slug="django-allauth"):
 
         obj, created = SearchV2.objects.get_or_create(
             item_type="package",
@@ -39,12 +39,13 @@ def build_1(print_out=True):
         obj.participants = package.participants
 
         optional_save = False
-        try:
-            obj.last_committed = package.last_updated
-            optional_save = True
-        except Commit.DoesNotExist:
-            pass
+        # try:
+        #     obj.last_committed = package.last_updated
+        #     optional_save = True
+        # except Commit.DoesNotExist:
+        #     pass
 
+        # releases
         last_released = package.last_released()
         if last_released and last_released.upload_time:
             obj.last_released = last_released.upload_time
@@ -103,6 +104,8 @@ def build_1(print_out=True):
 
         if print_out:
             print >> stdout, obj, created
+
+    raise Exception
 
     print >> stdout, '----------------------'
     max_weight = SearchV2.objects.all()[0].weight

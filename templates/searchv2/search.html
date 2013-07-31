@@ -30,8 +30,6 @@
                   {% if item.last_released or item.last_committed  %}
                     <p class="date">
                         {% if item.last_released %}{% trans "Last PyPI release:" %} {{ item.last_released|timesince }} ago{% endif %}
-                        {% if item.last_released and item.last_committed  %}<br />{% endif %}
-                        {% if item.last_committed %}{% trans "Last source code commit:" %} {{ item.last_committed|timesince }} ago{% endif %}
                     </p>
                   {% endif %}
                   <div class="package-downloads">{{ item.pypi_downloads }}</div>
