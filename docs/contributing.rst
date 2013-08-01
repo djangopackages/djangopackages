@@ -175,7 +175,7 @@ First we pull the code into a local branch::
 
 Then we run the tests::
 
-    ./runtests.py
+    python manage.py test --settings=settings.test
 
 We finish with a merge and push to GitHub::
 
