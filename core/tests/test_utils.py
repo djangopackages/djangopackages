@@ -27,7 +27,7 @@ class GetPypiUrl(TestCase):
             ('Django Uni Form', 'http://pypi.python.org/pypi/django-uni-form'),
         )
         for l in lst:
-            self.assertEquals(utils.get_pypi_url(l[0]), l[1])
+            self.assertEquals(utils.get_pypi_url(l[0].lower()), l[1].lower())
 
     def test_get_pypi_url_fail(self):
 
