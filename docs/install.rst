@@ -83,10 +83,6 @@ Setup your email settings::
     DEFAULT_FROM_EMAIL = 'Your Name <me@mydomain.com>'
     EMAIL_SUBJECT_PREFIX = '[Your Site Name] '
 
-Change the ``SECRET_KEY`` setting in ```local_settings.py``` to your own secret key::
-
-    SECRET_KEY = "CHANGE-THIS-KEY-TO-SOMETHING-ELSE"
-
 Set up your PostgreSQL database
 -------------------------------
 
