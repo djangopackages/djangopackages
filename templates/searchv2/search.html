@@ -34,7 +34,9 @@
                   {% endif %}
                   <div class="package-downloads">
                         {% with pypi_name=item.pypi_name %}
-                            <a href="https://crate.io/packages/{{ pypi_name }}/" rel="nofollow"><img src="https://pypip.in/d/{{ pypi_name }}/badge.png"></a>
+                            {% if pypi_name %}
+                                <a href="https://crate.io/packages/{{ pypi_name }}/" rel="nofollow"><img src="https://pypip.in/d/{{ pypi_name }}/badge.png"></a>
+                            {% endif %}
                         {% endwith %}
                   </div>
                   <div class="package-watchers">{{ item.repo_watchers }}</div>
