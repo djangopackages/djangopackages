@@ -1,7 +1,9 @@
+from django.core.cache import cache
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from core.models import BaseModel
+from package.models import Package
 
 ITEM_TYPE_CHOICES = (
     ('package', 'Package'),
@@ -53,3 +55,16 @@ class SearchV2(BaseModel):
     @models.permalink
     def get_absolute_url(self):
         return self.absolute_url
+
+    def pypi_name(self):
+        key = "SEARCH_PYPI_NAME-{0}".format(self.slug)
+        pypi_name = cache.get(key)
+        if pypi_name:
+            return pypi_name
+        try:
+            package = Package.objects.get(slug=self.slug)
+        except Package.DoesNotExist:
+            return ""
+        pypi_name = package.pypi_name
+        cache.set(key, pypi_name, 24 * 60 * 60)
+        return pypi_name

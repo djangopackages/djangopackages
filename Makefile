@@ -10,7 +10,7 @@ all:
 deploy:
 	heroku pgbackups:capture --expire
 	git push heroku master
-	heroku run python manage.py migrate package --settings=settings.heroku
+	heroku run python manage.py migrate searchv2 --settings=settings.heroku
 
 style:
 	git push heroku master

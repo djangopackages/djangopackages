@@ -32,7 +32,11 @@
                         {% if item.last_released %}{% trans "Last PyPI release:" %} {{ item.last_released|timesince }} ago{% endif %}
                     </p>
                   {% endif %}
-                  <div class="package-downloads">{{ item.pypi_downloads }}</div>
+                  <div class="package-downloads">
+                        {% with pypi_name=item.pypi_name %}
+                            <a href="https://crate.io/packages/{{ pypi_name }}/" rel="nofollow"><img src="https://pypip.in/d/{{ pypi_name }}/badge.png"></a>
+                        {% endwith %}
+                  </div>
                   <div class="package-watchers">{{ item.repo_watchers }}</div>
                   <p class="description">{{ item.description }}</p>
                 </li>
