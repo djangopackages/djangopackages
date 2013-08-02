@@ -70,10 +70,6 @@ Set up server specific settings
 
 Don't change ``settings/base.py``. Instead extend it as you see in ``settings/heroku.py``. In the new file make the following specifications:
 
-OPTIONAL! You can enable launchpad support in the local settings file. Launchpad's dependencies can be a little fussy, so this will probably require some additional tweaking on your part::
-
-    LAUNCHPAD_ACTIVE = False
-
 Add a Google Analytics code if you have one::
 
     URCHIN_ID = "UA-YOURID123-1"
