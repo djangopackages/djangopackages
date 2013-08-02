@@ -97,11 +97,13 @@ Set up the database tables:
     python manage.py syncdb
     python manage.py migrate
 
-OPTIONAL! Load some base data for development usage. This should not be loaded on the production site:
+.. note::
 
-.. sourcecode:: bash
+    This is optional. You can load some base data for development usage (i.e. not in production):
 
-    python manage.py load_dev_data
+    .. sourcecode:: bash
+
+        python manage.py load_dev_data
 
 Load the site in your browser
 -----------------------------
