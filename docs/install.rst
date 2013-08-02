@@ -46,7 +46,7 @@ Open up a command prompt.  Install pip and virtualenv::
 Other operating systems (including various Linux flavors)
 ---------------------------------------------------------
 
-No. See the faq_.
+We don't provide instructions for these, but you should be able to figure things out from the provided instructions. See :doc:`faq`.
 
 Main instructions
 =================
@@ -92,7 +92,7 @@ Set up PostgreSQL and create a database:
 
     createdb oc
 
-For more info, see the postgresql_ contributor instructions.
+For more info, see :doc:`postgresql_contributor_instructions`.
 
 Set up the database tables:
 
@@ -123,6 +123,3 @@ Create a Django superuser for yourself, replacing joe with your username/email::
 
     python manage.py createsuperuser --username=joe --email=joe@example.com
 
-
-.. _PostgreSQL: postgresql_contributor_instructions.html
-.. _faq: http://opencomparison.readthedocs.org/en/latest/faq.html
