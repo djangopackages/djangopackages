@@ -86,27 +86,33 @@ Setup your email settings::
 Set up your PostgreSQL database
 -------------------------------
 
-Set up PostgreSQL and create a database as per the postgresql_ contributor instructions.
-
-Make your database:
+Set up PostgreSQL and create a database:
 
 .. sourcecode:: bash
 
-    $ python manage.py syncdb --settings=settings.<my-custom>
-    $ python manage.py migrate --settings=settings.<my-custom>
+    createdb oc
+
+For more info, see the postgresql_ contributor instructions.
+
+Set up the database tables:
+
+.. sourcecode:: bash
+
+    python manage.py syncdb
+    python manage.py migrate
 
 OPTIONAL! Load some base data for development usage. This should not be loaded on the production site:
 
 .. sourcecode:: bash
 
-    $ python manage.py loaddata --settings=settings.<my-custom>
+    python manage.py load_dev_data
 
 Load the site in your browser
 -----------------------------
 
 Run the development server::
 
-    python manage.py runserver --settings=settings.<my-custom>
+    python manage.py runserver
 
 Then point your browser to http://127.0.0.1:8000
 
