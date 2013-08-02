@@ -1,6 +1,8 @@
 ================
-Repo Handler API
+Repo Handlers
 ================
+
+This document describes the OpenComparison Repo Handler API.
 
 Adding a new repo system like Github in OpenComparison is a relatively straightforward task. You need to provide two things:
 

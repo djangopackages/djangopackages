@@ -20,7 +20,7 @@ If you have git-scm installed, you now clone your git repo using the following c
 Installing OpenComparison
 -------------------------
 
-Follow our detailed installation_ instructions. Please record any difficulties you have and share them with the OpenComparison community via our `issue tracker`_.
+Follow our detailed :doc:`installation` instructions. Please record any difficulties you have and share them with the OpenComparison community via our `issue tracker`_.
 
 Issues!
 =======
@@ -141,7 +141,7 @@ Keep your pull requests limited to a single issue
 OpenComparison pull requests should be as small/atomic as possible. Large, wide-sweeping changes in a pull request will be **rejected**, with comments to isolate the specific code in your pull request. Some examples:
 
 #. If you are making spelling corrections in the docs, don't modify the settings.py file (pydanny_ is guilty of this mistake).
-#. Adding a new `repo handler`_ must not touch the Package model or its methods.
+#. Adding new :doc:`repo_handlers` must not touch the Package model or its methods.
 #. If you are adding a new view don't '*cleanup*' unrelated views. That cleanup belongs in another pull request.
 #. Changing permissions on a file should be in its own pull request with explicit reasons why.
 
@@ -184,8 +184,6 @@ We finish with a merge and push to GitHub::
     git push origin develop
 
 
-.. _installation: install.html
 .. _GitHub project: https://github.com/opencomparison/opencomparison
 .. _issue tracker: https://github.com/opencomparison/opencomparison/issues
-.. _repo handler: repo_handlers.html
 .. _pydanny: http://pydanny.com
