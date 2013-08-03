@@ -81,52 +81,24 @@
 
 </div>
 
-    <div id="main">
-      
-        <!-- Start of grids nav -->
-        <div id="tabhead">
-            <div class="clearfix"></div>
-            <a class="prev browse left">prev</a>
-            <div class="scrollable">
-                <div class="items">
-                {% for grid_chunk in grid_headers %}
-                    <div>
-                        {% for tab in grid_chunk %}
-                            {% if tab %}
-                                <a href="{% url 'grid' tab.slug %}" title="{{ tab.description }}">{{ tab.title|truncatewords:"2" }}</a><br />
-                            {% endif %}
-                            {% if forloop.parentloop.last and forloop.last %}
-                                <a href="{% url 'grids' %}">{% trans "&raquo; more grids..." %}</a>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                {% endfor %}
-                </div>
-            </div>
-            <a class="next browse right">next</a>
-        </div> <!-- tabhead -->
-        <div class="clearfix"></div> <!-- TODO: start using fluid columns on all pages, which may let us get rid of this -->
-        <!-- End of grids nav -->
+{% block body_outer %}
 
-        {% block body_outer %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li id="message_{{ forloop.counter }}"{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                <a href="#"><small>{% trans "clear" %}</small></a>
+                &nbsp;
+                {{ message }}
+            </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    
+    {% block body %}
+    {% endblock %}
 
-            {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                    <li id="message_{{ forloop.counter }}"{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-                        <a href="#"><small>{% trans "clear" %}</small></a>
-                        &nbsp;
-                        {{ message }}
-                    </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-            
-            {% block body %}
-            {% endblock %}
-
-        {% endblock %}
-    </div> <!-- main -->
+{% endblock %}
     
 <div class="container">
     <!-- Start of footer -->
