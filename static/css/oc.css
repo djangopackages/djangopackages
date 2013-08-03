@@ -56,3 +56,17 @@
     background-color: #fff;
     margin-bottom: 0;
 }
+
+/**
+ * Heading styles
+ */
+
+h2, .h2 {
+    font-size: 21px;
+    font-weight: 700;
+}
+
+h3, .h3 {
+    font-size: 16px;
+    font-weight: 700;
+}
