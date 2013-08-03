@@ -14,6 +14,8 @@
         {% block extra_head %}{% endblock %}
     </head>
     <body>
+      
+    <!-- Start of navbar -->
     <div class="navbar">
 
         <!-- Logo and title -->
@@ -44,8 +46,11 @@
         </form>
 
     </div>
+    <!-- End of navbar -->
 
     <div id="main">
+      
+        <!-- Start of grids nav -->
         <div id="tabhead">
             <div class="clearfix"></div>
             <a class="prev browse left">prev</a>
@@ -68,7 +73,10 @@
             <a class="next browse right">next</a>
         </div> <!-- tabhead -->
         <div class="clearfix"></div> <!-- TODO: start using fluid columns on all pages, which may let us get rid of this -->
+        <!-- End of grids nav -->
+
         {% block body_outer %}
+
             {% if messages %}
                 <ul class="messages">
                     {% for message in messages %}
@@ -80,10 +88,13 @@
                     {% endfor %}
                 </ul>
             {% endif %}
+            
             {% block body %}
             {% endblock %}
+
         {% endblock %}
     </div> <!-- main -->
+    
     <div class="clear"></div>
     <div id="footer">
         <div class="legal">
