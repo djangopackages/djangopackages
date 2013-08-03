@@ -38,7 +38,7 @@
         </div>
 
         <div class="col-lg-4">
-            <h2>random 5</h2>
+            <h2>{% trans "random 5" %}</h2>
             
             {% for package in random_packages %}
             <div class="list-group">
@@ -110,23 +110,6 @@
             </div>
             {% endfor %}
 
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-4">
-           <h2>Public Service Announcements</h2>
-           {{ psa_body|safe }}
-        </div>
-
-        <div class="col-lg-4">
-        </div>
-
-        <div class="col-lg-4">
-            <h2>From the Official OpenComparison Blog</h2>
-            <h3>{{ blogpost_title }}</h3>
-            {{ blogpost_body|safe|truncatewords_html:50 }} 
-            <p><a href="http://blog.opencomparison.org">read more...</a></p>
         </div>
     </div>
 </div>
