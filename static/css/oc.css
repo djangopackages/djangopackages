@@ -46,3 +46,12 @@
  */
 
 /* TODO */
+
+/**
+ * Override nav bar color. Add bottom border.
+ */
+
+.navbar {
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+}
