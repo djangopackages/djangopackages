@@ -58,6 +58,18 @@
 }
 
 /**
+ * Nav - grid name typography
+ */
+
+.nav-grid-name {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    color: #1a1a1a;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+  
+/**
  * Heading styles
  */
 
