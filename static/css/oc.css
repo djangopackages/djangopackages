@@ -5,14 +5,6 @@
    ========================================================================== */
 
 /**
- * Header bar.
- */
-
-.header {
-    border-top: 10px solid #75DFCA;
-}
-
-/**
  * Override Bootstrap v3's max-width: 200px for the top logo brand area.
  */
 
@@ -52,6 +44,7 @@
  */
 
 .navbar {
+    border-top: 10px solid #75DFCA;
     background-color: #fff;
     border-bottom: 1px solid #eee;
 }

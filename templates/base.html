@@ -14,37 +14,35 @@
         {% block extra_head %}{% endblock %}
     </head>
     <body>
-    <div class="header">
-        <div class="navbar">
+    <div class="navbar">
 
-            <!-- Logo and title -->
-            <a class="navbar-brand" href="{% url 'home' %}">
-                <img src="{{ STATIC_URL }}img/logo_squares.png" />
-                <h1>{{ SITE_TITLE }}</h1>
-            </a>
+        <!-- Logo and title -->
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <img src="{{ STATIC_URL }}img/logo_squares.png" />
+            <h1>{{ SITE_TITLE }}</h1>
+        </a>
 
-            <!-- Main nav -->
-            <ul class="nav navbar-nav">
-                <li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
-                <li><a href="{% url 'faq' %}">{% trans "FAQ" %}</a></li>
-                {% if request.user.is_authenticated %}
-                    <li><a href="{% url 'profile_detail' profile.github_account %}">{{ profile.github_account }}</a></li>
-                    {% if request.user.is_staff %}
-                        <li><a href="{% url 'admin:index' %}">{% trans "Admin" %}</a></li>
-                    {% endif %}
-                    <li><a href="{% url 'logout' %}">{% trans "Log out" %}</a></li>
-                {% else %}
-                    <li><a href="{% url 'socialauth_begin' 'github' %}{% if current_path %}?next={{ current_path }}{% endif %}">{% trans "Sign in with Github" %}</a></li>
+        <!-- Main nav -->
+        <ul class="nav navbar-nav">
+            <li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+            <li><a href="{% url 'faq' %}">{% trans "FAQ" %}</a></li>
+            {% if request.user.is_authenticated %}
+                <li><a href="{% url 'profile_detail' profile.github_account %}">{{ profile.github_account }}</a></li>
+                {% if request.user.is_staff %}
+                    <li><a href="{% url 'admin:index' %}">{% trans "Admin" %}</a></li>
                 {% endif %}
-            </ul>
+                <li><a href="{% url 'logout' %}">{% trans "Log out" %}</a></li>
+            {% else %}
+                <li><a href="{% url 'socialauth_begin' 'github' %}{% if current_path %}?next={{ current_path }}{% endif %}">{% trans "Sign in with Github" %}</a></li>
+            {% endif %}
+        </ul>
 
-            <!-- Search form -->
-            <form action="{% url 'search' %}" class="navbar-form pull-left">
-              <input id="id_q_p" type="text" class="form-control" style="width: 240px;">
-              <button type="submit" class="btn btn-default">Go</button>
-            </form>
+        <!-- Search form -->
+        <form action="{% url 'search' %}" class="navbar-form pull-left">
+          <input id="id_q_p" type="text" class="form-control" style="width: 240px;">
+          <button type="submit" class="btn btn-default">Go</button>
+        </form>
 
-        </div>
     </div>
 
     <div id="main">
