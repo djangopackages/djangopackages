@@ -89,31 +89,27 @@
         </div>
 
         <div class="col-lg-4">
+
             <h2>{% trans "latest 5" %}</h2>
-            <table class="home-table">
+          
             {% for package in latest_packages %}
-                <tr class="usage-holder">
-                    <td class="home-usage-button-cell">
-                        {% usage_button %}
-                    </td>
-                    <td>
-                        <span class="home-numusers usage-count" id="usage-count-{{ package.id }}">{{ package.usage.count }}</span>
-                        <span class="home-users">{% trans "users" %}</span></td>
-                    <td>
-                        <span class="home-packagename"><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></span>
-                        <span class="home-packagedesc">
-                            {% with package.repo_description|truncatewords:25 as short %}
-                                {% if package.repo_description|length > short|length %}
-                                    {{ short|slice:"-3" }}<a href="{{ package.get_absolute_url }}">...</a>
-                                {% else %}
-                                    {{ short }}
-                                {% endif %}
-                            {% endwith %}                            
-                        </span>
-                    </td>
-                </tr>            
+            <div class="list-group">
+                <a href="{{ package.get_absolute_url }}" class="list-group-item">
+                    <h4 class="list-group-item-heading">{{ package.title }}</h4>
+
+                    <p class="list-group-item-text">
+                        {% with package.repo_description|truncatewords:25 as short %}
+                            {% if package.repo_description|length > short|length %}
+                                {{ short|slice:"-3" }}...
+                            {% else %}
+                                {{ short }}
+                            {% endif %}
+                        {% endwith %}
+                    </p>
+                </a>
+            </div>
             {% endfor %}
-            </table>
+
         </div>
     </div>
 
