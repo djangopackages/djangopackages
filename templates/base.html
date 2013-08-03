@@ -14,35 +14,44 @@
         {% block extra_head %}{% endblock %}
     </head>
     <body>
-    <div id="top_border"></div>
+    <div class="header">
+        <div class="navbar">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{{ STATIC_URL }}img/logo_squares.png" />
+                <h1>{{ SITE_TITLE }}</h1>
+            </a>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+            </ul>
+        </div>
+
+        <div class="login">
+            {% if request.user.is_authenticated %}
+                <b>{{ profile.github_account }}</b> |
+                <a href="{% url 'faq' %}">{% trans "FAQ" %}</a> |
+                <a href="{% url 'profile_detail' profile.github_account %}">{% trans "Profile" %}</a> |
+                {% if request.user.is_staff %}
+                    <a href="{% url 'admin:index' %}">{% trans "Admin" %}</a> |
+                {% endif %}
+                <a href="{% url 'logout' %}">{% trans "Logout" %}</a>
+            {% else %}
+                <a href="{% url 'faq' %}">{% trans "FAQ" %}</a> |
+                <a href="{% url 'socialauth_begin' 'github' %}{% if current_path %}?next={{ current_path }}{% endif %}">{% trans "Sign in with Github" %}</a>
+            {% endif %}
+        </div>
+
+        <div class="searchform">
+            <form action="{% url 'search' %}">
+                <input id="id_q_p" type="text" name="q" maxlength="100" value="{% trans "search" %}" autocomplete="off" />
+                <input id="magnifier-submit" type="submit" value="&nbsp;" /><br/>              
+            </form>
+        </div>
+    </div>
+
     <div id="main">
         <div id="tabhead">
-            <div class="logo">
-                <a href="{% url 'home' %}"><img src="{{ STATIC_URL }}img/logo_squares.png" /></a><h1><a href="{% url 'home' %}">{{ SITE_TITLE }}</a></h1>
-            </div>
-
-            <div class="login">
-                {% if request.user.is_authenticated %}
-                    <b>{{ profile.github_account }}</b> |
-                    <a href="{% url 'faq' %}">{% trans "FAQ" %}</a> |
-                    <a href="{% url 'profile_detail' profile.github_account %}">{% trans "Profile" %}</a> |
-                    {% if request.user.is_staff %}
-                        <a href="{% url 'admin:index' %}">{% trans "Admin" %}</a> |
-                    {% endif %}
-                    <a href="{% url 'logout' %}">{% trans "Logout" %}</a>
-                {% else %}
-                    <a href="{% url 'faq' %}">{% trans "FAQ" %}</a> |
-                    <a href="{% url 'socialauth_begin' 'github' %}{% if current_path %}?next={{ current_path }}{% endif %}">{% trans "Sign in with Github" %}</a>
-                {% endif %}
-            </div>
-
-            <div class="searchform">
-                <form action="{% url 'search' %}">
-                    <input id="id_q_p" type="text" name="q" maxlength="100" value="{% trans "search" %}" autocomplete="off" />
-                    <input id="magnifier-submit" type="submit" value="&nbsp;" /><br/>              
-                </form>
-            </div>
-
             <div class="clearfix"></div>
             <a class="prev browse left">prev</a>
             <div class="scrollable">
