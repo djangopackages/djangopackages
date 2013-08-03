@@ -52,6 +52,24 @@
     </div>
 </div>
 
+<div class="container">
+    <div class="row">
+        {% for grid_chunk in grid_headers %}
+        <div class="col-lg-1">
+            {% for tab in grid_chunk %}
+                {% if tab %}
+                    <a href="{% url 'grid' tab.slug %}" title="{{ tab.description }}">{{ tab.title|truncatewords:"2" }}</a><br />
+                {% endif %}
+                {% if forloop.parentloop.last and forloop.last %}
+                    <a href="{% url 'grids' %}">{% trans "&raquo; more grids..." %}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
     <div id="main">
       
         <!-- Start of grids nav -->
