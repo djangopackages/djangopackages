@@ -58,6 +58,14 @@
 }
 
 /**
+ * Nav - list of grids at top
+ */
+
+.nav-grid-list {
+  background-color: #E4FEFF;
+}
+
+/**
  * Nav - grid name typography
  */
 
