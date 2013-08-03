@@ -53,7 +53,7 @@ def load():
         
         repo_forks=0,
         slug=u'serious-testing',
-        repo_description=u'Make testing as painless as waxing your legs.',
+        repo_description=u'Make testing as painless as frozen yogurt.',
     )
     package4, created = Package.objects.get_or_create(
         pk=4,
