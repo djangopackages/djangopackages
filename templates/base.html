@@ -95,9 +95,10 @@
         {% endblock %}
     </div> <!-- main -->
     
-    <div class="clear"></div>
-    <div id="footer">
-        <div class="legal">
+
+    <!-- Start of footer -->
+    <div class="row">
+        <div class="col-12">
             &copy; 2010 <a href="http://pydanny.com">Daniel Greenfeld</a>, <a href="http://twitter.com/audreyr">Audrey Roy</a> & <a href="http://www.cartwheelweb.com/">Cartwheel Web</a>
             - <a href="{% url 'about' %}">{% trans "About" %}</a>
             - <a href="{% url 'faq' %}">{% trans "FAQ" %}</a>    
@@ -109,9 +110,9 @@
             <a href="http://django.opencomparison.org">Django</a>
             - <a href="http://pyramid.opencomparison.org">Pyramid</a>
             - <a href="http://plone.opencomparison.org">Plone</a>
-            
         </div>
     </div>
+    <!-- End of footer -->
 
     {% block javascript %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
