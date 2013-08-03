@@ -52,23 +52,33 @@
     </div>
 </div>
 
-<div class="nav-grid-list">
+<div class="gridnav-list">
+
+    <div class="gridnav-btn-left">
+        <a class="gridnav-scroll-left">&larr;</a>
+    </div>
+
     <div class="container">
         <div class="row">
             {% for grid_chunk in grid_headers %}
             <div class="col-lg-2">
                 {% for tab in grid_chunk %}
                     {% if tab %}
-                        <a class="nav-grid-name" href="{% url 'grid' tab.slug %}" title="{{ tab.description }}">{{ tab.title|truncatewords:"2" }}</a><br />
+                        <a class="gridnav-name" href="{% url 'grid' tab.slug %}" title="{{ tab.description }}">{{ tab.title|truncatewords:"2" }}</a><br />
                     {% endif %}
                     {% if forloop.parentloop.last and forloop.last %}
-                        <a class="nav-grid-name" href="{% url 'grids' %}">{% trans "&raquo; more grids..." %}</a>
+                        <a class="gridnav-name" href="{% url 'grids' %}">{% trans "&raquo; more grids..." %}</a>
                     {% endif %}
                 {% endfor %}
             </div>
             {% endfor %}
         </div>
     </div>
+
+    <div class="gridnav-btn-right">
+        <a class="gridnav-scroll-right">&rarr;</a>
+    </div>
+
 </div>
 
     <div id="main">

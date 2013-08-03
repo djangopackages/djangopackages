@@ -58,18 +58,37 @@
 }
 
 /**
- * Nav - list of grids at top
+ * GridNav: bar color
  */
 
-.nav-grid-list {
-  background-color: #E4FEFF;
+.gridnav-list {
+    background-color: #E4FEFF;
 }
 
 /**
- * Nav - grid name typography
+ * GridNav: left/right scroll arrows
  */
 
-.nav-grid-name {
+.gridnav-scroll-left, .gridnav-scroll-right {
+    color: #fff;
+    background-color: #75DFCA;
+    vertical-align: middle;
+    height: 140px;
+}
+
+.gridnav-scroll-left {
+    float: left;
+}
+
+.gridnav-scroll-right {
+    float: right;
+}
+
+/**
+ * GridNav: name typography
+ */
+
+.gridnav-name {
     font-family: Helvetica, Arial, sans-serif;
     font-size: 11px;
     color: #1a1a1a;
