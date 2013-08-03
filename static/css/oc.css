@@ -38,5 +38,11 @@
     font-size: 27px;
     font-weight: 700;
     color: #121212;
+    vertical-align: middle;
 }
 
+/**
+ * Override Bootstrap v3's nav bar top/bottom margins.
+ */
+
+/* TODO */
