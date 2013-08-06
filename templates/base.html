@@ -10,6 +10,7 @@
     <title>{% block head_title_base %}{{ SITE_TITLE }} : {% block head_title %}{% endblock %}{% endblock %}</title>
     <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="{{ STATIC_URL }}css/oc.css" type="text/css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/jquery.rotatingnav.min.css" type="text/css" />
     <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" />
     {% block extra_head %}{% endblock %}
 </head>
@@ -52,34 +53,31 @@
     </div>
 </div>
 
-<div class="gridnav-list">
-
-    <div class="gridnav-btn-left">
-        <a class="gridnav-scroll-left">&larr;</a>
+<div id="myrotatingnav" class="rotatingnav slide">
+  <div class="rotatingnav-inner">
+  {% for grid_chunk in grid_headers %}
+    <div class="item">
+      {% for tab in grid_chunk %}
+          {% if tab %}
+              <a href="{% url 'grid' tab.slug %}" title="{{ tab.description }}">{{ tab.title|truncatechars:"14" }}</a><br />
+          {% endif %}
+          {% if forloop.parentloop.last and forloop.last %}
+              <a class="gridnav-name" href="{% url 'grids' %}">{% trans "&raquo; more grids..." %}</a>
+          {% endif %}
+      {% endfor %}
     </div>
-
-    <div class="container">
-        <div class="row">
-            {% for grid_chunk in grid_headers %}
-            <div class="col-lg-2">
-                {% for tab in grid_chunk %}
-                    {% if tab %}
-                        <a class="gridnav-name" href="{% url 'grid' tab.slug %}" title="{{ tab.description }}">{{ tab.title|truncatewords:"2" }}</a><br />
-                    {% endif %}
-                    {% if forloop.parentloop.last and forloop.last %}
-                        <a class="gridnav-name" href="{% url 'grids' %}">{% trans "&raquo; more grids..." %}</a>
-                    {% endif %}
-                {% endfor %}
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-
-    <div class="gridnav-btn-right">
-        <a class="gridnav-scroll-right">&rarr;</a>
-    </div>
-
+  {% endfor %}
+  
+  <a class="left rotatingnav-control">
+    <span class="icon-prev"></span>
+  </a>
+  <a class="right rotatingnav-control">
+    <span class="icon-next"></span>
+  </a>
+  
+  </div>
 </div>
+
 
 {% block body_outer %}
 
@@ -123,6 +121,7 @@
     {% block javascript %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/jquery-ui.min.js"></script>
+        <script src="{{ STATIC_URL }}js/jquery.rotatingnav.min.js"></script>
         <script src="{{ STATIC_URL }}js/uni_form/uni-form.jquery.js" type="text/javascript"></script>
         <script src="{{ STATIC_URL }}js/jquery.tablesorter.min.js" type="text/javascript"></script>
         <script src="{{ STATIC_URL }}js/jquery.dataTables.min.js" type="text/javascript"></script>
@@ -134,6 +133,13 @@
         {% block extra_body %}{% endblock %}
         
         <script type="text/javascript">
+            $(function() {
+            	$(".rotatingnav").rotatingnav({
+                panelCount: 8,
+                activeCount: 4
+            	});
+            });
+
             $(function() {          
                 $('input#id_q_p').click(function() {
                     $("input#id_q_p").val('');
