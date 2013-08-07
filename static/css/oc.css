@@ -71,19 +71,9 @@
  * GridNav: left/right scroll arrows
  */
 
-.gridnav-scroll-left, .gridnav-scroll-right {
-    color: #fff;
+.rotatingnav-control {
     background-color: #75DFCA;
-    vertical-align: middle;
-    height: 140px;
-}
-
-.gridnav-scroll-left {
-    float: left;
-}
-
-.gridnav-scroll-right {
-    float: right;
+    text-shadow: 0 1px 2px #8ec5ba;
 }
 
 /**
