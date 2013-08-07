@@ -10,7 +10,6 @@
 
 .header {
     border-top: 10px solid #75DFCA;
-    border-bottom: 1px solid #eee;
 }
 
 /**
@@ -62,8 +61,10 @@
  * GridNav: bar color
  */
 
-.gridnav-list {
-    background-color: #E4FEFF;
+.rotatingnav-inner {
+    border-top: 1px solid #eee;
+    background-color: #DDFEFF;
+    border-bottom: 1px solid #eee;
 }
 
 /**
