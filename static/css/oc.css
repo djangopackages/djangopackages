@@ -101,3 +101,23 @@ h3, .h3 {
     font-size: 16px;
     font-weight: 700;
 }
+
+/**
+ * Footer bar
+ */
+
+.footer {
+    margin-top: 120px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    clear: both;
+    width: 100%;
+    text-align: center;
+    font-size: 80%;
+    background: #75DFCA;
+}
+
+.footer a {
+    color: #2F1D1D;
+    text-decoration: underline;
+}
