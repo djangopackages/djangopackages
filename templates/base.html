@@ -59,7 +59,7 @@
     <div class="item">
       {% for tab in grid_chunk %}
           {% if tab %}
-              <a href="{% url 'grid' tab.slug %}" title="{{ tab.description }}">{{ tab.title|truncatechars:"14" }}</a><br />
+              <a href="{% url 'grid' tab.slug %}" title="{{ tab.description }}">{{ tab.title|truncatechars:"17" }}</a><br />
           {% endif %}
           {% if forloop.parentloop.last and forloop.last %}
               <a class="gridnav-name" href="{% url 'grids' %}">{% trans "&raquo; more grids..." %}</a>
