@@ -12,7 +12,7 @@
 {% block body %}
 <div class="container">
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-sm-4 col-lg-4">
             <h2><i>{{ SITE_TITLE }} is a directory of reusable apps, sites, tools, and more for your {{ FRAMEWORK_TITLE }} projects.</i></h2>
             <p><b>{{ package_count }}</b> {% trans "packages and counting!" %}</p>
             <p>
@@ -29,7 +29,7 @@
             </p>
         </div>
 
-        <div class="col-lg-4">
+        <div class="col-sm-4 col-lg-4">
             <h2>{% trans "Package Categories" %}</h2>
              {% for category in categories %}
                 <h3><a href="{% url 'category' category.slug %}">{{ category.title_plural }}</a> ( {{ category.count }} )</h3>
@@ -37,7 +37,7 @@
              {% endfor %}
         </div>
 
-        <div class="col-lg-4">
+        <div class="col-sm-4 col-lg-4">
             <h2>{% trans "random 5" %}</h2>
             
             {% for package in random_packages %}
@@ -61,7 +61,7 @@
     </div>
 
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-sm-4 col-lg-4">
              {% if potw %}
                  <h2>Featured Package</h2>
                  <a href="{{ potw.get_absolute_url }}">{{ potw.title }}</a>
@@ -73,7 +73,7 @@
             <p>If so, tweet at <a href="http://twitter.com/open_comparison">@Open_Comparison</a> with a link, and make sure the description field in your repo has been filled out.</p>
         </div>
 
-        <div class="col-lg-4">
+        <div class="col-sm-4 col-lg-4">
             {% if gotw %}
                 <h2>Featured Grid</h2>            
                 <a href="{{ gotw.get_absolute_url }}">{{ gotw.title }}</a>
@@ -88,7 +88,7 @@
             <p>Tweet at <a href="http://twitter.com/open_comparison">@Open_Comparison</a> with a link.  We'll consider featuring it.
         </div>
 
-        <div class="col-lg-4">
+        <div class="col-sm-4 col-lg-4">
 
             <h2>{% trans "latest 5" %}</h2>
           
