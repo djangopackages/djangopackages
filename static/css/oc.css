@@ -5,6 +5,16 @@
    ========================================================================== */
 
 /**
+ * Use a container that's as large as will fit.
+ */
+
+.container {
+  width: 95%;
+  margin: 0 auto;
+  max-width: none;
+}
+
+/**
  * Header bar.
  */
 
@@ -49,12 +59,13 @@
 /* TODO */
 
 /**
- * Override nav bar color. Add bottom border.
+ * Override nav bar color, margin, padding.
  */
 
 .navbar {
     background-color: #fff;
     margin-bottom: 0;
+    padding: 0;
 }
 
 /**
