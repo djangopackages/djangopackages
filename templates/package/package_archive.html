@@ -1,4 +1,4 @@
-{% extends "package/base.html" %}
+{% extends "base.html" %}
 
 {% load url from future %}
 {% load i18n %}
@@ -7,16 +7,14 @@
 
 {% block body %}
 
-    <h1>{% trans "Latest 15 packages added" %}</h1>
+    <h2>{% trans "Latest 15 packages added" %}</h2>
     {% if profile.can_add_package %}
     <a href="{% url 'add_package' %}">{% trans "Add a new package!" %}</a>
     {% endif %}
-    <div id="packages">
-    <ul id="package-archive-list">
+    <div class="list-group">
         {% for package in latest %}
             {% include "package/includes/_package.html"%}
         {% endfor %}
-    </ul>
     </div>
 
 {% endblock %}
