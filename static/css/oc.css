@@ -14,11 +14,12 @@
 }
 
 /**
- * Override Bootstrap v3's max-width: 200px for the top logo brand area.
+ * Override Bootstrap v3 defaults for the top logo brand area.
  */
 
 .navbar-brand {
     max-width: none;
+    padding: 15px 0px;
 }
 
 /**
