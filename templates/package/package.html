@@ -32,7 +32,7 @@
 {% endcomment %}
 
 <h2><a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'packages' %}">{% trans "packages" %}</a> / {{ package.title }}
-    <a href="{% url 'edit_package' package.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
+    <a href="{% url 'edit_package' package.slug %}"><span class="glyphicon glyphicon-pencil"></span></a>
 </h2>
     
     
@@ -93,7 +93,7 @@
                             <td>{{ version.pretty_license|default:"none" }}</td>                        
                             <td>{{ version.upload_time|date:"SHORT_DATE_FORMAT" }}</td>
                             <td>{{ version.pretty_status }}</td>
-                            <td>{% if version.supports_python3 %}<img src="{{ STATIC_URL }}img/icon-yes.gif" />{% else %}<img src="{{ STATIC_URL }}img/icon-no.gif" />{% endif %}</td>
+                            <td>{% if version.supports_python3 %}<span class="glyphicon glyphicon-ok-circle"></span>{% else %}<span class="glyphicon glyphicon-ban-circle"></span>{% endif %}</td>
                         </tr>
                     {% endfor %}
                   </tbody>
@@ -123,8 +123,8 @@
             <tr>
                 <th>{% trans "Repo URL" %}</th>
                 <th>{% trans "Commits" %}</th>
-                <th><img src="{{ STATIC_URL }}img/eye_20x20_clear.png" alt="Watchers" /></th>
-                <th><img src="{{ STATIC_URL }}img/fork_20x20_clear.png" alt="Forks" /></th>
+                <th><span class="glyphicon glyphicon-eye-open"></span></th>
+                <th><span class="glyphicon glyphicon-random"></span></th>
             </tr>
           </thead>
           <tbody>
@@ -146,22 +146,20 @@
             
             {% if request.user.is_authenticated and profile.can_add_grid %}
                 {% if forloop.last %}
-                    <a class="btn btn-default" id="find-a-grid" href="#">Find another grid to join!</a>
+                    <a id="find-a-grid" href="#"><span class="glyphicon glyphicon-plus"></span></a>
                     {% include "package/includes/_attach_grid.html" %}            
                 {% endif %}
             {% endif %}
         {% empty %}
             {% if request.user.is_authenticated and profile.can_add_grid %}
-                <a class="btn btn-default" id="find-a-grid" href="#">{% trans "Find another grid to join!" %}</a>
+                <a class="btn btn-default" id="find-a-grid" href="#"><span class="glyphicon glyphicon-plus"></span></a>
                 {% include "package/includes/_attach_grid.html" %}
             {% endif %}
         {% endfor %}
-        <h2>{% trans "Sites using this package" %}</h2>
-    
-        {% if request.user.is_authenticated %}        
-            <a class="btn btn-default" href="{% url 'add_example' package.slug %}">{% trans "Add an example" %}</a>
-        {% endif %}
-    
+        <h2>
+          {% trans "Sites using this package" %}
+        </h2>
+
         {% with package.active_examples as examples %}
         {% if examples %}
         <ol id="package-sitelist">
@@ -169,13 +167,17 @@
                 <li>
                     <a href="{{ example.url }}">{{ example.title }}</a>
                     {% if request.user.is_authenticated %}&nbsp;
-                        <a href="{% url 'edit_example' package.slug example.id %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="{% trans edit %}" /></a>
+                        <a href="{% url 'edit_example' package.slug example.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
                     {% endif %}
                 </li>
             {% endfor %}
         </ol>
         {% endif %}
         {% endwith %}
+
+        {% if request.user.is_authenticated %}        
+            <a href="{% url 'add_example' package.slug %}"><span class="glyphicon glyphicon-plus"></span></a>
+        {% endif %}
     </div> <!-- end six column section -->
 </div>    <!-- end twelve_column section -->
 {% endblock %}
