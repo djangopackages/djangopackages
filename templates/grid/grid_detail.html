@@ -15,58 +15,58 @@
 {% endblock %}
 
 {% block body %}
-
-    <h1 id="grid-name">
-
+<div class="row">
+  <div class="col-lg-3">
+    <h2>
       <a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'grids' %}">{% trans "grids" %}</a> / {{ grid.title }}
       {% if request.user.is_authenticated and profile.can_edit_grid %}
-      <a href="{% url 'edit_grid' grid.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
+        <a href="{% url 'edit_grid' grid.slug %}">
+          <span class="glyphicon glyphicon-pencil"></span>
+        </a>
       {% endif %}
-    </h1>
+    </h2>
 
     <p>
         {{ grid.description|urlize|linebreaksbr }}
     </p>    
-    
-    <p id="grid-classic"><a href="{% url 'grid_landscape' grid.slug %}">Landscape View</a></p>    
-    
+  
+    <p><a href="{% url 'grid_landscape' grid.slug %}">Landscape View</a></p>    
+  </div>
+  <div class="col-lg-9">
     {% if features %}
-        <h2>{% trans "Features currently being evaluated" %}</h2>
-        <table id="grid" border="3">      
-            <thead>
-                <tr>
-                    <th>{% trans "Feature" %}</th>
-                    <th>{% trans "Description" %}</th>
-                </tr> 
-            </thead>
-            <tbody>
-                {% for feature in features %}
-                    <tr>                        
-                        <td>{{ feature.title }}
-                        {% if request.user.is_authenticated and profile.can_edit_grid_feature %}
-                            <a href="{% url 'edit_feature' feature.pk %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>{% if perms.grid.delete_feature %}&nbsp;<a href="#" id="feature-delete-{{ feature.pk }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete" /></a>{% endif %}
-                        {% endif %}
-                        </td>
-                        <td>{{ feature.description|wordwrap:80|linebreaksbr }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% if request.user.is_authenticated and profile.can_add_grid_feature %}        
-
-            <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url 'add_feature' grid.slug %}">{% trans "Add new feature to the grid" %}</a></p>
-
-        {% endif %}            
-    {% else %}
-        {% if request.user.is_authenticated and profile.can_add_grid_feature %}        
-
-            <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url 'add_feature' grid.slug %}">{% trans "Add a feature to the grid" %}</a></p>
-
-        {% endif %}        
+      <h3>{% trans "Features currently being evaluated" %}</h3>
+      <table class="table">      
+        <thead>
+          <tr>
+            <th>{% trans "Feature" %}</th>
+            <th>{% trans "Description" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for feature in features %}
+            <tr>                        
+              <td>{{ feature.title }}
+              {% if request.user.is_authenticated and profile.can_edit_grid_feature %}
+                <a href="{% url 'edit_feature' feature.pk %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>{% if perms.grid.delete_feature %}&nbsp;<a href="#" id="feature-delete-{{ feature.pk }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete" /></a>{% endif %}
+              {% endif %}
+              </td>
+              <td>{{ feature.description|wordwrap:80|linebreaksbr }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% if request.user.is_authenticated and profile.can_add_grid_feature %}
+          <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url 'add_feature' grid.slug %}">{% trans "Add new feature to the grid" %}</a></p>
+      {% endif %}            
+  {% else %}
+      {% if request.user.is_authenticated and profile.can_add_grid_feature %}        
+          <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url 'add_feature' grid.slug %}">{% trans "Add a feature to the grid" %}</a></p>
+      {% endif %}
     {% endif %}
+  </div>
+</div>
 
-    <p></p>
-    
+<!-- Grid is not inside of a Bootstrap grid row because it needs max width. -->
     {% if grid_packages|length %}
     
         {% if request.user.is_authenticated and profile.can_add_grid_package %}        
