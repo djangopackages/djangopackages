@@ -141,3 +141,16 @@ h3, .h3 {
   background: #ddfeff;
   cursor: pointer;
 }
+
+/**
+ * Glyphicon colors
+ */
+
+.glyphicon-pencil { color: #CA8813; }
+.glyphicon-trash { color: #8B876E; }
+.glyphicon-plus { color: #39bd6e; }
+.glyphicon-repeat { color: #70ddc7; }
+.glyphicon-eye-open { color: #27B195; }
+.glyphicon-random { color: #BD3988; }
+.glyphicon-ban-circle { color: #ff0000; }
+
