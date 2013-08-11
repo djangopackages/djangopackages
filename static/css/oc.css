@@ -132,3 +132,12 @@ h3, .h3 {
     color: #2F1D1D;
     text-decoration: underline;
 }
+
+/**
+ * Grid: editable cell highlighting
+ */
+
+.clickable {
+  background: #ddfeff;
+  cursor: pointer;
+}

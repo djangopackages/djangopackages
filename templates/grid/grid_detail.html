@@ -27,11 +27,24 @@
     </h2>
 
     <p>
-        {{ grid.description|urlize|linebreaksbr }}
-    </p>    
+      {{ grid.description|urlize|linebreaksbr }}
+    </p>
   
     <p><a href="{% url 'grid_landscape' grid.slug %}">Landscape View</a></p>    
+
+    {% if request.user.is_authenticated and profile.can_add_grid_package %}        
+      <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url 'add_grid_package' grid.slug %}">{% trans "Add package to the grid" %}</a></p>
+    {% endif %}
+
+    {% if request.user.is_authenticated and profile.can_add_grid_feature %}
+      <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url 'add_feature' grid.slug %}">{% trans "Add new feature to the grid" %}</a></p>
+    {% endif %}
+
+    {% if request.user.is_authenticated and profile.can_edit_grid_element %}
+        <p><img src="{{ STATIC_URL }}img/icon_changelink.gif"/>&nbsp;{% trans "Highlighted cells are editable.  Click highlighted cells to change text." %}</p>
+    {% endif %}
   </div>
+
   <div class="col-lg-9">
     {% if features %}
       <h3>{% trans "Features currently being evaluated" %}</h3>
@@ -55,25 +68,13 @@
           {% endfor %}
         </tbody>
       </table>
-      {% if request.user.is_authenticated and profile.can_add_grid_feature %}
-          <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url 'add_feature' grid.slug %}">{% trans "Add new feature to the grid" %}</a></p>
-      {% endif %}            
-  {% else %}
-      {% if request.user.is_authenticated and profile.can_add_grid_feature %}        
-          <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url 'add_feature' grid.slug %}">{% trans "Add a feature to the grid" %}</a></p>
-      {% endif %}
-    {% endif %}
+  {% endif %}
   </div>
 </div>
 
 <!-- Grid is not inside of a Bootstrap grid row because it needs max width. -->
     {% if grid_packages|length %}
-    
-        {% if request.user.is_authenticated and profile.can_add_grid_package %}        
-            <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url 'add_grid_package' grid.slug %}">{% trans "Add another package" %}</a></p>
-        {% endif %}        
-    
-        <table class="table table-condensed table-striped">
+        <table class="table table-condensed">
             <thead>
                 {% include "grid/snippets/grid_row_header.html" %}
             </thead>
@@ -223,11 +224,6 @@
             </tbody>
     
         </table>
-
-        {% if request.user.is_authenticated and profile.can_edit_grid_element %}
-            <p><img src="{{ STATIC_URL }}img/icon_changelink.gif"/>&nbsp;{% trans "Highlighted cells are editable.  Click highlighted cells to change text." %}</p>
-        {% endif %}
-                    
     {% else %}
         {% if request.user.is_authenticated and profile.can_add_grid_package %}
         <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url 'add_grid_package' grid.slug %}">{% trans "Add a package to get a grid view" %}</a></p>
