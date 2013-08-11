@@ -18,7 +18,6 @@ from grid.views import (
         edit_grid,
         edit_feature,
         grid_detail,
-        grid_detail_feature,
         grids
     )
 
@@ -99,12 +98,6 @@ urlpatterns = patterns("",
         view    = grids,
         name    = 'grids',
     ),    
-    
-    url(
-        regex = '^g/(?P<slug>[-\w]+)/(?P<feature_id>\d+)/(?P<bogus_slug>[-\w]+)/$',
-        view    = grid_detail_feature,
-        name    = 'grid_detail_feature',
-    ),
     
     url(
         regex = '^g/(?P<slug>[-\w]+)/$',

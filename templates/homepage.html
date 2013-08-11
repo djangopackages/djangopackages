@@ -5,153 +5,113 @@
 {% load i18n %}
 {% load package_tags %}
 
-{% block extra_head %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/home.css" />
-{% endblock %}
-
 {% block head_title %}{{ SITE_TITLE }} reusable apps, sites and tools directory{% endblock %}
 
 {% block body_class %}home{% endblock %}
 
 {% block body %}
-<div class="twelve_column section">
-    <div class="three column">
-        <h2><i>{{ SITE_TITLE }} is a directory of reusable apps, sites, tools, and more for your {{ FRAMEWORK_TITLE }} projects.</i></h2>
-        <p><b>{{ package_count }}</b> {% trans "packages and counting!" %}</p>
-        <p>
-            {% trans "Know of any packages not listed here?  Add them now!  It's quick and easy." %}
-        </p>
-        <p>
-            <a class="large awesome forestgreen" href="{% url 'add_package' %}">{% trans "add package »" %}</a>
-        </p>
-        <p>
-            {% trans "Or add a grid comparing the features of 2 or more similar packages." %}
-        </p>
-        <p>
-            <a class="large awesome forestgreen" href="{% url 'add_grid' %}">{% trans "add grid »" %}</a>
-        </p>
-    </div> <!-- three column (1st) -->
-
-    <div class="one column"></div>
-
-    <div class="three column">
-        <h2>{% trans "Package Categories" %}</h2>
-         {% for category in categories %}
-            <h3><a href="{% url 'category' category.slug %}">{{ category.title_plural }}</a> ( {{ category.count }} )</h3>
-            <p>{{ category.description }}</p>
-         {% endfor %}
-    </div> <!-- three column (2nd) -->
-     
-    <div class="one column"></div>
-
-    <div class="three column">
-        <h2>random 5</h2>
-        <table class="home-table">
-            {% for package in random_packages %}
-                <tr class="usage-holder">
-                    <td>
-                        {% usage_button %}                       
-                    </td>
-                    <td>
-                        <span class="home-numusers usage-count" id="usage-count-{{ package.id }}">{{ package.usage.count }}</span>                            
-                        <span class="home-users">users</span></td>
-                    <td>
-                        <span class="home-packagename"><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></span>
-                        <span class="home-packagedesc">                        
-                            {% with package.repo_description|truncatewords:25 as short %}
-                                {% if package.repo_description|length > short|length %}
-                                    {{ short|slice:"-3" }}<a href="{{ package.get_absolute_url }}">...</a>
-                                {% else %}
-                                    {{ short }}
-                                {% endif %}
-                            {% endwith %}
-                        </span>
-                    </td>
-                </tr>            
-            {% endfor %}
-        </table>
-    </div> <!-- three column (3rd) -->
-    <div class="one column"></div>
-</div> <!-- twelve_column section -->
-
-<div class="twelve_column section">
-    <div class="three column">
-         {% if potw %}
-             <h2>Featured Package</h2>
-             <a href="{{ potw.get_absolute_url }}">{{ potw.title }}</a>
-             <div class="package-watchers">{{ potw.repo_watchers }}</div> 
-             <p>{{ potw.repo_description }}</p>
-         {% endif %}
-        <h3>How to get your {{ FRAMEWORK_TITLE }} package featured here</h3>
-        <p>Do you have a package that you'd like us to feature? Does it have tests? Are the docs on <a href="http://rtfd.org">Read the Docs</a>?</p>
-        <p>If so, tweet at <a href="http://twitter.com/open_comparison">@Open_Comparison</a> with a link, and make sure the description field in your repo has been filled out.</p>
-    </div> <!-- three column (1st) -->
-    <div class="one column"></div>
-
-    <div class="three column">
-        {% if gotw %}
-            <h2>Featured Grid</h2>            
-            <a href="{{ gotw.get_absolute_url }}">{{ gotw.title }}</a>
-            <p>{{ gotw.description }}</p>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4 col-lg-4">
+            <h2><i>{{ SITE_TITLE }} is a directory of reusable apps, sites, tools, and more for your {{ FRAMEWORK_TITLE }} projects.</i></h2>
+            <p><b>{{ package_count }}</b> {% trans "packages and counting!" %}</p>
             <p>
-              <strong>{% trans "Packages" %}:</strong> {{ gotw.gridpackage_set.count }},
-              <strong>{% trans "Features" %}:</strong> {{ gotw.feature_set.count }}
-            </p>            
-        {% endif %}
-        <h3>How to get your {{ SITE_TITLE }} grid featured here</h3>
-        <p>Have you created a new and interesting grid?</p>
-        <p>Tweet at <a href="http://twitter.com/open_comparison">@Open_Comparison</a> with a link.  We'll consider featuring it.
-    </div> <!-- three column (2nd) -->
-    <div class="one column"></div>
+                {% trans "Know of any packages not listed here?  Add them now!  It's quick and easy." %}
+            </p>
+            <p>
+                <a class="large awesome forestgreen" href="{% url 'add_package' %}">{% trans "add package »" %}</a>
+            </p>
+            <p>
+                {% trans "Or add a grid comparing the features of 2 or more similar packages." %}
+            </p>
+            <p>
+                <a class="large awesome forestgreen" href="{% url 'add_grid' %}">{% trans "add grid »" %}</a>
+            </p>
+        </div>
 
-    <div class="three column">
-        <h2>{% trans "latest 5" %}</h2>
-        <table class="home-table">
-        {% for package in latest_packages %}
-            <tr class="usage-holder">
-                <td class="home-usage-button-cell">
-                    {% usage_button %}
-                </td>
-                <td>
-                    <span class="home-numusers usage-count" id="usage-count-{{ package.id }}">{{ package.usage.count }}</span>
-                    <span class="home-users">{% trans "users" %}</span></td>
-                <td>
-                    <span class="home-packagename"><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></span>
-                    <span class="home-packagedesc">
+        <div class="col-sm-4 col-lg-4">
+            <h2>{% trans "Package Categories" %}</h2>
+             {% for category in categories %}
+                <h3><a href="{% url 'category' category.slug %}">{{ category.title_plural }}</a> ( {{ category.count }} )</h3>
+                <p>{{ category.description }}</p>
+             {% endfor %}
+        </div>
+
+        <div class="col-sm-4 col-lg-4">
+            <h2>{% trans "random 5" %}</h2>
+            
+            {% for package in random_packages %}
+            <div class="list-group">
+                <a href="{{ package.get_absolute_url }}" class="list-group-item">
+                    <h4 class="list-group-item-heading">{{ package.title }}</h4>
+
+                    <p class="list-group-item-text">
                         {% with package.repo_description|truncatewords:25 as short %}
                             {% if package.repo_description|length > short|length %}
-                                {{ short|slice:"-3" }}<a href="{{ package.get_absolute_url }}">...</a>
+                                {{ short|slice:"-3" }}...
                             {% else %}
                                 {{ short }}
                             {% endif %}
-                        {% endwith %}                            
-                    </span>
-                </td>
-            </tr>            
-        {% endfor %}
-        </table>
-    </div> <!-- three column (3rd) -->
-    <div class="one column"></div>
-</div> <!-- twelve_column section -->
+                        {% endwith %}
+                    </p>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 
-<div class="twelve_column section">
-    <div class="three column">
-       <h2>Public Service Announcements</h2>
-       {{ psa_body|safe }}
-    </div> <!-- three column (1st) -->
-    <div class="one column"></div>
+    <div class="row">
+        <div class="col-sm-4 col-lg-4">
+             {% if potw %}
+                 <h2>Featured Package</h2>
+                 <a href="{{ potw.get_absolute_url }}">{{ potw.title }}</a>
+                 <div class="package-watchers">{{ potw.repo_watchers }}</div> 
+                 <p>{{ potw.repo_description }}</p>
+             {% endif %}
+            <h3>How to get your {{ FRAMEWORK_TITLE }} package featured here</h3>
+            <p>Do you have a package that you'd like us to feature? Does it have tests? Are the docs on <a href="http://rtfd.org">Read the Docs</a>?</p>
+            <p>If so, tweet at <a href="http://twitter.com/open_comparison">@Open_Comparison</a> with a link, and make sure the description field in your repo has been filled out.</p>
+        </div>
 
-    <div class="three column">
-    </div> <!-- three column (2nd) -->
-    <div class="one column"></div>
+        <div class="col-sm-4 col-lg-4">
+            {% if gotw %}
+                <h2>Featured Grid</h2>            
+                <a href="{{ gotw.get_absolute_url }}">{{ gotw.title }}</a>
+                <p>{{ gotw.description }}</p>
+                <p>
+                  <strong>{% trans "Packages" %}:</strong> {{ gotw.gridpackage_set.count }},
+                  <strong>{% trans "Features" %}:</strong> {{ gotw.feature_set.count }}
+                </p>            
+            {% endif %}
+            <h3>How to get your {{ SITE_TITLE }} grid featured here</h3>
+            <p>Have you created a new and interesting grid?</p>
+            <p>Tweet at <a href="http://twitter.com/open_comparison">@Open_Comparison</a> with a link.  We'll consider featuring it.
+        </div>
 
-    <div class="three column">
-        <h2>From the Official OpenComparison Blog</h2>
-        <h3>{{ blogpost_title }}</h3>
-        {{ blogpost_body|safe|truncatewords_html:50 }} 
-        <p><a href="http://blog.opencomparison.org">read more...</a></p>
-    </div> <!-- three column (3rd) -->
-    <div class="one column"></div>
-</div> <!-- twelve_column section -->
+        <div class="col-sm-4 col-lg-4">
+
+            <h2>{% trans "latest 5" %}</h2>
+          
+            {% for package in latest_packages %}
+            <div class="list-group">
+                <a href="{{ package.get_absolute_url }}" class="list-group-item">
+                    <h4 class="list-group-item-heading">{{ package.title }}</h4>
+
+                    <p class="list-group-item-text">
+                        {% with package.repo_description|truncatewords:25 as short %}
+                            {% if package.repo_description|length > short|length %}
+                                {{ short|slice:"-3" }}...
+                            {% else %}
+                                {{ short }}
+                            {% endif %}
+                        {% endwith %}
+                    </p>
+                </a>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
 {% endblock %}
 

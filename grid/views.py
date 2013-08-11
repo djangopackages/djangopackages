@@ -79,38 +79,6 @@ def grid_detail_landscape(request, slug, template_name="grid/grid_detail2.html")
             'elements': element_map,
         })
 
-
-def grid_detail_feature(request, slug, feature_id, bogus_slug, template_name="grid/grid_detail_feature.html"):
-    """a slightly more focused view than :func:`grid.views.grid_detail`
-    shows comparison for only one feature, and does not show the basic
-    grid parameters
-
-    Template context is the same as in :func:`grid.views.grid_detail`
-    """
-    grid = get_object_or_404(Grid, slug=slug)
-    features = grid.feature_set.filter(id=feature_id)
-    if not features.count():
-        raise Http404
-    grid_packages = grid.gridpackage_set.select_related('gridpackage')
-
-    elements = Element.objects.all() \
-                .filter(feature__in=features,
-                        grid_package__in=grid_packages)
-
-    element_map = build_element_map(elements)
-
-    return render(
-        request,
-        template_name,
-        {
-            'grid': grid,
-            'feature': features[0],
-            'grid_packages': grid_packages,
-            'elements': element_map,
-        }
-    )
-
-
 @login_required
 def add_grid(request, template_name="grid/add_grid.html"):
     """Creates a new grid, requires user to be logged in.
