@@ -2,7 +2,7 @@
 {% load url from future %}
 
 {% load i18n %}
-{% load uni_form_tags %}
+{% load crispy_forms_tags %}
 
 {% block head_title %}{% trans "Edit Element" %}{% endblock %}
 
@@ -15,10 +15,10 @@
     <p><strong>{% trans "Feature:" %} {{ feature.title }}</strong> {{ feature.description}}</p>
     
     
-    <form class="uniForm" method="post">
+    <form method="post">
         {% csrf_token %}
         <fieldset>
-            {{ form|as_uni_form }}
+            {{ form|crispy }}
             <div class="form_block">        
                 <input class="awesome forestgreen" type="submit" name="edit" value="{% trans "Edit" %}">
                 <a href="{% url 'grid' grid.slug %}">{% trans "cancel" %}</a>

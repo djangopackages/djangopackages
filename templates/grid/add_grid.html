@@ -2,7 +2,7 @@
 {% load url from future %}
 
 {% load i18n %}
-{% load uni_form_tags %}
+{% load crispy_forms_tags %}
 
 {% block head_title %}{% trans "Add new grid" %}{% endblock %}
 
@@ -15,10 +15,10 @@
     <p>Periodically, the {{ SITE_TITLE }} team will add some of these grids to the top navigation bar!</p>
     {% endblocktrans %}
     
-    <form class="uniForm" method="post">
+    <form method="post">
         {% csrf_token %}
         <fieldset>
-            {{ form|as_uni_form }}
+            {{ form|crispy }}
             <div class="form_block">
                 <input class="awesome forestgreen" type="submit" name="add" value="{% trans "Add new grid »" %}">
             </div>            

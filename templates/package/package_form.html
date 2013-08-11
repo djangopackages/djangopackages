@@ -2,7 +2,7 @@
 
 {% load url from future %}
 {% load i18n %}
-{% load uni_form_tags %}
+{% load crispy_forms_tags %}
 
 {% block head_title %}{{ action|title }} {% trans "package" %}{% endblock %}
 
@@ -15,16 +15,16 @@
     </p>
 
     <p id="package-form-message"></p>    
-    <form class="uniForm" method="post" id="package-form">
+    <form method="post" id="package-form">
         {{ form.errors }}
         <input type="hidden" name="temp" id="temp" value="" />
         {% csrf_token %}
         <fieldset>
-            {{ form|as_uni_form }}
+            {{ form|crispy }}
         </fieldset>
         {% for package_extender in package_extenders %}
             <fieldset>
-            {{ package_extender.form|as_uni_form }}
+            {{ package_extender.form|crispy }}
             </fieldset>
         {% endfor %}
         

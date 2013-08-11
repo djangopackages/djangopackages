@@ -2,12 +2,12 @@
 
 {% load url from future %}
 {% load i18n %}
-{% load uni_form_tags %}
+{% load crispy_forms_tags %}
 
 {% block head_title %}Profile form for {{ profile.user.username }}{% endblock %}
 
 {% block body %}
 
-    {% uni_form form helper %}
+    {% crispy form helper %}
 
 {% endblock body %}

@@ -5,8 +5,8 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
-from uni_form.helpers import FormHelper, Submit, HTML
-from uni_form.layout import Layout, Fieldset, ButtonHolder
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, HTML
 
 from social_auth.signals import pre_update
 from social_auth.backends.contrib.github import GithubBackend

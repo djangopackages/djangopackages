@@ -130,7 +130,7 @@ PREREQ_APPS = [
     "django.contrib.staticfiles",
 
     # external
-    "uni_form",
+    "crispy_forms",
     "pagination",
     "django_extensions",
     "south",
@@ -343,3 +343,7 @@ import redis
 from rq import Worker, Queue, Connection
 
 ########### end redis setup
+
+########### crispy_forms setup
+CRISPY_TEMPLATE_PACK = "bootstrap3"
+########### end crispy_forms setup

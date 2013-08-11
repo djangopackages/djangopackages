@@ -2,7 +2,7 @@
 {% load url from future %}
 
 {% load i18n %}
-{% load uni_form_tags %}
+{% load crispy_forms_tags %}
 
 {% block head_title %}{% blocktrans with grid.title as grid_title %}Add feature for comparison to grid '{{ grid_title }}'{% endblocktrans %}{% endblock %}
 
@@ -12,10 +12,10 @@
     <h1><a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'grids' %}">{% trans "grids" %}</a> / {% blocktrans with grid.title as grid_title %}Add feature for comparison to grid '<a href="{{ grid_url }}">{{ grid_title }}</a>'{% endblocktrans %}</h1>    
 
     
-    <form class="uniForm" method="post">
+    <form method="post">
         {% csrf_token %}
         <fieldset>
-            {{ form|as_uni_form }}
+            {{ form|crispy }}
             <div class="form_block">
                 <input class="awesome forestgreen" type="submit" name="edit" value="Edit">
                 <a href="{% url 'grid' grid.slug %}">{% trans "cancel" %}</a>    

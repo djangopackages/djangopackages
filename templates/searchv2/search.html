@@ -2,7 +2,7 @@
 
 {% load url from future %}
 {% load i18n %}
-{% load uni_form_tags %}
+{% load crispy_forms_tags %}
 
 {% block head_title %}{% trans "Search" %}{% endblock %}
 {% block body_class %}search{% endblock %}
@@ -11,9 +11,9 @@
 
     <h1>{% trans "Search" %}</h1>
     
-    <form class="uniForm">
+    <form>
         <fieldset>
-                {{ form|as_uni_form }}
+                {{ form|crispy }}
             <div id="search-big-button-holder" class="ctrlHolder">        
                 <input type="submit" name="b" value="{% trans "Search" %}" id="search-big-button"> 
             </div>
