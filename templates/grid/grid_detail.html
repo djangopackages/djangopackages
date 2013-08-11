@@ -30,18 +30,18 @@
       {{ grid.description|urlize|linebreaksbr }}
     </p>
   
-    <p><a href="{% url 'grid_landscape' grid.slug %}">Landscape View</a></p>    
+    <p><a href="{% url 'grid_landscape' grid.slug %}"><span class="glyphicon glyphicon-repeat"></span> Landscape View</a></p>    
 
     {% if request.user.is_authenticated and profile.can_add_grid_package %}        
-      <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url 'add_grid_package' grid.slug %}">{% trans "Add package to the grid" %}</a></p>
+      <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add package to the grid" %}</a></p>
     {% endif %}
 
     {% if request.user.is_authenticated and profile.can_add_grid_feature %}
-      <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url 'add_feature' grid.slug %}">{% trans "Add new feature to the grid" %}</a></p>
+      <p><a href="{% url 'add_feature' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add new feature to the grid" %}</a></p>
     {% endif %}
 
     {% if request.user.is_authenticated and profile.can_edit_grid_element %}
-        <p><img src="{{ STATIC_URL }}img/icon_changelink.gif"/>&nbsp;{% trans "Highlighted cells are editable.  Click highlighted cells to change text." %}</p>
+        <p><span class="glyphicon glyphicon-info-sign"></span> {% trans "Highlighted cells are editable.  Click highlighted cells to change text." %}</p>
     {% endif %}
   </div>
 
@@ -60,7 +60,14 @@
             <tr>                        
               <td>{{ feature.title }}
               {% if request.user.is_authenticated and profile.can_edit_grid_feature %}
-                <a href="{% url 'edit_feature' feature.pk %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>{% if perms.grid.delete_feature %}&nbsp;<a href="#" id="feature-delete-{{ feature.pk }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete" /></a>{% endif %}
+                &nbsp;<a href="{% url 'edit_feature' feature.pk %}">
+                  <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+                {% if perms.grid.delete_feature %}
+                  &nbsp;<a href="#" id="feature-delete-{{ feature.pk }}">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </a>
+                {% endif %}
               {% endif %}
               </td>
               <td>{{ feature.description|wordwrap:80|linebreaksbr }}</td>
