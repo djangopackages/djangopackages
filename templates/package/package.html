@@ -169,7 +169,7 @@
                 <li>
                     <a href="{{ example.url }}">{{ example.title }}</a>
                     {% if request.user.is_authenticated %}&nbsp;
-                        <a class="btn btn-default" href="{% url 'edit_example' package.slug example.id %}">{% trans "edit" %}</a>
+                        <a href="{% url 'edit_example' package.slug example.id %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="{% trans edit %}" /></a>
                     {% endif %}
                 </li>
             {% endfor %}
