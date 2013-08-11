@@ -42,33 +42,36 @@
           {{ package.repo_description }}
       </p>
 
-      <p><strong>{% trans "Category:" %}</strong>&nbsp;<a href="{% url 'category' package.category.slug %}">{{ package.category }}</a></p>
-
-      <table class="table">
+      <!-- start Usage panel -->
+      <div class="panel">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">Usage</h3>
+        </div>
+        <table class="table">
           <thead>
           <tr>
-              <th>{% trans "# Using This" %}</th>
-              <th></th>
+            <th>{% trans "Category" %}</th>
+            <th>{% trans "# Using This" %}</th>
           </tr>
           </thead>
 
           <tbody>
-              <tr>
-                  <td>
-                      {{ package.usage.count }}
-                      &nbsp;
-                      {% with package as package %}
-                          {% usage_button %} 
-                      {% endwith %}
-                  </td>
-                  {% if repo.title != "Github" %}
-                      <td id="fetch-cell"><a class="btn btn-default" href="{% url 'fetch_package_data' package.slug %}">{% trans "Fetch latest data" %}</a></td>
-                  {% else %}{# if repo.title == "Github" #}
-                      <td id="fetch-cell"><a class="btn btn-default" href="#">{% trans "Fetch latest data" %}</a></td>
-                  {% endif %}
-              </tr>    
-          </tbody>        
-       </table>
+            <tr>
+              <td>
+                <a href="{% url 'category' package.category.slug %}">{{ package.category }}</a>
+              </td>
+              <td>
+                  {{ package.usage.count }}
+                  &nbsp;
+                  {% with package as package %}
+                      {% usage_button %} 
+                  {% endwith %}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+       </div>        
+       <!-- end Usage panel -->
 
        <!-- start PyPI panel -->
        <div class="panel">
@@ -143,6 +146,14 @@
     <div class="panel">
       <div class="panel-heading clearfix">
         <h3 class="panel-title pull-left">{{ package.repo.title }}</h3>
+
+        <div class="pull-right" id="fetch-cell">
+          {% if repo.title != "Github" %}
+            <a class="btn btn-default btn-xs" href="{% url 'fetch_package_data' package.slug %}">{% trans "Fetch latest data" %}</a>
+          {% else %}{# if repo.title == "Github" #}
+            <a class="btn btn-default btn-xs" href="#">{% trans "Fetch latest data" %}</a>
+          {% endif %}
+        </div>
       </div>
 
       <table class="table">
