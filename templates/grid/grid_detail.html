@@ -73,7 +73,7 @@
             <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url 'add_grid_package' grid.slug %}">{% trans "Add another package" %}</a></p>
         {% endif %}        
     
-        <table id="grid" border="3">
+        <table class="table table-condensed table-striped">
             <thead>
                 {% include "grid/snippets/grid_row_header.html" %}
             </thead>
