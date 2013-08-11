@@ -31,9 +31,9 @@
 {% endif %}
 {% endcomment %}
 
-<h1><a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'packages' %}">{% trans "packages" %}</a> / {{ package.title }}
+<h2><a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'packages' %}">{% trans "packages" %}</a> / {{ package.title }}
     <a href="{% url 'edit_package' package.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
-</h1>
+</h2>
     
     
 <div class="row">
@@ -44,7 +44,7 @@
 
         <p><strong>{% trans "Category:" %}</strong>&nbsp;<a href="{% url 'category' package.category.slug %}">{{ package.category }}</a></p>
 
-        <table>
+        <table class="table">
             <thead>
             <tr>
                 <th>{% trans "# Using This" %}</th>
@@ -76,7 +76,8 @@
                 <p>
                         <a href="https://crate.io/packages/{{ package.pypi_name }}/" rel="nofollow"><img src="https://pypip.in/d/{{ package.pypi_name }}/badge.png"></a>
                 </p>
-                <table>
+                <table class="table">
+                  <thead>
                     <tr>
                         <th>{% trans "Version" %}</th>
                         <th>{% trans "License" %}</th>
@@ -84,6 +85,8 @@
                         <th>{% trans "Status" %}</th>
                         <th>{% trans "Python 3?" %}</th>
                     </tr>
+                  </thead>
+                  <tbody>
                     {% for version in package.version_set.by_version_not_hidden %}
                         <tr>
                             <td>{{ version.number }}</td>
@@ -93,6 +96,7 @@
                             <td>{% if version.supports_python3 %}<img src="{{ STATIC_URL }}img/icon-yes.gif" />{% else %}<img src="{{ STATIC_URL }}img/icon-no.gif" />{% endif %}</td>
                         </tr>
                     {% endfor %}
+                  </tbody>
             </table>
         {% else %}
             <h2>{% trans "No PyPI release" %}</h2>
@@ -114,19 +118,23 @@
         <p class="rtd" style="display: none;">{% blocktrans %}This project has documentation available for it on <a class="rtd">Read the Docs!</a>{% endblocktrans %}</p>
 
         <h2>{{ package.repo.title }}</h2>
-        <table>
+        <table class="table">
+          <thead>
             <tr>
                 <th>{% trans "Repo URL" %}</th>
                 <th>{% trans "Commits" %}</th>
                 <th><img src="{{ STATIC_URL }}img/eye_20x20_clear.png" alt="Watchers" /></th>
                 <th><img src="{{ STATIC_URL }}img/fork_20x20_clear.png" alt="Forks" /></th>
             </tr>
+          </thead>
+          <tbody>
             <tr>
                 <td><a href="{{ package.repo_url }}">{{ package.repo_url }}</a></td>
                 <td><img src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{package.commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
                 <td>{{ package.repo_watchers|default:"n/a" }}</td>
                 <td>{{ package.repo_forks|default:"n/a" }}</td>
             </tr>
+          </tbody>
         </table>        
 
         {% for grid in package.grids %}
