@@ -49,5 +49,6 @@ _data
 
 # PostgreSQL
 logfile
+*.dump
 
 collected_static

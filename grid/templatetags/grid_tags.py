@@ -21,8 +21,8 @@ minus_three_re = re.compile(r'^(\-[3-9]{1,}|\-{3,}|\-[1-9][0-9]+)$')
 
 YES_KEYWORDS = ('check', 'yes', 'good', '+1', '+')
 NO_KEYWORDS = ('bad', 'negative', 'evil', 'sucks', 'no', '-1', '-')
-YES_IMG = '<img src="%simg/icon-yes.gif" />' % settings.STATIC_URL
-NO_IMG = '<img src="%simg/icon-no.gif" />' % settings.STATIC_URL
+YES_IMG = '<span class="glyphicon glyphicon-ok"></span>'
+NO_IMG = '<span class="glyphicon glyphicon-remove"></span>'
 
 
 @register.filter
