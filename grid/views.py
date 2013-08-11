@@ -363,7 +363,7 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
     grid = get_object_or_404(Grid, slug=slug)
     features = grid.feature_set.select_related()
 
-    grid_packages = grid.grid_packages
+    grid_packages = grid.grid_packages.order_by("-package__repo_watchers")
 
     elements = Element.objects.filter(feature__in=features,
                         grid_package__in=grid_packages)

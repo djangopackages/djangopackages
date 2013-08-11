@@ -249,35 +249,38 @@
         $('#fetch-cell > a').click(function(){
             $('#fetch-cell').html('Updating <img src="{{ STATIC_URL }}img/progress.gif">');
             {% if repo.title == "Github" %}
-                var user = new Gh3.User('{{ package.repo_info.username }}');
-                var repo = new Gh3.Repository("{{ package.repo_info.repo_name }}", user);
-                repo.fetch(function(err, res){
-                    if(err) { throw "outch ..." };
-                    var package_data = {
-                        repo_watchers: res.watchers,
-                        repo_forks: res.network_count,
-                        repo_description: res.description,
-                        csrfmiddlewaretoken: getCookie('csrftoken')
-                    }
-                    $.ajax({
-                        url: res.contributors_url,
-                        dataType: 'jsonp',
-                        success:function(contributors_list){
-                            var contributors = "";
-                            var contributor;
-                            for (var i = 0; i < contributors_list.length; i++) {
-                                contributor = contributors_list[i].login
-                                contributors = contributors + "," + contributor;
-                            };
-                            contributors = contributors.replace(",", "");
-                            package_data.contributors = contributors;
+                var repo_url = 'https://api.github.com/repos/{{ package.repo_name }}';
 
-                            $.post("{% url 'post_package_data' package.slug %}", package_data)
-                                .done(function(data){
-                                    location.href = "{% url 'package' package.slug %}?message=Package updated successfully";
-                                });
-                        }
-                    });
+                $.ajax({
+                    url: repo_url,
+                    dataType: 'jsonp',
+                    success: function(repo) {
+                        var package_data = {
+                            repo_watchers: repo.data.watchers,
+                            repo_forks: repo.data.network_count,
+                            repo_description: repo.data.description,
+                            csrfmiddlewaretoken: getCookie('csrftoken')
+                        };
+                        $.ajax({
+                            url: repo.data.contributors_url,
+                            dataType: 'jsonp',
+                            success:function(contributors_list){
+                                var contributors = "";
+                                var contributor;
+                                for (var i = 0; i < contributors_list.length; i++) {
+                                    contributor = contributors_list[i].login;
+                                    contributors = contributors + "," + contributor;
+                                }
+                                contributors = contributors.replace(",", " ");
+                                package_data.contributors = contributors;
+
+                                $.post("{% url 'post_package_data' package.slug %}", package_data).done(function(data){
+                                        location.href = "{% url 'package' package.slug %}?message=Package updated successfully";
+                                    });
+                            }
+
+                        });
+                    }
                 });
             {% endif %}
         });
