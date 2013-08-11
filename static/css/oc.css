@@ -74,7 +74,7 @@
 
 .rotatingnav-inner {
     border-top: 1px solid #eee;
-    background-color: #DDFEFF;
+    background-color: #F8F8F8;
     border-bottom: 1px solid #eee;
 }
 
@@ -83,7 +83,7 @@
  */
 
 .rotatingnav-control {
-    background-color: #75DFCA;
+    background-color: #70ddc7;
     text-shadow: 0 1px 2px #8ec5ba;
 }
 
