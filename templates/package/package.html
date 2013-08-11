@@ -54,17 +54,17 @@
 
             <tbody>
                 <tr>
-                    <td class="usage-container usage-holder">
-                        <span class="usage-count" id="usage-count-{{ package.id }}">{{ package.usage.count }}</span>
+                    <td>
+                        {{ package.usage.count }}
                         &nbsp;
                         {% with package as package %}
                             {% usage_button %} 
                         {% endwith %}
                     </td>
                     {% if repo.title != "Github" %}
-                        <td id="fetch-cell"><a class="awesome forestgreen" href="{% url 'fetch_package_data' package.slug %}">{% trans "Fetch latest data" %}</a></td>
+                        <td id="fetch-cell"><a class="btn btn-default" href="{% url 'fetch_package_data' package.slug %}">{% trans "Fetch latest data" %}</a></td>
                     {% else %}{# if repo.title == "Github" #}
-                        <td id="fetch-cell"><a class="awesome forestgreen" href="#">{% trans "Fetch latest data" %}</a></td>
+                        <td id="fetch-cell"><a class="btn btn-default" href="#">{% trans "Fetch latest data" %}</a></td>
                     {% endif %}
                 </tr>    
             </tbody>        
@@ -146,28 +146,21 @@
             
             {% if request.user.is_authenticated and profile.can_add_grid %}
                 {% if forloop.last %}
-                    <div id="package-gridname">
-                        <a class="awesome forestgreen" id="find-a-grid" href="#">Find another grid to join!</a>
-                        {% include "package/includes/_attach_grid.html" %}
-                    </div>    
-            
+                    <a class="btn btn-default" id="find-a-grid" href="#">Find another grid to join!</a>
+                    {% include "package/includes/_attach_grid.html" %}            
                 {% endif %}
             {% endif %}
         {% empty %}
             {% if request.user.is_authenticated and profile.can_add_grid %}
-                <div id="package-gridname">
-                    <a class="awesome forestgreen" id="find-a-grid" href="#">{% trans "Find another grid to join!" %}</a>
-                    {% include "package/includes/_attach_grid.html" %}
-                </div>
+                <a class="btn btn-default" id="find-a-grid" href="#">{% trans "Find another grid to join!" %}</a>
+                {% include "package/includes/_attach_grid.html" %}
             {% endif %}
         {% endfor %}
         <h2>{% trans "Sites using this package" %}</h2>
     
-        <div id="package-editlink">
-            {% if request.user.is_authenticated %}        
-                <a class="awesome forestgreen" href="{% url 'add_example' package.slug %}">{% trans "Add an example" %}</a>
-            {% endif %}
-        </div>
+        {% if request.user.is_authenticated %}        
+            <a class="btn btn-default" href="{% url 'add_example' package.slug %}">{% trans "Add an example" %}</a>
+        {% endif %}
     
         {% with package.active_examples as examples %}
         {% if examples %}
@@ -176,9 +169,7 @@
                 <li>
                     <a href="{{ example.url }}">{{ example.title }}</a>
                     {% if request.user.is_authenticated %}&nbsp;
-                        <div id="package-editlink">
-                            <a class="awesome forestgreen" href="{% url 'edit_example' package.slug example.id %}">{% trans "edit" %}</a>
-                        </div>
+                        <a class="btn btn-default" href="{% url 'edit_example' package.slug example.id %}">{% trans "edit" %}</a>
                     {% endif %}
                 </li>
             {% endfor %}
