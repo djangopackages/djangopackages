@@ -113,11 +113,22 @@
     
     </div> <!-- end six column section -->
     <div class="col-lg-6">
-        
-        <h2 class="rtd" style="display: none;">{% trans "Read the Docs" %}</h2>
+      
+      <!-- start Documentation panel -->
+      <div class="panel">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">Documentation</h3>
+        </div>
         <p class="rtd" style="display: none;">{% blocktrans %}This project has documentation available for it on <a class="rtd">Read the Docs!</a>{% endblocktrans %}</p>
+      </div>
+      <!-- end Documentation panel -->
 
-        <h2>{{ package.repo.title }}</h2>
+      <!-- start Repo panel -->
+      <div class="panel">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">{{ package.repo.title }}</h3>
+        </div>
+
         <table class="table">
           <thead>
             <tr>
@@ -135,31 +146,45 @@
                 <td>{{ package.repo_forks|default:"n/a" }}</td>
             </tr>
           </tbody>
-        </table>        
+        </table>
+      </div>
+      <!-- end Repo panel -->
 
-        {% for grid in package.grids %}
-            {% if forloop.first %}
-                <h2>{% trans "Comparison Grids" %}</h2>
+      <!-- start Grids panel -->
+      <div class="panel">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">{% trans "Comparison Grids" %}</h3>
+          <div class="pull-right">
+            {% if request.user.is_authenticated and profile.can_add_grid %}        
+                <a id="find-a-grid" href="#"><span class="glyphicon glyphicon-plus"></span></a>
+                {% include "package/includes/_attach_grid.html" %}            
             {% endif %}
-            
-                <a href="{% url 'grid' grid.slug %}" title="{{ grid.description }}">{{ grid }}</a> &nbsp;
-            
-            {% if request.user.is_authenticated and profile.can_add_grid %}
-                {% if forloop.last %}
-                    <a id="find-a-grid" href="#"><span class="glyphicon glyphicon-plus"></span></a>
-                    {% include "package/includes/_attach_grid.html" %}            
-                {% endif %}
-            {% endif %}
-        {% empty %}
-            {% if request.user.is_authenticated and profile.can_add_grid %}
-                <a class="btn btn-default" id="find-a-grid" href="#"><span class="glyphicon glyphicon-plus"></span></a>
-                {% include "package/includes/_attach_grid.html" %}
-            {% endif %}
-        {% endfor %}
-        <h2>
-          {% trans "Sites using this package" %}
-        </h2>
+          </div>
+        </div>
 
+          {% for grid in package.grids %}            
+                  <a href="{% url 'grid' grid.slug %}" title="{{ grid.description }}">{{ grid }}</a> &nbsp;
+
+          {% empty %}
+              {% if request.user.is_authenticated and profile.can_add_grid %}
+                  <a class="btn btn-default" id="find-a-grid" href="#"><span class="glyphicon glyphicon-plus"></span></a>
+                  {% include "package/includes/_attach_grid.html" %}
+              {% endif %}
+          {% endfor %}
+      </div>
+      <!-- end Grids panel -->
+
+      <!-- start Examples panel -->
+      <div class="panel">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">{% trans "Sites using this package" %}</h3>
+          <div class="pull-right">
+            {% if request.user.is_authenticated %}        
+                <a href="{% url 'add_example' package.slug %}"><span class="glyphicon glyphicon-plus"></span></a>
+            {% endif %}
+          </div>
+        </div>
+        
         {% with package.active_examples as examples %}
         {% if examples %}
         <ol id="package-sitelist">
@@ -174,10 +199,10 @@
         </ol>
         {% endif %}
         {% endwith %}
+      </div>
+      <!-- end Examples panel -->
 
-        {% if request.user.is_authenticated %}        
-            <a href="{% url 'add_example' package.slug %}"><span class="glyphicon glyphicon-plus"></span></a>
-        {% endif %}
+
     </div> <!-- end six column section -->
 </div>    <!-- end twelve_column section -->
 {% endblock %}
