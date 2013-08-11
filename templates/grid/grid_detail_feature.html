@@ -36,7 +36,7 @@
                         <a href="{% url 'edit_feature' feature.pk %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
                         {% if perms.grid.delete_feature %}
                             <a href="#" id="feature-delete-{{ feature.pk }}">
-                                <img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete" />
+                              <span class="glyphicon glyphicon-trash"></span>
                             </a>
                         {% endif %}
                     {% endif %}

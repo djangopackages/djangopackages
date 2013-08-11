@@ -233,7 +233,7 @@
         </table>
     {% else %}
         {% if request.user.is_authenticated and profile.can_add_grid_package %}
-        <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url 'add_grid_package' grid.slug %}">{% trans "Add a package to get a grid view" %}</a></p>
+        <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span>&nbsp;{% trans "Add a package to get a grid view" %}</a></p>
         {% endif %}
     {% endif %}
         
