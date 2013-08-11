@@ -7,9 +7,9 @@
 {% block head_title %}{{ package.title }}{% endblock %}
 
 {% block extra_head %}
-    <meta name="description" content="{{ package.repo_description }}" />
-    <meta name="keywords" content="{{ package.grid_set.all|join:',' }}" />
-    {{ block.super }}
+  <meta name="description" content="{{ package.repo_description }}" />
+  <meta name="keywords" content="{{ package.grid_set.all|join:',' }}" />
+  {{ block.super }}
 {% endblock %}
 
 {% block body %}
@@ -17,200 +17,199 @@
 {% comment %}
 <!--TODO block until we get things sorted out -->
 {% if warnings %}
-    <ul class="messages">
-        {% if pypi_ancient %}
-            <li class="warning">WARNING: This package's most recent PyPI release is from over a year ago and may no longer be maintained.</li>
-        {% endif %}
-        {% if no_development %}
-            <li class="warning">WARNING: This package has not seen any development in over a year and may no longer be maintained.</li>
-        {% endif %}
-        {% if pypi_no_release %}
-            <li class="note">NOTE: This package is not available for download from PyPI. It may be using a third-party site to host its downloadable package files.</li>
-        {% endif %}
-    </ul>
+  <ul class="messages">
+    {% if pypi_ancient %}
+      <li class="warning">WARNING: This package's most recent PyPI release is from over a year ago and may no longer be maintained.</li>
+    {% endif %}
+    {% if no_development %}
+      <li class="warning">WARNING: This package has not seen any development in over a year and may no longer be maintained.</li>
+    {% endif %}
+    {% if pypi_no_release %}
+      <li class="note">NOTE: This package is not available for download from PyPI. It may be using a third-party site to host its downloadable package files.</li>
+    {% endif %}
+  </ul>
 {% endif %}
 {% endcomment %}
 
 <h2><a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'packages' %}">{% trans "packages" %}</a> / {{ package.title }}
-    <a href="{% url 'edit_package' package.slug %}"><span class="glyphicon glyphicon-pencil"></span></a>
+  <a href="{% url 'edit_package' package.slug %}"><span class="glyphicon glyphicon-pencil"></span></a>
 </h2>
     
     
 <div class="row">
-    <div class="col-lg-6">
-        <p>
-            {{ package.repo_description }}
-        </p>
+  <div class="col-lg-6">
+      <p>
+          {{ package.repo_description }}
+      </p>
 
-        <p><strong>{% trans "Category:" %}</strong>&nbsp;<a href="{% url 'category' package.category.slug %}">{{ package.category }}</a></p>
+      <p><strong>{% trans "Category:" %}</strong>&nbsp;<a href="{% url 'category' package.category.slug %}">{{ package.category }}</a></p>
 
-        <table class="table">
-            <thead>
-            <tr>
-                <th>{% trans "# Using This" %}</th>
-                <th></th>
-            </tr>
-            </thead>
-
-            <tbody>
-                <tr>
-                    <td>
-                        {{ package.usage.count }}
-                        &nbsp;
-                        {% with package as package %}
-                            {% usage_button %} 
-                        {% endwith %}
-                    </td>
-                    {% if repo.title != "Github" %}
-                        <td id="fetch-cell"><a class="btn btn-default" href="{% url 'fetch_package_data' package.slug %}">{% trans "Fetch latest data" %}</a></td>
-                    {% else %}{# if repo.title == "Github" #}
-                        <td id="fetch-cell"><a class="btn btn-default" href="#">{% trans "Fetch latest data" %}</a></td>
-                    {% endif %}
-                </tr>    
-            </tbody>        
-         </table>
-
-        {% if package.pypi_url and package.pypi_url != "http://pypi.python.org/pypi/" %}
-                <h2>PyPI ({{ latest_version.pretty_status }})</h2>
-                <p><a href="{{ package.pypi_url }}">{{ package.pypi_url }}</a></p>
-                <p>
-                        <a href="https://crate.io/packages/{{ package.pypi_name }}/" rel="nofollow"><img src="https://pypip.in/d/{{ package.pypi_name }}/badge.png"></a>
-                </p>
-                <table class="table">
-                  <thead>
-                    <tr>
-                        <th>{% trans "Version" %}</th>
-                        <th>{% trans "License" %}</th>
-                        <th>{% trans "Released" %}</th>
-                        <th>{% trans "Status" %}</th>
-                        <th>{% trans "Python 3?" %}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for version in package.version_set.by_version_not_hidden %}
-                        <tr>
-                            <td>{{ version.number }}</td>
-                            <td>{{ version.pretty_license|default:"none" }}</td>                        
-                            <td>{{ version.upload_time|date:"SHORT_DATE_FORMAT" }}</td>
-                            <td>{{ version.pretty_status }}</td>
-                            <td>{% if version.supports_python3 %}<span class="glyphicon glyphicon-ok-circle"></span>{% else %}<span class="glyphicon glyphicon-ban-circle"></span>{% endif %}</td>
-                        </tr>
-                    {% endfor %}
-                  </tbody>
-            </table>
-        {% else %}
-            <h2>{% trans "No PyPI release" %}</h2>
-        {% endif %}
-
-        <h2>{% trans "Participants" %}</h2>
-
-        <p>
-            {% for participant in package.participant_list %}
-                <a href="{% participant_url package.repo participant %}">{{ participant }}</a>&nbsp;
-            {% endfor %}
-        
-        </p>
-    
-    </div> <!-- end six column section -->
-    <div class="col-lg-6">
-      
-      <!-- start Documentation panel -->
-      <div class="panel">
-        <div class="panel-heading clearfix">
-          <h3 class="panel-title pull-left">Documentation</h3>
-        </div>
-        <p class="rtd" style="display: none;">{% blocktrans %}This project has documentation available for it on <a class="rtd">Read the Docs!</a>{% endblocktrans %}</p>
-      </div>
-      <!-- end Documentation panel -->
-
-      <!-- start Repo panel -->
-      <div class="panel">
-        <div class="panel-heading clearfix">
-          <h3 class="panel-title pull-left">{{ package.repo.title }}</h3>
-        </div>
-
-        <table class="table">
+      <table class="table">
           <thead>
-            <tr>
-                <th>{% trans "Repo URL" %}</th>
-                <th>{% trans "Commits" %}</th>
-                <th><span class="glyphicon glyphicon-eye-open"></span></th>
-                <th><span class="glyphicon glyphicon-random"></span></th>
-            </tr>
+          <tr>
+              <th>{% trans "# Using This" %}</th>
+              <th></th>
+          </tr>
           </thead>
+
           <tbody>
-            <tr>
-                <td><a href="{{ package.repo_url }}">{{ package.repo_url }}</a></td>
-                <td><img src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{package.commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
-                <td>{{ package.repo_watchers|default:"n/a" }}</td>
-                <td>{{ package.repo_forks|default:"n/a" }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <!-- end Repo panel -->
+              <tr>
+                  <td>
+                      {{ package.usage.count }}
+                      &nbsp;
+                      {% with package as package %}
+                          {% usage_button %} 
+                      {% endwith %}
+                  </td>
+                  {% if repo.title != "Github" %}
+                      <td id="fetch-cell"><a class="btn btn-default" href="{% url 'fetch_package_data' package.slug %}">{% trans "Fetch latest data" %}</a></td>
+                  {% else %}{# if repo.title == "Github" #}
+                      <td id="fetch-cell"><a class="btn btn-default" href="#">{% trans "Fetch latest data" %}</a></td>
+                  {% endif %}
+              </tr>    
+          </tbody>        
+       </table>
 
-      <!-- start Grids panel -->
-      <div class="panel">
-        <div class="panel-heading clearfix">
-          <h3 class="panel-title pull-left">{% trans "Comparison Grids" %}</h3>
-          <div class="pull-right">
-            {% if request.user.is_authenticated and profile.can_add_grid %}        
-                <a id="find-a-grid" href="#"><span class="glyphicon glyphicon-plus"></span></a>
-                {% include "package/includes/_attach_grid.html" %}            
-            {% endif %}
-          </div>
-        </div>
+      {% if package.pypi_url and package.pypi_url != "http://pypi.python.org/pypi/" %}
+              <h2>PyPI ({{ latest_version.pretty_status }})</h2>
+              <p><a href="{{ package.pypi_url }}">{{ package.pypi_url }}</a></p>
+              <p>
+                      <a href="https://crate.io/packages/{{ package.pypi_name }}/" rel="nofollow"><img src="https://pypip.in/d/{{ package.pypi_name }}/badge.png"></a>
+              </p>
+              <table class="table">
+                <thead>
+                  <tr>
+                      <th>{% trans "Version" %}</th>
+                      <th>{% trans "License" %}</th>
+                      <th>{% trans "Released" %}</th>
+                      <th>{% trans "Status" %}</th>
+                      <th>{% trans "Python 3?" %}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for version in package.version_set.by_version_not_hidden %}
+                      <tr>
+                          <td>{{ version.number }}</td>
+                          <td>{{ version.pretty_license|default:"none" }}</td>                        
+                          <td>{{ version.upload_time|date:"SHORT_DATE_FORMAT" }}</td>
+                          <td>{{ version.pretty_status }}</td>
+                          <td>{% if version.supports_python3 %}<span class="glyphicon glyphicon-ok-circle"></span>{% else %}<span class="glyphicon glyphicon-ban-circle"></span>{% endif %}</td>
+                      </tr>
+                  {% endfor %}
+                </tbody>
+          </table>
+      {% else %}
+          <h2>{% trans "No PyPI release" %}</h2>
+      {% endif %}
 
-          {% for grid in package.grids %}            
-                  <a href="{% url 'grid' grid.slug %}" title="{{ grid.description }}">{{ grid }}</a> &nbsp;
+      <h2>{% trans "Participants" %}</h2>
 
-          {% empty %}
-              {% if request.user.is_authenticated and profile.can_add_grid %}
-                  <a class="btn btn-default" id="find-a-grid" href="#"><span class="glyphicon glyphicon-plus"></span></a>
-                  {% include "package/includes/_attach_grid.html" %}
-              {% endif %}
+      <p>
+          {% for participant in package.participant_list %}
+              <a href="{% participant_url package.repo participant %}">{{ participant }}</a>&nbsp;
           {% endfor %}
+      
+      </p>
+  
+  </div> <!-- end six column section -->
+  <div class="col-lg-6">
+    
+    <!-- start Documentation panel -->
+    <div class="panel">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">Documentation</h3>
       </div>
-      <!-- end Grids panel -->
+      <p class="rtd" style="display: none;">{% blocktrans %}This project has documentation available for it on <a class="rtd">Read the Docs!</a>{% endblocktrans %}</p>
+    </div>
+    <!-- end Documentation panel -->
 
-      <!-- start Examples panel -->
-      <div class="panel">
-        <div class="panel-heading clearfix">
-          <h3 class="panel-title pull-left">{% trans "Sites using this package" %}</h3>
-          <div class="pull-right">
-            {% if request.user.is_authenticated %}        
-                <a href="{% url 'add_example' package.slug %}"><span class="glyphicon glyphicon-plus"></span></a>
-            {% endif %}
-          </div>
+    <!-- start Repo panel -->
+    <div class="panel">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">{{ package.repo.title }}</h3>
+      </div>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{% trans "Repo URL" %}</th>
+            <th>{% trans "Commits" %}</th>
+            <th><span class="glyphicon glyphicon-eye-open"></span></th>
+            <th><span class="glyphicon glyphicon-random"></span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="{{ package.repo_url }}">{{ package.repo_url }}</a></td>
+            <td><img src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{package.commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
+            <td>{{ package.repo_watchers|default:"n/a" }}</td>
+            <td>{{ package.repo_forks|default:"n/a" }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- end Repo panel -->
+
+    <!-- start Grids panel -->
+    <div class="panel">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">{% trans "Comparison Grids" %}</h3>
+        <div class="pull-right">
+          {% if request.user.is_authenticated and profile.can_add_grid %}        
+            <a id="find-a-grid" href="#"><span class="glyphicon glyphicon-plus"></span></a>
+            {% include "package/includes/_attach_grid.html" %}            
+          {% endif %}
         </div>
-        
-        {% with package.active_examples as examples %}
-        {% if examples %}
-        <ol id="package-sitelist">
-            {% for example in examples %}
-                <li>
-                    <a href="{{ example.url }}">{{ example.title }}</a>
-                    {% if request.user.is_authenticated %}&nbsp;
-                        <a href="{% url 'edit_example' package.slug example.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ol>
-        {% endif %}
-        {% endwith %}
       </div>
-      <!-- end Examples panel -->
+
+      {% for grid in package.grids %}            
+        <a href="{% url 'grid' grid.slug %}" title="{{ grid.description }}">{{ grid }}</a> &nbsp;
+      {% empty %}
+        {% if request.user.is_authenticated and profile.can_add_grid %}
+          <a class="btn btn-default" id="find-a-grid" href="#"><span class="glyphicon glyphicon-plus"></span></a>
+          {% include "package/includes/_attach_grid.html" %}
+        {% endif %}
+      {% endfor %}
+    </div>
+    <!-- end Grids panel -->
+
+    <!-- start Examples panel -->
+    <div class="panel">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">{% trans "Sites using this package" %}</h3>
+        <div class="pull-right">
+          {% if request.user.is_authenticated %}        
+            <a href="{% url 'add_example' package.slug %}"><span class="glyphicon glyphicon-plus"></span></a>
+          {% endif %}
+        </div>
+      </div>
+      
+      {% with package.active_examples as examples %}
+      {% if examples %}
+      <ol id="package-sitelist">
+          {% for example in examples %}
+              <li>
+                  <a href="{{ example.url }}">{{ example.title }}</a>
+                  {% if request.user.is_authenticated %}&nbsp;
+                      <a href="{% url 'edit_example' package.slug example.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                  {% endif %}
+              </li>
+          {% endfor %}
+      </ol>
+      {% endif %}
+      {% endwith %}
+    </div>
+    <!-- end Examples panel -->
 
 
-    </div> <!-- end six column section -->
+  </div> <!-- end six column section -->
 </div>    <!-- end twelve_column section -->
 {% endblock %}
 
 {% block javascript %}
-    {{ block.super }}
-    <script src="{{ STATIC_URL }}js/underscore.js" type="text/javascript"></script>
-    <script src="{{ STATIC_URL }}js/gh3.js" type="text/javascript"></script>
+  {{ block.super }}
+  <script src="{{ STATIC_URL }}js/underscore.js" type="text/javascript"></script>
+  <script src="{{ STATIC_URL }}js/gh3.js" type="text/javascript"></script>
 {% endblock %}
 
 {% block extra_body %}
