@@ -7,7 +7,7 @@
 
 {% block body %}
 
-    <h1>{% trans "Grids" %}</h1>
+    <h2>{% trans "Grids" %}</h2>
     {% if request.user.is_authenticated and profile.can_add_grid %}
         <p>
             <a class="large awesome forestgreen" href="{% url 'add_grid' %}">{% trans "add grid »" %}</a>

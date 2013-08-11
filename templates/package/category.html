@@ -17,7 +17,7 @@
 
 {% block body %}
 
-    <h1><a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'categories' %}">{% trans "categories" %}</a> / {{ category.title_plural }} ( {{ packages.count }} )</h1>
+    <h2><a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'categories' %}">{% trans "categories" %}</a> / {{ category.title_plural }} ( {{ packages.count }} )</h2>
      
     <p id="description">{{ category.description }}</p>
     

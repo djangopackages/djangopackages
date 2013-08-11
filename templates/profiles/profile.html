@@ -16,9 +16,9 @@
     <div class="twelve_column section">
         
         <div class="six column">
-            <h1>{% blocktrans %}Profile for <span class="fn nickname">{{ user }}</span>{% endblocktrans %}</h1>
+            <h2>{% blocktrans %}Profile for <span class="fn nickname">{{ user }}</span>{% endblocktrans %}</h2>
                 
-            <h2><a href="{% url 'profile_list' %}">{% trans "All profiles" %}</a></h2>                            
+            <h3><a href="{% url 'profile_list' %}">{% trans "All profiles" %}</a></h3>                            
 
 
             {% if request.user == user %}
@@ -44,7 +44,7 @@
             {% endif %}            
 
             {% if local_profile.my_packages %}
-                <h2>{% trans "Packages I contribute to" %}</h2>
+                <h3>{% trans "Packages I contribute to" %}</h3>
                 <table>
                 <thead>
                     <tr>
@@ -68,7 +68,7 @@
             </div>
             
             <div class="six column section">
-                <h2>{% trans "Packages I use" %}</h2>
+                <h3>{% trans "Packages I use" %}</h3>
                 <ul class="usage-list">
                     <table>
                     <thead>

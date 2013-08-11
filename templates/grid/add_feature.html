@@ -9,7 +9,7 @@
 {% block body %}
 
     {% url 'grid' grid.slug as grid_url %}
-    <h1><a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'grids' %}">{% trans "grids" %}</a> / {% blocktrans with grid.title as grid_title %}Add feature for comparison to grid '<a href="{{ grid_url }}">{{ grid_title }}</a>'{% endblocktrans %}</h1>    
+    <h2><a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'grids' %}">{% trans "grids" %}</a> / {% blocktrans with grid.title as grid_title %}Add feature for comparison to grid '<a href="{{ grid_url }}">{{ grid_title }}</a>'{% endblocktrans %}</h2>    
 
     
     <form method="post">

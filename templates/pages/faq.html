@@ -7,9 +7,9 @@
 
 {% block body %}
 
-<h1><a href="{% url 'faq' %}">Frequently Asked Questions</a></h1> 
+<h2><a href="{% url 'faq' %}">Frequently Asked Questions</a></h2>
 
- <h2>What are grids?</h2>    
+<h3>What are grids?</h3>
 
 <p><a href="/grids/">Grids</a> let you compare {{ FRAMEWORK_TITLE }} packages to each other. A grid comes with a number of default items compared,
     but you can add more features in order to get a more specific comparison.</p>
@@ -18,35 +18,35 @@
     grids give us a lot more specificity.
 </p>
 
-<h2>What are categories?</h2>
+<h3>What are categories?</h3>
 
 <p>Categories are broad groups of {{ FRAMEWORK_TITLE }} packages into something more granular than Grids. A package can only have one category. Changing then requires backend work, and is not done lightly. This is intentional, done in order to make searching easier.</p>
 
-<h2>Which source control sites do you support?</h2>
+<h3>Which source control sites do you support?</h3>
 
 <p>Github, Bitbucket, Launchpad are supported out of the box.</p>
 
-<h2>Google Project Hosting is not supported?</h2>
+<h3>Google Project Hosting is not supported?</h3>
 
 <p>See <a href="http://opencomparison.readthedocs.org/en/latest/faq.html#google-project-hosting">Open Comparison's FAQ</a> for details.</p>
 
-<h2>What about SourceForge?</h2>
+<h3>What about SourceForge?</h3>
 
 <p>Last we attempted it, the SourceForge API did not provide the information we need. That was in March 2011. We look forward to connecting to their API.</p>
 
-<h2>What about Trac?</h2>
+<h3>What about Trac?</h3>
 
 <p>We're led to believe that Trac provides an XMLRPC API that might have the information needed. We'll look into that when time permits.</p>
 
-<h2>What about a self-hosted Git, HG, SVN or whatever repo?</h2>
+<h3>What about a self-hosted Git, HG, SVN or whatever repo?</h3>
 
 <p>Fetching meaningful information from those systems would require downloaded the repos and then doing heavy calculations. That's way beyond the scope of this project, unless you're willing to pay serious money for development and architecture. We're open to that, so if you are, please contact us.</p>
 
-<h2>What about RSS & Atom Syndication?</h2>
+<h3>What about RSS & Atom Syndication?</h3>
 
 The <a href="{% url 'syndication' %}">Syndication page</a> has more details.
 
-<h2>How can I contribute?</h2>
+<h3>How can I contribute?</h3>
 
 This is an open source project, which means it takes <a href="{% url 'contribute' %}">all sorts of contributions</a>.
     

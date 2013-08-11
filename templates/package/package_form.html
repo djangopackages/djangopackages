@@ -8,7 +8,7 @@
 
 {% block body %}
 
-    <h1><a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'packages' %}">{% trans "packages" %}</a> / {{ action|title }} {% trans "package" %}</h1>
+    <h2><a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'packages' %}">{% trans "packages" %}</a> / {{ action|title }} {% trans "package" %}</h2>
     <p id="instructions">{% blocktrans %}The easiest way to use this form is to simply enter the
          package repo URL into the repo URL field. {{ SITE_TITLE }} then does it's best to figure out the title,
          slug, and then fills in the appropriate fields for you.{% endblocktrans %}

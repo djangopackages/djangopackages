@@ -17,12 +17,12 @@
 {% block body %}
 
     
-    <h1 id="grid-name">
+    <h2 id="grid-name">
       <a href="{% url 'home' %}">home</a> / <a href="{% url 'grids' %}">grids</a> / {{ grid.title }}
 
       <a href="{% url 'edit_grid' grid.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
       
-    </h1>
+    </h2>
     <p>
         {{ grid.description|urlize|linebreaksbr }}
     </p>    
