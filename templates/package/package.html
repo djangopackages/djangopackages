@@ -38,84 +38,85 @@
     
 <div class="row">
   <div class="col-lg-6">
-      <p>
-          {{ package.repo_description }}
-      </p>
+    <p>
+        {{ package.repo_description }}
+    </p>
 
-      <!-- start Usage panel -->
-      <div class="panel">
-        <div class="panel-heading clearfix">
-          <h3 class="panel-title pull-left">Usage</h3>
-        </div>
+    <!-- start Usage panel -->
+    <div class="panel">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">Usage</h3>
+      </div>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>{% trans "Category" %}</th>
+          <th>{% trans "# Using This" %}</th>
+        </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>
+              <a href="{% url 'category' package.category.slug %}">{{ package.category }}</a>
+            </td>
+            <td>
+                {{ package.usage.count }}
+                &nbsp;
+                {% with package as package %}
+                    {% usage_button %} 
+                {% endwith %}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>        
+    <!-- end Usage panel -->
+
+    <!-- start PyPI panel -->
+    <div class="panel">
+     <div class="panel-heading clearfix">
+       <h3 class="panel-title pull-left">PyPI</h3>
+     </div>
+
+     {% if package.pypi_url and package.pypi_url != "http://pypi.python.org/pypi/" %}
+        <p><a href="{{ package.pypi_url }}">{{ package.pypi_url }}</a></p>
+        <p>
+          <a href="https://crate.io/packages/{{ package.pypi_name }}/" rel="nofollow"><img src="https://pypip.in/d/{{ package.pypi_name }}/badge.png"></a>
+        </p>
         <table class="table">
           <thead>
-          <tr>
-            <th>{% trans "Category" %}</th>
-            <th>{% trans "# Using This" %}</th>
-          </tr>
-          </thead>
-
-          <tbody>
             <tr>
-              <td>
-                <a href="{% url 'category' package.category.slug %}">{{ package.category }}</a>
-              </td>
-              <td>
-                  {{ package.usage.count }}
-                  &nbsp;
-                  {% with package as package %}
-                      {% usage_button %} 
-                  {% endwith %}
-              </td>
+              <th>{% trans "Version" %}</th>
+              <th>{% trans "License" %}</th>
+              <th>{% trans "Released" %}</th>
+              <th>{% trans "Status" %}</th>
+              <th>{% trans "Python 3?" %}</th>
             </tr>
+          </thead>
+          <tbody>
+            {% for version in package.version_set.by_version_not_hidden %}
+              <tr>
+                <td>{{ version.number }}</td>
+                <td>{{ version.pretty_license|default:"none" }}</td>                        
+                <td>{{ version.upload_time|date:"SHORT_DATE_FORMAT" }}</td>
+                <td>{{ version.pretty_status }}</td>
+                <td>
+                  {% if version.supports_python3 %}
+                    <span class="glyphicon glyphicon-ok-circle"></span>
+                  {% else %}
+                    <span class="glyphicon glyphicon-ban-circle"></span>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
           </tbody>
-        </table>
-       </div>        
-       <!-- end Usage panel -->
-
-       <!-- start PyPI panel -->
-       <div class="panel">
-         <div class="panel-heading clearfix">
-           <h3 class="panel-title pull-left">PyPI</h3>
-         </div>
-
-         {% if package.pypi_url and package.pypi_url != "http://pypi.python.org/pypi/" %}
-            <p><a href="{{ package.pypi_url }}">{{ package.pypi_url }}</a></p>
-            <p>
-              <a href="https://crate.io/packages/{{ package.pypi_name }}/" rel="nofollow"><img src="https://pypip.in/d/{{ package.pypi_name }}/badge.png"></a>
-            </p>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>{% trans "Version" %}</th>
-                  <th>{% trans "License" %}</th>
-                  <th>{% trans "Released" %}</th>
-                  <th>{% trans "Status" %}</th>
-                  <th>{% trans "Python 3?" %}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for version in package.version_set.by_version_not_hidden %}
-                  <tr>
-                    <td>{{ version.number }}</td>
-                    <td>{{ version.pretty_license|default:"none" }}</td>                        
-                    <td>{{ version.upload_time|date:"SHORT_DATE_FORMAT" }}</td>
-                    <td>{{ version.pretty_status }}</td>
-                    <td>
-                      {% if version.supports_python3 %}
-                        <span class="glyphicon glyphicon-ok-circle"></span>
-                      {% else %}
-                        <span class="glyphicon glyphicon-ban-circle"></span>
-                      {% endif %}
-                    </td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-          </table>
-        {% else %}
-          <p>{% trans "No PyPI release" %}</p>
-        {% endif %}
-      </div>
+      </table>
+    {% else %}
+      <p>{% trans "No PyPI release" %}</p>
+    {% endif %}
+    </div>
+    <!-- end PyPI panel -->
 
     <!-- start Participants panel -->
     <div class="panel">
@@ -214,13 +215,13 @@
       {% with package.active_examples as examples %}
       {% if examples %}
       <ol id="package-sitelist">
-          {% for example in examples %}
-              <li>
-                  <a href="{{ example.url }}">{{ example.title }}</a>
-                  {% if request.user.is_authenticated %}&nbsp;
-                      <a href="{% url 'edit_example' package.slug example.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
-                  {% endif %}
-              </li>
+        {% for example in examples %}
+          <li>
+            <a href="{{ example.url }}">{{ example.title }}</a>
+            {% if request.user.is_authenticated %}&nbsp;
+                <a href="{% url 'edit_example' package.slug example.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
+            {% endif %}
+          </li>
           {% endfor %}
       </ol>
       {% endif %}
