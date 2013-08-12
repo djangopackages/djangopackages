@@ -69,6 +69,20 @@
 }
 
 /**
+ * Vertically center nav elements.
+ */
+
+@media screen and (min-width: 768px) {
+  .navbar-nav {
+    margin-top: 6px;
+  }
+
+  .navbar-form {
+    margin-top: 13px;
+  }
+}
+
+/**
  * GridNav: bar color
  */
 
