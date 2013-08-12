@@ -33,7 +33,7 @@ def grids(request, template_name="grid/grids.html"):
     """
     # annotations providing bad counts
     #grids = Grid.objects.annotate(gridpackage_count=Count('gridpackage'), feature_count=Count('feature'))
-    return render(request, template_name, {'grids': Grid.objects.all(), })
+    return render(request, template_name, {'grids': Grid.objects.filter(), })
 
 
 def grid_detail_landscape(request, slug, template_name="grid/grid_detail2.html"):
@@ -49,7 +49,7 @@ def grid_detail_landscape(request, slug, template_name="grid/grid_detail2.html")
     grid = get_object_or_404(Grid, slug=slug)
     features = grid.feature_set.all()
 
-    grid_packages = grid.grid_packages
+    grid_packages = grid.grid_packages.order_by("package__commit_list")
 
     elements = Element.objects.all() \
                 .filter(feature__in=features,
