@@ -46,7 +46,6 @@ In development
 .. toctree::
    :maxdepth: 1
 
-   package_extenders
    postgresql_contributor_instructions
 
 Credits
