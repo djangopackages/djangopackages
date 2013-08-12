@@ -62,30 +62,36 @@
 
     <div class="row">
         <div class="col-sm-4 col-lg-4">
-             {% if potw %}
-                 <h2>Featured Package</h2>
-                 <a href="{{ potw.get_absolute_url }}">{{ potw.title }}</a>
-                 <div class="package-watchers">{{ potw.repo_watchers }}</div> 
-                 <p>{{ potw.repo_description }}</p>
-             {% endif %}
-            <h3>How to get your {{ FRAMEWORK_TITLE }} package featured here</h3>
-            <p>Do you have a package that you'd like us to feature? Does it have tests? Are the docs on <a href="http://rtfd.org">Read the Docs</a>?</p>
-            <p>If so, tweet at <a href="http://twitter.com/open_comparison">@Open_Comparison</a> with a link, and make sure the description field in your repo has been filled out.</p>
+           {% if potw %}
+             <!-- start POTW panel -->
+             <div class="panel">
+               <div class="panel-heading clearfix">
+                 <h3 class="panel-title pull-left">Featured Package</h3>
+               </div>
+               <a href="{{ potw.get_absolute_url }}">{{ potw.title }}</a>
+               <div class="package-watchers">{{ potw.repo_watchers }}</div> 
+               <p>{{ potw.repo_description }}</p>
+             </div>
+             <!-- end POTW panel -->
+           {% endif %}
         </div>
 
         <div class="col-sm-4 col-lg-4">
             {% if gotw %}
-                <h2>Featured Grid</h2>            
+            <!-- start GOTW panel -->
+            <div class="panel">
+              <div class="panel-heading clearfix">
+                <h3 class="panel-title pull-left">Featured Grid</h3>
+              </div>
                 <a href="{{ gotw.get_absolute_url }}">{{ gotw.title }}</a>
                 <p>{{ gotw.description }}</p>
                 <p>
                   <strong>{% trans "Packages" %}:</strong> {{ gotw.gridpackage_set.count }},
                   <strong>{% trans "Features" %}:</strong> {{ gotw.feature_set.count }}
                 </p>            
+            </div>
+            <!-- end GOTW panel -->
             {% endif %}
-            <h3>How to get your {{ SITE_TITLE }} grid featured here</h3>
-            <p>Have you created a new and interesting grid?</p>
-            <p>Tweet at <a href="http://twitter.com/open_comparison">@Open_Comparison</a> with a link.  We'll consider featuring it.
         </div>
 
         <div class="col-sm-4 col-lg-4">
