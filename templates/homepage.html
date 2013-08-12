@@ -15,18 +15,26 @@
     <div class="col-sm-4 col-lg-4">
       <h2><i>{{ SITE_TITLE }} is a directory of reusable apps, sites, tools, and more for your {{ FRAMEWORK_TITLE }} projects.</i></h2>
       <p><b>{{ package_count }}</b> {% trans "packages and counting!" %}</p>
-      <p>
-        {% trans "Know of any packages not listed here?  Add them now!  It's quick and easy." %}
-      </p>
-      <p>
-        <a class="btn btn-default" href="{% url 'add_package' %}">{% trans "add package »" %}</a>
-      </p>
-      <p>
-        {% trans "Or add a grid comparing the features of 2 or more similar packages." %}
-      </p>
-      <p>
-        <a class="btn btn-default" href="{% url 'add_grid' %}">{% trans "add grid »" %}</a>
-      </p>
+
+      <!-- start We Need Your Help panel -->
+      <div class="panel">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">{% trans "We Need Your Help" %}</h3>
+        </div>
+        <p>
+          {% trans "Know of any packages not listed here?  Add them now!  It's quick and easy." %}
+        </p>
+        <p>
+          <a class="btn btn-default" href="{% url 'add_package' %}">{% trans "add package »" %}</a>
+        </p>
+        <p>
+          {% trans "Or add a grid comparing the features of 2 or more similar packages." %}
+        </p>
+        <p>
+          <a class="btn btn-default" href="{% url 'add_grid' %}">{% trans "add grid »" %}</a>
+        </p>
+      </div>
+      <!-- end We Need Your Help panel -->
     </div>
 
     <div class="col-sm-4 col-lg-4">
