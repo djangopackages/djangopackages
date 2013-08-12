@@ -93,16 +93,17 @@ def homepage(request, template_name="homepage.html"):
         }
     )
 
+with open("templates/500.html") as f:
+    text = f.read()
+
 
 def error_500_view(request):
-    with open("templates/500.html") as f:
-        text = f.read()
     response = HttpResponse(text)
     response.status_code = 500
     return response
 
 
 def error_404_view(request):
-    response = render(request, "404.html", status_code=404)
+    response = render(request, "404.html")
     response.status_code = 404
     return response
