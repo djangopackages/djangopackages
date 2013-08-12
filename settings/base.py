@@ -115,7 +115,6 @@ PROJECT_APPS = [
     "apiv1",
     "feeds",
     "searchv2",
-    "importer",
 ]
 
 PREREQ_APPS = [
