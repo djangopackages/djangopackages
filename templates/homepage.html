@@ -91,8 +91,25 @@
            <h3 class="panel-title pull-left">Featured Package</h3>
          </div>
          <a href="{{ potw.get_absolute_url }}">{{ potw.title }}</a>
-         <div class="package-watchers">{{ potw.repo_watchers }}</div> 
          <p>{{ potw.repo_description }}</p>
+
+         <table class="table">
+           <thead>
+             <tr>
+               <th>{% trans "Commits" %}</th>
+               <th><span class="glyphicon glyphicon-eye-open"></span></th>
+               <th><span class="glyphicon glyphicon-random"></span></th>
+             </tr>
+           </thead>
+           <tbody>
+             <tr>
+               <td><img src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{potw.commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
+               <td>{{ potw.repo_watchers|default:"n/a" }}</td>
+               <td>{{ potw.repo_forks|default:"n/a" }}</td>
+             </tr>
+           </tbody>
+         </table>
+
        </div>
        <!-- end POTW panel -->
      {% endif %}
