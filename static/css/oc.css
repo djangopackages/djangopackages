@@ -83,6 +83,23 @@
 }
 
 /**
+ * Style jQuery Autocomplete - search dropdown items
+ */
+.ui-autocomplete {
+  background: #FFF;
+  text-align: left;
+  border: 1px solid #BFBFBF;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ui-menu-item a {
+  display: block;
+  padding: 3px 10px;
+}
+
+/**
  * GridNav: bar color
  */
 
