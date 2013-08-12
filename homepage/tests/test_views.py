@@ -66,3 +66,14 @@ class FunctionalHomepageTestWithoutPackages(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'homepage.html')
+
+
+class TestErrorPages(TestCase):
+
+    def test_404_test(self):
+        r = self.client.get("/404")
+        self.assertEquals(r.status_code, 404)
+
+    def test_500_test(self):
+        r = self.client.get("/500")
+        self.assertEquals(r.status_code, 500)
