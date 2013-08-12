@@ -1,6 +1,7 @@
 from random import randrange
 
 from django.db.models import Count
+from django.http import HttpResponse
 from django.shortcuts import render
 
 import feedparser
@@ -9,6 +10,7 @@ from core.decorators import lru_cache
 from grid.models import Grid
 from homepage.models import Dpotw, Gotw, PSA
 from package.models import Category, Package
+
 
 @lru_cache()
 def get_feed():
@@ -90,3 +92,17 @@ def homepage(request, template_name="homepage.html"):
             "package_count": package_count
         }
     )
+
+
+def error_500_view(request):
+    with open("templates/500.html") as f:
+        text = f.read()
+    response = HttpResponse(text)
+    response.status_code = 500
+    return response
+
+
+def error_404_view(request):
+    response = render(request, "404.html", status_code=404)
+    response.status_code = 404
+    return response

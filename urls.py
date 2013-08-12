@@ -6,13 +6,15 @@ from django.conf.urls.static import static
 from django.contrib import admin
 admin.autodiscover()
 
-from homepage.views import homepage
+from homepage.views import homepage, error_404_view, error_500_view
 from package.views import category
 
 urlpatterns = patterns("",
 
     url('', include('social_auth.urls')),
     url(r"^$", homepage, name="home"),
+    url(r"^404$", error_404_view, name="404"),
+    url(r"^500$", error_500_view, name="500"),
     url(settings.ADMIN_URL_BASE, include(admin.site.urls)),
     url(r"^profiles/", include("profiles.urls")),
     url(r"^packages/", include("package.urls")),
