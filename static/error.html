@@ -3,25 +3,57 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Django Packages : Django Packages reusable apps, sites and tools directory</title>
-    <link rel="stylesheet" href="https://s3.amazonaws.com/opencomparison/css/account.css" />
-    <link rel="stylesheet" href="https://s3.amazonaws.com/opencomparison/css/base.css?date=10-04" type="text/css" />
-    <link rel="stylesheet" href="https://s3.amazonaws.com/opencomparison/css/scrollable-buttons.css" type="text/css" />
-    <link rel="stylesheet" href="https://s3.amazonaws.com/opencomparison/css/scrollable-horizontal.css" type="text/css" />
-    <link rel="stylesheet" href="https://s3.amazonaws.com/opencomparison/css/awesome.css" type="text/css" />
-    <link rel="stylesheet" href="https://s3.amazonaws.com/opencomparison/css/home.css" />
+
+    <link rel="stylesheet" href="https://s3.amazonaws.com/opencomparison/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://s3.amazonaws.com/opencomparison/css/bootstrap-glyphicons.css" type="text/css" />
+    <link rel="stylesheet" href="https://s3.amazonaws.com/opencomparison/css/jquery.rotatingnav.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://s3.amazonaws.com/opencomparison/css/oc.css" type="text/css" />
+    <link rel="shortcut icon" href="https://s3.amazonaws.com/opencomparison/img/favicon.png" />
+
 </head>
 <body>
-    <div id="top_border"></div>
-    <div id="main">
-        <div id="tabhead">
-            <div class="logo">
-                <a href="http://djangopackages.com"><img src="https://s3.amazonaws.com/opencomparison/img/logo_squares.png" /></a>
-                <h1><a href="http://djangopackages.com">Django Packages</a></h1>
-            </div>
-        </div>  
-        <div class="clearfix"></div>
-        <h1>Django Packages is down.</h1>
-        <p>We are working feverishly to get it back up.</p>
+
+  <div class="header">
+      <div class="container">
+          <!-- Start of navbar -->
+          <div class="navbar">
+
+              <!-- Logo and title -->
+              <a class="navbar-brand" href="{% url 'home' %}">
+                  <img src="{{ STATIC_URL }}img/logo_squares.png" />
+                  <h1>Django Packages</h1>
+              </a>
+
+              <!-- Main nav -->
+              <ul class="nav navbar-nav">
+                  <li><a href="/">Home"</a></li>
+              </ul>
+
+          </div>
+          <!-- End of navbar -->
+      </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <h2>Django Packages is down.</h2>
+      <p>If it hasn't been reported yet, would you please do us a favor and <a href="http://github.com/opencomparison/opencomparison/issues">create a ticket?</a></p>
     </div>
+  </div>
+</div>
+
+<!-- Start of footer -->
+<div class="footer">
+  <div class="container">
+      <div class="row">
+          <div class="col-12">
+              &copy; 2010-2013 <a href="http://pydanny.com">Daniel Greenfeld</a>, <a href="http://twitter.com/audreyr">Audrey Roy</a> & <a href="http://www.cartwheelweb.com/">Cartwheel Web</a>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- End of footer -->
+
 </body>
 </html>
