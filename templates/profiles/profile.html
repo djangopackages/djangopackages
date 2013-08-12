@@ -5,93 +5,84 @@
 {% load profile_tags %}
 {% load crispy_forms_tags %}
 
-{% block extra_head %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/package.css" />
-{% endblock %}
-
 {% block head_title %}Profile for {{ user }}{% endblock %}
 
 {% block body %}
-        
-    <div class="twelve_column section">
-        
-        <div class="six column">
-            <h2>{% blocktrans %}Profile for <span class="fn nickname">{{ user }}</span>{% endblocktrans %}</h2>
-                
-            <h3><a href="{% url 'profile_list' %}">{% trans "All profiles" %}</a></h3>                            
+<div class="container">
+  <div class="row">
+    <div class="col-4">
+      <h2>{% blocktrans %}Profile for <span class="fn nickname">{{ user }}</span>{% endblocktrans %}</h2>
 
+      {% if request.user == user %}
+        <p><a href="{% url 'profile_edit' %}">{% trans "Edit my profile" %}</a></p>
+      {% endif %}    
+      
+      {% if local_profile.github_account %}
+        <p><b>{% trans "Github account" %}</b>:
+          <span class="fn"><a href="https://github.com/{{ local_profile.github_account }}">{{ local_profile.github_account }}</a></span>
+        </p>
+      {% endif %}
 
-            {% if request.user == user %}
-                <p><a href="{% url 'profile_edit' %}">{% trans "Edit my profile" %}</a></p>
-            {% endif %}    
-            
-            {% if local_profile.github_account %}
-                <p><b>{% trans "Github account" %}</b>:
-                            <span class="fn"><a href="https://github.com/{{ local_profile.github_account }}">{{ local_profile.github_account }}</a></span>
-                </p>
-            {% endif %}
+      {% if local_profile.bitbucket_url %}            
+        <p><b>{% trans "BitBucket account" %}</b>: 
+          <span class="fn"><a href="https://bitbucket.org/{{ local_profile.bitbucket_url     }}">{{ local_profile.bitbucket_url }}</a></span>
+        </p>
+      {% endif %}
 
-            {% if local_profile.bitbucket_url %}            
-                <p><b>{% trans "BitBucket account" %}</b>: 
-                            <span class="fn"><a href="https://bitbucket.org/{{ local_profile.bitbucket_url     }}">{{ local_profile.bitbucket_url }}</a></span>
-                </p>
-            {% endif %}
-
-            {% if local_profile.google_code_url %}                
-                <p><b>{% trans "Google Code account" %}</b>:
-                            <span class="fn"><a href="http://code.google.com/u/{{ local_profile.google_code_url|urlize }}/">{{ local_profile.google_code_url|urlize }}</a></span>
-                </p>
-            {% endif %}            
-
-            {% if local_profile.my_packages %}
-                <h3>{% trans "Packages I contribute to" %}</h3>
-                <table>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>{% trans "Package" %}</th>
-                        <th>{% trans "Repo" %}</th>                                                
-                    </tr>
-                </thead>                    
-                <tbody>
-                {% for package in local_profile.my_packages %}    
-                    <tr>
-                        <td>{{ forloop.counter }}</td>                        
-                        <td><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></td>
-                        <td><a href="{{ package.repo_url }}">{{ package.repo.title }}</a></td>
-                    </tr>
-                {% endfor %}
-                </tbody>                
-                </table>            
-                
-            {% endif %}
-            </div>
-            
-            <div class="six column section">
-                <h3>{% trans "Packages I use" %}</h3>
-                <ul class="usage-list">
-                    <table>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>{% trans "Package" %}</th>
-                            <th>{% trans "Repo" %}</th>                                                
-                        </tr>
-                    </thead>                    
-                    <tbody>
-                        {% for package in user|package_usage %}
-                        <tr>
-                            <td>{{ forloop.counter }}</td>                        
-                            <td><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></td>
-                            <td><a href="{{ package.repo_url }}">{{ package.repo.title }}</a></td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>                
-                    </table>                    
-                </ul>
-            </div>
-        </div>
-        
+      {% if local_profile.google_code_url %}                
+        <p><b>{% trans "Google Code account" %}</b>:
+                    <span class="fn"><a href="http://code.google.com/u/{{ local_profile.google_code_url|urlize }}/">{{ local_profile.google_code_url|urlize }}</a></span>
+        </p>
+      {% endif %}            
     </div>
-{% endblock %}
 
+    <div class="col-4">
+      {% if local_profile.my_packages %}
+        <h3>{% trans "Packages I contribute to" %}</h3>
+        <table class="table">
+          <thead>
+              <tr>
+                <th>#</th>
+                <th>{% trans "Package" %}</th>
+                <th>{% trans "Repo" %}</th>                                                
+              </tr>
+          </thead>
+          <tbody>
+          {% for package in local_profile.my_packages %}    
+            <tr>
+              <td>{{ forloop.counter }}</td>                        
+              <td><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></td>
+              <td><a href="{{ package.repo_url }}">{{ package.repo.title }}</a></td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+    </div>
+      
+    <div class="col-4">
+        <h3>{% trans "Packages I use" %}</h3>
+        <ul class="usage-list">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>{% trans "Package" %}</th>
+                <th>{% trans "Repo" %}</th>                                                
+              </tr>
+            </thead>                    
+            <tbody>
+              {% for package in user|package_usage %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>                        
+                    <td><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></td>
+                    <td><a href="{{ package.repo_url }}">{{ package.repo.title }}</a></td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>                    
+        </ul>
+      </div>
+    </div>
+  </div>
+{% endblock %}
