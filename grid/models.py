@@ -1,11 +1,7 @@
-from django.conf import settings
-from django.core.cache import cache
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from core.models import BaseModel
-from core.utils import cache_fetcher
-from grid import cachekeys
 from package.models import Package
 
 
