@@ -15,11 +15,6 @@ FRAMEWORK_TITLE (Default: "Django")
 
 Used to create the name of the site.
 
-PACKAGE_EXTENDERS
-==================
-
-Used to determine how packages have extended data sets. See package_extenders_ 
-
 PACKAGINATOR_SEARCH_PREFIX (Default: "django")
 ==============================================
 
@@ -41,33 +36,6 @@ Example (also the default)::
         "REPO_URL" : "Enter your project repo hosting URL here.<br />Example: https://bitbucket.org/ubernostrum/django-registration",
         "PYPI_URL" : "<strong>Leave this blank if this package does not have a PyPI release.</strong><br />What PyPI uses to index your package. <br />Example: django-registration"
     }
-
-Launchpad Specific settings
-===========================
-
-The launchpad Python client tool requires an unbelievable amount of requirements to handle a simple JSON ReST based webservice. These requirements can be tricky to install. Therefore, OpenComparison out of the box does not support Launchpad.
-
-.. warning:: Launchpad hasn't been tested or maintained in a while. This probably won't work at this time.
-
-If you have problems, please refer to troubleshooting_.
-
-LAUNCHPAD_ACTIVE (Default: False)
----------------------------------
-
-If you want your instance of OpenComparison to support Launchpad, set this setting to true in local_settings.py::
-
-    LAUNCHPAD_ACTIVE = True
-    
-
-
-LAUNCHPAD_CACHE_DIR
--------------------
-
-Used to point LAUNCHPAD commands against the appropriate cache. Important in real hosting machines.
-
-Example::
-
-    LAUNCHPAD_CACHE_DIR = "/tmp/lp-cache"
 
 Permissions Settings
 ====================
@@ -130,4 +98,3 @@ The follow properties can be used in templates:
 * can_edit_grid_element
 
 .. _troubleshooting: troubleshooting.html    
-.. _package_extenders: package_extenders.html

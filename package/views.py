@@ -34,26 +34,6 @@ def get_form_class(form_name):
     return getattr(form_module, form_name)
 
 
-def build_package_extenders(request):
-    """ package extenders machinery
-            TODO: change the ID prefix in this form to be unique
-
-    """
-    package_extenders = []
-    for item in getattr(settings, "PACKAGE_EXTENDERS", []):
-        package_extenders_dict = {}
-        form_class = get_form_class(item['form'])
-        if 'model' in item:
-            app_name, app_model = item['model'].split('.')
-            package_extenders_dict['model'] = get_model(app_name, app_model)
-            package_extenders_dict['model_instance'] = package_extenders_dict['model']()
-            package_extenders_dict['form'] = form_class(request.POST or None, instance=package_extenders_dict['model_instance'])
-        else:
-            package_extenders_dict['form'] = form_class(request.POST or None)
-        package_extenders.append(package_extenders_dict)
-    return package_extenders
-
-
 @login_required
 def add_package(request, template_name="package/package_form.html"):
 
@@ -63,8 +43,6 @@ def add_package(request, template_name="package/package_form.html"):
     new_package = Package()
     form = PackageForm(request.POST or None, instance=new_package)
 
-    package_extenders = build_package_extenders(request)
-
     if form.is_valid():
         new_package = form.save()
         new_package.created_by = request.user
@@ -73,17 +51,12 @@ def add_package(request, template_name="package/package_form.html"):
         new_package.fetch_metadata()
         new_package.fetch_commits()
 
-        # stick in package_extender form processing
-        for package_extender in package_extenders:
-            if package_extender['form'].is_valid():
-                package_extender['form'].save()
         return HttpResponseRedirect(reverse("package", kwargs={"slug": new_package.slug}))
 
     return render(request, template_name, {
         "form": form,
         "repo_data": repo_data_for_js(),
         "action": "add",
-        "package_extenders": package_extenders
         })
 
 
@@ -96,16 +69,10 @@ def edit_package(request, slug, template_name="package/package_form.html"):
     package = get_object_or_404(Package, slug=slug)
     form = PackageForm(request.POST or None, instance=package)
 
-    package_extenders = build_package_extenders(request)
-
     if form.is_valid():
         modified_package = form.save()
         modified_package.last_modified_by = request.user
         modified_package.save()
-        # stick in package_extender form processing
-        for package_extender in package_extenders:
-            if package_extender['form'].is_valid():
-                package_extender['form'].save()
         return HttpResponseRedirect(reverse("package", kwargs={"slug": modified_package.slug}))
 
     return render(request, template_name, {

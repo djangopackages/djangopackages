@@ -22,11 +22,6 @@
         <fieldset>
             {{ form|crispy }}
         </fieldset>
-        {% for package_extender in package_extenders %}
-            <fieldset>
-            {{ package_extender.form|crispy }}
-            </fieldset>
-        {% endfor %}
         
         <input class="btn btn-default" type="submit" name="add" value="{{ action }} {% trans "package" %}">
     </form>

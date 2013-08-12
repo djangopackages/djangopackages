@@ -219,14 +219,6 @@ RESTRICT_PACKAGE_EDITORS = True
 # only django admins can delete
 RESTRICT_GRID_EDITORS = True
 
-# package extenders are dicts that can include:
-    # form
-    # model
-    # grid_items
-    # package_displays
-PACKAGE_EXTENDERS = []
-
-
 CELERYD_TASK_TIME_LIMIT = 300
 LAUNCHPAD_ACTIVE = False
 
