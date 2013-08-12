@@ -8,50 +8,59 @@
 {% block body_class %}search{% endblock %}
 
 {% block body %}
-
-    <h2>{% trans "Search" %}</h2>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h2>{% trans "Search" %}</h2>
     
-    <form>
+      <form>
         <fieldset>
-                {{ form|crispy }}
-            <div id="search-big-button-holder" class="ctrlHolder">        
-                <input type="submit" name="b" value="{% trans "Search" %}" id="search-big-button"> 
-            </div>
+          {{ form|crispy }}
+          <div id="search-big-button-holder" class="ctrlHolder">        
+            <input type="submit" name="b" value="{% trans "Search" %}" id="search-big-button"> 
+          </div>
         </fieldset>
-    </form>
+      </form>
 
-    
-    <div id="search-results">
-        {% for item in items %}
-        
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{% trans "Package" %}</th>
+            <th>{% trans "Last PyPI release:" %}</th>
+            <th>{% trans "PyPI Downloads" %}</th>
+            <th>{% trans "Watchers" %}</th>
+            <th>{% trans "Description" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          {% for item in items %}
             {% if item.item_type == 'package' %}
-                <li class="package-item" id="package-{{ item.id }}">
-                  <h3><a href="{{ item.absolute_url }}">{{ item.title }}</a> (Package)</h3>
+              <tr>
+                <td><a href="{{ item.absolute_url }}">{{ item.title }}</a></td>
+                <td>
                   {% if item.last_released or item.last_committed  %}
-                    <p class="date">
-                        {% if item.last_released %}{% trans "Last PyPI release:" %} {{ item.last_released|timesince }} ago{% endif %}
-                    </p>
+                    {% if item.last_released %}{{ item.last_released|timesince }} ago{% endif %}
                   {% endif %}
-                  <div class="package-downloads">
-                        {% with pypi_name=item.pypi_name %}
-                            {% if pypi_name %}
-                                <a href="https://crate.io/packages/{{ pypi_name }}/" rel="nofollow"><img src="https://pypip.in/d/{{ pypi_name }}/badge.png"></a>
-                            {% endif %}
-                        {% endwith %}
-                  </div>
-                  <div class="package-watchers">{{ item.repo_watchers }}</div>
-                  <p class="description">{{ item.description }}</p>
-                </li>
+                </td>
+                <td>
+                  {% with pypi_name=item.pypi_name %}
+                    {% if pypi_name %}
+                      <a href="https://crate.io/packages/{{ pypi_name }}/" rel="nofollow"><img src="https://pypip.in/d/{{ pypi_name }}/badge.png"></a>
+                    {% endif %}
+                  {% endwith %}
+                </td>
+                <td>{{ item.repo_watchers }}</td>
+                <td>{{ item.description }}</td>
+              </tr>
             {% endif %}
-            {% if item.item_type == 'grid' %}
-                <li class="grid-item" id="grid-{{ item.id }}">
-                  <h3><a href="{{ item.absolute_url }}">{{ item.title }}</a> (Grid)</h3>
-                  <p class="description">{{ item.description }}</p>
-                </li>            
-            {% endif %}            
+          {% endfor %}
 
-        {% endfor %}
+        </tbody>
+      </table>
     </div>
+  </div>
+</div>
 
 {% endblock %}
 
