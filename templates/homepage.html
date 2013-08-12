@@ -107,11 +107,17 @@
     </div>
 
     <div class="col-sm-4 col-lg-4">
-      <h2>{% trans "Package Categories" %}</h2>
-      {% for category in categories %}
-        <h3><a href="{% url 'category' category.slug %}">{{ category.title_plural }}</a> ({{ category.count }})</h3>
-        <p>{{ category.description }}</p>
-      {% endfor %}
+      <!-- start Categories panel -->
+      <div class="panel">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">{% trans "Package Categories" %}</h3>
+        </div>
+        {% for category in categories %}
+          <h3><a href="{% url 'category' category.slug %}">{{ category.title_plural }}</a> ({{ category.count }})</h3>
+          <p>{{ category.description }}</p>
+        {% endfor %}
+      </div>
+      <!-- end Categories panel -->
     </div>
 
     <div class="col-sm-4 col-lg-4">
