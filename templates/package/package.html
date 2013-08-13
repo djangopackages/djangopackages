@@ -146,7 +146,7 @@
     <!-- start Repo panel -->
     <div class="panel">
       <div class="panel-heading clearfix">
-        <h3 class="panel-title pull-left">{{ package.repo.title }}</h3>
+        <h3 class="panel-title pull-left">Repo Activity</h3>
 
         <div class="pull-right" id="fetch-cell">
           {% if repo.title != "Github" %}
@@ -156,6 +156,10 @@
           {% endif %}
         </div>
       </div>
+
+      <p>
+        <strong>Repo Hosting:</strong> {{ package.repo.title }}
+      </p>
 
       <table class="table">
         <thead>
@@ -214,7 +218,7 @@
       
       {% with package.active_examples as examples %}
       {% if examples %}
-      <ol id="package-sitelist">
+      <ol>
         {% for example in examples %}
           <li>
             <a href="{{ example.url }}">{{ example.title }}</a>
