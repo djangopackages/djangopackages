@@ -222,8 +222,10 @@
                 <a href="{% url 'edit_example' package.slug example.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
             {% endif %}
           </li>
-          {% endfor %}
+        {% endfor %}
       </ol>
+      {% else %}
+        <p>No sites using this package have been listed yet.</p>
       {% endif %}
       {% endwith %}
     </div>
