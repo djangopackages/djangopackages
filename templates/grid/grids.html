@@ -18,13 +18,32 @@
     </div>
   </div>
   
-  {% for grid in grids %}
-    <div class="row">
-      <div class="col-lg-12">
-        {% include "grid/snippets/grid.html" %}
-      </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Grid</th>
+            <th>Description</th>
+            <th>Date Added</th>
+            <th>Packages</th>
+            <th>Features</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for grid in grids %}
+            <tr>
+              <td><a href="{% url 'grid' grid.slug %}">{{ grid.title }}</a></td>
+              <td>{{ grid.description }}</td>
+              <td>{{ grid.created|date:"D d M Y H:i:s" }}</td>
+              <td>{{ grid.gridpackage_set.count }}</td>
+              <td>{{ grid.feature_set.count }}</td>
+            </li>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
-  {% endfor %}
+  </div>
 
 </div>
 {% endblock %}
