@@ -139,7 +139,7 @@
       <div class="panel-heading clearfix">
         <h3 class="panel-title pull-left">{% trans "Documentation" %}</h3>
       </div>
-      <p class="rtd" style="display: none;">{% blocktrans %}This project has documentation available for it on <a class="rtd">Read the Docs!</a>{% endblocktrans %}</p>
+      <p><strong>Read the Docs URL:</strong>&nbsp; <a class="rtd">None</a></p>
     </div>
     <!-- end Documentation panel -->
 
@@ -326,7 +326,7 @@
               if (data.objects.length > 0){
                   var href = "https://readthedocs.org/projects/{{ package.slug }}";
                   $("a.rtd").attr("href", href);
-                  $(".rtd").show();            
+                  $("a.rtd").text(href);
               };
           }
         });
