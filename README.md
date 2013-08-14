@@ -24,8 +24,6 @@ Features
     * PyPI
     * Github
     * BitBucket
-    * Launchpad
-    * SourceForge (forthcoming)
 
 * Basic search
 
