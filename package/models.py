@@ -73,16 +73,20 @@ class Package(BaseModel):
             return name[:name.index("/")]
         return name
 
-    @property
     def last_updated(self):
+        cache_name = self.cache_namer(self.last_updated)
+        last_commit = cache.get(cache_name)
+        if last_commit is not None:
+            return last_commit
         try:
-            last_commit = self.commit_set.latest('commit_date')
+            last_commit = self.commit_set.latest('commit_date').commit_date
             if last_commit:
-                return last_commit.commit_date
+                cache.set(cache_name, last_commit)
+                return last_commit
         except ObjectDoesNotExist:
-            pass
+            last_commit = None
 
-        return None
+        return last_commit
 
     @property
     def repo(self):
@@ -235,7 +239,7 @@ class Package(BaseModel):
 
     @property
     def no_development(self):
-        commit_date = self.last_updated
+        commit_date = self.last_updated()
         if commit_date is not None:
             return commit_date < datetime.now() - timedelta(365)
         return None
@@ -278,6 +282,13 @@ class Commit(BaseModel):
 
     def __unicode__(self):
         return "Commit for '%s' on %s" % (self.package.title, unicode(self.commit_date))
+
+    def save(self, *args, **kwargs):
+        # reset the last_updated cache on the package
+        cache_name = self.package.cache_namer(self.package.last_updated)
+        cache.delete(cache_name)
+        self.package.last_updated()
+        super(Commit, self).save(*args, **kwargs)
 
 
 class VersionManager(models.Manager):

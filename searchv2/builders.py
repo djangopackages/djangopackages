@@ -40,7 +40,7 @@ def build_1(print_out=True):
 
         optional_save = False
         try:
-            obj.last_committed = package.last_updated
+            obj.last_committed = package.last_updated()
             optional_save = True
         except Commit.DoesNotExist:
             pass
