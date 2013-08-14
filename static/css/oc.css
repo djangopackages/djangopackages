@@ -186,6 +186,30 @@ h3, .h3 {
 }
 
 /**
+ * Grid row header: special color
+.table thead>tr>th {
+vertical-align: middle;
+}
+
+ */
+
+.grid-row-header {
+  background: #87deaa;
+  font-size: 15px;
+}
+
+.table thead > tr.grid-row-header > th,
+.table tbody > tr.grid-row-header > th {
+  vertical-align: middle;
+}
+
+.grid-row-header a {
+  color: #2f2f2f;
+  text-decoration: underline;
+}
+
+
+/**
  * Glyphicon colors
  */
 
