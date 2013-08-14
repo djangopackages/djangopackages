@@ -84,7 +84,7 @@ def grid_detail_landscape(request, slug, template_name="grid/grid_detail2.html")
 
 
 @login_required
-def add_grid(request, template_name="grid/add_grid.html"):
+def add_grid(request, template_name="grid/update_grid.html"):
     """Creates a new grid, requires user to be logged in.
     Works for both GET and POST request methods
 
@@ -107,7 +107,7 @@ def add_grid(request, template_name="grid/add_grid.html"):
 
 
 @login_required
-def edit_grid(request, slug, template_name="grid/edit_grid.html"):
+def edit_grid(request, slug, template_name="grid/update_grid.html"):
     """View to modify the grid, handles GET and POST requests.
     This view requires user to be logged in.
 
