@@ -227,6 +227,21 @@
                 {% if features %}
                     {% include "grid/snippets/grid_row_header.html" %}
                 {% endif %}
+                
+                <!-- start Delete package from grid buttons -->
+                {% if perms.grid.delete_gridpackage %}
+                  <tr>
+                    <td>Remove From Grid</td>
+                    {% for grid_package in grid_packages %}
+                    <td class="grid-delete">
+                        &nbsp;<a href="#">
+                          <span class="glyphicon glyphicon-trash"></span>
+                        </a>
+                    </td>
+                    {% endfor %}
+                  </tr>
+                {% endif %}
+                <!-- end Delete package from grid buttons -->
         
             </tbody>
     
