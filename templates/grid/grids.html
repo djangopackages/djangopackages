@@ -1,4 +1,5 @@
-{% extends "grid/base.html" %}
+{% extends "base.html" %}
+{% load i18n %}
 {% load url from future %}
 
 {% load i18n %}
@@ -23,11 +24,11 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Grid</th>
-            <th>Description</th>
-            <th>Date Added</th>
-            <th>Packages</th>
-            <th>Features</th>
+            <th>{% trans "Grid" %}</th>
+            <th>{% trans "Description" %}</th>
+            <th>{% trans "Date Added" %}</th>
+            <th>{% trans "Packages" %}</th>
+            <th>{% trans "Features" %}</th>
           </tr>
         </thead>
         <tbody>
@@ -38,7 +39,7 @@
               <td>{{ grid.created|date:"D d M Y H:i:s" }}</td>
               <td>{{ grid.gridpackage_set.count }}</td>
               <td>{{ grid.feature_set.count }}</td>
-            </li>
+            </tr>
           {% endfor %}
         </tbody>
       </table>
