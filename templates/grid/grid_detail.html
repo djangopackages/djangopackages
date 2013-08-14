@@ -231,10 +231,10 @@
                 <!-- start Delete package from grid buttons -->
                 {% if perms.grid.delete_gridpackage %}
                   <tr>
-                    <td>Remove From Grid</td>
+                    <td>Remove from grid?</td>
                     {% for grid_package in grid_packages %}
                     <td class="grid-delete">
-                        &nbsp;<a href="#">
+                        &nbsp;<a href="#" id="package-delete-{{ grid_package.pk }}">
                           <span class="glyphicon glyphicon-trash"></span>
                         </a>
                     </td>
@@ -275,7 +275,7 @@
                         // The deletes are placed in here so there is just one place needed
                         e.preventDefault();
 
-                        if(confirm('{% trans "Are you sure?" %}')) {
+                        if(confirm('{% trans "Are you sure? This cannot be undone!" %}')) {
                             window.location = url;
                         }
                     };
