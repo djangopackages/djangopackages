@@ -18,7 +18,7 @@
 <div class="row">
   <div class="col-lg-3">
     <h2>
-      <a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'grids' %}">{% trans "grids" %}</a> / {{ grid.title }}
+      {{ grid.title }}
       {% if request.user.is_authenticated and profile.can_edit_grid %}
         <a href="{% url 'edit_grid' grid.slug %}">
           <span class="glyphicon glyphicon-pencil"></span>

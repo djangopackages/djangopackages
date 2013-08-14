@@ -65,7 +65,7 @@ def profile_edit(request, template_name="profiles/profile_edit.html"):
             'google_code_url',
         ),
         ButtonHolder(
-            Submit('edit', 'Edit', css_class="awesome forestgreen"),
+            Submit('edit', 'Edit', css_class="btn btn-default"),
         )
     )
 
