@@ -26,7 +26,7 @@
           <tr>
             <th>{% trans "Grid" %}</th>
             <th>{% trans "Description" %}</th>
-            <th>{% trans "Date Added" %}</th>
+            <th>{% trans "Last Modified" %}</th>
             <th>{% trans "Packages" %}</th>
             <th>{% trans "Features" %}</th>
           </tr>
@@ -36,8 +36,8 @@
             <tr>
               <td><a href="{% url 'grid' grid.slug %}">{{ grid.title }}</a></td>
               <td>{{ grid.description }}</td>
-              <td>{{ grid.created|date:"D d M Y H:i:s" }}</td>
-              <td>{{ grid.gridpackage_set.count }}</td>
+              <td>{{ grid.modified|date:"D d M" }}</td>
+              <td>{{ grid.gridpackage_count }}</td>
               <td>{{ grid.feature_set.count }}</td>
             </tr>
           {% endfor %}

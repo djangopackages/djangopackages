@@ -84,14 +84,6 @@ urlpatterns = patterns("",
         name    = 'ajax_grid_list',
     ),    
 
-    url(
-        regex   = r"^latest/$",
-        view    = ArchiveIndexView.as_view(
-                    queryset=Grid.objects.select_related(),
-                    date_field='created'
-        ),
-        name    = "latest_grids",
-    ),
 
     url(
         regex = '^$',
