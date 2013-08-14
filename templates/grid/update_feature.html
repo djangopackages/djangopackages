@@ -8,10 +8,10 @@
   <div class="row">
     <div class="col-lg-12">
       
-      <h2>
-        {% trans "Add feature to grid" %} <a href="{% url 'grid' grid.slug %}">{{ grid.title }}</a>
-      </h2>
-    
+      <h2>{% trans "Grid Feature" %}</h2>
+
+      <p>{% trans "Add/edit a feature of the" %} <a href="{% url 'grid' grid.slug %}">{{ grid.title }}</a> {% trans "grid." %}</p>
+      
       <form method="post">
         {% csrf_token %}
         <fieldset>

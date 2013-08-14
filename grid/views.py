@@ -127,7 +127,7 @@ def edit_grid(request, slug, template_name="grid/edit_grid.html"):
 
 
 @login_required
-def add_feature(request, grid_slug, template_name="grid/add_feature.html"):
+def add_feature(request, grid_slug, template_name="grid/update_feature.html"):
     """Adds a feature to the grid, accepts GET and POST requests.
 
     Requires user to be logged in
@@ -158,7 +158,7 @@ def add_feature(request, grid_slug, template_name="grid/add_feature.html"):
 
 
 @login_required
-def edit_feature(request, id, template_name="grid/edit_feature.html"):
+def edit_feature(request, id, template_name="grid/update_feature.html"):
     """edits feature on a grid - this view has the same
     semantics as :func:`grid.views.add_feature`.
 
