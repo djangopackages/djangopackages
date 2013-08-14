@@ -15,7 +15,7 @@
         <fieldset>
             {{ form|crispy }}
             <div class="form_block">        
-                <input class="awesome forestgreen" type="submit" name="edit" value="{% trans "Edit" %}">
+                <input class="btn btn-default" type="submit" name="edit" value="{% trans "Edit" %}">
                 <a href="{% url 'grid' grid.slug %}">{% trans "cancel" %}</a>
             </div>            
         </fieldset>

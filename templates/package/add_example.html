@@ -16,7 +16,7 @@
             {{ form|crispy }}
 
             <div class="form_block">        
-                <input class="awesome forestgreen" type="submit" name="add" value="{% trans "Add new example" %}">
+                <input class="btn btn-default" type="submit" name="add" value="{% trans "Add new example" %}">
                 <a href="{% url 'package' package.slug %}">{% trans "cancel" %}</a>
             </div>            
         </fieldset>
