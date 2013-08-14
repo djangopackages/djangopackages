@@ -232,12 +232,6 @@ class FunctionalGridTest(TestCase):
         self.client.get(url)
         self.assertEqual(count - 1, GridPackage.objects.count())
 
-    def test_latest_grids_view(self):
-        url = reverse('latest_grids')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'grid/grid_archive.html')
-
 
 class RegressionGridTest(TestCase):
     def setUp(self):
