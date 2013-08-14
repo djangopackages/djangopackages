@@ -1,30 +1,33 @@
 {% extends "grid/base.html" %}
 {% load url from future %}
-
 {% load i18n %}
 {% load crispy_forms_tags %}
 
-{% block head_title %}{% blocktrans with grid.title as grid_title %}Add feature for comparison to grid '{{ grid_title }}'{% endblocktrans %}{% endblock %}
-
 {% block body %}
-
-    {% url 'grid' grid.slug as grid_url %}
-    <h2><a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'grids' %}">{% trans "grids" %}</a> / {% blocktrans with grid.title as grid_title %}Add feature for comparison to grid '<a href="{{ grid_url }}">{{ grid_title }}</a>'{% endblocktrans %}</h2>    
-
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      {% url 'grid' grid.slug as grid_url %}
+      <h2>
+        <a href="{% url 'home' %}">{% trans "home" %}</a> / 
+        <a href="{% url 'grids' %}">{% trans "grids" %}</a> / 
+        {% blocktrans with grid.title as grid_title %}
+          Add feature for comparison to grid '<a href="{{ grid_url }}">{{ grid_title }}</a>'
+        {% endblocktrans %}
+      </h2>
     
-    <form method="post">
+      <form method="post">
         {% csrf_token %}
         <fieldset>
-            {{ form|crispy }}
-            <div class="form_block">
-                <input class="btn btn-default" type="submit" name="edit" value="Edit">
-                <a href="{% url 'grid' grid.slug %}">{% trans "cancel" %}</a>    
-            </div>            
+          {{ form|crispy }}
+          <div class="form_block">
+            <input class="btn btn-default" type="submit" name="edit" value="Edit">
+          </div>
         </fieldset>
-
-    </form>
-
-
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block extra_body %}
