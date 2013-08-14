@@ -3,6 +3,7 @@
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
+from django.db.models import Count, Sum
 from django.http import HttpResponseRedirect, Http404, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render
 
@@ -32,8 +33,10 @@ def grids(request, template_name="grid/grids.html"):
     * ``grids`` - all grid objects
     """
     # annotations providing bad counts
-    #grids = Grid.objects.annotate(gridpackage_count=Count('gridpackage'), feature_count=Count('feature'))
-    return render(request, template_name, {'grids': Grid.objects.filter(), })
+    grids = Grid.objects.filter()
+    grids = grids.prefetch_related("feature_set")
+    grids = grids.annotate(gridpackage_count=Count('gridpackage'))
+    return render(request, template_name, {'grids': grids, })
 
 
 def grid_detail_landscape(request, slug, template_name="grid/grid_detail2.html"):
@@ -78,6 +81,7 @@ def grid_detail_landscape(request, slug, template_name="grid/grid_detail2.html")
             'attributes': default_attributes,
             'elements': element_map,
         })
+
 
 @login_required
 def add_grid(request, template_name="grid/add_grid.html"):

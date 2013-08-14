@@ -84,7 +84,7 @@ class FunctionalGridTest(TestCase):
         self.assertTrue(self.client.login(username='user', password='user'))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'grid/add_feature.html')
+        self.assertTemplateUsed(response, 'grid/update_feature.html')
 
         # Test form post
         count = Feature.objects.count()
@@ -106,7 +106,7 @@ class FunctionalGridTest(TestCase):
         self.assertTrue(self.client.login(username='user', password='user'))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'grid/edit_feature.html')
+        self.assertTemplateUsed(response, 'grid/update_feature.html')
 
         # Test form post
         count = Feature.objects.count()
