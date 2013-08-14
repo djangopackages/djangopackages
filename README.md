@@ -15,9 +15,6 @@ Features
 
     * Add packages to grid
     * Add/edit grid features
-    * Toggle between simple and smart grids
-    * Filter grid by search text
-    * Extendable grid templatetags for custom feature display/styling
 
 * Storage of package info, fetched from public APIs
 
@@ -35,7 +32,6 @@ Features
     * Latest packages featured on homepage
 
 * "Add package" and "Add grid" forms
-* Extendable package model, using package extenders
 
 The Site
 --------
