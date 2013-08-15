@@ -186,16 +186,14 @@ h3, .h3 {
 }
 
 /**
- * Grid row header: special color
-.table thead>tr>th {
-vertical-align: middle;
-}
-
+ * Grid row header styling
  */
 
 .grid-row-header {
-  background: #87deaa;
-  font-size: 15px;
+  background: #A6E9D1;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: #333;
 }
 
 .table thead > tr.grid-row-header > th,
