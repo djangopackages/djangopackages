@@ -36,3 +36,8 @@ createsite:
 
 shell:
 	heroku run python manage.py shell_plus --settings=settings.heroku
+
+runcron:
+	python manage.py pypi_updater --settings=settings.heroku
+	python manage.py repo_updater --settings=settings.heroku
+	python manage.py searchv2_build --settings=settings.heroku
