@@ -1,5 +1,6 @@
 // Ajax submit for the package usage
 /*
+//Make this work with modern JQuery
 $(".usage-link").live('click', function(e) {
     e.preventDefault();
     var link = $(this),
