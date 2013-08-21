@@ -1,4 +1,5 @@
 // Ajax submit for the package usage
+/*
 $(".usage-link").live('click', function(e) {
     e.preventDefault();
     var link = $(this),
@@ -29,7 +30,7 @@ $(".usage-link").live('click', function(e) {
         }
     });
 });
-
+*/
 
 $(".messages li a").click(function() {
     $(this).parent().fadeOut();
