@@ -138,9 +138,6 @@ PREREQ_APPS = [
     "django_sorting",
     #"django_modeler",
 
-    # Celery task queue:
-    #'djcelery',
-
     'social_auth',
     'floppyforms',
     'rest_framework',
@@ -149,9 +146,6 @@ PREREQ_APPS = [
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
 
-FIXTURE_DIRS = [
-    os.path.join(PROJECT_ROOT, "fixtures"),
-]
 
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
@@ -197,13 +191,6 @@ DEBUG_TOOLBAR_CONFIG = {
     "INTERCEPT_REDIRECTS": False,
 }
 
-if DEBUG:
-    CACHE_BACKEND = 'dummy://'
-    TEMPLATE_LOADERS = (
-            'django.template.loaders.filesystem.Loader',
-            'django.template.loaders.app_directories.Loader',
-    )
-
 PACKAGINATOR_HELP_TEXT = {
     "REPO_URL": "Enter your project repo hosting URL here.<br />Example: https://github.com/opencomparison/opencomparison",
     "PYPI_URL": "<strong>Leave this blank if this package does not have a PyPI release.</strong><br />What PyPI uses to index your package. <br />Example: django-uni-form",
@@ -219,8 +206,6 @@ RESTRICT_PACKAGE_EDITORS = True
 # only django admins can delete
 RESTRICT_GRID_EDITORS = True
 
-CELERYD_TASK_TIME_LIMIT = 300
-LAUNCHPAD_ACTIVE = False
 
 LOCAL_INSTALLED_APPS = []
 SUPPORTED_REPO = []
@@ -233,8 +218,6 @@ if LOCAL_INSTALLED_APPS:
     INSTALLED_APPS.extend(LOCAL_INSTALLED_APPS)
 
 SUPPORTED_REPO.extend(["bitbucket", "github"])
-if LAUNCHPAD_ACTIVE:
-    SUPPORTED_REPO += ["launchpad"]
 
 
 AUTHENTICATION_BACKENDS = (

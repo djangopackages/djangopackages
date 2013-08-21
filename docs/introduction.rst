@@ -4,7 +4,7 @@ Introduction
 
 Ever want to know which is the most popular or well supported Python httplib replacement, web framework, or api tool? OpenComparison solves that problem for you! OpenComparison allows you to easily identify good apps, frameworks, and packages.
 
-OpenComparison stores information on fetched packages and provides easy comparison tools for them. Public APIs include PyPI, Github, BitBucket, Launchpad, and perhaps soon SourceForge and Google Project Hosting.
+OpenComparison stores information on fetched packages and provides easy comparison tools for them. Public APIs include PyPI, Github, and BitBucket.
 
 The Site
 --------
@@ -26,7 +26,6 @@ What repo sites are supported?
 
  * Github
  * Bitbucket
- * Launchpad.
 
 Google Project Hosting and Sourceforge are not fully supported!
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

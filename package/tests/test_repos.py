@@ -109,11 +109,4 @@ class TestRepos(BaseBase):
         self.assertEqual(g.title, "Github")
         self.assertEqual(g.url, "https://github.com")
         self.assertTrue("github" in supported_repos())
-
-        if settings.LAUNCHPAD_ACTIVE:
-            l = get_repo("launchpad")
-            self.assertEqual(l.title, "Launchpad")
-            self.assertEqual(l.url, "https://code.launchpad.net")
-            self.assertTrue("launchpad" in supported_repos())
-
         self.assertRaises(ImportError, lambda: get_repo("xyzzy"))

@@ -14,7 +14,7 @@ from settings.base import *
 
 
 ########## CACHE
-CACHE_TIMEOUT = 60 * 60 * 24
+CACHE_TIMEOUT = 60 * 60 * 24 * 30
 CACHES = memcacheify()
 
 

@@ -8,7 +8,7 @@ Welcome to OpenComparison's documentation!
 
 OpenComparison solves the problem in the programming community of being able to easily identify good apps, frameworks, and packages. Ever want to know which is the most popular or well supported Python httplib replacement, web framework, or api tool? OpenComparison solves that problem for you!
 
-It does this by storing information on packages fetched from public APIs provided by PyPI, Github, BitBucket, Launchpad, and SourceForge, and then provides extremely useful comparison tools for them.
+It does this by storing information on packages fetched from public APIs provided by PyPI, Github, and BitBucket, then provides extremely useful comparison tools for them.
 
 Contributing to OpenComparison
 ================================
