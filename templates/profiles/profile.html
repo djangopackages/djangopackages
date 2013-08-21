@@ -10,8 +10,8 @@
 {% block body %}
 <div class="container">
   <div class="row">
-    <div class="col-4">
-      <h2>{% blocktrans %}Profile for <span class="fn nickname">{{ user }}</span>{% endblocktrans %}</h2>
+    <div class="col-xs-2">
+      <h2>{% blocktrans %}<span class="fn nickname">{{ user }}</span>{% endblocktrans %}</h2>
 
       {% if request.user == user %}
         <p><a href="{% url 'profile_edit' %}">{% trans "Edit my profile" %}</a></p>
@@ -36,9 +36,9 @@
       {% endif %}            
     </div>
 
-    <div class="col-4">
+    <div class="col-xs-5">
       {% if local_profile.my_packages %}
-        <h3>{% trans "Packages I contribute to" %}</h3>
+        <h3>{% trans "Packages Contributed To" %}</h3>
         <table class="table">
           <thead>
               <tr>
@@ -60,8 +60,8 @@
       {% endif %}
     </div>
       
-    <div class="col-4">
-        <h3>{% trans "Packages I use" %}</h3>
+    <div class="col-xs-5">
+        <h3>{% trans "Packages Used" %}</h3>
         <ul class="usage-list">
           <table class="table">
             <thead>

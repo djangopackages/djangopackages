@@ -14,16 +14,16 @@
 {% block body %}
 <div class="container">
   <div class="row">
-    <div class="col-6">
+    <div class="col-xs-12">
       <h2><a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'categories' %}">{% trans "categories" %}</a> / {{ category.title_plural }} ( {{ packages.count }} )</h2>
     </div>
   </div>
 
   <div class="row">
-    <div class="col-6">
+    <div class="col-xs-6">
       <p>{{ category.description }}</p>
     </div>
-    <div class="col-6">
+    <div class="col-xs-6">
       <p>
         {% if profile.can_add_package %}
           <a class="btn btn-default" href="{% url 'add_package' %}">{% trans "add package »" %}</a>
@@ -33,7 +33,7 @@
   </div>
 
   <div class="row">
-    <div class="col-12">
+    <div class="col-xs-12">
       {% autosort packages %}
       {% autopaginate packages %}
       {% paginate %}
