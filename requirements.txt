@@ -36,7 +36,6 @@ oauth2==1.5.211
 psycopg2==2.4.1
 pylibmc==1.2.3
 python-dateutil==2.1
-python-openid==2.2.5
 raven==1.4.6
 rq==0.3.8
 requests==1.2.3

@@ -13,10 +13,6 @@ from S3 import CallingFormat
 from settings.base import *
 
 
-########## DATABASES
-DATABASES = postgresify()
-
-
 ########## CACHE
 CACHE_TIMEOUT = 60 * 60 * 24
 CACHES = memcacheify()
