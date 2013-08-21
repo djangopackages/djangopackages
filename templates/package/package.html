@@ -43,7 +43,7 @@
     </p>
 
     <!-- start Usage panel -->
-    <div class="panel">
+    <div class="panel panel-default">
       <div class="panel-heading clearfix">
         <h3 class="panel-title pull-left">Usage</h3>
       </div>
@@ -74,16 +74,17 @@
     <!-- end Usage panel -->
 
     <!-- start PyPI panel -->
-    <div class="panel">
+    <div class="panel panel-default">
      <div class="panel-heading clearfix">
        <h3 class="panel-title pull-left">PyPI</h3>
      </div>
-
      {% if package.pypi_url and package.pypi_url != "http://pypi.python.org/pypi/" %}
-        <p><a href="{{ package.pypi_url }}">{{ package.pypi_url }}</a></p>
-        <p>
-          <a href="https://crate.io/packages/{{ package.pypi_name }}/" rel="nofollow"><img src="https://pypip.in/d/{{ package.pypi_name }}/badge.png"></a>
-        </p>
+       <div class="panel-body">
+          <p><a href="{{ package.pypi_url }}">{{ package.pypi_url }}</a></p>
+          <p>
+            <a href="https://crate.io/packages/{{ package.pypi_name }}/" rel="nofollow"><img src="https://pypip.in/d/{{ package.pypi_name }}/badge.png"></a>
+          </p>
+        </div>
         <table class="table">
           <thead>
             <tr>
@@ -113,21 +114,25 @@
           </tbody>
       </table>
     {% else %}
-      <p>{% trans "No PyPI release" %}</p>
+      <div class="panel-body">
+        <p>{% trans "No PyPI release" %}</p>
+      </div>
     {% endif %}
     </div>
     <!-- end PyPI panel -->
 
     <!-- start Participants panel -->
-    <div class="panel">
+    <div class="panel panel-default">
       <div class="panel-heading clearfix">
         <h3 class="panel-title pull-left">{% trans "Participants" %}</h3>
       </div>
-      <p>
+      <div class="panel-body">
+        <p>
           {% for participant in package.participant_list %}
               <a href="{% participant_url package.repo participant %}">{{ participant }}</a>&nbsp;
           {% endfor %}
-      </p>
+        </p>
+      </div>
     </div>
     <!-- end Participants panel -->
   
@@ -135,16 +140,18 @@
   <div class="col-lg-6">
     
     <!-- start Documentation panel -->
-    <div class="panel">
+    <div class="panel panel-default">
       <div class="panel-heading clearfix">
         <h3 class="panel-title pull-left">{% trans "Documentation" %}</h3>
       </div>
-      <p><strong>Read the Docs URL:</strong>&nbsp; <a class="rtd">None</a></p>
+      <div class="panel-body">
+        <p><strong>Read the Docs URL:</strong>&nbsp; <a class="rtd">None</a></p>
+      </div>
     </div>
     <!-- end Documentation panel -->
 
     <!-- start Repo panel -->
-    <div class="panel">
+    <div class="panel panel-default">
       <div class="panel-heading clearfix">
         <h3 class="panel-title pull-left">Repo Activity</h3>
 
@@ -157,9 +164,11 @@
         </div>
       </div>
 
-      <p>
-        <strong>Repo Hosting:</strong> {{ package.repo.title }}
-      </p>
+      <div class="panel-body">
+        <p>
+          <strong>Repo Hosting:</strong> {{ package.repo.title }}
+        </p>
+      </div>
 
       <table class="table">
         <thead>
@@ -183,7 +192,7 @@
     <!-- end Repo panel -->
 
     <!-- start Grids panel -->
-    <div class="panel">
+    <div class="panel panel-default">
       <div class="panel-heading clearfix">
         <h3 class="panel-title pull-left">{% trans "Comparison Grids" %}</h3>
         <div class="pull-right">
@@ -194,19 +203,21 @@
         </div>
       </div>
 
-      {% for grid in package.grids %}            
-        <a href="{% url 'grid' grid.slug %}" title="{{ grid.description }}">{{ grid }}</a> &nbsp;
-      {% empty %}
-        {% if request.user.is_authenticated and profile.can_add_grid %}
-          <a class="btn btn-default" id="find-a-grid" href="#"><span class="glyphicon glyphicon-plus"></span></a>
-          {% include "package/includes/_attach_grid.html" %}
-        {% endif %}
-      {% endfor %}
+      <div class="panel-body">
+        {% for grid in package.grids %}            
+          <a href="{% url 'grid' grid.slug %}" title="{{ grid.description }}">{{ grid }}</a> &nbsp;
+        {% empty %}
+          {% if request.user.is_authenticated and profile.can_add_grid %}
+            <a class="btn btn-default" id="find-a-grid" href="#"><span class="glyphicon glyphicon-plus"></span></a>
+            {% include "package/includes/_attach_grid.html" %}
+          {% endif %}
+        {% endfor %}
+      </div>
     </div>
     <!-- end Grids panel -->
 
     <!-- start Examples panel -->
-    <div class="panel">
+    <div class="panel panel-default">
       <div class="panel-heading clearfix">
         <h3 class="panel-title pull-left">{% trans "Sites using this package" %}</h3>
         <div class="pull-right">
@@ -215,23 +226,25 @@
           {% endif %}
         </div>
       </div>
-      
-      {% with package.active_examples as examples %}
-      {% if examples %}
-      <ol>
-        {% for example in examples %}
-          <li>
-            <a href="{{ example.url }}">{{ example.title }}</a>
-            {% if request.user.is_authenticated %}&nbsp;
-                <a href="{% url 'edit_example' package.slug example.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
-            {% endif %}
-          </li>
-        {% endfor %}
-      </ol>
-      {% else %}
-        <p>No sites using this package have been listed yet.</p>
-      {% endif %}
-      {% endwith %}
+
+      <div class="panel-body">
+        {% with package.active_examples as examples %}
+        {% if examples %}
+        <ol>
+          {% for example in examples %}
+            <li>
+              <a href="{{ example.url }}">{{ example.title }}</a>
+              {% if request.user.is_authenticated %}&nbsp;
+                  <a href="{% url 'edit_example' package.slug example.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ol>
+        {% else %}
+          <p>No sites using this package have been listed yet.</p>
+        {% endif %}
+        {% endwith %}
+      </div>
     </div>
     <!-- end Examples panel -->
 
