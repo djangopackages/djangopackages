@@ -38,6 +38,10 @@ $(".messages li a").click(function() {
     return false;
 });
 
+function dream(name) {
+    console.log(name);
+}
+
 
 function getCookie(name) {
     var cookieValue = null;
