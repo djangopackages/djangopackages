@@ -33,8 +33,6 @@
     <p>
       {{ grid.description|urlize|linebreaksbr }}
     </p>
-  
-    <p><a href="{% url 'grid_landscape' grid.slug %}"><span class="glyphicon glyphicon-repeat"></span> Landscape View</a></p>    
 
     {% if features %}
         {% if request.user.is_authenticated and profile.can_add_grid_package %}        
