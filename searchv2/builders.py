@@ -102,7 +102,7 @@ def build_1(print_out=False):
             obj.save()
 
         if print_out:
-            print >> stdout, obj, created
+            print >> stdout, obj.slug, created
 
     print >> stdout, '----------------------'
     max_weight = SearchV2.objects.all()[0].weight
