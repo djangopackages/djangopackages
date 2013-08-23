@@ -28,7 +28,7 @@ urlpatterns = patterns("",
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, 'logout',),
 
     # static pages
-    url(r"^about/$", TemplateView.as_view(template_name='pages/about.html'), name="about"),
+    url(r"^about/$", TemplateView.as_view(template_name='pages/faq.html'), name="about"),
     url(r"^terms/$", TemplateView.as_view(template_name='pages/terms.html'), name="terms"),
     url(r"^faq/$", TemplateView.as_view(template_name='pages/faq.html'), name="faq"),
     url(r"^syndication/$", TemplateView.as_view(template_name='pages/syndication.html'), name="syndication"),
