@@ -10,7 +10,7 @@ from searchv2.models import SearchV2
 from searchv2.utils import remove_prefix, clean_title
 
 
-def build_1(print_out=True):
+def build_1(print_out=False):
 
     now = datetime.now()
     quarter_delta = timedelta(90)
