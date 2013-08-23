@@ -1,6 +1,7 @@
 from time import sleep
 
 from django.conf import settings
+from django.utils import timezone
 
 from github3 import GitHub, login
 
@@ -52,6 +53,7 @@ class GitHubHandler(BaseHandler):
         package.commit_list = str([x['total'] for x in repo.iter_commit_activity(number=52)])
         if package.commit_list.strip() == '[]':
             return package
+        package.last_fetched = timezone.now()
         package.save()
         return package
 

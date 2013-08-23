@@ -341,12 +341,15 @@ def int_or_0(value):
 def post_data(request, slug):
     if request.method == "POST":
         package = get_object_or_404(Package, slug=slug)
-        # TODO Do this this with a form, really. Duh!
-        package.repo_watchers = int_or_0(request.POST.get("repo_watchers"))
-        package.repo_forks = int_or_0(request.POST.get("repo_forks"))
-        package.repo_description = request.POST.get("repo_description")
-        package.participants = request.POST.get('contributors')
-        package.fetch_commits()  # also saves
+        try:
+            # TODO Do this this with a form, really. Duh!
+            package.repo_watchers = int_or_0(request.POST.get("repo_watchers"))
+            package.repo_forks = int_or_0(request.POST.get("repo_forks"))
+            package.repo_description = request.POST.get("repo_description")
+            package.participants = request.POST.get('contributors')
+            package.fetch_commits()  # also saves
+        except Exception as e:
+            print e
     return HttpResponseRedirect(reverse("package", kwargs={"slug": package.slug}))
 
 

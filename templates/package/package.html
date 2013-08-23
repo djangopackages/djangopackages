@@ -156,11 +156,12 @@
         <h3 class="panel-title pull-left">Repo Activity</h3>
 
         <div class="pull-right" id="fetch-cell">
-          {% if repo.title != "Github" %}
-            <a class="btn btn-default btn-xs" href="{% url 'fetch_package_data' package.slug %}">{% trans "Fetch latest data" %}</a>
-          {% else %}{# if repo.title == "Github" #}
-            <a class="btn btn-default btn-xs" href="#">{% trans "Fetch latest data" %}</a>
-          {% endif %}
+            Last fetched: {{ package.last_fetched|timesince }} ago
+            {% if repo.title != "Github" %}
+              <a class="btn btn-default btn-xs" href="{% url 'fetch_package_data' package.slug %}">{% trans "Fetch latest data" %}</a>
+            {% else %}{# if repo.title == "Github" #}
+              <a class="btn btn-default btn-xs" href="#">{% trans "Fetch latest data" %}</a>
+            {% endif %}
         </div>
       </div>
 

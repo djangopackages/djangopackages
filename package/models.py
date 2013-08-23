@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 
 from distutils.version import LooseVersion as versioner
 import requests
@@ -58,6 +59,7 @@ class Package(BaseModel):
     usage = models.ManyToManyField(User, blank=True)
     created_by = models.ForeignKey(User, blank=True, null=True, related_name="creator", on_delete=models.SET_NULL)
     last_modified_by = models.ForeignKey(User, blank=True, null=True, related_name="modifier", on_delete=models.SET_NULL)
+    last_fetched = models.DateTimeField(blank=True, null=True, default=timezone.now)
 
     commit_list = models.TextField(_("Commit List"), blank=True)
 
@@ -202,6 +204,7 @@ class Package(BaseModel):
             self.fetch_pypi_data()
         self.repo.fetch_metadata(self)
         signal_fetch_latest_metadata.send(sender=self)
+        self.last_fetched = timezone.now()
         self.save()
 
     def save(self, *args, **kwargs):
