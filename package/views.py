@@ -9,6 +9,7 @@ from django.core.urlresolvers import reverse
 from django.db.models import Q, Count
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render
+from django.utils import timezone
 
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 
@@ -337,19 +338,25 @@ def int_or_0(value):
     except ValueError:
         return 0
 
+
 @login_required
 def post_data(request, slug):
-    if request.method == "POST":
-        package = get_object_or_404(Package, slug=slug)
-        try:
-            # TODO Do this this with a form, really. Duh!
-            package.repo_watchers = int_or_0(request.POST.get("repo_watchers"))
-            package.repo_forks = int_or_0(request.POST.get("repo_forks"))
-            package.repo_description = request.POST.get("repo_description")
-            package.participants = request.POST.get('contributors')
-            package.fetch_commits()  # also saves
-        except Exception as e:
-            print e
+    # if request.method == "POST":
+        # try:
+        #     # TODO Do this this with a form, really. Duh!
+        #     package.repo_watchers = int_or_0(request.POST.get("repo_watchers"))
+        #     package.repo_forks = int_or_0(request.POST.get("repo_forks"))
+        #     package.repo_description = request.POST.get("repo_description")
+        #     package.participants = request.POST.get('contributors')
+        #     package.fetch_commits()  # also saves
+        # except Exception as e:
+        #     print e
+    package = get_object_or_404(Package, slug=slug)
+    package.fetch_pypi_data()
+    package.repo.fetch_metadata(package)
+    package.repo.fetch_commits(package)
+    package.last_fetched = timezone.now()
+    package.save()
     return HttpResponseRedirect(reverse("package", kwargs={"slug": package.slug}))
 
 

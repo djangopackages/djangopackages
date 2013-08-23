@@ -159,11 +159,14 @@
           {% if package.last_fetched %}
             Last fetched: {{ package.last_fetched|timesince }} ago
           {% endif %}
+          <a class="btn btn-default btn-xs" href="{% url 'post_package_data' package.slug %}">{% trans "Fetch latest data" %}</a>
+          {% comment %}
             {% if repo.title != "Github" %}
               <a class="btn btn-default btn-xs" href="{% url 'fetch_package_data' package.slug %}">{% trans "Fetch latest data" %}</a>
             {% else %}{# if repo.title == "Github" #}
               <a class="btn btn-default btn-xs" href="#">{% trans "Fetch latest data" %}</a>
             {% endif %}
+          {% endcomment %}
         </div>
       </div>
 
@@ -264,6 +267,7 @@
 
 {% block extra_body %}
 
+{% comment %}
 <script type="text/javascript">
     $(function() {
         pic1=new Image();
@@ -309,6 +313,7 @@
         
     });
 </script>
+{% endcomment %}
 
 <script type="text/javascript">
     $(function() {
