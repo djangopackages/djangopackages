@@ -43,7 +43,7 @@
 
             <!-- Search form -->
             <form action="{% url 'search' %}" class="navbar-form pull-left">
-              <input name="q" id="id_q_p" type="text" class="form-control" style="width: 240px;">
+              <input autocomplete="off" name="q" id="id_q_p" type="text" class="form-control" style="width: 240px;">
               <button type="submit" class="btn btn-default">Go</button>
             </form>
 
@@ -149,6 +149,7 @@
                 $(".scrollable").scrollable();
             });
 
+            /* 
             $('#id_q_p').autocomplete({
               source: '{% url 'search_packages_autocomplete' %}',
               minLength: 1,
@@ -157,6 +158,7 @@
                 $('.ui-autocomplete').css({'width': '250px', 'top': ac_top + 10 }); 
               }
             });
+            */
         </script>
 
     {{ PIWIK_CODE|safe }}
