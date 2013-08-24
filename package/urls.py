@@ -27,7 +27,8 @@ urlpatterns = patterns("",
     url(
         regex   = r"^latest/$",
         view    = ArchiveIndexView.as_view(
-                        queryset=Package.objects.select_related(),
+                        queryset=Package.objects.filter().select_related(),
+                        paginate_by=50,
                         date_field="created"
         ),
         name    = "latest_packages",

@@ -7,9 +7,9 @@
 
 {% block body %}
 
-    <h2>{% trans "Latest 15 packages added" %}</h2>
+    <h2>{% trans "Latest 50 packages added" %}</h2>
     {% if profile.can_add_package %}
-    <a href="{% url 'add_package' %}">{% trans "Add a new package!" %}</a>
+    <a class="btn" href="{% url 'add_package' %}">{% trans "Add a new package!" %}</a>
     {% endif %}
     <div class="list-group">
         {% for package in latest %}
