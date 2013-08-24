@@ -207,11 +207,14 @@ class Package(BaseModel):
         self.last_fetched = timezone.now()
         self.save()
 
+    def grid_clear_detail_template_cache(self):
+        for grid in self.grids():
+            grid.clear_detail_template_cache()
+
     def save(self, *args, **kwargs):
         if not self.repo_description:
             self.repo_description = ""
-        for grid in self.grids():
-            grid.clear_detail_template_cache()
+        self.grid_clear_detail_template_cache()
         super(Package, self).save(*args, **kwargs)
 
     def fetch_commits(self):

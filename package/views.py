@@ -249,6 +249,7 @@ def usage(request, slug, action):
     if change == 1 or change == -1:
         cache_key = "sitewide_used_packages_list_%s" % request.user.pk
         cache.delete(cache_key)
+        package.grid_clear_detail_template_cache()
 
     # Return an ajax-appropriate response if necessary
     if request.is_ajax():
