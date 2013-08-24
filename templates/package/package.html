@@ -282,8 +282,9 @@
             $('#find-a-grid-input').focus();
             
             $('#find-a-grid-input').keyup(function() {
-                var search_text = $('input#find-a-grid-input').attr('value');
+                var search_text = $('input#find-a-grid-input').val();
                 var search_text = '{% url 'ajax_grid_list' %}?q=' + search_text + '&package_id={{ package.id }}';
+                console.log(search_text);
                 $.get(search_text, function(data) {
                   $('#target').html(data).show("slow");
                 });                
