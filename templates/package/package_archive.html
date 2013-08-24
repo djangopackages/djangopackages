@@ -6,15 +6,21 @@
 {% block head_title %}{% trans "Packages" %}{% endblock %}
 
 {% block body %}
-
+<div class="row">
+  <div class="col-xs-12">
     <h2>{% trans "Latest 50 packages added" %}</h2>
     {% if profile.can_add_package %}
-    <a class="btn" href="{% url 'add_package' %}">{% trans "Add a new package!" %}</a>
+    <p><a class="btn  btn-default" href="{% url 'add_package' %}">{% trans "Add a new package!" %}</a></p>
     {% endif %}
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
     <div class="list-group">
         {% for package in latest %}
             {% include "package/includes/_package.html"%}
         {% endfor %}
     </div>
-
+  </div>
+</div>
 {% endblock %}
