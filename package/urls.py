@@ -12,7 +12,8 @@ from package.views import (
                             usage,
                             package_list,
                             package_detail,
-                            post_data
+                            post_data,
+                            edit_documentation
                             )
 
 urlpatterns = patterns("",
@@ -83,6 +84,12 @@ urlpatterns = patterns("",
         regex = "^usage/(?P<slug>[-\w]+)/(?P<action>add|remove)/$",
         view    = usage,
         name    = "usage",
+    ),
+
+    url(
+        regex = "^(?P<slug>[-\w]+)/document/$",
+        view    = edit_documentation,
+        name    = "edit_documentation",
     ),
 
 

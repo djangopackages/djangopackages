@@ -27,7 +27,7 @@
     </h2>
   </div>
 </div>
-{% cache 86400 detail_template_cache grid.pk %}
+{% cache 3 detail_template_cache grid.pk %}
 <div class="row">
   <div class="col-lg-{% if features %}3{% else %}6{% endif %}">
 
@@ -215,10 +215,16 @@
                     {% endfor %}
                 </tr>
                 <tr>
-                    <td>{% trans "Docs on RTD" %}</td>
+                    <td>{% trans "Documentation" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>
-                            <span class="rtd-status" rel="{{ grid_package.package.slug }}">{% trans "Checking..." %}</span>
+                            {% if grid_package.package.documentation_url.strip and grid_package.package.documentation_url.strip != None %}
+                                <a href="{{ grid_package.package.documentation_url }}">
+                                    <span class="glyphicon glyphicon-book"></span>
+                                </a>
+                            {% else %}
+                                N/A
+                            {% endif %}
                         </td>
                     {% endfor %}
                 </tr>
@@ -314,10 +320,6 @@
                     
                  {% endif %}
 
-                 $('table#grid span.rtd-status').checkRTD({
-                	 'yes': '{% trans "Yes" %}',
-                	 'no': '{% trans "No" %}'
-                 });
             });    
         </script>
 {% endblock %}

@@ -8,14 +8,14 @@ from django.core.cache import cache
 from django.core.urlresolvers import reverse
 from django.db.models import Q, Count
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.utils import timezone
 
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 
 from grid.models import Grid
 from homepage.models import Dpotw, Gotw
-from package.forms import PackageForm, PackageExampleForm
+from package.forms import PackageForm, PackageExampleForm, DocumentationForm
 from package.models import Category, Package, PackageExample
 from package.repos import get_all_repos
 
@@ -361,3 +361,17 @@ def post_data(request, slug):
     return HttpResponseRedirect(reverse("package", kwargs={"slug": package.slug}))
 
 
+@login_required
+def edit_documentation(request, slug, template_name="package/documentation_form.html"):
+    package = get_object_or_404(Package, slug=slug)
+    form = DocumentationForm(request.POST or None, instance=package)
+    if form.is_valid():
+        form.save()
+        messages.add_message(request, messages.INFO, 'Package documentation updated successfully')
+        return redirect(package)
+    return render(request, template_name,
+            dict(
+                package=package,
+                form=form
+            )
+        )

@@ -143,9 +143,14 @@
     <div class="panel panel-default">
       <div class="panel-heading clearfix">
         <h3 class="panel-title pull-left">{% trans "Documentation" %}</h3>
+        <div class="pull-right">
+          {% if request.user.is_authenticated %}        
+            <a href="{% url 'edit_documentation' package.slug %}"><span class="glyphicon glyphicon-plus"></span></a>
+          {% endif %}
+        </div>
       </div>
       <div class="panel-body">
-        <p><strong>Read the Docs URL:</strong>&nbsp; <a class="rtd">None</a></p>
+        <p>{{ package.documentation_url|urlize }}</p>
       </div>
     </div>
     <!-- end Documentation panel -->
@@ -267,54 +272,6 @@
 
 {% block extra_body %}
 
-{% comment %}
-<script type="text/javascript">
-    $(function() {
-        pic1=new Image();
-        pic1.src="{{ STATIC_URL }}img/progress.gif";
-        $('#fetch-cell > a').click(function(){
-            $('#fetch-cell').html('Updating <img src="{{ STATIC_URL }}img/progress.gif">');
-            {% if repo.title == "Github" %}
-                var repo_url = 'https://api.github.com/repos/{{ package.repo_name }}';
-
-                $.ajax({
-                    url: repo_url,
-                    dataType: 'jsonp',
-                    success: function(repo) {
-                        var package_data = {
-                            repo_watchers: repo.data.watchers,
-                            repo_forks: repo.data.network_count,
-                            repo_description: repo.data.description,
-                            csrfmiddlewaretoken: getCookie('csrftoken')
-                        };
-                        $.ajax({
-                            url: repo.data.contributors_url,
-                            dataType: 'jsonp',
-                            success:function(contributors_list){
-                                var contributors = "";
-                                var contributor;
-                                for (var i = 0; i < contributors_list.length; i++) {
-                                    contributor = contributors_list[i].login;
-                                    contributors = contributors + "," + contributor;
-                                }
-                                contributors = contributors.replace(",", " ");
-                                package_data.contributors = contributors;
-
-                                $.post("{% url 'post_package_data' package.slug %}", package_data).done(function(data){
-                                        location.href = "{% url 'package' package.slug %}?message=Package updated successfully";
-                                    });
-                            }
-
-                        });
-                    }
-                });
-            {% endif %}
-        });
-        
-    });
-</script>
-{% endcomment %}
-
 <script type="text/javascript">
     $(function() {
 
@@ -338,18 +295,6 @@
                   };
             });       
 
-        });
-        var url = "https://readthedocs.org/api/v1/build/{{ package.slug }}/?format=jsonp";
-        $.ajax({
-          url: url,
-          dataType: 'jsonp',
-          success:function(data){
-              if (data.objects.length > 0){
-                  var href = "https://readthedocs.org/projects/{{ package.slug }}";
-                  $("a.rtd").attr("href", href);
-                  $("a.rtd").text(href);
-              };
-          }
         });
 
     });    
