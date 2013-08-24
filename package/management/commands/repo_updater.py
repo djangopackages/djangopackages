@@ -20,8 +20,8 @@ class Command(NoArgsCommand):
             package.repo.fetch_metadata(package)
             package.repo.fetch_commits(package)
             count += 1
-            if package.repo.title == "Github":
-                msg = "{}. {}. {}".format(count, package.repo.github.ratelimit_remaining, package)
-            else:
-                msg = "{}. {}".format(count, package)
-            logger.info(msg)
+            # if package.repo.title == "Github":
+            #     msg = "{}. {}. {}".format(count, package.repo.github.ratelimit_remaining, package)
+            # else:
+            #     msg = "{}. {}".format(count, package)
+            # logger.info(msg)

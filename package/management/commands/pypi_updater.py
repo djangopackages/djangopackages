@@ -25,6 +25,6 @@ class Command(NoArgsCommand):
                 package.last_fetched = timezone.now()
                 package.save()
             count += 1
-            msg = "{}. {}. {}".format(count, count_updated, package)
-            logger.info(msg)
+            # msg = "{}. {}. {}".format(count, count_updated, package)
+            # logger.info(msg)
 
