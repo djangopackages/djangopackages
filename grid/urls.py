@@ -1,8 +1,5 @@
 """grid url patterns"""
 from django.conf.urls.defaults import patterns, url
-from django.views.generic.dates import ArchiveIndexView
-
-from grid.models import Grid
 
 from grid import views
 
@@ -23,42 +20,41 @@ from grid.views import (
 
 urlpatterns = patterns("",
 
-    
     url(
-        regex = '^add/$',
-        view    = add_grid,
-        name    = 'add_grid',
-    ),    
-    
+        regex='^add/$',
+        view=add_grid,
+        name='add_grid',
+    ),
+
     url(
-        regex = '^(?P<slug>[-\w]+)/edit/$',
-        view    = edit_grid,
-        name    = 'edit_grid',
-    ),      
-    
+        regex='^(?P<slug>[-\w]+)/edit/$',
+        view=edit_grid,
+        name='edit_grid',
+    ),
+
     url(
-        regex = '^element/(?P<feature_id>\d+)/(?P<package_id>\d+)/$',
-        view    = edit_element,
-        name    = 'edit_element',
-    ),  
-    
+        regex='^element/(?P<feature_id>\d+)/(?P<package_id>\d+)/$',
+        view=edit_element,
+        name='edit_element',
+    ),
+
     url(
-        regex = '^feature/add/(?P<grid_slug>[a-z0-9\-\_]+)/$',
-        view    = add_feature,
-        name    = 'add_feature',
-    ),         
-    
+        regex='^feature/add/(?P<grid_slug>[a-z0-9\-\_]+)/$',
+        view=add_feature,
+        name='add_feature',
+    ),
+
     url(
-        regex = '^feature/(?P<id>\d+)/$',
-        view    = edit_feature,
-        name    = 'edit_feature',
-    ), 
-    
+        regex='^feature/(?P<id>\d+)/$',
+        view=edit_feature,
+        name='edit_feature',
+    ),
+
     url(
         regex = '^feature/(?P<id>\d+)/delete/$',
         view    = delete_feature,
         name    = 'delete_feature',
-    ),       
+    ),
 
     url(
         regex = '^package/(?P<id>\d+)/delete/$',
