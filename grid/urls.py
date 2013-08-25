@@ -18,7 +18,7 @@ from grid.views import (
         grids
     )
 
-urlpatterns = patterns("",
+urlpatterns=patterns("",
 
     url(
         regex='^add/$',
@@ -51,52 +51,51 @@ urlpatterns = patterns("",
     ),
 
     url(
-        regex = '^feature/(?P<id>\d+)/delete/$',
-        view    = delete_feature,
-        name    = 'delete_feature',
+        regex='^feature/(?P<id>\d+)/delete/$',
+        view=delete_feature,
+        name='delete_feature',
     ),
 
     url(
-        regex = '^package/(?P<id>\d+)/delete/$',
-        view    = delete_grid_package,
-        name    = 'delete_grid_package',
-    ),       
-
-    url(
-        regex = '^(?P<grid_slug>[a-z0-9\-\_]+)/package/add/$',
-        view    = add_grid_package,
-        name    = 'add_grid_package',
-    ),           
-
-    url(
-        regex = '^(?P<grid_slug>[a-z0-9\-\_]+)/package/add/new$',
-        view    = add_new_grid_package,
-        name    = 'add_new_grid_package',
+        regex='^package/(?P<id>\d+)/delete/$',
+        view=delete_grid_package,
+        name='delete_grid_package',
     ),
 
     url(
-        regex = '^ajax_grid_list/$',
-        view    = ajax_grid_list,
-        name    = 'ajax_grid_list',
-    ),    
+        regex='^(?P<grid_slug>[a-z0-9\-\_]+)/package/add/$',
+        view=add_grid_package,
+        name='add_grid_package',
+    ),
+
+    url(
+        regex='^(?P<grid_slug>[a-z0-9\-\_]+)/package/add/new$',
+        view=add_new_grid_package,
+        name='add_new_grid_package',
+    ),
+
+    url(
+        regex='^ajax_grid_list/$',
+        view=ajax_grid_list,
+        name='ajax_grid_list',
+    ),
 
 
     url(
-        regex = '^$',
-        view    = grids,
-        name    = 'grids',
-    ),    
-    
+        regex='^$',
+        view=grids,
+        name='grids',
+    ),
+
     url(
-        regex = '^g/(?P<slug>[-\w]+)/$',
-        view    = grid_detail,
-        name    = 'grid',
-    ),    
-    
+        regex='^g/(?P<slug>[-\w]+)/$',
+        view=grid_detail,
+        name='grid',
+    ),
+
     url(
-        regex = '^g/(?P<slug>[-\w]+)/landscape/$',
-        view    = views.grid_detail_landscape,
-        name    = 'grid_landscape',
-    ),    
-    
+        regex='^g/(?P<slug>[-\w]+)/landscape/$',
+        view=views.grid_detail_landscape,
+        name='grid_landscape',
+    ),
 )
