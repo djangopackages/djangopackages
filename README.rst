@@ -37,7 +37,7 @@ Features
 The Site
 --------
 
-The most current example is live and functional at http://www.djangopackages.com.
+The most current example is live and functional at https://www.djangopackages.com.
 
 The http://opencomparison.org project also supports projects such as plone.opencomparison.org and pyramid.opencomparison.org.
 
@@ -61,6 +61,10 @@ Next Deployment
 Credits
 =======
 
-For Django Dash 2010, @pydanny and @audreyr (the "Scared of Rabbits" team) created Django Packages and have been working on it since then, turning it into the OpenComparison framework.
+For Django Dash 2010, `@pydanny`_ and `@audreyr`_ created `Django Packages`_. They have been working on it since then, turning it into the OpenComparison framework.
 
 They are joined by a host of core developers and contributors.  See http://opencomparison.readthedocs.org/en/latest/contributors.html
+
+.. _`@pydanny`: https://github.com/pydanny/
+.. _`@audreyr`: https://github.com/audreyr/
+.. _`Django Packages`: https://www.djangopackages.com/
