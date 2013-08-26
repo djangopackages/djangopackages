@@ -6,7 +6,8 @@ OpenComparison helps you easily identify and compare good apps, frameworks, plug
 Test Status
 -----------
 
-[![Build Status](https://secure.travis-ci.org/opencomparison/opencomparison.png?branch=master)](http://travis-ci.org/opencomparison/opencomparison)
+.. image:: https://travis-ci.org/opencomparison/opencomparison.png?branch=master
+        :target: https://secure.travis-ci.org/opencomparison/opencomparison
 
 Features
 --------
