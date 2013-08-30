@@ -1,7 +1,5 @@
 from distutils.version import LooseVersion as versioner
 
-from django.core.exceptions import ObjectDoesNotExist
-
 from requests.compat import quote
 from django.db import models
 

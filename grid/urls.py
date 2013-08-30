@@ -18,7 +18,7 @@ from grid.views import (
         grids
     )
 
-urlpatterns=patterns("",
+urlpatterns = patterns("",
 
     url(
         regex='^add/$',
