@@ -15,6 +15,15 @@
 }
 
 /**
+ * Customize default TopBar to match the site colors.
+ */
+
+.topbar-default {
+  background-color: #86e3d0;
+  border-bottom: 1px solid #5BC0DE;
+}
+
+/**
  * Header bar.
  */
 
