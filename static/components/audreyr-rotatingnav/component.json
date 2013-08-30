@@ -1,0 +1,27 @@
+{
+  "name": "rotatingnav",
+  "repo": "audreyr/rotatingnav",
+  "description": "A nav menu that rotates through infinite links, allowing for more nav menu links than can normally fit.",
+  "version": "0.2.1",
+  "keywords": [
+    "rotatingnav",
+    "navigation",
+    "carousel",
+    "menu",
+    "links",
+    "dynamicmenu",
+    "jquery"
+  ],
+  "dependencies": {
+    "component/jQuery": "*"
+  },
+  "development": {},
+  "license": "MIT",
+  "main": "dist/jquery.rotatingnav.min.js",
+  "scripts": [
+    "dist/jquery.rotatingnav.min.js"
+  ],
+  "styles": [
+    "dist/jquery.rotatingnav.min.css"
+  ]
+}
