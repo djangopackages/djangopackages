@@ -16,12 +16,14 @@
 </head>
 <body>
 
+{% for message in messages %}
   <div class="topbar topbar-default{% if message.tags %} {{ message.tags }}{% endif %}" id="message_{{ forloop.counter }}">
     <div class="container">
-      {{ message }} Hi
+      {{ message }}
       <button type="button" class="close" data-dismiss="message">&times;</button>
     </div>
   </div>
+{% endfor %}
 
 <div class="header">
     <div class="container">
