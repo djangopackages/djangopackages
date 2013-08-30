@@ -9,11 +9,19 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-glyphicons.css" type="text/css" />
     <link rel="stylesheet" href="{{ STATIC_URL }}components/audreyr-rotatingnav/dist/jquery.rotatingnav.min.css" type="text/css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}components/audreyr-topbar/dist/jquery.topbar.min.css" type="text/css" />
     <link rel="stylesheet" href="{{ STATIC_URL }}css/oc.css" type="text/css" />
     <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" />
     {% block extra_head %}{% endblock %}
 </head>
 <body>
+
+  <div class="topbar topbar-default{% if message.tags %} {{ message.tags }}{% endif %}" id="message_{{ forloop.counter }}">
+    <div class="container">
+      {{ message }} Hi
+      <button type="button" class="close" data-dismiss="message">&times;</button>
+    </div>
+  </div>
 
 <div class="header">
     <div class="container">
@@ -79,18 +87,6 @@
 
 <div class="container">
 {% block body_outer %}
-
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li id="message_{{ forloop.counter }}"{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-                <a href="#"><small>{% trans "clear" %}</small></a>
-                &nbsp;
-                {{ message }}
-            </li>
-            {% endfor %}
-        </ul>
-    {% endif %}
     
     {% block body %}
     {% endblock %}
@@ -123,6 +119,7 @@
         <script src="{{ STATIC_URL }}bower_components/jquery/jquery.min.js" type="text/javascript"></script>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/jquery-ui.min.js"></script>
         <script src="{{ STATIC_URL }}components/audreyr-rotatingnav/dist/jquery.rotatingnav.min.js"></script>
+        <script src="{{ STATIC_URL }}components/audreyr-topbar/dist/jquery.topbar.min.js"></script>
         <script src="{{ STATIC_URL }}js/jquery.tablesorter.min.js" type="text/javascript"></script>
         <script src="{{ STATIC_URL }}js/jquery.dataTables.min.js" type="text/javascript"></script>
         <script src="{{ STATIC_URL }}js/jquery.tools.min.js" type="text/javascript"></script>
@@ -159,6 +156,10 @@
               }
             });
             */
+            
+          	$(".topbar").topBar({
+          		slide: false
+          	});
         </script>
 
     {{ PIWIK_CODE|safe }}
