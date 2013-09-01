@@ -26,6 +26,8 @@ COVERAGE_MODULE_EXCLUDES = [
 COVERAGE_MODULE_EXCLUDES += PREREQ_APPS + ["djkombu", ]
 COVERAGE_REPORT_HTML_OUTPUT_DIR = "coverage"
 
+from postgresify import postgresify
+DATABASES = postgresify()
 
 ########## DATABASES
 # DATABASES = {
