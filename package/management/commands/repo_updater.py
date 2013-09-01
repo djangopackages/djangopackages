@@ -2,6 +2,7 @@ import logging
 import logging.config
 
 from django.core.management.base import NoArgsCommand
+from django.utils import timezone
 
 from package.models import Package
 
@@ -15,8 +16,8 @@ class Command(NoArgsCommand):
     def handle(self, *args, **options):
 
         count = 0
-        for package in Package.objects.iterator():
-
+        then = timezone.now() - timezone.timedelta(days=1)
+        for package in Package.objects.filter(last_fetched__lt=then).iterator():
             package.repo.fetch_metadata(package)
             package.repo.fetch_commits(package)
             count += 1
