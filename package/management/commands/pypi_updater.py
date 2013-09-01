@@ -20,9 +20,7 @@ class Command(NoArgsCommand):
         count_updated = 0
         then = timezone.now() - timezone.timedelta(days=1)
         for package in Package.objects.filter(last_fetch__lt=then).iterator():
-            print package
-            print package.last_fetched
-            break
+
             updated = package.fetch_pypi_data()
             if updated:
                 count_updated += 1
