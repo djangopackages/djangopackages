@@ -55,7 +55,14 @@ class GitHubHandler(BaseHandler):
     def fetch_commits(self, package):
 
         self.manage_ratelimit()
-        username, repo_name = package.repo_name().split('/')
+        repo_name = package.repo_name()
+        if repo_name.endswith("/"):
+            repo_name = repo_name[:-1]
+        try:
+            username, repo_name = package.repo_name().split('/')
+        except ValueError:
+            # TODO error #248
+            return package
 
         r = requests.get(
             url='https://api.github.com/repos/{}/{}/commits'.format(username, repo_name),
