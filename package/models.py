@@ -127,11 +127,18 @@ class Package(BaseModel):
         return self.usage.count()
 
     def commits_over_52(self):
-        if self.commit_list:
-            result = self.commit_list
-        else:
-            result = str([0 for x in range(52)])
-        return result.replace(" ", "").replace("[", "").replace("]", "")
+        now = datetime.now()
+        commits = self.commit_set.filter(
+            commit_date__gt=now - timedelta(weeks=52),
+        ).values_list('commit_date', flat=True)
+
+        weeks = [0] * 52
+        for cdate in commits:
+            age_weeks = (now - cdate).days // 7
+            if age_weeks < 52:
+                weeks[age_weeks] += 1
+
+        return ','.join(map(str, reversed(weeks)))
 
     def fetch_pypi_data(self, *args, **kwargs):
         # Get the releases from pypi
