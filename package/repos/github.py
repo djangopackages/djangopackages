@@ -30,7 +30,14 @@ class GitHubHandler(BaseHandler):
     def fetch_metadata(self, package):
         self.manage_ratelimit()
 
-        username, repo_name = package.repo_name().split('/')
+        repo_name = package.repo_name()
+        if repo_name.endswith("/"):
+            repo_name = repo_name[:-1]
+        try:
+            username, repo_name = package.repo_name().split('/')
+        except ValueError:
+            # TODO error #248
+            return package
         repo = self.github.repository(username, repo_name)
         if repo is None:
             return package
