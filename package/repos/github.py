@@ -4,6 +4,7 @@ from django.conf import settings
 from django.utils import timezone
 
 from github3 import GitHub, login
+import requests
 
 from base_handler import BaseHandler
 from package.utils import uniquer
@@ -45,14 +46,26 @@ class GitHubHandler(BaseHandler):
         return package
 
     def fetch_commits(self, package):
+
         self.manage_ratelimit()
         username, repo_name = package.repo_name().split('/')
-        repo = self.github.repository(username, repo_name)
-        if repo is None:
-            return package
-        package.commit_list = str([x['total'] for x in repo.iter_commit_activity(number=52)])
-        if package.commit_list.strip() == '[]':
-            return package
+
+        r = requests.get(
+            url='https://api.github.com/repos/{}/{}/commits'.format(username, repo_name),
+            auth=(settings.GITHUB_USERNAME, settings.GITHUB_PASSWORD)
+        )
+        if r.status_code == 200:
+            from package.models import Commit  # Added here to avoid circular imports
+            for commit in [x['commit'] for x in r.json()]:
+                commit, created = Commit.objects.get_or_create(
+                    package=package,
+                    commit_date=commit['committer']['date']
+                )
+
+        #package.commit_list = str([x['total'] for x in repo.iter_commit_activity(number=52)])
+        #if package.commit_list.strip() == '[]':
+        #    return package
+
         package.last_fetched = timezone.now()
         package.save()
         return package

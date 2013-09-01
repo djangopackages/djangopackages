@@ -28,13 +28,13 @@ COVERAGE_REPORT_HTML_OUTPUT_DIR = "coverage"
 
 
 ########## DATABASES
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": ":memory:",
-        "USER": "",
-        "PASSWORD": "",
-        "HOST": "",
-        "PORT": "",
-    },
-}
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": ":memory:",
+#         "USER": "",
+#         "PASSWORD": "",
+#         "HOST": "",
+#         "PORT": "",
+#     },
+# }

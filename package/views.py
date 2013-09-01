@@ -49,8 +49,8 @@ def add_package(request, template_name="package/package_form.html"):
         new_package.created_by = request.user
         new_package.last_modified_by = request.user
         new_package.save()
-        new_package.fetch_metadata()
-        new_package.fetch_commits()
+        #new_package.fetch_metadata()
+        #new_package.fetch_commits()
 
         return HttpResponseRedirect(reverse("package", kwargs={"slug": new_package.slug}))
 
