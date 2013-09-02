@@ -8,7 +8,7 @@ distribute==0.6.35
 dj-database-url==0.2.1
 django-classy-tags==0.3.3.1
 django-coverage==1.2.1
-django-crispy-form==1.4.0
+django-crispy-forms==1.4.0
 django-debug-toolbar==0.9.4
 django-extensions==0.4.1
 django-floppyforms==1.0
