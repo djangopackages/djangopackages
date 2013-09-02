@@ -65,7 +65,7 @@ class GitHubHandler(BaseHandler):
             return package
 
         r = requests.get(
-            url='https://api.github.com/repos/{}/{}/commits'.format(username, repo_name),
+            url='https://api.github.com/repos/{}/{}/commits?per_page=100'.format(username, repo_name),
             auth=(settings.GITHUB_USERNAME, settings.GITHUB_PASSWORD)
         )
         if r.status_code == 200:
