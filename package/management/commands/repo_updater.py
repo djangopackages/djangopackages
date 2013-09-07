@@ -19,7 +19,7 @@ class Command(NoArgsCommand):
         for package in Package.objects.filter().iterator():
             package.repo.fetch_metadata(package)
             package.repo.fetch_commits(package)
-            print package
+            print package.slug
             count += 1
             # if package.repo.title == "Github":
             #     msg = "{}. {}. {}".format(count, package.repo.github.ratelimit_remaining, package)

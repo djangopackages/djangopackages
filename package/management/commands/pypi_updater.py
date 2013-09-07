@@ -25,7 +25,7 @@ class Command(NoArgsCommand):
                 count_updated += 1
                 package.last_fetched = timezone.now()
                 package.save()
-            print package, updated
+            print package.slug, updated
             count += 1
             # msg = "{}. {}. {}".format(count, count_updated, package)
             # logger.info(msg)

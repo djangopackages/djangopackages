@@ -69,12 +69,15 @@ class GitHubHandler(BaseHandler):
             auth=(settings.GITHUB_USERNAME, settings.GITHUB_PASSWORD)
         )
         if r.status_code == 200:
-            from package.models import Commit  # Added here to avoid circular imports
+            from package.models import Commit, Package  # Added here to avoid circular imports
             for commit in [x['commit'] for x in r.json()]:
-                commit, created = Commit.objects.get_or_create(
-                    package=package,
-                    commit_date=commit['committer']['date']
-                )
+                try:
+                    commit, created = Commit.objects.get_or_create(
+                        package=package,
+                        commit_date=commit['committer']['date']
+                    )
+                except Package.MultipleObjectsReturned:
+                    pass
 
         #package.commit_list = str([x['total'] for x in repo.iter_commit_activity(number=52)])
         #if package.commit_list.strip() == '[]':
