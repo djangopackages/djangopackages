@@ -219,7 +219,6 @@
           <a href="{% url 'grid' grid.slug %}" title="{{ grid.description }}">{{ grid }}</a> &nbsp;
         {% empty %}
           {% if request.user.is_authenticated and profile.can_add_grid %}
-            <a class="btn btn-default" id="find-a-grid" href="#"><span class="glyphicon glyphicon-plus"></span></a>
             {% include "package/includes/_attach_grid.html" %}
           {% endif %}
         {% endfor %}
