@@ -18,14 +18,14 @@ class Command(NoArgsCommand):
 
         count = 0
         count_updated = 0
-        then = timezone.now() - timezone.timedelta(days=1)
-        for package in Package.objects.filter(last_fetch__lt=then).iterator():
+        for package in Package.objects.filter().iterator():
 
             updated = package.fetch_pypi_data()
             if updated:
                 count_updated += 1
                 package.last_fetched = timezone.now()
                 package.save()
+            print package, updated
             count += 1
             # msg = "{}. {}. {}".format(count, count_updated, package)
             # logger.info(msg)

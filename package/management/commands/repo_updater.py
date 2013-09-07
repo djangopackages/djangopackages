@@ -16,10 +16,10 @@ class Command(NoArgsCommand):
     def handle(self, *args, **options):
 
         count = 0
-        then = timezone.now() - timezone.timedelta(days=1)
-        for package in Package.objects.filter(last_fetched__lt=then).iterator():
+        for package in Package.objects.filter().iterator():
             package.repo.fetch_metadata(package)
             package.repo.fetch_commits(package)
+            print package
             count += 1
             # if package.repo.title == "Github":
             #     msg = "{}. {}. {}".format(count, package.repo.github.ratelimit_remaining, package)
