@@ -37,7 +37,7 @@ class Command(BaseCommand):
                 continue
 
             self.stdout.write('Getting old GitHub commits for "%s"\n' % package)
-            next_url = 'https://api.github.com/repos/{}/{}/commits'.format(
+            next_url = 'https://api.github.com/repos/{}/{}/commits?per_page=100'.format(
                 username, repo_name
             )
             while next_url:
@@ -47,7 +47,7 @@ class Command(BaseCommand):
                 )
                 if response.status_code == 200:
                     if 'next' in response.links:
-                            next_url = response.links['next']['url']
+                            next_url = response.links['next']['url'] + "&per_page=100"
                     else:
                         next_url = ''
 
