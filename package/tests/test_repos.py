@@ -49,9 +49,9 @@ class TestBitbucketRepo(TestBaseHandler):
     def setUp(self):
         super(TestBitbucketRepo, self).setUp()
         self.package = Package.objects.create(
-            title="Django Registration",
-            slug="django-registration",
-            repo_url="https://bitbucket.org/ubernostrum/django-registration",
+            title="Python packaging guide",
+            slug="python-packaging-user-guide",
+            repo_url="https://bitbucket.org/pypa/python-packaging-user-guide",
             category=self.category
         )
 
@@ -63,10 +63,10 @@ class TestBitbucketRepo(TestBaseHandler):
     def test_fetch_metadata(self):
         package = bitbucket_handler.fetch_metadata(self.package)
         self.assertEqual(package.repo_description,
-            "A user registration app for Django.")
+            "Python Packaging User Guide")
         self.assertTrue(package.repo_watchers > 0)
         self.assertTrue(package.repo_forks > 0)
-        self.assertEquals(package.participants, "ubernostrum")
+        self.assertEquals(package.participants, "pypa")
 
 
 class TestGithubRepo(TestBaseHandler):
