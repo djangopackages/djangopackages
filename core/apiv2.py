@@ -2,6 +2,7 @@ from django.conf.urls.defaults import patterns, url
 
 from package import views as package_views
 from grid import views as grid_views
+from searchv2 import views as search_views
 
 urlpatterns = patterns("",
     # {% url "apiv2:packages" %}
@@ -27,5 +28,17 @@ urlpatterns = patterns("",
         regex=r"grids/(?P<slug>[-\w]+)/$",
         view=grid_views.GridDetailAPIView.as_view(),
         name="grids"
+    ),
+    # {% url "apiv2:search" %}
+    url(
+        regex=r"search/$",
+        view=search_views.SearchListAPIView.as_view(),
+        name="search"
+    ),
+    # {% url "apiv2:search" slug %}
+    url(
+        regex=r"search/(?P<slug>[-\w]+)/$",
+        view=search_views.SearchDetailAPIView.as_view(),
+        name="search"
     ),
 )

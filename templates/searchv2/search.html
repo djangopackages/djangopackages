@@ -1,13 +1,72 @@
 {% extends "base.html" %}
 
 {% load url from future %}
+{% load opencomparison_tags %}
 {% load i18n %}
 {% load crispy_forms_tags %}
 
 {% block head_title %}{% trans "Search" %}{% endblock %}
 {% block body_class %}search{% endblock %}
 
+{% block angular_header %}ng-app{% endblock angular_header %}
+{% block angularjs %}
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
+<script type="text/javascript">
+function SearchCtrl($scope, $http) {
+
+  $scope.search = function(model){
+    $http.get('{% url "apiv2:search" %}?q='+model.q).success(function(data) {
+      $scope.items = data.results;
+      console.log(data);
+    });
+  }
+}
+
+</script>
+{% endblock angularjs %}
+
 {% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <span ng-controller="SearchCtrl">
+      <h2>{% trans "Search" %}</h2>
+      <form class="form-inline" role="form">
+        <div class="form-group">
+          <input type="text" class="col-12 form-control" id="search-2" ng-model="model.q" ng-keyup="search(model)" placeholder="Search">
+        </div>
+      </form>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{% trans "Package" %}</th>
+            <th>{% trans "Last PyPI release:" %}</th>
+            <th>{% trans "PyPI Downloads" %}</th>
+            <th>{% trans "Watchers" %}</th>
+            <th>{% trans "Description" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+              {% verbatim %}
+              <tr ng-repeat="item in items">
+                <td><a href="{{ item.absolute_url }}">{{ item.title }}</a></td>
+                <td>
+                    {{ item.last_released | date: 'mediumDate' }}
+                </td>
+                <td>
+                      <a ng-if="item.pypi_name" href="https://crate.io/packages/{{ item.pypi_name }}/" rel="nofollow"><img ng-src="https://pypip.in/d/{{ item.pypi_name }}/badge.png"></a>
+                </td>
+                <td>{{ item.repo_watchers }}</td>
+                <td>{{ item.description }}</td>
+              </tr>
+              {% endverbatim %}
+        </tbody>
+      </table>
+      </span>
+    </div>
+  </div>
+</div>
+
 <div class="container">
   <div class="row">
     <div class="col-12">

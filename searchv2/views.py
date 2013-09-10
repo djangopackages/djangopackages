@@ -7,6 +7,8 @@ from django.db.models import Q
 from django.http import HttpResponseForbidden, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 
+from rest_framework.generics import ListAPIView, RetrieveAPIView
+
 from package.models import Package
 from searchv2.forms import SearchForm
 from searchv2.builders import build_1
@@ -88,7 +90,7 @@ def search_packages_autocomplete(request):
     """
     Searches in Packages
     """
-    q = request.GET.get('term', '')
+    q = request.GET.get('term', '') or request.GET.get('q', '')
     if q:
         objects = search_function(q)[:15]
         objects = objects.values_list('title', flat=True)
@@ -97,3 +99,12 @@ def search_packages_autocomplete(request):
         json_response = json.dumps([])
 
     return HttpResponse(json_response, mimetype='text/javascript')
+
+
+class SearchListAPIView(ListAPIView):
+    model = SearchV2
+    paginate_by = 20
+
+
+class SearchDetailAPIView(RetrieveAPIView):
+    model = SearchV2
