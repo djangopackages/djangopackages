@@ -30,23 +30,40 @@
           <tr>
             <th>{% trans "Package" %}</th>
             <th>{% trans "Search Weight" %}</th>
+            <th>{% trans "Description" %}</th>
             <th>{% trans "Last PyPI release:" %}</th>
             <th>{% trans "Repo Forks" %}</th>
             <th>{% trans "Watchers" %}</th>
-            <th>{% trans "Description" %}</th>
           </tr>
         </thead>
         <tbody>
               {% verbatim %}
               <tr ng-repeat="item in items">
-                <td><a href="{{ item.absolute_url }}">{{ item.title }}</a></td>
-                <td>{{ item.weight / max_weight * 100 | number:0 }}%</td>
                 <td>
-                    {{ item.last_released | date: 'mediumDate' }}
+                    <a href="{{ item.absolute_url }}">{{ item.title }}</a>
                 </td>
-                <td>{{ item.repo_forks }}</td>
-                <td>{{ item.repo_watchers }}</td>
-                <td>{{ item.description }}</td>
+                <td>{{ item.weight / max_weight * 100 | number:0 }}%</td>
+                <td ng-if="item.item_type=='package'">
+                  <strong ng-if="item.item_type=='grid'">Grid:</strong>
+                  {{ item.description }}
+                </td>
+
+                <td ng-if="item.item_type=='package'">
+                      {{ item.last_released | date: 'mediumDate' }}
+                </td>
+                <td ng-if="item.item_type=='grid'">
+                      N/A
+                </td>
+                <td  ng-if="item.item_type=='package'">
+                  {{ item.repo_forks }}
+                </td>
+                <td ng-if="item.item_type=='grid'">
+                      N/A
+                </td>
+                <td  ng-if="item.item_type=='package'">{{ item.repo_watchers }}</td>
+                <td ng-if="item.item_type=='grid'">
+                      N/A
+                </td>
               </tr>
               {% endverbatim %}
         </tbody>
@@ -55,61 +72,6 @@
     </div>
   </div>
 </div>
-{% comment %}
-<div class="container">
-  <div class="row">
-    <div class="col-12">
-      <h2>{% trans "Search" %}</h2>
-    
-      <form>
-        <fieldset>
-          {{ form|crispy }}
-          <div id="search-big-button-holder" class="ctrlHolder">        
-            <input type="submit" name="b" value="{% trans "Search" %}" id="search-big-button"> 
-          </div>
-        </fieldset>
-      </form>
-
-      <table class="table">
-        <thead>
-          <tr>
-            <th>{% trans "Package" %}</th>
-            <th>{% trans "Last PyPI release:" %}</th>
-            <th>{% trans "PyPI Downloads" %}</th>
-            <th>{% trans "Watchers" %}</th>
-            <th>{% trans "Description" %}</th>
-          </tr>
-        </thead>
-        <tbody>
-          
-          {% for item in items %}
-            {% if item.item_type == 'package' %}
-              <tr>
-                <td><a href="{{ item.absolute_url }}">{{ item.title }}</a></td>
-                <td>
-                  {% if item.last_released or item.last_committed  %}
-                    {% if item.last_released %}{{ item.last_released|timesince }} ago{% endif %}
-                  {% endif %}
-                </td>
-                <td>
-                  {% with pypi_name=item.pypi_name %}
-                    {% if pypi_name %}
-                      <a href="https://crate.io/packages/{{ pypi_name }}/" rel="nofollow"><img src="https://pypip.in/d/{{ pypi_name }}/badge.png"></a>
-                    {% endif %}
-                  {% endwith %}
-                </td>
-                <td>{{ item.repo_watchers }}</td>
-                <td>{{ item.description }}</td>
-              </tr>
-            {% endif %}
-          {% endfor %}
-
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-{% endcomment %}
 
 {% endblock %}
 
