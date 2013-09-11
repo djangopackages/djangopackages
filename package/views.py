@@ -74,6 +74,7 @@ def edit_package(request, slug, template_name="package/package_form.html"):
         modified_package = form.save()
         modified_package.last_modified_by = request.user
         modified_package.save()
+        messages.add_message(request, messages.INFO, 'Package updated successfully')
         return HttpResponseRedirect(reverse("package", kwargs={"slug": modified_package.slug}))
 
     return render(request, template_name, {
