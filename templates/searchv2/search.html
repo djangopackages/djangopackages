@@ -43,7 +43,7 @@
                     <a href="{{ item.absolute_url }}">{{ item.title }}</a>
                 </td>
                 <td>{{ item.weight / max_weight * 100 | number:0 }}%</td>
-                <td ng-if="item.item_type=='package'">
+                <td>
                   <strong ng-if="item.item_type=='grid'">Grid:</strong>
                   {{ item.description }}
                 </td>
