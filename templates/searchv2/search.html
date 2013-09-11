@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% load url from future %}
+{% load i18n static %}
 {% load opencomparison_tags %}
-{% load i18n %}
 {% load crispy_forms_tags %}
 
 {% block head_title %}{% trans "Search" %}{% endblock %}
@@ -11,37 +11,27 @@
 {% block angular_header %}ng-app{% endblock angular_header %}
 {% block angularjs %}
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
-<script type="text/javascript">
-function SearchCtrl($scope, $http) {
-
-  $scope.search = function(model){
-    $http.get('{% url "apiv2:search" %}?q='+model.q).success(function(data) {
-      $scope.items = data.results;
-      console.log(data);
-    });
-  }
-}
-
-</script>
+<script src="{% static 'angular/controllers.js' %}"></script>
 {% endblock angularjs %}
 
 {% block body %}
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <span ng-controller="SearchCtrl">
+      <span ng-controller="SearchCtrl" ng-init="init_search('{{ request.GET.q }}', '{% url 'apiv2:search' %}', {{ max_weight}})">
       <h2>{% trans "Search" %}</h2>
       <form class="form-inline" role="form">
         <div class="form-group">
-          <input type="text" class="col-12 form-control" id="search-2" ng-model="model.q" ng-keyup="search(model)" placeholder="Search">
+          <input type="text" name="q" class="col-12 form-control" id="search-2" ng-model="model.q" ng-keyup="search(model, '{% url 'apiv2:search' %}')" placeholder="Search" autocomplete="off">
         </div>
       </form>
-      <table class="table">
+      <table class="table" ng-if="items">
         <thead>
           <tr>
             <th>{% trans "Package" %}</th>
+            <th>{% trans "Search Weight" %}</th>
             <th>{% trans "Last PyPI release:" %}</th>
-            <th>{% trans "PyPI Downloads" %}</th>
+            <th>{% trans "Repo Forks" %}</th>
             <th>{% trans "Watchers" %}</th>
             <th>{% trans "Description" %}</th>
           </tr>
@@ -50,12 +40,11 @@ function SearchCtrl($scope, $http) {
               {% verbatim %}
               <tr ng-repeat="item in items">
                 <td><a href="{{ item.absolute_url }}">{{ item.title }}</a></td>
+                <td>{{ item.weight / max_weight * 100 | number:0 }}%</td>
                 <td>
                     {{ item.last_released | date: 'mediumDate' }}
                 </td>
-                <td>
-                      <a ng-if="item.pypi_name" href="https://crate.io/packages/{{ item.pypi_name }}/" rel="nofollow"><img ng-src="https://pypip.in/d/{{ item.pypi_name }}/badge.png"></a>
-                </td>
+                <td>{{ item.repo_forks }}</td>
                 <td>{{ item.repo_watchers }}</td>
                 <td>{{ item.description }}</td>
               </tr>
@@ -66,7 +55,7 @@ function SearchCtrl($scope, $http) {
     </div>
   </div>
 </div>
-
+{% comment %}
 <div class="container">
   <div class="row">
     <div class="col-12">
@@ -120,12 +109,13 @@ function SearchCtrl($scope, $http) {
     </div>
   </div>
 </div>
+{% endcomment %}
 
 {% endblock %}
 
 {% block extra_body %}
 <script>
-    $("#id_q").focus();
+    $("#search-2").focus();
     
     {% for grid in grids %}
         $('#grid-{{ grid.id }}').mouseover(function() {

@@ -4,6 +4,7 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.db.models import Q
+from django.db.models import Max
 from django.http import HttpResponseForbidden, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 
@@ -82,7 +83,8 @@ def search(request, template_name='searchv2/search.html'):
 
     return render(request, template_name, {
             'items': search_function(q),
-            'form': form
+            'form': form,
+            'max_weight': SearchV2.objects.all().aggregate(Max('weight'))['weight__max']
         })
 
 
@@ -90,7 +92,7 @@ def search_packages_autocomplete(request):
     """
     Searches in Packages
     """
-    q = request.GET.get('term', '') or request.GET.get('q', '')
+    q = request.GET.get('term', '')
     if q:
         objects = search_function(q)[:15]
         objects = objects.values_list('title', flat=True)
@@ -104,6 +106,10 @@ def search_packages_autocomplete(request):
 class SearchListAPIView(ListAPIView):
     model = SearchV2
     paginate_by = 20
+
+    def get_queryset(self):
+        q = self.request.GET.get('q', '')
+        return search_function(q)
 
 
 class SearchDetailAPIView(RetrieveAPIView):
