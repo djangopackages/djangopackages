@@ -15,11 +15,12 @@
     <div class="col-sm-4 col-lg-4">
       <h2><i>{{ SITE_TITLE }} is a directory of reusable apps, sites, tools, and more for your {{ FRAMEWORK_TITLE }} projects.</i></h2>
       <p><b>{{ package_count }}</b> {% trans "packages and counting!" %}</p>
+      <p><a href="{% url 'py3_compat' %}"><b>{{ py3_compat }}</b> {% trans "packages compatible with Python 3!" %}</a></p>
 
       <!-- start We Need Your Help panel -->
       <div class="panel panel-default">
         <div class="panel-heading clearfix">
-          <h3 class="panel-title pull-left">{% trans "We Need Your Help" %}</h3>
+          <h3 class="panel-title pull-left">{% trans "Add packages and grids" %}</h3>
         </div>
         <div class="panel-body">
           <p>

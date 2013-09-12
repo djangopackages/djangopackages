@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 admin.autodiscover()
 
-from homepage.views import homepage, error_404_view, error_500_view
+from homepage.views import homepage, error_404_view, error_500_view, py3_compat
 from package.views import category
 
 urlpatterns = patterns("",
@@ -23,6 +23,7 @@ urlpatterns = patterns("",
 
     url(r"^categories/(?P<slug>[-\w]+)/$", category, name="category"),
     url(r"^categories/$", homepage, name="categories"),
+    url(r"^python3/$", py3_compat, name="py3_compat"),
 
     url(regex=r'^login/$', view=TemplateView.as_view(template_name='pages/login.html'), name='login',),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, 'logout',),
