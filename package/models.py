@@ -127,6 +127,10 @@ class Package(BaseModel):
         return self.usage.count()
 
     def commits_over_52(self):
+        cache_name = self.cache_namer(self.commits_over_52)
+        value = cache.get(cache_name)
+        if value is not None:
+            return value
         now = datetime.now()
         commits = self.commit_set.filter(
             commit_date__gt=now - timedelta(weeks=52),
@@ -138,7 +142,9 @@ class Package(BaseModel):
             if age_weeks < 52:
                 weeks[age_weeks] += 1
 
-        return ','.join(map(str, reversed(weeks)))
+        value = ','.join(map(str, reversed(weeks)))
+        cache.set(cache_name, value)
+        return value
 
     def fetch_pypi_data(self, *args, **kwargs):
         # Get the releases from pypi
@@ -300,9 +306,10 @@ class Commit(BaseModel):
         return "Commit for '%s' on %s" % (self.package.title, unicode(self.commit_date))
 
     def save(self, *args, **kwargs):
-        # reset the last_updated cache on the package
-        cache_name = self.package.cache_namer(self.package.last_updated)
-        cache.delete(cache_name)
+        # reset the last_updated and commits_over_52 caches on the package
+        package = self.package
+        cache.delete(package.cache_namer(self.package.last_updated))
+        cache.delete(package.cache_namer(package.commits_over_52))
         self.package.last_updated()
         super(Commit, self).save(*args, **kwargs)
 

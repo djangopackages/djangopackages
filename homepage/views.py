@@ -90,7 +90,7 @@ def homepage(request, template_name="homepage.html"):
             "blogpost_body": blogpost_body,
             "categories": categories,
             "package_count": package_count,
-            "py3_compat": Package.objects.filter(version__supports_python3=True).distinct().count()
+            "py3_compat": Package.objects.filter(version__supports_python3=True).select_related().distinct().count()
         }
     )
 
