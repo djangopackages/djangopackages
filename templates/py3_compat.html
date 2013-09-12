@@ -47,6 +47,7 @@
             <th>{% trans "Version" %}</th>
             <th>{% anchor repo_watchers "Watchers" %}</th>
             <th>{% anchor repo_forks "Forks" %}</th>
+            <th width="25%">{% trans "Description" %}</th>
           </tr>
         </thead>
 
@@ -63,7 +64,8 @@
             <td><img class="package-githubcommits" src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{package.commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>             
             <td>{{ package.pypi_version }}</td>
             <td>{{ package.repo_watchers }}</td>
-            <td>{{ package.repo_forks }}</td>                
+            <td>{{ package.repo_forks }}</td>  
+            <td>{{ package.repo_description }}</td>
           </tr>    
         {% endfor %}        
         </tbody>
