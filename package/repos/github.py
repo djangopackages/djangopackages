@@ -64,10 +64,15 @@ class GitHubHandler(BaseHandler):
             # TODO error #248
             return package
 
-        r = requests.get(
-            url='https://api.github.com/repos/{}/{}/commits?per_page=100'.format(username, repo_name),
-            auth=(settings.GITHUB_USERNAME, settings.GITHUB_PASSWORD)
-        )
+        if settings.GITHUB_USERNAME:
+            r = requests.get(
+                url='https://api.github.com/repos/{}/{}/commits?per_page=100'.format(username, repo_name),
+                auth=(settings.GITHUB_USERNAME, settings.GITHUB_PASSWORD)
+            )
+        else:
+            r = requests.get(
+                url='https://api.github.com/repos/{}/{}/commits?per_page=100'.format(username, repo_name)
+            )
         if r.status_code == 200:
             from package.models import Commit  # Added here to avoid circular imports
             for commit in [x['commit'] for x in r.json()]:
