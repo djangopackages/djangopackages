@@ -36,7 +36,6 @@ class GitHubHandler(BaseHandler):
         try:
             username, repo_name = package.repo_name().split('/')
         except ValueError:
-            # TODO error #248
             return package
         repo = self.github.repository(username, repo_name)
         if repo is None:
