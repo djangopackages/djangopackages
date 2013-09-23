@@ -243,7 +243,7 @@
         <ol>
           {% for example in examples %}
             <li>
-                <a href="http://{{ example.url }}">{{ example.title }}</a>
+                <a href="{{ example.pretty_url }}">{{ example.title }}</a>
               {% if request.user.is_authenticated %}&nbsp;
                   <a href="{% url 'edit_example' package.slug example.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
               {% endif %}

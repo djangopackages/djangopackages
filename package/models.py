@@ -290,6 +290,12 @@ class PackageExample(BaseModel):
 
     def __unicode__(self):
         return self.title
+        
+    @property
+    def pretty_url(self):
+        if self.url.startswith("http"):
+            return self.url
+        return "http://" + self.url
 
 
 class Commit(BaseModel):
