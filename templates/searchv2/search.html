@@ -1,106 +1,18 @@
 {% extends "base.html" %}
 
 {% load url from future %}
-{% load i18n static %}
+{% load i18n %}
 {% load opencomparison_tags %}
-{% load crispy_forms_tags %}
 
 {% block head_title %}{% trans "Search" %}{% endblock %}
 {% block body_class %}search{% endblock %}
 
-{% block angular_header %}ng-app{% endblock angular_header %}
-{% block angularjs %}
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
-<script src="{% static 'angular/controllers.js' %}"></script>
-{% endblock angularjs %}
-
 {% block body %}
-<div class="container">
-  <div class="row">
-    <div class="col-12">
-      <span ng-controller="SearchCtrl" ng-init="init_search('{{ request.GET.q }}', '{% url 'apiv2:search' %}', {{ max_weight}})">
-      <h2>{% trans "Search" %}</h2>
-      <form class="form-inline" role="form">
-        <div class="form-group">
-          <input type="text" name="q" class="col-12 form-control" id="search-2" ng-model="model.q" ng-keyup="search(model, '{% url 'apiv2:search' %}')" placeholder="Search" autocomplete="off">
-        </div>
-      </form>
-      <table class="table" ng-if="items">
-        <thead>
-          <tr>
-            <th>{% trans "Package" %}</th>
-            <th>{% trans "Search Weight" %}</th>
-            <th>{% trans "Description" %}</th>
-            <th>{% trans "Last PyPI release:" %}</th>
-            <th>{% trans "Repo Forks" %}</th>
-            <th>{% trans "Watchers" %}</th>
-          </tr>
-        </thead>
-        <tbody>
-              {% verbatim %}
-              <tr ng-repeat="item in items">
-                <td>
-                    <a href="{{ item.absolute_url }}">{{ item.title }}</a>
-                </td>
-                <td>{{ item.weight / max_weight * 100 | number:0 }}%</td>
-                <td>
-                  <strong ng-if="item.item_type=='grid'">Grid:</strong>
-                  {{ item.description }}
-                </td>
-
-                <td ng-if="item.item_type=='package'">
-                      {{ item.last_released | date: 'mediumDate' }}
-                </td>
-                <td ng-if="item.item_type=='grid'">
-                      N/A
-                </td>
-                <td  ng-if="item.item_type=='package'">
-                  {{ item.repo_forks }}
-                </td>
-                <td ng-if="item.item_type=='grid'">
-                      N/A
-                </td>
-                <td  ng-if="item.item_type=='package'">{{ item.repo_watchers }}</td>
-                <td ng-if="item.item_type=='grid'">
-                      N/A
-                </td>
-              </tr>
-              {% endverbatim %}
-        </tbody>
-      </table>
-      </span>
-    </div>
-  </div>
-</div>
-
-{% endblock %}
+{% include "_homepage.html" %}
+{% endblock body %}
 
 {% block extra_body %}
-<script>
+<script type="text/javascript">
     $("#search-2").focus();
-    
-    {% for grid in grids %}
-        $('#grid-{{ grid.id }}').mouseover(function() {
-            $('#grid-{{ grid.id }}').addClass("clickable");
-        });
-        $('#grid-{{ grid.id }}').mouseout(function() {
-            $('#grid-{{ grid.id }}').removeClass("clickable");
-        });
-        $('#grid-{{ grid.id }}').click(function() {
-            $(location).attr("href","{% url 'grid' grid.slug %}");
-        });   
-    {% endfor %}    
-    
-    {% for package in packages %}
-        $('#package-{{ package.id }}').mouseover(function() {
-            $('#package-{{ package.id }}').addClass("clickable");
-        });
-        $('#package-{{ package.id }}').mouseout(function() {
-            $('#package-{{ package.id }}').removeClass("clickable");
-        });
-        $('#package-{{ package.id }}').click(function() {
-            $(location).attr("href","{% url 'package' package.slug %}");
-        });        
-    {% endfor %}
 </script>
-{% endblock %}
+{% endblock extra_body %}

@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.db.models import Max
 
+from searchv2.models import SearchV2
 
 def core_values(request):
     """
@@ -10,6 +12,7 @@ def core_values(request):
     data = {
         'SITE_TITLE': getattr(settings, "SITE_TITLE", "Django Packages"),
         'FRAMEWORK_TITLE': getattr(settings, "FRAMEWORK_TITLE", "Django"),
+        'MAX_WEIGHT': SearchV2.objects.all().aggregate(Max('weight'))['weight__max']
         }
     return data
 

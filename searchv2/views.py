@@ -10,6 +10,7 @@ from django.shortcuts import render
 
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 
+from homepage.views import homepage
 from package.models import Package
 from searchv2.forms import SearchForm
 from searchv2.builders import build_1
@@ -86,6 +87,12 @@ def search(request, template_name='searchv2/search.html'):
             'form': form,
             'max_weight': SearchV2.objects.all().aggregate(Max('weight'))['weight__max']
         })
+
+def search2(request, template_name='searchv2/search.html'):
+    """
+    Searches in Grids and Packages
+    """
+    return homepage(request, template_name=template_name)
 
 
 def search_packages_autocomplete(request):

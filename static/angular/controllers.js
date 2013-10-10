@@ -10,8 +10,14 @@ function SearchCtrl($scope, $http) {
 
   $scope.search = function(model, url){
     // core search page search function
-    $http.get(url + '?q='+model.q).success(function(data) {
-      $scope.items = data.results;
-    });
+    console.log(model.q);
+    if (model.q.length){
+        $http.get(url + '?q='+model.q).success(function(data) {
+          $scope.items = data.results;
+        });
+    } else {
+        $scope.items = [];
+        
+    };
   };
 }
