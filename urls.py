@@ -1,7 +1,8 @@
 from django.conf import settings
 from django.conf.urls.defaults import patterns, url, include
-from django.views.generic.base import TemplateView
 from django.conf.urls.static import static
+from django.views.generic.base import TemplateView, RedirectView
+
 
 from django.contrib import admin
 admin.autodiscover()
@@ -11,6 +12,7 @@ from package.views import category
 
 urlpatterns = patterns("",
 
+    url(r'^login/\{\{item\.absolute_url\}\}/', RedirectView.as_view(url="/login/github/")),
     url('', include('social_auth.urls')),
     url(r"^$", homepage, name="home"),
     url(r"^404$", error_404_view, name="404"),
