@@ -139,7 +139,6 @@ Representation:
         pypi_url: "http://pypi.python.org/pypi/Pinax"
         pypi_version: "0.9a1"
         repo: "/api/v1/repo/1/"
-        repo_commits: 0
         repo_description: "a Django-based platform for rapidly developing websites"
         repo_forks: 184
         repo_url: "http://github.com/pinax/pinax"

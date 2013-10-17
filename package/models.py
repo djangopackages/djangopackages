@@ -1,19 +1,23 @@
 from datetime import datetime, timedelta
+import json
 import re
 
-
+from django.core.cache import cache
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 
 from distutils.version import LooseVersion as versioner
+import requests
 
+from core.utils import STATUS_CHOICES, status_choices_switch
 from core.models import BaseModel
-from package.pypi import fetch_releases
 from package.repos import get_repo_for_repo_url
 from package.signals import signal_fetch_latest_metadata
+from package.utils import get_version, get_pypi_version
 
 repo_url_help_text = settings.PACKAGINATOR_HELP_TEXT['REPO_URL']
 pypi_url_help_text = settings.PACKAGINATOR_HELP_TEXT['PYPI_URL']
@@ -42,13 +46,12 @@ class Category(BaseModel):
 class Package(BaseModel):
 
     title = models.CharField(_("Title"), max_length="100")
-    slug = models.SlugField(_("Slug"), help_text="Enter a valid 'slug' consisting of letters, numbers, underscores or hyphens.<br />Values will be converted to lowercase.", unique=True)
+    slug = models.SlugField(_("Slug"), help_text="Enter a valid 'slug' consisting of letters, numbers, underscores or hyphens. Values will be converted to lowercase.", unique=True)
     category = models.ForeignKey(Category, verbose_name="Installation")
     repo_description = models.TextField(_("Repo Description"), blank=True)
     repo_url = models.URLField(_("repo URL"), help_text=repo_url_help_text, blank=True, unique=True, verify_exists=True)
     repo_watchers = models.IntegerField(_("repo watchers"), default=0)
     repo_forks = models.IntegerField(_("repo forks"), default=0)
-    repo_commits = models.IntegerField(_("repo commits"), default=0)
     pypi_url = models.URLField(_("PyPI slug"), help_text=pypi_url_help_text, blank=True, default='', verify_exists=True)
     pypi_downloads = models.IntegerField(_("Pypi downloads"), default=0)
     participants = models.TextField(_("Participants"),
@@ -56,15 +59,10 @@ class Package(BaseModel):
     usage = models.ManyToManyField(User, blank=True)
     created_by = models.ForeignKey(User, blank=True, null=True, related_name="creator", on_delete=models.SET_NULL)
     last_modified_by = models.ForeignKey(User, blank=True, null=True, related_name="modifier", on_delete=models.SET_NULL)
+    last_fetched = models.DateTimeField(blank=True, null=True, default=timezone.now)
+    documentation_url = models.URLField(_("Documentation URL"), blank=True, null=True, default="")
 
-    @property
-    def pypi_version(self):
-        string_ver_list = self.version_set.values_list('number', flat=True)
-        if string_ver_list:
-            vers_list = [versioner(v) for v in string_ver_list]
-            latest = sorted(vers_list)[-1]
-            return str(latest)
-        return ''
+    commit_list = models.TextField(_("Commit List"), blank=True)
 
     @property
     def pypi_name(self):
@@ -78,16 +76,20 @@ class Package(BaseModel):
             return name[:name.index("/")]
         return name
 
-    @property
     def last_updated(self):
+        cache_name = self.cache_namer(self.last_updated)
+        last_commit = cache.get(cache_name)
+        if last_commit is not None:
+            return last_commit
         try:
-            last_commit = self.commit_set.latest('commit_date')
+            last_commit = self.commit_set.latest('commit_date').commit_date
             if last_commit:
-                return last_commit.commit_date
+                cache.set(cache_name, last_commit)
+                return last_commit
         except ObjectDoesNotExist:
-            pass
+            last_commit = None
 
-        return None
+        return last_commit
 
     @property
     def repo(self):
@@ -111,6 +113,12 @@ class Package(BaseModel):
     def repo_name(self):
         return re.sub(self.repo.url_regex, '', self.repo_url)
 
+    def repo_info(self):
+        return dict(
+            username=self.repo_name().split('/')[0],
+            repo_name=self.repo_name().split('/')[1],
+        )
+
     def participant_list(self):
 
         return self.participants.split(',')
@@ -119,9 +127,12 @@ class Package(BaseModel):
         return self.usage.count()
 
     def commits_over_52(self):
+        cache_name = self.cache_namer(self.commits_over_52)
+        value = cache.get(cache_name)
+        if value is not None:
+            return value
         now = datetime.now()
-        commits = Commit.objects.filter(
-            package=self,
+        commits = self.commit_set.filter(
             commit_date__gt=now - timedelta(weeks=52),
         ).values_list('commit_date', flat=True)
 
@@ -131,64 +142,126 @@ class Package(BaseModel):
             if age_weeks < 52:
                 weeks[age_weeks] += 1
 
-        return ','.join(map(str, reversed(weeks)))
+        value = ','.join(map(str, reversed(weeks)))
+        cache.set(cache_name, value)
+        return value
 
-    def fetch_metadata(self, *args, **kwargs):
-
-        # Get the downloads from pypi
+    def fetch_pypi_data(self, *args, **kwargs):
+        # Get the releases from pypi
         if self.pypi_url.strip() and self.pypi_url != "http://pypi.python.org/pypi/":
 
             total_downloads = 0
+            url = "https://pypi.python.org/pypi/{0}/json".format(self.pypi_name)
+            response = requests.get(url)
+            if settings.DEBUG:
+                if response.status_code not in (200, 404):
+                    print("BOOM!")
+                    print(self, response.status_code)
+            if response.status_code == 404:
+                if settings.DEBUG:
+                    print("BOOM!")
+                    print(self, response.status_code)
+                return False
+            release = json.loads(response.content)
+            info = release['info']
 
-            for release in fetch_releases(self.pypi_name):
+            version, created = Version.objects.get_or_create(
+                package=self,
+                number=info['version']
+            )
 
-                version, created = Version.objects.get_or_create(
-                    package=self,
-                    number=release.version
-                )
+            # add to versions
+            license = info['license']
+            if not info['license'] or not license.strip()  or 'UNKNOWN' == license.upper():
+                for classifier in info['classifiers']:
+                    if classifier.strip().startswith('License'):
+                        # Do it this way to cover people not quite following the spec
+                        # at http://docs.python.org/distutils/setupscript.html#additional-meta-data
+                        license = classifier.strip().replace('License ::', '')
+                        license = license.replace('OSI Approved :: ', '')
+                        break
 
-                # add to total downloads
-                total_downloads += release.downloads
+            if license and len(license) > 100:
+                license = "Other (see http://pypi.python.org/pypi/%s)" % self.pypi_name
 
-                # add to versions
-                version.downloads = release.downloads
-                if hasattr(release, "upload_time"):
-                    version.upload_time = release.upload_time
-                version.license = release.license
-                version.hidden = release._pypi_hidden
-                version.save()
+            version.license = license
+
+            #version stuff
+            try:
+                url_data = release['urls'][0]
+                version.downloads = url_data['downloads']
+                version.upload_time = url_data['upload_time']
+            except IndexError:
+                # Not a real release so we just guess the upload_time.
+                version.upload_time = version.created
+
+            version.hidden = info['_pypi_hidden']
+            for classifier in info['classifiers']:
+                if classifier.startswith('Development Status'):
+                    version.development_status = status_choices_switch(classifier)
+                    break
+            for classifier in info['classifiers']:
+                if classifier.startswith('Programming Language :: Python :: 3'):
+                    version.supports_python3 = True
+                    break
+            version.save()
 
             self.pypi_downloads = total_downloads
+            # Calculate total downloads
 
+            return True
+        return False
+
+    def fetch_metadata(self, fetch_pypi=True):
+
+        if fetch_pypi:
+            self.fetch_pypi_data()
         self.repo.fetch_metadata(self)
         signal_fetch_latest_metadata.send(sender=self)
+        self.last_fetched = timezone.now()
         self.save()
+
+    def grid_clear_detail_template_cache(self):
+        for grid in self.grids():
+            grid.clear_detail_template_cache()
 
     def save(self, *args, **kwargs):
         if not self.repo_description:
             self.repo_description = ""
+        self.grid_clear_detail_template_cache()
         super(Package, self).save(*args, **kwargs)
 
     def fetch_commits(self):
         self.repo.fetch_commits(self)
 
-    @property
+    def pypi_version(self):
+        cache_name = self.cache_namer(self.pypi_version)
+        version = cache.get(cache_name)
+        if version is not None:
+            return version
+        version = get_pypi_version(self)
+        cache.set(cache_name, version)
+        return version
+
     def last_released(self):
-        versions = self.version_set.exclude(upload_time=None)
-        if versions:
-            return versions.latest()
-        return None
+        cache_name = self.cache_namer(self.last_released)
+        version = cache.get(cache_name)
+        if version is not None:
+            return version
+        version = get_version(self)
+        cache.set(cache_name, version)
+        return version
 
     @property
     def pypi_ancient(self):
-        release = self.last_released
+        release = self.last_released()
         if release:
             return release.upload_time < datetime.now() - timedelta(365)
         return None
 
     @property
     def no_development(self):
-        commit_date = self.last_updated
+        commit_date = self.last_updated()
         if commit_date is not None:
             return commit_date < datetime.now() - timedelta(365)
         return None
@@ -217,6 +290,12 @@ class PackageExample(BaseModel):
 
     def __unicode__(self):
         return self.title
+        
+    @property
+    def pretty_url(self):
+        if self.url.startswith("http"):
+            return self.url
+        return "http://" + self.url
 
 
 class Commit(BaseModel):
@@ -232,6 +311,14 @@ class Commit(BaseModel):
     def __unicode__(self):
         return "Commit for '%s' on %s" % (self.package.title, unicode(self.commit_date))
 
+    def save(self, *args, **kwargs):
+        # reset the last_updated and commits_over_52 caches on the package
+        package = self.package
+        cache.delete(package.cache_namer(self.package.last_updated))
+        cache.delete(package.cache_namer(package.commits_over_52))
+        self.package.last_updated()
+        super(Commit, self).save(*args, **kwargs)
+
 
 class VersionManager(models.Manager):
     def by_version(self, *args, **kwargs):
@@ -241,7 +328,9 @@ class VersionManager(models.Manager):
     def by_version_not_hidden(self, *args, **kwargs):
         qs = self.get_query_set().filter(*args, **kwargs)
         qs = qs.filter(hidden=False)
-        return sorted(qs, key=lambda v: versioner(v.number))
+        qs = sorted(qs, key=lambda v: versioner(v.number))
+        qs.reverse()
+        return qs
 
 
 class Version(BaseModel):
@@ -252,12 +341,22 @@ class Version(BaseModel):
     license = models.CharField(_("license"), max_length="100")
     hidden = models.BooleanField(_("hidden"), default=False)
     upload_time = models.DateTimeField(_("upload_time"), help_text=_("When this was uploaded to PyPI"), blank=True, null=True)
+    development_status = models.IntegerField(_("Development Status"), choices=STATUS_CHOICES, default=0)
+    supports_python3 = models.BooleanField(_("Supports Python 3"), default=False)
 
     objects = VersionManager()
 
     class Meta:
         get_latest_by = 'upload_time'
         ordering = ['-upload_time']
+
+    @property
+    def pretty_license(self):
+        return self.license.replace("License", "").replace("license", "")
+
+    @property
+    def pretty_status(self):
+        return self.get_development_status_display().split(" ")[-1]
 
     def save(self, *args, **kwargs):
         if self.license is None:
@@ -266,6 +365,17 @@ class Version(BaseModel):
             pass
         elif len(self.license.strip()) > 20:
             self.license = "Custom"
+
+        # reset the latest_version cache on the package
+        cache_name = self.package.cache_namer(self.package.last_released)
+        cache.delete(cache_name)
+        get_version(self.package)
+
+        # reset the pypi_version cache on the package
+        cache_name = self.package.cache_namer(self.package.pypi_version)
+        cache.delete(cache_name)
+        get_pypi_version(self.package)
+
         super(Version, self).save(*args, **kwargs)
 
     def __unicode__(self):

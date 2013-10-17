@@ -3,7 +3,6 @@
 # Packages
 *.egg
 *.egg-info
-dist
 build
 eggs
 parts
@@ -49,5 +48,6 @@ _data
 
 # PostgreSQL
 logfile
+*.dump
 
 collected_static

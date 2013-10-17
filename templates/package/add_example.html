@@ -1,27 +1,30 @@
 {% extends "package/base.html" %}
+{% load url from future %}
 
 {% load i18n %}
-{% load uni_form_tags %}
-
-{% block head_title %}{% trans "Add new example" %}{% endblock %}
+{% load crispy_forms_tags %}
 
 {% block body %}
-
-    <h1>{% trans "Add new example" %}</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6">
+      <h2>{% trans "Example Form" %}</h2>
+      
+      <p>This form adds a website to the &ldquo;Sites using this package&rdquo; list.</p>
     
-    <form class="uniForm" method="post">
+      <form method="post">
         {% csrf_token %}
         <fieldset>
-            {{ form|as_uni_form }}
+          {{ form|crispy }}
 
-            <div class="form_block">        
-                <input class="awesome forestgreen" type="submit" name="add" value="{% trans "Add new example" %}">
-                <a href="{% url package package.slug %}">{% trans "cancel" %}</a>
-            </div>            
+          <div class="form_block">        
+            <input class="btn btn-default" type="submit" name="add" value="{% trans "Add new example" %}">
+          </div>            
         </fieldset>
-
-    </form>
-
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block extra_body %}

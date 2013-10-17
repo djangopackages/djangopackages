@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+{% load url from future %}
 {% load i18n %}
 {% load pagination_tags %}
 {% load sorting_tags %}
@@ -9,7 +10,7 @@
 
 {% block body %}
 
-<h1>{% trans "All Profiles" %}</h1>
+<h2>{% trans "All Profiles" %}</h2>
 
 <p>{% trans "Click table headers to sort" %}</p>
 
@@ -40,7 +41,7 @@
                 <tr>
                     <td>
                         
-                        {% if profile.github_account %}<a href="{% url profile_detail profile.github_account %}">{{ profile.github_account }}</a>
+                        {% if profile.github_account %}<a href="{% url 'profile_detail' profile.github_account %}">{{ profile.github_account }}</a>
                         {% else %}
                         {{ user.username }}
                         {% endif %}
@@ -72,7 +73,4 @@
     
 {% paginate %}
 
-{% endblock %}
-
-{% block extra_body %}    
 {% endblock %}

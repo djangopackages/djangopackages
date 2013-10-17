@@ -5,8 +5,8 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 
-from uni_form.helpers import FormHelper, Submit, HTML
-from uni_form.layout import Layout, Fieldset, ButtonHolder
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, HTML
 
 from social_auth.signals import pre_update
 from social_auth.backends.contrib.github import GithubBackend
@@ -43,7 +43,6 @@ def profile_edit(request, template_name="profiles/profile_edit.html"):
     form = ProfileForm(request.POST or None, instance=profile)
 
     if form.is_valid():
-        print form.instance.__dict__
         form.save()
         msg = 'Profile edited'
         messages.add_message(request, messages.INFO, msg)
@@ -66,7 +65,7 @@ def profile_edit(request, template_name="profiles/profile_edit.html"):
             'google_code_url',
         ),
         ButtonHolder(
-            Submit('edit', 'Edit', css_class="awesome forestgreen"),
+            Submit('edit', 'Edit', css_class="btn btn-default"),
         )
     )
 

@@ -44,3 +44,10 @@ class PackageExampleModeratorForm(ModelForm):
     class Meta:
         model = PackageExample
         fields = ['title', 'url', 'active']
+
+
+class DocumentationForm(ModelForm):
+
+    class Meta:
+        model = Package
+        fields = ["documentation_url", ]

@@ -1,27 +1,48 @@
 # -*- coding: utf-8 -*-
-from classytags.helpers import InclusionTag
 from django import template
-from django.conf import settings
-
 
 register = template.Library()
 
 
-class FixedGA(InclusionTag):
-    template = 'templatetags/ga.html'
-    
-    name = 'fixed_ga'
-    
-    def render_tag(self, context):
-        URCHIN_ID = getattr(settings, "URCHIN_ID", None)
-        if URCHIN_ID and not settings.DEBUG:
-            return super(FixedGA, self).render_tag(context)
-        return ''
-    
-    def get_context(self, context):
-        """
-        If it get's here, we already checked that this setting is set!
-        """
-        return {'URCHIN_ID': settings.URCHIN_ID}
+"""
+jQuery templates use constructs like:
 
-register.tag(FixedGA)
+    {{if condition}} print something{{/if}}
+
+This, of course, completely screws up Django templates,
+because Django thinks {{ and }} mean something.
+
+Wrap {% verbatim %} and {% endverbatim %} around those
+blocks of jQuery templates and this will try its best
+to output the contents with no changes.
+"""
+
+register = template.Library()
+
+
+class VerbatimNode(template.Node):
+
+    def __init__(self, text):
+        self.text = text
+
+    def render(self, context):
+        return self.text
+
+
+@register.tag
+def verbatim(parser, token):
+    text = []
+    while 1:
+        token = parser.tokens.pop(0)
+        if token.contents == 'endverbatim':
+            break
+        if token.token_type == template.TOKEN_VAR:
+            text.append('{{')
+        elif token.token_type == template.TOKEN_BLOCK:
+            text.append('{%')
+        text.append(token.contents)
+        if token.token_type == template.TOKEN_VAR:
+            text.append('}}')
+        elif token.token_type == template.TOKEN_BLOCK:
+            text.append('%}')
+    return VerbatimNode(''.join(text))

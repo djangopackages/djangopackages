@@ -57,6 +57,7 @@ Direct Contributors
 * Flaviu Simihaian
 * George Dorn
 * Gisle Aas  (Repo Man)
+* Ilian Iliev (@IlianIliev)
 * Jacob Burch
 * James Pacileo
 * James Punteney
@@ -67,7 +68,9 @@ Direct Contributors
 * jrothenbuhler
 * Kenneth Love
 * Kenneth Reitz
+* @kerridge0
 * Marc Tamlyn
+* Mike Fiedler
 * Mike Johnson
 * Nate Aune
 * Nolan Brubaker

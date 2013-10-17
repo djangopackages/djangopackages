@@ -36,6 +36,35 @@ Now you should be able to access postgres using ``psql -U
 postgres``. Create a new database using ``createdb -U postgres
 opencomparison``.
 
+Another way
+~~~~~~~~~~~
+
+If you prefer to use `Homebrew <http://mxcl.github.io/homebrew/>`_ to install
+your software you can do this::
+
+    brew install postgresql
+    initdb /usr/local/var/postgres -E utf8
+    pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start
+
+Change the path used in ``initdb`` and other commands if you'd rather store
+your data files somewhere other than ``/usr/local/var/postgres``.
+
+Once the server is started, execute::
+
+    createdb opencomparison
+
+Then you should be able to access the database you created via ``psql`` so::
+
+    psql --dbname opencomparison
+
+Remeber to shut down the service when not in use::
+
+    pg_ctl -D /usr/local/var/postgres stop
+
+The security defaults are already in place, and will allow a lot of access.
+This should never be considered a production-ready deployment scenario.
+
+
 Ubuntu
 ------
 

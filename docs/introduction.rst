@@ -2,9 +2,9 @@
 Introduction
 =============
 
-Ever want to know which is the most popular or well supported Python httplib replacement, web framework, or api tool? Packaginator solves that problem for you! Packaginator allows you to easily identify good apps, frameworks, and packages.
+Ever want to know which is the most popular or well supported Python httplib replacement, web framework, or api tool? OpenComparison solves that problem for you! OpenComparison allows you to easily identify good apps, frameworks, and packages.
 
-Packaginator stores information on fetched packages and provides easy comparison tools for them. Public APIs include PyPI, Github, BitBucket, Launchpad, and perhaps soon SourceForge and Google Project Hosting.
+OpenComparison stores information on fetched packages and provides easy comparison tools for them. Public APIs include PyPI, Github, and BitBucket.
 
 The Site
 --------
@@ -26,14 +26,13 @@ What repo sites are supported?
 
  * Github
  * Bitbucket
- * Launchpad.
 
 Google Project Hosting and Sourceforge are not fully supported!
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Not yet!
 
-The progenitor of Packaginator, Django Packages was cooked up during Django Dash 2010. We wanted to keep the scope of our work reasonable. We'll try to include more sites in the future. Here are some details:
+The progenitor of OpenComparison, Django Packages was cooked up during Django Dash 2010. We wanted to keep the scope of our work reasonable. We'll try to include more sites in the future. Here are some details:
 
  * Sourceforge needs needs to repair their API and then we can play.
  * Google's lack of a formal API leaves us the option of screen-scraping their content. We're not excited about introducing that sort of brittle activity into OpenComparison.

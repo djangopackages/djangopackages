@@ -1,5 +1,8 @@
+from datetime import datetime, timedelta
 import re
 from warnings import warn
+
+from django.utils import timezone
 
 from .base_handler import BaseHandler
 
@@ -22,7 +25,10 @@ class BitbucketHandler(BaseHandler):
         if repo_name.endswith("/"):
             repo_name = repo_name[0:-1]
         target = "%s/%s/changesets/?limit=50" % (API_TARGET, repo_name)
-        data = self.get_json(target)
+        try:
+            data = self.get_json(target)
+        except requests.exceptions.HTTPError:
+            return []
         if data is None:
             return []  # todo: log this?
 
@@ -38,6 +44,23 @@ class BitbucketHandler(BaseHandler):
                 timestamp = commit["timestamp"]
             commit, created = Commit.objects.get_or_create(package=package, commit_date=timestamp)
 
+        #  ugly way to get 52 weeks of commits
+        # TODO - make this better
+        now = datetime.now()
+        commits = package.commit_set.filter(
+            commit_date__gt=now - timedelta(weeks=52),
+        ).values_list('commit_date', flat=True)
+
+        weeks = [0] * 52
+        for cdate in commits:
+            age_weeks = (now - cdate).days // 7
+            if age_weeks < 52:
+                weeks[age_weeks] += 1
+
+        package.commit_list = ','.join(map(str, reversed(weeks)))
+        package.last_fetched = timezone.now()
+        package.save()
+
     def fetch_metadata(self, package):
         # prep the target name
         repo_name = package.repo_name()
@@ -45,7 +68,10 @@ class BitbucketHandler(BaseHandler):
         if not target.endswith("/"):
             target += "/"
 
-        data = self.get_json(target)
+        try:
+            data = self.get_json(target)
+        except requests.exceptions.HTTPError:
+            return package
 
         if data is None:
             # TODO - log this better
@@ -56,23 +82,20 @@ class BitbucketHandler(BaseHandler):
         # description
         package.repo_description = data.get("description", "")
 
-        # screen scrape to get the repo_forks off of bitbucket HTML pages
-        descendants_target = package.repo_url
-        if not descendants_target.endswith("/"):
-            descendants_target += "/"
-        descendants_target += "descendants"
-
-        r = requests.get(descendants_target)
-        html = r.content
+        # get the forks of a repo
+        url = "{0}forks/".format(target)
         try:
-            #todo: don't parse HTML with a regex, use BeautifulSoup.
-            package.repo_forks = descendants_re.search(html).group("descendants")
-        except AttributeError:
-            package.repo_forks = 0
+            data = self.get_json(url)
+        except requests.exceptions.HTTPError:
+            return package
+        package.repo_forks = len(data['forks'])
 
         # get the followers of a repo
         url = "{0}followers/".format(target)
-        data = self.get_json(url)
+        try:
+            data = self.get_json(url)
+        except requests.exceptions.HTTPError:
+            return package
         package.repo_watchers = data['count']
 
         # Getting participants

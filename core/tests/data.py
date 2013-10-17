@@ -37,7 +37,7 @@ def make():
     package, created = Package.objects.get_or_create(
         category = category,
         participants = "pydanny",
-        repo_description = "Make testing as painless as waxing your legs.",
+        repo_description = "Make testing as painless as frozen yogurt.",
         repo_url = "https://github.com/opencomparison/opencomparison",
         slug = "serious-testing",
         title="Serious Testing"

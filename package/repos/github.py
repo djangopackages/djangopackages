@@ -1,9 +1,12 @@
-from datetime import datetime
+from time import sleep
 
 from django.conf import settings
+from django.utils import timezone
+
+from github3 import GitHub, login
+import requests
 
 from base_handler import BaseHandler
-from core.restconsumer import RestConsumer
 from package.utils import uniquer
 
 
@@ -14,43 +17,78 @@ class GitHubHandler(BaseHandler):
     repo_regex = r'(?:http|https|git)://github.com/[^/]*/([^/]*)/{0,1}'
     slug_regex = repo_regex
 
-    def _github_client(self):
-        if hasattr(settings, "GITHUB_ACCOUNT") and hasattr(settings, "GITHUB_KEY"):
-            github = RestConsumer(base_url='https://api.github.com', username=settings.GITHUB_ACCOUNT, api_token=settings.GITHUB_KEY)
+    def __init__(self):
+        if settings.GITHUB_USERNAME:
+            self.github = login(settings.GITHUB_USERNAME, settings.GITHUB_PASSWORD)
         else:
-            github = RestConsumer(base_url='https://api.github.com')
-        return github
+            self.github = GitHub()
+
+    def manage_ratelimit(self):
+        while self.github.ratelimit_remaining < 10:
+            sleep(1)
 
     def fetch_metadata(self, package):
-        github = self._github_client()
+        self.manage_ratelimit()
 
-        username, repo_name = package.repo_name().split('/')
-        repo = github.repos[username][repo_name]()
-        if repo.get('message', '') == u'Not Found':
+        repo_name = package.repo_name()
+        if repo_name.endswith("/"):
+            repo_name = repo_name[:-1]
+        try:
+            username, repo_name = package.repo_name().split('/')
+        except ValueError:
+            return package
+        repo = self.github.repository(username, repo_name)
+        if repo is None:
             return package
 
-        package.repo_watchers = repo['watchers']
-        package.repo_forks = repo['forks']
-        package.repo_description = repo['description']
+        package.repo_watchers = repo.watchers
+        package.repo_forks = repo.forks
+        package.repo_description = repo.description
 
-        #/repos/:user/:repo/collaborators
-        collaborators = [x['login'] for x in github.repos[username][repo_name].collaborators()]
-        collaborators += [x['login'] for x in github.repos[username][repo_name].contributors()]
-        if collaborators:
-            package.participants = ','.join(uniquer(collaborators))
+        contributors = [x.login for x in repo.iter_contributors()]
+        if contributors:
+            package.participants = ','.join(uniquer(contributors))
 
         return package
 
     def fetch_commits(self, package):
-        from package.models import Commit  # Import placed here to avoid circular dependencies
-        github = self._github_client()
-        username, repo_name = package.repo_name().split('/')
-        # /repos/:user/:repo/commits
-        for commit in github.repos[username][repo_name].commits():
-            if isinstance(commit, unicode):
-                continue
-            raw_date = commit['commit']['committer']['date']
-            date = datetime.strptime(raw_date[0:19], "%Y-%m-%dT%H:%M:%S")
-            commit, created = Commit.objects.get_or_create(package=package, commit_date=date)
+
+        self.manage_ratelimit()
+        repo_name = package.repo_name()
+        if repo_name.endswith("/"):
+            repo_name = repo_name[:-1]
+        try:
+            username, repo_name = package.repo_name().split('/')
+        except ValueError:
+            # TODO error #248
+            return package
+
+        if settings.GITHUB_USERNAME:
+            r = requests.get(
+                url='https://api.github.com/repos/{}/{}/commits?per_page=100'.format(username, repo_name),
+                auth=(settings.GITHUB_USERNAME, settings.GITHUB_PASSWORD)
+            )
+        else:
+            r = requests.get(
+                url='https://api.github.com/repos/{}/{}/commits?per_page=100'.format(username, repo_name)
+            )
+        if r.status_code == 200:
+            from package.models import Commit  # Added here to avoid circular imports
+            for commit in [x['commit'] for x in r.json()]:
+                try:
+                    commit, created = Commit.objects.get_or_create(
+                        package=package,
+                        commit_date=commit['committer']['date']
+                    )
+                except Commit.MultipleObjectsReturned:
+                    pass
+
+        #package.commit_list = str([x['total'] for x in repo.iter_commit_activity(number=52)])
+        #if package.commit_list.strip() == '[]':
+        #    return package
+
+        package.last_fetched = timezone.now()
+        package.save()
+        return package
 
 repo_handler = GitHubHandler()

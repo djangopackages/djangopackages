@@ -17,7 +17,7 @@ from homepage.models import Dpotw, Gotw
 from package.models import Package, Category
 
 
-# TODO - exclude ID, repo_commits, and other fields not yet used
+# TODO - exclude ID, and other fields not yet used
 
 class BaseResource(ModelResource):
     """Base resource class - a subclass of tastypie's ``ModelResource``"""

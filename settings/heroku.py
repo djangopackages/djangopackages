@@ -13,12 +13,8 @@ from S3 import CallingFormat
 from settings.base import *
 
 
-########## DATABASES
-DATABASES = postgresify()
-
-
 ########## CACHE
-CACHE_TIMEOUT = 60 * 60 * 24
+CACHE_TIMEOUT = 60 * 60 * 24 * 30
 CACHES = memcacheify()
 
 
@@ -85,7 +81,7 @@ RESTRICT_GRID_EDITORS = False
 # more details on how to customize your logging configuration.
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
+    'disable_existing_loggers': True,
     'filters': {
         'require_debug_false': {
             '()': 'django.utils.log.RequireDebugFalse'
@@ -161,3 +157,14 @@ SESSION_COOKIE_HTTPONLY = True
 SECURE_SSL_REDIRECT = True
 
 ########## end django-secure
+
+
+########## templates
+TEMPLATE_LOADERS = (
+    ('django.template.loaders.cached.Loader', (
+        'django.template.loaders.filesystem.Loader',
+        'django.template.loaders.app_directories.Loader',
+    )),
+)
+
+########## end templates

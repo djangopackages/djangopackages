@@ -1,180 +1,275 @@
-{% extends "package/base.html" %}
+{% extends "base.html" %}
 
+{% load url from future %}
 {% load i18n %}
 {% load package_tags %}
 
 {% block head_title %}{{ package.title }}{% endblock %}
 
 {% block extra_head %}
-    <meta name="description" content="{{ package.repo_description }}" />
-    <meta name="keywords" content="{{ package.grid_set.all|join:',' }}" />
-    {{ block.super }}
+  <meta name="description" content="{{ package.repo_description }}" />
+  <meta name="keywords" content="{{ package.grid_set.all|join:',' }}" />
+  {{ block.super }}
 {% endblock %}
 
 {% block body %}
+
+{% comment %}
+<!--TODO block until we get things sorted out -->
 {% if warnings %}
-    <ul class="messages">
-        {% if pypi_ancient %}
-            <li class="warning">WARNING: This package's most recent PyPI release is from over a year ago and may no longer be maintained.</li>
-        {% endif %}
-        {% if no_development %}
-            <li class="warning">WARNING: This package has not seen any development in over a year and may no longer be maintained.</li>
-        {% endif %}
-        {% if pypi_no_release %}
-            <li class="note">NOTE: This package is not available for download from PyPI. It may be using a third-party site to host its downloadable package files.</li>
-        {% endif %}
-    </ul>
+  <ul class="messages">
+    {% if pypi_ancient %}
+      <li class="warning">WARNING: This package's most recent PyPI release is from over a year ago and may no longer be maintained.</li>
+    {% endif %}
+    {% if no_development %}
+      <li class="warning">WARNING: This package has not seen any development in over a year and may no longer be maintained.</li>
+    {% endif %}
+    {% if pypi_no_release %}
+      <li class="note">NOTE: This package is not available for download from PyPI. It may be using a third-party site to host its downloadable package files.</li>
+    {% endif %}
+  </ul>
 {% endif %}
+{% endcomment %}
 
+<h2><a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'packages' %}">{% trans "packages" %}</a> / {{ package.title }}
+  <a href="{% url 'edit_package' package.slug %}"><span class="glyphicon glyphicon-pencil"></span></a>
+</h2>
     
-<h1><a href="{% url home %}">{% trans "home" %}</a> / <a href="{% url packages %}">{% trans "packages" %}</a> / {{ package.title }}
-    <a href="{% url edit_package package.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
-</h1>
     
-    
-<div class="twelve_column section">
-    <div class="six column">
-        <p>
-            {{ package.repo_description }}
-        </p>
+<div class="row">
+  <div class="col-lg-6">
+    <p>
+        {{ package.repo_description }}
+    </p>
 
-        <p><strong>{% trans "Category:" %}</strong>&nbsp;<a href="{% url category package.category.slug %}">{{ package.category }}</a></p>
+    <!-- start Usage panel -->
+    <div class="panel panel-default">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">Usage</h3>
+      </div>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>{% trans "Category" %}</th>
+          <th>{% trans "# Using This" %}</th>
+        </tr>
+        </thead>
 
-        <table>
-            <thead>
-            <tr>
-                <th>{% trans "# Using This" %}</th>
-                <th></th>
-            </tr>
-            </thead>
+        <tbody>
+          <tr>
+            <td>
+              <a href="{% url 'category' package.category.slug %}">{{ package.category }}</a>
+            </td>
+            <td>
+                {{ package.usage.count }}
+                &nbsp;
+                {% with package as package %}
+                    {% usage_button %} 
+                {% endwith %}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>        
+    <!-- end Usage panel -->
 
-            <tbody>
-                <tr>
-                    <td class="usage-container usage-holder">
-                        <span class="usage-count" id="usage-count-{{ package.id }}">{{ package.usage.count }}</span>
-                        &nbsp;
-                        {% with package as package %}
-                            {% usage_button %} 
-                        {% endwith %}
-                    </td>
-                    <td id="fetch-cell"><a class="awesome forestgreen" href="{% url fetch_package_data package.slug %}">{% trans "Fetch latest data" %}</a></td>
-                </tr>    
-            </tbody>        
-         </table>
-
-        {% if package.pypi_url and package.pypi_url != "http://pypi.python.org/pypi/" %}
-                <h2>PyPI {% if package.pypi_downloads %}{% blocktrans with package.pypi_downloads as pypi_downloads %}( {{ pypi_downloads }} downloads ){% endblocktrans %}{% endif %}</h2>                           
-                <p><a href="{{ package.pypi_url }}">{{ package.pypi_url }}</a></p>
-                <table>
-                    <tr>
-                        <th>{% trans "Version" %}</th>
-                        <th>{% trans "License" %}</th>
-                        <th>{% trans "Release Date" %}</th>                      
-                        <th><img src="{{ STATIC_URL }}img/download_20x20_clear.png" alt="Downloads" /></th>
-                    </tr>
-                    {% for version in package.version_set.by_version_not_hidden %}
-                        <tr>
-                            <td>{{ version.number }}</td>
-                            <td>{{ version.license|default:"none" }}</td>                        
-                            <td>{{ version.upload_time|date:"SHORT_DATE_FORMAT" }}</td>
-                            <td>{{ version.downloads|default:"n/a" }}</td>
-                        </tr>
-                    {% endfor %}
-            </table>
-        {% else %}
-            <h2>{% trans "No PyPI release" %}</h2>
-        {% endif %}
-
-        <h2>{% trans "Participants" %}</h2>
-
-        <p>
-            {% for participant in package.participant_list %}
-                <a href="{% participant_url package.repo participant %}">{{ participant }}</a>&nbsp;
-            {% endfor %}
-        
-        </p>
-    
-    </div> <!-- end six column section -->
-    <div class="six column section">
-        
-        <h2 class="rtd" style="display: none;">{% trans "Read the Docs" %}</h2>
-        <p class="rtd" style="display: none;">{% blocktrans %}This project has documentation available for it on <a class="rtd">Read the Docs!</a>{% endblocktrans %}</p>
-
-        <h2>{{ package.repo.title }}</h2>
-        <table>
-            <tr>
-                <th>{% trans "Repo URL" %}</th>
-                <th>{% trans "Commits" %}</th>
-                <th><img src="{{ STATIC_URL }}img/eye_20x20_clear.png" alt="Watchers" /></th>
-                <th><img src="{{ STATIC_URL }}img/fork_20x20_clear.png" alt="Forks" /></th>
-            </tr>
-            <tr>
-                <td><a href="{{ package.repo_url }}">{{ package.repo_url }}</a></td>
-                <td><img src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{package|commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
-                <td>{{ package.repo_watchers|default:"n/a" }}</td>
-                <td>{{ package.repo_forks|default:"n/a" }}</td>
-            </tr>
-        </table>        
-
-        {% if request.user.is_authenticated and profile.can_add_grid %}
-            <h2>{% trans "Comparison Grids" %}</h2>
-        
-            {% for grid in package.grids %}
-                <a href="{% url grid grid.slug %}" title="{{ grid.description }}">{{ grid }}</a> &nbsp;
-            
-                {% if forloop.last %}
-                    <div id="package-gridname">
-                        <a class="awesome forestgreen" id="find-a-grid" href="#">Find another grid to join!</a>
-                        {% include "package/includes/_attach_grid.html" %}
-                    </div>    
-            
-                {% endif %}
-            {% empty %}
-                <div id="package-gridname">
-                    <a class="awesome forestgreen" id="find-a-grid" href="#">{% trans "Find another grid to join!" %}</a>
-                    {% include "package/includes/_attach_grid.html" %}
-                </div>
-            {% endfor %}
-        {% endif %}
-        <h2>{% trans "Sites using this package" %}</h2>
-    
-        <div id="package-editlink">
-            {% if request.user.is_authenticated %}        
-                <a class="awesome forestgreen" href="{% url add_example package.slug %}">{% trans "Add an example" %}</a>
-            {% endif %}
+    <!-- start PyPI panel -->
+    <div class="panel panel-default">
+     <div class="panel-heading clearfix">
+       <h3 class="panel-title pull-left">PyPI</h3>
+     </div>
+     {% if package.pypi_url and package.pypi_url != "http://pypi.python.org/pypi/" %}
+       <div class="panel-body">
+          <p><a href="{{ package.pypi_url }}">{{ package.pypi_url }}</a></p>
+          <p>
+            <a href="https://crate.io/packages/{{ package.pypi_name }}/" rel="nofollow"><img src="https://pypip.in/d/{{ package.pypi_name }}/badge.png"></a>
+          </p>
         </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>{% trans "Version" %}</th>
+              <th>{% trans "License" %}</th>
+              <th>{% trans "Released" %}</th>
+              <th>{% trans "Status" %}</th>
+              <th>{% trans "Python 3?" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for version in package.version_set.by_version_not_hidden %}
+              <tr>
+                <td>{{ version.number }}</td>
+                <td>{{ version.pretty_license|default:"none" }}</td>                        
+                <td>{{ version.upload_time|date:"SHORT_DATE_FORMAT" }}</td>
+                <td>{{ version.pretty_status }}</td>
+                <td>
+                  {% if version.supports_python3 %}
+                    <span class="glyphicon glyphicon-ok"></span>
+                  {% else %}
+                    <span class="glyphicon glyphicon-remove"></span>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+      </table>
+    {% else %}
+      <div class="panel-body">
+        <p>{% trans "No PyPI release" %}</p>
+      </div>
+    {% endif %}
+    </div>
+    <!-- end PyPI panel -->
+
+    <!-- start Participants panel -->
+    <div class="panel panel-default">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">{% trans "Participants" %}</h3>
+      </div>
+      <div class="panel-body">
+        <p>
+          {% for participant in package.participant_list %}
+              <a href="{% participant_url package.repo participant %}">{{ participant }}</a>&nbsp;
+          {% endfor %}
+        </p>
+      </div>
+    </div>
+    <!-- end Participants panel -->
+  
+  </div> <!-- end six column section -->
+  <div class="col-lg-6">
     
+    <!-- start Documentation panel -->
+    <div class="panel panel-default">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">{% trans "Documentation" %}</h3>
+        <div class="pull-right">
+          {% if request.user.is_authenticated %}        
+            <a href="{% url 'edit_documentation' package.slug %}"><span class="glyphicon glyphicon-plus"></span></a>
+          {% endif %}
+        </div>
+      </div>
+      <div class="panel-body">
+        <p>{{ package.documentation_url|urlize }}</p>
+      </div>
+    </div>
+    <!-- end Documentation panel -->
+
+    <!-- start Repo panel -->
+    <div class="panel panel-default">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">Repo Activity</h3>
+
+        <div class="pull-right" id="fetch-cell">
+          {% if package.last_fetched %}
+            Last fetched: {{ package.last_fetched|timesince }} ago
+          {% endif %}
+          <a class="btn btn-default btn-xs" href="{% url 'post_package_data' package.slug %}">{% trans "Fetch latest data" %}</a>
+          {% comment %}
+            {% if repo.title != "Github" %}
+              <a class="btn btn-default btn-xs" href="{% url 'fetch_package_data' package.slug %}">{% trans "Fetch latest data" %}</a>
+            {% else %}{# if repo.title == "Github" #}
+              <a class="btn btn-default btn-xs" href="#">{% trans "Fetch latest data" %}</a>
+            {% endif %}
+          {% endcomment %}
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <p>
+          <strong>Repo Hosting:</strong> {{ package.repo.title }}
+        </p>
+      </div>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{% trans "Repo URL" %}</th>
+            <th>{% trans "Commits" %}</th>
+            <th><span class="glyphicon glyphicon-eye-open"></span></th>
+            <th><span class="glyphicon glyphicon-random"></span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="{{ package.repo_url }}">{{ package.repo_url }}</a></td>
+            <td><img src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{package.commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
+            <td>{{ package.repo_watchers|default:"n/a" }}</td>
+            <td>{{ package.repo_forks|default:"n/a" }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- end Repo panel -->
+
+    <!-- start Grids panel -->
+    <div class="panel panel-default">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">{% trans "Comparison Grids" %}</h3>
+        <div class="pull-right">
+          {% if request.user.is_authenticated and profile.can_add_grid %}        
+            <a id="find-a-grid" href="#"><span class="glyphicon glyphicon-plus"></span></a>
+            {% include "package/includes/_attach_grid.html" %}            
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="panel-body">
+        {% for grid in package.grids %}            
+          <a href="{% url 'grid' grid.slug %}" title="{{ grid.description }}">{{ grid }}</a> &nbsp;
+        {% empty %}
+          {% if request.user.is_authenticated and profile.can_add_grid %}
+            {% include "package/includes/_attach_grid.html" %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+    <!-- end Grids panel -->
+
+    <!-- start Examples panel -->
+    <div class="panel panel-default">
+      <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">{% trans "Sites using this package" %}</h3>
+        <div class="pull-right">
+          {% if request.user.is_authenticated %}        
+            <a href="{% url 'add_example' package.slug %}"><span class="glyphicon glyphicon-plus"></span></a>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="panel-body">
         {% with package.active_examples as examples %}
         {% if examples %}
-        <ol id="package-sitelist">
-            {% for example in examples %}
-                <li>
-                    <a href="{{ example.url }}">{{ example.title }}</a>
-                    {% if request.user.is_authenticated %}&nbsp;
-                        <div id="package-editlink">
-                            <a class="awesome forestgreen" href="{% url edit_example package.slug example.id %}">{% trans "edit" %}</a>
-                        </div>
-                    {% endif %}
-                </li>
-            {% endfor %}
+        <ol>
+          {% for example in examples %}
+            <li>
+                <a href="{{ example.pretty_url }}">{{ example.title }}</a>
+              {% if request.user.is_authenticated %}&nbsp;
+                  <a href="{% url 'edit_example' package.slug example.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
+              {% endif %}
+            </li>
+          {% endfor %}
         </ol>
+        {% else %}
+          <p>No sites using this package have been listed yet.</p>
         {% endif %}
         {% endwith %}
-    </div> <!-- end six column section -->
+      </div>
+    </div>
+    <!-- end Examples panel -->
+
+
+  </div> <!-- end six column section -->
 </div>    <!-- end twelve_column section -->
 {% endblock %}
 
-{% block extra_body %}
+{% block javascript %}
+  {{ block.super }}
+  <script src="{{ STATIC_URL }}js/underscore.js" type="text/javascript"></script>
+  <script src="{{ STATIC_URL }}js/gh3.js" type="text/javascript"></script>
+{% endblock %}
 
-<script type="text/javascript">
-    $(function() {
-        pic1=new Image();
-        pic1.src="{{ STATIC_URL }}img/progress.gif";
-        $('#fetch-cell > a').click(function(){
-            $('#fetch-cell').html('Updating <img src="{{ STATIC_URL }}img/progress.gif">');
-            })
-        });
-</script>
+{% block extra_body %}
 
 <script type="text/javascript">
     $(function() {
@@ -186,8 +281,9 @@
             $('#find-a-grid-input').focus();
             
             $('#find-a-grid-input').keyup(function() {
-                var search_text = $('input#find-a-grid-input').attr('value');
-                var search_text = '{% url ajax_grid_list %}?q=' + search_text + '&package_id={{ package.id }}';
+                var search_text = $('input#find-a-grid-input').val();
+                var search_text = '{% url 'ajax_grid_list' %}?q=' + search_text + '&package_id={{ package.id }}';
+                console.log(search_text);
                 $.get(search_text, function(data) {
                   $('#target').html(data).show("slow");
                 });                
@@ -199,18 +295,6 @@
                   };
             });       
 
-        });
-        var url = "http://readthedocs.org/api/v1/build/{{ package.slug }}/?format=jsonp";
-        $.ajax({
-          url: url,
-          dataType: 'jsonp',
-          success:function(data){
-              if (data.objects.length > 0){
-                  var href = "http://readthedocs.org/projects/{{ package.slug }}";
-                  $("a.rtd").attr("href", href);
-                  $(".rtd").show();            
-              };
-          }
         });
 
     });    

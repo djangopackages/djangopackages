@@ -1,6 +1,7 @@
 from random import randrange
 
 from django.db.models import Count
+from django.http import HttpResponse
 from django.shortcuts import render
 
 import feedparser
@@ -9,6 +10,7 @@ from core.decorators import lru_cache
 from grid.models import Grid
 from homepage.models import Dpotw, Gotw, PSA
 from package.models import Category, Package
+
 
 @lru_cache()
 def get_feed():
@@ -87,6 +89,29 @@ def homepage(request, template_name="homepage.html"):
             "blogpost_title": blogpost_title,
             "blogpost_body": blogpost_body,
             "categories": categories,
-            "package_count": package_count
+            "package_count": package_count,
+            "py3_compat": Package.objects.filter(version__supports_python3=True).select_related().distinct().count()
+        }
+    )
+
+with open("templates/500.html") as f:
+    text = f.read()
+
+
+def error_500_view(request):
+    response = HttpResponse(text)
+    response.status_code = 500
+    return response
+
+
+def error_404_view(request):
+    response = render(request, "404.html")
+    response.status_code = 404
+    return response
+
+
+def py3_compat(request, template_name="py3_compat.html"):
+    return render(request, template_name, {
+        "packages": Package.objects.filter(version__supports_python3=True).distinct().annotate(usage_count=Count("usage")).order_by("-repo_watchers", "title")
         }
     )

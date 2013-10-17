@@ -1,11 +1,16 @@
-import simplejson
+from __future__ import unicode_literals
+import json
 
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.db.models import Q
+from django.db.models import Max
 from django.http import HttpResponseForbidden, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 
+from rest_framework.generics import ListAPIView, RetrieveAPIView
+
+from homepage.views import homepage
 from package.models import Package
 from searchv2.forms import SearchForm
 from searchv2.builders import build_1
@@ -79,8 +84,15 @@ def search(request, template_name='searchv2/search.html'):
 
     return render(request, template_name, {
             'items': search_function(q),
-            'form': form
+            'form': form,
+            'max_weight': SearchV2.objects.all().aggregate(Max('weight'))['weight__max']
         })
+
+def search2(request, template_name='searchv2/search.html'):
+    """
+    Searches in Grids and Packages
+    """
+    return homepage(request, template_name=template_name)
 
 
 def search_packages_autocomplete(request):
@@ -91,8 +103,21 @@ def search_packages_autocomplete(request):
     if q:
         objects = search_function(q)[:15]
         objects = objects.values_list('title', flat=True)
-        json_response = simplejson.dumps(list(objects))
+        json_response = json.dumps(list(objects))
     else:
-        json_response = simplejson.dumps([])
+        json_response = json.dumps([])
 
     return HttpResponse(json_response, mimetype='text/javascript')
+
+
+class SearchListAPIView(ListAPIView):
+    model = SearchV2
+    paginate_by = 20
+
+    def get_queryset(self):
+        q = self.request.GET.get('q', '')
+        return search_function(q)
+
+
+class SearchDetailAPIView(RetrieveAPIView):
+    model = SearchV2

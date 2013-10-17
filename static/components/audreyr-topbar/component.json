@@ -1,0 +1,21 @@
+{
+  "name": "topbar",
+  "repo": "audreyr/topbar",
+  "description": "A top bar for notifications. Dismiss it by clicking the x.",
+  "version": "0.1.0",
+  "keywords": [
+    "topbar"
+  ],
+  "dependencies": {
+    "component/jQuery": "*"
+  },
+  "development": {},
+  "license": "MIT",
+  "main": "dist/jquery.topbar.min.js",
+  "scripts": [
+    "dist/jquery.topbar.min.js"
+  ],
+  "styles": [
+    "dist/jquery.topbar.min.css"
+  ]
+}

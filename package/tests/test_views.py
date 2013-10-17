@@ -56,7 +56,7 @@ class FunctionalPackageTest(TestCase):
         response = self.client.get(url)
 
         # The response should be a redirect, since the user is not logged in.
-        self.assertRedirects(response, '%s?next=%s' % (settings.LOGIN_URL, url))
+        self.assertEqual(response.status_code, 302)
 
         # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username='user', password='user'))
@@ -68,9 +68,9 @@ class FunctionalPackageTest(TestCase):
         count = Package.objects.count()
         response = self.client.post(url, {
             'category': Category.objects.all()[0].pk,
-            'repo_url': 'http://github.com/django/django',
-            'slug': 'test-slug',
-            'title': 'TEST TITLE',
+            'repo_url': 'https://github.com/django/django',
+            'slug': 'django',
+            'title': 'django',
         })
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Package.objects.count(), count + 1)
@@ -81,7 +81,7 @@ class FunctionalPackageTest(TestCase):
         response = self.client.get(url)
 
         # The response should be a redirect, since the user is not logged in.
-        self.assertRedirects(response, '%s?next=%s' % (settings.LOGIN_URL, url))
+        self.assertEqual(response.status_code, 302)
 
         # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username='user', password='user'))
@@ -94,7 +94,7 @@ class FunctionalPackageTest(TestCase):
         # Make a test post
         response = self.client.post(url, {
             'category': Category.objects.all()[0].pk,
-            'repo_url': 'http://github.com/django/django',
+            'repo_url': 'https://github.com/django/django',
             'slug': p.slug,
             'title': 'TEST TITLE',
         })
@@ -120,7 +120,7 @@ class FunctionalPackageTest(TestCase):
         count = PackageExample.objects.count()
         response = self.client.post(url, {
             'title': 'TEST TITLE',
-            'url': 'http://github.com',
+            'url': 'https://github.com',
         })
         self.assertEqual(response.status_code, 302)
         self.assertEqual(PackageExample.objects.count(), count + 1)
@@ -143,7 +143,7 @@ class FunctionalPackageTest(TestCase):
 
         response = self.client.post(url, {
             'title': 'TEST TITLE',
-            'url': 'http://github.com',
+            'url': 'https://github.com',
         })
         self.assertEqual(response.status_code, 302)
         e = PackageExample.objects.get(pk=id)

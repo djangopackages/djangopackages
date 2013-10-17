@@ -20,12 +20,6 @@ If you're getting an error like "Error: pg_config executable not found." while i
 
     sudo apt-get install libpq-dev
 
-ImportError related to launchpad.py
------------------------------------
-
-Sometimes this shows up as "Caught ImportError while rendering: cannot import name ScalarValue".
-
-You're having Launchpad/bzr installation problems.  Most likely cause is your C compiler.  On Windows, make sure you have MinGW installed as per the installation instructions.  On Linux, make sure you have the python-dev and gcc packages.
 
 I can't get it to work in buildout!
 -----------------------------------

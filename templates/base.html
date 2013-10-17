@@ -1,139 +1,186 @@
 {% spaceless %}
-{% load i18n %}
+{% load url from future %}
+{% load i18n profile_tags static %}
 {% load opencomparison_tags %}
-{% load profile_tags %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <title>{% block head_title_base %}{{ SITE_TITLE }} : {% block head_title %}{% endblock %}{% endblock %}</title>
-        <link rel="stylesheet" href="{{ STATIC_URL }}uni_form/uni-form.css" type="text/css" />
-        <link rel="stylesheet" href="{{ STATIC_URL }}uni_form/default.uni-form.css" type="text/css" />        
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/account.css" />
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/base.css?date=10-04" type="text/css" />
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/scrollable-buttons.css" type="text/css" />
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/scrollable-horizontal.css" type="text/css" />
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/awesome.css" type="text/css" />
-        <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" />
-        {% block extra_head %}{% endblock %}
-    </head>
-    <body>
-    <div id="top_border"></div>
-    <div id="main">
-        <div id="tabhead">
-            <div class="logo">
-                <a href="{% url home %}"><img src="{{ STATIC_URL }}img/logo_squares.png" /></a><h1><a href="{% url home %}">{{ SITE_TITLE }}</a></h1>
-            </div>
+<html xmlns="http://www.w3.org/1999/xhtml" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}" {% block angular_header %}ng-app{% endblock angular_header %}>
+<head>
+    {% block angularjs %}
+    <script src="{% static 'angular/angular.min.js' %}"></script>
+    <script src="{% static 'angular/controllers.js' %}"></script>
+    {% endblock angularjs %}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>{% block head_title_base %}{{ SITE_TITLE }} : {% block head_title %}{% endblock %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ STATIC_URL }}bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-glyphicons.css" type="text/css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}components/audreyr-rotatingnav/dist/jquery.rotatingnav.min.css" type="text/css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}components/audreyr-topbar/dist/jquery.topbar.min.css" type="text/css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/oc.css" type="text/css" />
+    <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" />
+    {% block extra_head %}{% endblock %}
+</head>
+<body ng-controller="SearchCtrl" ng-init="init_search('{{ request.GET.q }}', '{% url 'apiv2:search' %}', {{ MAX_WEIGHT }})">
 
-            <div class="login">
+{% for message in messages %}
+  <div class="topbar topbar-default{% if message.tags %} {{ message.tags }}{% endif %}" id="message_{{ forloop.counter }}">
+    <div class="container">
+      {{ message }}
+      <button type="button" class="close" data-dismiss="message">&times;</button>
+    </div>
+  </div>
+{% endfor %}
+
+<div class="header">
+    <div class="container">
+        <!-- Start of navbar -->
+        <div class="navbar">
+
+            <!-- Logo and title -->
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{{ STATIC_URL }}img/logo_squares.png" />
+                <h1>{{ SITE_TITLE }}</h1>
+            </a>
+
+            <!-- Main nav -->
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+                <li><a href="{% url 'faq' %}">{% trans "FAQ" %}</a></li>
                 {% if request.user.is_authenticated %}
-                    <b>{{ profile.github_account }}</b> |
-                    <a href="{% url faq %}">{% trans "FAQ" %}</a> |
-                    <a href="{% url profile_detail profile.github_account %}">{% trans "Profile" %}</a> |
+                    <li><a href="{% url 'profile_detail' profile.github_account %}">{{ profile.github_account }}</a></li>
                     {% if request.user.is_staff %}
-                        <a href="{% url admin:index %}">{% trans "Admin" %}</a> |
+                        <li><a href="{% url 'admin:index' %}">{% trans "Admin" %}</a></li>
                     {% endif %}
-                    <a href="{% url logout %}">{% trans "Logout" %}</a>
+                    <li><a href="{% url 'logout' %}">{% trans "Log out" %}</a></li>
                 {% else %}
-                    <a href="{% url faq %}">{% trans "FAQ" %}</a> |
-                    <a href="{% url socialauth_begin 'github' %}{% if current_path %}?next={{ current_path }}{% endif %}">{% trans "Sign in with Github" %}</a>
+                    <li><a href="{% url 'socialauth_begin' 'github' %}{% if current_path %}?next={{ current_path }}{% endif %}">{% trans "Sign in with Github" %}</a></li>
                 {% endif %}
-            </div>
+            </ul>
 
-            <div class="searchform">
-                <form action="{% url search %}">
-                    <input id="id_q_p" type="text" name="q" maxlength="100" value="{% trans "search" %}" autocomplete="off" />
-                    <input id="magnifier-submit" type="submit" value="&nbsp;" /><br/>              
-                </form>
-            </div>
+            <!-- Search form -->
+            <form action="{% url 'search' %}"  class="navbar-form pull-left">
+              <input type="text" name="q" class="col-12 form-control" style="width: 240px;" id="search-2" ng-model="model.q" ng-keyup="search(model, '{% url 'apiv2:search' %}')" placeholder="Search" autocomplete="off">
+              <button type="submit" id="search_button" class="btn btn-default">Go</button>
+            </form>
 
-            <div class="clearfix"></div>
-            <a class="prev browse left">prev</a>
-            <div class="scrollable">
-                <div class="items">
-                {% for grid_chunk in grid_headers %}
-                    <div>
-                        {% for tab in grid_chunk %}
-                            {% if tab %}
-                                <a href="{% url grid tab.slug %}" title="{{ tab.description }}">{{ tab.title|truncatewords:"2" }}</a><br />
-                            {% endif %}
-                            {% if forloop.parentloop.last and forloop.last %}
-                                <a href="{% url grids %}">{% trans "&raquo; more grids..." %}</a>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                {% endfor %}
-                </div>
-            </div>
-            <a class="next browse right">next</a>
-        </div> <!-- tabhead -->
-        <div class="clearfix"></div> <!-- TODO: start using fluid columns on all pages, which may let us get rid of this -->
-        {% block body_outer %}
-            {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                    <li id="message_{{ forloop.counter }}"{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-                        <a href="#"><small>{% trans "clear" %}</small></a>
-                        &nbsp;
-                        {{ message }}
-                    </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-            {% block body %}
-            {% endblock %}
+        </div>
+        <!-- End of navbar -->
+    </div>
+</div>
+
+<div id="myrotatingnav" class="rotatingnav slide">
+  <div class="rotatingnav-inner">
+  {% for grid_chunk in grid_headers %}
+    <div class="item">
+      {% for tab in grid_chunk %}
+          {% if tab %}
+              <a href="{% url 'grid' tab.slug %}" title="{{ tab.description }}">{{ tab.title|truncatechars:"17" }}</a><br />
+          {% endif %}
+          {% if forloop.parentloop.last and forloop.last %}
+              <a class="gridnav-name" href="{% url 'grids' %}">{% trans "&raquo; more grids..." %}</a>
+          {% endif %}
+      {% endfor %}
+    </div>
+  {% endfor %}
+  
+  <a class="left rotatingnav-control">
+    <span class="icon-prev"></span>
+  </a>
+  <a class="right rotatingnav-control">
+    <span class="icon-next"></span>
+  </a>
+  
+  </div>
+</div>
+
+<span>
+    <div class="container" ng-hide="items">
+        {% block body %}
         {% endblock %}
-    </div> <!-- main -->
-    <div class="clear"></div>
-    <div id="footer">
-        <div class="legal">
-            &copy; 2010 <a href="http://pydanny.com">Daniel Greenfeld</a>, <a href="http://twitter.com/audreyr">Audrey Roy</a> & <a href="http://www.cartwheelweb.com/">Cartwheel Web</a>
-            - <a href="{% url about %}">{% trans "About" %}</a>
-            - <a href="{% url faq %}">{% trans "FAQ" %}</a>    
-            - <a href="{% url terms %}">{% trans "Terms" %}</a>
-            - <a href="{% url contribute %}">{% trans "Contribute" %}</a>            
-            - <a href="http://readthedocs.org/docs/opencomparison/en/latest/api_docs.html">{% trans "API" %}</a>
-            - <a href="{% url syndication %}">{% trans "RSS / Atom" %}</a>  
-            &nbsp;&nbsp; <a href="http://www.opencomparison.org">OpenComparison</a> sites:
-            <a href="http://django.opencomparison.org">Django</a>
-            - <a href="http://pyramid.opencomparison.org">Pyramid</a>
-            - <a href="http://plone.opencomparison.org">Plone</a>
-            
+    </div>
+    <div class="container" ng-show="items">
+      <div class="row">
+        <div class="col-12">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>{% trans "Search Weight" %}</th>
+                  <th>{% trans "Package" %}</th>
+                  <th>{% trans "Description" %}</th>
+                  <th>{% trans "Last PyPI release:" %}</th>
+                  <th>{% trans "Repo Forks" %}</th>
+                  <th>{% trans "Watchers" %}</th>
+                </tr>
+              </thead>
+              <tbody>
+                    {% verbatim %}
+                    <tr ng-repeat="item in items">
+                      <td>{{ item.weight / max_weight * 100 | number:0 }}%</td>
+                      <td>
+                          <a ng-href="{{ item.absolute_url }}">{{ item.title }}</a>
+                      </td>
+                      <td>
+                        <strong ng-if="item.item_type=='grid'">Grid:</strong>
+                        {{ item.description }}
+                      </td>
+
+                      <td ng-if="item.item_type=='package'">
+                            {{ item.last_released | date: 'mediumDate' }}
+                      </td>
+                      <td ng-if="item.item_type=='grid'">
+                            N/A
+                      </td>
+                      <td  ng-if="item.item_type=='package'">
+                        {{ item.repo_forks }}
+                      </td>
+                      <td ng-if="item.item_type=='grid'">
+                            N/A
+                      </td>
+                      <td  ng-if="item.item_type=='package'">{{ item.repo_watchers }}</td>
+                      <td ng-if="item.item_type=='grid'">
+                            N/A
+                      </td>
+                    </tr>
+                    {% endverbatim %}
+              </tbody>
+            </table>
+          </div>
         </div>
     </div>
+</div>
 
-        <script src="{% block jquery_src %}https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js{% endblock %}" type="text/javascript"></script>
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/jquery-ui.min.js"></script>
-        <script src="{{ STATIC_URL }}uni_form/uni-form.jquery.js" type="text/javascript"></script>
-        <script src="{{ STATIC_URL }}js/jquery.tablesorter.min.js" type="text/javascript"></script>        
-        <script src="{{ STATIC_URL }}js/jquery.dataTables.min.js" type="text/javascript"></script>        
-        <script src="{{ STATIC_URL }}js/jquery.tools.min.js" type="text/javascript"></script>        
-        <script src="{{ STATIC_URL }}js/site.js" type="text/javascript"></script>  
+<!-- Start of footer -->
+<div class="footer">
+  <div class="container">
+      <div class="row">
+          <div class="col-12">
+              &copy; 2010-2013 <a href="http://pydanny.com">Daniel Greenfeld</a>, <a href="http://www.audreymroy.com">Audrey Roy</a> & <a href="http://www.cartwheelweb.com/">Cartwheel Web</a>
+              - <a href="{% url 'faq' %}">{% trans "FAQ" %}</a>    
+              - <a href="{% url 'terms' %}">{% trans "Terms" %}</a>
+              - <a href="{% url 'contribute' %}">{% trans "Contribute" %}</a>            
+              - <a href="http://readthedocs.org/docs/opencomparison/en/latest/api_docs.html">{% trans "API" %}</a>
+              - <a href="{% url 'syndication' %}">{% trans "RSS / Atom" %}</a>  
+              &nbsp;&nbsp; <a href="http://www.opencomparison.org">OpenComparison</a> sites:
+              <a href="http://django.opencomparison.org">Django</a>
+              - <a href="http://pyramid.opencomparison.org">Pyramid</a>
+              - <a href="http://plone.opencomparison.org">Plone</a>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- End of footer -->
 
-        {% fixed_ga %}
-        {% block extra_body %}{% endblock %}
-        
-        <script type="text/javascript">
-            $(function() {          
-                $('input#id_q_p').click(function() {
-                    $("input#id_q_p").val('');
-                });                        
+    {% block javascript %}
+        <script src="{{ STATIC_URL }}bower_components/jquery/jquery.min.js" type="text/javascript"></script>
+        <script src="{{ STATIC_URL }}components/audreyr-rotatingnav/dist/jquery.rotatingnav.min.js"></script>
+        <script src="{{ STATIC_URL }}components/audreyr-topbar/dist/jquery.topbar.min.js"></script>
+        <script src="{{ STATIC_URL }}js/jquery.tablesorter.min.js" type="text/javascript"></script>
+        <script src="{{ STATIC_URL }}js/jquery.tools.min.js" type="text/javascript"></script>
+        <script src="{{ STATIC_URL }}js/site.js" type="text/javascript"></script>
+    {% endblock javascript %}
 
-                // initialize scrollable
-                $(".scrollable").scrollable();
-            });
-
-            $('#id_q_p').autocomplete({
-              source: '{% url search_packages_autocomplete %}',
-              minLength: 1,
-              open: function(event, ui) {           
-                ac_top = $('.ui-autocomplete').css('top'); 
-                $('.ui-autocomplete').css({'width': '250px', 'top': ac_top + 10 }); 
-              }
-            });
-        </script>
+    {% block extra_body %}{% endblock %}    
 
     {{ PIWIK_CODE|safe }}
-    </body>
+</body>
 </html>
 {% endspaceless %}

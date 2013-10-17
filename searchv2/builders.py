@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
+import json
 from sys import stdout
 
-import simplejson
 import requests
 
 from grid.models import Grid
@@ -10,7 +10,7 @@ from searchv2.models import SearchV2
 from searchv2.utils import remove_prefix, clean_title
 
 
-def build_1(print_out=True):
+def build_1(print_out=False):
 
     now = datetime.now()
     quarter_delta = timedelta(90)
@@ -40,12 +40,12 @@ def build_1(print_out=True):
 
         optional_save = False
         try:
-            obj.last_committed = package.last_updated
+            obj.last_committed = package.last_updated()
             optional_save = True
         except Commit.DoesNotExist:
             pass
 
-        last_released = package.last_released
+        last_released = package.last_released()
         if last_released and last_released.upload_time:
             obj.last_released = last_released.upload_time
             optional_save = True
@@ -63,7 +63,7 @@ def build_1(print_out=True):
         rtfd_url = "http://readthedocs.org/api/v1/build/{0}/".format(obj.slug)
         r = requests.get(rtfd_url)
         if r.status_code == 200:
-            data = simplejson.loads(r.content)
+            data = json.loads(r.content)
             if data['meta']['total_count']:
                 weight += 20
 
@@ -92,8 +92,9 @@ def build_1(print_out=True):
                 weight += 5
 
         # Is the last release less than a year old?
-        if obj.last_released:
-            if now - obj.last_released < year_delta:
+        last_released = obj.last_released
+        if last_released:
+            if now - last_released < year_delta:
                 weight += 20
 
         if weight:
@@ -101,7 +102,7 @@ def build_1(print_out=True):
             obj.save()
 
         if print_out:
-            print >> stdout, obj, created
+            print >> stdout, obj.slug, created
 
     print >> stdout, '----------------------'
     max_weight = SearchV2.objects.all()[0].weight

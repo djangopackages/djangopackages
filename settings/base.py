@@ -114,9 +114,7 @@ PROJECT_APPS = [
     "profiles",
     "apiv1",
     "feeds",
-    "pypi",
     "searchv2",
-    "importer",
 ]
 
 PREREQ_APPS = [
@@ -131,7 +129,7 @@ PREREQ_APPS = [
     "django.contrib.staticfiles",
 
     # external
-    "uni_form",
+    "crispy_forms",
     "pagination",
     "django_extensions",
     "south",
@@ -140,19 +138,14 @@ PREREQ_APPS = [
     "django_sorting",
     #"django_modeler",
 
-    # Celery task queue:
-    #'djcelery',
-
     'social_auth',
     'floppyforms',
+    'rest_framework',
 
 ]
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
 
-FIXTURE_DIRS = [
-    os.path.join(PROJECT_ROOT, "fixtures"),
-]
 
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
@@ -198,16 +191,9 @@ DEBUG_TOOLBAR_CONFIG = {
     "INTERCEPT_REDIRECTS": False,
 }
 
-if DEBUG:
-    CACHE_BACKEND = 'dummy://'
-    TEMPLATE_LOADERS = (
-            'django.template.loaders.filesystem.Loader',
-            'django.template.loaders.app_directories.Loader',
-    )
-
 PACKAGINATOR_HELP_TEXT = {
-    "REPO_URL": "Enter your project repo hosting URL here.<br />Example: https://github.com/opencomparison/opencomparison",
-    "PYPI_URL": "<strong>Leave this blank if this package does not have a PyPI release.</strong><br />What PyPI uses to index your package. <br />Example: django-uni-form",
+    "REPO_URL": "Enter your project repo hosting URL here. Example: https://github.com/opencomparison/opencomparison",
+    "PYPI_URL": "<strong>Leave this blank if this package does not have a PyPI release.</strong> What PyPI uses to index your package. Example: django-uni-form",
 }
 
 PACKAGINATOR_SEARCH_PREFIX = "django"
@@ -220,16 +206,6 @@ RESTRICT_PACKAGE_EDITORS = True
 # only django admins can delete
 RESTRICT_GRID_EDITORS = True
 
-# package extenders are dicts that can include:
-    # form
-    # model
-    # grid_items
-    # package_displays
-PACKAGE_EXTENDERS = []
-
-
-CELERYD_TASK_TIME_LIMIT = 300
-LAUNCHPAD_ACTIVE = False
 
 LOCAL_INSTALLED_APPS = []
 SUPPORTED_REPO = []
@@ -238,19 +214,10 @@ SUPPORTED_REPO = []
 FRAMEWORK_TITLE = "Django"
 SITE_TITLE = "Django Packages"
 
-# local_settings.py can be used to override environment-specific settings
-# like database and email that differ between development and production.
-try:
-    from local_settings import *
-except ImportError:
-    pass
-
 if LOCAL_INSTALLED_APPS:
     INSTALLED_APPS.extend(LOCAL_INSTALLED_APPS)
 
 SUPPORTED_REPO.extend(["bitbucket", "github"])
-if LAUNCHPAD_ACTIVE:
-    SUPPORTED_REPO += ["launchpad"]
 
 
 AUTHENTICATION_BACKENDS = (
@@ -259,6 +226,8 @@ AUTHENTICATION_BACKENDS = (
 )
 GITHUB_API_SECRET = environ.get('GITHUB_API_SECRET')
 GITHUB_APP_ID = environ.get('GITHUB_APP_ID')
+GITHUB_USERNAME = environ.get('GITHUB_USERNAME')
+GITHUB_PASSWORD = environ.get('GITHUB_PASSWORD')
 SOCIAL_AUTH_ENABLED_BACKENDS = ('github')
 SOCIAL_AUTH_COMPLETE_URL_NAME = 'socialauth_complete'
 SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'associate_complete'
@@ -290,13 +259,14 @@ if DEBUG:
 
     MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
     INSTALLED_APPS += ('debug_toolbar',)
-
+    
     INTERNAL_IPS = ('127.0.0.1',)
-
+    
     DEBUG_TOOLBAR_CONFIG = {
         'INTERCEPT_REDIRECTS': False,
         'SHOW_TEMPLATE_CONTEXT': True,
     }
+    x = 1
 
 ADMIN_URL_BASE = environ.get('ADMIN_URL_BASE', r"^admin/")
 
@@ -334,9 +304,21 @@ LOGGING = {
             'propagate': False,
         },
         '': {
-            'handlers': ['console',],
+            'handlers': ['console', ],
             'level': os.environ.get('DEBUG_LEVEL', 'ERROR'),
         },
     }
 }
 
+
+URL_REGEX_GITHUB = r'(?:http|https|git)://github.com/[^/]*/([^/]*)/{0,1}'
+
+########### redis setup
+import redis
+from rq import Worker, Queue, Connection
+
+########### end redis setup
+
+########### crispy_forms setup
+CRISPY_TEMPLATE_PACK = "bootstrap3"
+########### end crispy_forms setup

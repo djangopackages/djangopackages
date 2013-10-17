@@ -1,9 +1,15 @@
 {% load i18n %}
+{% load url from future %}
 
-<li class="package-item" id="package-{{ package.id }}">
-  <h3><a href="{% url package package.slug %}">{{ package.title }}</a></h3>
-  <p class="date">{% trans "Added" %} {{ package.created|timesince }} ago</p>
-  <div class="package-downloads">{{ package.pypi_downloads }}</div>
-  <div class="package-watchers">{{ package.repo_watchers }}</div>
-  <p class="description">{{ package.repo_description }}</p>
-</li>
+<a href="{% url 'package' package.slug %}" class="list-group-item">
+  <h4 class="list-group-item-heading">
+    {{ package.title }} 
+  </h4>
+  <p class="list-group-item-text">
+    {{ package.repo_description }}
+  </p>
+  <p class="list-group-item-text">
+    <!-- TODO: do something better with this -->
+    GitHub watchers: {{ package.repo_watchers }}, PyPI downloads: {{ package.pypi_downloads }}
+  </p>
+</a>

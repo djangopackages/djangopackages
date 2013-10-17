@@ -1,63 +1,62 @@
 {% extends "base.html" %}
 
-{% load cache %}
+{% load url from future %}
 {% load i18n %}
 {% load package_tags %}
 
-{% block extra_head %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}css/home.css" />
-{% endblock %}
-
 {% block head_title %}{% trans "django reusable apps, sites and tools directory" %}{% endblock %}
 
-{% block body_class %}home{% endblock %}
-
 {% block body %}
-     
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
      {% for category in categories %}
-        <h2><a href="{% url category category.slug %}">{{ category.title_plural }}</a> ( {{ category.count }} )</h2>
+        <h2><a href="{% url 'category' category.slug %}">{{ category.title_plural }}</a> ({{ category.count }})</h2>
         <p>{{ category.description }}</p>
-        <table id="home-packages">
+        <table class="table">
+          <thead>
             <tr>
                 <th>{% trans "# Using This" %}</th>
                 {% if category.show_pypi %}
-                    <th class="tiny-column">{% trans "PyPi Downloads" %}</th>
+                    <th>{% trans "PyPi Downloads" %}</th>
                 {% endif %}
                 <th>{% trans "Name" %}</th>
                 <th>{% trans "Commits" %}</th>
-                {% if category.show_pypi %}                
+                {% if category.show_pypi %}
                     <th>{% trans "Version" %}</th>
                 {% endif %}                    
-                <th><img src="{{ STATIC_URL }}img/eye_20x20_clear.png" /></th>
-                <th><img src="{{ STATIC_URL }}img/fork_20x20_clear.png" /></th>
+                <th><span class="glyphicon glyphicon-eye-open"></span></th>
+                <th><span class="glyphicon glyphicon-random"></th>
             </tr>
-
+          </thead>
+          <tbody>
             {% for package in category.packages %}
-                <tr>
-                    <td class="usage-container usage-holder">
-                        {% usage_button %}          
-                        &nbsp;
-                        <span class="usage-count">{{ package.usage_count }}</span>
-                    </td>
-                    {% if category.show_pypi %}                    
-                        <td>{{ package.pypi_downloads }}</td>
-                    {% endif %}
-                    <td><a href="{% url package package.slug %}">{{ package.title }}</a></td>
-                    {% cache 86400 package.commitchart package %}                
-                        <td><img id="package-githubcommits" src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{package|commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
-                    {% endcache %}      
-                    {% if category.show_pypi %}
-                        <td>{{ package.pypi_version.number|default:"n/a"|slice:":12" }}</td>
-                    {% endif %}
-                    <td>{{ package.repo_watchers|default:"n/a" }}</td>
-                    <td>{{ package.repo_forks|default:"n/a" }}</td>
-                </tr>    
-            {% endfor %}        
-         </table>    
-         <p><a href="{% url category category.slug %}">{% trans "more " %}{{ category.title_plural|lower }}...</a></p>    
+              <tr>
+                <td>
+                  {% usage_button %}          
+                  &nbsp;
+                  <span class="usage-count">{{ package.usage_count }}</span>
+                </td>
+                {% if category.show_pypi %}                    
+                  <td>{{ package.pypi_downloads }}</td>
+                {% endif %}
+                <td><a href="{% url 'package' package.slug %}">{{ package.title }}</a></td>
+                <td><img src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{package|commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
+                {% if category.show_pypi %}
+                  <td>{{ package.pypi_version.number|default:"n/a"|slice:":12" }}</td>
+                {% endif %}
+                <td>{{ package.repo_watchers|default:"n/a" }}</td>
+                <td>{{ package.repo_forks|default:"n/a" }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>    
+        <p>
+          <a href="{% url 'category' category.slug %}">
+            {% trans "more " %}{{ category.title_plural|lower }}...
+          </a>
+        </p>
      {% endfor %}
- 
-    
 
 {% endblock %}
 
@@ -70,7 +69,7 @@
     });    
 
     $('#id_q_p').autocomplete({
-      source: '{% url search_packages_autocomplete %}',
+      source: '{% url 'search_packages_autocomplete' %}',
       minLength: 1,
       open: function(event, ui) { 
         ac_top = $('.ui-autocomplete').css('top'); 

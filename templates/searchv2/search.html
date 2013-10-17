@@ -1,81 +1,18 @@
 {% extends "base.html" %}
 
+{% load url from future %}
 {% load i18n %}
-{% load uni_form_tags %}
+{% load opencomparison_tags %}
 
 {% block head_title %}{% trans "Search" %}{% endblock %}
 {% block body_class %}search{% endblock %}
 
 {% block body %}
-
-    <h1>{% trans "Search" %}</h1>
-    
-    <form class="uniForm">
-        <fieldset>
-                {{ form|as_uni_form }}
-            <div id="search-big-button-holder" class="ctrlHolder">        
-                <input type="submit" name="b" value="{% trans "Search" %}" id="search-big-button"> 
-            </div>
-        </fieldset>
-    </form>
-
-    
-    <div id="search-results">
-        {% for item in items %}
-        
-            {% if item.item_type == 'package' %}
-                <li class="package-item" id="package-{{ item.id }}">
-                  <h3><a href="{{ item.absolute_url }}">{{ item.title }}</a> (Package)</h3>
-                  {% if item.last_released or item.last_committed  %}
-                    <p class="date">
-                        {% if item.last_released %}{% trans "Last PyPI release:" %} {{ item.last_released|timesince }} ago{% endif %}
-                        {% if item.last_released and item.last_committed  %}<br />{% endif %}
-                        {% if item.last_committed %}{% trans "Last source code commit:" %} {{ item.last_committed|timesince }} ago{% endif %}
-                    </p>
-                  {% endif %}
-                  <div class="package-downloads">{{ item.pypi_downloads }}</div>
-                  <div class="package-watchers">{{ item.repo_watchers }}</div>
-                  <p class="description">{{ item.description }}</p>
-                </li>
-            {% endif %}
-            {% if item.item_type == 'grid' %}
-                <li class="grid-item" id="grid-{{ item.id }}">
-                  <h3><a href="{{ item.absolute_url }}">{{ item.title }}</a> (Grid)</h3>
-                  <p class="description">{{ item.description }}</p>
-                </li>            
-            {% endif %}            
-
-        {% endfor %}
-    </div>
-
-{% endblock %}
+{% include "_homepage.html" %}
+{% endblock body %}
 
 {% block extra_body %}
-<script>
-    $("#id_q").focus();
-    
-    {% for grid in grids %}
-        $('#grid-{{ grid.id }}').mouseover(function() {
-            $('#grid-{{ grid.id }}').addClass("clickable");
-        });
-        $('#grid-{{ grid.id }}').mouseout(function() {
-            $('#grid-{{ grid.id }}').removeClass("clickable");
-        });
-        $('#grid-{{ grid.id }}').click(function() {
-            $(location).attr("href","{% url grid grid.slug %}");
-        });   
-    {% endfor %}    
-    
-    {% for package in packages %}
-        $('#package-{{ package.id }}').mouseover(function() {
-            $('#package-{{ package.id }}').addClass("clickable");
-        });
-        $('#package-{{ package.id }}').mouseout(function() {
-            $('#package-{{ package.id }}').removeClass("clickable");
-        });
-        $('#package-{{ package.id }}').click(function() {
-            $(location).attr("href","{% url package package.slug %}");
-        });        
-    {% endfor %}
+<script type="text/javascript">
+    $("#search-2").focus();
 </script>
-{% endblock %}
+{% endblock extra_body %}

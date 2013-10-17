@@ -24,7 +24,7 @@ Deploying to heroku:
     heroku create --stack cedar
     git push heroku master
     heroku addons:add heroku-shared-postgresql
-    heroku addons:add memcache
+    heroku addons:add memcachier:dev
     heroku addons:add sendgrid:starter    
     heroku addons:add scheduler:standard
     heroku pg:promote HEROKU_SHARED_POSTGRESQL_GOLD
@@ -36,7 +36,8 @@ Chron Jobs that need to be set up
 
 Sample::
     
-    python manage.py package_updater --settings=settings.heroku
+    python manage.py pypi_updater --settings=settings.heroku
+    python manage.py repo_updater --settings=settings.heroku
     python manage.py searchv2_build --settings=settings.heroku
     
 TODO: Email admins with the log

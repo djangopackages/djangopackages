@@ -23,12 +23,11 @@ class GetPypiUrl(TestCase):
     def test_get_pypi_url_success(self):
 
         lst = (
-            ('Django', 'http://pypi.python.org/pypi/Django'),
-            ('django', 'http://pypi.python.org/pypi/Django'),
+            ('django', 'http://pypi.python.org/pypi/django'),
             ('Django Uni Form', 'http://pypi.python.org/pypi/django-uni-form'),
         )
         for l in lst:
-            self.assertEquals(utils.get_pypi_url(l[0]), l[1])
+            self.assertEquals(utils.get_pypi_url(l[0].lower()), l[1].lower())
 
     def test_get_pypi_url_fail(self):
 

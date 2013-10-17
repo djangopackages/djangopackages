@@ -101,6 +101,5 @@ class BaseHandler(object):
         r = requests.get(target)
         if r.status_code != 200:
             r.raise_for_status()
-        #return r.json
         return json.loads(r.content)
 

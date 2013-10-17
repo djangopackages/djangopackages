@@ -22,7 +22,7 @@ def load():
         participants=u'malcomt,jacobian',
         pypi_downloads=0,
         repo_url=u'https://github.com/pydanny/django-la-facebook',
-        repo_commits=0,
+        
         repo_forks=0,
         slug=u'testability',
         repo_description=u'Increase your testing ability with this steroid free supplement.',
@@ -36,7 +36,7 @@ def load():
         participants=u'thetestman',
         pypi_downloads=0,
         repo_url=u'https://github.com/pydanny/django-uni-form',
-        repo_commits=0,
+        
         repo_forks=0,
         slug=u'supertester',
         repo_description=u'Test everything under the sun with one command!',
@@ -50,10 +50,10 @@ def load():
         participants=u'pydanny',
         pypi_downloads=0,
         repo_url=u'https://github.com/opencomparison/opencomparison',
-        repo_commits=0,
+        
         repo_forks=0,
         slug=u'serious-testing',
-        repo_description=u'Make testing as painless as waxing your legs.',
+        repo_description=u'Make testing as painless as frozen yogurt.',
     )
     package4, created = Package.objects.get_or_create(
         pk=4,
@@ -64,7 +64,7 @@ def load():
         participants=u'pydanny',
         pypi_downloads=0,
         repo_url=u'https://github.com/djangopackages/djangopackages',
-        repo_commits=0,
+        
         repo_forks=0,
         slug=u'another-test',
         repo_description=u'Yet another test package, with no grid affiliation.',

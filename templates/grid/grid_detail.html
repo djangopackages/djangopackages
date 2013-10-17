@@ -1,4 +1,5 @@
 {% extends "grid/base.html" %}
+{% load url from future %}
 
 {% load i18n %}
 {% load cache %}
@@ -14,70 +15,92 @@
 {% endblock %}
 
 {% block body %}
-
-    <h1 id="grid-name">
-
-      <a href="{% url home %}">{% trans "home" %}</a> / <a href="{% url grids %}">{% trans "grids" %}</a> / {{ grid.title }}
+<div class="row">
+  <div class="col-lg-12">
+    <h2>
+      {{ grid.title }}
       {% if request.user.is_authenticated and profile.can_edit_grid %}
-      <a href="{% url edit_grid grid.slug %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>
+        <a href="{% url 'edit_grid' grid.slug %}">
+          <span class="glyphicon glyphicon-pencil"></span>
+        </a>
       {% endif %}
-    </h1>
+    </h2>
+  </div>
+</div>
+{% cache 2592000 detail_template_cache grid.pk %}
+<div class="row">
+  <div class="col-lg-{% if features %}3{% else %}6{% endif %}">
 
     <p>
-        {{ grid.description|urlize|linebreaksbr }}
-    </p>    
-    
-    <p id="grid-classic"><a href="{% url grid_landscape grid.slug %}">Landscape View</a></p>    
-    
+      {{ grid.description|urlize|linebreaksbr }}
+    </p>
+
     {% if features %}
-        <h2>{% trans "Features currently being evaluated" %}</h2>
-        <table id="grid" border="3">      
-            <thead>
-                <tr>
-                    <th>{% trans "Feature" %}</th>
-                    <th>{% trans "Description" %}</th>
-                </tr> 
-            </thead>
-            <tbody>
-                {% for feature in features %}
-                    <tr>                        
-                        <td>{{ feature.title }}
-                        {% if request.user.is_authenticated and profile.can_edit_grid_feature %}
-                            <a href="{% url edit_feature feature.pk %}"><img src="{{ STATIC_URL }}img/icon_changelink.gif" alt="edit" /></a>{% if perms.grid.delete_feature %}&nbsp;<a href="#" id="feature-delete-{{ feature.pk }}"><img src="{{ STATIC_URL }}img/icon_deletelink.gif" alt="delete" /></a>{% endif %}
-                        {% endif %}
-                        </td>
-                        <td>{{ feature.description|wordwrap:80|linebreaksbr }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% if request.user.is_authenticated and profile.can_add_grid_feature %}        
+        {% if request.user.is_authenticated and profile.can_add_grid_package %}        
+          <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add package to the grid" %}</a></p>
+        {% endif %}
 
-            <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_feature grid.slug %}">{% trans "Add new feature to the grid" %}</a></p>
-
-        {% endif %}            
-    {% else %}
-        {% if request.user.is_authenticated and profile.can_add_grid_feature %}        
-
-            <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_feature grid.slug %}">{% trans "Add a feature to the grid" %}</a></p>
-
-        {% endif %}        
+        {% if request.user.is_authenticated and profile.can_add_grid_feature %}
+          <p><a href="{% url 'add_feature' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add new feature to the grid" %}</a></p>
+        {% endif %}
     {% endif %}
 
-    <p></p>
-    
-    {% if grid_packages.count %}
-    
+    {% if request.user.is_authenticated and profile.can_edit_grid_element and features %}
+        <p><span class="glyphicon glyphicon-info-sign"></span> {% trans "Highlighted cells are editable.  Click highlighted cells to change text." %}</p>
+    {% endif %}
+  </div>
+  {% if features %}
+      <div class="col-lg-9">
+          <h3>{% trans "Features currently being evaluated" %}</h3>
+          <table class="table">      
+            <thead>
+              <tr>
+                <th>{% trans "Feature" %}</th>
+                <th>{% trans "Description" %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for feature in features %}
+                <tr>                        
+                  <td>{{ feature.title }}
+                  {% if request.user.is_authenticated and profile.can_edit_grid_feature %}
+                    &nbsp;<a href="{% url 'edit_feature' feature.pk %}">
+                      <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                    {% if perms.grid.delete_feature %}
+                      &nbsp;<a href="#" id="feature-delete-{{ feature.pk }}">
+                        <span class="glyphicon glyphicon-trash"></span>
+                      </a>
+                    {% endif %}
+                  {% endif %}
+                  </td>
+                  <td>{{ feature.description|wordwrap:80|linebreaksbr }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+      </div>
+  {% else %}
+    <div class="col-lg-6">
         {% if request.user.is_authenticated and profile.can_add_grid_package %}        
-            <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_grid_package grid.slug %}">{% trans "Add another package" %}</a></p>
-        {% endif %}        
-    
-        <table id="grid" border="3">
+          <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add package to the grid" %}</a></p>
+        {% endif %}
+
+        {% if request.user.is_authenticated and profile.can_add_grid_feature %}
+          <p><a href="{% url 'add_feature' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add new feature to the grid" %}</a></p>
+        {% endif %}
+    </div>
+  {% endif %}
+</div>
+
+<!-- Grid is not inside of a Bootstrap grid row because it needs max width. -->
+    {% if grid_packages|length %}
+        <table class="table table-condensed">
             <thead>
                 {% include "grid/snippets/grid_row_header.html" %}
             </thead>
             <tbody>
-                <tr class="even">
+                <tr>
                     <td>{% trans "Description" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>
@@ -91,13 +114,13 @@
                         </td>
                     {% endfor %}
                 </tr>                    
-                <tr class="odd">
+                <tr>
                     <td>{% trans "Category" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>{{ grid_package.package.category }}</td>
                     {% endfor %}
                 </tr>                
-                <tr class="even">
+                <tr>
                     <td>{% trans "# Using This" %}</td>
                     {% for grid_package in grid_packages %}
                     
@@ -109,20 +132,28 @@
                         </td>
                     {% endfor %}
                 </td>
-                <tr class="even">
-                    <td>{% trans "Downloads" %}</td>
+                <tr>
+                    <td>{% trans "Python 3?" %}</td>
+                    {% for grid_package in grid_packages %}
+                        <td>{% if grid_package.package.last_released.supports_python3 %}<span class="glyphicon glyphicon-ok"></span>{% else %}<span class="glyphicon glyphicon-remove"></span>{% endif %}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <td>{% trans "Development Status" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>
-                            {% if grid_package.package.pypi_version %}
-                                {{ grid_package.package.pypi_downloads|default:"n/a" }}
+                            {% with pretty_status=grid_package.package.last_released.pretty_status %}
+                            {% if pretty_status %}
+                                {{ pretty_status|default:"n/a" }}
                             {% else %}
                                 n/a
                             {% endif %}
+                            {% endwith %}
                     
                         </td>
                     {% endfor %}
                 </tr>
-                <tr class="odd">
+                <tr>
                     <td>{% trans "Last updated" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>
@@ -134,40 +165,38 @@
                         </td>
                     {% endfor %}
                 </tr>
-                <tr class="even">
+                <tr>
                     <td>{% trans "Version" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>{{ grid_package.package.pypi_version|default:"n/a" }}</td>
                     {% endfor %}
             
                 </tr>
-                <tr class="odd">
+                <tr>
                     <td>{% trans "Repo" %}</td>
                     {% for grid_package in grid_packages %}
                         <td><a href="{{ grid_package.package.repo_url }}">{{ grid_package.package.repo }}</a></td>
                     {% endfor %}
                 </tr>            
-                <tr class="even">
+                <tr>
                     <td>{% trans "Commits" %}</td>
                     {% for grid_package in grid_packages %}
-                        {% cache 86400 package.commitchart grid_package.package %}
-                            <td><img class="package-githubcommits" src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{ grid_package.package|commits_over_52 }}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
-                        {% endcache %}
+                        <td><img class="package-githubcommits" src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{ grid_package.package|commits_over_52 }}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
                     {% endfor %}
                 </tr>
-                <tr class="odd">
+                <tr>
                     <td>{% trans "Repo Watchers" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>{{ grid_package.package.repo_watchers|default:"n/a" }}</td>
                     {% endfor %}
                 </tr>
-                <tr class="even">
+                <tr>
                     <td>{% trans "Repo Forks" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>{{ grid_package.package.repo_forks|default:"n/a" }}</td>
                     {% endfor %}
                 </tr>
-                <tr class="odd">
+                <tr>
                     <td>{% trans "Participants" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>
@@ -179,17 +208,23 @@
                                     {% endif %}
                                 {% endif %}
                                 {% if forloop.counter == 11 %}
-                                    <a href="{% url package grid_package.package.slug %}">{% trans "more..." %}</a>
+                                    <a href="{% url 'package' grid_package.package.slug %}">{% trans "more..." %}</a>
                                 {% endif %}
                             {% endfor %}                        
                         </td>
                     {% endfor %}
                 </tr>
-                <tr class="even">
-                    <td>{% trans "Docs on RTD" %}</td>
+                <tr>
+                    <td>{% trans "Documentation" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>
-                            <span class="rtd-status" rel="{{ grid_package.package.slug }}">{% trans "Checking..." %}</span>
+                            {% if grid_package.package.documentation_url.strip and grid_package.package.documentation_url.strip != None %}
+                                <a href="{{ grid_package.package.documentation_url }}">
+                                    <span class="glyphicon glyphicon-book"></span>
+                                </a>
+                            {% else %}
+                                N/A
+                            {% endif %}
                         </td>
                     {% endfor %}
                 </tr>
@@ -202,7 +237,7 @@
                             {% with elements|hash:feature.pk|hash:grid_package.pk as element %}
                             <td class="clickable" id="element-f{{ feature.pk }}-p{{ grid_package.pk }}">{% if element %}{{ element.text|style_element|safe|urlize|linebreaksbr }}{% endif %}<noscript> 
                                     {% if request.user.is_authenticated and profile.can_edit_grid_element %}
-                                    <a class="edit" href="{% url edit_element feature.pk grid_package.pk %}">{% trans "[edit]" %}</a>
+                                    <a class="edit" href="{% url 'edit_element' feature.pk grid_package.pk %}">{% trans "[edit]" %}</a>
                                     {% endif %}
                             </noscript></td>
                             {% endwith %}
@@ -212,21 +247,31 @@
                 {% if features %}
                     {% include "grid/snippets/grid_row_header.html" %}
                 {% endif %}
+                
+                <!-- start Delete package from grid buttons -->
+                {% if perms.grid.delete_gridpackage %}
+                  <tr>
+                    <td>Remove from grid?</td>
+                    {% for grid_package in grid_packages %}
+                    <td class="grid-delete">
+                        &nbsp;<a href="#" id="package-delete-{{ grid_package.pk }}">
+                          <span class="glyphicon glyphicon-trash"></span>
+                        </a>
+                    </td>
+                    {% endfor %}
+                  </tr>
+                {% endif %}
+                <!-- end Delete package from grid buttons -->
         
             </tbody>
     
         </table>
-
-        {% if request.user.is_authenticated and profile.can_edit_grid_element %}
-            <p><img src="{{ STATIC_URL }}img/icon_changelink.gif"/>&nbsp;{% trans "Highlighted cells are editable.  Click highlighted cells to change text." %}</p>
-        {% endif %}
-                    
     {% else %}
         {% if request.user.is_authenticated and profile.can_add_grid_package %}
-        <p><img src="{{ STATIC_URL }}img/icon_addlink.gif" />&nbsp;<a href="{% url add_grid_package grid.slug %}">{% trans "Add a package to get a grid view" %}</a></p>
+        <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span>&nbsp;{% trans "Add a package to get a grid view" %}</a></p>
         {% endif %}
     {% endif %}
-        
+    {% endcache %}
 
 {% endblock %}
 
@@ -250,7 +295,7 @@
                         // The deletes are placed in here so there is just one place needed
                         e.preventDefault();
 
-                        if(confirm('{% trans "Are you sure?" %}')) {
+                        if(confirm('{% trans "Are you sure? This cannot be undone!" %}')) {
                             window.location = url;
                         }
                     };
@@ -275,10 +320,6 @@
                     
                  {% endif %}
 
-                 $('table#grid span.rtd-status').checkRTD({
-                	 'yes': '{% trans "Yes" %}',
-                	 'no': '{% trans "No" %}'
-                 });
             });    
         </script>
 {% endblock %}
