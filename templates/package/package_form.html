@@ -15,7 +15,7 @@
     </p>
 
     <p id="package-form-message"></p>    
-    <form method="post" id="package-form">
+    <form action="{{ request.path }}" method="post" id="package-form">
         {{ form.errors }}
         <input type="hidden" name="temp" id="temp" value="" />
         {% csrf_token %}
