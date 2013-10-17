@@ -1,16 +1,13 @@
 import json
 
-from django.conf import settings
 from django.test import TestCase
 
+from package.repos import get_repo_for_repo_url
 from package.repos.bitbucket import repo_handler as bitbucket_handler
 from package.repos.github import repo_handler as github_handler
 from package.repos.base_handler import BaseHandler
-#from package.repos.sourceforge import repo_handler as sourceforge_handler
+from package.repos.unsupported import UnsupportedHandler
 from package.models import Commit, Package, Category
-
-if settings.LAUNCHPAD_ACTIVE:
-    from package.repos.launchpad import repo_handler as launchpad_handler
 
 
 class BaseBase(TestCase):
@@ -49,14 +46,145 @@ class TestBaseHandler(BaseBase):
         handler = BaseHandler()
         self.assertEquals(handler.is_other, False)
 
+    def test_get_repo_for_repo_url(self):
+        samples = """u'http://repos.entrouvert.org/authentic.git/tree
+http://code.basieproject.org/
+http://znc-sistemas.github.com/django-municipios
+http://django-brutebuster.googlecode.com/svn/trunk/BruteBuster/
+http://hg.piranha.org.ua/byteflow/
+http://code.google.com/p/classcomm
+http://savannah.nongnu.org/projects/dina-project/
+tyrion/django-acl/
+izi/django-admin-tools/
+bkonkle/django-ajaxcomments/
+http://django-ajax-selects.googlecode.com/svn/trunk/
+http://django-antivirus.googlecode.com/svn/trunk/
+codekoala/django-articles/
+https://launchpad.net/django-audit
+https://django-audit.googlecode.com/hg/
+tyrion/django-autocomplete/
+http://code.google.com/p/django-autocomplete/
+http://pypi.python.org/pypi/django-autoreports
+http://code.google.com/p/django-basic-tumblelog/
+schinckel/django-biometrics/
+discovery/django-bitly/
+bkroeze/django-bursar/src
+http://hg.mornie.org/django/c5filemanager/
+https://code.launchpad.net/django-cachepurge
+http://code.google.com/p/django-campaign/
+http://code.google.com/p/django-cas/
+http://code.google.com/p/django-chat
+http://code.google.com/p/django-compress/
+https://launchpad.net/django-configglue
+dantario/djelfinder/
+ubernostrum/django-contact-form/
+http://bitbucket.org/smileychris/django-countries/
+http://code.google.com/p/django-courier
+http://django-cube.googlecode.com/hg
+http://launchpad.net/django-debian
+http://pypi.python.org/pypi/django-debug-toolbar-extra
+http://code.playfire.com/django-debug-toolbar-user-panel
+http://svn.os4d.org/svn/djangodevtools/trunk
+http://code.google.com/p/django-dynamic-formset
+http://code.google.com/p/django-evolution/
+http://pypi.python.org/pypi/django-form-admin
+muhuk/django-formfieldset/
+http://code.google.com/p/django-forum/
+http://code.google.com/p/django-generic-confirmation
+http://pypi.python.org/pypi/django-genericforeignkey
+https://launchpad.net/django-genshi
+http://code.google.com/p/django-gmapi/
+http://code.google.com/p/django-ids
+http://pypi.python.org/pypi/django-inlinetrans
+http://www.github.com/rosarior/django-inventory
+codekoala/django-ittybitty/overview
+http://bitbucket.org/mrpau/django-jobsboard
+http://code.google.com/p/django-jqchat
+http://code.google.com/p/djangokit/
+http://code.google.com/p/django-ldap-groups/
+carljm/django-localeurl/
+http://code.google.com/p/django-messages/
+robcharlwood/django-mothertongue/
+fivethreeo/django-mptt-comments/
+http://code.google.com/p/django-multilingual
+http://code.google.com/p/django-navbar/
+http://code.larlet.fr/django-oauth-plus/wiki/Home
+http://django-observer.googlecode.com/svn/trunk/
+aaronmader/django-parse_rss/tree/master/parse_rss
+http://bitbucket.org/fhahn/django-permission-backend-nonrel
+https://code.google.com/p/django-pgsql-interval-field
+http://code.google.com/p/django-profile/
+lukaszb/django-projector/
+http://pypi.python.org/pypi/django-proxy-users
+https://bitbucket.org/dias.kev/django-quotidian
+nabucosound/django-rbac/
+http://djangorestmodel.sourceforge.net/index.html
+kmike/django-robokassa/
+http://code.google.com/p/django-selectreverse/
+http://code.google.com/p/django-simple-newsletter/
+http://code.google.com/p/django-simplepages/
+http://code.google.com/p/django-simple-wiki
+http://pypi.python.org/pypi/django-smart-extends
+vgavro/django-smsgate/
+schinckel/django-sms-gateway/
+http://pypi.python.org/pypi/django-staticmedia
+http://opensource.washingtontimes.com/projects/django-supertagging/
+http://code.google.com/p/django-tagging-autocomplete
+https://source.codetrax.org/hgroot/django-taggit-autocomplete-modified
+feuervogel/django-taggit-templatetags/
+http://code.google.com/p/django-tasks/
+http://code.google.com/p/djangotechblog/
+https://launchpad.net/django-testscenarios/
+http://django-thumbs.googlecode.com/svn/trunk/
+http://code.google.com/p/django-trackback/
+http://code.google.com/p/django-transmeta
+http://sourceforge.net/projects/django-ui
+daks/django-userthemes/
+https://django-valuate.googlecode.com/hg
+kmike/django-vkontakte-iframe/
+http://code.google.com/p/django-voice
+http://code.google.com/p/django-wikiapp
+cleemesser/django-wsgiserver/
+http://code.google.com/p/djapian/
+http://code.google.com/p/djfacet
+http://code.google.com/p/dojango-datable
+http://evennia.googlecode.com/svn/trunk
+http://feedjack.googlecode.com/hg
+http://code.google.com/p/fullhistory
+http://code.google.com/p/goflow
+https://launchpad.net/django-jsonfield
+https://launchpad.net/linaro-django-xmlrpc/
+http://linkexchange.org.ua/browser
+http://code.google.com/p/mango-py
+http://dev.merengueproject.org/
+http://code.google.com/p/django-inoutboard/
+http://svn.osqa.net/svnroot/osqa/trunk
+http://peach3.nl/trac/
+jespern/django-piston/
+http://code.google.com/p/django-provinceitaliane/
+http://bitbucket.org/kmike/pymorphy
+schinckel/django-rest-api/
+chris1610/satchmo/
+spookylukey/semanticeditor/
+http://code.google.com/p/sorethumb/
+andrewgodwin/south/
+http://source.sphene.net/svn/root/django/communitytools/trunk
+http://source.sphene.net/svn/root/django/communitytools
+sebpiq/spiteat/
+schinckel/django-timedelta-field/
+http://projects.unbit.it/hg/uwsgi
+http://www.dataportal.it"""
+        for sample in samples.split("\n"):
+            self.assertTrue(isinstance(get_repo_for_repo_url(sample), UnsupportedHandler))
+
 
 class TestBitbucketRepo(TestBaseHandler):
     def setUp(self):
         super(TestBitbucketRepo, self).setUp()
         self.package = Package.objects.create(
-            title="Django Registration",
-            slug="django-registration",
-            repo_url="https://bitbucket.org/ubernostrum/django-registration",
+            title="Python packaging guide",
+            slug="python-packaging-user-guide",
+            repo_url="https://bitbucket.org/pypa/python-packaging-user-guide",
             category=self.category
         )
 
@@ -68,10 +196,10 @@ class TestBitbucketRepo(TestBaseHandler):
     def test_fetch_metadata(self):
         package = bitbucket_handler.fetch_metadata(self.package)
         self.assertEqual(package.repo_description,
-            "A user registration app for Django.")
+            "Python Packaging User Guide")
         self.assertTrue(package.repo_watchers > 0)
         self.assertTrue(package.repo_forks > 0)
-        self.assertEquals(package.participants, "ubernostrum")
+        self.assertEquals(package.participants, "pypa")
 
 
 class TestGithubRepo(TestBaseHandler):
@@ -87,9 +215,7 @@ class TestGithubRepo(TestBaseHandler):
     def test_fetch_commits(self):
         self.assertEqual(Commit.objects.count(), 0)
         github_handler.fetch_commits(self.package)
-        commit_list = "[%s]" % self.package.commits_over_52()
-        commit_list = json.loads(commit_list)
-        self.assertTrue(commit_list[0] > 0)
+        self.assertTrue(Commit.objects.count() > 0)
 
     def test_fetch_metadata(self):
         # Currently a live tests that access github
@@ -105,49 +231,6 @@ class TestGithubRepo(TestBaseHandler):
         self.package.fetch_commits()
 
 
-if settings.LAUNCHPAD_ACTIVE:
-    class TestLaunchpadRepo(BaseBase):
-        def setUp(self):
-            super(TestLaunchpadRepo, self).setUp()
-            self.package = Package.objects.create(
-                title="Django-PreFlight",
-                slug="django-preflight",
-                repo_url="https://code.launchpad.net/~canonical-isd-hackers/django-preflight/trunk",
-                category=self.category
-            )
-
-        def test_fetch_commits(self):
-            self.assertEqual(Commit.objects.count(), 0)
-            launchpad_handler.fetch_commits(self.package)
-            self.assertNotEqual(Commit.objects.count(), 0)
-
-        def test_fetch_metadata(self):
-            package = launchpad_handler.fetch_metadata(self.package)
-            self.assertTrue(package.repo_watchers > 0)
-            self.assertTrue(package.repo_forks > 0)
-            self.assertEqual(package.participants, 'canonical-isd-hackers')
-
-'''
-class TestSourceforgeRepo(TestCase):
-    def setUp(self):
-        self.package = Package.objects.create(
-            title="django-ui",
-            slug="django-ui",
-            repo_url="http://sourceforge.net/projects/django-ui/",
-        )
-
-    def test_fetch_commits(self):
-        self.assertEqual(Commit.objects.count(), 0)
-        sourceforge_handler.fetch_commits(self.package)
-        self.assertEqual(Commit.objects.count(), 0)
-
-    def test_fetch_metadata(self):
-        package = sourceforge_handler.fetch_metadata(self.package)
-        self.assertTrue(package.repo_watchers > 0)
-        self.assertTrue(package.repo_forks > 0)
-        self.assertEqual(package.participants, '')'''
-
-
 class TestRepos(BaseBase):
     def test_repo_registry(self):
         from package.repos import get_repo, supported_repos
@@ -156,11 +239,4 @@ class TestRepos(BaseBase):
         self.assertEqual(g.title, "Github")
         self.assertEqual(g.url, "https://github.com")
         self.assertTrue("github" in supported_repos())
-
-        if settings.LAUNCHPAD_ACTIVE:
-            l = get_repo("launchpad")
-            self.assertEqual(l.title, "Launchpad")
-            self.assertEqual(l.url, "https://code.launchpad.net")
-            self.assertTrue("launchpad" in supported_repos())
-
         self.assertRaises(ImportError, lambda: get_repo("xyzzy"))

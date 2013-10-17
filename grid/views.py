@@ -3,6 +3,7 @@
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
+from django.db.models import Count
 from django.http import HttpResponseRedirect, Http404, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render
 
@@ -32,8 +33,10 @@ def grids(request, template_name="grid/grids.html"):
     * ``grids`` - all grid objects
     """
     # annotations providing bad counts
-    #grids = Grid.objects.annotate(gridpackage_count=Count('gridpackage'), feature_count=Count('feature'))
-    return render(request, template_name, {'grids': Grid.objects.all(), })
+    grids = Grid.objects.filter()
+    grids = grids.prefetch_related("feature_set")
+    grids = grids.annotate(gridpackage_count=Count('gridpackage'))
+    return render(request, template_name, {'grids': grids, })
 
 
 def grid_detail_landscape(request, slug, template_name="grid/grid_detail2.html"):
@@ -49,7 +52,7 @@ def grid_detail_landscape(request, slug, template_name="grid/grid_detail2.html")
     grid = get_object_or_404(Grid, slug=slug)
     features = grid.feature_set.all()
 
-    grid_packages = grid.grid_packages
+    grid_packages = grid.grid_packages.order_by("package__commit_list")
 
     elements = Element.objects.all() \
                 .filter(feature__in=features,
@@ -79,8 +82,9 @@ def grid_detail_landscape(request, slug, template_name="grid/grid_detail2.html")
             'elements': element_map,
         })
 
+
 @login_required
-def add_grid(request, template_name="grid/add_grid.html"):
+def add_grid(request, template_name="grid/update_grid.html"):
     """Creates a new grid, requires user to be logged in.
     Works for both GET and POST request methods
 
@@ -103,7 +107,7 @@ def add_grid(request, template_name="grid/add_grid.html"):
 
 
 @login_required
-def edit_grid(request, slug, template_name="grid/edit_grid.html"):
+def edit_grid(request, slug, template_name="grid/update_grid.html"):
     """View to modify the grid, handles GET and POST requests.
     This view requires user to be logged in.
 
@@ -127,7 +131,7 @@ def edit_grid(request, slug, template_name="grid/edit_grid.html"):
 
 
 @login_required
-def add_feature(request, grid_slug, template_name="grid/add_feature.html"):
+def add_feature(request, grid_slug, template_name="grid/update_feature.html"):
     """Adds a feature to the grid, accepts GET and POST requests.
 
     Requires user to be logged in
@@ -158,7 +162,7 @@ def add_feature(request, grid_slug, template_name="grid/add_feature.html"):
 
 
 @login_required
-def edit_feature(request, id, template_name="grid/edit_feature.html"):
+def edit_feature(request, id, template_name="grid/update_feature.html"):
     """edits feature on a grid - this view has the same
     semantics as :func:`grid.views.add_feature`.
 

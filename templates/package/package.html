@@ -43,7 +43,7 @@
     </p>
 
     <!-- start Usage panel -->
-    <div class="panel">
+    <div class="panel panel-default">
       <div class="panel-heading clearfix">
         <h3 class="panel-title pull-left">Usage</h3>
       </div>
@@ -74,16 +74,17 @@
     <!-- end Usage panel -->
 
     <!-- start PyPI panel -->
-    <div class="panel">
+    <div class="panel panel-default">
      <div class="panel-heading clearfix">
        <h3 class="panel-title pull-left">PyPI</h3>
      </div>
-
      {% if package.pypi_url and package.pypi_url != "http://pypi.python.org/pypi/" %}
-        <p><a href="{{ package.pypi_url }}">{{ package.pypi_url }}</a></p>
-        <p>
-          <a href="https://crate.io/packages/{{ package.pypi_name }}/" rel="nofollow"><img src="https://pypip.in/d/{{ package.pypi_name }}/badge.png"></a>
-        </p>
+       <div class="panel-body">
+          <p><a href="{{ package.pypi_url }}">{{ package.pypi_url }}</a></p>
+          <p>
+            <a href="https://crate.io/packages/{{ package.pypi_name }}/" rel="nofollow"><img src="https://pypip.in/d/{{ package.pypi_name }}/badge.png"></a>
+          </p>
+        </div>
         <table class="table">
           <thead>
             <tr>
@@ -113,21 +114,25 @@
           </tbody>
       </table>
     {% else %}
-      <p>{% trans "No PyPI release" %}</p>
+      <div class="panel-body">
+        <p>{% trans "No PyPI release" %}</p>
+      </div>
     {% endif %}
     </div>
     <!-- end PyPI panel -->
 
     <!-- start Participants panel -->
-    <div class="panel">
+    <div class="panel panel-default">
       <div class="panel-heading clearfix">
         <h3 class="panel-title pull-left">{% trans "Participants" %}</h3>
       </div>
-      <p>
+      <div class="panel-body">
+        <p>
           {% for participant in package.participant_list %}
               <a href="{% participant_url package.repo participant %}">{{ participant }}</a>&nbsp;
           {% endfor %}
-      </p>
+        </p>
+      </div>
     </div>
     <!-- end Participants panel -->
   
@@ -135,26 +140,45 @@
   <div class="col-lg-6">
     
     <!-- start Documentation panel -->
-    <div class="panel">
+    <div class="panel panel-default">
       <div class="panel-heading clearfix">
         <h3 class="panel-title pull-left">{% trans "Documentation" %}</h3>
+        <div class="pull-right">
+          {% if request.user.is_authenticated %}        
+            <a href="{% url 'edit_documentation' package.slug %}"><span class="glyphicon glyphicon-plus"></span></a>
+          {% endif %}
+        </div>
       </div>
-      <p class="rtd" style="display: none;">{% blocktrans %}This project has documentation available for it on <a class="rtd">Read the Docs!</a>{% endblocktrans %}</p>
+      <div class="panel-body">
+        <p>{{ package.documentation_url|urlize }}</p>
+      </div>
     </div>
     <!-- end Documentation panel -->
 
     <!-- start Repo panel -->
-    <div class="panel">
+    <div class="panel panel-default">
       <div class="panel-heading clearfix">
-        <h3 class="panel-title pull-left">{{ package.repo.title }}</h3>
+        <h3 class="panel-title pull-left">Repo Activity</h3>
 
         <div class="pull-right" id="fetch-cell">
-          {% if repo.title != "Github" %}
-            <a class="btn btn-default btn-xs" href="{% url 'fetch_package_data' package.slug %}">{% trans "Fetch latest data" %}</a>
-          {% else %}{# if repo.title == "Github" #}
-            <a class="btn btn-default btn-xs" href="#">{% trans "Fetch latest data" %}</a>
+          {% if package.last_fetched %}
+            Last fetched: {{ package.last_fetched|timesince }} ago
           {% endif %}
+          <a class="btn btn-default btn-xs" href="{% url 'post_package_data' package.slug %}">{% trans "Fetch latest data" %}</a>
+          {% comment %}
+            {% if repo.title != "Github" %}
+              <a class="btn btn-default btn-xs" href="{% url 'fetch_package_data' package.slug %}">{% trans "Fetch latest data" %}</a>
+            {% else %}{# if repo.title == "Github" #}
+              <a class="btn btn-default btn-xs" href="#">{% trans "Fetch latest data" %}</a>
+            {% endif %}
+          {% endcomment %}
         </div>
+      </div>
+
+      <div class="panel-body">
+        <p>
+          <strong>Repo Hosting:</strong> {{ package.repo.title }}
+        </p>
       </div>
 
       <table class="table">
@@ -179,7 +203,7 @@
     <!-- end Repo panel -->
 
     <!-- start Grids panel -->
-    <div class="panel">
+    <div class="panel panel-default">
       <div class="panel-heading clearfix">
         <h3 class="panel-title pull-left">{% trans "Comparison Grids" %}</h3>
         <div class="pull-right">
@@ -190,19 +214,20 @@
         </div>
       </div>
 
-      {% for grid in package.grids %}            
-        <a href="{% url 'grid' grid.slug %}" title="{{ grid.description }}">{{ grid }}</a> &nbsp;
-      {% empty %}
-        {% if request.user.is_authenticated and profile.can_add_grid %}
-          <a class="btn btn-default" id="find-a-grid" href="#"><span class="glyphicon glyphicon-plus"></span></a>
-          {% include "package/includes/_attach_grid.html" %}
-        {% endif %}
-      {% endfor %}
+      <div class="panel-body">
+        {% for grid in package.grids %}            
+          <a href="{% url 'grid' grid.slug %}" title="{{ grid.description }}">{{ grid }}</a> &nbsp;
+        {% empty %}
+          {% if request.user.is_authenticated and profile.can_add_grid %}
+            {% include "package/includes/_attach_grid.html" %}
+          {% endif %}
+        {% endfor %}
+      </div>
     </div>
     <!-- end Grids panel -->
 
     <!-- start Examples panel -->
-    <div class="panel">
+    <div class="panel panel-default">
       <div class="panel-heading clearfix">
         <h3 class="panel-title pull-left">{% trans "Sites using this package" %}</h3>
         <div class="pull-right">
@@ -211,21 +236,25 @@
           {% endif %}
         </div>
       </div>
-      
-      {% with package.active_examples as examples %}
-      {% if examples %}
-      <ol id="package-sitelist">
-        {% for example in examples %}
-          <li>
-            <a href="{{ example.url }}">{{ example.title }}</a>
-            {% if request.user.is_authenticated %}&nbsp;
-                <a href="{% url 'edit_example' package.slug example.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
-            {% endif %}
-          </li>
+
+      <div class="panel-body">
+        {% with package.active_examples as examples %}
+        {% if examples %}
+        <ol>
+          {% for example in examples %}
+            <li>
+                <a href="{{ example.pretty_url }}">{{ example.title }}</a>
+              {% if request.user.is_authenticated %}&nbsp;
+                  <a href="{% url 'edit_example' package.slug example.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
+              {% endif %}
+            </li>
           {% endfor %}
-      </ol>
-      {% endif %}
-      {% endwith %}
+        </ol>
+        {% else %}
+          <p>No sites using this package have been listed yet.</p>
+        {% endif %}
+        {% endwith %}
+      </div>
     </div>
     <!-- end Examples panel -->
 
@@ -244,52 +273,6 @@
 
 <script type="text/javascript">
     $(function() {
-        pic1=new Image();
-        pic1.src="{{ STATIC_URL }}img/progress.gif";
-        $('#fetch-cell > a').click(function(){
-            $('#fetch-cell').html('Updating <img src="{{ STATIC_URL }}img/progress.gif">');
-            {% if repo.title == "Github" %}
-                var repo_url = 'https://api.github.com/repos/{{ package.repo_name }}';
-
-                $.ajax({
-                    url: repo_url,
-                    dataType: 'jsonp',
-                    success: function(repo) {
-                        var package_data = {
-                            repo_watchers: repo.data.watchers,
-                            repo_forks: repo.data.network_count,
-                            repo_description: repo.data.description,
-                            csrfmiddlewaretoken: getCookie('csrftoken')
-                        };
-                        $.ajax({
-                            url: repo.data.contributors_url,
-                            dataType: 'jsonp',
-                            success:function(contributors_list){
-                                var contributors = "";
-                                var contributor;
-                                for (var i = 0; i < contributors_list.length; i++) {
-                                    contributor = contributors_list[i].login;
-                                    contributors = contributors + "," + contributor;
-                                }
-                                contributors = contributors.replace(",", " ");
-                                package_data.contributors = contributors;
-
-                                $.post("{% url 'post_package_data' package.slug %}", package_data).done(function(data){
-                                        location.href = "{% url 'package' package.slug %}?message=Package updated successfully";
-                                    });
-                            }
-
-                        });
-                    }
-                });
-            {% endif %}
-        });
-        
-    });
-</script>
-
-<script type="text/javascript">
-    $(function() {
 
         $('#find-a-grid').click(function(e) {
             e.preventDefault();
@@ -298,8 +281,9 @@
             $('#find-a-grid-input').focus();
             
             $('#find-a-grid-input').keyup(function() {
-                var search_text = $('input#find-a-grid-input').attr('value');
+                var search_text = $('input#find-a-grid-input').val();
                 var search_text = '{% url 'ajax_grid_list' %}?q=' + search_text + '&package_id={{ package.id }}';
+                console.log(search_text);
                 $.get(search_text, function(data) {
                   $('#target').html(data).show("slow");
                 });                
@@ -311,18 +295,6 @@
                   };
             });       
 
-        });
-        var url = "https://readthedocs.org/api/v1/build/{{ package.slug }}/?format=jsonp";
-        $.ajax({
-          url: url,
-          dataType: 'jsonp',
-          success:function(data){
-              if (data.objects.length > 0){
-                  var href = "https://readthedocs.org/projects/{{ package.slug }}";
-                  $("a.rtd").attr("href", href);
-                  $(".rtd").show();            
-              };
-          }
         });
 
     });    

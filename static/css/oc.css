@@ -15,6 +15,15 @@
 }
 
 /**
+ * Customize default TopBar to match the site colors.
+ */
+
+.topbar-default {
+  background-color: #86e3d0;
+  border-bottom: 1px solid #5BC0DE;
+}
+
+/**
  * Header bar.
  */
 
@@ -66,6 +75,37 @@
     background-color: #fff;
     margin-bottom: 0;
     padding: 0;
+}
+
+/**
+ * Vertically center nav elements.
+ */
+
+@media screen and (min-width: 768px) {
+  .navbar-nav {
+    margin-top: 6px;
+  }
+
+  .navbar-form {
+    margin-top: 13px;
+  }
+}
+
+/**
+ * Style jQuery Autocomplete - search dropdown items
+ */
+.ui-autocomplete {
+  background: #FFF;
+  text-align: left;
+  border: 1px solid #BFBFBF;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ui-menu-item a {
+  display: block;
+  padding: 3px 10px;
 }
 
 /**
@@ -143,6 +183,40 @@ h3, .h3 {
 }
 
 /**
+ * Grid: special row for deletion of packages/features
+ */
+
+.grid-delete {
+  background: #FFE0E0;
+}
+
+.grid-delete .glyphicon-trash {
+  color: #A31515;
+}
+
+/**
+ * Grid row header styling
+ */
+
+.grid-row-header {
+  background: #A6E9D1;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: #333;
+}
+
+.table thead > tr.grid-row-header > th,
+.table tbody > tr.grid-row-header > th {
+  vertical-align: middle;
+}
+
+.grid-row-header a {
+  color: #2f2f2f;
+  text-decoration: underline;
+}
+
+
+/**
  * Glyphicon colors
  */
 
@@ -155,3 +229,4 @@ h3, .h3 {
 .glyphicon-ok { color: #39bd6e; }
 .glyphicon-remove { color: #DA0707; }
 .glyphicon-info-sign { color: #16C9C9; }
+.glyphicon-book { color: #16C9C9; }

@@ -1,11 +1,9 @@
-from django.conf import settings
 from django.core.cache import cache
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from core.models import BaseModel
-from core.utils import cache_fetcher
-from grid import cachekeys
+from grid.utils import make_template_fragment_key
 from package.models import Package
 
 
@@ -59,11 +57,16 @@ class Grid(BaseModel):
 
     def save(self, *args, **kwargs):
         self.grid_packages  # fire the cache
+        self.clear_detail_template_cache()  # Delete the template fragment cache
         super(Grid, self).save(*args, **kwargs)
 
     @models.permalink
     def get_absolute_url(self):
         return ("grid", [self.slug])
+
+    def clear_detail_template_cache(self):
+        key = make_template_fragment_key("detail_template_cache", [self.pk, ])
+        cache.delete(key)
 
     class Meta:
         ordering = ['title']
@@ -92,6 +95,7 @@ class GridPackage(BaseModel):
 
     def save(self, *args, **kwargs):
         self.grid.grid_packages  # fire the cache
+        self.grid.clear_detail_template_cache()
         super(GridPackage, self).save(*args, **kwargs)
 
     def __unicode__(self):
@@ -113,6 +117,7 @@ class Feature(BaseModel):
 
     def save(self, *args, **kwargs):
         self.grid.grid_packages  # fire the cache
+        self.grid.clear_detail_template_cache()
         super(Feature, self).save(*args, **kwargs)
 
     def __unicode__(self):
@@ -126,6 +131,7 @@ You can use 'bad', 'negative', 'evil', 'sucks', 'no' to place a negative icon.<b
 Plus just '+' or '-' signs can be used but cap at 3 multiples to protect layout<br/>
 
 """
+
 
 class Element(BaseModel):
     """ The individual cells on the grid.

@@ -10,7 +10,7 @@ from searchv2.models import SearchV2
 from searchv2.utils import remove_prefix, clean_title
 
 
-def build_1(print_out=True):
+def build_1(print_out=False):
 
     now = datetime.now()
     quarter_delta = timedelta(90)
@@ -40,7 +40,7 @@ def build_1(print_out=True):
 
         optional_save = False
         try:
-            obj.last_committed = package.last_updated
+            obj.last_committed = package.last_updated()
             optional_save = True
         except Commit.DoesNotExist:
             pass
@@ -102,7 +102,7 @@ def build_1(print_out=True):
             obj.save()
 
         if print_out:
-            print >> stdout, obj, created
+            print >> stdout, obj.slug, created
 
     print >> stdout, '----------------------'
     max_weight = SearchV2.objects.all()[0].weight

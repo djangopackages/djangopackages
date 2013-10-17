@@ -6,15 +6,16 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 from django.core.urlresolvers import reverse
-from django.db.models import Q, Count, get_model
+from django.db.models import Q, Count
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
+from django.utils import timezone
 
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 
 from grid.models import Grid
 from homepage.models import Dpotw, Gotw
-from package.forms import PackageForm, PackageExampleForm
+from package.forms import PackageForm, PackageExampleForm, DocumentationForm
 from package.models import Category, Package, PackageExample
 from package.repos import get_all_repos
 
@@ -34,26 +35,6 @@ def get_form_class(form_name):
     return getattr(form_module, form_name)
 
 
-def build_package_extenders(request):
-    """ package extenders machinery
-            TODO: change the ID prefix in this form to be unique
-
-    """
-    package_extenders = []
-    for item in getattr(settings, "PACKAGE_EXTENDERS", []):
-        package_extenders_dict = {}
-        form_class = get_form_class(item['form'])
-        if 'model' in item:
-            app_name, app_model = item['model'].split('.')
-            package_extenders_dict['model'] = get_model(app_name, app_model)
-            package_extenders_dict['model_instance'] = package_extenders_dict['model']()
-            package_extenders_dict['form'] = form_class(request.POST or None, instance=package_extenders_dict['model_instance'])
-        else:
-            package_extenders_dict['form'] = form_class(request.POST or None)
-        package_extenders.append(package_extenders_dict)
-    return package_extenders
-
-
 @login_required
 def add_package(request, template_name="package/package_form.html"):
 
@@ -63,27 +44,20 @@ def add_package(request, template_name="package/package_form.html"):
     new_package = Package()
     form = PackageForm(request.POST or None, instance=new_package)
 
-    package_extenders = build_package_extenders(request)
-
     if form.is_valid():
         new_package = form.save()
         new_package.created_by = request.user
         new_package.last_modified_by = request.user
         new_package.save()
-        new_package.fetch_metadata()
-        new_package.fetch_commits()
+        #new_package.fetch_metadata()
+        #new_package.fetch_commits()
 
-        # stick in package_extender form processing
-        for package_extender in package_extenders:
-            if package_extender['form'].is_valid():
-                package_extender['form'].save()
         return HttpResponseRedirect(reverse("package", kwargs={"slug": new_package.slug}))
 
     return render(request, template_name, {
         "form": form,
         "repo_data": repo_data_for_js(),
         "action": "add",
-        "package_extenders": package_extenders
         })
 
 
@@ -96,16 +70,11 @@ def edit_package(request, slug, template_name="package/package_form.html"):
     package = get_object_or_404(Package, slug=slug)
     form = PackageForm(request.POST or None, instance=package)
 
-    package_extenders = build_package_extenders(request)
-
     if form.is_valid():
         modified_package = form.save()
         modified_package.last_modified_by = request.user
         modified_package.save()
-        # stick in package_extender form processing
-        for package_extender in package_extenders:
-            if package_extender['form'].is_valid():
-                package_extender['form'].save()
+        messages.add_message(request, messages.INFO, 'Package updated successfully')
         return HttpResponseRedirect(reverse("package", kwargs={"slug": modified_package.slug}))
 
     return render(request, template_name, {
@@ -281,6 +250,7 @@ def usage(request, slug, action):
     if change == 1 or change == -1:
         cache_key = "sitewide_used_packages_list_%s" % request.user.pk
         cache.delete(cache_key)
+        package.grid_clear_detail_template_cache()
 
     # Return an ajax-appropriate response if necessary
     if request.is_ajax():
@@ -370,16 +340,39 @@ def int_or_0(value):
     except ValueError:
         return 0
 
+
 @login_required
 def post_data(request, slug):
-    if request.method == "POST":
-        package = get_object_or_404(Package, slug=slug)
-        # TODO Do this this with a form, really. Duh!
-        package.repo_watchers = int_or_0(request.POST.get("repo_watchers"))
-        package.repo_forks = int_or_0(request.POST.get("repo_forks"))
-        package.repo_description = request.POST.get("repo_description")
-        package.participants = request.POST.get('contributors')
-        package.fetch_commits()  # also saves
+    # if request.method == "POST":
+        # try:
+        #     # TODO Do this this with a form, really. Duh!
+        #     package.repo_watchers = int_or_0(request.POST.get("repo_watchers"))
+        #     package.repo_forks = int_or_0(request.POST.get("repo_forks"))
+        #     package.repo_description = request.POST.get("repo_description")
+        #     package.participants = request.POST.get('contributors')
+        #     package.fetch_commits()  # also saves
+        # except Exception as e:
+        #     print e
+    package = get_object_or_404(Package, slug=slug)
+    package.fetch_pypi_data()
+    package.repo.fetch_metadata(package)
+    package.repo.fetch_commits(package)
+    package.last_fetched = timezone.now()
+    package.save()
     return HttpResponseRedirect(reverse("package", kwargs={"slug": package.slug}))
 
 
+@login_required
+def edit_documentation(request, slug, template_name="package/documentation_form.html"):
+    package = get_object_or_404(Package, slug=slug)
+    form = DocumentationForm(request.POST or None, instance=package)
+    if form.is_valid():
+        form.save()
+        messages.add_message(request, messages.INFO, 'Package documentation updated successfully')
+        return redirect(package)
+    return render(request, template_name,
+            dict(
+                package=package,
+                form=form
+            )
+        )

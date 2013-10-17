@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 
 from distutils.version import LooseVersion as versioner
 import requests
@@ -45,7 +46,7 @@ class Category(BaseModel):
 class Package(BaseModel):
 
     title = models.CharField(_("Title"), max_length="100")
-    slug = models.SlugField(_("Slug"), help_text="Enter a valid 'slug' consisting of letters, numbers, underscores or hyphens.<br />Values will be converted to lowercase.", unique=True)
+    slug = models.SlugField(_("Slug"), help_text="Enter a valid 'slug' consisting of letters, numbers, underscores or hyphens. Values will be converted to lowercase.", unique=True)
     category = models.ForeignKey(Category, verbose_name="Installation")
     repo_description = models.TextField(_("Repo Description"), blank=True)
     repo_url = models.URLField(_("repo URL"), help_text=repo_url_help_text, blank=True, unique=True, verify_exists=True)
@@ -58,6 +59,8 @@ class Package(BaseModel):
     usage = models.ManyToManyField(User, blank=True)
     created_by = models.ForeignKey(User, blank=True, null=True, related_name="creator", on_delete=models.SET_NULL)
     last_modified_by = models.ForeignKey(User, blank=True, null=True, related_name="modifier", on_delete=models.SET_NULL)
+    last_fetched = models.DateTimeField(blank=True, null=True, default=timezone.now)
+    documentation_url = models.URLField(_("Documentation URL"), blank=True, null=True, default="")
 
     commit_list = models.TextField(_("Commit List"), blank=True)
 
@@ -73,16 +76,20 @@ class Package(BaseModel):
             return name[:name.index("/")]
         return name
 
-    @property
     def last_updated(self):
+        cache_name = self.cache_namer(self.last_updated)
+        last_commit = cache.get(cache_name)
+        if last_commit is not None:
+            return last_commit
         try:
-            last_commit = self.commit_set.latest('commit_date')
+            last_commit = self.commit_set.latest('commit_date').commit_date
             if last_commit:
-                return last_commit.commit_date
+                cache.set(cache_name, last_commit)
+                return last_commit
         except ObjectDoesNotExist:
-            pass
+            last_commit = None
 
-        return None
+        return last_commit
 
     @property
     def repo(self):
@@ -120,11 +127,24 @@ class Package(BaseModel):
         return self.usage.count()
 
     def commits_over_52(self):
-        if self.commit_list:
-            result = self.commit_list
-        else:
-            result = str([0 for x in range(52)])
-        return result.replace(" ", "").replace("[", "").replace("]", "")
+        cache_name = self.cache_namer(self.commits_over_52)
+        value = cache.get(cache_name)
+        if value is not None:
+            return value
+        now = datetime.now()
+        commits = self.commit_set.filter(
+            commit_date__gt=now - timedelta(weeks=52),
+        ).values_list('commit_date', flat=True)
+
+        weeks = [0] * 52
+        for cdate in commits:
+            age_weeks = (now - cdate).days // 7
+            if age_weeks < 52:
+                weeks[age_weeks] += 1
+
+        value = ','.join(map(str, reversed(weeks)))
+        cache.set(cache_name, value)
+        return value
 
     def fetch_pypi_data(self, *args, **kwargs):
         # Get the releases from pypi
@@ -198,11 +218,17 @@ class Package(BaseModel):
             self.fetch_pypi_data()
         self.repo.fetch_metadata(self)
         signal_fetch_latest_metadata.send(sender=self)
+        self.last_fetched = timezone.now()
         self.save()
+
+    def grid_clear_detail_template_cache(self):
+        for grid in self.grids():
+            grid.clear_detail_template_cache()
 
     def save(self, *args, **kwargs):
         if not self.repo_description:
             self.repo_description = ""
+        self.grid_clear_detail_template_cache()
         super(Package, self).save(*args, **kwargs)
 
     def fetch_commits(self):
@@ -235,7 +261,7 @@ class Package(BaseModel):
 
     @property
     def no_development(self):
-        commit_date = self.last_updated
+        commit_date = self.last_updated()
         if commit_date is not None:
             return commit_date < datetime.now() - timedelta(365)
         return None
@@ -264,6 +290,12 @@ class PackageExample(BaseModel):
 
     def __unicode__(self):
         return self.title
+        
+    @property
+    def pretty_url(self):
+        if self.url.startswith("http"):
+            return self.url
+        return "http://" + self.url
 
 
 class Commit(BaseModel):
@@ -278,6 +310,14 @@ class Commit(BaseModel):
 
     def __unicode__(self):
         return "Commit for '%s' on %s" % (self.package.title, unicode(self.commit_date))
+
+    def save(self, *args, **kwargs):
+        # reset the last_updated and commits_over_52 caches on the package
+        package = self.package
+        cache.delete(package.cache_namer(self.package.last_updated))
+        cache.delete(package.cache_namer(package.commits_over_52))
+        self.package.last_updated()
+        super(Commit, self).save(*args, **kwargs)
 
 
 class VersionManager(models.Manager):

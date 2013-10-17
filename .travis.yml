@@ -6,5 +6,7 @@ before_install:
   - export PIP_INDEX_URL=https://simple.crate.io/
 install:
   - pip install -r requirements.txt
+before_script:
+  - psql -U postgres -c 'CREATE DATABASE "oc";'
 script:
   - python manage.py test --settings=settings.test

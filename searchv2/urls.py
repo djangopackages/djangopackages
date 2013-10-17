@@ -12,7 +12,7 @@ urlpatterns = patterns("",
 
     url(
         regex   = '^$',
-        view    = views.search,
+        view    = views.search2,
         name    = 'search',
     ),
 

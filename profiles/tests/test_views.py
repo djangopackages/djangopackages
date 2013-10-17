@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
@@ -35,6 +36,7 @@ class TestProfile(TestCase):
         url = reverse('profile_edit')
         response = self.client.get(url)
         stuff = """<input id="id_bitbucket_url" type="text" class="textInput textinput" name="bitbucket_url" maxlength="100" />"""
+        stuff = """<input id="id_bitbucket_url" type="text" class="textinput textInput form-control" name="bitbucket_url" maxlength="100" />"""
         self.assertContains(response, stuff)
 
         # submit some content

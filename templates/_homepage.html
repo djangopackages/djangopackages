@@ -1,0 +1,152 @@
+{% load i18n %}
+{% load url from future %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4 col-lg-4">
+      <h2><i>{{ SITE_TITLE }} is a directory of reusable apps, sites, tools, and more for your {{ FRAMEWORK_TITLE }} projects.</i></h2>
+      <p><b>{{ package_count }}</b> {% trans "packages and counting!" %}</p>
+      <p><a href="{% url 'py3_compat' %}"><b>{{ py3_compat }}</b> {% trans "packages compatible with Python 3!" %}</a></p>
+
+      <!-- start We Need Your Help panel -->
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">{% trans "Add packages and grids" %}</h3>
+        </div>
+        <div class="panel-body">
+          <p>
+            {% trans "Know of any packages not listed here?  Add them now!  It's quick and easy." %}
+          </p>
+          <p>
+            <a class="btn btn-default" href="{% url 'add_package' %}">{% trans "add package »" %}</a>
+          </p>
+          <p>
+            {% trans "Or add a grid comparing the features of 2 or more similar packages." %}
+          </p>
+          <p>
+            <a class="btn btn-default" href="{% url 'add_grid' %}">{% trans "add grid »" %}</a>
+          </p>
+        </div>
+      </div>
+      <!-- end We Need Your Help panel -->
+    </div>
+
+    <div class="col-sm-4 col-lg-4">
+      <h2>{% trans "latest 5" %}</h2>
+    
+      <div class="list-group">
+        {% for package in latest_packages %}
+          <a href="{{ package.get_absolute_url }}" class="list-group-item">
+            <h4 class="list-group-item-heading">{{ package.title }}</h4>
+
+            <p class="list-group-item-text">
+              {% with package.repo_description|truncatewords:25 as short %}
+                {% if package.repo_description|length > short|length %}
+                  {{ short|slice:"-3" }}...
+                {% else %}
+                  {{ short }}
+                {% endif %}
+              {% endwith %}
+            </p>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="col-sm-4 col-lg-4">
+      <h2>{% trans "random 5" %}</h2>
+      
+      <div class="list-group">
+        {% for package in random_packages %}
+          <a href="{{ package.get_absolute_url }}" class="list-group-item">
+            <h4 class="list-group-item-heading">{{ package.title }}</h4>
+
+            <p class="list-group-item-text">
+              {% with package.repo_description|truncatewords:25 as short %}
+                {% if package.repo_description|length > short|length %}
+                  {{ short|slice:"-3" }}...
+                {% else %}
+                  {{ short }}
+                {% endif %}
+              {% endwith %}
+            </p>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-4 col-lg-4">
+     {% if potw %}
+       <!-- start POTW panel -->
+       {% comment %}
+       <div class="panel panel-default">
+         <div class="panel-heading clearfix">
+           <h3 class="panel-title pull-left">Featured Package</h3>
+         </div>
+         <div class="panel-body">
+           <a href="{{ potw.get_absolute_url }}">{{ potw.title }}</a>
+           <p>{{ potw.repo_description }}</p>
+           <table class="table">
+             <thead>
+               <tr>
+                 <th>{% trans "Commits" %}</th>
+                 <th><span class="glyphicon glyphicon-eye-open"></span></th>
+                 <th><span class="glyphicon glyphicon-random"></span></th>
+               </tr>
+             </thead>
+             <tbody>
+               <tr>
+                 <td><img src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{potw.commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
+                 <td>{{ potw.repo_watchers|default:"n/a" }}</td>
+                 <td>{{ potw.repo_forks|default:"n/a" }}</td>
+               </tr>
+             </tbody>
+           </table>
+         </div>
+
+       </div>
+       {% endcomment %}
+       <!-- end POTW panel -->
+     {% endif %}
+
+      {% if gotw %}
+      <!-- start GOTW panel -->
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">Featured Grid</h3>
+        </div>
+        <div class="panel-body">
+          <a href="{{ gotw.get_absolute_url }}">{{ gotw.title }}</a>
+          <p>{{ gotw.description }}</p>
+          <p>
+            <strong>{% trans "Packages" %}:</strong> {{ gotw.gridpackage_set.count }},
+            <strong>{% trans "Features" %}:</strong> {{ gotw.feature_set.count }}
+          </p>
+        </div>
+      </div>
+      <!-- end GOTW panel -->
+      {% endif %}
+    </div>
+
+    <div class="col-sm-4 col-lg-4">
+      <!-- start Categories panel -->
+      <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <h3 class="panel-title pull-left">{% trans "Package Categories" %}</h3>
+        </div>
+        <div class="panel-body">
+          {% for category in categories %}
+            <h3><a href="{% url 'category' category.slug %}">{{ category.title_plural }}</a> ({{ category.count }})</h3>
+            <p>{{ category.description }}</p>
+          {% endfor %}
+        </div>
+      </div>
+      <!-- end Categories panel -->
+    </div>
+
+    <div class="col-sm-4 col-lg-4">
+    </div>
+</div>
+</div>

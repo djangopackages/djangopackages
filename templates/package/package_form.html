@@ -2,33 +2,28 @@
 
 {% load url from future %}
 {% load i18n %}
-{% load uni_form_tags %}
+{% load crispy_forms_tags %}
 
 {% block head_title %}{{ action|title }} {% trans "package" %}{% endblock %}
 
 {% block body %}
 
-    <h1><a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'packages' %}">{% trans "packages" %}</a> / {{ action|title }} {% trans "package" %}</h1>
+    <h2><a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'packages' %}">{% trans "packages" %}</a> / {{ action|title }} {% trans "package" %}</h2>
     <p id="instructions">{% blocktrans %}The easiest way to use this form is to simply enter the
          package repo URL into the repo URL field. {{ SITE_TITLE }} then does it's best to figure out the title,
          slug, and then fills in the appropriate fields for you.{% endblocktrans %}
     </p>
 
     <p id="package-form-message"></p>    
-    <form class="uniForm" method="post" id="package-form">
+    <form method="post" id="package-form">
         {{ form.errors }}
         <input type="hidden" name="temp" id="temp" value="" />
         {% csrf_token %}
         <fieldset>
-            {{ form|as_uni_form }}
+            {{ form|crispy }}
         </fieldset>
-        {% for package_extender in package_extenders %}
-            <fieldset>
-            {{ package_extender.form|as_uni_form }}
-            </fieldset>
-        {% endfor %}
         
-        <input class="awesome forestgreen" type="submit" name="add" value="{{ action }} {% trans "package" %}">
+        <input class="btn btn-default" type="submit" name="add" value="{{ action }} {% trans "package" %}">
     </form>
 
 {% endblock %}

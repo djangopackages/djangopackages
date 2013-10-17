@@ -38,7 +38,7 @@ class FunctionalGridTest(TestCase):
         self.assertTrue(self.client.login(username='user', password='user'))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'grid/add_grid.html')
+        self.assertTemplateUsed(response, 'grid/update_grid.html')
 
         # Test form post
         count = Grid.objects.count()
@@ -61,7 +61,7 @@ class FunctionalGridTest(TestCase):
         self.assertTrue(self.client.login(username='user', password='user'))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'grid/edit_grid.html')
+        self.assertTemplateUsed(response, 'grid/update_grid.html')
 
         # Test form post
         count = Grid.objects.count()
@@ -84,7 +84,7 @@ class FunctionalGridTest(TestCase):
         self.assertTrue(self.client.login(username='user', password='user'))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'grid/add_feature.html')
+        self.assertTemplateUsed(response, 'grid/update_feature.html')
 
         # Test form post
         count = Feature.objects.count()
@@ -106,7 +106,7 @@ class FunctionalGridTest(TestCase):
         self.assertTrue(self.client.login(username='user', password='user'))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'grid/edit_feature.html')
+        self.assertTemplateUsed(response, 'grid/update_feature.html')
 
         # Test form post
         count = Feature.objects.count()
@@ -231,12 +231,6 @@ class FunctionalGridTest(TestCase):
         self.assertTrue(self.client.login(username='cleaner', password='cleaner'))
         self.client.get(url)
         self.assertEqual(count - 1, GridPackage.objects.count())
-
-    def test_latest_grids_view(self):
-        url = reverse('latest_grids')
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'grid/grid_archive.html')
 
 
 class RegressionGridTest(TestCase):
