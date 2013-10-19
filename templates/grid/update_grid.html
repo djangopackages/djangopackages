@@ -13,7 +13,7 @@
       <p>{% trans "Grids added here are publicly listed in the" %} <a href="/grids">{% trans "list of all grids" %}</a>.</p>
       <p>{% trans "Periodically, Daniel and Audrey will add some of these grids to the top navigation bar!" %}</p>
     
-      <form method="post">
+      <form action="{{ request.path }}" method="post">
         {% csrf_token %}
         <fieldset>
           {{ form|crispy }}

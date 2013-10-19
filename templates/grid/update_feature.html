@@ -12,7 +12,7 @@
 
       <p>{% trans "Add/edit a feature of the" %} <a href="{% url 'grid' grid.slug %}">{{ grid.title }}</a> {% trans "grid." %}</p>
       
-      <form method="post">
+      <form action="{{ request.path }}" method="post">
         {% csrf_token %}
         <fieldset>
           {{ form|crispy }}

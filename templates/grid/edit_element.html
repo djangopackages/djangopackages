@@ -15,7 +15,7 @@
     <p><strong>{% trans "Feature:" %} {{ feature.title }}</strong> {{ feature.description}}</p>
     
     
-    <form method="post">
+    <form action="{{ request.path }}" method="post">
         {% csrf_token %}
         <fieldset>
             {{ form|crispy }}

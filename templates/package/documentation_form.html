@@ -11,7 +11,7 @@
     <h2><a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'packages' %}">{% trans "packages" %}</a> / {{ action|title }} {% trans "package" %}</h2>
 
     <p id="package-form-message"></p>    
-    <form method="post" id="package-form">
+    <form action="{{ request.path }}" method="post" id="package-form">
         {{ form.errors }}
         {% csrf_token %}
         <fieldset>

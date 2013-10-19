@@ -10,7 +10,7 @@
     {% url 'grid' grid.slug as grid_url %}
     <h2><a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'grids' %}">{% trans "grids" %}</a> / {% blocktrans with grid.title as grid_title %}Add a package to grid '<a href="{{ grid_url }}">{{ grid_title }}</a>'{% endblocktrans %}</h2>
         
-    <form method="post" id="grid-package-form">
+    <form action="{{ request.PATH }}" method="post" id="grid-package-form">
         {% csrf_token %}
         <fieldset>
             <input id="search-field" type="text" name="q" value="search packages" autocomplete="off" />
