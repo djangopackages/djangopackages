@@ -1,6 +1,8 @@
 from distutils.version import LooseVersion as versioner
 
 from requests.compat import quote
+
+from django.conf import settings
 from django.db import models
 
 
@@ -47,3 +49,19 @@ def get_pypi_version(package):
     return ''
 
 
+def normalize_license(license):
+    """ Handles when:
+
+        * No license is passed
+        * Made up licenses are submitted
+        * Official PyPI trove classifier licenses
+        * Common abbreviations of licenses
+
+    """
+    if license is None:
+        return "UNKNOWN"
+    if license.strip() in settings.LICENSES:
+        return license.strip()
+    if len(license.strip()) > 20:
+        return "Custom"
+    return license.strip()

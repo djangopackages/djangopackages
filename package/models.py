@@ -17,7 +17,7 @@ from core.utils import STATUS_CHOICES, status_choices_switch
 from core.models import BaseModel
 from package.repos import get_repo_for_repo_url
 from package.signals import signal_fetch_latest_metadata
-from package.utils import get_version, get_pypi_version
+from package.utils import get_version, get_pypi_version, normalize_license
 
 repo_url_help_text = settings.PACKAGINATOR_HELP_TEXT['REPO_URL']
 pypi_url_help_text = settings.PACKAGINATOR_HELP_TEXT['PYPI_URL']
@@ -359,12 +359,7 @@ class Version(BaseModel):
         return self.get_development_status_display().split(" ")[-1]
 
     def save(self, *args, **kwargs):
-        if self.license is None:
-            self.license = "UNKNOWN"
-        elif self.license.strip() == "License :: OSI Approved :: Apache Software License":
-            pass
-        elif len(self.license.strip()) > 20:
-            self.license = "Custom"
+        self.license = normalize_license(self.license)
 
         # reset the latest_version cache on the package
         cache_name = self.package.cache_namer(self.package.last_released)
