@@ -314,8 +314,9 @@ LOGGING = {
 URL_REGEX_GITHUB = r'(?:http|https|git)://github.com/[^/]*/([^/]*)/{0,1}'
 
 ########### redis setup
-import redis
-from rq import Worker, Queue, Connection
+
+# import redis
+# from rq import Worker, Queue, Connection
 
 ########### end redis setup
 
