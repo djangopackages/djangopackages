@@ -2,18 +2,30 @@
 
 {% load i18n %}
 
-{% block head_title %}Contibuting to this site{% endblock %}
+{% block head_title %}Contributing to this site{% endblock %}
 
 {% block body %}
 
-<h2>How can you contribute?</h2>
+<h2>Contributing to this site</h2>
 
-As open source projects, {{ SITE_TITLE }} and <a href="http://opencomparison.org">Open Comparison</a> 
-provides several ways to further the progress of this site.
+{{ SITE_TITLE }} and <a href="http://opencomparison.org">Open Comparison</a> are maintained by developers
+and sponsors. 
 
-<h3>Sponsorship<h3>
+<h3>Lead Developers</h3>
 
-<p>We have several sponsors and will have a dedicated sponsorship page soon.</p>
+<h4>Audrey Roy
+<script data-gittip-username="pydanny"
+        data-gittip-widget="button"
+        src="//gttp.co/v1.js"></script>
+</h4>
+        
+<script data-gittip-username="audreyr"
+        data-gittip-widget="button"
+        src="//gttp.co/v1.js"></script>
+
+<h3>Hosting Sponsor<h3>
+
+<p>{{ SITE_TITLE }} is hosted by the nice folks at <a href="https://heroku.com">Heroku</a></p>
 
 <h3>Contributing code</h3>
 
@@ -21,8 +33,4 @@ provides several ways to further the progress of this site.
 should also read the <a href="http://opencomparison.readthedocs.org/en/latest/faq.html#installation">Installation Section of the Open Comparison FAQ</a>.
 </p>
 
-<h3>Direct Open Comparison Consulting</h3>
-
-<p>The project leaders are open to the idea of doing consulting work to enhance and modify the site and the . All produced code (except passwords, API keys, and other security issues) must remain BSD license compliant. If you are interested, please  contact <a href="mailto:pydanny@cartwheelweb.com">pydanny</a> or <a href="mailto:audreyr@cartwheelweb.com">audreyr</a>.</p>
-
-{% endblock %}
+{% endblock body %}

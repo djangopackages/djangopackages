@@ -30,9 +30,31 @@
       </div>
       <!-- end We Need Your Help panel -->
     </div>
+    
+    <div class="col-sm-4 col-lg-4">
+      <h2>{% trans "Latest Python 3 Package Releases" %}</h2>
+    
+      <div class="list-group">
+        {% for version in latest_python3 %}
+          <a href="{{ version.package.get_absolute_url }}" class="list-group-item">
+            <h4 class="list-group-item-heading">{{ version.package.title }} <small>v{{ version.number }}</small></h4>
+
+            <p class="list-group-item-text">
+              {% with version.package.repo_description|truncatewords:25 as short %}
+                {% if version.package.repo_description|length > short|length %}
+                  {{ short|slice:"-3" }}...
+                {% else %}
+                  {{ short }}
+                {% endif %}
+              {% endwith %}
+            </p>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
 
     <div class="col-sm-4 col-lg-4">
-      <h2>{% trans "latest 5" %}</h2>
+      <h2>{% trans "Latest 5 Packages Added" %}</h2>
     
       <div class="list-group">
         {% for package in latest_packages %}
@@ -52,28 +74,9 @@
         {% endfor %}
       </div>
     </div>
+    
 
-    <div class="col-sm-4 col-lg-4">
-      <h2>{% trans "random 5" %}</h2>
-      
-      <div class="list-group">
-        {% for package in random_packages %}
-          <a href="{{ package.get_absolute_url }}" class="list-group-item">
-            <h4 class="list-group-item-heading">{{ package.title }}</h4>
 
-            <p class="list-group-item-text">
-              {% with package.repo_description|truncatewords:25 as short %}
-                {% if package.repo_description|length > short|length %}
-                  {{ short|slice:"-3" }}...
-                {% else %}
-                  {{ short }}
-                {% endif %}
-              {% endwith %}
-            </p>
-          </a>
-        {% endfor %}
-      </div>
-    </div>
   </div>
 
   <div class="row">
@@ -144,9 +147,29 @@
         </div>
       </div>
       <!-- end Categories panel -->
+      
     </div>
 
     <div class="col-sm-4 col-lg-4">
+      <h2>{% trans "Random 5" %}</h2>
+      
+      <div class="list-group">
+        {% for package in random_packages %}
+          <a href="{{ package.get_absolute_url }}" class="list-group-item">
+            <h4 class="list-group-item-heading">{{ package.title }}</h4>
+
+            <p class="list-group-item-text">
+              {% with package.repo_description|truncatewords:25 as short %}
+                {% if package.repo_description|length > short|length %}
+                  {{ short|slice:"-3" }}...
+                {% else %}
+                  {{ short }}
+                {% endif %}
+              {% endwith %}
+            </p>
+          </a>
+        {% endfor %}
+      </div>
     </div>
 </div>
 </div>

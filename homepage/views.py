@@ -9,7 +9,7 @@ import feedparser
 from core.decorators import lru_cache
 from grid.models import Grid
 from homepage.models import Dpotw, Gotw, PSA
-from package.models import Category, Package
+from package.models import Category, Package, Version
 
 
 @lru_cache()
