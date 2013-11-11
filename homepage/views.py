@@ -91,7 +91,7 @@ def homepage(request, template_name="homepage.html"):
             "categories": categories,
             "package_count": package_count,
             "py3_compat": Package.objects.filter(version__supports_python3=True).select_related().distinct().count(),
-            "latest_python3": Version.objects.filter(supports_python3=True).select_related("package").distinct().order_by("-created")
+            "latest_python3": Version.objects.filter(supports_python3=True).select_related("package").distinct().order_by("-created")[0:5]
         }
     )
 
