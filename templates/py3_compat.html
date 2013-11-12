@@ -6,6 +6,7 @@
 {% load package_tags %}
 {% load pagination_tags %}
 {% load sorting_tags %}
+{% load opencomparison_tags %}
 
 {% block head_title %}{% trans "Welcome" %}{% endblock %}
 
@@ -15,18 +16,13 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12">
-      <h2><a href="{% url 'home' %}">{% trans "home" %}</a> / Python 3 Compatable Packages ( {{ packages.count }} )</h2>
+      <h2><a href="{% url 'home' %}">{% trans "home" %}</a> / Python 3 Compatible Packages ( {{ packages.count }} )</h2>
     </div>
   </div>
 
   <div class="row">
-    <div class="col-xs-6">
+    <div class="col-xs-12">
       <p>Packages with a PyPI trove classifier identifying them as Python 3 compatible.
-          
-         </p>
-    </div>
-    <div class="col-xs-6">
-      <p>
         Typically, this goes into setup.py. See <a href="http://bit.ly/1deRfHP">Django as an example.</a>
       </p>
     </div>
@@ -34,42 +30,42 @@
 
   <div class="row">
     <div class="col-xs-12">
-      {% autosort packages %}
-      {% autopaginate packages 50 %}
-      {% paginate %}
       <table class="table">
         <thead>
           <tr>
-            <th>{% anchor usage_count "# Using This" %}</th>
+            <th>{% trans "Using This" %}</th>
             <th>{% trans "Development Status" %}</th>
-            <th>{% anchor title "Name" %}</th>
+            <th>{% trans "Name" %}</th>
             <th>{% trans "Commits" %}</th>
             <th>{% trans "Version" %}</th>
-            <th>{% anchor repo_watchers "Watchers" %}</th>
-            <th>{% anchor repo_forks "Forks" %}</th>
+            <th>{% trans "Watchers" %}</th>
+            <th>{% trans "Forks" %}</th>
             <th width="25%">{% trans "Description" %}</th>
           </tr>
         </thead>
 
-        <tbody>
-        {% for package in packages %}
-          <tr>
+        <tbody ng-init="get_python3_packages('{% url "apiv2:python3" %}')">
+          {% verbatim %}
+          <tr ng-hide="python3_packages">
+            <td colspan="8">Loading...</tr>
+          </tr>
+          <tr ng-repeat="package in python3_packages">
             <td class="usage-container usage-holder">
-                {% usage_button %}                    
                 &nbsp;
                 <span class="usage-count">{{ package.usage_count }}</span>
             </td>
-            <td>{{ package.last_released.pretty_status }}</td>
+            <td>{{ package.development_status }}</td>
             <td><a href="{% url 'package' package.slug %}">{{ package.title }}</a></td>
-            <td><img class="package-githubcommits" src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{package.commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>             
+            <td><img class="package-githubcommits" ng-src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{package.commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>             
             <td>{{ package.pypi_version }}</td>
             <td>{{ package.repo_watchers }}</td>
             <td>{{ package.repo_forks }}</td>  
             <td>{{ package.repo_description }}</td>
           </tr>    
-        {% endfor %}        
+          {% endverbatim %}
         </tbody>
      </table>
-     {% paginate %}
+  </div>
+</div>
 
 {% endblock %}

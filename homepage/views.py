@@ -1,4 +1,4 @@
-from random import randrange, sample
+from random import sample
 
 from django.db.models import Count
 from django.http import HttpResponse
@@ -110,7 +110,12 @@ def error_404_view(request):
 
 
 def py3_compat(request, template_name="py3_compat.html"):
+    packages = Package.objects.filter(version__supports_python3=True)
+    packages = packages.distinct()
+    packages = packages.annotate(usage_count=Count("usage"))
+    packages.order_by("-repo_watchers", "title")
     return render(request, template_name, {
-        "packages": Package.objects.filter(version__supports_python3=True).distinct().annotate(usage_count=Count("usage")).order_by("-repo_watchers", "title")
+        "packages": packages
         }
     )
+

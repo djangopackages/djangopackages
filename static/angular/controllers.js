@@ -10,7 +10,6 @@ function SearchCtrl($scope, $http) {
 
   $scope.search = function(model, url){
     // core search page search function
-    console.log(model.q);
     if (model.q.length){
         $http.get(url + '?q='+model.q).success(function(data) {
           $scope.items = data.results;
@@ -19,5 +18,12 @@ function SearchCtrl($scope, $http) {
         $scope.items = [];
         
     };
+  };
+
+  $scope.get_python3_packages = function(url){
+    console.log("what")
+    $http.get(url).success(function(data) {
+        $scope.python3_packages = data.results;
+    });
   };
 }

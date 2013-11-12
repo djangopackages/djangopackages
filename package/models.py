@@ -253,6 +253,12 @@ class Package(BaseModel):
         return version
 
     @property
+    def development_status(self):
+        """ Gets data needed in API v2 calls """
+        return self.last_released().pretty_status
+
+
+    @property
     def pypi_ancient(self):
         release = self.last_released()
         if release:

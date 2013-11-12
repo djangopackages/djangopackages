@@ -41,4 +41,10 @@ urlpatterns = patterns("",
         view=search_views.SearchDetailAPIView.as_view(),
         name="search"
     ),
+    # {% url "apiv2:python3" slug %}
+    url(
+        regex=r"python3/$",
+        view=package_views.Python3ListAPIView.as_view(),
+        name="python3"
+    ),
 )
