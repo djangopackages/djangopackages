@@ -49,7 +49,7 @@
           <tr ng-hide="python3_packages">
             <td colspan="8">Loading...</tr>
           </tr>
-          <tr ng-repeat="package in python3_packages">
+          <tr ng-repeat="package in python3_packages | orderBy:orderProp">
             <td class="usage-container usage-holder">
                 &nbsp;
                 <span class="usage-count">{{ package.usage_count }}</span>
