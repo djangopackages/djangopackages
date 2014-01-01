@@ -14,23 +14,23 @@ Features
 
 * Comparison grids with wiki-like editing capability
 
-    * Add packages to grid
-    * Add/edit grid features
+  * Add packages to grid
+  * Add/edit grid features
 
 * Storage of package info, fetched from public APIs
 
-    * PyPI
-    * Github
-    * BitBucket
+  * PyPI
+  * Github
+  * BitBucket
 
 * Basic search
 
-    * Autocomplete packages/grids
+  * Autocomplete packages/grids
 
 * Social features:
 
-    * "I use this" button
-    * Latest packages featured on homepage
+  * "I use this" button
+  * Latest packages featured on homepage
 
 * "Add package" and "Add grid" forms
 
