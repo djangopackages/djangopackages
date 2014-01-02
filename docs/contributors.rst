@@ -83,6 +83,7 @@ Direct Contributors
 * Taavi Taijala
 * Taylor Mitchell
 * Tom Brander
+* Yony Narlock
 * Vasja Volin
 
 Other Contributors
