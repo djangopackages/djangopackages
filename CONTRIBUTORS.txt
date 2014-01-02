@@ -82,6 +82,7 @@ Direct Contributors
 * Szilveszter Farkas (Repo Man)
 * Taavi Taijala
 * Taylor Mitchell
+* Tony Narlock
 * Tom Brander
 * Vasja Volin
 
