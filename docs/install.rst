@@ -14,6 +14,7 @@ Download and install setuptools from http://pypi.python.org/pypi/setuptools.  Se
 
     easy_install pip
     pip install virtualenv
+    brew install libmemcached
 
 Ubuntu (10+ /  Lucid or Higher)
 --------------------------------
@@ -42,7 +43,7 @@ Open up a command prompt.  Install pip and virtualenv::
 
     easy_install pip
     pip install virtualenv
-    
+
 Other operating systems (including various Linux flavors)
 ---------------------------------------------------------
 

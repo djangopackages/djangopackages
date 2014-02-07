@@ -35,6 +35,15 @@ Install the appropriate systemwide package.  For example, on Ubuntu do:
 
 If this doesn't work, please let us know (create an issue at http://github.com/opencomparison/opencomparison/issues)
 
+
+fatal error: 'libmemcached/memcached.h' file not found
+------------------------------------------------------
+
+if you are getting something like ./_pylibmcmodule.h:42:10: fatal error: 'libmemcached/memcached.h' file not found. Then you need to install libmemcached::
+
+    brew install libmemcached
+
+
 Other problems
 --------------
 
