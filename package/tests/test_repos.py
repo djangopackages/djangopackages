@@ -182,9 +182,9 @@ class TestBitbucketRepo(TestBaseHandler):
     def setUp(self):
         super(TestBitbucketRepo, self).setUp()
         self.package = Package.objects.create(
-            title="Python packaging guide",
-            slug="python-packaging-user-guide",
-            repo_url="https://bitbucket.org/pypa/python-packaging-user-guide",
+            title="django",
+            slug="django",
+            repo_url="https://bitbucket.org/django/django",
             category=self.category
         )
 
@@ -195,11 +195,12 @@ class TestBitbucketRepo(TestBaseHandler):
 
     def test_fetch_metadata(self):
         package = bitbucket_handler.fetch_metadata(self.package)
-        self.assertEqual(package.repo_description,
-            "Python Packaging User Guide")
+        self.assertTrue(
+            package.repo_description.startswith("Official clone of the Subversion repo")
+        )
         self.assertTrue(package.repo_watchers > 0)
         self.assertTrue(package.repo_forks > 0)
-        self.assertEquals(package.participants, "pypa")
+        self.assertEquals(package.participants, "django")
 
 
 class TestGithubRepo(TestBaseHandler):
