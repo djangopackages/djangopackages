@@ -1,4 +1,4 @@
-Django==1.4.7
+Django==1.4.5
 South==0.7.6
 boto==2.1.0
 certifi==0.0.8
