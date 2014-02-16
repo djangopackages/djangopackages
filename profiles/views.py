@@ -1,12 +1,11 @@
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
+from django.views.generic.edit import UpdateView
 
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, HTML
+from braces.views import LoginRequiredMixin
 
 from social_auth.signals import pre_update
 from social_auth.backends.contrib.github import GithubBackend
@@ -36,45 +35,18 @@ def profile_list(request, template_name="profiles/profiles.html"):
         })
 
 
-@login_required
-def profile_edit(request, template_name="profiles/profile_edit.html"):
+class ProfileEditUpdateView(LoginRequiredMixin, UpdateView):
+    model = Profile
+    form_class = ProfileForm
+    template_name = "profiles/profile_edit.html"
 
-    profile = request.user.get_profile()
-    form = ProfileForm(request.POST or None, instance=profile)
+    def get_object(self):
+        return self.request.user.get_profile()
 
-    if form.is_valid():
+    def form_valid(self, form):
         form.save()
-        msg = 'Profile edited'
-        messages.add_message(request, messages.INFO, msg)
-        return HttpResponseRedirect(reverse("profile_detail", kwargs={"github_account": profile.github_account}))
-
-    # TODO - move this to a template
-    github_account = """
-    <div
-        id="div_id_github_account"
-        class="ctrlHolder"><label for="id_github_account" >Github account</label><strong>{0}</strong></div>
-    """.format(profile.github_account)
-
-    helper = FormHelper()
-    helper.form_class = "profile-edit-form"
-    helper.layout = Layout(
-        Fieldset(
-            '',
-            HTML(github_account),
-            'bitbucket_url',
-            'google_code_url',
-        ),
-        ButtonHolder(
-            Submit('edit', 'Edit', css_class="btn btn-default"),
-        )
-    )
-
-    return render(request, template_name,
-        {
-            "profile": profile,
-            "form": form,
-            "helper": helper,
-        })
+        messages.add_message(self.request, messages.INFO, "Profile Saved")
+        return HttpResponseRedirect(reverse("profile_detail", kwargs={"github_account": self.get_object()}))
 
 
 def github_user_update(sender, user, response, details, **kwargs):
