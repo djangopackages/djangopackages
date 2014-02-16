@@ -168,3 +168,14 @@ TEMPLATE_LOADERS = (
 )
 
 ########## end templates
+
+#-------------------
+# appenlight-client
+#------------------
+
+import appenlight_client.client as e_client
+APPENLIGHT = e_client.get_config({'appenlight.api_key': os.environ.get('APPENLIGHT_KEY', '')})
+
+MIDDLEWARE_CLASSES += (
+    'appenlight_client.django_middleware.AppenlightMiddleware',
+)
