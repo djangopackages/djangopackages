@@ -41,4 +41,4 @@ raven==1.4.6
 rq==0.3.8
 requests==1.2.3
 six==1.1.0
-appenlight-client==0.6.4
+appenlight-client==0.6.5
