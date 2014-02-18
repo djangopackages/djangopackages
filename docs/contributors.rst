@@ -71,6 +71,7 @@ Direct Contributors
 * @kerridge0
 * Kulbir Singh
 * Marc Tamlyn
+* Marcin Lulek
 * Mike Fiedler
 * Mike Johnson
 * Nate Aune
