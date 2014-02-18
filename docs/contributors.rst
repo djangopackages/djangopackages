@@ -69,6 +69,7 @@ Direct Contributors
 * Kenneth Love
 * Kenneth Reitz
 * @kerridge0
+* Kulbir Singh
 * Marc Tamlyn
 * Mike Fiedler
 * Mike Johnson
