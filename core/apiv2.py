@@ -1,20 +1,26 @@
 from django.conf.urls.defaults import patterns, url
 
-from package import views as package_views
+from package import apiv2 as package_api
 from grid import views as grid_views
 from searchv2 import views as search_views
 
 urlpatterns = patterns("",
+    # {% url "apiv2:category" %}
+    url(
+        regex=r"categories/$",
+        view=package_api.CategoryListAPIView.as_view(),
+        name="categories"
+    ),
     # {% url "apiv2:packages" %}
     url(
         regex=r"packages/$",
-        view=package_views.PackageListAPIView.as_view(),
+        view=package_api.PackageListAPIView.as_view(),
         name="packages"
     ),
     # {% url "apiv2:packages" slug %}
     url(
         regex=r"packages/(?P<slug>[-\w]+)/$",
-        view=package_views.PackageDetailAPIView.as_view(),
+        view=package_api.PackageDetailAPIView.as_view(),
         name="packages"
     ),
     # {% url "apiv2:grids" %}
@@ -44,7 +50,7 @@ urlpatterns = patterns("",
     # {% url "apiv2:python3" slug %}
     url(
         regex=r"python3/$",
-        view=package_views.Python3ListAPIView.as_view(),
+        view=package_api.Python3ListAPIView.as_view(),
         name="python3"
     ),
 )

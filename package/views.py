@@ -11,14 +11,12 @@ from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidde
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils import timezone
 
-from rest_framework.generics import ListAPIView, RetrieveAPIView
 
 from grid.models import Grid
 from homepage.models import Dpotw, Gotw
 from package.forms import PackageForm, PackageExampleForm, DocumentationForm
 from package.models import Category, Package, PackageExample
 from package.repos import get_all_repos
-from package.serializers import PackageSerializer
 
 from .utils import quote_plus
 
@@ -326,15 +324,6 @@ def package_detail(request, slug, template_name="package/package.html"):
         )
 
 
-class PackageListAPIView(ListAPIView):
-    model = Package
-    paginate_by = 20
-
-
-class PackageDetailAPIView(RetrieveAPIView):
-    model = Package
-
-
 def int_or_0(value):
     try:
         return int(value)
@@ -377,17 +366,3 @@ def edit_documentation(request, slug, template_name="package/documentation_form.
                 form=form
             )
         )
-
-
-class Python3ListAPIView(ListAPIView):
-    model = Package
-    serializer_class = PackageSerializer
-    paginate_by = 200
-
-    def get_queryset(self):
-        packages = Package.objects.filter(version__supports_python3=True)
-        packages = packages.distinct()
-        packages = packages.annotate(usage_count=Count("usage"))
-        packages.order_by("-repo_watchers", "title")
-        return packages
-

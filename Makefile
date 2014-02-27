@@ -41,3 +41,6 @@ runcron:
 	heroku run python manage.py pypi_updater --settings=settings.heroku
 	heroku run python manage.py repo_updater --settings=settings.heroku
 	heroku run python manage.py searchv2_build --settings=settings.heroku
+
+test:
+	python manage.py test --settings=settings.test

@@ -42,7 +42,7 @@ urlpatterns = patterns("",
     url(r"^search/", include("searchv2.urls")),
 
     # apiv2
-    url(r'^apiv2/', include('core.apiv2', namespace="apiv2")),
+    url(r'^api/v2/', include('core.apiv2', namespace="apiv2")),
 )
 
 from apiv1.api import Api
