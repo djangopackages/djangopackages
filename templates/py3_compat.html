@@ -55,7 +55,7 @@
                 <span class="usage-count">{{ package.usage_count }}</span>
             </td>
             <td>{{ package.development_status }}</td>
-            <td><a ng-href="{% url 'package' package.slug %}">{{ package.title }}</a></td>
+            <td><a id="link-{{$index}}" ng-href="packages/p/{{package.slug}}">{{ package.title }}</a></td>
             <td><img class="package-githubcommits" ng-src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{package.commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>             
             <td>{{ package.pypi_version }}</td>
             <td>{{ package.repo_watchers }}</td>
