@@ -54,6 +54,7 @@ Direct Contributors
 * Dougal Matthews (@d0ugal)
 * Eric Spunagle
 * Evgeny Fadeev
+* Fábio C. Barrionuevo da Luz
 * Flaviu Simihaian
 * George Dorn
 * Gisle Aas  (Repo Man)
