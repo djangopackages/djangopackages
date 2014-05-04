@@ -373,6 +373,8 @@ def edit_documentation(request, slug, template_name="package/documentation_form.
 def github_webhook(request):
     if request.method == "POST":
         data = json.loads(request.POST['payload'])
+        if "zen" in data:
+            return HttpResponse(data['hook_id'])
         repo_url = data['repository']['url']
         package = get_object_or_404(Package, repo_url=repo_url)
         package.repo.fetch_commits(package)
