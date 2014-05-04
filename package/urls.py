@@ -13,7 +13,8 @@ from package.views import (
                             package_list,
                             package_detail,
                             post_data,
-                            edit_documentation
+                            edit_documentation,
+                            github_webhook
                             )
 
 urlpatterns = patterns("",
@@ -91,5 +92,10 @@ urlpatterns = patterns("",
         regex="^(?P<slug>[-\w]+)/document/$",
         view=edit_documentation,
         name="edit_documentation",
+    ),
+    url(
+        regex="^github-webhook/$",
+        view=github_webhook,
+        name="github_webhook"
     ),
 )

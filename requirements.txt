@@ -43,3 +43,5 @@ requests==1.2.3
 shortuuid==0.4.2
 six==1.1.0
 appenlight-client==0.6.5
+
+git+https://github.com/pydanny/django-jsonview.git@c923e20b9fb935060486a83ed13d90bc6cfb6204
