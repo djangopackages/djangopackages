@@ -3,7 +3,7 @@
 All of the resource classes in this module are registered with
 the :class:`~apiv1.api.Api` in the main :mod:`urls.py <urls>`.
 """
-from django.conf.urls.defaults import url
+from django.conf.urls import url
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 

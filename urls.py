@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.conf.urls.defaults import patterns, url, include
+from django.conf.urls import patterns, url, include
 from django.conf.urls.static import static
 from django.views.generic.base import TemplateView, RedirectView
 
@@ -43,6 +43,9 @@ urlpatterns = patterns("",
 
     # apiv2
     url(r'^api/v2/', include('core.apiv2', namespace="apiv2")),
+
+    # apiv3
+    url(r'^api/v3/', include('apiv3.urls', namespace="apiv3")),
 )
 
 from apiv1.api import Api

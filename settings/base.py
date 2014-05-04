@@ -115,6 +115,7 @@ PROJECT_APPS = [
     "apiv1",
     "feeds",
     "searchv2",
+    "apiv3"
 ]
 
 PREREQ_APPS = [

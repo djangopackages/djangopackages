@@ -1,5 +1,5 @@
 """grid url patterns"""
-from django.conf.urls.defaults import patterns, url
+from django.conf.urls import patterns, url
 
 from grid import views
 
