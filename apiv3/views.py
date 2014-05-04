@@ -1,5 +1,5 @@
-from django.http import HttpResponseNotFound
 from django.core.urlresolvers import reverse
+from django.shortcuts import get_object_or_404
 
 from jsonview.decorators import json_view
 
@@ -8,35 +8,7 @@ from grid.models import Grid
 
 @json_view
 def grid_detail(request, slug):
-    """
-    {
-        absolute_url: "/grids/g/cms/"
-        created: "Sat, 14 Aug 2010 20:12:46 -0400"
-        description: "This page lists a few well-known reusable Content Management System applications for Django and tries to gather a comparison of essential features in those applications."
-        is_locked: false
-        modified: "Sat, 11 Sep 2010 14:57:16 -0400"
-        packages: [
-            "/api/v1/package/django-cms/"
-            "/api/v1/package/django-page-cms/"
-            "/api/v1/package/django-lfc/"
-            "/api/v1/package/merengue/"
-            "/api/v1/package/mezzanine/"
-            "/api/v1/package/philo/"
-            "/api/v1/package/pylucid/"
-            "/api/v1/package/django-gitcms/"
-            "/api/v1/package/django-simplepages/"
-            "/api/v1/package/djpcms/"
-            "/api/v1/package/feincms/"
-        ]
-        resource_uri: "/api/v1/grid/cms/"
-        slug: "cms"
-        title: "CMS"
-    }
-    """
-    try:
-        grid = Grid.objects.get(slug=slug)
-    except Grid.DoesNotExist:
-        return HttpResponseNotFound()
+    grid = get_object_or_404(Grid, slug=slug)
 
     return {
         "absolute_url": grid.get_absolute_url(),
@@ -47,6 +19,7 @@ def grid_detail(request, slug):
         "resource_uri": request.path,
         "slug": grid.slug,
         "title": grid.title,
+        "header": grid.header,
         "packages": [
             reverse("apiv3:package_detail", kwargs={'slug':x.slug}) for x in grid.packages.all()
         ]
