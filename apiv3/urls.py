@@ -14,6 +14,11 @@ urlpatterns = patterns("",
         name="grid_detail",
     ),
     url(
+        regex=r"^packages/$",
+        view=views.package_list,
+        name="package_list",
+    ),
+    url(
         regex=r"^packages/(?P<slug>[-\w]+)/$",
         view=views.package_detail,
         name="package_detail",
