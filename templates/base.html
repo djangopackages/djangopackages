@@ -42,7 +42,7 @@
             </a>
 
             <!-- Main nav -->
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav navbar-right">
                 <li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
                 <li><a href="{% url 'faq' %}">{% trans "FAQ" %}</a></li>
                 {% if request.user.is_authenticated %}
