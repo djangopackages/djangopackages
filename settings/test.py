@@ -23,20 +23,4 @@ COVERAGE_MODULE_EXCLUDES = [
     'package_updater$', 'searchv2_build$', 'debug_toolbar',
     'pypi_updater', 'repo_updater'
 ]
-COVERAGE_MODULE_EXCLUDES += PREREQ_APPS + ["djkombu", ]
 COVERAGE_REPORT_HTML_OUTPUT_DIR = "coverage"
-
-# from postgresify import postgresify
-# DATABASES = postgresify()
-
-########## DATABASES
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": ":memory:",
-#         "USER": "",
-#         "PASSWORD": "",
-#         "HOST": "",
-#         "PORT": "",
-#     },
-# }
