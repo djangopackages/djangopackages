@@ -73,3 +73,24 @@ def package_resource(package):
         }
     )
     return data
+    
+def user_resource(profile, list_packages=False):
+    user = profile.user
+    data = {
+        "absolute_url": profile.get_absolute_url(),
+        "resource_uri": reverse("apiv3:user_detail", kwargs={"github_account": profile.github_account}),
+        "created": profile.created,
+        "modified": profile.modified,
+        "github_account": profile.github_account,
+        "username": user.username,
+        "date_joined": user.date_joined,
+        "last_login": user.last_login,
+        "bitbucket_url": profile.bitbucket_url,
+        "google_code_url": profile.google_code_url
+    }
+    if list_packages:
+        data['packages'] = [
+            reverse("apiv3:package_detail", kwargs={"slug": x.slug}) for x in profile.my_packages()
+        ]
+    return data
+    

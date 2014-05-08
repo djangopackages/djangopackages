@@ -24,6 +24,11 @@ urlpatterns = patterns("",
         name="package_detail",
     ),
     url(
+        regex=r"^categories/$",
+        view=views.category_list,
+        name="category_list"
+    ),
+    url(
         regex=r"^categories/(?P<slug>[-\w]+)/$",
         view=views.category_detail,
         name="category_detail"
@@ -32,5 +37,10 @@ urlpatterns = patterns("",
         regex=r"^users/(?P<github_account>[-\w]+)/$",
         view=views.user_detail,
         name="user_detail"
+    ),
+    url(
+        regex=r"^users/$",
+        view=views.user_list,
+        name="user_list"
     )
 )
