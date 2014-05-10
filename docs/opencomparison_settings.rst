@@ -2,7 +2,7 @@
 Settings
 ========
 
-How to customize the settings to suit your needs. Do this in local_settings so patches and upstream pulls don't cause havoc to your installation
+How to customize the settings to suit your needs.
 
 ADMIN_URL_BASE (Default: r"^admin/")
 ====================================
@@ -18,12 +18,11 @@ Used to create the name of the site.
 PACKAGINATOR_SEARCH_PREFIX (Default: "django")
 ==============================================
 
-In the case of **Django Packages**, autocomplete searches for something like 'forms' was problematic because so many packages start with 'django'. The same will hold for searches in **Python Packages** and **Pyramid Packages**. This prefix is accommodated
-in searches to prevent this sort of problem.
+Autocomplete searches for something like 'forms' was problematic because so many packages start with 'django'. This prefix is accommodated in searches to prevent this sort of problem.
 
 example::
 
-    PACKAGINATOR_SEARCH_PREFIX = 'pyramid'
+    PACKAGINATOR_SEARCH_PREFIX = 'django'
 
 PACKAGINATOR_HELP_TEXT (Default: Included in settings.py)
 =========================================================
@@ -40,8 +39,8 @@ Example (also the default)::
 Permissions Settings
 ====================
 
-OpenComparison provides several ways to control who can make what changes to
-things like packages, features, and grids. By default, a OpenComparison project
+Django Packages provides several ways to control who can make what changes to
+things like packages, features, and grids. By default, a Django Packages project
 is open to contributions from any registered user. If a given project would
 like more control over this, there are two settings that can be used.
 

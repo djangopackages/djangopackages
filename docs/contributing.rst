@@ -8,7 +8,7 @@ Setup
 Fork on GitHub
 --------------
 
-Before you do anything else, login/signup on GitHub and fork OpenComparison from the `GitHub project`_.
+Before you do anything else, login/signup on GitHub and fork Django Packages from the `GitHub project`_.
 
 Clone your fork locally
 -----------------------
@@ -17,15 +17,15 @@ If you have git-scm installed, you now clone your git repo using the following c
 
     git clone git@github.com:<my-github-name>/opencomparison.git
 
-Installing OpenComparison
--------------------------
+Installing Django Packages
+--------------------------
 
-Follow our detailed :doc:`installation` instructions. Please record any difficulties you have and share them with the OpenComparison community via our `issue tracker`_.
+Follow our detailed :doc:`installation` instructions. Please record any difficulties you have and share them with the Django Packages community via our `issue tracker`_.
 
 Issues!
 =======
 
-The list of outstanding OpenComparison feature requests and bugs can be found on our on our GitHub `issue tracker`_. Pick an unassigned issue that you think you can accomplish, add a comment that you are attempting to do it, and shortly your own personal label matching your GitHub ID will be assigned to that issue.
+The list of outstanding Django Packages feature requests and bugs can be found on our on our GitHub `issue tracker`_. Pick an unassigned issue that you think you can accomplish, add a comment that you are attempting to do it, and shortly your own personal label matching your GitHub ID will be assigned to that issue.
 
 Feel free to propose issues that aren't described!
 
@@ -40,7 +40,7 @@ Setting up topic branches and generating pull requests
 
 While it's handy to provide useful code snippets in an issue, it is better for
 you as a developer to submit pull requests. By submitting pull request your
-contribution to OpenComparison will be recorded by Github. 
+contribution to Django Packages will be recorded by Github. 
 
 In git it is best to isolate each topic or feature into a "topic branch".  While
 individual commits allow you control over how small individual changes are made
@@ -90,7 +90,7 @@ add a comment to the discussion section of the pull request.
 Pull upstream changes into your fork regularly
 ==================================================
 
-OpenComparison is advancing quickly. It is therefore critical that you pull upstream changes from develop into your fork on a regular basis. Nothing is worse than putting in a days of hard work into a pull request only to have it rejected because it has diverged too far from develop. 
+Django Packages is advancing quickly. It is therefore critical that you pull upstream changes from develop into your fork on a regular basis. Nothing is worse than putting in a days of hard work into a pull request only to have it rejected because it has diverged too far from develop. 
 
 To pull in upstream changes::
 
@@ -115,7 +115,7 @@ We want your submission. But we also want to provide a stable experience for our
 Run the tests!
 --------------
 
-Before you submit a pull request, please run the entire OpenComparison test suite via::
+Before you submit a pull request, please run the entire Django Packages test suite via::
 
     python manage.py test --settings=settings.test
 
@@ -138,7 +138,7 @@ If you change two lines of code and correct 200 lines of whitespace issues in a 
 Keep your pull requests limited to a single issue
 --------------------------------------------------
 
-OpenComparison pull requests should be as small/atomic as possible. Large, wide-sweeping changes in a pull request will be **rejected**, with comments to isolate the specific code in your pull request. Some examples:
+Django Packages pull requests should be as small/atomic as possible. Large, wide-sweeping changes in a pull request will be **rejected**, with comments to isolate the specific code in your pull request. Some examples:
 
 #. If you are making spelling corrections in the docs, don't modify the settings.py file (pydanny_ is guilty of this mistake).
 #. Adding new :doc:`repo_handlers` must not touch the Package model or its methods.

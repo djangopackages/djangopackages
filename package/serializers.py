@@ -35,4 +35,3 @@ class PackageSerializer(serializers.ModelSerializer):
                     "commits_over_52",
                     "development_status"
                 )
-

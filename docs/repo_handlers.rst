@@ -2,9 +2,9 @@
 Repo Handlers
 ================
 
-This document describes the OpenComparison Repo Handler API.
+This document describes the Django Packages Repo Handler API.
 
-Adding a new repo system like Github in OpenComparison is a relatively straightforward task. You need to provide two things:
+Adding a new repo system like Github in Django Packages is a relatively straightforward task. You need to provide two things:
 
 #. Add a new repo handler in the apps.models.repos directory that follows the described API
 #. Add tests to check your work
@@ -52,7 +52,7 @@ So your code might do the following::
 How about cloning GitBlarg's repos so we can get a better view of the data?
 ===========================================================================
 
-The problem is that developers, designers, and managers will happily put gigabytes of data into a git/hg/svn/fossil/cvs repo. For a single project that doesn't sound like much, but when you are dealing with thousands of packages in a OpenComparison instance the scale of the data becomes... well... terrifying. What is now a mild annoyance becomes a staggeringly large problem.
+The problem is that developers, designers, and managers will happily put gigabytes of data into a git/hg/svn/fossil/cvs repo. For a single project that doesn't sound like much, but when you are dealing with thousands of packages in a Django Packages instance the scale of the data becomes... well... terrifying. What is now a mild annoyance becomes a staggeringly large problem.
 
 Therefore, pull requests on repo handlers that attempt to solve the problem this way will be summarily **rejected**.
 

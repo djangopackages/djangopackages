@@ -67,7 +67,7 @@ def homepage(request, template_name="homepage.html"):
     except PSA.DoesNotExist:
         psa_body = '<p>There are currently no announcements.  To request a PSA, tweet at <a href="http://twitter.com/open_comparison">@Open_Comparison</a>.</p>'
 
-    # Latest OpenComparison blog post on homepage
+    # Latest Django Packages blog post on homepage
 
     feed_result = get_feed()
     if len(feed_result.entries):
@@ -93,11 +93,10 @@ def homepage(request, template_name="homepage.html"):
         }
     )
 
-with open("templates/500.html") as f:
-    text = f.read()
-
 
 def error_500_view(request):
+    with open("templates/500.html") as f:
+        text = f.read()
     response = HttpResponse(text)
     response.status_code = 500
     return response

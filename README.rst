@@ -1,7 +1,7 @@
-OpenComparison
-==============
+Django Packages
+===============
 
-OpenComparison helps you easily identify and compare good apps, frameworks, plugins, and other types of packages, using comparison grids.
+Django Packages helps you easily identify and compare good apps, frameworks, plugins, and other types of packages, using comparison grids.
 
 Test Status
 -----------
@@ -61,7 +61,7 @@ Next Deployment
 Credits
 =======
 
-For Django Dash 2010, `@pydanny`_ and `@audreyr`_ created `Django Packages`_. They have been working on it since then, turning it into the OpenComparison framework.
+For Django Dash 2010, `@pydanny`_ and `@audreyr`_ created `Django Packages`_.
 
 They are joined by a host of core developers and contributors.  See http://opencomparison.readthedocs.org/en/latest/contributors.html
 

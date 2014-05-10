@@ -101,24 +101,24 @@ All of the modules listed are applications.
 .. automodule:: profiles.context_processors
     :members:
 
-``pypi`` - pypi app 
-===============================
-.. automodule:: pypi
+.. ``pypi`` - pypi app 
+.. ===============================
+.. .. automodule:: pypi
 
-.. currentmodule:: pypi
+.. .. currentmodule:: pypi
 
-``pypi.slurper``
--------------------
+.. ``pypi.slurper``
+.. -------------------
 
-.. automodule:: pypi.slurper
-    :members:
-    :undoc-members:
+.. .. automodule:: pypi.slurper
+..     :members:
+..     :undoc-members:
 
-``pypi.versioning``
--------------------------------
+.. ``pypi.versioning``
+.. -------------------------------
 
-.. automodule:: pypi.versioning
-    :members:
+.. .. automodule:: pypi.versioning
+..     :members:
 
 ``searchv2`` - searchv2 app 
 ===============================

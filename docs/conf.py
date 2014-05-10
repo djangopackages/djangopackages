@@ -51,7 +51,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'OpenComparison'
+project = u'Django Packages'
 copyright = u'2010-2012, Audrey Roy, Daniel Greenfeld and contributors'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -189,7 +189,7 @@ htmlhelp_basename = 'opencomparisondoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'OpenComparison.tex', u'OpenComparison Documentation',
+  ('index', 'DjangoPackages.tex', u'Django Packages Documentation',
    u'Audrey Roy, Daniel Greenfeld and contributors', 'manual'),
 ]
 
@@ -222,6 +222,6 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'OpenComparison', u'OpenComparison Documentation',
+    ('index', 'DjangoPackages', u'Django Packages Documentation',
      [u'Audrey Roy, Daniel Greenfeld and contributors'], 1)
 ]

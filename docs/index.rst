@@ -3,14 +3,14 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to OpenComparison's documentation!
+Welcome to Django Packages's documentation!
 ===========================================
 
-OpenComparison solves the problem in the programming community of being able to easily identify good apps, frameworks, and packages. Ever want to know which is the most popular or well supported Python httplib replacement, web framework, or api tool? OpenComparison solves that problem for you!
+Django Packages solves the problem in the programming community of being able to easily identify good apps, frameworks, and packages. Ever want to know which is the most popular or well supported Python httplib replacement, web framework, or api tool? Django Packages solves that problem for you!
 
 It does this by storing information on packages fetched from public APIs provided by PyPI, Github, and BitBucket, then provides extremely useful comparison tools for them.
 
-Contributing to OpenComparison
+Contributing to Django Packages
 ================================
 
 #. Follow the installation_ instructions!

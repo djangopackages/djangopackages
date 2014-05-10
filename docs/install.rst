@@ -52,12 +52,12 @@ We don't provide instructions for these, but you should be able to figure things
 Main instructions
 =================
 
-These instructions install OpenComparison on your computer, using PostgreSQL and sample data.
+These instructions install Django Packages on your computer, using PostgreSQL and sample data.
 
 Git clone the project and install requirements
 ------------------------------------------------
 
-Create a virtualenv, activate it, git clone the OpenComparison project, and install its requirements::
+Create a virtualenv, activate it, git clone the Django Packages project, and install its requirements::
 
     cd <installation-directory>
     virtualenv env-oc
