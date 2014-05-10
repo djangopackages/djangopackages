@@ -1,11 +1,7 @@
-import json
-
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.utils import timezone
 
-from apiv3 import resources
 from grid.models import Grid, GridPackage
 from package.models import Package, Category
 from profiles.models import Profile
@@ -41,7 +37,7 @@ class BaseData(TestCase):
             title='Package2',
             slug='package2',
             category=self.app,
-            repo_url='https://github.com/cartwheelweb/opencomparison'  
+            repo_url='https://github.com/cartwheelweb/opencomparison'
         )
         GridPackage.objects.create(package=self.pkg1, grid=self.grid)
         GridPackage.objects.create(package=self.pkg2, grid=self.grid)

@@ -16,3 +16,9 @@ class ResourceTests(BaseData):
     def test_package_resource_created_by(self):
         r = resources.package_resource(self.pkg3)
         self.assertEqual(r['created_by'], reverse("apiv3:user_detail", kwargs={"github_account": "user"}))
+
+    def test_category_resource(self):
+        r = resources.category_resource(self.app)
+        self.assertEqual(r['description'], "")
+        self.assertEqual(r['title'], "App")
+        self.assertEqual(r['slug'], "app")
