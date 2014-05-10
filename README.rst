@@ -6,8 +6,8 @@ Django Packages helps you easily identify and compare good apps, frameworks, plu
 Test Status
 -----------
 
-.. image:: https://travis-ci.org/opencomparison/opencomparison.png?branch=master
-        :target: https://secure.travis-ci.org/opencomparison/opencomparison
+.. image:: https://travis-ci.org/pydanny/djangopackages.png?branch=master
+        :target: https://secure.travis-ci.org/pydanny/djangopackages
 
 Features
 --------
