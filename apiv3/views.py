@@ -1,4 +1,3 @@
-from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 
 from jsonview.decorators import json_view
@@ -9,7 +8,6 @@ from .resources import (
 from grid.models import Grid
 from package.models import Package, Category
 from profiles.models import Profile
-from django.contrib.auth.models import User
 
 
 def GET_int(request, value_name, default):
@@ -18,21 +16,23 @@ def GET_int(request, value_name, default):
     except ValueError:
         value = default
     return value
-    
+
+
 def calc_next(request, limit, offset, count):
     # calculate next
     if count > limit + offset:
         next = "{}?limit={}&offset={}".format(
             request.path,
             limit,
-            offset+limit
+            offset + limit
         )
     else:
         next = None
     return next
-    
+
+
 def calc_previous(request, limit, offset, count):
-    
+
     # calculate previous
     if offset <= 0:
         previous = None
@@ -40,8 +40,10 @@ def calc_previous(request, limit, offset, count):
         previous = "{}?limit={}&offset={}".format(
             request.path,
             limit,
-            max(offset-limit, 0)
-        )    
+            max(offset - limit, 0)
+        )
+    return previous
+
 
 @json_view
 def grid_detail(request, slug):
@@ -49,13 +51,12 @@ def grid_detail(request, slug):
     return grid_resource(grid)
 
 
-
 @json_view
 def grid_list(request):
     count = Grid.objects.count()
     limit = GET_int(request, "limit", 20)
     offset = GET_int(request, "offset", 0)
-    
+
     # Return the Data structure
     return {
         "meta": {
@@ -65,8 +66,9 @@ def grid_list(request):
             "previous": calc_previous(request, limit, offset, count),
             "total_count": count
         },
-        "objects": [grid_resource(x) for x in Grid.objects.all()[offset:offset+limit]]
+        "objects": [grid_resource(x) for x in Grid.objects.all()[offset:offset + limit]]
     }
+
 
 @json_view
 def package_detail(request, slug):
@@ -82,12 +84,11 @@ def package_list(request):
         count = Package.objects.filter(category=category).count()
     except Category.DoesNotExist:
         category = None
-        count = Package.objects.count()        
+        count = Package.objects.count()
 
     limit = GET_int(request, "limit", 20)
     offset = GET_int(request, "offset", 0)
 
-    
     # build the Data structure
     data = {
         "meta": {
@@ -102,20 +103,20 @@ def package_list(request):
 
     if category:
         data['objects'] = [
-            package_resource(x) for x in Package.objects.filter(category=category)[offset:offset+limit]
+            package_resource(x) for x in Package.objects.filter(category=category)[offset:offset + limit]
         ]
     else:
-        data['objects'] = [package_resource(x) for x in Package.objects.all()[offset:offset+limit]]
-    
+        data['objects'] = [package_resource(x) for x in Package.objects.all()[offset:offset + limit]]
+
     return data
-        
+
 
 @json_view
 def category_list(request):
     count = Profile.objects.count()
     limit = GET_int(request, "limit", 20)
     offset = GET_int(request, "offset", 0)
-    
+
     # Return the Data structure
     return {
         "meta": {
@@ -125,7 +126,7 @@ def category_list(request):
             "previous": calc_previous(request, limit, offset, count),
             "total_count": count
         },
-        "objects": [category_resource(x) for x in Category.objects.all()[offset:offset+limit]]
+        "objects": [category_resource(x) for x in Category.objects.all()[offset:offset + limit]]
     }
 
 
@@ -133,14 +134,15 @@ def category_list(request):
 def category_detail(request, slug):
     category = get_object_or_404(Category, slug=slug)
     return category_resource(category)
-    
+
+
 @json_view
 def user_list(request):
     count = Profile.objects.count()
     limit = GET_int(request, "limit", 20)
     offset = GET_int(request, "offset", 0)
     list_packages = request.GET.get("list_packages", False)
-    
+
     # Return the Data structure
     return {
         "meta": {
@@ -150,8 +152,9 @@ def user_list(request):
             "previous": calc_previous(request, limit, offset, count),
             "total_count": count
         },
-        "objects": [user_resource(x, list_packages) for x in Profile.objects.all()[offset:offset+limit]]
+        "objects": [user_resource(x, list_packages) for x in Profile.objects.all()[offset:offset + limit]]
     }
+
 
 @json_view
 def user_detail(request, github_account):

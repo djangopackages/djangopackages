@@ -1,5 +1,6 @@
 from django.core.urlresolvers import reverse
 
+
 def base_resource(obj):
     return {
         "absolute_url": obj.get_absolute_url(),
@@ -8,7 +9,8 @@ def base_resource(obj):
         "slug": obj.slug,
         "title": obj.title,
     }
-    
+
+
 def category_resource(cat):
     data = base_resource(cat)
     data.update(
@@ -20,6 +22,7 @@ def category_resource(cat):
         }
     )
     return data
+
 
 def grid_resource(grid):
     data = base_resource(grid)
@@ -35,20 +38,21 @@ def grid_resource(grid):
         }
     )
     return data
-    
+
+
 def package_resource(package):
     data = base_resource(package)
-    
+
     if package.created_by is None:
         created_by = None
     else:
         created_by = reverse("apiv3:user_detail", kwargs={"github_account": package.created_by.get_profile().github_account})
-        
+
     try:
         last_modified_by = package.last_modified_by.get_profile().github_account
     except AttributeError:
         last_modified_by = None
-    
+
     data.update(
         {
             "category": reverse("apiv3:category_detail", kwargs={"slug": package.category.slug}),
@@ -73,7 +77,8 @@ def package_resource(package):
         }
     )
     return data
-    
+
+
 def user_resource(profile, list_packages=False):
     user = profile.user
     data = {
@@ -93,4 +98,3 @@ def user_resource(profile, list_packages=False):
             reverse("apiv3:package_detail", kwargs={"slug": x.slug}) for x in profile.my_packages()
         ]
     return data
-    
