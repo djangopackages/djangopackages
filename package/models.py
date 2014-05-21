@@ -216,11 +216,12 @@ class Package(BaseModel):
             return True
         return False
 
-    def fetch_metadata(self, fetch_pypi=True):
+    def fetch_metadata(self, fetch_pypi=True, fetch_repo=True):
 
         if fetch_pypi:
             self.fetch_pypi_data()
-        self.repo.fetch_metadata(self)
+        if fetch_repo:
+            self.repo.fetch_metadata(self)
         signal_fetch_latest_metadata.send(sender=self)
         self.save()
 

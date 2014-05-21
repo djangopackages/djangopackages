@@ -75,6 +75,7 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    "core.middleware.UserBasedExceptionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -82,7 +83,7 @@ MIDDLEWARE_CLASSES = (
     "reversion.middleware.RevisionMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "pagination.middleware.PaginationMiddleware",
-    "django_sorting.middleware.SortingMiddleware",
+    "django_sorting.middleware.SortingMiddleware"
 )
 
 TEMPLATE_DIRS = [
