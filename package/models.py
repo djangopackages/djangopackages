@@ -222,7 +222,6 @@ class Package(BaseModel):
             self.fetch_pypi_data()
         self.repo.fetch_metadata(self)
         signal_fetch_latest_metadata.send(sender=self)
-        self.last_fetched = timezone.now()
         self.save()
 
     def grid_clear_detail_template_cache(self):

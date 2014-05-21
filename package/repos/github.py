@@ -83,11 +83,6 @@ class GitHubHandler(BaseHandler):
                 except Commit.MultipleObjectsReturned:
                     pass
 
-        #package.commit_list = str([x['total'] for x in repo.iter_commit_activity(number=52)])
-        #if package.commit_list.strip() == '[]':
-        #    return package
-
-        package.last_fetched = timezone.now()
         package.save()
         return package
 

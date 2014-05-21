@@ -91,6 +91,7 @@ def update_package(request, slug):
     package = get_object_or_404(Package, slug=slug)
     package.fetch_metadata()
     package.fetch_commits()
+    package.last_fetched = timezone.now()
     messages.add_message(request, messages.INFO, 'Package updated successfully')
 
     return HttpResponseRedirect(reverse("package", kwargs={"slug": package.slug}))

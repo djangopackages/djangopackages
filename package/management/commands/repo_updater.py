@@ -16,8 +16,12 @@ class Command(NoArgsCommand):
     def handle(self, *args, **options):
 
         count = 0
+        yesterday = timezone.now() - timezone.timedelta(1)
         for package in Package.objects.filter().iterator():
             package.repo.fetch_metadata(package)
+            if package.last_fetched > yesterday:
+                print "skipped", package.slug
+                continue
             package.repo.fetch_commits(package)
             print package.slug
             count += 1

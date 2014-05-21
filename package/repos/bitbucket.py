@@ -2,7 +2,6 @@ from datetime import datetime, timedelta
 import re
 from warnings import warn
 
-from django.utils import timezone
 
 from .base_handler import BaseHandler
 
@@ -58,7 +57,6 @@ class BitbucketHandler(BaseHandler):
                 weeks[age_weeks] += 1
 
         package.commit_list = ','.join(map(str, reversed(weeks)))
-        package.last_fetched = timezone.now()
         package.save()
 
     def fetch_metadata(self, package):
