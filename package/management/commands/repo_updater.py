@@ -18,10 +18,12 @@ class Command(NoArgsCommand):
         yesterday = timezone.now() - timezone.timedelta(1)
         for package in Package.objects.filter().iterator():
             # keep this here because for now we only have one last_fetched field.
-            package.repo.fetch_metadata(package, fetch_pypi=False)
+            package.repo.fetch_metadata(package)
             if package.last_fetched <= yesterday:
                 continue
             package.repo.fetch_commits(package)
+            package.last_fetched = timezone.now()
+            package.save()
             # if package.repo.title == "Github":
             #     msg = "{}. {}. {}".format(count, package.repo.github.ratelimit_remaining, package)
             # else:
