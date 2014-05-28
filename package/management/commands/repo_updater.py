@@ -20,10 +20,12 @@ class Command(NoArgsCommand):
             # keep this here because for now we only have one last_fetched field.
             package.repo.fetch_metadata(package)
             if package.last_fetched is not None and package.last_fetched <= yesterday:
+                print package, "skipped"
                 continue
             package.repo.fetch_commits(package)
             package.last_fetched = timezone.now()
             package.save()
+            print package, "updated"
             # if package.repo.title == "Github":
             #     msg = "{}. {}. {}".format(count, package.repo.github.ratelimit_remaining, package)
             # else:
