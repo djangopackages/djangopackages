@@ -1,3 +1,4 @@
+from time import sleep
 import logging
 import logging.config
 
@@ -26,6 +27,7 @@ class Command(NoArgsCommand):
             package.last_fetched = timezone.now()
             package.save()
             print package, "updated"
+            sleep(1)
             # if package.repo.title == "Github":
             #     msg = "{}. {}. {}".format(count, package.repo.github.ratelimit_remaining, package)
             # else:
