@@ -62,7 +62,7 @@ class Profile(BaseModel):
             packages.extend(repo_packages)
         packages.sort(lambda a, b: cmp(a.title, b.title))
         return packages
-        
+
     @models.permalink
     def get_absolute_url(self):
         return ("profile_detail", [self.github_account])

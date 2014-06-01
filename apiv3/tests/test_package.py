@@ -7,8 +7,6 @@ import json
 from requests.compat import urlencode
 
 
-
-
 class PackageV1Tests(TestCase):
     def setUp(self):
         """
@@ -37,7 +35,7 @@ class PackageV1Tests(TestCase):
             title='Package2',
             slug='package2',
             category=self.app,
-            repo_url='https://github.com/cartwheelweb/opencomparison'  
+            repo_url='https://github.com/cartwheelweb/opencomparison'
         )
         self.pkg3 = Package.objects.create(
             title='Package3',

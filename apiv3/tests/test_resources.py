@@ -22,3 +22,14 @@ class ResourceTests(BaseData):
         self.assertEqual(r['description'], "")
         self.assertEqual(r['title'], "App")
         self.assertEqual(r['slug'], "app")
+
+    def test_grid_resource(self):
+        r = resources.grid_resource(self.grid)
+        self.assertEqual(r['title'], "A Grid")
+        self.assertEqual(r['slug'], "grid")
+
+    def test_user_resource(self):
+        r = resources.user_resource(self.profile)
+        self.assertEqual(r['absolute_url'], "/profiles/user/")
+        self.assertEqual(r['resource_uri'], "/api/v3/users/user/")
+        self.assertEqual(r['username'], "user")

@@ -46,9 +46,9 @@ class BaseData(TestCase):
             user=self.user,
             github_account="user"
         )
-        
+
         self.pkg1.usage.add(self.user)
-        
+
         self.pkg3 = Package.objects.create(
             title='Package3',
             slug='package3',
