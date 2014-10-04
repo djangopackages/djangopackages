@@ -138,7 +138,7 @@
     letter-spacing: 1px;
     text-transform: uppercase;
 }
-  
+
 /**
  * Heading styles
  */
@@ -215,6 +215,12 @@ h3, .h3 {
   text-decoration: underline;
 }
 
+.fixed-header tr {
+  display: none;
+  position: fixed;
+  top: 0;
+  z-index: 2;
+}
 
 /**
  * Glyphicon colors
