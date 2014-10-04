@@ -95,6 +95,11 @@
 
 <!-- Grid is not inside of a Bootstrap grid row because it needs max width. -->
     {% if grid_packages|length %}
+        <table class="table table-condensed fixed-header">
+            <thead>
+                {% include "grid/snippets/grid_row_header.html" %}
+            </thead>
+        </table>
         <table class="table table-condensed">
             <thead>
                 {% include "grid/snippets/grid_row_header.html" %}
@@ -229,7 +234,6 @@
                     {% endfor %}
                 </tr>
                 
-                {% include "grid/snippets/grid_row_header.html" %}
                 {% for feature in features %}
                     <tr class="{% cycle 'even' 'odd' %}">
                         <td>{{ feature.title }}</td>
@@ -244,9 +248,6 @@
                         {% endfor %}
                     </tr>
                 {% endfor %}
-                {% if features %}
-                    {% include "grid/snippets/grid_row_header.html" %}
-                {% endif %}
                 
                 <!-- start Delete package from grid buttons -->
                 {% if perms.grid.delete_gridpackage %}
@@ -319,6 +320,31 @@
                     {% endif %}
                     
                  {% endif %}
+                 
+                 // sticky table header
+                 $table = $(".table-condensed:not(.fixed-header)");
+                 $header = $(".fixed-header tr");
+
+                 function resizeFixed() {
+                     $originalHeader = $table.find("thead tr");
+                     $header.css("width", $originalHeader.outerWidth() + "px");
+                     $header.css("height", $originalHeader.outerHeight() + "px");
+                     $header.find("th").each(function(index) {
+                         $(this).css("width", $table.find("thead th").eq(index).outerWidth() + "px");
+                     });
+                 };
+                 function scrollFixed() {
+                     $win = $(window);
+                     var offset = $win.scrollTop(),
+                     tableOffsetTop = $table.offset().top,
+                     tableOffsetBottom = tableOffsetTop + $table.height() - $header.height();
+                     var toggle = offset >= tableOffsetTop && offset <= tableOffsetBottom;
+                     $header.toggle(toggle);
+                     $header.css("margin-left", (toggle) ? -$win.scrollLeft() + "px" : 0);
+                 }
+                 $(window).resize(resizeFixed);
+                 $(window).scroll(scrollFixed);
+                 resizeFixed();
 
             });    
         </script>
