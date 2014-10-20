@@ -22,6 +22,13 @@ How can I contribute?
 
 Read the page on contributions_. 
 
+How can I add a listing for a new Package or an entirely new Grid Open Comparison?
+----------------------------------------------------------------------------------
+
+* Go the Home page, https://www.djangopackages.com/ 
+* Go to the left side section called "Add packages and grids".
+* Click the appropriate button, where a package is a program and a grid is a category.
+
 What browsers does Open Comparison support?
 -------------------------------------------
 
