@@ -95,7 +95,7 @@ Set up the database tables:
 
 .. sourcecode:: bash
 
-    python manage.py syncdb
+    python manage.py syncdb --no-input
     python manage.py migrate
 
 .. note::
