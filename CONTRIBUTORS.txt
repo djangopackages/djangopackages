@@ -72,6 +72,7 @@ Direct Contributors
 * Kenneth Reitz
 * @kerridge0
 * Kulbir Singh
+* Leonardo Santagada (@santagada)
 * Marc Tamlyn
 * Marcin Lulek
 * Mike Johnson
