@@ -95,7 +95,7 @@ Set up the database tables:
 
 .. sourcecode:: bash
 
-    python manage.py syncdb
+    python manage.py syncdb --no-input
     python manage.py migrate
 
 .. note::
@@ -105,6 +105,8 @@ Set up the database tables:
     .. sourcecode:: bash
 
         python manage.py load_dev_data
+
+    Grids will not be listed on the homepage, but they are available on /grids/
 
 Load the site in your browser
 -----------------------------
@@ -121,4 +123,6 @@ Give yourself an admin account on the site
 Create a Django superuser for yourself, replacing joe with your username/email::
 
     python manage.py createsuperuser --username=joe --email=joe@example.com
+
+And then login into the admin interface (/admin/) and create a profile for your user filling all the fields with any data.
 
