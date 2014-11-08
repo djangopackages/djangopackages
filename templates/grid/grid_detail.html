@@ -36,7 +36,8 @@
     </p>
 
     {% if features %}
-        {% if request.user.is_authenticated and profile.can_add_grid_package %}        
+        {% comment %}{% if request.user.is_authenticated and profile.can_add_grid_package %}{% endcomment %}
+        {% if request.user.is_authenticated %}
           <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add package to the grid" %}</a></p>
         {% endif %}
 
@@ -52,7 +53,7 @@
   {% if features %}
       <div class="col-lg-9">
           <h3>{% trans "Features currently being evaluated" %}</h3>
-          <table class="table">      
+          <table class="table">
             <thead>
               <tr>
                 <th>{% trans "Feature" %}</th>
