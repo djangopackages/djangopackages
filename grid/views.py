@@ -68,7 +68,7 @@ def grid_detail_landscape(request, slug, template_name="grid/grid_detail2.html")
                 ('pypi_version', 'Version'),
                 ('repo', 'Repo'),
                 ('commits_over_52', 'Commits'),
-                ('repo_watchers', 'Repo watchers'),
+                ('repo_watchers', 'Stars'),
                 ('repo_forks', 'Forks'),
                 ('participant_list', 'Participants'),
                 ('license_latest', 'License')
@@ -350,7 +350,7 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
                 ('pypi_version', 'Version'),
                 ('repo', 'Repo'),
                 ('commits_over_52', 'Commits'),
-                ('repo_watchers', 'Repo watchers'),
+                ('repo_watchers', 'Stars'),
                 ('repo_forks', 'Forks'),
                 ('participant_list', 'Participants'),
                 ('license_latest', 'License')

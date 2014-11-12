@@ -92,9 +92,9 @@ td.usage-container .usage-button {float: right}
 
 p.date { font-style: italic; }
 .package-item p.date { float: left; }
-.package-downloads, .package-watchers { float: right; text-align: right; margin-left: 10px; padding-left: 25px;}
+.package-downloads, .package-stars { float: right; text-align: right; margin-left: 10px; padding-left: 25px;}
 .package-downloads { background: url(../img/download_20x20_clear.png) no-repeat 0 center; }
-.package-watchers { background: url(../img/eye_20x20_clear.png) no-repeat 0 center; }
+.package-stars { background: url(../img/eye_20x20_clear.png) no-repeat 0 center; }
 .description { clear: both; margin-bottom: 5px;}
 
 
