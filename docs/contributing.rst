@@ -15,12 +15,12 @@ Clone your fork locally
 
 If you have git-scm installed, you now clone your git repo using the following command-line argument where <my-github-name> is your account name on GitHub::
 
-    git clone git@github.com:<my-github-name>/opencomparison.git
+    git clone git@github.com:<my-github-name>/djangopackages.git
 
 Installing Django Packages
 --------------------------
 
-Follow our detailed :doc:`installation` instructions. Please record any difficulties you have and share them with the Django Packages community via our `issue tracker`_.
+Follow our detailed :doc:`install` instructions. Please record any difficulties you have and share them with the Django Packages community via our `issue tracker`_.
 
 Issues!
 =======
@@ -94,7 +94,7 @@ Django Packages is advancing quickly. It is therefore critical that you pull ups
 
 To pull in upstream changes::
 
-    git remote add upstream https://github.com/opencomparison/opencomparison.git
+    git remote add upstream https://github.com/djangopackages/djangopackages.git
     git fetch upstream develop
 
 Check the log to be sure that you actually want the changes, before merging::
@@ -170,8 +170,8 @@ How pull requests are checked, tested, and done
 
 First we pull the code into a local branch::
 
-    git checkout -b <branch-name> <submitter-github-name
-    git pull git://github.com/<submitter-github-name/django-twoscoops-project.git develop
+    git checkout -b <branch-name> <submitter-github-name>
+    git pull git://github.com/<submitter-github-name/djangopackages.git develop
 
 Then we run the tests::
 
@@ -184,6 +184,6 @@ We finish with a merge and push to GitHub::
     git push origin develop
 
 
-.. _GitHub project: https://github.com/opencomparison/opencomparison
-.. _issue tracker: https://github.com/opencomparison/opencomparison/issues
+.. _GitHub project: https://github.com/pydanny/djangopackages
+.. _issue tracker: https://github.com/pydanny/djangopackages/djangopackages/issues
 .. _pydanny: http://pydanny.com

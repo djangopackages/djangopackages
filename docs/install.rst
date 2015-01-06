@@ -2,7 +2,7 @@
 Installation
 ============
 
-Do everything listed in this section to get your site up and running locally.  If you run into problems, see the Troubleshooting section.
+Do everything listed in this section to get your site up and running locally.  If you run into problems, see the Troubleshooting section. You will need a Python development environment and Postgres database to test with.
 
 Pre-requisites
 ==============
@@ -16,14 +16,16 @@ Download and install setuptools from http://pypi.python.org/pypi/setuptools.  Se
     pip install virtualenv
     brew install libmemcached
 
-Ubuntu (10+ /  Lucid or Higher)
---------------------------------
+Ubuntu (14+ /  Trusty Thar or Higher)
+-------------------------------------
 
 Install the following::
 
-    sudo apt-get install python-setuptools python-dev libpq-dev
+    sudo apt-get install python-setuptools python-dev libpq-dev libmemcached memcached-dev postrgresql postrgresql-contrib postgresql-client-common
     sudo easy_install pip
     sudo pip install virtualenv
+
+This installs the development libraries and Postgres needed for the Python code to install and run. Postgres still needs to be configured, see: see :doc:`postgresql_contributor_instructions`.
 
 Windows 7
 ---------
@@ -62,8 +64,8 @@ Create a virtualenv, activate it, git clone the Django Packages project, and ins
     cd <installation-directory>
     virtualenv env-oc
     source env-oc/bin/activate
-    git clone git@github.com:opencomparison/opencomparison.git opencomparison
-    cd opencomparison
+    git clone git@github.com:pydanny/djangopackages.git djangopackages
+    cd djangopackages
     pip install -r requirements.txt
 
 Set up server specific settings

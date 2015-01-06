@@ -5,11 +5,11 @@ FAQ
 General
 =======
 
-How did Open Comparison get started?
+How did Django Packages get started?
 ------------------------------------
 
 * In 2010 We realized there was no effective method for finding apps in the Django community.
-* After launch we realized it might be good to use the same software system for other package sets.
+* After launch we realized it might be good to use the same software system for other package sets. Later we realized we do not have enough time to support Open Comparision and decided to concentrate on Django Packages.
 
 Are there any Case Studies?
 ---------------------------
@@ -22,14 +22,14 @@ How can I contribute?
 
 Read the page on contributions_. 
 
-How can I add a listing for a new Package or an entirely new Grid Open Comparison?
+How can I add a listing for a new Package or an entirely new Grid Django Packages?
 ----------------------------------------------------------------------------------
 
 * Go the Home page, https://www.djangopackages.com/ 
 * Go to the left side section called "Add packages and grids".
 * Click the appropriate button, where a package is a program and a grid is a category.
 
-What browsers does Open Comparison support?
+What browsers does Django Packages support?
 -------------------------------------------
 
 We do formal tests on Chrome, Safari and Firefox.
@@ -58,7 +58,7 @@ If you are using something else besides Ubuntu, Mac OS X 10.6+, or Windows 7, yo
 What happened to the fixtures?
 ------------------------------
 
-The effort to support databases besides PostGreSQL was hampered for long time, all caused by a third party package we're not going to identify that caused grief in the use of fixtures. This was a significant issue in Open Comparison, and used up a lot of development cycles. 
+The effort to support databases besides PostGreSQL was hampered for long time, all caused by a third party package we're not going to identify that caused grief in the use of fixtures. This was a significant issue in Django Packages, and used up a lot of development cycles. 
 
 So we use a **Mock** system of creating sample data in our tests and for running a development version of the site. To create some development data, just run::
 
@@ -67,7 +67,7 @@ So we use a **Mock** system of creating sample data in our tests and for running
 Unsupported Repo Hosting Services
 =================================
 
-Open Comparison supports GitHub and BitBucket. Here is some information about other repo hosting services.
+Django Packages supports GitHub and BitBucket. Here is some information about other repo hosting services.
 
 Google Project Hosting
 ----------------------
@@ -80,7 +80,7 @@ They don't have an API. We've filed ticket #5088 and we hope the nice people the
 What about the Google Project Hosting Issue API?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Open Comparison doesn't track a project's tickets/issues.
+Django Packages doesn't track a project's tickets/issues.
 
 What about just screen scraping their site?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -96,7 +96,7 @@ Launchpad
 
 In 2011, when we provided support, their API client involved 5 MB of external dependencies, which is just plain silly for a RESTful API system. We also had a large number of failures by third-party contributors trying to work with their toolchain. We thought about creating a urlib/urllib2 (later requests) powered custom API client, but the demand for Launchpad support is too low to justify the work.
 
-Since then, we've pulled all the Launchpad specific code out of Open Comparison.
+Since then, we've pulled all the Launchpad specific code out of Django Packages.
 
 If you want launchpad support, we welcome pull requests.
 

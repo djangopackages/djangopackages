@@ -1,6 +1,8 @@
 PostgreSQL setup instructions for new contributors
 ==================================================
 
+Note: The database is in settings.py is defaulted to "oc".
+
 Mac
 ---
 
@@ -34,7 +36,7 @@ out as the postgres user.
 
 Now you should be able to access postgres using ``psql -U
 postgres``. Create a new database using ``createdb -U postgres
-opencomparison``.
+oc``.
 
 Another way
 ~~~~~~~~~~~
@@ -51,11 +53,11 @@ your data files somewhere other than ``/usr/local/var/postgres``.
 
 Once the server is started, execute::
 
-    createdb opencomparison
+    createdb oc 
 
 Then you should be able to access the database you created via ``psql`` so::
 
-    psql --dbname opencomparison
+    psql --dbname oc 
 
 Remeber to shut down the service when not in use::
 
@@ -68,23 +70,8 @@ This should never be considered a production-ready deployment scenario.
 Ubuntu
 ------
 
-Install Postgres 8.4 (the version used on the site, as of this writing) with:
-
-    sudo apt-get install postgresql-8.4 libpq-dev
-
-Edit ``/etc/postgresql/8.4/main/postgresql.conf`` and make sure the
-listen line is either ``listen = 'localhost'`` or ``listen = '*'`` to
-listen on all interfaces.
-
-Also, for a more convenient development server setup, it is nice to
-loosen the host-based security settings for localhost. Edit
-``/etc/postgresql/8.4/main/pg_hba.conf`` and set the local and
-127.0.0.1/32 lines to use "trust" authentication (change the last
-column from md5 to trust).
-
-Apply those changes with ``/etc/init.d/postgresql-8.4 reload``.
-
-Lastly, create a new database using ``createdb -U postgres opencomparison``.
+The Ubuntu community maintains good documentations for setting up PostGres. For testing, the "Alternative Server Setup" works well.
+https://help.ubuntu.com/community/PostgreSQL
 
 Windows
 -------
@@ -103,5 +90,5 @@ Open pgAdmin III.  Right-click on PostgreSQL 8.4 (localhost:5432) and
 choose Connect.  Enter the Postgres user password.
 
 Right-click Databases and choose New Database.  Give it the name 
-opencomparison and the owner postgres.  Click OK.
+djangopackages and the owner postgres.  Click OK.
 
