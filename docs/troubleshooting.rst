@@ -33,7 +33,7 @@ Install the appropriate systemwide package.  For example, on Ubuntu do:
 
     sudo apt-get install libbz2-dev
 
-If this doesn't work, please let us know (create an issue at http://github.com/djangopackages/djangopackages/issues)
+If this doesn't work, please let us know (create an issue at http://github.com/pydanny/djangopackages/issues)
 
 
 fatal error: 'libmemcached/memcached.h' file not found
@@ -47,7 +47,7 @@ if you are getting something like ./_pylibmcmodule.h:42:10: fatal error: 'libmem
 Other problems
 --------------
 
-Don't give up!  Submit problems to http://github.com/djangopackages/djangopackages/issues. And don't forget:
+Don't give up!  Submit problems to http://github.com/pydanny/djangopackages/issues. And don't forget:
 
 #. Be polite! We are all volunteers.
 #. Spend the time to learn Github markup
