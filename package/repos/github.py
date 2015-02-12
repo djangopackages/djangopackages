@@ -19,7 +19,7 @@ class GitHubHandler(BaseHandler):
 
     def __init__(self):
         if settings.GITHUB_USERNAME:
-            self.github = login(settings.GITHUB_USERNAME, settings.GITHUB_PASSWORD)
+            self.github = login(token=settings.GITHUB_TOKEN)
         else:
             self.github = GitHub()
 
