@@ -46,4 +46,4 @@ test:
 	python manage.py test --settings=settings.test
 
 cull:
-	heroku run python manage.py delete_old_sessions 10000 --settings=settings.test
+	heroku run python manage.py delete_old_sessions 10000 --settings=settings.heroku
