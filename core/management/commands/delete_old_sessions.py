@@ -12,7 +12,7 @@ from django.contrib.sessions.models import Session
 ... 
 """
 
-class Command(NoArgsCommand):
+class Command(BaseCommand):
 
     args = '<count count ...>'
     help = "Delete old sessions"
