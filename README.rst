@@ -3,6 +3,12 @@ Django Packages
 
 Django Packages helps you easily identify and compare good apps, frameworks, plugins, and other types of packages, using comparison grids.
 
+Sponsorship
+-----------
+
+This is an entirely volunteer driven effort. That includes coding time and hosting costs. If you wish to become a sponsor of this project, please feel free to contact me at pydanny@gmail.com.
+
+
 Test Status
 -----------
 
@@ -51,12 +57,6 @@ License
 
 The code is open-source and licensed under the MIT license.
 
-Next Deployment
-===============
-
-.. code-block:: bash
-
-    $ migrate package
 
 Credits
 =======
