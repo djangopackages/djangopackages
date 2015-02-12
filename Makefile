@@ -21,7 +21,7 @@ restoredata:
 	curl -o -k latest.dump `heroku pgbackups:url`
 	dropdb oc
 	createdb oc
-	pg_restore --clean --no-acl --no-owner -d oc latest.dump
+	pg_restore --clean --no-acl --no-owner -d oc latest.dump > /dev/null 2>&1
 
 createsite:
 	heroku create --stack cedar
