@@ -18,10 +18,8 @@ class Command(NoArgsCommand):
 
         for index, session in enumerate(old_sessions[:10000]):
             session.delete()
-            if str(index).endswith('000'):
-                self.stdout.write("{0} records deleted".format(index))
 
         self.stdout.write("{0} expired sessions remaining".format(
-                Session.objects.filter(expire_date__lt=datetime.now())
+                Session.objects.filter(expire_date__lt=datetime.now()).count()
             )
         )
