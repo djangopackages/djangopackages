@@ -21,7 +21,8 @@ class Command(NoArgsCommand):
         old_sessions = Session.objects.filter(expire_date__lt=datetime.now())
 
         self.stdout.write("Deleting {0} expired sessions".format(
-            old_sessions.count()
+                old_sessions.count()
+            )
         )
 
         for index, session in enumerate(old_sessions):
@@ -30,5 +31,6 @@ class Command(NoArgsCommand):
                 self.stdout.write("{0} records deleted".format(index)
 
         self.stdout.write("{0} expired sessions remaining".format(
-            Session.objects.filter(expire_date__lt=datetime.now())
+                Session.objects.filter(expire_date__lt=datetime.now())
+            )
         )
