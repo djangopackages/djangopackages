@@ -40,8 +40,8 @@ URI                                            Resource                Methods
 /categories_/{slug}/                           Category                GET
 /grids_/                                       Grid list               GET
 /grids_/{slug}/                                Grid                    GET
-/package_/                                     Package list            GET
-/package_/{slug}/                              Package                 GET
+/packages_/                                     Package list            GET
+/packages_/{slug}/                              Package                 GET
 ============================================== ======================= ==================
 
 Resources
