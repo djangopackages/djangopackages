@@ -36,7 +36,7 @@ Contents:
    repo_handlers
    api_docs
    lessons_learned
-   reference
+   .. reference
    
 In development
 ==============
