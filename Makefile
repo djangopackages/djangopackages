@@ -18,10 +18,13 @@ style:
 
 restoredata:
 	heroku pgbackups:capture --expire
-	curl -o -k latest.dump `heroku pgbackups:url`
+	# curl -o -k latest.dump `heroku pgbackups:url`
+	curl -o latest.dump `heroku pgbackups:url`
 	dropdb oc
 	createdb oc
-	pg_restore --clean --no-acl --no-owner -d oc latest.dump > /dev/null 2>&1
+	# pg_restore --clean --no-acl --no-owner -d oc latest.dump > /dev/null 2>&1
+	# pg_restore --verbose --clean --no-acl --no-owner -j 2 -h localhost -U myuser -d mydb latest.dump
+	pg_restore --verbose --clean --no-acl --no-owner -j 2 -h localhost -d oc latest.dump
 
 createsite:
 	heroku create --stack cedar

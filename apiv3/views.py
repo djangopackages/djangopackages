@@ -161,3 +161,13 @@ def user_detail(request, github_account):
     profile = get_object_or_404(Profile, github_account=github_account)
     list_packages = request.GET.get("list_packages", False)
     return user_resource(profile, list_packages)
+
+
+@json_view
+def index(request):
+    return {
+        "categories": "/api/v3/categories/",
+        "grids": "/api/v3/grids/",
+        "packages": "/api/v3/packages/",
+        "users": "/api/v3/users/"
+    }

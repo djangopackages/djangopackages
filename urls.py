@@ -46,6 +46,9 @@ urlpatterns = patterns("",
 
     # apiv3
     url(r'^api/v3/', include('apiv3.urls', namespace="apiv3")),
+
+    # reports
+    # url(r'^reports/', include('reports.urls', namespace='reports')),
 )
 
 from apiv1.api import Api
