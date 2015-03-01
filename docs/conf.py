@@ -52,7 +52,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Django Packages'
-copyright = u'2010-2012, Audrey Roy, Daniel Greenfeld and contributors'
+copyright = u'2010-2015, Audrey Roy Greenfeld, Daniel Roy Greenfeld and contributors'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
