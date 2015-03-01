@@ -1,13 +1,13 @@
 ================
-Webservice APIv1
+Webservice APIv3
 ================
 
-This is the API documentation for Django Packages. It is designed to be language and tool agnostic.
+This is the APIv3 documentation for Django Packages. It is designed to be language and tool agnostic.
 
 API Usage
 =========
 
-The current API is limited to read-only GET requests. Other HTTP methods will fail. Only JSON is provided
+This API is limited to read-only GET requests. Other HTTP methods will fail. Only JSON is provided.
 
 API Reference
 =============
@@ -40,7 +40,6 @@ URI                                            Resource                Methods
 /categories_/{slug}/                           Category                GET
 /grids_/                                       Grid list               GET
 /grids_/{slug}/                                Grid                    GET
-/grids_/{slug}/packages_/                      Grid Packages list      GET
 /package_/                                     Package list            GET
 /package_/{slug}/                              Package                 GET
 ============================================== ======================= ==================
