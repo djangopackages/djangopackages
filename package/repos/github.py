@@ -69,17 +69,18 @@ class GitHubHandler(BaseHandler):
         from package.models import Commit  # Added here to avoid circular imports
 
         for commit in repo.iter_commits(number=300):
+            self.manage_ratelimit()
             try:
                 commit_record, created = Commit.objects.get_or_create(
                     package=package,
                     commit_date=commit.commit.committer['date']
                 )
             except Commit.MultipleObjectsReturned:
-                pass
+                continue
             # If the commit record already exists, it means we are at the end of the
             #   list we want to import
-            # if not created:
-            #     break
+            if not created:
+                break
 
         package.save()
         return package
