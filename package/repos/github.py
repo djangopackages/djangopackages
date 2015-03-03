@@ -75,12 +75,12 @@ class GitHubHandler(BaseHandler):
                     package=package,
                     commit_date=commit.commit.committer['date']
                 )
+                if not created:
+                    break
             except Commit.MultipleObjectsReturned:
                 continue
             # If the commit record already exists, it means we are at the end of the
             #   list we want to import
-            if not created:
-                break
 
         package.save()
         return package
