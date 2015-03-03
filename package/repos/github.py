@@ -48,7 +48,11 @@ class GitHubHandler(BaseHandler):
         package.repo_forks = repo.forks
         package.repo_description = repo.description
 
-        contributors = [x.login for x in repo.iter_contributors(number=100)]
+        contributors = []
+        for contributor in repo.iter_contributors():
+            contributors.append(contributor.login)
+            self.manage_ratelimit()
+        # contributors = [x.login for x in repo.iter_contributors(number=100)]
 
         if contributors:
             package.participants = ','.join(uniquer(contributors))
@@ -64,7 +68,7 @@ class GitHubHandler(BaseHandler):
 
         from package.models import Commit  # Added here to avoid circular imports
 
-        for commit in repo.iter_commits(number=35):
+        for commit in repo.iter_commits(number=300):
             try:
                 commit_record, created = Commit.objects.get_or_create(
                     package=package,
@@ -74,8 +78,8 @@ class GitHubHandler(BaseHandler):
                 pass
             # If the commit record already exists, it means we are at the end of the
             #   list we want to import
-            if not created:
-                break
+            # if not created:
+            #     break
 
         package.save()
         return package
