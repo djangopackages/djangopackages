@@ -30,7 +30,7 @@ class Command(NoArgsCommand):
 
     def handle(self, *args, **options):
 
-        github = github_login(settings.GITHUB_USERNAME, settings.GITHUB_PASSWORD)
+        github = github_login(token=settings.GITHUB_TOKEN)
 
         for index, package in enumerate(Package.objects.iterator()):
 
