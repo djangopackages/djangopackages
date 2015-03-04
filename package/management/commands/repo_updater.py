@@ -20,6 +20,8 @@ class Command(NoArgsCommand):
         for package in Package.objects.filter().iterator():
             # keep this here because for now we only have one last_fetched field.
             package = package.repo.fetch_metadata(package)
+            if package is None:
+                continue
             if package.last_fetched is not None and package.last_fetched > yesterday:
                 print package, "skipped"
                 continue
