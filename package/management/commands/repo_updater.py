@@ -19,7 +19,7 @@ class Command(NoArgsCommand):
         yesterday = timezone.now() - timezone.timedelta(1)
         for package in Package.objects.filter().iterator():
             # keep this here because for now we only have one last_fetched field.
-            package.repo.fetch_metadata(package)
+            package = package.repo.fetch_metadata(package)
             if package.last_fetched is not None and package.last_fetched > yesterday:
                 print package, "skipped"
                 continue
