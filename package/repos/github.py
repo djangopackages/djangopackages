@@ -34,7 +34,7 @@ class GitHubHandler(BaseHandler):
         try:
             username, repo_name = package.repo_name().split('/')
         except ValueError:
-            return package
+            return None
         return self.github.repository(username, repo_name)
 
 
