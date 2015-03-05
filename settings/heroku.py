@@ -39,12 +39,6 @@ SERVER_EMAIL = EMAIL_HOST_USER
 SECRET_KEY = environ.get('SECRET_KEY', '')
 
 
-########## GITHUB
-GITHUB_API_SECRET = environ.get('GITHUB_API_SECRET')
-GITHUB_APP_ID = environ.get('GITHUB_APP_ID')
-GITHUB_TOKEN = environ.get('GITHUB_TOKEN')
-
-
 ########## SITE
 SITE_TITLE = environ.get('SITE_TITLE')
 FRAMEWORK_TITLE = environ.get('FRAMEWORK_TITLE')

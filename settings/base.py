@@ -394,3 +394,9 @@ License :: Other/Proprietary License
 License :: Public Domain
 License :: Repoze Public License""".splitlines()
 ########### End LICENSES from PyPI
+
+
+########## GITHUB
+GITHUB_API_SECRET = environ.get('GITHUB_API_SECRET')
+GITHUB_APP_ID = environ.get('GITHUB_APP_ID')
+GITHUB_TOKEN = environ.get('GITHUB_TOKEN')

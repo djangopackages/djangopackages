@@ -18,7 +18,7 @@ class GitHubHandler(BaseHandler):
     slug_regex = repo_regex
 
     def __init__(self):
-        if settings.GITHUB_USERNAME:
+        if settings.GITHUB_TOKEN:
             self.github = login(token=settings.GITHUB_TOKEN)
         else:
             self.github = GitHub()
@@ -52,7 +52,6 @@ class GitHubHandler(BaseHandler):
         for contributor in repo.iter_contributors():
             contributors.append(contributor.login)
             self.manage_ratelimit()
-        # contributors = [x.login for x in repo.iter_contributors(number=100)]
 
         if contributors:
             package.participants = ','.join(uniquer(contributors))
@@ -68,7 +67,7 @@ class GitHubHandler(BaseHandler):
 
         from package.models import Commit  # Added here to avoid circular imports
 
-        for commit in repo.iter_commits(number=300):
+        for commit in repo.iter_commits():
             self.manage_ratelimit()
             try:
                 commit_record, created = Commit.objects.get_or_create(
