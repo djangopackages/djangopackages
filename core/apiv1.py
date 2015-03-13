@@ -11,7 +11,6 @@ class APIRedirectView(RedirectView):
         are provided as kwargs to this method.
         """
         chunk = kwargs['chunk']
-
         bits = chunk.split('/')
 
         # Category listings
