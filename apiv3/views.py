@@ -162,6 +162,26 @@ def user_detail(request, github_account):
     list_packages = request.GET.get("list_packages", False)
     return user_resource(profile, list_packages)
 
+@json_view
+def grid_packages_list(request, slug):
+    grid = get_object_or_404(Grid, slug=slug)
+    packages = Package.objects.filter(grid=grid)
+    count = packages.count()
+    limit = GET_int(request, "limit", 20)
+    offset = GET_int(request, "offset", 0)
+    # build the Data structure
+    data = {
+        "meta": {
+            "limit": limit,
+            "next": calc_next(request, limit, offset, count),
+            "offset": offset,
+            "previous": calc_previous(request, limit, offset, count),
+            "total_count": count
+        },
+        "grid": grid_resource(grid),
+        "objects": [package_resource(x) for x in packages[offset:offset + limit]]
+    }
+    return data
 
 @json_view
 def index(request):
