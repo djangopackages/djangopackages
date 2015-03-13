@@ -287,6 +287,10 @@ class Package(BaseModel):
     def get_absolute_url(self):
         return ("package", [self.slug])
 
+    @property
+    def last_commit(self):
+        return self.commit_set.latest()
+
 
 class PackageExample(BaseModel):
 

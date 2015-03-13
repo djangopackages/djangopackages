@@ -113,7 +113,7 @@ def package_list(request):
 
 @json_view
 def category_list(request):
-    count = Profile.objects.count()
+    count = Category.objects.count()
     limit = GET_int(request, "limit", 20)
     offset = GET_int(request, "offset", 0)
 

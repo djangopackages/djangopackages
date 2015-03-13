@@ -372,3 +372,13 @@ class GridListAPIView(ListAPIView):
 
 class GridDetailAPIView(RetrieveAPIView):
     model = Grid
+
+
+def grid_timesheet(request, slug, template_name="grid/grid_timesheet.html"):
+    grid = get_object_or_404(Grid, slug=slug)
+    grid_packages = grid.grid_packages.order_by("-package__modified").select_related()
+
+    return render(request, template_name, {
+            'grid': grid,
+            'grid_packages': grid_packages,
+        })

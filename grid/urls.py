@@ -98,4 +98,8 @@ urlpatterns = patterns("",
         view=views.grid_detail_landscape,
         name='grid_landscape',
     ),
+    url(regex='^g/(?P<slug>[-\w]+)/timesheet/$',
+        view=views.grid_timesheet,
+        name='grid_timesheet'
+    )
 )
