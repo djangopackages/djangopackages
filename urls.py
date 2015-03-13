@@ -47,6 +47,8 @@ urlpatterns = patterns("",
     # apiv3
     url(r'^api/v3/', include('apiv3.urls', namespace="apiv3")),
 
+    url(r'^apitest/v1/', include('core.apiv1', namespace="apitest")),
+
     # reports
     # url(r'^reports/', include('reports.urls', namespace='reports')),
 )

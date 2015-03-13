@@ -2,6 +2,7 @@ from django.conf.urls import patterns, url
 
 from . import views
 
+# New URLs
 urlpatterns = patterns("",
     url(
         regex=r"^grids/$",
@@ -48,4 +49,9 @@ urlpatterns = patterns("",
         view=views.user_list,
         name="user_list"
     ),
+    url(
+        regex=r"^$",
+        view=views.index,
+        name="index"
+    )
 )
