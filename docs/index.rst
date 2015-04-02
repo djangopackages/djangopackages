@@ -34,7 +34,6 @@ Contents:
    contributors
    contributing
    repo_handlers
-   api_docs
    apiv3_docs
    lessons_learned
    .. reference

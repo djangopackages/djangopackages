@@ -113,7 +113,6 @@ PROJECT_APPS = [
     "homepage",
     "package",
     "profiles",
-    "apiv1",
     "feeds",
     "searchv2",
     "apiv3"
