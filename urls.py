@@ -3,10 +3,10 @@ from django.conf.urls import patterns, url, include
 from django.conf.urls.static import static
 from django.views.generic.base import TemplateView, RedirectView
 
-
 from django.contrib import admin
 admin.autodiscover()
 
+from core.apiv1 import apiv1_gone
 from homepage.views import homepage, error_404_view, error_500_view, py3_compat
 from package.views import category
 
@@ -47,29 +47,16 @@ urlpatterns = patterns("",
     # apiv3
     url(r'^api/v3/', include('apiv3.urls', namespace="apiv3")),
 
-    url(r'^apitest/v1/', include('core.apiv1', namespace="apitest")),
+    url(
+        regex=r"^api/v1/.*$",
+        view=apiv1_gone,
+        name="apiv1_gone",
+    ),
+
+    # url(r'^api/v1/', include('core.apiv1', namespace="apitest")),
 
     # reports
     # url(r'^reports/', include('reports.urls', namespace='reports')),
-)
-
-from apiv1.api import Api
-from apiv1.resources import (
-                    GotwResource, DpotwResource,
-                    PackageResource, CategoryResource,
-                    GridResource, UserResource
-                    )
-
-v1_api = Api()
-v1_api.register(PackageResource())
-v1_api.register(CategoryResource())
-v1_api.register(GridResource())
-v1_api.register(GotwResource())
-v1_api.register(DpotwResource())
-v1_api.register(UserResource())
-
-urlpatterns += patterns('',
-    url(r"^api/", include(v1_api.urls)),
 )
 
 

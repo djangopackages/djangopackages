@@ -214,6 +214,8 @@ class TestGithubRepo(TestBaseHandler):
         )
 
     def test_fetch_commits(self):
+        import time
+        time.sleep(10)
         self.assertEqual(Commit.objects.count(), 0)
         github_handler.fetch_commits(self.package)
         self.assertTrue(Commit.objects.count() > 0)
