@@ -134,7 +134,6 @@ PREREQ_APPS = [
     "pagination",
     "django_extensions",
     "south",
-    "tastypie",
     "reversion",
     "django_sorting",
     #"django_modeler",
