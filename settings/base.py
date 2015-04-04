@@ -398,3 +398,6 @@ License :: Repoze Public License""".splitlines()
 GITHUB_API_SECRET = environ.get('GITHUB_API_SECRET')
 GITHUB_APP_ID = environ.get('GITHUB_APP_ID')
 GITHUB_TOKEN = environ.get('GITHUB_TOKEN')
+
+########### SEKURITY
+ALLOWED_HOSTS = ["*"]
