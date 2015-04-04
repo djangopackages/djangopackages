@@ -10,7 +10,7 @@ from memcacheify import memcacheify
 from postgresify import postgresify
 from S3 import CallingFormat
 
-from settings.base import *
+from .base import *
 
 
 ########## CACHE
