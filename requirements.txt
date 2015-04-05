@@ -17,7 +17,7 @@ django-heroku-postgresify==0.2
 django-jsonview>=0.4.2
 django-pagination==1.0.7
 django-pylibmc-sasl==0.2.4
-django-reversion==1.8.0
+django-reversion==1.8.1
 django-secure==0.1.2
 django-sslify==0.2
 django-social-auth==0.7.18
