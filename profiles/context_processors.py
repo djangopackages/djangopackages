@@ -11,7 +11,7 @@ def lazy_profile(request):
         if hasattr(request, 'profile'):
             return request.profile
         else:
-            return request.user.get_profile()
+            return request.user.profile
 
     data = {
         'profile': SimpleLazyObject(get_user_profile),

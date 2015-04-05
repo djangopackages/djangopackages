@@ -41,7 +41,7 @@ class ProfileEditUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "profiles/profile_edit.html"
 
     def get_object(self):
-        return self.request.user.get_profile()
+        return self.request.user.profile
 
     def form_valid(self, form):
         form.save()
