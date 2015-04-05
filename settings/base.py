@@ -133,7 +133,6 @@ PREREQ_APPS = [
     "crispy_forms",
     "pagination",
     "django_extensions",
-    "south",
     "reversion",
     "django_sorting",
     #"django_modeler",
