@@ -38,7 +38,7 @@ def get_form_class(form_name):
 @login_required
 def add_package(request, template_name="package/package_form.html"):
 
-    if not request.user.get_profile().can_add_package:
+    if not request.user.profile.can_add_package:
         return HttpResponseForbidden("permission denied")
 
     new_package = Package()
@@ -64,7 +64,7 @@ def add_package(request, template_name="package/package_form.html"):
 @login_required
 def edit_package(request, slug, template_name="package/package_form.html"):
 
-    if not request.user.get_profile().can_edit_package:
+    if not request.user.profile.can_edit_package:
         return HttpResponseForbidden("permission denied")
 
     package = get_object_or_404(Package, slug=slug)

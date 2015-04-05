@@ -46,10 +46,10 @@ def package_resource(package):
     if package.created_by is None:
         created_by = None
     else:
-        created_by = reverse("apiv3:user_detail", kwargs={"github_account": package.created_by.get_profile().github_account})
+        created_by = reverse("apiv3:user_detail", kwargs={"github_account": package.created_by.profile.github_account})
 
     try:
-        last_modified_by = package.last_modified_by.get_profile().github_account
+        last_modified_by = package.last_modified_by.profile.github_account
     except AttributeError:
         last_modified_by = None
 
