@@ -10,7 +10,7 @@ from django.db.models import Q, Count
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils import timezone
-from django.views.decorators.csrf import csrf_view_exempt
+from django.views.decorators.csrf import csrf_exempt
 
 
 from grid.models import Grid
@@ -370,7 +370,7 @@ def edit_documentation(request, slug, template_name="package/documentation_form.
         )
 
 
-@csrf_view_exempt
+@csrf_exempt
 def github_webhook(request):
     if request.method == "POST":
         data = json.loads(request.POST['payload'])
