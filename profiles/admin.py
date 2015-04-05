@@ -1,7 +1,5 @@
 from django.contrib import admin
 
-from reversion.admin import VersionAdmin
-
 from profiles.models import Profile
 
 
@@ -15,7 +13,7 @@ def user_email(obj):
 user_email.short_description = "User email"
 
 
-class ProfileAdmin(VersionAdmin):
+class ProfileAdmin(admin.ModelAdmin):
 
     search_fields = ("user__username", "github_account", "user__email", "email")
     list_display = ("github_account", "email", username, user_email)
