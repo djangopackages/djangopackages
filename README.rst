@@ -43,14 +43,12 @@ Features
 The Site
 --------
 
-The most current example is live and functional at https://www.djangopackages.com.
-
-The http://opencomparison.org project also supports projects such as plone.opencomparison.org and pyramid.opencomparison.org.
+https://www.djangopackages.com.
 
 The Documentation
 -----------------
 
-The documentation is hosted at http://opencomparison.rtfd.org
+The documentation is hosted at http://djangopackages.rtfd.org
 
 License
 -------
