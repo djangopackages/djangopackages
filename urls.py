@@ -13,7 +13,8 @@ from package.views import category
 urlpatterns = patterns("",
 
     url(r'^login/\{\{item\.absolute_url\}\}/', RedirectView.as_view(url="/login/github/")),
-    url('', include('social_auth.urls')),
+    url('', include('social.apps.django_app.urls', namespace='social')),
+    # url('', include('social_auth.urls')),
     url(r"^$", homepage, name="home"),
     url(r"^404$", error_404_view, name="404"),
     url(r"^500$", error_500_view, name="500"),
