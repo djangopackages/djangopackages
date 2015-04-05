@@ -56,7 +56,7 @@ class Package(BaseModel):
     repo_url = models.URLField(_("repo URL"), help_text=repo_url_help_text, blank=True, unique=True)
     repo_watchers = models.IntegerField(_("Stars"), default=0)
     repo_forks = models.IntegerField(_("repo forks"), default=0)
-    pypi_url = models.SlugField(_("PyPI slug"), help_text=pypi_url_help_text, blank=True, default='')
+    pypi_url = models.CharField(_("PyPI slug"), max_length=255, help_text=pypi_url_help_text, blank=True, default='')
     pypi_downloads = models.IntegerField(_("Pypi downloads"), default=0)
     participants = models.TextField(_("Participants"),
                         help_text="List of collaborats/participants on the project", blank=True)
