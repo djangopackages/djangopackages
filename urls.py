@@ -12,8 +12,8 @@ from package.views import category
 
 urlpatterns = patterns("",
 
-    url(r'^login/\{\{item\.absolute_url\}\}/', RedirectView.as_view(url="/login/github/")),
-    url('', include('social.apps.django_app.urls', namespace='social')),
+    # url(r'^login/\{\{item\.absolute_url\}\}/', RedirectView.as_view(url="/login/github/")),
+    url('^auth/', include('social.apps.django_app.urls', namespace='social')),
     # url('', include('social_auth.urls')),
     url(r"^$", homepage, name="home"),
     url(r"^404$", error_404_view, name="404"),
@@ -28,7 +28,7 @@ urlpatterns = patterns("",
     url(r"^categories/$", homepage, name="categories"),
     url(r"^python3/$", py3_compat, name="py3_compat"),
 
-    url(regex=r'^login/$', view=TemplateView.as_view(template_name='pages/login.html'), name='login',),
+    # url(regex=r'^login/$', view=TemplateView.as_view(template_name='pages/login.html'), name='login',),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, 'logout',),
 
     # static pages

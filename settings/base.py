@@ -222,7 +222,7 @@ SUPPORTED_REPO.extend(["bitbucket", "github"])
 
 
 AUTHENTICATION_BACKENDS = (
-    'social.AUTHENTICATION_BACKENDS.github.GithubMemberOAuth2',
+    'social.backends.github.GithubMemberOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 GITHUB_API_SECRET = environ.get('GITHUB_API_SECRET')
@@ -272,45 +272,45 @@ if DEBUG:
 
 ADMIN_URL_BASE = environ.get('ADMIN_URL_BASE', r"^admin/")
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'formatters': {
-        'standard': {
-            'format': "[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s",
-            'datefmt': "%d/%b/%Y %H:%M:%S"
-        },
-    },
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logutils.colorize.ColorizingStreamHandler',
-            'formatter': 'standard'
-        },
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler',
-            'include_html': True,
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console', ],
-            'propagate': True,
-            'level': 'ERROR',
-        },
-        'django.request': {
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': True,
+#     'formatters': {
+#         'standard': {
+#             'format': "[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s",
+#             'datefmt': "%d/%b/%Y %H:%M:%S"
+#         },
+#     },
+#     'handlers': {
+#         'console': {
+#             'level': 'DEBUG',
+#             'class': 'logutils.colorize.ColorizingStreamHandler',
+#             'formatter': 'standard'
+#         },
+#         'mail_admins': {
+#             'level': 'ERROR',
+#             'class': 'django.utils.log.AdminEmailHandler',
+#             'include_html': True,
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console', ],
+#             'propagate': True,
+#             'level': 'ERROR',
+#         },
+#         'django.request': {
 
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': False,
-        },
-        '': {
-            'handlers': ['console', ],
-            'level': os.environ.get('DEBUG_LEVEL', 'ERROR'),
-        },
-    }
-}
+#             'handlers': ['mail_admins'],
+#             'level': 'ERROR',
+#             'propagate': False,
+#         },
+#         '': {
+#             'handlers': ['console', ],
+#             'level': os.environ.get('DEBUG_LEVEL', 'ERROR'),
+#         },
+#     }
+# }
 
 
 URL_REGEX_GITHUB = r'(?:http|https|git)://github.com/[^/]*/([^/]*)/{0,1}'
