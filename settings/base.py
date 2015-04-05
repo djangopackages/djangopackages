@@ -104,6 +104,8 @@ TEMPLATE_CONTEXT_PROCESSORS = [
     "grid.context_processors.grid_headers",
     "core.context_processors.current_path",
     "profiles.context_processors.lazy_profile",
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',
     "core.context_processors.core_values",
 ]
 
@@ -137,7 +139,7 @@ PREREQ_APPS = [
     "django_sorting",
     #"django_modeler",
 
-    'social_auth',
+    'social.apps.django_app.default',
     'floppyforms',
     'rest_framework',
 
@@ -220,7 +222,7 @@ SUPPORTED_REPO.extend(["bitbucket", "github"])
 
 
 AUTHENTICATION_BACKENDS = (
-    'social_auth.backends.contrib.github.GithubBackend',
+    'social.AUTHENTICATION_BACKENDS.github.GithubMemberOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 GITHUB_API_SECRET = environ.get('GITHUB_API_SECRET')
@@ -234,6 +236,7 @@ SOCIAL_AUTH_DEFAULT_USERNAME = lambda u: slugify(u)
 SOCIAL_AUTH_EXTRA_DATA = False
 SOCIAL_AUTH_CHANGE_SIGNAL_ONLY = True
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
 LOGIN_REDIRECT_URL = '/'
 
 # associate user via email
@@ -400,3 +403,4 @@ GITHUB_TOKEN = environ.get('GITHUB_TOKEN')
 
 ########### SEKURITY
 ALLOWED_HOSTS = ["*"]
+
