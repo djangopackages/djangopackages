@@ -336,11 +336,11 @@ class Commit(BaseModel):
 
 class VersionManager(models.Manager):
     def by_version(self, *args, **kwargs):
-        qs = self.get_query_set().filter(*args, **kwargs)
+        qs = self.get_queryset().filter(*args, **kwargs)
         return sorted(qs, key=lambda v: versioner(v.number))
 
     def by_version_not_hidden(self, *args, **kwargs):
-        qs = self.get_query_set().filter(*args, **kwargs)
+        qs = self.get_queryset().filter(*args, **kwargs)
         qs = qs.filter(hidden=False)
         qs = sorted(qs, key=lambda v: versioner(v.number))
         qs.reverse()
