@@ -222,7 +222,7 @@ SUPPORTED_REPO.extend(["bitbucket", "github"])
 
 
 AUTHENTICATION_BACKENDS = (
-    'social.backends.github.GithubMemberOAuth2',
+    'social.backends.github.GithubOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 GITHUB_API_SECRET = environ.get('GITHUB_API_SECRET')
