@@ -7,6 +7,8 @@ from django.views.generic.edit import UpdateView
 
 from braces.views import LoginRequiredMixin
 
+from django.contrib.auth.signals import user_logged_in
+
 # from social_auth.signals import pre_update
 # from social_auth.backends.contrib.github import GithubBackend
 
@@ -56,5 +58,5 @@ def github_user_update(sender, user, response, details, **kwargs):
     profile_instance.save()
     return True
 
-# pre_update.connect(github_user_update, sender=GithubBackend)
+user_logged_in.connect(github_user_update)
 
