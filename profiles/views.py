@@ -51,7 +51,13 @@ class ProfileEditUpdateView(LoginRequiredMixin, UpdateView):
         return HttpResponseRedirect(reverse("profile_detail", kwargs={"github_account": self.get_object()}))
 
 
-def github_user_update(sender, user, response, details, **kwargs):
+def github_user_update(sender, **kwargs):
+    errors = {
+        "sender": sender,
+        "kwargs": kwargs
+
+    }
+    raise Exception(errors)
     profile_instance, created = Profile.objects.get_or_create(user=user)
     profile_instance.github_account = details['username']
     profile_instance.email = details['email']
