@@ -52,16 +52,16 @@ class ProfileEditUpdateView(LoginRequiredMixin, UpdateView):
 
 
 def github_user_update(sender, **kwargs):
-    request = kwargs['request']
+    user = kwargs['user']
     # errors = {
     #     "sender": sender,
     #     "kwargs": kwargs
 
     # }
     # raise Exception(errors)
-    profile_instance, created = Profile.objects.get_or_create(user=request.user)
-    profile_instance.github_account = request.user.username
-    profile_instance.email = request.user.email
+    profile_instance, created = Profile.objects.get_or_create(user=user)
+    profile_instance.github_account = user.username
+    profile_instance.email = user.email
     profile_instance.save()
     return True
 
