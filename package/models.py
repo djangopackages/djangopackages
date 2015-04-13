@@ -298,6 +298,7 @@ class PackageExample(BaseModel):
     title = models.CharField(_("Title"), max_length="100")
     url = models.URLField(_("URL"))
     active = models.BooleanField(_("Active"), default=True, help_text="Moderators have to approve links before they are provided")
+    created_by = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
 
     class Meta:
         ordering = ['title']

@@ -236,3 +236,11 @@ h3, .h3 {
 .glyphicon-remove { color: #DA0707; }
 .glyphicon-info-sign { color: #16C9C9; }
 .glyphicon-book { color: #16C9C9; }
+
+
+/**
+ * Delete form for PackageExample
+ */
+
+#example-delete-btn { float: right; margin-top: -2.5em; }
+#example-delete { float: right; }
