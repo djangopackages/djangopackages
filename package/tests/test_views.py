@@ -105,6 +105,7 @@ class FunctionalPackageTest(TestCase):
         self.assertEqual(p.title, 'TEST TITLE')
 
     def test_add_example_view(self):
+        PackageExample.objects.all().delete()
         url = reverse('add_example', kwargs={'slug': 'testability'})
         response = self.client.get(url)
 

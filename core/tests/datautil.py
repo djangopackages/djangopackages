@@ -10,11 +10,12 @@ def reset_sequences(*models):
 
     Much of this is modeled after django.core.management.commands.loaddata.
     """
-    connection = connections[DEFAULT_DB_ALIAS]
-    cursor = connection.cursor()
-    sequence_sql = connection.ops.sequence_reset_sql(no_style(), models)
-    if sequence_sql:
-        for line in sequence_sql:
-            cursor.execute(line)
-    transaction.commit_unless_managed()
-    cursor.close()
+    # connection = connections[DEFAULT_DB_ALIAS]
+    # cursor = connection.cursor()
+    # sequence_sql = connection.ops.sequence_reset_sql(no_style(), models)
+    # if sequence_sql:
+    #     for line in sequence_sql:
+    #         cursor.execute(line)
+    # # transaction.commit_unless_managed()
+    # cursor.close()
+    pass
