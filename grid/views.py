@@ -333,7 +333,7 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
     * ``grid_packages`` - packages involved in the current grid
     """
     grid = get_object_or_404(Grid, slug=slug)
-    features = grid.feature_set.select_related()
+    features = grid.feature_set.select_related(None)
 
     grid_packages = grid.grid_packages.order_by("-package__repo_watchers")
 
