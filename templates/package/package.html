@@ -245,9 +245,6 @@
                 <a href="{{ example.pretty_url }}">{{ example.title }}</a>
               {% if request.user.is_authenticated %}&nbsp;
                   <a href="{% url 'edit_example' package.slug example.id %}"><span class="glyphicon glyphicon-pencil"></span></a>
-                  {% if request.user.id == example.created_by.id %}
-                      <a href="{% url 'delete_example' package.slug example.id %}"><span class="glyphicon glyphicon-trash"></span></a>
-                  {% endif %}
               {% endif %}
             </li>
           {% endfor %}
