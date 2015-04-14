@@ -140,6 +140,8 @@ def edit_example(request, slug, id, template_name="package/edit_example.html"):
 def delete_example(request, slug, id, template_name="package/delete_example.html"):
 
     package_example = get_object_or_404(PackageExample, id=id, package__slug__iexact=slug)
+    if package_example.created_by is None and not request.user.is_staff:
+        raise PermissionDenied
     if package_example.created_by.id != request.user.id and not request.user.is_staff:
         raise PermissionDenied
 

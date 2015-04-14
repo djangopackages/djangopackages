@@ -114,20 +114,25 @@ class FunctionalPackageTest(TestCase):
 
         # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username='user', password='user'))
+        user = User.objects.get(username='user')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'package/add_example.html')
 
-        count = PackageExample.objects.count()
+        id_list = list(PackageExample.objects.values_list('id', flat=True))
         response = self.client.post(url, {
             'title': 'TEST TITLE',
             'url': 'https://github.com',
         })
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(PackageExample.objects.count(), count + 1)
+        self.assertEqual(PackageExample.objects.count(), len(id_list) + 1)
+
+        recently_added = PackageExample.objects.exclude(id__in=id_list).first()
+        self.assertEqual(recently_added.created_by.id, user.id)
 
     def test_edit_example_view(self):
-        e = PackageExample.objects.all()[0]
+        user = User.objects.get(username='user')
+        e = PackageExample.objects.exclude(created_by=user).first()
         id = e.pk
         url = reverse('edit_example', kwargs={'slug': e.package.slug,
             'id': e.pk})
@@ -141,6 +146,7 @@ class FunctionalPackageTest(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'package/edit_example.html')
+        self.assertNotContains(response, 'example-delete-btn')
 
         response = self.client.post(url, {
             'title': 'TEST TITLE',
@@ -149,6 +155,55 @@ class FunctionalPackageTest(TestCase):
         self.assertEqual(response.status_code, 302)
         e = PackageExample.objects.get(pk=id)
         self.assertEqual(e.title, 'TEST TITLE')
+
+        deletable_e = PackageExample.objects.filter(created_by=user).first()
+        url = reverse('edit_example', kwargs={'slug': e.package.slug,
+            'id': deletable_e.pk})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'example-delete-btn')
+
+    def test_delete_example_view(self):
+        user = User.objects.get(username='user')
+        e = PackageExample.objects.filter(created_by=user).first()
+        other_e = PackageExample.objects.exclude(created_by=user).exclude(created_by=None).first()
+        noone_e = PackageExample.objects.filter(created_by=None).first()
+
+        url = reverse('delete_example', kwargs={'slug': e.package.slug,
+            'id': e.pk})
+        other_url = reverse('delete_example', kwargs={'slug': other_e.package.slug,
+            'id': other_e.pk})
+        noone_url = reverse('delete_example', kwargs={'slug': noone_e.package.slug,
+            'id': noone_e.pk})
+
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+
+        self.assertTrue(self.client.login(username='user', password='user'))
+
+        response = self.client.get(other_url)
+        self.assertEqual(response.status_code, 403)
+        response = self.client.get(noone_url)
+        self.assertEqual(response.status_code, 403)
+
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+        confirm_url = reverse('confirm_delete_example', kwargs={'slug': e.package.slug,
+            'id': e.pk})
+        confirm_other_url = reverse('confirm_delete_example', kwargs={'slug': other_e.package.slug,
+            'id': other_e.pk})
+        confirm_noone_url = reverse('delete_example', kwargs={'slug': noone_e.package.slug,
+            'id': noone_e.pk})
+
+        response = self.client.post(confirm_other_url)
+        self.assertEqual(response.status_code, 403)
+        response = self.client.post(confirm_noone_url)
+        self.assertEqual(response.status_code, 403)
+
+        response = self.client.post(confirm_url)
+        self.assertEqual(response.status_code, 302)
+        self.assertRaises(PackageExample.DoesNotExist, PackageExample.objects.get, id=e.id)
 
     def test_usage_view(self):
         url = reverse('usage', kwargs={'slug': 'testability', 'action': 'add'})
