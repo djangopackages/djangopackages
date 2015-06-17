@@ -10,7 +10,7 @@ from django.db.models import Q, Count
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils import timezone
-from django.views.decorators.csrf import csrf_view_exempt
+from django.views.decorators.csrf import csrf_exempt
 
 
 from grid.models import Grid
@@ -38,7 +38,7 @@ def get_form_class(form_name):
 @login_required
 def add_package(request, template_name="package/package_form.html"):
 
-    if not request.user.get_profile().can_add_package:
+    if not request.user.profile.can_add_package:
         return HttpResponseForbidden("permission denied")
 
     new_package = Package()
@@ -64,7 +64,7 @@ def add_package(request, template_name="package/package_form.html"):
 @login_required
 def edit_package(request, slug, template_name="package/package_form.html"):
 
-    if not request.user.get_profile().can_edit_package:
+    if not request.user.profile.can_edit_package:
         return HttpResponseForbidden("permission denied")
 
     package = get_object_or_404(Package, slug=slug)
@@ -200,26 +200,9 @@ def ajax_package_list(request, template_name="package/ajax_package_list.html"):
     )
 
 
+@login_required
 def usage(request, slug, action):
     success = False
-    # Check if the user is authenticated, redirecting them to the login page if
-    # they're not.
-    if not request.user.is_authenticated():
-
-        url = settings.LOGIN_URL
-        referer = request.META.get('HTTP_REFERER')
-        if referer:
-            url += quote_plus('?next=/%s' % referer.split('/', 3)[-1])
-        else:
-            url += '?next=%s' % reverse('usage', args=(slug, action))
-        url = reverse("login")
-        if request.is_ajax():
-            response = {}
-            response['success'] = success
-            response['redirect'] = url
-            return HttpResponse(json.dumps(response))
-        return HttpResponseRedirect(url)
-
     package = get_object_or_404(Package, slug=slug)
 
     # Update the current user's usage of the given package as specified by the
@@ -370,7 +353,7 @@ def edit_documentation(request, slug, template_name="package/documentation_form.
         )
 
 
-@csrf_view_exempt
+@csrf_exempt
 def github_webhook(request):
     if request.method == "POST":
         data = json.loads(request.POST['payload'])

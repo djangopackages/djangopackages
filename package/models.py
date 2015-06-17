@@ -53,10 +53,10 @@ class Package(BaseModel):
     slug = models.SlugField(_("Slug"), help_text="Enter a valid 'slug' consisting of letters, numbers, underscores or hyphens. Values will be converted to lowercase.", unique=True)
     category = models.ForeignKey(Category, verbose_name="Installation")
     repo_description = models.TextField(_("Repo Description"), blank=True)
-    repo_url = models.URLField(_("repo URL"), help_text=repo_url_help_text, blank=True, unique=True, verify_exists=True)
+    repo_url = models.URLField(_("repo URL"), help_text=repo_url_help_text, blank=True, unique=True)
     repo_watchers = models.IntegerField(_("repo watchers"), default=0)
     repo_forks = models.IntegerField(_("repo forks"), default=0)
-    pypi_url = models.URLField(_("PyPI slug"), help_text=pypi_url_help_text, blank=True, default='', verify_exists=True)
+    pypi_url = models.CharField(_("PyPI slug"), max_length=255, help_text=pypi_url_help_text, blank=True, default='')
     pypi_downloads = models.IntegerField(_("Pypi downloads"), default=0)
     participants = models.TextField(_("Participants"),
                         help_text="List of collaborats/participants on the project", blank=True)
@@ -336,11 +336,11 @@ class Commit(BaseModel):
 
 class VersionManager(models.Manager):
     def by_version(self, *args, **kwargs):
-        qs = self.get_query_set().filter(*args, **kwargs)
+        qs = self.get_queryset().filter(*args, **kwargs)
         return sorted(qs, key=lambda v: versioner(v.number))
 
     def by_version_not_hidden(self, *args, **kwargs):
-        qs = self.get_query_set().filter(*args, **kwargs)
+        qs = self.get_queryset().filter(*args, **kwargs)
         qs = qs.filter(hidden=False)
         qs = sorted(qs, key=lambda v: versioner(v.number))
         qs.reverse()

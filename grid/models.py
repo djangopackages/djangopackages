@@ -41,7 +41,7 @@ class Grid(BaseModel):
     def grid_packages(self):
         """ Gets all the packages and orders them for views and other things
          """
-        gp = self.gridpackage_set.select_related('gridpackage', 'package__repo', 'package__category')
+        gp = self.gridpackage_set.select_related()
         grid_packages = gp.annotate(usage_count=models.Count('package__usage')).order_by('-usage_count', 'package')
         return grid_packages
 

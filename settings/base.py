@@ -104,6 +104,8 @@ TEMPLATE_CONTEXT_PROCESSORS = [
     "grid.context_processors.grid_headers",
     "core.context_processors.current_path",
     "profiles.context_processors.lazy_profile",
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',
     "core.context_processors.core_values",
 ]
 
@@ -133,13 +135,11 @@ PREREQ_APPS = [
     "crispy_forms",
     "pagination",
     "django_extensions",
-    "south",
-    "tastypie",
     "reversion",
     "django_sorting",
     #"django_modeler",
 
-    'social_auth',
+    'social.apps.django_app.default',
     'floppyforms',
     'rest_framework',
 
@@ -156,7 +156,7 @@ ABSOLUTE_URL_OVERRIDES = {
 
 AUTH_PROFILE_MODULE = "profiles.Profile"
 
-LOGIN_URL = "/login/github/"
+LOGIN_URL = "/auth/login/github/"
 LOGIN_REDIRECT_URLNAME = "home"
 
 EMAIL_CONFIRMATION_DAYS = 2
@@ -222,20 +222,23 @@ SUPPORTED_REPO.extend(["bitbucket", "github"])
 
 
 AUTHENTICATION_BACKENDS = (
-    'social_auth.backends.contrib.github.GithubBackend',
+    'social.backends.github.GithubOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 GITHUB_API_SECRET = environ.get('GITHUB_API_SECRET')
 GITHUB_APP_ID = environ.get('GITHUB_APP_ID')
 GITHUB_USERNAME = environ.get('GITHUB_USERNAME')
 GITHUB_PASSWORD = environ.get('GITHUB_PASSWORD')
+SOCIAL_AUTH_GITHUB_KEY = GITHUB_APP_ID
+SOCIAL_AUTH_GITHUB_SECRET = GITHUB_API_SECRET
 SOCIAL_AUTH_ENABLED_BACKENDS = ('github', )
 SOCIAL_AUTH_COMPLETE_URL_NAME = 'socialauth_complete'
 SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'associate_complete'
 SOCIAL_AUTH_DEFAULT_USERNAME = lambda u: slugify(u)
-SOCIAL_AUTH_EXTRA_DATA = False
+SOCIAL_AUTH_GITHUB_EXTRA_DATA = []
 SOCIAL_AUTH_CHANGE_SIGNAL_ONLY = True
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
 LOGIN_REDIRECT_URL = '/'
 
 # associate user via email
@@ -271,45 +274,45 @@ if DEBUG:
 
 ADMIN_URL_BASE = environ.get('ADMIN_URL_BASE', r"^admin/")
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'formatters': {
-        'standard': {
-            'format': "[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s",
-            'datefmt': "%d/%b/%Y %H:%M:%S"
-        },
-    },
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logutils.colorize.ColorizingStreamHandler',
-            'formatter': 'standard'
-        },
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler',
-            'include_html': True,
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console', ],
-            'propagate': True,
-            'level': 'ERROR',
-        },
-        'django.request': {
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': True,
+#     'formatters': {
+#         'standard': {
+#             'format': "[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s",
+#             'datefmt': "%d/%b/%Y %H:%M:%S"
+#         },
+#     },
+#     'handlers': {
+#         'console': {
+#             'level': 'DEBUG',
+#             'class': 'logutils.colorize.ColorizingStreamHandler',
+#             'formatter': 'standard'
+#         },
+#         'mail_admins': {
+#             'level': 'ERROR',
+#             'class': 'django.utils.log.AdminEmailHandler',
+#             'include_html': True,
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console', ],
+#             'propagate': True,
+#             'level': 'ERROR',
+#         },
+#         'django.request': {
 
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': False,
-        },
-        '': {
-            'handlers': ['console', ],
-            'level': os.environ.get('DEBUG_LEVEL', 'ERROR'),
-        },
-    }
-}
+#             'handlers': ['mail_admins'],
+#             'level': 'ERROR',
+#             'propagate': False,
+#         },
+#         '': {
+#             'handlers': ['console', ],
+#             'level': os.environ.get('DEBUG_LEVEL', 'ERROR'),
+#         },
+#     }
+# }
 
 
 URL_REGEX_GITHUB = r'(?:http|https|git)://github.com/[^/]*/([^/]*)/{0,1}'
@@ -399,3 +402,7 @@ License :: Repoze Public License""".splitlines()
 GITHUB_API_SECRET = environ.get('GITHUB_API_SECRET')
 GITHUB_APP_ID = environ.get('GITHUB_APP_ID')
 GITHUB_TOKEN = environ.get('GITHUB_TOKEN')
+
+########### SEKURITY
+ALLOWED_HOSTS = ["*"]
+

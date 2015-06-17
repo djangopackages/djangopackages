@@ -1,167 +1,123 @@
-# encoding: utf-8
-import datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
-class Migration(SchemaMigration):
-
-    def forwards(self, orm):
-        
-        # Adding model 'Category'
-        db.create_table('package_category', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now, blank=True)),
-            ('modified', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now, blank=True)),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length='50')),
-            ('slug', self.gf('django.db.models.fields.SlugField')(max_length=50, db_index=True)),
-            ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
-        ))
-        db.send_create_signal('package', ['Category'])
-
-        # Adding model 'Repo'
-        db.create_table('package_repo', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now, blank=True)),
-            ('modified', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now, blank=True)),
-            ('is_supported', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length='50')),
-            ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('url', self.gf('django.db.models.fields.URLField')(max_length=200)),
-        ))
-        db.send_create_signal('package', ['Repo'])
-
-        # Adding model 'Package'
-        db.create_table('package_package', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now, blank=True)),
-            ('modified', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now, blank=True)),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length='100')),
-            ('slug', self.gf('django.db.models.fields.SlugField')(unique=True, max_length=50, db_index=True)),
-            ('category', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['package.Category'])),
-            ('repo', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['package.Repo'], null=True)),
-            ('repo_description', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('repo_url', self.gf('django.db.models.fields.URLField')(max_length=200, blank=True)),
-            ('repo_watchers', self.gf('django.db.models.fields.IntegerField')(default=0)),
-            ('repo_forks', self.gf('django.db.models.fields.IntegerField')(default=0)),
-            ('repo_commits', self.gf('django.db.models.fields.IntegerField')(default=0)),
-            ('pypi_url', self.gf('django.db.models.fields.URLField')(default='', max_length=200, blank=True)),
-            ('pypi_version', self.gf('django.db.models.fields.CharField')(max_length='20', blank=True)),
-            ('pypi_downloads', self.gf('django.db.models.fields.IntegerField')(default=0)),
-            ('participants', self.gf('django.db.models.fields.TextField')(blank=True)),
-        ))
-        db.send_create_signal('package', ['Package'])
-
-        # Adding M2M table for field related_packages on 'Package'
-        db.create_table('package_package_related_packages', (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('from_package', models.ForeignKey(orm['package.package'], null=False)),
-            ('to_package', models.ForeignKey(orm['package.package'], null=False))
-        ))
-        db.create_unique('package_package_related_packages', ['from_package_id', 'to_package_id'])
-
-        # Adding model 'PackageExample'
-        db.create_table('package_packageexample', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now, blank=True)),
-            ('modified', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now, blank=True)),
-            ('package', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['package.Package'])),
-            ('title', self.gf('django.db.models.fields.CharField')(max_length='100')),
-            ('url', self.gf('django.db.models.fields.URLField')(max_length=200)),
-            ('active', self.gf('django.db.models.fields.BooleanField')(default=True)),
-        ))
-        db.send_create_signal('package', ['PackageExample'])
-
-        # Adding model 'Commit'
-        db.create_table('package_commit', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('created', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now, blank=True)),
-            ('modified', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now, blank=True)),
-            ('package', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['package.Package'])),
-            ('commit_date', self.gf('django.db.models.fields.DateTimeField')()),
-        ))
-        db.send_create_signal('package', ['Commit'])
+from django.db import models, migrations
+import django.db.models.deletion
+import core.fields
+import django.utils.timezone
+from django.conf import settings
 
 
-    def backwards(self, orm):
-        
-        # Deleting model 'Category'
-        db.delete_table('package_category')
+class Migration(migrations.Migration):
 
-        # Deleting model 'Repo'
-        db.delete_table('package_repo')
+    dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+    ]
 
-        # Deleting model 'Package'
-        db.delete_table('package_package')
-
-        # Removing M2M table for field related_packages on 'Package'
-        db.delete_table('package_package_related_packages')
-
-        # Deleting model 'PackageExample'
-        db.delete_table('package_packageexample')
-
-        # Deleting model 'Commit'
-        db.delete_table('package_commit')
-
-
-    models = {
-        'package.category': {
-            'Meta': {'ordering': "['title']", 'object_name': 'Category'},
-            'created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now', 'blank': 'True'}),
-            'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'modified': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now', 'blank': 'True'}),
-            'slug': ('django.db.models.fields.SlugField', [], {'max_length': '50', 'db_index': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': "'50'"})
-        },
-        'package.commit': {
-            'Meta': {'ordering': "['-commit_date']", 'object_name': 'Commit'},
-            'commit_date': ('django.db.models.fields.DateTimeField', [], {}),
-            'created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now', 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'modified': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now', 'blank': 'True'}),
-            'package': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['package.Package']"})
-        },
-        'package.package': {
-            'Meta': {'ordering': "['title']", 'object_name': 'Package'},
-            'category': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['package.Category']"}),
-            'created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now', 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'modified': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now', 'blank': 'True'}),
-            'participants': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'pypi_downloads': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'pypi_url': ('django.db.models.fields.URLField', [], {'default': "''", 'max_length': '200', 'blank': 'True'}),
-            'pypi_version': ('django.db.models.fields.CharField', [], {'max_length': "'20'", 'blank': 'True'}),
-            'related_packages': ('django.db.models.fields.related.ManyToManyField', [], {'related_name': "'related_packages_rel_+'", 'blank': 'True', 'to': "orm['package.Package']"}),
-            'repo': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['package.Repo']", 'null': 'True'}),
-            'repo_commits': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'repo_description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'repo_forks': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'repo_url': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'}),
-            'repo_watchers': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '50', 'db_index': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': "'100'"})
-        },
-        'package.packageexample': {
-            'Meta': {'ordering': "['title']", 'object_name': 'PackageExample'},
-            'active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now', 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'modified': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now', 'blank': 'True'}),
-            'package': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['package.Package']"}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': "'100'"}),
-            'url': ('django.db.models.fields.URLField', [], {'max_length': '200'})
-        },
-        'package.repo': {
-            'Meta': {'ordering': "['-is_supported', 'title']", 'object_name': 'Repo'},
-            'created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now', 'blank': 'True'}),
-            'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_supported': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'modified': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now', 'blank': 'True'}),
-            'title': ('django.db.models.fields.CharField', [], {'max_length': "'50'"}),
-            'url': ('django.db.models.fields.URLField', [], {'max_length': '200'})
-        }
-    }
-
-    complete_apps = ['package']
+    operations = [
+        migrations.CreateModel(
+            name='Category',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('created', core.fields.CreationDateTimeField(default=django.utils.timezone.now, verbose_name='created', editable=False, blank=True)),
+                ('modified', core.fields.ModificationDateTimeField(default=django.utils.timezone.now, verbose_name='modified', editable=False, blank=True)),
+                ('title', models.CharField(max_length=b'50', verbose_name='Title')),
+                ('slug', models.SlugField(verbose_name='slug')),
+                ('description', models.TextField(verbose_name='description', blank=True)),
+                ('title_plural', models.CharField(max_length=b'50', verbose_name='Title Plural', blank=True)),
+                ('show_pypi', models.BooleanField(default=True, verbose_name='Show pypi stats & version')),
+            ],
+            options={
+                'ordering': ['title'],
+                'verbose_name_plural': 'Categories',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Commit',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('created', core.fields.CreationDateTimeField(default=django.utils.timezone.now, verbose_name='created', editable=False, blank=True)),
+                ('modified', core.fields.ModificationDateTimeField(default=django.utils.timezone.now, verbose_name='modified', editable=False, blank=True)),
+                ('commit_date', models.DateTimeField(verbose_name='Commit Date')),
+                ('commit_hash', models.CharField(default=b'', help_text=b'Example: Git sha or SVN commit id', max_length=150, verbose_name='Commit Hash', blank=True)),
+            ],
+            options={
+                'ordering': ['-commit_date'],
+                'get_latest_by': 'commit_date',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Package',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('created', core.fields.CreationDateTimeField(default=django.utils.timezone.now, verbose_name='created', editable=False, blank=True)),
+                ('modified', core.fields.ModificationDateTimeField(default=django.utils.timezone.now, verbose_name='modified', editable=False, blank=True)),
+                ('title', models.CharField(max_length=b'100', verbose_name='Title')),
+                ('slug', models.SlugField(help_text=b"Enter a valid 'slug' consisting of letters, numbers, underscores or hyphens. Values will be converted to lowercase.", unique=True, verbose_name='Slug')),
+                ('repo_description', models.TextField(verbose_name='Repo Description', blank=True)),
+                ('repo_url', models.URLField(help_text=b'Enter your project repo hosting URL here. Example: https://github.com/opencomparison/opencomparison', unique=True, verbose_name='repo URL', blank=True)),
+                ('repo_watchers', models.IntegerField(default=0, verbose_name='repo watchers')),
+                ('repo_forks', models.IntegerField(default=0, verbose_name='repo forks')),
+                ('pypi_url', models.CharField(default=b'', help_text=b'<strong>Leave this blank if this package does not have a PyPI release.</strong> What PyPI uses to index your package. Example: django-uni-form', max_length=255, verbose_name='PyPI slug', blank=True)),
+                ('pypi_downloads', models.IntegerField(default=0, verbose_name='Pypi downloads')),
+                ('participants', models.TextField(help_text=b'List of collaborats/participants on the project', verbose_name='Participants', blank=True)),
+                ('last_fetched', models.DateTimeField(default=django.utils.timezone.now, null=True, blank=True)),
+                ('documentation_url', models.URLField(default=b'', null=True, verbose_name='Documentation URL', blank=True)),
+                ('commit_list', models.TextField(verbose_name='Commit List', blank=True)),
+                ('category', models.ForeignKey(verbose_name=b'Installation', to='package.Category')),
+                ('created_by', models.ForeignKey(related_name='creator', on_delete=django.db.models.deletion.SET_NULL, blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+                ('last_modified_by', models.ForeignKey(related_name='modifier', on_delete=django.db.models.deletion.SET_NULL, blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+                ('usage', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
+            ],
+            options={
+                'ordering': ['title'],
+                'get_latest_by': 'id',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='PackageExample',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('created', core.fields.CreationDateTimeField(default=django.utils.timezone.now, verbose_name='created', editable=False, blank=True)),
+                ('modified', core.fields.ModificationDateTimeField(default=django.utils.timezone.now, verbose_name='modified', editable=False, blank=True)),
+                ('title', models.CharField(max_length=b'100', verbose_name='Title')),
+                ('url', models.URLField(verbose_name='URL')),
+                ('active', models.BooleanField(default=True, help_text=b'Moderators have to approve links before they are provided', verbose_name='Active')),
+                ('package', models.ForeignKey(to='package.Package')),
+            ],
+            options={
+                'ordering': ['title'],
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Version',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('created', core.fields.CreationDateTimeField(default=django.utils.timezone.now, verbose_name='created', editable=False, blank=True)),
+                ('modified', core.fields.ModificationDateTimeField(default=django.utils.timezone.now, verbose_name='modified', editable=False, blank=True)),
+                ('number', models.CharField(default=b'', max_length=b'100', verbose_name='Version', blank=b'')),
+                ('downloads', models.IntegerField(default=0, verbose_name='downloads')),
+                ('license', models.CharField(max_length=b'100', verbose_name='license')),
+                ('hidden', models.BooleanField(default=False, verbose_name='hidden')),
+                ('upload_time', models.DateTimeField(help_text='When this was uploaded to PyPI', null=True, verbose_name='upload_time', blank=True)),
+                ('development_status', models.IntegerField(default=0, verbose_name='Development Status', choices=[(0, b'Unknown'), (1, b'Development Status :: 1 - Planning'), (2, b'Development Status :: 2 - Pre-Alpha'), (3, b'Development Status :: 3 - Alpha'), (4, b'Development Status :: 4 - Beta'), (5, b'Development Status :: 5 - Production/Stable'), (6, b'Development Status :: 6 - Mature'), (7, b'Development Status :: 7 - Inactive')])),
+                ('supports_python3', models.BooleanField(default=False, verbose_name='Supports Python 3')),
+                ('package', models.ForeignKey(blank=True, to='package.Package', null=True)),
+            ],
+            options={
+                'ordering': ['-upload_time'],
+                'get_latest_by': 'upload_time',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.AddField(
+            model_name='commit',
+            name='package',
+            field=models.ForeignKey(to='package.Package'),
+            preserve_default=True,
+        ),
+    ]

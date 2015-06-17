@@ -93,7 +93,7 @@ def add_grid(request, template_name="grid/update_grid.html"):
     * ``form`` - an instance of :class:`~app.grid.forms.GridForm`
     """
 
-    if not request.user.get_profile().can_add_grid:
+    if not request.user.profile.can_add_grid:
         return HttpResponseForbidden("permission denied")
 
     new_grid = Grid()
@@ -116,7 +116,7 @@ def edit_grid(request, slug, template_name="grid/update_grid.html"):
     * ``form`` - instance of :class:`grid.forms.GridForm`
     """
 
-    if not request.user.get_profile().can_edit_grid:
+    if not request.user.profile.can_edit_grid:
         return HttpResponseForbidden("permission denied")
 
     grid = get_object_or_404(Grid, slug=slug)
@@ -142,7 +142,7 @@ def add_feature(request, grid_slug, template_name="grid/update_feature.html"):
     * ``grid`` - instance of :class:`grid.models.Grid` model
     """
 
-    if not request.user.get_profile().can_add_grid_feature:
+    if not request.user.profile.can_add_grid_feature:
         return HttpResponseForbidden("permission denied")
 
     grid = get_object_or_404(Grid, slug=grid_slug)
@@ -169,7 +169,7 @@ def edit_feature(request, id, template_name="grid/update_feature.html"):
     Requires the user to be logged in.
     """
 
-    if not request.user.get_profile().can_edit_grid_feature:
+    if not request.user.profile.can_edit_grid_feature:
         return HttpResponseForbidden("permission denied")
 
     feature = get_object_or_404(Feature, id=id)
@@ -223,7 +223,7 @@ def delete_grid_package(request, id, template_name="grid/edit_feature.html"):
 @login_required
 def edit_element(request, feature_id, package_id, template_name="grid/edit_element.html"):
 
-    if not request.user.get_profile().can_edit_grid_element:
+    if not request.user.profile.can_edit_grid_element:
         return HttpResponseForbidden("permission denied")
 
     feature = get_object_or_404(Feature, pk=feature_id)
@@ -257,7 +257,7 @@ def edit_element(request, feature_id, package_id, template_name="grid/edit_eleme
 def add_grid_package(request, grid_slug, template_name="grid/add_grid_package.html"):
     """Add an existing package to this grid."""
 
-    if not request.user.get_profile().can_add_grid_package:
+    if not request.user.profile.can_add_grid_package:
         return HttpResponseForbidden("permission denied")
 
     grid = get_object_or_404(Grid, slug=grid_slug)
@@ -292,7 +292,7 @@ def add_grid_package(request, grid_slug, template_name="grid/add_grid_package.ht
 def add_new_grid_package(request, grid_slug, template_name="package/package_form.html"):
     """Add a package to a grid that isn't yet represented on the site."""
 
-    if not request.user.get_profile().can_add_grid_package:
+    if not request.user.profile.can_add_grid_package:
         return HttpResponseForbidden("permission denied")
 
     grid = get_object_or_404(Grid, slug=grid_slug)
@@ -333,7 +333,7 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
     * ``grid_packages`` - packages involved in the current grid
     """
     grid = get_object_or_404(Grid, slug=slug)
-    features = grid.feature_set.select_related()
+    features = grid.feature_set.select_related(None)
 
     grid_packages = grid.grid_packages.order_by("-package__repo_watchers")
 

@@ -32,6 +32,7 @@ createsite:
 	heroku addons:add sendgrid:starter
 	heroku addons:add heroku-postgresql:dev
 	heroku addons:add pgbackups
+	heroku addons:add redistogo
 	git push heroku master
 	heroku ps:scale web=1
 	heroku run python manage.py syncdb --noinput  --settings=settings.heroku

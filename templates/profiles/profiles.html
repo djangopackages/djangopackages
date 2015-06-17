@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 
-{% load url from future %}
 {% load i18n %}
 {% load pagination_tags %}
 {% load sorting_tags %}
@@ -37,7 +36,7 @@
         
         <tbody>
             {% for user in users %}
-                {% with user.get_profile as profile %}
+                {% with user.profile as profile %}
                 <tr>
                     <td>
                         

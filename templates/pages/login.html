@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 
-{% load url from future %}
 {% load i18n profile_tags %}
 
 {% block head_title %}{% trans "Login" %}{% endblock %}
@@ -14,7 +13,7 @@
 {% block body %}
     
     <p>
-        <a href="{% url 'socialauth_begin' 'github' %}">
+        <a href="{% url 'social:begin' 'github' %}">
             <img class="social-button" src="{{ STATIC_URL }}img/github-48x48.png"/>
         </a> 
         <a class="social-sign-in" href="{% url 'socialauth_begin' 'github' %}">Sign Up / Login with Github</a>
