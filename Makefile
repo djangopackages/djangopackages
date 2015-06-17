@@ -1,20 +1,20 @@
 # Some helpful utility commands.
 
 all:
-	heroku pgbackups:capture --expire
+	heroku pg:backups capture --app djangopackages
 	git push heroku master
 	heroku run python manage.py syncdb --noinput  --settings=settings.heroku
 	heroku run python manage.py migrate --settings=settings.heroku
 	heroku run python manage.py collectstatic --noinput --settings=settings.heroku
 
 deploy:
-	heroku pgbackups:capture --expire
+	heroku pg:backups capture --app djangopackages
 	git push heroku master
-	heroku run python manage.py migrate searchv2 --settings=settings.heroku
+	heroku run python manage.py migrate searchv2 --settings=settings.heroku --app djangopackages
 
 style:
-	git push heroku master
-	heroku run python manage.py collectstatic --noinput --settings=settings.heroku
+	git push heroku master --app djangopackages
+	heroku run python manage.py collectstatic --noinput --settings=settings.heroku --app djangopackages
 
 restoredata:
 	heroku pgbackups:capture --expire
