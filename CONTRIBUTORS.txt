@@ -59,6 +59,7 @@ Direct Contributors
 * Flaviu Simihaian
 * George Dorn
 * Gisle Aas  (Repo Man)
+* idealatom
 * Ilian Iliev (@IlianIliev)
 * Jacob Burch
 * James Pacileo
