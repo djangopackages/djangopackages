@@ -21,7 +21,7 @@ class SearchV2(BaseModel):
             grids
             pacakges
             categories
-            number of watchers
+            stars
             number of forks
             last repo commit
             last release on PyPI
@@ -37,7 +37,7 @@ class SearchV2(BaseModel):
     description = models.TextField(_("Repo Description"), blank=True)
     category = models.CharField(_("Category"), blank=True, max_length=50)
     absolute_url = models.CharField(_("Absolute URL"), max_length="255")
-    repo_watchers = models.IntegerField(_("repo watchers"), default=0)
+    repo_watchers = models.IntegerField(_("Stars"), default=0)
     repo_forks = models.IntegerField(_("repo forks"), default=0)
     pypi_downloads = models.IntegerField(_("Pypi downloads"), default=0)
     usage = models.IntegerField(_("Number of users"), default=0)
