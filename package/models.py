@@ -54,7 +54,7 @@ class Package(BaseModel):
     category = models.ForeignKey(Category, verbose_name="Installation")
     repo_description = models.TextField(_("Repo Description"), blank=True)
     repo_url = models.URLField(_("repo URL"), help_text=repo_url_help_text, blank=True, unique=True)
-    repo_watchers = models.IntegerField(_("repo watchers"), default=0)
+    repo_watchers = models.IntegerField(_("Stars"), default=0)
     repo_forks = models.IntegerField(_("repo forks"), default=0)
     pypi_url = models.CharField(_("PyPI slug"), max_length=255, help_text=pypi_url_help_text, blank=True, default='')
     pypi_downloads = models.IntegerField(_("Pypi downloads"), default=0)

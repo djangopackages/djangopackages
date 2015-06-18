@@ -1,0 +1,57 @@
+**************************************************
+
+varnish-public-free-nt
+https://www.evbqa1.com/myevent?eid=16437017562
+    1. Make live
+https://www.evbqa1.com/affiliates?eid=16437017562
+    2. create affiliate links
+Other Browser with different account:
+    3. Join affiliate program with provided URL
+    
+**************************************************
+
+varnish-public-paid-nt
+https://www.evbqa1.com/myevent?eid=16437020571
+    1. Make live
+https://www.evbqa1.com/affiliates?eid=16437020571
+    2. create affiliate links
+Other Browser with different account:
+    3. Join affiliate program with provided URL
+    
+**************************************************
+
+varnish-public-with-discount-codes
+https://www.evbqa1.com/myevent?eid=16437022577
+    1. Make live
+https://www.evbqa1.com/affiliates?eid=16437022577
+    2. create affiliate links
+https://www.evbqa1.com/affiliates?discounts=16437022577
+    3. create discount w/code of 'fedcba'
+Other Browser with different account:
+    4. Join affiliate program with provided URL
+    
+**************************************************
+
+varnish-public-with-discount-codes-free-nt
+https://www.evbqa1.com/myevent?eid=16437023580
+    1. Make live
+https://www.evbqa1.com/affiliates?eid=16437023580
+    2. create affiliate links
+https://www.evbqa1.com/affiliates?discounts=16437023580
+    3. create discount w/code of 'fedcba'
+Other Browser with different account:
+    4. Join affiliate program with provided URL
+    
+**************************************************
+root@9f211f84cabb:/srv/webhooks# python test_event_generator.py 34SIODO75II66FZEOUMI True
+Running against production!
+
+varnish-public-with-discount-codes-paid-nt
+https://www.evbqa1.com/myevent?eid=16437067712
+    1. Make live
+https://www.evbqa1.com/affiliates?eid=16437067712
+    2. create affiliate links
+https://www.evbqa1.com/affiliates?discounts=16437067712
+    3. create discount w/code of 'fedcba'
+Other Browser with different account:
+    4. Join affiliate program with provided URL

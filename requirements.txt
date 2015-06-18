@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 Django==1.8
+=======
+Django==1.7.8
+>>>>>>> santagada-repo-watchers-rename
 boto==2.1.0
 certifi==0.0.8
 chardet==1.0.1
@@ -42,9 +46,3 @@ requests==2.5.3
 shortuuid==0.4.2
 six==1.1.0
 appenlight-client==0.6.5
-
-# https://gist.github.com/mt3/3680810
-#numpy==1.9.1
-# pandas==0.15.2
-# 
-# updated django, psycopg 2.6, django-coverage 1.2.4
