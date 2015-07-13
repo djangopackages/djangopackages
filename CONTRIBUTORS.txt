@@ -53,6 +53,7 @@ Direct Contributors
 * Christopher Clark
 * David Peters
 * Dougal Matthews (@d0ugal)
+* Emmanuelle Delescolle (@nanuxbe)
 * Eric Spunagle
 * Evgeny Fadeev
 * Fábio C. Barrionuevo da Luz
