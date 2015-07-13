@@ -74,6 +74,8 @@ class FunctionalGridTest(TestCase):
         self.assertContains(response, 'TEST TITLE')
 
     def test_add_feature_view(self):
+        Feature.objects.all().delete()  # Zero out the features
+
         url = reverse('add_feature', kwargs={'grid_slug': 'testing'})
         response = self.client.get(url)
 
@@ -87,12 +89,11 @@ class FunctionalGridTest(TestCase):
         self.assertTemplateUsed(response, 'grid/update_feature.html')
 
         # Test form post
-        count = Feature.objects.count()
         response = self.client.post(url, {
             'title': 'TEST TITLE',
             'description': 'Just a test description'
         }, follow=True)
-        self.assertEqual(Feature.objects.count(), count + 1)
+        self.assertEqual(Feature.objects.count(), 1)
         self.assertContains(response, 'TEST TITLE')
 
     def test_edit_feature_view(self):

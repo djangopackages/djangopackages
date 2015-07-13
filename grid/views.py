@@ -146,15 +146,11 @@ def add_feature(request, grid_slug, template_name="grid/update_feature.html"):
         return HttpResponseForbidden("permission denied")
 
     grid = get_object_or_404(Grid, slug=grid_slug)
-    feature = Feature()
-    form = FeatureForm(request.POST or None, instance=feature)
+    form = FeatureForm(request.POST or None)
 
     if form.is_valid():
-        feature = Feature(
-                    grid=grid,
-                    title=request.POST['title'],
-                    description=request.POST['description']
-                )
+        feature = form.save(commit=False)
+        feature.grid = grid
         feature.save()
         return HttpResponseRedirect(reverse('grid', kwargs={'slug': feature.grid.slug}))
 
