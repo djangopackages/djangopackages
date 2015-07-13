@@ -219,3 +219,11 @@ class PackagePermissionTest(TestCase):
         self.user.user_permissions.add(edit_package_perm)
         response = self.client.get(self.test_edit_url)
         self.assertEqual(response.status_code, 200)
+
+class CategoryTest(TestCase):
+    def setUp(self):
+        initial_data.load()
+
+    def test_category_view(self):
+        response = self.client.get('/categories/apps/')
+        self.assertContains(response, 'apps')
