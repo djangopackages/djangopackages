@@ -35,7 +35,7 @@ oauth2==1.5.211
 psycopg2==2.6
 pylibmc==1.5.0
 python-dateutil==2.1
-python-social-auth==0.2.3
+python-social-auth==0.2.12
 raven==1.4.6
 rq==0.3.8
 requests==2.5.3
