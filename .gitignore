@@ -51,3 +51,4 @@ logfile
 *.dump
 
 collected_static
+.env
