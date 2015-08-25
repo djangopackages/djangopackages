@@ -5,6 +5,7 @@ from profiles.models import Profile
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, HTML
 
+
 class ProfileForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):

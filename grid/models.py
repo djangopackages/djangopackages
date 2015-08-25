@@ -45,16 +45,6 @@ class Grid(BaseModel):
         grid_packages = gp.annotate(usage_count=models.Count('package__usage')).order_by('-usage_count', 'package')
         return grid_packages
 
-        """
-        key, grid_packages = cache_fetcher(cachekeys.grid_grid_packages, self)
-        if grid_packages is not None:
-            return grid_packages
-        gp = self.gridpackage_set.select_related('gridpackage', 'package__repo', 'package__category')
-        grid_packages = gp.annotate(usage_count=models.Count('package__usage')).order_by('-usage_count', 'package')
-        cache.set(key, grid_packages, settings.CACHE_TIMEOUT)
-        return grid_packages
-        """
-
     def save(self, *args, **kwargs):
         self.grid_packages  # fire the cache
         self.clear_detail_template_cache()  # Delete the template fragment cache
