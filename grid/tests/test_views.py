@@ -11,6 +11,7 @@ from grid.tests import data
 
 class FunctionalGridTest(TestCase):
     def setUp(self):
+        Grid.objects.all().delete()
         data.load()
         settings.RESTRICT_GRID_EDITORS = False
 
@@ -403,4 +404,3 @@ class GridElementPermissionTest(TestCase):
         self.user.user_permissions.add(edit_element)
         response = self.client.get(self.test_edit_url)
         self.assertEqual(response.status_code, 200)
-
