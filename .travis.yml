@@ -1,9 +1,13 @@
 language: python
 python:
   - "2.7"
+before_install:
+  - pip install codecov
 install:
   - pip install -r requirements.txt
 before_script:
   - psql -U postgres -c 'CREATE DATABASE "oc";'
 script:
   - python manage.py test --settings=settings.test
+after_success:
+  - codecov
