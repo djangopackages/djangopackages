@@ -17,9 +17,10 @@ style:
 	heroku run python manage.py collectstatic --noinput --settings=settings.heroku --app djangopackages
 
 restoredata:
-	heroku pgbackups:capture --expire
+	# heroku pgbackups:capture --expire
+	heroku pg:backups capture --app=djangopackages
 	# curl -o -k latest.dump `heroku pgbackups:url`
-	curl -o latest.dump `heroku pgbackups:url`
+	curl -o latest.dump `heroku pg:backups public-url --app=djangopackages`
 	dropdb oc
 	createdb oc
 	# pg_restore --clean --no-acl --no-owner -d oc latest.dump > /dev/null 2>&1
@@ -50,4 +51,4 @@ test:
 	python manage.py test --settings=settings.test
 
 cull:
-	heroku run python manage.py delete_old_sessions --settings=settings.heroku
+	heroku run python manage.py delete_old_sessions --settings=settings.heroku --app=djangopackages
