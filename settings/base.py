@@ -67,8 +67,6 @@ STATICFILES_DIRS = [
 #ADMIN_MEDIA_PREFIX = "/static/admin/"
 
 # List of callables that know how to import templates from various sources.
-from memcacheify import memcacheify
-CACHES = memcacheify()
 TEMPLATE_LOADERS = (
         'django.template.loaders.filesystem.Loader',
         'django.template.loaders.app_directories.Loader',
@@ -263,9 +261,9 @@ if DEBUG:
 
     MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
     INSTALLED_APPS += ('debug_toolbar',)
-    
+
     INTERNAL_IPS = ('127.0.0.1',)
-    
+
     DEBUG_TOOLBAR_CONFIG = {
         'INTERCEPT_REDIRECTS': False,
         'SHOW_TEMPLATE_CONTEXT': True,
@@ -405,4 +403,3 @@ GITHUB_TOKEN = environ.get('GITHUB_TOKEN')
 
 ########### SEKURITY
 ALLOWED_HOSTS = ["*"]
-
