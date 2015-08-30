@@ -52,3 +52,12 @@ test:
 
 cull:
 	heroku run python manage.py delete_old_sessions --settings=settings.heroku --app=djangopackages
+
+docker_restore:
+	docker-compose run postgres pg_restore --verbose --clean -j 2 latest.dump
+
+docker_create:
+	docker-machine create --driver digitalocean --digitalocean-access-token $DO prod2
+	eval "$(docker-machine env prod2)"
+	docker-compose build
+	docker-compose up -d

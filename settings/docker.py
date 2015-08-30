@@ -108,7 +108,9 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_HTTPONLY = True
-SECURE_SSL_REDIRECT = True
+
+# TODO: Change this to True when we get closer to real deployment
+SECURE_SSL_REDIRECT = False
 
 ########## end django-secure
 
