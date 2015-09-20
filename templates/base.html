@@ -44,7 +44,9 @@
                 <li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
                 <li><a href="{% url 'faq' %}">{% trans "FAQ" %}</a></li>
                 {% if request.user.is_authenticated %}
-                    <li><a href="{% url 'profile_detail' profile.github_account %}">{{ profile.github_account }}</a></li>
+                    {% if profile.github_account %}
+                        <li><a href="{% url 'profile_detail' profile.github_account %}">{{ profile.github_account }}</a></li>
+                    {% endif %}
                     {% if request.user.is_staff %}
                         <li><a href="{% url 'admin:index' %}">{% trans "Admin" %}</a></li>
                     {% endif %}
