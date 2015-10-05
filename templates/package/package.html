@@ -208,7 +208,6 @@
         <div class="pull-right">
           {% if request.user.is_authenticated and profile.can_add_grid %}        
             <a id="find-a-grid" href="#"><span class="glyphicon glyphicon-plus"></span></a>
-            {% include "package/includes/_attach_grid.html" %}            
           {% endif %}
         </div>
       </div>
@@ -216,11 +215,10 @@
       <div class="panel-body">
         {% for grid in package.grids %}            
           <a href="{% url 'grid' grid.slug %}" title="{{ grid.description }}">{{ grid }}</a> &nbsp;
-        {% empty %}
-          {% if request.user.is_authenticated and profile.can_add_grid %}
-            {% include "package/includes/_attach_grid.html" %}
-          {% endif %}
         {% endfor %}
+        {% if request.user.is_authenticated and profile.can_add_grid %}
+          {% include "package/includes/_attach_grid.html" %}
+        {% endif %}
       </div>
     </div>
     <!-- end Grids panel -->
