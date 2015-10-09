@@ -6,6 +6,7 @@ from django.views.generic.base import TemplateView, RedirectView
 from django.contrib import admin
 admin.autodiscover()
 
+from apiv4.viewsets import router
 from core.apiv1 import apiv1_gone
 from homepage.views import homepage, error_404_view, error_500_view, py3_compat
 from package.views import category
@@ -43,10 +44,14 @@ urlpatterns = patterns("",
     url(r"^search/", include("searchv2.urls")),
 
     # apiv2
-    url(r'^api/v2/', include('core.apiv2', namespace="apiv2")),
+    # url(r'^api/v2/', include('core.apiv2', namespace="apiv2")),
 
     # apiv3
     url(r'^api/v3/', include('apiv3.urls', namespace="apiv3")),
+
+    # apiv4
+    url(r'^api/v4/', include(router.urls, namespace='apiv4')),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     url(
         regex=r"^api/v1/.*$",
@@ -62,4 +67,3 @@ urlpatterns = patterns("",
 
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-

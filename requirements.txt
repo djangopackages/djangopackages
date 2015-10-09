@@ -21,7 +21,7 @@ django-secure==0.1.2
 django-sslify==0.2
 django-sorting==0.1
 django-storages==1.1.3
-djangorestframework==2.3.8
+djangorestframework==3.2.4
 eventlet==0.9.16
 feedparser==5.0.1
 github3.py==0.7.0

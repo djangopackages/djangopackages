@@ -17,7 +17,7 @@
     <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" />
     {% block extra_head %}{% endblock %}
 </head>
-<body ng-controller="SearchCtrl" ng-init="init_search('{{ request.GET.q }}', '{% url 'apiv2:search' %}', {{ MAX_WEIGHT }})">
+<body ng-controller="SearchCtrl" ng-init="init_search('{{ request.GET.q }}', '{% url 'apiv4:searchv2-list' %}', {{ MAX_WEIGHT }})">
 
 {% for message in messages %}
   <div class="topbar topbar-default{% if message.tags %} {{ message.tags }}{% endif %}" id="message_{{ forloop.counter }}">
@@ -58,7 +58,7 @@
 
             <!-- Search form -->
             <form action="{% url 'search' %}"  class="navbar-form pull-left">
-              <input type="text" name="q" class="col-12 form-control" style="width: 240px;" id="search-2" ng-model="model.q" ng-keyup="search(model, '{% url 'apiv2:search' %}')" placeholder="Search" autocomplete="off">
+              <input type="text" name="q" class="col-12 form-control" style="width: 240px;" id="search-2" ng-model="model.q" ng-keyup="search(model, '{% url 'apiv4:searchv2-list' %}')" placeholder="Search" autocomplete="off">
               <button type="submit" id="search_button" class="btn btn-default">Go</button>
             </form>
 
@@ -81,14 +81,14 @@
       {% endfor %}
     </div>
   {% endfor %}
-  
+
   <a class="left rotatingnav-control">
     <span class="icon-prev"></span>
   </a>
   <a class="right rotatingnav-control">
     <span class="icon-next"></span>
   </a>
-  
+
   </div>
 </div>
 
@@ -157,9 +157,9 @@
               - <a href="https://github.com/pydanny/djangopackages">Repo</a>
               - <a href="{% url 'faq' %}">{% trans "FAQ" %}</a>
               - <a href="{% url 'terms' %}">{% trans "Terms" %}</a>
-              - <a href="{% url 'contribute' %}">{% trans "Contribute" %}</a>            
+              - <a href="{% url 'contribute' %}">{% trans "Contribute" %}</a>
               - <a href="http://djangopackages.readthedocs.org/en/latest/apiv3_docs.html">{% trans "API" %}</a>
-              - <a href="{% url 'syndication' %}">{% trans "RSS / Atom" %}</a>  
+              - <a href="{% url 'syndication' %}">{% trans "RSS / Atom" %}</a>
           </div>
       </div>
   </div>
@@ -175,7 +175,7 @@
         <script src="{{ STATIC_URL }}js/site.js" type="text/javascript"></script>
     {% endblock javascript %}
 
-    {% block extra_body %}{% endblock %}    
+    {% block extra_body %}{% endblock %}
 
     {{ PIWIK_CODE|safe }}
 </body>

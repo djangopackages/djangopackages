@@ -263,9 +263,9 @@ if DEBUG:
 
     MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
     INSTALLED_APPS += ('debug_toolbar',)
-    
+
     INTERNAL_IPS = ('127.0.0.1',)
-    
+
     DEBUG_TOOLBAR_CONFIG = {
         'INTERCEPT_REDIRECTS': False,
         'SHOW_TEMPLATE_CONTEXT': True,
@@ -406,3 +406,8 @@ GITHUB_TOKEN = environ.get('GITHUB_TOKEN')
 ########### SEKURITY
 ALLOWED_HOSTS = ["*"]
 
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination'
+}
