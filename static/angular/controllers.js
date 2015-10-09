@@ -12,12 +12,12 @@ function SearchCtrl($scope, $http) {
     // core search page search function
     if (model.q.length){
         $http.get(url + '?q='+model.q).success(function(data) {
-          $scope.items = data.results;
+          $scope.items = data;
         });
     } else {
         $scope.items = [];
-        
     };
+    console.log($scope);
   };
 
   $scope.get_python3_packages = function(url){
