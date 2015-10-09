@@ -15,3 +15,4 @@ psql:
         - db
     volumes:
         - /data/djangopackages/postgres:/var/lib/postgresql/data
+        - "backups:/backups"

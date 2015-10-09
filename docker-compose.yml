@@ -2,6 +2,7 @@ postgres:
   image: postgres:9.4
   volumes:
     - /data/djangopackages/postgres:/var/lib/postgresql/data
+    - "backups:/backups"
   env_file: .env
   restart: always
 
