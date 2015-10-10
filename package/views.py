@@ -250,6 +250,17 @@ def usage(request, slug, action):
     return HttpResponseRedirect(next)
 
 
+def python3_list(request, template_name="package/python3_list.html"):
+    packages = Package.objects.filter(version__supports_python3=True).distinct()
+    packages = packages.order_by("-pypi_downloads", "-repo_watchers", "title")
+
+    return render(
+        request,
+        template_name, {
+            "packages": packages
+        }
+    )
+
 def package_list(request, template_name="package/package_list.html"):
 
     categories = []

@@ -8,8 +8,8 @@ admin.autodiscover()
 
 from apiv4.viewsets import router
 from core.apiv1 import apiv1_gone
-from homepage.views import homepage, error_404_view, error_500_view, py3_compat
-from package.views import category
+from homepage.views import homepage, error_404_view, error_500_view
+from package.views import category, python3_list
 
 urlpatterns = patterns("",
 
@@ -27,7 +27,7 @@ urlpatterns = patterns("",
 
     url(r"^categories/(?P<slug>[-\w]+)/$", category, name="category"),
     url(r"^categories/$", homepage, name="categories"),
-    url(r"^python3/$", py3_compat, name="py3_compat"),
+    url(r"^python3/$", python3_list, name="py3_compat"),
 
     # url(regex=r'^login/$', view=TemplateView.as_view(template_name='pages/login.html'), name='login',),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, 'logout',),

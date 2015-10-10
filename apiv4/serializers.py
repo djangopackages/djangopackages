@@ -1,3 +1,10 @@
+import six
+
+from django.core.exceptions import ImproperlyConfigured
+from django.core.urlresolvers import NoReverseMatch
+
+from rest_framework import relations
+from rest_framework.reverse import reverse
 from rest_framework import serializers
 
 from grid.models import Grid
@@ -40,28 +47,79 @@ class PackageSerializer(serializers.HyperlinkedModelSerializer):
             'participants',
         )
 
+class SearchV2Hyperlink(serializers.HyperlinkedRelatedField):
+
+    view_name = 'package-detail'
+
+    def get_url(self, obj, view_name, request, format):
+        import ipdb; ipdb.set_trace()
+        url_kwargs = {
+            'organization_slug': obj.organization.slug,
+            'customer_pk': obj.pk
+        }
+        return reverse(view_name, url_kwargs, request=request, format=format)
+
+    def get_object(self, view_name, view_args, view_kwargs):
+        import ipdb; ipdb.set_trace()
+        lookup_kwargs = {
+           'organization__slug': view_kwargs['organization_slug'],
+           'pk': view_kwargs['customer_pk']
+        }
+        return self.get_queryset().get(**lookup_kwargs)
+
+class HyperlinkFeld(serializers.HyperlinkedRelatedField):
+
+    lookup_field = 'pk'
+
+    def get_url(self, obj, view_name):
+        """
+        Given an object, return the URL that hyperlinks to the object.
+        May raise a `NoReverseMatch` if the `view_name` and `lookup_field`
+        attributes are not configured to correctly match the URL conf.
+        """
+        # Unsaved objects will not yet have a valid URL.
+        if hasattr(obj, 'pk') and obj.pk is None:
+            return None
+        kwargs = {'pk': 1}
+        return reverse(view_name, kwargs=kwargs)
+
+    def to_representation(self, value):
+
+        self.view_name = "apiv4:{}-detail".format(value.item_type)
+
+
+        try:
+            url = self.get_url(value, self.view_name)
+        except NoReverseMatch:
+            msg = (
+                'Could not resolve URL for hyperlinked relationship using '
+                'view name "%s". You may have failed to include the related '
+                'model in your API, or incorrectly configured the '
+                '`lookup_field` attribute on this field.'
+            )
+            if value in ('', None):
+                value_string = {'': 'the empty string', None: 'None'}[value]
+                msg += (
+                    " WARNING: The value of the field on the model instance "
+                    "was %s, which may be why it didn't match any "
+                    "entries in your URL conf." % value_string
+                )
+            raise ImproperlyConfigured(msg % self.view_name)
+
+        if url is None:
+            return None
+
+        return relations.Hyperlink(url, six.text_type(value))
+
 
 class SearchV2Serializer(serializers.ModelSerializer):
+
+    # resource_uri = HyperlinkFeld(source='_self')
+
     class Meta:
         model = SearchV2
-        fields = (
-            "weight",
-            "item_type",
-            "title",
-            "title_no_prefix",
-            "slug",
-            "slug_no_prefix",
-            "clean_title",
-            "description",
-            "category",
-            "absolute_url",
-            "repo_watchers",
-            "repo_forks",
-            "pypi_downloads",
-            "usage",
-            "last_committed",
-            "last_released"
-        )
+        exclude = ['id', ]
+
 
 class CategorySerializer(serializers.ModelSerializer):
 
