@@ -1,13 +1,21 @@
+from django.shortcuts import get_object_or_404
+
 from rest_framework import mixins
 from rest_framework.response import Response
 from rest_framework import routers
 from rest_framework import viewsets
 
-from package.models import Package
+from grid.models import Grid
+from package.models import Package, Category
 from searchv2.models import SearchV2
 from searchv2.views import search_function
 
-from .serializers import PackageSerializer, SearchV2Serializer
+from .serializers import (
+    CategorySerializer,
+    PackageSerializer,
+    SearchV2Serializer,
+    GridSerializer
+)
 
 
 class SearchV2ViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -16,12 +24,12 @@ class SearchV2ViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
 
     def list(self, request):
         qr = request.GET.get('q', '')
-        queryset = search_function(qr)[:10]
+        queryset = search_function(qr)[:20]
         serializer = SearchV2Serializer(queryset, many=True)
         return Response(serializer.data)
 
 
-class PackageViewSet(viewsets.GenericViewSet):
+class PackageViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows packages to be viewed or edited.
     """
@@ -30,6 +38,20 @@ class PackageViewSet(viewsets.GenericViewSet):
     paginate_by = 20
 
 
+class GridViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Grid.objects.all().order_by('-id')
+    serializer_class = GridSerializer
+    paginate_by = 20
+
+
+class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Category.objects.all().order_by('-id')
+    serializer_class = CategorySerializer
+    paginate_by = 20
+
+
 router = routers.DefaultRouter()
-# router.register(r'packages', PackageViewSet)
+router.register(r'packages', PackageViewSet)
 router.register(r'search', SearchV2ViewSet)
+router.register(r'grids', GridViewSet)
+router.register(r'categories', CategoryViewSet)

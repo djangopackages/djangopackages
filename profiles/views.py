@@ -65,3 +65,6 @@ def github_user_update(sender, **kwargs):
 
 user_logged_in.connect(github_user_update)
 
+
+from rest_framework.response import Response
+from rest_framework.views import APIView

@@ -291,6 +291,9 @@ class Package(BaseModel):
     def last_commit(self):
         return self.commit_set.latest()
 
+    def commits_over_52_listed(self):
+        return [int(x) for x in self.commits_over_52().split(',')]
+
 
 class PackageExample(BaseModel):
 
@@ -304,7 +307,7 @@ class PackageExample(BaseModel):
 
     def __unicode__(self):
         return self.title
-        
+
     @property
     def pretty_url(self):
         if self.url.startswith("http"):
