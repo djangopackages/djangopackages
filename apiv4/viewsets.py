@@ -19,6 +19,9 @@ from .serializers import (
 
 
 class SearchV2ViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    """Accepts a 'q' GET parameter. Results are currently sorted only by
+        their weight.
+    """
     serializer_class = SearchV2Serializer
     queryset = SearchV2.objects.all()
 
