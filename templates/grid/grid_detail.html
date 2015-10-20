@@ -26,7 +26,7 @@
     </h2>
   </div>
 </div>
-{% cache 2592000 detail_template_cache grid.pk %}
+{% cache 300 html_grid_detail_outer grid.pk %}
 <div class="row">
   <div class="col-lg-{% if features %}3{% else %}6{% endif %}">
 
@@ -61,7 +61,7 @@
             </thead>
             <tbody>
               {% for feature in features %}
-                <tr>                        
+                <tr>
                   <td>{{ feature.title }}
                   {% if request.user.is_authenticated and profile.can_edit_grid_feature %}
                     &nbsp;<a href="{% url 'edit_feature' feature.pk %}">
@@ -82,7 +82,7 @@
       </div>
   {% else %}
     <div class="col-lg-6">
-        {% if request.user.is_authenticated and profile.can_add_grid_package %}        
+        {% if request.user.is_authenticated and profile.can_add_grid_package %}
           <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add package to the grid" %}</a></p>
         {% endif %}
 
@@ -111,29 +111,29 @@
                         <td>
                             {% with grid_package.package.repo_description|truncatewords:20 as short %}
                                 {% if grid_package.package.repo_description|length > short|length %}
-                                   {{ short|wordwrap:30|linebreaksbr|slice:"-3" }}<a href="{{ grid_package.package.get_absolute_url }}">...</a>                                    
+                                   {{ short|wordwrap:30|linebreaksbr|slice:"-3" }}<a href="{{ grid_package.package.get_absolute_url }}">...</a>
                                 {% else %}
                                     {{ short|wordwrap:30|linebreaksbr }}
                                 {% endif %}
                             {% endwith %}
                         </td>
                     {% endfor %}
-                </tr>                    
+                </tr>
                 <tr>
                     <td>{% trans "Category" %}</td>
                     {% for grid_package in grid_packages %}
                         <td>{{ grid_package.package.category }}</td>
                     {% endfor %}
-                </tr>                
+                </tr>
                 <tr>
                     <td>{% trans "# Using This" %}</td>
                     {% for grid_package in grid_packages %}
-                    
+
                         <td class="usage-holder">
                             {% with grid_package.package as package %}
-                                <span class="usage-count" id="usage-count-{{ package.id }}">{{ grid_package.usage_count }}</span>                                                        
+                                <span class="usage-count" id="usage-count-{{ package.id }}">{{ grid_package.usage_count }}</span>
                                 {% usage_button %}
-                            {% endwith %}  
+                            {% endwith %}
                         </td>
                     {% endfor %}
                 </td>
@@ -154,7 +154,7 @@
                                 n/a
                             {% endif %}
                             {% endwith %}
-                    
+
                         </td>
                     {% endfor %}
                 </tr>
@@ -175,14 +175,14 @@
                     {% for grid_package in grid_packages %}
                         <td>{{ grid_package.package.pypi_version|default:"n/a" }}</td>
                     {% endfor %}
-            
+
                 </tr>
                 <tr>
                     <td>{% trans "Repo" %}</td>
                     {% for grid_package in grid_packages %}
                         <td><a href="{{ grid_package.package.repo_url }}">{{ grid_package.package.repo }}</a></td>
                     {% endfor %}
-                </tr>            
+                </tr>
                 <tr>
                     <td>{% trans "Commits" %}</td>
                     {% for grid_package in grid_packages %}
@@ -206,7 +206,7 @@
                     {% for grid_package in grid_packages %}
                         <td>
                             {% for collaborator in grid_package.package.participant_list %}
-                                {% if forloop.counter <= 10 %}                                
+                                {% if forloop.counter <= 10 %}
                                     <a href="{{ grid_package.package.repo.url }}/{{ collaborator }}">{{ collaborator }}</a>
                                     {% if not forloop.last %}
                                         <br />
@@ -215,7 +215,7 @@
                                 {% if forloop.counter == 11 %}
                                     <a href="{% url 'package' grid_package.package.slug %}">{% trans "more..." %}</a>
                                 {% endif %}
-                            {% endfor %}                        
+                            {% endfor %}
                         </td>
                     {% endfor %}
                 </tr>
@@ -233,13 +233,13 @@
                         </td>
                     {% endfor %}
                 </tr>
-                
+
                 {% for feature in features %}
                     <tr class="{% cycle 'even' 'odd' %}">
                         <td>{{ feature.title }}</td>
                         {% for grid_package in grid_packages %}
                             {% with elements|hash:feature.pk|hash:grid_package.pk as element %}
-                            <td class="clickable" id="element-f{{ feature.pk }}-p{{ grid_package.pk }}">{% if element %}{{ element.text|style_element|safe|urlize|linebreaksbr }}{% endif %}<noscript> 
+                            <td class="clickable" id="element-f{{ feature.pk }}-p{{ grid_package.pk }}">{% if element %}{{ element.text|style_element|safe|urlize|linebreaksbr }}{% endif %}<noscript>
                                     {% if request.user.is_authenticated and profile.can_edit_grid_element %}
                                     <a class="edit" href="{% url 'edit_element' feature.pk grid_package.pk %}">{% trans "[edit]" %}</a>
                                     {% endif %}
@@ -248,7 +248,7 @@
                         {% endfor %}
                     </tr>
                 {% endfor %}
-                
+
                 <!-- start Delete package from grid buttons -->
                 {% if perms.grid.delete_gridpackage %}
                   <tr>
@@ -263,9 +263,9 @@
                   </tr>
                 {% endif %}
                 <!-- end Delete package from grid buttons -->
-        
+
             </tbody>
-    
+
         </table>
     {% else %}
         {% if request.user.is_authenticated and profile.can_add_grid_package %}
@@ -280,8 +280,8 @@
         <script type="text/javascript" src="{{ STATIC_URL }}js/rtd.js"></script>
         <script type="text/javascript">
 
-            $(function() {  
-                
+            $(function() {
+
                 {% if request.user.is_authenticated %}
                     // Handle element edit redirects
 
@@ -291,7 +291,7 @@
                        var url = "/grids/element/" + array[1].substr(1) + "/" + array[2].substr(1) + "/";
                        $(location).attr('href', url);
                     });
-                    
+
                     delete_confirmation = function(e, url) {
                         // The deletes are placed in here so there is just one place needed
                         e.preventDefault();
@@ -309,7 +309,7 @@
                             delete_confirmation(e,url);
                         });
                     {% endif %}
-                    
+
                     {% if perms.grid.delete_gridpackage %}
                         // handle package deletes
                         $("a[id|='package-delete']").click(function(e) {
@@ -318,9 +318,9 @@
                             delete_confirmation(e,url);
                         });
                     {% endif %}
-                    
+
                  {% endif %}
-                 
+
                  // sticky table header
                  $table = $(".table-condensed:not(.fixed-header)");
                  $header = $(".fixed-header tr");
@@ -346,6 +346,6 @@
                  $(window).scroll(scrollFixed);
                  resizeFixed();
 
-            });    
+            });
         </script>
 {% endblock %}
