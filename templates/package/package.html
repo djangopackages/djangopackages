@@ -33,8 +33,8 @@
 <h2><a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'packages' %}">{% trans "packages" %}</a> / {{ package.title }}
   <a href="{% url 'edit_package' package.slug %}"><span class="glyphicon glyphicon-pencil"></span></a>
 </h2>
-    
-    
+
+
 <div class="row">
   <div class="col-md-6">
     <p>
@@ -63,13 +63,13 @@
                 {{ package.usage.count }}
                 &nbsp;
                 {% with package as package %}
-                    {% usage_button %} 
+                    {% usage_button %}
                 {% endwith %}
             </td>
           </tr>
         </tbody>
       </table>
-    </div>        
+    </div>
     <!-- end Usage panel -->
 
     <!-- start PyPI panel -->
@@ -81,7 +81,7 @@
        <div class="panel-body">
           <p><a href="{{ package.pypi_url }}">{{ package.pypi_url }}</a></p>
           <p>
-            <a href="https://pypi.python.org/pypi/{{ package.pypi_name }}/" rel="nofollow"><img src="https://pypip.in/d/{{ package.pypi_name }}/badge.png"></a>
+            <a href="https://pypi.python.org/pypi/{{ package.pypi_name }}/" rel="nofollow"><img src="https://img.shields.io/pypi/dm/{{ package.pypi_name }}.svg"></a>
           </p>
         </div>
         <table class="table">
@@ -98,7 +98,7 @@
             {% for version in package.version_set.by_version_not_hidden %}
               <tr>
                 <td>{{ version.number }}</td>
-                <td>{{ version.pretty_license|default:"none" }}</td>                        
+                <td>{{ version.pretty_license|default:"none" }}</td>
                 <td>{{ version.upload_time|date:"SHORT_DATE_FORMAT" }}</td>
                 <td>{{ version.pretty_status }}</td>
                 <td>
@@ -134,16 +134,16 @@
       </div>
     </div>
     <!-- end Participants panel -->
-  
+
   </div> <!-- end six column section -->
   <div class="col-md-6">
-    
+
     <!-- start Documentation panel -->
     <div class="panel panel-default">
       <div class="panel-heading clearfix">
         <h3 class="panel-title pull-left">{% trans "Documentation" %}</h3>
         <div class="pull-right">
-          {% if request.user.is_authenticated %}        
+          {% if request.user.is_authenticated %}
             <a href="{% url 'edit_documentation' package.slug %}"><span class="glyphicon glyphicon-plus"></span></a>
           {% endif %}
         </div>
@@ -206,14 +206,14 @@
       <div class="panel-heading clearfix">
         <h3 class="panel-title pull-left">{% trans "Comparison Grids" %}</h3>
         <div class="pull-right">
-          {% if request.user.is_authenticated and profile.can_add_grid %}        
+          {% if request.user.is_authenticated and profile.can_add_grid %}
             <a id="find-a-grid" href="#"><span class="glyphicon glyphicon-plus"></span></a>
           {% endif %}
         </div>
       </div>
 
       <div class="panel-body">
-        {% for grid in package.grids %}            
+        {% for grid in package.grids %}
           <a href="{% url 'grid' grid.slug %}" title="{{ grid.description }}">{{ grid }}</a> &nbsp;
         {% endfor %}
         {% if request.user.is_authenticated and profile.can_add_grid %}
@@ -228,7 +228,7 @@
       <div class="panel-heading clearfix">
         <h3 class="panel-title pull-left">{% trans "Sites using this package" %}</h3>
         <div class="pull-right">
-          {% if request.user.is_authenticated %}        
+          {% if request.user.is_authenticated %}
             <a href="{% url 'add_example' package.slug %}"><span class="glyphicon glyphicon-plus"></span></a>
           {% endif %}
         </div>
@@ -276,24 +276,24 @@
             $('#find-a-grid').hide();
             $('#find-a-grid-form').show();
             $('#find-a-grid-input').focus();
-            
+
             $('#find-a-grid-input').keyup(function() {
                 var search_text = $('input#find-a-grid-input').val();
                 var search_text = '{% url 'ajax_grid_list' %}?q=' + search_text + '&package_id={{ package.id }}';
                 console.log(search_text);
                 $.get(search_text, function(data) {
                   $('#target').html(data).show("slow");
-                });                
-            });                
+                });
+            });
 
             $("#find-a-grid-form").keypress(function(e) {
                   if (e.which == 13) {
                     return false;
                   };
-            });       
+            });
 
         });
 
-    });    
-</script>      
-{% endblock %}      
+    });
+</script>
+{% endblock %}
