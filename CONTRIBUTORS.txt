@@ -5,8 +5,8 @@ Team
 Project Leads
 =============
 
-* Audrey Roy <audreyr@gmail.com> (@audreyr)
-* Daniel Greenfeld <pydanny@gmail.com> (@pydanny)
+* Audrey Roy Greenfeld <aroy@alum.mit.edu> (@audreyr)
+* Daniel Roy Greenfeld <pydanny@gmail.com> (@pydanny)
 
 Core Developer at Server Move 2012
 ==================================

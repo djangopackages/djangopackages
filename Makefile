@@ -16,15 +16,11 @@ style:
 	git push heroku master --app djangopackages
 	heroku run python manage.py collectstatic --noinput --settings=settings.heroku --app djangopackages
 
-restoredata:
-	# heroku pgbackups:capture --expire
-	heroku pg:backups capture --app=djangopackages
-	# curl -o -k latest.dump `heroku pgbackups:url`
-	curl -o latest.dump `heroku pg:backups public-url --app=djangopackages`
+fetchnewdata:
+	heroku pg:backups capture
+	curl -o latest.dump `heroku pg:backups public-url`
 	dropdb oc
 	createdb oc
-	# pg_restore --clean --no-acl --no-owner -d oc latest.dump > /dev/null 2>&1
-	# pg_restore --verbose --clean --no-acl --no-owner -j 2 -h localhost -U myuser -d mydb latest.dump
 	pg_restore --verbose --clean --no-acl --no-owner -j 2 -h localhost -d oc latest.dump
 
 createsite:
@@ -51,6 +47,7 @@ test:
 	python manage.py test --settings=settings.test
 
 cull:
+<<<<<<< HEAD
 	heroku run python manage.py delete_old_sessions --settings=settings.heroku --app=djangopackages
 
 docker_restore:
@@ -61,3 +58,6 @@ docker_create:
 	eval "$(docker-machine env prod2)"
 	docker-compose build
 	docker-compose up -d
+=======
+	heroku run python manage.py delete_old_sessions --settings=settings.heroku
+>>>>>>> master

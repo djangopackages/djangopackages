@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from core.models import BaseModel
 from package.models import Package
+from grid.models import Grid
 
 ITEM_TYPE_CHOICES = (
     ('package', 'Package'),
@@ -19,7 +20,7 @@ class SearchV2(BaseModel):
             title
             description
             grids
-            pacakges
+            packages
             categories
             stars
             number of forks
@@ -69,3 +70,9 @@ class SearchV2(BaseModel):
         pypi_name = package.pypi_name
         cache.set(key, pypi_name, 24 * 60 * 60)
         return pypi_name
+
+    def get_resource_uri(self):
+        return '/api/v4/{}/{}/'.format(self.item_type, 3)
+
+    def _self(self):
+        return self
