@@ -51,3 +51,4 @@ logfile
 
 collected_static
 .env
+key.pem
