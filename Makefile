@@ -1,63 +1,60 @@
 # Some helpful utility commands.
 
-all:
-	heroku pg:backups capture --app djangopackages
-	git push heroku master
-	heroku run python manage.py syncdb --noinput  --settings=settings.heroku
-	heroku run python manage.py migrate --settings=settings.heroku
-	heroku run python manage.py collectstatic --noinput --settings=settings.heroku
+DOCKER_SERVER=162.243.249.11
 
-deploy:
-	heroku pg:backups capture --app djangopackages
-	git push heroku master
-	heroku run python manage.py migrate searchv2 --settings=settings.heroku --app djangopackages
+all: copy_secrets deploy migrate
 
-style:
-	git push heroku master --app djangopackages
-	heroku run python manage.py collectstatic --noinput --settings=settings.heroku --app djangopackages
+migrate:
+	# run python manage.py syncdb
+	ssh root@$(DOCKER_SERVER) -C 'cd /code/djangopackages && docker-compose run django python manage.py syncdb --noinput'
+	# run python manage.py migrate
+	ssh root@$(DOCKER_SERVER) -C 'cd /code/djangopackages && docker-compose run django python manage.py migrate'
+
+deploy: copy_secrets
+	# build the stack
+	ssh root@$(DOCKER_SERVER) -C 'cd /code/djangopackages && docker-compose build'
+	ssh root@$(DOCKER_SERVER) -C 'cd /code/djangopackages && docker-compose -f haproxy.yml build'
+
+	# stop the stack (supervisord will restart it)
+	ssh root@$(DOCKER_SERVER) -C 'cd /code/djangopackages && docker-compose stop'
+
+copy_secrets:
+	# copies the .env file and the key to the server
+	scp .env root@$(DOCKER_SERVER):/code/djangopackages/.env
+	scp compose/haproxy/key.pem root@$(DOCKER_SERVER):/code/djangopackages/compose/haproxy/key.pem
+
+restart_haproxy:
+	# stop haproxy (supervisord will restart it)
+	ssh root@$(DOCKER_SERVER) -C 'cd /code/djangopackages && docker-compose -f haproxy.yml stop'
 
 fetchnewdata:
-	heroku pg:backups capture
-	curl -o latest.dump `heroku pg:backups public-url`
+	# run backup
+	ssh root@$(DOCKER_SERVER) -C 'cd /code/djangopackages && docker-compose run postgres backup'
+	# download latest backup
+	scp root@$(DOCKER_SERVER):/data/djangopackages/backups/`ssh root@$(DOCKER_SERVER) ls -1t /data/djangopackages/backups/ | head -1` latest.dump
 	dropdb oc
 	createdb oc
 	pg_restore --verbose --clean --no-acl --no-owner -j 2 -h localhost -d oc latest.dump
 
-createsite:
-	heroku create --stack cedar
-	heroku addons:add memcachier:dev
-	heroku addons:add sendgrid:starter
-	heroku addons:add heroku-postgresql:dev
-	heroku addons:add pgbackups
-	heroku addons:add redistogo
-	git push heroku master
-	heroku ps:scale web=1
-	heroku run python manage.py syncdb --noinput  --settings=settings.heroku
-	heroku run python manage.py migrate --settings=settings.heroku
+migrate_heroku_db_to_docker:
+	# create a dump of the heroku db
+	heroku pg:backups capture --app djangopackages
+	# download the dump
+	curl -o heroku.dump `heroku pg:backups public-url --app djangopackages`
+	# convert the dump to raw sql
+	pg_restore -f heroku.sql heroku.dump
+	# copy the dump to the server
+	scp heroku.sql root@$(DOCKER_SERVER):/data/djangopackages/backups/heroku.sql
+	# restore dump
+	ssh root@$(DOCKER_SERVER) -C 'cd /code/djangopackages && docker-compose run postgres restore heroku.sql'
 
 shell:
-	heroku run python manage.py shell_plus --settings=settings.heroku
+	ssh root@$(DOCKER_SERVER) -C 'cd /code/djangopackages && docker-compose run django python manage.py shell_plus'
 
 runcron:
-	heroku run python manage.py pypi_updater --settings=settings.heroku
-	heroku run python manage.py repo_updater --settings=settings.heroku
-	heroku run python manage.py searchv2_build --settings=settings.heroku
+	ssh root@$(DOCKER_SERVER) -C 'cd /code/djangopackages && docker-compose run django python manage.py pypi_updater'
+	ssh root@$(DOCKER_SERVER) -C 'cd /code/djangopackages && docker-compose run django python manage.py repo_updater'
+	ssh root@$(DOCKER_SERVER) -C 'cd /code/djangopackages && docker-compose run django python manage.py searchv2_build'
 
 test:
 	python manage.py test --settings=settings.test
-
-cull:
-<<<<<<< HEAD
-	heroku run python manage.py delete_old_sessions --settings=settings.heroku --app=djangopackages
-
-docker_restore:
-	docker-compose run postgres pg_restore --verbose --clean -j 2 latest.dump
-
-docker_create:
-	docker-machine create --driver digitalocean --digitalocean-access-token $DO prod2
-	eval "$(docker-machine env prod2)"
-	docker-compose build
-	docker-compose up -d
-=======
-	heroku run python manage.py delete_old_sessions --settings=settings.heroku
->>>>>>> master
