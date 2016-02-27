@@ -21,7 +21,6 @@ services:
     build: ./compose/nginx
     expose:
       - "80"
-    restart: always
     depends_on:
       - django
 
