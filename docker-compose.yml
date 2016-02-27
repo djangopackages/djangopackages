@@ -27,11 +27,3 @@ services:
 
   redis:
     build: ./compose/redis
-
-  worker:
-    build: .
-    user: django
-    command: python /app/worker.py
-    env_file: .env
-    depends_on:
-      - redis
