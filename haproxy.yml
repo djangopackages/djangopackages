@@ -1,8 +1,0 @@
-version: '2'
-
-services:
-  haproxy:
-    build: ./compose/haproxy
-    ports:
-      - "80:80"
-      - "443:443"

@@ -19,10 +19,11 @@ services:
 
   nginx:
     build: ./compose/nginx
-    expose:
-      - "80"
     depends_on:
       - django
+    ports:
+      - "80:80"
+      - "443:443"
 
   redis:
     build: ./compose/redis

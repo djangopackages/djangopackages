@@ -1,6 +1,7 @@
 # Some helpful utility commands.
 
-DOCKER_SERVER=162.243.249.11
+# make sure to replace this with the IP of your own server
+DOCKER_SERVER=162.243.53.9
 
 all: copy_secrets deploy migrate
 
@@ -13,7 +14,6 @@ migrate:
 deploy: copy_secrets
 	# build the stack
 	ssh root@$(DOCKER_SERVER) -C 'cd /code/djangopackages && docker-compose build'
-	ssh root@$(DOCKER_SERVER) -C 'cd /code/djangopackages && docker-compose -f haproxy.yml build'
 
 	# stop the stack (supervisord will restart it)
 	ssh root@$(DOCKER_SERVER) -C 'cd /code/djangopackages && docker-compose stop'
@@ -21,11 +21,10 @@ deploy: copy_secrets
 copy_secrets:
 	# copies the .env file and the key to the server
 	scp .env root@$(DOCKER_SERVER):/code/djangopackages/.env
-	scp compose/haproxy/key.pem root@$(DOCKER_SERVER):/code/djangopackages/compose/haproxy/key.pem
-
-restart_haproxy:
-	# stop haproxy (supervisord will restart it)
-	ssh root@$(DOCKER_SERVER) -C 'cd /code/djangopackages && docker-compose -f haproxy.yml stop'
+	scp compose/nginx/cert root@$(DOCKER_SERVER):/code/djangopackages/compose/nginx/cert
+	scp compose/nginx/dhparam.pem root@$(DOCKER_SERVER):/code/djangopackages/compose/nginx/dhparam.pem
+	scp compose/nginx/key root@$(DOCKER_SERVER):/code/djangopackages/compose/nginx/key
+	scp compose/nginx/root-cert root@$(DOCKER_SERVER):/code/djangopackages/compose/nginx/root-cert
 
 fetchnewdata:
 	# run backup
