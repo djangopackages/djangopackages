@@ -133,3 +133,13 @@ MIDDLEWARE_CLASSES = (
     'appenlight_client.django_middleware.AppenlightMiddleware',
 ) + MIDDLEWARE_CLASSES
 ########## end appenlight-client
+
+########## OPBEAT
+INSTALLED_APPS += ('opbeat.contrib.django',)
+OPBEAT = {
+    'ORGANIZATION_ID': env.str("OPBEAT_ORGANIZATION_ID"),
+    'APP_ID': env.str("OPBEAT_APP_ID"),
+    'SECRET_TOKEN': env.str("OPBEAT_SECRET_TOKEN"),
+}
+MIDDLEWARE_CLASSES = ('opbeat.contrib.django.middleware.OpbeatAPMMiddleware',) + MIDDLEWARE_CLASSES
+########## end OPBEAT
