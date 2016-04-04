@@ -17,10 +17,12 @@ services:
       - postgres
       - redis
 
-  nginx:
-    build: ./compose/nginx
+  caddy:
+    build: ./compose/caddy
     depends_on:
       - django
+    volumes:
+      - /data/djangopackages/caddy/.caddy:/root/.caddy
     ports:
       - "80:80"
       - "443:443"
