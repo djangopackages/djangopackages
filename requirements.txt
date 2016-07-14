@@ -21,7 +21,7 @@ django-secure==1.0.1
 django-sslify==0.2.7
 django-sorting==0.1
 django-storages==1.4.1
-djangorestframework==3.3.3
+djangorestframework==3.4.0
 eventlet==0.19.0
 feedparser==5.2.1
 github3.py==0.9.5
@@ -36,7 +36,7 @@ psycopg2==2.6.2
 pylibmc==1.5.1
 python-dateutil==2.5.3
 python-social-auth==0.2.19
-raven==5.22.0
+raven==5.23.0
 rq==0.6.0
 requests==2.10.0
 shortuuid==0.4.3
