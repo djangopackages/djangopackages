@@ -41,4 +41,4 @@ rq==0.6.0
 requests==2.10.0
 shortuuid==0.4.3
 six==1.10.0
-appenlight-client==0.6.16
+appenlight-client==0.6.17
