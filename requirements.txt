@@ -8,7 +8,7 @@ dj-database-url==0.4.1
 django-braces==1.9.0
 django-coverage==1.2.4
 django-crispy-forms==1.6.0
-django-debug-toolbar==1.4
+django-debug-toolbar==1.5
 django-extensions==1.6.7
 django-floppyforms==1.6.2
 django-heroku-memcacheify==1.0.0
@@ -16,7 +16,7 @@ django-heroku-postgresify==0.4
 django-jsonview>=0.4.2
 django-pagination==1.0.7
 django-pylibmc-sasl==0.2.4
-django-reversion==2.0.5
+django-reversion==2.0.6
 django-secure==1.0.1
 django-sslify==0.2.7
 django-sorting==0.1
