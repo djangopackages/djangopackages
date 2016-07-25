@@ -1,7 +1,7 @@
 # Some helpful utility commands.
 
 # make sure to replace this with the IP of your own server
-DOCKER_SERVER=162.243.53.9
+DOCKER_SERVER=159.203.191.135
 
 all: copy_secrets deploy migrate
 
