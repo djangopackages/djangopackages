@@ -21,10 +21,6 @@ deploy: copy_secrets
 copy_secrets:
 	# copies the .env file and the key to the server
 	scp .env root@$(DOCKER_SERVER):/code/djangopackages/.env
-	scp compose/nginx/cert root@$(DOCKER_SERVER):/code/djangopackages/compose/nginx/cert
-	scp compose/nginx/dhparam.pem root@$(DOCKER_SERVER):/code/djangopackages/compose/nginx/dhparam.pem
-	scp compose/nginx/key root@$(DOCKER_SERVER):/code/djangopackages/compose/nginx/key
-	scp compose/nginx/root-cert root@$(DOCKER_SERVER):/code/djangopackages/compose/nginx/root-cert
 
 fetchnewdata:
 	# run backup
