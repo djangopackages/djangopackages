@@ -1,4 +1,8 @@
-djangopackages.org, www.djangopackages.org, djangopackages.com, www.djangopackages.com {
+www.djangopackages.org, djangopackages.com, www.djangopackages.com {
+    redir https://djangopackages.org{uri}
+}
+
+djangopackages.org {
     proxy / django:5000 {
         proxy_header Host {host}
         proxy_header X-Real-IP {remote}
