@@ -1,5 +1,5 @@
-www.djangopackages.org, djangopackages.com, www.djangopackages.com {
-    redir https://djangopackages.org{uri}
+www.djangopackages.org {
+    redir https://djangopackages.org
 }
 
 djangopackages.org {
