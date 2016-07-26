@@ -6,7 +6,6 @@
 build
 eggs
 parts
-bin
 var
 sdist
 develop-eggs
@@ -52,3 +51,8 @@ logfile
 
 collected_static
 .env
+key.pem
+cert
+dhparam.pem
+key
+root-cert

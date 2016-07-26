@@ -67,8 +67,6 @@ STATICFILES_DIRS = [
 #ADMIN_MEDIA_PREFIX = "/static/admin/"
 
 # List of callables that know how to import templates from various sources.
-from memcacheify import memcacheify
-CACHES = memcacheify()
 TEMPLATE_LOADERS = (
         'django.template.loaders.filesystem.Loader',
         'django.template.loaders.app_directories.Loader',
@@ -405,8 +403,6 @@ GITHUB_TOKEN = environ.get('GITHUB_TOKEN')
 
 ########### SEKURITY
 ALLOWED_HOSTS = ["*"]
-
-
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',

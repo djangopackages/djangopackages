@@ -1,28 +1,31 @@
-postgres:
-  image: postgres:9.4
-  volumes:
-    - /data/djangopackages/postgres:/var/lib/postgresql/data
-  env_file: .env
-  restart: always
+version: '2'
 
-django:
-  build: .
-  user: django
-  links:
-    - postgres
-    - redis
-  command: /gunicorn.sh
-  env_file: .env
-  restart: always
+services:
+  postgres:
+    build: ./compose/postgres
+    volumes:
+      - /data/djangopackages/postgres:/var/lib/postgresql/data
+      - /data/djangopackages/backups:/backups
+    env_file: .env
 
-nginx:
-  build: ./compose/nginx
-  links:
-    - django
-  ports:
-    - "0.0.0.0:80:80"
-  restart: always
+  django:
+    build: .
+    user: django
+    command: /gunicorn.sh
+    env_file: .env
+    depends_on:
+      - postgres
+      - redis
 
-redis:
-  image: redis:3.0
-  restart: always
+  caddy:
+    build: ./compose/caddy
+    depends_on:
+      - django
+    volumes:
+      - /data/djangopackages/caddy/.caddy:/root/.caddy
+    ports:
+      - "80:80"
+      - "443:443"
+
+  redis:
+    build: ./compose/redis
