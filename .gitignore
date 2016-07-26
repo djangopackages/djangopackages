@@ -56,3 +56,5 @@ cert
 dhparam.pem
 key
 root-cert
+
+*.sql
