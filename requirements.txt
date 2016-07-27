@@ -32,7 +32,7 @@ python-social-auth==0.2.19
 requests==2.10.0
 shortuuid==0.4.3
 six==1.10.0
-whitenoise==2.0.3
+whitenoise==3.2
 
 # Redis support
 django-redis==4.4.4
