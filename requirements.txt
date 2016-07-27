@@ -30,7 +30,7 @@ psycopg2==2.6
 python-dateutil==2.1
 python-social-auth==0.2.3
 requests==2.10.0
-shortuuid==0.4.2
+shortuuid==0.4.3
 six==1.10.0
 whitenoise==2.0.3
 
