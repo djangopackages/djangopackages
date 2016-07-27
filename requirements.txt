@@ -35,6 +35,6 @@ six==1.10.0
 whitenoise==2.0.3
 
 # Redis support
-django-redis==4.2.0
+django-redis==4.4.4
 redis>=2.10.0
 opbeat
