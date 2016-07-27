@@ -51,7 +51,7 @@ Features
 The Site
 --------
 
-https://www.djangopackages.com.
+https://djangopackages.org.
 
 The Documentation
 -----------------
