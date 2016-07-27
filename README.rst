@@ -20,7 +20,7 @@ Badges
      :target: https://pyup.io/repos/github/pydanny/djangopackages/
      :alt: Python 3
 
-.. image:: https://travis-ci.org/pydanny/djangopackages.png?branch=master
+.. image:: https://travis-ci.org/pydanny/djangopackages.svg?branch=master
         :target: https://secure.travis-ci.org/pydanny/djangopackages
 
 Features
