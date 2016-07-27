@@ -1,6 +1,6 @@
 appenlight-client==0.6.17
 certifi==2016.2.28
-chardet==1.0.1
+chardet==2.3.0
 coverage==4.2
 Django==1.9.8
 django-braces==1.9.0
