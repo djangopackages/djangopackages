@@ -24,7 +24,7 @@ greenlet==0.4.10
 gunicorn==19.3.0
 httplib2==0.7.7
 logutils==0.3.3
-mimeparse==0.1.3
+mimeparse==0.1.4
 oauth2==1.5.211
 psycopg2==2.6
 python-dateutil==2.1
