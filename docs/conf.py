@@ -11,7 +11,7 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys, os
+import sys, time, os
 
 # todo: see if VIRTUAL_ENV variable is in the paths
 # and if it is not, add to os.path - this is necessary when sphinx is
@@ -52,7 +52,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Django Packages'
-copyright = u'2010-2015, Audrey Roy Greenfeld, Daniel Roy Greenfeld and contributors'
+copyright = u'2010-{year}, Audrey Roy Greenfeld, Daniel Roy Greenfeld and contributors'.format(year=time.strftime('%Y'))
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
