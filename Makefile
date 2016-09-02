@@ -5,6 +5,9 @@ DOCKER_SERVER=159.203.191.135
 
 all: copy_secrets deploy migrate
 
+bash:
+	ssh root@$(DOCKER_SERVER)
+
 migrate:
 	# run python manage.py syncdb
 	ssh root@$(DOCKER_SERVER) -C 'cd /code/djangopackages && docker-compose run django python manage.py syncdb --noinput'
@@ -48,7 +51,7 @@ shell:
 
 runcron:
 	ssh root@$(DOCKER_SERVER) -C 'cd /code/djangopackages && docker-compose run django python manage.py pypi_updater'
-	ssh root@$(DOCKER_SERVER) -C 'cd /code/djangopackages && docker-compose run django python manage.py repo_updater'
+	ssh root@$(DOCKER_SERVER) -C 'cd /code/djangopackages && docker-compose run django python manage.py package_updater'
 	ssh root@$(DOCKER_SERVER) -C 'cd /code/djangopackages && docker-compose run django python manage.py searchv2_build'
 
 test:

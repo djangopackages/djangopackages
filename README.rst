@@ -9,10 +9,18 @@ Sponsorship
 This is an entirely volunteer driven effort. That includes coding time and hosting costs. If you wish to become a sponsor of this project, please feel free to contact me at pydanny@gmail.com.
 
 
-Test Status
------------
+Badges
+------
 
-.. image:: https://travis-ci.org/pydanny/djangopackages.png?branch=master
+.. image:: https://pyup.io/repos/github/pydanny/djangopackages/shield.svg
+     :target: https://pyup.io/repos/github/pydanny/djangopackages/
+     :alt: Updates
+     
+.. image:: https://pyup.io/repos/github/pydanny/djangopackages/python-3-shield.svg
+     :target: https://pyup.io/repos/github/pydanny/djangopackages/
+     :alt: Python 3
+
+.. image:: https://travis-ci.org/pydanny/djangopackages.svg?branch=master
         :target: https://secure.travis-ci.org/pydanny/djangopackages
 
 Features
@@ -43,7 +51,7 @@ Features
 The Site
 --------
 
-https://www.djangopackages.com.
+https://djangopackages.org.
 
 The Documentation
 -----------------

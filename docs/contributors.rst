@@ -47,6 +47,7 @@ Direct Contributors
 * Alex Robbins
 * Andrii Kurinny
 * AnneTheAgile
+* Baptiste Mispelon
 * Brian Ball
 * Bryan Weingarten
 * Chris Adams

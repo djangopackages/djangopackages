@@ -36,13 +36,13 @@ class Command(NoArgsCommand):
 
             # Simple attempt to deal with Github rate limiting
             while True:
-                if github.ratelimit_remaining() < 50:
+                if github.ratelimit_remaining < 50:
                     sleep(120)
                 break
 
             try:
                 try:
-                    package.fetch_metadata(fetch_metadata=False)
+                    package.fetch_metadata(fetch_pypi=False)
                     package.fetch_commits()
                 except Exception as e:
                     raise PackageUpdaterException(e, package.title)

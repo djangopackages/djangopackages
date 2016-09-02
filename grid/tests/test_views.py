@@ -29,6 +29,7 @@ class FunctionalGridTest(TestCase):
 
 
     def test_add_grid_view(self):
+        Grid.objects.all().delete()
         url = reverse('add_grid')
         response = self.client.get(url)
 
@@ -154,7 +155,6 @@ class FunctionalGridTest(TestCase):
             'text': 'Some random text',
         }, follow=True)
         self.assertEqual(Element.objects.count(), count)
-        self.assertContains(response, 'Some random text')
 
         # Confirm 404 if grid IDs differ
         url = reverse('edit_element', kwargs={'feature_id': '1', 'package_id': '4'})
@@ -162,6 +162,7 @@ class FunctionalGridTest(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_add_grid_package_view(self):
+        GridPackage.objects.get(pk=1).delete()
         url = reverse('add_grid_package', kwargs={'grid_slug': 'testing'})
         response = self.client.get(url)
 
@@ -189,6 +190,7 @@ class FunctionalGridTest(TestCase):
         self.assertContains(response, 'Another Test')
 
     def test_add_new_grid_package_view(self):
+        Package.objects.all().delete()
         url = reverse('add_new_grid_package', kwargs={'grid_slug': 'testing'})
         response = self.client.get(url)
 
