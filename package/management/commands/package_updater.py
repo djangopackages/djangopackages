@@ -36,7 +36,7 @@ class Command(NoArgsCommand):
 
             # Simple attempt to deal with Github rate limiting
             while True:
-                if github.ratelimit_remaining() < 50:
+                if github.ratelimit_remaining < 50:
                     sleep(120)
                 break
 
