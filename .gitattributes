@@ -1,0 +1,4 @@
+static/js/* linguist-vendored
+static/angular/* linguist-vendored
+static/bower_components/* linguist-vendored
+static/components/* linguist-vendored
