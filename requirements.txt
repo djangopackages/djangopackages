@@ -16,7 +16,7 @@ django-reversion==2.0.6
 django-secure==1.0.1
 django-sorting==0.1
 django-storages==1.5.1
-djangorestframework==3.4.6
+djangorestframework==3.4.7
 eventlet==0.19.0
 feedparser==5.2.1
 github3.py==0.9.5
