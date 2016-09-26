@@ -1,5 +1,5 @@
 appenlight-client==0.6.17
-certifi==2016.8.31
+certifi==2016.9.26
 chardet==2.3.0
 coverage==4.2
 Django==1.10.1
