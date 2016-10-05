@@ -6,7 +6,7 @@ Django==1.10.2
 django-braces==1.9.0
 django-coverage==1.2.4
 django-crispy-forms==1.6.0
-django-debug-toolbar==1.5
+django-debug-toolbar==1.6
 django-environ==0.4.0
 django-extensions==1.7.4
 django-floppyforms==1.7.0
