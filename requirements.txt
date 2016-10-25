@@ -1,4 +1,4 @@
-appenlight-client==0.6.17
+appenlight-client==0.6.18
 certifi==2016.9.26
 chardet==2.3.0
 coverage==4.2
