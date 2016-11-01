@@ -2,7 +2,7 @@ appenlight-client==0.6.19
 certifi==2016.9.26
 chardet==2.3.0
 coverage==4.2
-Django==1.10.2
+Django==1.10.3
 django-braces==1.10.0
 django-coverage==1.2.4
 django-crispy-forms==1.6.1
