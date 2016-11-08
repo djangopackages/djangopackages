@@ -37,4 +37,4 @@ whitenoise==3.2
 # Redis support
 django-redis==4.4.4
 redis>=2.10.0
-opbeat==3.3.4
+opbeat==3.5.1
