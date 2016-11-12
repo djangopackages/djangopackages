@@ -5,7 +5,7 @@ coverage==3.7.1 # pyup: <4
 Django==1.8.16 # pyup: >=1.8,<1.9
 django-braces==1.9.0
 django-coverage==1.2.4
-django-crispy-forms==1.6.0
+django-crispy-forms==1.6.1
 django-debug-toolbar==1.5
 django-environ==0.4.0
 django-extensions==1.6.7
