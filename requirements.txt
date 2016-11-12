@@ -19,7 +19,7 @@ django-storages==1.4.1
 djangorestframework==3.4.0
 eventlet==0.19.0
 feedparser==5.2.1
-github3.py==0.9.5
+github3.py==0.9.6
 greenlet==0.4.10
 gunicorn==19.6.0
 httplib2==0.9.2
