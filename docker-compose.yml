@@ -5,7 +5,7 @@ services:
     build: ./compose/postgres
     volumes:
       - /data/djangopackages/postgres:/var/lib/postgresql/data
-      - /data/djangopackages/backups:/backups
+      - /data-slow/djangopackages/backups:/backups
     env_file: .env
 
   django:
