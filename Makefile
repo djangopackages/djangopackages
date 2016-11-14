@@ -46,6 +46,12 @@ migrate_heroku_db_to_docker:
 	# restore dump
 	ssh root@$(DOCKER_SERVER) -C 'cd /code/djangopackages && docker-compose run postgres restore heroku.sql'
 
+migrate_db_to_new_home:
+	#ssh root@$(DOCKER_SERVER) -C 'cd /code/djangopackages && docker-compose run postgres backup'
+	scp root@$(DOCKER_SERVER):/data/djangopackages/backups/`ssh root@$(DOCKER_SERVER) ls -1t /data/djangopackages/backups/ | head -1` latest.dump
+	scp -P 56565 latest.dump root@docker2.server.wtf:/data-slow/djangopackages/backups/latest.dump
+	ssh root@docker2.server.wtf -p56565 -C 'cd /code/djangopackages && docker-compose run postgres restore latest.dump'
+
 shell:
 	ssh root@$(DOCKER_SERVER) -C 'cd /code/djangopackages && docker-compose run django python manage.py shell_plus'
 
