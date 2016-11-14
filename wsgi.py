@@ -17,5 +17,14 @@ import os
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings.docker")
 
+if os.environ.get('DJANGO_SETTINGS_MODULE') == 'settings.docker':
+    import newrelic.agent
+    newrelic.agent.initialize()
+
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
+
+if os.environ.get('DJANGO_SETTINGS_MODULE') == 'settings.docker':
+    from raven.contrib.django.raven_compat.middleware.wsgi import Sentry
+    application = Sentry(application)
+    application = newrelic.agent.WSGIApplicationWrapper(application)
