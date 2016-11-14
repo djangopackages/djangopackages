@@ -83,7 +83,7 @@ MIDDLEWARE_CLASSES = (
     "core.middleware.UserBasedExceptionMiddleware",
     "reversion.middleware.RevisionMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
-    "pagination.middleware.PaginationMiddleware",
+    "linaro_django_pagination.middleware.PaginationMiddleware",
     "django_sorting.middleware.SortingMiddleware"
 )
 
@@ -134,7 +134,7 @@ PREREQ_APPS = [
 
     # external
     "crispy_forms",
-    "pagination",
+    "linaro_django_pagination",
     "django_extensions",
     "reversion",
     "django_sorting",
