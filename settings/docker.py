@@ -4,6 +4,7 @@
 
 from os import environ
 import environ as envmax
+import logging
 
 env = envmax.Env()
 
