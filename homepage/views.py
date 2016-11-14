@@ -106,3 +106,7 @@ def error_404_view(request):
     response = render(request, "404.html")
     response.status_code = 404
     return response
+
+
+def health_check_view(request):
+    return HttpResponse("ok")

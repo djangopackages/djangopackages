@@ -24,10 +24,6 @@ CACHES = {
 }
 
 
-########## WSGI SERVER
-INSTALLED_APPS += ['gunicorn']
-
-
 ########## EMAIL
 DEFAULT_FROM_EMAIL = environ.get('DEFAULT_FROM_EMAIL',
         'Django Packages <djangopackages-noreply@djangopackages.com>')
@@ -124,15 +120,6 @@ TEMPLATE_LOADERS = (
 )
 
 ########## end templates
-
-########## appenlight-client
-import appenlight_client.client as e_client
-APPENLIGHT = e_client.get_config({'appenlight.api_key': environ.get('APPENLIGHT_KEY', '')})
-
-MIDDLEWARE_CLASSES = (
-    'appenlight_client.django_middleware.AppenlightMiddleware',
-) + MIDDLEWARE_CLASSES
-########## end appenlight-client
 
 ########## OPBEAT
 INSTALLED_APPS += ('opbeat.contrib.django',)

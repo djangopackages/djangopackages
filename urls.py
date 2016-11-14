@@ -8,7 +8,7 @@ admin.autodiscover()
 
 from apiv4.viewsets import router
 from core.apiv1 import apiv1_gone
-from homepage.views import homepage, error_404_view, error_500_view
+from homepage.views import homepage, error_404_view, error_500_view, health_check_view
 from package.views import category, python3_list
 
 urlpatterns = patterns("",
@@ -17,6 +17,7 @@ urlpatterns = patterns("",
     url('^auth/', include('social.apps.django_app.urls', namespace='social')),
     # url('', include('social_auth.urls')),
     url(r"^$", homepage, name="home"),
+    url(r"^health_check/$", health_check_view, name="health_check"),
     url(r"^404$", error_404_view, name="404"),
     url(r"^500$", error_500_view, name="500"),
     url(settings.ADMIN_URL_BASE, include(admin.site.urls)),

@@ -1,9 +1,14 @@
-www.djangopackages.org {
+www.{$DOMAIN} {
     redir https://djangopackages.org
 }
 
-djangopackages.org {
-    proxy / django:5000 {
+{$DOMAIN} {
+    proxy / django:5000 django-failover:5000 {
+        health_check /health_check/
+        health_check_interval 1s
+        health_check_timeout 5s
+        fail_timeout 5s
+        policy round_robin
         proxy_header Host {host}
         proxy_header X-Real-IP {remote}
         proxy_header X-Forwarded-Proto {scheme}
