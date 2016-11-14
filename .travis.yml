@@ -1,5 +1,7 @@
 sudo: false
 language: python
+env:
+  - DATABASE_URL=postgres://postgres:@localhost:5432/oc
 python:
   - "2.7"
 before_install:
