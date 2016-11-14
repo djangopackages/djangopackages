@@ -46,8 +46,7 @@ SITE_TITLE = environ.get('SITE_TITLE')
 FRAMEWORK_TITLE = environ.get('FRAMEWORK_TITLE')
 
 
-########## STORAGE
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
 
 
 ########### Permissions
@@ -130,3 +129,8 @@ OPBEAT = {
 }
 MIDDLEWARE_CLASSES = ('opbeat.contrib.django.middleware.OpbeatAPMMiddleware',) + MIDDLEWARE_CLASSES
 ########## end OPBEAT
+
+# Static Assets
+# ------------------------
+MEDIA_ROOT = "/data/media"
+STATIC_ROOT = "/data/static"
