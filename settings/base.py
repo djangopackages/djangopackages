@@ -84,7 +84,7 @@ MIDDLEWARE_CLASSES = (
     "reversion.middleware.RevisionMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "linaro_django_pagination.middleware.PaginationMiddleware",
-    "django_sorting.middleware.SortingMiddleware"
+    "webstack_django_sorting.middleware.SortingMiddleware"
 )
 
 TEMPLATE_DIRS = [
@@ -137,7 +137,7 @@ PREREQ_APPS = [
     "linaro_django_pagination",
     "django_extensions",
     "reversion",
-    "django_sorting",
+    "webstack_django_sorting",
     #"django_modeler",
 
     'social.apps.django_app.default',
