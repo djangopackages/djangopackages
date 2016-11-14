@@ -51,8 +51,8 @@ services:
       - media:/data/media
       - caddy:/root/.caddy
     ports:
-      - "80:80"
-      - "443:443"
+      - "192.168.44.93:80:80"
+      - "192.168.44.93:443:443"
     env_file: .env
 
   redis:
