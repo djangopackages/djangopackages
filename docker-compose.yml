@@ -5,18 +5,12 @@ volumes:
   caddy: {}
   media: {}
 
-  postgres: {}
-  postgres_backup: {}
-  # /data/djangopackages/postgres
-  # /data-slow/djangopackages/backups
-
-
 services:
   postgres:
     build: ./compose/postgres
     volumes:
-      - postgres:/var/lib/postgresql/data
-      - postgres_backup:/backups
+      - /data/djangopackages/postgres:/var/lib/postgresql/data
+      - /data-slow/djangopackages/backups:/backups
     env_file: .env
 
   django:
