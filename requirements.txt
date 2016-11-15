@@ -38,5 +38,5 @@ django-redis==4.6.0
 redis>=2.10.0
 opbeat==3.5.1
 newrelic
-raven
+raven==5.32.0
 django-anymail
