@@ -10,7 +10,7 @@ django-environ==0.4.0
 django-extensions==1.6.7
 django-floppyforms==1.7.0
 django-jsonview>=0.4.2
-linaro-django-pagination
+linaro-django-pagination==2.0.3
 django-reversion==2.0.7
 django-secure==1.0.1
 webstack-django-sorting
