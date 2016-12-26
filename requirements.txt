@@ -27,7 +27,7 @@ mimeparse==0.1.3
 oauth2==1.9.0.post1
 psycopg2==2.6.2
 python-dateutil==2.6.0
-python-social-auth==0.2.19
+python-social-auth==0.3.1
 requests==2.11.1
 shortuuid==0.4.3
 six==1.10.0
