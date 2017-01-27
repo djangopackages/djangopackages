@@ -11,7 +11,7 @@ django-extensions==1.6.7
 django-floppyforms==1.7.0
 django-jsonview>=0.4.2
 linaro-django-pagination==2.0.3
-django-reversion==2.0.7
+django-reversion==1.8.5 # pyup: <1.8.6
 django-secure==1.0.1
 webstack-django-sorting==0.4.3
 django-storages==1.5.1
@@ -27,7 +27,7 @@ mimeparse==0.1.3
 oauth2==1.9.0.post1
 psycopg2==2.6.2
 python-dateutil==2.6.0
-python-social-auth==0.2.19
+python-social-auth==0.2.3 # pyup: <0.2.4
 requests==2.11.1
 shortuuid==0.4.3
 six==1.10.0
