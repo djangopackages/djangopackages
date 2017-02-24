@@ -7,7 +7,7 @@ django-coverage==1.2.4
 django-crispy-forms==1.6.1
 django-debug-toolbar==1.5
 django-environ==0.4.0
-django-extensions==1.6.7
+django-extensions==1.7.7
 django-floppyforms==1.7.0
 django-jsonview>=0.4.2
 linaro-django-pagination==2.0.3
