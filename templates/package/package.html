@@ -77,7 +77,7 @@
      <div class="panel-heading clearfix">
        <h3 class="panel-title pull-left">PyPI</h3>
      </div>
-     {% if package.pypi_url and package.pypi_url != "http://pypi.python.org/pypi/" %}
+     {% if package.pypi_url and package.pypi_url != "http://pypi.python.org/pypi/" and package.pypi_url|slice:":4" == "http" %}
         <div class="panel-body">
           <p><a href="{{ package.pypi_url }}">{{ package.pypi_url }}</a></p>
         </div>
