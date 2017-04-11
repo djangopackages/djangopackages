@@ -91,7 +91,9 @@ def deploy():
 
         env.run("git pull origin master")
 
-        build_and_restart("django")
+        build_and_restart("django-a")
+        time.sleep(10)
+        build_and_restart("django-b")
         # just to make sure they are on
         docker_compose("start postgres")
         docker_compose("start redis")
