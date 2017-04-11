@@ -93,13 +93,13 @@ def deploy():
 
         build_and_restart("django-a")
         time.sleep(10)
-        build_and_restart("django-b")
+
         # just to make sure they are on
         docker_compose("start postgres")
         docker_compose("start redis")
         time.sleep(10)
 
-        build_and_restart("django-failover")
+        build_and_restart("django-b")
 
 
 def build_and_restart(service):
