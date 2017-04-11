@@ -11,6 +11,6 @@ install:
 before_script:
   - psql -U postgres -c 'CREATE DATABASE "oc";'
 script:
-  - python manage.py test --settings=settings.test
+  - coverage run manage.py test --settings=settings.test
 after_success:
   - codecov

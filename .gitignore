@@ -36,6 +36,7 @@ local_settings.py
 
 # Coverage
 coverage
+htmlcov
 
 # Sphinx
 docs/_build
