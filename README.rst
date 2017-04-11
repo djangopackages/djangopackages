@@ -3,11 +3,6 @@ Django Packages
 
 Django Packages helps you easily identify and compare good apps, frameworks, plugins, and other types of packages, using comparison grids.
 
-Sponsorship
------------
-
-This is an entirely volunteer driven effort. That includes coding time and hosting costs. If you wish to become a sponsor of this project, please feel free to contact me at pydanny@gmail.com.
-
 
 Badges
 ------
@@ -15,7 +10,7 @@ Badges
 .. image:: https://pyup.io/repos/github/pydanny/djangopackages/shield.svg
      :target: https://pyup.io/repos/github/pydanny/djangopackages/
      :alt: Updates
-     
+
 .. image:: https://pyup.io/repos/github/pydanny/djangopackages/python-3-shield.svg
      :target: https://pyup.io/repos/github/pydanny/djangopackages/
      :alt: Python 3
@@ -47,6 +42,19 @@ Features
   * Latest packages featured on homepage
 
 * "Add package" and "Add grid" forms
+
+Development
+-----------
+
+This project uses Docker during development and production.
+
+To start the local runserver for development, simply run:
+
+    docker-compose -f dev.yml up
+
+To run tests, run:
+
+    docker-compose run django python manage.py test --settings=settings.test
 
 The Site
 --------
