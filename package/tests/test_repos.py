@@ -177,7 +177,7 @@ http://www.dataportal.it"""
         for sample in samples.split("\n"):
             self.assertTrue(isinstance(get_repo_for_repo_url(sample), UnsupportedHandler))
 
-
+"""
 class TestBitbucketRepo(TestBaseHandler):
     def setUp(self):
         super(TestBitbucketRepo, self).setUp()
@@ -201,7 +201,7 @@ class TestBitbucketRepo(TestBaseHandler):
         self.assertTrue(package.repo_watchers > 0)
         self.assertTrue(package.repo_forks > 0)
         self.assertEquals(package.participants, "django")
-
+"""
 
 class TestGithubRepo(TestBaseHandler):
     def setUp(self):
