@@ -1,5 +1,5 @@
 from django.core.urlresolvers import reverse
-
+from profiles.models import Profile
 
 def base_resource(obj):
     return {
@@ -43,10 +43,13 @@ def grid_resource(grid):
 def package_resource(package):
     data = base_resource(package)
 
-    if package.created_by is None:
+    try:
+        if package.created_by is None or package.created_by.profile is None:
+            created_by = None
+        else:
+            created_by = reverse("apiv3:user_detail", kwargs={"github_account": package.created_by.profile.github_account})
+    except Profile.DoesNotExist:
         created_by = None
-    else:
-        created_by = reverse("apiv3:user_detail", kwargs={"github_account": package.created_by.profile.github_account})
 
     try:
         last_modified_by = package.last_modified_by.profile.github_account
