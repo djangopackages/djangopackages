@@ -18,28 +18,28 @@
 {% paginate %}
 
     <table id="home-packages">
-        
+
         {{ request.user.admin }}
 
         <thead>
         <tr>
-            <th>{% anchor username User Name %}</th>
-            <th>{% anchor date_joined Date Joined %}</th>
-            <th>{% anchor is_staff Staff %}</th>
-            {% if request.user.is_staff %}            
-                <th>{% trans "Active" %}</th>            
+            <th>{% anchor username _("Name") %}</th>
+            <th>{% anchor date_joined _("Joined") %}</th>
+            <th>{% anchor is_staff _("Staff") %}</th>
+            {% if request.user.is_staff %}
+                <th>{% trans "Active" %}</th>
             {% endif %}
             <th>{% trans "Github" %}</th>
             <th>{% trans "BitBucket" %}</th>
         </tr>
         </thead>
-        
+
         <tbody>
             {% for user in users %}
                 {% with user.profile as profile %}
                 <tr>
                     <td>
-                        
+
                         {% if profile.github_account %}<a href="{% url 'profile_detail' profile.github_account %}">{{ profile.github_account }}</a>
                         {% else %}
                         {{ user.username }}
@@ -48,17 +48,17 @@
                     <td><span class="hide">{{ user.date_joined|date:"YmdHis" }}</span>{{ user.date_joined|timesince }}</td>
                     <td>
                         {% if user.is_staff %}
-                            <img src="{{ STATIC_URL }}img/icon-yes.gif" />                            
+                            <img src="{{ STATIC_URL }}img/icon-yes.gif" />
                         {% else %}
-                            <img src="{{ STATIC_URL }}img/icon-no.gif" />                            
-                        {% endif %}                        
+                            <img src="{{ STATIC_URL }}img/icon-no.gif" />
+                        {% endif %}
                     </td>
                     {% if request.user.is_staff %}
                         <td>
                             {% if user.is_active %}
-                                <img src="{{ STATIC_URL }}img/icon-yes.gif" />                            
+                                <img src="{{ STATIC_URL }}img/icon-yes.gif" />
                             {% else %}
-                                <img src="{{ STATIC_URL }}img/icon-no.gif" />                            
+                                <img src="{{ STATIC_URL }}img/icon-no.gif" />
                             {% endif %}
                         </td>
                     {% endif %}
@@ -69,7 +69,7 @@
         {% endfor %}
         </tbody>
     </table>
-    
+
 {% paginate %}
 
 {% endblock %}
