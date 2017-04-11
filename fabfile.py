@@ -34,7 +34,7 @@ def production():
     """
     Work on the production environment
     """
-    env.hosts = ["docker2.server.wtf"]  # list the ip addresses or domain names of your production boxes here
+    env.hosts = ["159.203.191.135"]  # list the ip addresses or domain names of your production boxes here
     env.port = 56565  # ssh port
     env.user = "root"  # remote user, see `env.run` if you don't log in as root
 

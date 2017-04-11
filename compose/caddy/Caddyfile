@@ -1,9 +1,9 @@
-www.{$DOMAIN} {
+www.djangopackages.org {
     redir https://djangopackages.org
 }
 
-{$DOMAIN} {
-    proxy / django:5000 django-failover:5000 {
+djangopackages.org {
+    proxy / django-a:5000 django-b:5000 {
         health_check /health_check/
         health_check_interval 1s
         health_check_timeout 5s
@@ -18,13 +18,13 @@ www.{$DOMAIN} {
     gzip
 }
 
-{$DOMAIN}/static {
+djangopackages.org/static {
     root /data/static
     header / Cache-Control "max-age=2592000"
     gzip
 }
 
-{$DOMAIN}/media {
+djangopackages.org/media {
     root /data/media
     header / Cache-Control "max-age=2592000"
     gzip

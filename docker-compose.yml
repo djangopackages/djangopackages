@@ -10,10 +10,10 @@ services:
     build: ./compose/postgres
     volumes:
       - /data/djangopackages/postgres:/var/lib/postgresql/data
-      - /data-slow/djangopackages/backups:/backups
+      - /data/djangopackages/backups:/backups
     env_file: .env
 
-  django:
+  django-a:
     build:
       context: .
       dockerfile: ./compose/django/Dockerfile
@@ -27,7 +27,7 @@ services:
     command: /start.sh
     env_file: .env
 
-  django-failover:
+  django-b:
     build:
       context: .
       dockerfile: ./compose/django/Dockerfile
@@ -44,15 +44,15 @@ services:
   caddy:
     build: ./compose/caddy
     depends_on:
-      - django
-      - django-failover
+      - django-a
+      - django-b
     volumes:
       - static:/data/static
       - media:/data/media
       - caddy:/root/.caddy
     ports:
-      - "192.168.44.93:80:80"
-      - "192.168.44.93:443:443"
+      - "80:80"
+      - "443:443"
     env_file: .env
 
   redis:
