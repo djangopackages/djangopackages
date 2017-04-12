@@ -14,7 +14,7 @@ class Command(NoArgsCommand):
     help = "Send out email to everyone"
     
     def handle(self, *args, **options): 
-        print >> stdout, "Commencing big email send"
+        print("Commencing big email send", file=stdout)
 
         #users = User.objects.filter(is_active=True).exclude(email__contains="qq.com").exclude(email__contains="tom.com")
         users = User.objects.filter(username__in=("pydanny","audreyr"))
@@ -28,5 +28,5 @@ class Command(NoArgsCommand):
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[user.email,],
             )            
-            print "Sent to", index, user.email
+            print("Sent to", index, user.email)
             time.sleep(1)

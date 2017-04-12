@@ -15,7 +15,7 @@ class SlugifyOC(TestCase):
             )
 
         for l in lst:
-            self.assertEquals(utils.oc_slugify(l[0]), l[1])
+            self.assertEqual(utils.oc_slugify(l[0]), l[1])
 
 
 class GetPypiUrl(TestCase):
@@ -27,7 +27,7 @@ class GetPypiUrl(TestCase):
             ('Django Uni Form', 'http://pypi.python.org/pypi/django-uni-form'),
         )
         for l in lst:
-            self.assertEquals(utils.get_pypi_url(l[0].lower()), l[1].lower())
+            self.assertEqual(utils.get_pypi_url(l[0].lower()), l[1].lower())
 
     def test_get_pypi_url_fail(self):
 
@@ -36,4 +36,4 @@ class GetPypiUrl(TestCase):
             'php is not here'
         )
         for l in lst:
-            self.assertEquals(utils.get_pypi_url(l), None)
+            self.assertEqual(utils.get_pypi_url(l), None)

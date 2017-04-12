@@ -85,7 +85,7 @@ def style_attribute(attribute_name, package):
     except template.VariableDoesNotExist:
         value = ''
 
-    if attribute_name in mappings.keys():
+    if attribute_name in list(mappings.keys()):
         return  mappings[attribute_name](value)
 
     return style_default(value)

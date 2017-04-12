@@ -20,7 +20,7 @@ class Profile(BaseModel):
     google_code_url = models.CharField(_("Google Code account"), null=True, blank=True, max_length=100)
     email = models.EmailField(_("Email"), null=True, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         if not self.github_account:
             return self.user.username
         return self.github_account
@@ -60,7 +60,7 @@ class Profile(BaseModel):
             repo = get_repo(repo)
             repo_packages = repo.packages_for_profile(self)
             packages.extend(repo_packages)
-        packages.sort(lambda a, b: cmp(a.title, b.title))
+        packages.sort(key=lambda a, b: ((a.title > b.title) - (a.title < b.title)))
         return packages
 
     @models.permalink

@@ -55,7 +55,7 @@ class PackageV1Tests(TestCase):
         # check that the request was successful
         self.assertEqual(response_pkg1.status_code, 200)
         # check that we have a usage_count equal to the one in the DB
-        raw_json_pkg1 = response_pkg1.content
+        raw_json_pkg1 = response_pkg1.content.decode("utf-8")
         pkg_1 = json.loads(raw_json_pkg1)
         usage_count_pkg1 = int(pkg_1['usage_count'])
         self.assertEqual(usage_count_pkg1, self.pkg1.usage.count())
@@ -66,7 +66,7 @@ class PackageV1Tests(TestCase):
         # check that the request was successful
         self.assertEqual(response_pkg2.status_code, 200)
         # check that we have a usage_count equal to the one in the DB
-        raw_json_pkg2 = response_pkg2.content
+        raw_json_pkg2 = response_pkg2.content.decode("utf-8")
         pkg_2 = json.loads(raw_json_pkg2)
         usage_count_pkg2 = int(pkg_2['usage_count'])
         self.assertEqual(usage_count_pkg2, self.pkg2.usage.count())
@@ -81,7 +81,7 @@ class PackageV1Tests(TestCase):
         # check that the request was successful
         self.assertEqual(response_app_pkg.status_code, 200)
         # check that we have correct number of packages in filter
-        raw_json_app_pkg = response_app_pkg.content
+        raw_json_app_pkg = response_app_pkg.content.decode("utf-8")
         app_pkg = json.loads(raw_json_app_pkg)
         app_pkg_count = int(app_pkg['meta']['total_count'])
         self.assertEqual(app_pkg_count, self.app.package_set.count() + 1)

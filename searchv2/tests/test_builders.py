@@ -11,6 +11,6 @@ class BuilderTest(TestCase):
         initial_data.load()
 
     def test_build_1_count(self):
-        self.assertEquals(SearchV2.objects.count(), 0)
+        self.assertEqual(SearchV2.objects.count(), 0)
         build_1(False)
-        self.assertEquals(SearchV2.objects.count(), 6)
+        self.assertEqual(SearchV2.objects.count(), 6)

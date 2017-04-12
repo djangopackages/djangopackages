@@ -34,17 +34,17 @@ class TestBaseHandler(BaseBase):
     def test_not_implemented(self):
         # TODO switch the NotImplemented to the other side
         handler = BaseHandler()
-        self.assertEquals(NotImplemented, handler.title)
-        self.assertEquals(NotImplemented, handler.url)
-        self.assertEquals(NotImplemented, handler.repo_regex)
-        self.assertEquals(NotImplemented, handler.slug_regex)
-        self.assertEquals(NotImplemented, handler.__str__())
-        self.assertEquals(NotImplemented, handler.fetch_metadata(self.package))
-        self.assertEquals(NotImplemented, handler.fetch_commits(self.package))
+        self.assertEqual(NotImplemented, handler.title)
+        self.assertEqual(NotImplemented, handler.url)
+        self.assertEqual(NotImplemented, handler.repo_regex)
+        self.assertEqual(NotImplemented, handler.slug_regex)
+        self.assertEqual(NotImplemented, handler.__str__())
+        self.assertEqual(NotImplemented, handler.fetch_metadata(self.package))
+        self.assertEqual(NotImplemented, handler.fetch_commits(self.package))
 
     def test_is_other(self):
         handler = BaseHandler()
-        self.assertEquals(handler.is_other, False)
+        self.assertEqual(handler.is_other, False)
 
     def test_get_repo_for_repo_url(self):
         samples = """u'http://repos.entrouvert.org/authentic.git/tree

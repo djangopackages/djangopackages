@@ -25,4 +25,4 @@ class SearchV2Test(TestCase):
             last_committed=datetime.now(),
             last_released=datetime.now(),
         )
-        self.assertEquals(SearchV2.objects.count(), 1)
+        self.assertEqual(SearchV2.objects.count(), 1)

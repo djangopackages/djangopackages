@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 
 from django.db import models, migrations
 import core.fields
@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('created', core.fields.CreationDateTimeField(default=django.utils.timezone.now, verbose_name='created', editable=False, blank=True)),
                 ('modified', core.fields.ModificationDateTimeField(default=django.utils.timezone.now, verbose_name='modified', editable=False, blank=True)),
-                ('text', models.TextField(help_text=b"\nLinebreaks are turned into 'br' tags<br />\nUrls are turned into links<br />\nYou can use just 'check', 'yes', 'good' to place a checkmark icon.<br />\nYou can use 'bad', 'negative', 'evil', 'sucks', 'no' to place a negative icon.<br />\nPlus just '+' or '-' signs can be used but cap at 3 multiples to protect layout<br/>\n\n", verbose_name='text', blank=True)),
+                ('text', models.TextField(help_text="\nLinebreaks are turned into 'br' tags<br />\nUrls are turned into links<br />\nYou can use just 'check', 'yes', 'good' to place a checkmark icon.<br />\nYou can use 'bad', 'negative', 'evil', 'sucks', 'no' to place a negative icon.<br />\nPlus just '+' or '-' signs can be used but cap at 3 multiples to protect layout<br/>\n\n", verbose_name='text', blank=True)),
             ],
             options={
                 'ordering': ['-id'],
@@ -47,10 +47,10 @@ class Migration(migrations.Migration):
                 ('created', core.fields.CreationDateTimeField(default=django.utils.timezone.now, verbose_name='created', editable=False, blank=True)),
                 ('modified', core.fields.ModificationDateTimeField(default=django.utils.timezone.now, verbose_name='modified', editable=False, blank=True)),
                 ('title', models.CharField(max_length=100, verbose_name='Title')),
-                ('slug', models.SlugField(help_text=b'Slugs will be lowercased', unique=True, verbose_name='Slug')),
-                ('description', models.TextField(help_text=b'Lines are broken and urls are urlized', verbose_name='Description', blank=True)),
-                ('is_locked', models.BooleanField(default=False, help_text=b'Moderators can lock grid access', verbose_name='Is Locked')),
-                ('header', models.BooleanField(default=False, help_text=b'If checked then displayed on homepage header', verbose_name='Header tab?')),
+                ('slug', models.SlugField(help_text='Slugs will be lowercased', unique=True, verbose_name='Slug')),
+                ('description', models.TextField(help_text='Lines are broken and urls are urlized', verbose_name='Description', blank=True)),
+                ('is_locked', models.BooleanField(default=False, help_text='Moderators can lock grid access', verbose_name='Is Locked')),
+                ('header', models.BooleanField(default=False, help_text='If checked then displayed on homepage header', verbose_name='Header tab?')),
             ],
             options={
                 'ordering': ['title'],

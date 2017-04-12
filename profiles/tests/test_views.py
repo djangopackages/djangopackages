@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
@@ -45,4 +45,4 @@ class TestProfile(TestCase):
         response = self.client.post(url, data, follow=True)
         self.assertContains(response, "Profile for user")
         p = Profile.objects.get(user=self.user)
-        self.assertEquals(p.bitbucket_url, "zerg")
+        self.assertEqual(p.bitbucket_url, "zerg")
