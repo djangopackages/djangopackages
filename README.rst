@@ -81,4 +81,4 @@ They are joined by a host of core developers and contributors.  See https://open
 
 .. _`@pydanny`: https://github.com/pydanny/
 .. _`@audreyr`: https://github.com/audreyr/
-.. _`Django Packages`: https://www.djangopackages.com/
+.. _`Django Packages`: https://www.djangopackages.org/
