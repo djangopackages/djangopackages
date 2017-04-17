@@ -52,6 +52,8 @@ class FunctionalPackageTest(TestCase):
             self.assertContains(response, p.repo_description)
 
     def test_add_package_view(self):
+        # this test has side effects, remove Package 3
+        Package.objects.get(pk=3).delete()
         url = reverse('add_package')
         response = self.client.get(url)
 
