@@ -11,7 +11,7 @@ class Command(NoArgsCommand):
     help = "Import development data for local dev"
     
     def handle(self, *args, **options): 
-        print >> stdout, "Commencing dev data import"
+        print("Commencing dev data import", file=stdout)
 
         for app in settings.INSTALLED_APPS:
             mod = import_module(app)

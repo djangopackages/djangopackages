@@ -34,7 +34,7 @@ class Grid(BaseModel):
                 elements.append(element)
         return elements
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     @property
@@ -88,7 +88,7 @@ class GridPackage(BaseModel):
         self.grid.clear_detail_template_cache()
         super(GridPackage, self).save(*args, **kwargs)
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s : %s' % (self.grid.slug, self.package.slug)
 
 
@@ -110,7 +110,7 @@ class Feature(BaseModel):
         self.grid.clear_detail_template_cache()
         super(Feature, self).save(*args, **kwargs)
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s : %s' % (self.grid.slug, self.title)
 
 help_text = """
@@ -144,5 +144,5 @@ class Element(BaseModel):
         self.feature.save()  # fire grid_packages cache
         super(Element, self).save(*args, **kwargs)
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s : %s : %s' % (self.grid_package.grid.slug, self.grid_package.package.slug, self.feature.title)

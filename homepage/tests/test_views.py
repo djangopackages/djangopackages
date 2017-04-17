@@ -24,7 +24,7 @@ class FunctionalHomepageTest(TestCase):
             self.assertContains(response, p.title)
             self.assertContains(response, p.repo_description)
 
-        self.assertEquals(response.context['package_count'], Package.objects.count())
+        self.assertEqual(response.context['package_count'], Package.objects.count())
 
     def test_categories_on_homepage(self):
         url = reverse('home')
@@ -72,8 +72,8 @@ class TestErrorPages(TestCase):
 
     def test_404_test(self):
         r = self.client.get("/404")
-        self.assertEquals(r.status_code, 404)
+        self.assertEqual(r.status_code, 404)
 
     def test_500_test(self):
         r = self.client.get("/500")
-        self.assertEquals(r.status_code, 500)
+        self.assertEqual(r.status_code, 500)

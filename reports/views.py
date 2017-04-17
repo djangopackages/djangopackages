@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+
 
 import csv
-import StringIO
+import io
 
 from django.http import HttpResponse
 
@@ -12,7 +12,7 @@ from package.models import Package
 
 def package_csv(request):
 
-    output = StringIO.StringIO()
+    output = io.StringIO()
     fieldnames = ['title', 'created', 'num_participants', 'pypi_downloads', 'repo_forks', ]
     writer = csv.DictWriter(output, fieldnames=fieldnames)
     for package in Package.objects.all():

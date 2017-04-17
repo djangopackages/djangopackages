@@ -29,7 +29,7 @@ class Dpotw(BaseModel):
         verbose_name = "Django Package of the Week"
         verbose_name_plural = "Django Packages of the Week"
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s : %s - %s' % (self.package.title, self.start_date, self.end_date)
 
     @models.permalink
@@ -53,7 +53,7 @@ class Gotw(BaseModel):
         verbose_name = "Grid of the Week"
         verbose_name_plural = "Grids of the Week"
 
-    def __unicode__(self):
+    def __str__(self):
         return '%s : %s - %s' % (self.grid.title, self.start_date, self.end_date)
 
     @models.permalink
@@ -73,5 +73,5 @@ class PSA(BaseModel):
         verbose_name = "Public Service Announcement"
         verbose_name_plural = "Public Service Announcements"
 
-    def __unicode__(self):
+    def __str__(self):
         return "{0} : {1}".format(self.created, self.body_text)

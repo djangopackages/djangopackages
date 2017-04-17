@@ -41,11 +41,17 @@ def get_version(package):
 
 
 def get_pypi_version(package):
-    string_ver_list = package.version_set.values_list('number', flat=True)
-    if string_ver_list:
-        vers_list = [versioner(v) for v in string_ver_list]
-        latest = sorted(vers_list)[-1]
-        return str(latest)
+    versions = []
+    for v_str in package.version_set.values_list('number', flat=True):
+        v = versioner(v_str)
+        comparable = True
+        for elem in v.version:
+            if isinstance(elem, str):
+                comparable = False
+        if comparable:
+            versions.append(v)
+    if versions:
+        return str(sorted(versions)[-1])
     return ''
 
 

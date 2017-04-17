@@ -1,4 +1,4 @@
-from floppyforms import ModelForm, TextInput
+from floppyforms.__future__ import ModelForm, TextInput
 
 from package.models import Category, Package, PackageExample
 

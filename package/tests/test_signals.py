@@ -18,4 +18,4 @@ class SignalTests(TestCase):
             self.sender_name = sender.slug
         signal_fetch_latest_metadata.connect(handle_signal)
         package.fetch_metadata()
-        self.assertEquals(self.sender_name, 'dummy')
+        self.assertEqual(self.sender_name, 'dummy')

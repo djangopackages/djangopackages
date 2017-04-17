@@ -13,7 +13,7 @@ To list all available commands, run::
     fab -l
 """
 
-from __future__ import absolute_import, print_function, unicode_literals
+
 from fabric.operations import local as lrun, run, sudo, put
 from fabric.api import *
 from fabric.colors import green, red, yellow, blue

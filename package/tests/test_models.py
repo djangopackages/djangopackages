@@ -22,13 +22,13 @@ class VersionTests(TestCase):
                             '2.1.2',
                             '2.1.3']
         returned_values = [v.number for v in versions]
-        self.assertEquals(returned_values,expected_values)
+        self.assertEqual(returned_values,expected_values)
 
     def test_version_license_length(self):
         v = Version.objects.all()[0]
         v.license = "x"*50
         v.save()
-        self.assertEquals(v.license,"Custom")
+        self.assertEqual(v.license,"Custom")
 
 class PackageTests(TestCase):
     def setUp(self):
@@ -36,4 +36,4 @@ class PackageTests(TestCase):
 
     def test_license_latest(self):
         for p in Package.objects.all():
-            self.assertEquals("UNKNOWN", p.license_latest)
+            self.assertEqual("UNKNOWN", p.license_latest)

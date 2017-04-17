@@ -102,9 +102,9 @@ def build_1(print_out=False):
             obj.save()
 
         if print_out:
-            print >> stdout, obj.slug, created
+            print(obj.slug, created, file=stdout)
 
-    print >> stdout, '----------------------'
+    print('----------------------', file=stdout)
     max_weight = SearchV2.objects.all()[0].weight
     increment = max_weight / 6
     for grid in Grid.objects.all():
@@ -133,6 +133,6 @@ def build_1(print_out=False):
         obj.weight = weight
         obj.save()
 
-        print >> stdout, obj, created
+        print(obj, created, file=stdout)
 
     return SearchV2.objects.all()

@@ -162,7 +162,9 @@ class FunctionalGridTest(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_add_grid_package_view(self):
+        # this test has side effects. Remove GridPackage 1 and 3
         GridPackage.objects.get(pk=1).delete()
+        GridPackage.objects.get(pk=3).delete()
         url = reverse('add_grid_package', kwargs={'grid_slug': 'testing'})
         response = self.client.get(url)
 

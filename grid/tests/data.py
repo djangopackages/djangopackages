@@ -10,81 +10,81 @@ from profiles.models import Profile
 def load():
     category, created = Category.objects.get_or_create(
         pk=1,
-        slug=u'apps',
-        title=u'App',
-        description=u'Small components used to build projects.',
+        slug='apps',
+        title='App',
+        description='Small components used to build projects.',
     )
 
     package1, created = Package.objects.get_or_create(
         pk=1,
         category=category,
         repo_watchers=0,
-        title=u'Testability',
+        title='Testability',
         pypi_url='',
-        participants=u'malcomt,jacobian',
+        participants='malcomt,jacobian',
         pypi_downloads=0,
-        repo_url=u'https://github.com/pydanny/django-la-facebook',
+        repo_url='https://github.com/pydanny/django-la-facebook',
         
         repo_forks=0,
-        slug=u'testability',
-        repo_description=u'Increase your testing ability with this steroid free supplement.',
+        slug='testability',
+        repo_description='Increase your testing ability with this steroid free supplement.',
     )
     package2, created = Package.objects.get_or_create(
         pk=2,
         category=category,
         repo_watchers=0,
-        title=u'Supertester',
+        title='Supertester',
         pypi_url='',
-        participants=u'thetestman',
+        participants='thetestman',
         pypi_downloads=0,
-        repo_url=u'https://github.com/pydanny/django-uni-form',
+        repo_url='https://github.com/pydanny/django-uni-form',
         
         repo_forks=0,
-        slug=u'supertester',
-        repo_description=u'Test everything under the sun with one command!',
+        slug='supertester',
+        repo_description='Test everything under the sun with one command!',
     )
     package3, created = Package.objects.get_or_create(
         pk=3,
         category=category,
         repo_watchers=0,
-        title=u'Serious Testing',
+        title='Serious Testing',
         pypi_url='',
-        participants=u'pydanny',
+        participants='pydanny',
         pypi_downloads=0,
-        repo_url=u'https://github.com/opencomparison/opencomparison',
+        repo_url='https://github.com/opencomparison/opencomparison',
         
         repo_forks=0,
-        slug=u'serious-testing',
-        repo_description=u'Make testing as painless as waxing your legs.',
+        slug='serious-testing',
+        repo_description='Make testing as painless as waxing your legs.',
     )
     package4, created = Package.objects.get_or_create(
         pk=4,
         category=category,
         repo_watchers=0,
-        title=u'Another Test',
+        title='Another Test',
         pypi_url='',
-        participants=u'pydanny',
+        participants='pydanny',
         pypi_downloads=0,
-        repo_url=u'https://github.com/djangopackages/djangopackages',
+        repo_url='https://github.com/djangopackages/djangopackages',
         
         repo_forks=0,
-        slug=u'another-test',
-        repo_description=u'Yet another test package, with no grid affiliation.',
+        slug='another-test',
+        repo_description='Yet another test package, with no grid affiliation.',
     )
 
     grid1, created = Grid.objects.get_or_create(
         pk=1,
-        description=u'A grid for testing.',
-        title=u'Testing',
+        description='A grid for testing.',
+        title='Testing',
         is_locked=False,
-        slug=u'testing',
+        slug='testing',
     )
     grid2, created = Grid.objects.get_or_create(
         pk=2,
-        description=u'Another grid for testing.',
-        title=u'Another Testing',
+        description='Another grid for testing.',
+        title='Another Testing',
         is_locked=False,
-        slug=u'another-testing',
+        slug='another-testing',
     )
 
     gridpackage1, created = GridPackage.objects.get_or_create(
@@ -115,27 +115,27 @@ def load():
 
     feature1, created = Feature.objects.get_or_create(
         pk=1,
-        title=u'Has tests?',
+        title='Has tests?',
         grid=grid1,
-        description=u'Does this package come with tests?',
+        description='Does this package come with tests?',
     )
     feature2, created = Feature.objects.get_or_create(
         pk=2,
-        title=u'Coolness?',
+        title='Coolness?',
         grid=grid1,
-        description=u'Is this package cool?',
+        description='Is this package cool?',
     )
 
     element, created = Element.objects.get_or_create(
         pk=1,
-        text=u'Yes',
+        text='Yes',
         feature=feature1,
         grid_package=gridpackage1,
     )
 
     group1, created = Group.objects.get_or_create(
         pk=1,
-        name=u'Moderators',
+        name='Moderators',
         #permissions=[[u'delete_gridpackage', u'grid', u'gridpackage'], [u'delete_feature', u'grid', u'feature']],
     )
     group1.permissions.clear()
@@ -146,66 +146,66 @@ def load():
 
     user1, created = User.objects.get_or_create(
         pk=1,
-        username=u'user',
+        username='user',
         first_name='',
         last_name='',
         is_active=True,
         is_superuser=False,
         is_staff=False,
-        last_login=u'2010-01-01 12:00:00',
-        password=u'sha1$644c9$347f3dd85fb609a5745ebe33d0791929bf08f22e',
+        last_login='2010-01-01 12:00:00',
+        password='sha1$644c9$347f3dd85fb609a5745ebe33d0791929bf08f22e',
         email='',
-        date_joined=u'2010-01-01 12:00:00',
+        date_joined='2010-01-01 12:00:00',
     )
     user2, created = User.objects.get_or_create(
         pk=2,
-        username=u'cleaner',
+        username='cleaner',
         first_name='',
         last_name='',
         is_active=True,
         is_superuser=False,
         is_staff=False,
-        last_login=u'2010-01-01 12:00:00',
+        last_login='2010-01-01 12:00:00',
         #groups=[group1],
-        password=u'sha1$e6fe2$78b744e21cddb39117997709218f4c6db4e91894',
+        password='sha1$e6fe2$78b744e21cddb39117997709218f4c6db4e91894',
         email='',
-        date_joined=u'2010-01-01 12:00:00',
+        date_joined='2010-01-01 12:00:00',
     )
     user2.groups = [group1]
 
     user3, created = User.objects.get_or_create(
         pk=3,
-        username=u'staff',
+        username='staff',
         first_name='',
         last_name='',
         is_active=True,
         is_superuser=False,
         is_staff=True,
-        last_login=u'2010-01-01 12:00:00',
-        password=u'sha1$8894d$c4814980edd6778f0ab1632c4270673c0fd40efe',
+        last_login='2010-01-01 12:00:00',
+        password='sha1$8894d$c4814980edd6778f0ab1632c4270673c0fd40efe',
         email='',
-        date_joined=u'2010-01-01 12:00:00',
+        date_joined='2010-01-01 12:00:00',
     )
     user4, created = User.objects.get_or_create(
         pk=4,
-        username=u'admin',
+        username='admin',
         first_name='',
         last_name='',
         is_active=True,
         is_superuser=True,
         is_staff=True,
-        last_login=u'2010-01-01 12:00:00',
-        password=u'sha1$52c7f$59b4f64ffca593e6abd23f90fd1f95cf71c367a4',
+        last_login='2010-01-01 12:00:00',
+        password='sha1$52c7f$59b4f64ffca593e6abd23f90fd1f95cf71c367a4',
         email='',
-        date_joined=u'2010-01-01 12:00:00',
+        date_joined='2010-01-01 12:00:00',
     )
 
     packageexample, created = PackageExample.objects.get_or_create(
         pk=1,
         package=package1,
-        url=u'http://www.example.com/',
+        url='http://www.example.com/',
         active=True,
-        title=u'www.example.com',
+        title='www.example.com',
     )
     for user in User.objects.all():
         profile = Profile.objects.create(user=user)

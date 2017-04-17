@@ -29,17 +29,17 @@ class NoPyPiVersionFound(Exception):
 
 class Category(BaseModel):
 
-    title = models.CharField(_("Title"), max_length="50")
+    title = models.CharField(_("Title"), max_length=50)
     slug = models.SlugField(_("slug"))
     description = models.TextField(_("description"), blank=True)
-    title_plural = models.CharField(_("Title Plural"), max_length="50", blank=True)
+    title_plural = models.CharField(_("Title Plural"), max_length=50, blank=True)
     show_pypi = models.BooleanField(_("Show pypi stats & version"), default=True)
 
     class Meta:
         ordering = ['title']
         verbose_name_plural = 'Categories'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     @models.permalink
@@ -49,7 +49,7 @@ class Category(BaseModel):
 
 class Package(BaseModel):
 
-    title = models.CharField(_("Title"), max_length="100")
+    title = models.CharField(_("Title"), max_length=100)
     slug = models.SlugField(_("Slug"), help_text="Enter a valid 'slug' consisting of letters, numbers, underscores or hyphens. Values will be converted to lowercase.", unique=True)
     category = models.ForeignKey(Category, verbose_name="Installation")
     repo_description = models.TextField(_("Repo Description"), blank=True)
@@ -160,11 +160,11 @@ class Package(BaseModel):
             if settings.DEBUG:
                 if response.status_code not in (200, 404):
                     print("BOOM!")
-                    print(self, response.status_code)
+                    print((self, response.status_code))
             if response.status_code == 404:
                 if settings.DEBUG:
                     print("BOOM!")
-                    print(self, response.status_code)
+                    print((self, response.status_code))
                 return False
             release = json.loads(response.content)
             info = release['info']
@@ -280,7 +280,7 @@ class Package(BaseModel):
         ordering = ['title']
         get_latest_by = 'id'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     @models.permalink
@@ -298,14 +298,14 @@ class Package(BaseModel):
 class PackageExample(BaseModel):
 
     package = models.ForeignKey(Package)
-    title = models.CharField(_("Title"), max_length="100")
+    title = models.CharField(_("Title"), max_length=100)
     url = models.URLField(_("URL"))
     active = models.BooleanField(_("Active"), default=True, help_text="Moderators have to approve links before they are provided")
 
     class Meta:
         ordering = ['title']
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     @property
@@ -325,8 +325,8 @@ class Commit(BaseModel):
         ordering = ['-commit_date']
         get_latest_by = 'commit_date'
 
-    def __unicode__(self):
-        return "Commit for '%s' on %s" % (self.package.title, unicode(self.commit_date))
+    def __str__(self):
+        return "Commit for '%s' on %s" % (self.package.title, str(self.commit_date))
 
     def save(self, *args, **kwargs):
         # reset the last_updated and commits_over_52 caches on the package
@@ -353,9 +353,9 @@ class VersionManager(models.Manager):
 class Version(BaseModel):
 
     package = models.ForeignKey(Package, blank=True, null=True)
-    number = models.CharField(_("Version"), max_length="100", default="", blank="")
+    number = models.CharField(_("Version"), max_length=100, default="", blank="")
     downloads = models.IntegerField(_("downloads"), default=0)
-    license = models.CharField(_("license"), max_length="100")
+    license = models.CharField(_("license"), max_length=100)
     hidden = models.BooleanField(_("hidden"), default=False)
     upload_time = models.DateTimeField(_("upload_time"), help_text=_("When this was uploaded to PyPI"), blank=True, null=True)
     development_status = models.IntegerField(_("Development Status"), choices=STATUS_CHOICES, default=0)
@@ -390,5 +390,5 @@ class Version(BaseModel):
 
         super(Version, self).save(*args, **kwargs)
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s: %s" % (self.package.title, self.number)

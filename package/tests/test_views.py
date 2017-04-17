@@ -52,6 +52,8 @@ class FunctionalPackageTest(TestCase):
             self.assertContains(response, p.repo_description)
 
     def test_add_package_view(self):
+        # this test has side effects, remove Package 3
+        Package.objects.get(pk=3).delete()
         url = reverse('add_package')
         response = self.client.get(url)
 
@@ -87,13 +89,14 @@ class FunctionalPackageTest(TestCase):
         self.assertTrue(self.client.login(username='user', password='user'))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
+        #print(response._container)
         self.assertTemplateUsed(response, 'package/package_form.html')
         self.assertContains(response, p.title)
         self.assertContains(response, p.slug)
 
         # Make a test post
         response = self.client.post(url, {
-            'category': Category.objects.all()[0].pk,
+            'category': str(Category.objects.all()[0].pk),
             'repo_url': 'https://github.com/django/django',
             'slug': p.slug,
             'title': 'TEST TITLE',

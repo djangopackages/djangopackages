@@ -40,7 +40,7 @@ def homepage(request, template_name="homepage.html"):
 
         # Get 5 random keys
         package_ids = sample(
-            range(1, package_count + 1),  # generate a list from 1 to package_count +1
+            list(range(1, package_count + 1)),  # generate a list from 1 to package_count +1
             min(package_count, 5)  # Get a sample of the smaller of 5 or the package count
         )
 

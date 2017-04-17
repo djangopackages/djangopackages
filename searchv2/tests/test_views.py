@@ -21,27 +21,27 @@ class FunctionalPackageTest(TestCase):
         count = SearchV2.objects.count()
         url = reverse('build_search')
         response = self.client.get(url)
-        self.assertEquals(response.status_code, 302)
-        self.assertEquals(count, 0)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(count, 0)
 
         self.assertTrue(self.client.login(username='user', password='user'))
         response = self.client.get(url)
-        self.assertEquals(response.status_code, 403)
-        self.assertEquals(SearchV2.objects.count(), 0)
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(SearchV2.objects.count(), 0)
 
         self.assertTrue(self.client.login(username='admin', password='admin'))
         response = self.client.get(url)
-        self.assertEquals(response.status_code, 200)
-        self.assertEquals(SearchV2.objects.count(), 0)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(SearchV2.objects.count(), 0)
 
         response = self.client.post(url)
-        self.assertEquals(response.status_code, 200)
-        self.assertEquals(SearchV2.objects.count(), 6)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(SearchV2.objects.count(), 6)
 
     def test_search_function(self):
         build_1(False)
         results = search_function('ser')
-        self.assertEquals(results[0].title, 'Serious Testing')
+        self.assertEqual(results[0].title, 'Serious Testing')
 
 
 class ViewTest(TestCase):

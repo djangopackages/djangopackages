@@ -23,7 +23,7 @@ class Command(NoArgsCommand):
             if updated:
                 count_updated += 1
                 package.save()
-            print package.slug, updated
+            print(package.slug, updated)
             count += 1
             # msg = "{}. {}. {}".format(count, count_updated, package)
             # logger.info(msg)

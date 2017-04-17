@@ -51,8 +51,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Django Packages'
-copyright = u'2010-{year}, Audrey Roy Greenfeld, Daniel Roy Greenfeld and contributors'.format(year=time.strftime('%Y'))
+project = 'Django Packages'
+copyright = '2010-{year}, Audrey Roy Greenfeld, Daniel Roy Greenfeld and contributors'.format(year=time.strftime('%Y'))
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -189,8 +189,8 @@ htmlhelp_basename = 'opencomparisondoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'DjangoPackages.tex', u'Django Packages Documentation',
-   u'Audrey Roy, Daniel Greenfeld and contributors', 'manual'),
+  ('index', 'DjangoPackages.tex', 'Django Packages Documentation',
+   'Audrey Roy, Daniel Greenfeld and contributors', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -222,6 +222,6 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'DjangoPackages', u'Django Packages Documentation',
-     [u'Audrey Roy, Daniel Greenfeld and contributors'], 1)
+    ('index', 'DjangoPackages', 'Django Packages Documentation',
+     ['Audrey Roy, Daniel Greenfeld and contributors'], 1)
 ]

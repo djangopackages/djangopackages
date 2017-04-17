@@ -12,6 +12,6 @@ class Command(NoArgsCommand):
 
     def handle(self, *args, **options):
 
-        print >> stdout, "Commencing search result building now %s " % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
+        print("Commencing search result building now %s " % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()), file=stdout)
         build_1()
-        print >> stdout, "Finished at %s" % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
+        print("Finished at %s" % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()), file=stdout)
