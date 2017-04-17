@@ -152,10 +152,12 @@ def load():
         is_superuser=False,
         is_staff=False,
         last_login='2010-01-01 12:00:00',
-        password='pbkdf2_sha256$36000$q72pWEeBYfB1$nghN/uFcDP8TqLuGS5uf7v+56wBhrZGmmGnptgVkqus=',
         email='',
         date_joined='2010-01-01 12:00:00',
     )
+    user1.set_password('user')
+    user1.save()
+
     user2, created = User.objects.get_or_create(
         pk=2,
         username='cleaner',
@@ -171,6 +173,8 @@ def load():
         date_joined='2010-01-01 12:00:00',
     )
     user2.groups = [group1]
+    user2.set_password('cleaner')
+    user2.save()
 
     user3, created = User.objects.get_or_create(
         pk=3,
@@ -185,6 +189,9 @@ def load():
         email='',
         date_joined='2010-01-01 12:00:00',
     )
+    user3.set_password('staff')
+    user3.save()
+
     # password is 'admin'
     user4, created = User.objects.get_or_create(
         pk=4,
@@ -199,6 +206,8 @@ def load():
         email='',
         date_joined='2010-01-01 12:00:00',
     )
+    user4.set_password('admin')
+    user4.save()
 
     packageexample, created = PackageExample.objects.get_or_create(
         pk=1,
