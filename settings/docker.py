@@ -49,8 +49,8 @@ RESTRICT_GRID_EDITORS = False
 
 # Sentry Configuration
 INSTALLED_APPS += ('raven.contrib.django.raven_compat', )
-RAVEN_MIDDLEWARE = ('raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware', )
-MIDDLEWARE_CLASSES = RAVEN_MIDDLEWARE + MIDDLEWARE_CLASSES
+RAVEN_MIDDLEWARE = ['raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware']
+MIDDLEWARE = RAVEN_MIDDLEWARE + MIDDLEWARE
 SENTRY_DSN = env('DJANGO_SENTRY_DSN')
 SENTRY_CLIENT = env('DJANGO_SENTRY_CLIENT', default='raven.contrib.django.raven_compat.DjangoClient')
 LOGGING = {
@@ -116,8 +116,7 @@ DATABASES['default'] = env.db("DATABASE_URL")
 ########## django-secure
 
 INSTALLED_APPS += ["djangosecure", ]
-MIDDLEWARE_CLASSES = ('djangosecure.middleware.SecurityMiddleware',) + MIDDLEWARE_CLASSES
-
+# todo: remove django-secure
 # set this to 60 seconds and then to 518400 when you can prove it works
 SECURE_HSTS_SECONDS = 60
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
@@ -134,12 +133,12 @@ SECURE_SSL_REDIRECT = False
 
 
 ########## templates
-TEMPLATE_LOADERS = (
-    ('django.template.loaders.cached.Loader', (
+TEMPLATES[0]['OPTIONS']['loaders'] = [
+('django.template.loaders.cached.Loader', (
         'django.template.loaders.filesystem.Loader',
         'django.template.loaders.app_directories.Loader',
     )),
-)
+]
 
 ########## end templates
 
@@ -150,7 +149,7 @@ OPBEAT = {
     'APP_ID': env.str("OPBEAT_APP_ID"),
     'SECRET_TOKEN': env.str("OPBEAT_SECRET_TOKEN"),
 }
-MIDDLEWARE_CLASSES = ('opbeat.contrib.django.middleware.OpbeatAPMMiddleware',) + MIDDLEWARE_CLASSES
+MIDDLEWARE = ['opbeat.contrib.django.middleware.OpbeatAPMMiddleware'] + MIDDLEWARE
 ########## end OPBEAT
 
 # Static Assets

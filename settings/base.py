@@ -12,7 +12,6 @@ from django.template.defaultfilters import slugify
 PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 
 # serve media through the staticfiles app.
 SERVE_MEDIA = DEBUG
@@ -69,45 +68,62 @@ STATICFILES_DIRS = [
 # Use the default admin media prefix, which is...
 #ADMIN_MEDIA_PREFIX = "/static/admin/"
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-        'django.template.loaders.filesystem.Loader',
-        'django.template.loaders.app_directories.Loader',
-)
 
-MIDDLEWARE_CLASSES = (
-    "django.middleware.common.CommonMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "core.middleware.UserBasedExceptionMiddleware",
-    "reversion.middleware.RevisionMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "linaro_django_pagination.middleware.PaginationMiddleware",
-    "webstack_django_sorting.middleware.SortingMiddleware"
-)
-
-TEMPLATE_DIRS = [
-    os.path.join(PROJECT_ROOT, "templates"),
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    #"core.middleware.UserBasedExceptionMiddleware",
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #"linaro_django_pagination.middleware.PaginationMiddleware",
+    #"webstack_django_sorting.middleware.SortingMiddleware"
 ]
 
-TEMPLATE_CONTEXT_PROCESSORS = [
-    "django.contrib.auth.context_processors.auth",
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.media",
-    "django.core.context_processors.request",
-    "django.contrib.messages.context_processors.messages",
+TEMPLATES = [
+    {
+        # See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-TEMPLATES-BACKEND
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
+        'DIRS': [
+            os.path.join(PROJECT_ROOT, "templates"),
+        ],
+        'OPTIONS': {
+            # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
+            'debug': DEBUG,
+            # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
+            # https://docs.djangoproject.com/en/dev/ref/templates/api/#loader-types
+            'loaders': [
+                'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.app_directories.Loader',
+            ],
+            # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+                # Your stuff: custom template context processors go here
+                "package.context_processors.used_packages_list",
+                "grid.context_processors.grid_headers",
+                "core.context_processors.current_path",
+                "profiles.context_processors.lazy_profile",
+                'social.apps.django_app.context_processors.backends',
+                'social.apps.django_app.context_processors.login_redirect',
+                "core.context_processors.core_values",
+            ],
+        },
+    },
+]
 
-    "django.core.context_processors.static",
-
-    "package.context_processors.used_packages_list",
-    "grid.context_processors.grid_headers",
-    "core.context_processors.current_path",
-    "profiles.context_processors.lazy_profile",
-    'social.apps.django_app.context_processors.backends',
-    'social.apps.django_app.context_processors.login_redirect',
-    "core.context_processors.core_values",
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 PROJECT_APPS = [
@@ -254,7 +270,7 @@ WSGI_APPLICATION = 'wsgi.application'
 
 if DEBUG:
 
-    MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+    #MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
     INSTALLED_APPS += ('debug_toolbar',)
 
     INTERNAL_IPS = ('127.0.0.1',)

@@ -152,7 +152,7 @@ def load():
         is_superuser=False,
         is_staff=False,
         last_login='2010-01-01 12:00:00',
-        password='sha1$644c9$347f3dd85fb609a5745ebe33d0791929bf08f22e',
+        password='pbkdf2_sha256$36000$q72pWEeBYfB1$nghN/uFcDP8TqLuGS5uf7v+56wBhrZGmmGnptgVkqus=',
         email='',
         date_joined='2010-01-01 12:00:00',
     )
@@ -166,7 +166,7 @@ def load():
         is_staff=False,
         last_login='2010-01-01 12:00:00',
         #groups=[group1],
-        password='sha1$e6fe2$78b744e21cddb39117997709218f4c6db4e91894',
+        password='pbkdf2_sha256$36000$Hp59Lym7JZyI$GVsyeRLCloSj4xI/1F5qf9dIZ2KF/ApMZFun7tiAxuc=',
         email='',
         date_joined='2010-01-01 12:00:00',
     )
@@ -181,7 +181,7 @@ def load():
         is_superuser=False,
         is_staff=True,
         last_login='2010-01-01 12:00:00',
-        password='sha1$8894d$c4814980edd6778f0ab1632c4270673c0fd40efe',
+        password='pbkdf2_sha256$36000$4Ytv7EOqXyNl$Wsnq1GncbyYDUQ5ieQIEBCsoolNWLcApXChKYS5Us4I=',
         email='',
         date_joined='2010-01-01 12:00:00',
     )
@@ -195,7 +195,7 @@ def load():
         is_superuser=True,
         is_staff=True,
         last_login='2010-01-01 12:00:00',
-        password='sha1$52c7f$59b4f64ffca593e6abd23f90fd1f95cf71c367a4',
+        password='pbkdf2_sha256$36000$HizLkJV9vzk4$++1pBxJlH/uqIn5Qx0jugTH1b3U5SyZTaqnm+kSk7pQ=',
         email='',
         date_joined='2010-01-01 12:00:00',
     )
