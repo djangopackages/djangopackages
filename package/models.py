@@ -338,7 +338,7 @@ class Commit(BaseModel):
 
 
 class VersionManager(models.Manager):
-    def by_version(self, visible, *args, **kwargs):
+    def by_version(self, visible=False, *args, **kwargs):
         qs = self.get_queryset().filter(*args, **kwargs)
 
         if visible:
