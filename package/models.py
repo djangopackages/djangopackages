@@ -338,16 +338,26 @@ class Commit(BaseModel):
 
 
 class VersionManager(models.Manager):
-    def by_version(self, *args, **kwargs):
+    def by_version(self, visible, *args, **kwargs):
         qs = self.get_queryset().filter(*args, **kwargs)
-        return sorted(qs, key=lambda v: versioner(v.number))
+
+        if visible:
+            qs = qs.filter(hidden=False)
+
+        def generate_valid_versions(qs):
+            for item in qs:
+                v = versioner(item.number)
+                comparable = True
+                for elem in v.version:
+                    if isinstance(elem, str):
+                        comparable = False
+                if comparable:
+                    yield item
+
+        return sorted(list(generate_valid_versions(qs)), key=lambda v: versioner(v.number))
 
     def by_version_not_hidden(self, *args, **kwargs):
-        qs = self.get_queryset().filter(*args, **kwargs)
-        qs = qs.filter(hidden=False)
-        qs = sorted(qs, key=lambda v: versioner(v.number))
-        qs.reverse()
-        return qs
+        return list(reversed(self.by_version(visible=True, *args, **kwargs)))
 
 
 class Version(BaseModel):
