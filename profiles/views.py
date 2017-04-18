@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.views.generic.edit import UpdateView
-
+from django.core.exceptions import MultipleObjectsReturned
 from braces.views import LoginRequiredMixin
 
 from django.contrib.auth.signals import user_logged_in
@@ -18,7 +18,12 @@ from profiles.models import Profile
 
 def profile_detail(request, github_account, template_name="profiles/profile.html"):
 
-    profile = get_object_or_404(Profile, github_account=github_account)
+    # ugly fix on duplicated profile pages.
+    # all of this should be migrated to be saved in the user model
+    try:
+        profile = get_object_or_404(Profile, github_account=github_account)
+    except MultipleObjectsReturned:
+        profile = Profile.objects.filter(github_account=github_account).latest('pk')
 
     return render(request, template_name,
         {"local_profile": profile, "user": profile.user},)
