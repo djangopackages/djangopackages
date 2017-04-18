@@ -35,7 +35,7 @@ class TestProfile(TestCase):
         # give me a view
         url = reverse('profile_edit')
         response = self.client.get(url)
-        stuff = """<input class="textinput textInput form-control" id="id_bitbucket_url" maxlength="100" name="bitbucket_url" type="text" />"""
+        stuff = """Bitbucket account"""
         self.assertContains(response, stuff)
 
         # submit some content

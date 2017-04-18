@@ -1,5 +1,5 @@
 """grid url patterns"""
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from grid import views
 
@@ -18,7 +18,7 @@ from grid.views import (
         grids
     )
 
-urlpatterns = patterns("",
+urlpatterns = [
 
     url(
         regex='^add/$',
@@ -102,4 +102,4 @@ urlpatterns = patterns("",
         view=views.grid_timesheet,
         name='grid_timesheet'
     )
-)
+]

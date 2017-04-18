@@ -1,4 +1,4 @@
-from django.utils.functional import lazy, memoize, SimpleLazyObject
+from django.utils.functional import SimpleLazyObject
 
 
 def lazy_profile(request):

@@ -22,7 +22,7 @@ def load():
         participants='malcomt,jacobian',
         pypi_downloads=0,
         repo_url='https://github.com/pydanny/django-la-facebook',
-        
+
         repo_forks=0,
         slug='testability',
         repo_description='Increase your testing ability with this steroid free supplement.',
@@ -36,7 +36,7 @@ def load():
         participants='thetestman',
         pypi_downloads=0,
         repo_url='https://github.com/pydanny/django-uni-form',
-        
+
         repo_forks=0,
         slug='supertester',
         repo_description='Test everything under the sun with one command!',
@@ -50,7 +50,7 @@ def load():
         participants='pydanny',
         pypi_downloads=0,
         repo_url='https://github.com/opencomparison/opencomparison',
-        
+
         repo_forks=0,
         slug='serious-testing',
         repo_description='Make testing as painless as waxing your legs.',
@@ -64,7 +64,7 @@ def load():
         participants='pydanny',
         pypi_downloads=0,
         repo_url='https://github.com/djangopackages/djangopackages',
-        
+
         repo_forks=0,
         slug='another-test',
         repo_description='Yet another test package, with no grid affiliation.',
@@ -151,10 +151,12 @@ def load():
         is_superuser=False,
         is_staff=False,
         last_login='2010-01-01 12:00:00',
-        password='sha1$644c9$347f3dd85fb609a5745ebe33d0791929bf08f22e',
         email='',
         date_joined='2010-01-01 12:00:00',
     )
+    user1.set_password('user')
+    user1.save()
+
     user2, created = User.objects.get_or_create(
         pk=2,
         username='cleaner',
@@ -165,11 +167,12 @@ def load():
         is_staff=False,
         last_login='2010-01-01 12:00:00',
         #groups=[group1],
-        password='sha1$e6fe2$78b744e21cddb39117997709218f4c6db4e91894',
         email='',
         date_joined='2010-01-01 12:00:00',
     )
     user2.groups = [group1]
+    user2.set_password('cleaner')
+    user2.save()
 
     user3, created = User.objects.get_or_create(
         pk=3,
@@ -180,10 +183,12 @@ def load():
         is_superuser=False,
         is_staff=True,
         last_login='2010-01-01 12:00:00',
-        password='sha1$8894d$c4814980edd6778f0ab1632c4270673c0fd40efe',
         email='',
         date_joined='2010-01-01 12:00:00',
     )
+    user3.set_password('staff')
+    user3.save()
+
     user4, created = User.objects.get_or_create(
         pk=4,
         username='admin',
@@ -193,10 +198,11 @@ def load():
         is_superuser=True,
         is_staff=True,
         last_login='2010-01-01 12:00:00',
-        password='sha1$52c7f$59b4f64ffca593e6abd23f90fd1f95cf71c367a4',
         email='',
         date_joined='2010-01-01 12:00:00',
     )
+    user4.set_password('admin')
+    user4.save()
 
     packageexample, created = PackageExample.objects.get_or_create(
         pk=1,
