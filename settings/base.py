@@ -112,8 +112,8 @@ TEMPLATES = [
                 "grid.context_processors.grid_headers",
                 "core.context_processors.current_path",
                 "profiles.context_processors.lazy_profile",
-                'social.apps.django_app.context_processors.backends',
-                'social.apps.django_app.context_processors.login_redirect',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
                 "core.context_processors.core_values",
             ],
         },
@@ -154,7 +154,7 @@ PREREQ_APPS = [
     "webstack_django_sorting",
     #"django_modeler",
 
-    'social.apps.django_app.default',
+    'social_django',
     'floppyforms',
     'rest_framework',
 
@@ -237,7 +237,7 @@ SUPPORTED_REPO.extend(["bitbucket", "github"])
 
 
 AUTHENTICATION_BACKENDS = (
-    'social.backends.github.GithubOAuth2',
+    'social_core.backends.github.GithubOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 GITHUB_API_SECRET = environ.get('GITHUB_API_SECRET')

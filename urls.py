@@ -15,7 +15,7 @@ from django.contrib.auth.views import logout as contrib_logout_view
 urlpatterns = [
 
     # url(r'^login/\{\{item\.absolute_url\}\}/', RedirectView.as_view(url="/login/github/")),
-    url('^auth/', include('social.apps.django_app.urls', namespace='social')),
+    url('^auth/', include('social_django.urls', namespace='social')),
     # url('', include('social_auth.urls')),
     url(r"^$", homepage, name="home"),
     url(r"^health_check/$", health_check_view, name="health_check"),
