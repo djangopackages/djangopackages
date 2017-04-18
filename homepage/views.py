@@ -10,6 +10,19 @@ from core.decorators import lru_cache
 from grid.models import Grid
 from homepage.models import Dpotw, Gotw, PSA
 from package.models import Category, Package, Version
+from django.views.generic import TemplateView
+
+
+class SitemapView(TemplateView):
+
+    template_name = "sitemap.xml"
+    content_type = "text/xml"
+
+    def get_context_data(self, **kwargs):
+        data = super(SitemapView, self).get_context_data(**kwargs)
+        data['packages'] = Package.objects.all()
+        data['grids'] = Grid.objects.all()
+        return data
 
 
 @lru_cache()

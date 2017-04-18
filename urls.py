@@ -8,7 +8,7 @@ admin.autodiscover()
 
 from apiv4.viewsets import router
 from core.apiv1 import apiv1_gone
-from homepage.views import homepage, error_404_view, error_500_view, health_check_view
+from homepage.views import homepage, error_404_view, error_500_view, health_check_view, SitemapView
 from package.views import category, python3_list
 from django.contrib.auth.views import logout as contrib_logout_view
 
@@ -41,6 +41,7 @@ urlpatterns = [
     url(r"^syndication/$", TemplateView.as_view(template_name='pages/syndication.html'), name="syndication"),
     url(r"^contribute/$", TemplateView.as_view(template_name='pages/contribute.html'), name="contribute"),
     url(r"^help/$", TemplateView.as_view(template_name='pages/help.html'), name="help"),
+    url(r"^sitemap\.xml$", SitemapView.as_view(), name="sitemap"),
 
     # new apps
     url(r"^search/", include("searchv2.urls")),
