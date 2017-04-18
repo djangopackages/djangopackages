@@ -51,7 +51,7 @@
             </a>
 
             <!-- Main nav -->
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right hidden-xs">
                 <li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
                 <li><a href="{% url 'faq' %}">{% trans "FAQ" %}</a></li>
                 {% if request.user.is_authenticated %}
@@ -68,7 +68,7 @@
             </ul>
 
             <!-- Search form -->
-            <form action="{% url 'search' %}"  class="navbar-form pull-left">
+            <form action="{% url 'search' %}"  class="navbar-form pull-left hidden-xs">
               <input type="text" name="q" class="col-12 form-control" style="width: 240px;" id="search-2" ng-model="model.q" ng-keyup="search(model, '{% url 'apiv4:searchv2-list' %}')" placeholder="Search" autocomplete="off">
               <button type="submit" id="search_button" class="btn btn-default">Go</button>
             </form>
