@@ -20,10 +20,22 @@ function getCookie(name) {
     return cookieValue;
 }
 
+// make the rotating nav a bit more mobile friendly.
+var width = $(window).width();
+var activeCount = 5;
+if(width < 650){
+    activeCount = 2;
+    $(".rotatingnav-inner>.item").css("width", "45%")
 
+}
+else if(width < 700){
+    activeCount = 3;
+    $(".rotatingnav-inner>.item").css("width", "30%")
+
+}
 $(".rotatingnav").rotatingnav({
     panelCount: 14,
-    activeCount: 5
+    activeCount: activeCount
 });
 
 $('input#id_q_p').click(function() {
