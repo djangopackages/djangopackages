@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from django.views.generic.dates import ArchiveIndexView
 
 from package.models import Package
@@ -17,7 +17,7 @@ from package.views import (
                             github_webhook
                             )
 
-urlpatterns = patterns("",
+urlpatterns = [
 
     url(
         regex=r"^$",
@@ -98,4 +98,4 @@ urlpatterns = patterns("",
         view=github_webhook,
         name="github_webhook"
     ),
-)
+]

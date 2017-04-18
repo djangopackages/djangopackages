@@ -1,8 +1,8 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from profiles import views
 
-urlpatterns = patterns("",
+urlpatterns = [
     url(
         regex=r"^edit/$",
         view=views.ProfileEditUpdateView.as_view(),
@@ -10,4 +10,4 @@ urlpatterns = patterns("",
     ),
     url(r"^$", views.profile_list, name="profile_list"),
     url(r"^(?P<github_account>[-\w]+)/$", views.profile_detail, name="profile_detail"),
-)
+]

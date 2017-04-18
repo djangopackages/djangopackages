@@ -1,9 +1,9 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from . import views
 
 # New URLs
-urlpatterns = patterns("",
+urlpatterns = [
     url(
         regex=r"^grids/$",
         view=views.grid_list,
@@ -54,4 +54,4 @@ urlpatterns = patterns("",
         view=views.index,
         name="index"
     )
-)
+]
