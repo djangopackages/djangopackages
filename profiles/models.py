@@ -60,7 +60,7 @@ class Profile(BaseModel):
             repo = get_repo(repo)
             repo_packages = repo.packages_for_profile(self)
             packages.extend(repo_packages)
-        packages.sort(key=lambda a, b: ((a.title > b.title) - (a.title < b.title)))
+        packages.sort(key=lambda a: a.title)
         return packages
 
     @models.permalink
