@@ -37,4 +37,4 @@ redis>=2.10.0
 opbeat==3.5.2
 newrelic==2.74.0.54
 raven==5.32.0
-django-anymail==0.6.1
+django-anymail==0.9
