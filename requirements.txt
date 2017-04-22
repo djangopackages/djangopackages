@@ -29,7 +29,7 @@ social-auth-app-django
 requests==2.11.1
 shortuuid==0.4.3
 six==1.10.0
-whitenoise==3.2.2
+whitenoise==3.3.0
 
 # Redis support
 django-redis==4.6.0
