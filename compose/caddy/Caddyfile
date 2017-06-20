@@ -9,10 +9,11 @@ djangopackages.org {
         health_check_timeout 5s
         fail_timeout 5s
         policy round_robin
-        proxy_header Host {host}
-        proxy_header X-Real-IP {remote}
-        proxy_header X-Forwarded-Proto {scheme}
+        header_upstream Host {host}
+        header_upstream X-Real-IP {remote}
+        header_upstream X-Forwarded-Proto {scheme}
     }
+    ratelimit / 2 3 second
     log stdout
     errors stdout
     gzip
