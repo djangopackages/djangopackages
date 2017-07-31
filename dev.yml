@@ -33,4 +33,4 @@ services:
       - .env.local
 
   redis:
-    image: redis:3.0
+    build: ./compose/redis
