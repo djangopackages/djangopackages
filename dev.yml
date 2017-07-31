@@ -19,8 +19,6 @@ services:
       - .:/app
     ports:
       - "8000:8000"
-    links:
-      - postgres
     env_file:
       - .env.local
 
