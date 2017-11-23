@@ -13,7 +13,7 @@ djangopackages.org {
         header_upstream X-Real-IP {remote}
         header_upstream X-Forwarded-Proto {scheme}
     }
-    ratelimit / 2 3 second
+    ratelimit / 7 3 second
     log stdout
     errors stdout
     gzip
