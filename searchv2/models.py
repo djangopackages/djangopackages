@@ -1,15 +1,16 @@
-
 from django.core.cache import cache
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from core.models import BaseModel
 from package.models import Package
-from grid.models import Grid
 
+
+PACKAGE_TYPE = 'package'
+GRID_TYPE = 'grid'
 ITEM_TYPE_CHOICES = (
-    ('package', 'Package'),
-    ('grid', 'Grid'),
+    (PACKAGE_TYPE, 'Package'),
+    (GRID_TYPE, 'Grid'),
 )
 
 
@@ -27,9 +28,9 @@ class SearchV2(BaseModel):
             last repo commit
             last release on PyPI
     """
-
     weight = models.IntegerField(_("Weight"), default=0)
     item_type = models.CharField(_("Item Type"), max_length=40, choices=ITEM_TYPE_CHOICES)
+    item_pk = models.PositiveIntegerField(_("Item primary key"))
     title = models.CharField(_("Title"), max_length=100, db_index=True)
     title_no_prefix = models.CharField(_("No Prefix Title"), max_length=100, db_index=True)
     slug = models.SlugField(_("Slug"), db_index=True)
@@ -72,7 +73,7 @@ class SearchV2(BaseModel):
         return pypi_name
 
     def get_resource_uri(self):
-        return '/api/v4/{}/{}/'.format(self.item_type, 3)
+        return '/api/v4/{}s/{}/'.format(self.item_type, self.item_pk)
 
     def _self(self):
         return self

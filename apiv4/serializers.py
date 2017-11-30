@@ -11,11 +11,13 @@ from grid.models import Grid
 from package.models import Package, Category
 from searchv2.models import SearchV2
 
+
 class GridSerializer(serializers.ModelSerializer):
     packages = serializers.HyperlinkedRelatedField(many=True, view_name='apiv4:package-detail', read_only=True)
 
     class Meta:
         model = Grid
+
 
 class PackageSerializer(serializers.HyperlinkedModelSerializer):
     # 'Source' is attached to the model attribute
@@ -47,12 +49,12 @@ class PackageSerializer(serializers.HyperlinkedModelSerializer):
             'participants',
         )
 
+
 class SearchV2Hyperlink(serializers.HyperlinkedRelatedField):
 
     view_name = 'package-detail'
 
     def get_url(self, obj, view_name, request, format):
-        import ipdb; ipdb.set_trace()
         url_kwargs = {
             'organization_slug': obj.organization.slug,
             'customer_pk': obj.pk
@@ -60,12 +62,12 @@ class SearchV2Hyperlink(serializers.HyperlinkedRelatedField):
         return reverse(view_name, url_kwargs, request=request, format=format)
 
     def get_object(self, view_name, view_args, view_kwargs):
-        import ipdb; ipdb.set_trace()
         lookup_kwargs = {
            'organization__slug': view_kwargs['organization_slug'],
            'pk': view_kwargs['customer_pk']
         }
         return self.get_queryset().get(**lookup_kwargs)
+
 
 class HyperlinkFeld(serializers.HyperlinkedRelatedField):
 
@@ -84,10 +86,7 @@ class HyperlinkFeld(serializers.HyperlinkedRelatedField):
         return reverse(view_name, kwargs=kwargs)
 
     def to_representation(self, value):
-
         self.view_name = "apiv4:{}-detail".format(value.item_type)
-
-
         try:
             url = self.get_url(value, self.view_name)
         except NoReverseMatch:
@@ -113,12 +112,31 @@ class HyperlinkFeld(serializers.HyperlinkedRelatedField):
 
 
 class SearchV2Serializer(serializers.ModelSerializer):
-
-    # resource_uri = HyperlinkFeld(source='_self')
+    resource_uri = serializers.CharField(source='get_resource_uri')
 
     class Meta:
         model = SearchV2
-        exclude = ['id', ]
+        fields = (
+            'weight',
+            'item_type',
+            'item_pk',
+            'title',
+            'title_no_prefix',
+            'slug',
+            'slug_no_prefix',
+            'clean_title',
+            'description',
+            'category',
+            'absolute_url',
+            'resource_uri',
+            'repo_watchers',
+            'repo_forks',
+            'pypi_downloads',
+            'usage',
+            'participants',
+            'last_committed',
+            'last_released'
+        )
 
 
 class CategorySerializer(serializers.ModelSerializer):
