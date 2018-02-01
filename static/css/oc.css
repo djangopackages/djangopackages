@@ -8,6 +8,13 @@
  * Use a container that's as large as will fit.
  */
 
+body {
+    font-family: "Roboto", Corbel, Avenir, "Lucida Grande", "Lucida Sans", sans-serif;
+    color: #0C3C26;
+    line-height: 1.6;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 .container {
   width: 95%;
   margin: 0 auto;
@@ -23,12 +30,14 @@
   border-bottom: 1px solid #5BC0DE;
 }
 
-/**
- * Header bar.
- */
+.header{
+    background-color: #0C3C26;
+    color: #fff;
+}
 
-.header {
-    border-top: 10px solid #75DFCA;
+.header a{
+    color: #fff;
+    font-weight: bold;
 }
 
 /**
@@ -46,6 +55,7 @@
 
 .navbar-brand > img {
     border: 0;
+    height: 31px;
 }
 
 /**
@@ -57,7 +67,7 @@
     margin: 0 0 0 14px;
     font-size: 27px;
     font-weight: 700;
-    color: #121212;
+    color: #fff;
     vertical-align: middle;
 }
 
@@ -72,9 +82,33 @@
  */
 
 .navbar {
-    background-color: #fff;
+    background-color: #0C3C26;
     margin-bottom: 0;
     padding: 0;
+}
+
+.jumbotron h1{
+    font-size: 32px;
+    line-height: 42px;
+}
+
+.jumbotron .btn{
+    margin-top:30px;
+    margin-right: 20px;
+}
+
+.categories{
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+
+.categories h2{
+    font-size: 28px;
+    padding-bottom: 20px;
+}
+
+.categories .btn{
+    margin-top:20px;
 }
 
 /**
@@ -86,9 +120,6 @@
     margin-top: 6px;
   }
 
-  .navbar-form {
-    margin-top: 13px;
-  }
 }
 
 /**
@@ -113,9 +144,7 @@
  */
 
 .rotatingnav-inner {
-    border-top: 1px solid #eee;
     background-color: #F8F8F8;
-    border-bottom: 1px solid #eee;
 }
 
 /**
@@ -123,8 +152,60 @@
  */
 
 .rotatingnav-control {
-    background-color: #70ddc7;
+    background-color: #44B78B;
     text-shadow: 0 1px 2px #8ec5ba;
+}
+
+.breadcrumb{
+    padding: 0px 0px 10px 0px;
+    background-color: #44B78B;
+    border-radius: 0px;
+    color: #C9F0DD;
+}
+
+.breadcrumb a{
+    color: #C9F0DD;
+    font-weight: bolder;
+}
+
+.breadcrumb h2 .btn{
+    margin-top: -3px;
+}
+
+.sidebar{
+    background-color: #eee;
+    margin-top: -20px;
+    padding: 0px 40px 40px 40px;
+}
+
+.sidebar h3{
+    font-size: 22px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #CFE3DC;
+}
+
+.sidebar a{
+    color: #1d915c;
+}
+
+.sidebar a:focus{
+    outline: thin dotted;
+}
+
+.outline{
+    font-size: 20px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+h2 .small-text{
+    font-size: 14px;
+    line-height: 21px;
+}
+
+.main{
+    padding-right: 60px;
 }
 
 /**
@@ -158,18 +239,36 @@ h3, .h3 {
  */
 
 .footer {
-    margin-top: 120px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+
+    padding-top:20px;
+    padding-bottom: 20px;
     clear: both;
     width: 100%;
     text-align: center;
     font-size: 80%;
-    background: #75DFCA;
+    background: #0C3C26;
+    color: #2B8C67;
 }
 
+.pre-footer{
+    background-color: #2B8C67;
+    width: 100%;
+    color: #fff;
+    padding: 20px;
+}
+
+.pre-footer a{
+    color: #fff;
+    font-weight: bold;
+    padding: 20px;
+}
+.pre-footer a:hover{
+    text-decoration: underline;
+}
+
+
 .footer a {
-    color: #2F1D1D;
+    color: #2B8C67;
     text-decoration: underline;
 }
 
@@ -243,4 +342,12 @@ h3, .h3 {
 
 #example-delete-btn { float: right; margin-top: -2.5em; }
 #example-delete { float: right; }
->>>>>>> c7b41b03c71f1578c4dd6fb0f58ae82333fc8413
+
+.btn-primary{
+    background-color: #44B78B;
+    border: none;
+}
+
+.btn-primary:hover,.btn-primary:focus,.btn-primary:active,.btn-primary.active,.open .dropdown-toggle.btn-primary {
+    background-color: #3d9b72;
+}
