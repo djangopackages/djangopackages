@@ -1,6 +1,5 @@
 {% extends "package/base.html" %}
 
-{% load url from future %}
 {% load i18n %}
 {% load crispy_forms_tags %}
 
@@ -9,9 +8,9 @@
 {% block body %}
 
     <h2>{% trans "Delete package example" %}</h2>
-    
+
     <p>{% trans "Ready to delete" %} <b>{{ package_example.title }}</b></p>
-    <a href="{% url 'package' package_example.package.slug %}">{% trans "cancel" %}</a>     
+    <a href="{% url 'package' package_example.package.slug %}">{% trans "cancel" %}</a>
     {% if user.id == package_example.created_by.id %}
         <form action="{% url 'confirm_delete_example' package_example.package.slug package_example.id %}" method="post" id="example-delete">
             {% csrf_token %}
