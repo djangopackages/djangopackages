@@ -15,11 +15,15 @@
             {{ form|crispy }}
             <div class="form_block">
                 <input class="btn btn-default" type="submit" name="edit" value="{% trans "Edit" %}">            
-                <a href="{% url 'package' package.slug %}">{% trans "cancel" %}</a>     
+                <a href="{% url 'package' package_example.package.slug %}">{% trans "cancel" %}</a>     
             </div>
         </fieldset>
 
     </form>
+    {% if user.id == package_example.created_by.id %}
+        <a class="btn btn-danger" name="delete" href="{% url 'delete_example' package_example.package.slug package_example.id %}" id="example-delete-btn">{% trans "Delete" %}</a>
+        </form>
+    {% endif %}
 
 {% endblock %}
 
