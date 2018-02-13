@@ -26,39 +26,39 @@ function package_form(data){
 			'lp:'
 		]
 	};
-	
+
 	var repo_url = $("#id_repo_url");
 	var pypi_url = $("#id_pypi_url");
-	
+
 	String.prototype.starts_with = function(str){
-		return (this.indexOf(str) === 0);
+		return (this.length > 0 && this.indexOf(str) === 0);
 	}
-	
+
 	String.prototype.ends_with = function(str){
-		return (this.lastIndexOf(str) === this.length-str.length);
+		return (this.length > 0 && this.lastIndexOf(str) === this.length-str.length);
 	}
-	
+
 	repo_url.focus();
-	
+
 	pypi_url_g = "http://pypi.python.org/pypi/";
-	
+
 	pypi_url.val(pypi_url.val().replace(pypi_url_g,""));
-	
+
 	pypi_url.change(function(e){
 		pypi_url.val(pypi_url.val().replace(pypi_url_g,""));
 	});
-	
+
 	repo_url.keyup(function(e) {
 		var url = repo_url.val();
 		return url
-	});	
-		
+	});
+
 	repo_url.change(function(e) {
-	 
+
 		$("#target").text(repo_url.val());
-		
+
 		var url = repo_url.val();
-		
+
 		// this fixes the problem with trailing slashes
 		while (1==1){
 			if (url.ends_with('/')){
@@ -69,7 +69,7 @@ function package_form(data){
 				break;
 			};
 		};
-		
+
 		$.each(REPLACEMENTS, function(key, value){
 			$.each(value, function(index, prefix){
 				if (url.starts_with(prefix)){
@@ -79,10 +79,10 @@ function package_form(data){
 		});
 		if (url.ends_with('.git')){
 			url = url.slice(0, url.length-4);
-			repo_url.val(url);				
+			repo_url.val(url);
 		};
 		repo_url.val(url);
-		
+
 		var url_array = url.split('/');
 		$.each(data, function(index, item) {
 			if (url.starts_with(item.url)){
@@ -101,29 +101,29 @@ function package_form(data){
 					for (i=0;i<10;i++) {
 					    slug = slug.replace('.','-');
 				    };
-				    $("#id_slug").val(slug);				    
+				    $("#id_slug").val(slug);
 					$("#package-form-message").text("Your package is hosted at " + item.title)
 				};
 			};
 		});
 	});
-	
+
 	var slug = $("#id_slug");
 	slug.change(function(e) {
 		for (i=0;i<10;i++) {
 		    slug.val(slug.val().replace('.','-'));
-	    };	    
+	    };
 	});
-	
+
 	$("#package-form").submit(function(e) {
 		// hack to get around some database vs front end weirdness
 		var url = pypi_url.val();
 		if (url.length > 0){
 		  pypi_url.attr("name", "nuke");
 		  $("#temp").val(pypi_url_g + url);
-		  $("#temp").attr("name", "pypi_url");	 
+		  $("#temp").attr("name", "pypi_url");
 		};
-		
+
 		return true
 	});
 }
