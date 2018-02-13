@@ -11,6 +11,8 @@ from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidde
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
+from django.core.exceptions import PermissionDenied
+from django.views.decorators.http import require_POST
 
 
 from grid.models import Grid
@@ -107,7 +109,8 @@ def add_example(request, slug, template_name="package/add_example.html"):
     if form.is_valid():
         package_example = PackageExample(package=package,
                 title=request.POST["title"],
-                url=request.POST["url"])
+                url=request.POST["url"],
+                created_by=request.user)
         package_example.save()
         return HttpResponseRedirect(reverse("package", kwargs={"slug": package_example.package.slug}))
 
@@ -129,8 +132,36 @@ def edit_example(request, slug, id, template_name="package/edit_example.html"):
 
     return render(request, template_name, {
         "form": form,
-        "package": package_example.package
+        "package_example": package_example
         })
+
+
+@login_required
+def delete_example(request, slug, id, template_name="package/delete_example.html"):
+
+    package_example = get_object_or_404(PackageExample, id=id, package__slug__iexact=slug)
+    if package_example.created_by is None and not request.user.is_staff:
+        raise PermissionDenied
+    if package_example.created_by.id != request.user.id and not request.user.is_staff:
+        raise PermissionDenied
+
+    return render(request, template_name, {
+        "package_example": package_example
+        })
+
+
+@login_required
+@require_POST
+def confirm_delete_example(request, slug, id):
+
+    package_example = get_object_or_404(PackageExample, id=id, package__slug__iexact=slug)
+    if package_example.created_by.id != request.user.id and not request.user.is_staff:
+        raise PermissionDenied
+
+    package_example.delete()
+    messages.add_message(request, messages.INFO, 'Package example successfully deleted.')
+
+    return HttpResponseRedirect(reverse("package", kwargs={"slug": slug}))
 
 
 def package_autocomplete(request):
