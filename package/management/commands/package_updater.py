@@ -9,6 +9,7 @@ from django.core.mail import send_mail
 from github3 import login as github_login
 
 from package.models import Package
+from core.utils import healthcheck
 
 logger = logging.getLogger(__name__)
 
@@ -50,3 +51,4 @@ class Command(BaseCommand):
                 logger.error(f"Unable to update {package.title}", exc_info=True)
 
             sleep(5)
+        healthcheck(settings.PACKAGE_HEALTHCHECK_URL)

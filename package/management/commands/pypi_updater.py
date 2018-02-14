@@ -2,9 +2,10 @@ import logging
 import logging.config
 
 from django.core.management.base import BaseCommand
-
+from django.conf import settings
 
 from package.models import Package
+from core.utils import healthcheck
 
 logger = logging.getLogger(__name__)
 
@@ -27,4 +28,4 @@ class Command(BaseCommand):
             count += 1
             # msg = "{}. {}. {}".format(count, count_updated, package)
             # logger.info(msg)
-
+        healthcheck(settings.PACKAGE_HEALTHCHECK_URL)

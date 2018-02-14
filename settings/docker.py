@@ -156,3 +156,8 @@ MIDDLEWARE = ['opbeat.contrib.django.middleware.OpbeatAPMMiddleware'] + MIDDLEWA
 # ------------------------
 MEDIA_ROOT = "/data/media"
 STATIC_ROOT = "/data/static"
+
+HEALTHCHECK = env.bool("HEALTHCHECK", False)
+PACKAGE_HEALTHCHECK_URL = env.str("PACKAGE_HEALTHCHECK_URL", "")
+PYPI_HEALTHCHECK_URL = env.str("PYPI_HEALTHCHECK_URL", "")
+SEARCHV2_HEALTHCHECK_URL = env.str("SEARCHV2_HEALTHCHECK_URL", "")
