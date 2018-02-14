@@ -47,8 +47,6 @@ class Command(BaseCommand):
                 except Exception as e:
                     raise PackageUpdaterException(e, package.title)
             except PackageUpdaterException:
-                pass  # We've already caught the error so let's move on now
+                logger.error(f"Unable to update {package.title}", exc_info=True)
 
             sleep(5)
-
-        
