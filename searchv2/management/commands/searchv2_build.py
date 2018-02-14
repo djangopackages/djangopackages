@@ -1,12 +1,12 @@
 from sys import stdout
 from time import gmtime, strftime
 
-from django.core.management.base import NoArgsCommand
+from django.core.management.base import BaseCommand
 
 from searchv2.builders import build_1
 
 
-class Command(NoArgsCommand):
+class Command(BaseCommand):
 
     help = "Constructs the search results for the system"
 
