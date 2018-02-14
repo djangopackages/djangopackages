@@ -51,10 +51,4 @@ class Command(BaseCommand):
 
             sleep(5)
 
-        message = "TODO - load logfile here"  # TODO
-        send_mail(
-            subject="Package Updating complete",
-            message=message,
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[x[1] for x in settings.ADMINS]
-        )
+        
