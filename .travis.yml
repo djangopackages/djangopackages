@@ -4,4 +4,4 @@ services:
 before_install:
   - touch .env.local
 script:
-  - docker-compose run -f dev.yml django python manage.py test
+  - docker-compose -f dev.yml run django python manage.py test
