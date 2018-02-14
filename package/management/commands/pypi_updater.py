@@ -28,4 +28,4 @@ class Command(BaseCommand):
             count += 1
             # msg = "{}. {}. {}".format(count, count_updated, package)
             # logger.info(msg)
-        healthcheck(settings.PACKAGE_HEALTHCHECK_URL)
+        healthcheck(settings.PYPI_HEALTHCHECK_URL)
