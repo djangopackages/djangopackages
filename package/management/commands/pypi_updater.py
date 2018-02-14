@@ -1,7 +1,7 @@
 import logging
 import logging.config
 
-from django.core.management.base import NoArgsCommand
+from django.core.management.base import BaseCommand
 
 
 from package.models import Package
@@ -9,7 +9,7 @@ from package.models import Package
 logger = logging.getLogger(__name__)
 
 
-class Command(NoArgsCommand):
+class Command(BaseCommand):
 
     help = "Updates all the packages in the system by checking against their PyPI data."
 
