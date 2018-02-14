@@ -3,7 +3,7 @@ import logging.config
 from time import sleep
 
 from django.conf import settings
-from django.core.management.base import NoArgsCommand
+from django.core.management.base import BaseCommand
 from django.core.mail import send_mail
 
 from github3 import login as github_login
@@ -24,7 +24,7 @@ class PackageUpdaterException(Exception):
         logging.exception(error)
 
 
-class Command(NoArgsCommand):
+class Command(BaseCommand):
 
     help = "Updates all the packages in the system. Commands belongs to django-packages.package"
 
