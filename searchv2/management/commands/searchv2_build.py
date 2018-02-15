@@ -2,6 +2,7 @@ from sys import stdout
 from time import gmtime, strftime
 
 from searchv2.builders import build_1
+from core.utils import healthcheck
 
 # https://docs.djangoproject.com/en/1.11/releases/1.8/#django-core-management-noargscommand
 try:
@@ -19,3 +20,4 @@ class Command(BaseCommand):
         print("Commencing search result building now %s " % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()), file=stdout)
         build_1()
         print("Finished at %s" % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()), file=stdout)
+        healthcheck(settings.SEARCHV2_HEALTHCHECK_URL)

@@ -6,13 +6,6 @@ volumes:
   media: {}
 
 services:
-  postgres:
-    build: ./compose/postgres
-    volumes:
-      - /data/djangopackages/postgres:/var/lib/postgresql/data
-      - /data/djangopackages/backups:/backups
-    env_file: .env
-
   django-a:
     build:
       context: .
@@ -39,6 +32,13 @@ services:
       - static:/data/static
       - media:/data/media
     command: /start.sh
+    env_file: .env
+
+  postgres:
+    build: ./compose/postgres
+    volumes:
+      - /data/djangopackages/postgres:/var/lib/postgresql/data
+      - /data/djangopackages/backups:/backups
     env_file: .env
 
   caddy:

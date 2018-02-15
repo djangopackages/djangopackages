@@ -1,16 +1,7 @@
-sudo: false
-language: python
-env:
-  - DATABASE_URL=postgres://postgres:@localhost:5432/oc
-python:
-  - "3.6"
+sudo: required
+services:
+  - docker
 before_install:
-  - pip install codecov
-install:
-  - pip install -r requirements.txt
-before_script:
-  - psql -U postgres -c 'CREATE DATABASE "oc";'
+  - touch .env.local
 script:
-  - coverage run manage.py test --settings=settings.test
-after_success:
-  - codecov
+  - docker-compose -f dev.yml run django python manage.py test

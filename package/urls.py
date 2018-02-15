@@ -8,6 +8,8 @@ from package.views import (
                             ajax_package_list,
                             edit_package,
                             edit_example,
+                            delete_example,
+                            confirm_delete_example,
                             update_package,
                             usage,
                             package_list,
@@ -68,6 +70,18 @@ urlpatterns = [
         regex="^(?P<slug>[-\w]+)/example/(?P<id>\d+)/edit/$",
         view=edit_example,
         name="edit_example",
+    ),
+
+    url(
+        regex="^(?P<slug>[-\w]+)/example/(?P<id>\d+)/delete/$",
+        view=delete_example,
+        name="delete_example",
+    ),
+
+    url(
+        regex="^(?P<slug>[-\w]+)/example/(?P<id>\d+)/confirm_delete/$",
+        view=confirm_delete_example,
+        name="confirm_delete_example",
     ),
 
     url(

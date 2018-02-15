@@ -62,3 +62,15 @@ def get_repo_from_url(url):
     return None
 
 
+def healthcheck(url):
+    """
+    Sends a get request to the given URL
+    """
+    if settings.HEALTHCHECK:
+        for i in range(0, 4):
+            r = requests.get(url=url)
+            if r.status_code == 200:
+                return
+
+
+

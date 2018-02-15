@@ -3,12 +3,13 @@ import logging.config
 from time import sleep
 
 from django.conf import settings
-from django.core.management.base import NoArgsCommand
+from django.core.management.base import BaseCommand
 from django.core.mail import send_mail
 
 from github3 import login as github_login
 
 from package.models import Package
+from core.utils import healthcheck
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +25,7 @@ class PackageUpdaterException(Exception):
         logging.exception(error)
 
 
-class Command(NoArgsCommand):
+class Command(BaseCommand):
 
     help = "Updates all the packages in the system. Commands belongs to django-packages.package"
 
@@ -47,14 +48,7 @@ class Command(NoArgsCommand):
                 except Exception as e:
                     raise PackageUpdaterException(e, package.title)
             except PackageUpdaterException:
-                pass  # We've already caught the error so let's move on now
+                logger.error(f"Unable to update {package.title}", exc_info=True)
 
             sleep(5)
-
-        message = "TODO - load logfile here"  # TODO
-        send_mail(
-            subject="Package Updating complete",
-            message=message,
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[x[1] for x in settings.ADMINS]
-        )
+        healthcheck(settings.PACKAGE_HEALTHCHECK_URL)

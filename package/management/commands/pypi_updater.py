@@ -1,15 +1,16 @@
 import logging
 import logging.config
 
-from django.core.management.base import NoArgsCommand
-
+from django.core.management.base import BaseCommand
+from django.conf import settings
 
 from package.models import Package
+from core.utils import healthcheck
 
 logger = logging.getLogger(__name__)
 
 
-class Command(NoArgsCommand):
+class Command(BaseCommand):
 
     help = "Updates all the packages in the system by checking against their PyPI data."
 
@@ -27,4 +28,4 @@ class Command(NoArgsCommand):
             count += 1
             # msg = "{}. {}. {}".format(count, count_updated, package)
             # logger.info(msg)
-
+        healthcheck(settings.PYPI_HEALTHCHECK_URL)

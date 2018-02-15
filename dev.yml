@@ -5,14 +5,6 @@ volumes:
   postgres_backup_dev: {}
 
 services:
-  postgres:
-    build: ./compose/postgres
-    volumes:
-      - postgres_data_dev:/var/lib/postgresql/data
-      - postgres_backup_dev:/backups
-    environment:
-      - POSTGRES_USER=djangopackages
-
   django:
     build:
       context: .
@@ -27,10 +19,16 @@ services:
       - .:/app
     ports:
       - "8000:8000"
-    links:
-      - postgres
     env_file:
       - .env.local
+
+  postgres:
+    build: ./compose/postgres
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+      - postgres_backup_dev:/backups
+    environment:
+      - POSTGRES_USER=djangopackages
 
   redis:
     build: ./compose/redis

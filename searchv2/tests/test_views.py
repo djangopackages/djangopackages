@@ -54,7 +54,6 @@ class ViewTest(TestCase):
         build_1()
 
     def test_search(self):
-        """ TODO Get this stupid test working """
         self.assertTrue(self.client.login(username='admin', password='admin'))
         url = reverse('search') + '?q=django-uni-form'
         data = {'q': 'another-test'}
