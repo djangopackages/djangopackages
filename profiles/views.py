@@ -29,19 +29,6 @@ def profile_detail(request, github_account, template_name="profiles/profile.html
         {"local_profile": profile, "user": profile.user},)
 
 
-def profile_list(request, template_name="profiles/profiles.html"):
-
-    if request.user.is_staff:
-        users = User.objects.all()
-    else:
-        users = User.objects.filter(is_active=True)
-
-    return render(request, template_name,
-        {
-            "users": users
-        })
-
-
 class ProfileEditUpdateView(LoginRequiredMixin, UpdateView):
     model = Profile
     form_class = ProfileForm
