@@ -2,11 +2,11 @@
 Deployments
 ============
 
-For various providers and methods including Heroku, DotCloud, et al.
+The only supported deployment is through Docker.
 
 Contents:
 
 .. toctree::
    :maxdepth: 1
 
-   heroku
+   docker

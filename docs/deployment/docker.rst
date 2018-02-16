@@ -25,19 +25,12 @@ The current strategy is:
 Stack
 =====
 
-The stack consists of two independent docker-compose files, namely `docker-compose.yml` and
-`haproxy.yml`.
-
 The configuration in `docker-compose.yml` contains 4 services:
 
  - `postgres` that powers the database
- - `django` that runs the WSGI server and serves the app through gunicorn
- - `nginx` that proxies incoming requests to the gunicorn server
+ - `django-a` and `django-b` that runs the WSGI server and serves the app through gunicorn
+ - `caddy` that proxies incoming requests to the gunicorn server
  - `redis` as cache
-
-The configuration in `haproxy.yml` contains 1 service:
-
- - `haproxy` as a load balancer that proxies incoming requests to nginx.
 
 Server Provisioning
 ===================
@@ -84,16 +77,13 @@ When Things Go Wrong
 
     cd /code/djangopackages
     docker-compose ps
-    docker-compose -f haproxy.yml ps
 
 - Check the logs for all services::
 
     cd /code/djangopackages
     docker-compose logs
-    docker-compose -f haproxy.yml logs
 
 - Check the logs for individual services::
 
     cd /code/djangopackages
-    docker-compose logs postgres|django|nginx|worker
-    docker-compose -f haproxy.yml logs haproxy
+    docker-compose logs postgres|django-a|django-b|caddy

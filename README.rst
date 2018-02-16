@@ -43,18 +43,24 @@ Features
 
 * "Add package" and "Add grid" forms
 
-Development
------------
+Quickstart
+----------
 
-This project uses Docker during development and production.
+For detailed installation instructions, consult the docs_.
 
-To start the local runserver for development, simply run:
+To download, install and start the local server for development, simply run:
 
+    git clone git@github.com:djangopackages/djangopackages.git
+    cd djangopackages
+    docker-compose -f dev.yml build
+    cp .env.local.example .env.local
     docker-compose -f dev.yml up
+
+Then point your browser to http://localhost:8000 and start hacking!
 
 To run tests, run:
 
-    docker-compose run django python manage.py test --settings=settings.test
+    docker-compose -f dev.yml run django python manage.py test
 
 The Site
 --------
@@ -82,3 +88,4 @@ They are joined by a host of core developers and contributors.  See https://open
 .. _`@pydanny`: https://github.com/pydanny/
 .. _`@audreyr`: https://github.com/audreyr/
 .. _`Django Packages`: https://www.djangopackages.org/
+.. _docs: https://djangopackages.readthedocs.io/en/latest/install.html

@@ -7,122 +7,51 @@ Do everything listed in this section to get your site up and running locally.  I
 Pre-requisites
 ==============
 
-Mac OS X 10.6
--------------
-
-Download and install setuptools from http://pypi.python.org/pypi/setuptools.  Setuptools gives you easy_install. Then run the following commands::
-
-    easy_install pip
-    pip install virtualenv
-    brew install libmemcached
-
-Ubuntu (10+ /  Lucid or Higher)
---------------------------------
-
-Install the following::
-
-    sudo apt-get install python-setuptools python-dev libpq-dev
-    sudo easy_install pip
-    sudo pip install virtualenv
-
-Windows 7
----------
-
-Download and install Python 2.6 or 2.7 using the Windows 32-bit installer from http://www.python.org/download/.  Even if you're on a 64-bit system, 32-bit is recommended (Michael Foord told me this).
-
-Download and install setuptools from http://pypi.python.org/pypi/setuptools.  Setuptools gives you easy_install.
-
-Install MinGW from http://www.mingw.org/.  Add the bin/ directory of your MinGW installation to your PATH environment variable (under Control Panel > System > Advanced system settings > Environment variables).
-
-Create or open C:\\Python26\\Lib\\distutils\\distutils.cfg (Note: this may be inside the Python27 directory if you're using Python 2.7).  Add the following lines to the bottom of the file::
-
-    [build]
-    compiler=mingw32
-
-Open up a command prompt.  Install pip and virtualenv::
-
-    easy_install pip
-    pip install virtualenv
-
-Other operating systems (including various Linux flavors)
----------------------------------------------------------
-
-We don't provide instructions for these, but you should be able to figure things out from the provided instructions. See :doc:`faq`.
+You need to install Docker_ and docker-compose_.
 
 Main instructions
 =================
 
-These instructions install Django Packages on your computer, using PostgreSQL and sample data.
+These instructions install Django Packages on your computer, using Docker.
 
-Git clone the project and install requirements
+Git clone the project and build Docker container
 ------------------------------------------------
 
-Create a virtualenv, activate it, git clone the Django Packages project, and install its requirements::
+Clone the Django Packages project using git, and build the project using docker-compose::
 
-    cd <installation-directory>
-    virtualenv env-oc
-    source env-oc/bin/activate
-    git clone git@github.com:opencomparison/opencomparison.git opencomparison
-    cd opencomparison
-    pip install -r requirements.txt
+    git clone git@github.com:djangopackages/djangopackages.git
+    cd djangopackages
+    docker-compose -f dev.yml build
 
-Set up server specific settings
--------------------------------
+Set up the development environment
+----------------------------------
 
-Don't change ``settings/base.py``. Instead extend it as you see in ``settings/heroku.py``. In the new file make the following specifications:
+In order to run the project, you need to add a file called ``.env.local``. The file holds all the configurable settings and secrets to run properly.
 
-Add a Google Analytics code if you have one::
+There's an example file available. To get started, copy the file::
 
-    URCHIN_ID = "UA-YOURID123-1"
+    cp .env.local.example .env.local
 
-Setup your email settings::
 
-    DEFAULT_FROM_EMAIL = 'Your Name <me@mydomain.com>'
-    EMAIL_SUBJECT_PREFIX = '[Your Site Name] '
+Running the project
+-------------------
 
-Set up your PostgreSQL database
--------------------------------
-
-Set up PostgreSQL and create a database:
+To start the project, run:
 
 .. sourcecode:: bash
 
-    createdb oc
+    docker-compose -f dev.yml up
 
-For more info, see :doc:`postgresql_contributor_instructions`.
-
-Set up the database tables:
-
-.. sourcecode:: bash
-
-    python manage.py syncdb --no-input
-    python manage.py migrate
-
-.. note::
-
-    This is optional. You can load some base data for development usage (i.e. not in production):
-
-    .. sourcecode:: bash
-
-        python manage.py load_dev_data
-
-    Grids will not be listed on the homepage, but they are available on /grids/
-
-Load the site in your browser
------------------------------
-
-Run the development server::
-
-    python manage.py runserver
-
-Then point your browser to http://127.0.0.1:8000
+Then point your browser to http://localhost:8000 and start hacking!
 
 Give yourself an admin account on the site
 ------------------------------------------
 
 Create a Django superuser for yourself, replacing joe with your username/email::
 
-    python manage.py createsuperuser --username=joe --email=joe@example.com
+    docker-compose -f dev.yml run django python manage.py createsuperuser --username=joe --email=joe@example.com
 
 And then login into the admin interface (/admin/) and create a profile for your user filling all the fields with any data.
 
+.. _Docker: https://docs.docker.com/install/
+.. _docker-compose: https://docs.docker.com/compose/install/

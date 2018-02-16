@@ -25,7 +25,7 @@ Read the page on contributions_.
 How can I add a listing for a new Package or an entirely new Grid?
 ----------------------------------------------------------------------------------
 
-* Go the Home page, https://www.djangopackages.com/
+* Go the Home page, https://www.djangopackages.org/
 * Go to the left side section called "Add packages and grids".
 * Click the appropriate button, where a package is a program and a grid is a category.
 
@@ -42,18 +42,6 @@ We've done a lot of work to make it as straightforward as possible. At PyCon 201
 Installation
 ============
 
-How come you don't support buildout?
-------------------------------------
-
-We have a very successful installation story for development and production hosting using virtualenv. While buildout is a wonderful tool we simply don't want to spend the time supporting two installation methods. Therefore:
-
-* Don't do it.
-* We won't accept pull requests for it.
-
-Why don't you have install instructions for BSD? Or Debian? Or Windows XP?
---------------------------------------------------------------------------
-
-If you are using something else besides Ubuntu, Mac OS X 10.6+, or Windows 7, you obviously have mad skills. We have a very successful installation story for development on three very common operating systems and production hosting is assumed to be on Ubuntu or any of the major PaaS vendors. Trying to support more than those operating systems is a HUGE amount of time taken away from making improvements - especially since the core developers insist on testing everything themselves.
 
 What happened to the fixtures?
 ------------------------------
@@ -62,7 +50,7 @@ The effort to support databases besides PostGreSQL was hampered for long time, a
 
 So we use a **Mock** system of creating sample data in our tests and for running a development version of the site. To create some development data, just run::
 
-    python manage.py load_dev_data
+    docker-compose -f dev.yml run django python manage.py load_dev_data
 
 Unsupported Repo Hosting Services
 =================================

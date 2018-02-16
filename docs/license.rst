@@ -1,7 +1,7 @@
 License
 ============
 
-Copyright (c) 2010-2012 Audrey Roy, Daniel Greenfeld, and contributors.
+Copyright (c) 2010-2018 Audrey Roy, Daniel Greenfeld, and contributors.
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation

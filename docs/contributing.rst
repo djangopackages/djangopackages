@@ -40,7 +40,7 @@ Setting up topic branches and generating pull requests
 
 While it's handy to provide useful code snippets in an issue, it is better for
 you as a developer to submit pull requests. By submitting pull request your
-contribution to Django Packages will be recorded by Github. 
+contribution to Django Packages will be recorded by Github.
 
 In git it is best to isolate each topic or feature into a "topic branch".  While
 individual commits allow you control over how small individual changes are made
@@ -90,7 +90,7 @@ add a comment to the discussion section of the pull request.
 Pull upstream changes into your fork regularly
 ==================================================
 
-Django Packages is advancing quickly. It is therefore critical that you pull upstream changes from develop into your fork on a regular basis. Nothing is worse than putting in a days of hard work into a pull request only to have it rejected because it has diverged too far from develop. 
+Django Packages is advancing quickly. It is therefore critical that you pull upstream changes from develop into your fork on a regular basis. Nothing is worse than putting in a days of hard work into a pull request only to have it rejected because it has diverged too far from develop.
 
 To pull in upstream changes::
 
@@ -117,7 +117,7 @@ Run the tests!
 
 Before you submit a pull request, please run the entire Django Packages test suite via::
 
-    python manage.py test --settings=settings.test
+    docker-compose -f dev.yml run django python manage.py test
 
 The first thing the core committers will do is run this command. Any pull request that fails this test suite will be **rejected**.
 
@@ -184,6 +184,6 @@ We finish with a merge and push to GitHub::
     git push origin develop
 
 
-.. _GitHub project: https://github.com/opencomparison/opencomparison
-.. _issue tracker: https://github.com/opencomparison/opencomparison/issues
+.. _GitHub project: https://github.com/djangopackages/djangopackages
+.. _issue tracker: https://github.com/djangopackages/djangopackages/issues
 .. _pydanny: http://pydanny.com

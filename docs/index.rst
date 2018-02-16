@@ -22,11 +22,11 @@ Contents:
    :maxdepth: 1
 
    introduction
-   license   
+   license
    install
    deployment/index
    troubleshooting
-   faq   
+   faq
    opencomparison_settings
    testing_instructions
    management_commands
@@ -37,16 +37,7 @@ Contents:
    apiv3_docs
    lessons_learned
    .. reference
-   
-In development
-==============
 
- * caching
-
-.. toctree::
-   :maxdepth: 1
-
-   postgresql_contributor_instructions
 
 Credits
 =======

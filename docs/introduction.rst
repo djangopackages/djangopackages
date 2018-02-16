@@ -9,7 +9,7 @@ Django Packages stores information on fetched packages and provides easy compari
 The Site
 --------
 
-A current example is live: http://www.djangopackages.com
+A current example is live: http://www.djangopackages.org
 
 Grids!
 ~~~~~~
