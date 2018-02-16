@@ -48,7 +48,7 @@ Quickstart
 
 For detailed installation instructions, consult the docs_.
 
-To download, install and start the local server for development, simply run:
+To download, install and start the local server for development, simply run::
 
     git clone git@github.com:djangopackages/djangopackages.git
     cd djangopackages
@@ -58,7 +58,7 @@ To download, install and start the local server for development, simply run:
 
 Then point your browser to http://localhost:8000 and start hacking!
 
-To run tests, run:
+To run tests, run::
 
     docker-compose -f dev.yml run django python manage.py test
 
