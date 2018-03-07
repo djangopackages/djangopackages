@@ -52,6 +52,9 @@
 
     <div class="row">
         <div class="col-md-8 main">
+            <div class="text-warning">
+                <i class="glyphicon glyphicon-warning-sign"></i> Projects listed on Djangopackages are third-party packages. They are not vetted nor endorsed by the Django Software Foundation. Use them at your own risk. <i class="glyphicon glyphicon-warning-sign"></i>
+            </div>
             <div class="outline">{{ package.repo_description }}</div>
 
             {% comment %}
@@ -82,7 +85,6 @@
 
     <!-- end Usage panel -->
     {% endcomment %}
-
             <h2>Repo Activity
                 <div class="pull-right" id="fetch-cell">
                     {% if package.last_fetched %}
