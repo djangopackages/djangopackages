@@ -36,25 +36,6 @@ class FunctionalHomepageTest(TestCase):
             self.assertContains(response, c.title_plural)
             self.assertContains(response, c.description)
 
-    def test_items_of_the_week(self):
-        url = reverse('home')
-        today = datetime.now()
-        yesterday = today - timedelta(days=1)
-        tomorrow = today + timedelta(days=1)
-
-        p = Package.objects.all()[0]
-        g = Grid.objects.all()[0]
-
-        d_live = Dpotw.objects.create(package=p, start_date=yesterday, end_date=tomorrow)
-
-        g_live = Gotw.objects.create(grid=g, start_date=yesterday, end_date=tomorrow)
-
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'homepage.html')
-        self.assertContains(response, d_live.package.title)
-        self.assertContains(response, g_live.grid.title)
-
 
 class FunctionalHomepageTestWithoutPackages(TestCase):
     def setUp(self):
