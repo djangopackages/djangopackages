@@ -5,7 +5,7 @@ As of beginning 2016 the docker toolset is not quite there to provide a heroku l
 when deploying to production. A lot of parts are already there, but have a few quirks that need
 to be adressed.
 
-Because of that, the deployment strategy for djangopackages.com is a bit different from what you
+Because of that, the deployment strategy for djangopackages.org is a bit different from what you
 read in the getting started with docker tutorials.
 
 First, we don't use docker-machine. It's not reliable and has no team of maintainers comparable
@@ -16,7 +16,7 @@ restarded, the stack won't start automatically.
 
 The current strategy is:
 
- - Use a virtual machine with a well patched OS (debian, ubuntu, RHEL), djangopackages.com is using
+ - Use a virtual machine with a well patched OS (debian, ubuntu, RHEL), djangopackages.org is using
  ubuntu 14.04
  - Install docker, docker-compose, git and supervisord
  - Clone the code on the server
