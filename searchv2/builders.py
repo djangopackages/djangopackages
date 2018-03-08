@@ -10,7 +10,7 @@ from searchv2.models import SearchV2
 from searchv2.utils import remove_prefix, clean_title
 
 
-def build_1(print_out=False):
+def build_1():
 
     now = datetime.now()
     quarter_delta = timedelta(90)
@@ -101,10 +101,6 @@ def build_1(print_out=False):
             obj.weight = weight
             obj.save()
 
-        if print_out:
-            print(obj.slug, created, file=stdout)
-
-    print('----------------------', file=stdout)
     max_weight = SearchV2.objects.all()[0].weight
     increment = max_weight / 6
     for grid in Grid.objects.all():
@@ -132,7 +128,5 @@ def build_1(print_out=False):
 
         obj.weight = weight
         obj.save()
-
-        print(obj, created, file=stdout)
 
     return SearchV2.objects.all()

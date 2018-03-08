@@ -39,7 +39,7 @@ class FunctionalPackageTest(TestCase):
         self.assertEqual(SearchV2.objects.count(), 6)
 
     def test_search_function(self):
-        build_1(False)
+        build_1()
         results = search_function('ser')
         self.assertEqual(results[0].title, 'Serious Testing')
 
