@@ -70,7 +70,7 @@ https://djangopackages.org.
 The Documentation
 -----------------
 
-The documentation is hosted at https://djangopackages.readthedocs.io
+The documentation is hosted at http://djangopackagesorg.readthedocs.io/en/latest
 
 License
 -------
@@ -88,4 +88,4 @@ They are joined by a host of core developers and contributors.  See https://open
 .. _`@pydanny`: https://github.com/pydanny/
 .. _`@audreyr`: https://github.com/audreyr/
 .. _`Django Packages`: https://www.djangopackages.org/
-.. _docs: https://djangopackages.readthedocs.io/en/latest/install.html
+.. _docs: http://djangopackagesorg.readthedocs.io/en/latest/install.html
