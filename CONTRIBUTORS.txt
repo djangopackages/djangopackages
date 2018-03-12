@@ -5,6 +5,12 @@ Team
 Project Leads
 =============
 
+* Jannis Gebauer (@jayfk)
+* Nikita Shupeyko (@webyneter)
+
+Former Project Leads
+====================
+
 * Audrey Roy Greenfeld <aroy@alum.mit.edu> (@audreyr)
 * Daniel Roy Greenfeld <pydanny@gmail.com> (@pydanny)
 
@@ -94,6 +100,10 @@ Direct Contributors
 * Tony Narlock
 * Tom Brander
 * Vasja Volin
+
+Indirect Contributors
+=====================
+The Django Software Foundation
 
 Other Contributors
 ==================
