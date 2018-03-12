@@ -250,6 +250,13 @@ h3, .h3 {
     color: #2B8C67;
 }
 
+.pre-pre-footer{
+    background-color: #eee;
+    width: 100%;
+    color: #5c5c5c;
+    padding: 20px;
+}
+
 .pre-footer{
     background-color: #2B8C67;
     width: 100%;
