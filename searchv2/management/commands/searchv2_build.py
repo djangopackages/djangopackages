@@ -1,11 +1,14 @@
 from sys import stdout
 from time import gmtime, strftime
 
-from django.core.management.base import BaseCommand
-from django.conf import settings
-
 from searchv2.builders import build_1
 from core.utils import healthcheck
+
+# https://docs.djangoproject.com/en/1.11/releases/1.8/#django-core-management-noargscommand
+try:
+    from django.core.management.base import NoArgsCommand as BaseCommand
+except ImportError:
+    from django.core.management import BaseCommand
 
 
 class Command(BaseCommand):

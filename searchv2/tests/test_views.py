@@ -67,6 +67,7 @@ class ViewTest(TestCase):
         self.assertTrue(self.client.login(username='admin', password='admin'))
         SearchV2.objects.get_or_create(
             item_type="package",
+            item_pk=1,
             title="django-uni-form",
             slug="django-uni-form",
             slug_no_prefix="uni-form",

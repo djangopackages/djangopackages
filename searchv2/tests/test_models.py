@@ -10,6 +10,7 @@ class SearchV2Test(TestCase):
     def test_create(self):
         SearchV2.objects.create(
             item_type='package',
+            item_pk=1,
             title='Django Uni-Form',
             title_no_prefix='uni-form',
             slug='django-uni-form',

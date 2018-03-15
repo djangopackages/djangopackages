@@ -23,6 +23,7 @@ def build_1():
 
         obj, created = SearchV2.objects.get_or_create(
             item_type="package",
+            item_pk=package.pk,
             slug=package.slug,
         )
         obj.slug_no_prefix = remove_prefix(package.slug)
@@ -106,6 +107,7 @@ def build_1():
     for grid in Grid.objects.all():
         obj, created = SearchV2.objects.get_or_create(
             item_type="grid",
+            item_pk=grid.pk,
             slug=grid.slug,
         )
         obj.slug_no_prefix = remove_prefix(grid.slug)
