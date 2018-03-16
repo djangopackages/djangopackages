@@ -1,7 +1,9 @@
 License
 ============
 
-Copyright (c) 2010-2018 Audrey Roy, Daniel Greenfeld, and contributors.
+Copyright (c)
+ - Audrey & Daniel Roy Greenfeld and contributors.
+ - Colors and some design elements copied from djangoproject.com (c) Django Software Foundation: https://github.com/django/djangoproject.com/blob/master/LICENSE
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
