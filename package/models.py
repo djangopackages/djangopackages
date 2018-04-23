@@ -199,7 +199,6 @@ class Package(BaseModel):
                 # Not a real release so we just guess the upload_time.
                 version.upload_time = version.created
 
-            version.hidden = info['_pypi_hidden']
             for classifier in info['classifiers']:
                 if classifier.startswith('Development Status'):
                     version.development_status = status_choices_switch(classifier)
