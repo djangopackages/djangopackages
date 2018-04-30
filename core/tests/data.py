@@ -5,7 +5,7 @@ from package.models import Category, Package
 STOCK_PASSWORD = "stock_password"
 
 
-def make():
+def load():
 
     create_users()
 
@@ -42,7 +42,7 @@ def make():
         slug = "serious-testing",
         title="Serious Testing"
     )
-    package.save()    
+    package.save()
     package, created = Package.objects.get_or_create(
         category = category,
         participants = "pydanny",
