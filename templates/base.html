@@ -28,7 +28,7 @@
     <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" />
     {% block extra_head %}{% endblock %}
 </head>
-<body ng-controller="SearchCtrl" ng-init="init_search('{{ request.GET.q }}', '{% url 'apiv4:searchv2-list' %}', {{ MAX_WEIGHT }})">
+<body ng-controller="SearchCtrl" ng-init="init_search('{{ request.GET.q|escapejs }}', '{% url 'apiv4:searchv2-list' %}', {{ MAX_WEIGHT }})">
 
 {% for message in messages %}
   <div class="topbar topbar-default{% if message.tags %} {{ message.tags }}{% endif %}" id="message_{{ forloop.counter }}">
