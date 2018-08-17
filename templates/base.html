@@ -68,7 +68,7 @@
                     <li><a href="{% url 'logout' %}">{% trans "Log out" %}</a></li>
                 {% else %}
                     <li><a href="
-                            {% url 'social:begin' 'github' %}{% if current_path %}?next={{ current_path }}{% endif %}">{% trans "Log In" %}</a>
+                            {% url 'social:begin' 'github' %}{% if current_path %}?next={{ current_path | safe }}{% endif %}">{% trans "Log In" %}</a>
                     </li>
                 {% endif %}
 
