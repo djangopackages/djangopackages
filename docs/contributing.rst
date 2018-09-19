@@ -25,7 +25,7 @@ Follow our detailed :doc:`installation` instructions. Please record any difficul
 Issues!
 =======
 
-The list of outstanding Django Packages feature requests and bugs can be found on our on our GitHub `issue tracker`_. Pick an unassigned issue that you think you can accomplish, add a comment that you are attempting to do it, and shortly your own personal label matching your GitHub ID will be assigned to that issue.
+The list of outstanding Django Packages feature requests and bugs can be found on our GitHub `issue tracker`_. Pick an unassigned issue that you think you can accomplish, add a comment that you are attempting to do it, and shortly your own personal label matching your GitHub ID will be assigned to that issue.
 
 Feel free to propose issues that aren't described!
 
