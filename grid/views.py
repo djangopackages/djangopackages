@@ -332,6 +332,9 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
     features = grid.feature_set.select_related(None)
 
     grid_packages = grid.grid_packages.order_by("-package__repo_watchers")
+    python3_supported_grid_packages = [
+        gp for gp in grid_packages if gp.package.last_released() and gp.package.last_released().supports_python3
+    ]
 
     elements = Element.objects.filter(feature__in=features,
                         grid_package__in=grid_packages)
@@ -355,7 +358,7 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
     return render(request, template_name, {
             'grid': grid,
             'features': features,
-            'grid_packages': grid_packages,
+            'grid_packages': python3_supported_grid_packages,
             'attributes': default_attributes,
             'elements': element_map,
         })
