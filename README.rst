@@ -74,7 +74,7 @@ https://djangopackages.org.
 The Documentation
 -----------------
 
-The documentation is hosted at http://djangopackagesorg.readthedocs.io/en/latest
+The documentation is hosted at http://djangopackages.readthedocs.io/en/latest
 
 License
 -------
