@@ -91,6 +91,7 @@ Direct Contributors
 * PA Parent
 * Preston Holmes
 * Randall Degges
+* Rexhep Berlajolli (@rexhepberlajolli)
 * Shubhendu Saurabh
 * Skot Carruth
 * Stuart Powers
