@@ -22,7 +22,7 @@ urlpatterns = [
     url(r"^health_check/$", health_check_view, name="health_check"),
     url(r"^404$", error_404_view, name="404"),
     url(r"^500$", error_500_view, name="500"),
-    url(settings.ADMIN_URL_BASE, include(admin.site.urls)),
+    url(settings.ADMIN_URL_BASE, admin.site.urls),
     url(r"^profiles/", include("profiles.urls")),
     url(r"^packages/", include("package.urls")),
     url(r"^grids/", include("grid.urls")),
