@@ -76,8 +76,8 @@ class GridPackage(BaseModel):
     * :attr:`package` - the :class:`~grid.models.Package`
     """
 
-    grid = models.ForeignKey(Grid)
-    package = models.ForeignKey(Package)
+    grid = models.ForeignKey(Grid, on_delete=models.CASCADE)
+    package = models.ForeignKey(Package, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Grid Package'
@@ -101,7 +101,7 @@ class Feature(BaseModel):
     * :attr:`description` - plain-text description
     """
 
-    grid = models.ForeignKey(Grid)
+    grid = models.ForeignKey(Grid, on_delete=models.CASCADE)
     title = models.CharField(_('Title'), max_length=100)
     description = models.TextField(_('Description'), blank=True)
 
@@ -132,8 +132,8 @@ class Element(BaseModel):
     * :attr:`text` - the actual contents of the grid cell
     """
 
-    grid_package = models.ForeignKey(GridPackage)
-    feature = models.ForeignKey(Feature)
+    grid_package = models.ForeignKey(GridPackage, on_delete=models.CASCADE)
+    feature = models.ForeignKey(Feature, models.CASCADE)
     text = models.TextField(_('text'), blank=True, help_text=help_text)
 
     class Meta:

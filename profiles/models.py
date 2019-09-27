@@ -8,7 +8,7 @@ from core.models import BaseModel
 
 
 class Profile(BaseModel):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     # Note to coders: The '_url' fields below need to JUST be the name of the account.
     #     Examples:
