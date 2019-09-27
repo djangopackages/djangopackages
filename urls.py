@@ -6,7 +6,6 @@ from django.views.generic.base import TemplateView, RedirectView
 from django.contrib import admin
 admin.autodiscover()
 
-from apiv4.viewsets import router
 from core.apiv1 import apiv1_gone
 from homepage.views import homepage, error_404_view, error_500_view, health_check_view, SitemapView
 from package.views import category, python3_list
@@ -53,7 +52,7 @@ urlpatterns = [
     url(r'^api/v3/', include('apiv3.urls', namespace="apiv3")),
 
     # apiv4
-    url(r'^api/v4/', include(router.urls, namespace='apiv4')),
+    url(r'^api/v4/', include("apiv4.urls", namespace='apiv4')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     url(

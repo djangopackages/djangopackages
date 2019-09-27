@@ -2,7 +2,6 @@ from django.shortcuts import get_object_or_404
 
 from rest_framework import mixins
 from rest_framework.response import Response
-from rest_framework import routers
 from rest_framework import viewsets
 
 from grid.models import Grid
@@ -52,9 +51,3 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CategorySerializer
     paginate_by = 20
 
-
-router = routers.DefaultRouter()
-router.register(r'packages', PackageViewSet)
-router.register(r'search', SearchV2ViewSet)
-router.register(r'grids', GridViewSet)
-router.register(r'categories', CategoryViewSet)
