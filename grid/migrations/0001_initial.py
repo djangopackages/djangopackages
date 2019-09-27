@@ -63,8 +63,8 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('created', core.fields.CreationDateTimeField(default=django.utils.timezone.now, verbose_name='created', editable=False, blank=True)),
                 ('modified', core.fields.ModificationDateTimeField(default=django.utils.timezone.now, verbose_name='modified', editable=False, blank=True)),
-                ('grid', models.ForeignKey(to='grid.Grid')),
-                ('package', models.ForeignKey(to='package.Package')),
+                ('grid', models.ForeignKey(to='grid.Grid', on_delete=django.db.models.deletion.CASCADE)),
+                ('package', models.ForeignKey(to='package.Package', on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={
                 'verbose_name': 'Grid Package',
@@ -81,19 +81,19 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='feature',
             name='grid',
-            field=models.ForeignKey(to='grid.Grid'),
+            field=models.ForeignKey(to='grid.Grid', on_delete=django.db.models.deletion.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='element',
             name='feature',
-            field=models.ForeignKey(to='grid.Feature'),
+            field=models.ForeignKey(to='grid.Feature', on_delete=django.db.models.deletion.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='element',
             name='grid_package',
-            field=models.ForeignKey(to='grid.GridPackage'),
+            field=models.ForeignKey(to='grid.GridPackage', on_delete=django.db.models.deletion.CASCADE),
             preserve_default=True,
         ),
     ]

@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                 ('modified', core.fields.ModificationDateTimeField(default=django.utils.timezone.now, verbose_name='modified', editable=False, blank=True)),
                 ('start_date', models.DateField(verbose_name='Start Date')),
                 ('end_date', models.DateField(verbose_name='End Date')),
-                ('package', models.ForeignKey(to='package.Package')),
+                ('package', models.ForeignKey(to='package.Package', on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={
                 'ordering': ('-start_date', '-end_date'),
@@ -40,7 +40,7 @@ class Migration(migrations.Migration):
                 ('modified', core.fields.ModificationDateTimeField(default=django.utils.timezone.now, verbose_name='modified', editable=False, blank=True)),
                 ('start_date', models.DateField(verbose_name='Start Date')),
                 ('end_date', models.DateField(verbose_name='End Date')),
-                ('grid', models.ForeignKey(to='grid.Grid')),
+                ('grid', models.ForeignKey(to='grid.Grid', on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={
                 'ordering': ('-start_date', '-end_date'),
