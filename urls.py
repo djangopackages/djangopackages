@@ -10,7 +10,8 @@ from apiv4.viewsets import router
 from core.apiv1 import apiv1_gone
 from homepage.views import homepage, error_404_view, error_500_view, health_check_view, SitemapView
 from package.views import category, python3_list
-from django.contrib.auth.views import logout as contrib_logout_view
+
+from profiles.views import LogoutView
 
 urlpatterns = [
 
@@ -32,7 +33,7 @@ urlpatterns = [
     url(r"^python3/$", python3_list, name="py3_compat"),
 
     # url(regex=r'^login/$', view=TemplateView.as_view(template_name='pages/login.html'), name='login',),
-    url(r'^logout/$', contrib_logout_view, {'next_page': '/'}, 'logout',),
+    url(r'^logout/$', LogoutView, {'next_page': '/'}, 'logout',),
 
     # static pages
     url(r"^about/$", TemplateView.as_view(template_name='pages/faq.html'), name="about"),
