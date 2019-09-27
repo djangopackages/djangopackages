@@ -1,5 +1,6 @@
 from django.core.cache import cache
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from core.models import BaseModel
@@ -50,9 +51,8 @@ class Grid(BaseModel):
         self.clear_detail_template_cache()  # Delete the template fragment cache
         super(Grid, self).save(*args, **kwargs)
 
-    @models.permalink
     def get_absolute_url(self):
-        return ("grid", [self.slug])
+        return reverse("grid", args=[self.slug])
 
     def clear_detail_template_cache(self):
         key = make_template_fragment_key("detail_template_cache", [self.pk, ])

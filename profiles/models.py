@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from core.models import BaseModel
@@ -63,9 +64,8 @@ class Profile(BaseModel):
         packages.sort(key=lambda a: a.title)
         return packages
 
-    @models.permalink
     def get_absolute_url(self):
-        return ("profile_detail", [self.github_account])
+        return reverse("profile_detail", [self.github_account])
 
     # define permission properties as properties so we can access in templates
 

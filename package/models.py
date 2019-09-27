@@ -9,6 +9,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+from django.urls import reverse
 
 from distutils.version import LooseVersion as versioner
 import requests
@@ -42,9 +43,8 @@ class Category(BaseModel):
     def __str__(self):
         return self.title
 
-    @models.permalink
     def get_absolute_url(self):
-        return ("category", [self.slug])
+        return reverse("category", args=[self.slug])
 
 
 class Package(BaseModel):
@@ -282,9 +282,8 @@ class Package(BaseModel):
     def __str__(self):
         return self.title
 
-    @models.permalink
     def get_absolute_url(self):
-        return ("package", [self.slug])
+        return reverse("package", args=[self.slug])
 
     @property
     def last_commit(self):

@@ -1,6 +1,7 @@
 import datetime
 
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from grid.models import Grid
@@ -32,9 +33,8 @@ class Dpotw(BaseModel):
     def __str__(self):
         return '%s : %s - %s' % (self.package.title, self.start_date, self.end_date)
 
-    @models.permalink
     def get_absolute_url(self):
-        return ("package", [self.package.slug])
+        return reverse("package", args=[self.package.slug])
 
 
 class Gotw(BaseModel):
@@ -56,9 +56,8 @@ class Gotw(BaseModel):
     def __str__(self):
         return '%s : %s - %s' % (self.grid.title, self.start_date, self.end_date)
 
-    @models.permalink
     def get_absolute_url(self):
-        return ("grid", [self.grid.slug])
+        return reverse("grid", args=[self.grid.slug])
 
 
 class PSA(BaseModel):

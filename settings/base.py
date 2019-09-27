@@ -216,7 +216,7 @@ PACKAGINATOR_SEARCH_PREFIX = "django"
 
 # if set to False any auth user can add/modify packages
 # only django admins can delete
-RESTRICT_PACKAGE_EDITORS = True
+RESTRICT_PACKAGE_EDITORS = False
 
 # if set to False  any auth user can add/modify grids
 # only django admins can delete
@@ -251,7 +251,7 @@ SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'associate_complete'
 SOCIAL_AUTH_DEFAULT_USERNAME = lambda u: slugify(u)
 SOCIAL_AUTH_GITHUB_EXTRA_DATA = []
 SOCIAL_AUTH_CHANGE_SIGNAL_ONLY = True
-SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = False
 SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
 LOGIN_REDIRECT_URL = '/'
 
