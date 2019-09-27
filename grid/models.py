@@ -55,7 +55,7 @@ class Grid(BaseModel):
         return reverse("grid", args=[self.slug])
 
     def clear_detail_template_cache(self):
-        key = make_template_fragment_key("detail_template_cache", [self.pk, ])
+        key = make_template_fragment_key("detail_template_cache", [str(self.pk)])
         cache.delete(key)
 
     class Meta:
