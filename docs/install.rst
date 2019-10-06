@@ -14,31 +14,43 @@ Main instructions
 
 These instructions install Django Packages on your computer, using Docker.
 
-Git clone the project and build Docker container
-------------------------------------------------
+Git clone the project
+---------------------
 
-Clone the Django Packages project using git, and build the project using docker-compose::
+Clone the Django Packages project using git:
+
+.. code-block:: bash
 
     git clone git@github.com:djangopackages/djangopackages.git
     cd djangopackages
-    docker-compose -f dev.yml build
 
 Set up the development environment
 ----------------------------------
 
-In order to run the project, you need to add a file called ``.env.local``. The file holds all the configurable settings and secrets to run properly.
+In order to run the project, you first need to add a file called ``.env.local``.
+The file holds all the configurable settings and secrets to run properly.
 
-There's an example file available. To get started, copy the file::
+There's an example file available. To get started, copy the file:
+
+.. code-block:: bash
 
     cp .env.local.example .env.local
 
+Build Docker container
+----------------------
+
+Now build the project using docker-compose:
+
+.. code-block:: bash
+
+    docker-compose -f dev.yml build
 
 Running the project
 -------------------
 
 To start the project, run:
 
-.. sourcecode:: bash
+.. code-block:: bash
 
     docker-compose -f dev.yml up
 
@@ -47,7 +59,9 @@ Then point your browser to http://localhost:8000 and start hacking!
 Give yourself an admin account on the site
 ------------------------------------------
 
-Create a Django superuser for yourself, replacing joe with your username/email::
+Create a Django superuser for yourself, replacing joe with your username/email:
+
+.. code-block:: bash
 
     docker-compose -f dev.yml run django python manage.py createsuperuser --username=joe --email=joe@example.com
 
