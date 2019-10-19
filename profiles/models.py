@@ -65,7 +65,7 @@ class Profile(BaseModel):
         return packages
 
     def get_absolute_url(self):
-        return reverse("profile_detail", [self.github_account])
+        return reverse("profile_detail", args=[self.github_account])
 
     # define permission properties as properties so we can access in templates
 

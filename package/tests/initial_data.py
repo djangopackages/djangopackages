@@ -137,10 +137,10 @@ def load():
         #permissions=[[u'delete_gridpackage', u'grid', u'gridpackage'], [u'delete_feature', u'grid', u'feature']],
     )
     group1.permissions.clear()
-    group1.permissions = [
+    group1.permissions.set([
         Permission.objects.get(codename='delete_gridpackage'),
         Permission.objects.get(codename='delete_feature')
-        ]
+    ])
 
     # password is 'user'
     user1, created = User.objects.get_or_create(
@@ -172,7 +172,7 @@ def load():
         email='',
         date_joined='2010-01-01 12:00:00',
     )
-    user2.groups = [group1]
+    user2.groups.set([group1])
     user2.set_password('cleaner')
     user2.save()
 
