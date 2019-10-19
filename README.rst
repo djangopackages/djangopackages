@@ -56,8 +56,8 @@ To download, install and start the local server for development, simply run::
 
     git clone git@github.com:djangopackages/djangopackages.git
     cd djangopackages
-    docker-compose -f dev.yml build
     cp .env.local.example .env.local
+    docker-compose -f dev.yml build
     docker-compose -f dev.yml up
 
 Then point your browser to http://localhost:8000 and start hacking!
