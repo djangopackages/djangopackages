@@ -1,11 +1,13 @@
+from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
+from django.views.generic import RedirectView
 from django.views.generic.edit import UpdateView
 from django.core.exceptions import MultipleObjectsReturned
-from braces.views import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.contrib.auth.signals import user_logged_in
 
@@ -58,5 +60,9 @@ def github_user_update(sender, **kwargs):
 user_logged_in.connect(github_user_update)
 
 
-from rest_framework.response import Response
-from rest_framework.views import APIView
+class LogoutView(RedirectView):
+    pattern_name = "home"
+
+    def get_redirect_url(self, *args, **kwargs):
+        logout(self.request)
+        return super().get_redirect_url(*args, **kwargs)

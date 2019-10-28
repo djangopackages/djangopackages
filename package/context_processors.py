@@ -3,7 +3,7 @@ from django.core.cache import cache
 
 def used_packages_list(request):
     context = {}
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         cache_key = "sitewide_used_packages_list_%s" % request.user.pk
         used_packages_list = cache.get(cache_key)
         if used_packages_list is None:

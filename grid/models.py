@@ -1,5 +1,6 @@
 from django.core.cache import cache
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from core.models import BaseModel
@@ -50,12 +51,11 @@ class Grid(BaseModel):
         self.clear_detail_template_cache()  # Delete the template fragment cache
         super(Grid, self).save(*args, **kwargs)
 
-    @models.permalink
     def get_absolute_url(self):
-        return ("grid", [self.slug])
+        return reverse("grid", args=[self.slug])
 
     def clear_detail_template_cache(self):
-        key = make_template_fragment_key("detail_template_cache", [self.pk, ])
+        key = make_template_fragment_key("detail_template_cache", [str(self.pk)])
         cache.delete(key)
 
     class Meta:
@@ -76,8 +76,8 @@ class GridPackage(BaseModel):
     * :attr:`package` - the :class:`~grid.models.Package`
     """
 
-    grid = models.ForeignKey(Grid)
-    package = models.ForeignKey(Package)
+    grid = models.ForeignKey(Grid, on_delete=models.CASCADE)
+    package = models.ForeignKey(Package, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Grid Package'
@@ -101,7 +101,7 @@ class Feature(BaseModel):
     * :attr:`description` - plain-text description
     """
 
-    grid = models.ForeignKey(Grid)
+    grid = models.ForeignKey(Grid, on_delete=models.CASCADE)
     title = models.CharField(_('Title'), max_length=100)
     description = models.TextField(_('Description'), blank=True)
 
@@ -132,8 +132,8 @@ class Element(BaseModel):
     * :attr:`text` - the actual contents of the grid cell
     """
 
-    grid_package = models.ForeignKey(GridPackage)
-    feature = models.ForeignKey(Feature)
+    grid_package = models.ForeignKey(GridPackage, on_delete=models.CASCADE)
+    feature = models.ForeignKey(Feature, models.CASCADE)
     text = models.TextField(_('text'), blank=True, help_text=help_text)
 
     class Meta:

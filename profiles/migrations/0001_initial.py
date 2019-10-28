@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
                 ('bitbucket_url', models.CharField(max_length=100, null=True, verbose_name='Bitbucket account', blank=True)),
                 ('google_code_url', models.CharField(max_length=100, null=True, verbose_name='Google Code account', blank=True)),
                 ('email', models.EmailField(max_length=75, null=True, verbose_name='Email', blank=True)),
-                ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
+                ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL, on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={
                 'abstract': False,

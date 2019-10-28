@@ -9,6 +9,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+from django.urls import reverse
 
 from distutils.version import LooseVersion as versioner
 import requests
@@ -42,16 +43,15 @@ class Category(BaseModel):
     def __str__(self):
         return self.title
 
-    @models.permalink
     def get_absolute_url(self):
-        return ("category", [self.slug])
+        return reverse("category", args=[self.slug])
 
 
 class Package(BaseModel):
 
     title = models.CharField(_("Title"), max_length=100)
     slug = models.SlugField(_("Slug"), help_text="Enter a valid 'slug' consisting of letters, numbers, underscores or hyphens. Values will be converted to lowercase.", unique=True)
-    category = models.ForeignKey(Category, verbose_name="Installation")
+    category = models.ForeignKey(Category, verbose_name="Installation", on_delete=models.PROTECT)
     repo_description = models.TextField(_("Repo Description"), blank=True)
     repo_url = models.URLField(_("repo URL"), help_text=repo_url_help_text, blank=True, unique=True)
     repo_watchers = models.IntegerField(_("Stars"), default=0)
@@ -282,9 +282,8 @@ class Package(BaseModel):
     def __str__(self):
         return self.title
 
-    @models.permalink
     def get_absolute_url(self):
-        return ("package", [self.slug])
+        return reverse("package", args=[self.slug])
 
     @property
     def last_commit(self):
@@ -296,7 +295,7 @@ class Package(BaseModel):
 
 class PackageExample(BaseModel):
 
-    package = models.ForeignKey(Package)
+    package = models.ForeignKey(Package, on_delete=models.CASCADE)
     title = models.CharField(_("Title"), max_length=100)
     url = models.URLField(_("URL"))
     active = models.BooleanField(_("Active"), default=True, help_text="Moderators have to approve links before they are provided")
@@ -317,7 +316,7 @@ class PackageExample(BaseModel):
 
 class Commit(BaseModel):
 
-    package = models.ForeignKey(Package)
+    package = models.ForeignKey(Package, on_delete=models.CASCADE)
     commit_date = models.DateTimeField(_("Commit Date"))
     commit_hash = models.CharField(_("Commit Hash"), help_text="Example: Git sha or SVN commit id", max_length=150, blank=True, default="")
 
@@ -362,7 +361,7 @@ class VersionManager(models.Manager):
 
 class Version(BaseModel):
 
-    package = models.ForeignKey(Package, blank=True, null=True)
+    package = models.ForeignKey(Package, blank=True, null=True, on_delete=models.CASCADE)
     number = models.CharField(_("Version"), max_length=100, default="", blank="")
     downloads = models.IntegerField(_("downloads"), default=0)
     license = models.CharField(_("license"), max_length=100)

@@ -1,4 +1,4 @@
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from profiles.models import Profile
 
 def base_resource(obj):

@@ -1,6 +1,7 @@
 import datetime
 
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from grid.models import Grid
@@ -16,7 +17,7 @@ class RotatorManager(models.Manager):
 
 class Dpotw(BaseModel):
 
-    package = models.ForeignKey(Package)
+    package = models.ForeignKey(Package, on_delete=models.CASCADE)
     start_date = models.DateField(_("Start Date"))
     end_date = models.DateField(_("End Date"))
 
@@ -32,14 +33,13 @@ class Dpotw(BaseModel):
     def __str__(self):
         return '%s : %s - %s' % (self.package.title, self.start_date, self.end_date)
 
-    @models.permalink
     def get_absolute_url(self):
-        return ("package", [self.package.slug])
+        return reverse("package", args=[self.package.slug])
 
 
 class Gotw(BaseModel):
 
-    grid = models.ForeignKey(Grid)
+    grid = models.ForeignKey(Grid, on_delete=models.CASCADE)
 
     start_date = models.DateField(_("Start Date"))
     end_date = models.DateField(_("End Date"))
@@ -56,9 +56,8 @@ class Gotw(BaseModel):
     def __str__(self):
         return '%s : %s - %s' % (self.grid.title, self.start_date, self.end_date)
 
-    @models.permalink
     def get_absolute_url(self):
-        return ("grid", [self.grid.slug])
+        return reverse("grid", args=[self.grid.slug])
 
 
 class PSA(BaseModel):

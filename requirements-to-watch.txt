@@ -1,2 +1,0 @@
-# floppyforms fails on Django>=1.11.3, currently using VCS
-django-floppyforms==1.7.0

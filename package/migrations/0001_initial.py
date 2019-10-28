@@ -66,7 +66,7 @@ class Migration(migrations.Migration):
                 ('last_fetched', models.DateTimeField(default=django.utils.timezone.now, null=True, blank=True)),
                 ('documentation_url', models.URLField(default='', null=True, verbose_name='Documentation URL', blank=True)),
                 ('commit_list', models.TextField(verbose_name='Commit List', blank=True)),
-                ('category', models.ForeignKey(verbose_name='Installation', to='package.Category')),
+                ('category', models.ForeignKey(verbose_name='Installation', to='package.Category', on_delete=django.db.models.deletion.CASCADE)),
                 ('created_by', models.ForeignKey(related_name='creator', on_delete=django.db.models.deletion.SET_NULL, blank=True, to=settings.AUTH_USER_MODEL, null=True)),
                 ('last_modified_by', models.ForeignKey(related_name='modifier', on_delete=django.db.models.deletion.SET_NULL, blank=True, to=settings.AUTH_USER_MODEL, null=True)),
                 ('usage', models.ManyToManyField(to=settings.AUTH_USER_MODEL, blank=True)),
@@ -86,7 +86,7 @@ class Migration(migrations.Migration):
                 ('title', models.CharField(max_length='100', verbose_name='Title')),
                 ('url', models.URLField(verbose_name='URL')),
                 ('active', models.BooleanField(default=True, help_text='Moderators have to approve links before they are provided', verbose_name='Active')),
-                ('package', models.ForeignKey(to='package.Package')),
+                ('package', models.ForeignKey(to='package.Package', on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={
                 'ordering': ['title'],
@@ -106,7 +106,7 @@ class Migration(migrations.Migration):
                 ('upload_time', models.DateTimeField(help_text='When this was uploaded to PyPI', null=True, verbose_name='upload_time', blank=True)),
                 ('development_status', models.IntegerField(default=0, verbose_name='Development Status', choices=[(0, 'Unknown'), (1, 'Development Status :: 1 - Planning'), (2, 'Development Status :: 2 - Pre-Alpha'), (3, 'Development Status :: 3 - Alpha'), (4, 'Development Status :: 4 - Beta'), (5, 'Development Status :: 5 - Production/Stable'), (6, 'Development Status :: 6 - Mature'), (7, 'Development Status :: 7 - Inactive')])),
                 ('supports_python3', models.BooleanField(default=False, verbose_name='Supports Python 3')),
-                ('package', models.ForeignKey(blank=True, to='package.Package', null=True)),
+                ('package', models.ForeignKey(blank=True, to='package.Package', null=True, on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={
                 'ordering': ['-upload_time'],
@@ -117,7 +117,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='commit',
             name='package',
-            field=models.ForeignKey(to='package.Package'),
+            field=models.ForeignKey(to='package.Package', on_delete=django.db.models.deletion.CASCADE),
             preserve_default=True,
         ),
     ]
