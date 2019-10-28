@@ -8,8 +8,7 @@ django-debug-toolbar==2.0
 django-environ==0.4.0
 django-extensions==2.2.3
 # see requirements-to-watch.txt
-# django-floppyforms==1.7.0
--e git://github.com/djangopackages/django-floppyforms.git#egg=django-floppyforms
+django-floppyforms==1.8.0
 django-jsonview==1.1.0
 dj-pagination==2.4.0
 django-reversion==2.0.8
