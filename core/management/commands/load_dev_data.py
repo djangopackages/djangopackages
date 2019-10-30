@@ -1,16 +1,16 @@
 from sys import stdout
+from importlib import import_module
 
 from django.conf import settings
-from django.core.management.base import CommandError, NoArgsCommand
-from django.utils.importlib import import_module
+from django.core.management.base import BaseCommand
 from django.utils.module_loading import module_has_submodule
 
 
-class Command(NoArgsCommand):
-    
+class Command(BaseCommand):
+
     help = "Import development data for local dev"
-    
-    def handle(self, *args, **options): 
+
+    def handle(self, *args, **options):
         print("Commencing dev data import", file=stdout)
 
         for app in settings.INSTALLED_APPS:
