@@ -142,16 +142,6 @@ TEMPLATES[0]['OPTIONS']['loaders'] = [
 
 ########## end templates
 
-########## OPBEAT
-INSTALLED_APPS += ('opbeat.contrib.django',)
-OPBEAT = {
-    'ORGANIZATION_ID': env.str("OPBEAT_ORGANIZATION_ID"),
-    'APP_ID': env.str("OPBEAT_APP_ID"),
-    'SECRET_TOKEN': env.str("OPBEAT_SECRET_TOKEN"),
-}
-MIDDLEWARE = ['opbeat.contrib.django.middleware.OpbeatAPMMiddleware'] + MIDDLEWARE
-########## end OPBEAT
-
 # Static Assets
 # ------------------------
 MEDIA_ROOT = "/data/media"
