@@ -5,8 +5,14 @@ Team
 Project Leads
 =============
 
-* Audrey Roy <audreyr@gmail.com> (@audreyr)
-* Daniel Greenfeld <pydanny@gmail.com> (@pydanny)
+* Jannis Gebauer (@jayfk)
+* Nikita Shupeyko (@webyneter)
+
+Former Project Leads
+====================
+
+* Audrey Roy Greenfeld <aroy@alum.mit.edu> (@audreyr)
+* Daniel Roy Greenfeld <pydanny@gmail.com> (@pydanny)
 
 Core Developer at Server Move 2012
 ==================================
@@ -75,23 +81,31 @@ Direct Contributors
 * Kenneth Reitz
 * @kerridge0
 * Kulbir Singh
+* Leonardo Santagada (@santagada)
 * Marc Tamlyn
 * Marcin Lulek
-* Mike Fiedler
 * Mike Johnson
+* Mike Fiedler
 * Nate Aune
 * Nolan Brubaker
 * PA Parent
 * Preston Holmes
 * Randall Degges
+* Rexhep Berlajolli (@rexhepberlajolli)
+* Shubhendu Saurabh
 * Skot Carruth
 * Stuart Powers
 * Szilveszter Farkas (Repo Man)
 * Taavi Taijala
 * Taylor Mitchell
+* Tony Narlock
 * Tom Brander
-* Yony Narlock
 * Vasja Volin
+* Vaibhav Jain
+
+Indirect Contributors
+=====================
+The Django Software Foundation
 
 Other Contributors
 ==================
