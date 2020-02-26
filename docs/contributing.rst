@@ -15,7 +15,7 @@ Clone your fork locally
 
 If you have git-scm installed, you now clone your git repo using the following command-line argument where <my-github-name> is your account name on GitHub::
 
-    git clone git@github.com:<my-github-name>/opencomparison.git
+    git clone git@github.com:<my-github-name>/djangopackages.git
 
 Installing Django Packages
 --------------------------
@@ -170,8 +170,8 @@ How pull requests are checked, tested, and done
 
 First we pull the code into a local branch::
 
-    git checkout -b <branch-name> <submitter-github-name
-    git pull git://github.com/<submitter-github-name/django-twoscoops-project.git develop
+    git checkout -b <branch-name> <submitter-github-name>
+    git pull git://github.com/<submitter-github-name/djangopackages.git develop
 
 Then we run the tests::
 
