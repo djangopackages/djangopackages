@@ -2,6 +2,10 @@
 Contributing
 ============
 
+First off, we really appreciate that you took the time to read this! That means that you're thinking of making djangopackages.org better in some way. It could certainly use your help.
+
+Here's how to contribute to the development of the code behind djangopackages.org.
+
 Setup
 =====
 
@@ -10,15 +14,15 @@ Fork on GitHub
 
 Before you do anything else, login/signup on GitHub and fork Django Packages from the `GitHub project`_.
 
-Clone your fork locally
+Clone Your Fork Locally
 -----------------------
 
 If you have git-scm installed, you now clone your git repo using the following command-line argument where <my-github-name> is your account name on GitHub::
 
     git clone git@github.com:<my-github-name>/djangopackages.git
 
-Installing Django Packages
---------------------------
+Install Django Packages Locally
+-------------------------------
 
 Follow our detailed :doc:`installation` instructions. Please record any difficulties you have and share them with the Django Packages community via our `issue tracker`_.
 
