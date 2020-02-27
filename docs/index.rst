@@ -41,12 +41,14 @@ Contents:
    .. reference
 
 
-Credits
-=======
+The Story
+=========
 
-For Django Dash 2010, @pydanny and @audreyr were scared of rabbits.
+Daniel and Audrey Roy Greenfeld created Django Packages for Django Dash 2010. This project was originally code-named "Scared of Rabbits" because there were tons of rabbits living in the backyard on the Lawrence, Kansas prairie, and we were scared of them. Actually, that's not really true: the rabbits were cute. 
 
-Since then the project has had many contributors_.
+Django Dash 2010 was also where Read the Docs was created. Daniel and Audrey took a break from coding in their fancy and weird glass prairie rental house to meet the Read the Docs team in the basement of the Lawrence Journal-World office. Actually, it might have been the first floor. All Audrey remembers is that it was dark and cold like a basement, but with carpet. Or maybe there wasn't carpet. (Audrey checked the Read the Docs story, but it doesn't have details on that.)
+
+Since then the project has had many contributors_. Daniel and Audrey have run numerous open-source sprints over the years to work on it. The code has grown organically in fun and unexpected ways.
 
 Indices and tables
 ==================
