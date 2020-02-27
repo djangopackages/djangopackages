@@ -2,30 +2,27 @@
 Installation
 ============
 
-Do everything listed in this section to get your site up and running locally.  If you run into problems, see the Troubleshooting section.
-
-Pre-requisites
-==============
-
-You need to install Docker_ and docker-compose_.
-
-Main instructions
-=================
-
 These instructions install Django Packages on your computer, using Docker.
 
-Git clone the project
----------------------
+If you run into problems, see the Troubleshooting section.
+
+Set Up Docker Tools
+===================
+
+If you don't have them installed yet, install Docker_ and docker-compose_.
+
+Grab a Local Copy of the Project
+--------------------------------
 
 Clone the Django Packages project using git:
 
 .. code-block:: bash
 
-    git clone git@github.com:djangopackages/djangopackages.git
+    git clone git@github.com:<your-github-username>/djangopackages.git
     cd djangopackages
 
-Set up the development environment
-----------------------------------
+Set Up Your Development Environment
+-----------------------------------
 
 In order to run the project, you first need to add a file called ``.env.local``.
 The file holds all the configurable settings and secrets to run properly.
@@ -36,8 +33,8 @@ There's an example file available. To get started, copy the file:
 
     cp .env.local.example .env.local
 
-Build Docker container
-----------------------
+Build the Docker Containers
+---------------------------
 
 Now build the project using docker-compose:
 
@@ -45,8 +42,8 @@ Now build the project using docker-compose:
 
     docker-compose -f dev.yml build
 
-Running the project
--------------------
+Run the Project
+---------------
 
 To start the project, run:
 
@@ -56,8 +53,10 @@ To start the project, run:
 
 Then point your browser to http://localhost:8000 and start hacking!
 
-Give yourself an admin account on the site
-------------------------------------------
+Create a Local Django Superuser
+-------------------------------
+
+Now, you'll give yourself an admin account on the locally-running version of Django Packages
 
 Create a Django superuser for yourself, replacing joe with your username/email:
 
