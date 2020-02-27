@@ -1,18 +1,18 @@
-====
-Team
-====
+============
+Contributors
+============
 
 Project Leads
 =============
 
+* Audrey Roy Greenfeld (@audreyr)
+* Daniel Roy Greenfeld (@pydanny)
+
+Past Project Leads
+==================
+
 * Jannis Gebauer (@jayfk)
 * Nikita Shupeyko (@webyneter)
-
-Former Project Leads
-====================
-
-* Audrey Roy Greenfeld <aroy@alum.mit.edu> (@audreyr)
-* Daniel Roy Greenfeld <pydanny@gmail.com> (@pydanny)
 
 Core Developer at Server Move 2012
 ==================================
