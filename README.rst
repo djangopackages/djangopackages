@@ -87,7 +87,7 @@ Credits
 
 For Django Dash 2010, `@pydanny`_ and `@audreyr`_ created `Django Packages`_.
 
-They are joined by a host of core developers and contributors.  See https://opencomparison.readthedocs.io/en/latest/contributors.html
+They are joined by a host of core developers and contributors.  See https://djangopackages.readthedocs.io/en/latest/contributors.html
 
 .. _`@pydanny`: https://github.com/pydanny/
 .. _`@audreyr`: https://github.com/audreyr/
