@@ -16,7 +16,7 @@ What if my target repo doesn't support all the necessary fields?
 
 Lets say you want to use *GitBlarg*, a new service whose API doesn't provide the number of repo_watchers or participants. In order to handle them you would just set those values until such a time as *GitBlarg* would support the right data.
 
-For example, as you can see in the `apps.models.repos.base_handler.BaseHandler.fetch_metadata()` method, the Package instance that it expects to see is a comma-seperated value::
+For example, as you can see in the `apps.models.repos.base_handler.BaseHandler.fetch_metadata()` method, the Package instance that it expects to see is a comma-separated value::
 
     def fetch_metadata(self, package):
         """ Accepts a package.models.Package instance:
@@ -28,7 +28,7 @@ For example, as you can see in the `apps.models.repos.base_handler.BaseHandler.f
                 package.repo_watchers (int)
                 package.repo_forks (int)
                 package.repo_description (text )
-                package.participants = (comma-seperated value)
+                package.participants = (comma-separated value)
 
         """
         raise NotImplemented()

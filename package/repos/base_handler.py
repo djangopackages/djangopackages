@@ -40,7 +40,7 @@ class BaseHandler(object):
                 package.repo_watchers (int)
                 package.repo_forks (int)
                 package.repo_description (text )
-                package.participants = (comma-seperated value)
+                package.participants = (comma-separated value)
 
         """
         return NotImplemented
