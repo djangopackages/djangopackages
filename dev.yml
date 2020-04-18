@@ -15,6 +15,7 @@ services:
       - redis
     environment:
       - POSTGRES_USER=djangopackages
+      - POSTGRES_PASSWORD=djangopackages
     volumes:
       - .:/app
     ports:
@@ -29,6 +30,7 @@ services:
       - postgres_backup_dev:/backups
     environment:
       - POSTGRES_USER=djangopackages
+      - POSTGRES_PASSWORD=djangopackages
 
   redis:
     build: ./compose/redis
