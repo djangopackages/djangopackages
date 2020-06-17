@@ -1,12 +1,15 @@
 from datetime import datetime, timedelta
 import json
 import re
+import math
+from dateutil import relativedelta
 
 from django.core.cache import cache
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from django.urls import reverse
@@ -67,6 +70,7 @@ class Package(BaseModel):
     documentation_url = models.URLField(_("Documentation URL"), blank=True, null=True, default="")
 
     commit_list = models.TextField(_("Commit List"), blank=True)
+    ranking = models.IntegerField(_("Rank"), default=0)
 
     @property
     def pypi_name(self):
@@ -228,10 +232,21 @@ class Package(BaseModel):
         for grid in self.grids():
             grid.clear_detail_template_cache()
 
+    def calculate_rank(self):
+        delta = relativedelta.relativedelta(now(), self.last_updated())
+        delta_months = (delta.years * 12) + delta.months
+        last_updated_penalty = math.modf(delta_months / 3)[1] * self.repo_watchers / 10
+        last_version = self.version_set.last()
+        is_python_3 = last_version and last_version.supports_python3
+        python_3_penalty = 0 if is_python_3 else (self.repo_watchers * 30 / 100)
+        # penalty for docs maybe
+        return self.repo_watchers - last_updated_penalty - python_3_penalty
+
     def save(self, *args, **kwargs):
         if not self.repo_description:
             self.repo_description = ""
         self.grid_clear_detail_template_cache()
+        self.ranking = self.calculate_rank()
         super(Package, self).save(*args, **kwargs)
 
     def fetch_commits(self):
