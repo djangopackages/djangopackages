@@ -8,6 +8,8 @@
 {% block extra_head %}
   <meta name="description" content="{{ package.repo_description }}" />
   <meta name="keywords" content="{{ package.grid_set.all|join:',' }}" />
+
+  {% include 'includes/_ethicalads-js.html' %}
   {{ block.super }}
 {% endblock %}
 
@@ -170,6 +172,8 @@
         </div> <!-- end six column section -->
         <div class="">
             <div class="col-md-4 sidebar">
+
+                {% include 'includes/_ethicalads-tag.html' %}
 
                 <h3>{% trans "Documentation" %}</h3>
                 <div class="pull-right">
