@@ -1,6 +1,6 @@
 certifi==2017.4.17
 chardet==3.0.2
-coverage==4.3.4
+coverage==5.5
 Django==2.2.22
 django-braces==1.9.0
 django-crispy-forms==1.8.0
