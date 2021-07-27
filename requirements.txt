@@ -30,7 +30,7 @@ social-auth-app-django==2.1.0
 requests==2.22.0
 shortuuid==0.4.3
 six==1.10.0
-
+python-gitlab==2.9.0
 # Redis support
 django-redis==4.6.0
 redis==2.10.6

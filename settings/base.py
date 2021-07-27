@@ -233,7 +233,7 @@ SITE_TITLE = "Django Packages"
 if LOCAL_INSTALLED_APPS:
     INSTALLED_APPS.extend(LOCAL_INSTALLED_APPS)
 
-SUPPORTED_REPO.extend(["bitbucket", "github"])
+SUPPORTED_REPO.extend(["bitbucket", "github", "gitlab"])
 
 
 AUTHENTICATION_BACKENDS = (
@@ -409,6 +409,8 @@ License :: Repoze Public License""".splitlines()
 GITHUB_API_SECRET = environ.get('GITHUB_API_SECRET')
 GITHUB_APP_ID = environ.get('GITHUB_APP_ID')
 GITHUB_TOKEN = environ.get('GITHUB_TOKEN')
+
+GITLAB_TOKEN = environ.get('GITLAB_TOKEN')
 
 ########### SEKURITY
 ALLOWED_HOSTS = ["*"]
