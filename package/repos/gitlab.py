@@ -20,7 +20,7 @@ class GitlabHandler(BaseHandler):
         else:
             self.gitlab = Gitlab(self.url)
 
-    def _get_repo(self, repo_url: str):
+    def _get_repo(self, repo_url):
         path = repo_url.replace(f"{self.url}/", "")
         return self.gitlab.projects.get(path)
 
@@ -46,7 +46,9 @@ class GitlabHandler(BaseHandler):
         for commit in repo.commits.list(as_list=False):
             try:
                 commit_record, created = Commit.objects.get_or_create(
-                    package=package, commit_date=commit.committed_date
+                    package=package,
+                    commit_date=commit.committed_date,
+                    commit_hash=commit.id,
                 )
                 if not created:
                     break
