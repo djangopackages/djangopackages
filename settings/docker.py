@@ -3,6 +3,9 @@
 """
 
 import logging
+import sentry_sdk
+
+from sentry_sdk.integrations.django import DjangoIntegration
 
 from .base import *
 
@@ -50,10 +53,23 @@ RAVEN_MIDDLEWARE = [
     "raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware"
 ]
 MIDDLEWARE = RAVEN_MIDDLEWARE + MIDDLEWARE
-SENTRY_DSN = env("DJANGO_SENTRY_DSN")
-SENTRY_CLIENT = env(
-    "DJANGO_SENTRY_CLIENT", default="raven.contrib.django.raven_compat.DjangoClient"
-)
+SENTRY_DSN = env("DJANGO_SENTRY_DSN", default=None)
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=DJANGO_SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+
+        # Set traces_sample_rate to 1.0 to capture 100%
+        # of transactions for performance monitoring.
+        # We recommend adjusting this value in production.
+        traces_sample_rate=1.0,
+
+        # If you wish to associate users to errors (assuming you are using
+        # django.contrib.auth) you may enable sending PII data.
+        send_default_pii=True
+    )
+
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": True,
