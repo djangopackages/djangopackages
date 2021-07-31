@@ -201,7 +201,7 @@ except Exception:
     EMAIL_HOST = "localhost"
     EMAIL_PORT = 1025
 
-EMAIL_SUBJECT_PREFIX = "[Cartwheel Web]"
+EMAIL_SUBJECT_PREFIX = "[Django Packages]"
 
 DEBUG_TOOLBAR_CONFIG = {
     "INTERCEPT_REDIRECTS": False,
