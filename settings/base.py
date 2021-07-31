@@ -5,9 +5,9 @@ import os.path
 from os import environ
 import environ as envmax
 
-env = envmax.Env()
-
 from django.template.defaultfilters import slugify
+
+env = envmax.Env()
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
@@ -21,7 +21,7 @@ INTERNAL_IPS = [
 ]
 
 ADMINS = [
-    ("Daniel Greenfeld", "pydanny@gmail.com"),
+    ("Django Packages", "info@djangopackages.org"),
 ]
 
 MANAGERS = ADMINS
@@ -66,54 +66,54 @@ STATICFILES_DIRS = [
 ]
 
 # Use the default admin media prefix, which is...
-#ADMIN_MEDIA_PREFIX = "/static/admin/"
+# ADMIN_MEDIA_PREFIX = "/static/admin/"
 
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'dj_pagination.middleware.PaginationMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "dj_pagination.middleware.PaginationMiddleware",
 ]
 
 TEMPLATES = [
     {
         # See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-TEMPLATES-BACKEND
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
         # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
-        'DIRS': [
+        "DIRS": [
             os.path.join(PROJECT_ROOT, "templates"),
         ],
-        'OPTIONS': {
+        "OPTIONS": {
             # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
-            'debug': DEBUG,
+            "debug": DEBUG,
             # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
             # https://docs.djangoproject.com/en/dev/ref/templates/api/#loader-types
-            'loaders': [
-                'django.template.loaders.filesystem.Loader',
-                'django.template.loaders.app_directories.Loader',
+            "loaders": [
+                "django.template.loaders.filesystem.Loader",
+                "django.template.loaders.app_directories.Loader",
             ],
             # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.template.context_processors.i18n',
-                'django.template.context_processors.media',
-                'django.template.context_processors.static',
-                'django.template.context_processors.tz',
-                'django.contrib.messages.context_processors.messages',
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.template.context_processors.i18n",
+                "django.template.context_processors.media",
+                "django.template.context_processors.static",
+                "django.template.context_processors.tz",
+                "django.contrib.messages.context_processors.messages",
                 # Your stuff: custom template context processors go here
                 "package.context_processors.used_packages_list",
                 "grid.context_processors.grid_headers",
                 "core.context_processors.current_path",
                 "profiles.context_processors.lazy_profile",
-                'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect',
+                "social_django.context_processors.backends",
+                "social_django.context_processors.login_redirect",
                 "core.context_processors.core_values",
             ],
         },
@@ -121,18 +121,18 @@ TEMPLATES = [
 ]
 
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
+    "django.contrib.auth.backends.ModelBackend",
 ]
 
 PROJECT_APPS = [
     "grid",
-    'core',
+    "core",
     "homepage",
     "package",
     "profiles",
     "feeds",
     "searchv2",
-    "apiv3"
+    "apiv3",
 ]
 
 PREREQ_APPS = [
@@ -145,19 +145,16 @@ PREREQ_APPS = [
     "django.contrib.messages",
     "django.contrib.humanize",
     "django.contrib.staticfiles",
-
     # external
     "crispy_forms",
     "dj_pagination",
     "django_extensions",
     "reversion",
     "webstack_django_sorting",
-    #"django_modeler",
-
-    'social_django',
-    'floppyforms',
-    'rest_framework',
-
+    # "django_modeler",
+    "social_django",
+    "floppyforms",
+    "rest_framework",
 ]
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
@@ -185,23 +182,26 @@ SECRET_KEY = "CHANGEME"
 
 URCHIN_ID = ""
 
-DEFAULT_FROM_EMAIL = 'Django Packages <djangopackages-noreply@djangopackages.org>'
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_SUBJECT_PREFIX = '[Django Packages] '
+DEFAULT_FROM_EMAIL = "Django Packages <djangopackages-noreply@djangopackages.org>"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_SUBJECT_PREFIX = "[Django Packages] "
+SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
+SERVER_EMAIL = "info@djangopackages.org"
+
 try:
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_HOST = 'smtp.sendgrid.net'
-    EMAIL_HOST_PASSWORD = os.environ['SENDGRID_PASSWORD']
-    EMAIL_HOST_USER = os.environ['SENDGRID_USERNAME']
-    EMAIL_PORT = 587
-    SERVER_EMAIL = 'info@cartwheelweb.com'
-    EMAIL_USE_TLS = True
     DEBUG = False
-except Exception as e:
-    EMAIL_HOST = 'localhost'
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    EMAIL_HOST = "smtp.sendgrid.net"
+    EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+    EMAIL_HOST_USER = "apikey"
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    EMAIL_USE_TLS = True
+except Exception:
+    EMAIL_HOST = "localhost"
     EMAIL_PORT = 1025
 
-EMAIL_SUBJECT_PREFIX = '[Cartwheel Web]'
+EMAIL_SUBJECT_PREFIX = "[Django Packages]"
 
 DEBUG_TOOLBAR_CONFIG = {
     "INTERCEPT_REDIRECTS": False,
@@ -237,49 +237,46 @@ SUPPORTED_REPO.extend(["bitbucket", "github"])
 
 
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.github.GithubOAuth2',
-    'django.contrib.auth.backends.ModelBackend',
+    "social_core.backends.github.GithubOAuth2",
+    "django.contrib.auth.backends.ModelBackend",
 )
-GITHUB_API_SECRET = environ.get('GITHUB_API_SECRET')
-GITHUB_APP_ID = environ.get('GITHUB_APP_ID')
-GITHUB_USERNAME = environ.get('GITHUB_USERNAME')
+GITHUB_API_SECRET = environ.get("GITHUB_API_SECRET")
+GITHUB_APP_ID = environ.get("GITHUB_APP_ID")
+GITHUB_USERNAME = environ.get("GITHUB_USERNAME")
 SOCIAL_AUTH_GITHUB_KEY = GITHUB_APP_ID
 SOCIAL_AUTH_GITHUB_SECRET = GITHUB_API_SECRET
-SOCIAL_AUTH_ENABLED_BACKENDS = ('github', )
-SOCIAL_AUTH_COMPLETE_URL_NAME = 'socialauth_complete'
-SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'associate_complete'
+SOCIAL_AUTH_ENABLED_BACKENDS = ("github",)
+SOCIAL_AUTH_COMPLETE_URL_NAME = "socialauth_complete"
+SOCIAL_AUTH_ASSOCIATE_URL_NAME = "associate_complete"
 SOCIAL_AUTH_DEFAULT_USERNAME = lambda u: slugify(u)
 SOCIAL_AUTH_GITHUB_EXTRA_DATA = []
 SOCIAL_AUTH_CHANGE_SIGNAL_ONLY = True
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = False
-SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
-LOGIN_REDIRECT_URL = '/'
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ["username", "first_name", "email"]
+LOGIN_REDIRECT_URL = "/"
 
 # associate user via email
-#SOCIAL_AUTH_ASSOCIATE_BY_MAIL = True
+# SOCIAL_AUTH_ASSOCIATE_BY_MAIL = True
 
-DATABASES = {
-
-    "default": env.db("DATABASE_URL")
-}
+DATABASES = {"default": env.db("DATABASE_URL")}
 
 
-WSGI_APPLICATION = 'wsgi.application'
+WSGI_APPLICATION = "wsgi.application"
 
 if DEBUG:
 
-    MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
-    INSTALLED_APPS += ('debug_toolbar',)
+    MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
+    INSTALLED_APPS += ("debug_toolbar",)
 
-    INTERNAL_IPS = ('127.0.0.1',)
+    INTERNAL_IPS = ("127.0.0.1",)
 
     DEBUG_TOOLBAR_CONFIG = {
-        'INTERCEPT_REDIRECTS': False,
-        'SHOW_TEMPLATE_CONTEXT': True,
+        "INTERCEPT_REDIRECTS": False,
+        "SHOW_TEMPLATE_CONTEXT": True,
     }
     x = 1
 
-ADMIN_URL_BASE = environ.get('ADMIN_URL_BASE', r"^admin/")
+ADMIN_URL_BASE = environ.get("ADMIN_URL_BASE", r"^admin/")
 
 # LOGGING = {
 #     'version': 1,
@@ -322,7 +319,7 @@ ADMIN_URL_BASE = environ.get('ADMIN_URL_BASE', r"^admin/")
 # }
 
 
-URL_REGEX_GITHUB = r'(?:http|https|git)://github.com/[^/]*/([^/]*)/{0,1}'
+URL_REGEX_GITHUB = r"(?:http|https|git)://github.com/[^/]*/([^/]*)/{0,1}"
 
 ########### redis setup
 
@@ -406,14 +403,14 @@ License :: Repoze Public License""".splitlines()
 
 
 ########## GITHUB
-GITHUB_API_SECRET = environ.get('GITHUB_API_SECRET')
-GITHUB_APP_ID = environ.get('GITHUB_APP_ID')
-GITHUB_TOKEN = environ.get('GITHUB_TOKEN')
+GITHUB_API_SECRET = environ.get("GITHUB_API_SECRET")
+GITHUB_APP_ID = environ.get("GITHUB_APP_ID")
+GITHUB_TOKEN = environ.get("GITHUB_TOKEN")
 
 ########### SEKURITY
 ALLOWED_HOSTS = ["*"]
 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 20
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 20,
 }
