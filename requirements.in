@@ -1,0 +1,39 @@
+# certifi==2017.4.17
+# chardet==3.0.2
+coverage
+Django<3.0
+django-braces
+django-crispy-forms
+django-debug-toolbar
+django-environ
+django-extensions
+# see requirements-to-watch.txt
+django-floppyforms
+django-jsonview
+dj-pagination
+django-reversion
+django-secure
+webstack-django-sorting
+django-storages
+djangorestframework<3.13
+feedparser
+github3.py
+uwsgi
+httplib2
+logutils
+mimeparse
+oauth2
+psycopg2-binary
+python-dateutil
+social-auth-core
+social-auth-app-django
+requests
+shortuuid
+six
+
+# Redis support
+django-redis
+redis
+newrelic
+raven
+django-anymail
