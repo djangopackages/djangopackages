@@ -33,7 +33,6 @@ webstack-django-sorting<2
 # Redis support
 django-redis
 redis
-newrelic
 raven
 django-anymail
 
