@@ -4,6 +4,8 @@
 #
 #    pip-compile --output-file=./requirements.txt ./requirements.in
 #
+attrs==21.2.0
+    # via pytest
 certifi==2021.5.30
     # via requests
 cffi==1.14.6
@@ -11,7 +13,7 @@ cffi==1.14.6
 charset-normalizer==2.0.4
     # via requests
 coverage==5.5
-    # via -r ./requirements.in
+    # via pytest-cov
 cryptography==3.4.7
     # via
     #   jwcrypto
@@ -73,6 +75,12 @@ httplib2==0.19.1
     #   oauth2
 idna==3.2
     # via requests
+importlib-metadata==4.6.2
+    # via
+    #   pluggy
+    #   pytest
+iniconfig==1.1.1
+    # via pytest
 jwcrypto==0.9.1
     # via github3.py
 logutils==0.3.5
@@ -87,14 +95,31 @@ oauthlib==3.1.1
     # via
     #   requests-oauthlib
     #   social-auth-core
+packaging==21.0
+    # via pytest
+pluggy==0.13.1
+    # via pytest
 psycopg2-binary==2.9.1
     # via -r ./requirements.in
+py==1.10.0
+    # via pytest
 pycparser==2.20
     # via cffi
 pyjwt==2.1.0
     # via social-auth-core
 pyparsing==2.4.7
-    # via httplib2
+    # via
+    #   httplib2
+    #   packaging
+pytest-cov==2.12.1
+    # via -r ./requirements.in
+pytest-django==4.4.0
+    # via -r ./requirements.in
+pytest==6.2.4
+    # via
+    #   -r ./requirements.in
+    #   pytest-cov
+    #   pytest-django
 python-dateutil==2.8.2
     # via
     #   -r ./requirements.in
@@ -139,6 +164,12 @@ sqlparse==0.4.1
     # via
     #   django
     #   django-debug-toolbar
+toml==0.10.2
+    # via
+    #   pytest
+    #   pytest-cov
+typing-extensions==3.10.0.0
+    # via importlib-metadata
 uritemplate==3.0.1
     # via github3.py
 urllib3==1.26.6
@@ -149,3 +180,5 @@ webstack-django-sorting==1.0.2
     # via -r ./requirements.in
 wrapt==1.12.1
     # via deprecated
+zipp==3.5.0
+    # via importlib-metadata
