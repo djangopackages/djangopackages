@@ -5,9 +5,9 @@ import os.path
 from os import environ
 import environ as envmax
 
-env = envmax.Env()
-
 from django.template.defaultfilters import slugify
+
+env = envmax.Env()
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
@@ -21,7 +21,7 @@ INTERNAL_IPS = [
 ]
 
 ADMINS = [
-    ("Daniel Greenfeld", "pydanny@gmail.com"),
+    ("Django Packages", "info@djangopackages.org"),
 ]
 
 MANAGERS = ADMINS
