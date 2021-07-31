@@ -13,7 +13,7 @@ django-jsonview
 dj-pagination
 django-reversion
 django-secure
-webstack-django-sorting
+webstack-django-sorting<2
 django-storages
 djangorestframework<3.13
 feedparser
