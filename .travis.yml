@@ -1,7 +1,0 @@
-sudo: required
-services:
-  - docker
-before_install:
-  - touch .env.local
-script:
-  - docker-compose -f dev.yml run django python manage.py test
