@@ -173,7 +173,9 @@
         <div class="">
             <div class="col-md-4 sidebar">
 
-                {% include 'includes/_ethicalads-tag.html' %}
+                {% with ea_id="package-detail" %}
+                    {% include 'includes/_ethicalads-tag.html' %}
+                {% endwith %}
 
                 <h3>{% trans "Documentation" %}</h3>
                 <div class="pull-right">
