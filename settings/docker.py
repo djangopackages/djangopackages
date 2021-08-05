@@ -48,11 +48,6 @@ RESTRICT_PACKAGE_EDITORS = False
 RESTRICT_GRID_EDITORS = False
 
 # Sentry Configuration
-INSTALLED_APPS += ("raven.contrib.django.raven_compat",)
-RAVEN_MIDDLEWARE = [
-    "raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware"
-]
-MIDDLEWARE = RAVEN_MIDDLEWARE + MIDDLEWARE
 SENTRY_DSN = env("DJANGO_SENTRY_DSN", default=None)
 if SENTRY_DSN:
     sentry_sdk.init(
@@ -69,13 +64,12 @@ if SENTRY_DSN:
         send_default_pii=True
     )
 
-
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": True,
     "root": {
         "level": "WARNING",
-        "handlers": ["sentry"],
+        # "handlers": ["sentry"],
     },
     "formatters": {
         "verbose": {
@@ -84,10 +78,10 @@ LOGGING = {
         },
     },
     "handlers": {
-        "sentry": {
-            "level": "ERROR",
-            "class": "raven.contrib.django.raven_compat.handlers.SentryHandler",
-        },
+        # "sentry": {
+        #     "level": "ERROR",
+        #     "class": "raven.contrib.django.raven_compat.handlers.SentryHandler",
+        # },
         "console": {
             "level": "DEBUG",
             "class": "logging.StreamHandler",
@@ -100,27 +94,22 @@ LOGGING = {
             "handlers": ["console"],
             "propagate": False,
         },
-        "raven": {
-            "level": "DEBUG",
-            "handlers": ["console"],
-            "propagate": False,
-        },
-        "sentry.errors": {
-            "level": "DEBUG",
-            "handlers": ["console"],
-            "propagate": False,
-        },
-        "django.security.DisallowedHost": {
-            "level": "ERROR",
-            "handlers": ["console", "sentry"],
-            "propagate": False,
-        },
+        # "raven": {
+        #     "level": "DEBUG",
+        #     "handlers": ["console"],
+        #     "propagate": False,
+        # },
+        # "sentry.errors": {
+        #     "level": "DEBUG",
+        #     "handlers": ["console"],
+        #     "propagate": False,
+        # },
+        # "django.security.DisallowedHost": {
+        #     "level": "ERROR",
+        #     "handlers": ["console", "sentry"],
+        #     "propagate": False,
+        # },
     },
-}
-SENTRY_CELERY_LOGLEVEL = env.int("DJANGO_SENTRY_LOG_LEVEL", logging.INFO)
-RAVEN_CONFIG = {
-    "CELERY_LOGLEVEL": env.int("DJANGO_SENTRY_LOG_LEVEL", logging.INFO),
-    "DSN": SENTRY_DSN,
 }
 
 
