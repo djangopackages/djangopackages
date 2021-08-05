@@ -56,7 +56,7 @@ MIDDLEWARE = RAVEN_MIDDLEWARE + MIDDLEWARE
 SENTRY_DSN = env("DJANGO_SENTRY_DSN", default=None)
 if SENTRY_DSN:
     sentry_sdk.init(
-        dsn=DJANGO_SENTRY_DSN,
+        dsn=SENTRY_DSN,
         integrations=[DjangoIntegration()],
 
         # Set traces_sample_rate to 1.0 to capture 100%

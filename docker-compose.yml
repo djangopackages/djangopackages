@@ -1,4 +1,4 @@
-version: '3.6'
+version: '3.2'
 
 volumes:
   static: {}
@@ -24,7 +24,7 @@ services:
       options:
         max-size: "400m"
         max-file: "5"
-        compress: "true"
+        # compress: "true"
 
   django-b:
     build:
@@ -44,7 +44,7 @@ services:
       options:
         max-size: "400m"
         max-file: "5"
-        compress: "true"
+        # compress: "true"
 
   postgres:
     build: ./compose/postgres
@@ -57,7 +57,7 @@ services:
       options:
         max-size: "600m"
         max-file: "5"
-        compress: "true"
+        # compress: "true"
 
   caddy:
     build: ./compose/caddy
@@ -77,7 +77,7 @@ services:
       options:
         max-size: "600m"
         max-file: "5"
-        compress: "true"
+        # compress: "true"
 
   redis:
     build: ./compose/redis
@@ -86,4 +86,4 @@ services:
       options:
         max-size: "100m"
         max-file: "5"
-        compress: "true"
+        # compress: "true"
