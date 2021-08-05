@@ -45,7 +45,7 @@ class GitHubHandler(BaseHandler):
             return package
 
         package.repo_watchers = repo.watchers
-        package.repo_forks = repo.forks
+        package.repo_forks = repo.forks_count
         package.repo_description = repo.description
 
         contributors = []
