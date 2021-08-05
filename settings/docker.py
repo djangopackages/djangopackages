@@ -10,6 +10,8 @@ from sentry_sdk.integrations.django import DjangoIntegration
 from .base import *
 
 
+DEBUG = env.bool("DJANGO_DEBUG", False)
+
 ########## CACHE
 CACHES = {
     "default": {

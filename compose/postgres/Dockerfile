@@ -1,5 +1,4 @@
-# FROM postgres:9.5
-FROM postgres:9.4  # production uses 9.4
+FROM postgres:9.4
 
 # add backup scripts
 ADD backup.sh /usr/local/bin/backup
