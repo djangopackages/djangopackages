@@ -16,7 +16,8 @@ django-secure
 django-storages
 djangorestframework<3.13
 feedparser
-github3.py
+# github3.py
+github3.py<1.0
 httplib2
 logutils
 mimeparse
