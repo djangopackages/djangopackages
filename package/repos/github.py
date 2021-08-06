@@ -44,11 +44,15 @@ class GitHubHandler(BaseHandler):
         if repo is None:
             return package
 
+        # package.repo_watchers = repo.watchers_count
         package.repo_watchers = repo.watchers
+        # package.repo_forks = repo.forks_count
         package.repo_forks = repo.forks
         package.repo_description = repo.description
+        # repo.stargazers_count
 
         contributors = []
+        # for contributor in repo.contributors():
         for contributor in repo.iter_contributors():
             contributors.append(contributor.login)
             self.manage_ratelimit()
@@ -67,6 +71,7 @@ class GitHubHandler(BaseHandler):
 
         from package.models import Commit  # Added here to avoid circular imports
 
+        # for commit in repo.commits():
         for commit in repo.iter_commits():
             self.manage_ratelimit()
             try:

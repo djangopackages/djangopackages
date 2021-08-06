@@ -1,21 +1,24 @@
 # certifi==2017.4.17
 # chardet==3.0.2
 Django<3.0
+# see requirements-to-watch.txt
+# github3.py
+dj-pagination
+django-anymail
 django-braces
 django-crispy-forms
 django-debug-toolbar
 django-environ
 django-extensions
-# see requirements-to-watch.txt
-dj-pagination
 django-floppyforms
 django-jsonview
 django-reversion
 django-secure
 django-storages
+django-waffle
 djangorestframework<3.13
 feedparser
-github3.py
+github3.py<1.0
 httplib2
 logutils
 mimeparse
@@ -23,6 +26,7 @@ oauth2
 psycopg2-binary
 python-dateutil
 requests
+sentry-sdk
 shortuuid
 six
 social-auth-app-django
@@ -34,9 +38,6 @@ python-gitlab
 # Redis support
 django-redis
 redis
-newrelic
-raven
-django-anymail
 
 # testing
 pytest
