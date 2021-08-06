@@ -33,6 +33,7 @@ social-auth-app-django
 social-auth-core
 uwsgi
 webstack-django-sorting<2
+python-gitlab
 
 # Redis support
 django-redis

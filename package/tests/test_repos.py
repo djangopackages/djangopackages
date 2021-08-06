@@ -233,6 +233,16 @@ class TestGithubRepo(TestBaseHandler):
     #     self.assertEqual(self.package.repo_watchers, 0)
     #     self.package.fetch_commits()
 
+class TestGitlabRepo(TestBaseHandler):
+    def setUp(self):
+        super(TestGitlabRepo, self).setUp()
+        self.package = Package.objects.create(
+            title="Django",
+            slug="django",
+            repo_url="https://gitlab.com/delta10/kees",
+            category=self.category
+        )
+
 
 class TestRepos(BaseBase):
     def test_repo_registry(self):
