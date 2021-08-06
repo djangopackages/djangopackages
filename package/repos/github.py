@@ -44,10 +44,12 @@ class GitHubHandler(BaseHandler):
         if repo is None:
             return package
 
+        # package.repo_watchers = repo.watchers_count
         package.repo_watchers = repo.watchers
         # package.repo_forks = repo.forks_count
         package.repo_forks = repo.forks
         package.repo_description = repo.description
+        # repo.stargazers_count
 
         contributors = []
         # for contributor in repo.contributors():
