@@ -45,11 +45,13 @@ class GitHubHandler(BaseHandler):
             return package
 
         package.repo_watchers = repo.watchers
-        package.repo_forks = repo.forks_count
+        # package.repo_forks = repo.forks_count
+        package.repo_forks = repo.forks
         package.repo_description = repo.description
 
         contributors = []
-        for contributor in repo.contributors():
+        # for contributor in repo.contributors():
+        for contributor in repo.iter_contributors():
             contributors.append(contributor.login)
             self.manage_ratelimit()
 
@@ -67,7 +69,8 @@ class GitHubHandler(BaseHandler):
 
         from package.models import Commit  # Added here to avoid circular imports
 
-        for commit in repo.commits():
+        # for commit in repo.commits():
+        for commit in repo.iter_commits():
             self.manage_ratelimit()
             try:
                 commit_record, created = Commit.objects.get_or_create(
