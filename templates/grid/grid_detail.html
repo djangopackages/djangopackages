@@ -11,6 +11,8 @@
     {{ block.super }}
     <meta name="description" content="{{ grid.description }}" />
     <meta name="keywords" content="{{ grid.packages.all|join:',' }}" />
+
+    {% include 'includes/_ethicalads-js.html' %}
 {% endblock %}
 
 {% block body %}
@@ -48,6 +50,10 @@
     {% if request.user.is_authenticated and profile.can_edit_grid_element and features %}
         <p><span class="glyphicon glyphicon-info-sign"></span> {% trans "Highlighted cells are editable.  Click highlighted cells to change text." %}</p>
     {% endif %}
+
+    {% with ea_id="grid-detail" ea_type="text" %}
+        {% include 'includes/_ethicalads-tag.html' %}
+    {% endwith %}
   </div>
   {% if features %}
       <div class="col-lg-9">
