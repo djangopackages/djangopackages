@@ -11,11 +11,23 @@ from grid.models import Grid
 from package.models import Package, Category
 from searchv2.models import SearchV2
 
+
 class GridSerializer(serializers.ModelSerializer):
     packages = serializers.HyperlinkedRelatedField(many=True, view_name='apiv4:package-detail', read_only=True)
 
     class Meta:
+        fields = [
+            "title",
+            "slug",
+            "description",
+            "is_locked",
+            "packages",
+            "header",
+            "created",
+            "modified",
+        ]
         model = Grid
+
 
 class PackageSerializer(serializers.HyperlinkedModelSerializer):
     # 'Source' is attached to the model attribute
@@ -124,4 +136,13 @@ class SearchV2Serializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
+        fields = [
+            "title",
+            "slug",
+            "description",
+            "title_plural",
+            "show_pypi",
+            "created",
+            "modified",
+        ]
         model = Category
