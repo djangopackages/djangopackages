@@ -2,6 +2,7 @@
 # chardet==3.0.2
 Django<3.0
 # see requirements-to-watch.txt
+# github3.py
 dj-pagination
 django-anymail
 django-braces
@@ -14,9 +15,9 @@ django-jsonview
 django-reversion
 django-secure
 django-storages
+django-waffle
 djangorestframework<3.13
 feedparser
-# github3.py
 github3.py<1.0
 httplib2
 logutils
