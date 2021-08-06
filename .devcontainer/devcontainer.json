@@ -1,0 +1,33 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.187.0/containers/python-3
+{
+    "name": "Existing Docker Compose (Extend)",
+    "dockerComposeFile": [
+        "../dev.yml",
+        "docker-compose.yml"
+    ],
+    // Add the IDs of extensions you want installed when the container is created.
+    "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "eamodio.gitlens",
+        "redhat.vscode-yaml",
+        "ms-azuretools.vscode-docker",
+        "editorconfig.editorconfig",
+        "github.copilot",
+        "skellock.just"
+    ],
+    // "runServices": ["django"],
+    "service": "django",
+    "settings": {
+        "terminal.integrated.shell.linux": null
+    },
+    // "workspaceMount": "source=${localWorkspaceFolder}/myRepo,target=/workspaces,type=bind,consistency=delegated",
+    "workspaceFolder": "/workspace/",
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    // "forwardPorts": [],
+    // Use 'postCreateCommand' to run commands after the container is created.
+    // "postCreateCommand": "pip3 install --user -r requirements.txt",
+    // Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+    // "remoteUser": "vscode"
+}
