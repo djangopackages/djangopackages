@@ -78,6 +78,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "dj_pagination.middleware.PaginationMiddleware",
+    "waffle.middleware.WaffleMiddleware",
 ]
 
 TEMPLATES = [
@@ -149,12 +150,12 @@ PREREQ_APPS = [
     "crispy_forms",
     "dj_pagination",
     "django_extensions",
-    "reversion",
-    "webstack_django_sorting",
-    # "django_modeler",
-    "social_django",
     "floppyforms",
     "rest_framework",
+    "reversion",
+    "social_django",
+    "waffle",
+    "webstack_django_sorting",
 ]
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
