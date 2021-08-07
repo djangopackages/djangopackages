@@ -7,7 +7,6 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from django.urls import reverse
 
@@ -19,6 +18,7 @@ from core.models import BaseModel
 from package.repos import get_repo_for_repo_url
 from package.signals import signal_fetch_latest_metadata
 from package.utils import get_version, get_pypi_version, normalize_license
+from django.utils.translation import gettext_lazy as _
 
 repo_url_help_text = settings.PACKAGINATOR_HELP_TEXT['REPO_URL']
 pypi_url_help_text = settings.PACKAGINATOR_HELP_TEXT['PYPI_URL']
