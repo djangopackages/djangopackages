@@ -38,6 +38,7 @@ urlpatterns = [
     url(r"^about/$", TemplateView.as_view(template_name='pages/faq.html'), name="about"),
     url(r"^terms/$", TemplateView.as_view(template_name='pages/terms.html'), name="terms"),
     url(r"^faq/$", TemplateView.as_view(template_name='pages/faq.html'), name="faq"),
+    url(r"^funding/$", TemplateView.as_view(template_name='pages/funding.html'), name="funding"),
     url(r"^syndication/$", TemplateView.as_view(template_name='pages/syndication.html'), name="syndication"),
     url(r"^help/$", TemplateView.as_view(template_name='pages/help.html'), name="help"),
     url(r"^sitemap\.xml$", SitemapView.as_view(), name="sitemap"),
