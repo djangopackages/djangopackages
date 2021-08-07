@@ -36,15 +36,15 @@ class GridTest(TestCase):
             self.assertEqual(
                 got_yes,
                 yes,
-                "{} resulted in {} yes-gifs instead of {}.".format(text, got_yes, yes)
+                f"{text} resulted in {got_yes} yes-gifs instead of {yes}."
             )
             got_no = output.count(NO_IMG)
             self.assertEqual(
                 got_no,
                 no,
-                "{} resulted in {} no-gifs instead of {}.".format(text, got_no, no)
+                f"{text} resulted in {got_no} no-gifs instead of {no}."
             )
             self.assertTrue(
                 output.endswith(endswith),
-                "Expected {} to end with {}, got {} instead.".format(text, endswith, output)
+                f"Expected {text} to end with {endswith}, got {output} instead."
             )

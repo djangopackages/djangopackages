@@ -89,7 +89,7 @@ class GridPackage(BaseModel):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return '{} : {}'.format(self.grid.slug, self.package.slug)
+        return f'{self.grid.slug} : {self.package.slug}'
 
 
 class Feature(BaseModel):
@@ -111,7 +111,7 @@ class Feature(BaseModel):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return '{} : {}'.format(self.grid.slug, self.title)
+        return f'{self.grid.slug} : {self.title}'
 
 help_text = """
 Linebreaks are turned into 'br' tags<br />
@@ -145,4 +145,4 @@ class Element(BaseModel):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return '{} : {} : {}'.format(self.grid_package.grid.slug, self.grid_package.package.slug, self.feature.title)
+        return f'{self.grid_package.grid.slug} : {self.grid_package.package.slug} : {self.feature.title}'

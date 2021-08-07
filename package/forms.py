@@ -10,7 +10,7 @@ def package_help_text():
                         title_plural=category.title_plural,
                         description=category.description
                         )
-    help_text = "<ul>{}</ul>".format(help_text)
+    help_text = f"<ul>{help_text}</ul>"
     return help_text
 
 

@@ -193,9 +193,9 @@ def ajax_package_list(request, template_name="package/ajax_package_list.html"):
     q = request.GET.get("q", "")
     packages = []
     if q:
-        _dash = "{}-{}".format(settings.PACKAGINATOR_SEARCH_PREFIX, q)
-        _space = "{} {}".format(settings.PACKAGINATOR_SEARCH_PREFIX, q)
-        _underscore = '{}_{}'.format(settings.PACKAGINATOR_SEARCH_PREFIX, q)
+        _dash = f"{settings.PACKAGINATOR_SEARCH_PREFIX}-{q}"
+        _space = f"{settings.PACKAGINATOR_SEARCH_PREFIX} {q}"
+        _underscore = f'{settings.PACKAGINATOR_SEARCH_PREFIX}_{q}'
         packages = Package.objects.filter(
                         Q(title__istartswith=q) |
                         Q(title__istartswith=_dash) |

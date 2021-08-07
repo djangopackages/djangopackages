@@ -18,7 +18,7 @@ class ParticipantURLNode(template.Node):
         if repo.user_url:
             user_url = repo.user_url % participant
         else:
-            user_url = '{}/{}'.format(repo.url, participant)
+            user_url = f'{repo.url}/{participant}'
         return user_url
 
 

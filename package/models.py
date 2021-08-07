@@ -155,7 +155,7 @@ class Package(BaseModel):
         if self.pypi_url.strip() and self.pypi_url != "http://pypi.python.org/pypi/":
 
             total_downloads = 0
-            url = "https://pypi.python.org/pypi/{}/json".format(self.pypi_name)
+            url = f"https://pypi.python.org/pypi/{self.pypi_name}/json"
             response = requests.get(url)
             if settings.DEBUG:
                 if response.status_code not in (200, 404):
@@ -400,4 +400,4 @@ class Version(BaseModel):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return "{}: {}".format(self.package.title, self.number)
+        return f"{self.package.title}: {self.number}"

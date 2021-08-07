@@ -60,7 +60,7 @@ def build_1():
         optional_save = False
 
         # Read the docs!
-        rtfd_url = "http://readthedocs.org/api/v1/build/{}/".format(obj.slug)
+        rtfd_url = f"http://readthedocs.org/api/v1/build/{obj.slug}/"
         r = requests.get(rtfd_url)
         if r.status_code == 200:
             data = json.loads(r.content)

@@ -95,7 +95,7 @@ class HyperlinkFeld(serializers.HyperlinkedRelatedField):
 
     def to_representation(self, value):
 
-        self.view_name = "apiv4:{}-detail".format(value.item_type)
+        self.view_name = f"apiv4:{value.item_type}-detail"
 
 
         try:
