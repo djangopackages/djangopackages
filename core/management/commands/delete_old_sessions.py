@@ -11,7 +11,7 @@ class Command(NoArgsCommand):
     def handle_noargs(self, **options):
         old_sessions = Session.objects.filter(expire_date__lt=datetime.now())
 
-        self.stdout.write("Deleting {0} expired sessions".format(
+        self.stdout.write("Deleting {} expired sessions".format(
                 old_sessions.count()
             )
         )
@@ -19,7 +19,7 @@ class Command(NoArgsCommand):
         for index, session in enumerate(old_sessions[:10000]):
             session.delete()
 
-        self.stdout.write("{0} expired sessions remaining".format(
+        self.stdout.write("{} expired sessions remaining".format(
                 Session.objects.filter(expire_date__lt=datetime.now()).count()
             )
         )

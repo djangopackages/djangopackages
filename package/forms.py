@@ -10,14 +10,14 @@ def package_help_text():
                         title_plural=category.title_plural,
                         description=category.description
                         )
-    help_text = "<ul>{0}</ul>".format(help_text)
+    help_text = f"<ul>{help_text}</ul>"
     return help_text
 
 
 class PackageForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
-            super(PackageForm, self).__init__(*args, **kwargs)
+            super().__init__(*args, **kwargs)
             self.fields['category'].help_text = package_help_text()
             self.fields['repo_url'].required = True
             self.fields['repo_url'].widget = TextInput(attrs={

@@ -19,7 +19,7 @@ class SitemapView(TemplateView):
     content_type = "text/xml"
 
     def get_context_data(self, **kwargs):
-        data = super(SitemapView, self).get_context_data(**kwargs)
+        data = super().get_context_data(**kwargs)
         data['packages'] = Package.objects.all()
         data['grids'] = Grid.objects.all()
         return data
@@ -49,7 +49,7 @@ def homepage(request, template_name="homepage.html"):
     package_count = Package.objects.count()
     random_packages = []
     if package_count > 1:
-        package_ids = set([])
+        package_ids = set()
 
         # Get 5 random keys
         package_ids = sample(

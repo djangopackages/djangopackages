@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 
-class MockGithubRepo(object):
+class MockGithubRepo:
     title = "Github"
 
 

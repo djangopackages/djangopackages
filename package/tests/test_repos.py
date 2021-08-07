@@ -23,7 +23,7 @@ class BaseBase(TestCase):
 
 class TestBaseHandler(BaseBase):
     def setUp(self):
-        super(TestBaseHandler, self).setUp()
+        super().setUp()
         self.package = Package.objects.create(
             title="Django Piston",
             slug="django-piston",
@@ -205,7 +205,7 @@ class TestBitbucketRepo(TestBaseHandler):
 
 class TestGithubRepo(TestBaseHandler):
     def setUp(self):
-        super(TestGithubRepo, self).setUp()
+        super().setUp()
         self.package = Package.objects.create(
             title="Django",
             slug="django",
@@ -235,7 +235,7 @@ class TestGithubRepo(TestBaseHandler):
 
 class TestGitlabRepo(TestBaseHandler):
     def setUp(self):
-        super(TestGitlabRepo, self).setUp()
+        super().setUp()
         self.package = Package.objects.create(
             title="Django",
             slug="django",

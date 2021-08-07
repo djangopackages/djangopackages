@@ -43,49 +43,49 @@ urlpatterns = [
     ),
 
     url(
-        regex="^(?P<slug>[-\w]+)/edit/$",
+        regex=r"^(?P<slug>[-\w]+)/edit/$",
         view=edit_package,
         name="edit_package",
     ),
 
     url(
-        regex="^(?P<slug>[-\w]+)/fetch-data/$",
+        regex=r"^(?P<slug>[-\w]+)/fetch-data/$",
         view=update_package,
         name="fetch_package_data",
     ),
 
     url(
-        regex="^(?P<slug>[-\w]+)/post-data/$",
+        regex=r"^(?P<slug>[-\w]+)/post-data/$",
         view=post_data,
         name="post_package_data",
     ),
 
     url(
-        regex="^(?P<slug>[-\w]+)/example/add/$",
+        regex=r"^(?P<slug>[-\w]+)/example/add/$",
         view=add_example,
         name="add_example",
     ),
 
     url(
-        regex="^(?P<slug>[-\w]+)/example/(?P<id>\d+)/edit/$",
+        regex=r"^(?P<slug>[-\w]+)/example/(?P<id>\d+)/edit/$",
         view=edit_example,
         name="edit_example",
     ),
 
     url(
-        regex="^(?P<slug>[-\w]+)/example/(?P<id>\d+)/delete/$",
+        regex=r"^(?P<slug>[-\w]+)/example/(?P<id>\d+)/delete/$",
         view=delete_example,
         name="delete_example",
     ),
 
     url(
-        regex="^(?P<slug>[-\w]+)/example/(?P<id>\d+)/confirm_delete/$",
+        regex=r"^(?P<slug>[-\w]+)/example/(?P<id>\d+)/confirm_delete/$",
         view=confirm_delete_example,
         name="confirm_delete_example",
     ),
 
     url(
-        regex="^p/(?P<slug>[-\w]+)/$",
+        regex=r"^p/(?P<slug>[-\w]+)/$",
         view=package_detail,
         name="package",
     ),
@@ -97,13 +97,13 @@ urlpatterns = [
     ),
 
     url(
-        regex="^usage/(?P<slug>[-\w]+)/(?P<action>add|remove)/$",
+        regex=r"^usage/(?P<slug>[-\w]+)/(?P<action>add|remove)/$",
         view=usage,
         name="usage",
     ),
 
     url(
-        regex="^(?P<slug>[-\w]+)/document/$",
+        regex=r"^(?P<slug>[-\w]+)/document/$",
         view=edit_documentation,
         name="edit_documentation",
     ),

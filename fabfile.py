@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 This is a collection of useful utility functions when working with docker on different environments.
 In order to use these functions, install fabric on your local machine with::
@@ -73,7 +72,7 @@ def rollback(commit="HEAD~1"):
     :param commit: Commit you want to roll back to. Default is the previous commit
     """
     with env.cd(env.project_dir):
-        env.run("git checkout {}".format(commit))
+        env.run(f"git checkout {commit}")
 
     deploy()
 
@@ -115,4 +114,4 @@ def docker_compose(command):
     :param command: Command you want to run
     """
     with env.cd(env.project_dir):
-        return env.run("docker-compose -f {file} {command}".format(file=env.compose_file, command=command))
+        return env.run(f"docker-compose -f {env.compose_file} {command}")

@@ -31,7 +31,7 @@ class Dpotw(BaseModel):
         verbose_name_plural = "Django Packages of the Week"
 
     def __str__(self):
-        return '%s : %s - %s' % (self.package.title, self.start_date, self.end_date)
+        return f'{self.package.title} : {self.start_date} - {self.end_date}'
 
     def get_absolute_url(self):
         return reverse("package", args=[self.package.slug])
@@ -54,7 +54,7 @@ class Gotw(BaseModel):
         verbose_name_plural = "Grids of the Week"
 
     def __str__(self):
-        return '%s : %s - %s' % (self.grid.title, self.start_date, self.end_date)
+        return f'{self.grid.title} : {self.start_date} - {self.end_date}'
 
     def get_absolute_url(self):
         return reverse("grid", args=[self.grid.slug])
@@ -73,4 +73,4 @@ class PSA(BaseModel):
         verbose_name_plural = "Public Service Announcements"
 
     def __str__(self):
-        return "{0} : {1}".format(self.created, self.body_text)
+        return f"{self.created} : {self.body_text}"

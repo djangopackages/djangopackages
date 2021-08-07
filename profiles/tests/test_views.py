@@ -1,4 +1,3 @@
-
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.test import TestCase
@@ -10,7 +9,7 @@ from profiles.models import Profile
 class TestProfile(TestCase):
 
     def setUp(self):
-        super(TestProfile, self).setUp()
+        super().setUp()
         create_users()
         self.user = User.objects.get(username="user")
         self.profile = Profile.objects.create(
