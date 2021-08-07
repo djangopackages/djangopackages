@@ -64,7 +64,6 @@ class SearchV2Hyperlink(serializers.HyperlinkedRelatedField):
     view_name = 'package-detail'
 
     def get_url(self, obj, view_name, request, format):
-        import ipdb; ipdb.set_trace()
         url_kwargs = {
             'organization_slug': obj.organization.slug,
             'customer_pk': obj.pk
@@ -72,7 +71,6 @@ class SearchV2Hyperlink(serializers.HyperlinkedRelatedField):
         return reverse(view_name, url_kwargs, request=request, format=format)
 
     def get_object(self, view_name, view_args, view_kwargs):
-        import ipdb; ipdb.set_trace()
         lookup_kwargs = {
            'organization__slug': view_kwargs['organization_slug'],
            'pk': view_kwargs['customer_pk']
