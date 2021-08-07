@@ -1,5 +1,3 @@
-
-
 import hashlib
 from django.utils.http import urlquote
 

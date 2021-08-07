@@ -155,7 +155,7 @@ class Package(BaseModel):
         if self.pypi_url.strip() and self.pypi_url != "http://pypi.python.org/pypi/":
 
             total_downloads = 0
-            url = "https://pypi.python.org/pypi/{0}/json".format(self.pypi_name)
+            url = "https://pypi.python.org/pypi/{}/json".format(self.pypi_name)
             response = requests.get(url)
             if settings.DEBUG:
                 if response.status_code not in (200, 404):
@@ -232,7 +232,7 @@ class Package(BaseModel):
         if not self.repo_description:
             self.repo_description = ""
         self.grid_clear_detail_template_cache()
-        super(Package, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def fetch_commits(self):
         self.repo.fetch_commits(self)
@@ -325,7 +325,7 @@ class Commit(BaseModel):
         get_latest_by = 'commit_date'
 
     def __str__(self):
-        return "Commit for '%s' on %s" % (self.package.title, str(self.commit_date))
+        return "Commit for '{}' on {}".format(self.package.title, str(self.commit_date))
 
     def save(self, *args, **kwargs):
         # reset the last_updated and commits_over_52 caches on the package
@@ -333,7 +333,7 @@ class Commit(BaseModel):
         cache.delete(package.cache_namer(self.package.last_updated))
         cache.delete(package.cache_namer(package.commits_over_52))
         self.package.last_updated()
-        super(Commit, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
 
 class VersionManager(models.Manager):
@@ -397,7 +397,7 @@ class Version(BaseModel):
         cache.delete(cache_name)
         get_pypi_version(self.package)
 
-        super(Version, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return "%s: %s" % (self.package.title, self.number)
+        return "{}: {}".format(self.package.title, self.number)

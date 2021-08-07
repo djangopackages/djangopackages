@@ -50,13 +50,13 @@ def style_element(text):
     found = False
     for positive in YES_KEYWORDS:
         if text.startswith(positive):
-            text = '%s&nbsp;%s' % (YES_IMG, text[len(positive):])
+            text = '{}&nbsp;{}'.format(YES_IMG, text[len(positive):])
             found = True
             break
     if not found:
         for negative in NO_KEYWORDS:
             if text.startswith(negative):
-                text = '%s&nbsp;%s' % (NO_IMG, text[len(negative):])
+                text = '{}&nbsp;{}'.format(NO_IMG, text[len(negative):])
                 break
 
     return text

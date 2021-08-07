@@ -7,7 +7,7 @@ import json
 import requests
 
 
-class BaseHandler(object):
+class BaseHandler:
 
     def __str__(self):
         return self.title

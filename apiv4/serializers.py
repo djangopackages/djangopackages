@@ -119,7 +119,7 @@ class HyperlinkFeld(serializers.HyperlinkedRelatedField):
         if url is None:
             return None
 
-        return relations.Hyperlink(url, six.text_type(value))
+        return relations.Hyperlink(url, str(value))
 
 
 class SearchV2Serializer(serializers.ModelSerializer):

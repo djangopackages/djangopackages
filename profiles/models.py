@@ -36,7 +36,7 @@ class Profile(BaseModel):
             user_obj.email = email
             user_obj.save()
 
-        super(Profile, self).save(**kwargs)
+        super().save(**kwargs)
 
     def url_for_repo(self, repo):
         """Return the profile's URL for a given repo.

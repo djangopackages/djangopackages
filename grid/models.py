@@ -49,7 +49,7 @@ class Grid(BaseModel):
     def save(self, *args, **kwargs):
         self.grid_packages  # fire the cache
         self.clear_detail_template_cache()  # Delete the template fragment cache
-        super(Grid, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("grid", args=[self.slug])
@@ -86,10 +86,10 @@ class GridPackage(BaseModel):
     def save(self, *args, **kwargs):
         self.grid.grid_packages  # fire the cache
         self.grid.clear_detail_template_cache()
-        super(GridPackage, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return '%s : %s' % (self.grid.slug, self.package.slug)
+        return '{} : {}'.format(self.grid.slug, self.package.slug)
 
 
 class Feature(BaseModel):
@@ -108,10 +108,10 @@ class Feature(BaseModel):
     def save(self, *args, **kwargs):
         self.grid.grid_packages  # fire the cache
         self.grid.clear_detail_template_cache()
-        super(Feature, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return '%s : %s' % (self.grid.slug, self.title)
+        return '{} : {}'.format(self.grid.slug, self.title)
 
 help_text = """
 Linebreaks are turned into 'br' tags<br />
@@ -142,7 +142,7 @@ class Element(BaseModel):
 
     def save(self, *args, **kwargs):
         self.feature.save()  # fire grid_packages cache
-        super(Element, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return '%s : %s : %s' % (self.grid_package.grid.slug, self.grid_package.package.slug, self.feature.title)
+        return '{} : {} : {}'.format(self.grid_package.grid.slug, self.grid_package.package.slug, self.feature.title)

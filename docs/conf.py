@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Python Packages documentation build configuration file, created by
 # sphinx-quickstart on Mon Mar 14 13:56:50 2011.

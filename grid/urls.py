@@ -27,49 +27,49 @@ urlpatterns = [
     ),
 
     url(
-        regex='^(?P<slug>[-\w]+)/edit/$',
+        regex=r'^(?P<slug>[-\w]+)/edit/$',
         view=edit_grid,
         name='edit_grid',
     ),
 
     url(
-        regex='^element/(?P<feature_id>\d+)/(?P<package_id>\d+)/$',
+        regex=r'^element/(?P<feature_id>\d+)/(?P<package_id>\d+)/$',
         view=edit_element,
         name='edit_element',
     ),
 
     url(
-        regex='^feature/add/(?P<grid_slug>[a-z0-9\-\_]+)/$',
+        regex=r'^feature/add/(?P<grid_slug>[a-z0-9\-\_]+)/$',
         view=add_feature,
         name='add_feature',
     ),
 
     url(
-        regex='^feature/(?P<id>\d+)/$',
+        regex=r'^feature/(?P<id>\d+)/$',
         view=edit_feature,
         name='edit_feature',
     ),
 
     url(
-        regex='^feature/(?P<id>\d+)/delete/$',
+        regex=r'^feature/(?P<id>\d+)/delete/$',
         view=delete_feature,
         name='delete_feature',
     ),
 
     url(
-        regex='^package/(?P<id>\d+)/delete/$',
+        regex=r'^package/(?P<id>\d+)/delete/$',
         view=delete_grid_package,
         name='delete_grid_package',
     ),
 
     url(
-        regex='^(?P<grid_slug>[a-z0-9\-\_]+)/package/add/$',
+        regex=r'^(?P<grid_slug>[a-z0-9\-\_]+)/package/add/$',
         view=add_grid_package,
         name='add_grid_package',
     ),
 
     url(
-        regex='^(?P<grid_slug>[a-z0-9\-\_]+)/package/add/new$',
+        regex=r'^(?P<grid_slug>[a-z0-9\-\_]+)/package/add/new$',
         view=add_new_grid_package,
         name='add_new_grid_package',
     ),
@@ -88,17 +88,17 @@ urlpatterns = [
     ),
 
     url(
-        regex='^g/(?P<slug>[-\w]+)/$',
+        regex=r'^g/(?P<slug>[-\w]+)/$',
         view=grid_detail,
         name='grid',
     ),
 
     url(
-        regex='^g/(?P<slug>[-\w]+)/landscape/$',
+        regex=r'^g/(?P<slug>[-\w]+)/landscape/$',
         view=views.grid_detail_landscape,
         name='grid_landscape',
     ),
-    url(regex='^g/(?P<slug>[-\w]+)/timesheet/$',
+    url(regex=r'^g/(?P<slug>[-\w]+)/timesheet/$',
         view=views.grid_timesheet,
         name='grid_timesheet'
     )

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 This is a collection of useful utility functions when working with docker on different environments.
 In order to use these functions, install fabric on your local machine with::
