@@ -1,12 +1,10 @@
-from django.conf.urls import url
 
 from profiles import views
+from django.urls import path
 
 urlpatterns = [
-    url(
-        regex=r"^edit/$",
-        view=views.ProfileEditUpdateView.as_view(),
+    path('edit/', view=views.ProfileEditUpdateView.as_view(),
         name="profile_edit"
     ),
-    url(r"^(?P<github_account>[-\w]+)/$", views.profile_detail, name="profile_detail"),
+    path('<slug:github_account>/', views.profile_detail, name="profile_detail"),
 ]

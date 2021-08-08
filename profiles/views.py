@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.urls import reverse
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.views.generic import RedirectView
 from django.views.generic.edit import UpdateView
 from django.core.exceptions import MultipleObjectsReturned

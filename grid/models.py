@@ -1,11 +1,11 @@
 from django.core.cache import cache
 from django.db import models
 from django.urls import reverse
-from django.utils.translation import ugettext_lazy as _
 
 from core.models import BaseModel
 from grid.utils import make_template_fragment_key
 from package.models import Package
+from django.utils.translation import gettext_lazy as _
 
 
 class Grid(BaseModel):
