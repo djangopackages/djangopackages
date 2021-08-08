@@ -1,5 +1,3 @@
-from django.db import connections, DEFAULT_DB_ALIAS, transaction
-from django.core.management.color import no_style
 
 
 def reset_sequences(*models):

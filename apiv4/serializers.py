@@ -1,4 +1,3 @@
-import six
 
 from django.core.exceptions import ImproperlyConfigured
 from django.urls import NoReverseMatch

@@ -4,7 +4,6 @@ from django.urls import reverse
 
 from core.models import BaseModel
 from package.models import Package
-from grid.models import Grid
 from django.utils.translation import gettext_lazy as _
 
 ITEM_TYPE_CHOICES = (

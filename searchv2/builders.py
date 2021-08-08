@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta
 import json
-from sys import stdout
 
 import requests
 

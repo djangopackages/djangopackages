@@ -10,7 +10,7 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-import sys, time, os
+import time
 
 # todo: see if VIRTUAL_ENV variable is in the paths
 # and if it is not, add to os.path - this is necessary when sphinx is

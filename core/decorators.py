@@ -3,8 +3,6 @@
 import collections
 import functools
 from itertools import filterfalse
-from heapq import nsmallest
-from operator import itemgetter
 
 class Counter(dict):
     'Mapping where default values are zero'
