@@ -1,10 +1,8 @@
 from time import sleep
 
 from django.conf import settings
-from django.utils import timezone
 
 from github3 import GitHub, login
-import requests
 
 from .base_handler import BaseHandler
 from package.utils import uniquer

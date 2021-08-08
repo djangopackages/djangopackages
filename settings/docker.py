@@ -1,7 +1,5 @@
 """Docker specific settings.
 """
-
-import logging
 import sentry_sdk
 
 from sentry_sdk.integrations.django import DjangoIntegration

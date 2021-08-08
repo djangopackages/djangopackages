@@ -13,10 +13,10 @@ To list all available commands, run::
 """
 
 
-from fabric.operations import local as lrun, run, sudo, put
-from fabric.api import *
-from fabric.colors import green, red, yellow, blue
 import time
+from fabric.api import *
+from fabric.colors import blue
+from fabric.operations import local as lrun, run, put
 
 
 def local():

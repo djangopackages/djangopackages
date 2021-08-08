@@ -21,8 +21,6 @@ from package.forms import PackageForm, PackageExampleForm, DocumentationForm
 from package.models import Category, Package, PackageExample
 from package.repos import get_all_repos
 
-from .utils import quote_plus
-
 
 def repo_data_for_js():
     repos = [handler.serialize() for handler in get_all_repos()]
