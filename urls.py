@@ -1,17 +1,16 @@
 from django.conf import settings
 from django.conf.urls import include
 from django.conf.urls.static import static
-from django.views.generic.base import TemplateView
-
 from django.contrib import admin
-admin.autodiscover()
+from django.urls import path, re_path
+from django.views.generic.base import TemplateView
 
 from core.apiv1 import apiv1_gone
 from homepage.views import homepage, error_404_view, error_500_view, health_check_view, SitemapView
 from package.views import category, python3_list
-
 from profiles.views import LogoutView
-from django.urls import path, re_path
+
+admin.autodiscover()
 
 urlpatterns = [
 
