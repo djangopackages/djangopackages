@@ -28,7 +28,6 @@ python-dateutil
 requests
 sentry-sdk
 shortuuid
-six
 social-auth-app-django
 social-auth-core
 uwsgi
@@ -39,7 +38,12 @@ python-gitlab
 django-redis
 redis
 
+
 # testing
 pytest
 pytest-cov
 pytest-django
+
+# utils
+bumpver
+six
