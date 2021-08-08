@@ -5,12 +5,16 @@ from django.contrib import admin
 from django.urls import path, re_path
 from django.views.generic.base import TemplateView
 
+from core import __version__
 from core.apiv1 import apiv1_gone
 from homepage.views import homepage, error_404_view, error_500_view, health_check_view, SitemapView
 from package.views import category, python3_list
 from profiles.views import LogoutView
 
-admin.autodiscover()
+admin_header = f"Django Packages v{__version__}"
+# admin.site.enable_nav_sidebar = False  # disabled until Django 3.x
+admin.site.site_header = admin_header
+admin.site.site_title = admin_header
 
 urlpatterns = [
 
