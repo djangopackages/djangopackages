@@ -10,7 +10,6 @@ on:
   push:
     branches:
       - main
-      - master
 
 jobs:
   test:
@@ -103,7 +102,7 @@ jobs:
             ghcr.io/${{ github.repository }}:develop
 
   build-and-push-production-image:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     name: Build and Publish Production Docker image
     needs: [test]
     permissions:

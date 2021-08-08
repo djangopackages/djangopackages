@@ -79,16 +79,16 @@ def rollback(commit="HEAD~1"):
 
 def deploy():
     """
-    Pulls the latest changes from master, rebuilt and restarts the stack
+    Pulls the latest changes from main, rebuilt and restarts the stack
     """
 
-    lrun("git push origin master")
+    lrun("git push origin main")
     copy_secrets()
     with env.cd(env.project_dir):
 
         docker_compose("run postgres backup")
 
-        env.run("git pull origin master")
+        env.run("git pull origin main")
 
         build_and_restart("django-a")
         time.sleep(10)
