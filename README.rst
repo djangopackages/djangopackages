@@ -30,8 +30,9 @@ Features
 * Storage of package info, fetched from public APIs
 
   * PyPI
-  * Github
+  * GitHub
   * BitBucket
+  * GitLab (coming soon)
 
 * Basic search
 
