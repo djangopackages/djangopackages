@@ -248,7 +248,7 @@ class RegressionGridTest(TestCase):
         """Make sure that attempts to edit nonexistent elements succeed.
 
         """
-        # Delete the element for the sepcified feature and package.
+        # Delete the element for the specified feature and package.
         element, created = Element.objects.get_or_create(feature=1, grid_package=1)
         element.delete()
 

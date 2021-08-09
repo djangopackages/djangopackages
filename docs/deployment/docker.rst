@@ -1,9 +1,9 @@
 Foreword
 ========
 
-As of beginning 2016 the docker toolset is not quite there to provide a heroku like expierence
+As of beginning 2016 the docker toolset is not quite there to provide a heroku like experience
 when deploying to production. A lot of parts are already there, but have a few quirks that need
-to be adressed.
+to be addressed.
 
 Because of that, the deployment strategy for djangopackages.org is a bit different from what you
 read in the getting started with docker tutorials.
