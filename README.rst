@@ -7,8 +7,8 @@ Django Packages helps you easily identify and compare good apps, frameworks, plu
 Badges
 ------
 
-.. image:: https://travis-ci.org/djangopackages/djangopackages.svg?branch=master
-     :target: https://secure.travis-ci.org/djangopackages/djangopackages
+.. image:: https://github.com/djangopackages/djangopackages/actions/workflows/actions.yml/badge.svg
+     :target: https://github.com/djangopackages/djangopackages/actions/workflows/actions.yml
 
 .. image:: https://readthedocs.org/projects/djangopackagesorg/badge/?version=latest
      :target: http://djangopackagesorg.readthedocs.io/en/latest/?badge=latest
