@@ -3,8 +3,11 @@
 import os.path
 from os import environ
 import environ as envmax
+import warnings
 
 from django.template.defaultfilters import slugify
+
+warnings.filterwarnings('ignore', module='floppyforms', message='Unable to import floppyforms.gis')
 
 env = envmax.Env()
 
