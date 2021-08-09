@@ -23,7 +23,7 @@ class BaseHandler:
 
     @property
     def url(self):
-        """ base value for url API interation:
+        """ base value for url API interaction:
 
                 return: URL string
                 example: 'https://github.com'

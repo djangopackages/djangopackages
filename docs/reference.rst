@@ -22,7 +22,7 @@
 .. .. automodule:: apiv1.resources
 ..     :members:
     
-.. ``core`` - Kernal bits
+.. ``core`` - Kernel bits
 .. =======================
 
 .. .. automodule:: core
