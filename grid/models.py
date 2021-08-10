@@ -1,9 +1,10 @@
 from django.core.cache import cache
+from django.core.cache.utils import make_template_fragment_key
 from django.db import models
 from django.urls import reverse
 
 from core.models import BaseModel
-from grid.utils import make_template_fragment_key
+from grid.utils import make_template_fragment_key as grid_make_template_fragment_key
 from package.models import Package
 from django.utils.translation import gettext_lazy as _
 
@@ -54,9 +55,16 @@ class Grid(BaseModel):
     def get_absolute_url(self):
         return reverse("grid", args=[self.slug])
 
+    def get_detail_template_cache_key(self):
+        return grid_make_template_fragment_key("detail_template_cache", [str(self.pk)])
+
     def clear_detail_template_cache(self):
-        key = make_template_fragment_key("detail_template_cache", [str(self.pk)])
+        key = self.get_detail_template_cache_key()
         cache.delete(key)
+
+        # delete grid template cache
+        template_key = make_template_fragment_key("html_grid_detail_outer", [str(self.pk)])
+        cache.delete(template_key)
 
     class Meta:
         ordering = ['title']
