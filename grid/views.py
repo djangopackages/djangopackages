@@ -209,11 +209,12 @@ def delete_grid_package(request, id, template_name="grid/edit_feature.html"):
 
     # do not need to check permission via profile because
     # we default to being strict about deleting
-    package = get_object_or_404(GridPackage, id=id)
-    Element.objects.filter(grid_package=package).delete()
-    package.delete()
+    grid_package = get_object_or_404(GridPackage, id=id)
+    grid_package.grid.clear_detail_template_cache()
+    Element.objects.filter(grid_package=grid_package).delete()
+    grid_package.delete()
 
-    return HttpResponseRedirect(reverse('grid', kwargs={'slug': package.grid.slug}))
+    return HttpResponseRedirect(reverse('grid', kwargs={'slug': grid_package.grid.slug}))
 
 
 @login_required
@@ -272,6 +273,7 @@ def add_grid_package(request, grid_slug, template_name="grid/add_grid_package.ht
                         package=package
                     )
             grid_package.save()
+            grid.clear_detail_template_cache()
             redirect = request.POST.get('redirect', '')
             if redirect:
                 return HttpResponseRedirect(redirect)
