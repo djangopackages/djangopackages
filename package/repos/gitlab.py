@@ -6,7 +6,7 @@ from .base_handler import BaseHandler
 
 
 class GitlabHandler(BaseHandler):
-    title = "Github"
+    title = "GitLab"
     url_regex = "(http|https|git)://gitlab.com/"
     url = "https://gitlab.com"
     repo_regex = r"(?:http|https|git)://gitlab.com/[^/]*/([^/]*)"
