@@ -20,6 +20,7 @@ github3.py<1.0
 psycopg2-binary
 python-gitlab
 requests
+requests-mock
 sentry-sdk
 social-auth-app-django
 social-auth-core
