@@ -54,7 +54,7 @@
       <div class="list-group">
         {% for package in latest_packages %}
           <a href="{{ package.get_absolute_url }}" class="list-group-item">
-            <h4 class="list-group-item-heading">{{ package.title }}</h4>
+            <h4 class="list-group-item-heading">{{ package.title }}<small>v{{ package.pypi_version.number }}</small></h4>
 
             <p class="list-group-item-text">
               {% with package.repo_description|truncatewords:25 as short %}
@@ -76,7 +76,7 @@
       <div class="list-group">
         {% for package in random_packages %}
           <a href="{{ package.get_absolute_url }}" class="list-group-item">
-            <h4 class="list-group-item-heading">{{ package.title }}</h4>
+            <h4 class="list-group-item-heading">{{ package.title }}<small>v{{ package.pypi_version.number }}</small></h4>
 
             <p class="list-group-item-text">
               {% with package.repo_description|truncatewords:25 as short %}
