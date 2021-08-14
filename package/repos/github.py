@@ -23,6 +23,7 @@ class GitHubHandler(BaseHandler):
 
     def manage_ratelimit(self):
         while self.github.ratelimit_remaining < 10:
+            print(f"{__file__}::manage_ratelimit::sleep(1)")
             sleep(1)
 
     def _get_repo(self, package):
