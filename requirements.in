@@ -23,6 +23,7 @@ requests
 sentry-sdk
 social-auth-app-django
 social-auth-core
+trove-classifiers
 uwsgi
 webstack-django-sorting<2
 
