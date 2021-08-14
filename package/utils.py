@@ -67,7 +67,7 @@ def normalize_license(license):
     """
     if license is None:
         return "UNKNOWN"
-    if license.strip() not in deprecated_classifiers:
+    if license.strip() in deprecated_classifiers:
         return license.strip()     
     if len(license.strip()) > 20:
         return "Custom"
