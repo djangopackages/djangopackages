@@ -17,7 +17,7 @@ class BaseHandler:
         """ title for display in drop downs:
 
                 return: string
-                example: 'Github'
+                example: 'GitHub'
         """
         return NotImplemented
 

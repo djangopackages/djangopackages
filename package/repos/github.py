@@ -9,7 +9,7 @@ from package.utils import uniquer
 
 
 class GitHubHandler(BaseHandler):
-    title = "Github"
+    title = "GitHub"
     url_regex = '(http|https|git)://github.com/'
     url = 'https://github.com'
     repo_regex = r'(?:http|https|git)://github.com/[^/]*/([^/]*)/{0,1}'
