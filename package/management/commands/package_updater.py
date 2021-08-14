@@ -35,6 +35,7 @@ class Command(BaseCommand):
 
             # Simple attempt to deal with Github rate limiting
             while True:
+                print(f"github.ratelimit_remaining=={github.ratelimit_remaining}")
                 if github.ratelimit_remaining < 50:
                     sleep(120)
                 break
