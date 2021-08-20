@@ -12,7 +12,7 @@ class PackageExampleInline(admin.TabularInline):
 @admin.register(Commit)
 class CommitAdmin(admin.ModelAdmin):
     list_display = ["__str__", "commit_date"]
-    list_filter = ("package",)
+    list_filter = ["package"]
     raw_id_fields = ["package"]
 
 
@@ -29,19 +29,43 @@ class PackageAdmin(VersionAdmin):
     ]
     readonly_fields = ["created_by", "last_modified_by"]
     fieldsets = (
-        (None, {
-            "fields": ("title", "slug", "category", "pypi_url", "repo_url", "usage", "created_by", "last_modified_by",)
-        }),
-        ("Pulled data", {
-            "classes": ("collapse",),
-            "fields": ("repo_description", "repo_watchers", "repo_forks", "commit_list", "pypi_downloads", "participants")
-        }),
+        (
+            None,
+            {
+                "fields": (
+                    "title",
+                    "slug",
+                    "category",
+                    "pypi_url",
+                    "repo_url",
+                    "usage",
+                    "created_by",
+                    "last_modified_by",
+                )
+            },
+        ),
+        (
+            "Pulled data",
+            {
+                "classes": ("collapse",),
+                "fields": (
+                    "repo_description",
+                    "repo_watchers",
+                    "repo_forks",
+                    "commit_list",
+                    "pypi_downloads",
+                    "participants",
+                ),
+            },
+        ),
     )
 
 
 @admin.register(PackageExample)
 class PackageExampleAdmin(admin.ModelAdmin):
-    list_display = ["title",]
+    list_display = [
+        "title",
+    ]
     raw_id_fields = ["package"]
     readonly_fields = ["created_by"]
     search_fields = ["title"]
