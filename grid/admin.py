@@ -11,15 +11,15 @@ class GridPackageInline(admin.TabularInline):
 
 @admin.register(Grid)
 class GridAdmin(VersionAdmin):
-    list_display_links = ('title',)
-    list_display = ('title', 'header', "is_locked")
-    list_editable = ('header',)
-    list_filter = ('header', "is_locked")
-    raw_id_fields = ["packages"]
-    search_fields = ["title", "slug"]
     inlines = [
         GridPackageInline,
     ]
+    list_display = ['title', 'header', "is_locked"]
+    list_display_links = ['title']
+    list_editable = ['header']
+    list_filter = ['header', "is_locked"]
+    raw_id_fields = ["packages"]
+    search_fields = ["title", "slug"]
 
 
 @admin.register(Element)

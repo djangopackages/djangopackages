@@ -52,6 +52,7 @@ class VersionLocalAdmin(admin.ModelAdmin):
     list_display = ["__str__", "license", "hidden", "supports_python3", "created"]
     list_filter = ["hidden", "supports_python3", "created", "development_status"]
     ordering = ["-created"]
+    raw_id_fields = ["package"]
     search_fields = ["package__title"]
 
 
