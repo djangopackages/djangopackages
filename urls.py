@@ -7,7 +7,7 @@ from django.views.generic.base import TemplateView
 
 from core import __version__
 from core.apiv1 import apiv1_gone
-from homepage.views import homepage, error_404_view, error_500_view, health_check_view, SitemapView
+from homepage.views import homepage, error_404_view, error_500_view, health_check_view, OpenView, SitemapView
 from package.views import category, python3_list
 from profiles.views import LogoutView
 
@@ -42,6 +42,7 @@ urlpatterns = [
     path('about/', TemplateView.as_view(template_name='pages/faq.html'), name="about"),
     path('terms/', TemplateView.as_view(template_name='pages/terms.html'), name="terms"),
     path('faq/', TemplateView.as_view(template_name='pages/faq.html'), name="faq"),
+    path('open/', OpenView.as_view(), name="open"),
     path('syndication/', TemplateView.as_view(template_name='pages/syndication.html'), name="syndication"),
     path('help/', TemplateView.as_view(template_name='pages/help.html'), name="help"),
     re_path(r"^sitemap\.xml$", SitemapView.as_view(), name="sitemap"),
