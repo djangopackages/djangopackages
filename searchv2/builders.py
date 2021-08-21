@@ -1,7 +1,8 @@
-from datetime import datetime, timedelta
 import json
-
 import requests
+
+from datetime import timedelta
+from django.utils import timezone
 
 from grid.models import Grid
 from package.models import Package, Commit
@@ -10,16 +11,15 @@ from searchv2.utils import remove_prefix, clean_title
 
 
 def build_1():
-
-    now = datetime.now()
+    now = timezone.now()
     quarter_delta = timedelta(90)
     half_year_delta = timedelta(182)
     year_delta = timedelta(365)
     last_week = now - timedelta(7)
 
     SearchV2.objects.filter(created__lte=last_week).delete()
-    for package in Package.objects.filter():
-
+    for package in Package.objects.all():
+        print(f"{package}")
         obj, created = SearchV2.objects.get_or_create(
             item_type="package",
             slug=package.slug,
@@ -100,7 +100,7 @@ def build_1():
             obj.weight = weight
             obj.save()
 
-    max_weight = SearchV2.objects.all()[0].weight
+    max_weight = SearchV2.objects.only("weight").order_by("-weight").first().weight
     increment = max_weight / 6
     for grid in Grid.objects.all():
         obj, created = SearchV2.objects.get_or_create(
@@ -122,7 +122,7 @@ def build_1():
         if not grid.header:
             weight -= increment
 
-        if not grid.packages.count():
+        if not grid.packages.exists():
             weight -= increment
 
         obj.weight = weight
