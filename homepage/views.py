@@ -1,16 +1,34 @@
-from random import sample
+import feedparser
 
+from django.contrib.auth.models import User
 from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import render
-
-import feedparser
+from django.views.generic import TemplateView
+from random import sample
 
 from core.decorators import lru_cache
 from grid.models import Grid
 from homepage.models import Dpotw, Gotw, PSA
-from package.models import Category, Package, Version
-from django.views.generic import TemplateView
+from package.models import Category, Commit, Package, Version
+
+
+class OpenView(TemplateView):
+    template_name = "pages/open.html"
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data.update({
+            "total_commits": Commit.objects.count(),
+            "total_categories": Category.objects.count(),
+            "total_grids": Grid.objects.count(),
+            "total_packages": Package.objects.count(),
+            "total_versions": Version.objects.count(),
+            "total_users": User.objects.count(),
+            "top_user_list": User.objects.all().annotate(num_packages=Count("package")).filter(num_packages__gt=15).order_by("-num_packages")[0:100],
+            "top_grid_list": Grid.objects.all().annotate(num_packages=Count("packages")).filter(num_packages__gt=15).order_by("-num_packages")[0:100],
+        })
+        return data
 
 
 class SitemapView(TemplateView):

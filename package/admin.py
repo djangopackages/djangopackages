@@ -12,7 +12,6 @@ class PackageExampleInline(admin.TabularInline):
 @admin.register(Commit)
 class CommitAdmin(admin.ModelAdmin):
     list_display = ["__str__", "commit_date"]
-    list_filter = ["package"]
     raw_id_fields = ["package"]
 
 

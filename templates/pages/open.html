@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Frequently Asked Questions" %}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-10">
+                <h1>{% trans "📊 Open" %}</h1>
+                <h2>{% trans "Tracking" %}</h2>
+                <p>{{ total_packages|intcomma }} {% trans "Packages" %}</p>
+                <p>{{ total_users|intcomma }} {% trans "Users" %}</p>
+                <p>{{ total_grids|intcomma }} {% trans "Grids" %}</p>
+                <p>{{ total_categories|intcomma }} {% trans "Categories" %}</p>
+                <p>{{ total_commits|intcomma }} {% trans "Commits" %}</p>
+                <p>{{ total_versions|intcomma }} {% trans "Versions" %}</p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-5">
+                <h2>{% trans "Users who have contributed over fifteen packages" %}</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>{% trans "User" %}</th>
+                            <th>{% trans "Packages" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for top_user in top_user_list %}
+                            <tr>
+                                <td><a href="{% url 'profile_detail' github_account=top_user.username %}">{{ top_user }}</a></td>
+                                <td>{{ top_user.num_packages }} {% trans "packages" %}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-xs-5">
+                <h2>{% trans "Grids with more than fifteen packages" %}</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>{% trans "Grid" %}</th>
+                            <th>{% trans "Packages" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for grid in top_grid_list %}
+                            <tr>
+                                <td><a href="{{ grid.get_absolute_url }}">{{ grid }}</a></td>
+                                <td>{{ grid.num_packages }} {% trans "packages" %}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
