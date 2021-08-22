@@ -50,6 +50,7 @@ blue.djangopackages.org/media,
 green.djangopackages.org/media,
 a.djangopackages.org/media,
 b.djangopackages.org/media {
+    file_server
 	root * /data/media
 	header / Cache-Control "max-age=2592000"
 	encode zstd gzip
@@ -60,6 +61,7 @@ blue.djangopackages.org/static,
 green.djangopackages.org/static,
 a.djangopackages.org/static,
 b.djangopackages.org/static {
+    file_server
 	root * /data/static
 	header / Cache-Control "max-age=2592000"
 	encode zstd gzip
