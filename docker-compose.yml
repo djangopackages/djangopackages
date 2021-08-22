@@ -64,7 +64,7 @@ services:
       - django-b
     env_file: .env
     command: caddy run --adapter caddyfile --config /etc/caddy/Caddyfile
-    image: caddy:2.2.1
+    image: caddy:2.4.3
     ports:
       - "80:80"
       - "443:443"
