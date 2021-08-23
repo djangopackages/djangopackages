@@ -175,6 +175,8 @@ uwsgi==2.0.19.1
     # via -r ./requirements.in
 webstack-django-sorting==1.0.2
     # via -r ./requirements.in
+whitenoise==5.3.0
+    # via -r ./requirements.in
 zipp==3.5.0
     # via importlib-metadata
 

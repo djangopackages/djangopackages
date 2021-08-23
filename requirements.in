@@ -27,6 +27,7 @@ social-auth-core
 trove-classifiers
 uwsgi
 webstack-django-sorting<2
+whitenoise
 
 # Redis support
 django-redis
