@@ -157,6 +157,9 @@ TEMPLATES[0]["OPTIONS"]["loaders"] = [
 # ------------------------
 MEDIA_ROOT = "/data/media"
 STATIC_ROOT = "/data/static"
+STATICFILES_DIRS = [
+    STATIC_ROOT,
+]
 
 HEALTHCHECK = env.bool("HEALTHCHECK", False)
 PACKAGE_HEALTHCHECK_URL = env.str("PACKAGE_HEALTHCHECK_URL", "")
