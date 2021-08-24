@@ -1,13 +1,17 @@
 #!/bin/sh
-python manage.py migrate
+python /app/manage.py migrate --noinput
 python /app/manage.py collectstatic --noinput
-/usr/local/bin/uwsgi --http :5000 \
-    --wsgi-file /app/wsgi.py \
-    --master \
-    --processes 3 \
+/usr/local/bin/uwsgi \
     --chdir /app \
-    --harakiri 120 \
-    --stats :1717 \
+    --disable-write-exception \
     --enable-threads \
+    --harakiri 120 \
+    --http :5000 \
+    --ignore-sigpipe \
+    --ignore-write-errors \
+    --master \
+    --max-requests 5000 \
+    --processes 3 \
     --single-interpreter \
-    --max-requests 5000
+    --stats :1717 \
+    --wsgi-file /app/wsgi.py
