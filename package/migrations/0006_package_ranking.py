@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name='package',
-            name='ranking',
-            field=models.IntegerField(default=0, verbose_name='Rank'),
+            name='score',
+            field=models.IntegerField(default=0, verbose_name='Score'),
         ),
     ]

@@ -70,7 +70,7 @@ class Package(BaseModel):
     documentation_url = models.URLField(_("Documentation URL"), blank=True, null=True, default="")
 
     commit_list = models.TextField(_("Commit List"), blank=True)
-    ranking = models.IntegerField(_("Rank"), default=0)
+    score = models.IntegerField(_("Score"), default=0)
 
     @property
     def pypi_name(self):
@@ -232,7 +232,7 @@ class Package(BaseModel):
         for grid in self.grids():
             grid.clear_detail_template_cache()
 
-    def calculate_rank(self):
+    def calculate_score(self):
         delta = relativedelta.relativedelta(now(), self.last_updated())
         delta_months = (delta.years * 12) + delta.months
         last_updated_penalty = math.modf(delta_months / 3)[1] * self.repo_watchers / 10
@@ -246,7 +246,7 @@ class Package(BaseModel):
         if not self.repo_description:
             self.repo_description = ""
         self.grid_clear_detail_template_cache()
-        self.ranking = self.calculate_rank()
+        self.score = self.calculate_score()
         super().save(*args, **kwargs)
 
     def fetch_commits(self):

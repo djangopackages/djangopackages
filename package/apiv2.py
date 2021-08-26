@@ -29,7 +29,7 @@ class Python3ListAPIView(ListAPIView):
         packages = Package.objects.filter(version__supports_python3=True)
         packages = packages.distinct()
         packages = packages.annotate(usage_count=Count("usage"))
-        packages.order_by("-ranking", "title")
+        packages.order_by("-score", "title")
         return packages
 
 

@@ -10,19 +10,19 @@ class VersionTests(TestCase):
     def test_ranking(self):
         p = Package.objects.get(slug='django-cms')
         # The packages is not picked up as a Python 3 at this stage
-        self.assertNotEqual(p.ranking, p.repo_watchers)
+        self.assertNotEqual(p.score, p.repo_watchers)
         # we update, Python 3 should be picked up and stars should be equal
         p.save()
-        self.assertEqual(p.ranking, p.repo_watchers)
+        self.assertEqual(p.score, p.repo_watchers)
 
     def test_ranking_abandoned_package(self):
         p = Package.objects.get(slug='django-divioadmin')
-        p.save()  # updates the ranking
+        p.save()  # updates the score
 
-        # ranking should be -100
+        # score should be -100
         # abandoned for 2 years = loss 10% for each 3 months = 80% of the stars
         # + a -30% for not supporting python 3
-        self.assertEqual(p.ranking, -100, p.ranking)
+        self.assertEqual(p.score, -100, p.score)
 
     def test_version_order(self):
         p = Package.objects.get(slug='django-cms')
