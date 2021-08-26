@@ -3,6 +3,12 @@
 from django.db import migrations, models
 
 
+def updates_score(apps, schema_editor):
+    Package = apps.get_model('package', 'Package')
+    for package in Package.objects.all():
+        Package.objects.filter(pk=package.pk).update(score=package.calculate_score())
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -15,4 +21,5 @@ class Migration(migrations.Migration):
             name='score',
             field=models.IntegerField(default=0, verbose_name='Score'),
         ),
+        migrations.RunPython(updates_score)
     ]
