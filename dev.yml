@@ -1,8 +1,4 @@
-version: '2'
-
-volumes:
-  postgres_data_dev: {}
-  postgres_backup_dev: {}
+version: '3.6'
 
 services:
   django:
@@ -13,24 +9,24 @@ services:
     depends_on:
       - postgres
       - redis
-    environment:
-      - POSTGRES_USER=djangopackages
-      - POSTGRES_PASSWORD=djangopackages
-    volumes:
-      - .:/app
-    ports:
-      - "8000:8000"
     env_file:
       - .env.local
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
 
   postgres:
     build: ./compose/postgres
+    env_file:
+      - .env.local
     volumes:
       - postgres_data_dev:/var/lib/postgresql/data
       - postgres_backup_dev:/backups
-    environment:
-      - POSTGRES_USER=djangopackages
-      - POSTGRES_PASSWORD=djangopackages
 
   redis:
     build: ./compose/redis
+
+volumes:
+  postgres_data_dev: {}
+  postgres_backup_dev: {}

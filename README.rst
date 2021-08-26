@@ -7,20 +7,17 @@ Django Packages helps you easily identify and compare good apps, frameworks, plu
 Badges
 ------
 
-.. image:: https://pyup.io/repos/github/djangopackages/djangopackages/shield.svg
-     :target: https://pyup.io/repos/github/djangopackages/djangopackages/
-     :alt: Updates
-
-.. image:: https://pyup.io/repos/github/djangopackages/djangopackages/python-3-shield.svg
-     :target: https://pyup.io/repos/github/djangopackages/djangopackages/
-     :alt: Python 3
-
-.. image:: https://travis-ci.org/djangopackages/djangopackages.svg?branch=master
-        :target: https://secure.travis-ci.org/djangopackages/djangopackages
+.. image:: https://github.com/djangopackages/djangopackages/actions/workflows/actions.yml/badge.svg
+     :target: https://github.com/djangopackages/djangopackages/actions/workflows/actions.yml
 
 .. image:: https://readthedocs.org/projects/djangopackagesorg/badge/?version=latest
      :target: http://djangopackagesorg.readthedocs.io/en/latest/?badge=latest
      :alt: Documentation Status
+
+.. image:: https://pyup.io/repos/github/djangopackages/djangopackages/shield.svg
+     :target: https://pyup.io/repos/github/djangopackages/djangopackages/
+     :alt: Updates
+
 
 Features
 --------
@@ -33,8 +30,9 @@ Features
 * Storage of package info, fetched from public APIs
 
   * PyPI
-  * Github
+  * GitHub
   * BitBucket
+  * GitLab (coming soon)
 
 * Basic search
 

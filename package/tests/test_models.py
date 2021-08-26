@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from package.models import Package, Version, versioner
+from package.models import Package, Version
 from package.tests import data, initial_data
 
 class VersionTests(TestCase):

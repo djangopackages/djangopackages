@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.conf import settings
 
 
@@ -6,9 +5,9 @@ class NULL:
     pass
 
 
-class SettingsOverride(object):
+class SettingsOverride:
     """
-    Overrides Django settings within a context and resets them to their inital
+    Overrides Django settings within a context and resets them to their initial
     values on exit.
 
     Example::

@@ -1,10 +1,6 @@
-from datetime import datetime, timedelta
 
 from django.urls import reverse
 from django.test import TestCase
-
-from grid.models import Grid
-from homepage.models import Dpotw, Gotw
 from package.models import Package, Category
 
 from homepage.tests import data

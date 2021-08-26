@@ -220,18 +220,18 @@ def load():
     packageexample2, created = PackageExample.objects.get_or_create(
         pk=2,
         package=package1,
-        url=u'http://my.example.com/',
+        url='http://my.example.com/',
         active=True,
-        title=u'my.example.com',
+        title='my.example.com',
         created_by=user1,
     )
 
     packageexample3, created = PackageExample.objects.get_or_create(
         pk=3,
         package=package1,
-        url=u'http://other.example.com/',
+        url='http://other.example.com/',
         active=True,
-        title=u'other.example.com',
+        title='other.example.com',
         created_by=user2,
     )
 

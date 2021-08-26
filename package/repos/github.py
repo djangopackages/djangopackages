@@ -1,17 +1,15 @@
 from time import sleep
 
 from django.conf import settings
-from django.utils import timezone
 
 from github3 import GitHub, login
-import requests
 
 from .base_handler import BaseHandler
 from package.utils import uniquer
 
 
 class GitHubHandler(BaseHandler):
-    title = "Github"
+    title = "GitHub"
     url_regex = '(http|https|git)://github.com/'
     url = 'https://github.com'
     repo_regex = r'(?:http|https|git)://github.com/[^/]*/([^/]*)/{0,1}'
@@ -25,6 +23,7 @@ class GitHubHandler(BaseHandler):
 
     def manage_ratelimit(self):
         while self.github.ratelimit_remaining < 10:
+            print(f"{__file__}::manage_ratelimit::sleep(1)")
             sleep(1)
 
     def _get_repo(self, package):
@@ -44,11 +43,15 @@ class GitHubHandler(BaseHandler):
         if repo is None:
             return package
 
+        # package.repo_watchers = repo.watchers_count
         package.repo_watchers = repo.watchers
+        # package.repo_forks = repo.forks_count
         package.repo_forks = repo.forks
         package.repo_description = repo.description
+        # repo.stargazers_count
 
         contributors = []
+        # for contributor in repo.contributors():
         for contributor in repo.iter_contributors():
             contributors.append(contributor.login)
             self.manage_ratelimit()
@@ -67,6 +70,7 @@ class GitHubHandler(BaseHandler):
 
         from package.models import Commit  # Added here to avoid circular imports
 
+        # for commit in repo.commits():
         for commit in repo.iter_commits():
             self.manage_ratelimit()
             try:

@@ -9,7 +9,7 @@ from package.models import Package
 
 class RssLatestPackagesFeed(Feed):
     """RSS Feed for the packages"""
-    title = "Latest {0} packages added".format(settings.FRAMEWORK_TITLE)
+    title = f"Latest {settings.FRAMEWORK_TITLE} packages added"
     link = "/packages/latest/"
     description = "The last 15 packages added"
 

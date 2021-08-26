@@ -1,4 +1,3 @@
-from django.conf.urls import url
 from django.views.generic.dates import ArchiveIndexView
 
 from package.models import Package
@@ -18,98 +17,70 @@ from package.views import (
                             edit_documentation,
                             github_webhook
                             )
+from django.urls import path, re_path
 
 urlpatterns = [
 
-    url(
-        regex=r"^$",
-        view=package_list,
+    path('', view=package_list,
         name="packages",
     ),
 
-    url(
-        regex=r"^latest/$",
-        view=ArchiveIndexView.as_view(
+    path('latest/', view=ArchiveIndexView.as_view(
                         queryset=Package.objects.filter().select_related(),
                         paginate_by=50,
                         date_field="created"
         ),
         name="latest_packages",
     ),
-    url(
-        regex="^add/$",
-        view=add_package,
+    path('add/', view=add_package,
         name="add_package",
     ),
 
-    url(
-        regex="^(?P<slug>[-\w]+)/edit/$",
-        view=edit_package,
+    path('<slug:slug>/edit/', view=edit_package,
         name="edit_package",
     ),
 
-    url(
-        regex="^(?P<slug>[-\w]+)/fetch-data/$",
-        view=update_package,
+    path('<slug:slug>/fetch-data/', view=update_package,
         name="fetch_package_data",
     ),
 
-    url(
-        regex="^(?P<slug>[-\w]+)/post-data/$",
-        view=post_data,
+    path('<slug:slug>/post-data/', view=post_data,
         name="post_package_data",
     ),
 
-    url(
-        regex="^(?P<slug>[-\w]+)/example/add/$",
-        view=add_example,
+    path('<slug:slug>/example/add/', view=add_example,
         name="add_example",
     ),
 
-    url(
-        regex="^(?P<slug>[-\w]+)/example/(?P<id>\d+)/edit/$",
-        view=edit_example,
+    path('<slug:slug>/example/<int:id>/edit/', view=edit_example,
         name="edit_example",
     ),
 
-    url(
-        regex="^(?P<slug>[-\w]+)/example/(?P<id>\d+)/delete/$",
-        view=delete_example,
+    path('<slug:slug>/example/<int:id>/delete/', view=delete_example,
         name="delete_example",
     ),
 
-    url(
-        regex="^(?P<slug>[-\w]+)/example/(?P<id>\d+)/confirm_delete/$",
-        view=confirm_delete_example,
+    path('<slug:slug>/example/<int:id>/confirm_delete/', view=confirm_delete_example,
         name="confirm_delete_example",
     ),
 
-    url(
-        regex="^p/(?P<slug>[-\w]+)/$",
-        view=package_detail,
+    path('p/<slug:slug>/', view=package_detail,
         name="package",
     ),
 
-    url(
-        regex="^ajax_package_list/$",
-        view=ajax_package_list,
+    path('ajax_package_list/', view=ajax_package_list,
         name="ajax_package_list",
     ),
 
-    url(
-        regex="^usage/(?P<slug>[-\w]+)/(?P<action>add|remove)/$",
-        view=usage,
+    re_path(
+        r"^usage/(?P<slug>[-\w]+)/(?P<action>add|remove)/$", view=usage,
         name="usage",
     ),
 
-    url(
-        regex="^(?P<slug>[-\w]+)/document/$",
-        view=edit_documentation,
+    path('<slug:slug>/document/', view=edit_documentation,
         name="edit_documentation",
     ),
-    url(
-        regex="^github-webhook/$",
-        view=github_webhook,
+    path('github-webhook/', view=github_webhook,
         name="github_webhook"
     ),
 ]

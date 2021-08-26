@@ -23,7 +23,7 @@ class BitbucketHandler(BaseHandler):
         repo_name = package.repo_name()
         if repo_name.endswith("/"):
             repo_name = repo_name[0:-1]
-        target = "%s/%s/changesets/?limit=50" % (API_TARGET, repo_name)
+        target = f"{API_TARGET}/{repo_name}/changesets/?limit=50"
         try:
             data = self.get_json(target)
         except requests.exceptions.HTTPError:
@@ -81,7 +81,7 @@ class BitbucketHandler(BaseHandler):
         package.repo_description = data.get("description", "")
 
         # get the forks of a repo
-        url = "{0}forks/".format(target)
+        url = f"{target}forks/"
         try:
             data = self.get_json(url)
         except requests.exceptions.HTTPError:
@@ -89,7 +89,7 @@ class BitbucketHandler(BaseHandler):
         package.repo_forks = len(data['forks'])
 
         # get the followers of a repo
-        url = "{0}followers/".format(target)
+        url = f"{target}followers/"
         try:
             data = self.get_json(url)
         except requests.exceptions.HTTPError:

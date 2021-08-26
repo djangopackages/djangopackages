@@ -1,4 +1,3 @@
-import six
 
 from django.core.exceptions import ImproperlyConfigured
 from django.urls import NoReverseMatch
@@ -11,11 +10,23 @@ from grid.models import Grid
 from package.models import Package, Category
 from searchv2.models import SearchV2
 
+
 class GridSerializer(serializers.ModelSerializer):
     packages = serializers.HyperlinkedRelatedField(many=True, view_name='apiv4:package-detail', read_only=True)
 
     class Meta:
+        fields = [
+            "title",
+            "slug",
+            "description",
+            "is_locked",
+            "packages",
+            "header",
+            "created",
+            "modified",
+        ]
         model = Grid
+
 
 class PackageSerializer(serializers.HyperlinkedModelSerializer):
     # 'Source' is attached to the model attribute
@@ -52,7 +63,6 @@ class SearchV2Hyperlink(serializers.HyperlinkedRelatedField):
     view_name = 'package-detail'
 
     def get_url(self, obj, view_name, request, format):
-        import ipdb; ipdb.set_trace()
         url_kwargs = {
             'organization_slug': obj.organization.slug,
             'customer_pk': obj.pk
@@ -60,7 +70,6 @@ class SearchV2Hyperlink(serializers.HyperlinkedRelatedField):
         return reverse(view_name, url_kwargs, request=request, format=format)
 
     def get_object(self, view_name, view_args, view_kwargs):
-        import ipdb; ipdb.set_trace()
         lookup_kwargs = {
            'organization__slug': view_kwargs['organization_slug'],
            'pk': view_kwargs['customer_pk']
@@ -85,7 +94,7 @@ class HyperlinkFeld(serializers.HyperlinkedRelatedField):
 
     def to_representation(self, value):
 
-        self.view_name = "apiv4:{}-detail".format(value.item_type)
+        self.view_name = f"apiv4:{value.item_type}-detail"
 
 
         try:
@@ -109,7 +118,7 @@ class HyperlinkFeld(serializers.HyperlinkedRelatedField):
         if url is None:
             return None
 
-        return relations.Hyperlink(url, six.text_type(value))
+        return relations.Hyperlink(url, str(value))
 
 
 class SearchV2Serializer(serializers.ModelSerializer):
@@ -124,4 +133,13 @@ class SearchV2Serializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
+        fields = [
+            "title",
+            "slug",
+            "description",
+            "title_plural",
+            "show_pypi",
+            "created",
+            "modified",
+        ]
         model = Category

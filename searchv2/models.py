@@ -1,12 +1,10 @@
-
 from django.core.cache import cache
 from django.db import models
 from django.urls import reverse
-from django.utils.translation import ugettext_lazy as _
 
 from core.models import BaseModel
 from package.models import Package
-from grid.models import Grid
+from django.utils.translation import gettext_lazy as _
 
 ITEM_TYPE_CHOICES = (
     ('package', 'Package'),
@@ -53,13 +51,13 @@ class SearchV2(BaseModel):
         verbose_name_plural = 'SearchV2s'
 
     def __str__(self):
-        return "{0}:{1}".format(self.weight, self.title)
+        return f"{self.weight}:{self.title}"
 
     def get_absolute_url(self):
         return reverse(self.absolute_url)
 
     def pypi_name(self):
-        key = "SEARCH_PYPI_NAME-{0}".format(self.slug)
+        key = f"SEARCH_PYPI_NAME-{self.slug}"
         pypi_name = cache.get(key)
         if pypi_name:
             return pypi_name

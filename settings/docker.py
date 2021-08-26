@@ -1,46 +1,46 @@
-# -*- coding: utf-8 -*-
 """Docker specific settings.
 """
+import sentry_sdk
 
-import logging
+from sentry_sdk.integrations.django import DjangoIntegration
+from sentry_sdk.integrations.redis import RedisIntegration
 
 from .base import *
 
+
+DEBUG = env.bool("DJANGO_DEBUG", False)
 
 ########## CACHE
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": env.str('REDIS_URL'),
+        "LOCATION": env.str("REDIS_URL"),
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "IGNORE_EXCEPTIONS": True,  # mimics memcache behavior.
-                                        # http://niwinz.github.io/django-redis/latest/#_memcached_exceptions_behavior
-        }
+            # http://niwinz.github.io/django-redis/latest/#_memcached_exceptions_behavior
+        },
     }
 }
 
 
 # Anymail with Mailgun
-INSTALLED_APPS += ("anymail", )
+INSTALLED_APPS += ("anymail",)
 ANYMAIL = {
-    "MAILGUN_API_KEY": env('DJANGO_MAILGUN_API_KEY'),
-    "MAILGUN_SENDER_DOMAIN": env('MAILGUN_SENDER_DOMAIN')
+    "MAILGUN_API_KEY": env("DJANGO_MAILGUN_API_KEY"),
+    "MAILGUN_SENDER_DOMAIN": env("MAILGUN_SENDER_DOMAIN"),
 }
 EMAIL_BACKEND = "anymail.backends.mailgun.MailgunBackend"
-EMAIL_SUBJECT_PREFIX = environ.get('EMAIL_SUBJECT_PREFIX', '[Django Packages] ')
+EMAIL_SUBJECT_PREFIX = environ.get("EMAIL_SUBJECT_PREFIX", "[Django Packages] ")
 
 
 ########## SECRET
-SECRET_KEY = environ.get('SECRET_KEY', '')
+SECRET_KEY = environ.get("SECRET_KEY", "")
 
 
 ########## SITE
-SITE_TITLE = environ.get('SITE_TITLE')
-FRAMEWORK_TITLE = environ.get('FRAMEWORK_TITLE')
-
-
-
+SITE_TITLE = environ.get("SITE_TITLE")
+FRAMEWORK_TITLE = environ.get("FRAMEWORK_TITLE")
 
 
 ########### Permissions
@@ -48,74 +48,82 @@ RESTRICT_PACKAGE_EDITORS = False
 RESTRICT_GRID_EDITORS = False
 
 # Sentry Configuration
-INSTALLED_APPS += ('raven.contrib.django.raven_compat', )
-RAVEN_MIDDLEWARE = ['raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware']
-MIDDLEWARE = RAVEN_MIDDLEWARE + MIDDLEWARE
-SENTRY_DSN = env('DJANGO_SENTRY_DSN')
-SENTRY_CLIENT = env('DJANGO_SENTRY_CLIENT', default='raven.contrib.django.raven_compat.DjangoClient')
+SENTRY_DSN = env("DJANGO_SENTRY_DSN", default=None)
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration(), RedisIntegration()],
+
+        # Set traces_sample_rate to 1.0 to capture 100%
+        # of transactions for performance monitoring.
+        # We recommend adjusting this value in production.
+        traces_sample_rate=1.0,
+
+        # If you wish to associate users to errors (assuming you are using
+        # django.contrib.auth) you may enable sending PII data.
+        send_default_pii=True
+    )
+
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'root': {
-        'level': 'WARNING',
-        'handlers': ['sentry'],
+    "version": 1,
+    "disable_existing_loggers": True,
+    "root": {
+        "level": "WARNING",
+        # "handlers": ["sentry"],
     },
-    'formatters': {
-        'verbose': {
-            'format': '%(levelname)s %(asctime)s %(module)s '
-                      '%(process)d %(thread)d %(message)s'
-        },
-    },
-    'handlers': {
-        'sentry': {
-            'level': 'ERROR',
-            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
-        },
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose'
-        }
-    },
-    'loggers': {
-        'django.db.backends': {
-            'level': 'ERROR',
-            'handlers': ['console'],
-            'propagate': False,
-        },
-        'raven': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-            'propagate': False,
-        },
-        'sentry.errors': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-            'propagate': False,
-        },
-        'django.security.DisallowedHost': {
-            'level': 'ERROR',
-            'handlers': ['console', 'sentry'],
-            'propagate': False,
+    "formatters": {
+        "verbose": {
+            "format": "%(levelname)s %(asctime)s %(module)s "
+            "%(process)d %(thread)d %(message)s"
         },
     },
-}
-SENTRY_CELERY_LOGLEVEL = env.int('DJANGO_SENTRY_LOG_LEVEL', logging.INFO)
-RAVEN_CONFIG = {
-    'CELERY_LOGLEVEL': env.int('DJANGO_SENTRY_LOG_LEVEL', logging.INFO),
-    'DSN': SENTRY_DSN
+    "handlers": {
+        # "sentry": {
+        #     "level": "ERROR",
+        #     "class": "raven.contrib.django.raven_compat.handlers.SentryHandler",
+        # },
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+    },
+    "loggers": {
+        "django.db.backends": {
+            "level": "ERROR",
+            "handlers": ["console"],
+            "propagate": False,
+        },
+        # "raven": {
+        #     "level": "DEBUG",
+        #     "handlers": ["console"],
+        #     "propagate": False,
+        # },
+        # "sentry.errors": {
+        #     "level": "DEBUG",
+        #     "handlers": ["console"],
+        #     "propagate": False,
+        # },
+        # "django.security.DisallowedHost": {
+        #     "level": "ERROR",
+        #     "handlers": ["console", "sentry"],
+        #     "propagate": False,
+        # },
+    },
 }
 
 
 ########## DATABASE CONFIGURATION
 # ------------------------------------------------------------------------------
 # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
-DATABASES['default'] = env.db("DATABASE_URL")
+DATABASES["default"] = env.db("DATABASE_URL")
 ########## END DATABASE CONFIGURATION
 
 ########## django-secure
 
-INSTALLED_APPS += ["djangosecure", ]
+INSTALLED_APPS += [
+    "djangosecure",
+]
 # todo: remove django-secure
 # set this to 60 seconds and then to 518400 when you can prove it works
 SECURE_HSTS_SECONDS = 60
@@ -133,11 +141,14 @@ SECURE_SSL_REDIRECT = False
 
 
 ########## templates
-TEMPLATES[0]['OPTIONS']['loaders'] = [
-('django.template.loaders.cached.Loader', (
-        'django.template.loaders.filesystem.Loader',
-        'django.template.loaders.app_directories.Loader',
-    )),
+TEMPLATES[0]["OPTIONS"]["loaders"] = [
+    (
+        "django.template.loaders.cached.Loader",
+        (
+            "django.template.loaders.filesystem.Loader",
+            "django.template.loaders.app_directories.Loader",
+        ),
+    ),
 ]
 
 ########## end templates
@@ -146,6 +157,9 @@ TEMPLATES[0]['OPTIONS']['loaders'] = [
 # ------------------------
 MEDIA_ROOT = "/data/media"
 STATIC_ROOT = "/data/static"
+STATICFILES_DIRS = [
+    STATIC_ROOT,
+]
 
 HEALTHCHECK = env.bool("HEALTHCHECK", False)
 PACKAGE_HEALTHCHECK_URL = env.str("PACKAGE_HEALTHCHECK_URL", "")

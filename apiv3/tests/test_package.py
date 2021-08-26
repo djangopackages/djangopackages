@@ -76,7 +76,7 @@ class PackageV1Tests(TestCase):
             'category__slug': self.app.slug
         }
         base_url = reverse('apiv3:package_list')
-        url_app_pkg = "%s?%s" % (base_url, urlencode(querystring_filter_app))
+        url_app_pkg = "{}?{}".format(base_url, urlencode(querystring_filter_app))
         response_app_pkg = self.client.get(url_app_pkg)
         # check that the request was successful
         self.assertEqual(response_app_pkg.status_code, 200)
@@ -85,7 +85,7 @@ class PackageV1Tests(TestCase):
         app_pkg = json.loads(raw_json_app_pkg)
         app_pkg_count = int(app_pkg['meta']['total_count'])
         self.assertEqual(app_pkg_count, self.app.package_set.count() + 1)
-        # Check that we have filter applied correclty
+        # Check that we have filter applied correctly
         app_package_slug_list = self.app.package_set.values_list('slug', flat=True)
         self.assertIn(self.pkg1.slug, app_package_slug_list)
         self.assertIn(self.pkg2.slug, app_package_slug_list)

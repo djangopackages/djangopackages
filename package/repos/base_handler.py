@@ -7,7 +7,7 @@ import json
 import requests
 
 
-class BaseHandler(object):
+class BaseHandler:
 
     def __str__(self):
         return self.title
@@ -17,13 +17,13 @@ class BaseHandler(object):
         """ title for display in drop downs:
 
                 return: string
-                example: 'Github'
+                example: 'GitHub'
         """
         return NotImplemented
 
     @property
     def url(self):
-        """ base value for url API interation:
+        """ base value for url API interaction:
 
                 return: URL string
                 example: 'https://github.com'

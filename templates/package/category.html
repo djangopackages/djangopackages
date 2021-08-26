@@ -8,6 +8,12 @@
 
 {% block head_title %}{% trans "Welcome" %}{% endblock %}
 
+{% block extra_head %}
+  {{ block.super }}
+
+  {% include 'includes/_ethicalads-js.html' %}
+{% endblock %}
+
 {% block body_class %}home{% endblock %}
 
 {% block breadcrumb %}
@@ -35,6 +41,10 @@
           <a class="btn btn-default" href="{% url 'add_package' %}">{% trans "add package »" %}</a>
         {% endif %}
       </p>
+
+      {% with ea_id="category-detail" ea_type="text" %}
+          {% include 'includes/_ethicalads-tag.html' %}
+      {% endwith %}
     </div>
   </div>
 

@@ -1,11 +1,12 @@
 from django.core.cache import cache
+from django.core.cache.utils import make_template_fragment_key
 from django.db import models
 from django.urls import reverse
-from django.utils.translation import ugettext_lazy as _
 
 from core.models import BaseModel
-from grid.utils import make_template_fragment_key
+from grid.utils import make_template_fragment_key as grid_make_template_fragment_key
 from package.models import Package
+from django.utils.translation import gettext_lazy as _
 
 
 class Grid(BaseModel):
@@ -49,14 +50,21 @@ class Grid(BaseModel):
     def save(self, *args, **kwargs):
         self.grid_packages  # fire the cache
         self.clear_detail_template_cache()  # Delete the template fragment cache
-        super(Grid, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("grid", args=[self.slug])
 
+    def get_detail_template_cache_key(self):
+        return grid_make_template_fragment_key("detail_template_cache", [str(self.pk)])
+
     def clear_detail_template_cache(self):
-        key = make_template_fragment_key("detail_template_cache", [str(self.pk)])
+        key = self.get_detail_template_cache_key()
         cache.delete(key)
+
+        # delete grid template cache
+        template_key = make_template_fragment_key("html_grid_detail_outer", [str(self.pk)])
+        cache.delete(template_key)
 
     class Meta:
         ordering = ['title']
@@ -86,10 +94,10 @@ class GridPackage(BaseModel):
     def save(self, *args, **kwargs):
         self.grid.grid_packages  # fire the cache
         self.grid.clear_detail_template_cache()
-        super(GridPackage, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return '%s : %s' % (self.grid.slug, self.package.slug)
+        return f'{self.grid.slug} : {self.package.slug}'
 
 
 class Feature(BaseModel):
@@ -108,10 +116,10 @@ class Feature(BaseModel):
     def save(self, *args, **kwargs):
         self.grid.grid_packages  # fire the cache
         self.grid.clear_detail_template_cache()
-        super(Feature, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return '%s : %s' % (self.grid.slug, self.title)
+        return f'{self.grid.slug} : {self.title}'
 
 help_text = """
 Linebreaks are turned into 'br' tags<br />
@@ -142,7 +150,7 @@ class Element(BaseModel):
 
     def save(self, *args, **kwargs):
         self.feature.save()  # fire grid_packages cache
-        super(Element, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return '%s : %s : %s' % (self.grid_package.grid.slug, self.grid_package.package.slug, self.feature.title)
+        return f'{self.grid_package.grid.slug} : {self.grid_package.package.slug} : {self.feature.title}'

@@ -1,8 +1,7 @@
-version: '2'
+version: '3.2'
 
 volumes:
   static: {}
-  caddy: {}
   media: {}
 
 services:
@@ -24,7 +23,7 @@ services:
       options:
         max-size: "400m"
         max-file: "5"
-        compress: true
+        # compress: "true"
 
   django-b:
     build:
@@ -44,7 +43,7 @@ services:
       options:
         max-size: "400m"
         max-file: "5"
-        compress: true
+        # compress: "true"
 
   postgres:
     build: ./compose/postgres
@@ -57,27 +56,30 @@ services:
       options:
         max-size: "600m"
         max-file: "5"
-        compress: true
+        # compress: "true"
 
   caddy:
-    build: ./compose/caddy
     depends_on:
       - django-a
       - django-b
-    volumes:
-      - static:/data/static
-      - media:/data/media
-      - caddy:/root/.caddy
+    env_file: .env
+    command: caddy run --adapter caddyfile --config /etc/caddy/Caddyfile
+    image: caddy:2.4.3
     ports:
       - "80:80"
       - "443:443"
-    env_file: .env
+    volumes:
+      - ./compose/caddy/Caddyfile:/etc/caddy/Caddyfile  # configuration
+      - /data/djangopackages/caddy/config:/config  # configuration autosaves
+      - /data/djangopackages/caddy/data:/data  # saving certificates
+      - media:/data/media
+      - static:/data/static
     logging:
       driver: "json-file"
       options:
         max-size: "600m"
         max-file: "5"
-        compress: true
+        # compress: "true"
 
   redis:
     build: ./compose/redis
@@ -86,4 +88,4 @@ services:
       options:
         max-size: "100m"
         max-file: "5"
-        compress: true
+        # compress: "true"

@@ -1,5 +1,4 @@
 """grid url patterns"""
-from django.conf.urls import url
 
 from grid import views
 
@@ -17,89 +16,66 @@ from grid.views import (
         grid_detail,
         grids
     )
+from django.urls import path, re_path
 
 urlpatterns = [
 
-    url(
-        regex='^add/$',
-        view=add_grid,
+    path('add/', view=add_grid,
         name='add_grid',
     ),
 
-    url(
-        regex='^(?P<slug>[-\w]+)/edit/$',
-        view=edit_grid,
+    path('<slug:slug>/edit/', view=edit_grid,
         name='edit_grid',
     ),
 
-    url(
-        regex='^element/(?P<feature_id>\d+)/(?P<package_id>\d+)/$',
-        view=edit_element,
+    path('element/<int:feature_id>/<int:package_id>/', view=edit_element,
         name='edit_element',
     ),
 
-    url(
-        regex='^feature/add/(?P<grid_slug>[a-z0-9\-\_]+)/$',
-        view=add_feature,
+    re_path(
+        r'^feature/add/(?P<grid_slug>[a-z0-9\-\_]+)/$', view=add_feature,
         name='add_feature',
     ),
 
-    url(
-        regex='^feature/(?P<id>\d+)/$',
-        view=edit_feature,
+    path('feature/<int:id>/', view=edit_feature,
         name='edit_feature',
     ),
 
-    url(
-        regex='^feature/(?P<id>\d+)/delete/$',
-        view=delete_feature,
+    path('feature/<int:id>/delete/', view=delete_feature,
         name='delete_feature',
     ),
 
-    url(
-        regex='^package/(?P<id>\d+)/delete/$',
-        view=delete_grid_package,
+    path('package/<int:id>/delete/', view=delete_grid_package,
         name='delete_grid_package',
     ),
 
-    url(
-        regex='^(?P<grid_slug>[a-z0-9\-\_]+)/package/add/$',
-        view=add_grid_package,
+    re_path(
+        r'^(?P<grid_slug>[a-z0-9\-\_]+)/package/add/$', view=add_grid_package,
         name='add_grid_package',
     ),
 
-    url(
-        regex='^(?P<grid_slug>[a-z0-9\-\_]+)/package/add/new$',
-        view=add_new_grid_package,
+    re_path(
+        r'^(?P<grid_slug>[a-z0-9\-\_]+)/package/add/new$', view=add_new_grid_package,
         name='add_new_grid_package',
     ),
 
-    url(
-        regex='^ajax_grid_list/$',
-        view=ajax_grid_list,
+    path('ajax_grid_list/', view=ajax_grid_list,
         name='ajax_grid_list',
     ),
 
 
-    url(
-        regex='^$',
-        view=grids,
+    path('', view=grids,
         name='grids',
     ),
 
-    url(
-        regex='^g/(?P<slug>[-\w]+)/$',
-        view=grid_detail,
+    path('g/<slug:slug>/', view=grid_detail,
         name='grid',
     ),
 
-    url(
-        regex='^g/(?P<slug>[-\w]+)/landscape/$',
-        view=views.grid_detail_landscape,
+    path('g/<slug:slug>/landscape/', view=views.grid_detail_landscape,
         name='grid_landscape',
     ),
-    url(regex='^g/(?P<slug>[-\w]+)/timesheet/$',
-        view=views.grid_timesheet,
+    path('g/<slug:slug>/timesheet/', view=views.grid_timesheet,
         name='grid_timesheet'
     )
 ]

@@ -19,6 +19,11 @@ function package_form(data){
 			'git@github.com:',
 			'git://github.com'
 		],
+		'https://gitlab.com': [
+			'http://gitlab.com',
+			'git@gitlab.com:',
+			'git://gitlab.com'
+		],
 		'https://bitbucket.org': [
 			'http://bitbucket.org'
 		],

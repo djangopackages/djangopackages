@@ -7,7 +7,7 @@ CHARS = ["_", ",", ".", "-", " ", "/", "|"]
 def remove_prefix(value):
     value = value.lower()
     for char in CHARS:
-        value = value.replace("{0}{1}".format(settings.PACKAGINATOR_SEARCH_PREFIX.lower(), char), "")
+        value = value.replace(f"{settings.PACKAGINATOR_SEARCH_PREFIX.lower()}{char}", "")
     return value
 
 

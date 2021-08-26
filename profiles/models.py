@@ -2,9 +2,9 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
-from django.utils.translation import ugettext_lazy as _
 
 from core.models import BaseModel
+from django.utils.translation import gettext_lazy as _
 
 
 class Profile(BaseModel):
@@ -36,7 +36,7 @@ class Profile(BaseModel):
             user_obj.email = email
             user_obj.save()
 
-        super(Profile, self).save(**kwargs)
+        super().save(**kwargs)
 
     def url_for_repo(self, repo):
         """Return the profile's URL for a given repo.

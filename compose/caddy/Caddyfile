@@ -1,31 +1,68 @@
+{
+	admin off
+	# debug
+	email {$TLS_EMAIL}
+}
+
 www.djangopackages.org {
-    redir https://djangopackages.org
+	redir https://djangopackages.org{uri}
+}
+
+blue.djangopackages.org, a.djangopackages.org {
+	reverse_proxy django-a:5000
+}
+
+green.djangopackages.org, b.djangopackages.org {
+	reverse_proxy django-b:5000
 }
 
 djangopackages.org {
-    proxy / django-a:5000 django-b:5000 {
-        health_check /health_check/
-        health_check_interval 1s
-        health_check_timeout 5s
-        fail_timeout 5s
-        policy round_robin
-        header_upstream Host {host}
-        header_upstream X-Real-IP {remote}
-        header_upstream X-Forwarded-Proto {scheme}
-    }
-    log stdout
-    errors stdout
-    gzip
+	encode zstd gzip
+
+	header Strict-Transport-Security max-age=31536000;
+
+	# Removing some headers for improved security:
+	header -Server
+
+	# https://caddyserver.com/docs/caddyfile/directives/respond
+	# Replace backends health checks and provide one for this LB
+	respond /health 200
+
+	reverse_proxy django-a:5000 django-b:5000 {
+		health_uri /health_check/
+		health_interval 1s
+		health_timeout 5s
+		fail_duration 5s
+		lb_policy round_robin
+		header_up Host {host}
+		header_up X-Real-IP {remote}
+		# header_up X-Forwarded-Proto {scheme}
+	}
+	log {
+		format json
+		output stdout
+		# errors stdout
+	}
 }
 
-djangopackages.org/static {
-    root /data/static
-    header / Cache-Control "max-age=2592000"
-    gzip
+djangopackages.org/media,
+blue.djangopackages.org/media,
+green.djangopackages.org/media,
+a.djangopackages.org/media,
+b.djangopackages.org/media {
+    file_server
+	root * /data/media
+	header / Cache-Control "max-age=2592000"
+	encode zstd gzip
 }
 
-djangopackages.org/media {
-    root /data/media
-    header / Cache-Control "max-age=2592000"
-    gzip
+djangopackages.org/static,
+blue.djangopackages.org/static,
+green.djangopackages.org/static,
+a.djangopackages.org/static,
+b.djangopackages.org/static {
+    file_server
+	root * /data/static
+	header / Cache-Control "max-age=2592000"
+	encode zstd gzip
 }
