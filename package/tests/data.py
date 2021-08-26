@@ -7,6 +7,7 @@ from profiles.models import Profile
 from django.utils.timezone import now
 
 abandoned_package_last_commit = datetime.datetime(now().year - 2, now().month, now().day, 0, 0)
+abandoned_package_last_commit_10_years = datetime.datetime(now().year - 10, now().month, now().day, 0, 0)
 
 def load():
     category, created = Category.objects.get_or_create(
@@ -53,6 +54,25 @@ def load():
         package_id=7,
         commit_date=abandoned_package_last_commit,
         commit_hash='2b54b0ae95ef805c07ca3c0b9c5184466b65c55b'
+    )
+
+    package, created = Package.objects.get_or_create(
+        pk=8,
+        category=category,
+        title='Abandoned Package 10 years',
+        created_by=None,
+        repo_watchers=1000,
+        pypi_downloads=26257,
+        last_modified_by=None,
+        repo_url='https://github.com/divio/django-divioadmin2',
+        repo_forks=1000,
+        slug='django-divioadmin2',
+        repo_description='not maintained anymore.',
+    )
+    commit, created = Commit.objects.get_or_create(
+        package_id=8,
+        commit_date=abandoned_package_last_commit_10_years,
+        commit_hash='2b54b0ae95ef805c07ca3c0b9c5184466b65c66c'
     )
 
     user, created = User.objects.get_or_create(
@@ -1137,13 +1157,13 @@ def load():
         date_joined='2011-03-14 18:52:34',
     )
 
-    package6 = Package.objects.get(pk=6)
+    cms_package = Package.objects.get(pk=6)
 
     version, created = Version.objects.get_or_create(
         pk=2278,
         license='BSD License',
         downloads=1904,
-        package=package6,
+        package=cms_package,
         number='2.1.3',
         hidden=False,
     )
@@ -1151,7 +1171,7 @@ def load():
         pk=2252,
         license='BSD License',
         downloads=715,
-        package=package6,
+        package=cms_package,
         number='2.1.2',
         hidden=False,
     )
@@ -1159,7 +1179,7 @@ def load():
         pk=2177,
         license='BSD License',
         downloads=906,
-        package=package6,
+        package=cms_package,
         number='2.1.1',
         hidden=False,
     )
@@ -1167,7 +1187,7 @@ def load():
         pk=2041,
         license='BSD License',
         downloads=1613,
-        package=package6,
+        package=cms_package,
         number='2.1.0',
         hidden=False,
     )
@@ -1175,7 +1195,7 @@ def load():
         pk=1977,
         license='BSD License',
         downloads=850,
-        package=package6,
+        package=cms_package,
         number='2.1.0.rc3',
         hidden=False,
     )
@@ -1183,7 +1203,7 @@ def load():
         pk=1913,
         license='BSD License',
         downloads=726,
-        package=package6,
+        package=cms_package,
         number='2.1.0.rc2',
         hidden=False,
     )
@@ -1191,7 +1211,7 @@ def load():
         pk=1870,
         license='BSD License',
         downloads=299,
-        package=package6,
+        package=cms_package,
         number='2.1.0.rc1',
         hidden=False,
     )
@@ -1199,7 +1219,7 @@ def load():
         pk=12,
         license='BSD License',
         downloads=1062,
-        package=package6,
+        package=cms_package,
         number='2.0.0',
         hidden=False,
     )
@@ -1207,7 +1227,7 @@ def load():
         pk=11,
         license='BSD License',
         downloads=212,
-        package=package6,
+        package=cms_package,
         number='2.0.1',
         hidden=False,
     )
@@ -1215,7 +1235,7 @@ def load():
         pk=10,
         license='BSD License',
         downloads=4326,
-        package=package6,
+        package=cms_package,
         number='2.0.2',
         hidden=False,
     )
@@ -1223,7 +1243,7 @@ def load():
         pk=9,
         license='BSD License',
         downloads=13644,
-        package=package6,
+        package=cms_package,
         number='2.1.0.beta3',
         hidden=False,
         supports_python3=True

@@ -233,6 +233,11 @@ class Package(BaseModel):
             grid.clear_detail_template_cache()
 
     def calculate_score(self):
+        """
+        Scores a penalty of 10% of the stars for each 3 months the package is not updated;
+        + a penalty of -30% of the stars if it does not support python 3.
+        So an abandoned packaged for 2 years would lose 80% of its stars.
+        """
         delta = relativedelta.relativedelta(now(), self.last_updated())
         delta_months = (delta.years * 12) + delta.months
         last_updated_penalty = math.modf(delta_months / 3)[1] * self.repo_watchers / 10
