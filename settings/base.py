@@ -273,13 +273,7 @@ if DEBUG:
     MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
     INSTALLED_APPS += ("debug_toolbar",)
 
-    INTERNAL_IPS = ("127.0.0.1",)
-
-    DEBUG_TOOLBAR_CONFIG = {
-        "INTERCEPT_REDIRECTS": False,
-        "SHOW_TEMPLATE_CONTEXT": True,
-    }
-    x = 1
+    DEBUG_TOOLBAR_CONFIG = {"SHOW_TOOLBAR_CALLBACK": lambda _request: DEBUG}
 
 ADMIN_URL_BASE = environ.get("ADMIN_URL_BASE", r"^admin/")
 
