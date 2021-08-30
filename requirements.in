@@ -34,6 +34,7 @@ django-redis
 redis
 
 # testing
+django-test-plus
 pytest
 pytest-cov
 pytest-django
