@@ -204,10 +204,6 @@ except Exception:
 
 EMAIL_SUBJECT_PREFIX = "[Django Packages]"
 
-DEBUG_TOOLBAR_CONFIG = {
-    "INTERCEPT_REDIRECTS": False,
-}
-
 PACKAGINATOR_HELP_TEXT = {
     "REPO_URL": "Enter your project repo hosting URL here. Example: https://github.com/opencomparison/opencomparison",
     "PYPI_URL": "<strong>Leave this blank if this package does not have a PyPI release.</strong> What PyPI uses to index your package. Example: django-uni-form",
@@ -266,17 +262,12 @@ DATABASES = {"default": env.db("DATABASE_URL")}
 WSGI_APPLICATION = "wsgi.application"
 
 if DEBUG:
-
+    INSTALLED_APPS += ["debug_toolbar"]
     MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
-    INSTALLED_APPS += ("debug_toolbar",)
-
-    INTERNAL_IPS = ("127.0.0.1",)
-
     DEBUG_TOOLBAR_CONFIG = {
         "INTERCEPT_REDIRECTS": False,
-        "SHOW_TEMPLATE_CONTEXT": True,
+        "SHOW_TOOLBAR_CALLBACK": lambda _request: DEBUG,
     }
-    x = 1
 
 ADMIN_URL_BASE = environ.get("ADMIN_URL_BASE", r"^admin/")
 
