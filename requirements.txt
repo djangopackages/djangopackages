@@ -22,7 +22,7 @@ colorama==0.4.4
     # via bumpver
 coverage==5.5
     # via pytest-cov
-cryptography==3.4.7
+cryptography==3.4.8
     # via social-auth-core
 defusedxml==0.7.1
     # via
@@ -50,6 +50,8 @@ django-reversion==4.0.0
     # via -r ./requirements.in
 django-secure==1.0.2
     # via -r ./requirements.in
+django-test-plus==2.2.0
+    # via -r ./requirements.in
 django-waffle==2.2.1
     # via -r ./requirements.in
 django==2.2.24
@@ -71,7 +73,7 @@ github3.py==0.9.6
     # via -r ./requirements.in
 idna==3.2
     # via requests
-importlib-metadata==4.6.4
+importlib-metadata==4.7.0
     # via
     #   click
     #   pluggy
