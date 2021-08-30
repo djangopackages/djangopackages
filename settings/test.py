@@ -12,7 +12,8 @@ logging.disable(logging.CRITICAL)
 
 ########## DEBUG
 DEBUG = False
-TEMPLATES[0]["OPTIONS"]["debug"] = False
+TEMPLATES[0]["OPTIONS"]["debug"] = DEBUG
+SERVE_MEDIA = DEBUG
 
 
 ########## TEST
@@ -20,8 +21,15 @@ TEMPLATES[0]["OPTIONS"]["debug"] = False
 
 PASSWORD_HASHERS = ["django.contrib.auth.hashers.MD5PasswordHasher"]
 
+if "debug_toolbar" in INSTALLED_APPS:
+    INSTALLED_APPS.remove("debug_toolbar")
+
 MIDDLEWARE = [
     middleware
     for middleware in MIDDLEWARE
-    if middleware != "whitenoise.middleware.WhiteNoiseMiddleware"
+    if middleware
+    not in [
+        "debug_toolbar.middleware.DebugToolbarMiddleware",
+        "whitenoise.middleware.WhiteNoiseMiddleware",
+    ]
 ]
