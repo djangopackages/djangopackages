@@ -73,7 +73,7 @@ github3.py==0.9.6
     # via -r ./requirements.in
 idna==3.2
     # via requests
-importlib-metadata==4.7.0
+importlib-metadata==4.8.1
     # via
     #   click
     #   pluggy
@@ -111,7 +111,9 @@ pytest==6.2.4
     #   -r ./requirements.in
     #   pytest-cov
     #   pytest-django
-python-gitlab==2.10.0
+python-dateutil==2.8.2
+    # via -r ./requirements.in
+python-gitlab==2.10.1
     # via -r ./requirements.in
 python3-openid==3.2.0
     # via social-auth-core
@@ -145,6 +147,7 @@ six==1.16.0
     # via
     #   -r ./requirements.in
     #   pathlib2
+    #   python-dateutil
     #   requests-mock
 social-auth-app-django==5.0.0
     # via -r ./requirements.in
@@ -163,7 +166,7 @@ toml==0.10.2
     #   pytest-cov
 trove-classifiers==2021.8.4
     # via -r ./requirements.in
-typing-extensions==3.10.0.0
+typing-extensions==3.10.0.1
     # via importlib-metadata
 uritemplate.py==3.0.2
     # via github3.py
