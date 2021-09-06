@@ -9,6 +9,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.utils import timezone
 from django.urls import reverse
+from django.utils.functional import cached_property
 
 from distutils.version import LooseVersion as versioner
 import requests
@@ -67,7 +68,16 @@ class Package(BaseModel):
     documentation_url = models.URLField(_("Documentation URL"), blank=True, null=True, default="")
 
     commit_list = models.TextField(_("Commit List"), blank=True)
+    date_deprecated = models.DateTimeField(blank=True, null=True)
+    deprecated_by = models.ForeignKey(User, blank=True, null=True, related_name="deprecator", on_delete=models.PROTECT)
+    deprecates_package = models.ForeignKey("self", blank=True, null=True, related_name="replacement", on_delete=models.PROTECT)
 
+    @cached_property
+    def is_deprecated(self):
+        if self.date_deprecated is None:
+            return False
+        return True
+    
     @property
     def pypi_name(self):
         """ return the pypi name of a package"""

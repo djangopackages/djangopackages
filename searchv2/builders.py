@@ -66,39 +66,41 @@ def build_1():
             if data['meta']['total_count']:
                 weight += 20
 
-        if obj.description.strip():
-            weight += 20
+        if not obj.is_deprecated:
 
-        if obj.repo_watchers:
-            weight += min(obj.repo_watchers, 20)
-
-        if obj.repo_forks:
-            weight += min(obj.repo_forks, 20)
-
-        if obj.pypi_downloads:
-            weight += min(obj.pypi_downloads / 1000, 20)
-
-        if obj.usage:
-            weight += min(obj.usage, 20)
-
-        # Is there ongoing work or is this forgotten?
-        if obj.last_committed:
-            if now - obj.last_committed < quarter_delta:
-                weight += 20
-            elif now - obj.last_committed < half_year_delta:
-                weight += 10
-            elif now - obj.last_committed < year_delta:
-                weight += 5
-
-        # Is the last release less than a year old?
-        last_released = obj.last_released
-        if last_released:
-            if now - last_released < year_delta:
+            if obj.description.strip():
                 weight += 20
 
-        if weight:
-            obj.weight = weight
-            obj.save()
+            if obj.repo_watchers:
+                weight += min(obj.repo_watchers, 20)
+
+            if obj.repo_forks:
+                weight += min(obj.repo_forks, 20)
+
+            if obj.pypi_downloads:
+                weight += min(obj.pypi_downloads / 1000, 20)
+
+            if obj.usage:
+                weight += min(obj.usage, 20)
+
+            # Is there ongoing work or is this forgotten?
+            if obj.last_committed:
+                if now - obj.last_committed < quarter_delta:
+                    weight += 20
+                elif now - obj.last_committed < half_year_delta:
+                    weight += 10
+                elif now - obj.last_committed < year_delta:
+                    weight += 5
+
+            # Is the last release less than a year old?
+            last_released = obj.last_released
+            if last_released:
+                if now - last_released < year_delta:
+                    weight += 20
+
+            if weight:
+                obj.weight = weight
+                obj.save()
 
     max_weight = SearchV2.objects.only("weight").order_by("-weight").first().weight
     increment = max_weight / 6
