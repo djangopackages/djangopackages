@@ -116,7 +116,6 @@
                     {% for grid_package in grid_packages %}
                         <td>
                             {% with grid_package.package.repo_description|truncatewords:20 as short %}
-                                {%if %}
                                 {% if grid_package.package.repo_description|length > short|length %}
                                    {{ short|wordwrap:30|linebreaksbr|slice:"-3" }}<a href="{{ grid_package.package.get_absolute_url }}">...</a>
                                 {% else %}
