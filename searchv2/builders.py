@@ -66,7 +66,7 @@ def build_1():
             if data['meta']['total_count']:
                 weight += 20
 
-        if not obj.is_deprecated:
+        if not package.is_deprecated:
 
             if obj.description.strip():
                 weight += 20
