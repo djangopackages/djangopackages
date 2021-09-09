@@ -200,6 +200,14 @@
                     {% endif %}
                 </div>
 
+                {% if package.is_deprecated %}
+                    <h3>Date Deprecated</h3>
+                    <p>{{ package.date_deprecated }}</p>
+
+                    <h3>Replacement Package</h3>
+                    <p><a href="{{ package.deprecates_package.pypi_url }}" target="_blank">{{ package.deprecates_package.pypi_url }}</a></p>
+                {% endif %}
+
 
                 {% for grid in package.grids %}
                     <a href="{% url 'grid' grid.slug %}" title="{{ grid.description }}">{{ grid }}</a> &nbsp;
