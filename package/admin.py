@@ -22,7 +22,7 @@ class PackageAdmin(VersionAdmin):
     list_filter = ["category"]
     list_display = ["title", "category", "created"]
     date_hierarchy = "created"
-    raw_id_fields = ["usage", "deprecated_by"]
+    raw_id_fields = ["usage", "deprecated_by", "deprecates_package"]
     inlines = [
         PackageExampleInline,
     ]
@@ -40,6 +40,9 @@ class PackageAdmin(VersionAdmin):
                     "usage",
                     "created_by",
                     "last_modified_by",
+                    "date_deprecated",
+                    "deprecates_package",
+                    "deprecated_by",
                 )
             },
         ),
