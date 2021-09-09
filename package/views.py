@@ -6,9 +6,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 from django.urls import reverse
-from django.db.models import Q, Count
+from django.db.models import Count, Q
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import PermissionDenied
@@ -20,8 +20,6 @@ from homepage.models import Dpotw, Gotw
 from package.forms import PackageForm, PackageExampleForm, DocumentationForm
 from package.models import Category, Package, PackageExample
 from package.repos import get_all_repos
-
-from .utils import quote_plus
 
 
 def repo_data_for_js():

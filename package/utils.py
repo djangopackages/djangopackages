@@ -1,3 +1,4 @@
+from trove_classifiers import classifiers
 from distutils.version import LooseVersion as versioner
 
 from requests.compat import quote
@@ -66,7 +67,7 @@ def normalize_license(license):
     """
     if license is None:
         return "UNKNOWN"
-    if license.strip() in settings.LICENSES:
+    if license.strip() in classifiers:
         return license.strip()
     if len(license.strip()) > 20:
         return "Custom"

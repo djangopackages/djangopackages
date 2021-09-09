@@ -7,7 +7,7 @@ class NULL:
 
 class SettingsOverride:
     """
-    Overrides Django settings within a context and resets them to their inital
+    Overrides Django settings within a context and resets them to their initial
     values on exit.
 
     Example::

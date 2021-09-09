@@ -1,13 +1,10 @@
-import json
 
 from django.test import TestCase
 
 from package.repos import get_repo_for_repo_url
-from package.repos.bitbucket import repo_handler as bitbucket_handler
-from package.repos.github import repo_handler as github_handler
 from package.repos.base_handler import BaseHandler
 from package.repos.unsupported import UnsupportedHandler
-from package.models import Commit, Package, Category
+from package.models import Package, Category
 
 
 class BaseBase(TestCase):
@@ -249,7 +246,7 @@ class TestRepos(BaseBase):
         from package.repos import get_repo, supported_repos
 
         g = get_repo("github")
-        self.assertEqual(g.title, "Github")
+        self.assertEqual(g.title, "GitHub")
         self.assertEqual(g.url, "https://github.com")
         self.assertTrue("github" in supported_repos())
         self.assertRaises(ImportError, lambda: get_repo("xyzzy"))

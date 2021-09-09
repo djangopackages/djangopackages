@@ -1,10 +1,8 @@
 import logging
-import logging.config
 from time import sleep
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from django.core.mail import send_mail
 
 from github3 import login as github_login
 
@@ -37,7 +35,9 @@ class Command(BaseCommand):
 
             # Simple attempt to deal with Github rate limiting
             while True:
+                print(f"github.ratelimit_remaining=={github.ratelimit_remaining}")
                 if github.ratelimit_remaining < 50:
+                    print(f"{__file__}::handle::sleep(120)")
                     sleep(120)
                 break
 
@@ -50,5 +50,6 @@ class Command(BaseCommand):
             except PackageUpdaterException:
                 logger.error(f"Unable to update {package.title}", exc_info=True)
 
+            print(f"{__file__}::handle::sleep(5)")
             sleep(5)
         healthcheck(settings.PACKAGE_HEALTHCHECK_URL)

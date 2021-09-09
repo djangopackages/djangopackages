@@ -2,10 +2,8 @@
 # chardet==3.0.2
 Django<3.0
 # see requirements-to-watch.txt
-# github3.py
 dj-pagination
 django-anymail
-django-braces
 django-crispy-forms
 django-debug-toolbar
 django-environ
@@ -14,32 +12,33 @@ django-floppyforms
 django-jsonview
 django-reversion
 django-secure
-django-storages
 django-waffle
 djangorestframework<3.13
 feedparser
+# github3.py
 github3.py<1.0
-httplib2
-logutils
-mimeparse
-oauth2
 psycopg2-binary
-python-dateutil
+python-gitlab
 requests
+requests-mock
 sentry-sdk
-shortuuid
-six
 social-auth-app-django
 social-auth-core
+trove-classifiers
 uwsgi
 webstack-django-sorting<2
-python-gitlab
+whitenoise
 
 # Redis support
 django-redis
 redis
 
 # testing
+django-test-plus
 pytest
 pytest-cov
 pytest-django
+
+# utils
+bumpver
+six

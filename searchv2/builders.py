@@ -1,8 +1,8 @@
-from datetime import datetime, timedelta
 import json
-from sys import stdout
-
 import requests
+
+from datetime import timedelta
+from django.utils import timezone
 
 from grid.models import Grid
 from package.models import Package, Commit
@@ -11,16 +11,15 @@ from searchv2.utils import remove_prefix, clean_title
 
 
 def build_1():
-
-    now = datetime.now()
+    now = timezone.now()
     quarter_delta = timedelta(90)
     half_year_delta = timedelta(182)
     year_delta = timedelta(365)
     last_week = now - timedelta(7)
 
     SearchV2.objects.filter(created__lte=last_week).delete()
-    for package in Package.objects.filter():
-
+    for package in Package.objects.all():
+        print(f"{package}")
         obj, created = SearchV2.objects.get_or_create(
             item_type="package",
             slug=package.slug,
@@ -67,41 +66,43 @@ def build_1():
             if data['meta']['total_count']:
                 weight += 20
 
-        if obj.description.strip():
-            weight += 20
+        if not package.is_deprecated:
 
-        if obj.repo_watchers:
-            weight += min(obj.repo_watchers, 20)
-
-        if obj.repo_forks:
-            weight += min(obj.repo_forks, 20)
-
-        if obj.pypi_downloads:
-            weight += min(obj.pypi_downloads / 1000, 20)
-
-        if obj.usage:
-            weight += min(obj.usage, 20)
-
-        # Is there ongoing work or is this forgotten?
-        if obj.last_committed:
-            if now - obj.last_committed < quarter_delta:
-                weight += 20
-            elif now - obj.last_committed < half_year_delta:
-                weight += 10
-            elif now - obj.last_committed < year_delta:
-                weight += 5
-
-        # Is the last release less than a year old?
-        last_released = obj.last_released
-        if last_released:
-            if now - last_released < year_delta:
+            if obj.description.strip():
                 weight += 20
 
-        if weight:
-            obj.weight = weight
-            obj.save()
+            if obj.repo_watchers:
+                weight += min(obj.repo_watchers, 20)
 
-    max_weight = SearchV2.objects.all()[0].weight
+            if obj.repo_forks:
+                weight += min(obj.repo_forks, 20)
+
+            if obj.pypi_downloads:
+                weight += min(obj.pypi_downloads / 1000, 20)
+
+            if obj.usage:
+                weight += min(obj.usage, 20)
+
+            # Is there ongoing work or is this forgotten?
+            if obj.last_committed:
+                if now - obj.last_committed < quarter_delta:
+                    weight += 20
+                elif now - obj.last_committed < half_year_delta:
+                    weight += 10
+                elif now - obj.last_committed < year_delta:
+                    weight += 5
+
+            # Is the last release less than a year old?
+            last_released = obj.last_released
+            if last_released:
+                if now - last_released < year_delta:
+                    weight += 20
+
+            if weight:
+                obj.weight = weight
+                obj.save()
+
+    max_weight = SearchV2.objects.only("weight").order_by("-weight").first().weight
     increment = max_weight / 6
     for grid in Grid.objects.all():
         obj, created = SearchV2.objects.get_or_create(
@@ -123,7 +124,7 @@ def build_1():
         if not grid.header:
             weight -= increment
 
-        if not grid.packages.count():
+        if not grid.packages.exists():
             weight -= increment
 
         obj.weight = weight

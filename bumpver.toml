@@ -1,0 +1,15 @@
+[bumpver]
+current_version = "2021.8.19"
+version_pattern = "YYYY.MM.INC1"
+commit_message = ":bookmark: bump version {old_version} -> {new_version}"
+commit = true
+push = false  # diabled for GitHub Actions
+tag = true
+
+[bumpver.file_patterns]
+"bumpver.toml" = [
+    'current_version = "{version}"',
+]
+"core/__init__.py" = [
+    '__version__ = "{version}"',
+]

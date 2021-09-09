@@ -1,16 +1,8 @@
 name: CI
 
-env:
-  DOCKER_BUILDKIT: "1"
-  DOCKER_IMAGE: "docker.pkg.github.com/djangopackages/djangopackages"
-
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-  push:
-    branches:
-      - main
-      - master
 
 jobs:
   test:
@@ -67,71 +59,3 @@ jobs:
       # - name: Lints HTML templates
       #   run: |
       #     djhtml --check src/templates/*.html src/templates/**/*.html
-
-  build-and-push-develop-image:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
-    name: Build and Publish Develop Docker image
-    needs: [test]
-    permissions:
-      contents: read
-      packages: write
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
-
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and Push Develop Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./compose/django/Dockerfile-dev
-          push: true
-          tags: |
-            ghcr.io/${{ github.repository }}:develop
-
-  build-and-push-production-image:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-    name: Build and Publish Production Docker image
-    needs: [test]
-    permissions:
-      contents: read
-      packages: write
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
-
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and Push Production Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./compose/django/Dockerfile
-          push: true
-          tags: |
-            ghcr.io/${{ github.repository }}:latest

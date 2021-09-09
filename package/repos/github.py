@@ -1,17 +1,15 @@
 from time import sleep
 
 from django.conf import settings
-from django.utils import timezone
 
 from github3 import GitHub, login
-import requests
 
 from .base_handler import BaseHandler
 from package.utils import uniquer
 
 
 class GitHubHandler(BaseHandler):
-    title = "Github"
+    title = "GitHub"
     url_regex = '(http|https|git)://github.com/'
     url = 'https://github.com'
     repo_regex = r'(?:http|https|git)://github.com/[^/]*/([^/]*)/{0,1}'
@@ -25,6 +23,7 @@ class GitHubHandler(BaseHandler):
 
     def manage_ratelimit(self):
         while self.github.ratelimit_remaining < 10:
+            print(f"{__file__}::manage_ratelimit::sleep(1)")
             sleep(1)
 
     def _get_repo(self, package):

@@ -8,22 +8,23 @@
     ],
     // Add the IDs of extensions you want installed when the container is created.
     "extensions": [
-        "ms-python.python",
-        "ms-python.vscode-pylance",
         "eamodio.gitlens",
-        "redhat.vscode-yaml",
-        "ms-azuretools.vscode-docker",
         "editorconfig.editorconfig",
         "github.copilot",
+        "ms-azuretools.vscode-docker",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "redhat.vscode-yaml",
         "skellock.just"
     ],
     // "runServices": ["django"],
     "service": "django",
     "settings": {
-        "terminal.integrated.shell.linux": null
+        "terminal.integrated.shell.linux": "/bin/bash",
+        "python.defaultInterpreterPath": "/usr/local/bin/python"
     },
     // "workspaceMount": "source=${localWorkspaceFolder}/myRepo,target=/workspaces,type=bind,consistency=delegated",
-    "workspaceFolder": "/workspace/",
+    "workspaceFolder": "/workspace/"
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     // "forwardPorts": [],
     // Use 'postCreateCommand' to run commands after the container is created.

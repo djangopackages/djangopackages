@@ -17,13 +17,13 @@ class BaseHandler:
         """ title for display in drop downs:
 
                 return: string
-                example: 'Github'
+                example: 'GitHub'
         """
         return NotImplemented
 
     @property
     def url(self):
-        """ base value for url API interation:
+        """ base value for url API interaction:
 
                 return: URL string
                 example: 'https://github.com'

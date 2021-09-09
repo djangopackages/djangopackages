@@ -13,10 +13,13 @@ To list all available commands, run::
 """
 
 
-from fabric.operations import local as lrun, run, sudo, put
-from fabric.api import *
-from fabric.colors import green, red, yellow, blue
 import time
+from fabric.api import *
+from fabric.api import cd
+from fabric.api import env
+from fabric.api import lcd
+from fabric.colors import blue
+from fabric.operations import local as lrun, run, put
 
 
 def local():
@@ -79,16 +82,16 @@ def rollback(commit="HEAD~1"):
 
 def deploy():
     """
-    Pulls the latest changes from master, rebuilt and restarts the stack
+    Pulls the latest changes from main, rebuilt and restarts the stack
     """
 
-    lrun("git push origin master")
+    lrun("git push origin main")
     copy_secrets()
     with env.cd(env.project_dir):
-
+        docker_compose("run django-a python manage.py clearsessions")
         docker_compose("run postgres backup")
 
-        env.run("git pull origin master")
+        env.run("git pull origin main")
 
         build_and_restart("django-a")
         time.sleep(10)
@@ -102,10 +105,10 @@ def deploy():
 
 
 def build_and_restart(service):
-    docker_compose("build " + service)
-    docker_compose("create " + service)
-    docker_compose("stop " + service)
-    docker_compose("start " + service)
+    docker_compose(f"build {service}")
+    docker_compose(f"create {service}")
+    docker_compose(f"stop {service}")
+    docker_compose(f"start {service}")
 
 
 def docker_compose(command):
