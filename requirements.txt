@@ -152,7 +152,7 @@ social-auth-core==4.1.0
     # via
     #   -r ./requirements.in
     #   social-auth-app-django
-sqlparse==0.4.1
+sqlparse==0.4.2
     # via
     #   django
     #   django-debug-toolbar
