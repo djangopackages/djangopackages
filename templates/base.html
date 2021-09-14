@@ -179,7 +179,7 @@
 
             <a href="{% url 'faq' %}">{% trans "FAQ" %}</a>
 
-            <a href="{% url 'funding' %}">{% trans "Funding" %}</a>
+            {% comment %}<a href="{% url 'funding' %}">{% trans "Funding" %}</a>{% endcomment %}
 
             <a href="{% url 'terms' %}">{% trans "Terms" %}</a>
 
@@ -199,15 +199,15 @@
       <div class="row">
           <div class="col-12">
               &copy; 2010-{% now "Y" %} <a href="https://github.com/djangopackages/djangopackages/blob/master/CONTRIBUTORS.txt">Contributors</a>,
-              {# My commit to Daniel and Audrey is that this attribution be kept as long as the website is up #}
+              {# Please leave Daniel and Audrey's attribution here #}
                 2010-2021 funded by <a href="https://www.feldroy.com/collections/two-scoops-press">Two Scoops Press</a>,
                 an imprint of <a href="https://www.feldroy.com/">Feldroy</a>.<br/>
                 Originally developed by <a href="http://daniel.feldroy.com">Daniel Roy Greenfeld</a>
                 &amp; <a href="https://audrey.feldroy.com/">Audrey Roy Greenfeld</a>,
-              {# end of Daniel and Audrey attribution #}
+              {# end of Daniel and Audrey's attribution #}
                 currently maintained by <a href="https://github.com/luzfcb">Fabio C. Barrionuevo da Luz</a>
                 and <a href="https://twitter.com/webology">Jeff Triplett</a>.<br/>
-              Current development sponsored by <a href="https://www.revsys.com/">REVSYS</a>.<br/>
+              Development sponsored by <a href="https://www.revsys.com/">REVSYS</a>.<br/>
               Uses data from <a href="https://libraries.io">libraries.io</a>
                 &amp; <a href="https://pyup.io/">pyup.io</a>.
           </div>
