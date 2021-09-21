@@ -85,8 +85,8 @@ def deploy():
     Pulls the latest changes from main, rebuilt and restarts the stack
     """
 
-    lrun("git push origin main")
-    copy_secrets()
+    # lrun("git push origin main")
+    # copy_secrets()
     with env.cd(env.project_dir):
         docker_compose("run django-a python manage.py clearsessions")
         docker_compose("run postgres backup")
