@@ -1,5 +1,6 @@
 """Docker specific settings.
 """
+import os.path
 import sentry_sdk
 
 from sentry_sdk.integrations.django import DjangoIntegration
@@ -156,9 +157,10 @@ TEMPLATES[0]["OPTIONS"]["loaders"] = [
 # Static Assets
 # ------------------------
 MEDIA_ROOT = "/data/media"
-# STATIC_ROOT = "/data/static"
+STATIC_ROOT = os.path.join(PROJECT_ROOT, "collected_static")
 STATICFILES_DIRS = [
-    STATIC_ROOT,
+    # os.path.join(PROJECT_ROOT, "static"),
+    "/data/static",
 ]
 
 HEALTHCHECK = env.bool("HEALTHCHECK", False)
