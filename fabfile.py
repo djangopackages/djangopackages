@@ -85,14 +85,18 @@ def deploy():
     Pulls the latest changes from main, rebuilt and restarts the stack
     """
 
-    lrun("git push origin main")
-    copy_secrets()
+    # lrun("git push origin main")
+    # copy_secrets()
     with env.cd(env.project_dir):
+        # Manage Backups
         docker_compose("run django-a python manage.py clearsessions")
         docker_compose("run postgres backup")
+        env.run("gzip /data/djangopackages/backups/*.sql")
 
+        # Pull the latest code
         env.run("git pull origin main")
 
+        # Build our primary Docker image
         build_and_restart("django-a")
         time.sleep(10)
 
@@ -101,6 +105,7 @@ def deploy():
         docker_compose("start redis")
         time.sleep(10)
 
+        # Build our secondary Docker image
         build_and_restart("django-b")
 
 

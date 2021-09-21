@@ -13,7 +13,7 @@ env = envmax.Env()
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
-DEBUG = True
+DEBUG = env.bool("DJANGO_DEBUG", True)
 
 INTERNAL_IPS = [
     "127.0.0.1",

@@ -45,7 +45,8 @@ urlpatterns = [
     path('open/', OpenView.as_view(), name="open"),
     path('syndication/', TemplateView.as_view(template_name='pages/syndication.html'), name="syndication"),
     path('help/', TemplateView.as_view(template_name='pages/help.html'), name="help"),
-    re_path(r"^sitemap\.xml$", SitemapView.as_view(), name="sitemap"),
+    path("funding/", TemplateView.as_view(template_name='pages/funding.html'), name="funding"),
+    path("sitemap.xml", SitemapView.as_view(), name="sitemap"),
 
     # new apps
     path('search/', include("searchv2.urls")),
