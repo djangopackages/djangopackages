@@ -27,6 +27,7 @@
                 <table class="table">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>{% trans "User" %}</th>
                             <th>{% trans "Packages" %}</th>
                         </tr>
@@ -34,6 +35,7 @@
                     <tbody>
                         {% for top_user in top_user_list %}
                             <tr>
+                                <td>{% ifchanged top_user.num_packages %}{{ forloop.counter }}{% endifchanged %}</td>
                                 <td><a href="{% url 'profile_detail' github_account=top_user.username %}">{{ top_user }}</a></td>
                                 <td>{{ top_user.num_packages }} {% trans "packages" %}</td>
                             </tr>
@@ -46,6 +48,7 @@
                 <table class="table">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>{% trans "Grid" %}</th>
                             <th>{% trans "Packages" %}</th>
                         </tr>
@@ -53,6 +56,7 @@
                     <tbody>
                         {% for grid in top_grid_list %}
                             <tr>
+                                <td>{% ifchanged grid.num_packages %}{{ forloop.counter }}{% endifchanged %}</td>
                                 <td><a href="{{ grid.get_absolute_url }}">{{ grid }}</a></td>
                                 <td>{{ grid.num_packages }} {% trans "packages" %}</td>
                             </tr>
