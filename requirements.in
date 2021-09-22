@@ -1,6 +1,6 @@
 # certifi==2017.4.17
 # chardet==3.0.2
-Django<3.0
+Django==3.2
 # see requirements-to-watch.txt
 dj-pagination
 django-anymail
