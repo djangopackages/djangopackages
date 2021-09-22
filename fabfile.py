@@ -14,7 +14,7 @@ To list all available commands, run::
 
 
 import time
-from fabric.api import *
+from fabric.api import *  # noqa
 from fabric.api import cd
 from fabric.api import env
 from fabric.api import lcd
@@ -58,7 +58,7 @@ def copy_secrets():
     :return:
     """
     secrets = [
-        ".env",
+        ".env-production",
     ]
 
     for secret in secrets:
@@ -80,6 +80,14 @@ def rollback(commit="HEAD~1"):
     deploy()
 
 
+def backup():
+    with env.cd(env.project_dir):
+        # Manage Backups
+        docker_compose("run django-a python manage.py clearsessions")
+        docker_compose("run postgres backup")
+        env.run("gzip /data/djangopackages/backups/*.sql")
+
+
 def deploy():
     """
     Pulls the latest changes from main, rebuilt and restarts the stack
@@ -89,9 +97,10 @@ def deploy():
     # copy_secrets()
     with env.cd(env.project_dir):
         # Manage Backups
-        docker_compose("run django-a python manage.py clearsessions")
-        docker_compose("run postgres backup")
-        env.run("gzip /data/djangopackages/backups/*.sql")
+        # docker_compose("run django-a python manage.py clearsessions")
+
+        # docker_compose("run postgres backup")
+        # env.run("gzip /data/djangopackages/backups/*.sql")
 
         # Pull the latest code
         env.run("git pull origin main")
@@ -101,7 +110,7 @@ def deploy():
         time.sleep(10)
 
         # just to make sure they are on
-        docker_compose("start postgres")
+        # docker_compose("start postgres")
         docker_compose("start redis")
         time.sleep(10)
 
