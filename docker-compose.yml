@@ -11,7 +11,7 @@ services:
       dockerfile: ./compose/django/Dockerfile
     user: django
     depends_on:
-      - postgres
+      # - postgres
       - redis
     volumes:
       - static:/data/static
@@ -31,7 +31,7 @@ services:
       dockerfile: ./compose/django/Dockerfile
     user: django
     depends_on:
-      - postgres
+      # - postgres
       - redis
     volumes:
       - static:/data/static
