@@ -45,18 +45,18 @@ services:
         max-file: "5"
         # compress: "true"
 
-  postgres:
-    build: ./compose/postgres
-    volumes:
-      - /data/djangopackages/postgres:/var/lib/postgresql/data
-      - /data/djangopackages/backups:/backups
-    env_file: .env
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "600m"
-        max-file: "5"
-        # compress: "true"
+  # postgres:
+  #   build: ./compose/postgres
+  #   volumes:
+  #     - /data/djangopackages/postgres:/var/lib/postgresql/data
+  #     - /data/djangopackages/backups:/backups
+  #   env_file: .env
+  #   logging:
+  #     driver: "json-file"
+  #     options:
+  #       max-size: "600m"
+  #       max-file: "5"
+  #       # compress: "true"
 
   caddy:
     depends_on:
