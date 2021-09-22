@@ -263,7 +263,7 @@ WSGI_APPLICATION = "wsgi.application"
 
 if DEBUG:
     INSTALLED_APPS += ["debug_toolbar"]
-    MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
+    # MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
     DEBUG_TOOLBAR_CONFIG = {
         "INTERCEPT_REDIRECTS": False,
         "SHOW_TOOLBAR_CALLBACK": lambda _request: DEBUG,
