@@ -6,6 +6,8 @@ services:
     volumes:
       - .:/workspace:cached
       - /var/run/docker.sock:/var/run/docker.sock
+      - vscode-server-extensions:/root/.vscode-server/extensions
+      - vscode-server-insiders-extensions:/root/.vscode-server-insiders/extensions
 
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
@@ -19,3 +21,7 @@ services:
 
     # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
     # (Adding the "ports" property to this file will not forward from a Codespace.)
+
+volumes:
+  vscode-server-extensions:
+  vscode-server-insiders-extensions:
