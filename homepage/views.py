@@ -25,7 +25,7 @@ class OpenView(TemplateView):
             "total_packages": Package.objects.count(),
             "total_versions": Version.objects.count(),
             "total_users": User.objects.count(),
-            "top_user_list": User.objects.all().annotate(num_packages=Count("package")).filter(num_packages__gt=15).order_by("-num_packages")[0:100],
+            "top_user_list": User.objects.all().annotate(num_packages=Count("creator")).filter(num_packages__gt=10).order_by("-num_packages")[0:100],
             "top_grid_list": Grid.objects.all().annotate(num_packages=Count("packages")).filter(num_packages__gt=15).order_by("-num_packages")[0:100],
         })
         return data
