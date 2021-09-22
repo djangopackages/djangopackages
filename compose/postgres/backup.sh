@@ -24,7 +24,7 @@ echo "successfully created backup $FILENAME"
 
 
 FILENAME=backup_$(date +'%Y_%m_%dT%H_%M_%S')_$POSTGRES_DB.sql
-pg_dump -h $POSTGRES_HOST -U $POSTGRES_USER -Fc $POSTGRES_DB >> /backups/$FILENAME.sql
+pg_dump -h $POSTGRES_HOST -U $POSTGRES_USER -Fc $POSTGRES_DB >> /backups/$FILENAME
 gzip /backups/$FILENAME
 
 echo "successfully created backup $FILENAME"
