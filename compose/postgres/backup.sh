@@ -20,3 +20,6 @@ FILENAME=backup_$(date +'%Y_%m_%dT%H_%M_%S').sql
 pg_dump -h postgres -U $POSTGRES_USER >> /backups/$FILENAME
 
 echo "successfully created backup $FILENAME"
+
+pg_dump -h $POSTGRES_HOST -U $POSTGRES_USER -Fc $POSTGRES_DB >> /backups/$POSTGRES_DB.sql
+echo "successfully created backup $POSTGRES_DB.sql"
