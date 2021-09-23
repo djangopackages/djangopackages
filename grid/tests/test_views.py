@@ -182,7 +182,7 @@ class FunctionalGridTest(TestCase):
             'package': 2,
         })
         self.assertContains(response,
-                            '&#39;Supertester&#39; is already in this grid.')
+                            '&#x27;Supertester&#x27; is already in this grid.')
         # Test form post for new grid package
         count = GridPackage.objects.count()
         response = self.client.post(url, {
