@@ -1,12 +1,15 @@
 from datetime import datetime, timedelta
 import json
 import re
+import math
+from dateutil import relativedelta
 
 from django.core.cache import cache
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from django.utils.timezone import now
 from django.utils import timezone
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -68,6 +71,8 @@ class Package(BaseModel):
     documentation_url = models.URLField(_("Documentation URL"), blank=True, null=True, default="")
 
     commit_list = models.TextField(_("Commit List"), blank=True)
+    score = models.IntegerField(_("Score"), default=0)
+
     date_deprecated = models.DateTimeField(blank=True, null=True)
     deprecated_by = models.ForeignKey(User, blank=True, null=True, related_name="deprecator", on_delete=models.PROTECT)
     deprecates_package = models.ForeignKey("self", blank=True, null=True, related_name="replacement", on_delete=models.PROTECT)
@@ -77,7 +82,7 @@ class Package(BaseModel):
         if self.date_deprecated is None:
             return False
         return True
-    
+
     @property
     def pypi_name(self):
         """ return the pypi name of a package"""
@@ -238,10 +243,27 @@ class Package(BaseModel):
         for grid in self.grids():
             grid.clear_detail_template_cache()
 
+    def calculate_score(self):
+        """
+        Scores a penalty of 10% of the stars for each 3 months the package is not updated;
+        + a penalty of -30% of the stars if it does not support python 3.
+        So an abandoned packaged for 2 years would lose 80% of its stars.
+        """
+        delta = relativedelta.relativedelta(now(), self.last_updated())
+        delta_months = (delta.years * 12) + delta.months
+        last_updated_penalty = math.modf(delta_months / 3)[1] * self.repo_watchers / 10
+        last_version = self.version_set.last()
+        is_python_3 = last_version and last_version.supports_python3
+        # TODO: Address this better
+        python_3_penalty = 0 if is_python_3 else min([self.repo_watchers * 30 / 100, 1000])
+        # penalty for docs maybe
+        return self.repo_watchers - last_updated_penalty - python_3_penalty
+
     def save(self, *args, **kwargs):
         if not self.repo_description:
             self.repo_description = ""
         self.grid_clear_detail_template_cache()
+        self.score = self.calculate_score()
         super().save(*args, **kwargs)
 
     def fetch_commits(self):

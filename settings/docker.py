@@ -1,5 +1,6 @@
 """Docker specific settings.
 """
+import os.path
 import sentry_sdk
 
 from sentry_sdk.integrations.django import DjangoIntegration
@@ -27,7 +28,7 @@ CACHES = {
 # Anymail with Mailgun
 INSTALLED_APPS += ("anymail",)
 ANYMAIL = {
-    "MAILGUN_API_KEY": env("DJANGO_MAILGUN_API_KEY"),
+    "MAILGUN_API_KEY": env("MAILGUN_API_KEY"),
     "MAILGUN_SENDER_DOMAIN": env("MAILGUN_SENDER_DOMAIN"),
 }
 EMAIL_BACKEND = "anymail.backends.mailgun.MailgunBackend"
@@ -156,9 +157,10 @@ TEMPLATES[0]["OPTIONS"]["loaders"] = [
 # Static Assets
 # ------------------------
 MEDIA_ROOT = "/data/media"
-STATIC_ROOT = "/data/static"
+STATIC_ROOT = os.path.join(PROJECT_ROOT, "collected_static")
 STATICFILES_DIRS = [
-    STATIC_ROOT,
+    # os.path.join(PROJECT_ROOT, "static"),
+    "/data/static",
 ]
 
 HEALTHCHECK = env.bool("HEALTHCHECK", False)

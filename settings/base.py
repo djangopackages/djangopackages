@@ -13,7 +13,7 @@ env = envmax.Env()
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
-DEBUG = True
+DEBUG = env.bool("DJANGO_DEBUG", True)
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -226,6 +226,8 @@ SUPPORTED_REPO = []
 ########################## Site specific stuff
 FRAMEWORK_TITLE = "Django"
 SITE_TITLE = "Django Packages"
+
+PACKAGE_SCORE_MIN = env.int("PACKAGE_SCORE_MIN", default=-500)
 
 if LOCAL_INSTALLED_APPS:
     INSTALLED_APPS.extend(LOCAL_INSTALLED_APPS)

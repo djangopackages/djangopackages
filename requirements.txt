@@ -108,6 +108,8 @@ pytest==6.2.5
     #   -r requirements.in
     #   pytest-cov
     #   pytest-django
+python-dateutil==2.8.2
+    # via -r ./requirements.in
 python-gitlab==2.10.1
     # via -r requirements.in
 python3-openid==3.2.0
@@ -142,6 +144,7 @@ six==1.16.0
     # via
     #   -r requirements.in
     #   pathlib2
+    #   python-dateutil
     #   requests-mock
 social-auth-app-django==5.0.0
     # via -r requirements.in

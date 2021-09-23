@@ -19,6 +19,7 @@ feedparser
 github3.py<1.0
 psycopg2-binary
 python-gitlab
+python-dateutil
 requests
 requests-mock
 sentry-sdk
