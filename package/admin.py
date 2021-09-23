@@ -26,7 +26,7 @@ class PackageAdmin(VersionAdmin):
     inlines = [
         PackageExampleInline,
     ]
-    readonly_fields = ["created_by", "last_modified_by"]
+    readonly_fields = ["score", "created_by", "last_modified_by"]
     fieldsets = (
         (
             None,
@@ -38,6 +38,7 @@ class PackageAdmin(VersionAdmin):
                     "pypi_url",
                     "repo_url",
                     "usage",
+                    "score",
                     "created_by",
                     "last_modified_by",
                     "date_deprecated",
