@@ -254,7 +254,8 @@ class Package(BaseModel):
         last_updated_penalty = math.modf(delta_months / 3)[1] * self.repo_watchers / 10
         last_version = self.version_set.last()
         is_python_3 = last_version and last_version.supports_python3
-        python_3_penalty = 0 if is_python_3 else (self.repo_watchers * 30 / 100)
+        # TODO: Address this better
+        python_3_penalty = 0 if is_python_3 else min([self.repo_watchers * 30 / 100, 1000])
         # penalty for docs maybe
         return self.repo_watchers - last_updated_penalty - python_3_penalty
 
