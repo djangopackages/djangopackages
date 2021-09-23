@@ -20,13 +20,13 @@ class PackageAdmin(VersionAdmin):
     save_on_top = True
     search_fields = ["title"]
     list_filter = ["category"]
-    list_display = ["title", "category", "created"]
+    list_display = ["title", "category", "score", "created"]
     date_hierarchy = "created"
     raw_id_fields = ["usage", "deprecated_by", "deprecates_package"]
     inlines = [
         PackageExampleInline,
     ]
-    readonly_fields = ["created_by", "last_modified_by"]
+    readonly_fields = ["score", "created_by", "last_modified_by"]
     fieldsets = (
         (
             None,
@@ -38,6 +38,7 @@ class PackageAdmin(VersionAdmin):
                     "pypi_url",
                     "repo_url",
                     "usage",
+                    "score",
                     "created_by",
                     "last_modified_by",
                     "date_deprecated",
