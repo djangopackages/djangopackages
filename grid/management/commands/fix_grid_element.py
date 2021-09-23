@@ -1,4 +1,4 @@
-from collections import defaultdict
+from collections.abc import defaultdict
 
 from django.core.management.base import BaseCommand
 from grid.models import Element
