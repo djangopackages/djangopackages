@@ -275,7 +275,7 @@ def usage(request, slug, action):
 
     # Intelligently determine the URL to redirect the user to based on the
     # available information.
-    next = request.GET.get('next') or request.META.get("HTTP_REFERER") or reverse("package", kwargs={"slug": package.slug})
+    next = request.GET.get('next') or request.headers.get('Referer') or reverse("package", kwargs={"slug": package.slug})
     return HttpResponseRedirect(next)
 
 
