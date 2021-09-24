@@ -7,6 +7,7 @@ from dateutil import relativedelta
 from django.core.cache import cache
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.utils.timezone import now
@@ -62,6 +63,11 @@ class Package(BaseModel):
     repo_forks = models.IntegerField(_("repo forks"), default=0)
     pypi_url = models.CharField(_("PyPI slug"), max_length=255, help_text=pypi_url_help_text, blank=True, default='')
     pypi_downloads = models.IntegerField(_("Pypi downloads"), default=0)
+    pypi_classifiers = ArrayField(models.CharField(max_length=100), blank=True, null=True)
+    pypi_license = models.CharField(_("PyPI License"), max_length=100, blank=True, null=True)
+    pypi_licenses = ArrayField(models.CharField(max_length=100), blank=True, null=True)
+    pypi_requires_python = models.CharField(_("PyPI Requires Python"), max_length=32, blank=True, null=True)
+    supports_python3 = models.BooleanField(_("Supports Python 3"), blank=True, null=True)
     participants = models.TextField(_("Participants"),
                         help_text="List of collaborats/participants on the project", blank=True)
     usage = models.ManyToManyField(User, blank=True)
