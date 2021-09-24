@@ -20,13 +20,13 @@ div#body {
     margin-bottom: 0 !important;
     /* table-layout: fixed; */
 }
-.dataTables_filter, 
+.dataTables_filter,
 .dataTables_info {
     margin: 8px 0;
 }
 td.package-name {
-    font-weight: bold; 
-    color: #000000; 
+    font-weight: bold;
+    color: #000000;
     background-color: #E0FBE9;
 }
 #grid-toggle a {
@@ -36,4 +36,19 @@ td.package-name {
     display: inline-block;
     text-align: center;
     font-weight: bold;
+}
+.grid-filters {
+    margin-bottom: 20px;
+}
+.grid-filter {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+.grid-filter__checkbox {
+    margin: 0 !important;
+}
+.grid-filter__label {
+    margin: 0 0 0 5px;
+    font-size: 12px;
 }

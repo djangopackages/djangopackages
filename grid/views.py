@@ -1,5 +1,7 @@
 """views for the :mod:`grid` app"""
 
+import json
+
 from django.conf import settings
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
@@ -334,7 +336,16 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
     grid = get_object_or_404(Grid, slug=slug)
     features = grid.feature_set.select_related(None)
 
-    grid_packages = grid.grid_packages.filter(package__score__gt=settings.PACKAGE_SCORE_MIN).order_by("-package__score")
+    filters = {
+        'python3': request.GET.get('python3') == '1',
+        'stable': request.GET.get('stable') == '1',
+    }
+
+    grid_packages = grid.grid_packages.filter(
+        package__score__gt=settings.PACKAGE_SCORE_MIN,
+        **({'package__version__supports_python3': True} if filters.get('python3') else {}),
+        **({'package__version__development_status': 5} if filters.get('stable') else {}),
+    ).order_by("-package__score")
 
     elements = Element.objects.filter(feature__in=features,
                         grid_package__in=grid_packages)
@@ -356,6 +367,7 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
             ]
 
     return render(request, template_name, {
+            'filters': json.dumps(sorted(filters.items()), separators=(',', ':')),
             'grid': grid,
             'features': features,
             'grid_packages': grid_packages,
