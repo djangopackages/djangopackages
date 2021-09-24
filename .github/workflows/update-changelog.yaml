@@ -1,13 +1,10 @@
 name: Update Changelog
 
 on:
-  # # Every day at 2am
-  # schedule:
-  #   - cron: "0 2 * * *"
+  # Every day at 2am
+  schedule:
+    - cron: "0 2 * * *"
   # Manual trigger
-  push:
-    branches:
-      - teste-changelog-lelis
   workflow_dispatch:
 
 jobs:
