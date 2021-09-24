@@ -3,7 +3,7 @@ name: Update Contributors
 on:
   push:
     branches:
-      - target-test-yml
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
