@@ -19,8 +19,8 @@ class CommitAdmin(admin.ModelAdmin):
 class PackageAdmin(VersionAdmin):
     save_on_top = True
     search_fields = ["title"]
-    list_filter = ["category"]
-    list_display = ["title", "category", "score", "created"]
+    list_filter = ["category", "supports_python3"]
+    list_display = ["title", "category", "score", "supports_python3", "created"]
     date_hierarchy = "created"
     raw_id_fields = ["usage", "deprecated_by", "deprecates_package"]
     inlines = [
@@ -57,6 +57,11 @@ class PackageAdmin(VersionAdmin):
                     "repo_forks",
                     "commit_list",
                     "pypi_downloads",
+                    "pypi_classifiers",
+                    "pypi_license",
+                    "pypi_licenses",
+                    "pypi_requires_python",
+                    "supports_python3",
                     "participants",
                 ),
             },
