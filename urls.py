@@ -12,7 +12,7 @@ from package.views import category, python3_list
 from profiles.views import LogoutView
 
 admin_header = f"Django Packages v{__version__}"
-# admin.site.enable_nav_sidebar = False  # disabled until Django 3.x
+admin.site.enable_nav_sidebar = False  # disabled until Django 3.x
 admin.site.site_header = admin_header
 admin.site.site_title = admin_header
 
