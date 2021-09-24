@@ -266,7 +266,7 @@ def usage(request, slug, action):
         package.grid_clear_detail_template_cache()
 
     # Return an ajax-appropriate response if necessary
-    if request.is_ajax():
+    if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
         response = {'success': success}
         if success:
             response['change'] = change

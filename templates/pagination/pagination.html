@@ -8,11 +8,11 @@
     {% endif %}
     {% for page in pages %}
         {% if page %}
-            {% ifequal page page_obj.number %}
+            {% if page == page_obj.number %}
                 &nbsp;<span class="current page">{{ page }}</span>
             {% else %}
                 &nbsp;<a href="?page={{ page }}{{ getvars }}{{ hashtag }}" class="page">{{ page }}</a>
-            {% endifequal %}
+            {% endif %}
         {% else %}
             ...
         {% endif %}
