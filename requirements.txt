@@ -19,7 +19,9 @@ cffi==1.14.6
 charset-normalizer==2.0.6
     # via requests
 click==8.0.1
-    # via bumpver
+    # via
+    #   bumpver
+    #   django-click
 colorama==0.4.4
     # via bumpver
 coverage==5.5
@@ -33,6 +35,8 @@ defusedxml==0.7.1
 dj-pagination==2.5.0
     # via -r ./requirements.in
 django-anymail==8.4
+    # via -r ./requirements.in
+django-click==2.3.0
     # via -r ./requirements.in
 django-crispy-forms==1.12.0
     # via -r ./requirements.in
@@ -89,7 +93,9 @@ oauthlib==3.1.1
     #   requests-oauthlib
     #   social-auth-core
 packaging==21.0
-    # via pytest
+    # via
+    #   -r ./requirements.in
+    #   pytest
 pathlib2==2.3.6
     # via bumpver
 pluggy==1.0.0
