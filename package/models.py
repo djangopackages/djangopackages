@@ -14,6 +14,7 @@ from django.utils.timezone import now
 from django.utils import timezone
 from django.urls import reverse
 from django.utils.functional import cached_property
+from packaging.specifiers import SpecifierSet
 
 from distutils.version import LooseVersion as versioner
 import requests
@@ -66,7 +67,7 @@ class Package(BaseModel):
     pypi_classifiers = ArrayField(models.CharField(max_length=100), blank=True, null=True)
     pypi_license = models.CharField(_("PyPI License"), max_length=100, blank=True, null=True)
     pypi_licenses = ArrayField(models.CharField(max_length=100), blank=True, null=True)
-    pypi_requires_python = models.CharField(_("PyPI Requires Python"), max_length=32, blank=True, null=True)
+    pypi_requires_python = models.CharField(_("PyPI Requires Python"), max_length=100, blank=True, null=True)
     supports_python3 = models.BooleanField(_("Supports Python 3"), blank=True, null=True)
     participants = models.TextField(_("Participants"),
                         help_text="List of collaborats/participants on the project", blank=True)
