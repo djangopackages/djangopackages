@@ -14,6 +14,7 @@ env = envmax.Env()
 PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 DEBUG = env.bool("DJANGO_DEBUG", True)
+TEMPLATE_DEBUG = env.bool("TEMPLATE_DEBUG", True)
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -79,6 +80,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "dj_pagination.middleware.PaginationMiddleware",
     "waffle.middleware.WaffleMiddleware",
+    "django_structlog.middlewares.RequestMiddleware",
 ]
 
 TEMPLATES = [
@@ -91,7 +93,7 @@ TEMPLATES = [
         ],
         "OPTIONS": {
             # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
-            "debug": DEBUG,
+            "debug": TEMPLATE_DEBUG,
             # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
             # https://docs.djangoproject.com/en/dev/ref/templates/api/#loader-types
             "loaders": [

@@ -7,12 +7,14 @@ from dateutil import relativedelta
 from django.core.cache import cache
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.utils.timezone import now
 from django.utils import timezone
 from django.urls import reverse
 from django.utils.functional import cached_property
+from packaging.specifiers import SpecifierSet
 
 from distutils.version import LooseVersion as versioner
 import requests
@@ -62,6 +64,11 @@ class Package(BaseModel):
     repo_forks = models.IntegerField(_("repo forks"), default=0)
     pypi_url = models.CharField(_("PyPI slug"), max_length=255, help_text=pypi_url_help_text, blank=True, default='')
     pypi_downloads = models.IntegerField(_("Pypi downloads"), default=0)
+    pypi_classifiers = ArrayField(models.CharField(max_length=100), blank=True, null=True)
+    pypi_license = models.CharField(_("PyPI License"), max_length=100, blank=True, null=True)
+    pypi_licenses = ArrayField(models.CharField(max_length=100), blank=True, null=True)
+    pypi_requires_python = models.CharField(_("PyPI Requires Python"), max_length=100, blank=True, null=True)
+    supports_python3 = models.BooleanField(_("Supports Python 3"), blank=True, null=True)
     participants = models.TextField(_("Participants"),
                         help_text="List of collaborats/participants on the project", blank=True)
     usage = models.ManyToManyField(User, blank=True)
@@ -167,7 +174,7 @@ class Package(BaseModel):
 
     def fetch_pypi_data(self, *args, **kwargs):
         # Get the releases from pypi
-        if self.pypi_url.strip() and self.pypi_url != "http://pypi.python.org/pypi/":
+        if self.pypi_url.strip() and self.pypi_url not in ["http://pypi.python.org/pypi/", "https://pypi.python.org/pypi/"]:
 
             total_downloads = 0
             url = f"https://pypi.python.org/pypi/{self.pypi_name}/json"
@@ -189,9 +196,17 @@ class Package(BaseModel):
                 number=info['version']
             )
 
+            if "classifiers" in info and len(info['classifiers']):
+                self.pypi_classifiers = info['classifiers']
+
+            if "requires_python" in info and info['requires_python']:
+                self.pypi_requires_python = info['requires_python']
+                if self.pypi_requires_python and "3" in SpecifierSet(self.pypi_requires_python):
+                    self.supports_python3 = True
+
             # add to versions
             license = info['license']
-            if not info['license'] or not license.strip()  or 'UNKNOWN' == license.upper():
+            if not info['license'] or not license.strip() or 'UNKNOWN' == license.upper():
                 for classifier in info['classifiers']:
                     if classifier.strip().startswith('License'):
                         # Do it this way to cover people not quite following the spec
@@ -201,7 +216,7 @@ class Package(BaseModel):
                         break
 
             if license and len(license) > 100:
-                license = "Other (see http://pypi.python.org/pypi/%s)" % self.pypi_name
+                license = f"Other (see https://pypi.python.org/pypi/{self.pypi_name})"
 
             version.license = license
 
@@ -221,6 +236,8 @@ class Package(BaseModel):
             for classifier in info['classifiers']:
                 if classifier.startswith('Programming Language :: Python :: 3'):
                     version.supports_python3 = True
+                    if not self.supports_python3:
+                        self.supports_python3 = True
                     break
             version.save()
 

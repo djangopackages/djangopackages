@@ -4,6 +4,7 @@ Django<4.0
 # see requirements-to-watch.txt
 dj-pagination
 django-anymail
+django-click
 django-crispy-forms
 django-debug-toolbar
 django-environ
@@ -12,19 +13,22 @@ django-floppyforms
 django-jsonview
 django-reversion
 django-secure
+django-structlog
 django-waffle
 djangorestframework<3.13
 feedparser
 # github3.py
 github3.py<1.0
+packaging
 psycopg2-binary
-python-gitlab
 python-dateutil
+python-gitlab
 requests
 requests-mock
 sentry-sdk
 social-auth-app-django
 social-auth-core
+structlog
 trove-classifiers
 uwsgi
 webstack-django-sorting<2
