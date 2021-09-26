@@ -33,6 +33,8 @@ trove-classifiers
 uwsgi
 webstack-django-sorting<2
 whitenoise
+PyGithub
+jinja2
 
 # Redis support
 django-redis

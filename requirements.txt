@@ -15,7 +15,9 @@ certifi==2021.5.30
     #   requests
     #   sentry-sdk
 cffi==1.14.6
-    # via cryptography
+    # via
+    #   cryptography
+    #   pynacl
 charset-normalizer==2.0.6
     # via requests
 click==8.0.1
@@ -32,6 +34,8 @@ defusedxml==0.7.1
     # via
     #   python3-openid
     #   social-auth-core
+deprecated==1.2.13
+    # via pygithub
 dj-pagination==2.5.0
     # via -r ./requirements.in
 django-anymail==8.4
@@ -91,8 +95,12 @@ importlib-metadata==4.8.1
     #   pytest
 iniconfig==1.1.1
     # via pytest
+jinja2==3.0.1
+    # via -r ./requirements.in
 lexid==2021.1006
     # via bumpver
+markupsafe==2.0.1
+    # via jinja2
 oauthlib==3.1.1
     # via
     #   requests-oauthlib
@@ -111,8 +119,14 @@ py==1.10.0
     # via pytest
 pycparser==2.20
     # via cffi
+pygithub==1.55
+    # via -r ./requirements.in
 pyjwt==2.1.0
-    # via social-auth-core
+    # via
+    #   pygithub
+    #   social-auth-core
+pynacl==1.4.0
+    # via pygithub
 pyparsing==2.4.7
     # via packaging
 pytest-cov==2.12.1
@@ -147,6 +161,7 @@ requests==2.26.0
     #   -r ./requirements.in
     #   django-anymail
     #   github3.py
+    #   pygithub
     #   python-gitlab
     #   requests-mock
     #   requests-oauthlib
@@ -160,6 +175,7 @@ six==1.16.0
     # via
     #   -r ./requirements.in
     #   pathlib2
+    #   pynacl
     #   python-dateutil
     #   requests-mock
 social-auth-app-django==5.0.0
@@ -202,6 +218,8 @@ webstack-django-sorting==1.0.2
     # via -r ./requirements.in
 whitenoise==5.3.0
     # via -r ./requirements.in
+wrapt==1.12.1
+    # via deprecated
 zipp==3.5.0
     # via importlib-metadata
 
