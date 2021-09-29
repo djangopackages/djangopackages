@@ -205,20 +205,16 @@ class Package(BaseModel):
                     self.supports_python3 = True
 
             # add to versions
-            license = info['license']
-            if not info['license'] or not license.strip() or 'UNKNOWN' == license.upper():
-                for classifier in info['classifiers']:
-                    if classifier.strip().startswith('License'):
-                        # Do it this way to cover people not quite following the spec
-                        # at http://docs.python.org/distutils/setupscript.html#additional-meta-data
-                        license = classifier.strip().replace('License ::', '')
-                        license = license.replace('OSI Approved :: ', '')
-                        break
+            licenses = list(info['license'])
+            for index, license in enumerate(licenses):
+                if license or "UNKNOWN" == license.upper():
+                    for classifier in info['classifiers']:
+                        if classifier.startswith("License"):
+                            licenses[index] = classifier.strip().replace('License ::', '')
+                            licenses[index] = licenses[index].replace('OSI Approved :: ', '')
+                            break
 
-            if license and len(license) > 100:
-                license = f"Other (see https://pypi.python.org/pypi/{self.pypi_name})"
-
-            version.license = license
+            version.licenses = licenses
 
             #version stuff
             try:
