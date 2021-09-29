@@ -413,7 +413,13 @@ class Version(BaseModel):
     package = models.ForeignKey(Package, blank=True, null=True, on_delete=models.CASCADE)
     number = models.CharField(_("Version"), max_length=100, default="", blank="")
     downloads = models.IntegerField(_("downloads"), default=0)
-    license = models.CharField(_("license"), max_length=100)
+    license = models.CharField(_("license"), max_length=100, null=True, blank=True)
+    licenses = ArrayField(
+        models.CharField(max_length=100, verbose_name=_("licenses")),
+        null=True,
+        blank=True,
+        help_text="Comma separated list of licenses.",
+    )
     hidden = models.BooleanField(_("hidden"), default=False)
     upload_time = models.DateTimeField(_("upload_time"), help_text=_("When this was uploaded to PyPI"), blank=True, null=True)
     development_status = models.IntegerField(_("Development Status"), choices=STATUS_CHOICES, default=0)
