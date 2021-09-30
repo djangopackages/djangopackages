@@ -185,7 +185,7 @@ class Package(BaseModel):
                     print((self, response.status_code))
             if response.status_code == 404:
                 if settings.DEBUG:
-                    print("BOOM!")
+                    print("BOOM! this package probably does not exist on pypi")
                     print((self, response.status_code))
                 return False
             release = json.loads(response.content)
@@ -205,18 +205,19 @@ class Package(BaseModel):
                     self.supports_python3 = True
 
             # add to versions
-            licenses = list(info['license'])
-            for index, license in enumerate(licenses):
-                if license or "UNKNOWN" == license.upper():
-                    for classifier in info['classifiers']:
-                        if classifier.startswith("License"):
-                            licenses[index] = classifier.strip().replace('License ::', '')
-                            licenses[index] = licenses[index].replace('OSI Approved :: ', '')
-                            break
+            if 'license' in info and info['license']:
+                licenses = list(info['license'])
+                for index, license in enumerate(licenses):
+                    if license or "UNKNOWN" == license.upper():
+                        for classifier in info['classifiers']:
+                            if classifier.startswith("License"):
+                                licenses[index] = classifier.strip().replace('License ::', '')
+                                licenses[index] = licenses[index].replace('OSI Approved :: ', '')
+                                break
 
-            version.licenses = licenses
+                version.licenses = licenses
 
-            #version stuff
+            # version stuff
             try:
                 url_data = release['urls'][0]
                 version.downloads = url_data['downloads']
