@@ -97,7 +97,14 @@ class Package(BaseModel):
         if not self.pypi_url.strip():
             return ""
 
-        name = self.pypi_url.replace("http://pypi.python.org/pypi/", "")
+        name = self.pypi_url
+
+        if "http://pypi.python.org/pypi/" in name:
+            name = name.replace("http://pypi.python.org/pypi/", "")
+
+        if "https://pypi.python.org/pypi/" in name:
+            name = name.replace("https://pypi.python.org/pypi/", "")
+
         if "/" in name:
             return name[:name.index("/")]
         return name
