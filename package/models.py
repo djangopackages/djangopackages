@@ -105,6 +105,9 @@ class Package(BaseModel):
         if "https://pypi.python.org/pypi/" in name:
             name = name.replace("https://pypi.python.org/pypi/", "")
 
+        if not name.startswith("http"):
+            name = f"https://pypi.org/project/{name}"
+
         if "/" in name:
             return name[:name.index("/")]
         return name

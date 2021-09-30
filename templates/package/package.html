@@ -127,7 +127,7 @@
             <!-- start PyPI panel -->
             <h2>Releases</h2>
 
-            {% if package.pypi_url and package.pypi_url != "http://pypi.python.org/pypi/" and package.pypi_url|slice:":4" == "http" %}
+            {% if package.pypi_url and package.pypi_url != "http://pypi.python.org/pypi/" and package.pypi_url != "https://pypi.python.org/pypi/" and package.pypi_url|slice:":4" == "http" %}
 
                 <table class="table">
                     <thead>
