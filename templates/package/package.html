@@ -186,7 +186,7 @@
                 </div>
                 <p>{{ package.documentation_url|urlize }}</p>
 
-                {% if  package.pypi_url %}
+                {% if package.pypi_url %}
                     <h3>PyPi</h3>
                     <p><a href="{{ package.pypi_url }}" target="_blank">{{ package.pypi_url }}</a></p>
                 {% endif %}
