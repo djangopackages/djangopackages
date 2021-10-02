@@ -166,7 +166,7 @@ INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
 ABSOLUTE_URL_OVERRIDES = {
-    "auth.user": lambda o: "/profiles/profile/%s/" % o.username,
+    "auth.user": lambda o: "/profiles/%s/" % o.username,
 }
 
 AUTH_PROFILE_MODULE = "profiles.Profile"
