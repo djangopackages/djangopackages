@@ -42,6 +42,13 @@ Listed in alphabetical order.
     <td>adamchainz</td>
   </tr>
   <tr>
+    <td>Adelly Lima</td>
+    <td>
+      <a href="https://github.com/adellylima">adellylima</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
     <td>Alekh Ranjan</td>
     <td>
       <a href="https://github.com/alekhranjan75">alekhranjan75</a>
@@ -133,6 +140,13 @@ Listed in alphabetical order.
     <td></td>
   </tr>
   <tr>
+    <td>Gabriel Nunes</td>
+    <td>
+      <a href="https://github.com/gabrielolnunes">gabrielolnunes</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
     <td>Hebert</td>
     <td>
       <a href="https://github.com/hebertjulio">hebertjulio</a>
@@ -203,6 +217,13 @@ Listed in alphabetical order.
     <td></td>
   </tr>
   <tr>
+    <td>José Carlos Menezes</td>
+    <td>
+      <a href="https://github.com/cacoze">cacoze</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
     <td>Kenneth Love</td>
     <td>
       <a href="https://github.com/kennethlove">kennethlove</a>
@@ -234,6 +255,13 @@ Listed in alphabetical order.
     <td>Lukasz</td>
     <td>
       <a href="https://github.com/Frohus">Frohus</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Lélis</td>
+    <td>
+      <a href="https://github.com/r-lelis">r-lelis</a>
     </td>
     <td></td>
   </tr>
