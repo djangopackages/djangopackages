@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2021-10-01]
+### Changed
+- Issue/646 - Add filters to Grid ([#719](https://api.github.com/repos/djangopackages/djangopackages/pulls/719))
+
 ## [2021-09-30]
 ### Changed
 - :bug: Fix for Incorrect PyPI URLs on some packages  ([#725](https://api.github.com/repos/djangopackages/djangopackages/pulls/725))
