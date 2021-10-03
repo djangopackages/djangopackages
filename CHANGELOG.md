@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2021-10-02]
+### Changed
+- Invalid profile url in ABSOLUTE_URL_OVERRIDES ([#732](https://api.github.com/repos/djangopackages/djangopackages/pulls/732))
+
 ## [2021-10-01]
 ### Changed
 - Issue/646 - Add filters to Grid ([#719](https://api.github.com/repos/djangopackages/djangopackages/pulls/719))
