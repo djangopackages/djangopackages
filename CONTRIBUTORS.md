@@ -238,6 +238,13 @@ Listed in alphabetical order.
     <td></td>
   </tr>
   <tr>
+    <td>Kishan Mehta</td>
+    <td>
+      <a href="https://github.com/kishan3">kishan3</a>
+    </td>
+    <td>kishan_mehta</td>
+  </tr>
+  <tr>
     <td>Kulbir Singh</td>
     <td>
       <a href="https://github.com/kulbir">kulbir</a>
