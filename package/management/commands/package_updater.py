@@ -47,6 +47,7 @@ class Command(BaseCommand):
                     package.fetch_commits()
                 except Exception as e:
                     logger.error(f"Error while fetching package details for {package.title}.")
+                    raise PackageUpdaterException(e, package.title)
             except PackageUpdaterException:
                 logger.error(f"Unable to update {package.title}", exc_info=True)
 
