@@ -56,7 +56,7 @@ def get_pypi_version(package):
     return ''
 
 
-def normalize_license(license):
+def normalize_license(license: str):
     """ Handles when:
 
         * No license is passed
@@ -65,10 +65,11 @@ def normalize_license(license):
         * Common abbreviations of licenses
 
     """
-    if license is None:
-        return "UNKNOWN"
-    if license.strip() in classifiers:
-        return license.strip()
-    if len(license.strip()) > 20:
-        return "Custom"
-    return license.strip()
+    if license is not None:
+        stripped_license = license.strip()
+        if stripped_license.startswith("License") and stripped_license in classifiers:
+            return stripped_license
+        if len(stripped_license) > 20:
+            return "Custom"
+        return stripped_license
+    return "UNKNOWN"
