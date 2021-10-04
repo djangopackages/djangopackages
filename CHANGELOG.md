@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2021-10-03]
+### Changed
+- Log a meaningful error message instead of raising an exception. ([#733](https://api.github.com/repos/djangopackages/djangopackages/pulls/733))
+- Follow-up for Update Trove Classifier for Licenses ([#734](https://api.github.com/repos/djangopackages/djangopackages/pulls/734))
+- Show PyPi in sidebar only if PyPi URL exists. ([#730](https://api.github.com/repos/djangopackages/djangopackages/pulls/730))
+
 ## [2021-10-02]
 ### Changed
 - Invalid profile url in ABSOLUTE_URL_OVERRIDES ([#732](https://api.github.com/repos/djangopackages/djangopackages/pulls/732))
