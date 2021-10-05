@@ -211,7 +211,7 @@ class FunctionalGridTest(TestCase):
             'repo_url': 'http://www.example.com',
             'title': 'Test package',
             'slug': 'test-package',
-            'pypi_url': 'http://pypi.python.org/pypi/mogo/0.1.1',
+            'pypi_url': 'https://pypi.org/project/mogo/0.1.1/',
             'category': 1
         }, follow=True)
         self.assertEqual(Package.objects.count(), count + 1)

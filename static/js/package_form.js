@@ -45,7 +45,7 @@ function package_form(data){
 
 	repo_url.focus();
 
-	pypi_url_g = "http://pypi.python.org/pypi/";
+	pypi_url_g = "https://pypi.org/project/";
 
 	pypi_url.val(pypi_url.val().replace(pypi_url_g,""));
 

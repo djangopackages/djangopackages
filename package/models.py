@@ -105,6 +105,9 @@ class Package(BaseModel):
         if "https://pypi.python.org/pypi/" in name:
             name = name.replace("https://pypi.python.org/pypi/", "")
 
+        if "https://pypi.org/project/" in name:
+            name = name.replace("https://pypi.org/project/", "")
+
         if not name.startswith("http"):
             name = f"https://pypi.org/project/{name}"
 
@@ -185,9 +188,8 @@ class Package(BaseModel):
     def fetch_pypi_data(self, *args, **kwargs):
         # Get the releases from pypi
         if self.pypi_url.strip() and self.pypi_url not in ["http://pypi.python.org/pypi/", "https://pypi.python.org/pypi/"]:
-
             total_downloads = 0
-            url = f"https://pypi.python.org/pypi/{self.pypi_name}/json"
+            url = f"https://pypi.org/pypi/{self.pypi_name}/json"
             response = requests.get(url)
             if settings.DEBUG:
                 if response.status_code not in (200, 404):
