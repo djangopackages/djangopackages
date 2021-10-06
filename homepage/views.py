@@ -1,5 +1,6 @@
-import feedparser
+from functools import lru_cache
 
+import feedparser
 from django.contrib.auth.models import User
 from django.db.models import Count
 from django.http import HttpResponse
@@ -7,7 +8,6 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from random import sample
 
-from core.decorators import lru_cache
 from grid.models import Grid
 from homepage.models import Dpotw, Gotw, PSA
 from package.models import Category, Commit, Package, Version
