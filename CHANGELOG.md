@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2021-10-05]
+### Changed
+- ✨  Adds management command to help find missing pypi packages ([#738](https://api.github.com/repos/djangopackages/djangopackages/pulls/738))
+- :gear: This fixes our local static volumes ([#737](https://api.github.com/repos/djangopackages/djangopackages/pulls/737))
+- ⬆️🐘 Upgrade dev Postgres from 9.4 to 13 ([#736](https://api.github.com/repos/djangopackages/djangopackages/pulls/736))
+
 ## [2021-10-03]
 ### Changed
 - Log a meaningful error message instead of raising an exception. ([#733](https://api.github.com/repos/djangopackages/djangopackages/pulls/733))
