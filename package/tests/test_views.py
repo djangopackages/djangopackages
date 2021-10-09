@@ -69,7 +69,7 @@ class FunctionalPackageTest(TestCase):
             self.assertContains(response, c.title)
         count = Package.objects.count()
         response = self.client.post(url, {
-            'category': Category.objects.all()[0].pk,
+            'category': Category.objects.first().pk,
             'repo_url': 'https://github.com/django/django',
             'slug': 'django',
             'title': 'django',
@@ -96,7 +96,7 @@ class FunctionalPackageTest(TestCase):
 
         # Make a test post
         response = self.client.post(url, {
-            'category': str(Category.objects.all()[0].pk),
+            'category': str(Category.objects.first().pk),
             'repo_url': 'https://github.com/django/django',
             'slug': p.slug,
             'title': 'TEST TITLE',
