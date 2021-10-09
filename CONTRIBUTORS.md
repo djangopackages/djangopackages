@@ -105,6 +105,13 @@ Listed in alphabetical order.
     <td></td>
   </tr>
   <tr>
+    <td>David Smith</td>
+    <td>
+      <a href="https://github.com/smithdc1">smithdc1</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
     <td>Dougal Matthews</td>
     <td>
       <a href="https://github.com/d0ugal">d0ugal</a>

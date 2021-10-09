@@ -206,7 +206,7 @@ def ajax_package_list(request, template_name="package/ajax_package_list.html"):
     if packages and grid_slug:
         grids = Grid.objects.filter(slug=grid_slug)
         if grids:
-            grid = grids[0]
+            grid = grids.first()
             packages_already_added_list = [x['slug'] for x in grid.packages.all().values('slug')]
             new_packages = tuple(packages.exclude(slug__in=packages_already_added_list))[:20]
             number_of_packages = len(new_packages)
