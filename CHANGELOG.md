@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2021-10-08]
+### Changed
+- Used lru_cache from functools ([#742](https://api.github.com/repos/djangopackages/djangopackages/pulls/742))
+
 ## [2021-10-05]
 ### Changed
 - ✨  Adds management command to help find missing pypi packages ([#738](https://api.github.com/repos/djangopackages/djangopackages/pulls/738))
