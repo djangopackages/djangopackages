@@ -90,6 +90,16 @@ class Package(BaseModel):
             return False
         return True
 
+    def get_pypi_uri(self):
+        if self.pypi_name and len(self.pypi_name):
+            return f"https://pypi.org/project/{self.pypi_name}/"
+        return None
+
+    def get_pypi_json_uri(self):
+        if self.pypi_name and len(self.pypi_name):
+            return f"https://pypi.org/pypi/{self.pypi_name}/json"
+        return None
+
     @property
     def pypi_name(self):
         """ return the pypi name of a package"""
@@ -105,11 +115,11 @@ class Package(BaseModel):
         if "https://pypi.python.org/pypi/" in name:
             name = name.replace("https://pypi.python.org/pypi/", "")
 
-        if not name.startswith("http"):
-            name = f"https://pypi.org/project/{name}"
+        if "https://pypi.org/project/" in name:
+            name = name.replace("https://pypi.org/project/", "")
 
-        if "/" in name:
-            return name[:name.index("/")]
+        name = name.strip("/")
+
         return name
 
     def last_updated(self):
@@ -184,19 +194,22 @@ class Package(BaseModel):
 
     def fetch_pypi_data(self, *args, **kwargs):
         # Get the releases from pypi
-        if self.pypi_url.strip() and self.pypi_url not in ["http://pypi.python.org/pypi/", "https://pypi.python.org/pypi/"]:
-
+        if self.pypi_url and len(self.pypi_url.strip()):
             total_downloads = 0
-            url = f"https://pypi.python.org/pypi/{self.pypi_name}/json"
-            response = requests.get(url)
+            response = requests.get(self.get_pypi_json_uri())
             if settings.DEBUG:
                 if response.status_code not in (200, 404):
                     print("BOOM!")
                     print((self, response.status_code))
+                    print(response.content)
+                    return False
             if response.status_code == 404:
                 if settings.DEBUG:
                     print("BOOM! this package probably does not exist on pypi")
                     print((self, response.status_code))
+                    # If we get a 404, we can stop checking this url...
+                    # self.pypi_url = ""
+                    # self.save()
                 return False
             release = json.loads(response.content)
             info = release['info']
@@ -315,7 +328,6 @@ class Package(BaseModel):
     def development_status(self):
         """ Gets data needed in API v2 calls """
         return self.last_released().pretty_status
-
 
     @property
     def pypi_ancient(self):

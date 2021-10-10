@@ -62,6 +62,7 @@ https://django-audit.googlecode.com/hg/
 tyrion/django-autocomplete/
 http://code.google.com/p/django-autocomplete/
 http://pypi.python.org/pypi/django-autoreports
+https://pypi.org/project/django-autoreports/
 http://code.google.com/p/django-basic-tumblelog/
 schinckel/django-biometrics/
 discovery/django-bitly/

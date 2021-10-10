@@ -127,7 +127,7 @@
             <!-- start PyPI panel -->
             <h2>Releases</h2>
 
-            {% if package.pypi_url and package.pypi_url != "http://pypi.python.org/pypi/" and package.pypi_url != "https://pypi.python.org/pypi/" and package.pypi_url|slice:":4" == "http" %}
+            {% if package.get_pypi_uri %}
 
                 <table class="table">
                     <thead>
@@ -186,9 +186,9 @@
                 </div>
                 <p>{{ package.documentation_url|urlize }}</p>
 
-                {% if package.pypi_url %}
+                {% if package.get_pypi_uri %}
                     <h3>PyPi</h3>
-                    <p><a href="{{ package.pypi_url }}" target="_blank">{{ package.pypi_url }}</a></p>
+                    <p><a href="{{ package.get_pypi_uri }}" target="_blank">{{ package.pypi_name }}</a></p>
                 {% endif %}
                 <h3>Repo</h3>
                 <p><a href="{{ package.repo_url }}" target="_blank">{{ package.repo_url }}</a></p>
@@ -206,7 +206,7 @@
                     <p>{{ package.date_deprecated }}</p>
 
                     <h3>Replacement Package</h3>
-                    <p><a href="{{ package.deprecates_package.pypi_url }}" target="_blank">{{ package.deprecates_package.pypi_url }}</a></p>
+                    <p><a href="{{ package.deprecates_package.get_pypi_uri }}" target="_blank">{{ package.deprecates_package.pypi_name }}</a></p>
                 {% endif %}
 
 

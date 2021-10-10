@@ -25,7 +25,7 @@ def load():
         title='Django CMS',
         created_by=None,
         repo_watchers=967,
-        pypi_url='http://pypi.python.org/pypi/django-cms',
+        pypi_url='https://pypi.org/project/django-cms/',
         pypi_downloads=26257,
         last_modified_by=None,
         repo_url='https://github.com/divio/django-cms',
