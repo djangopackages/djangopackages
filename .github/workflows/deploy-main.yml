@@ -37,7 +37,7 @@ jobs:
 
       - name: Bump Version
         run: |
-          bumpver update
+          bumpver update --no-fetch --verbose
 
       - name: Set up Docker Buildx
         id: buildx
