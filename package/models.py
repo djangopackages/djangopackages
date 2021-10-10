@@ -108,11 +108,13 @@ class Package(BaseModel):
         if "https://pypi.org/project/" in name:
             name = name.replace("https://pypi.org/project/", "")
 
-        if not name.startswith("http"):
-            name = f"https://pypi.org/project/{name}"
+        name = name.strip("/")
 
-        if "/" in name:
-            return name[:name.index("/")]
+        if not name.startswith("http"):
+            name = f"https://pypi.org/project/{name}/"
+
+        # if "/" in name:
+        #     return name[:name.index("/")]
         return name
 
     def last_updated(self):
@@ -317,7 +319,6 @@ class Package(BaseModel):
     def development_status(self):
         """ Gets data needed in API v2 calls """
         return self.last_released().pretty_status
-
 
     @property
     def pypi_ancient(self):

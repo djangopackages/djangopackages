@@ -59,6 +59,21 @@ class PackageTests(TestCase):
     def setUp(self):
         initial_data.load()
 
+    def test_pypi_name_blank(self):
+        package = Package.objects.get(slug='serious-testing')
+        self.assertEqual(package.pypi_url, "")
+        self.assertEqual(package.pypi_name, "")
+
+    def test_pypi_name_valid(self):
+        package = Package.objects.get(slug='supertester')
+        self.assertEqual(package.pypi_url, "django-crispy-forms")
+        self.assertEqual(package.pypi_name, "https://pypi.org/project/django-crispy-forms/")
+
+    def test_pypi_name_invalid(self):
+        package = Package.objects.get(slug='testability')
+        self.assertEqual(package.pypi_url, "https://pypi.org/project/django-la-facebook/")
+        self.assertEqual(package.pypi_name, "https://pypi.org/project/django-la-facebook/")
+
     def test_license_latest(self):
         for p in Package.objects.all():
             self.assertEqual("UNKNOWN", p.license_latest)
