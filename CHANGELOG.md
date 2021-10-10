@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2021-10-09]
+### Changed
+- :pencil: Friday updates for 2021-10-8 ([#743](https://api.github.com/repos/djangopackages/djangopackages/pulls/743))
+
 ## [2021-10-08]
 ### Changed
 - Used lru_cache from functools ([#742](https://api.github.com/repos/djangopackages/djangopackages/pulls/742))
