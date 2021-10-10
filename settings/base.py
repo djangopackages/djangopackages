@@ -7,8 +7,6 @@ import warnings
 
 from django.template.defaultfilters import slugify
 
-warnings.filterwarnings('ignore', module='floppyforms', message='Unable to import floppyforms.gis')
-
 env = envmax.Env()
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
@@ -152,7 +150,6 @@ PREREQ_APPS = [
     "crispy_forms",
     "dj_pagination",
     "django_extensions",
-    "floppyforms",
     "rest_framework",
     "reversion",
     "social_django",

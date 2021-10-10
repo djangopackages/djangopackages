@@ -1,4 +1,4 @@
-from floppyforms.__future__ import ModelForm, TextInput
+from django.forms import ModelForm, TextInput
 
 from package.models import Category, Package, PackageExample
 

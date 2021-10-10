@@ -1,4 +1,5 @@
 from django.test import TestCase
+from package.forms import PackageForm
 
 from package.models import Package, Version
 from package.tests import data, initial_data
@@ -90,3 +91,7 @@ class PackageTests(TestCase):
     def test_license_latest(self):
         for p in Package.objects.all():
             self.assertEqual("UNKNOWN", p.license_latest)
+
+    def test_package_form(self):
+        f = PackageForm()
+        assert 'placeholder="ex: https://github.com/django/django"' in str(f)
