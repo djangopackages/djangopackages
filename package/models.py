@@ -90,6 +90,16 @@ class Package(BaseModel):
             return False
         return True
 
+    def get_pypi_uri(self):
+        if self.pypi_name and len(self.pypi_name):
+            return f"https://pypi.org/project/{self.pypi_name}/"
+        return None
+
+    def get_pypi_json_uri(self):
+        if self.pypi_name and len(self.pypi_name):
+            return f"https://pypi.org/pypi/{self.pypi_name}/json"
+        return None
+
     @property
     def pypi_name(self):
         """ return the pypi name of a package"""
@@ -110,11 +120,6 @@ class Package(BaseModel):
 
         name = name.strip("/")
 
-        if not name.startswith("http"):
-            name = f"https://pypi.org/project/{name}/"
-
-        # if "/" in name:
-        #     return name[:name.index("/")]
         return name
 
     def last_updated(self):

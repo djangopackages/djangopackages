@@ -67,21 +67,25 @@ class PackageTests(TestCase):
     def test_pypi_name_valid(self):
         package = Package.objects.get(slug='supertester')
         self.assertEqual(package.pypi_url, "django-crispy-forms")
-        self.assertEqual(package.pypi_name, "https://pypi.org/project/django-crispy-forms/")
+        self.assertEqual(package.pypi_name, "django-crispy-forms")
+        self.assertEqual(package.get_pypi_uri(), "https://pypi.org/project/django-crispy-forms/")
+        self.assertEqual(package.get_pypi_json_uri(), "https://pypi.org/pypi/django-crispy-forms/json")
 
     def test_pypi_name_invalid(self):
         package = Package.objects.get(slug='testability')
         self.assertEqual(package.pypi_url, "https://pypi.org/project/django-la-facebook/")
-        self.assertEqual(package.pypi_name, "https://pypi.org/project/django-la-facebook/")
+        self.assertEqual(package.pypi_name, "django-la-facebook")
 
         package.pypi_url = ""
         self.assertEqual(package.pypi_name, "")
 
         package.pypi_url = "http://pypi.python.org/pypi/django-la-facebook/"
-        self.assertEqual(package.pypi_name, "https://pypi.org/project/django-la-facebook/")
+        self.assertEqual(package.pypi_name, "django-la-facebook")
+        self.assertEqual(package.get_pypi_uri(), "https://pypi.org/project/django-la-facebook/")
+        self.assertEqual(package.get_pypi_json_uri(), "https://pypi.org/pypi/django-la-facebook/json")
 
         package.pypi_url = "https://pypi.python.org/pypi/django-la-facebook/"
-        self.assertEqual(package.pypi_name, "https://pypi.org/project/django-la-facebook/")
+        self.assertEqual(package.pypi_name, "django-la-facebook")
 
     def test_license_latest(self):
         for p in Package.objects.all():
