@@ -19,14 +19,20 @@ class OpenView(TemplateView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data.update({
-            "total_commits": Commit.objects.count(),
+            "top_grid_list": Grid.objects.all().annotate(num_packages=Count("packages")).filter(num_packages__gt=15).order_by("-num_packages")[0:100],
+            "top_user_list": User.objects.all().annotate(num_packages=Count("creator")).filter(num_packages__gt=10).order_by("-num_packages")[0:100],
             "total_categories": Category.objects.count(),
+            "total_commits": Commit.objects.count(),
             "total_grids": Grid.objects.count(),
             "total_packages": Package.objects.count(),
-            "total_versions": Version.objects.count(),
+            "total_python_3_6": Package.objects.filter(pypi_classifiers__contains=["Programming Language :: Python :: 3.6"]).count(),
+            "total_python_3_7": Package.objects.filter(pypi_classifiers__contains=["Programming Language :: Python :: 3.7"]).count(),
+            "total_python_3_8": Package.objects.filter(pypi_classifiers__contains=["Programming Language :: Python :: 3.8"]).count(),
+            "total_python_3_9": Package.objects.filter(pypi_classifiers__contains=["Programming Language :: Python :: 3.9"]).count(),
+            "total_python_3_10": Package.objects.filter(pypi_classifiers__contains=["Programming Language :: Python :: 3.10"]).count(),
+            "total_python_3_11": Package.objects.filter(pypi_classifiers__contains=["Programming Language :: Python :: 3.11"]).count(),
             "total_users": User.objects.count(),
-            "top_user_list": User.objects.all().annotate(num_packages=Count("creator")).filter(num_packages__gt=10).order_by("-num_packages")[0:100],
-            "top_grid_list": Grid.objects.all().annotate(num_packages=Count("packages")).filter(num_packages__gt=15).order_by("-num_packages")[0:100],
+            "total_versions": Version.objects.count(),
         })
         return data
 
@@ -102,8 +108,8 @@ def homepage(request, template_name="homepage.html"):
 
     feed_result = get_feed()
     if len(feed_result.entries):
-        blogpost_title = feed_result.entries[0].title
-        blogpost_body = feed_result.entries[0].summary
+        blogpost_title = feed_result.entries.first().title
+        blogpost_body = feed_result.entries.first().summary
     else:
         blogpost_title = ''
         blogpost_body = ''
