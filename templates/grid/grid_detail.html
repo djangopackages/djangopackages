@@ -16,304 +16,304 @@
 {% endblock %}
 
 {% block body %}
-<div class="row">
-  <div class="col-lg-12">
-    <h2>
-      {{ grid.title }}
-      {% if request.user.is_authenticated and profile.can_edit_grid %}
-        <a href="{% url 'edit_grid' grid.slug %}">
-          <span class="glyphicon glyphicon-pencil"></span>
-        </a>
-      {% endif %}
-    </h2>
-  </div>
-</div>
-{% cache 300 html_grid_detail_outer grid.pk filters %}
-<div class="row">
-  <div class="col-lg-{% if features %}3{% else %}6{% endif %}">
-
-    <p>
-      {{ grid.description|urlize|linebreaksbr }}
-    </p>
-
-    {% if features %}
-        {% comment %}{% if request.user.is_authenticated and profile.can_add_grid_package %}{% endcomment %}
-        {% if request.user.is_authenticated %}
-          <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add package to the grid" %}</a></p>
-        {% endif %}
-
-        {% if request.user.is_authenticated and profile.can_add_grid_feature %}
-          <p><a href="{% url 'add_feature' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add new feature to the grid" %}</a></p>
-        {% endif %}
-    {% endif %}
-
-    {% if request.user.is_authenticated and profile.can_edit_grid_element and features %}
-        <p><span class="glyphicon glyphicon-info-sign"></span> {% trans "Highlighted cells are editable.  Click highlighted cells to change text." %}</p>
-    {% endif %}
-
-    {% with ea_id="grid-detail" ea_type="text" %}
-        {% include 'includes/_ethicalads-tag.html' %}
-    {% endwith %}
-  </div>
-  {% if features %}
-      <div class="col-lg-9">
-          <h3>{% trans "Features currently being evaluated" %}</h3>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>{% trans "Feature" %}</th>
-                <th>{% trans "Description" %}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for feature in features %}
-                <tr>
-                  <td>{{ feature.title }}
-                  {% if request.user.is_authenticated and profile.can_edit_grid_feature %}
-                    &nbsp;<a href="{% url 'edit_feature' feature.pk %}">
-                      <span class="glyphicon glyphicon-pencil"></span>
+    <div class="row">
+        <div class="col-lg-12">
+            <h2>
+                {{ grid.title }}
+                {% if request.user.is_authenticated and profile.can_edit_grid %}
+                    <a href="{% url 'edit_grid' grid.slug %}">
+                        <span class="glyphicon glyphicon-pencil"></span>
                     </a>
-                    {% if perms.grid.delete_feature %}
-                      &nbsp;<a href="#" id="feature-delete-{{ feature.pk }}">
-                        <span class="glyphicon glyphicon-trash"></span>
-                      </a>
+                {% endif %}
+            </h2>
+        </div>
+    </div>
+    {% cache 300 html_grid_detail_outer grid.pk filters %}
+        <div class="row">
+            <div class="col-lg-{% if features %}3{% else %}6{% endif %}">
+
+                <p>
+                    {{ grid.description|urlize|linebreaksbr }}
+                </p>
+
+                {% if features %}
+                    {% comment %}{% if request.user.is_authenticated and profile.can_add_grid_package %}{% endcomment %}
+                    {% if request.user.is_authenticated %}
+                        <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add package to the grid" %}</a></p>
                     {% endif %}
-                  {% endif %}
-                  </td>
-                  <td>{{ feature.description|wordwrap:80|linebreaksbr }}</td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-      </div>
-  {% else %}
-    <div class="col-lg-6">
-        {% if request.user.is_authenticated and profile.can_add_grid_package %}
-          <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add package to the grid" %}</a></p>
-        {% endif %}
 
-        {% if request.user.is_authenticated and profile.can_add_grid_feature %}
-          <p><a href="{% url 'add_feature' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add new feature to the grid" %}</a></p>
-        {% endif %}
-    </div>
-  {% endif %}
-</div>
+                    {% if request.user.is_authenticated and profile.can_add_grid_feature %}
+                        <p><a href="{% url 'add_feature' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add new feature to the grid" %}</a></p>
+                    {% endif %}
+                {% endif %}
 
-<div class="row grid-filters">
-    <div class="col-lg-12">
-        <h3>{% trans "Filter results" %}</h3>
-    </div>
-    <div class="col-lg-12">
-        <div class="grid-filter">
-            <input class="grid-filter__checkbox" type="checkbox" value="python3" id="python3-filter">
-            <label class="grid-filter__label" for="python3-filter">Python 3</label>
-        </div>
-    </div>
-    <div class="col-lg-12">
-        <div class="grid-filter">
-            <input class="grid-filter__checkbox" type="checkbox" value="stable" id="stable-filter">
-            <label class="grid-filter__label" for="stable-filter">Stable</label>
-        </div>
-    </div>
-</div>
+                {% if request.user.is_authenticated and profile.can_edit_grid_element and features %}
+                    <p><span class="glyphicon glyphicon-info-sign"></span> {% trans "Highlighted cells are editable.  Click highlighted cells to change text." %}</p>
+                {% endif %}
 
-<!-- Grid is not inside of a Bootstrap grid row because it needs max width. -->
-    {% if grid_packages|length %}
-        <table class="table table-condensed fixed-header">
-            <thead>
-                {% include "grid/snippets/grid_row_header.html" %}
-            </thead>
-        </table>
-        <table class="table table-condensed">
-            <thead>
-                {% include "grid/snippets/grid_row_header.html" %}
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{% trans "Description" %}</td>
-                    {% for grid_package in grid_packages %}
-                        <td>
-                            {% with grid_package.package.repo_description|truncatewords:20 as short %}
-                                {% if grid_package.package.repo_description|length > short|length %}
-                                   {{ short|wordwrap:30|linebreaksbr|slice:"-3" }}<a href="{{ grid_package.package.get_absolute_url }}">...</a>
-                                {% else %}
-                                    {{ short|wordwrap:30|linebreaksbr }}
-                                {% endif %}
-                            {% endwith %}
-                        </td>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    <td>{% trans "Category" %}</td>
-                    {% for grid_package in grid_packages %}
-                        <td>{{ grid_package.package.category }}</td>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    <td>{% trans "# Using This" %}</td>
-                    {% for grid_package in grid_packages %}
-
-                        <td class="usage-holder">
-                            {% with grid_package.package as package %}
-                                <span class="usage-count" id="usage-count-{{ package.id }}">{{ grid_package.usage_count }}</span>
-                                {% usage_button %}
-                            {% endwith %}
-                        </td>
-                    {% endfor %}
-                </td>
-                <tr>
-                    <td>{% trans "Python 3?" %}</td>
-                    {% for grid_package in grid_packages %}
-                        <td>{% if grid_package.package.last_released.supports_python3 %}<span class="glyphicon glyphicon-ok"></span>{% else %}<span class="glyphicon glyphicon-remove"></span>{% endif %}</td>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    <td>{% trans "Development Status" %}</td>
-                    {% for grid_package in grid_packages %}
-                        <td>
-                            {% with pretty_status=grid_package.package.last_released.pretty_status %}
-                            {% if pretty_status %}
-                                {{ pretty_status|default:"n/a" }}
-                            {% else %}
-                                n/a
-                            {% endif %}
-                            {% endwith %}
-
-                        </td>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    <td>{% trans "Last updated" %}</td>
-                    {% for grid_package in grid_packages %}
-                        <td>
-                        {% with last_updated=grid_package.package.last_updated %}
-                            {% if last_updated %}
-                               {{ last_updated|date:"DATETIME_FORMAT" }}
-                            {% endif %}
-                        {% endwith %}
-                        </td>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    <td>{% trans "Version" %}</td>
-                    {% for grid_package in grid_packages %}
-                        <td>{{ grid_package.package.pypi_version|default:"n/a" }}</td>
-                    {% endfor %}
-
-                </tr>
-                <tr>
-                    <td>{% trans "Repo" %}</td>
-                    {% for grid_package in grid_packages %}
-                        <td><a href="{{ grid_package.package.repo_url }}">{{ grid_package.package.repo }}</a></td>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    <td>{% trans "Commits" %}</td>
-                    {% for grid_package in grid_packages %}
-                        <td><img class="package-githubcommits" src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{ grid_package.package|commits_over_52 }}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    <td>{% trans "Stars" %}</td>
-                    {% for grid_package in grid_packages %}
-                        <td>{{ grid_package.package.repo_watchers|default:"n/a" }}</td>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    <td>{% trans "Repo Forks" %}</td>
-                    {% for grid_package in grid_packages %}
-                        <td>{{ grid_package.package.repo_forks|default:"n/a" }}</td>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    <td>{% trans "Participants" %}</td>
-                    {% for grid_package in grid_packages %}
-                        <td>
-                            {% for collaborator in grid_package.package.participant_list %}
-                                {% if forloop.counter <= 10 %}
-                                    <a href="{{ grid_package.package.repo.url }}/{{ collaborator }}">{{ collaborator }}</a>
-                                    {% if not forloop.last %}
-                                        <br />
-                                    {% endif %}
-                                {% endif %}
-                                {% if forloop.counter == 11 %}
-                                    <a href="{% url 'package' grid_package.package.slug %}">{% trans "more..." %}</a>
-                                {% endif %}
+                {% with ea_id="grid-detail" ea_type="text" %}
+                    {% include 'includes/_ethicalads-tag.html' %}
+                {% endwith %}
+            </div>
+            {% if features %}
+                <div class="col-lg-9">
+                    <h3>{% trans "Features currently being evaluated" %}</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>{% trans "Feature" %}</th>
+                                <th>{% trans "Description" %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for feature in features %}
+                                <tr>
+                                    <td>{{ feature.title }}
+                                        {% if request.user.is_authenticated and profile.can_edit_grid_feature %}
+                                            &nbsp;<a href="{% url 'edit_feature' feature.pk %}">
+                                                <span class="glyphicon glyphicon-pencil"></span>
+                                            </a>
+                                            {% if perms.grid.delete_feature %}
+                                                &nbsp;<a href="#" id="feature-delete-{{ feature.pk }}">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </a>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ feature.description|wordwrap:80|linebreaksbr }}</td>
+                                </tr>
                             {% endfor %}
-                        </td>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    <td>{% trans "Documentation" %}</td>
-                    {% for grid_package in grid_packages %}
-                        <td>
-                            {% if grid_package.package.documentation_url.strip and grid_package.package.documentation_url.strip != None %}
-                                <a href="{{ grid_package.package.documentation_url }}">
-                                    <span class="glyphicon glyphicon-book"></span>
-                                </a>
-                            {% else %}
-                                N/A
-                            {% endif %}
-                        </td>
-                    {% endfor %}
-                </tr>
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="col-lg-6">
+                    {% if request.user.is_authenticated and profile.can_add_grid_package %}
+                        <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add package to the grid" %}</a></p>
+                    {% endif %}
 
-                {% for feature in features %}
-                    <tr class="{% cycle 'even' 'odd' %}">
-                        <td>{{ feature.title }}</td>
+                    {% if request.user.is_authenticated and profile.can_add_grid_feature %}
+                        <p><a href="{% url 'add_feature' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add new feature to the grid" %}</a></p>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="row grid-filters">
+            <div class="col-lg-12">
+                <h3>{% trans "Filter results" %}</h3>
+            </div>
+            <div class="col-lg-12">
+                <div class="grid-filter">
+                    <input class="grid-filter__checkbox" type="checkbox" value="python3" id="python3-filter">
+                    <label class="grid-filter__label" for="python3-filter">Python 3</label>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="grid-filter">
+                    <input class="grid-filter__checkbox" type="checkbox" value="stable" id="stable-filter">
+                    <label class="grid-filter__label" for="stable-filter">Stable</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grid is not inside of a Bootstrap grid row because it needs max width. -->
+        {% if grid_packages|length %}
+            <table class="table table-condensed fixed-header">
+                <thead>
+                    {% include "grid/snippets/grid_row_header.html" %}
+                </thead>
+            </table>
+            <table class="table table-condensed">
+                <thead>
+                    {% include "grid/snippets/grid_row_header.html" %}
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{% trans "Description" %}</td>
                         {% for grid_package in grid_packages %}
-                            {% with elements|hash:feature.pk|hash:grid_package.pk as element %}
-                            <td class="clickable" id="element-f{{ feature.pk }}-p{{ grid_package.pk }}">{% if element %}{{ element.text|style_element|safe|urlize|linebreaksbr }}{% endif %}<noscript>
-                                    {% if request.user.is_authenticated and profile.can_edit_grid_element %}
-                                    <a class="edit" href="{% url 'edit_element' feature.pk grid_package.pk %}">{% trans "[edit]" %}</a>
+                            <td>
+                                {% with grid_package.package.repo_description|truncatewords:20 as short %}
+                                    {% if grid_package.package.repo_description|length > short|length %}
+                                        {{ short|wordwrap:30|linebreaksbr|slice:"-3" }}<a href="{{ grid_package.package.get_absolute_url }}">...</a>
+                                    {% else %}
+                                        {{ short|wordwrap:30|linebreaksbr }}
                                     {% endif %}
-                            </noscript></td>
-                            {% endwith %}
+                                {% endwith %}
+                            </td>
                         {% endfor %}
                     </tr>
-                {% endfor %}
+                    <tr>
+                        <td>{% trans "Category" %}</td>
+                        {% for grid_package in grid_packages %}
+                            <td>{{ grid_package.package.category }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{% trans "# Using This" %}</td>
+                        {% for grid_package in grid_packages %}
 
-                <!-- start Delete package from grid buttons -->
-                {% if perms.grid.delete_gridpackage %}
-                  <tr>
-                    <td>Remove from grid?</td>
-                    {% for grid_package in grid_packages %}
-                    <td class="grid-delete">
-                        &nbsp;<a href="#" id="package-delete-{{ grid_package.pk }}">
-                          <span class="glyphicon glyphicon-trash"></span>
-                        </a>
+                            <td class="usage-holder">
+                                {% with grid_package.package as package %}
+                                    <span class="usage-count" id="usage-count-{{ package.id }}">{{ grid_package.usage_count }}</span>
+                                    {% usage_button %}
+                                {% endwith %}
+                            </td>
+                        {% endfor %}
                     </td>
+                    <tr>
+                        <td>{% trans "Python 3?" %}</td>
+                        {% for grid_package in grid_packages %}
+                            <td>{% if grid_package.package.last_released.supports_python3 %}<span class="glyphicon glyphicon-ok"></span>{% else %}<span class="glyphicon glyphicon-remove"></span>{% endif %}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{% trans "Development Status" %}</td>
+                        {% for grid_package in grid_packages %}
+                            <td>
+                                {% with pretty_status=grid_package.package.last_released.pretty_status %}
+                                    {% if pretty_status %}
+                                        {{ pretty_status|default:"n/a" }}
+                                    {% else %}
+                                        n/a
+                                    {% endif %}
+                                {% endwith %}
+
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{% trans "Last updated" %}</td>
+                        {% for grid_package in grid_packages %}
+                            <td>
+                                {% with last_updated=grid_package.package.last_updated %}
+                                    {% if last_updated %}
+                                        {{ last_updated|date:"DATETIME_FORMAT" }}
+                                    {% endif %}
+                                {% endwith %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{% trans "Version" %}</td>
+                        {% for grid_package in grid_packages %}
+                            <td>{{ grid_package.package.pypi_version|default:"n/a" }}</td>
+                        {% endfor %}
+
+                    </tr>
+                    <tr>
+                        <td>{% trans "Repo" %}</td>
+                        {% for grid_package in grid_packages %}
+                            <td><a href="{{ grid_package.package.repo_url }}">{{ grid_package.package.repo }}</a></td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{% trans "Commits" %}</td>
+                        {% for grid_package in grid_packages %}
+                            <td><img class="package-githubcommits" src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{ grid_package.package|commits_over_52 }}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{% trans "Stars" %}</td>
+                        {% for grid_package in grid_packages %}
+                            <td>{{ grid_package.package.repo_watchers|default:"n/a" }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{% trans "Repo Forks" %}</td>
+                        {% for grid_package in grid_packages %}
+                            <td>{{ grid_package.package.repo_forks|default:"n/a" }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{% trans "Participants" %}</td>
+                        {% for grid_package in grid_packages %}
+                            <td>
+                                {% for collaborator in grid_package.package.participant_list %}
+                                    {% if forloop.counter <= 10 %}
+                                        <a href="{{ grid_package.package.repo.url }}/{{ collaborator }}">{{ collaborator }}</a>
+                                        {% if not forloop.last %}
+                                            <br />
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if forloop.counter == 11 %}
+                                        <a href="{% url 'package' grid_package.package.slug %}">{% trans "more..." %}</a>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>{% trans "Documentation" %}</td>
+                        {% for grid_package in grid_packages %}
+                            <td>
+                                {% if grid_package.package.documentation_url.strip and grid_package.package.documentation_url.strip != None %}
+                                    <a href="{{ grid_package.package.documentation_url }}">
+                                        <span class="glyphicon glyphicon-book"></span>
+                                    </a>
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+
+                    {% for feature in features %}
+                        <tr class="{% cycle 'even' 'odd' %}">
+                            <td>{{ feature.title }}</td>
+                            {% for grid_package in grid_packages %}
+                                {% with elements|hash:feature.pk|hash:grid_package.pk as element %}
+                                    <td class="clickable" id="element-f{{ feature.pk }}-p{{ grid_package.pk }}">{% if element %}{{ element.text|style_element|safe|urlize|linebreaksbr }}{% endif %}<noscript>
+                                        {% if request.user.is_authenticated and profile.can_edit_grid_element %}
+                                            <a class="edit" href="{% url 'edit_element' feature.pk grid_package.pk %}">{% trans "[edit]" %}</a>
+                                        {% endif %}
+                                    </noscript></td>
+                                {% endwith %}
+                            {% endfor %}
+                        </tr>
                     {% endfor %}
-                  </tr>
-                {% endif %}
-                <!-- end Delete package from grid buttons -->
 
-            </tbody>
+                    <!-- start Delete package from grid buttons -->
+                    {% if perms.grid.delete_gridpackage %}
+                        <tr>
+                            <td>Remove from grid?</td>
+                            {% for grid_package in grid_packages %}
+                                <td class="grid-delete">
+                                    &nbsp;<a href="#" id="package-delete-{{ grid_package.pk }}">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </a>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endif %}
+                    <!-- end Delete package from grid buttons -->
 
-        </table>
-    {% else %}
-        {% if request.user.is_authenticated and profile.can_add_grid_package %}
-        <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span>&nbsp;{% trans "Add a package to get a grid view" %}</a></p>
+                </tbody>
+
+            </table>
+        {% else %}
+            {% if request.user.is_authenticated and profile.can_add_grid_package %}
+                <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span>&nbsp;{% trans "Add a package to get a grid view" %}</a></p>
+            {% endif %}
         {% endif %}
-    {% endif %}
     {% endcache %}
 
 {% endblock %}
 
 {% block extra_body %}
-        <script type="text/javascript" src="{{ STATIC_URL }}js/rtd.js"></script>
-        <script type="text/javascript">
+    <script type="text/javascript" src="{{ STATIC_URL }}js/rtd.js"></script>
+    <script type="text/javascript">
 
-            $(function() {
+        $(function() {
 
-                {% if request.user.is_authenticated %}
-                    // Handle element edit redirects
+            {% if request.user.is_authenticated %}
+                // Handle element edit redirects
 
                 {% if profile.can_edit_grid_element %}
                     $("td.clickable").click(function() {
-                       var array = $(this).attr("id").split("-");
-                       var url = "/grids/element/" + array[1].substr(1) + "/" + array[2].substr(1) + "/";
-                       $(location).attr('href', url);
+                        var array = $(this).attr("id").split("-");
+                        var url = "/grids/element/" + array[1].substr(1) + "/" + array[2].substr(1) + "/";
+                        $(location).attr('href', url);
                     });
 
                     delete_confirmation = function(e, url) {
@@ -325,103 +325,103 @@
                         }
                     };
                 {% endif %}
-                    // handle feature deletes
-                    {% if perms.grid.delete_feature %}
-                        $("a[id|='feature-delete']").click(function(e) {
-                            var array = $(this).attr("id").split("-");
-                            var url = "/grids/feature/" + array[2] + "/delete/";
-                            delete_confirmation(e,url);
-                        });
-                    {% endif %}
+                // handle feature deletes
+                {% if perms.grid.delete_feature %}
+                    $("a[id|='feature-delete']").click(function(e) {
+                        var array = $(this).attr("id").split("-");
+                        var url = "/grids/feature/" + array[2] + "/delete/";
+                        delete_confirmation(e,url);
+                    });
+                {% endif %}
 
-                    {% if perms.grid.delete_gridpackage %}
-                        // handle package deletes
-                        $("a[id|='package-delete']").click(function(e) {
-                            var array = $(this).attr("id").split("-");
-                            var url = "/grids/package/" + array[2] + "/delete/";
-                            delete_confirmation(e,url);
-                        });
-                    {% endif %}
+                {% if perms.grid.delete_gridpackage %}
+                    // handle package deletes
+                    $("a[id|='package-delete']").click(function(e) {
+                        var array = $(this).attr("id").split("-");
+                        var url = "/grids/package/" + array[2] + "/delete/";
+                        delete_confirmation(e,url);
+                    });
+                {% endif %}
 
-                 {% endif %}
+            {% endif %}
 
-                 // sticky table header
-                 $table = $(".table-condensed:not(.fixed-header)");
-                 $header = $(".fixed-header tr");
+            // sticky table header
+            $table = $(".table-condensed:not(.fixed-header)");
+            $header = $(".fixed-header tr");
 
-                 function resizeFixed() {
-                     $originalHeader = $table.find("thead tr");
-                     $header.css("width", $originalHeader.outerWidth() + "px");
-                     $header.css("height", $originalHeader.outerHeight() + "px");
-                     $header.find("th").each(function(index) {
-                         $(this).css("width", $table.find("thead th").eq(index).outerWidth() + "px");
-                     });
-                 };
-                 function scrollFixed() {
-                     $win = $(window);
-                     var offset = $win.scrollTop(),
-                     tableOffsetTop = $table.offset().top,
-                     tableOffsetBottom = tableOffsetTop + $table.height() - $header.height();
-                     var toggle = offset >= tableOffsetTop && offset <= tableOffsetBottom;
-                     $header.toggle(toggle);
-                     $header.css("margin-left", (toggle) ? -$win.scrollLeft() + "px" : 0);
-                 }
-                 $(window).resize(resizeFixed);
-                 $(window).scroll(scrollFixed);
-                 resizeFixed();
+            function resizeFixed() {
+                $originalHeader = $table.find("thead tr");
+                $header.css("width", $originalHeader.outerWidth() + "px");
+                $header.css("height", $originalHeader.outerHeight() + "px");
+                $header.find("th").each(function(index) {
+                    $(this).css("width", $table.find("thead th").eq(index).outerWidth() + "px");
+                });
+            };
+            function scrollFixed() {
+                $win = $(window);
+                var offset = $win.scrollTop(),
+                tableOffsetTop = $table.offset().top,
+                tableOffsetBottom = tableOffsetTop + $table.height() - $header.height();
+                var toggle = offset >= tableOffsetTop && offset <= tableOffsetBottom;
+                $header.toggle(toggle);
+                $header.css("margin-left", (toggle) ? -$win.scrollLeft() + "px" : 0);
+            }
+            $(window).resize(resizeFixed);
+            $(window).scroll(scrollFixed);
+            resizeFixed();
 
-                 // Parse URL query strings into an array
-                 function getQueryStringParams() {
-                     const params = [];
-                     const queryStringStart = window.location.href.indexOf("?");
-                     const rawParams = queryStringStart > -1
-                        ? window.location.href.slice(queryStringStart + 1).split("&")
-                        : [];
-                     for(let i = 0; i < rawParams.length; i++) {
-                         const param = rawParams[i].split("=");
-                         params.push([param[0], param[1]]);
-                     }
-                     return params;
-                 }
+            // Parse URL query strings into an array
+            function getQueryStringParams() {
+                const params = [];
+                const queryStringStart = window.location.href.indexOf("?");
+                const rawParams = queryStringStart > -1
+                ? window.location.href.slice(queryStringStart + 1).split("&")
+                : [];
+                for(let i = 0; i < rawParams.length; i++) {
+                    const param = rawParams[i].split("=");
+                    params.push([param[0], param[1]]);
+                }
+                return params;
+            }
 
-                // handle filtering
-                $(".grid-filter__checkbox").each(function() {
-                    const qs = getQueryStringParams()
+            // handle filtering
+            $(".grid-filter__checkbox").each(function() {
+                const qs = getQueryStringParams()
 
-                    // tick filters already present on pageload
-                    for(let i = 0; i < qs.length; i++) {
-                        if (qs[i][0] === this.value && qs[i][1] === "1") {
-                            $(this).prop("checked", true);
+                // tick filters already present on pageload
+                for(let i = 0; i < qs.length; i++) {
+                    if (qs[i][0] === this.value && qs[i][1] === "1") {
+                        $(this).prop("checked", true);
+                    }
+                }
+                // handle redirect when checking/unchecking filters
+                $(this).click(function() {
+                    const qsArr = [];
+                    if ($(this).is(":checked")) {
+                        let found = false;
+                        for(let i = 0; i < qs.length; i++) {
+                            if (qs[i][0] === this.value) {
+                                found = true;
+                                qsArr.push(this.value + "=1");
+                            } else {
+                                qsArr.push(qs[i][0] + "=" + qs[i][1]);
+                            }
+                        }
+                        if (!found) {
+                            qsArr.push(this.value + "=1");
+                        }
+                    } else {
+                        for(let i = 0; i < qs.length; i++) {
+                            if (qs[i][0] !== this.value) {
+                                qsArr.push(qs[i][0] + "=" + qs[i][1]);
+                            }
                         }
                     }
-                    // handle redirect when checking/unchecking filters
-                    $(this).click(function() {
-                        const qsArr = [];
-                        if ($(this).is(":checked")) {
-                            let found = false;
-                            for(let i = 0; i < qs.length; i++) {
-                                if (qs[i][0] === this.value) {
-                                    found = true;
-                                    qsArr.push(this.value + "=1");
-                                } else {
-                                    qsArr.push(qs[i][0] + "=" + qs[i][1]);
-                                }
-                            }
-                            if (!found) {
-                                qsArr.push(this.value + "=1");
-                            }
-                        } else {
-                            for(let i = 0; i < qs.length; i++) {
-                                if (qs[i][0] !== this.value) {
-                                    qsArr.push(qs[i][0] + "=" + qs[i][1]);
-                                }
-                            }
-                        }
-                        const qsStr = qsArr.length ? "?" + qsArr.join("&") : "";
-                        $(location).attr('href', window.location.pathname + qsStr);
-                    });
+                    const qsStr = qsArr.length ? "?" + qsArr.join("&") : "";
+                    $(location).attr('href', window.location.pathname + qsStr);
                 });
-
             });
-        </script>
+
+        });
+    </script>
 {% endblock %}

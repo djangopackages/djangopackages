@@ -3,9 +3,9 @@
     <th>{% trans "Package" %}</th>
     {% for grid_package in grid_packages %}
         <th>
-          <a href="{% url 'package' grid_package.package.slug %}">
-            {{ grid_package.package.title }}
-          </a>
+            <a href="{% url 'package' grid_package.package.slug %}">
+                {{ grid_package.package.title }}
+            </a>
         </th>
     {% endfor %}
 </tr>

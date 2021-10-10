@@ -3,16 +3,16 @@
 <div class="container">
     <div class="row">
         {% for category in categories %}
-        <div class="categories col-sm-3 text-center">
-      <!-- start Categories panel -->
-          <h2 class="panel-title">{{ category.title_plural }} </h2>
+            <div class="categories col-sm-3 text-center">
+                <!-- start Categories panel -->
+                <h2 class="panel-title">{{ category.title_plural }} </h2>
 
-            <p>{{ category.description }}</p>
-        <a href="{% url 'category' category.slug %}" class="btn btn-primary">Show {{ category.title_plural }} ({{ category.count }})</a>
+                <p>{{ category.description }}</p>
+                <a href="{% url 'category' category.slug %}" class="btn btn-primary">Show {{ category.title_plural }} ({{ category.count }})</a>
 
-      </div>
+            </div>
 
-      <!-- end Categories panel -->
+            <!-- end Categories panel -->
 
         {% endfor %}
     </div>
@@ -20,88 +20,88 @@
 
 
 <div class="container">
-  <div class="row">
+    <div class="row">
 
-    <!-- start python 3 releases -->
-    <div class="col-sm-4 col-lg-4">
-      <h2>{% trans "Latest Python 3 Package Releases" %}</h2>
+        <!-- start python 3 releases -->
+        <div class="col-sm-4 col-lg-4">
+            <h2>{% trans "Latest Python 3 Package Releases" %}</h2>
 
-      <div class="list-group">
-        {% for version in latest_python3 %}
-          <a href="{{ version.package.get_absolute_url }}" class="list-group-item">
-            <h4 class="list-group-item-heading">
-              {{ version.package.title }}
-              <small>v{{ version.number }}</small>
-            </h4>
+            <div class="list-group">
+                {% for version in latest_python3 %}
+                    <a href="{{ version.package.get_absolute_url }}" class="list-group-item">
+                        <h4 class="list-group-item-heading">
+                            {{ version.package.title }}
+                            <small>v{{ version.number }}</small>
+                        </h4>
 
-            <p class="list-group-item-text">
-              {% with version.package.repo_description|truncatewords:25 as short %}
-                {% if version.package.repo_description|length > short|length %}
-                  {{ short|slice:"-3" }}...
-                {% else %}
-                  {{ short }}
-                {% endif %}
-              {% endwith %}
-            </p>
-          </a>
-        {% endfor %}
-      </div>
+                        <p class="list-group-item-text">
+                            {% with version.package.repo_description|truncatewords:25 as short %}
+                                {% if version.package.repo_description|length > short|length %}
+                                    {{ short|slice:"-3" }}...
+                                {% else %}
+                                    {{ short }}
+                                {% endif %}
+                            {% endwith %}
+                        </p>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- end python 3 releases -->
+
+        <!-- start latest five packages -->
+        <div class="col-sm-4 col-lg-4">
+            <h2>{% trans "Latest 5 Packages Added" %}</h2>
+
+            <div class="list-group">
+                {% for package in latest_packages %}
+                    <a href="{{ package.get_absolute_url }}" class="list-group-item">
+                        <h4 class="list-group-item-heading">
+                            {{ package.title }}
+                            {% if package.pypi_version %}<small>v{{ package.pypi_version }}</small>{% endif %}
+                        </h4>
+                        <p class="list-group-item-text">
+                            {% with package.repo_description|truncatewords:25 as short %}
+                                {% if package.repo_description|length > short|length %}
+                                    {{ short|slice:"-3" }}...
+                                {% else %}
+                                    {{ short }}
+                                {% endif %}
+                            {% endwith %}
+                        </p>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- end latest five packages -->
+
+        <!-- start five random packages -->
+        <div class="col-sm-4 col-lg-4">
+            <h2>{% trans "Random 5" %}</h2>
+
+            <div class="list-group">
+                {% for package in random_packages %}
+                    <a href="{{ package.get_absolute_url }}" class="list-group-item">
+                        <h4 class="list-group-item-heading">
+                            {{ package.title }}
+                            {% if package.pypi_version %}<small>v{{ package.pypi_version }}</small>{% endif %}
+                        </h4>
+                        <p class="list-group-item-text">
+                            {% with package.repo_description|truncatewords:25 as short %}
+                                {% if package.repo_description|length > short|length %}
+                                    {{ short|slice:"-3" }}...
+                                {% else %}
+                                    {{ short }}
+                                {% endif %}
+                            {% endwith %}
+                        </p>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- end five random packages -->
+
     </div>
-    <!-- end python 3 releases -->
-
-    <!-- start latest five packages -->
-    <div class="col-sm-4 col-lg-4">
-      <h2>{% trans "Latest 5 Packages Added" %}</h2>
-
-      <div class="list-group">
-        {% for package in latest_packages %}
-          <a href="{{ package.get_absolute_url }}" class="list-group-item">
-            <h4 class="list-group-item-heading">
-              {{ package.title }}
-              {% if package.pypi_version %}<small>v{{ package.pypi_version }}</small>{% endif %}
-            </h4>
-            <p class="list-group-item-text">
-              {% with package.repo_description|truncatewords:25 as short %}
-                {% if package.repo_description|length > short|length %}
-                  {{ short|slice:"-3" }}...
-                {% else %}
-                  {{ short }}
-                {% endif %}
-              {% endwith %}
-            </p>
-          </a>
-        {% endfor %}
-      </div>
+    <div class="row">
     </div>
-    <!-- end latest five packages -->
-
-    <!-- start five random packages -->
-    <div class="col-sm-4 col-lg-4">
-      <h2>{% trans "Random 5" %}</h2>
-
-      <div class="list-group">
-        {% for package in random_packages %}
-          <a href="{{ package.get_absolute_url }}" class="list-group-item">
-            <h4 class="list-group-item-heading">
-              {{ package.title }}
-              {% if package.pypi_version %}<small>v{{ package.pypi_version }}</small>{% endif %}
-            </h4>
-            <p class="list-group-item-text">
-              {% with package.repo_description|truncatewords:25 as short %}
-                {% if package.repo_description|length > short|length %}
-                  {{ short|slice:"-3" }}...
-                {% else %}
-                  {{ short }}
-                {% endif %}
-              {% endwith %}
-            </p>
-          </a>
-        {% endfor %}
-      </div>
-    </div>
-    <!-- end five random packages -->
-
-  </div>
-  <div class="row">
-  </div>
 </div>

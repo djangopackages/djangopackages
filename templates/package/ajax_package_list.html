@@ -2,13 +2,13 @@
 <div id="target">
     <h2>{% if packages|length %}{% trans "Packages" %}{% else %}{% trans "No packages found" %}{% endif %}</h2>
     {% if packages|length %}
-        <p class="editable-cell">{% trans "Click a package to add it to the grid." %}</p>      
+        <p class="editable-cell">{% trans "Click a package to add it to the grid." %}</p>
     {% endif %}
     {% for package in packages %}
         {% include "package/includes/_package_no_link.html" %}
     {% endfor %}
     <script type="text/javascript">
-       
+
         {% for package in packages %}
             {% if package.slug not in packages_already_added_list %}
                 $('#package-{{ package.id }}').mouseover(function() {
@@ -18,12 +18,12 @@
                     $('#package-{{ package.id }}').removeClass("clickable");
                 });
                 $('#package-{{ package.id }}').click(function() {
-                
+
                     $('#package-field').attr("value", {{ package.id }});
                     $("form#grid-package-form").submit();
                 });
             {% endif %}
         {% endfor %}
 
-    </script>    
+    </script>
 </div>
