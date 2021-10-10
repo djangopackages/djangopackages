@@ -1,9 +1,12 @@
 name: Update Contributors
 
 on:
-  push:
-    branches:
-      - main
+  # Every day at 2:30am
+  schedule:
+    - cron: "30 2 * * *"
+  # Manual trigger
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
