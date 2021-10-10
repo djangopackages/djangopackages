@@ -1,14 +1,14 @@
 {% load i18n %}
 
 <a href="{% url 'package' package.slug %}" class="list-group-item">
-  <h4 class="list-group-item-heading">
-    {{ package.title }} 
-  </h4>
-  <p class="list-group-item-text">
-    {{ package.repo_description }}
-  </p>
-  <p class="list-group-item-text">
-    <!-- TODO: do something better with this -->
-    GitHub stars: {{ package.repo_watchers }}, PyPI downloads: {{ package.pypi_downloads }}
-  </p>
+    <h4 class="list-group-item-heading">
+        {{ package.title }}
+    </h4>
+    <p class="list-group-item-text">
+        {{ package.repo_description }}
+    </p>
+    <p class="list-group-item-text">
+        <!-- TODO: do something better with this -->
+        GitHub stars: {{ package.repo_watchers }}, PyPI downloads: {{ package.pypi_downloads }}
+    </p>
 </a>

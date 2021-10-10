@@ -6,11 +6,11 @@
 {% block head_title %}{{ package.title }}{% endblock %}
 
 {% block extra_head %}
-  <meta name="description" content="{{ package.repo_description }}" />
-  <meta name="keywords" content="{{ package.grid_set.all|join:',' }}" />
+    <meta name="description" content="{{ package.repo_description }}" />
+    <meta name="keywords" content="{{ package.grid_set.all|join:',' }}" />
 
-  {% include 'includes/_ethicalads-js.html' %}
-  {{ block.super }}
+    {% include 'includes/_ethicalads-js.html' %}
+    {{ block.super }}
 {% endblock %}
 
 {% block breadcrumb %}
@@ -22,8 +22,8 @@
                         <a href="{% url 'packages' %}">{% trans "Packages" %}</a> ›› {{ package.title }}
                         <div class="pull-right">
                             <div class="btn btn-default">
-                            <a href="{% url 'edit_package' package.slug %}"><span class="glyphicon glyphicon-pencil"></span></a>
-                                </div>
+                                <a href="{% url 'edit_package' package.slug %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                            </div>
                         </div>
                     </h2>
 
@@ -50,7 +50,7 @@
     {% endif %}
   </ul>
 {% endif %}
-{% endcomment %}
+    {% endcomment %}
 
     <div class="row">
         <div class="col-md-8 main">
@@ -90,7 +90,7 @@
                         <span class="small-text"> Last fetched: {{ package.last_fetched|timesince }} ago</span>&nbsp;
                     {% endif %}
                     <a class="btn btn-default btn-xs"
-                       href="{% url 'post_package_data' package.slug %}">{% trans "Fetch latest data" %}</a>
+                        href="{% url 'post_package_data' package.slug %}">{% trans "Fetch latest data" %}</a>
                     {% comment %}
             {% if repo.title != "Github" %}
               <a class="btn btn-default btn-xs" href="{% url 'fetch_package_data' package.slug %}">{% trans "Fetch latest data" %}</a>
@@ -103,22 +103,22 @@
 
             <table class="table">
                 <thead>
-                <tr>
-                    <th></th>
-                    <th>{% trans "Commits" %}</th>
-                    <th><span class="glyphicon glyphicon-star"></span></th>
-                    <th><span class="glyphicon glyphicon-random"></span></th>
-                </tr>
+                    <tr>
+                        <th></th>
+                        <th>{% trans "Commits" %}</th>
+                        <th><span class="glyphicon glyphicon-star"></span></th>
+                        <th><span class="glyphicon glyphicon-random"></span></th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td><a href="{{ package.repo_url }}">{{ package.repo_url }}</a></td>
-                    <td><img
+                    <tr>
+                        <td><a href="{{ package.repo_url }}">{{ package.repo_url }}</a></td>
+                        <td><img
                             src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{ package.commits_over_52 }}&chco=666666&chbh=1,1,1&chds=0,20"/>
-                    </td>
-                    <td>{{ package.repo_watchers|default:"n/a" }}</td>
-                    <td>{{ package.repo_forks|default:"n/a" }}</td>
-                </tr>
+                        </td>
+                        <td>{{ package.repo_watchers|default:"n/a" }}</td>
+                        <td>{{ package.repo_forks|default:"n/a" }}</td>
+                    </tr>
                 </tbody>
             </table>
 
@@ -131,30 +131,30 @@
 
                 <table class="table">
                     <thead>
-                    <tr>
-                        <th>{% trans "Version" %}</th>
-                        <th>{% trans "License" %}</th>
-                        <th>{% trans "Released" %}</th>
-                        <th>{% trans "Status" %}</th>
-                        <th>{% trans "Python 3?" %}</th>
-                    </tr>
+                        <tr>
+                            <th>{% trans "Version" %}</th>
+                            <th>{% trans "License" %}</th>
+                            <th>{% trans "Released" %}</th>
+                            <th>{% trans "Status" %}</th>
+                            <th>{% trans "Python 3?" %}</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    {% for version in package.version_set.by_version_not_hidden %}
-                        <tr>
-                            <td>{{ version.number }}</td>
-                            <td>{{ version.pretty_license|default:"none" }}</td>
-                            <td>{{ version.upload_time|date:"SHORT_DATE_FORMAT" }}</td>
-                            <td>{{ version.pretty_status }}</td>
-                            <td>
-                                {% if version.supports_python3 %}
-                                    <span class="glyphicon glyphicon-ok"></span>
-                                {% else %}
-                                    <span class="glyphicon glyphicon-remove"></span>
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% endfor %}
+                        {% for version in package.version_set.by_version_not_hidden %}
+                            <tr>
+                                <td>{{ version.number }}</td>
+                                <td>{{ version.pretty_license|default:"none" }}</td>
+                                <td>{{ version.upload_time|date:"SHORT_DATE_FORMAT" }}</td>
+                                <td>{{ version.pretty_status }}</td>
+                                <td>
+                                    {% if version.supports_python3 %}
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                    {% else %}
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             {% else %}
@@ -181,7 +181,7 @@
                 <div class="pull-right">
                     {% if request.user.is_authenticated %}
                         <a href="{% url 'edit_documentation' package.slug %}"><span
-                                class="glyphicon glyphicon-plus"></span></a>
+                            class="glyphicon glyphicon-plus"></span></a>
                     {% endif %}
                 </div>
                 <p>{{ package.documentation_url|urlize }}</p>
@@ -221,7 +221,7 @@
                 <div class="pull-right">
                     {% if request.user.is_authenticated %}
                         <a href="{% url 'add_example' package.slug %}"><span
-                                class="glyphicon glyphicon-plus"></span></a>
+                            class="glyphicon glyphicon-plus"></span></a>
                     {% endif %}
                 </div>
 
@@ -233,7 +233,7 @@
                                     <a href="{{ example.pretty_url }}">{{ example.title }}</a>
                                     {% if request.user.is_authenticated %}&nbsp;
                                         <a href="{% url 'edit_example' package.slug example.id %}"><span
-                                                class="glyphicon glyphicon-pencil"></span></a>
+                                            class="glyphicon glyphicon-pencil"></span></a>
                                     {% endif %}
                                 </li>
                             {% endfor %}
@@ -262,39 +262,39 @@
 {% endblock %}
 
 {% block javascript %}
-  {{ block.super }}
-  <script src="{{ STATIC_URL }}js/underscore.js" type="text/javascript"></script>
-  <script src="{{ STATIC_URL }}js/gh3.js" type="text/javascript"></script>
+    {{ block.super }}
+    <script src="{{ STATIC_URL }}js/underscore.js" type="text/javascript"></script>
+    <script src="{{ STATIC_URL }}js/gh3.js" type="text/javascript"></script>
 {% endblock %}
 
 {% block extra_body %}
 
-<script type="text/javascript">
-    $(function() {
+    <script type="text/javascript">
+        $(function() {
 
-        $('#find-a-grid').click(function(e) {
-            e.preventDefault();
-            $('#find-a-grid').hide();
-            $('#find-a-grid-form').show();
-            $('#find-a-grid-input').focus();
+            $('#find-a-grid').click(function(e) {
+                e.preventDefault();
+                $('#find-a-grid').hide();
+                $('#find-a-grid-form').show();
+                $('#find-a-grid-input').focus();
 
-            $('#find-a-grid-input').keyup(function() {
-                var search_text = $('input#find-a-grid-input').val();
-                var search_text = '{% url 'ajax_grid_list' %}?q=' + search_text + '&package_id={{ package.id }}';
-                console.log(search_text);
-                $.get(search_text, function(data) {
-                  $('#target').html(data).show("slow");
+                $('#find-a-grid-input').keyup(function() {
+                    var search_text = $('input#find-a-grid-input').val();
+                    var search_text = '{% url 'ajax_grid_list' %}?q=' + search_text + '&package_id={{ package.id }}';
+                    console.log(search_text);
+                    $.get(search_text, function(data) {
+                        $('#target').html(data).show("slow");
+                    });
                 });
-            });
 
-            $("#find-a-grid-form").keypress(function(e) {
-                  if (e.which == 13) {
-                    return false;
-                  };
+                $("#find-a-grid-form").keypress(function(e) {
+                    if (e.which == 13) {
+                        return false;
+                    };
+                });
+
             });
 
         });
-
-    });
-</script>
+    </script>
 {% endblock %}
