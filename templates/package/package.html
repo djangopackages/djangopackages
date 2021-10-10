@@ -92,9 +92,9 @@
                     <a class="btn btn-default btn-xs"
                         href="{% url 'post_package_data' package.slug %}">{% trans "Fetch latest data" %}</a>
                     {% comment %}
-            {% if repo.title != "Github" %}
+            {% if repo.title != "GitHub" %}
               <a class="btn btn-default btn-xs" href="{% url 'fetch_package_data' package.slug %}">{% trans "Fetch latest data" %}</a>
-            {% else %}{# if repo.title == "Github" #}
+            {% else %}{# if repo.title == "GitHub" #}
               <a class="btn btn-default btn-xs" href="#">{% trans "Fetch latest data" %}</a>
             {% endif %}
           {% endcomment %}
