@@ -23,6 +23,16 @@
                 <p>{{ total_versions|intcomma }} {% trans "Versions" %}</p>
             </div>
             <div class="col-sm-6 col-md-5">
+                <h2>{% trans "Django Versions" %}</h2>
+                {% if total_django_4_0 %}
+                    <p>{% trans "Django 4.0 Packages:" %} {{ total_django_4_0|intcomma }}</p>
+                {% endif %}
+                <p>{% trans "Django 3.2 Packages:" %} {{ total_django_3_2|intcomma }}</p>
+                <p>{% trans "Django 3.1 Packages:" %} {{ total_django_3_1|intcomma }}</p>
+                <p>{% trans "Django 3.0 Packages:" %} {{ total_django_3_0|intcomma }}</p>
+                <p>{% trans "Django 2.2 Packages:" %} {{ total_django_2_2|intcomma }}</p>
+            </div>
+            <div class="col-sm-6 col-md-5">
                 <h2>{% trans "Python Versions" %}</h2>
                 {% if total_python_3_11 %}
                     <p>{% trans "Python 3.11 Packages:" %} {{ total_python_3_11|intcomma }}</p>
