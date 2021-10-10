@@ -10,6 +10,7 @@
                 <script src="{% static 'angular/controllers.js' %}?123"></script>
             {% endblock angularjs %}
             <title>{% block head_title_base %}{{ SITE_TITLE }} : {% block head_title %}{% endblock %}{% endblock %}</title>
+            {% comment %}
             <script>
                 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
                     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -20,6 +21,7 @@
                 ga('send', 'pageview');
 
             </script>
+            {% endcomment %}
             <link rel="stylesheet" href="{{ STATIC_URL }}bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
             <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap-glyphicons.css" type="text/css" />
             <link rel="stylesheet" href="{{ STATIC_URL }}components/audreyr-rotatingnav/dist/jquery.rotatingnav.min.css" type="text/css" />
