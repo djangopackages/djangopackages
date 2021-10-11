@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2021-10-10]
+### Changed
+- :shirt: Lint our templates ([#744](https://api.github.com/repos/djangopackages/djangopackages/pulls/744))
+- :tractor: Updates pypi links to newer link locations ([#739](https://api.github.com/repos/djangopackages/djangopackages/pulls/739))
+
 ## [2021-10-09]
 ### Changed
 - :pencil: Friday updates for 2021-10-8 ([#743](https://api.github.com/repos/djangopackages/djangopackages/pulls/743))
