@@ -9,7 +9,6 @@ django-crispy-forms
 django-debug-toolbar
 django-environ
 django-extensions
-django-floppyforms
 django-jsonview
 django-reversion
 django-secure
