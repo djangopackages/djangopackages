@@ -2,8 +2,6 @@ from trove_classifiers import classifiers
 from distutils.version import LooseVersion as versioner
 
 from requests.compat import quote
-
-from django.conf import settings
 from django.db import models
 
 

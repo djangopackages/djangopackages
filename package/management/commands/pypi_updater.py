@@ -20,6 +20,6 @@ def command():
             count_updated += 1
             package.save()
         count += 1
-        msg = "{}. {}. {}".format(count, count_updated, package)
+        msg = f"{count}. {count_updated}. {package}"
         logger.info(msg)
     healthcheck(settings.PYPI_HEALTHCHECK_URL)
