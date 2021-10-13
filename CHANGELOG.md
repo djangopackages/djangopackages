@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2021-10-12]
+### Changed
+- Removed floppyforms dependency ([#745](https://api.github.com/repos/djangopackages/djangopackages/pulls/745))
+
 ## [2021-10-10]
 ### Changed
 - :shirt: Lint our templates ([#744](https://api.github.com/repos/djangopackages/djangopackages/pulls/744))
