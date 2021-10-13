@@ -7,38 +7,46 @@ import django_extensions.db.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('searchv2', '0002_auto_20150716_2222'),
+        ("searchv2", "0002_auto_20150716_2222"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='searchv2',
-            name='absolute_url',
-            field=models.CharField(max_length=255, verbose_name='Absolute URL'),
+            model_name="searchv2",
+            name="absolute_url",
+            field=models.CharField(max_length=255, verbose_name="Absolute URL"),
         ),
         migrations.AlterField(
-            model_name='searchv2',
-            name='clean_title',
-            field=models.CharField(db_index=True, max_length=100, verbose_name='Clean title with no crud'),
+            model_name="searchv2",
+            name="clean_title",
+            field=models.CharField(
+                db_index=True, max_length=100, verbose_name="Clean title with no crud"
+            ),
         ),
         migrations.AlterField(
-            model_name='searchv2',
-            name='created',
-            field=django_extensions.db.fields.CreationDateTimeField(auto_now_add=True, verbose_name='created'),
+            model_name="searchv2",
+            name="created",
+            field=django_extensions.db.fields.CreationDateTimeField(
+                auto_now_add=True, verbose_name="created"
+            ),
         ),
         migrations.AlterField(
-            model_name='searchv2',
-            name='modified',
-            field=django_extensions.db.fields.ModificationDateTimeField(auto_now=True, verbose_name='modified'),
+            model_name="searchv2",
+            name="modified",
+            field=django_extensions.db.fields.ModificationDateTimeField(
+                auto_now=True, verbose_name="modified"
+            ),
         ),
         migrations.AlterField(
-            model_name='searchv2',
-            name='title',
-            field=models.CharField(db_index=True, max_length=100, verbose_name='Title'),
+            model_name="searchv2",
+            name="title",
+            field=models.CharField(db_index=True, max_length=100, verbose_name="Title"),
         ),
         migrations.AlterField(
-            model_name='searchv2',
-            name='title_no_prefix',
-            field=models.CharField(db_index=True, max_length=100, verbose_name='No Prefix Title'),
+            model_name="searchv2",
+            name="title_no_prefix",
+            field=models.CharField(
+                db_index=True, max_length=100, verbose_name="No Prefix Title"
+            ),
         ),
     ]

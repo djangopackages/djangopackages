@@ -1,5 +1,3 @@
-
-
 def reset_sequences(*models):
     """
     After loading data the sequences must be reset in the database if

@@ -5,7 +5,6 @@ from searchv2.utils import remove_prefix, clean_title
 
 
 class UtilFunctionTest(TestCase):
-
     def setUp(self):
         self.values = []
         for value in ["-me", ".me", "/me", "_me"]:

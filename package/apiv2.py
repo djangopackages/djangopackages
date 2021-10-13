@@ -31,5 +31,3 @@ class Python3ListAPIView(ListAPIView):
         packages = packages.annotate(usage_count=Count("usage"))
         packages.order_by("-score", "title")
         return packages
-
-

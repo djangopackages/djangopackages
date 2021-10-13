@@ -7,18 +7,22 @@ import django_extensions.db.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('profiles', '0002_auto_20150716_2222'),
+        ("profiles", "0002_auto_20150716_2222"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='profile',
-            name='created',
-            field=django_extensions.db.fields.CreationDateTimeField(auto_now_add=True, verbose_name='created'),
+            model_name="profile",
+            name="created",
+            field=django_extensions.db.fields.CreationDateTimeField(
+                auto_now_add=True, verbose_name="created"
+            ),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='modified',
-            field=django_extensions.db.fields.ModificationDateTimeField(auto_now=True, verbose_name='modified'),
+            model_name="profile",
+            name="modified",
+            field=django_extensions.db.fields.ModificationDateTimeField(
+                auto_now=True, verbose_name="modified"
+            ),
         ),
     ]

@@ -7,38 +7,50 @@ import django_extensions.db.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('homepage', '0001_initial'),
+        ("homepage", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='dpotw',
-            name='created',
-            field=django_extensions.db.fields.CreationDateTimeField(auto_now_add=True, verbose_name='created'),
+            model_name="dpotw",
+            name="created",
+            field=django_extensions.db.fields.CreationDateTimeField(
+                auto_now_add=True, verbose_name="created"
+            ),
         ),
         migrations.AlterField(
-            model_name='dpotw',
-            name='modified',
-            field=django_extensions.db.fields.ModificationDateTimeField(auto_now=True, verbose_name='modified'),
+            model_name="dpotw",
+            name="modified",
+            field=django_extensions.db.fields.ModificationDateTimeField(
+                auto_now=True, verbose_name="modified"
+            ),
         ),
         migrations.AlterField(
-            model_name='gotw',
-            name='created',
-            field=django_extensions.db.fields.CreationDateTimeField(auto_now_add=True, verbose_name='created'),
+            model_name="gotw",
+            name="created",
+            field=django_extensions.db.fields.CreationDateTimeField(
+                auto_now_add=True, verbose_name="created"
+            ),
         ),
         migrations.AlterField(
-            model_name='gotw',
-            name='modified',
-            field=django_extensions.db.fields.ModificationDateTimeField(auto_now=True, verbose_name='modified'),
+            model_name="gotw",
+            name="modified",
+            field=django_extensions.db.fields.ModificationDateTimeField(
+                auto_now=True, verbose_name="modified"
+            ),
         ),
         migrations.AlterField(
-            model_name='psa',
-            name='created',
-            field=django_extensions.db.fields.CreationDateTimeField(auto_now_add=True, verbose_name='created'),
+            model_name="psa",
+            name="created",
+            field=django_extensions.db.fields.CreationDateTimeField(
+                auto_now_add=True, verbose_name="created"
+            ),
         ),
         migrations.AlterField(
-            model_name='psa',
-            name='modified',
-            field=django_extensions.db.fields.ModificationDateTimeField(auto_now=True, verbose_name='modified'),
+            model_name="psa",
+            name="modified",
+            field=django_extensions.db.fields.ModificationDateTimeField(
+                auto_now=True, verbose_name="modified"
+            ),
         ),
     ]

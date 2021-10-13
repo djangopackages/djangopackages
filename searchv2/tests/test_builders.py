@@ -6,7 +6,6 @@ from searchv2.builders import build_1
 
 
 class BuilderTest(TestCase):
-
     def setUp(self):
         initial_data.load()
 

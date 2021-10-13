@@ -24,10 +24,13 @@ def profile_detail(request, github_account, template_name="profiles/profile.html
     try:
         profile = get_object_or_404(Profile, github_account=github_account)
     except MultipleObjectsReturned:
-        profile = Profile.objects.filter(github_account=github_account).latest('pk')
+        profile = Profile.objects.filter(github_account=github_account).latest("pk")
 
-    return render(request, template_name,
-        {"local_profile": profile, "user": profile.user},)
+    return render(
+        request,
+        template_name,
+        {"local_profile": profile, "user": profile.user},
+    )
 
 
 class ProfileEditUpdateView(LoginRequiredMixin, UpdateView):
@@ -41,20 +44,23 @@ class ProfileEditUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         form.save()
         messages.add_message(self.request, messages.INFO, "Profile Saved")
-        return HttpResponseRedirect(reverse("profile_detail", kwargs={"github_account": self.get_object()}))
+        return HttpResponseRedirect(
+            reverse("profile_detail", kwargs={"github_account": self.get_object()})
+        )
 
 
 def github_user_update(sender, **kwargs):
     # import ipdb; ipdb.set_trace()
     try:
-        user = kwargs['request'].user
+        user = kwargs["request"].user
     except (KeyError, AttributeError):
-        user = kwargs.get('user')
+        user = kwargs.get("user")
     profile_instance, created = Profile.objects.get_or_create(user=user)
     profile_instance.github_account = user.username
     profile_instance.email = user.email
     profile_instance.save()
     return True
+
 
 user_logged_in.connect(github_user_update)
 

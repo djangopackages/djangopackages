@@ -11,5 +11,6 @@ Please switch to APIv3:
 
 """
 
+
 def apiv1_gone(request):
     return HttpResponseGone(apiv1_gone_msg)

@@ -1,4 +1,3 @@
-
 from django.core.exceptions import ImproperlyConfigured
 from django.urls import NoReverseMatch
 
@@ -12,7 +11,9 @@ from searchv2.models import SearchV2
 
 
 class GridSerializer(serializers.ModelSerializer):
-    packages = serializers.HyperlinkedRelatedField(many=True, view_name='apiv4:package-detail', read_only=True)
+    packages = serializers.HyperlinkedRelatedField(
+        many=True, view_name="apiv4:package-detail", read_only=True
+    )
 
     class Meta:
         fields = [
@@ -30,55 +31,58 @@ class GridSerializer(serializers.ModelSerializer):
 
 class PackageSerializer(serializers.HyperlinkedModelSerializer):
     # 'Source' is attached to the model attribute
-    participants = serializers.ListField(source='participant_list')
-    commits_over_52 = serializers.ListField(source='commits_over_52_listed')
-    grids = serializers.HyperlinkedRelatedField(many=True, view_name='apiv4:grid-detail', read_only=True)
-    category = serializers.HyperlinkedRelatedField(view_name='apiv4:category-detail', read_only=True)
+    participants = serializers.ListField(source="participant_list")
+    commits_over_52 = serializers.ListField(source="commits_over_52_listed")
+    grids = serializers.HyperlinkedRelatedField(
+        many=True, view_name="apiv4:grid-detail", read_only=True
+    )
+    category = serializers.HyperlinkedRelatedField(
+        view_name="apiv4:category-detail", read_only=True
+    )
 
     class Meta:
         model = Package
         fields = (
-            'category',
-            'grids',
-            'id',
-            'title',
-            'slug',
-            'last_updated',
-            'last_fetched',
-            'repo_url',
-            'pypi_version',
-            'created',
-            'modified',
-            'repo_forks',
-            'repo_description',
-            'pypi_url',
-            'documentation_url',
-            'repo_watchers',
-            'commits_over_52',
-            'participants',
+            "category",
+            "grids",
+            "id",
+            "title",
+            "slug",
+            "last_updated",
+            "last_fetched",
+            "repo_url",
+            "pypi_version",
+            "created",
+            "modified",
+            "repo_forks",
+            "repo_description",
+            "pypi_url",
+            "documentation_url",
+            "repo_watchers",
+            "commits_over_52",
+            "participants",
         )
+
 
 class SearchV2Hyperlink(serializers.HyperlinkedRelatedField):
 
-    view_name = 'package-detail'
+    view_name = "package-detail"
 
     def get_url(self, obj, view_name, request, format):
-        url_kwargs = {
-            'organization_slug': obj.organization.slug,
-            'customer_pk': obj.pk
-        }
+        url_kwargs = {"organization_slug": obj.organization.slug, "customer_pk": obj.pk}
         return reverse(view_name, url_kwargs, request=request, format=format)
 
     def get_object(self, view_name, view_args, view_kwargs):
         lookup_kwargs = {
-           'organization__slug': view_kwargs['organization_slug'],
-           'pk': view_kwargs['customer_pk']
+            "organization__slug": view_kwargs["organization_slug"],
+            "pk": view_kwargs["customer_pk"],
         }
         return self.get_queryset().get(**lookup_kwargs)
 
+
 class HyperlinkFeld(serializers.HyperlinkedRelatedField):
 
-    lookup_field = 'pk'
+    lookup_field = "pk"
 
     def get_url(self, obj, view_name):
         """
@@ -87,27 +91,26 @@ class HyperlinkFeld(serializers.HyperlinkedRelatedField):
         attributes are not configured to correctly match the URL conf.
         """
         # Unsaved objects will not yet have a valid URL.
-        if hasattr(obj, 'pk') and obj.pk is None:
+        if hasattr(obj, "pk") and obj.pk is None:
             return None
-        kwargs = {'pk': 1}
+        kwargs = {"pk": 1}
         return reverse(view_name, kwargs=kwargs)
 
     def to_representation(self, value):
 
         self.view_name = f"apiv4:{value.item_type}-detail"
 
-
         try:
             url = self.get_url(value, self.view_name)
         except NoReverseMatch:
             msg = (
-                'Could not resolve URL for hyperlinked relationship using '
+                "Could not resolve URL for hyperlinked relationship using "
                 'view name "%s". You may have failed to include the related '
-                'model in your API, or incorrectly configured the '
-                '`lookup_field` attribute on this field.'
+                "model in your API, or incorrectly configured the "
+                "`lookup_field` attribute on this field."
             )
-            if value in ('', None):
-                value_string = {'': 'the empty string', None: 'None'}[value]
+            if value in ("", None):
+                value_string = {"": "the empty string", None: "None"}[value]
                 msg += (
                     " WARNING: The value of the field on the model instance "
                     "was %s, which may be why it didn't match any "
@@ -127,11 +130,12 @@ class SearchV2Serializer(serializers.ModelSerializer):
 
     class Meta:
         model = SearchV2
-        exclude = ['id', ]
+        exclude = [
+            "id",
+        ]
 
 
 class CategorySerializer(serializers.ModelSerializer):
-
     class Meta:
         fields = [
             "title",

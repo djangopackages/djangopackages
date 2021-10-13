@@ -24,14 +24,14 @@ class PackageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Package
         fields = (
-                    "id",
-                    "slug",
-                    "title",
-                    "repo_description",
-                    "repo_watchers",
-                    "repo_forks",
-                    "pypi_version",
-                    "usage_count",
-                    "commits_over_52",
-                    "development_status"
-                )
+            "id",
+            "slug",
+            "title",
+            "repo_description",
+            "repo_watchers",
+            "repo_forks",
+            "pypi_version",
+            "usage_count",
+            "commits_over_52",
+            "development_status",
+        )

@@ -16,6 +16,6 @@ class Command(BaseCommand):
         for package in Package.objects.filter().iterator():
             package.save()
             count += 1
-            msg = "{}. {}".format(count, package)
+            msg = f"{count}. {package}"
             logger.info(msg)
         print(f"{count} packages were updated...")

@@ -10,9 +10,9 @@ from package.utils import uniquer
 
 class GitHubHandler(BaseHandler):
     title = "GitHub"
-    url_regex = '(http|https|git)://github.com/'
-    url = 'https://github.com'
-    repo_regex = r'(?:http|https|git)://github.com/[^/]*/([^/]*)/{0,1}'
+    url_regex = "(http|https|git)://github.com/"
+    url = "https://github.com"
+    repo_regex = r"(?:http|https|git)://github.com/[^/]*/([^/]*)/{0,1}"
     slug_regex = repo_regex
 
     def __init__(self):
@@ -31,11 +31,10 @@ class GitHubHandler(BaseHandler):
         if repo_name.endswith("/"):
             repo_name = repo_name[:-1]
         try:
-            username, repo_name = package.repo_name().split('/')
+            username, repo_name = package.repo_name().split("/")
         except ValueError:
             return None
         return self.github.repository(username, repo_name)
-
 
     def fetch_metadata(self, package):
         self.manage_ratelimit()
@@ -57,7 +56,7 @@ class GitHubHandler(BaseHandler):
             self.manage_ratelimit()
 
         if contributors:
-            package.participants = ','.join(uniquer(contributors))
+            package.participants = ",".join(uniquer(contributors))
 
         return package
 
@@ -75,8 +74,7 @@ class GitHubHandler(BaseHandler):
             self.manage_ratelimit()
             try:
                 commit_record, created = Commit.objects.get_or_create(
-                    package=package,
-                    commit_date=commit.commit.committer['date']
+                    package=package, commit_date=commit.commit.committer["date"]
                 )
                 if not created:
                     break
@@ -87,5 +85,6 @@ class GitHubHandler(BaseHandler):
 
         package.save()
         return package
+
 
 repo_handler = GitHubHandler()

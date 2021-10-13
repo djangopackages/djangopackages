@@ -63,7 +63,7 @@ def build_1():
         r = requests.get(rtfd_url)
         if r.status_code == 200:
             data = json.loads(r.content)
-            if data['meta']['total_count']:
+            if data["meta"]["total_count"]:
                 weight += 20
 
         if not package.is_deprecated:

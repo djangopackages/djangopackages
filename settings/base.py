@@ -3,7 +3,6 @@
 import os.path
 from os import environ
 import environ as envmax
-import warnings
 
 from django.template.defaultfilters import slugify
 
@@ -259,7 +258,7 @@ LOGIN_REDIRECT_URL = "/"
 
 DATABASES = {"default": env.db("DATABASE_URL")}
 
-DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 
 WSGI_APPLICATION = "wsgi.application"

@@ -1,4 +1,3 @@
-
 from django.test import TestCase
 
 from package.repos import get_repo_for_repo_url
@@ -8,13 +7,9 @@ from package.models import Package, Category
 
 
 class BaseBase(TestCase):
-
     def setUp(self):
 
-        self.category = Category.objects.create(
-            title='dummy',
-            slug='dummy'
-        )
+        self.category = Category.objects.create(title="dummy", slug="dummy")
         self.category.save()
 
 
@@ -25,7 +20,7 @@ class TestBaseHandler(BaseBase):
             title="Django Piston",
             slug="django-piston",
             repo_url="https://bitbucket.org/jespern/django-piston",
-            category=self.category
+            category=self.category,
         )
 
     def test_not_implemented(self):
@@ -173,7 +168,10 @@ schinckel/django-timedelta-field/
 http://projects.unbit.it/hg/uwsgi
 http://www.dataportal.it"""
         for sample in samples.split("\n"):
-            self.assertTrue(isinstance(get_repo_for_repo_url(sample), UnsupportedHandler))
+            self.assertTrue(
+                isinstance(get_repo_for_repo_url(sample), UnsupportedHandler)
+            )
+
 
 """
 class TestBitbucketRepo(TestBaseHandler):
@@ -201,6 +199,7 @@ class TestBitbucketRepo(TestBaseHandler):
         self.assertEquals(package.participants, "django")
 """
 
+
 class TestGithubRepo(TestBaseHandler):
     def setUp(self):
         super().setUp()
@@ -208,7 +207,7 @@ class TestGithubRepo(TestBaseHandler):
             title="Django",
             slug="django",
             repo_url="https://github.com/django/django",
-            category=self.category
+            category=self.category,
         )
 
     # def test_fetch_commits(self):
@@ -231,6 +230,7 @@ class TestGithubRepo(TestBaseHandler):
     #     self.assertEqual(self.package.repo_watchers, 0)
     #     self.package.fetch_commits()
 
+
 class TestGitlabRepo(TestBaseHandler):
     def setUp(self):
         super().setUp()
@@ -238,7 +238,7 @@ class TestGitlabRepo(TestBaseHandler):
             title="Django",
             slug="django",
             repo_url="https://gitlab.com/delta10/kees",
-            category=self.category
+            category=self.category,
         )
 
 

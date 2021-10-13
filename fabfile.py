@@ -36,7 +36,9 @@ def production():
     """
     Work on the production environment
     """
-    env.hosts = ["159.203.191.135"]  # list the ip addresses or domain names of your production boxes here
+    env.hosts = [
+        "159.203.191.135"
+    ]  # list the ip addresses or domain names of your production boxes here
     env.port = 56565  # ssh port
     env.user = "root"  # remote user, see `env.run` if you don't log in as root
 
@@ -63,9 +65,13 @@ def copy_secrets():
 
     for secret in secrets:
         remote_path = "/".join([env.project_dir, secret])
-        print(blue("Copying {secret} to {remote_path} on {host}".format(
-            secret=secret, remote_path=remote_path, host=env.host
-        )))
+        print(
+            blue(
+                "Copying {secret} to {remote_path} on {host}".format(
+                    secret=secret, remote_path=remote_path, host=env.host
+                )
+            )
+        )
         put(secret, remote_path)
 
 

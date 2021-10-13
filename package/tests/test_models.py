@@ -4,12 +4,13 @@ from package.forms import PackageForm
 from package.models import Package, Version
 from package.tests import data, initial_data
 
+
 class VersionTests(TestCase):
     def setUp(self):
         data.load()
 
     def test_score(self):
-        p = Package.objects.get(slug='django-cms')
+        p = Package.objects.get(slug="django-cms")
         # The packages is not picked up as a Python 3 at this stage
         # because django-cms package is added in data.py first,
         # then Versions (where Python3 support flag is) is added after
@@ -24,7 +25,7 @@ class VersionTests(TestCase):
         self.assertEqual(p.score, p.repo_watchers)
 
     def test_score_abandoned_package(self):
-        p = Package.objects.get(slug='django-divioadmin')
+        p = Package.objects.get(slug="django-divioadmin")
         p.save()  # updates the score
 
         # score should be -100
@@ -33,48 +34,58 @@ class VersionTests(TestCase):
         self.assertEqual(p.score, -100, p.score)
 
     def test_score_abandoned_package_10_years(self):
-        p = Package.objects.get(slug='django-divioadmin2')
+        p = Package.objects.get(slug="django-divioadmin2")
         p.save()  # updates the score
         self.assertLess(p.score, 0, p.score)
 
     def test_version_order(self):
-        p = Package.objects.get(slug='django-cms')
+        p = Package.objects.get(slug="django-cms")
         versions = p.version_set.by_version()
-        expected_values = [ '2.0.0',
-                            '2.0.1',
-                            '2.0.2',
-                            '2.1.0',
-                            '2.1.1',
-                            '2.1.2',
-                            '2.1.3']
+        expected_values = [
+            "2.0.0",
+            "2.0.1",
+            "2.0.2",
+            "2.1.0",
+            "2.1.1",
+            "2.1.2",
+            "2.1.3",
+        ]
         returned_values = [v.number for v in versions]
-        self.assertEqual(returned_values,expected_values)
+        self.assertEqual(returned_values, expected_values)
 
     def test_version_license_length(self):
         v = Version.objects.all()[0]
-        v.license = "x"*50
+        v.license = "x" * 50
         v.save()
-        self.assertEqual(v.license,"Custom")
+        self.assertEqual(v.license, "Custom")
+
 
 class PackageTests(TestCase):
     def setUp(self):
         initial_data.load()
 
     def test_pypi_name_blank(self):
-        package = Package.objects.get(slug='serious-testing')
+        package = Package.objects.get(slug="serious-testing")
         self.assertEqual(package.pypi_url, "")
         self.assertEqual(package.pypi_name, "")
 
     def test_pypi_name_valid(self):
-        package = Package.objects.get(slug='supertester')
+        package = Package.objects.get(slug="supertester")
         self.assertEqual(package.pypi_url, "django-crispy-forms")
         self.assertEqual(package.pypi_name, "django-crispy-forms")
-        self.assertEqual(package.get_pypi_uri(), "https://pypi.org/project/django-crispy-forms/")
-        self.assertEqual(package.get_pypi_json_uri(), "https://pypi.org/pypi/django-crispy-forms/json")
+        self.assertEqual(
+            package.get_pypi_uri(), "https://pypi.org/project/django-crispy-forms/"
+        )
+        self.assertEqual(
+            package.get_pypi_json_uri(),
+            "https://pypi.org/pypi/django-crispy-forms/json",
+        )
 
     def test_pypi_name_invalid(self):
-        package = Package.objects.get(slug='testability')
-        self.assertEqual(package.pypi_url, "https://pypi.org/project/django-la-facebook/")
+        package = Package.objects.get(slug="testability")
+        self.assertEqual(
+            package.pypi_url, "https://pypi.org/project/django-la-facebook/"
+        )
         self.assertEqual(package.pypi_name, "django-la-facebook")
 
         package.pypi_url = ""
@@ -82,8 +93,12 @@ class PackageTests(TestCase):
 
         package.pypi_url = "http://pypi.python.org/pypi/django-la-facebook/"
         self.assertEqual(package.pypi_name, "django-la-facebook")
-        self.assertEqual(package.get_pypi_uri(), "https://pypi.org/project/django-la-facebook/")
-        self.assertEqual(package.get_pypi_json_uri(), "https://pypi.org/pypi/django-la-facebook/json")
+        self.assertEqual(
+            package.get_pypi_uri(), "https://pypi.org/project/django-la-facebook/"
+        )
+        self.assertEqual(
+            package.get_pypi_json_uri(), "https://pypi.org/pypi/django-la-facebook/json"
+        )
 
         package.pypi_url = "https://pypi.python.org/pypi/django-la-facebook/"
         self.assertEqual(package.pypi_name, "django-la-facebook")
