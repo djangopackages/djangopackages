@@ -8,12 +8,12 @@ def lazy_profile(request):
     """
 
     def get_user_profile():
-        if hasattr(request, 'profile'):
+        if hasattr(request, "profile"):
             return request.profile
         else:
             return request.user.profile
 
     data = {
-        'profile': SimpleLazyObject(get_user_profile),
-        }
+        "profile": SimpleLazyObject(get_user_profile),
+    }
     return data

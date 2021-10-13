@@ -15,9 +15,7 @@ logger = logging.getLogger(__name__)
 class PackageUpdaterException(Exception):
     def __init__(self, error, title):
         log_message = "For {title}, {error_type}: {error}".format(
-            title=title,
-            error_type=type(error),
-            error=error
+            title=title, error_type=type(error), error=error
         )
         logging.critical(log_message)
         logging.exception(error)
@@ -46,7 +44,9 @@ class Command(BaseCommand):
                     package.fetch_metadata(fetch_pypi=False)
                     package.fetch_commits()
                 except Exception as e:
-                    logger.error(f"Error while fetching package details for {package.title}.")
+                    logger.error(
+                        f"Error while fetching package details for {package.title}."
+                    )
                     raise PackageUpdaterException(e, package.title)
             except PackageUpdaterException:
                 logger.error(f"Unable to update {package.title}", exc_info=True)

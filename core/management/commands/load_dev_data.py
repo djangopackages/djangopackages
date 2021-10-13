@@ -17,12 +17,11 @@ class Command(BaseCommand):
             mod = import_module(app)
             # Attempt to import the app's test.data module.
             try:
-                mod_data = import_module('%s.tests.data' % app)
+                mod_data = import_module("%s.tests.data" % app)
                 mod_data.load()
             except:
                 # Decide whether to bubble up this error. If the app just
                 # doesn't have an test.data module, we can ignore the error
                 # attempting to import it, otherwise we want it to bubble up.
-                if module_has_submodule(mod, 'test.data'):
+                if module_has_submodule(mod, "test.data"):
                     raise
-

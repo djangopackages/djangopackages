@@ -11,6 +11,7 @@ ROOT = CURRENT_FILE.parents[1]
 BOT_LOGINS = ["dependabot"]
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", None)
 
+
 def main() -> None:
     """
     Script entry point.
@@ -39,11 +40,11 @@ def iter_recent_authors():
     Use Github API to fetch recent authors rather than
     git CLI to work with Github usernames.
     """
-    repo = Github(per_page=20, login_or_token=GITHUB_TOKEN).get_repo("djangopackages/djangopackages")
-    recent_pulls = repo.get_pulls(
-        state="closed", sort="updated", direction="desc"
+    repo = Github(per_page=20, login_or_token=GITHUB_TOKEN).get_repo(
+        "djangopackages/djangopackages"
     )
-    last_page = ceil(recent_pulls.totalCount/20)
+    recent_pulls = repo.get_pulls(state="closed", sort="updated", direction="desc")
+    last_page = ceil(recent_pulls.totalCount / 20)
     for i in range(0, last_page):
         for pull in recent_pulls.get_page(i):
             if (

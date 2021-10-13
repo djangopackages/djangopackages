@@ -1,4 +1,4 @@
-#@@from package.tests.test_sourceforge import *
+# @@from package.tests.test_sourceforge import *
 
 from .test_models import *
 from package.tests.test_repos import *

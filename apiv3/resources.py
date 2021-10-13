@@ -1,6 +1,7 @@
 from django.urls import reverse
 from profiles.models import Profile
 
+
 def base_resource(obj):
     return {
         "absolute_url": obj.get_absolute_url(),
@@ -18,7 +19,7 @@ def category_resource(cat):
             "description": cat.description,
             "resource_uri": reverse("apiv3:category_detail", kwargs={"slug": cat.slug}),
             "show_pypi": cat.show_pypi,
-            "title_plural": cat.title_plural
+            "title_plural": cat.title_plural,
         }
     )
     return data
@@ -33,8 +34,9 @@ def grid_resource(grid):
             "resource_uri": reverse("apiv3:grid_detail", kwargs={"slug": grid.slug}),
             "header": grid.header,
             "packages": [
-                reverse("apiv3:package_detail", kwargs={'slug':x.slug}) for x in grid.packages.all()
-            ]
+                reverse("apiv3:package_detail", kwargs={"slug": x.slug})
+                for x in grid.packages.all()
+            ],
         }
     )
     return data
@@ -47,7 +49,10 @@ def package_resource(package):
         if package.created_by is None or package.created_by.profile is None:
             created_by = None
         else:
-            created_by = reverse("apiv3:user_detail", kwargs={"github_account": package.created_by.profile.github_account})
+            created_by = reverse(
+                "apiv3:user_detail",
+                kwargs={"github_account": package.created_by.profile.github_account},
+            )
     except Profile.DoesNotExist:
         created_by = None
 
@@ -58,13 +63,16 @@ def package_resource(package):
 
     data.update(
         {
-            "category": reverse("apiv3:category_detail", kwargs={"slug": package.category.slug}),
+            "category": reverse(
+                "apiv3:category_detail", kwargs={"slug": package.category.slug}
+            ),
             "commit_list": package.commit_list,
             "commits_over_52": package.commits_over_52(),
             "created_by": created_by,
             "documentation_url": package.documentation_url,
             "grids": [
-                reverse("apiv3:grid_detail", kwargs={"slug": x.slug}) for x in package.grids()
+                reverse("apiv3:grid_detail", kwargs={"slug": x.slug})
+                for x in package.grids()
             ],
             "last_fetched": package.last_fetched,
             "last_modified_by": last_modified_by,
@@ -75,8 +83,10 @@ def package_resource(package):
             "repo_forks": package.repo_forks,
             "repo_url": package.repo_url,
             "repo_watchers": package.repo_watchers,
-            "resource_uri": reverse("apiv3:package_detail", kwargs={"slug": package.slug}),
-            "usage_count": package.get_usage_count()
+            "resource_uri": reverse(
+                "apiv3:package_detail", kwargs={"slug": package.slug}
+            ),
+            "usage_count": package.get_usage_count(),
         }
     )
     return data
@@ -86,7 +96,9 @@ def user_resource(profile, list_packages=False):
     user = profile.user
     data = {
         "absolute_url": profile.get_absolute_url(),
-        "resource_uri": reverse("apiv3:user_detail", kwargs={"github_account": profile.github_account}),
+        "resource_uri": reverse(
+            "apiv3:user_detail", kwargs={"github_account": profile.github_account}
+        ),
         "created": profile.created,
         "modified": profile.modified,
         "github_account": profile.github_account,
@@ -94,10 +106,11 @@ def user_resource(profile, list_packages=False):
         "date_joined": user.date_joined,
         "last_login": user.last_login,
         "bitbucket_url": profile.bitbucket_url,
-        "google_code_url": profile.google_code_url
+        "google_code_url": profile.google_code_url,
     }
     if list_packages:
-        data['packages'] = [
-            reverse("apiv3:package_detail", kwargs={"slug": x.slug}) for x in profile.my_packages()
+        data["packages"] = [
+            reverse("apiv3:package_detail", kwargs={"slug": x.slug})
+            for x in profile.my_packages()
         ]
     return data

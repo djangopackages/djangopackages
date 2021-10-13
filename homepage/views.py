@@ -18,27 +18,61 @@ class OpenView(TemplateView):
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        data.update({
-            "top_grid_list": Grid.objects.all().annotate(num_packages=Count("packages")).filter(num_packages__gt=15).order_by("-num_packages")[0:100],
-            "top_user_list": User.objects.all().annotate(num_packages=Count("creator")).filter(num_packages__gt=10).order_by("-num_packages")[0:100],
-            "total_categories": Category.objects.count(),
-            "total_commits": Commit.objects.count(),
-            "total_django_2_2": Package.objects.filter(pypi_classifiers__contains=["Framework :: Django :: 2.2"]).count(),
-            "total_django_3_0": Package.objects.filter(pypi_classifiers__contains=["Framework :: Django :: 3.0"]).count(),
-            "total_django_3_1": Package.objects.filter(pypi_classifiers__contains=["Framework :: Django :: 3.1"]).count(),
-            "total_django_3_2": Package.objects.filter(pypi_classifiers__contains=["Framework :: Django :: 3.2"]).count(),
-            "total_django_4_0": Package.objects.filter(pypi_classifiers__contains=["Framework :: Django :: 4.0"]).count(),
-            "total_grids": Grid.objects.count(),
-            "total_packages": Package.objects.count(),
-            "total_python_3_10": Package.objects.filter(pypi_classifiers__contains=["Programming Language :: Python :: 3.10"]).count(),
-            "total_python_3_11": Package.objects.filter(pypi_classifiers__contains=["Programming Language :: Python :: 3.11"]).count(),
-            "total_python_3_6": Package.objects.filter(pypi_classifiers__contains=["Programming Language :: Python :: 3.6"]).count(),
-            "total_python_3_7": Package.objects.filter(pypi_classifiers__contains=["Programming Language :: Python :: 3.7"]).count(),
-            "total_python_3_8": Package.objects.filter(pypi_classifiers__contains=["Programming Language :: Python :: 3.8"]).count(),
-            "total_python_3_9": Package.objects.filter(pypi_classifiers__contains=["Programming Language :: Python :: 3.9"]).count(),
-            "total_users": User.objects.count(),
-            "total_versions": Version.objects.count(),
-        })
+        data.update(
+            {
+                "top_grid_list": Grid.objects.all()
+                .annotate(num_packages=Count("packages"))
+                .filter(num_packages__gt=15)
+                .order_by("-num_packages")[0:100],
+                "top_user_list": User.objects.all()
+                .annotate(num_packages=Count("creator"))
+                .filter(num_packages__gt=10)
+                .order_by("-num_packages")[0:100],
+                "total_categories": Category.objects.count(),
+                "total_commits": Commit.objects.count(),
+                "total_django_2_2": Package.objects.filter(
+                    pypi_classifiers__contains=["Framework :: Django :: 2.2"]
+                ).count(),
+                "total_django_3_0": Package.objects.filter(
+                    pypi_classifiers__contains=["Framework :: Django :: 3.0"]
+                ).count(),
+                "total_django_3_1": Package.objects.filter(
+                    pypi_classifiers__contains=["Framework :: Django :: 3.1"]
+                ).count(),
+                "total_django_3_2": Package.objects.filter(
+                    pypi_classifiers__contains=["Framework :: Django :: 3.2"]
+                ).count(),
+                "total_django_4_0": Package.objects.filter(
+                    pypi_classifiers__contains=["Framework :: Django :: 4.0"]
+                ).count(),
+                "total_grids": Grid.objects.count(),
+                "total_packages": Package.objects.count(),
+                "total_python_3_10": Package.objects.filter(
+                    pypi_classifiers__contains=[
+                        "Programming Language :: Python :: 3.10"
+                    ]
+                ).count(),
+                "total_python_3_11": Package.objects.filter(
+                    pypi_classifiers__contains=[
+                        "Programming Language :: Python :: 3.11"
+                    ]
+                ).count(),
+                "total_python_3_6": Package.objects.filter(
+                    pypi_classifiers__contains=["Programming Language :: Python :: 3.6"]
+                ).count(),
+                "total_python_3_7": Package.objects.filter(
+                    pypi_classifiers__contains=["Programming Language :: Python :: 3.7"]
+                ).count(),
+                "total_python_3_8": Package.objects.filter(
+                    pypi_classifiers__contains=["Programming Language :: Python :: 3.8"]
+                ).count(),
+                "total_python_3_9": Package.objects.filter(
+                    pypi_classifiers__contains=["Programming Language :: Python :: 3.9"]
+                ).count(),
+                "total_users": User.objects.count(),
+                "total_versions": Version.objects.count(),
+            }
+        )
         return data
 
 
@@ -49,14 +83,14 @@ class SitemapView(TemplateView):
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        data['packages'] = Package.objects.all()
-        data['grids'] = Grid.objects.all()
+        data["packages"] = Package.objects.all()
+        data["grids"] = Grid.objects.all()
         return data
 
 
 @lru_cache()
 def get_feed():
-    feed = 'http://opencomparison.blogspot.com/feeds/posts/default'
+    feed = "http://opencomparison.blogspot.com/feeds/posts/default"
     return feedparser.parse(feed)
 
 
@@ -82,8 +116,12 @@ def homepage(request, template_name="homepage.html"):
 
         # Get 5 random keys
         package_ids = sample(
-            list(range(1, package_count + 1)),  # generate a list from 1 to package_count +1
-            min(package_count, 5)  # Get a sample of the smaller of 5 or the package count
+            list(
+                range(1, package_count + 1)
+            ),  # generate a list from 1 to package_count +1
+            min(
+                package_count, 5
+            ),  # Get a sample of the smaller of 5 or the package count
         )
 
         # Get the random packages
@@ -116,12 +154,14 @@ def homepage(request, template_name="homepage.html"):
         blogpost_title = feed_result.entries.first().title
         blogpost_body = feed_result.entries.first().summary
     else:
-        blogpost_title = ''
-        blogpost_body = ''
+        blogpost_title = ""
+        blogpost_body = ""
 
-    return render(request,
-        template_name, {
-            "latest_packages": Package.objects.all().order_by('-created')[:5],
+    return render(
+        request,
+        template_name,
+        {
+            "latest_packages": Package.objects.all().order_by("-created")[:5],
             "random_packages": random_packages,
             "potw": potw,
             "gotw": gotw,
@@ -130,9 +170,15 @@ def homepage(request, template_name="homepage.html"):
             "blogpost_body": blogpost_body,
             "categories": categories,
             "package_count": package_count,
-            "py3_compat": Package.objects.filter(version__supports_python3=True).select_related().distinct().count(),
-            "latest_python3": Version.objects.filter(supports_python3=True).select_related("package").distinct().order_by("-created")[0:5]
-        }
+            "py3_compat": Package.objects.filter(version__supports_python3=True)
+            .select_related()
+            .distinct()
+            .count(),
+            "latest_python3": Version.objects.filter(supports_python3=True)
+            .select_related("package")
+            .distinct()
+            .order_by("-created")[0:5],
+        },
     )
 
 

@@ -7,33 +7,52 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('package', '0007_package_score'),
+        ("package", "0007_package_score"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='package',
-            name='pypi_classifiers',
-            field=django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=100), blank=True, null=True, size=None),
+            model_name="package",
+            name="pypi_classifiers",
+            field=django.contrib.postgres.fields.ArrayField(
+                base_field=models.CharField(max_length=100),
+                blank=True,
+                null=True,
+                size=None,
+            ),
         ),
         migrations.AddField(
-            model_name='package',
-            name='pypi_license',
-            field=models.CharField(blank=True, max_length=100, null=True, verbose_name='PyPI License'),
+            model_name="package",
+            name="pypi_license",
+            field=models.CharField(
+                blank=True, max_length=100, null=True, verbose_name="PyPI License"
+            ),
         ),
         migrations.AddField(
-            model_name='package',
-            name='pypi_licenses',
-            field=django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=100), blank=True, null=True, size=None),
+            model_name="package",
+            name="pypi_licenses",
+            field=django.contrib.postgres.fields.ArrayField(
+                base_field=models.CharField(max_length=100),
+                blank=True,
+                null=True,
+                size=None,
+            ),
         ),
         migrations.AddField(
-            model_name='package',
-            name='pypi_requires_python',
-            field=models.CharField(blank=True, max_length=100, null=True, verbose_name='PyPI Requires Python'),
+            model_name="package",
+            name="pypi_requires_python",
+            field=models.CharField(
+                blank=True,
+                max_length=100,
+                null=True,
+                verbose_name="PyPI Requires Python",
+            ),
         ),
         migrations.AddField(
-            model_name='package',
-            name='supports_python3',
-            field=models.BooleanField(blank=True, null=True, verbose_name='Supports Python 3'),
+            model_name="package",
+            name="supports_python3",
+            field=models.BooleanField(
+                blank=True, null=True, verbose_name="Supports Python 3"
+            ),
         ),
     ]

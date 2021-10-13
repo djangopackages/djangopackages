@@ -7,14 +7,19 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('package', '0002_auto_20150716_2222'),
+        ("package", "0002_auto_20150716_2222"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='packageexample',
-            name='created_by',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.SET_NULL, blank=True, to=settings.AUTH_USER_MODEL, null=True),
+            model_name="packageexample",
+            name="created_by",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.SET_NULL,
+                blank=True,
+                to=settings.AUTH_USER_MODEL,
+                null=True,
+            ),
             preserve_default=True,
         ),
     ]

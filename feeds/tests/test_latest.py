@@ -13,10 +13,10 @@ class LatestFeedsTest(TestCase):
 
     def test_latest_feeds(self):
 
-        packages = Package.objects.all().order_by('-created')[:15]
+        packages = Package.objects.all().order_by("-created")[:15]
 
-        for feed_type in ('rss', 'atom'):
-            url = reverse('feeds_latest_packages_%s' % feed_type)
+        for feed_type in ("rss", "atom"):
+            url = reverse("feeds_latest_packages_%s" % feed_type)
             response = self.client.get(url)
 
             self.assertEqual(response.status_code, 200)
@@ -24,13 +24,15 @@ class LatestFeedsTest(TestCase):
             feed = feedparser.parse(response.content)
 
             expect_titles = [p.title for p in packages]
-            actual_titles = [e['title'] for e in feed.entries]
+            actual_titles = [e["title"] for e in feed.entries]
 
             for expected_title, actual_title in zip(expect_titles, actual_titles):
                 self.assertEqual(expected_title, actual_title)
 
             expect_summaries = [p.repo_description for p in packages]
-            actual_summaries = [e['summary'] for e in feed.entries]
+            actual_summaries = [e["summary"] for e in feed.entries]
 
-            for expected_summary, actual_summary in zip(expect_summaries, actual_summaries):
+            for expected_summary, actual_summary in zip(
+                expect_summaries, actual_summaries
+            ):
                 self.assertEqual(expected_summary, actual_summary)

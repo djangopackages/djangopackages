@@ -2,9 +2,7 @@ from django.shortcuts import get_object_or_404
 
 from jsonview.decorators import json_view
 
-from .resources import (
-        grid_resource, package_resource, category_resource, user_resource
-    )
+from .resources import grid_resource, package_resource, category_resource, user_resource
 from grid.models import Grid
 from package.models import Package, Category
 from profiles.models import Profile
@@ -21,11 +19,7 @@ def GET_int(request, value_name, default):
 def calc_next(request, limit, offset, count):
     # calculate next
     if count > limit + offset:
-        next = "{}?limit={}&offset={}".format(
-            request.path,
-            limit,
-            offset + limit
-        )
+        next = "{}?limit={}&offset={}".format(request.path, limit, offset + limit)
     else:
         next = None
     return next
@@ -38,9 +32,7 @@ def calc_previous(request, limit, offset, count):
         previous = None
     else:
         previous = "{}?limit={}&offset={}".format(
-            request.path,
-            limit,
-            max(offset - limit, 0)
+            request.path, limit, max(offset - limit, 0)
         )
     return previous
 
@@ -64,9 +56,11 @@ def grid_list(request):
             "next": calc_next(request, limit, offset, count),
             "offset": offset,
             "previous": calc_previous(request, limit, offset, count),
-            "total_count": count
+            "total_count": count,
         },
-        "objects": [grid_resource(x) for x in Grid.objects.all()[offset:offset + limit]]
+        "objects": [
+            grid_resource(x) for x in Grid.objects.all()[offset : offset + limit]
+        ],
     }
 
 
@@ -96,17 +90,20 @@ def package_list(request):
             "next": calc_next(request, limit, offset, count),
             "offset": offset,
             "previous": calc_previous(request, limit, offset, count),
-            "total_count": count
+            "total_count": count,
         },
-        "category": None
+        "category": None,
     }
 
     if category:
-        data['objects'] = [
-            package_resource(x) for x in Package.objects.filter(category=category)[offset:offset + limit]
+        data["objects"] = [
+            package_resource(x)
+            for x in Package.objects.filter(category=category)[offset : offset + limit]
         ]
     else:
-        data['objects'] = [package_resource(x) for x in Package.objects.all()[offset:offset + limit]]
+        data["objects"] = [
+            package_resource(x) for x in Package.objects.all()[offset : offset + limit]
+        ]
 
     return data
 
@@ -124,9 +121,12 @@ def category_list(request):
             "next": calc_next(request, limit, offset, count),
             "offset": offset,
             "previous": calc_previous(request, limit, offset, count),
-            "total_count": count
+            "total_count": count,
         },
-        "objects": [category_resource(x) for x in Category.objects.all()[offset:offset + limit]]
+        "objects": [
+            category_resource(x)
+            for x in Category.objects.all()[offset : offset + limit]
+        ],
     }
 
 
@@ -150,9 +150,12 @@ def user_list(request):
             "next": calc_next(request, limit, offset, count),
             "offset": offset,
             "previous": calc_previous(request, limit, offset, count),
-            "total_count": count
+            "total_count": count,
         },
-        "objects": [user_resource(x, list_packages) for x in Profile.objects.all()[offset:offset + limit]]
+        "objects": [
+            user_resource(x, list_packages)
+            for x in Profile.objects.all()[offset : offset + limit]
+        ],
     }
 
 
@@ -161,6 +164,7 @@ def user_detail(request, github_account):
     profile = get_object_or_404(Profile, github_account=github_account)
     list_packages = request.GET.get("list_packages", False)
     return user_resource(profile, list_packages)
+
 
 @json_view
 def grid_packages_list(request, slug):
@@ -176,12 +180,13 @@ def grid_packages_list(request, slug):
             "next": calc_next(request, limit, offset, count),
             "offset": offset,
             "previous": calc_previous(request, limit, offset, count),
-            "total_count": count
+            "total_count": count,
         },
         "grid": grid_resource(grid),
-        "objects": [package_resource(x) for x in packages[offset:offset + limit]]
+        "objects": [package_resource(x) for x in packages[offset : offset + limit]],
     }
     return data
+
 
 @json_view
 def index(request):
@@ -189,5 +194,5 @@ def index(request):
         "categories": "/api/v3/categories/",
         "grids": "/api/v3/grids/",
         "packages": "/api/v3/packages/",
-        "users": "/api/v3/users/"
+        "users": "/api/v3/users/",
     }

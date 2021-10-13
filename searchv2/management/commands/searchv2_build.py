@@ -14,9 +14,16 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        print("Commencing search result building now %s " % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()), file=stdout)
+        print(
+            "Commencing search result building now %s "
+            % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()),
+            file=stdout,
+        )
         build_1()
 
-        print("Finished at %s" % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()), file=stdout)
+        print(
+            "Finished at %s" % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()),
+            file=stdout,
+        )
         if getattr(settings, "HEALTHCHECK_ENABLED", False):
             healthcheck(settings.SEARCHV2_HEALTHCHECK_URL)

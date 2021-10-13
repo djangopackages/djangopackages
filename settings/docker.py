@@ -55,15 +55,13 @@ if SENTRY_DSN:
     sentry_sdk.init(
         dsn=SENTRY_DSN,
         integrations=[DjangoIntegration(), RedisIntegration()],
-
         # Set traces_sample_rate to 1.0 to capture 100%
         # of transactions for performance monitoring.
         # We recommend adjusting this value in production.
         traces_sample_rate=0.2,
-
         # If you wish to associate users to errors (assuming you are using
         # django.contrib.auth) you may enable sending PII data.
-        send_default_pii=True
+        send_default_pii=True,
     )
 
 LOGGING = {
@@ -71,7 +69,7 @@ LOGGING = {
     "disable_existing_loggers": True,
     "root": {
         "level": "WARNING",
-        'handlers': ['console'],
+        "handlers": ["console"],
     },
     "formatters": {
         "json_formatter": {
@@ -84,7 +82,9 @@ LOGGING = {
         },
         "key_value": {
             "()": structlog.stdlib.ProcessorFormatter,
-            "processor": structlog.processors.KeyValueRenderer(key_order=['timestamp', 'level', 'event', 'logger']),
+            "processor": structlog.processors.KeyValueRenderer(
+                key_order=["timestamp", "level", "event", "logger"]
+            ),
         },
         "verbose": {
             "format": "%(levelname)s %(asctime)s %(module)s "

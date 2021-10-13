@@ -1,1 +1,4 @@
-from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField  # noqa
+from django_extensions.db.fields import (
+    CreationDateTimeField,
+    ModificationDateTimeField,
+)  # noqa

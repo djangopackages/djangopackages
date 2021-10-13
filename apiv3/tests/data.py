@@ -15,44 +15,41 @@ class BaseData(TestCase):
         """
         self.now = timezone.now()
         self.app = Category.objects.create(
-            title='App',
-            slug='app',
+            title="App",
+            slug="app",
         )
         self.framework = Category.objects.create(
-            title='Framework',
-            slug='framework',
+            title="Framework",
+            slug="framework",
         )
         self.grid = Grid.objects.create(
-            title='A Grid',
-            slug='grid',
+            title="A Grid",
+            slug="grid",
         )
         self.pkg1 = Package.objects.create(
-            title='Package1',
-            slug='package1',
+            title="Package1",
+            slug="package1",
             category=self.app,
-            repo_url='https://github.com/pydanny/django-uni-form',
-            last_fetched=self.now
+            repo_url="https://github.com/pydanny/django-uni-form",
+            last_fetched=self.now,
         )
         self.pkg2 = Package.objects.create(
-            title='Package2',
-            slug='package2',
+            title="Package2",
+            slug="package2",
             category=self.app,
-            repo_url='https://github.com/cartwheelweb/opencomparison'
+            repo_url="https://github.com/cartwheelweb/opencomparison",
         )
         GridPackage.objects.create(package=self.pkg1, grid=self.grid)
         GridPackage.objects.create(package=self.pkg2, grid=self.grid)
-        self.user = User.objects.create_user('user', 'user@opencomparison.com', 'user')
-        self.profile = Profile.objects.create(
-            user=self.user,
-            github_account="user"
-        )
+        self.user = User.objects.create_user("user", "user@opencomparison.com", "user")
+        self.profile = Profile.objects.create(user=self.user, github_account="user")
 
         self.pkg1.usage.add(self.user)
 
         self.pkg3 = Package.objects.create(
-            title='Package3',
-            slug='package3',
+            title="Package3",
+            slug="package3",
             category=self.framework,
-            repo_url='https://github.com/divio/django-cms',
-            created_by=self.user
+            repo_url="https://github.com/divio/django-cms",
+            created_by=self.user,
         )

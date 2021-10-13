@@ -2,6 +2,7 @@
 
 from django.db import migrations
 
+
 def migrate_license(apps, schema_editor):
     """
     Migrate license from charfield to ArrayField.
@@ -11,13 +12,14 @@ def migrate_license(apps, schema_editor):
     Version = apps.get_model("package", "Version")
     for version in Version.objects.filter(license__isnull=False):
         if version.license:
-            version.licenses = version.license.split(',')
+            version.licenses = version.license.split(",")
             version.save()
+
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('package', '0009_auto_20210929_0942'),
+        ("package", "0009_auto_20210929_0942"),
     ]
 
     operations = [

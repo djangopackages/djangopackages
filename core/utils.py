@@ -12,13 +12,19 @@ def cache_fetcher(cachekey_func, identifier_model):
 
 
 def oc_slugify(value):
-    value = value.replace('.', '-')
+    value = value.replace(".", "-")
     return slugify(value)
 
 
 def get_pypi_url(title):
     title = title.strip()
-    for value in [oc_slugify(title.lower()), oc_slugify(title), title, title.lower(), title.title(), ]:
+    for value in [
+        oc_slugify(title.lower()),
+        oc_slugify(title),
+        title,
+        title.lower(),
+        title.title(),
+    ]:
         value = f"https://pypi.org/project/{value}/"
         r = requests.get(value)
         if r.status_code == 200:
@@ -34,7 +40,7 @@ STATUS_CHOICES = (
     (4, "Development Status :: 4 - Beta"),
     (5, "Development Status :: 5 - Production/Stable"),
     (6, "Development Status :: 6 - Mature"),
-    (7, "Development Status :: 7 - Inactive")
+    (7, "Development Status :: 7 - Inactive"),
 )
 
 
@@ -46,11 +52,11 @@ def status_choices_switch(status):
 
 def get_repo_from_url(url):
     """
-        Needs to account for:
+    Needs to account for:
 
-            1. GitHub Design
-            2. Ability to assign special CNAME for BitBucket repos
-            3. et al
+        1. GitHub Design
+        2. Ability to assign special CNAME for BitBucket repos
+        3. et al
     """
 
     # Handle github repos

@@ -3,7 +3,7 @@
 
 from django.forms import ModelForm
 
-from grid.models import  Element, Feature, Grid, GridPackage
+from grid.models import Element, Feature, Grid, GridPackage
 
 
 class GridForm(ModelForm):
@@ -13,11 +13,11 @@ class GridForm(ModelForm):
 
     def clean_slug(self):
         """returns lower-cased slug"""
-        return self.cleaned_data['slug'].lower()
+        return self.cleaned_data["slug"].lower()
 
     class Meta:
         model = Grid
-        fields = ['title', 'slug', 'description']
+        fields = ["title", "slug", "description"]
 
 
 class ElementForm(ModelForm):
@@ -27,7 +27,9 @@ class ElementForm(ModelForm):
 
     class Meta:
         model = Element
-        fields = ['text', ]
+        fields = [
+            "text",
+        ]
 
 
 class FeatureForm(ModelForm):
@@ -37,7 +39,10 @@ class FeatureForm(ModelForm):
 
     class Meta:
         model = Feature
-        fields = ['title', 'description', ]
+        fields = [
+            "title",
+            "description",
+        ]
 
 
 class GridPackageForm(ModelForm):
@@ -47,4 +52,4 @@ class GridPackageForm(ModelForm):
 
     class Meta:
         model = GridPackage
-        fields = ['package']
+        fields = ["package"]
