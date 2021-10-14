@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2021-10-13]
+### Changed
+- 👕  Lints code with Black ([#748](https://api.github.com/repos/djangopackages/djangopackages/pulls/748))
+
 ## [2021-10-12]
 ### Changed
 - Removed floppyforms dependency ([#745](https://api.github.com/repos/djangopackages/djangopackages/pulls/745))
