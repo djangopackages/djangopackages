@@ -17,6 +17,7 @@ class GridSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = [
+            "id",
             "title",
             "slug",
             "description",
@@ -138,6 +139,7 @@ class SearchV2Serializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         fields = [
+            "id",
             "title",
             "slug",
             "description",
