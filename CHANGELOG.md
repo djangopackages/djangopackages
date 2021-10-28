@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2021-10-27]
+### Changed
+- Re-add grid id and category in the APIv4 ([#751](https://api.github.com/repos/djangopackages/djangopackages/pulls/751))
+
 ## [2021-10-13]
 ### Changed
 - 👕  Lints code with Black ([#748](https://api.github.com/repos/djangopackages/djangopackages/pulls/748))
