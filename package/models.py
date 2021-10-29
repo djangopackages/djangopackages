@@ -274,14 +274,10 @@ class Package(BaseModel):
                     if license or "UNKNOWN" == license.upper():
                         for classifier in info["classifiers"]:
                             if classifier.startswith("License"):
-                                licenses[index] = classifier.strip().replace(
-                                    "License ::", ""
-                                )
-                                licenses[index] = licenses[index].replace(
-                                    "OSI Approved :: ", ""
-                                )
+                                licenses[index] = classifier.split("::")[-1].strip()
                                 break
 
+                version.license = licenses[0]
                 version.licenses = licenses
 
             # version stuff
