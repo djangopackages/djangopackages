@@ -75,7 +75,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "dj_pagination.middleware.PaginationMiddleware",
     "waffle.middleware.WaffleMiddleware",
     "django_structlog.middlewares.RequestMiddleware",
 ]
@@ -147,7 +146,6 @@ PREREQ_APPS = [
     "django.contrib.staticfiles",
     # external
     "crispy_forms",
-    "dj_pagination",
     "django_extensions",
     "rest_framework",
     "reversion",
@@ -263,13 +261,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 WSGI_APPLICATION = "wsgi.application"
 
-if DEBUG:
-    INSTALLED_APPS += ["debug_toolbar"]
-    # MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
-    DEBUG_TOOLBAR_CONFIG = {
-        "INTERCEPT_REDIRECTS": False,
-        "SHOW_TOOLBAR_CALLBACK": lambda _request: DEBUG,
-    }
+# if DEBUG:
+#     INSTALLED_APPS += ["debug_toolbar"]
+#     # MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
+#     DEBUG_TOOLBAR_CONFIG = {
+#         "INTERCEPT_REDIRECTS": False,
+#         "SHOW_TOOLBAR_CALLBACK": lambda _request: DEBUG,
+#     }
 
 ADMIN_URL_BASE = environ.get("ADMIN_URL_BASE", r"^admin/")
 
