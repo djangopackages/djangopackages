@@ -58,7 +58,7 @@ To download, install and start the local server for development, simply run::
     docker-compose -f dev.yml build
     docker-compose -f dev.yml up
 
-Then point your browser to http://localhost:8000 and start hacking!
+Then point your browser to http://localhost:18000 and start hacking!
 
 To run tests, run::
 

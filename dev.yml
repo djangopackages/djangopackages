@@ -5,6 +5,8 @@ services:
     build:
       context: .
       dockerfile: ./compose/django/Dockerfile-dev
+    hostname: django
+    image: djpkg-dev-django
     command: /start-dev.sh
     depends_on:
       - postgres
@@ -12,25 +14,31 @@ services:
     env_file:
       - .env.local
     ports:
-      - "8000:8000"
+      - "18000:8000"
     volumes:
       - .:/app
-      - static:/data/static
-      - media:/data/media
+      - djpkg_static_dev:/data/static
+      - djpkg_media_dev:/data/media
 
   postgres:
     build: ./compose/postgres
+    hostname: postgres
+    image: djpkg-dev-postgres
     env_file:
       - .env.local
+    ports:
+      - "45432:5432"
     volumes:
-      - postgres_data_dev:/var/lib/postgresql/data
-      - postgres_backup_dev:/backups
+      - djpkg_postgres_data_dev:/var/lib/postgresql/data
+      - djpkg_postgres_backup_dev:/backups
 
   redis:
     build: ./compose/redis
+    hostname: redis
+    image: djpkg-dev-redis
 
 volumes:
-  postgres_backup_dev: {}
-  postgres_data_dev: {}
-  media: {}
-  static: {}
+  djpkg_postgres_data_dev: {}
+  djpkg_postgres_backup_dev: {}
+  djpkg_media_dev: {}
+  djpkg_static_dev: {}
