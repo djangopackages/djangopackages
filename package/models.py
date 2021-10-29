@@ -269,7 +269,7 @@ class Package(BaseModel):
 
             # add to versions
             if "license" in info and info["license"]:
-                licenses = list(info["license"])
+                licenses = [info["license"]]
                 for index, license in enumerate(licenses):
                     if license or "UNKNOWN" == license.upper():
                         for classifier in info["classifiers"]:
@@ -277,8 +277,8 @@ class Package(BaseModel):
                                 licenses[index] = classifier.split("::")[-1].strip()
                                 break
 
-                version.license = licenses[0]
                 version.licenses = licenses
+                version.license = licenses[0]
 
             # version stuff
             try:
