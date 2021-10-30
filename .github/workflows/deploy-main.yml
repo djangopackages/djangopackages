@@ -9,6 +9,7 @@ jobs:
   deploy:
     name: Build and Publish Production Docker Image
     runs-on: ubuntu-latest
+    if: github.repository_owner == 'djangopackages'
 
     steps:
       - uses: actions/checkout@v2
