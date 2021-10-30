@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2021-10-29]
+### Changed
+- :bug: Hot fix for license format ([#754](https://api.github.com/repos/djangopackages/djangopackages/pulls/754))
+- :bug: License detection fix ([#752](https://api.github.com/repos/djangopackages/djangopackages/pulls/752))
+
 ## [2021-10-27]
 ### Changed
 - Re-add grid id and category in the APIv4 ([#751](https://api.github.com/repos/djangopackages/djangopackages/pulls/751))
