@@ -1,6 +1,6 @@
 # certifi==2017.4.17
 # chardet==3.0.2
-Django<4.0
+Django<4.1
 # see requirements-to-watch.txt
 dj-pagination
 django-anymail
@@ -22,6 +22,7 @@ packaging
 psycopg2-binary
 python-dateutil
 python-gitlab
+pytz
 requests
 requests-mock
 sentry-sdk
@@ -30,7 +31,7 @@ social-auth-core
 structlog
 trove-classifiers
 uwsgi
-webstack-django-sorting<2
+webstack-django-sorting
 whitenoise
 PyGithub
 jinja2
