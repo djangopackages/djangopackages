@@ -40,7 +40,7 @@ deprecated==1.2.13
     # via pygithub
 dj-pagination==2.5.0
     # via -r ./requirements.in
-django==4.0
+django==4.0.1
     # via
     #   -r ./requirements.in
     #   django-anymail
