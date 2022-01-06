@@ -13,8 +13,10 @@ services:
       - redis
     env_file:
       - .env.local
+    expose:
+      - 8000
     ports:
-      - "18000:8000"
+      - "8000:8000"
     volumes:
       - .:/app
       - djpkg_static_dev:/data/static
@@ -26,8 +28,8 @@ services:
     image: djpkg-dev-postgres
     env_file:
       - .env.local
-    ports:
-      - "45432:5432"
+    expose:
+      - 5432
     volumes:
       - djpkg_postgres_data_dev:/var/lib/postgresql/data
       - djpkg_postgres_backup_dev:/backups
@@ -43,6 +45,8 @@ services:
   redis:
     build: ./compose/redis
     hostname: redis
+    expose:
+      - 6379
     image: djpkg-dev-redis
     healthcheck:
       test: [

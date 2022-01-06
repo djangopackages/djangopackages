@@ -1,0 +1,14 @@
+version: '3.6'
+
+services:
+  django:
+    ports:
+      - "18000:8000"
+
+  postgres:
+    ports:
+      - "45432:5432"
+
+  redis:
+    ports:
+      - "6379:6379"
