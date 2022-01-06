@@ -6,7 +6,7 @@
 #
 asgiref==3.4.1
     # via django
-attrs==21.2.0
+attrs==21.4.0
     # via pytest
 backports.zoneinfo==0.2.1
     # via django
@@ -20,7 +20,7 @@ cffi==1.15.0
     # via
     #   cryptography
     #   pynacl
-charset-normalizer==2.0.9
+charset-normalizer==2.0.10
     # via requests
 click==8.0.3
     # via
@@ -37,10 +37,12 @@ defusedxml==0.7.1
     #   python3-openid
     #   social-auth-core
 deprecated==1.2.13
-    # via pygithub
+    # via
+    #   pygithub
+    #   redis
 dj-pagination==2.5.0
     # via -r ./requirements.in
-django==4.0
+django==4.0.1
     # via
     #   -r ./requirements.in
     #   django-anymail
@@ -68,7 +70,7 @@ django-ipware==4.0.2
     # via django-structlog
 django-jsonview==2.0.0
     # via -r ./requirements.in
-django-redis==5.1.0
+django-redis==5.2.0
     # via -r ./requirements.in
 django-reversion==4.0.1
     # via -r ./requirements.in
@@ -104,11 +106,12 @@ packaging==21.3
     # via
     #   -r ./requirements.in
     #   pytest
+    #   redis
 pathlib2==2.3.6
     # via bumpver
 pluggy==1.0.0
     # via pytest
-psycopg2-binary==2.9.2
+psycopg2-binary==2.9.3
     # via -r ./requirements.in
 py==1.11.0
     # via pytest
@@ -135,17 +138,17 @@ pytest-django==4.5.2
     # via -r ./requirements.in
 python-dateutil==2.8.2
     # via -r ./requirements.in
-python-gitlab==2.10.1
+python-gitlab==3.0.0
     # via -r ./requirements.in
 python3-openid==3.2.0
     # via social-auth-core
 pytz==2021.3
     # via -r ./requirements.in
-redis==3.5.3
+redis==4.1.0
     # via
     #   -r ./requirements.in
     #   django-redis
-requests==2.26.0
+requests==2.27.1
     # via
     #   -r ./requirements.in
     #   django-anymail
@@ -193,7 +196,7 @@ toml==0.10.2
     #   pytest
 tomli==2.0.0
     # via coverage
-trove-classifiers==2021.11.17
+trove-classifiers==2022.1.3
     # via -r ./requirements.in
 uritemplate==4.1.1
     # via uritemplate.py

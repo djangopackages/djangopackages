@@ -83,6 +83,8 @@ services:
 
   redis:
     build: ./compose/redis
+    expose:
+      - 6379
     logging:
       driver: "json-file"
       options:
