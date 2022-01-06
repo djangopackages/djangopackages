@@ -42,7 +42,7 @@ def production():
     env.port = 56565  # ssh port
     env.user = "root"  # remote user, see `env.run` if you don't log in as root
 
-    env.compose_file = "docker-compose.yml"
+    env.compose_file = "docker-compose.prod.yml"
     env.project_dir = "/code/djangopackages"  # this is the project dir where your code lives on this machine
 
     # if you don't use key authentication, add your password here
