@@ -4,13 +4,19 @@
 #
 #    pip-compile --output-file=./requirements.txt ./requirements.in
 #
+amqp==5.0.9
+    # via kombu
 asgiref==3.4.1
     # via django
 attrs==21.4.0
     # via pytest
 backports.zoneinfo==0.2.1
     # via django
+billiard==3.6.4.0
+    # via celery
 bumpver==2021.1114
+    # via -r ./requirements.in
+celery==5.2.3
     # via -r ./requirements.in
 certifi==2021.10.8
     # via
@@ -25,7 +31,17 @@ charset-normalizer==2.0.10
 click==8.0.3
     # via
     #   bumpver
+    #   celery
+    #   click-didyoumean
+    #   click-plugins
+    #   click-repl
     #   django-click
+click-didyoumean==0.3.0
+    # via celery
+click-plugins==1.1.1
+    # via celery
+click-repl==0.2.0
+    # via celery
 colorama==0.4.4
     # via bumpver
 coverage[toml]==6.2
@@ -94,6 +110,8 @@ iniconfig==1.1.1
     # via pytest
 jinja2==3.0.3
     # via -r ./requirements.in
+kombu==5.2.3
+    # via celery
 lexid==2021.1006
     # via bumpver
 markupsafe==2.0.1
@@ -111,6 +129,8 @@ pathlib2==2.3.6
     # via bumpver
 pluggy==1.0.0
     # via pytest
+prompt-toolkit==3.0.24
+    # via click-repl
 psycopg2-binary==2.9.3
     # via -r ./requirements.in
 py==1.11.0
@@ -143,7 +163,9 @@ python-gitlab==3.0.0
 python3-openid==3.2.0
     # via social-auth-core
 pytz==2021.3
-    # via -r ./requirements.in
+    # via
+    #   -r ./requirements.in
+    #   celery
 redis==4.1.0
     # via
     #   -r ./requirements.in
@@ -172,6 +194,7 @@ sgmllib3k==1.0.0
 six==1.16.0
     # via
     #   -r ./requirements.in
+    #   click-repl
     #   pathlib2
     #   pynacl
     #   python-dateutil
@@ -208,6 +231,13 @@ urllib3==1.26.7
     #   sentry-sdk
 uwsgi==2.0.20
     # via -r ./requirements.in
+vine==5.0.0
+    # via
+    #   amqp
+    #   celery
+    #   kombu
+wcwidth==0.2.5
+    # via prompt-toolkit
 webstack-django-sorting==2.0.3
     # via -r ./requirements.in
 whitenoise==5.3.0

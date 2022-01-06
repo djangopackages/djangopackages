@@ -36,6 +36,9 @@ whitenoise
 PyGithub
 jinja2
 
+# Celery
+celery
+
 # Redis support
 django-redis
 redis
