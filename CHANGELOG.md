@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-01-06]
+### Changed
+- :whale: Refactor Docker Compose slightly ([#769](https://github.com/djangopackages/djangopackages/pull/769))
+
 ## [2022-01-04]
 ### Changed
 - Grid of the Week panel on the Home page ([#760](https://github.com/djangopackages/djangopackages/pull/760))
