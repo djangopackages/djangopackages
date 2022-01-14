@@ -123,12 +123,19 @@ def deploy():
         # Build our secondary Docker image
         build_and_restart("django-b")
 
+        # collectstatic
+        collectstatic("django-a")
+
 
 def build_and_restart(service):
     docker_compose(f"build {service}")
     docker_compose(f"create {service}")
     docker_compose(f"stop {service}")
     docker_compose(f"start {service}")
+
+
+def collectstatic(service):
+    docker_compose(f"exec {service} python manage.py collectstatic --no-input -v 1")
 
 
 def docker_compose(command):
