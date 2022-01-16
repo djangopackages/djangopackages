@@ -14,7 +14,7 @@ class GridAdmin(VersionAdmin):
     inlines = [
         GridPackageInline,
     ]
-    list_display = ["title", "header", "is_locked"]
+    list_display = ["title", "header", "is_locked", "created"]
     list_display_links = ["title"]
     list_editable = ["header"]
     list_filter = ["header", "is_locked"]
