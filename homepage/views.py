@@ -109,9 +109,12 @@ def homepage(request, template_name="homepage.html"):
         categories.append(element)
 
     # get up to 5 random packages
-    package_count = Package.objects.count()
+    package_list = Package.objects.filter(
+        date_deprecated__isnull=True, deprecated_by__isnull=True
+    ).values_list("pk", flat=True)
+    package_count = len(package_list)
     random_packages = []
-    if package_count > 1:
+    if package_list.exists():
         package_ids = set()
 
         # Get 5 random keys
@@ -120,8 +123,8 @@ def homepage(request, template_name="homepage.html"):
                 range(1, package_count + 1)
             ),  # generate a list from 1 to package_count +1
             min(
-                package_count, 5
-            ),  # Get a sample of the smaller of 5 or the package count
+                package_count, 10
+            ),  # Get a sample of the smaller of 10 or the package count
         )
 
         # Get the random packages
