@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-01-16]
+### Changed
+- :bug: fixes query/display bug of Random 5 homepage packages ([#771](https://github.com/djangopackages/djangopackages/pull/771))
+
 ## [2022-01-15]
 ### Changed
 - ✨  Adds Celery support ([#770](https://github.com/djangopackages/djangopackages/pull/770))
