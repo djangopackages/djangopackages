@@ -39,7 +39,9 @@ def command(limit):
             response = requests.get(package.repo_url)
             history = response.history
             if len(history):
-                new_packages = Package.objects.filter(repo_url__startswith=response.url)
+                new_packages = Package.objects.exclude(pk=package.pk).filter(
+                    repo_url__startswith=response.url
+                )
                 if new_packages.exists():
                     found_pks = new_packages.values_list("pk", flat=True)
                     click.echo(f"    found {found_pks}")
