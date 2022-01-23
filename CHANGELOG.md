@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-01-22]
+### Changed
+- :pencil: Quick cleanup script for #772 ([#773](https://github.com/djangopackages/djangopackages/pull/773))
+
 ## [2022-01-16]
 ### Changed
 - :bug: fixes query/display bug of Random 5 homepage packages ([#771](https://github.com/djangopackages/djangopackages/pull/771))
