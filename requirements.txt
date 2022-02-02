@@ -58,7 +58,7 @@ deprecated==1.2.13
     #   redis
 dj-pagination==2.5.0
     # via -r ./requirements.in
-django==4.0.1
+django==4.0.2
     # via
     #   -r ./requirements.in
     #   django-anymail
