@@ -68,7 +68,7 @@ class Gotw(BaseModel):
 class PSA(BaseModel):
     """Public Service Announcement on the homepage"""
 
-    body_text = models.TextField(_("PSA Body Text"), blank=True, null=True)
+    body_text = models.TextField(_("PSA Body Text"), blank=True, null=True, max_length=500)
 
     class Meta:
         ordering = ("-created",)

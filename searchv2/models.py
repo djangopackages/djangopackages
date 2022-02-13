@@ -40,7 +40,7 @@ class SearchV2(BaseModel):
     clean_title = models.CharField(
         _("Clean title with no crud"), max_length=100, db_index=True
     )
-    description = models.TextField(_("Repo Description"), blank=True)
+    description = models.TextField(_("Repo Description"), blank=True, max_length=500)
     category = models.CharField(_("Category"), blank=True, max_length=50)
     absolute_url = models.CharField(_("Absolute URL"), max_length=255)
     repo_watchers = models.IntegerField(_("Stars"), default=0)
@@ -50,7 +50,8 @@ class SearchV2(BaseModel):
     participants = models.TextField(
         _("Participants"),
         help_text="List of collaborats/participants on the project",
-        blank=True,
+        blank=True, 
+        max_length=500,
     )
     last_committed = models.DateTimeField(_("Last commit"), blank=True, null=True)
     last_released = models.DateTimeField(_("Last release"), blank=True, null=True)
