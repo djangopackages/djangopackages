@@ -38,7 +38,7 @@ class Category(BaseModel):
 
     title = models.CharField(_("Title"), max_length=50)
     slug = models.SlugField(_("slug"))
-    description = models.TextField(_("description"), blank=True, max_length=500)
+    description = models.TextField(_("description"), blank=True)
     title_plural = models.CharField(_("Title Plural"), max_length=50, blank=True)
     show_pypi = models.BooleanField(_("Show pypi stats & version"), default=True)
 
@@ -64,7 +64,7 @@ class Package(BaseModel):
     category = models.ForeignKey(
         Category, verbose_name="Installation", on_delete=models.PROTECT
     )
-    repo_description = models.TextField(_("Repo Description"), blank=True, max_length=500)
+    repo_description = models.TextField(_("Repo Description"), blank=True)
     repo_url = models.URLField(
         _("repo URL"), help_text=repo_url_help_text, blank=True, unique=True
     )
@@ -95,7 +95,6 @@ class Package(BaseModel):
         _("Participants"),
         help_text="List of collaborats/participants on the project",
         blank=True,
-        max_length=500,
     )
     usage = models.ManyToManyField(User, blank=True)
     created_by = models.ForeignKey(
@@ -109,7 +108,7 @@ class Package(BaseModel):
         _("Documentation URL"), blank=True, null=True, default=""
     )
 
-    commit_list = models.TextField(_("Commit List"), blank=True, max_length=500)
+    commit_list = models.TextField(_("Commit List"), blank=True)
     score = models.IntegerField(_("Score"), default=0)
 
     date_deprecated = models.DateTimeField(blank=True, null=True)
