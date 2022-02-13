@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-02-12]
+### Changed
+- ⬆️ Bump django from 4.0.1 to 4.0.2 ([#776](https://github.com/djangopackages/djangopackages/pull/776))
+
 ## [2022-01-22]
 ### Changed
 - :pencil: Quick cleanup script for #772 ([#773](https://github.com/djangopackages/djangopackages/pull/773))
