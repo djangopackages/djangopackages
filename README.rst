@@ -70,7 +70,7 @@ simply run::
 
 To run tests, run::
 
-    docker-compose -f dev.yml run django python manage.py test
+    docker-compose -f docker-compose.dev.yml run django python manage.py test
 
 The Site
 --------

@@ -121,7 +121,7 @@ Run the tests!
 
 Before you submit a pull request, please run the entire Django Packages test suite via::
 
-    docker-compose -f dev.yml run django python manage.py test
+    docker-compose -f docker-compose.dev.yml run django python manage.py test
 
 The first thing the core committers will do is run this command. Any pull request that fails this test suite will be **rejected**.
 
