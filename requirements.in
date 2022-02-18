@@ -45,6 +45,7 @@ redis
 
 # testing
 django-test-plus
+model-bakery
 pytest
 pytest-cov
 pytest-django
