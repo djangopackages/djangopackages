@@ -3,7 +3,7 @@
 {
     "name": "Existing Docker Compose (Extend)",
     "dockerComposeFile": [
-        "../dev.yml",
+        "../docker-compose.dev.yml",
         "docker-compose.yml"
     ],
     // Add the IDs of extensions you want installed when the container is created.
@@ -20,9 +20,20 @@
         "source=vscode-server-extensions,target=/root/.vscode-server/extensions,type=volume",
         "source=vscode-server-insiders-extensions,target=/root/.vscode-server-insiders/extensions,type=volume",
     ],
-    "runServices": ["django"],
+    // mentioned in https://github.com/microsoft/vscode-remote-release/issues/5317
+    "updateRemoteUserUID": false,
+    // "runServices": ["django"],
     "service": "django",
     "settings": {
+        "files.exclude":{
+            "**/.DS_Store": true,
+            "**/.git": true,
+            "**/.hg": true,
+            "**/.svn": true,
+            "**/CVS": true,
+            "**/data": true,
+            "**/Thumbs.db": true,
+        },
         "terminal.integrated.shell.linux": "/bin/bash",
         "python.defaultInterpreterPath": "/usr/local/bin/python"
     },
