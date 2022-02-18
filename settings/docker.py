@@ -50,8 +50,8 @@ RESTRICT_PACKAGE_EDITORS = False
 RESTRICT_GRID_EDITORS = False
 
 # Sentry Configuration
-SENTRY_DSN = env("DJANGO_SENTRY_DSN", default=None)
-if SENTRY_DSN:
+
+if SENTRY_DSN := env("DJANGO_SENTRY_DSN", default=None):
     sentry_sdk.init(
         dsn=SENTRY_DSN,
         integrations=[DjangoIntegration(), RedisIntegration()],
