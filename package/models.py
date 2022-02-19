@@ -112,7 +112,9 @@ class Package(BaseModel):
     score = models.IntegerField(_("Score"), default=0)
 
     date_deprecated = models.DateTimeField(blank=True, null=True)
-    date_repo_archived = models.DateTimeField(_("date when repo was archived"), blank=True, null=True)
+    date_repo_archived = models.DateTimeField(
+        _("date when repo was archived"), blank=True, null=True
+    )
     deprecated_by = models.ForeignKey(
         User, blank=True, null=True, related_name="deprecator", on_delete=models.PROTECT
     )

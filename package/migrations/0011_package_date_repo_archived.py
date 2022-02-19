@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('package', '0010_auto_20210929_0943'),
+        ("package", "0010_auto_20210929_0943"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='package',
-            name='date_repo_archived',
-            field=models.DateTimeField(blank=True, null=True, verbose_name='date when repo was archived'),
+            model_name="package",
+            name="date_repo_archived",
+            field=models.DateTimeField(
+                blank=True, null=True, verbose_name="date when repo was archived"
+            ),
         ),
     ]
