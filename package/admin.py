@@ -55,6 +55,7 @@ class PackageAdmin(VersionAdmin):
                     "repo_description",
                     "repo_watchers",
                     "repo_forks",
+                    "date_repo_archived",
                     "commit_list",
                     "pypi_downloads",
                     "pypi_classifiers",

@@ -35,6 +35,14 @@
 
 {% block body %}
 
+{% if package.date_repo_archived %}
+<div class="row">
+    <div class="col-md-8 main">
+        <div class="alert alert-warning" role="alert">This project was archived</div>
+    </div>
+</div>
+{% endif %}
+
     {% comment %}
 <!--TODO block until we get things sorted out -->
 {% if warnings %}

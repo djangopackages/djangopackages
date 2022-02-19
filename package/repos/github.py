@@ -1,6 +1,7 @@
 from time import sleep
 
 from django.conf import settings
+from django.utils import timezone
 
 from github3 import GitHub, login
 
@@ -44,6 +45,8 @@ class GitHubHandler(BaseHandler):
 
         # package.repo_watchers = repo.watchers_count
         package.repo_watchers = repo.watchers
+        if repo.to_json()["archived"]:
+            package.date_repo_archived = timezone.now()
         # package.repo_forks = repo.forks_count
         package.repo_forks = repo.forks
         package.repo_description = repo.description
