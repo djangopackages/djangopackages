@@ -490,8 +490,10 @@ class VersionManager(models.Manager):
                     yield item
 
         return sorted(
-            list(qs),
-            # list(generate_valid_versions(qs)),  # this would remove ["2.1.0.beta3", "2.1.0.rc1",]
+            # list(qs), # TODO: Add back...
+            list(
+                generate_valid_versions(qs)
+            ),  # this would remove ["2.1.0.beta3", "2.1.0.rc1",]
             key=lambda v: versioner(v.number),
         )
 
