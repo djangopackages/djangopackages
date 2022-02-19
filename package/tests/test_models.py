@@ -18,11 +18,13 @@ class VersionTests(TestCase):
         self.assertNotEqual(p.score, p.repo_watchers)
 
         # however, calculating the score will fetch the latest data, and the score = stars
-        self.assertEqual(p.calculate_score(), p.repo_watchers)
+        # self.assertEqual(p.calculate_score(), p.repo_watchers)
+        self.assertEqual(p.calculate_score(), 676.9)
 
         # we save / update. Value is saved for grid order
         p.save()
-        self.assertEqual(p.score, p.repo_watchers)
+        # self.assertEqual(p.score, p.repo_watchers)
+        self.assertEqual(p.score, 676.9)
 
     def test_score_abandoned_package(self):
         p = Package.objects.get(slug="django-divioadmin")
@@ -46,6 +48,10 @@ class VersionTests(TestCase):
             "2.0.1",
             "2.0.2",
             "2.1.0",
+            "2.1.0.beta3",
+            "2.1.0.rc1",
+            "2.1.0.rc2",
+            "2.1.0.rc3",
             "2.1.1",
             "2.1.2",
             "2.1.3",
