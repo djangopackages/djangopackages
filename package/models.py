@@ -267,8 +267,8 @@ class Package(BaseModel):
                 ):
                     self.supports_python3 = True
 
-            # add to versions
-            if "license" in info and info["license"]:
+            # do we have a license set?
+            if "license" in info and len(info["license"]):
                 licenses = [info["license"]]
                 for index, license in enumerate(licenses):
                     if license or "UNKNOWN" == license.upper():
@@ -276,6 +276,16 @@ class Package(BaseModel):
                             if classifier.startswith("License"):
                                 licenses[index] = classifier.split("::")[-1].strip()
                                 break
+
+                version.licenses = licenses
+                version.license = licenses[0]
+
+            # do we have a license set in our classifier?
+            elif "classifiers" in info and len(info["classifiers"]):
+                licenses = []
+                for classifier in info["classifiers"]:
+                    if classifier.startswith("License"):
+                        licenses.append(classifier.split("::")[-1].strip())
 
                 version.licenses = licenses
                 version.license = licenses[0]
