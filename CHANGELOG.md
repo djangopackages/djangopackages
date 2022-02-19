@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-02-18]
+### Changed
+- 🔨  2022-02-18 Friday updates ([#785](https://github.com/djangopackages/djangopackages/pull/785))
+- update doc references from dev.yml to docker-compose.dev.yml ([#781](https://github.com/djangopackages/djangopackages/pull/781))
+
 ## [2022-02-12]
 ### Changed
 - ⬆️ Bump django from 4.0.1 to 4.0.2 ([#776](https://github.com/djangopackages/djangopackages/pull/776))
