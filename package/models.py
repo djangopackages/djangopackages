@@ -274,7 +274,7 @@ class Package(BaseModel):
                     if license or "UNKNOWN" == license.upper():
                         for classifier in info["classifiers"]:
                             if classifier.startswith("License"):
-                                licenses[index] = classifier.split("::")[-1].strip()
+                                licenses.append(classifier.split("::")[-1].strip())
                                 break
 
                 version.licenses = licenses
@@ -286,6 +286,7 @@ class Package(BaseModel):
                 for classifier in info["classifiers"]:
                     if classifier.startswith("License"):
                         licenses.append(classifier.split("::")[-1].strip())
+                        break
 
                 version.licenses = licenses
                 version.license = licenses[0]
@@ -486,7 +487,9 @@ class VersionManager(models.Manager):
                     yield item
 
         return sorted(
-            list(generate_valid_versions(qs)), key=lambda v: versioner(v.number)
+            list(qs),
+            # list(generate_valid_versions(qs)),  # this would remove ["2.1.0.beta3", "2.1.0.rc1",]
+            key=lambda v: versioner(v.number),
         )
 
     def by_version_not_hidden(self, *args, **kwargs):
