@@ -9,7 +9,12 @@ def test_uniquer():
 
 def test_normalize_license():
     assert normalize_license(None) == "UNKNOWN"
-    assert normalize_license("""License :: OSI Approved :: MIT License
-            """) == "License :: OSI Approved :: MIT License"
+    assert (
+        normalize_license(
+            """License :: OSI Approved :: MIT License
+            """
+        )
+        == "License :: OSI Approved :: MIT License"
+    )
     assert normalize_license("Pow" * 80) == "Custom"
     assert normalize_license("MIT") == "MIT"
