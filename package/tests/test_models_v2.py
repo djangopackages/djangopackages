@@ -27,5 +27,27 @@ def test_package(package):
     assert package.version_set.count() == 0
 
 
+def test_package_pypi_name(package):
+    assert package.pypi_name == ""
+
+    package.pypi_url = "django"
+    assert package.pypi_name == "django"
+
+    package.pypi_url = "/django/"
+    assert package.pypi_name == "django"
+
+    package.pypi_url = "http://pypi.python.org/pypi/django"
+    assert package.pypi_name == "django"
+
+    package.pypi_url = "https://pypi.python.org/pypi/django"
+    assert package.pypi_name == "django"
+
+    package.pypi_url = "https://pypi.org/project/django"
+    assert package.pypi_name == "django"
+
+    assert package.get_pypi_uri() == "https://pypi.org/project/django/"
+    assert package.get_pypi_json_uri() == "https://pypi.org/pypi/django/json"
+
+
 def test_package_example(package_example):
     assert str(package_example) == f"{package_example.title}"
