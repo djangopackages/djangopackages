@@ -16,7 +16,7 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 from packaging.specifiers import SpecifierSet
 
-from distutils.version import LooseVersion as versioner
+from distutils.version import LooseVersion
 import requests
 
 from core.utils import STATUS_CHOICES, status_choices_switch
@@ -481,7 +481,7 @@ class VersionManager(models.Manager):
 
         def generate_valid_versions(qs):
             for item in qs:
-                v = versioner(item.number)
+                v = LooseVersion(item.number)
                 comparable = True
                 for elem in v.version:
                     if isinstance(elem, str):
@@ -494,7 +494,7 @@ class VersionManager(models.Manager):
             list(
                 generate_valid_versions(qs)
             ),  # this would remove ["2.1.0.beta3", "2.1.0.rc1",]
-            key=lambda v: versioner(v.number),
+            key=lambda v: LooseVersion(v.number),
         )
 
     def by_version_not_hidden(self, *args, **kwargs):
