@@ -16,7 +16,7 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 from packaging.specifiers import SpecifierSet
 
-from distutils.version import LooseVersion as versioner
+from distutils.version import LooseVersion
 import requests
 
 from core.utils import STATUS_CHOICES, status_choices_switch
@@ -273,15 +273,19 @@ class Package(BaseModel):
             # do we have a license set?
             if "license" in info and len(info["license"]):
                 licenses = [info["license"]]
-                for index, license in enumerate(licenses):
-                    if license or "UNKNOWN" == license.upper():
-                        for classifier in info["classifiers"]:
-                            if classifier.startswith("License"):
-                                licenses.append(classifier.split("::")[-1].strip())
-                                break
+                for classifier in info["classifiers"]:
+                    if classifier.startswith("License"):
+                        licenses.append(classifier.split("::")[-1].strip())
+                        break
 
                 version.licenses = licenses
                 version.license = licenses[0]
+
+                if self.pypi_license != version.license:
+                    self.pypi_license = version.license
+
+                if self.pypi_licenses != version.licenses:
+                    self.pypi_licenses = version.licenses
 
             # do we have a license set in our classifier?
             elif "classifiers" in info and len(info["classifiers"]):
@@ -293,6 +297,12 @@ class Package(BaseModel):
 
                 version.licenses = licenses
                 version.license = licenses[0]
+
+                if self.pypi_license != version.license:
+                    self.pypi_license = version.license
+
+                if self.pypi_licenses != version.licenses:
+                    self.pypi_licenses = version.licenses
 
             # version stuff
             try:
@@ -307,27 +317,32 @@ class Package(BaseModel):
                 if classifier.startswith("Development Status"):
                     version.development_status = status_choices_switch(classifier)
                     break
+
             for classifier in info["classifiers"]:
                 if classifier.startswith("Programming Language :: Python :: 3"):
                     version.supports_python3 = True
                     if not self.supports_python3:
                         self.supports_python3 = True
                     break
+
             version.save()
 
             self.pypi_downloads = total_downloads
             # Calculate total downloads
-
             return True
+
         return False
 
     def fetch_metadata(self, fetch_pypi=True, fetch_repo=True):
 
         if fetch_pypi:
             self.fetch_pypi_data()
+
         if fetch_repo:
             self.repo.fetch_metadata(self)
+
         signal_fetch_latest_metadata.send(sender=self)
+
         self.save()
 
     def grid_clear_detail_template_cache(self):
@@ -383,7 +398,10 @@ class Package(BaseModel):
     @property
     def development_status(self):
         """Gets data needed in API v2 calls"""
-        return self.last_released().pretty_status
+        release = self.last_released()
+        if release:
+            return self.last_released().pretty_status
+        return None
 
     @property
     def pypi_ancient(self):
@@ -461,7 +479,7 @@ class Commit(BaseModel):
         get_latest_by = "commit_date"
 
     def __str__(self):
-        return "Commit for '{}' on {}".format(self.package.title, str(self.commit_date))
+        return f"Commit for '{self.package.title}' on {self.commit_date}"
 
     def save(self, *args, **kwargs):
         # reset the last_updated and commits_over_52 caches on the package
@@ -481,7 +499,7 @@ class VersionManager(models.Manager):
 
         def generate_valid_versions(qs):
             for item in qs:
-                v = versioner(item.number)
+                v = LooseVersion(item.number)
                 comparable = True
                 for elem in v.version:
                     if isinstance(elem, str):
@@ -494,7 +512,7 @@ class VersionManager(models.Manager):
             list(
                 generate_valid_versions(qs)
             ),  # this would remove ["2.1.0.beta3", "2.1.0.rc1",]
-            key=lambda v: versioner(v.number),
+            key=lambda v: LooseVersion(v.number),
         )
 
     def by_version_not_hidden(self, *args, **kwargs):

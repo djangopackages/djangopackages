@@ -11,20 +11,20 @@ def category(db) -> Category:
 
 
 @pytest.fixture()
-def commit(db) -> Commit:
-    return baker.make(Commit)
+def commit(db, package) -> Commit:
+    return baker.make(Commit, package=package)
 
 
 @pytest.fixture()
-def package(db) -> Package:
-    return baker.make(Package)
+def package(db, category) -> Package:
+    return baker.make(Package, category=category)
 
 
 @pytest.fixture()
-def package_example(db) -> PackageExample:
-    return baker.make(PackageExample)
+def package_example(db, package) -> PackageExample:
+    return baker.make(PackageExample, package=package)
 
 
 @pytest.fixture()
-def version(db) -> Version:
-    return baker.make(Version)
+def version(db, package) -> Version:
+    return baker.make(Version, package=package)

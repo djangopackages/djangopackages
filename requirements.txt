@@ -160,7 +160,9 @@ pytest-cov==3.0.0
 pytest-django==4.5.2
     # via -r ./requirements.in
 python-dateutil==2.8.2
-    # via -r ./requirements.in
+    # via
+    #   -r ./requirements.in
+    #   time-machine
 python-gitlab==3.1.1
     # via -r ./requirements.in
 python3-openid==3.2.0
@@ -215,6 +217,8 @@ structlog==21.5.0
     # via
     #   -r ./requirements.in
     #   django-structlog
+time-machine==2.6.0
+    # via -r ./requirements.in
 toml==0.10.2
     # via bumpver
 tomli==2.0.1
