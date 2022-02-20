@@ -29,7 +29,3 @@ def test_package(package):
 
 def test_package_example(package_example):
     assert str(package_example) == f"{package_example.title}"
-
-
-# def test_version(version):
-#     assert True
