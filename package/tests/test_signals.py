@@ -1,19 +1,15 @@
-from django.test import TestCase
-from package.models import Package, Category
+from package.models import Package
 from package.signals import signal_fetch_latest_metadata
 
 
-class SignalTests(TestCase):
-    sender_name = ""
+def test_signal_fetch_latest_metadata(db, mocker, category):
+    # setup our signals
+    handle_signal = mocker.Mock()
+    signal_fetch_latest_metadata.connect(handle_signal)
 
-    def test_fetch_metadata(self):
-        category = Category.objects.create(title="dumb category", slug="blah")
-        category.save()
-        package = Package.objects.create(slug="dummy", category=category)
+    # create a test package and fetch our metadata
+    package_obj = Package.objects.create(slug="package", category=category)
+    package_obj.fetch_metadata()
 
-        def handle_signal(sender, **kwargs):
-            self.sender_name = sender.slug
-
-        signal_fetch_latest_metadata.connect(handle_signal)
-        package.fetch_metadata()
-        self.assertEqual(self.sender_name, "dummy")
+    # verify that our signal/function was called
+    handle_signal.assert_called()
