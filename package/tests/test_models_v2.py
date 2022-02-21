@@ -49,5 +49,50 @@ def test_package_pypi_name(package):
     assert package.get_pypi_json_uri() == "https://pypi.org/pypi/django/json"
 
 
+def test_version_order(package_cms):
+    versions = package_cms.version_set.by_version()
+    expected_values = [
+        "2.0.0",
+        "2.0.1",
+        "2.0.2",
+        "2.1.0",
+        # "2.1.0.beta3",
+        # "2.1.0.rc1",
+        # "2.1.0.rc2",
+        # "2.1.0.rc3",
+        "2.1.1",
+        "2.1.2",
+        "2.1.3",
+    ]
+    returned_values = [v.number for v in versions]
+    assert returned_values == expected_values
+
+
+def test_package_score(package_cms):
+    assert package_cms.score != package_cms.repo_watchers
+    # assert package_cms.calculate_score() == package_cms.repo_watchers
+    package_cms.calculate_score()
+    # we save / update. Value is saved for grid order
+    package_cms.save()
+    assert package_cms.score == package_cms.repo_watchers
+
+
+def test_package_abandoned_score(package_abandoned):
+    # score should be -100
+    # abandoned for 2 years = loss 10% for each 3 months = 80% of the stars
+    # + a -30% for not supporting python 3
+    assert package_abandoned.repo_watchers == 1000
+    assert package_abandoned.calculate_score() == -100
+
+
+def test_package_abandoned_ten_years_score(package_abandoned_ten_years):
+    # package_abandoned_ten_years.calculate_score()
+    # score should be -100
+    # abandoned for 2 years = loss 10% for each 3 months = 80% of the stars
+    # + a -30% for not supporting python 3
+    assert package_abandoned_ten_years.repo_watchers == 1000
+    assert package_abandoned_ten_years.calculate_score() == -500.0
+
+
 def test_package_example(package_example):
     assert str(package_example) == f"{package_example.title}"
