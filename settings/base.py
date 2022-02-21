@@ -40,6 +40,11 @@ SITE_ID = 1
 # to load the internationalization machinery.
 USE_I18N = True
 
+# RemovedInDjango50Warning: The default value of USE_TZ will change from
+# False to True in Django 5.0. Set USE_TZ to False in your project
+# settings if you want to keep the current default behavior.
+USE_TZ = False
+
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, "media")
