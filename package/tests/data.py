@@ -5,6 +5,7 @@ from core.tests import datautil
 from package.models import Category, Package, Version, Commit
 from profiles.models import Profile
 from django.utils.timezone import now
+from datetime import timedelta
 
 abandoned_package_last_commit = datetime.datetime(
     now().year - 2, now().month, now().day, 0, 0
@@ -12,7 +13,7 @@ abandoned_package_last_commit = datetime.datetime(
 abandoned_package_last_commit_10_years = datetime.datetime(
     now().year - 10, now().month, now().day, 0, 0
 )
-
+active_package_last_commit = now() - timedelta(minutes=30)
 
 def load():
     category, created = Category.objects.get_or_create(
@@ -39,6 +40,11 @@ def load():
         repo_forks=283,
         slug="django-cms",
         repo_description="An Advanced Django CMS.",
+    )
+    commit, created = Commit.objects.get_or_create(
+        package_id=6,
+        commit_date=active_package_last_commit,
+        commit_hash="12341234123412341234123412341234",
     )
 
     package, created = Package.objects.get_or_create(
@@ -1170,6 +1176,7 @@ def load():
         package=cms_package,
         number="2.1.3",
         hidden=False,
+        supports_python3=True,
     )
     version, created = Version.objects.get_or_create(
         pk=2252,
