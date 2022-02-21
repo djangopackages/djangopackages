@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-02-20]
+### Changed
+- 💚  Boosting Package Fixtures and QOL ([#790](https://github.com/djangopackages/djangopackages/pull/790))
+
 ## [2022-02-19]
 ### Changed
 - Handle archived projects ([#761](https://github.com/djangopackages/djangopackages/pull/761))
