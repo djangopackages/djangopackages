@@ -74,6 +74,8 @@ def test_package_score(package_cms):
     package_cms.calculate_score()
     # we save / update. Value is saved for grid order
     package_cms.save()
+
+    package_cms.refresh_from_db()
     assert package_cms.score == package_cms.repo_watchers
 
 

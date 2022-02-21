@@ -22,6 +22,8 @@ class VersionTests(TestCase):
 
         # we save / update. Value is saved for grid order
         p.save()
+
+        p.refresh_from_db()
         self.assertEqual(p.score, p.repo_watchers)
 
     def test_score_abandoned_package(self):
