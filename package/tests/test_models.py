@@ -17,18 +17,18 @@ class VersionTests(TestCase):
 
         self.assertNotEqual(p.score, p.repo_watchers)
 
-        # however, calculating the score will fetch the latest data, and the score = stars
-        self.assertEqual(p.calculate_score(), p.repo_watchers)
-
         # we save / update. Value is saved for grid order
         p.save()
-
         p.refresh_from_db()
+
+        # however, calculating the score will fetch the latest data, and the score = stars
+        self.assertEqual(p.calculate_score(), p.repo_watchers)
         self.assertEqual(p.score, p.repo_watchers)
 
     def test_score_abandoned_package(self):
         p = Package.objects.get(slug="django-divioadmin")
         p.save()  # updates the score
+        p.refresh_from_db()
 
         # score should be -100
         # abandoned for 2 years = loss 10% for each 3 months = 80% of the stars
@@ -38,6 +38,8 @@ class VersionTests(TestCase):
     def test_score_abandoned_package_10_years(self):
         p = Package.objects.get(slug="django-divioadmin2")
         p.save()  # updates the score
+        p.refresh_from_db()
+
         self.assertLess(p.score, 0, p.score)
 
     def test_version_order(self):
