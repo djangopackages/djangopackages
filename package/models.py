@@ -364,8 +364,9 @@ class Package(BaseModel):
         python_3_penalty = (
             0 if is_python_3 else min([self.repo_watchers * 30 / 100, 1000])
         )
-        # penalty for docs maybe
-        return self.repo_watchers - last_updated_penalty - python_3_penalty
+        # penalty for docs maybe?
+
+        return max(-500, self.repo_watchers - last_updated_penalty - python_3_penalty)
 
     def save(self, *args, **kwargs):
         if not self.repo_description:
