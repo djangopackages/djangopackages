@@ -3,7 +3,8 @@ from django.test import TestCase
 from package.repos import get_repo_for_repo_url
 from package.repos.base_handler import BaseHandler
 from package.repos.unsupported import UnsupportedHandler
-from package.models import Package, Category
+from package.repos.bitbucket import BitbucketHandler
+from package.models import Package, Category, Commit
 
 
 class BaseBase(TestCase):
@@ -173,7 +174,6 @@ http://www.dataportal.it"""
             )
 
 
-"""
 class TestBitbucketRepo(TestBaseHandler):
     def setUp(self):
         super(TestBitbucketRepo, self).setUp()
@@ -183,21 +183,21 @@ class TestBitbucketRepo(TestBaseHandler):
             repo_url="https://bitbucket.org/django/django",
             category=self.category
         )
+        self.bitbucket_handler = BitbucketHandler()
 
     def test_fetch_commits(self):
         self.assertEqual(Commit.objects.count(), 0)
-        bitbucket_handler.fetch_commits(self.package)
+        self.bitbucket_handler.fetch_commits(self.package)
         self.assertNotEqual(Commit.objects.count(), 0)
 
     def test_fetch_metadata(self):
-        package = bitbucket_handler.fetch_metadata(self.package)
+        package = self.bitbucket_handler.fetch_metadata(self.package)
         self.assertTrue(
             package.repo_description.startswith("Official clone of the Subversion repo")
         )
         self.assertTrue(package.repo_watchers > 0)
         self.assertTrue(package.repo_forks > 0)
         self.assertEquals(package.participants, "django")
-"""
 
 
 class TestGithubRepo(TestBaseHandler):
