@@ -1,6 +1,7 @@
 import datetime
 import pytest
 
+from django.utils.timezone import make_aware
 from model_bakery import baker
 
 from package.models import Category, Commit, Package, PackageExample, Version
@@ -49,7 +50,7 @@ def package_abandoned(db, category) -> Package:
     baker.make(
         Commit,
         package=package,
-        commit_date=datetime.datetime(2020, 2, 19, 0, 0),
+        commit_date=make_aware(datetime.datetime(2020, 2, 19, 0, 0)),
         commit_hash="2b54b0ae95ef805c07ca3c0b9c5184466b65c55b",
     )
     return package
@@ -73,7 +74,7 @@ def package_abandoned_ten_years(db, category) -> Package:
     baker.make(
         Commit,
         package=package,
-        commit_date=datetime.datetime(2012, 2, 19, 0, 0),
+        commit_date=make_aware(datetime.datetime(2012, 2, 19, 0, 0)),
         commit_hash="2b54b0ae95ef805c07ca3c0b9c5184466b65c66c",
     )
     return package

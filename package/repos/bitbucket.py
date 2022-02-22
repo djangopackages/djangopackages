@@ -1,7 +1,8 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
 import re
 from warnings import warn
 
+from django.utils.timezone import now
 
 from .base_handler import BaseHandler
 
@@ -50,9 +51,8 @@ class BitbucketHandler(BaseHandler):
 
         #  ugly way to get 52 weeks of commits
         # TODO - make this better
-        now = datetime.now()
         commits = package.commit_set.filter(
-            commit_date__gt=now - timedelta(weeks=52),
+            commit_date__gt=now() - timedelta(weeks=52),
         ).values_list("commit_date", flat=True)
 
         weeks = [0] * 52

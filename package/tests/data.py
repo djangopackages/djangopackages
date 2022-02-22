@@ -1,19 +1,22 @@
-from django.contrib.auth.models import User
 import datetime
+
+from datetime import timedelta
+from django.contrib.auth.models import User
+from django.utils.timezone import make_aware, now
 
 from core.tests import datautil
 from package.models import Category, Package, Version, Commit
 from profiles.models import Profile
-from django.utils.timezone import now
-from datetime import timedelta
 
-abandoned_package_last_commit = datetime.datetime(
-    now().year - 2, now().month, now().day, 0, 0
+
+abandoned_package_last_commit = make_aware(
+    datetime.datetime(now().year - 2, now().month, now().day, 0, 0)
 )
-abandoned_package_last_commit_10_years = datetime.datetime(
-    now().year - 10, now().month, now().day, 0, 0
+abandoned_package_last_commit_10_years = make_aware(
+    datetime.datetime(now().year - 10, now().month, now().day, 0, 0)
 )
 active_package_last_commit = now() - timedelta(minutes=30)
+
 
 def load():
     category, created = Category.objects.get_or_create(
