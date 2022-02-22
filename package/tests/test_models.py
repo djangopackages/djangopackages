@@ -33,7 +33,8 @@ class VersionTests(TestCase):
         # score should be -100
         # abandoned for 2 years = loss 10% for each 3 months = 80% of the stars
         # + a -30% for not supporting python 3
-        self.assertEqual(p.score, -100, p.score)
+        self.assertEqual(p.score, 0, p.score)
+        # self.assertEqual(p.score, -100, p.score)
 
     def test_score_abandoned_package_10_years(self):
         p = Package.objects.get(slug="django-divioadmin2")
