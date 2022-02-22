@@ -50,7 +50,7 @@ jobs:
           SECRET_KEY: 'this-is-for-testing-only'
 
         run: |
-          python -m pytest .
+          python -m pytest . -s
 
       # - name: Lints Python
       #   run: |
