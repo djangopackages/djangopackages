@@ -7,6 +7,12 @@ from model_bakery import baker
 from package.models import Category, Commit, Package, PackageExample, Version
 
 
+@pytest.fixture(autouse=True)
+def set_time(time_machine):
+    time_machine.move_to(make_aware(datetime.datetime(2022, 2, 20, 2, 22)))
+    yield
+
+
 @pytest.fixture()
 def category(db) -> Category:
     return baker.make(Category)
