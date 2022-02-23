@@ -184,7 +184,7 @@ class TestBitbucketRepo(TestBaseHandler):
             # repo_url="https://bitbucket.org/django/django",
             title="djangocms-minecraft",
             slug="djangocms-minecraft",
-            repo_url="https://bitbucket.org/oddotterco/djangocms-minecraft/src/master/",
+            repo_url="https://bitbucket.org/oddotterco/djangocms-minecraft/",
             # hard to find active bitbucket repos. if this ^ one breaks,
             # try https://bitbucket.org/fschwebel/django-misery/
             category=self.category
