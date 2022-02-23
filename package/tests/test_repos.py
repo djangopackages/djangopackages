@@ -4,6 +4,7 @@ from package.repos import get_repo_for_repo_url
 from package.repos.base_handler import BaseHandler
 from package.repos.unsupported import UnsupportedHandler
 from package.repos.bitbucket import BitbucketHandler
+from package.repos.github import GitHubHandler
 from package.models import Package, Category, Commit
 
 
@@ -209,26 +210,37 @@ class TestGithubRepo(TestBaseHandler):
             repo_url="https://github.com/django/django",
             category=self.category,
         )
+        self.github_handler = GitHubHandler()
 
-    # def test_fetch_commits(self):
-    #     import time
-    #     time.sleep(10)
-    #     self.assertEqual(Commit.objects.count(), 0)
-    #     github_handler.fetch_commits(self.package)
-    #     self.assertTrue(Commit.objects.count() > 0)
+        self.invalid_package = Package.objects.create(
+            title="Invalid Package",
+            slug="invldpkg",
+            repo_url="https://example.com",
+            category=self.category,
+        )
 
-    # def test_fetch_metadata(self):
-    #     # Currently a live tests that access github
-    #     package = github_handler.fetch_metadata(self.package)
-    #     self.assertEqual(package.repo_description, "The Web framework for perfectionists with deadlines.")
-    #     self.assertTrue(package.repo_watchers > 100)
+    def test_fetch_commits(self):
+        # import time
+        # time.sleep(10) #wtf?
+        self.assertEqual(Commit.objects.count(), 0)
+        self.github_handler.fetch_commits(self.package)
+        self.assertTrue(Commit.objects.count() > 0)
 
-    #     # test what happens when setting up an unsupported repo
-    #     self.package.repo_url = "https://example.com"
-    #     self.package.fetch_metadata()
-    #     self.assertEqual(self.package.repo_description, "")
-    #     self.assertEqual(self.package.repo_watchers, 0)
-    #     self.package.fetch_commits()
+    def test_fetch_metadata(self):
+        # Currently a live tests that access github
+        package = self.github_handler.fetch_metadata(self.package)
+        self.assertEqual(package.repo_description, "The Web framework for perfectionists with deadlines.")
+        self.assertTrue(package.repo_watchers > 100)
+
+    def test_fetch_metadata_unsupported_repo(self):
+        # test what happens when setting up an unsupported repo
+        self.package.repo_url = "https://example.com"
+        package = self.github_handler.fetch_metadata(self.invalid_package)
+
+        self.assertEqual(package.repo_description, "")
+        self.assertEqual(package.repo_watchers, 0)
+        self.invalid_package.fetch_commits()
+        self.assertEqual(package.commit_set.count(), 0)
 
 
 class TestGitlabRepo(TestBaseHandler):
