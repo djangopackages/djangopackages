@@ -179,17 +179,6 @@ class TestBitbucketRepo(TestBaseHandler):
     def setUp(self):
         super(TestBitbucketRepo, self).setUp()
         self.package = Package.objects.create(
-            # title="django",
-            # slug="django",
-            # repo_url="https://bitbucket.org/django/django",
-
-            # title="djangocms-minecraft",
-            # slug="djangocms-minecraft",
-            # repo_url="https://bitbucket.org/oddotterco/djangocms-minecraft/",
-            # # hard to find active bitbucket repos. if this ^ one breaks,
-            # # try https://bitbucket.org/fschwebel/django-misery/
-
-            # Manfre/django-mssql
             category=self.category,
             title="django-mssql",
             slug="django-mssql",
@@ -204,9 +193,7 @@ class TestBitbucketRepo(TestBaseHandler):
 
     def test_fetch_metadata(self):
         package = self.bitbucket_handler.fetch_metadata(self.package)
-        # print(f"{package.repo_description=}")
         self.assertTrue(
-            # package.repo_description.startswith("A set of Django plugins that will display live Minecraft server status")
             package.repo_description.startswith("Microsoft SQL server backend for Django running on windows")
         )
         self.assertTrue(package.repo_watchers > 0)
@@ -233,8 +220,6 @@ class TestGithubRepo(TestBaseHandler):
         )
 
     def test_fetch_commits(self):
-        # import time
-        # time.sleep(10) #wtf?
         self.assertEqual(Commit.objects.count(), 0)
         self.github_handler.fetch_commits(self.package)
         self.assertTrue(Commit.objects.count() > 0)
