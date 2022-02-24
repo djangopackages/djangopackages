@@ -182,12 +182,18 @@ class TestBitbucketRepo(TestBaseHandler):
             # title="django",
             # slug="django",
             # repo_url="https://bitbucket.org/django/django",
-            title="djangocms-minecraft",
-            slug="djangocms-minecraft",
-            repo_url="https://bitbucket.org/oddotterco/djangocms-minecraft/",
-            # hard to find active bitbucket repos. if this ^ one breaks,
-            # try https://bitbucket.org/fschwebel/django-misery/
-            category=self.category
+
+            # title="djangocms-minecraft",
+            # slug="djangocms-minecraft",
+            # repo_url="https://bitbucket.org/oddotterco/djangocms-minecraft/",
+            # # hard to find active bitbucket repos. if this ^ one breaks,
+            # # try https://bitbucket.org/fschwebel/django-misery/
+
+            # Manfre/django-mssql
+            category=self.category,
+            title="django-mssql",
+            slug="django-mssql",
+            repo_url="https://bitbucket.org/Manfre/django-mssql/"
         )
         self.bitbucket_handler = BitbucketHandler()
 
@@ -198,13 +204,14 @@ class TestBitbucketRepo(TestBaseHandler):
 
     def test_fetch_metadata(self):
         package = self.bitbucket_handler.fetch_metadata(self.package)
-        print(f"{package.repo_description=}")
+        # print(f"{package.repo_description=}")
         self.assertTrue(
-            package.repo_description.startswith("A set of Django plugins that will display live Minecraft server status")
+            # package.repo_description.startswith("A set of Django plugins that will display live Minecraft server status")
+            package.repo_description.startswith("Microsoft SQL server backend for Django running on windows")
         )
         self.assertTrue(package.repo_watchers > 0)
         self.assertTrue(package.repo_forks > 0)
-        self.assertEquals(package.participants, "django")
+        self.assertEquals(package.participants, "Manfre")
 
 
 class TestGithubRepo(TestBaseHandler):
