@@ -30,7 +30,6 @@ class BitbucketHandler(BaseHandler):
             data = self.get_json(target)
         except requests.exceptions.HTTPError:
             return []
-            # raise
         if data is None:
             return []  # todo: log this?
 
@@ -78,7 +77,6 @@ class BitbucketHandler(BaseHandler):
             data = self.get_json(target)
         except requests.exceptions.HTTPError:
             return package
-            # raise
 
         if data is None:
             # TODO - log this better
@@ -96,7 +94,6 @@ class BitbucketHandler(BaseHandler):
         try:
             data = self.get_json(url)
         except requests.exceptions.HTTPError:
-            # raise
             return package
         package.repo_forks = len(data["values"])
 
@@ -106,7 +103,6 @@ class BitbucketHandler(BaseHandler):
             data = self.get_json(url)
         except requests.exceptions.HTTPError:
             return package
-            # raise
         package.repo_watchers = len(data.get("values", []))
 
         # Getting participants
