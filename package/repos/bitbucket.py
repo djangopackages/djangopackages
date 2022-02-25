@@ -7,7 +7,6 @@ from .base_handler import BaseHandler
 
 import requests
 
-# API_TARGET = "https://api.bitbucket.org/1.0/repositories"
 API_TARGET = "https://api.bitbucket.org/2.0/repositories"
 
 descendants_re = re.compile(r"Forks/Queues \((?P<descendants>\d+)\)", re.IGNORECASE)
