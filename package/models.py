@@ -353,16 +353,9 @@ class Package(BaseModel):
         + a penalty of -30% of the stars if it does not support python 3.
         So an abandoned packaged for 2 years would lose 80% of its stars.
         """
-        print()
-        print("## calculate_score ##")
         delta = relativedelta.relativedelta(now(), self.last_updated())
-        print(f"delta=={delta}")
-
         delta_months = (delta.years * 12) + delta.months
-        print(f"delta_months=={delta}")
-
         last_updated_penalty = math.modf(delta_months / 3)[1] * self.repo_watchers / 10
-        print(f"-> last_updated_penalty=={last_updated_penalty}")
 
         try:
             is_python_3 = bool(
@@ -371,17 +364,11 @@ class Package(BaseModel):
         except AttributeError:
             is_python_3 = False
 
-        print(f"is_python_3=={is_python_3}")
-
-        print(f"-> repo_watchers=={self.repo_watchers}")
-
         python_3_penalty = (
             0 if is_python_3 else min([self.repo_watchers * 30 / 100, 1000])
         )
-        print(f"-> python_3_penalty=={python_3_penalty}")
 
         # penalty for docs maybe?
-
         return max(-500, self.repo_watchers - last_updated_penalty - python_3_penalty)
 
     def save(self, *args, **kwargs):
