@@ -1,19 +1,18 @@
-from datetime import datetime, timedelta
 import json
 import re
 import math
+from datetime import timedelta
 from dateutil import relativedelta
 
-from django.core.cache import cache
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
+from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
-from django.utils.timezone import now
-from django.utils import timezone
 from django.urls import reverse
 from django.utils.functional import cached_property
+from django.utils.timezone import now
 from packaging.specifiers import SpecifierSet
 
 from distutils.version import LooseVersion
@@ -103,7 +102,7 @@ class Package(BaseModel):
     last_modified_by = models.ForeignKey(
         User, blank=True, null=True, related_name="modifier", on_delete=models.SET_NULL
     )
-    last_fetched = models.DateTimeField(blank=True, null=True, default=timezone.now)
+    last_fetched = models.DateTimeField(blank=True, null=True, default=now)
     documentation_url = models.URLField(
         _("Documentation URL"), blank=True, null=True, default=""
     )
@@ -219,9 +218,8 @@ class Package(BaseModel):
         value = cache.get(cache_name)
         if value is not None:
             return value
-        now = datetime.now()
         commits = self.commit_set.filter(
-            commit_date__gt=now - timedelta(weeks=52),
+            commit_date__gt=now() - timedelta(weeks=52),
         ).values_list("commit_date", flat=True)
 
         weeks = [0] * 52
@@ -355,17 +353,36 @@ class Package(BaseModel):
         + a penalty of -30% of the stars if it does not support python 3.
         So an abandoned packaged for 2 years would lose 80% of its stars.
         """
+        print()
+        print("## calculate_score ##")
         delta = relativedelta.relativedelta(now(), self.last_updated())
+        print(f"delta=={delta}")
+
         delta_months = (delta.years * 12) + delta.months
+        print(f"delta_months=={delta}")
+
         last_updated_penalty = math.modf(delta_months / 3)[1] * self.repo_watchers / 10
-        last_version = self.version_set.last()
-        is_python_3 = last_version and last_version.supports_python3
-        # TODO: Address this better
+        print(f"-> last_updated_penalty=={last_updated_penalty}")
+
+        try:
+            is_python_3 = bool(
+                self.version_set.only("supports_python3").last().supports_python3
+            )
+        except AttributeError:
+            is_python_3 = False
+
+        print(f"is_python_3=={is_python_3}")
+
+        print(f"-> repo_watchers=={self.repo_watchers}")
+
         python_3_penalty = (
             0 if is_python_3 else min([self.repo_watchers * 30 / 100, 1000])
         )
-        # penalty for docs maybe
-        return self.repo_watchers - last_updated_penalty - python_3_penalty
+        print(f"-> python_3_penalty=={python_3_penalty}")
+
+        # penalty for docs maybe?
+
+        return max(-500, self.repo_watchers - last_updated_penalty - python_3_penalty)
 
     def save(self, *args, **kwargs):
         if not self.repo_description:
@@ -407,14 +424,14 @@ class Package(BaseModel):
     def pypi_ancient(self):
         release = self.last_released()
         if release:
-            return release.upload_time < datetime.now() - timedelta(365)
+            return release.upload_time < now() - timedelta(365)
         return None
 
     @property
     def no_development(self):
         commit_date = self.last_updated()
         if commit_date is not None:
-            return commit_date < datetime.now() - timedelta(365)
+            return commit_date < now() - timedelta(365)
         return None
 
     class Meta:
