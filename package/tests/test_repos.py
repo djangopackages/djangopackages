@@ -8,17 +8,17 @@ from package.repos.github import GitHubHandler
 from package.models import Package, Category, Commit
 
 
-# class TestBaseHandler(TestCase):
-#     def setUp(self):
-#         super().setUp()
-#         self.category = Category.objects.create(title="dummy", slug="dummy")
-#         self.category.save()
-#         self.package = Package.objects.create(
-#             title="Django Piston",
-#             slug="django-piston",
-#             repo_url="https://bitbucket.org/jespern/django-piston",
-#             category=self.category,
-#         )
+class TestBaseHandler(TestCase):
+    def setUp(self):
+        super().setUp()
+        self.category = Category.objects.create(title="dummy", slug="dummy")
+        self.category.save()
+        self.package = Package.objects.create(
+            title="Django Piston",
+            slug="django-piston",
+            repo_url="https://bitbucket.org/jespern/django-piston",
+            category=self.category,
+        )
 
 
 def test_base_handler_not_implemented(package):
