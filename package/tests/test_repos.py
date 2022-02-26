@@ -184,6 +184,7 @@ def test_get_repo_registry(package):
 # TODO: Convert all of these to pytest tests and re-write them since
 # they were already commented out.
 
+
 class TestBitbucketRepo(TestBaseHandler):
     def setUp(self):
         super(TestBitbucketRepo, self).setUp()
@@ -191,7 +192,7 @@ class TestBitbucketRepo(TestBaseHandler):
             category=self.category,
             title="django-mssql",
             slug="django-mssql",
-            repo_url="https://bitbucket.org/Manfre/django-mssql/"
+            repo_url="https://bitbucket.org/Manfre/django-mssql/",
         )
         self.bitbucket_handler = BitbucketHandler()
 
@@ -203,7 +204,9 @@ class TestBitbucketRepo(TestBaseHandler):
     def test_fetch_metadata(self):
         package = self.bitbucket_handler.fetch_metadata(self.package)
         self.assertTrue(
-            package.repo_description.startswith("Microsoft SQL server backend for Django running on windows")
+            package.repo_description.startswith(
+                "Microsoft SQL server backend for Django running on windows"
+            )
         )
         self.assertTrue(package.repo_watchers > 0)
         self.assertTrue(package.repo_forks > 0)
@@ -236,7 +239,10 @@ class TestGithubRepo(TestBaseHandler):
     def test_fetch_metadata(self):
         # Currently a live tests that access github
         package = self.github_handler.fetch_metadata(self.package)
-        self.assertEqual(package.repo_description, "The Web framework for perfectionists with deadlines.")
+        self.assertEqual(
+            package.repo_description,
+            "The Web framework for perfectionists with deadlines.",
+        )
         self.assertTrue(package.repo_watchers > 100)
 
     def test_fetch_metadata_unsupported_repo(self):
