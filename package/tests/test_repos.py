@@ -217,9 +217,9 @@ class TestGithubRepo(TestBaseHandler):
     def setUp(self):
         super().setUp()
         self.package = Package.objects.create(
-            title="Django",
-            slug="django",
-            repo_url="https://github.com/django/django",
+            title="Django Enhancement Proposals",
+            slug="deps",
+            repo_url="https://github.com/django/deps",
             category=self.category,
         )
         self.github_handler = GitHubHandler()
@@ -241,7 +241,7 @@ class TestGithubRepo(TestBaseHandler):
         package = self.github_handler.fetch_metadata(self.package)
         self.assertEqual(
             package.repo_description,
-            "The Web framework for perfectionists with deadlines.",
+            "Django Enhancement Proposals",
         )
         self.assertTrue(package.repo_watchers > 100)
 
