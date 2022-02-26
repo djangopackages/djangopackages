@@ -1,5 +1,7 @@
 import pytest
 
+from django.test import TestCase
+
 from package.repos import get_repo, get_repo_for_repo_url, supported_repos
 from package.repos.base_handler import BaseHandler
 from package.repos.unsupported import UnsupportedHandler
@@ -259,7 +261,7 @@ class TestGitlabRepo(TestBaseHandler):
         )
 
 
-class TestRepos(BaseBase):
+class TestRepos(TestBaseHandler):
     def test_repo_registry(self):
         from package.repos import get_repo, supported_repos
 
