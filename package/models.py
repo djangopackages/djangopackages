@@ -224,7 +224,7 @@ class Package(BaseModel):
 
         weeks = [0] * 52
         for cdate in commits:
-            age_weeks = (now - cdate).days // 7
+            age_weeks = (now() - cdate).days // 7
             if age_weeks < 52:
                 weeks[age_weeks] += 1
 
