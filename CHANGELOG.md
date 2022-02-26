@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-02-25]
+### Changed
+- 💚  2022-02-20 adds more testing coverage ([#791](https://github.com/djangopackages/djangopackages/pull/791))
+
 ## [2022-02-21]
 ### Changed
 - fixes test_score test failure ([#792](https://github.com/djangopackages/djangopackages/pull/792))

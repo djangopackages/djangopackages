@@ -1,6 +1,5 @@
-from datetime import datetime
-
 from django.test import TestCase
+from django.utils.timezone import now
 
 from searchv2.models import SearchV2
 
@@ -21,7 +20,7 @@ class SearchV2Test(TestCase):
             repo_forks=85,
             pypi_downloads=30000,
             participants="pydanny,maraujop,et,al",
-            last_committed=datetime.now(),
-            last_released=datetime.now(),
+            last_committed=now(),
+            last_released=now(),
         )
         self.assertEqual(SearchV2.objects.count(), 1)

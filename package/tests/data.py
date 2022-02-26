@@ -1,19 +1,22 @@
-from django.contrib.auth.models import User
 import datetime
+
+from datetime import timedelta
+from django.contrib.auth.models import User
+from django.utils.timezone import make_aware, now
 
 from core.tests import datautil
 from package.models import Category, Package, Version, Commit
 from profiles.models import Profile
-from django.utils.timezone import now
-from datetime import timedelta
 
-abandoned_package_last_commit = datetime.datetime(
-    now().year - 2, now().month, now().day, 0, 0
+
+abandoned_package_last_commit = make_aware(
+    datetime.datetime(now().year - 2, now().month, now().day, 0, 0)
 )
-abandoned_package_last_commit_10_years = datetime.datetime(
-    now().year - 10, now().month, now().day, 0, 0
+abandoned_package_last_commit_10_years = make_aware(
+    datetime.datetime(now().year - 10, now().month, now().day, 0, 0)
 )
 active_package_last_commit = now() - timedelta(minutes=30)
+
 
 def load():
     category, created = Category.objects.get_or_create(
@@ -1170,68 +1173,20 @@ def load():
     cms_package = Package.objects.get(pk=6)
 
     version, created = Version.objects.get_or_create(
-        pk=2278,
+        pk=9,
         license="BSD License",
-        downloads=1904,
+        downloads=13644,
         package=cms_package,
-        number="2.1.3",
+        number="2.1.0.beta3",
         hidden=False,
         supports_python3=True,
     )
     version, created = Version.objects.get_or_create(
-        pk=2252,
+        pk=10,
         license="BSD License",
-        downloads=715,
+        downloads=4326,
         package=cms_package,
-        number="2.1.2",
-        hidden=False,
-    )
-    version, created = Version.objects.get_or_create(
-        pk=2177,
-        license="BSD License",
-        downloads=906,
-        package=cms_package,
-        number="2.1.1",
-        hidden=False,
-    )
-    version, created = Version.objects.get_or_create(
-        pk=2041,
-        license="BSD License",
-        downloads=1613,
-        package=cms_package,
-        number="2.1.0",
-        hidden=False,
-    )
-    version, created = Version.objects.get_or_create(
-        pk=1977,
-        license="BSD License",
-        downloads=850,
-        package=cms_package,
-        number="2.1.0.rc3",
-        hidden=False,
-    )
-    version, created = Version.objects.get_or_create(
-        pk=1913,
-        license="BSD License",
-        downloads=726,
-        package=cms_package,
-        number="2.1.0.rc2",
-        hidden=False,
-    )
-    version, created = Version.objects.get_or_create(
-        pk=1870,
-        license="BSD License",
-        downloads=299,
-        package=cms_package,
-        number="2.1.0.rc1",
-        hidden=False,
-    )
-    version, created = Version.objects.get_or_create(
-        pk=12,
-        license="BSD License",
-        downloads=1062,
-        package=cms_package,
-        number="2.0.0",
+        number="2.0.2",
         hidden=False,
     )
     version, created = Version.objects.get_or_create(
@@ -1243,21 +1198,68 @@ def load():
         hidden=False,
     )
     version, created = Version.objects.get_or_create(
-        pk=10,
+        pk=12,
         license="BSD License",
-        downloads=4326,
+        downloads=1062,
         package=cms_package,
-        number="2.0.2",
+        number="2.0.0",
         hidden=False,
     )
     version, created = Version.objects.get_or_create(
-        pk=9,
+        pk=1870,
         license="BSD License",
-        downloads=13644,
+        downloads=299,
         package=cms_package,
-        number="2.1.0.beta3",
+        number="2.1.0.rc1",
         hidden=False,
-        supports_python3=True,
+    )
+    version, created = Version.objects.get_or_create(
+        pk=1913,
+        license="BSD License",
+        downloads=726,
+        package=cms_package,
+        number="2.1.0.rc2",
+        hidden=False,
+    )
+    version, created = Version.objects.get_or_create(
+        pk=1977,
+        license="BSD License",
+        downloads=850,
+        package=cms_package,
+        number="2.1.0.rc3",
+        hidden=False,
+    )
+    version, created = Version.objects.get_or_create(
+        pk=2041,
+        license="BSD License",
+        downloads=1613,
+        package=cms_package,
+        number="2.1.0",
+        hidden=False,
+    )
+    version, created = Version.objects.get_or_create(
+        pk=2177,
+        license="BSD License",
+        downloads=906,
+        package=cms_package,
+        number="2.1.1",
+        hidden=False,
+    )
+    version, created = Version.objects.get_or_create(
+        pk=2252,
+        license="BSD License",
+        downloads=715,
+        package=cms_package,
+        number="2.1.2",
+        hidden=False,
+    )
+    version, created = Version.objects.get_or_create(
+        pk=2278,
+        license="BSD License",
+        downloads=1904,
+        package=cms_package,
+        number="2.1.3",
+        hidden=False,
     )
 
     datautil.reset_sequences(Category, Package, Profile, Version, User)

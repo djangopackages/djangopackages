@@ -49,6 +49,7 @@ model-bakery
 pytest
 pytest-cov
 pytest-django
+pytest-mock
 time-machine
 
 # utils
