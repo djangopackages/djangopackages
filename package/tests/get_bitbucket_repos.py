@@ -29,7 +29,7 @@ def bitbucket_urls():
         for repo in parsed["objects"]:
             if "bitbucket.org" in repo["repo_url"]:
                 yield repo["repo_url"]
-        time.sleep(.1)
+        time.sleep(0.1)
 
 
 def non404urls(urls):
@@ -41,7 +41,7 @@ def non404urls(urls):
         if response.status_code != 404:
             yield response.status_code, url
         time.sleep(1)
-        if response.status_code == 429: # too many requests:
+        if response.status_code == 429:  # too many requests:
             time.sleep(10)
 
 
@@ -61,7 +61,7 @@ def bitbucket_repos_with_forks(urls, include_unforked=False):
             yield num_forks, url
 
         time.sleep(1)
-        if response.status_code == 429: # too many requests:
+        if response.status_code == 429:  # too many requests:
             time.sleep(10)
 
 
@@ -81,5 +81,6 @@ def main():
     for num_forks, url in results:
         print(num_forks, url)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
