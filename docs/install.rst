@@ -33,6 +33,13 @@ There's an example file available. To get started, copy the file:
 
     cp .env.local.example .env.local
 
+Add A GitHub API Token
+----------------------
+
+Get a `GitHub API token <https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token>`_ and set the ``GITHUB_TOKEN`` variable in ``.env.local``
+to this value.  This is used by the GitHub repo handler for fetching repo
+metadata, and required for certain tests.
+
 Build the Docker Containers
 ---------------------------
 

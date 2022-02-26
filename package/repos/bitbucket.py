@@ -8,7 +8,7 @@ from .base_handler import BaseHandler
 
 import requests
 
-API_TARGET = "https://api.bitbucket.org/1.0/repositories"
+API_TARGET = "https://api.bitbucket.org/2.0/repositories"
 
 descendants_re = re.compile(r"Forks/Queues \((?P<descendants>\d+)\)", re.IGNORECASE)
 
@@ -24,7 +24,8 @@ class BitbucketHandler(BaseHandler):
         repo_name = package.repo_name()
         if repo_name.endswith("/"):
             repo_name = repo_name[0:-1]
-        target = f"{API_TARGET}/{repo_name}/changesets/?limit=50"
+        # not sure if the limit parameter does anything in api 2.0
+        target = f"{API_TARGET}/{repo_name}/commits/?limit=50"
         try:
             data = self.get_json(target)
         except requests.exceptions.HTTPError:
@@ -32,7 +33,7 @@ class BitbucketHandler(BaseHandler):
         if data is None:
             return []  # todo: log this?
 
-        return data.get("changesets", [])
+        return data.get("values", [])
 
     def fetch_commits(self, package):
         from package.models import (
@@ -40,11 +41,11 @@ class BitbucketHandler(BaseHandler):
         )  # Import placed here to avoid circular dependencies
 
         for commit in self._get_bitbucket_commits(package):
-            timestamp = commit["timestamp"].split("+")
+            timestamp = commit["date"].split("+")
             if len(timestamp) > 1:
                 timestamp = timestamp[0]
             else:
-                timestamp = commit["timestamp"]
+                timestamp = commit["date"]
             commit, created = Commit.objects.get_or_create(
                 package=package, commit_date=timestamp
             )
@@ -93,15 +94,15 @@ class BitbucketHandler(BaseHandler):
             data = self.get_json(url)
         except requests.exceptions.HTTPError:
             return package
-        package.repo_forks = len(data["forks"])
+        package.repo_forks = len(data["values"])
 
         # get the followers of a repo
-        url = f"{target}followers/"
+        url = f"{target}watchers/"
         try:
             data = self.get_json(url)
         except requests.exceptions.HTTPError:
             return package
-        package.repo_watchers = data["count"]
+        package.repo_watchers = len(data.get("values", []))
 
         # Getting participants
         try:
