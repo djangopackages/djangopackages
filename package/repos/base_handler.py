@@ -77,8 +77,7 @@ class BaseHandler:
 
     def packages_for_profile(self, profile):
         """Return a list of all packages contributed to by a profile."""
-        repo_url = profile.url_for_repo(self)
-        if repo_url:
+        if repo_url := profile.url_for_repo(self):
             from package.models import Package
 
             regex = r"^{0},|,{0},|{0}$".format(repo_url)

@@ -185,8 +185,7 @@ def package_autocomplete(request):
     Provides Package matching based on matches of the beginning
     """
     titles = []
-    q = request.GET.get("q", "")
-    if q:
+    if q := request.GET.get("q", ""):
         titles = (x.title for x in Package.objects.filter(title__istartswith=q))
 
     response = HttpResponse("\n".join(titles))
@@ -229,8 +228,7 @@ def ajax_package_list(request, template_name="package/ajax_package_list.html"):
     packages_already_added_list = []
     grid_slug = request.GET.get("grid", "")
     if packages and grid_slug:
-        grids = Grid.objects.filter(slug=grid_slug)
-        if grids:
+        if grids := Grid.objects.filter(slug=grid_slug):
             grid = grids.first()
             packages_already_added_list = [
                 x["slug"] for x in grid.packages.all().values("slug")
