@@ -127,9 +127,7 @@ class Package(BaseModel):
 
     @cached_property
     def is_deprecated(self):
-        if self.date_deprecated is None:
-            return False
-        return True
+        return self.date_deprecated is not None
 
     def get_pypi_uri(self):
         if self.pypi_name and len(self.pypi_name):
