@@ -68,7 +68,7 @@ class BitbucketHandler(BaseHandler):
     def fetch_metadata(self, package):
         # prep the target name
         repo_name = package.repo_name()
-        target = API_TARGET + "/" + repo_name
+        target = f"{API_TARGET}/{repo_name}"
         if not target.endswith("/"):
             target += "/"
 
