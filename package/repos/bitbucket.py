@@ -23,7 +23,7 @@ class BitbucketHandler(BaseHandler):
     def _get_bitbucket_commits(self, package):
         repo_name = package.repo_name()
         if repo_name.endswith("/"):
-            repo_name = repo_name[0:-1]
+            repo_name = repo_name[:-1]
         # not sure if the limit parameter does anything in api 2.0
         target = f"{API_TARGET}/{repo_name}/commits/?limit=50"
         try:
