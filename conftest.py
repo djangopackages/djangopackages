@@ -1,3 +1,4 @@
+import logging
 import datetime
 import pytest
 
@@ -6,6 +7,10 @@ pytest_plugins = [
     "grid.tests.fixtures",
     "package.tests.fixtures",
 ]
+
+
+def pytest_configure(config):
+    logging.disable(logging.CRITICAL)
 
 
 @pytest.fixture(autouse=True)
