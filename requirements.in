@@ -1,5 +1,4 @@
-# certifi==2017.4.17
-# chardet==3.0.2
+bs4
 Django<4.1
 # see requirements-to-watch.txt
 dj-pagination
@@ -17,7 +16,7 @@ django-waffle
 djangorestframework<3.13
 feedparser
 # github3.py
-github3.py<1.0
+github3.py<1.1
 packaging
 psycopg2-binary
 python-dateutil
@@ -25,6 +24,7 @@ python-gitlab
 pytz
 requests
 requests-mock
+rich
 sentry-sdk
 social-auth-app-django
 social-auth-core
