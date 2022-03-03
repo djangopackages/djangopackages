@@ -321,11 +321,38 @@ def python3_list(request, template_name="package/python3_list.html"):
     packages = Package.objects.filter(version__supports_python3=True).distinct()
     packages = packages.order_by("-pypi_downloads", "-repo_watchers", "title")
 
-    values = "category, category_id, commit, commit_list, created, created_by, created_by_id, documentation_url, dpotw, grid, gridpackage, id, last_fetched, last_modified_by, last_modified_by_id, modified, packageexample, participants, pypi_downloads, pypi_url, repo_description, repo_forks, repo_url, repo_watchers, slug, title, usage, version".split(
-        ","
-    )
-    values = [x.strip() for x in values]
-    if request.GET.get("sort") and request.GET.get("sort") not in values:
+    values = [
+        "category",
+        "category_id",
+        "commit",
+        "commit_list",
+        "created",
+        "created_by",
+        "created_by_id",
+        "documentation_url",
+        "dpotw",
+        "grid",
+        "gridpackage",
+        "id",
+        "last_fetched",
+        "last_modified_by",
+        "last_modified_by_id",
+        "modified",
+        "packageexample",
+        "participants",
+        "pypi_downloads",
+        "pypi_url",
+        "repo_description",
+        "repo_forks",
+        "repo_url",
+        "repo_watchers",
+        "slug",
+        "title",
+        "usage",
+        "version",
+    ]
+    sort = request.GET.pop("sort")
+    if sort and sort not in values:
         # Some people have cached older versions of this view
         request.GET = request.GET.copy()
         del request.GET["sort"]
