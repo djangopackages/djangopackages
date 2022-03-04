@@ -139,9 +139,7 @@ class Package(BaseModel):
 
     @cached_property
     def is_deprecated(self):
-        if self.date_deprecated is None:
-            return False
-        return True
+        return self.date_deprecated is not None
 
     def get_pypi_uri(self):
         if self.pypi_name and len(self.pypi_name):
@@ -435,15 +433,13 @@ class Package(BaseModel):
     @property
     def development_status(self):
         """Gets data needed in API v2 calls"""
-        release = self.last_released()
-        if release:
+        if release := self.last_released():
             return self.last_released().pretty_status
         return None
 
     @property
     def pypi_ancient(self):
-        release = self.last_released()
-        if release:
+        if release := self.last_released():
             return release.upload_time < now() - timedelta(365)
         return None
 

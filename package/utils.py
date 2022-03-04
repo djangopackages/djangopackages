@@ -10,7 +10,7 @@ from django.db import models
 def quote_plus(s, safe=""):
     """Quote the query fragment of a URL; replacing ' ' with '+'"""
     if " " in s:
-        s = quote(s, safe + " ")
+        s = quote(s, f"{safe} ")
         return s.replace(" ", "+")
     return quote(s, safe)
 

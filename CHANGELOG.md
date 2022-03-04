@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-02-26]
+### Changed
+- :tractor: Changes out Django for Deps ([#795](https://github.com/djangopackages/djangopackages/pull/795))
+- Re enable bitbucket test and fix bitbucket repo handler (Fixes #462) ([#793](https://github.com/djangopackages/djangopackages/pull/793))
+
 ## [2022-02-25]
 ### Changed
 - 💚  2022-02-20 adds more testing coverage ([#791](https://github.com/djangopackages/djangopackages/pull/791))

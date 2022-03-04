@@ -19,8 +19,7 @@ class Command(BaseCommand):
         print("found {} duplicate rows...".format(len(rows) - len(dedup)))
 
         for (feature, package), ids in dedup.items():
-            inlist = sorted(ids)[1:]
-            if inlist:
+            if inlist := sorted(ids)[1:]:
                 print(
                     "deleting package {}, feature {} (id {})".format(
                         package, feature, ",".join(map(str, inlist))
