@@ -127,6 +127,16 @@ class Package(BaseModel):
         on_delete=models.PROTECT,
     )
 
+    class Meta:
+        ordering = ["title"]
+        get_latest_by = "id"
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse("package", args=[self.slug])
+
     @cached_property
     def is_deprecated(self):
         if self.date_deprecated is None:
@@ -234,9 +244,10 @@ class Package(BaseModel):
         cache.set(cache_name, value)
         return value
 
-    def fetch_pypi_data(self, *args, **kwargs):
+    def fetch_pypi_data(self):
         # Get the releases from pypi
         if self.pypi_url and len(self.pypi_url.strip()):
+            licenses = []
             total_downloads = 0
             pypi_json_uri = self.get_pypi_json_uri()
             if pypi_json_uri:
@@ -260,6 +271,7 @@ class Package(BaseModel):
                     self.pypi_url = ""
                     self.save()
                     return False
+
                 release = json.loads(response.content)
                 info = release["info"]
 
@@ -270,43 +282,61 @@ class Package(BaseModel):
                 if "classifiers" in info and len(info["classifiers"]):
                     self.pypi_classifiers = info["classifiers"]
 
+                    for classifier in info["classifiers"]:
+                        if classifier.startswith("Development Status"):
+                            version.development_status = status_choices_switch(
+                                classifier
+                            )
+
+                        elif classifier.startswith("License"):
+                            licenses.append(classifier.split("::")[-1].strip())
+
+                        elif classifier.startswith(
+                            "Programming Language :: Python :: 3"
+                        ):
+                            version.supports_python3 = True
+                            if not self.supports_python3:
+                                self.supports_python3 = True
+
                 if "requires_python" in info and info["requires_python"]:
                     self.pypi_requires_python = info["requires_python"]
-                    if self.pypi_requires_python and "3" in SpecifierSet(
-                        self.pypi_requires_python
+                    if self.pypi_requires_python and any(
+                        [
+                            True
+                            for ver in [
+                                "3.11",
+                                "3.10",
+                                "3.9",
+                                "3.8",
+                                "3.7",
+                                "3.6",
+                                "3.5",
+                                "3.4",
+                                "3.3",
+                                "3.2",
+                                "3.1",
+                                "3",
+                            ]
+                            if ver in SpecifierSet(self.pypi_requires_python)
+                        ]
                     ):
                         self.supports_python3 = True
+                    else:
+                        self.supports_python3 = False
 
                 # do we have a license set?
                 if "license" in info and info["license"]:
                     license = normalize_license(info["license"])
+                    # TODO: revisit this
                     licenses = [license]
                     for classifier in info["classifiers"]:
                         if classifier.startswith("License"):
                             licenses.append(classifier.split("::")[-1].strip())
                             break
 
-                    if len(licenses):
-                        version.licenses = licenses
-                        version.license = licenses[0]
-
-                    if self.pypi_license != version.license:
-                        self.pypi_license = version.license
-
-                    if self.pypi_licenses != version.licenses:
-                        self.pypi_licenses = version.licenses
-
-                # do we have a license set in our classifier?
-                elif "classifiers" in info and len(info["classifiers"]):
-                    licenses = []
-                    for classifier in info["classifiers"]:
-                        if classifier.startswith("License"):
-                            licenses.append(classifier.split("::")[-1].strip())
-                            break
-
-                    if len(licenses):
-                        version.licenses = licenses
-                        version.license = licenses[0]
+                if len(licenses):
+                    version.licenses = licenses
+                    version.license = licenses[0]
 
                     if self.pypi_license != version.license:
                         self.pypi_license = version.license
@@ -319,31 +349,20 @@ class Package(BaseModel):
                     url_data = release["urls"][0]
                     version.downloads = url_data["downloads"]
                     version.upload_time = url_data["upload_time"]
-                except IndexError:
+                except (IndexError, KeyError):
                     # Not a real release so we just guess the upload_time.
                     version.upload_time = version.created
 
-                for classifier in info["classifiers"]:
-                    if classifier.startswith("Development Status"):
-                        version.development_status = status_choices_switch(classifier)
-                        break
-
-                for classifier in info["classifiers"]:
-                    if classifier.startswith("Programming Language :: Python :: 3"):
-                        version.supports_python3 = True
-                        if not self.supports_python3:
-                            self.supports_python3 = True
-                        break
-
                 version.save()
 
-                self.pypi_downloads = total_downloads
                 # Calculate total downloads
+                self.pypi_downloads = total_downloads
+
                 return True
 
         return False
 
-    def fetch_metadata(self, fetch_pypi=True, fetch_repo=True):
+    def fetch_metadata(self, fetch_pypi: bool = True, fetch_repo: bool = True):
 
         if fetch_pypi:
             self.fetch_pypi_data()
@@ -434,16 +453,6 @@ class Package(BaseModel):
         if commit_date is not None:
             return commit_date < now() - timedelta(365)
         return None
-
-    class Meta:
-        ordering = ["title"]
-        get_latest_by = "id"
-
-    def __str__(self):
-        return self.title
-
-    def get_absolute_url(self):
-        return reverse("package", args=[self.slug])
 
     @property
     def last_commit(self):
