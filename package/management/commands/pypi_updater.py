@@ -24,7 +24,12 @@ def command(all):
         now = now - timezone.timedelta(hours=24)
 
     packages = (
-        Package.objects.exclude(Q(pypi_url="") | Q(pypi_url__isnull=True))
+        Package.objects.exclude(
+            Q(pypi_url="")
+            | Q(pypi_url__isnull=True)
+            | Q(date_deprecated__lt=now)
+            | Q(date_repo_archived__lt=now)
+        )
         .filter(Q(last_fetched__lt=now) | Q(last_fetched__isnull=True))
         .order_by("last_fetched")
     )
