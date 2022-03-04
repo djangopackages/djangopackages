@@ -210,7 +210,7 @@ class TestBitbucketRepo(TestBaseHandler):
         )
         self.assertTrue(package.repo_watchers > 0)
         self.assertTrue(package.repo_forks > 0)
-        self.assertEquals(package.participants, "Manfre")
+        self.assertEqual(package.participants, "Manfre")
 
 
 class TestGithubRepo(TestBaseHandler):

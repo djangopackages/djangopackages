@@ -11,9 +11,11 @@ from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.timezone import now
 from packaging.specifiers import SpecifierSet
+from rich import print
 
 from distutils.version import LooseVersion
 import requests
@@ -125,6 +127,16 @@ class Package(BaseModel):
         on_delete=models.PROTECT,
     )
 
+    class Meta:
+        ordering = ["title"]
+        get_latest_by = "id"
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse("package", args=[self.slug])
+
     @cached_property
     def is_deprecated(self):
         return self.date_deprecated is not None
@@ -230,106 +242,125 @@ class Package(BaseModel):
         cache.set(cache_name, value)
         return value
 
-    def fetch_pypi_data(self, *args, **kwargs):
+    def fetch_pypi_data(self):
         # Get the releases from pypi
         if self.pypi_url and len(self.pypi_url.strip()):
+            licenses = []
             total_downloads = 0
-            response = requests.get(self.get_pypi_json_uri())
-            if settings.DEBUG:
-                if response.status_code not in (200, 404):
-                    print("BOOM!")
-                    print((self, response.status_code))
-                    print(response.content)
-                    return False
-            if response.status_code == 404:
+            pypi_json_uri = self.get_pypi_json_uri()
+            if pypi_json_uri:
+                response = requests.get(pypi_json_uri)
                 if settings.DEBUG:
-                    print("BOOM! this package probably does not exist on pypi")
-                    print((self, response.status_code))
+                    if response.status_code not in (200, 404):
+                        print("BOOM!")
+                        print(f"[red]{self}[/red], {response.status_code}")
+                        print(response.content)
+                        return False
+
+                if response.status_code == 404:
+                    if settings.DEBUG:
+                        print(
+                            "[red]BOOM! this package probably does not exist on pypi[/red]"
+                        )
+                        print(f"[red]{self}[/red], {response.status_code}")
+                        print(response.url)
+
                     # If we get a 404, we can stop checking this url...
-                    # self.pypi_url = ""
-                    # self.save()
-                return False
-            release = json.loads(response.content)
-            info = release["info"]
+                    self.pypi_url = ""
+                    self.save()
+                    return False
 
-            version, created = Version.objects.get_or_create(
-                package=self, number=info["version"]
-            )
+                release = json.loads(response.content)
+                info = release["info"]
 
-            if "classifiers" in info and len(info["classifiers"]):
-                self.pypi_classifiers = info["classifiers"]
+                version, created = Version.objects.get_or_create(
+                    package=self, number=info["version"]
+                )
 
-            if "requires_python" in info and info["requires_python"]:
-                self.pypi_requires_python = info["requires_python"]
-                if self.pypi_requires_python and "3" in SpecifierSet(
-                    self.pypi_requires_python
-                ):
-                    self.supports_python3 = True
+                if "classifiers" in info and len(info["classifiers"]):
+                    self.pypi_classifiers = info["classifiers"]
 
-            # do we have a license set?
-            if "license" in info and len(info["license"]):
-                licenses = [info["license"]]
-                for classifier in info["classifiers"]:
-                    if classifier.startswith("License"):
-                        licenses.append(classifier.split("::")[-1].strip())
-                        break
+                    for classifier in info["classifiers"]:
+                        if classifier.startswith("Development Status"):
+                            version.development_status = status_choices_switch(
+                                classifier
+                            )
 
-                version.licenses = licenses
-                version.license = licenses[0]
+                        elif classifier.startswith("License"):
+                            licenses.append(classifier.split("::")[-1].strip())
 
-                if self.pypi_license != version.license:
-                    self.pypi_license = version.license
+                        elif classifier.startswith(
+                            "Programming Language :: Python :: 3"
+                        ):
+                            version.supports_python3 = True
+                            if not self.supports_python3:
+                                self.supports_python3 = True
 
-                if self.pypi_licenses != version.licenses:
-                    self.pypi_licenses = version.licenses
-
-            # do we have a license set in our classifier?
-            elif "classifiers" in info and len(info["classifiers"]):
-                licenses = []
-                for classifier in info["classifiers"]:
-                    if classifier.startswith("License"):
-                        licenses.append(classifier.split("::")[-1].strip())
-                        break
-
-                version.licenses = licenses
-                version.license = licenses[0]
-
-                if self.pypi_license != version.license:
-                    self.pypi_license = version.license
-
-                if self.pypi_licenses != version.licenses:
-                    self.pypi_licenses = version.licenses
-
-            # version stuff
-            try:
-                url_data = release["urls"][0]
-                version.downloads = url_data["downloads"]
-                version.upload_time = url_data["upload_time"]
-            except IndexError:
-                # Not a real release so we just guess the upload_time.
-                version.upload_time = version.created
-
-            for classifier in info["classifiers"]:
-                if classifier.startswith("Development Status"):
-                    version.development_status = status_choices_switch(classifier)
-                    break
-
-            for classifier in info["classifiers"]:
-                if classifier.startswith("Programming Language :: Python :: 3"):
-                    version.supports_python3 = True
-                    if not self.supports_python3:
+                if "requires_python" in info and info["requires_python"]:
+                    self.pypi_requires_python = info["requires_python"]
+                    if self.pypi_requires_python and any(
+                        [
+                            True
+                            for ver in [
+                                "3.11",
+                                "3.10",
+                                "3.9",
+                                "3.8",
+                                "3.7",
+                                "3.6",
+                                "3.5",
+                                "3.4",
+                                "3.3",
+                                "3.2",
+                                "3.1",
+                                "3",
+                            ]
+                            if ver in SpecifierSet(self.pypi_requires_python)
+                        ]
+                    ):
                         self.supports_python3 = True
-                    break
+                    else:
+                        self.supports_python3 = False
 
-            version.save()
+                # do we have a license set?
+                if "license" in info and info["license"]:
+                    license = normalize_license(info["license"])
+                    # TODO: revisit this
+                    licenses = [license]
+                    for classifier in info["classifiers"]:
+                        if classifier.startswith("License"):
+                            licenses.append(classifier.split("::")[-1].strip())
+                            break
 
-            self.pypi_downloads = total_downloads
-            # Calculate total downloads
-            return True
+                if len(licenses):
+                    version.licenses = licenses
+                    version.license = licenses[0]
+
+                    if self.pypi_license != version.license:
+                        self.pypi_license = version.license
+
+                    if self.pypi_licenses != version.licenses:
+                        self.pypi_licenses = version.licenses
+
+                # version stuff
+                try:
+                    url_data = release["urls"][0]
+                    version.downloads = url_data["downloads"]
+                    version.upload_time = url_data["upload_time"]
+                except (IndexError, KeyError):
+                    # Not a real release so we just guess the upload_time.
+                    version.upload_time = version.created
+
+                version.save()
+
+                # Calculate total downloads
+                self.pypi_downloads = total_downloads
+
+                return True
 
         return False
 
-    def fetch_metadata(self, fetch_pypi=True, fetch_repo=True):
+    def fetch_metadata(self, fetch_pypi: bool = True, fetch_repo: bool = True):
 
         if fetch_pypi:
             self.fetch_pypi_data()
@@ -338,6 +369,8 @@ class Package(BaseModel):
             self.repo.fetch_metadata(self)
 
         signal_fetch_latest_metadata.send(sender=self)
+
+        self.last_fetched = timezone.now()
 
         self.save()
 
@@ -416,16 +449,6 @@ class Package(BaseModel):
         if commit_date is not None:
             return commit_date < now() - timedelta(365)
         return None
-
-    class Meta:
-        ordering = ["title"]
-        get_latest_by = "id"
-
-    def __str__(self):
-        return self.title
-
-    def get_absolute_url(self):
-        return reverse("package", args=[self.slug])
 
     @property
     def last_commit(self):

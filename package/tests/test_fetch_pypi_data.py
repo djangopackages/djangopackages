@@ -1,5 +1,232 @@
+import json
+
 from model_bakery import baker
 from pathlib import Path
+from typing import List, Optional
+
+
+def pypi_package(
+    author: Optional[str] = None,
+    author_email: Optional[str] = None,
+    classifiers: Optional[List[str]] = [],
+    license: Optional[str] = None,
+    package_name: str = "example-package",
+    requires_python: str = None,
+    version: Optional[str] = "1.0.0",
+):
+    return {
+        "info": {
+            "author": author,
+            "author_email": author_email,
+            "bugtrack_url": None,
+            "classifiers": classifiers,
+            "description": "",
+            "description_content_type": "text/markdown",
+            "docs_url": None,
+            "download_url": "",
+            "downloads": {"last_day": -1, "last_month": -1, "last_week": -1},
+            "home_page": "",
+            "keywords": "",
+            "license": license,
+            "maintainer": "",
+            "maintainer_email": "",
+            "name": f"{package_name}",
+            "package_url": f"https://pypi.org/project/{package_name}/",
+            "platform": "",
+            "project_url": f"https://pypi.org/project/{package_name}/",
+            "project_urls": {
+                "Changelog": None,
+                "Funding": None,
+                "Homepage": None,
+                "Source": None,
+            },
+            "release_url": f"https://pypi.org/project/{package_name}/{version}/",
+            "requires_dist": [],
+            "requires_python": requires_python,
+            "summary": "",
+            "version": f"{version}",
+            "yanked": False,
+            "yanked_reason": None,
+        },
+        "last_serial": 12314011,
+        "releases": {},
+        "urls": [
+            {
+                "downloads": -1,
+                "upload_time": "2022-02-01T07:56:23",
+            }
+        ],
+    }
+
+
+def test_pypi_license_valid(db, faker, requests_mock):
+    package_name = "valid-license"
+    package = baker.make("package.Package", title=package_name, pypi_url=package_name)
+
+    pypi_data = pypi_package(
+        license="BSD License",
+        package_name=package_name,
+    )
+    requests_mock.get(
+        f"https://pypi.org/pypi/{package_name}/json",
+        text=json.dumps(pypi_data),
+    )
+
+    assert package.pypi_license is None
+    assert package.pypi_licenses is None
+    assert package.license_latest == "UNKNOWN"
+
+    package.fetch_pypi_data()
+
+    assert package.pypi_license == "BSD License"
+    assert package.pypi_licenses == ["BSD License"]
+    assert package.license_latest == "BSD License"
+
+
+def test_pypi_license_valid_with_classifiers(db, faker, requests_mock):
+    package_name = "valid-license"
+    package = baker.make("package.Package", title=package_name, pypi_url=package_name)
+
+    pypi_data = pypi_package(
+        classifiers=["License :: OSI Approved :: BSD License"],
+        package_name=package_name,
+    )
+    requests_mock.get(
+        f"https://pypi.org/pypi/{package_name}/json",
+        text=json.dumps(pypi_data),
+    )
+
+    assert package.pypi_license is None
+    assert package.pypi_licenses is None
+    assert package.license_latest == "UNKNOWN"
+
+    package.fetch_pypi_data()
+
+    assert package.pypi_license == "BSD License"
+    assert package.pypi_licenses == ["BSD License"]
+    assert package.license_latest == "BSD License"
+
+
+def test_pypi_license_too_long(db, faker, requests_mock):
+    package_name = "license-too-long"
+    package = baker.make("package.Package", title=package_name, pypi_url=package_name)
+
+    pypi_data = pypi_package(
+        license=faker.paragraph(nb_sentences=5),
+        package_name=package_name,
+    )
+    requests_mock.get(
+        f"https://pypi.org/pypi/{package_name}/json",
+        text=json.dumps(pypi_data),
+    )
+
+    assert package.pypi_license is None
+    assert package.pypi_licenses is None
+    assert package.license_latest == "UNKNOWN"
+
+    package.fetch_pypi_data()
+
+    assert package.pypi_license == "Custom"
+    assert package.pypi_licenses == ["Custom"]
+    assert package.license_latest == "Custom"
+
+
+def test_pypi_development_status_alpha(db, faker, requests_mock):
+    package_name = "development-status"
+    package = baker.make("package.Package", title=package_name, pypi_url=package_name)
+
+    pypi_data = pypi_package(
+        classifiers=[
+            "Development Status :: 3 - Alpha",
+        ],
+        package_name=package_name,
+    )
+    requests_mock.get(
+        f"https://pypi.org/pypi/{package_name}/json",
+        text=json.dumps(pypi_data),
+    )
+
+    assert package.development_status is None
+    assert package.version_set.exists() is False
+
+    package.fetch_pypi_data()
+
+    assert package.version_set.exists() is True
+
+    assert package.version_set.first().development_status == 3
+    assert package.version_set.first().pretty_status == "Alpha"
+    assert package.development_status == "Alpha"
+
+
+def test_pypi_development_status_stable(db, faker, requests_mock):
+    package_name = "development-status"
+    package = baker.make("package.Package", title=package_name, pypi_url=package_name)
+
+    pypi_data = pypi_package(
+        classifiers=[
+            "Development Status :: 5 - Production/Stable",
+        ],
+        package_name=package_name,
+    )
+    requests_mock.get(
+        f"https://pypi.org/pypi/{package_name}/json",
+        text=json.dumps(pypi_data),
+    )
+
+    assert package.development_status is None
+    assert package.version_set.exists() is False
+
+    package.fetch_pypi_data()
+
+    assert package.version_set.exists() is True
+    assert package.last_released()
+    assert package.version_set.first().development_status == 5
+    assert package.version_set.first().pretty_status == "Production/Stable"
+    assert package.development_status == "Production/Stable"
+
+
+def test_pypi_requires_python(db, faker, requests_mock):
+    package_name = "requires-python"
+    package = baker.make("package.Package", title=package_name, pypi_url=package_name)
+
+    pypi_data = pypi_package(
+        # classifiers=[
+        #     "Development Status :: 5 - Production/Stable",
+        # ],
+        package_name=package_name,
+        requires_python=">=3.8",
+    )
+    requests_mock.get(
+        f"https://pypi.org/pypi/{package_name}/json",
+        text=json.dumps(pypi_data),
+    )
+
+    assert package.pypi_requires_python is None
+    assert package.supports_python3 is None
+
+    package.fetch_pypi_data()
+
+    assert package.pypi_requires_python == ">=3.8"
+    assert package.supports_python3
+
+
+def test_pypi_requires_python_two(db, faker, requests_mock):
+    package_name = "requires-python-two"
+    package = baker.make("package.Package", title=package_name, pypi_url=package_name)
+
+    pypi_data = pypi_package(package_name=package_name, requires_python="<3")
+    requests_mock.get(
+        f"https://pypi.org/pypi/{package_name}/json",
+        text=json.dumps(pypi_data),
+    )
+
+    assert package.pypi_requires_python is None
+    assert package.supports_python3 is None
+
+    package.fetch_pypi_data()
+
+    assert package.pypi_requires_python == "<3"
+    assert package.supports_python3 is False
 
 
 def test_django(db, requests_mock):
