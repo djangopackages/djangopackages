@@ -41,7 +41,7 @@ class Command(BaseCommand):
 
             try:
                 try:
-                    package.fetch_metadata(fetch_pypi=False)
+                    package.fetch_metadata(fetch_pypi=False, fetch_repo=True)
                     package.fetch_commits()
                 except Exception as e:
                     logger.error(

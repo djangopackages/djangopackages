@@ -35,7 +35,17 @@
 
 {% block body %}
 
-{% if package.date_repo_archived %}
+{% if package.is_deprecated %}
+<div class="row">
+    <div class="col-md-8 main">
+        <div class="alert alert-warning" role="alert">This project was deprecated
+            {% if package.deprecates_package %}
+                and replaced by <a href="{{ package.deprecates_package.get_pypi_uri }}" target="_blank">{{ package.deprecates_package.pypi_name }}</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% elif package.date_repo_archived %}
 <div class="row">
     <div class="col-md-8 main">
         <div class="alert alert-warning" role="alert">This project was archived</div>
