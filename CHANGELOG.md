@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-03-04]
+### Changed
+- 💚 2022-03-02(03) QOL Update ([#797](https://github.com/djangopackages/djangopackages/pull/797))
+- Refactor code ([#796](https://github.com/djangopackages/djangopackages/pull/796))
+
 ## [2022-02-26]
 ### Changed
 - :tractor: Changes out Django for Deps ([#795](https://github.com/djangopackages/djangopackages/pull/795))
