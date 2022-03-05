@@ -316,6 +316,63 @@ def usage(request, slug, action):
 
 
 def python3_list(request, template_name="package/python3_list.html"):
+    # if sort and sort not in values:
+    # Some people have cached older versions of this view
+    allow_list = [
+        "category",
+        "category_id",
+        "commit",
+        "commit_list",
+        "created",
+        "created_by",
+        "created_by_id",
+        "documentation_url",
+        "dpotw",
+        "grid",
+        "gridpackage",
+        "id",
+        "last_fetched",
+        "last_modified_by",
+        "last_modified_by_id",
+        "modified",
+        "packageexample",
+        "participants",
+        "pypi_downloads",
+        "pypi_url",
+        "repo_description",
+        "repo_forks",
+        "repo_url",
+        "repo_watchers",
+        "slug",
+        "title",
+        "usage",
+        "version",
+    ]
+
+    direction = request.GET.get("dir")
+    sort = request.GET.get("sort")
+
+    """
+    These are workarounds primarily seach engine spiders trying weird
+    sorting options when they are crawling the website.
+    """
+    _mutable = request.GET._mutable
+    request.GET._mutable = True
+    request.GET = request.GET.copy()
+
+    # workaround for "blank" ?sort=desc bug
+    if direction == "desc" and sort is None:
+        request.GET["dir"] = ""
+        request.GET["sort"] = ""
+
+    # workaround for "blank" ?sort=desc bug
+    elif sort and sort not in allow_list:
+        request.GET["sort"] = ""
+        if direction == "desc":
+            request.GET["dir"] = ""
+
+    request.GET._mutable = _mutable
+
     packages = (
         Package.objects.filter(version__supports_python3=True)
         .distinct()
