@@ -8,13 +8,24 @@
 
 {% block head_title %}Python 3{% endblock %}
 
+{% block extra_head %}
+    {{ block.super }}
+    {% include 'includes/_ethicalads-js.html' %}
+{% endblock %}
+
+
 {% block body_class %}home{% endblock %}
 
 {% block body %}
     <div class="container">
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-xs-6">
                 <h2><a href="{% url 'home' %}">{% trans "home" %}</a> / Python 3 ( {{ packages.count }} )</h2>
+            </div>
+            <div class="col-xs-6">
+                {% with ea_id="grid-detail" ea_type="text" %}
+                    {% include 'includes/_ethicalads-tag.html' %}
+                {% endwith %}
             </div>
         </div>
 
@@ -26,8 +37,8 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>{% trans "Development Status" %}</th>
                             <th>{% anchor title "Name" %}</th>
+                            <th>{% trans "Development Status" %}</th>
                             <th>{% trans "Commits" %}</th>
                             <th>{% trans "Version" %}</th>
                             <th>{% anchor repo_watchers "Stars" %}</th>
@@ -38,8 +49,8 @@
                     <tbody>
                         {% for package in packages %}
                             <tr>
-                                <td>{{ package.last_released.pretty_status }}</td>
                                 <td><a href="{% url 'package' package.slug %}">{{ package.title }}</a></td>
+                                <td>{{ package.last_released.pretty_status }}</td>
                                 <td><img class="package-githubcommits" src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{package.commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
                                 <td>{{ package.pypi_version }}</td>
                                 <td>{{ package.repo_watchers }}</td>
