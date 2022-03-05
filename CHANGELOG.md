@@ -1,5 +1,33 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-02-26]
+### Changed
+- :tractor: Changes out Django for Deps ([#795](https://github.com/djangopackages/djangopackages/pull/795))
+- Re enable bitbucket test and fix bitbucket repo handler (Fixes #462) ([#793](https://github.com/djangopackages/djangopackages/pull/793))
+
+## [2022-02-25]
+### Changed
+- 💚  2022-02-20 adds more testing coverage ([#791](https://github.com/djangopackages/djangopackages/pull/791))
+
+## [2022-02-21]
+### Changed
+- fixes test_score test failure ([#792](https://github.com/djangopackages/djangopackages/pull/792))
+
+## [2022-02-20]
+### Changed
+- 💚  Boosting Package Fixtures and QOL ([#790](https://github.com/djangopackages/djangopackages/pull/790))
+
+## [2022-02-19]
+### Changed
+- Handle archived projects ([#761](https://github.com/djangopackages/djangopackages/pull/761))
+- ✏️  2022-02-18 Friday Updates 3 ([#788](https://github.com/djangopackages/djangopackages/pull/788))
+- :bug: Fixes #786 License is blank ([#787](https://github.com/djangopackages/djangopackages/pull/787))
+
+## [2022-02-18]
+### Changed
+- 🔨  2022-02-18 Friday updates ([#785](https://github.com/djangopackages/djangopackages/pull/785))
+- update doc references from dev.yml to docker-compose.dev.yml ([#781](https://github.com/djangopackages/djangopackages/pull/781))
+
 ## [2022-02-12]
 ### Changed
 - ⬆️ Bump django from 4.0.1 to 4.0.2 ([#776](https://github.com/djangopackages/djangopackages/pull/776))

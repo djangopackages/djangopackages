@@ -1,0 +1,1316 @@
+{
+    "info": {
+        "author": "Miguel Araujo",
+        "author_email": "miguel.araujo.perez@gmail.com",
+        "bugtrack_url": null,
+        "classifiers": [
+            "Development Status :: 5 - Production/Stable",
+            "Environment :: Web Environment",
+            "Framework :: Django",
+            "Framework :: Django :: 2.2",
+            "Framework :: Django :: 3.2",
+            "Framework :: Django :: 4.0",
+            "License :: OSI Approved :: MIT License",
+            "Operating System :: OS Independent",
+            "Programming Language :: JavaScript",
+            "Programming Language :: Python :: 3",
+            "Programming Language :: Python :: 3.7",
+            "Programming Language :: Python :: 3.8",
+            "Programming Language :: Python :: 3.9",
+            "Programming Language :: Python :: 3.10",
+            "Topic :: Internet :: WWW/HTTP",
+            "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+            "Topic :: Software Development :: Libraries :: Python Modules"
+        ],
+        "description": "===================\ndjango-crispy-forms\n===================\n\n.. image:: https://github.com/django-crispy-forms/django-crispy-forms/workflows/C/I%20Testing./badge.svg\n\n.. image:: https://img.shields.io/badge/code%20style-black-000000.svg\n    :target: https://github.com/psf/black\n\n.. image:: http://codecov.io/github/django-crispy-forms/django-crispy-forms/coverage.svg?branch=main\n   :target: http://codecov.io/github/django-crispy-forms/django-crispy-forms?branch=main\n\nThe best way to have Django_ DRY forms. Build programmatic reusable layouts out of components, having full control of the rendered HTML without writing HTML in templates. All this without breaking the standard way of doing things in Django, so it plays nice with any other form application.\n\n`django-crispy-forms` supports Django 2.2, 3.2 and 4.0 with Python 3.7+.\n\n**Note: Django 4.0 requires version 1.13+.**\n\nLooking for Bootstrap 5 support? See the `crispy-bootstrap5 package`_.\n\n.. _`crispy-bootstrap5 package`: https://github.com/django-crispy-forms/crispy-bootstrap5\n\nThe application mainly provides:\n\n* A filter named ``|crispy`` that will render elegant div based forms. Think of it as the built-in methods: ``as_table``, ``as_ul`` and ``as_p``. You cannot tune up the output, but it is easy to start using it.\n* A tag named ``{% crispy %}`` that will render a form based on your configuration and specific layout setup. This gives you amazing power without much hassle, helping you save tons of time.\n\nDjango-crispy-forms supports several frontend frameworks, such as Twitter `Bootstrap`_ (versions 2, 3, and 4), `tailwind`_ and Foundation. You can also easily adapt your custom company's one, creating your own, `see the docs`_ for more information. You can easily switch among them using ``CRISPY_TEMPLATE_PACK`` setting variable.\n\n.. _`tailwind`: https://github.com/django-crispy-forms/crispy-tailwind\n.. _`Bootstrap`: https://getbootstrap.com\n.. _`see the docs`: https://django-crispy-forms.readthedocs.io\n\nAuthors\n=======\n\ndjango-crispy-forms is the new django-uni-form. django-uni-form was an application created by `Daniel Greenfeld`_ that I led since version 0.8.0. The name change tries to better explain the purpose of the application, which changed in a significant way since its birth.\n\nIf you are upgrading from django-uni-form, we have `instructions`_ for helping you.\n\n* Lead developer: `Miguel Araujo`_\n\n.. _`Daniel Greenfeld`: https://github.com/pydanny\n.. _`Miguel Araujo`: https://github.com/maraujop\n.. _`instructions`: https://django-crispy-forms.readthedocs.io/en/latest/install.html#moving-from-django-uni-form-to-django-crispy-forms\n\nExample\n=======\n\nThis is a teaser of what you can do with latest django-crispy-forms. `Find here the gist`_ for generating this form:\n\n.. image:: http://i.imgur.com/LSREg.png\n\n.. _`Find here the gist`: https://gist.github.com/1838193\n\nDocumentation\n=============\n\nFor extensive documentation see the ``docs`` folder or `read it on readthedocs`_\n\n.. _`read it on readthedocs`: https://django-crispy-forms.readthedocs.io/en/latest/index.html\n\nSpecial thanks\n==============\n\n* To Daniel Feldroy (`@pydanny`_) for his support, time and the opportunity given to me to do this.\n* The name of the project was suggested by the fantastic Audrey Feldroy (`@audreyfeldroy`_)\n* To Kenneth Love (`@kennethlove`_) for creating django-uni-form-contrib from which bootstrap template pack was started.\n\n.. _`@audreyfeldroy`: https://github.com/audreyfeldroy\n.. _`@pydanny`: https://github.com/pydanny\n.. _`@kennethlove`: https://github.com/kennethlove\n\n\n.. _Django: http://djangoproject.com\n\n\n",
+        "description_content_type": "",
+        "docs_url": null,
+        "download_url": "",
+        "downloads": {
+            "last_day": -1,
+            "last_month": -1,
+            "last_week": -1
+        },
+        "home_page": "https://github.com/django-crispy-forms/django-crispy-forms",
+        "keywords": "forms,django,crispy,DRY",
+        "license": "MIT",
+        "maintainer": "",
+        "maintainer_email": "",
+        "name": "django-crispy-forms",
+        "package_url": "https://pypi.org/project/django-crispy-forms/",
+        "platform": "",
+        "project_url": "https://pypi.org/project/django-crispy-forms/",
+        "project_urls": {
+            "Homepage": "https://github.com/django-crispy-forms/django-crispy-forms"
+        },
+        "release_url": "https://pypi.org/project/django-crispy-forms/1.14.0/",
+        "requires_dist": null,
+        "requires_python": ">=3.7",
+        "summary": "Best way to have Django DRY forms",
+        "version": "1.14.0",
+        "yanked": false,
+        "yanked_reason": null
+    },
+    "last_serial": 12684778,
+    "releases": {
+        "1.0.0": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "656d28bc42641db4745d2fa2d2a4c68c",
+                    "sha256": "ac5cb3a896d2aabf1a3e9a2992f9648f884062220a9da9b61f986ba0a7f0fbcc"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.0.0.tar.gz",
+                "has_sig": false,
+                "md5_digest": "656d28bc42641db4745d2fa2d2a4c68c",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 64054,
+                "upload_time": "2011-11-02T16:34:12",
+                "upload_time_iso_8601": "2011-11-02T16:34:12.784055Z",
+                "url": "https://files.pythonhosted.org/packages/18/9b/3369e477ab495a80361b763ae01c69b6382eb51be0f990fa5bf1ad62e755/django-crispy-forms-1.0.0.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.1.1": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "7fc8cb3cad7bd5b6831368bb42b94e5b",
+                    "sha256": "292e1bb38cfa65345cbf22bef86b518939c391eecbcd98e04295a4689f7c499a"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.1.1.tar.gz",
+                "has_sig": false,
+                "md5_digest": "7fc8cb3cad7bd5b6831368bb42b94e5b",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 313520,
+                "upload_time": "2012-02-17T02:31:42",
+                "upload_time_iso_8601": "2012-02-17T02:31:42.222750Z",
+                "url": "https://files.pythonhosted.org/packages/7b/c2/a2a1913180640798a0ea5dbafc61948b102fbb420488e3899dfcf401c49d/django-crispy-forms-1.1.1.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.1.2": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "ce0ec95ef3028bd98d2d936e4990e19b",
+                    "sha256": "65cf178cf4ce5731dc49984a05a545322ea9b04aa89c05e087136a512145b8d7"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.1.2.tar.gz",
+                "has_sig": false,
+                "md5_digest": "ce0ec95ef3028bd98d2d936e4990e19b",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 370446,
+                "upload_time": "2012-02-29T17:38:52",
+                "upload_time_iso_8601": "2012-02-29T17:38:52.742751Z",
+                "url": "https://files.pythonhosted.org/packages/5a/93/1ccc6866df0f4764f5789de2907625946655a11df756880bdd09fe4ba8f0/django-crispy-forms-1.1.2.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.1.3": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "ea1136e9efe4cf48ae82352a9ac3e052",
+                    "sha256": "14bce55ab106a6cfd37e0993165cfe67852990c31db693cc9e7f50cc66490668"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.1.3.tar.gz",
+                "has_sig": false,
+                "md5_digest": "ea1136e9efe4cf48ae82352a9ac3e052",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 371416,
+                "upload_time": "2012-04-21T18:28:16",
+                "upload_time_iso_8601": "2012-04-21T18:28:16.474679Z",
+                "url": "https://files.pythonhosted.org/packages/9c/c7/fa6f825235c48290813d891489ae58183630c2af6635c25cb114bf3137fb/django-crispy-forms-1.1.3.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.1.4": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "1c03bbc8773534c27a6b87ef8e5d4de6",
+                    "sha256": "baa462c8a6b57ced600239e6a04cccf2f1c97f96e7693e65b16a8ea757de395f"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.1.4.tar.gz",
+                "has_sig": false,
+                "md5_digest": "1c03bbc8773534c27a6b87ef8e5d4de6",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 377045,
+                "upload_time": "2012-05-24T15:18:17",
+                "upload_time_iso_8601": "2012-05-24T15:18:17.078204Z",
+                "url": "https://files.pythonhosted.org/packages/82/2e/15fa119f1be5824134c91295134418ae1b87dba485008f277b18b8da8423/django-crispy-forms-1.1.4.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.10.0": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "734f88ab9bd294bd3bc8be7dcd8847be",
+                    "sha256": "92ed3fdc52c08d21d60adbb9de24e432c590e66e894f43cee0974fc959209976"
+                },
+                "downloads": -1,
+                "filename": "django_crispy_forms-1.10.0-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "734f88ab9bd294bd3bc8be7dcd8847be",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.5",
+                "size": 107860,
+                "upload_time": "2020-11-18T20:24:27",
+                "upload_time_iso_8601": "2020-11-18T20:24:27.717986Z",
+                "url": "https://files.pythonhosted.org/packages/61/d1/b4f7be9121ee0fe683a5b1ca2fb434fdfce604f86a82163e61d5addd1444/django_crispy_forms-1.10.0-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "e1378a35dbc99266c216012e0aeac878",
+                    "sha256": "d3f808d20cafe20fd38a49a47e72db1fd519fcf31bef4f47f008619336a3ebff"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.10.0.tar.gz",
+                "has_sig": false,
+                "md5_digest": "e1378a35dbc99266c216012e0aeac878",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.5",
+                "size": 62013,
+                "upload_time": "2020-11-18T20:24:29",
+                "upload_time_iso_8601": "2020-11-18T20:24:29.076885Z",
+                "url": "https://files.pythonhosted.org/packages/bd/63/c8edde62d03b9ca9eb4764ec33dc1c1e91b715dad947ccc1923b936b30ab/django-crispy-forms-1.10.0.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.11.0": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "1055271111de305627e379a21b82cda3",
+                    "sha256": "a2aa34ee3fccafdebb33c016cbd60246b37df85dae717637c6419b929fa24b25"
+                },
+                "downloads": -1,
+                "filename": "django_crispy_forms-1.11.0-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "1055271111de305627e379a21b82cda3",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.5",
+                "size": 108129,
+                "upload_time": "2021-01-30T13:06:26",
+                "upload_time_iso_8601": "2021-01-30T13:06:26.963691Z",
+                "url": "https://files.pythonhosted.org/packages/78/d9/33b4707afcb099bebedca3b3b7ce71085e9b0facd7c5ac45ba767fea24ea/django_crispy_forms-1.11.0-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "d9457b6eeb9c10595eed1130ce468a85",
+                    "sha256": "21cf717b621f93cdf01bac0a419b520fe3b17bffd67e140b6c16558d9b75ab80"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.11.0.tar.gz",
+                "has_sig": false,
+                "md5_digest": "d9457b6eeb9c10595eed1130ce468a85",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.5",
+                "size": 62028,
+                "upload_time": "2021-01-30T13:06:28",
+                "upload_time_iso_8601": "2021-01-30T13:06:28.308830Z",
+                "url": "https://files.pythonhosted.org/packages/ed/e6/6999fded6f17c622e7f4aa6db6b947ec7d8706ea5094a560e98712f00498/django-crispy-forms-1.11.0.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.11.1": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "4380fcf4ccf1422571fa3902b2efe1ea",
+                    "sha256": "2ea206f35a9554597b89315ea52737d32d2fd9f5304e79a469a08887aa0824b0"
+                },
+                "downloads": -1,
+                "filename": "django_crispy_forms-1.11.1-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "4380fcf4ccf1422571fa3902b2efe1ea",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.5",
+                "size": 108268,
+                "upload_time": "2021-02-21T13:08:44",
+                "upload_time_iso_8601": "2021-02-21T13:08:44.802792Z",
+                "url": "https://files.pythonhosted.org/packages/b8/45/92a9946428ee40511ed157549eab44de8e64ff482db5e068505072265c23/django_crispy_forms-1.11.1-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "ab559f83769aa10d9a4cf8ded4fb48d3",
+                    "sha256": "5c600dea66e2f435f774fe2c4cacfb5b5eb9914dd6da0728edd174b95f6956fd"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.11.1.tar.gz",
+                "has_sig": false,
+                "md5_digest": "ab559f83769aa10d9a4cf8ded4fb48d3",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.5",
+                "size": 62205,
+                "upload_time": "2021-02-21T13:08:45",
+                "upload_time_iso_8601": "2021-02-21T13:08:45.886880Z",
+                "url": "https://files.pythonhosted.org/packages/56/82/0a1704d7b8bc91f43214c153380e14e107a7fa9d0c49ae833e449a6f4163/django-crispy-forms-1.11.1.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.11.2": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "ae31a2e2fcc5fb9c958d2441e623db69",
+                    "sha256": "3db71ab06d17ec9d0195c086d3ad454da300ac268752ac3a4f63d72f7a490254"
+                },
+                "downloads": -1,
+                "filename": "django_crispy_forms-1.11.2-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "ae31a2e2fcc5fb9c958d2441e623db69",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.5",
+                "size": 112992,
+                "upload_time": "2021-03-21T19:16:02",
+                "upload_time_iso_8601": "2021-03-21T19:16:02.414118Z",
+                "url": "https://files.pythonhosted.org/packages/2a/df/f4618a94c3b1f748c6876bc178f2f80ec7a9fc6ef17a406c80009bbb130d/django_crispy_forms-1.11.2-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "031fc67e45de322f7dc4ba4505a4aa5b",
+                    "sha256": "88efa857ce6111bd696cc4f74057539a3456102fe9c3a3ece8868e1e4579e70a"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.11.2.tar.gz",
+                "has_sig": false,
+                "md5_digest": "031fc67e45de322f7dc4ba4505a4aa5b",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.5",
+                "size": 63791,
+                "upload_time": "2021-03-21T19:16:03",
+                "upload_time_iso_8601": "2021-03-21T19:16:03.703377Z",
+                "url": "https://files.pythonhosted.org/packages/8a/79/f976b92e8590108b1d03c55d13502c09bfad0235c836a1f140ad083e37ca/django-crispy-forms-1.11.2.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.12.0": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "682c6896b01744ba9fcdb696dd631314",
+                    "sha256": "a3320356c84d0cdc631e1ec7b8908aa0117bc2a5f0ab1d053d33eba08f584808"
+                },
+                "downloads": -1,
+                "filename": "django_crispy_forms-1.12.0-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "682c6896b01744ba9fcdb696dd631314",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.6",
+                "size": 122639,
+                "upload_time": "2021-06-11T20:22:24",
+                "upload_time_iso_8601": "2021-06-11T20:22:24.993220Z",
+                "url": "https://files.pythonhosted.org/packages/d3/e4/078391c3b0fb4f09ee7e628723439f67740d9d8563c733d50d8d95a59670/django_crispy_forms-1.12.0-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "0acccc770fe60f7f351ffa31f8d1bec7",
+                    "sha256": "d196db62ee8b4fc32d1f9583d0e4be1bb17328b662682c1ecb9fb77bbc0fcf77"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.12.0.tar.gz",
+                "has_sig": false,
+                "md5_digest": "0acccc770fe60f7f351ffa31f8d1bec7",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.6",
+                "size": 67073,
+                "upload_time": "2021-06-11T20:22:27",
+                "upload_time_iso_8601": "2021-06-11T20:22:27.067555Z",
+                "url": "https://files.pythonhosted.org/packages/49/d9/8430c16b7281a803828330be00294831dbc2a673bb29ea42fab4476ec66e/django-crispy-forms-1.12.0.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.13.0": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "4943ece1722c56e63ac0d2d0e8a9fd53",
+                    "sha256": "9c49d29dd9e98dc2e6e3a8b02670d72deb6edf7bc616986ca412d72c306b36a0"
+                },
+                "downloads": -1,
+                "filename": "django_crispy_forms-1.13.0-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "4943ece1722c56e63ac0d2d0e8a9fd53",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.6",
+                "size": 122754,
+                "upload_time": "2021-09-25T19:04:34",
+                "upload_time_iso_8601": "2021-09-25T19:04:34.237269Z",
+                "url": "https://files.pythonhosted.org/packages/ed/b5/8e1ea4b9dfff8956035866b0b528794d5c6d1257c6696afa47c4d48f7c07/django_crispy_forms-1.13.0-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "e5e85d214601f6f0493548aa66ef972a",
+                    "sha256": "4dc9e5263c91c5f51766806a050ca2ec5c349d34c5cd91fcca3a1a0363b5e29e"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.13.0.tar.gz",
+                "has_sig": false,
+                "md5_digest": "e5e85d214601f6f0493548aa66ef972a",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.6",
+                "size": 67036,
+                "upload_time": "2021-09-25T19:04:36",
+                "upload_time_iso_8601": "2021-09-25T19:04:36.204903Z",
+                "url": "https://files.pythonhosted.org/packages/e9/93/48a4448e96a0c2584874e96f2d5b8d7f80bcef19d597e35635dccd23d1d9/django-crispy-forms-1.13.0.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.14.0": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "0c36c05b703682edc732c0e866f01937",
+                    "sha256": "bc4d2037f6de602d39c0bc452ac3029d1f5d65e88458872cc4dbc01c3a400604"
+                },
+                "downloads": -1,
+                "filename": "django_crispy_forms-1.14.0-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "0c36c05b703682edc732c0e866f01937",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.7",
+                "size": 133307,
+                "upload_time": "2022-01-25T08:08:34",
+                "upload_time_iso_8601": "2022-01-25T08:08:34.739304Z",
+                "url": "https://files.pythonhosted.org/packages/0b/34/f5240bcecb9c0d87fc339edf66f87d2ca5580e995ca966a93fdfb5ba7a66/django_crispy_forms-1.14.0-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "f6c8e60790157a62c3bc944e544bc50d",
+                    "sha256": "35887b8851a931374dd697207a8f56c57a9c5cb9dbf0b9fa54314da5666cea5b"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.14.0.tar.gz",
+                "has_sig": false,
+                "md5_digest": "f6c8e60790157a62c3bc944e544bc50d",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.7",
+                "size": 71229,
+                "upload_time": "2022-01-25T08:08:35",
+                "upload_time_iso_8601": "2022-01-25T08:08:35.943615Z",
+                "url": "https://files.pythonhosted.org/packages/60/96/56854b9f0b437454cef5dd5e9977017a81c23e235eceb6f7ea9c7848d06d/django-crispy-forms-1.14.0.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.2.0": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "716628e163facafdfcbf13d6e05b6b11",
+                    "sha256": "51028d4fa4ded3172e466f69b3479e786d074a711d51d575c67526ea911529ff"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.2.0.tar.gz",
+                "has_sig": false,
+                "md5_digest": "716628e163facafdfcbf13d6e05b6b11",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 371416,
+                "upload_time": "2012-09-24T18:00:39",
+                "upload_time_iso_8601": "2012-09-24T18:00:39.489691Z",
+                "url": "https://files.pythonhosted.org/packages/0d/3f/10b8a5adba7064c03da8c7d9fe3cd17b2c0279619d27a2f1f683cd0fa2a8/django-crispy-forms-1.2.0.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.2.1": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "6d2d94ba294bb928be8b70c00d3e7d3a",
+                    "sha256": "cc7ef670feb93e182fcd3d89025227f5658f297945907d5851ac518626149a11"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.2.1.tar.gz",
+                "has_sig": false,
+                "md5_digest": "6d2d94ba294bb928be8b70c00d3e7d3a",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 392244,
+                "upload_time": "2012-11-28T14:20:58",
+                "upload_time_iso_8601": "2012-11-28T14:20:58.353472Z",
+                "url": "https://files.pythonhosted.org/packages/02/e9/38d714d30e803ce6dd0a1ac51b36097f9d22964c2eee23ae8cc220d535a6/django-crispy-forms-1.2.1.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.2.2": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "a963c7ff666c70ca754bab316c3052bf",
+                    "sha256": "cf31b95c6520c72bd08bfdfcc1d9ff6c429ab9f24c1530ef474a577c6ba991b7"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.2.2.tar.gz",
+                "has_sig": false,
+                "md5_digest": "a963c7ff666c70ca754bab316c3052bf",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 411436,
+                "upload_time": "2012-11-30T00:17:44",
+                "upload_time_iso_8601": "2012-11-30T00:17:44.549637Z",
+                "url": "https://files.pythonhosted.org/packages/92/a7/857a968ab34d82405acea3bbe0ccdd00cf3d8d743f855b235f1f89e9c167/django-crispy-forms-1.2.2.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.2.3": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "648ac46e0cc07b142c91ab0e085df831",
+                    "sha256": "17231a5349d59011ba618d2799e4cdd49eae75dc6a02c39cc8f4a5128295167a"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.2.3.tar.gz",
+                "has_sig": false,
+                "md5_digest": "648ac46e0cc07b142c91ab0e085df831",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 411453,
+                "upload_time": "2012-12-04T15:27:42",
+                "upload_time_iso_8601": "2012-12-04T15:27:42.576180Z",
+                "url": "https://files.pythonhosted.org/packages/4c/7a/94c475479ba443c0f67a6ea99de0fad50b56677f61ba58a722e22a529971/django-crispy-forms-1.2.3.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.2.4": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "aa6ffebe6d9b4cc59f64e2b5be27cf74",
+                    "sha256": "8adeebb4ad4e66a9a2a438bb69fe7a1624d2a66fd304a356ceeef49a72666abb"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.2.4.tar.gz",
+                "has_sig": false,
+                "md5_digest": "aa6ffebe6d9b4cc59f64e2b5be27cf74",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 54402,
+                "upload_time": "2013-04-14T10:24:33",
+                "upload_time_iso_8601": "2013-04-14T10:24:33.460001Z",
+                "url": "https://files.pythonhosted.org/packages/dd/e4/44214193fc6782f861b42567ea4280a0f2a22fb9c04082276e193aac9d46/django-crispy-forms-1.2.4.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.2.5": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "266ff4eb8f266bb44c07a0d3eaa2a78c",
+                    "sha256": "bc08c08a7edcf5126fdecb33ac82f65e7df3bc52ac4a70ceed1c10ad441de65e"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.2.5.tar.gz",
+                "has_sig": false,
+                "md5_digest": "266ff4eb8f266bb44c07a0d3eaa2a78c",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 53685,
+                "upload_time": "2013-04-25T10:08:07",
+                "upload_time_iso_8601": "2013-04-25T10:08:07.390893Z",
+                "url": "https://files.pythonhosted.org/packages/7f/2f/f8ef78b1a5d3504989daefb0f06797f55559911c8e805e3269c7a3c712d1/django-crispy-forms-1.2.5.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.2.6": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "7191f13099bdaedc62017dd77bb40cf8",
+                    "sha256": "131c4a3a5efa70f826e6730477817cee32bee12a2f973a3cc73051917f28c908"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.2.6.tar.gz",
+                "has_sig": false,
+                "md5_digest": "7191f13099bdaedc62017dd77bb40cf8",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 54977,
+                "upload_time": "2013-05-01T19:29:26",
+                "upload_time_iso_8601": "2013-05-01T19:29:26.577907Z",
+                "url": "https://files.pythonhosted.org/packages/22/f9/f4d3cdf78eb948b4903715756c3d6a2fe9821c7a7c8cf5509881b55db3e9/django-crispy-forms-1.2.6.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.2.7": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "b50b09e3754f77b31addda02645395fa",
+                    "sha256": "510d5fc59bf054892ed8d09968a2f0599d86f509574f866a9ddeb70275a704c9"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.2.7.tar.gz",
+                "has_sig": false,
+                "md5_digest": "b50b09e3754f77b31addda02645395fa",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 55480,
+                "upload_time": "2013-05-06T19:21:50",
+                "upload_time_iso_8601": "2013-05-06T19:21:50.390658Z",
+                "url": "https://files.pythonhosted.org/packages/86/db/dabdec2a22231a5a341417d0c1f7385965ced40545f34db2b44d2c07b766/django-crispy-forms-1.2.7.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.2.8": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "ed73111103ddaa39b6617a41eaee5c7e",
+                    "sha256": "a8873b3a747d0ff212c8bbf54c34f48475c579c4a9bc00ba9ea2ad70a141083b"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.2.8.tar.gz",
+                "has_sig": false,
+                "md5_digest": "ed73111103ddaa39b6617a41eaee5c7e",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 55875,
+                "upload_time": "2013-05-10T16:15:32",
+                "upload_time_iso_8601": "2013-05-10T16:15:32.144739Z",
+                "url": "https://files.pythonhosted.org/packages/1b/cc/5a9b7dde081c2059f1b66a1620927b1c84f55607abb88e5ff244c3741155/django-crispy-forms-1.2.8.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.3.0": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "623b79c5c2cc9f28ddb15b33764aa17b",
+                    "sha256": "f3897da62363ad56eaf5c271c0a95bbbcca184880e74b8e2997211829722e25e"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.3.0.tar.gz",
+                "has_sig": false,
+                "md5_digest": "623b79c5c2cc9f28ddb15b33764aa17b",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 98372,
+                "upload_time": "2013-06-16T16:42:59",
+                "upload_time_iso_8601": "2013-06-16T16:42:59.609740Z",
+                "url": "https://files.pythonhosted.org/packages/59/8a/6e23879d647c3a7f1b750fcc303344459343f1792ae3183b5055e9ee1036/django-crispy-forms-1.3.0.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.3.1": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "3acc4e0adb8b5c11ad805db7516ab562",
+                    "sha256": "312b2c93f12533d4e6d1df8cab0a0c4cc513284379faa8ac7bb47dd62f27b235"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.3.1.tar.gz",
+                "has_sig": false,
+                "md5_digest": "3acc4e0adb8b5c11ad805db7516ab562",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 79595,
+                "upload_time": "2013-06-17T07:36:39",
+                "upload_time_iso_8601": "2013-06-17T07:36:39.312845Z",
+                "url": "https://files.pythonhosted.org/packages/58/d2/37bb9d8bd5b2cf23b901d32139589329c9e2731a4e6256b7bbac6b531c29/django-crispy-forms-1.3.1.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.3.2": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "67b66beb346d3eaa449f58c045ff62f4",
+                    "sha256": "97ceefc5dd6f1fe79e466b39f46d39d40bbc2ef939da75bc8bacb2d136ede024"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.3.2.tar.gz",
+                "has_sig": false,
+                "md5_digest": "67b66beb346d3eaa449f58c045ff62f4",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 99210,
+                "upload_time": "2013-06-23T12:24:48",
+                "upload_time_iso_8601": "2013-06-23T12:24:48.714359Z",
+                "url": "https://files.pythonhosted.org/packages/7a/32/3314ad30bd6373d08673bb35fb6d07e7f3f592211fbd75290898285172de/django-crispy-forms-1.3.2.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.4.0": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "b4bc5932405039839e6a99ecf95d30d7",
+                    "sha256": "d0c9531ebdff8dc255f625e677ec2fab326522e3f4cd8f7a3e891d773d281510"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.4.0.tar.gz",
+                "has_sig": false,
+                "md5_digest": "b4bc5932405039839e6a99ecf95d30d7",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 47444,
+                "upload_time": "2013-09-01T16:48:54",
+                "upload_time_iso_8601": "2013-09-01T16:48:54.966341Z",
+                "url": "https://files.pythonhosted.org/packages/cc/aa/8b8d7f440acb2b2094a3240b691bf065c02df26d88525a8be06cc43fafab/django-crispy-forms-1.4.0.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.5.0": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "7aef1c1a85e79bb4f9bde2f91f67597f",
+                    "sha256": "69b8daeee6295f6a564f377007bd3a408a0f42a8e25659cf8757083248670ee5"
+                },
+                "downloads": -1,
+                "filename": "django_crispy_forms-1.5.0-py2-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "7aef1c1a85e79bb4f9bde2f91f67597f",
+                "packagetype": "bdist_wheel",
+                "python_version": "2.7",
+                "requires_python": null,
+                "size": 121487,
+                "upload_time": "2015-08-16T19:07:29",
+                "upload_time_iso_8601": "2015-08-16T19:07:29.296784Z",
+                "url": "https://files.pythonhosted.org/packages/25/a5/133c93a564dd2ae73c5e76e019b49a9307d5a152027ec74ae47fbddbc75e/django_crispy_forms-1.5.0-py2-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "bcd434508a29031a9590829ad016da6f",
+                    "sha256": "888d95b332247092e53f1cbe0b1fa64dd348637ec84c327bab1a7c6d6a423739"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.5.0.tar.gz",
+                "has_sig": false,
+                "md5_digest": "bcd434508a29031a9590829ad016da6f",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 73736,
+                "upload_time": "2015-08-16T18:37:56",
+                "upload_time_iso_8601": "2015-08-16T18:37:56.145333Z",
+                "url": "https://files.pythonhosted.org/packages/80/8c/fa5ad72cc7ace67b0ea41f356948ffc61f8c3d1deda1301bc51513c79962/django-crispy-forms-1.5.0.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.5.1": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "27e5813cd4c1c8c733f93c1aa337d6bf",
+                    "sha256": "dbbae352e5f31a9c81ec510db36cb5d1b345c1e5a76c3b497113eea685ac2016"
+                },
+                "downloads": -1,
+                "filename": "django_crispy_forms-1.5.1-py2-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "27e5813cd4c1c8c733f93c1aa337d6bf",
+                "packagetype": "bdist_wheel",
+                "python_version": "py2",
+                "requires_python": null,
+                "size": 161974,
+                "upload_time": "2015-08-21T10:16:39",
+                "upload_time_iso_8601": "2015-08-21T10:16:39.762071Z",
+                "url": "https://files.pythonhosted.org/packages/db/68/dd811f7bad286c544e464fcfdbbece68ac42c13ca2883a35847805d7e79d/django_crispy_forms-1.5.1-py2-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "06dacb77fda3d12a35d83a9b95c95599",
+                    "sha256": "f1f1d8cabb2cc2aa3a2e7c72d233d52b89895168ffd8fd6d4ecb20f465b72d29"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.5.1.tar.gz",
+                "has_sig": false,
+                "md5_digest": "06dacb77fda3d12a35d83a9b95c95599",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 114221,
+                "upload_time": "2015-08-21T10:15:52",
+                "upload_time_iso_8601": "2015-08-21T10:15:52.394788Z",
+                "url": "https://files.pythonhosted.org/packages/60/4a/59b518d6de5a478029d5bfbeefa39599f1443ea908b80045522f1b7ba16e/django-crispy-forms-1.5.1.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.5.2": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "4e5e0f6a9ddef530417891ee4c495562",
+                    "sha256": "47ef7f74003b2a07a78ce6ed70b6472bf30efd7f8c3ef15fe0ca6685be2e0dfb"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.5.2.tar.gz",
+                "has_sig": false,
+                "md5_digest": "4e5e0f6a9ddef530417891ee4c495562",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 114239,
+                "upload_time": "2015-09-10T12:32:14",
+                "upload_time_iso_8601": "2015-09-10T12:32:14.536871Z",
+                "url": "https://files.pythonhosted.org/packages/ea/af/437ab52b9501be2fcec9b8209f32011c7016a5db85357dd1a5cb4d91a0b5/django-crispy-forms-1.5.2.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.6.0": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "027ca934a7d75f392ac82cda3f75c68e",
+                    "sha256": "18758a8baae8324c59dbc2ba6aad4e375cdb94bea638c45d6f45aeb029d0d142"
+                },
+                "downloads": -1,
+                "filename": "django_crispy_forms-1.6.0-py2-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "027ca934a7d75f392ac82cda3f75c68e",
+                "packagetype": "bdist_wheel",
+                "python_version": "py2",
+                "requires_python": null,
+                "size": 178920,
+                "upload_time": "2016-01-07T20:17:33",
+                "upload_time_iso_8601": "2016-01-07T20:17:33.376512Z",
+                "url": "https://files.pythonhosted.org/packages/f2/e7/62c67158cb4617c9b56ea069b179abb1a8436fe98c485725e44a2c694f28/django_crispy_forms-1.6.0-py2-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "cf9537e0d2e5150644f45ea966b106dc",
+                    "sha256": "67fbb7194bd9887d663161405c623f5f5cd3f9ee627515c4de7a50e16fa44ed1"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.6.0.tar.gz",
+                "has_sig": false,
+                "md5_digest": "cf9537e0d2e5150644f45ea966b106dc",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 118917,
+                "upload_time": "2016-01-13T15:40:59",
+                "upload_time_iso_8601": "2016-01-13T15:40:59.641158Z",
+                "url": "https://files.pythonhosted.org/packages/fd/68/2c9f7670f7b6f1b139642255e1e33d88e8f689e4c215f94eec00d38b05a2/django-crispy-forms-1.6.0.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.6.1": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "62c95dc8bee71e8d1f3957f71857d9be",
+                    "sha256": "18e904c7bd55c45201739cb343272767ff820263a1fca40a7b388006ce94910c"
+                },
+                "downloads": -1,
+                "filename": "django_crispy_forms-1.6.1-py2.py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "62c95dc8bee71e8d1f3957f71857d9be",
+                "packagetype": "bdist_wheel",
+                "python_version": "py2.py3",
+                "requires_python": null,
+                "size": 103077,
+                "upload_time": "2016-10-17T10:02:27",
+                "upload_time_iso_8601": "2016-10-17T10:02:27.765059Z",
+                "url": "https://files.pythonhosted.org/packages/51/a1/663ee8884eb04cd5a29c125b5615751ba5f83df1865105957ccca310f0b6/django_crispy_forms-1.6.1-py2.py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "84f6ceb0ecfac6ad049ec4cf35b24ee9",
+                    "sha256": "c894f3a44e111ae6c6226c67741d96d120adb942de41dc8b2a991b87de7ff9c0"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.6.1.tar.gz",
+                "has_sig": false,
+                "md5_digest": "84f6ceb0ecfac6ad049ec4cf35b24ee9",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 51484,
+                "upload_time": "2016-10-17T10:02:23",
+                "upload_time_iso_8601": "2016-10-17T10:02:23.240416Z",
+                "url": "https://files.pythonhosted.org/packages/ef/f3/511b017c2cc3923bc3b317111fa230b0497d12ae3a9ed4c8c2237c07aef1/django-crispy-forms-1.6.1.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.7.0": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "095426c93714108f42cb4d58a136f679",
+                    "sha256": "d37fe72eb550b41ba651c06293fb861d5a9e6e3ada23304718858cd6250d258d"
+                },
+                "downloads": -1,
+                "filename": "django_crispy_forms-1.7.0-py2.py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "095426c93714108f42cb4d58a136f679",
+                "packagetype": "bdist_wheel",
+                "python_version": "py2.py3",
+                "requires_python": null,
+                "size": 104935,
+                "upload_time": "2017-10-17T14:16:55",
+                "upload_time_iso_8601": "2017-10-17T14:16:55.868203Z",
+                "url": "https://files.pythonhosted.org/packages/72/87/053bcc4494d23da18c62e67e812b925b39e589f6260beb6084acc07fe93b/django_crispy_forms-1.7.0-py2.py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "68138f7eaf3f2b4f6b6e71d1be28eb13",
+                    "sha256": "b29a9a671194e3a482891f319f69da81e30ae81c075f6e37adb14a83ba2c409b"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.7.0.tar.gz",
+                "has_sig": false,
+                "md5_digest": "68138f7eaf3f2b4f6b6e71d1be28eb13",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 52898,
+                "upload_time": "2017-10-17T14:16:58",
+                "upload_time_iso_8601": "2017-10-17T14:16:58.760542Z",
+                "url": "https://files.pythonhosted.org/packages/fb/70/99ad5d04120859368de27dcc306a387bd4d8263d82a6e6a7174c2df247d0/django-crispy-forms-1.7.0.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.7.1": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "6bc370ae87dbd68ce7efa8fa8867044f",
+                    "sha256": "fda07e532835faae1de96aad47faa0cc29bdd6ff2464a475d035fdb9b58e2fa4"
+                },
+                "downloads": -1,
+                "filename": "django_crispy_forms-1.7.1-py2.py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "6bc370ae87dbd68ce7efa8fa8867044f",
+                "packagetype": "bdist_wheel",
+                "python_version": "py2.py3",
+                "requires_python": null,
+                "size": 105829,
+                "upload_time": "2018-03-05T20:06:51",
+                "upload_time_iso_8601": "2018-03-05T20:06:51.278245Z",
+                "url": "https://files.pythonhosted.org/packages/44/3c/40415aa2d6312ed88df6da8ed5f16bcd8b7a2fb6f1626ce1db59fd8314d7/django_crispy_forms-1.7.1-py2.py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "d228068b3bf792569e47a872562e2a4f",
+                    "sha256": "5ecb13b19f867f45f5120d7e869de0ede19fa04555b04c8a7f7bbac14d739e50"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.7.1.tar.gz",
+                "has_sig": false,
+                "md5_digest": "d228068b3bf792569e47a872562e2a4f",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 53622,
+                "upload_time": "2018-03-05T20:06:53",
+                "upload_time_iso_8601": "2018-03-05T20:06:53.765176Z",
+                "url": "https://files.pythonhosted.org/packages/e2/c1/02d74ff608e463492be975822d65f80166bd70a92176ab3ab4b0c37f8e4b/django-crispy-forms-1.7.1.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.7.2": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "cb46a0302e8b242dd6d9b922919242e6",
+                    "sha256": "705ededc554ad8736157c666681165fe22ead2dec0d5446d65fc9dd976a5a876"
+                },
+                "downloads": -1,
+                "filename": "django_crispy_forms-1.7.2-py2.py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "cb46a0302e8b242dd6d9b922919242e6",
+                "packagetype": "bdist_wheel",
+                "python_version": "py2.py3",
+                "requires_python": null,
+                "size": 105950,
+                "upload_time": "2018-03-09T14:47:16",
+                "upload_time_iso_8601": "2018-03-09T14:47:16.512891Z",
+                "url": "https://files.pythonhosted.org/packages/9a/05/6bad05742d185ec2fabfa4deab05cafde286eb3f383fba24b3674340aca2/django_crispy_forms-1.7.2-py2.py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "642e12837ff46750da2cc676940b3baf",
+                    "sha256": "5952bab971110d0b86c278132dae0aa095beee8f723e625c3d3fa28888f1675f"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.7.2.tar.gz",
+                "has_sig": false,
+                "md5_digest": "642e12837ff46750da2cc676940b3baf",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 53853,
+                "upload_time": "2018-03-09T14:47:17",
+                "upload_time_iso_8601": "2018-03-09T14:47:17.929983Z",
+                "url": "https://files.pythonhosted.org/packages/be/ff/225a8ebc3c81705135b64185e395cfc11915fb17105956b0bf2e0c9410ca/django-crispy-forms-1.7.2.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.8.0": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "45f3b1b9ee0ab3a7451585be7951d251",
+                    "sha256": "22b6634e3a6316623e4eb062527fe5be5f97ea8b83020c65bcd8fac4747807b5"
+                },
+                "downloads": -1,
+                "filename": "django_crispy_forms-1.8.0-py2.py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "45f3b1b9ee0ab3a7451585be7951d251",
+                "packagetype": "bdist_wheel",
+                "python_version": "py2.py3",
+                "requires_python": null,
+                "size": 105262,
+                "upload_time": "2019-10-17T15:25:28",
+                "upload_time_iso_8601": "2019-10-17T15:25:28.894777Z",
+                "url": "https://files.pythonhosted.org/packages/26/b0/71e60d4da12f2f6544a94bc50873956db99d02e130336d6150f6e25fd1e8/django_crispy_forms-1.8.0-py2.py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "caf1a336c337b2afe3e6f22cab35ff8c",
+                    "sha256": "0320b303420fec9ce94e045321dfd180ca0e31e0336211c5d30ad0bda5ebbb5d"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.8.0.tar.gz",
+                "has_sig": false,
+                "md5_digest": "caf1a336c337b2afe3e6f22cab35ff8c",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 56914,
+                "upload_time": "2019-10-17T15:25:38",
+                "upload_time_iso_8601": "2019-10-17T15:25:38.302781Z",
+                "url": "https://files.pythonhosted.org/packages/c2/d3/22121a97a3bf415741d454c9279f9983df574ca34b13d11e650b3f012eed/django-crispy-forms-1.8.0.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.8.1": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "13c4e1d61852f6f910801d53f521083b",
+                    "sha256": "2db711ce31f6f9ef42c16829cc3636e3819f97c1b22a3b706afed679bc417e88"
+                },
+                "downloads": -1,
+                "filename": "django_crispy_forms-1.8.1-py2.py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "13c4e1d61852f6f910801d53f521083b",
+                "packagetype": "bdist_wheel",
+                "python_version": "py2.py3",
+                "requires_python": null,
+                "size": 108160,
+                "upload_time": "2019-11-22T14:16:19",
+                "upload_time_iso_8601": "2019-11-22T14:16:19.269964Z",
+                "url": "https://files.pythonhosted.org/packages/6e/27/9d6eef25ee96060b20a8df3cc6f6e5f98492900fada0b736767daf6f8f1c/django_crispy_forms-1.8.1-py2.py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "0a78c72ab110528478f74aa56ded369e",
+                    "sha256": "0afc0ba730f52a13c02bfbd0e1423af4577a337d73a8a0ef96f2cbbc5f345ffa"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.8.1.tar.gz",
+                "has_sig": false,
+                "md5_digest": "0a78c72ab110528478f74aa56ded369e",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 56835,
+                "upload_time": "2019-11-22T14:16:21",
+                "upload_time_iso_8601": "2019-11-22T14:16:21.478780Z",
+                "url": "https://files.pythonhosted.org/packages/fc/22/1127564ab7519dc8cf8833bf664902262df97181268b620c9d9b71eda46b/django-crispy-forms-1.8.1.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.9.0": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "fe12a8abf736ed67ae18bbb9f16b8724",
+                    "sha256": "50032184708ce351e3c9f0008ac35d659d9d5973fa2db218066f2e0a76eb41d9"
+                },
+                "downloads": -1,
+                "filename": "django_crispy_forms-1.9.0-py2.py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "fe12a8abf736ed67ae18bbb9f16b8724",
+                "packagetype": "bdist_wheel",
+                "python_version": "py2.py3",
+                "requires_python": null,
+                "size": 107090,
+                "upload_time": "2020-02-28T21:13:04",
+                "upload_time_iso_8601": "2020-02-28T21:13:04.814945Z",
+                "url": "https://files.pythonhosted.org/packages/c5/1e/166304128017b1dc45c6b79af753af93f6a0939c7ecca4258ca573aed8cd/django_crispy_forms-1.9.0-py2.py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "affcc9a72a16a15a5e687961f353d96b",
+                    "sha256": "67e73ac863d3159500029fbbcdcb788f287a3fd357becebc1a0b51f73896dce3"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.9.0.tar.gz",
+                "has_sig": false,
+                "md5_digest": "affcc9a72a16a15a5e687961f353d96b",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": null,
+                "size": 61078,
+                "upload_time": "2020-02-28T21:13:07",
+                "upload_time_iso_8601": "2020-02-28T21:13:07.082217Z",
+                "url": "https://files.pythonhosted.org/packages/b6/25/0ee36109d775e3e9032a992e99b8fef17284beeccc80a4dc7f1744ac0e08/django-crispy-forms-1.9.0.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.9.1": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "5a2fb5682aeb35eff845330da6f34bad",
+                    "sha256": "ad943285508f0ed0e271d00399b9399c22b8795a4f969029bce0fd29522a8e2d"
+                },
+                "downloads": -1,
+                "filename": "django_crispy_forms-1.9.1-py2.py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "5a2fb5682aeb35eff845330da6f34bad",
+                "packagetype": "bdist_wheel",
+                "python_version": "py2.py3",
+                "requires_python": ">=3.5",
+                "size": 108339,
+                "upload_time": "2020-05-16T06:14:16",
+                "upload_time_iso_8601": "2020-05-16T06:14:16.442371Z",
+                "url": "https://files.pythonhosted.org/packages/e4/8f/69d68e1456b308609b3048f094697f4e3edee50ad001f9d4ba7298125637/django_crispy_forms-1.9.1-py2.py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "6be9feda546ec923f90a05b7d2711da6",
+                    "sha256": "fbe9c2c9698b6590afe37940cb08194d1e722015f6bc5bee83f679362406ea30"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.9.1.tar.gz",
+                "has_sig": false,
+                "md5_digest": "6be9feda546ec923f90a05b7d2711da6",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.5",
+                "size": 62308,
+                "upload_time": "2020-05-16T06:14:17",
+                "upload_time_iso_8601": "2020-05-16T06:14:17.441674Z",
+                "url": "https://files.pythonhosted.org/packages/f6/ea/48246510b1fbd872a4fb561f9eeeb4a8e9112378b289f845c779ed6e8222/django-crispy-forms-1.9.1.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "1.9.2": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "49df361fdaee618ea3d77461d86db47f",
+                    "sha256": "888bb316db89b60050a42ec35080facb361d823eec38010ccb0702f45642d3b8"
+                },
+                "downloads": -1,
+                "filename": "django_crispy_forms-1.9.2-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "49df361fdaee618ea3d77461d86db47f",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.5",
+                "size": 108389,
+                "upload_time": "2020-07-11T19:15:57",
+                "upload_time_iso_8601": "2020-07-11T19:15:57.504856Z",
+                "url": "https://files.pythonhosted.org/packages/37/04/06760b426a3dd7eb3e43ed7bcb9d085670c1e60453f4abd56357c4f187ce/django_crispy_forms-1.9.2-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "e81716600f1091e9a6b103cd1997f63a",
+                    "sha256": "f2f1e0fbb458851636447cfb6be1a611b40c8ac9e41a74ba923011378670b43b"
+                },
+                "downloads": -1,
+                "filename": "django-crispy-forms-1.9.2.tar.gz",
+                "has_sig": false,
+                "md5_digest": "e81716600f1091e9a6b103cd1997f63a",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.5",
+                "size": 62479,
+                "upload_time": "2020-07-11T19:15:59",
+                "upload_time_iso_8601": "2020-07-11T19:15:59.863410Z",
+                "url": "https://files.pythonhosted.org/packages/b4/57/caa81b7cea57b9ba211104f91e228c9eb7451a397c747afb9a57302708af/django-crispy-forms-1.9.2.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ]
+    },
+    "urls": [
+        {
+            "comment_text": "",
+            "digests": {
+                "md5": "0c36c05b703682edc732c0e866f01937",
+                "sha256": "bc4d2037f6de602d39c0bc452ac3029d1f5d65e88458872cc4dbc01c3a400604"
+            },
+            "downloads": -1,
+            "filename": "django_crispy_forms-1.14.0-py3-none-any.whl",
+            "has_sig": false,
+            "md5_digest": "0c36c05b703682edc732c0e866f01937",
+            "packagetype": "bdist_wheel",
+            "python_version": "py3",
+            "requires_python": ">=3.7",
+            "size": 133307,
+            "upload_time": "2022-01-25T08:08:34",
+            "upload_time_iso_8601": "2022-01-25T08:08:34.739304Z",
+            "url": "https://files.pythonhosted.org/packages/0b/34/f5240bcecb9c0d87fc339edf66f87d2ca5580e995ca966a93fdfb5ba7a66/django_crispy_forms-1.14.0-py3-none-any.whl",
+            "yanked": false,
+            "yanked_reason": null
+        },
+        {
+            "comment_text": "",
+            "digests": {
+                "md5": "f6c8e60790157a62c3bc944e544bc50d",
+                "sha256": "35887b8851a931374dd697207a8f56c57a9c5cb9dbf0b9fa54314da5666cea5b"
+            },
+            "downloads": -1,
+            "filename": "django-crispy-forms-1.14.0.tar.gz",
+            "has_sig": false,
+            "md5_digest": "f6c8e60790157a62c3bc944e544bc50d",
+            "packagetype": "sdist",
+            "python_version": "source",
+            "requires_python": ">=3.7",
+            "size": 71229,
+            "upload_time": "2022-01-25T08:08:35",
+            "upload_time_iso_8601": "2022-01-25T08:08:35.943615Z",
+            "url": "https://files.pythonhosted.org/packages/60/96/56854b9f0b437454cef5dd5e9977017a81c23e235eceb6f7ea9c7848d06d/django-crispy-forms-1.14.0.tar.gz",
+            "yanked": false,
+            "yanked_reason": null
+        }
+    ],
+    "vulnerabilities": []
+}

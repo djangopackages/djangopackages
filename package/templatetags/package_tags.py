@@ -14,8 +14,8 @@ class ParticipantURLNode(template.Node):
     def render(self, context):
         repo = self.repo.resolve(context)
         participant = self.participant.resolve(context)
-        if repo.user_url:
-            user_url = repo.user_url % participant
+        if repo_user_url := repo.user_url:
+            user_url = repo_user_url % participant
         else:
             user_url = f"{repo.url}/{participant}"
         return user_url

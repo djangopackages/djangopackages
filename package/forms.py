@@ -4,13 +4,16 @@ from package.models import Category, Package, PackageExample
 
 
 def package_help_text():
-    help_text = ""
-    for category in Category.objects.all():
-        help_text += (
+    help_text = "".join(
+        (
             """<li><strong>{title_plural}</strong> {description}</li>""".format(
-                title_plural=category.title_plural, description=category.description
+                title_plural=category.title_plural,
+                description=category.description,
             )
         )
+        for category in Category.objects.all()
+    )
+
     help_text = f"<ul>{help_text}</ul>"
     return help_text
 

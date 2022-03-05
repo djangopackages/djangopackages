@@ -27,7 +27,7 @@ class OpenView(TemplateView):
                 "top_user_list": User.objects.all()
                 .annotate(num_packages=Count("creator"))
                 .filter(num_packages__gt=10)
-                .order_by("-num_packages")[0:100],
+                .order_by("-num_packages")[:100],
                 "total_categories": Category.objects.count(),
                 "total_commits": Commit.objects.count(),
                 "total_django_2_2": Package.objects.filter(
@@ -73,6 +73,7 @@ class OpenView(TemplateView):
                 "total_versions": Version.objects.count(),
             }
         )
+
         return data
 
 

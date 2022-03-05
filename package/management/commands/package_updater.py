@@ -29,7 +29,7 @@ class Command(BaseCommand):
 
         github = github_login(token=settings.GITHUB_TOKEN)
 
-        for index, package in enumerate(Package.objects.iterator()):
+        for package in Package.objects.iterator():
 
             # Simple attempt to deal with Github rate limiting
             while True:

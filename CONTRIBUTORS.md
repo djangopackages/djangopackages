@@ -119,6 +119,13 @@ Listed in alphabetical order.
     <td></td>
   </tr>
   <tr>
+    <td>Dustin King</td>
+    <td>
+      <a href="https://github.com/dmoney">dmoney</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
     <td>Emmanuelle Delescolle</td>
     <td>
       <a href="https://github.com/nanuxbe">nanuxbe</a>

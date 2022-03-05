@@ -1,0 +1,927 @@
+{
+    "info": {
+        "author": "Nick Farrell",
+        "author_email": "nicholas.farrell@gmail.com",
+        "bugtrack_url": null,
+        "classifiers": [
+            "License :: OSI Approved :: MIT License",
+            "Operating System :: OS Independent",
+            "Programming Language :: Python :: 3"
+        ],
+        "description": "# nango\n\nStreamlining Django forms to provide all the wins of single-page-applications without the pain.\n\n## Key features\n\nAvailable to all Django deployments:\n\n- Django forms no longer silently overwrite changes made in parallel by other users\n\nAvailable if Django Channels is enabled:\n\n- Django forms can receive push notifications from the server (via Channels) when data used on the form changes, rather than only discovering data is out-of-date when the form is submitted\n- Django forms can send provisional form data to the server, allowing server-based field validation before the form is submitted\n- Django forms can save form data as it is edited, without needing a \"submit\" button.\n\n## What do all Django apps get?\n\nOut of the box, Django provides reasonable support for database-level data consistency while a request is being processed, thanks to\ntransactions. However, it is let down by not providing an easy way to avoid data corruptions between requests.\n\nA simple example, where two users edit the same customer using the admin panel.\n\nhttps://user-images.githubusercontent.com/236562/148663962-8f343216-cced-41fc-b2c0-c99ccda524e2.mp4\n\nhttps://user-images.githubusercontent.com/236562/148663959-a0b69f19-c91d-405d-a4cc-1316a24c4bb8.mp4\n\nAs you can see, using the normal django tooling, the change made by the first user is lost. This occurs because Django\ndoes not track the original form value, making it impossible for it to know that the data was modified between when\nthe form was rendered, and when the form was submitted.\n\n\n### Does this matter to me?\n\nHere's a simple checklist to help you consider if this is a problem for you.\n\n- Can the same model be edited on multiple forms?\n- Can the same form be accessed simultaneously by multiple people?\n- Can one user access the same form in multiple tabs/windows, either on the same or different devices?\n\nIf the data you're storing is not important, maybe you can get away without caring about these \"edge cases\". However,\nif they do occur, you will have lost user data. There will be no errors, just users complaining that the changes they\nmade were not saved. The original data will be irretrievable, and it will be difficult to even work out how often it is occurring.\n\n[learn more](./nango-all.md)\n\n## What do Django Channels-enabled apps get?\nHere is a quick example, where a model is being simultaneous edited in two admin panels, and two UpdateViews.\nThings to note:\n- the Customer model has a clean() rule ensuring the name and comment values are at least 5 characters long and there is a vowel in each word. Additionally it with capitalise the first letter in each word.\n- the only additional changes required are enabling the auto-clean and auto-submit features in the UpdateView's definition:\n```python\nclass UpdateView(edit.UpdateView):\n    model = Customer\n    fields = [\"name\", \"notes\", \"company\"]\n    auto_clean_fields = [\"name\"]\n    auto_submit_fields = [\"notes\"]\n    ...\n```\n\nhttps://user-images.githubusercontent.com/236562/153730557-a22b473a-1680-465d-a898-1a7fa72e919f.mp4\n\nFeatures demonstrated above:\n- the admin panel views automatically reflect changes as they occur. If a conflict occurs (due to also changing a field's value locally), it is highlighted and cannot be successfully saved.\n- the 'name' field, which is set to auto-clean, uses CSS to provide feedback on whether the current field value is valid, according to the server. In addition, if the field is not valid, the validation errors are shown. In both the admin panels and UpdateViews, any corrections to the field (ie: capitalisation) are reflected in realtime.\n- the 'notes' field is set to auto-submit, meaning that whenever its value is changed, the change is sent via a websocket to the server, and if clean() is successful, the value is saved. CSS classes are also used to indicate the status of the field, such as failing validation, save in progress, or saved.\n\n\n",
+        "description_content_type": "text/markdown",
+        "docs_url": null,
+        "download_url": "",
+        "downloads": {
+            "last_day": -1,
+            "last_month": -1,
+            "last_week": -1
+        },
+        "home_page": "https://github.com/nicois/nango",
+        "keywords": "",
+        "license": "",
+        "maintainer": "",
+        "maintainer_email": "",
+        "name": "nango",
+        "package_url": "https://pypi.org/project/nango/",
+        "platform": "",
+        "project_url": "https://pypi.org/project/nango/",
+        "project_urls": {
+            "Bug Tracker": "https://github.com/nicois/nango/issues",
+            "Homepage": "https://github.com/nicois/nango"
+        },
+        "release_url": "https://pypi.org/project/nango/0.1.2/",
+        "requires_dist": null,
+        "requires_python": ">=3.8",
+        "summary": "Provide model integrity between requests",
+        "version": "0.1.2",
+        "yanked": false,
+        "yanked_reason": null
+    },
+    "last_serial": 12873175,
+    "releases": {
+        "0.0.1": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "0ed8d59a395bd81a43be7b565bc7f21e",
+                    "sha256": "97922e06bfe5a7bdecc5a06749f3c2694ee2fb322c969b80de867b8e9c94634d"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.1-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "0ed8d59a395bd81a43be7b565bc7f21e",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.8",
+                "size": 13414,
+                "upload_time": "2022-01-09T09:34:31",
+                "upload_time_iso_8601": "2022-01-09T09:34:31.672852Z",
+                "url": "https://files.pythonhosted.org/packages/1f/44/e9041029c1bd016d24332d76a339db74efa5f24e74b2d4a355ee546cfd5b/nango-0.0.1-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "4c6baaa08a4c7ec91e2510f84af81718",
+                    "sha256": "5b05d76cae401928900ebbbba40d4d4e089278b1b8556fddd4cfd0fda8931cdf"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.1.tar.gz",
+                "has_sig": false,
+                "md5_digest": "4c6baaa08a4c7ec91e2510f84af81718",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.8",
+                "size": 16742,
+                "upload_time": "2022-01-09T09:34:33",
+                "upload_time_iso_8601": "2022-01-09T09:34:33.368486Z",
+                "url": "https://files.pythonhosted.org/packages/b6/de/43749e745567de58d35e40c6d2d0314e909631c532e604962ee757ed7d52/nango-0.0.1.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "0.0.10": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "8a29e4b4e5ac1e64a73b9c27fcd9ab14",
+                    "sha256": "dcae57c1c3aaa55d7b9b4dbf28e2873a397c1a0d58fac2815f647d1c1cd84591"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.10-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "8a29e4b4e5ac1e64a73b9c27fcd9ab14",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.8",
+                "size": 14130,
+                "upload_time": "2022-01-09T10:49:10",
+                "upload_time_iso_8601": "2022-01-09T10:49:10.269794Z",
+                "url": "https://files.pythonhosted.org/packages/84/cd/0ae707417b172366b8e338387d5e8f1d7daeaea7c42bc35404843fe0c5ba/nango-0.0.10-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "f931a63f0fa5d99f85d4b0c29499e9c0",
+                    "sha256": "5825d06362425eb1f6c87eadfe3b78a4139bcaa0addb65931e424d900b02c65f"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.10.tar.gz",
+                "has_sig": false,
+                "md5_digest": "f931a63f0fa5d99f85d4b0c29499e9c0",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.8",
+                "size": 17048,
+                "upload_time": "2022-01-09T10:49:11",
+                "upload_time_iso_8601": "2022-01-09T10:49:11.947369Z",
+                "url": "https://files.pythonhosted.org/packages/2a/cb/ae212d9a59fde154da102d3b6049a2fc51cb79ad9917181060abeb345173/nango-0.0.10.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "0.0.11": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "bf91600d6e06ecdfc3972992bbb10c5d",
+                    "sha256": "0eabfd056d422c9ff5debd19ba10a0c1e894c7817fde4ea7084a8394db0d5eea"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.11-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "bf91600d6e06ecdfc3972992bbb10c5d",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.8",
+                "size": 14130,
+                "upload_time": "2022-01-09T11:13:18",
+                "upload_time_iso_8601": "2022-01-09T11:13:18.941326Z",
+                "url": "https://files.pythonhosted.org/packages/66/11/da4ebad515852a05d672fe7c250d1e2b354daf8b44cd936c788e734b6f8e/nango-0.0.11-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "bbe759cdb8060d8f6dbf4f9b8d6a2c9a",
+                    "sha256": "81c62c4598f36e30368b77c81684b64a64cb88a83a4f2519fd5e67a62ebf3644"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.11.tar.gz",
+                "has_sig": false,
+                "md5_digest": "bbe759cdb8060d8f6dbf4f9b8d6a2c9a",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.8",
+                "size": 17075,
+                "upload_time": "2022-01-09T11:13:20",
+                "upload_time_iso_8601": "2022-01-09T11:13:20.432913Z",
+                "url": "https://files.pythonhosted.org/packages/3f/92/4a4f3939c27062d391f552726d47aa09de275cf2cec4c250896b618bb561/nango-0.0.11.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "0.0.12": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "83e26ac3af374fecdf0999ddf88c782d",
+                    "sha256": "a8998a1f8228c7b6a99b0928b4189c2989119cca1a98ef8bdd18c307d883fbfb"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.12-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "83e26ac3af374fecdf0999ddf88c782d",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.8",
+                "size": 14227,
+                "upload_time": "2022-01-10T11:58:37",
+                "upload_time_iso_8601": "2022-01-10T11:58:37.705746Z",
+                "url": "https://files.pythonhosted.org/packages/13/45/d1da5a910c5d9bdd1102322a9c2e044c950915674e9f9ab6d2e9d38a6321/nango-0.0.12-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "1db93d18f14e0df95246b3ce91110c91",
+                    "sha256": "8b08b33372621080c0043873039f4e8b029df016fc54882a3f182926e4998477"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.12.tar.gz",
+                "has_sig": false,
+                "md5_digest": "1db93d18f14e0df95246b3ce91110c91",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.8",
+                "size": 17271,
+                "upload_time": "2022-01-10T11:58:39",
+                "upload_time_iso_8601": "2022-01-10T11:58:39.434214Z",
+                "url": "https://files.pythonhosted.org/packages/e7/1a/2eb2d401e528a7fb2a06188bc1494570829ec650eb09ef6cec6bb38cd758/nango-0.0.12.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "0.0.13": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "2b6c5da4ceb22ce5ac0d69f420fd0350",
+                    "sha256": "f557f221bdbfc3ffd8088182d2b0478a92afdbc58a2763d665a779065d0b1a62"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.13-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "2b6c5da4ceb22ce5ac0d69f420fd0350",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.8",
+                "size": 14321,
+                "upload_time": "2022-01-18T03:13:14",
+                "upload_time_iso_8601": "2022-01-18T03:13:14.733753Z",
+                "url": "https://files.pythonhosted.org/packages/17/f7/2e363cfdd633fa179b2e545d7fde1502ec870d7d512ba6594ebfa97886f2/nango-0.0.13-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "c4431e1f416510cd198e44dfdb4f4ae9",
+                    "sha256": "1df13a66dc76878ff0e8e11b66dcc61b9e65bdd44560323ed4b9efb3b3b47b38"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.13.tar.gz",
+                "has_sig": false,
+                "md5_digest": "c4431e1f416510cd198e44dfdb4f4ae9",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.8",
+                "size": 17439,
+                "upload_time": "2022-01-18T03:13:16",
+                "upload_time_iso_8601": "2022-01-18T03:13:16.089381Z",
+                "url": "https://files.pythonhosted.org/packages/ea/e0/09f2561b37dee4a3ce83ce1d2876a859306f59f88a00eee3b345e1a67e6e/nango-0.0.13.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "0.0.14": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "6dff3f9e9c7fb2306ff8a0ee3dda8aba",
+                    "sha256": "5b2241127c11d58c0800988371823bc1632298baa4625e7035b598a999c68968"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.14-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "6dff3f9e9c7fb2306ff8a0ee3dda8aba",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.8",
+                "size": 16725,
+                "upload_time": "2022-01-23T04:52:12",
+                "upload_time_iso_8601": "2022-01-23T04:52:12.442350Z",
+                "url": "https://files.pythonhosted.org/packages/1b/96/852801a0837e6e54fa9144c580a390c68fd7e75c9f307d1ef059d6e46bea/nango-0.0.14-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "a5a387e04924e535aa9aeddf7473d398",
+                    "sha256": "516235c8ab72db2dfa864eefad11efea63f740c2f7b6951ae8ce2ce32fdafa6e"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.14.tar.gz",
+                "has_sig": false,
+                "md5_digest": "a5a387e04924e535aa9aeddf7473d398",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.8",
+                "size": 19756,
+                "upload_time": "2022-01-23T04:52:15",
+                "upload_time_iso_8601": "2022-01-23T04:52:15.189249Z",
+                "url": "https://files.pythonhosted.org/packages/d0/31/26c81d442f1438c93fc02cdecf311df750ab7059ca4c0aed013b4a7c9681/nango-0.0.14.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "0.0.15": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "596cc5697ecf9956c24a81d49218c148",
+                    "sha256": "6f0816287435aa8c19e3274fd39bd1b7462ab8c42a89eed44af1200bc92dc55a"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.15-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "596cc5697ecf9956c24a81d49218c148",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.8",
+                "size": 16729,
+                "upload_time": "2022-01-23T05:22:09",
+                "upload_time_iso_8601": "2022-01-23T05:22:09.874052Z",
+                "url": "https://files.pythonhosted.org/packages/09/33/74c9d7072d57afaa37da6e1f4129f5224af661fb45f5f81cb75bd69b9dc1/nango-0.0.15-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "99967a5f2496b278b713bc47e27faea8",
+                    "sha256": "6d831bb4640091a61218a13e2ed861f41d4ea4fc9945b8b77c1ffbb6bbd2d66b"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.15.tar.gz",
+                "has_sig": false,
+                "md5_digest": "99967a5f2496b278b713bc47e27faea8",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.8",
+                "size": 19722,
+                "upload_time": "2022-01-23T05:22:12",
+                "upload_time_iso_8601": "2022-01-23T05:22:12.158772Z",
+                "url": "https://files.pythonhosted.org/packages/92/42/7240aa53e7c25e36b7d4936c5cc91d0f679f3f641fc6313ae2308d3a6e86/nango-0.0.15.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "0.0.16": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "9b76c93285244475fe677a0b5139dcc9",
+                    "sha256": "0bfba2b5d39aafc68d30a6443496c89d44a7d72a35414317afde88a5d92de90d"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.16-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "9b76c93285244475fe677a0b5139dcc9",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.8",
+                "size": 17604,
+                "upload_time": "2022-01-23T05:53:25",
+                "upload_time_iso_8601": "2022-01-23T05:53:25.337122Z",
+                "url": "https://files.pythonhosted.org/packages/8d/c3/20f604ae01912de4469bbd1dc9d9c9a80b2bfa0d337ba2422f3892c1dd16/nango-0.0.16-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "123122c6bf8f660e5a759952c1b5292a",
+                    "sha256": "68814fcf242cd0d4662e0851b82eb3fc4a28d72c0c710595baf08537b1e03ce1"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.16.tar.gz",
+                "has_sig": false,
+                "md5_digest": "123122c6bf8f660e5a759952c1b5292a",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.8",
+                "size": 20086,
+                "upload_time": "2022-01-23T05:53:27",
+                "upload_time_iso_8601": "2022-01-23T05:53:27.605300Z",
+                "url": "https://files.pythonhosted.org/packages/0f/d7/e116ab8a45e8aa691389ed7c439b5e07f18a67f5ee10325e20de557912c3/nango-0.0.16.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "0.0.17": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "73e2092915b0677812097a9dea69049c",
+                    "sha256": "fbba6f5509ef671fdf36b95270bf575f4b93ef98a3f177fb02c01cfbed2a72e0"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.17-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "73e2092915b0677812097a9dea69049c",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.8",
+                "size": 17406,
+                "upload_time": "2022-01-24T03:17:47",
+                "upload_time_iso_8601": "2022-01-24T03:17:47.644319Z",
+                "url": "https://files.pythonhosted.org/packages/ee/f0/fd834776bd7bba45831e7ddb278cab676d7b11161fe6adf877f34aabeda9/nango-0.0.17-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "d323606213f3ccfd99a518f7ac4c11de",
+                    "sha256": "050c970b29970fe0bd577ee0e4704ea926dfbe35df06913dddeed70fd0fd83ee"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.17.tar.gz",
+                "has_sig": false,
+                "md5_digest": "d323606213f3ccfd99a518f7ac4c11de",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.8",
+                "size": 20178,
+                "upload_time": "2022-01-24T03:17:49",
+                "upload_time_iso_8601": "2022-01-24T03:17:49.287503Z",
+                "url": "https://files.pythonhosted.org/packages/62/c5/c5e2b12399ea28b4a08c8983846b1390c791bc5124ac48ff9e9e90ffc113/nango-0.0.17.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "0.0.2": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "111c1fb4c055260f800a41e61a52454c",
+                    "sha256": "58918d82993aea12dded25a95e213113b0f4018402e59b3b64ad699649f85391"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.2-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "111c1fb4c055260f800a41e61a52454c",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.8",
+                "size": 13544,
+                "upload_time": "2022-01-09T09:39:39",
+                "upload_time_iso_8601": "2022-01-09T09:39:39.724408Z",
+                "url": "https://files.pythonhosted.org/packages/97/8f/62bbcde28abd895a21759f8fe0f278f1fe0c2f966db5eece6839e2755a21/nango-0.0.2-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "d791be00c8b1b76f17f6a285c62a54c4",
+                    "sha256": "4fcb00c74a77227c7d6e5e9d0d3ea22424357a52e64d66f5675044e07f2fca3b"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.2.tar.gz",
+                "has_sig": false,
+                "md5_digest": "d791be00c8b1b76f17f6a285c62a54c4",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.8",
+                "size": 16796,
+                "upload_time": "2022-01-09T09:39:41",
+                "upload_time_iso_8601": "2022-01-09T09:39:41.357048Z",
+                "url": "https://files.pythonhosted.org/packages/fb/9d/0104bf6cbd78a5db3fbb6281ecd01ee8098338bcf8a8b8df8bd8767edcf5/nango-0.0.2.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "0.0.3": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "891d157a3f69e137ce3c3d562b44f9c2",
+                    "sha256": "bed76a7cb390b43be596cf9cd42a0c6b6918248a3c277e2bb556e3b0cc498b9c"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.3-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "891d157a3f69e137ce3c3d562b44f9c2",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.8",
+                "size": 13571,
+                "upload_time": "2022-01-09T09:48:26",
+                "upload_time_iso_8601": "2022-01-09T09:48:26.640677Z",
+                "url": "https://files.pythonhosted.org/packages/d3/41/06a7e778a824b2d271cdb6e81b654ed11b61d61a17c579ffb39bceb57197/nango-0.0.3-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "df3ecb979da53f41f85ccfb830b994c0",
+                    "sha256": "14b0b7d094b72ca027ae1dc663c78fca8c935614ed8c31caccafa5122e475f74"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.3.tar.gz",
+                "has_sig": false,
+                "md5_digest": "df3ecb979da53f41f85ccfb830b994c0",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.8",
+                "size": 16814,
+                "upload_time": "2022-01-09T09:48:28",
+                "upload_time_iso_8601": "2022-01-09T09:48:28.321661Z",
+                "url": "https://files.pythonhosted.org/packages/0d/df/248333f4b4685912b6c9bd51c6c4891af8a4d32784988d76a91e97e9f6f3/nango-0.0.3.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "0.0.4": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "841264a56fe41c828e32d1237059fa52",
+                    "sha256": "cad67be81ff410be51fb7e860d1ed5318324a6b54834e1d63e8f092e3a7a2136"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.4-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "841264a56fe41c828e32d1237059fa52",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.8",
+                "size": 13574,
+                "upload_time": "2022-01-09T09:56:23",
+                "upload_time_iso_8601": "2022-01-09T09:56:23.528067Z",
+                "url": "https://files.pythonhosted.org/packages/0b/01/f50491bc026aca789ff36972f89e2750e9b410ff67b80db99cdca3cd25dd/nango-0.0.4-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "4dacfaac548b3f6c8c26c3529b9c6445",
+                    "sha256": "97a27de9c74a7553ceec81204d1018754d9395a342693e8fdf71948ec6874cf7"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.4.tar.gz",
+                "has_sig": false,
+                "md5_digest": "4dacfaac548b3f6c8c26c3529b9c6445",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.8",
+                "size": 16835,
+                "upload_time": "2022-01-09T09:56:25",
+                "upload_time_iso_8601": "2022-01-09T09:56:25.195676Z",
+                "url": "https://files.pythonhosted.org/packages/01/30/1468fbba2a4a80ccecabc5df482d686f151bd402b8f147ef62e7e75b7ac3/nango-0.0.4.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "0.0.5": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "d8d9cb30de426281f6234fa2465ca56e",
+                    "sha256": "21ea74cda097f9006ac01efb8c74c61c73203f99432347964acda30b72fba80d"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.5-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "d8d9cb30de426281f6234fa2465ca56e",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.8",
+                "size": 13720,
+                "upload_time": "2022-01-09T10:08:10",
+                "upload_time_iso_8601": "2022-01-09T10:08:10.755555Z",
+                "url": "https://files.pythonhosted.org/packages/84/04/a7ab0ae1ff26f8b39fb25e552ff6889fe222cde95bc446fa31e185198e8f/nango-0.0.5-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "9af2ed09f090c7a68207f39f053e61f5",
+                    "sha256": "4cb6bd83a740c348b770e3de44181f1e5142af1c8b41db1db1a0947d81bd3e82"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.5.tar.gz",
+                "has_sig": false,
+                "md5_digest": "9af2ed09f090c7a68207f39f053e61f5",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.8",
+                "size": 16932,
+                "upload_time": "2022-01-09T10:08:12",
+                "upload_time_iso_8601": "2022-01-09T10:08:12.343174Z",
+                "url": "https://files.pythonhosted.org/packages/9c/57/284e2804627151746ba52f74bd1d84efff072e82e871a0b8a7de973e7813/nango-0.0.5.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "0.0.6": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "0aa7d48d44c594248ca7a54bdf04d486",
+                    "sha256": "2633fcbba3c5007c98e1b59f879f3d6c44efee1c2833c852c1d5740245de5b62"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.6-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "0aa7d48d44c594248ca7a54bdf04d486",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.8",
+                "size": 13794,
+                "upload_time": "2022-01-09T10:15:39",
+                "upload_time_iso_8601": "2022-01-09T10:15:39.061271Z",
+                "url": "https://files.pythonhosted.org/packages/da/53/551811e7c7f80263c54880e8b5e3f7f64668900fadb34493759428c043e8/nango-0.0.6-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "651275fef771ab01bce61b1567f5b7ff",
+                    "sha256": "e486d84599c82d554f68d8046004a420c87cb97743da25bd6c4ab3384bf816ad"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.6.tar.gz",
+                "has_sig": false,
+                "md5_digest": "651275fef771ab01bce61b1567f5b7ff",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.8",
+                "size": 16946,
+                "upload_time": "2022-01-09T10:15:40",
+                "upload_time_iso_8601": "2022-01-09T10:15:40.313578Z",
+                "url": "https://files.pythonhosted.org/packages/a0/86/9cd69d9507c3aa88af27e00e607ae81ee141bbd24f0f5af67a730d456ed2/nango-0.0.6.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "0.0.7": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "2ab074a23c0c0a8103030e35e75439bf",
+                    "sha256": "245f17a0c426a7165812f9b6525fbb5fff0809fece83feec9eea09190328b84a"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.7-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "2ab074a23c0c0a8103030e35e75439bf",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.8",
+                "size": 13833,
+                "upload_time": "2022-01-09T10:22:55",
+                "upload_time_iso_8601": "2022-01-09T10:22:55.373178Z",
+                "url": "https://files.pythonhosted.org/packages/1b/3b/e656ca21a8e643c3be1673185038e44c68eaef8c4f99c4d5a79bb96722ab/nango-0.0.7-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "67a5eb6cc04fd464df97207a513af4bf",
+                    "sha256": "08097b5112904739f4aad94c7968bf47b4295ce2e738f3fac83c08f4a5e374e1"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.7.tar.gz",
+                "has_sig": false,
+                "md5_digest": "67a5eb6cc04fd464df97207a513af4bf",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.8",
+                "size": 17000,
+                "upload_time": "2022-01-09T10:22:57",
+                "upload_time_iso_8601": "2022-01-09T10:22:57.061746Z",
+                "url": "https://files.pythonhosted.org/packages/96/9a/d5b12aac937f3f28d793c318a22b76ea340584491f3aa347b4d19a198035/nango-0.0.7.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "0.0.8": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "1fd5e1b80bad682665c81563db4aa0d6",
+                    "sha256": "76196959090008da37cd786a4d09d367e91434635198fa30b534b6874961935a"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.8-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "1fd5e1b80bad682665c81563db4aa0d6",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.8",
+                "size": 13836,
+                "upload_time": "2022-01-09T10:28:14",
+                "upload_time_iso_8601": "2022-01-09T10:28:14.004446Z",
+                "url": "https://files.pythonhosted.org/packages/a2/c1/f13cebad83f24b24d814bcf6a70d9fcecfd1576d7158d2edc5b3972a7707/nango-0.0.8-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "9e7248e0ab61dcc890fb10cbedcc6957",
+                    "sha256": "c8d6ff46bc1913878abfc108504c367cb85b4fb89f7056b1f464b50613e1c717"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.8.tar.gz",
+                "has_sig": false,
+                "md5_digest": "9e7248e0ab61dcc890fb10cbedcc6957",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.8",
+                "size": 17016,
+                "upload_time": "2022-01-09T10:28:15",
+                "upload_time_iso_8601": "2022-01-09T10:28:15.784045Z",
+                "url": "https://files.pythonhosted.org/packages/7f/47/652523e4b3e12fbf40b12e545a548a9b4ac09852d4448e8820da6e7f6a30/nango-0.0.8.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "0.0.9": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "52452e9e100a80fe410d55421c1b76ce",
+                    "sha256": "a32efc74bcae1dd081347008a98ace1987b88e0f9a133d2b82e6e057828c094d"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.9-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "52452e9e100a80fe410d55421c1b76ce",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.8",
+                "size": 13849,
+                "upload_time": "2022-01-09T10:36:11",
+                "upload_time_iso_8601": "2022-01-09T10:36:11.863653Z",
+                "url": "https://files.pythonhosted.org/packages/01/eb/f6e5762f9fc39ce26ef6304197a63632b43e0af07ccc77bf5ed0e35bb72f/nango-0.0.9-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "bd9542c4c9f25bf400bfe87b76c7cb99",
+                    "sha256": "935a88aa56714d260fb344cfeb62520b74649cdfbf9e7350a35cb38a999504e5"
+                },
+                "downloads": -1,
+                "filename": "nango-0.0.9.tar.gz",
+                "has_sig": false,
+                "md5_digest": "bd9542c4c9f25bf400bfe87b76c7cb99",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.8",
+                "size": 17008,
+                "upload_time": "2022-01-09T10:36:13",
+                "upload_time_iso_8601": "2022-01-09T10:36:13.173377Z",
+                "url": "https://files.pythonhosted.org/packages/56/2c/0924f35d7c4a9138c5e209ed47305e6aeac1cd7867d79e12743da7031a1b/nango-0.0.9.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "0.1.0": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "fde113e8fa989d00851f0db2cb03754a",
+                    "sha256": "cb4a522c2c418d5a6dda4088165720c91bf5ce7363b808b5f4eacb5edc170227"
+                },
+                "downloads": -1,
+                "filename": "nango-0.1.0-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "fde113e8fa989d00851f0db2cb03754a",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.8",
+                "size": 17774,
+                "upload_time": "2022-02-12T22:43:55",
+                "upload_time_iso_8601": "2022-02-12T22:43:55.240348Z",
+                "url": "https://files.pythonhosted.org/packages/e8/e7/6580381d450b142e9a5cf54673cdb610d34febe58442c9778c515f903cfa/nango-0.1.0-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "c29ce417c077d6b3db5e536047c63aa6",
+                    "sha256": "1332ab9358557b5ecee9bce07fe03fe574e7ffa28e8541379ff1c24e3d0cc5d5"
+                },
+                "downloads": -1,
+                "filename": "nango-0.1.0.tar.gz",
+                "has_sig": false,
+                "md5_digest": "c29ce417c077d6b3db5e536047c63aa6",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.8",
+                "size": 21567,
+                "upload_time": "2022-02-12T22:43:56",
+                "upload_time_iso_8601": "2022-02-12T22:43:56.745233Z",
+                "url": "https://files.pythonhosted.org/packages/e3/f2/1eb3d01c4322f2413166fa803603dbb16281ce35877ba5f56ec3d96cab03/nango-0.1.0.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "0.1.1": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "516d5c9978e9987ebc28f3f426aa98ac",
+                    "sha256": "c68b60c54981c2c165c1b036887bcf90a986446a22e9bd69f41c8c4368af54f5"
+                },
+                "downloads": -1,
+                "filename": "nango-0.1.1-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "516d5c9978e9987ebc28f3f426aa98ac",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.8",
+                "size": 17793,
+                "upload_time": "2022-02-12T23:22:03",
+                "upload_time_iso_8601": "2022-02-12T23:22:03.403339Z",
+                "url": "https://files.pythonhosted.org/packages/cf/60/7ed4d7529a290a4a2b4aedb4411c342d24425703f416b6ef554c4d48665c/nango-0.1.1-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "c22cd189e4ce02a005371972da423c73",
+                    "sha256": "ac0c0a8e692df5bd015c6871bda9089be31d2fb3a5fb84d1d7e50341fef26d2a"
+                },
+                "downloads": -1,
+                "filename": "nango-0.1.1.tar.gz",
+                "has_sig": false,
+                "md5_digest": "c22cd189e4ce02a005371972da423c73",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.8",
+                "size": 29029,
+                "upload_time": "2022-02-12T23:22:04",
+                "upload_time_iso_8601": "2022-02-12T23:22:04.992476Z",
+                "url": "https://files.pythonhosted.org/packages/d7/9e/b4e217d4509b9efa26637be8f93331123e19400267c81f4296149bd1677b/nango-0.1.1.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ],
+        "0.1.2": [
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "10933b26b1b62b7d275025d0c89db3bd",
+                    "sha256": "e283dcffec4e8ed952667e8a4ccea48bb343ae5530e4caf017b0b0b7d5495f95"
+                },
+                "downloads": -1,
+                "filename": "nango-0.1.2-py3-none-any.whl",
+                "has_sig": false,
+                "md5_digest": "10933b26b1b62b7d275025d0c89db3bd",
+                "packagetype": "bdist_wheel",
+                "python_version": "py3",
+                "requires_python": ">=3.8",
+                "size": 17795,
+                "upload_time": "2022-02-12T23:39:48",
+                "upload_time_iso_8601": "2022-02-12T23:39:48.897997Z",
+                "url": "https://files.pythonhosted.org/packages/db/4a/fbaf187b3dcc3babe043aeffa35058420dd4460d69b3b067ed6039e9af7e/nango-0.1.2-py3-none-any.whl",
+                "yanked": false,
+                "yanked_reason": null
+            },
+            {
+                "comment_text": "",
+                "digests": {
+                    "md5": "84a8e3da33273ed7c2d714d55a4060d9",
+                    "sha256": "9048b8d3f76d7404d3115fb83c29de97fc2af5420a8642781ea0078c361325af"
+                },
+                "downloads": -1,
+                "filename": "nango-0.1.2.tar.gz",
+                "has_sig": false,
+                "md5_digest": "84a8e3da33273ed7c2d714d55a4060d9",
+                "packagetype": "sdist",
+                "python_version": "source",
+                "requires_python": ">=3.8",
+                "size": 29018,
+                "upload_time": "2022-02-12T23:39:50",
+                "upload_time_iso_8601": "2022-02-12T23:39:50.420886Z",
+                "url": "https://files.pythonhosted.org/packages/1a/f2/8df397558501a97f4693c2394d1f628cabd0e052ef0a4c67ba4c9a7f48c3/nango-0.1.2.tar.gz",
+                "yanked": false,
+                "yanked_reason": null
+            }
+        ]
+    },
+    "urls": [
+        {
+            "comment_text": "",
+            "digests": {
+                "md5": "10933b26b1b62b7d275025d0c89db3bd",
+                "sha256": "e283dcffec4e8ed952667e8a4ccea48bb343ae5530e4caf017b0b0b7d5495f95"
+            },
+            "downloads": -1,
+            "filename": "nango-0.1.2-py3-none-any.whl",
+            "has_sig": false,
+            "md5_digest": "10933b26b1b62b7d275025d0c89db3bd",
+            "packagetype": "bdist_wheel",
+            "python_version": "py3",
+            "requires_python": ">=3.8",
+            "size": 17795,
+            "upload_time": "2022-02-12T23:39:48",
+            "upload_time_iso_8601": "2022-02-12T23:39:48.897997Z",
+            "url": "https://files.pythonhosted.org/packages/db/4a/fbaf187b3dcc3babe043aeffa35058420dd4460d69b3b067ed6039e9af7e/nango-0.1.2-py3-none-any.whl",
+            "yanked": false,
+            "yanked_reason": null
+        },
+        {
+            "comment_text": "",
+            "digests": {
+                "md5": "84a8e3da33273ed7c2d714d55a4060d9",
+                "sha256": "9048b8d3f76d7404d3115fb83c29de97fc2af5420a8642781ea0078c361325af"
+            },
+            "downloads": -1,
+            "filename": "nango-0.1.2.tar.gz",
+            "has_sig": false,
+            "md5_digest": "84a8e3da33273ed7c2d714d55a4060d9",
+            "packagetype": "sdist",
+            "python_version": "source",
+            "requires_python": ">=3.8",
+            "size": 29018,
+            "upload_time": "2022-02-12T23:39:50",
+            "upload_time_iso_8601": "2022-02-12T23:39:50.420886Z",
+            "url": "https://files.pythonhosted.org/packages/1a/f2/8df397558501a97f4693c2394d1f628cabd0e052ef0a4c67ba4c9a7f48c3/nango-0.1.2.tar.gz",
+            "yanked": false,
+            "yanked_reason": null
+        }
+    ],
+    "vulnerabilities": []
+}

@@ -185,8 +185,7 @@ def package_autocomplete(request):
     Provides Package matching based on matches of the beginning
     """
     titles = []
-    q = request.GET.get("q", "")
-    if q:
+    if q := request.GET.get("q", ""):
         titles = (x.title for x in Package.objects.filter(title__istartswith=q))
 
     response = HttpResponse("\n".join(titles))
@@ -229,8 +228,7 @@ def ajax_package_list(request, template_name="package/ajax_package_list.html"):
     packages_already_added_list = []
     grid_slug = request.GET.get("grid", "")
     if packages and grid_slug:
-        grids = Grid.objects.filter(slug=grid_slug)
-        if grids:
+        if grids := Grid.objects.filter(slug=grid_slug):
             grid = grids.first()
             packages_already_added_list = [
                 x["slug"] for x in grid.packages.all().values("slug")
@@ -321,11 +319,38 @@ def python3_list(request, template_name="package/python3_list.html"):
     packages = Package.objects.filter(version__supports_python3=True).distinct()
     packages = packages.order_by("-pypi_downloads", "-repo_watchers", "title")
 
-    values = "category, category_id, commit, commit_list, created, created_by, created_by_id, documentation_url, dpotw, grid, gridpackage, id, last_fetched, last_modified_by, last_modified_by_id, modified, packageexample, participants, pypi_downloads, pypi_url, repo_description, repo_forks, repo_url, repo_watchers, slug, title, usage, version".split(
-        ","
-    )
-    values = [x.strip() for x in values]
-    if request.GET.get("sort") and request.GET.get("sort") not in values:
+    values = [
+        "category",
+        "category_id",
+        "commit",
+        "commit_list",
+        "created",
+        "created_by",
+        "created_by_id",
+        "documentation_url",
+        "dpotw",
+        "grid",
+        "gridpackage",
+        "id",
+        "last_fetched",
+        "last_modified_by",
+        "last_modified_by_id",
+        "modified",
+        "packageexample",
+        "participants",
+        "pypi_downloads",
+        "pypi_url",
+        "repo_description",
+        "repo_forks",
+        "repo_url",
+        "repo_watchers",
+        "slug",
+        "title",
+        "usage",
+        "version",
+    ]
+    sort = request.GET.pop("sort")
+    if sort and sort not in values:
         # Some people have cached older versions of this view
         request.GET = request.GET.copy()
         del request.GET["sort"]

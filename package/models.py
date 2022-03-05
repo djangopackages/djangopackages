@@ -1,22 +1,23 @@
-from datetime import datetime, timedelta
 import json
 import re
 import math
+from datetime import timedelta
 from dateutil import relativedelta
 
-from django.core.cache import cache
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
+from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
-from django.utils.timezone import now
-from django.utils import timezone
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.functional import cached_property
+from django.utils.timezone import now
 from packaging.specifiers import SpecifierSet
+from rich import print
 
-from distutils.version import LooseVersion as versioner
+from distutils.version import LooseVersion
 import requests
 
 from core.utils import STATUS_CHOICES, status_choices_switch
@@ -103,7 +104,7 @@ class Package(BaseModel):
     last_modified_by = models.ForeignKey(
         User, blank=True, null=True, related_name="modifier", on_delete=models.SET_NULL
     )
-    last_fetched = models.DateTimeField(blank=True, null=True, default=timezone.now)
+    last_fetched = models.DateTimeField(blank=True, null=True, default=now)
     documentation_url = models.URLField(
         _("Documentation URL"), blank=True, null=True, default=""
     )
@@ -112,6 +113,9 @@ class Package(BaseModel):
     score = models.IntegerField(_("Score"), default=0)
 
     date_deprecated = models.DateTimeField(blank=True, null=True)
+    date_repo_archived = models.DateTimeField(
+        _("date when repo was archived"), blank=True, null=True
+    )
     deprecated_by = models.ForeignKey(
         User, blank=True, null=True, related_name="deprecator", on_delete=models.PROTECT
     )
@@ -123,11 +127,19 @@ class Package(BaseModel):
         on_delete=models.PROTECT,
     )
 
+    class Meta:
+        ordering = ["title"]
+        get_latest_by = "id"
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse("package", args=[self.slug])
+
     @cached_property
     def is_deprecated(self):
-        if self.date_deprecated is None:
-            return False
-        return True
+        return self.date_deprecated is not None
 
     def get_pypi_uri(self):
         if self.pypi_name and len(self.pypi_name):
@@ -216,14 +228,13 @@ class Package(BaseModel):
         value = cache.get(cache_name)
         if value is not None:
             return value
-        now = datetime.now()
         commits = self.commit_set.filter(
-            commit_date__gt=now - timedelta(weeks=52),
+            commit_date__gt=now() - timedelta(weeks=52),
         ).values_list("commit_date", flat=True)
 
         weeks = [0] * 52
         for cdate in commits:
-            age_weeks = (now - cdate).days // 7
+            age_weeks = (now() - cdate).days // 7
             if age_weeks < 52:
                 weeks[age_weeks] += 1
 
@@ -231,89 +242,136 @@ class Package(BaseModel):
         cache.set(cache_name, value)
         return value
 
-    def fetch_pypi_data(self, *args, **kwargs):
+    def fetch_pypi_data(self):
         # Get the releases from pypi
         if self.pypi_url and len(self.pypi_url.strip()):
+            licenses = []
             total_downloads = 0
-            response = requests.get(self.get_pypi_json_uri())
-            if settings.DEBUG:
-                if response.status_code not in (200, 404):
-                    print("BOOM!")
-                    print((self, response.status_code))
-                    print(response.content)
-                    return False
-            if response.status_code == 404:
+            pypi_json_uri = self.get_pypi_json_uri()
+            if pypi_json_uri:
+                response = requests.get(pypi_json_uri)
                 if settings.DEBUG:
-                    print("BOOM! this package probably does not exist on pypi")
-                    print((self, response.status_code))
+                    if response.status_code not in (200, 404):
+                        print("BOOM!")
+                        print(f"[red]{self}[/red], {response.status_code}")
+                        print(response.content)
+                        return False
+
+                if response.status_code == 404:
+                    if settings.DEBUG:
+                        print(
+                            "[red]BOOM! this package probably does not exist on pypi[/red]"
+                        )
+                        print(f"[red]{self}[/red], {response.status_code}")
+                        print(response.url)
+
                     # If we get a 404, we can stop checking this url...
-                    # self.pypi_url = ""
-                    # self.save()
-                return False
-            release = json.loads(response.content)
-            info = release["info"]
+                    self.pypi_url = ""
+                    self.save()
+                    return False
 
-            version, created = Version.objects.get_or_create(
-                package=self, number=info["version"]
-            )
+                release = json.loads(response.content)
+                info = release["info"]
 
-            if "classifiers" in info and len(info["classifiers"]):
-                self.pypi_classifiers = info["classifiers"]
+                version, created = Version.objects.get_or_create(
+                    package=self, number=info["version"]
+                )
 
-            if "requires_python" in info and info["requires_python"]:
-                self.pypi_requires_python = info["requires_python"]
-                if self.pypi_requires_python and "3" in SpecifierSet(
-                    self.pypi_requires_python
-                ):
-                    self.supports_python3 = True
+                if "classifiers" in info and len(info["classifiers"]):
+                    self.pypi_classifiers = info["classifiers"]
 
-            # add to versions
-            if "license" in info and info["license"]:
-                licenses = [info["license"]]
-                for index, license in enumerate(licenses):
-                    if license or "UNKNOWN" == license.upper():
-                        for classifier in info["classifiers"]:
-                            if classifier.startswith("License"):
-                                licenses[index] = classifier.split("::")[-1].strip()
-                                break
+                    for classifier in info["classifiers"]:
+                        if classifier.startswith("Development Status"):
+                            version.development_status = status_choices_switch(
+                                classifier
+                            )
 
-                version.licenses = licenses
-                version.license = licenses[0]
+                        elif classifier.startswith("License"):
+                            licenses.append(classifier.split("::")[-1].strip())
 
-            # version stuff
-            try:
-                url_data = release["urls"][0]
-                version.downloads = url_data["downloads"]
-                version.upload_time = url_data["upload_time"]
-            except IndexError:
-                # Not a real release so we just guess the upload_time.
-                version.upload_time = version.created
+                        elif classifier.startswith(
+                            "Programming Language :: Python :: 3"
+                        ):
+                            version.supports_python3 = True
+                            if not self.supports_python3:
+                                self.supports_python3 = True
 
-            for classifier in info["classifiers"]:
-                if classifier.startswith("Development Status"):
-                    version.development_status = status_choices_switch(classifier)
-                    break
-            for classifier in info["classifiers"]:
-                if classifier.startswith("Programming Language :: Python :: 3"):
-                    version.supports_python3 = True
-                    if not self.supports_python3:
+                if "requires_python" in info and info["requires_python"]:
+                    self.pypi_requires_python = info["requires_python"]
+                    if self.pypi_requires_python and any(
+                        [
+                            True
+                            for ver in [
+                                "3.11",
+                                "3.10",
+                                "3.9",
+                                "3.8",
+                                "3.7",
+                                "3.6",
+                                "3.5",
+                                "3.4",
+                                "3.3",
+                                "3.2",
+                                "3.1",
+                                "3",
+                            ]
+                            if ver in SpecifierSet(self.pypi_requires_python)
+                        ]
+                    ):
                         self.supports_python3 = True
-                    break
-            version.save()
+                    else:
+                        self.supports_python3 = False
 
-            self.pypi_downloads = total_downloads
-            # Calculate total downloads
+                # do we have a license set?
+                if "license" in info and info["license"]:
+                    license = normalize_license(info["license"])
+                    # TODO: revisit this
+                    licenses = [license]
+                    for classifier in info["classifiers"]:
+                        if classifier.startswith("License"):
+                            licenses.append(classifier.split("::")[-1].strip())
+                            break
 
-            return True
+                if len(licenses):
+                    version.licenses = licenses
+                    version.license = licenses[0]
+
+                    if self.pypi_license != version.license:
+                        self.pypi_license = version.license
+
+                    if self.pypi_licenses != version.licenses:
+                        self.pypi_licenses = version.licenses
+
+                # version stuff
+                try:
+                    url_data = release["urls"][0]
+                    version.downloads = url_data["downloads"]
+                    version.upload_time = url_data["upload_time"]
+                except (IndexError, KeyError):
+                    # Not a real release so we just guess the upload_time.
+                    version.upload_time = version.created
+
+                version.save()
+
+                # Calculate total downloads
+                self.pypi_downloads = total_downloads
+
+                return True
+
         return False
 
-    def fetch_metadata(self, fetch_pypi=True, fetch_repo=True):
+    def fetch_metadata(self, fetch_pypi: bool = True, fetch_repo: bool = True):
 
         if fetch_pypi:
             self.fetch_pypi_data()
+
         if fetch_repo:
             self.repo.fetch_metadata(self)
+
         signal_fetch_latest_metadata.send(sender=self)
+
+        self.last_fetched = timezone.now()
+
         self.save()
 
     def grid_clear_detail_template_cache(self):
@@ -329,14 +387,20 @@ class Package(BaseModel):
         delta = relativedelta.relativedelta(now(), self.last_updated())
         delta_months = (delta.years * 12) + delta.months
         last_updated_penalty = math.modf(delta_months / 3)[1] * self.repo_watchers / 10
-        last_version = self.version_set.last()
-        is_python_3 = last_version and last_version.supports_python3
-        # TODO: Address this better
+
+        try:
+            is_python_3 = bool(
+                self.version_set.only("supports_python3").last().supports_python3
+            )
+        except AttributeError:
+            is_python_3 = False
+
         python_3_penalty = (
             0 if is_python_3 else min([self.repo_watchers * 30 / 100, 1000])
         )
-        # penalty for docs maybe
-        return self.repo_watchers - last_updated_penalty - python_3_penalty
+
+        # penalty for docs maybe?
+        return max(-500, self.repo_watchers - last_updated_penalty - python_3_penalty)
 
     def save(self, *args, **kwargs):
         if not self.repo_description:
@@ -369,31 +433,22 @@ class Package(BaseModel):
     @property
     def development_status(self):
         """Gets data needed in API v2 calls"""
-        return self.last_released().pretty_status
+        if release := self.last_released():
+            return self.last_released().pretty_status
+        return None
 
     @property
     def pypi_ancient(self):
-        release = self.last_released()
-        if release:
-            return release.upload_time < datetime.now() - timedelta(365)
+        if release := self.last_released():
+            return release.upload_time < now() - timedelta(365)
         return None
 
     @property
     def no_development(self):
         commit_date = self.last_updated()
         if commit_date is not None:
-            return commit_date < datetime.now() - timedelta(365)
+            return commit_date < now() - timedelta(365)
         return None
-
-    class Meta:
-        ordering = ["title"]
-        get_latest_by = "id"
-
-    def __str__(self):
-        return self.title
-
-    def get_absolute_url(self):
-        return reverse("package", args=[self.slug])
 
     @property
     def last_commit(self):
@@ -447,7 +502,7 @@ class Commit(BaseModel):
         get_latest_by = "commit_date"
 
     def __str__(self):
-        return "Commit for '{}' on {}".format(self.package.title, str(self.commit_date))
+        return f"Commit for '{self.package.title}' on {self.commit_date}"
 
     def save(self, *args, **kwargs):
         # reset the last_updated and commits_over_52 caches on the package
@@ -467,7 +522,7 @@ class VersionManager(models.Manager):
 
         def generate_valid_versions(qs):
             for item in qs:
-                v = versioner(item.number)
+                v = LooseVersion(item.number)
                 comparable = True
                 for elem in v.version:
                     if isinstance(elem, str):
@@ -476,7 +531,11 @@ class VersionManager(models.Manager):
                     yield item
 
         return sorted(
-            list(generate_valid_versions(qs)), key=lambda v: versioner(v.number)
+            # list(qs), # TODO: Add back...
+            list(
+                generate_valid_versions(qs)
+            ),  # this would remove ["2.1.0.beta3", "2.1.0.rc1",]
+            key=lambda v: LooseVersion(v.number),
         )
 
     def by_version_not_hidden(self, *args, **kwargs):
