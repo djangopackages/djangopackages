@@ -111,7 +111,9 @@ def homepage(request, template_name="homepage.html"):
 
     # get up to 5 random packages
     package_list = Package.objects.filter(
-        date_deprecated__isnull=True, deprecated_by__isnull=True
+        date_deprecated__isnull=True,
+        date_repo_archived__isnull=True,
+        deprecated_by__isnull=True,
     ).values_list("pk", flat=True)
     package_count = len(package_list)
     random_packages = []
