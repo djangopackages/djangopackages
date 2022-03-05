@@ -2,7 +2,7 @@ from functools import lru_cache
 
 import feedparser
 from django.contrib.auth.models import User
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
@@ -17,64 +17,68 @@ class OpenView(TemplateView):
     template_name = "pages/open.html"
 
     def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-        data.update(
+        context_data = super().get_context_data(**kwargs)
+        classifiers = {
+            "total_django_2_2": "Framework :: Django :: 2.2",
+            "total_django_3_0": "Framework :: Django :: 3.0",
+            "total_django_3_1": "Framework :: Django :: 3.1",
+            "total_django_3_2": "Framework :: Django :: 3.2",
+            "total_django_4_0": "Framework :: Django :: 4.0",
+            "total_python_2_7": "Programming Language :: Python :: 2.7",
+            "total_python_3": "Programming Language :: Python :: 3",
+            "total_python_3_10": "Programming Language :: Python :: 3.10",
+            "total_python_3_11": "Programming Language :: Python :: 3.11",
+            "total_python_3_6": "Programming Language :: Python :: 3.6",
+            "total_python_3_7": "Programming Language :: Python :: 3.7",
+            "total_python_3_8": "Programming Language :: Python :: 3.8",
+            "total_python_3_9": "Programming Language :: Python :: 3.9",
+        }
+
+        for classifier in classifiers:
+            context_data[classifier] = Package.objects.filter(
+                pypi_classifiers__contains=[classifiers[classifier]]
+            ).count()
+
+        categories = Category.objects.all()
+        category_data = {}
+        for category in categories:
+            category_data[category] = Package.objects.filter(category=category).count()
+        context_data["categories"] = category_data
+
+        top_grid_list = (
+            Grid.objects.all()
+            .annotate(num_packages=Count("packages"))
+            .filter(num_packages__gt=15)
+            .order_by("-num_packages")[0:100]
+        )
+        top_user_list = (
+            User.objects.all()
+            .annotate(num_packages=Count("creator"))
+            .filter(num_packages__gt=10)
+            .order_by("-num_packages")
+        )
+
+        archive_packages = Package.objects.exclude(date_repo_archived__isnull=True)
+        deprecated_packages = Package.objects.exclude(
+            Q(date_deprecated__isnull=True), Q(deprecated_by__isnull=True)
+        )
+
+        context_data.update(
             {
-                "top_grid_list": Grid.objects.all()
-                .annotate(num_packages=Count("packages"))
-                .filter(num_packages__gt=15)
-                .order_by("-num_packages")[0:100],
-                "top_user_list": User.objects.all()
-                .annotate(num_packages=Count("creator"))
-                .filter(num_packages__gt=10)
-                .order_by("-num_packages")[:100],
+                "archive_packages": archive_packages.count(),
+                "deprecated_packages": deprecated_packages.count(),
+                "top_grid_list": top_grid_list[0:100],
+                "top_user_list": top_user_list[0:100],
                 "total_categories": Category.objects.count(),
                 "total_commits": Commit.objects.count(),
-                "total_django_2_2": Package.objects.filter(
-                    pypi_classifiers__contains=["Framework :: Django :: 2.2"]
-                ).count(),
-                "total_django_3_0": Package.objects.filter(
-                    pypi_classifiers__contains=["Framework :: Django :: 3.0"]
-                ).count(),
-                "total_django_3_1": Package.objects.filter(
-                    pypi_classifiers__contains=["Framework :: Django :: 3.1"]
-                ).count(),
-                "total_django_3_2": Package.objects.filter(
-                    pypi_classifiers__contains=["Framework :: Django :: 3.2"]
-                ).count(),
-                "total_django_4_0": Package.objects.filter(
-                    pypi_classifiers__contains=["Framework :: Django :: 4.0"]
-                ).count(),
                 "total_grids": Grid.objects.count(),
                 "total_packages": Package.objects.count(),
-                "total_python_3_10": Package.objects.filter(
-                    pypi_classifiers__contains=[
-                        "Programming Language :: Python :: 3.10"
-                    ]
-                ).count(),
-                "total_python_3_11": Package.objects.filter(
-                    pypi_classifiers__contains=[
-                        "Programming Language :: Python :: 3.11"
-                    ]
-                ).count(),
-                "total_python_3_6": Package.objects.filter(
-                    pypi_classifiers__contains=["Programming Language :: Python :: 3.6"]
-                ).count(),
-                "total_python_3_7": Package.objects.filter(
-                    pypi_classifiers__contains=["Programming Language :: Python :: 3.7"]
-                ).count(),
-                "total_python_3_8": Package.objects.filter(
-                    pypi_classifiers__contains=["Programming Language :: Python :: 3.8"]
-                ).count(),
-                "total_python_3_9": Package.objects.filter(
-                    pypi_classifiers__contains=["Programming Language :: Python :: 3.9"]
-                ).count(),
                 "total_users": User.objects.count(),
                 "total_versions": Version.objects.count(),
             }
         )
 
-        return data
+        return context_data
 
 
 class SitemapView(TemplateView):
@@ -111,7 +115,9 @@ def homepage(request, template_name="homepage.html"):
 
     # get up to 5 random packages
     package_list = Package.objects.filter(
-        date_deprecated__isnull=True, deprecated_by__isnull=True
+        date_deprecated__isnull=True,
+        date_repo_archived__isnull=True,
+        deprecated_by__isnull=True,
     ).values_list("pk", flat=True)
     package_count = len(package_list)
     random_packages = []

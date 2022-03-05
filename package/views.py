@@ -316,10 +316,9 @@ def usage(request, slug, action):
 
 
 def python3_list(request, template_name="package/python3_list.html"):
-    packages = Package.objects.filter(version__supports_python3=True).distinct()
-    packages = packages.order_by("-pypi_downloads", "-repo_watchers", "title")
-
-    values = [
+    # if sort and sort not in values:
+    # Some people have cached older versions of this view
+    allow_list = [
         "category",
         "category_id",
         "commit",
@@ -349,12 +348,36 @@ def python3_list(request, template_name="package/python3_list.html"):
         "usage",
         "version",
     ]
-    sort = request.GET.pop("sort")
-    if sort and sort not in values:
-        # Some people have cached older versions of this view
-        request.GET = request.GET.copy()
-        del request.GET["sort"]
 
+    direction = request.GET.get("dir")
+    sort = request.GET.get("sort")
+
+    """
+    These are workarounds primarily seach engine spiders trying weird
+    sorting options when they are crawling the website.
+    """
+    _mutable = request.GET._mutable
+    request.GET._mutable = True
+    request.GET = request.GET.copy()
+
+    # workaround for "blank" ?sort=desc bug
+    if direction == "desc" and sort is None:
+        request.GET["dir"] = ""
+        request.GET["sort"] = ""
+
+    # workaround for "blank" ?sort=desc bug
+    elif sort and sort not in allow_list:
+        request.GET["sort"] = ""
+        if direction == "desc":
+            request.GET["dir"] = ""
+
+    request.GET._mutable = _mutable
+
+    packages = (
+        Package.objects.filter(version__supports_python3=True)
+        .distinct()
+        .order_by("-pypi_downloads", "-repo_watchers", "title")
+    )
     return render(request, template_name, {"packages": packages})
 
 
