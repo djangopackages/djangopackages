@@ -1,17 +1,27 @@
 import pytest
 
-from django.test import TestCase
+from package.models import Commit
+from package.repos.gitlab import GitlabHandler
 
-from package.models import Package, Category
+
+@pytest.fixture()
+def gitlab_handler():
+    return GitlabHandler()
 
 
-class TestGitlabRepo(TestCase):
-    def setUp(self):
-        self.category = Category.objects.create(title="dummy", slug="dummy")
-        self.category.save()
-        self.package = Package.objects.create(
-            title="Django",
-            slug="django",
-            repo_url="https://gitlab.com/delta10/kees",
-            category=self.category,
-        )
+def test_fetch_commits(gitlab_handler, package_gitlab):
+    assert Commit.objects.count() == 0
+    gitlab_handler.fetch_commits(package_gitlab)
+    assert Commit.objects.count() > 0
+
+
+def test_fetch_metadata(gitlab_handler, package_gitlab):
+    assert package_gitlab.repo_watchers == 0
+    assert package_gitlab.repo_forks == 0
+    package = gitlab_handler.fetch_metadata(package_gitlab)
+    assert package.repo_description.startswith(
+        "A minimalistic API-driven case management system"
+    )
+    assert package.repo_watchers == 1
+    assert package.repo_forks == 0
+    assert package.participants == ""
