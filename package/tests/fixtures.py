@@ -24,8 +24,58 @@ def commit(db, package) -> Commit:
 
 
 @pytest.fixture()
+def package_bitbucket(db, category) -> Package:
+    return baker.make(
+        Package,
+        category=category,
+        repo_url="https://bitbucket.org/Manfre/django-mssql/",
+        slug="django-mssql",
+        title="django-mssql",
+    )
+
+
+@pytest.fixture()
+def package_gitlab(db, category) -> Package:
+    return baker.make(
+        Package,
+        category=category,
+        repo_url="https://gitlab.com/delta10/kees",
+        slug="django",
+        title="Django",
+    )
+
+
+@pytest.fixture()
 def package(db, category) -> Package:
-    return baker.make(Package, category=category)
+    return baker.make(
+        Package,
+        category=category,
+        repo_url="https://github.com/django/deps",
+        slug="deps",
+        title="Django Enhancement Proposals",
+    )
+
+
+@pytest.fixture()
+def package_archived(db, category) -> Package:
+    return baker.make(
+        Package,
+        category=category,
+        repo_url="https://github.com/pydanny/dj-paginator",
+        slug="dj-paginator",
+        title="dj-paginator",
+    )
+
+
+@pytest.fixture()
+def package_invalid(db, category) -> Package:
+    return baker.make(
+        Package,
+        category=category,
+        repo_url="https://example.com",
+        slug="invldpkg",
+        title="Invalid Package",
+    )
 
 
 @pytest.fixture()
