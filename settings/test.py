@@ -9,6 +9,7 @@ from settings.base import *  # noqa
 
 logging.disable(logging.CRITICAL)
 
+LOGGING_CONFIG = None
 
 ########## DEBUG
 DEBUG = False
@@ -33,3 +34,10 @@ MIDDLEWARE = [
         "whitenoise.middleware.WhiteNoiseMiddleware",
     ]
 ]
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.dummy.DummyCache",
+    }
+}
+
