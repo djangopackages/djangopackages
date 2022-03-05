@@ -245,8 +245,17 @@ class TestGithubRepo(TestBaseHandler):
         )
         self.assertTrue(package.repo_watchers > 100)
 
+    def test_fetch_metadata_archived_repo(self):
+        # test what happens when we reference an archived repository
+        assert self.archived_package.date_repo_archived is None
+        package = self.github_handler.fetch_metadata(self.archived_package)
+
+        assert self.archived_package.date_repo_archived is not None
+        assert package.repo_description == "Django + Pagination made easy."
+        assert package.date_repo_archived is not None
+
     def test_fetch_metadata_unsupported_repo(self):
-        # test what happens when setting up an unsupported repo
+        # test what happens when setting up an unsupported repository
         self.package.repo_url = "https://example.com"
         package = self.github_handler.fetch_metadata(self.invalid_package)
 
