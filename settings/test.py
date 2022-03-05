@@ -13,7 +13,7 @@ LOGGING_CONFIG = None
 
 ########## DEBUG
 DEBUG = False
-TEMPLATES[0]["OPTIONS"]["debug"] = DEBUG
+TEMPLATES[0]["OPTIONS"]["debug"] = DEBUG  # noqa
 SERVE_MEDIA = DEBUG
 
 
@@ -22,12 +22,12 @@ SERVE_MEDIA = DEBUG
 
 PASSWORD_HASHERS = ["django.contrib.auth.hashers.MD5PasswordHasher"]
 
-if "debug_toolbar" in INSTALLED_APPS:
-    INSTALLED_APPS.remove("debug_toolbar")
+if "debug_toolbar" in INSTALLED_APPS:  # noqa
+    INSTALLED_APPS.remove("debug_toolbar")  # noqa
 
 MIDDLEWARE = [
     middleware
-    for middleware in MIDDLEWARE
+    for middleware in MIDDLEWARE  # noqa
     if middleware
     not in [
         "debug_toolbar.middleware.DebugToolbarMiddleware",
@@ -35,8 +35,8 @@ MIDDLEWARE = [
     ]
 ]
 
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.dummy.DummyCache",
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django.core.cache.backends.dummy.DummyCache",
+#     }
+# }
