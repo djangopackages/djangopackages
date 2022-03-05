@@ -51,6 +51,6 @@ class Command(BaseCommand):
             except PackageUpdaterException:
                 logger.error(f"Unable to update {package.title}", exc_info=True)
 
-            print(f"{__file__}::handle::sleep(5)")
-            sleep(5)
+            print(f"{__file__}::handle::sleep(1)")
+            sleep(1)
         healthcheck(settings.PACKAGE_HEALTHCHECK_URL)
