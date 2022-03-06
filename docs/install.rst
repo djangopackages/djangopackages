@@ -33,6 +33,13 @@ There's an example file available. To get started, copy the file:
 
     cp .env.local.example .env.local
 
+Add A GitHub API Token
+----------------------
+
+Get a `GitHub API token <https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token>`_ and set the ``GITHUB_TOKEN`` variable in ``.env.local``
+to this value.  This is used by the GitHub repo handler for fetching repo
+metadata, and required for certain tests.
+
 Build the Docker Containers
 ---------------------------
 
@@ -40,7 +47,7 @@ Now build the project using docker-compose:
 
 .. code-block:: bash
 
-    docker-compose -f dev.yml build
+    docker-compose -f docker-compose.dev.yml build
 
 Run the Project
 ---------------
@@ -49,7 +56,7 @@ To start the project, run:
 
 .. code-block:: bash
 
-    docker-compose -f dev.yml up
+    docker-compose -f docker-compose.dev.yml up
 
 Then point your browser to http://localhost:8000 and start hacking!
 
@@ -62,7 +69,7 @@ Create a Django superuser for yourself, replacing joe with your username/email:
 
 .. code-block:: bash
 
-    docker-compose -f dev.yml run django python manage.py createsuperuser --username=joe --email=joe@example.com
+    docker-compose -f docker-compose.dev.yml run django python manage.py createsuperuser --username=joe --email=joe@example.com
 
 And then login into the admin interface (/admin/) and create a profile for your user filling all the fields with any data.
 

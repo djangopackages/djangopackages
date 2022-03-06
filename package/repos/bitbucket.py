@@ -1,13 +1,14 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
 import re
 from warnings import warn
 
+from django.utils.timezone import now
 
 from .base_handler import BaseHandler
 
 import requests
 
-API_TARGET = "https://api.bitbucket.org/1.0/repositories"
+API_TARGET = "https://api.bitbucket.org/2.0/repositories"
 
 descendants_re = re.compile(r"Forks/Queues \((?P<descendants>\d+)\)", re.IGNORECASE)
 
@@ -22,8 +23,9 @@ class BitbucketHandler(BaseHandler):
     def _get_bitbucket_commits(self, package):
         repo_name = package.repo_name()
         if repo_name.endswith("/"):
-            repo_name = repo_name[0:-1]
-        target = f"{API_TARGET}/{repo_name}/changesets/?limit=50"
+            repo_name = repo_name[:-1]
+        # not sure if the limit parameter does anything in api 2.0
+        target = f"{API_TARGET}/{repo_name}/commits/?limit=50"
         try:
             data = self.get_json(target)
         except requests.exceptions.HTTPError:
@@ -31,7 +33,7 @@ class BitbucketHandler(BaseHandler):
         if data is None:
             return []  # todo: log this?
 
-        return data.get("changesets", [])
+        return data.get("values", [])
 
     def fetch_commits(self, package):
         from package.models import (
@@ -39,20 +41,19 @@ class BitbucketHandler(BaseHandler):
         )  # Import placed here to avoid circular dependencies
 
         for commit in self._get_bitbucket_commits(package):
-            timestamp = commit["timestamp"].split("+")
+            timestamp = commit["date"].split("+")
             if len(timestamp) > 1:
                 timestamp = timestamp[0]
             else:
-                timestamp = commit["timestamp"]
+                timestamp = commit["date"]
             commit, created = Commit.objects.get_or_create(
                 package=package, commit_date=timestamp
             )
 
         #  ugly way to get 52 weeks of commits
         # TODO - make this better
-        now = datetime.now()
         commits = package.commit_set.filter(
-            commit_date__gt=now - timedelta(weeks=52),
+            commit_date__gt=now() - timedelta(weeks=52),
         ).values_list("commit_date", flat=True)
 
         weeks = [0] * 52
@@ -67,7 +68,7 @@ class BitbucketHandler(BaseHandler):
     def fetch_metadata(self, package):
         # prep the target name
         repo_name = package.repo_name()
-        target = API_TARGET + "/" + repo_name
+        target = f"{API_TARGET}/{repo_name}"
         if not target.endswith("/"):
             target += "/"
 
@@ -93,15 +94,15 @@ class BitbucketHandler(BaseHandler):
             data = self.get_json(url)
         except requests.exceptions.HTTPError:
             return package
-        package.repo_forks = len(data["forks"])
+        package.repo_forks = len(data["values"])
 
         # get the followers of a repo
-        url = f"{target}followers/"
+        url = f"{target}watchers/"
         try:
             data = self.get_json(url)
         except requests.exceptions.HTTPError:
             return package
-        package.repo_watchers = data["count"]
+        package.repo_watchers = len(data.get("values", []))
 
         # Getting participants
         try:

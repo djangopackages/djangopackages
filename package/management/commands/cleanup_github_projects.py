@@ -28,7 +28,7 @@ def command(limit):
     packages = Package.objects.filter(repo_url__startswith="https://github.com")
 
     if limit:
-        packages = packages[0:limit]
+        packages = packages[:limit]
 
     if packages.exists():
         click.secho(

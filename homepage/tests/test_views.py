@@ -1,54 +1,54 @@
+from bs4 import BeautifulSoup
 from django.urls import reverse
-from django.test import TestCase
+from pytest_django.asserts import assertTemplateUsed
+
 from package.models import Package, Category
 
-from homepage.tests import data
+
+# def test_homepage_view(db, tp, homepage_data):
+#     url = reverse("home")
+#     response = tp.client.get(url)
+#     assert response.status_code == 200
+#     assertTemplateUsed(response, "homepage.html")
+
+#     soup = BeautifulSoup(response.content, "html.parser")
+#     assert soup.find("meta", property="og:image")["content"] == "https://todo"
+#     assert soup.find("meta", property="og:title")["content"] == "Django Packages : Reusable apps, sites and tools directory"
+#     assert soup.find("meta", property="og:type")["content"] == "website"
+#     assert soup.find("meta", property="og:url")["content"] == "https://djangopackages.org/"
+
+#     assert Package.objects.all().exists()
+#     for p in Package.objects.all():
+#         assert p.title in str(response.content)
+#         assert p.repo_description in str(response.content)
+
+#     assert response.context["package_count"] == Package.objects.count()
 
 
-class FunctionalHomepageTest(TestCase):
-    def setUp(self):
-        data.load()
+# def test_categories_on_homepage(db, tp, homepage_data):
+#     url = reverse("home")
+#     response = tp.client.get(url)
+#     assert response.status_code == 200
+#     assertTemplateUsed(response, "homepage.html")
 
-    def test_homepage_view(self):
-        url = reverse("home")
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "homepage.html")
-
-        for p in Package.objects.all():
-            self.assertContains(response, p.title)
-            self.assertContains(response, p.repo_description)
-
-        self.assertEqual(response.context["package_count"], Package.objects.count())
-
-    def test_categories_on_homepage(self):
-        url = reverse("home")
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "homepage.html")
-
-        for c in Category.objects.all():
-            self.assertContains(response, c.title_plural)
-            self.assertContains(response, c.description)
+#     for c in Category.objects.all():
+#         assert c.title_plural in str(response.content)
+#         assert c.description in str(response.content)
 
 
-class FunctionalHomepageTestWithoutPackages(TestCase):
-    def setUp(self):
-        data.load()
-
-    def test_homepage_view(self):
-        Package.objects.all().delete()
-        url = reverse("home")
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "homepage.html")
+# def test_homepage_view_without_packages(db, tp, homepage_data):
+#     Package.objects.all().delete()
+#     url = reverse("home")
+#     response = tp.client.get(url)
+#     assert response.status_code == 200
+#     assertTemplateUsed(response, "homepage.html")
 
 
-class TestErrorPages(TestCase):
-    def test_404_test(self):
-        r = self.client.get("/404")
-        self.assertEqual(r.status_code, 404)
+def test_404_test(db, tp):
+    response = tp.client.get("/404")
+    assert response.status_code == 404
 
-    def test_500_test(self):
-        r = self.client.get("/500")
-        self.assertEqual(r.status_code, 500)
+
+def test_500_test(db, tp):
+    response = tp.client.get("/500")
+    assert response.status_code == 500

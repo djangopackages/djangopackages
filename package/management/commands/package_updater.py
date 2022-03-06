@@ -29,7 +29,7 @@ class Command(BaseCommand):
 
         github = github_login(token=settings.GITHUB_TOKEN)
 
-        for index, package in enumerate(Package.objects.iterator()):
+        for package in Package.objects.iterator():
 
             # Simple attempt to deal with Github rate limiting
             while True:
@@ -41,7 +41,7 @@ class Command(BaseCommand):
 
             try:
                 try:
-                    package.fetch_metadata(fetch_pypi=False)
+                    package.fetch_metadata(fetch_pypi=False, fetch_repo=True)
                     package.fetch_commits()
                 except Exception as e:
                     logger.error(
@@ -51,6 +51,6 @@ class Command(BaseCommand):
             except PackageUpdaterException:
                 logger.error(f"Unable to update {package.title}", exc_info=True)
 
-            print(f"{__file__}::handle::sleep(5)")
-            sleep(5)
+            print(f"{__file__}::handle::sleep(1)")
+            sleep(1)
         healthcheck(settings.PACKAGE_HEALTHCHECK_URL)

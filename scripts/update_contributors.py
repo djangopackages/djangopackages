@@ -45,7 +45,7 @@ def iter_recent_authors():
     )
     recent_pulls = repo.get_pulls(state="closed", sort="updated", direction="desc")
     last_page = ceil(recent_pulls.totalCount / 20)
-    for i in range(0, last_page):
+    for i in range(last_page):
         for pull in recent_pulls.get_page(i):
             if (
                 pull.merged

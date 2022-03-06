@@ -9,6 +9,79 @@ from package.tests import initial_data
 from profiles.models import Profile
 
 
+def test_python3_list(db, django_assert_num_queries, tp):
+    # TODO: refactor initial_data to be a fixture that's only loaded once
+    initial_data.load()
+
+    assert Package.objects.count() == 4
+
+    url = tp.reverse("py3_compat")
+    with django_assert_num_queries(4):
+        response = tp.client.get(url)
+
+    assert response.status_code == 200
+
+
+def test_python3_list_blank_sort_empty(db, django_assert_num_queries, tp):
+    # TODO: refactor initial_data to be a fixture that's only loaded once
+    initial_data.load()
+
+    assert Package.objects.count() == 4
+
+    url = tp.reverse("py3_compat")
+    with django_assert_num_queries(4):
+        response = tp.client.get(url, data={"dir": ""})
+    assert response.status_code == 200
+
+
+def test_python3_list_blank_sort_asc(db, django_assert_num_queries, tp):
+    # TODO: refactor initial_data to be a fixture that's only loaded once
+    initial_data.load()
+
+    assert Package.objects.count() == 4
+
+    url = tp.reverse("py3_compat")
+    with django_assert_num_queries(4):
+        response = tp.client.get(url, data={"dir": "asc"})
+    assert response.status_code == 200
+
+
+def test_python3_list_blank_sort_desc(db, django_assert_num_queries, tp):
+    # TODO: refactor initial_data to be a fixture that's only loaded once
+    initial_data.load()
+
+    assert Package.objects.count() == 4
+
+    url = tp.reverse("py3_compat")
+    with django_assert_num_queries(4):
+        response = tp.client.get(url, data={"dir": "desc"})
+    assert response.status_code == 200
+
+
+def test_python3_list_blank_sort_by_valid_field(db, django_assert_num_queries, tp):
+    # TODO: refactor initial_data to be a fixture that's only loaded once
+    initial_data.load()
+
+    assert Package.objects.count() == 4
+
+    url = tp.reverse("py3_compat")
+    with django_assert_num_queries(4):
+        response = tp.client.get(url, data={"dir": "desc", "sort": "repo_watchers"})
+    assert response.status_code == 200
+
+
+def test_python3_list_blank_sort_by_bad_field(db, django_assert_num_queries, tp):
+    # TODO: refactor initial_data to be a fixture that's only loaded once
+    initial_data.load()
+
+    assert Package.objects.count() == 4
+
+    url = tp.reverse("py3_compat")
+    with django_assert_num_queries(4):
+        response = tp.client.get(url, data={"dir": "desc", "sort": "doesnotexist"})
+    assert response.status_code == 200
+
+
 class FunctionalPackageTest(TestCase):
     def setUp(self):
         initial_data.load()

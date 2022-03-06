@@ -1,45 +1,30 @@
+import pytest
+
 from django.test import TestCase
 
-from package.repos import get_repo_for_repo_url
+from package.repos import get_repo, get_repo_for_repo_url, supported_repos
 from package.repos.base_handler import BaseHandler
 from package.repos.unsupported import UnsupportedHandler
-from package.models import Package, Category
 
 
-class BaseBase(TestCase):
-    def setUp(self):
+def test_base_handler_not_implemented(package):
+    handler = BaseHandler()
+    assert handler.title == NotImplemented
+    assert handler.url == NotImplemented
+    assert handler.repo_regex == NotImplemented
+    assert handler.slug_regex == NotImplemented
+    assert handler.__str__() == NotImplemented
+    assert handler.fetch_metadata(package) == NotImplemented
+    assert handler.fetch_commits(package) == NotImplemented
 
-        self.category = Category.objects.create(title="dummy", slug="dummy")
-        self.category.save()
+
+def test_base_handler_is_other():
+    handler = BaseHandler()
+    assert handler.is_other is False
 
 
-class TestBaseHandler(BaseBase):
-    def setUp(self):
-        super().setUp()
-        self.package = Package.objects.create(
-            title="Django Piston",
-            slug="django-piston",
-            repo_url="https://bitbucket.org/jespern/django-piston",
-            category=self.category,
-        )
-
-    def test_not_implemented(self):
-        # TODO switch the NotImplemented to the other side
-        handler = BaseHandler()
-        self.assertEqual(NotImplemented, handler.title)
-        self.assertEqual(NotImplemented, handler.url)
-        self.assertEqual(NotImplemented, handler.repo_regex)
-        self.assertEqual(NotImplemented, handler.slug_regex)
-        self.assertEqual(NotImplemented, handler.__str__())
-        self.assertEqual(NotImplemented, handler.fetch_metadata(self.package))
-        self.assertEqual(NotImplemented, handler.fetch_commits(self.package))
-
-    def test_is_other(self):
-        handler = BaseHandler()
-        self.assertEqual(handler.is_other, False)
-
-    def test_get_repo_for_repo_url(self):
-        samples = """u'http://repos.entrouvert.org/authentic.git/tree
+def test_base_handler_get_repo_for_repo_url():
+    samples = """u'http://repos.entrouvert.org/authentic.git/tree
 http://code.basieproject.org/
 http://znc-sistemas.github.com/django-municipios
 http://django-brutebuster.googlecode.com/svn/trunk/BruteBuster/
@@ -167,82 +152,24 @@ sebpiq/spiteat/
 schinckel/django-timedelta-field/
 http://projects.unbit.it/hg/uwsgi
 http://www.dataportal.it"""
-        for sample in samples.split("\n"):
-            self.assertTrue(
-                isinstance(get_repo_for_repo_url(sample), UnsupportedHandler)
-            )
+    for sample in samples.split("\n"):
+        assert isinstance(get_repo_for_repo_url(sample), UnsupportedHandler)
 
 
-"""
-class TestBitbucketRepo(TestBaseHandler):
-    def setUp(self):
-        super(TestBitbucketRepo, self).setUp()
-        self.package = Package.objects.create(
-            title="django",
-            slug="django",
-            repo_url="https://bitbucket.org/django/django",
-            category=self.category
-        )
-
-    def test_fetch_commits(self):
-        self.assertEqual(Commit.objects.count(), 0)
-        bitbucket_handler.fetch_commits(self.package)
-        self.assertNotEqual(Commit.objects.count(), 0)
-
-    def test_fetch_metadata(self):
-        package = bitbucket_handler.fetch_metadata(self.package)
-        self.assertTrue(
-            package.repo_description.startswith("Official clone of the Subversion repo")
-        )
-        self.assertTrue(package.repo_watchers > 0)
-        self.assertTrue(package.repo_forks > 0)
-        self.assertEquals(package.participants, "django")
-"""
+def test_get_repo_registry(package):
+    g = get_repo("github")
+    assert g.title == "GitHub"
+    assert g.url == "https://github.com"
+    assert "github" in supported_repos()
+    with pytest.raises(ImportError):
+        get_repo("xyzzy")
 
 
-class TestGithubRepo(TestBaseHandler):
-    def setUp(self):
-        super().setUp()
-        self.package = Package.objects.create(
-            title="Django",
-            slug="django",
-            repo_url="https://github.com/django/django",
-            category=self.category,
-        )
-
-    # def test_fetch_commits(self):
-    #     import time
-    #     time.sleep(10)
-    #     self.assertEqual(Commit.objects.count(), 0)
-    #     github_handler.fetch_commits(self.package)
-    #     self.assertTrue(Commit.objects.count() > 0)
-
-    # def test_fetch_metadata(self):
-    #     # Currently a live tests that access github
-    #     package = github_handler.fetch_metadata(self.package)
-    #     self.assertEqual(package.repo_description, "The Web framework for perfectionists with deadlines.")
-    #     self.assertTrue(package.repo_watchers > 100)
-
-    #     # test what happens when setting up an unsupported repo
-    #     self.package.repo_url = "https://example.com"
-    #     self.package.fetch_metadata()
-    #     self.assertEqual(self.package.repo_description, "")
-    #     self.assertEqual(self.package.repo_watchers, 0)
-    #     self.package.fetch_commits()
+# TODO: Convert all of these to pytest tests and re-write them since
+# they were already commented out.
 
 
-class TestGitlabRepo(TestBaseHandler):
-    def setUp(self):
-        super().setUp()
-        self.package = Package.objects.create(
-            title="Django",
-            slug="django",
-            repo_url="https://gitlab.com/delta10/kees",
-            category=self.category,
-        )
-
-
-class TestRepos(BaseBase):
+class TestRepos(TestCase):
     def test_repo_registry(self):
         from package.repos import get_repo, supported_repos
 

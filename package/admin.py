@@ -41,6 +41,7 @@ class PackageAdmin(VersionAdmin):
                     "score",
                     "created_by",
                     "last_modified_by",
+                    "date_repo_archived",
                     "date_deprecated",
                     "deprecates_package",
                     "deprecated_by",
