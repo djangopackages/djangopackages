@@ -50,7 +50,7 @@ class SearchV2(BaseModel):
     participants = models.TextField(
         _("Participants"),
         help_text="List of collaborats/participants on the project",
-        blank=True, 
+        blank=True,
     )
     last_committed = models.DateTimeField(_("Last commit"), blank=True, null=True)
     last_released = models.DateTimeField(_("Last release"), blank=True, null=True)

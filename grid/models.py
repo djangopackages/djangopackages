@@ -27,7 +27,10 @@ class Grid(BaseModel):
         _("Slug"), help_text="Slugs will be lowercased", unique=True
     )
     description = models.TextField(
-        _("Description"), blank=True, help_text="Lines are broken and urls are urlized", max_length=1000
+        _("Description"),
+        blank=True,
+        help_text="Lines are broken and urls are urlized",
+        max_length=1000,
     )
     is_locked = models.BooleanField(
         _("Is Locked"), default=False, help_text="Moderators can lock grid access"
