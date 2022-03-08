@@ -27,7 +27,10 @@ class Grid(BaseModel):
         _("Slug"), help_text="Slugs will be lowercased", unique=True
     )
     description = models.TextField(
-        _("Description"), blank=True, help_text="Lines are broken and urls are urlized"
+        _("Description"),
+        blank=True,
+        help_text="Lines are broken and urls are urlized",
+        max_length=1000,
     )
     is_locked = models.BooleanField(
         _("Is Locked"), default=False, help_text="Moderators can lock grid access"
@@ -124,7 +127,7 @@ class Feature(BaseModel):
 
     grid = models.ForeignKey(Grid, on_delete=models.CASCADE)
     title = models.CharField(_("Title"), max_length=100)
-    description = models.TextField(_("Description"), blank=True)
+    description = models.TextField(_("Description"), blank=True, max_length=1000)
 
     def save(self, *args, **kwargs):
         self.grid.grid_packages  # fire the cache
@@ -156,7 +159,7 @@ class Element(BaseModel):
 
     grid_package = models.ForeignKey(GridPackage, on_delete=models.CASCADE)
     feature = models.ForeignKey(Feature, models.CASCADE)
-    text = models.TextField(_("text"), blank=True, help_text=help_text)
+    text = models.TextField(_("text"), blank=True, help_text=help_text, max_length=1000)
 
     class Meta:
 

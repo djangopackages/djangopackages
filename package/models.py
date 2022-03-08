@@ -65,7 +65,7 @@ class Package(BaseModel):
     category = models.ForeignKey(
         Category, verbose_name="Installation", on_delete=models.PROTECT
     )
-    repo_description = models.TextField(_("Repo Description"), blank=True)
+    repo_description = models.TextField(_("Repo Description"), blank=True, max_length=500)
     repo_url = models.URLField(
         _("repo URL"), help_text=repo_url_help_text, blank=True, unique=True
     )
