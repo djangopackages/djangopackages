@@ -8,6 +8,7 @@ from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
 
 from .base import *
+from core import __version__
 
 
 DEBUG = env.bool("DJANGO_DEBUG", False)
@@ -55,6 +56,7 @@ if SENTRY_DSN := env("DJANGO_SENTRY_DSN", default=None):
     sentry_sdk.init(
         dsn=SENTRY_DSN,
         integrations=[DjangoIntegration(), RedisIntegration()],
+        release=f"{__version__}",
         # Set traces_sample_rate to 1.0 to capture 100%
         # of transactions for performance monitoring.
         # We recommend adjusting this value in production.
