@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-03-08]
+### Changed
+- :pencil: Adds release/version info to Sentry ([#805](https://github.com/djangopackages/djangopackages/pull/805))
+- :elephant: Limit text field size to 500/1000 ([#804](https://github.com/djangopackages/djangopackages/pull/804))
+
 ## [2022-03-05]
 ### Changed
 - :sparkles: Adds more stats to /open/ page ([#803](https://github.com/djangopackages/djangopackages/pull/803))
