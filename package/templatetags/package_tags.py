@@ -1,4 +1,6 @@
 from django import template
+from django.template.defaultfilters import stringfilter
+import emoji
 
 
 from package.context_processors import used_packages_list
@@ -49,3 +51,9 @@ def usage_button(context):
         response["usage_action"] = "add"
         response["image"] = "usage_triangle_hollow"
     return response
+
+
+@register.filter()
+@stringfilter
+def emojify(value):
+    return emoji.emojize(value)
