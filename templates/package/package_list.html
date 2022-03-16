@@ -30,7 +30,7 @@
                         <tbody>
                             {% for package in category.packages %}
                                 <tr>
-                                    <td><a href="{% url 'package' package.slug %}">{{ package.title }}</a></td>
+                                    <td><a href="{% url 'package' package.slug %}">{{ package.title | emojify}}</a></td>
                                     <td>
                                         {% usage_button %}
                                         &nbsp;

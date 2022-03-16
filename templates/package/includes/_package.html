@@ -3,7 +3,7 @@
 
 <a href="{% url 'package' package.slug %}" class="list-group-item">
     <h4 class="list-group-item-heading">
-        {{ package.title }}
+        {{ package.title | emojify }}
     </h4>
     <p class="list-group-item-text">
         {{ package.repo_description | emojify}}

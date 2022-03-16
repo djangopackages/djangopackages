@@ -3,7 +3,7 @@
 {% load i18n %}
 {% load package_tags %}
 
-{% block head_title %}{{ package.title }}{% endblock %}
+{% block head_title %}{{ package.title | emojify }}{% endblock %}
 
 {% block extra_head %}
     <meta name="description" content="{{ package.repo_description }}" />
