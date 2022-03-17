@@ -1,9 +1,11 @@
 import json
 import re
 import math
+import requests
 from datetime import timedelta
 from dateutil import relativedelta
 
+from distutils.version import LooseVersion
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
@@ -14,18 +16,16 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.timezone import now
+from django.utils.translation import gettext_lazy as _
 from packaging.specifiers import SpecifierSet
 from rich import print
 
-from distutils.version import LooseVersion
-import requests
-
-from core.utils import STATUS_CHOICES, status_choices_switch
 from core.models import BaseModel
+from core.utils import STATUS_CHOICES, status_choices_switch
+from package.managers import PackageManager
 from package.repos import get_repo_for_repo_url
 from package.signals import signal_fetch_latest_metadata
 from package.utils import get_version, get_pypi_version, normalize_license
-from django.utils.translation import gettext_lazy as _
 
 repo_url_help_text = settings.PACKAGINATOR_HELP_TEXT["REPO_URL"]
 pypi_url_help_text = settings.PACKAGINATOR_HELP_TEXT["PYPI_URL"]
@@ -65,7 +65,9 @@ class Package(BaseModel):
     category = models.ForeignKey(
         Category, verbose_name="Installation", on_delete=models.PROTECT
     )
-    repo_description = models.TextField(_("Repo Description"), blank=True, max_length=500)
+    repo_description = models.TextField(
+        _("Repo Description"), blank=True, max_length=500
+    )
     repo_url = models.URLField(
         _("repo URL"), help_text=repo_url_help_text, blank=True, unique=True
     )
@@ -126,6 +128,8 @@ class Package(BaseModel):
         related_name="replacement",
         on_delete=models.PROTECT,
     )
+
+    objects = PackageManager()
 
     class Meta:
         ordering = ["title"]
