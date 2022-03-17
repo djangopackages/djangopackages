@@ -22,7 +22,6 @@
     </form>
     {% if user.id == package_example.created_by.id %}
         <a class="btn btn-danger" name="delete" href="{% url 'delete_example' package_example.package.slug package_example.id %}" id="example-delete-btn">{% trans "Delete" %}</a>
-        </form>
     {% endif %}
 
 {% endblock %}

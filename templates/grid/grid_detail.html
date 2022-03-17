@@ -37,7 +37,6 @@
                 </p>
 
                 {% if features %}
-                    {% comment %}{% if request.user.is_authenticated and profile.can_add_grid_package %}{% endcomment %}
                     {% if request.user.is_authenticated %}
                         <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add package to the grid" %}</a></p>
                     {% endif %}
@@ -152,7 +151,6 @@
                     <tr>
                         <td>{% trans "# Using This" %}</td>
                         {% for grid_package in grid_packages %}
-
                             <td class="usage-holder">
                                 {% with grid_package.package as package %}
                                     <span class="usage-count" id="usage-count-{{ package.id }}">{{ grid_package.usage_count }}</span>
@@ -160,7 +158,7 @@
                                 {% endwith %}
                             </td>
                         {% endfor %}
-                    </td>
+                    </tr>
                     <tr>
                         <td>{% trans "Python 3?" %}</td>
                         {% for grid_package in grid_packages %}
