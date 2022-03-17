@@ -1,0 +1,340 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.27.1
+    method: GET
+    uri: https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA61X247bNhD9FUKA0YcudZclGQjSFsE+FN1e06emMChyJDErkSpJresu/O8FKcmX
+        xEB3Uz/4wTTnzHBmzpnxs6dp722Q13Dj3SGvJXq744/c26CadBrukNdx8ai9DXr2dsTQFtT0pVVQ
+        W8PWmEFvgoAM3K+4qUb6CMaXqgliPwwUDFJzIxUHHTwQUSsI2EciGol7rf/qgiPm4Q55lSKCtnBT
+        BwpqHRyBrRdDmtt7cKAWncq+5+amDhZIB99JAd4G/fHsfVqBy+xfSbY/F1mQ3kJMpfMOd+iE1XDz
+        zQXO5gU4Wrfe4c875GnobE+c4P5fc9jQPC1HRW24t0INtKIOuTV9dxX3IgHXutaZkydiiLoOsDdw
+        RgQ1XQ1W+Xc1yasyzEpc1DXDaRjVuEzSGpMa0jLLozIq1qv83Vuj3wx700oxRSrlTMFPa/6FrGsd
+        oE1vLdVtoSdAC83kTnSSsJty4QRqXXCtx9vKxYxowYex6xT8NYK+LZ0vcA/WE1VADLCtFJaWcRil
+        OIpwlL0Po01cbpLQT8K4KKKvw3AThlan67HrtguPr1DU3pE7AVN/Mq6HjuxPBpy2BDo0Gdq748iZ
+        9f0cr8M4zZIKQ15RnOawxlVZFTjJ6zCCKCVhmh2sxWksvJL1owalLRde4mqVv3sNV1+OGvwXhzXQ
+        UYHfzOT1qeyDmcc0z5KQZnHJaMwYJWUVreM1K0NC6zRZr9+yN074Vsm3q/h+Fd9PdrgngjTQgzAY
+        T0faHzXegTY49gclmT+MVcepT0yHB0K0L8Cs4nsuuOGk06v4/uEBh/4gGs81jtkPTsltTm1RBKeP
+        l11hTwmlchRmO5U4y/IwKzYFLYqyTnO8ZmWCU5JTXNYFwSws8yQvC6CUuBxp/o/1kYZhGsfr8155
+        iZi5XlnCPG4DexvWDirNjYvffpVPoBRnsNVgDBfzjJ4mNxfNtpcMrF4vewmDmoyd2fagGthqo4iB
+        Zn92YTLdKtBGcWq4FFaJnLmTJ9BU8cGe285/4FRJLWuDfvvlB6RBPYFCFaGPIBiqpULv3NqC1CgE
+        Fw2SAu24YHKn/Q/qg7CfHyUi1PAn6PaoJ1wYwgUwRARDUnR7pMdhkMpoNA7IyAUw8os7tGs5bVFL
+        tPjKIAUU+BMw5HqQmz2q+d+gXRR7IEr7Nl92VTvqn1Gj3dV0Nzb2Mecrlr3L9XZQ/Im4bC8JXBrl
+        08sdEc1IGleYeQjNg2I7yI5Tm2OPdJ3cbSext1qp5Eegxk3DL1aGnZ1FA6GnVXGG1cHPv/70/WuE
+        YJbEI2LwOdLEwOvz+2KPnekTWJIt28AF3KILSWzndpSlSZrlSZhccnRJkaXpvID9Lgw3HTB09tsj
+        uPy6B5+TrUqgTOtojWmR1jiNcooLqNc4hrwo8nWSMhoeXIps60297x63kG8+OnPfE21AOZtjopzJ
+        0kan+bCAnO6d4Tx8Nk5u1wJfUHRn8uLqHl90/H8ymQbXavnKMWllZhzY5WwvcFjgOH4flZs02YSp
+        n9nFL55n++FfC0UyYJINAAA=
+    headers:
+      Cache-Control:
+      - max-age=900
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:46 GMT
+      ETag:
+      - '"gz[71788797a66233d20b42b76d9c085fce]"'
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Authorization, Origin, Accept-Encoding
+      X-Accepted-OAuth-Scopes:
+      - repository
+      X-B3-TraceId:
+      - 8675080a4d51ffd5
+      X-Cache-Info:
+      - caching
+      X-Dc-Location:
+      - Micros
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Render-Time:
+      - '0.134763002396'
+      X-Request-Count:
+      - '1899'
+      X-Served-By:
+      - 61a1fb9fe2c2
+      X-Static-Version:
+      - 56e21fda85e9
+      X-Usage-Input-Ops:
+      - '0'
+      X-Usage-Output-Ops:
+      - '0'
+      X-Usage-System-Time:
+      - '0.002456'
+      X-Usage-User-Time:
+      - '0.100457'
+      X-Version:
+      - 56e21fda85e9
+      X-View-Name:
+      - bitbucket.apps.repo2.api.v20.repo.RepositoryHandler
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.27.1
+    method: GET
+    uri: https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/forks/
+  response:
+    body:
+      string: !!binary |
+        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
+    headers:
+      Cache-Control:
+      - max-age=900
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:47 GMT
+      ETag:
+      - '"gz[6be37b311af9cfd5919b38511fad9bbf]"'
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Authorization, Origin, Accept-Encoding
+      X-Accepted-OAuth-Scopes:
+      - repository
+      X-B3-TraceId:
+      - c763b8c75a94c5f2
+      X-Cache-Info:
+      - caching
+      X-Dc-Location:
+      - Micros
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Render-Time:
+      - '0.811105012894'
+      X-Request-Count:
+      - '3248'
+      X-Served-By:
+      - 7704f1e7dd7c
+      X-Static-Version:
+      - 56e21fda85e9
+      X-Usage-Input-Ops:
+      - '0'
+      X-Usage-Output-Ops:
+      - '0'
+      X-Usage-System-Time:
+      - '0.020766'
+      X-Usage-User-Time:
+      - '0.636608'
+      X-Version:
+      - 56e21fda85e9
+      X-View-Name:
+      - bitbucket.apps.repo2.api.v20.repo.RepositoryForksHandler
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.27.1
+    method: GET
+    uri: https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/watchers/
+  response:
+    body:
+      string: !!binary |
+        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
+        vzHz298BbXwW5O0WAAA=
+    headers:
+      Cache-Control:
+      - max-age=900
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:47 GMT
+      ETag:
+      - '"gz[aef4bfc9214035536d97ff0bff42c6e6]"'
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Authorization, Origin, Accept-Encoding
+      X-Accepted-OAuth-Scopes:
+      - repository
+      X-B3-TraceId:
+      - f6bc4b1b8f5ba217
+      X-Cache-Info:
+      - caching
+      X-Dc-Location:
+      - Micros
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Render-Time:
+      - '0.226340055466'
+      X-Request-Count:
+      - '3953'
+      X-Served-By:
+      - e5346af2611a
+      X-Static-Version:
+      - 56e21fda85e9
+      X-Usage-Input-Ops:
+      - '0'
+      X-Usage-Output-Ops:
+      - '0'
+      X-Usage-System-Time:
+      - '0.004854'
+      X-Usage-User-Time:
+      - '0.091090'
+      X-Version:
+      - 56e21fda85e9
+      X-View-Name:
+      - bitbucket.apps.repo2.api.v20.repo.RepositoryWatchersHandler
+    status:
+      code: 200
+      message: OK
+version: 1

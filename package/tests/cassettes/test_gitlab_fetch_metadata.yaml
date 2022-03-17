@@ -1,0 +1,87 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-type:
+      - application/json
+      User-Agent:
+      - python-gitlab/3.2.0
+    method: GET
+    uri: https://gitlab.com/api/v4/projects/delta10%2Fkees
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA4xSy27bMBD8FWHPkkg97Co81UByyKFAUPhQpCiIlUTLrClKIFdOjSD/XtBS4qQp
+        mt64uzPDfcwj6BZEtVqXn6o8hlb5xumR9GBBwCbqtdU9Gu1JN9Hm7jZpnT4qGzXoVdSjxU71ylLk
+        T55UDzFY7BUIOCjll0g+aNrL8PIjNqF4rQxhxiMWLbARaX8hheg9qZ1JbAE1TiGpViKBgJxnVcKv
+        kny95ZUoSlEUac5X9xAG2uFkSNYObRM+6dGTchADYSfDYCC+w+buNmi+HQp+xEDDqBv/T4j3ezk5
+        I2mQTo0DCOg0fe40GazTZujF687TThPEsCca/yCFlBeMXYjsL8QHVQfex3iIwSlse/V/cJaw2gw1
+        m7fDvt5srr/cpH0LMeARCd0sYydjYtgN7uBlM0yWQPAYfKgvYRaDQU8SG9JHTafnA+V5wouEr7ZZ
+        Jvha8HW6zqv7xSLLjR/PXizK7KparV6stLjlYpP2JXHQtg37dsM0Qgy7yRj5DjSiU5ZkkJ7bfz0Q
+        sGk0A7ZhAbOH2VmNzSC2NMPqb9uTLV0hS85/lZynP8fuo3OchfzzmuHp6TcAAAD//wMAjZehM2wD
+        AAA=
+    headers:
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 6e7758b729a35f1d-OMA
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json
+      Date:
+      - Sun, 06 Mar 2022 01:34:01 GMT
+      Etag:
+      - W/"8137c6aef2a96f10b619ff53cbfe38f0"
+      Expect-CT:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      GitLab-LB:
+      - fe-16-lb-gprd
+      GitLab-SV:
+      - localhost
+      NEL:
+      - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+      RateLimit-Limit:
+      - '2000'
+      RateLimit-Observed:
+      - '16'
+      RateLimit-Remaining:
+      - '1984'
+      RateLimit-Reset:
+      - '1646530501'
+      RateLimit-ResetTime:
+      - Sun, 06 Mar 2022 01:35:01 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=4ZdbXBSz%2F5id2FLAmz8o%2Bt4pXWScCYFRM9PStNXvj7jLNNv3DCKNfU2kkFnzT%2BN2NNnFmF03U5YZnhfH7ZzQnbB5M1HvleOMQFo3OPmbDVddaZbdMSwSxu%2F7PO4%3D"}],"group":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Strict-Transport-Security:
+      - max-age=31536000
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Origin
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Request-Id:
+      - 01FXEDSBNMQKH8K8SDXPP8HEQY
+      X-Runtime:
+      - '0.225415'
+    status:
+      code: 200
+      message: OK
+version: 1
