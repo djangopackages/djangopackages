@@ -205,7 +205,13 @@ def category(request, slug, template_name="package/category.html"):
 
     category = get_object_or_404(Category, slug=slug)
     packages = (
-        category.package_set.select_related("category", "created_by", "last_modified_by", "deprecated_by", "deprecates_package")
+        category.package_set.select_related(
+            "category",
+            "created_by",
+            "last_modified_by",
+            "deprecated_by",
+            "deprecates_package",
+        )
         .annotate(usage_count=Count("usage"))
         .order_by("-repo_watchers", "title")
     )
@@ -241,9 +247,9 @@ def ajax_package_list(request, template_name="package/ajax_package_list.html"):
                 | SearchQuery(_underscore)
             )
             vector = SearchRank("title")
-            packages = Package.objects.annotate(rank=SearchRank(vector, query)).order_by(
-                "-rank"
-            )
+            packages = Package.objects.annotate(
+                rank=SearchRank(vector, query)
+            ).order_by("-rank")
 
     packages_already_added_list = []
     grid_slug = request.GET.get("grid", "")
