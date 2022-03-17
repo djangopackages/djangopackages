@@ -1,6 +1,3 @@
-from functools import lru_cache
-
-import feedparser
 from django.contrib.auth.models import User
 from django.db.models import Count, Q
 from django.http import HttpResponse
@@ -93,12 +90,6 @@ class SitemapView(TemplateView):
         return data
 
 
-@lru_cache()
-def get_feed():
-    feed = "http://opencomparison.blogspot.com/feeds/posts/default"
-    return feedparser.parse(feed)
-
-
 def homepage(request, template_name="homepage.html"):
     categories = []
     for category in Category.objects.all().annotate(package_count=Count("package")):
@@ -158,14 +149,6 @@ def homepage(request, template_name="homepage.html"):
 
     # Latest Django Packages blog post on homepage
 
-    feed_result = get_feed()
-    if len(feed_result.entries):
-        blogpost_title = feed_result.entries.first().title
-        blogpost_body = feed_result.entries.first().summary
-    else:
-        blogpost_title = ""
-        blogpost_body = ""
-
     return render(
         request,
         template_name,
@@ -175,8 +158,6 @@ def homepage(request, template_name="homepage.html"):
             "potw": potw,
             "gotw": gotw,
             "psa_body": psa_body,
-            "blogpost_title": blogpost_title,
-            "blogpost_body": blogpost_body,
             "categories": categories,
             "package_count": package_count,
             "py3_compat": Package.objects.filter(version__supports_python3=True)
@@ -192,9 +173,12 @@ def homepage(request, template_name="homepage.html"):
 
 
 def error_500_view(request):
-    with open("templates/500.html") as f:
-        text = f.read()
-    response = HttpResponse(text)
+    try:
+        response = render(request, "500.html")
+    except Exception:
+        response = HttpResponse(
+            """<html><body><p>If this seems like a bug, would you please do us a favor and <a href="https://github.com/djangopackages/djangopackages/issues">create a ticket?</a></p></body></html>"""
+        )
     response.status_code = 500
     return response
 

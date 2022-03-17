@@ -35,7 +35,7 @@ class PackageV1Tests(TestCase):
             title="Package2",
             slug="package2",
             category=self.app,
-            repo_url="https://github.com/cartwheelweb/opencomparison",
+            repo_url="https://github.com/djangopackages/opencomparison",
         )
         self.pkg3 = Package.objects.create(
             title="Package3",
@@ -45,7 +45,7 @@ class PackageV1Tests(TestCase):
         )
         GridPackage.objects.create(package=self.pkg1, grid=self.grid)
         GridPackage.objects.create(package=self.pkg2, grid=self.grid)
-        user = User.objects.create_user("user", "user@opencomparison.com", "user")
+        user = User.objects.create_user("user", "user@djangopackages.org", "user")
         self.pkg1.usage.add(user)
 
     def test_01_packages_usage(self):

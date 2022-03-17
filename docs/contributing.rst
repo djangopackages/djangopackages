@@ -98,7 +98,7 @@ Django Packages is advancing quickly. It is therefore critical that you pull ups
 
 To pull in upstream changes::
 
-    git remote add upstream https://github.com/opencomparison/opencomparison.git
+    git remote add upstream https://github.com/djangopackages/djangopackages.git
     git fetch upstream develop
 
 Check the log to be sure that you actually want the changes, before merging::

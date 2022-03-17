@@ -96,4 +96,4 @@ The follow properties can be used in templates:
 * can_delete_grid_package
 * can_edit_grid_element
 
-.. _troubleshooting: troubleshooting.html    
+.. _troubleshooting: troubleshooting.html

@@ -47,7 +47,7 @@ def load():
         pypi_url="",
         participants="pydanny",
         pypi_downloads=0,
-        repo_url="https://github.com/opencomparison/opencomparison",
+        repo_url="https://github.com/djangopackages/opencomparison",
         repo_forks=0,
         slug="serious-testing",
         repo_description="Make testing as painless as waxing your legs.",

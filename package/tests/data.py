@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from django.utils.timezone import make_aware, now
 
 from package.models import Category, Package, Version, Commit
-from profiles.models import Profile
 
 
 abandoned_package_last_commit = make_aware(

@@ -21,7 +21,7 @@
 
 .. .. automodule:: apiv1.resources
 ..     :members:
-    
+
 .. ``core`` - Kernel bits
 .. =======================
 
@@ -39,7 +39,7 @@
 .. -------------------
 
 .. .. automodule:: core.models
-..     :members:    
+..     :members:
 
 
 .. ``feeds`` - RSS and Atom feeds
@@ -58,7 +58,7 @@
 .. .. automodule:: feeds.feeds
 ..     :members:
 
-.. ``grid`` - package grid app 
+.. ``grid`` - package grid app
 .. ===========================
 .. .. automodule:: grid
 
@@ -83,7 +83,7 @@
 .. .. automodule:: grid.forms
 ..     :members:
 
-.. ``profiles`` - profiles app 
+.. ``profiles`` - profiles app
 .. ===============================
 .. .. automodule:: profiles
 
@@ -101,7 +101,7 @@
 .. .. automodule:: profiles.context_processors
 ..     :members:
 
-.. .. ``pypi`` - pypi app 
+.. .. ``pypi`` - pypi app
 .. .. ===============================
 .. .. .. automodule:: pypi
 
@@ -120,7 +120,7 @@
 .. .. .. automodule:: pypi.versioning
 .. ..     :members:
 
-.. ``searchv2`` - searchv2 app 
+.. ``searchv2`` - searchv2 app
 .. ===============================
 .. .. automodule:: searchv2
 

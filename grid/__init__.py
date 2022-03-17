@@ -1,2 +1,2 @@
-"""Grid application - displays and 
+"""Grid application - displays and
 manipulates the package grid"""

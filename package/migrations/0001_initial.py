@@ -161,7 +161,7 @@ class Migration(migrations.Migration):
                 (
                     "repo_url",
                     models.URLField(
-                        help_text="Enter your project repo hosting URL here. Example: https://github.com/opencomparison/opencomparison",
+                        help_text="Enter your project repo hosting URL here. Example: https://github.com/djangopackages/opencomparison",
                         unique=True,
                         verbose_name="repo URL",
                         blank=True,
