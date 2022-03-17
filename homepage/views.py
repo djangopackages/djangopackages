@@ -173,9 +173,12 @@ def homepage(request, template_name="homepage.html"):
 
 
 def error_500_view(request):
-    with open("templates/500.html") as f:
-        text = f.read()
-    response = HttpResponse(text)
+    try:
+        response = render(request, "500.html")
+    except Exception:
+        response = HttpResponse(
+            """<html><body><p>If this seems like a bug, would you please do us a favor and <a href="https://github.com/djangopackages/djangopackages/issues">create a ticket?</a></p></body></html>"""
+        )
     response.status_code = 500
     return response
 
