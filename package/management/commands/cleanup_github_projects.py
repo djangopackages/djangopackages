@@ -2,6 +2,7 @@ import djclick as click
 import requests
 
 from package.models import Package
+from rich import print
 
 
 @click.command()
@@ -36,22 +37,27 @@ def command(limit):
             fg="yellow",
         )
         for package in packages:
-            response = requests.get(package.repo_url)
-            history = response.history
-            if len(history):
-                new_packages = Package.objects.exclude(pk=package.pk).filter(
-                    repo_url__startswith=response.url
-                )
-                if new_packages.exists():
-                    found_pks = new_packages.values_list("pk", flat=True)
-                    click.echo(f"    found {found_pks}")
+            try:
+                response = requests.get(package.repo_url, timeout=1.0)
+                history = response.history
+                if len(history):
+                    new_packages = Package.objects.exclude(pk=package.pk).filter(
+                        repo_url__startswith=response.url
+                    )
+                    if new_packages.exists():
+                        found_pks = new_packages.values_list("pk", flat=True)
+                        click.echo(f"    found {found_pks} <= {package.repo_url}")
 
-                else:
-                    click.echo(f"    migrating {package.repo_url} => {response.url}")
-                    package.repo_url = response.url
-                    # TODO: Make a note about migrating the account...
-                    package.save()
+                    else:
+                        click.echo(
+                            f"    migrating {package.repo_url} => {response.url}"
+                        )
+                        package.repo_url = response.url
+                        # TODO: Make a note about migrating the account...
+                        package.save()
 
-                # package.date_deprecated
-                # package.deprecated_by
-                # package.deprecates_package
+                    # package.date_deprecated
+                    # package.deprecated_by
+                    # package.deprecates_package
+            except Exception as e:
+                print(f"{e} :: {package} :: {package.repo_url}")
