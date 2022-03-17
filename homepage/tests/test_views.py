@@ -1,10 +1,3 @@
-from bs4 import BeautifulSoup
-from django.urls import reverse
-from pytest_django.asserts import assertTemplateUsed
-
-from package.models import Package, Category
-
-
 # def test_homepage_view(db, tp, homepage_data):
 #     url = reverse("home")
 #     response = tp.client.get(url)
