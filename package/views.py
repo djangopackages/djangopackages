@@ -4,14 +4,15 @@ import json
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.core.cache import cache
-from django.urls import reverse
+from django.core.exceptions import PermissionDenied
 from django.db.models import Count, Q
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
-from django.core.exceptions import PermissionDenied
 from django.views.decorators.http import require_POST
 
 
@@ -180,24 +181,31 @@ def confirm_delete_example(request, slug, id):
     return HttpResponseRedirect(reverse("package", kwargs={"slug": slug}))
 
 
-def package_autocomplete(request):
-    """
-    Provides Package matching based on matches of the beginning
-    """
-    titles = []
-    if q := request.GET.get("q", ""):
-        titles = (x.title for x in Package.objects.filter(title__istartswith=q))
-
-    response = HttpResponse("\n".join(titles))
-
-    setattr(response, "djangologging.suppress_output", True)
-    return response
-
-
 def category(request, slug, template_name="package/category.html"):
+    direction = request.GET.get("dir")
+    sort = request.GET.get("sort")
+
+    """
+    These are workarounds primarily seach engine spiders trying weird
+    sorting options when they are crawling the website.
+    """
+    _mutable = request.GET._mutable
+    request.GET._mutable = True
+    request.GET = request.GET.copy()
+
+    # workaround for "blank" ?sort=desc bug
+    if direction == "desc" and sort is None:
+        request.GET["dir"] = ""
+        request.GET["sort"] = ""
+
+    elif direction and direction.lower() not in ["", "asc", "desc"]:
+        request.GET["dir"] = ""
+
+    request.GET._mutable = _mutable
+
     category = get_object_or_404(Category, slug=slug)
     packages = (
-        category.package_set.select_related()
+        category.package_set.select_related("category", "created_by", "last_modified_by", "deprecated_by", "deprecates_package")
         .annotate(usage_count=Count("usage"))
         .order_by("-repo_watchers", "title")
     )
@@ -218,20 +226,35 @@ def ajax_package_list(request, template_name="package/ajax_package_list.html"):
         _dash = f"{settings.PACKAGINATOR_SEARCH_PREFIX}-{q}"
         _space = f"{settings.PACKAGINATOR_SEARCH_PREFIX} {q}"
         _underscore = f"{settings.PACKAGINATOR_SEARCH_PREFIX}_{q}"
-        packages = Package.objects.filter(
-            Q(title__istartswith=q)
-            | Q(title__istartswith=_dash)
-            | Q(title__istartswith=_space)
-            | Q(title__istartswith=_underscore)
-        )
+        if True:
+            packages = Package.objects.filter(
+                Q(title__istartswith=q)
+                | Q(title__istartswith=_dash)
+                | Q(title__istartswith=_space)
+                | Q(title__istartswith=_underscore)
+            )
+        else:
+            query = (
+                SearchQuery(q)
+                | SearchQuery(_dash)
+                | SearchQuery(f"'{_space}'")
+                | SearchQuery(_underscore)
+            )
+            vector = SearchRank("title")
+            packages = Package.objects.annotate(rank=SearchRank(vector, query)).order_by(
+                "-rank"
+            )
 
     packages_already_added_list = []
     grid_slug = request.GET.get("grid", "")
     if packages and grid_slug:
+        # if grids := Grid.objects.annotate(search=SearchVector("grid_slug")).search(
+        #     search=grid_slug
+        # ):
         if grids := Grid.objects.filter(slug=grid_slug):
             grid = grids.first()
             packages_already_added_list = [
-                x["slug"] for x in grid.packages.all().values("slug")
+                x["slug"] for x in grid.packages.all().only("slug").values("slug")
             ]
             new_packages = tuple(
                 packages.exclude(slug__in=packages_already_added_list)
@@ -373,8 +396,10 @@ def python3_list(request, template_name="package/python3_list.html"):
 
     request.GET._mutable = _mutable
 
+    # TODO: rewrite and profile using "supports_python3=True"
     packages = (
         Package.objects.filter(version__supports_python3=True)
+        .select_related()
         .distinct()
         .order_by("-pypi_downloads", "-repo_watchers", "title")
     )
