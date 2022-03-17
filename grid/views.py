@@ -48,7 +48,7 @@ def grids(request, template_name="grid/grids.html"):
     )
 
 
-def grid_detail_landscape(request, slug, template_name="grid/grid_detail2.html"):
+def grid_detail_landscape(request, slug, template_name="grid/grid_detail_landscape.html"):
     """displays a grid in detail
 
     Template context:

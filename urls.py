@@ -62,8 +62,6 @@ urlpatterns = [
     path("sitemap.xml", SitemapView.as_view(), name="sitemap"),
     # new apps
     path("search/", include("searchv2.urls")),
-    # apiv2
-    # url(r'^api/v2/', include('core.apiv2', namespace="apiv2")),
     # apiv3
     path("api/v3/", include("apiv3.urls", namespace="apiv3")),
     # apiv4
@@ -75,8 +73,6 @@ urlpatterns = [
         name="apiv1_gone",
     ),
     # url(r'^api/v1/', include('core.apiv1', namespace="apitest")),
-    # reports
-    # url(r'^reports/', include('reports.urls', namespace='reports')),
 ]
 
 if settings.DEBUG:

@@ -24,36 +24,36 @@
                                 <th>{% trans "Version" %}</th>
                             {% endif %}
                             <th><span class="glyphicon glyphicon-star"></span></th>
-                            <th><span class="glyphicon glyphicon-random"></th>
+                            <th><span class="glyphicon glyphicon-random"></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for package in category.packages %}
+                            <tr>
+                                <td><a href="{% url 'package' package.slug %}">{{ package.title | emojify}}</a></td>
+                                <td>
+                                    {% usage_button %}
+                                    &nbsp;
+                                    <span class="usage-count">{{ package.usage_count }}</span>
+                                </td>
+                                {% if category.show_pypi %}
+                                    <td>{{ package.pypi_downloads }}</td>
+                                {% endif %}
+                                <td><img src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{package|commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
+                                {% if category.show_pypi %}
+                                    <td>{{ package.pypi_version.number|default:"n/a"|slice:":12" }}</td>
+                                {% endif %}
+                                <td>{{ package.repo_watchers|default:"n/a" }}</td>
+                                <td>{{ package.repo_forks|default:"n/a" }}</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {% for package in category.packages %}
-                                <tr>
-                                    <td><a href="{% url 'package' package.slug %}">{{ package.title | emojify}}</a></td>
-                                    <td>
-                                        {% usage_button %}
-                                        &nbsp;
-                                        <span class="usage-count">{{ package.usage_count }}</span>
-                                    </td>
-                                    {% if category.show_pypi %}
-                                        <td>{{ package.pypi_downloads }}</td>
-                                    {% endif %}
-                                    <td><img src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{package|commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
-                                    {% if category.show_pypi %}
-                                        <td>{{ package.pypi_version.number|default:"n/a"|slice:":12" }}</td>
-                                    {% endif %}
-                                    <td>{{ package.repo_watchers|default:"n/a" }}</td>
-                                    <td>{{ package.repo_forks|default:"n/a" }}</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    <p>
-                        <a href="{% url 'category' category.slug %}">
-                            {% trans "more " %}{{ category.title_plural|lower }}...
-                        </a>
-                    </p>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <p>
+                    <a href="{% url 'category' category.slug %}">
+                        {% trans "more " %}{{ category.title_plural|lower }}...
+                    </a>
+                </p>
             {% endfor %}
         </div>
     </div>

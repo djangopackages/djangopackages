@@ -27,6 +27,12 @@ class FunctionalGridTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/grid_detail.html")
 
+    def test_grid_detail_landscape_view(self):
+        url = reverse("grid_landscape", kwargs={"slug": "testing"})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "grid/grid_detail_landscape.html")
+
     def test_add_grid_view(self):
         Grid.objects.all().delete()
         url = reverse("add_grid")

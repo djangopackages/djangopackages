@@ -1,5 +1,3 @@
-import pytest
-
 from django.contrib.auth.models import Group, User, Permission
 
 from grid.models import Element, Feature, Grid, GridPackage
