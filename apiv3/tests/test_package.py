@@ -45,7 +45,7 @@ class PackageV1Tests(TestCase):
         )
         GridPackage.objects.create(package=self.pkg1, grid=self.grid)
         GridPackage.objects.create(package=self.pkg2, grid=self.grid)
-        user = User.objects.create_user("user", "user@opencomparison.com", "user")
+        user = User.objects.create_user("user", "user@djangopackages.org", "user")
         self.pkg1.usage.add(user)
 
     def test_01_packages_usage(self):
