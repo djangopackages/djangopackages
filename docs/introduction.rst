@@ -2,7 +2,7 @@
 Introduction
 =============
 
-Have you ever had trouble figuring out which Django package is the best one for a particular purpose? Django Packages solves that problem for you! 
+Have you ever had trouble figuring out which Django package is the best one for a particular purpose? Django Packages solves that problem for you!
 
 Django Packages is a directory of Django apps, utilities, frameworks, and packages.
 

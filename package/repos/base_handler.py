@@ -1,4 +1,4 @@
-""" 
+"""
 Base class for objects that interact with third-party code repository services.
 """
 
