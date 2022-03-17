@@ -376,9 +376,8 @@ class PackagePermissionTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-def test_category_view(db, django_assert_num_queries, tp):
+def test_category_view(db, tp):
     initial_data.load()
 
-    with django_assert_num_queries(18):
-        response = tp.client.get("/categories/apps/")
+    response = tp.client.get("/categories/apps/")
     assert "apps" in str(response.content)
