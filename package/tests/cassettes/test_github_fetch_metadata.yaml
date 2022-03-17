@@ -1,0 +1,2775 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WS0Q6CMAxF/2XPPExFA/zMssyKTdiGLTwZ/91OEh0EjIlPW9ru5N7b3RUBx5Ec
+        sGruykWCdHbocVDNUWtdqJHhrJp9IaPeYsDQqqas6yoVGGRsdypPx0Op99WjUAyW3DWDHN4IuWSI
+        VJ8BdFnVAmjJ9tdbtyFjzpgELmUkCoYBhDRgDMbbgBdgUbrq7FfklJNB30fKWbtPSHPUq7Fm0cUz
+        GHY2pDDN2HfRSsJvcfJuI7Ops+bXumSVDY0hABmCFnmY/C/IX9BLubLSlCU79Dkk/xYLx1sLEYqI
+        +e9vPZ7qEdW6rQIAAA==
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:49 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DCFE:DD2C51F:62240F7D
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4998'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '2'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/repos/django/deps
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA+1YUW/bNhD+K4Ve50S24zaJgKIbkK7YgDXb0Ieiw2BQEm2xoUSBpOw5Qv77viMl
+        Wba7pvTLXgoEic3c9/Hj8e7IYxuJPEpmN9evFtdXLydRpXK+pKHot7u323v5q8ze3T6yj39usurh
+        n/u7bP7+Lnt8/8fr1xGMWclhmfPa4NuqkXLZD31m1VrF3X9qLTbMwnTFpOGTSG0rrqOkjaRai4oY
+        nDk4aOb59c10caRkd/9wu/s0/7lhH+sifyc36edfru7vfpoCw8DN9LLREkyFtbVJ4tgPmsu1sEWT
+        NobrTFWWV/YyU2XcxG6SN5vXCxCsdUfh1o2BI6padDQeCy4TD4oLW8qjuf2czngwWykp1RbIY53/
+        TR4PGHKuw4tqHYwHpo2VLThcBOlPtGBhbIgQZ9/G9AexQQwGHtc8DxDTISCFNv+pjTWvlaNqUpNp
+        UVuhqhBRBzjwKL1mlXhkoTzAUfSSnJDpnT1wfIOgCgF6QBu7pMh25ALNMy42cGcw2RESXHZXU07e
+        j7xBThaWL1leUra5JHyaIFWej9w+g3M+7BHI71y6vnhbFazKeAkHvPhdK/gDzJhspfTDkOtfzSXn
+        xC5J+qkI/Yw/T2BIFYAw9QPfBWMJ08b43cV2hlRjqdLMqufS9VTIAbiNx19ppy1nZbBABwK4UCrc
+        Mw4EsDCm4d8UYKeLclgT95FbNWXqC8m3xOspnUdBEzNGrCvOgz0yANu4r2mpRiwW4VQ9ro39J7dL
+        bB0siTCAplKlwVgcGLEDtrEpmK/QdnmOCmIi3AGR5quzJBFuILL6jH1ycgg40OAYsNiyYD09Lm47
+        D0mUoIatw5kGIHaLDqU1e3z2WD6N4T0SNHS10CJtzisYeywp8qch8ivcRXvonsgdq18/pr+wuNGR
+        7JZXluK5M+6UpYMdhOKZVBRHx3T0/fmj98uyCNfG+zrmi2PHGOqtrjr2esa83Z0zeCt7XNz+UDNb
+        UEUAfc00DxXXweI2ZTj0Ly8v24Izd4UruT4jezwKcKazAneWUD1tj8OJXTLr7oErkpPjXigVy4N9
+        NQBB4rciVJNHjfetRisTLMSBxiylkNxYVYXXqD1yzFcpK1Yi+5Yb7mnYH4DbN0bg5jZhUk4QVVZk
+        AnGGToF2ApcfHr56j4Jc9IT+Tis5Qi7Yi5p7XBv7TgMtpFS7szJ9BKUE0hw9aL5kFjfY+XS2uJgu
+        LmaLD7NF8vI2uZp/gk1T52Ob+fxienUxnX2YzhL8LBZkUzem2NOQyfxiNv8wu0lm8+TllExQrroY
+        xCc0oycNobvrUlMJY2OKvfGPe9PE945j00wimI6i++vcm+Pa/2VzyChUyWucp1FSIY6pY3jE56vZ
+        7cEpmammgv+url9Noi2zuHDhnBoP9qdrT1Mws/T5FSVWN2j+aaTW6jPPrBm6BBrcJ/LIcisexIEV
+        adzjfLPQCbjBq0EptFbdY4BfSFdw0Np3rw+5MCyVfD+gal51Ivu14CVEioxXZvAHUkVtlzQf0qRf
+        izBLy8tajh83rKpFBoV//T2JNsKIVEhhd4i5uknBCVf7ZiUhuaOpowST9j7tXJzzFWukXfqrKThK
+        hg4OMch1Ca9Sx0zPKOPGDi6AjSW7fsEUscMXXFTcLnfOoKLlV4OOkNay9EFm1QOnlxlMNm6svz/a
+        uMel74823x9t/p9Hm4rbLWpQX6eohoxbhq4S3r56+heruXEg2RUAAA==
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - private, max-age=60, s-maxage=60
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:49 GMT
+      ETag:
+      - W/"ef7a6eaac1c0fc20aee073578bcb45404ae5d632adfba384364b545242bde51e"
+      Last-Modified:
+      - Tue, 01 Mar 2022 01:01:44 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept, Authorization, Cookie, X-GitHub-OTP
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - repo
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD02:DD2C533:62240F7D
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4997'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '3'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/repos/django/deps/contributors?per_page=100
+  response:
+    body:
+      string: !!binary |
+        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
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - private, max-age=60, s-maxage=60
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:49 GMT
+      ETag:
+      - W/"ced3cf0d2b87a5522e066fe40ba45acb58651f97954a02bb331fda7a7da0778f"
+      Last-Modified:
+      - Tue, 01 Mar 2022 01:01:44 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept, Authorization, Cookie, X-GitHub-OTP
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD08:DD2C549:62240F7D
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WSQY7DIAxF78I6CzqhUZPLIEQ9qaUAGTtZVb17TSN1SJRUI80KsM3T/x/uioDT
+        TB5YdXflE0FeBww4qe6sta7UzHBVnalkNDiMGHs5tW2TCwwydmpMc66N/ro8KsXgyN8KSP1GyKZA
+        5PoKoE2rBdCTG28/w4GMNWMRuJFRZwrGCYQ0YYo2uIjfwKJ019lfkUtOFsOYqGSdfkNao16NPYs+
+        XcGydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/6A3so1+pUlewwlpPwWG8dHDyIU
+        EfO/v/V4ApXAPT2tAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:50 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD12:DD2C560:62240F7E
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WSQY7DIAxF78I6CzqhUZPLIEQ9qaUAGTtZVb17TSN1SJRUI80KsM3T/x/uioDT
+        TB5YdXflE0FeBww4qe6sta7UzHBVnalkNDiMGHs5tW2TCwwydmpMc66N/ro8KsXgyN8KSP1GyKZA
+        5PoKoE2rBdCTG28/w4GMNWMRuJFRZwrGCYQ0YYo2uIjfwKJ019lfkUtOFsOYqGSdfkNao16NPYs+
+        XcGydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/6A3so1+pUlewwlpPwWG8dHDyIU
+        EfO/v/V4ApXAPT2tAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:50 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD16:DD2C573:62240F7E
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WSQY7DIAxF78I6CzqhUZPLIEQ9qaUAGTtZVb17TSN1SJRUI80KsM3T/x/uioDT
+        TB5YdXflE0FeBww4qe6sta7UzHBVnalkNDiMGHs5tW2TCwwydmpMc66N/ro8KsXgyN8KSP1GyKZA
+        5PoKoE2rBdCTG28/w4GMNWMRuJFRZwrGCYQ0YYo2uIjfwKJ019lfkUtOFsOYqGSdfkNao16NPYs+
+        XcGydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/6A3so1+pUlewwlpPwWG8dHDyIU
+        EfO/v/V4ApXAPT2tAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:50 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD1F:DD2C58F:62240F7E
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WSQY7DIAxF78I6CzqhUZPLIEQ9qaUAGTtZVb17TSN1SJRUI80KsM3T/x/uioDT
+        TB5YdXflE0FeBww4qe6sta7UzHBVnalkNDiMGHs5tW2TCwwydmpMc66N/ro8KsXgyN8KSP1GyKZA
+        5PoKoE2rBdCTG28/w4GMNWMRuJFRZwrGCYQ0YYo2uIjfwKJ019lfkUtOFsOYqGSdfkNao16NPYs+
+        XcGydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/6A3so1+pUlewwlpPwWG8dHDyIU
+        EfO/v/V4ApXAPT2tAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:50 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD28:DD2C5A2:62240F7E
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WSQY7DIAxF78I6CzqhUZPLIEQ9qaUAGTtZVb17TSN1SJRUI80KsM3T/x/uioDT
+        TB5YdXflE0FeBww4qe6sta7UzHBVnalkNDiMGHs5tW2TCwwydmpMc66N/ro8KsXgyN8KSP1GyKZA
+        5PoKoE2rBdCTG28/w4GMNWMRuJFRZwrGCYQ0YYo2uIjfwKJ019lfkUtOFsOYqGSdfkNao16NPYs+
+        XcGydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/6A3so1+pUlewwlpPwWG8dHDyIU
+        EfO/v/V4ApXAPT2tAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:50 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD2D:DD2C5B7:62240F7E
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WSQY7DIAxF78I6CzqhUZPLIEQ9qaUAGTtZVb17TSN1SJRUI80KsM3T/x/uioDT
+        TB5YdXflE0FeBww4qe6sta7UzHBVnalkNDiMGHs5tW2TCwwydmpMc66N/ro8KsXgyN8KSP1GyKZA
+        5PoKoE2rBdCTG28/w4GMNWMRuJFRZwrGCYQ0YYo2uIjfwKJ019lfkUtOFsOYqGSdfkNao16NPYs+
+        XcGydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/6A3so1+pUlewwlpPwWG8dHDyIU
+        EfO/v/V4ApXAPT2tAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:50 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD37:DD2C5C9:62240F7E
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WSQY7DIAxF78I6CzqhUZPLIEQ9qaUAGTtZVb17TSN1SJRUI80KsM3T/x/uioDT
+        TB5YdXflE0FeBww4qe6sta7UzHBVnalkNDiMGHs5tW2TCwwydmpMc66N/ro8KsXgyN8KSP1GyKZA
+        5PoKoE2rBdCTG28/w4GMNWMRuJFRZwrGCYQ0YYo2uIjfwKJ019lfkUtOFsOYqGSdfkNao16NPYs+
+        XcGydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/6A3so1+pUlewwlpPwWG8dHDyIU
+        EfO/v/V4ApXAPT2tAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:50 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD3D:DD2C5D4:62240F7E
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WSQY7DIAxF78I6CzqhUZPLIEQ9qaUAGTtZVb17TSN1SJRUI80KsM3T/x/uioDT
+        TB5YdXflE0FeBww4qe6sta7UzHBVnalkNDiMGHs5tW2TCwwydmpMc66N/ro8KsXgyN8KSP1GyKZA
+        5PoKoE2rBdCTG28/w4GMNWMRuJFRZwrGCYQ0YYo2uIjfwKJ019lfkUtOFsOYqGSdfkNao16NPYs+
+        XcGydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/6A3so1+pUlewwlpPwWG8dHDyIU
+        EfO/v/V4ApXAPT2tAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:50 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD3F:DD2C5E2:62240F7E
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WSQY7DIAxF78I6CzqhUZPLIEQ9qaUAGTtZVb17TSN1SJRUI80KsM3T/x/uioDT
+        TB5YdXflE0FeBww4qe6sta7UzHBVnalkNDiMGHs5tW2TCwwydmpMc66N/ro8KsXgyN8KSP1GyKZA
+        5PoKoE2rBdCTG28/w4GMNWMRuJFRZwrGCYQ0YYo2uIjfwKJ019lfkUtOFsOYqGSdfkNao16NPYs+
+        XcGydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/6A3so1+pUlewwlpPwWG8dHDyIU
+        EfO/v/V4ApXAPT2tAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:50 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD43:DD2C5F3:62240F7E
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WSQY7DIAxF78I6CzqhUZPLIEQ9qaUAGTtZVb17TSN1SJRUI80KsM3T/x/uioDT
+        TB5YdXflE0FeBww4qe6sta7UzHBVnalkNDiMGHs5tW2TCwwydmpMc66N/ro8KsXgyN8KSP1GyKZA
+        5PoKoE2rBdCTG28/w4GMNWMRuJFRZwrGCYQ0YYo2uIjfwKJ019lfkUtOFsOYqGSdfkNao16NPYs+
+        XcGydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/6A3so1+pUlewwlpPwWG8dHDyIU
+        EfO/v/V4ApXAPT2tAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:50 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD4B:DD2C600:62240F7E
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WS0W7DIAxF/4XnPJCFRkt+BiHqpZYCZHbyVPXfaxqpI1EyTdoTYJujey/cFQGn
+        hTyw6u/KJ4K8jhhwVv1Fa12pheGqelPJaHAYMQ5y6ro2FxhkrG5Ne2mM/vh8VIrBkb8VkOaNkE2B
+        yPUNQJuuFsBAbrp9jycytoxV4E5GkykYZxDSjCna4CJ+AYvSQ2d/Ra45WQxTopJV/4S0Rb0aRxZ9
+        uoJl72IO0y7TmJwk/BYn904yWztHfp3PVtnSEiOQJRiQ59X/jvwLei/X6FeW7DGUkPJb7ByfPYhQ
+        RMz//tbjCepkXDmtAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:51 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD50:DD2C60D:62240F7F
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WS0W7DIAxF/4XnPJCFRkt+BiHqpZYCZHbyVPXfaxqpI1EyTdoTYJujey/cFQGn
+        hTyw6u/KJ4K8jhhwVv1Fa12pheGqelPJaHAYMQ5y6ro2FxhkrG5Ne2mM/vh8VIrBkb8VkOaNkE2B
+        yPUNQJuuFsBAbrp9jycytoxV4E5GkykYZxDSjCna4CJ+AYvSQ2d/Ra45WQxTopJV/4S0Rb0aRxZ9
+        uoJl72IO0y7TmJwk/BYn904yWztHfp3PVtnSEiOQJRiQ59X/jvwLei/X6FeW7DGUkPJb7ByfPYhQ
+        RMz//tbjCepkXDmtAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:51 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD58:DD2C623:62240F7F
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WS0W7DIAxF/4XnPJCFRkt+BiHqpZYCZHbyVPXfaxqpI1EyTdoTYJujey/cFQGn
+        hTyw6u/KJ4K8jhhwVv1Fa12pheGqelPJaHAYMQ5y6ro2FxhkrG5Ne2mM/vh8VIrBkb8VkOaNkE2B
+        yPUNQJuuFsBAbrp9jycytoxV4E5GkykYZxDSjCna4CJ+AYvSQ2d/Ra45WQxTopJV/4S0Rb0aRxZ9
+        uoJl72IO0y7TmJwk/BYn904yWztHfp3PVtnSEiOQJRiQ59X/jvwLei/X6FeW7DGUkPJb7ByfPYhQ
+        RMz//tbjCepkXDmtAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:51 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD5D:DD2C634:62240F7F
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WS0W7DIAxF/4XnPJCFRkt+BiHqpZYCZHbyVPXfaxqpI1EyTdoTYJujey/cFQGn
+        hTyw6u/KJ4K8jhhwVv1Fa12pheGqelPJaHAYMQ5y6ro2FxhkrG5Ne2mM/vh8VIrBkb8VkOaNkE2B
+        yPUNQJuuFsBAbrp9jycytoxV4E5GkykYZxDSjCna4CJ+AYvSQ2d/Ra45WQxTopJV/4S0Rb0aRxZ9
+        uoJl72IO0y7TmJwk/BYn904yWztHfp3PVtnSEiOQJRiQ59X/jvwLei/X6FeW7DGUkPJb7ByfPYhQ
+        RMz//tbjCepkXDmtAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:51 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD60:DD2C63E:62240F7F
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WS0W7DIAxF/4XnPJCFRkt+BiHqpZYCZHbyVPXfaxqpI1EyTdoTYJujey/cFQGn
+        hTyw6u/KJ4K8jhhwVv1Fa12pheGqelPJaHAYMQ5y6ro2FxhkrG5Ne2mM/vh8VIrBkb8VkOaNkE2B
+        yPUNQJuuFsBAbrp9jycytoxV4E5GkykYZxDSjCna4CJ+AYvSQ2d/Ra45WQxTopJV/4S0Rb0aRxZ9
+        uoJl72IO0y7TmJwk/BYn904yWztHfp3PVtnSEiOQJRiQ59X/jvwLei/X6FeW7DGUkPJb7ByfPYhQ
+        RMz//tbjCepkXDmtAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:51 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD65:DD2C659:62240F7F
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WS0W7DIAxF/4XnPJCFRkt+BiHqpZYCZHbyVPXfaxqpI1EyTdoTYJujey/cFQGn
+        hTyw6u/KJ4K8jhhwVv1Fa12pheGqelPJaHAYMQ5y6ro2FxhkrG5Ne2mM/vh8VIrBkb8VkOaNkE2B
+        yPUNQJuuFsBAbrp9jycytoxV4E5GkykYZxDSjCna4CJ+AYvSQ2d/Ra45WQxTopJV/4S0Rb0aRxZ9
+        uoJl72IO0y7TmJwk/BYn904yWztHfp3PVtnSEiOQJRiQ59X/jvwLei/X6FeW7DGUkPJb7ByfPYhQ
+        RMz//tbjCepkXDmtAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:51 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD70:DD2C669:62240F7F
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WS0W7DIAxF/4XnPJCFRkt+BiHqpZYCZHbyVPXfaxqpI1EyTdoTYJujey/cFQGn
+        hTyw6u/KJ4K8jhhwVv1Fa12pheGqelPJaHAYMQ5y6ro2FxhkrG5Ne2mM/vh8VIrBkb8VkOaNkE2B
+        yPUNQJuuFsBAbrp9jycytoxV4E5GkykYZxDSjCna4CJ+AYvSQ2d/Ra45WQxTopJV/4S0Rb0aRxZ9
+        uoJl72IO0y7TmJwk/BYn904yWztHfp3PVtnSEiOQJRiQ59X/jvwLei/X6FeW7DGUkPJb7ByfPYhQ
+        RMz//tbjCepkXDmtAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:51 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD79:DD2C678:62240F7F
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WS0W7DIAxF/4XnPJCFRkt+BiHqpZYCZHbyVPXfaxqpI1EyTdoTYJujey/cFQGn
+        hTyw6u/KJ4K8jhhwVv1Fa12pheGqelPJaHAYMQ5y6ro2FxhkrG5Ne2mM/vh8VIrBkb8VkOaNkE2B
+        yPUNQJuuFsBAbrp9jycytoxV4E5GkykYZxDSjCna4CJ+AYvSQ2d/Ra45WQxTopJV/4S0Rb0aRxZ9
+        uoJl72IO0y7TmJwk/BYn904yWztHfp3PVtnSEiOQJRiQ59X/jvwLei/X6FeW7DGUkPJb7ByfPYhQ
+        RMz//tbjCepkXDmtAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:51 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD7E:DD2C689:62240F7F
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WS0W7DIAxF/4XnPJCFRkt+BiHqpZYCZHbyVPXfaxqpI1EyTdoTYJujey/cFQGn
+        hTyw6u/KJ4K8jhhwVv1Fa12pheGqelPJaHAYMQ5y6ro2FxhkrG5Ne2mM/vh8VIrBkb8VkOaNkE2B
+        yPUNQJuuFsBAbrp9jycytoxV4E5GkykYZxDSjCna4CJ+AYvSQ2d/Ra45WQxTopJV/4S0Rb0aRxZ9
+        uoJl72IO0y7TmJwk/BYn904yWztHfp3PVtnSEiOQJRiQ59X/jvwLei/X6FeW7DGUkPJb7ByfPYhQ
+        RMz//tbjCepkXDmtAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:51 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD84:DD2C693:62240F7F
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WS0W7DIAxF/4XnPJCFRkt+BiHqpZYCZHbyVPXfaxqpI1EyTdoTYJujey/cFQGn
+        hTyw6u/KJ4K8jhhwVv1Fa12pheGqelPJaHAYMQ5y6ro2FxhkrG5Ne2mM/vh8VIrBkb8VkOaNkE2B
+        yPUNQJuuFsBAbrp9jycytoxV4E5GkykYZxDSjCna4CJ+AYvSQ2d/Ra45WQxTopJV/4S0Rb0aRxZ9
+        uoJl72IO0y7TmJwk/BYn904yWztHfp3PVtnSEiOQJRiQ59X/jvwLei/X6FeW7DGUkPJb7ByfPYhQ
+        RMz//tbjCepkXDmtAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:51 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD8A:DD2C6A3:62240F7F
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WSQY7DIAxF78I6C9rQqMllEKKe1FKAjJ2sqt59TCO1JEpGI80KsM3T/x8eioDT
+        TB5YdQ/lE0FeBww4qe6ita7UzHBTnalkNDiMGHs5tW2TCwwydmpMc6mNPl+flWJw5O8FpH4jZFMg
+        cn0F0KY9C6AnN96/hwMZa8YicCOjzhSMEwhpwhRtcBG/gEXprrO/IpecLIYxUck6fUJao16NPYs+
+        3cCydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/4FvZVr9CtL9hhKSPktNo6PHkQo
+        IuZ/f+v5A2uI/jWtAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:52 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD95:DD2C6B3:62240F80
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WSQY7DIAxF78I6C9rQqMllEKKe1FKAjJ2sqt59TCO1JEpGI80KsM3T/x8eioDT
+        TB5YdQ/lE0FeBww4qe6ita7UzHBTnalkNDiMGHs5tW2TCwwydmpMc6mNPl+flWJw5O8FpH4jZFMg
+        cn0F0KY9C6AnN96/hwMZa8YicCOjzhSMEwhpwhRtcBG/gEXprrO/IpecLIYxUck6fUJao16NPYs+
+        3cCydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/4FvZVr9CtL9hhKSPktNo6PHkQo
+        IuZ/f+v5A2uI/jWtAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:52 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD9A:DD2C6C2:62240F80
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WSQY7DIAxF78I6C9rQqMllEKKe1FKAjJ2sqt59TCO1JEpGI80KsM3T/x8eioDT
+        TB5YdQ/lE0FeBww4qe6ita7UzHBTnalkNDiMGHs5tW2TCwwydmpMc6mNPl+flWJw5O8FpH4jZFMg
+        cn0F0KY9C6AnN96/hwMZa8YicCOjzhSMEwhpwhRtcBG/gEXprrO/IpecLIYxUck6fUJao16NPYs+
+        3cCydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/4FvZVr9CtL9hhKSPktNo6PHkQo
+        IuZ/f+v5A2uI/jWtAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:52 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD9C:DD2C6CF:62240F80
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WSQY7DIAxF78I6C9rQqMllEKKe1FKAjJ2sqt59TCO1JEpGI80KsM3T/x8eioDT
+        TB5YdQ/lE0FeBww4qe6ita7UzHBTnalkNDiMGHs5tW2TCwwydmpMc6mNPl+flWJw5O8FpH4jZFMg
+        cn0F0KY9C6AnN96/hwMZa8YicCOjzhSMEwhpwhRtcBG/gEXprrO/IpecLIYxUck6fUJao16NPYs+
+        3cCydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/4FvZVr9CtL9hhKSPktNo6PHkQo
+        IuZ/f+v5A2uI/jWtAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:52 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DD9F:DD2C6E2:62240F80
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WSQY7DIAxF78I6C9rQqMllEKKe1FKAjJ2sqt59TCO1JEpGI80KsM3T/x8eioDT
+        TB5YdQ/lE0FeBww4qe6ita7UzHBTnalkNDiMGHs5tW2TCwwydmpMc6mNPl+flWJw5O8FpH4jZFMg
+        cn0F0KY9C6AnN96/hwMZa8YicCOjzhSMEwhpwhRtcBG/gEXprrO/IpecLIYxUck6fUJao16NPYs+
+        3cCydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/4FvZVr9CtL9hhKSPktNo6PHkQo
+        IuZ/f+v5A2uI/jWtAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:52 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DDA3:DD2C6F2:62240F80
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WSQY7DIAxF78I6C9rQqMllEKKe1FKAjJ2sqt59TCO1JEpGI80KsM3T/x8eioDT
+        TB5YdQ/lE0FeBww4qe6ita7UzHBTnalkNDiMGHs5tW2TCwwydmpMc6mNPl+flWJw5O8FpH4jZFMg
+        cn0F0KY9C6AnN96/hwMZa8YicCOjzhSMEwhpwhRtcBG/gEXprrO/IpecLIYxUck6fUJao16NPYs+
+        3cCydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/4FvZVr9CtL9hhKSPktNo6PHkQo
+        IuZ/f+v5A2uI/jWtAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:52 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DDA7:DD2C705:62240F80
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WSQY7DIAxF78I6C9rQqMllEKKe1FKAjJ2sqt59TCO1JEpGI80KsM3T/x8eioDT
+        TB5YdQ/lE0FeBww4qe6ita7UzHBTnalkNDiMGHs5tW2TCwwydmpMc6mNPl+flWJw5O8FpH4jZFMg
+        cn0F0KY9C6AnN96/hwMZa8YicCOjzhSMEwhpwhRtcBG/gEXprrO/IpecLIYxUck6fUJao16NPYs+
+        3cCydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/4FvZVr9CtL9hhKSPktNo6PHkQo
+        IuZ/f+v5A2uI/jWtAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:52 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DDB4:DD2C716:62240F80
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WSQY7DIAxF78I6C9rQqMllEKKe1FKAjJ2sqt59TCO1JEpGI80KsM3T/x8eioDT
+        TB5YdQ/lE0FeBww4qe6ita7UzHBTnalkNDiMGHs5tW2TCwwydmpMc6mNPl+flWJw5O8FpH4jZFMg
+        cn0F0KY9C6AnN96/hwMZa8YicCOjzhSMEwhpwhRtcBG/gEXprrO/IpecLIYxUck6fUJao16NPYs+
+        3cCydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/4FvZVr9CtL9hhKSPktNo6PHkQo
+        IuZ/f+v5A2uI/jWtAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:52 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DDB9:DD2C728:62240F80
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WSQY7DIAxF78I6C9rQqMllEKKe1FKAjJ2sqt59TCO1JEpGI80KsM3T/x8eioDT
+        TB5YdQ/lE0FeBww4qe6ita7UzHBTnalkNDiMGHs5tW2TCwwydmpMc6mNPl+flWJw5O8FpH4jZFMg
+        cn0F0KY9C6AnN96/hwMZa8YicCOjzhSMEwhpwhRtcBG/gEXprrO/IpecLIYxUck6fUJao16NPYs+
+        3cCydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/4FvZVr9CtL9hhKSPktNo6PHkQo
+        IuZ/f+v5A2uI/jWtAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:52 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DDC0:DD2C73C:62240F80
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/1.0.2
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WSQY7DIAxF78I6C9rQqMllEKKe1FKAjJ2sqt59TCO1JEpGI80KsM3T/x8eioDT
+        TB5YdQ/lE0FeBww4qe6ita7UzHBTnalkNDiMGHs5tW2TCwwydmpMc6mNPl+flWJw5O8FpH4jZFMg
+        cn0F0KY9C6AnN96/hwMZa8YicCOjzhSMEwhpwhRtcBG/gEXprrO/IpecLIYxUck6fUJao16NPYs+
+        3cCydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/4FvZVr9CtL9hhKSPktNo6PHkQo
+        IuZ/f+v5A2uI/jWtAgAA
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 06 Mar 2022 01:33:52 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - D392:0A66:519DDC2:DD2C749:62240F80
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1646534028'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+version: 1

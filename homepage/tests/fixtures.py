@@ -2,7 +2,6 @@ import pytest
 
 from django.contrib.auth.models import Group, User, Permission
 
-from core.tests import datautil
 from grid.models import Element, Feature, Grid, GridPackage
 from package.models import Category, PackageExample, Package
 
@@ -212,17 +211,4 @@ def homepage_data(django_db_blocker):
             url="http://www.example.com/",
             active=True,
             title="www.example.com",
-        )
-
-        datautil.reset_sequences(
-            Grid,
-            Group,
-            User,
-            Permission,
-            Category,
-            PackageExample,
-            Package,
-            Element,
-            Feature,
-            GridPackage,
         )

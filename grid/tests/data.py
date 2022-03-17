@@ -1,6 +1,5 @@
 from django.contrib.auth.models import Group, User, Permission
 
-from core.tests import datautil
 from grid.models import Grid
 from grid.models import Element, Feature, GridPackage
 from package.models import Category, PackageExample, Package
@@ -214,16 +213,3 @@ def load():
     )
     for user in User.objects.all():
         profile = Profile.objects.create(user=user)
-
-    datautil.reset_sequences(
-        Grid,
-        Group,
-        User,
-        Permission,
-        Category,
-        PackageExample,
-        Package,
-        Element,
-        Feature,
-        GridPackage,
-    )

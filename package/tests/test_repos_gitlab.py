@@ -9,13 +9,15 @@ def gitlab_handler():
     return GitlabHandler()
 
 
-def test_fetch_commits(gitlab_handler, package_gitlab):
+@pytest.mark.vcr()
+def test_gitlab_fetch_commits(gitlab_handler, package_gitlab):
     assert Commit.objects.count() == 0
     gitlab_handler.fetch_commits(package_gitlab)
     assert Commit.objects.count() > 0
 
 
-def test_fetch_metadata(gitlab_handler, package_gitlab):
+@pytest.mark.vcr()
+def test_gitlab_fetch_metadata(gitlab_handler, package_gitlab):
     assert package_gitlab.repo_watchers == 0
     assert package_gitlab.repo_forks == 0
     package = gitlab_handler.fetch_metadata(package_gitlab)

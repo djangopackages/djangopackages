@@ -52,6 +52,7 @@ pytest
 pytest-cov
 pytest-django
 pytest-mock
+pytest-vcr
 time-machine
 
 # utils

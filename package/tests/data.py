@@ -4,7 +4,6 @@ from datetime import timedelta
 from django.contrib.auth.models import User
 from django.utils.timezone import make_aware, now
 
-from core.tests import datautil
 from package.models import Category, Package, Version, Commit
 from profiles.models import Profile
 
@@ -1261,5 +1260,3 @@ def load():
         number="2.1.3",
         hidden=False,
     )
-
-    datautil.reset_sequences(Category, Package, Profile, Version, User)

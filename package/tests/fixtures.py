@@ -72,7 +72,7 @@ def package_invalid(db, category) -> Package:
     return baker.make(
         Package,
         category=category,
-        repo_url="https://example.com",
+        repo_url="https://github.com/djangopackages/does-not-exist",
         slug="invldpkg",
         title="Invalid Package",
     )

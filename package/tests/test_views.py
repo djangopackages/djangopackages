@@ -126,7 +126,7 @@ class FunctionalPackageTest(TestCase):
 
     def test_add_package_view(self):
         # this test has side effects, remove Package 3
-        Package.objects.get(pk=3).delete()
+        Package.objects.filter(pk=3).delete()
         url = reverse("add_package")
         response = self.client.get(url)
 
@@ -376,10 +376,8 @@ class PackagePermissionTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-class CategoryTest(TestCase):
-    def setUp(self):
-        initial_data.load()
+def test_category_view(db, tp):
+    initial_data.load()
 
-    def test_category_view(self):
-        response = self.client.get("/categories/apps/")
-        self.assertContains(response, "apps")
+    response = tp.client.get("/categories/apps/")
+    assert "apps" in str(response.content)

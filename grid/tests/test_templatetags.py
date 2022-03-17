@@ -31,10 +31,10 @@ class GridTest(TestCase):
         ]
         for positive in YES_KEYWORDS:
             tests.append((positive, 1, 0, ""))
-            tests.append(("%stest" % positive, 1, 0, "test"))
+            tests.append((f"{positive}test", 1, 0, "test"))
         for negative in NO_KEYWORDS:
             tests.append((negative, 0, 1, ""))
-            tests.append(("%stest" % negative, 0, 1, "test"))
+            tests.append((f"{negative}test", 0, 1, "test"))
         for text, yes, no, endswith in tests:
             output = style_element(text)
             got_yes = output.count(YES_IMG)

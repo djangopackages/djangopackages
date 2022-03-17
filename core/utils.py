@@ -16,7 +16,7 @@ def oc_slugify(value):
     return slugify(value)
 
 
-def get_pypi_url(title):
+def get_pypi_url(title: str, timeout: float = 1.0):
     title = title.strip()
     for value in [
         oc_slugify(title.lower()),
@@ -26,10 +26,12 @@ def get_pypi_url(title):
         title.title(),
     ]:
         value = f"https://pypi.org/project/{value}/"
-        r = requests.get(value)
-        if r.status_code == 200:
+        try:
+            r = requests.get(value, timeout=timeout)
+            r.raise_for_status()
             return value
-    return None
+        except (requests.exceptions.HTTPError, requests.exceptions.Timeout):
+            return None
 
 
 STATUS_CHOICES = (
@@ -68,12 +70,15 @@ def get_repo_from_url(url):
     return None
 
 
-def healthcheck(url):
+def healthcheck(url: str, timeout: float = 1.0):
     """
     Sends a get request to the given URL
     """
     if settings.HEALTHCHECK:
         for i in range(0, 4):
-            r = requests.get(url=url)
-            if r.status_code == 200:
-                return
+            try:
+                r = requests.get(url=url, timeout=timeout)
+                r.raise_for_status()
+                return True
+            except (requests.exceptions.HTTPError, requests.exceptions.Timeout):
+                return None

@@ -2,7 +2,6 @@ from grid.models import Grid
 from django.contrib.auth.models import Group, User, Permission
 from package.models import Category, PackageExample, Package
 from grid.models import Element, Feature, GridPackage
-from core.tests import datautil
 
 
 def load():
@@ -208,17 +207,4 @@ def load():
         url="http://www.example.com/",
         active=True,
         title="www.example.com",
-    )
-
-    datautil.reset_sequences(
-        Grid,
-        Group,
-        User,
-        Permission,
-        Category,
-        PackageExample,
-        Package,
-        Element,
-        Feature,
-        GridPackage,
     )

@@ -4,6 +4,7 @@ from django.conf import settings
 from django.utils import timezone
 
 from github3 import GitHub, login
+from github3.exceptions import NotFoundError
 
 from .base_handler import BaseHandler
 from package.utils import uniquer
@@ -39,32 +40,36 @@ class GitHubHandler(BaseHandler):
 
     def fetch_metadata(self, package):
         self.manage_ratelimit()
-        repo = self._get_repo(package)
-        if repo is None:
+        try:
+            repo = self._get_repo(package)
+            if repo is None:
+                return package
+
+            # package.repo_watchers = repo.watchers
+            package.repo_watchers = repo.watchers_count
+
+            if repo.archived:
+                if not package.date_repo_archived:
+                    package.date_repo_archived = timezone.now()
+
+            # package.repo_forks = repo.forks
+            package.repo_forks = repo.forks_count
+
+            package.repo_description = repo.description
+            # repo.stargazers_count
+
+            contributors = []
+            for contributor in repo.contributors():
+                contributors.append(contributor.login)
+                self.manage_ratelimit()
+
+            if contributors:
+                package.participants = ",".join(uniquer(contributors))
+
             return package
 
-        # package.repo_watchers = repo.watchers
-        package.repo_watchers = repo.watchers_count
-
-        if repo.archived:
-            if not package.date_repo_archived:
-                package.date_repo_archived = timezone.now()
-
-        # package.repo_forks = repo.forks
-        package.repo_forks = repo.forks_count
-
-        package.repo_description = repo.description
-        # repo.stargazers_count
-
-        contributors = []
-        for contributor in repo.contributors():
-            contributors.append(contributor.login)
-            self.manage_ratelimit()
-
-        if contributors:
-            package.participants = ",".join(uniquer(contributors))
-
-        return package
+        except NotFoundError:
+            raise
 
     def fetch_commits(self, package):
 
