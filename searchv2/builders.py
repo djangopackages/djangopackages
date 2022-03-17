@@ -1,6 +1,3 @@
-import json
-import requests
-
 from datetime import timedelta
 from django.utils import timezone
 
@@ -53,18 +50,19 @@ def build_1():
             obj.save()
 
         # Weighting part
-        # Weighting part
-        # Weighting part
         weight = 0
         optional_save = False
 
         # Read the docs!
-        rtfd_url = f"http://readthedocs.org/api/v1/build/{obj.slug}/"
-        r = requests.get(rtfd_url)
-        if r.status_code == 200:
-            data = json.loads(r.content)
-            if data["meta"]["total_count"]:
-                weight += 20
+        if package.documentation_url and len(package.documentation_url):
+            weight += 20
+
+        # rtfd_url = f"http://readthedocs.org/api/v1/build/{obj.slug}/"
+        # r = requests.get(rtfd_url)
+        # if r.status_code == 200:
+        #     data = json.loads(r.content)
+        #     if data["meta"]["total_count"]:
+        #         weight += 20
 
         if not package.is_deprecated:
 
