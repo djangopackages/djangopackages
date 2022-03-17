@@ -364,6 +364,13 @@ Listed in alphabetical order.
     <td>radiac</td>
   </tr>
   <tr>
+    <td>Ryan Cheley</td>
+    <td>
+      <a href="https://github.com/ryancheley">ryancheley</a>
+    </td>
+    <td>ryancheley</td>
+  </tr>
+  <tr>
     <td>Sam Thompson</td>
     <td>
       <a href="https://github.com/georgedorn">georgedorn</a>
