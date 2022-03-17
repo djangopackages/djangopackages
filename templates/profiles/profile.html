@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load profile_tags %}
+{% load package_tags %}
 {% load crispy_forms_tags %}
 
 {% block head_title %}Profile for {{ user }}{% endblock %}
@@ -49,7 +50,7 @@
                         {% for package in local_profile.my_packages %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
-                                <td><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></td>
+                                <td><a href="{{ package.get_absolute_url }}">{{ package.title | emojify }}</a></td>
                                 <td><a href="{{ package.repo_url }}">{{ package.repo.title }}</a></td>
                             </tr>
                         {% endfor %}
@@ -73,7 +74,7 @@
                         {% for package in user|package_usage %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
-                                <td><a href="{{ package.get_absolute_url }}">{{ package.title }}</a></td>
+                                <td><a href="{{ package.get_absolute_url }}">{{ package.title | emojify }}</a></td>
                                 <td><a href="{{ package.repo_url }}">{{ package.repo.title }}</a></td>
                             </tr>
                         {% endfor %}

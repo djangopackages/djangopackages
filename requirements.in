@@ -14,6 +14,7 @@ django-secure
 django-structlog
 django-waffle
 djangorestframework<3.13
+emoji
 feedparser
 # github3.py
 github3.py<1.1
