@@ -1,38 +1,32 @@
-from django.test import TestCase
-from django.urls import reverse
-from package.models import Package
-
 import feedparser
 
+from django.urls import reverse
+
 from feeds.tests import data
+from package.models import Package
 
 
-class LatestFeedsTest(TestCase):
-    def setUp(self):
-        data.load()
+def test_latest_feeds(db, tp):
+    data.load()
 
-    def test_latest_feeds(self):
+    packages = Package.objects.all().order_by("-created")[:15]
 
-        packages = Package.objects.all().order_by("-created")[:15]
+    for feed_type in ("rss", "atom"):
+        url = reverse(f"feeds_latest_packages_{feed_type}")
+        response = tp.get(url)
 
-        for feed_type in ("rss", "atom"):
-            url = reverse("feeds_latest_packages_%s" % feed_type)
-            response = self.client.get(url)
+        assert response.status_code == 200
 
-            self.assertEqual(response.status_code, 200)
+        feed = feedparser.parse(response.content)
 
-            feed = feedparser.parse(response.content)
+        expect_titles = [p.title for p in packages]
+        actual_titles = [e["title"] for e in feed.entries]
 
-            expect_titles = [p.title for p in packages]
-            actual_titles = [e["title"] for e in feed.entries]
+        for expected_title, actual_title in zip(expect_titles, actual_titles):
+            assert expected_title == actual_title
 
-            for expected_title, actual_title in zip(expect_titles, actual_titles):
-                self.assertEqual(expected_title, actual_title)
+        expect_summaries = [p.repo_description for p in packages]
+        actual_summaries = [e["summary"] for e in feed.entries]
 
-            expect_summaries = [p.repo_description for p in packages]
-            actual_summaries = [e["summary"] for e in feed.entries]
-
-            for expected_summary, actual_summary in zip(
-                expect_summaries, actual_summaries
-            ):
-                self.assertEqual(expected_summary, actual_summary)
+        for expected_summary, actual_summary in zip(expect_summaries, actual_summaries):
+            assert expected_summary == actual_summary
