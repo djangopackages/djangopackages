@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
-from django.urls import reverse
 from django.test import TestCase
+from django.urls import reverse
 
 from package.tests import initial_data
 from profiles.models import Profile
@@ -58,9 +58,6 @@ class ViewTest(TestCase):
         data = {"q": "another-test"}
         response = self.client.get(url, data, follow=True)
         self.assertContains(response, "another-test")
-        # print response
-        # print Package.objects.all()
-        # print SearchV2.objects.all()
 
     def test_multiple_items(self):
         self.assertTrue(self.client.login(username="admin", password="admin"))
