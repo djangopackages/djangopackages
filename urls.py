@@ -75,8 +75,6 @@ urlpatterns = [
         name="apiv1_gone",
     ),
     # url(r'^api/v1/', include('core.apiv1', namespace="apitest")),
-    # reports
-    # url(r'^reports/', include('reports.urls', namespace='reports')),
 ]
 
 if settings.DEBUG:
