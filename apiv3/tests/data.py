@@ -37,7 +37,7 @@ class BaseData(TestCase):
             title="Package2",
             slug="package2",
             category=self.app,
-            repo_url="https://github.com/cartwheelweb/opencomparison",
+            repo_url="https://github.com/djangopackages/opencomparison",
         )
         GridPackage.objects.create(package=self.pkg1, grid=self.grid)
         GridPackage.objects.create(package=self.pkg2, grid=self.grid)

@@ -36,7 +36,7 @@ def make():
         category=category,
         participants="pydanny",
         repo_description="Make testing as painless as frozen yogurt.",
-        repo_url="https://github.com/opencomparison/opencomparison",
+        repo_url="https://github.com/djangopackages/opencomparison",
         slug="serious-testing",
         title="Serious Testing",
     )
