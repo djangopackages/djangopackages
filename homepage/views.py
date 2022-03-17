@@ -100,9 +100,8 @@ def get_feed():
 
 
 def homepage(request, template_name="homepage.html"):
-
     categories = []
-    for category in Category.objects.annotate(package_count=Count("package")):
+    for category in Category.objects.all().annotate(package_count=Count("package")):
         element = {
             "title": category.title,
             "description": category.description,
