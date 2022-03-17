@@ -376,10 +376,9 @@ class PackagePermissionTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-class CategoryTest(TestCase):
-    def setUp(self):
-        initial_data.load()
+def test_category_view(db, django_assert_num_queries, tp):
+    initial_data.load()
 
-    def test_category_view(self):
-        response = self.client.get("/categories/apps/")
-        self.assertContains(response, "apps")
+    with django_assert_num_queries(18):
+        response = tp.client.get("/categories/apps/")
+    assert "apps" in str(response.content)
