@@ -23,7 +23,7 @@ class PackageUpdaterException(Exception):
 
 
 @click.command()
-# @click.option("--all", default=False)
+@click.option("--all", default=False)
 @click.option("--limit", default=None, type=int)
 def command(all, limit):
     """Updates all the packages in the system. Commands belongs to django-packages.package"""
