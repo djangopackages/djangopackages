@@ -1,10 +1,9 @@
+from django.core.management import call_command
 from io import StringIO
 
-from django.core.management import call_command
-
-from package.tests import initial_data
-from package.models import Package
 from grid.models import Grid
+from package.models import Package
+from package.tests import initial_data
 from searchv2.models import SearchV2
 
 
