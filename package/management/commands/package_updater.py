@@ -6,7 +6,7 @@ from django.conf import settings
 from django.db.models import F
 from django.utils import timezone
 from github3 import login as github_login
-from github3.exceptions import NotFoundError
+from github3.exceptions import NotFoundError, UnexpectedResponse
 from rich import print
 
 from core.utils import healthcheck
@@ -52,8 +52,20 @@ def command(all, limit):
             try:
                 package.fetch_metadata(fetch_pypi=False, fetch_repo=True)
                 package.fetch_commits()
+
             except NotFoundError as e:
                 logger.error(f"Package was not found for {package.title}.")
+
+                Package.objects.filter(pk=package.pk).update(
+                    date_deprecated=timezone.now(),
+                    last_exception=e,
+                    last_exception_at=timezone.now(),
+                    last_exception_count=F("last_exception_count") + 1,
+                )
+
+            except UnexpectedResponse as e:
+                logger.error(f"Empty repo found for {package.title}.")
+
                 Package.objects.filter(pk=package.pk).update(
                     date_deprecated=timezone.now(),
                     last_exception=e,
