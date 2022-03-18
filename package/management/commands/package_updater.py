@@ -33,9 +33,9 @@ def command(all, limit):
 
     github = github_login(token=settings.GITHUB_TOKEN)
 
-    packages = Package.objects.filter(date_deprecated__isnull=True).order_by(
-        "last_fetched"
-    )
+    packages = Package.objects.filter(
+        date_deprecated__isnull=True, last_exception_count__lte=5
+    ).order_by("last_fetched")
     if limit:
         packages = packages[:limit]
 
