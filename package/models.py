@@ -438,7 +438,7 @@ class Package(BaseModel):
     def development_status(self):
         """Gets data needed in API v2 calls"""
         if release := self.last_released():
-            return self.last_released().pretty_status
+            return release.pretty_status
         return None
 
     @property
