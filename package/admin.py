@@ -19,14 +19,28 @@ class CommitAdmin(admin.ModelAdmin):
 class PackageAdmin(VersionAdmin):
     save_on_top = True
     search_fields = ["title"]
-    list_filter = ["category", "supports_python3"]
-    list_display = ["title", "category", "score", "supports_python3", "created"]
+    list_filter = ["category", "supports_python3", "date_deprecated"]
+    list_display = [
+        "title",
+        "score",
+        "last_exception_count",
+        "date_deprecated",
+        "last_fetched",
+        "created",
+    ]
     date_hierarchy = "created"
     raw_id_fields = ["usage", "deprecated_by", "deprecates_package"]
     inlines = [
         PackageExampleInline,
     ]
-    readonly_fields = ["score", "created_by", "last_modified_by"]
+    readonly_fields = [
+        "score",
+        "created_by",
+        "last_modified_by",
+        "last_exception",
+        "last_exception_at",
+        "last_exception_count",
+    ]
     fieldsets = (
         (
             None,
@@ -64,6 +78,17 @@ class PackageAdmin(VersionAdmin):
                     "pypi_requires_python",
                     "supports_python3",
                     "participants",
+                ),
+            },
+        ),
+        (
+            "Exceptions",
+            {
+                # "classes": ("collapse",),
+                "fields": (
+                    "last_exception",
+                    "last_exception_at",
+                    "last_exception_count",
                 ),
             },
         ),

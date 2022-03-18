@@ -128,6 +128,9 @@ class Package(BaseModel):
         related_name="replacement",
         on_delete=models.PROTECT,
     )
+    last_exception = models.TextField(blank=True, null=True)
+    last_exception_at = models.DateTimeField(blank=True, null=True)
+    last_exception_count = models.IntegerField(default=0, blank=True, null=True)
 
     objects = PackageManager()
 
