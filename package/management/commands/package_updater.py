@@ -1,13 +1,16 @@
 import logging
 from time import sleep
 
+import djclick as click
 from django.conf import settings
-from django.core.management.base import BaseCommand
-
+from django.db.models import F
+from django.utils import timezone
 from github3 import login as github_login
+from github3.exceptions import NotFoundError
+from rich import print
 
-from package.models import Package
 from core.utils import healthcheck
+from package.models import Package
 
 logger = logging.getLogger(__name__)
 
@@ -19,36 +22,60 @@ class PackageUpdaterException(Exception):
         logging.exception(error)
 
 
-class Command(BaseCommand):
+@click.command()
+# @click.option("--all", default=False)
+@click.option("--limit", default=None, type=int)
+def command(all, limit):
+    """Updates all the packages in the system. Commands belongs to django-packages.package"""
 
-    help = "Updates all the packages in the system. Commands belongs to django-packages.package"
+    # if not all:
+    #     now = timezone.now() - timezone.timedelta(hours=24)
 
-    def handle(self, *args, **options):
+    github = github_login(token=settings.GITHUB_TOKEN)
 
-        github = github_login(token=settings.GITHUB_TOKEN)
+    packages = Package.objects.filter(date_deprecated__isnull=True).order_by(
+        "last_fetched"
+    )
+    if limit:
+        packages = packages[:limit]
 
-        for package in Package.objects.iterator():
-
-            # Simple attempt to deal with Github rate limiting
-            while True:
+    for package in packages.iterator():
+        # Simple attempt to deal with Github rate limiting
+        while True:
+            if github.ratelimit_remaining < 50:
                 print(f"github.ratelimit_remaining=={github.ratelimit_remaining}")
-                if github.ratelimit_remaining < 50:
-                    print(f"{__file__}::handle::sleep(120)")
-                    sleep(120)
-                break
+                logger.debug(f"{__file__}::handle::sleep(120)")
+                sleep(120)
+            break
 
+        try:
             try:
-                try:
-                    package.fetch_metadata(fetch_pypi=False, fetch_repo=True)
-                    package.fetch_commits()
-                except Exception as e:
-                    logger.error(
-                        f"Error while fetching package details for {package.title}."
-                    )
-                    raise PackageUpdaterException(e, package.title)
-            except PackageUpdaterException:
-                logger.error(f"Unable to update {package.title}", exc_info=True)
+                package.fetch_metadata(fetch_pypi=False, fetch_repo=True)
+                package.fetch_commits()
+            except NotFoundError as e:
+                logger.error(f"Package was not found for {package.title}.")
+                Package.objects.filter(pk=package.pk).update(
+                    date_deprecated=timezone.now(),
+                    last_exception=e,
+                    last_exception_at=timezone.now(),
+                    last_exception_count=F("last_exception_count") + 1,
+                )
 
-            print(f"{__file__}::handle::sleep(1)")
-            sleep(1)
-        healthcheck(settings.PACKAGE_HEALTHCHECK_URL)
+            except Exception as e:
+                logger.error(
+                    f"Error while fetching package details for {package.title}."
+                )
+                raise PackageUpdaterException(e, package.title)
+
+        except PackageUpdaterException as e:
+            logger.error(f"Unable to update {package.title}", exc_info=True)
+            Package.objects.filter(pk=package.pk).update(
+                last_exception=e,
+                last_exception_at=timezone.now(),
+                last_exception_count=F("last_exception_count") + 1,
+            )
+
+        logger.debug(f"{__file__}::handle::sleep(1)")
+        sleep(1)
+
+    healthcheck(settings.PACKAGE_HEALTHCHECK_URL)
