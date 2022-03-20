@@ -79,6 +79,8 @@ django==4.0.3
     #   webstack-django-sorting
 django-anymail==8.5
     # via -r ./requirements.in
+django-better-admin-arrayfield==1.4.2
+    # via -r ./requirements.in
 django-click==2.3.0
     # via -r ./requirements.in
 django-crispy-forms==1.14.0
@@ -166,7 +168,7 @@ pynacl==1.5.0
     # via pygithub
 pyparsing==3.0.7
     # via packaging
-pytest==7.1.0
+pytest==7.1.1
     # via
     #   -r ./requirements.in
     #   pytest-cov
@@ -220,7 +222,7 @@ requests-toolbelt==0.9.1
     # via python-gitlab
 rich==12.0.0
     # via -r ./requirements.in
-sentry-sdk==1.5.7
+sentry-sdk==1.5.8
     # via -r ./requirements.in
 sgmllib3k==1.0.0
     # via feedparser
@@ -256,7 +258,7 @@ tomli==2.0.1
     # via
     #   coverage
     #   pytest
-trove-classifiers==2022.3.16
+trove-classifiers==2022.3.17
     # via -r ./requirements.in
 uritemplate==4.1.1
     # via github3-py
