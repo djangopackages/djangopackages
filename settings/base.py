@@ -153,6 +153,7 @@ PREREQ_APPS = [
     # external
     "crispy_forms",
     "dj_pagination",
+    "django_better_admin_arrayfield",
     "django_extensions",
     "rest_framework",
     "reversion",
