@@ -13,6 +13,7 @@ django-jsonview
 django-reversion
 django-secure
 django-structlog
+django-tables2
 django-waffle
 djangorestframework<3.13
 emoji
