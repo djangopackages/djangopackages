@@ -3,17 +3,18 @@
 import json
 
 from django.conf import settings
-from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
-from django.urls import reverse
+from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Count
 from django.http import HttpResponseRedirect, Http404, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render
-
+from django.urls import reverse
+from django_tables2 import SingleTableView
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 
 from grid.forms import ElementForm, FeatureForm, GridForm, GridPackageForm
 from grid.models import Element, Feature, Grid, GridPackage
+from grid.tables import GridTable
 from package.models import Package
 from package.forms import PackageForm
 from package.views import repo_data_for_js
@@ -28,24 +29,19 @@ def build_element_map(elements):
     return element_map
 
 
-def grids(request, template_name="grid/grids.html"):
-    """lists grids
+class GridListView(SingleTableView):
+    table_class = GridTable
+    template_name = "grid/grids.html"
+    paginate_by = 200
 
-    Template context:
-
-    * ``grids`` - all grid objects
-    """
-    # annotations providing bad counts
-    grids = Grid.objects.filter()
-    grids = grids.prefetch_related("feature_set")
-    grids = grids.annotate(gridpackage_count=Count("gridpackage"))
-    return render(
-        request,
-        template_name,
-        {
-            "grids": grids,
-        },
-    )
+    def get_queryset(self):
+        return (
+            Grid.objects.filter()
+            .prefetch_related("feature_set")
+            .annotate(gridpackage_count=Count("gridpackage"))
+            .filter(gridpackage_count__gt=0)
+            .order_by("-gridpackage_count", "title")
+        )
 
 
 def grid_detail_landscape(
