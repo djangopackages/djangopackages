@@ -40,7 +40,7 @@ class GridListView(SingleTableView):
             .prefetch_related("feature_set")
             .annotate(gridpackage_count=Count("gridpackage"))
             .filter(gridpackage_count__gt=0)
-            .order_by("-gridpackage_count", "title")
+            .order_by("-modified", "title")
         )
 
 

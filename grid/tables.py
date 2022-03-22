@@ -7,17 +7,23 @@ from grid.models import Grid
 
 
 class GridTable(Table):
-    title = Column(orderable=False, verbose_name="Grid")
+    title = Column(accessor="title", verbose_name="Grid")
     description = Column(
         accessor="description", orderable=False, verbose_name="Description"
     )
     last_modified = TemplateColumn(
-        "{{ record.modified|date }}", orderable=False, verbose_name="Last Modified"
+        "{{ record.modified|date }}", accessor="modified", verbose_name="Last Modified"
     )
-    packages = Column(
-        accessor="gridpackage_count", orderable=False, verbose_name="Packages"
-    )
+    packages = Column(accessor="gridpackage_count", verbose_name="Packages")
     features = Column(empty_values=(), orderable=False, verbose_name="Features")
+
+    class Meta:
+        fields = ["title", "description", "last_modified", "packages", "features"]
+        model = Grid
+        template_name = "django_tables2/bootstrap.html"
+
+    def render_description(self, value, record):
+        return format_html(emojize(record.description))
 
     def render_features(self, value, record):
         return record.feature_set.count()
@@ -28,8 +34,3 @@ class GridTable(Table):
                 reverse("grid", kwargs={"slug": record.slug}), emojize(record.title)
             )
         )
-
-    class Meta:
-        fields = ["title", "description", "last_modified", "packages", "features"]
-        model = Grid
-        template_name = "django_tables2/bootstrap.html"
