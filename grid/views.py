@@ -32,7 +32,7 @@ def build_element_map(elements):
 class GridListView(SingleTableView):
     table_class = GridTable
     template_name = "grid/grids.html"
-    paginate_by = 200
+    paginate_by = 100
 
     def get_queryset(self):
         return (
