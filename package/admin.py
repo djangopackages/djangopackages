@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django_better_admin_arrayfield.admin.mixins import DynamicArrayMixin
 from reversion.admin import VersionAdmin
 
 from package.models import Category, Package, PackageExample, Commit, Version
@@ -16,7 +17,7 @@ class CommitAdmin(admin.ModelAdmin):
 
 
 @admin.register(Package)
-class PackageAdmin(VersionAdmin):
+class PackageAdmin(VersionAdmin, DynamicArrayMixin):
     save_on_top = True
     search_fields = ["title"]
     list_filter = ["category", "supports_python3", "date_deprecated"]
@@ -59,6 +60,7 @@ class PackageAdmin(VersionAdmin):
                     "date_deprecated",
                     "deprecates_package",
                     "deprecated_by",
+                    "markers",
                 )
             },
         ),

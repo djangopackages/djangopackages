@@ -8,7 +8,7 @@ from dateutil import relativedelta
 from distutils.version import LooseVersion
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.contrib.postgres.fields import ArrayField
+# from django.contrib.postgres.fields import ArrayField
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
@@ -17,6 +17,7 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
+from django_better_admin_arrayfield.models.fields import ArrayField
 from packaging.specifiers import SpecifierSet
 from rich import print
 
@@ -91,6 +92,7 @@ class Package(BaseModel):
     pypi_requires_python = models.CharField(
         _("PyPI Requires Python"), max_length=100, blank=True, null=True
     )
+    markers = ArrayField(models.CharField(max_length=100), blank=True, null=True)
     supports_python3 = models.BooleanField(
         _("Supports Python 3"), blank=True, null=True
     )

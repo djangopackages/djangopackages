@@ -3,6 +3,7 @@ Django<4.1
 # see requirements-to-watch.txt
 dj-pagination
 django-anymail
+django-better-admin-arrayfield
 django-click
 django-crispy-forms
 django-debug-toolbar

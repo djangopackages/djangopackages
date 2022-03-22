@@ -52,6 +52,7 @@ def command(all, limit):
             try:
                 package.fetch_metadata(fetch_pypi=False, fetch_repo=True)
                 package.fetch_commits()
+                package.save()
 
             except NotFoundError as e:
                 logger.error(f"Package was not found for {package.title}.")
