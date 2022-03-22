@@ -11,18 +11,18 @@ from package.views import (
     confirm_delete_example,
     update_package,
     usage,
-    package_list,
     package_detail,
     post_data,
     edit_documentation,
     github_webhook,
+    PackageListView,
 )
 from django.urls import path, re_path
 
 urlpatterns = [
     path(
         "",
-        view=package_list,
+        view=PackageListView.as_view(),
         name="packages",
     ),
     path(

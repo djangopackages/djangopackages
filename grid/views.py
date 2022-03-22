@@ -61,11 +61,14 @@ def grid_detail_landscape(
     * ``grid_packages`` - packages involved in the current grid
     """
     grid = get_object_or_404(Grid, slug=slug)
-    features = grid.feature_set.all()
+    features = Feature.objects.filter(grid=grid)
+    grid_packages = (
+        GridPackage.objects.select_related("package")
+        .filter(grid=grid)
+        .order_by("package__commit_list")
+    )
 
-    grid_packages = grid.grid_packages.order_by("package__commit_list")
-
-    elements = Element.objects.all().filter(
+    elements = Element.objects.filter(
         feature__in=features, grid_package__in=grid_packages
     )
 

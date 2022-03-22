@@ -1,10 +1,7 @@
 {% extends "base.html" %}
 
-{% load cache %}
 {% load i18n %}
-{% load package_tags %}
-{% load pagination_tags %}
-{% load sorting_tags %}
+{% load render_table from django_tables2 %}
 
 {% block head_title %}Python 3{% endblock %}
 
@@ -13,51 +10,33 @@
     {% include 'includes/_ethicalads-js.html' %}
 {% endblock %}
 
-
 {% block body_class %}home{% endblock %}
+
+{% block breadcrumb %}
+    <div class="breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2><a href="{% url 'home' %}">{% trans "Home" %}</a> ›› Python 3 ( {{ table.paginator.count }} )</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
 
 {% block body %}
     <div class="container">
         <div class="row">
-            <div class="col-xs-6">
-                <h2><a href="{% url 'home' %}">{% trans "home" %}</a> / Python 3 ( {{ packages.count }} )</h2>
-            </div>
-            <div class="col-xs-6">
+            <div class="col-xs-12">
                 {% with ea_id="grid-detail" ea_type="text" %}
                     {% include 'includes/_ethicalads-tag.html' %}
                 {% endwith %}
             </div>
         </div>
-
         <div class="row">
             <div class="col-xs-12">
-                {% autosort packages %}
-                {% autopaginate packages %}
-                {% paginate %}
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>{% anchor title "Name" %}</th>
-                            <th>{% trans "Commits" %}</th>
-                            <th>{% trans "Version" %}</th>
-                            <th>{% anchor repo_watchers "Stars" %}</th>
-                            <th>{% anchor repo_forks "Forks" %}</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {% for package in packages %}
-                            <tr>
-                                <td><a href="{% url 'package' package.slug %}">{{ package.title | emojify }}</a></td>
-                                <td><img class="package-githubcommits" src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{package.commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
-                                <td>{{ package.pypi_version }}</td>
-                                <td>{{ package.repo_watchers }}</td>
-                                <td>{{ package.repo_forks }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% paginate %}
+                {% render_table table %}
             </div>
         </div>
     </div>

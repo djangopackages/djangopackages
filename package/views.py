@@ -14,6 +14,8 @@ from django.urls import reverse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django.views.generic.base import TemplateView
+from django_tables2 import SingleTableView
 
 
 from grid.models import Grid
@@ -21,6 +23,7 @@ from homepage.models import Dpotw, Gotw
 from package.forms import PackageForm, PackageExampleForm, DocumentationForm
 from package.models import Category, Package, PackageExample
 from package.repos import get_all_repos
+from package.tables import PackageTable, PackageByCategoryTable
 
 
 def repo_data_for_js():
@@ -179,6 +182,31 @@ def confirm_delete_example(request, slug, id):
     )
 
     return HttpResponseRedirect(reverse("package", kwargs={"slug": slug}))
+
+
+class PackageByCategoryListView(SingleTableView):
+    table_class = PackageByCategoryTable
+    template_name = "package/category.html"
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data["category"] = get_object_or_404(Category, slug=self.kwargs["slug"])
+        return context_data
+
+    def get_queryset(self):
+        packages = (
+            Package.objects.filter(category__slug=self.kwargs["slug"])
+            .select_related(
+                "category",
+                "created_by",
+                "last_modified_by",
+                "deprecated_by",
+                "deprecates_package",
+            )
+            .annotate(usage_count=Count("usage"))
+            .order_by("-repo_watchers", "title")
+        )
+        return packages
 
 
 def category(request, slug, template_name="package/category.html"):
@@ -344,100 +372,50 @@ def usage(request, slug, action):
     return HttpResponseRedirect(next)
 
 
-def python3_list(request, template_name="package/python3_list.html"):
-    # if sort and sort not in values:
-    # Some people have cached older versions of this view
-    allow_list = [
-        "category",
-        "category_id",
-        "commit",
-        "commit_list",
-        "created",
-        "created_by",
-        "created_by_id",
-        "documentation_url",
-        "dpotw",
-        "grid",
-        "gridpackage",
-        "id",
-        "last_fetched",
-        "last_modified_by",
-        "last_modified_by_id",
-        "modified",
-        "packageexample",
-        "participants",
-        "pypi_downloads",
-        "pypi_url",
-        "repo_description",
-        "repo_forks",
-        "repo_url",
-        "repo_watchers",
-        "slug",
-        "title",
-        "usage",
-        "version",
-    ]
+class PackagePython3ListView(SingleTableView):
+    table_class = PackageTable
+    template_name = "package/python3_list.html"
 
-    direction = request.GET.get("dir")
-    sort = request.GET.get("sort")
-
-    """
-    These are workarounds primarily seach engine spiders trying weird
-    sorting options when they are crawling the website.
-    """
-    _mutable = request.GET._mutable
-    request.GET._mutable = True
-    request.GET = request.GET.copy()
-
-    # workaround for "blank" ?sort=desc bug
-    if direction == "desc" and sort is None:
-        request.GET["dir"] = ""
-        request.GET["sort"] = ""
-
-    # workaround for "blank" ?sort=desc bug
-    elif sort and sort not in allow_list:
-        request.GET["sort"] = ""
-        if direction == "desc":
-            request.GET["dir"] = ""
-
-    request.GET._mutable = _mutable
-
-    # TODO: rewrite and profile using "supports_python3=True"
-    packages = (
-        Package.objects.filter(version__supports_python3=True)
-        .select_related()
-        .distinct()
-        .order_by("-pypi_downloads", "-repo_watchers", "title")
-    )
-    return render(request, template_name, {"packages": packages})
+    def get_queryset(self):
+        return (
+            Package.objects.filter(version__supports_python3=True)
+            .select_related()
+            .distinct()
+            .order_by("-pypi_downloads", "-repo_watchers", "title")
+        )
 
 
-def package_list(request, template_name="package/package_list.html"):
+class PackageListView(TemplateView):
+    template_name = "package/package_list.html"
 
-    categories = []
-    for category in Category.objects.annotate(package_count=Count("package")):
-        element = {
-            "title": category.title,
-            "description": category.description,
-            "count": category.package_count,
-            "slug": category.slug,
-            "title_plural": category.title_plural,
-            "show_pypi": category.show_pypi,
-            "packages": category.package_set.annotate(
-                usage_count=Count("usage")
-            ).order_by("-pypi_downloads", "-repo_watchers", "title")[:9],
-        }
-        categories.append(element)
+    def get_context_data(self, **kwargs):
+        categories = []
+        for category in Category.objects.annotate(package_count=Count("package")):
+            package_table = PackageByCategoryTable(
+                Package.objects.active()
+                .filter(category=category)
+                .active()
+                .select_related()
+                .annotate(usage_count=Count("usage"))
+                .order_by("-pypi_downloads", "-repo_watchers", "title")[:9],
+                prefix=f"{category.slug}_",
+                exclude=["last_released"],
+            )
+            element = {
+                "count": category.package_count,
+                "description": category.description,
+                "slug": category.slug,
+                "table": package_table,
+                "title": category.title,
+                "title_plural": category.title_plural,
+            }
+            categories.append(element)
 
-    return render(
-        request,
-        template_name,
-        {
-            "categories": categories,
-            "dpotw": Dpotw.objects.get_current(),
-            "gotw": Gotw.objects.get_current(),
-        },
-    )
+        context_data = super().get_context_data(**kwargs)
+        context_data["categories"] = categories
+        context_data["dpotw"] = Dpotw.objects.get_current()
+        context_data["gotw"] = Gotw.objects.get_current()
+        return context_data
 
 
 def package_detail(request, slug, template_name="package/package.html"):
