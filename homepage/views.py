@@ -55,7 +55,9 @@ class OpenView(TemplateView):
             .order_by("-num_packages")
         )
 
-        repos_bitbucket = Package.objects.filter(repo_url__contains="bitbucket.org").count()
+        repos_bitbucket = Package.objects.filter(
+            repo_url__contains="bitbucket.org"
+        ).count()
         repos_github = Package.objects.filter(repo_url__contains="github.com").count()
         repos_gitlab = Package.objects.filter(repo_url__contains="gitlab.com").count()
 
