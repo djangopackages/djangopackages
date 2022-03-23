@@ -23,12 +23,12 @@ class OpenView(TemplateView):
             "total_django_4_0": "Framework :: Django :: 4.0",
             "total_python_2_7": "Programming Language :: Python :: 2.7",
             "total_python_3": "Programming Language :: Python :: 3",
-            "total_python_3_10": "Programming Language :: Python :: 3.10",
-            "total_python_3_11": "Programming Language :: Python :: 3.11",
             "total_python_3_6": "Programming Language :: Python :: 3.6",
             "total_python_3_7": "Programming Language :: Python :: 3.7",
             "total_python_3_8": "Programming Language :: Python :: 3.8",
             "total_python_3_9": "Programming Language :: Python :: 3.9",
+            "total_python_3_10": "Programming Language :: Python :: 3.10",
+            "total_python_3_11": "Programming Language :: Python :: 3.11",
         }
 
         for classifier in classifiers:
@@ -55,6 +55,10 @@ class OpenView(TemplateView):
             .order_by("-num_packages")
         )
 
+        repos_bitbucket = Package.objects.filter(repo_url__contains="bitbucket.org").count()
+        repos_github = Package.objects.filter(repo_url__contains="github.com").count()
+        repos_gitlab = Package.objects.filter(repo_url__contains="gitlab.com").count()
+
         archive_packages = Package.objects.exclude(date_repo_archived__isnull=True)
         deprecated_packages = Package.objects.exclude(
             Q(date_deprecated__isnull=True), Q(deprecated_by__isnull=True)
@@ -64,6 +68,9 @@ class OpenView(TemplateView):
             {
                 "archive_packages": archive_packages.count(),
                 "deprecated_packages": deprecated_packages.count(),
+                "repos_bitbucket": repos_bitbucket,
+                "repos_github": repos_github,
+                "repos_gitlab": repos_gitlab,
                 "top_grid_list": top_grid_list[0:100],
                 "top_user_list": top_user_list[0:100],
                 "total_categories": Category.objects.count(),

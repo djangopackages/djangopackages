@@ -20,6 +20,10 @@
                 <p>{{ total_categories|intcomma }} {% trans "Categories" %}</p>
                 <p>{{ total_commits|intcomma }} {% trans "Commits" %}</p>
                 <p>{{ total_versions|intcomma }} {% trans "Versions" %}</p>
+                <h2>{% trans "Repos" %}</h2>
+                <p>{{ repos_bitbucket|intcomma }} {% trans "Bitbucket Repos" %}</p></p>
+                <p>{{ repos_github|intcomma }} {% trans "GitHub Repos" %}</p></p>
+                <p>{{ repos_gitlab|intcomma }} {% trans "GitLab Repos" %}</p></p>
             </div>
             <div class="col-sm-6 col-md-3">
                 <h2>{% trans "Packages" %}</h2>
