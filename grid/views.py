@@ -44,60 +44,6 @@ class GridListView(SingleTableView):
         )
 
 
-def grid_detail_landscape(
-    request, slug, template_name="grid/grid_detail_landscape.html"
-):
-    """displays a grid in detail
-
-    Template context:
-
-    * ``grid`` - the grid object
-    * ``elements`` - elements of the grid
-    * ``features`` - feature set used in the grid
-    * ``grid_packages`` - packages involved in the current grid
-    """
-    grid = get_object_or_404(Grid, slug=slug)
-    features = Feature.objects.filter(grid=grid)
-    grid_packages = (
-        GridPackage.objects.select_related("package")
-        .filter(grid=grid)
-        .order_by("package__commit_list")
-    )
-
-    elements = Element.objects.filter(
-        feature__in=features, grid_package__in=grid_packages
-    )
-
-    element_map = build_element_map(elements)
-
-    # These attributes are how we determine what is displayed in the grid
-    default_attributes = [
-        ("repo_description", "Description"),
-        ("category", "Category"),
-        ("pypi_downloads", "Downloads"),
-        ("last_updated", "Last Updated"),
-        ("pypi_version", "Version"),
-        ("repo", "Repo"),
-        ("commits_over_52", "Commits"),
-        ("repo_watchers", "Stars"),
-        ("repo_forks", "Forks"),
-        ("participant_list", "Participants"),
-        ("license_latest", "License"),
-    ]
-
-    return render(
-        request,
-        template_name,
-        {
-            "grid": grid,
-            "features": features,
-            "grid_packages": grid_packages,
-            "attributes": default_attributes,
-            "elements": element_map,
-        },
-    )
-
-
 @login_required
 def add_grid(request, template_name="grid/update_grid.html"):
     """Creates a new grid, requires user to be logged in.
@@ -400,6 +346,22 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
             "elements": element_map,
         },
     )
+
+
+def grid_detail_landscape(
+    request, slug, template_name="grid/grid_detail_landscape.html"
+):
+    """displays a grid in detail
+
+    Template context:
+
+    * ``grid`` - the grid object
+    * ``elements`` - elements of the grid
+    * ``features`` - feature set used in the grid
+    * ``grid_packages`` - packages involved in the current grid
+    """
+
+    return grid_detail(request, slug, template_name="grid/grid_detail_landscape.html")
 
 
 class GridListAPIView(ListAPIView):
