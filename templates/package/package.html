@@ -34,24 +34,6 @@
 
 {% block body %}
 
-    {% if package.is_deprecated %}
-        <div class="row">
-            <div class="col-md-8 main">
-                <div class="alert alert-warning" role="alert">This project was deprecated
-                    {% if package.deprecates_package %}
-                        and replaced by <a href="{{ package.deprecates_package.get_pypi_uri }}" target="_blank">{{ package.deprecates_package.pypi_name }}</a>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    {% elif package.date_repo_archived %}
-        <div class="row">
-            <div class="col-md-8 main">
-                <div class="alert alert-warning" role="alert">This project was archived</div>
-            </div>
-        </div>
-    {% endif %}
-
     {% comment %}
 <!--TODO block until we get things sorted out -->
 {% if warnings %}
@@ -71,6 +53,17 @@
 
     <div class="row">
         <div class="col-md-8 main">
+
+            {% if package.is_deprecated %}
+                <div class="alert alert-warning" role="alert">This project was deprecated
+                    {% if package.deprecates_package %}
+                        and replaced by <a href="{{ package.deprecates_package.get_pypi_uri }}" target="_blank">{{ package.deprecates_package.pypi_name }}</a>
+                    {% endif %}
+                </div>
+            {% elif package.date_repo_archived %}
+                <div class="alert alert-warning" role="alert">This project was archived</div>
+            {% endif %}
+
             <div class="outline">{{ package.repo_description | emojify }}</div>
 
             {% comment %}
@@ -194,6 +187,16 @@
                     {% include 'includes/_ethicalads-tag.html' %}
                 {% endwith %}
 
+                {% if package.is_deprecated %}
+                <div>
+                    <h3>Replacement Package</h3>
+                    <p><a href="{{ package.deprecates_package.get_pypi_uri }}" target="_blank">{{ package.deprecates_package.pypi_name }}</a></p>
+
+                    <h3>Date Deprecated</h3>
+                    <p>{{ package.date_deprecated }}</p>
+                </div>
+                {% endif %}
+
                 <h3>{% trans "Documentation" %}</h3>
                 <div class="pull-right">
                     {% if request.user.is_authenticated %}
@@ -207,9 +210,9 @@
                     <h3>PyPi</h3>
                     <p><a href="{{ package.get_pypi_uri }}" target="_blank">{{ package.pypi_name }}</a></p>
                 {% endif %}
+
                 <h3>Repo</h3>
                 <p><a href="{{ package.repo_url }}" target="_blank">{{ package.repo_url }}</a></p>
-
 
                 <h3>{% trans "Comparison Grids" %}</h3>
                 <div class="pull-right">
@@ -217,15 +220,6 @@
                         <a id="find-a-grid" href="#"><span class="glyphicon glyphicon-plus"></span></a>
                     {% endif %}
                 </div>
-
-                {% if package.is_deprecated %}
-                    <h3>Date Deprecated</h3>
-                    <p>{{ package.date_deprecated }}</p>
-
-                    <h3>Replacement Package</h3>
-                    <p><a href="{{ package.deprecates_package.get_pypi_uri }}" target="_blank">{{ package.deprecates_package.pypi_name }}</a></p>
-                {% endif %}
-
 
                 {% for grid in package.grids %}
                     <a href="{% url 'grid' grid.slug %}" title="{{ grid.description }}">{{ grid }}</a> &nbsp;
