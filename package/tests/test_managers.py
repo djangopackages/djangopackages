@@ -11,7 +11,7 @@ def search_fixtures(django_db_blocker, django_user_model):
     with django_db_blocker.unblock():
         user = baker.make(django_user_model)
         category = baker.make(Category)
-        baker.make(
+        package = baker.make(
             Package,
             category=category,
             repo_url=seq("https://github.com/djangopackages/djangopackages"),
@@ -28,7 +28,7 @@ def search_fixtures(django_db_blocker, django_user_model):
             supports_python3=True,
             title="Archived",
         )
-        deprecated_package = baker.make(
+        baker.make(
             Package,
             category=category,
             date_deprecated=now(),
@@ -49,11 +49,11 @@ def search_fixtures(django_db_blocker, django_user_model):
         baker.make(
             Package,
             category=category,
-            deprecates_package=deprecated_package,
+            deprecates_package=package,
             repo_url="https://github.com/djangopackages/deprecates-package",
             slug="deprecates-package",
             supports_python3=True,
-            title="Deprecates Package",
+            title="Deprecated by Package",
         )
         baker.make(
             Package,
@@ -74,9 +74,9 @@ def search_fixtures(django_db_blocker, django_user_model):
 
 def test_managers(db, search_fixtures):
     assert Package.objects.all().count() == 7
-    assert Package.objects.active().count() == 4
+    assert Package.objects.active().count() == 3
     assert Package.objects.archived().count() == 1
-    assert Package.objects.deprecated().count() == 2
+    assert Package.objects.deprecated().count() == 3
     assert Package.objects.supports_python3().count() == 5
 
 
@@ -107,17 +107,12 @@ def test_deprecated_managers(db, category, package, search_fixtures):
         Package,
         category=category,
         date_deprecated=now(),
-        repo_url=seq("https://github.com/djangopackages/archived-"),
-    )
-    baker.make(
-        Package,
-        category=category,
         deprecates_package=package,
-        repo_url=seq("https://github.com/djangopackages/deprecates-package"),
+        repo_url=seq("https://github.com/djangopackages/archived-"),
     )
 
     assert all_packages < Package.objects.all().count()
-    assert active_packages < Package.objects.active().count()
+    assert active_packages == Package.objects.active().count()
     assert deprecated_packages < Package.objects.deprecated().count()
 
 

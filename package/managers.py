@@ -13,7 +13,7 @@ class PackageQuerySet(QuerySet):
             Q(date_repo_archived__isnull=True)
             & Q(date_deprecated__isnull=True)
             & Q(deprecated_by__isnull=True)
-            # Q(deprecates_package__isnull=True)
+            & Q(deprecates_package__isnull=True)
         )
 
     def archived(self):
@@ -21,9 +21,9 @@ class PackageQuerySet(QuerySet):
 
     def deprecated(self):
         return self.exclude(
-            Q(date_deprecated__isnull=True),
-            Q(deprecated_by__isnull=True),
-            # Q(deprecates_package__isnull=True),
+            Q(date_deprecated__isnull=True)
+            & Q(deprecated_by__isnull=True)
+            & Q(deprecates_package__isnull=True)
         )
 
     def supports_python3(self):
