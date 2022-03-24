@@ -36,7 +36,6 @@ class GitlabHandler(BaseHandler):
         package.repo_watchers = repo.star_count
         package.repo_forks = repo.forks_count
         package.repo_description = repo.description
-        print(repo.badges.list())
 
         return package
 
