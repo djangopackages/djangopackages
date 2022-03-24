@@ -23,23 +23,23 @@ class OpenView(TemplateView):
             "total_django_4_0": "Framework :: Django :: 4.0",
             "total_python_2_7": "Programming Language :: Python :: 2.7",
             "total_python_3": "Programming Language :: Python :: 3",
-            "total_python_3_10": "Programming Language :: Python :: 3.10",
-            "total_python_3_11": "Programming Language :: Python :: 3.11",
             "total_python_3_6": "Programming Language :: Python :: 3.6",
             "total_python_3_7": "Programming Language :: Python :: 3.7",
             "total_python_3_8": "Programming Language :: Python :: 3.8",
             "total_python_3_9": "Programming Language :: Python :: 3.9",
+            "total_python_3_10": "Programming Language :: Python :: 3.10",
+            "total_python_3_11": "Programming Language :: Python :: 3.11",
         }
 
         for classifier in classifiers:
-            context_data[classifier] = Package.objects.filter(
+            context_data[classifier] = Package.objects.active().filter(
                 pypi_classifiers__contains=[classifiers[classifier]]
             ).count()
 
         categories = Category.objects.all()
         category_data = {}
         for category in categories:
-            category_data[category] = Package.objects.filter(category=category).count()
+            category_data[category] = Package.objects.active().filter(category=category).count()
         context_data["categories"] = category_data
 
         top_grid_list = (
@@ -55,6 +55,12 @@ class OpenView(TemplateView):
             .order_by("-num_packages")
         )
 
+        repos_bitbucket = Package.objects.active().filter(
+            repo_url__contains="bitbucket.org"
+        ).count()
+        repos_github = Package.objects.active().filter(repo_url__contains="github.com").count()
+        repos_gitlab = Package.objects.active().filter(repo_url__contains="gitlab.com").count()
+
         archive_packages = Package.objects.exclude(date_repo_archived__isnull=True)
         deprecated_packages = Package.objects.exclude(
             Q(date_deprecated__isnull=True), Q(deprecated_by__isnull=True)
@@ -64,6 +70,9 @@ class OpenView(TemplateView):
             {
                 "archive_packages": archive_packages.count(),
                 "deprecated_packages": deprecated_packages.count(),
+                "repos_bitbucket": repos_bitbucket,
+                "repos_github": repos_github,
+                "repos_gitlab": repos_gitlab,
                 "top_grid_list": top_grid_list[0:100],
                 "top_user_list": top_user_list[0:100],
                 "total_categories": Category.objects.count(),
@@ -91,25 +100,11 @@ class SitemapView(TemplateView):
 
 
 def homepage(request, template_name="homepage.html"):
-    categories = []
-    for category in Category.objects.all().annotate(package_count=Count("package")):
-        element = {
-            "title": category.title,
-            "description": category.description,
-            "count": category.package_count,
-            "slug": category.slug,
-            "title_plural": category.title_plural,
-            "show_pypi": category.show_pypi,
-        }
-        categories.append(element)
+    categories = Category.objects.all().annotate(package_count=Count("package"))
 
     # get up to 5 random packages
-    package_list = Package.objects.filter(
-        date_deprecated__isnull=True,
-        date_repo_archived__isnull=True,
-        deprecated_by__isnull=True,
-    ).values_list("pk", flat=True)
-    package_count = len(package_list)
+    package_list = Package.objects.active().values_list("pk", flat=True)
+    package_count = package_list.count()
     random_packages = []
     if package_list.exists():
         package_ids = set()
@@ -153,14 +148,14 @@ def homepage(request, template_name="homepage.html"):
         request,
         template_name,
         {
-            "latest_packages": Package.objects.all().order_by("-created")[:5],
+            "latest_packages": Package.objects.active().order_by("-created")[:5],
             "random_packages": random_packages,
             "potw": potw,
             "gotw": gotw,
             "psa_body": psa_body,
             "categories": categories,
             "package_count": package_count,
-            "py3_compat": Package.objects.filter(version__supports_python3=True)
+            "py3_compat": Package.objects.active().filter(version__supports_python3=True)
             .select_related()
             .distinct()
             .count(),

@@ -74,6 +74,7 @@ django==4.0.3
     #   django-reversion
     #   django-secure
     #   django-structlog
+    #   django-tables2
     #   djangorestframework
     #   model-bakery
     #   webstack-django-sorting
@@ -102,6 +103,8 @@ django-reversion==5.0.0
 django-secure==1.0.2
     # via -r ./requirements.in
 django-structlog==2.2.0
+    # via -r ./requirements.in
+django-tables2==2.4.1
     # via -r ./requirements.in
 django-test-plus==2.2.0
     # via -r ./requirements.in
@@ -193,7 +196,7 @@ python-gitlab==3.2.0
     # via -r ./requirements.in
 python3-openid==3.2.0
     # via social-auth-core
-pytz==2021.3
+pytz==2022.1
     # via
     #   -r ./requirements.in
     #   celery

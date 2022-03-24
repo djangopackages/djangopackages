@@ -24,5 +24,8 @@ def set_time(time_machine):
 def vcr_config():
     return {
         # Replace the Authorization request header with "DUMMY" in cassettes
-        "filter_headers": [("authorization", "DUMMY")],
+        "filter_headers": [
+            ("authorization", "DUMMY"),
+            ("PRIVATE-TOKEN", "DUMMY"),
+        ],
     }

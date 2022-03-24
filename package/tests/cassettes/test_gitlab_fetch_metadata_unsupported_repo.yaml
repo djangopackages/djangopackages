@@ -1,0 +1,76 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-type:
+      - application/json
+      PRIVATE-TOKEN:
+      - DUMMY
+      User-Agent:
+      - python-gitlab/3.2.0
+    method: GET
+    uri: https://gitlab.com/api/v4/projects/jeff.triplett%2Fdoes-not-exist?license=True
+  response:
+    body:
+      string: '{"message":"404 Project Not Found"}'
+    headers:
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 6f0bf57e18705f17-OMA
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '35'
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 24 Mar 2022 02:25:55 GMT
+      Expect-CT:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      GitLab-LB:
+      - fe-04-lb-gprd
+      GitLab-SV:
+      - localhost
+      NEL:
+      - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+      RateLimit-Limit:
+      - '2000'
+      RateLimit-Observed:
+      - '8'
+      RateLimit-Remaining:
+      - '1992'
+      RateLimit-Reset:
+      - '1648088815'
+      RateLimit-ResetTime:
+      - Thu, 24 Mar 2022 02:26:55 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=JpakdUmp7OSqpLawNlic2B4JLqJTYUSmoJuA6BQqPdubHfKwnLUtJRmY5GxDaKyJF6oii7L6RquMa5w5PTUpZFCsAIUUXSDcNHCZcTXg%2BDaZqgE37ybR2ojPcIw%3D"}],"group":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Origin
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Request-Id:
+      - 01FYWVXASHMAEQBWFXVRMXAK5P
+      X-Runtime:
+      - '0.034560'
+    status:
+      code: 404
+      message: Not Found
+version: 1

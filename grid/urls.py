@@ -14,7 +14,7 @@ from grid.views import (
     edit_grid,
     edit_feature,
     grid_detail,
-    grids,
+    GridListView,
 )
 from django.urls import path, re_path
 
@@ -71,7 +71,7 @@ urlpatterns = [
     ),
     path(
         "",
-        view=grids,
+        view=GridListView.as_view(),
         name="grids",
     ),
     path(

@@ -15,7 +15,7 @@ from homepage.views import (
     OpenView,
     SitemapView,
 )
-from package.views import category, python3_list
+from package.views import PackageByCategoryListView, PackagePython3ListView
 from profiles.views import LogoutView
 
 admin_header = f"Django Packages v{__version__}"
@@ -36,9 +36,11 @@ urlpatterns = [
     path("packages/", include("package.urls")),
     path("grids/", include("grid.urls")),
     path("feeds/", include("feeds.urls")),
-    path("categories/<slug:slug>/", category, name="category"),
+    path(
+        "categories/<slug:slug>/", PackageByCategoryListView.as_view(), name="category"
+    ),
     path("categories/", homepage, name="categories"),
-    path("python3/", python3_list, name="py3_compat"),
+    path("python3/", PackagePython3ListView.as_view(), name="py3_compat"),
     # url(regex=r'^login/$', view=TemplateView.as_view(template_name='pages/login.html'), name='login',),
     path("logout/", LogoutView.as_view(), name="logout"),
     # static pages

@@ -1,7 +1,10 @@
 from django.conf import settings
+from django.utils import timezone
 from gitlab import Gitlab
+from gitlab.exceptions import GitlabGetError
 
 from .base_handler import BaseHandler
+from package.utils import uniquer
 
 
 class GitlabHandler(BaseHandler):
@@ -20,21 +23,9 @@ class GitlabHandler(BaseHandler):
 
     def _get_repo(self, repo_url):
         path = repo_url.replace(f"{self.url}/", "")
-        return self.gitlab.projects.get(path)
-
-    def fetch_metadata(self, package):
-        repo = self._get_repo(package.repo_url)
-        if repo is None:
-            return package
-
-        package.repo_watchers = repo.star_count
-        package.repo_forks = repo.forks_count
-        package.repo_description = repo.description
-
-        return package
+        return self.gitlab.projects.get(path, license=True)
 
     def fetch_commits(self, package):
-
         repo = self._get_repo(package.repo_url)
         if repo is None:
             return package
@@ -56,7 +47,38 @@ class GitlabHandler(BaseHandler):
             #   list we want to import
 
         package.save()
+
         return package
+
+    def fetch_metadata(self, package):
+        try:
+            repo = self._get_repo(package.repo_url)
+            if repo is None:
+                return package
+
+            if hasattr(repo, "archived"):
+                if repo.archived:
+                    if not package.date_repo_archived:
+                        package.date_repo_archived = timezone.now()
+
+            package.repo_description = repo.description
+            package.repo_forks = repo.forks_count
+            package.repo_watchers = repo.star_count
+
+            # TODO: contributors
+            contributors = []
+            for contributor in repo.repository_contributors():
+                contributors.append(contributor["name"])
+
+            # if contributors:
+            #     package.participants = ",".join(uniquer(contributors))
+
+            package.save()
+
+            return package
+
+        except GitlabGetError:
+            raise
 
 
 repo_handler = GitlabHandler()

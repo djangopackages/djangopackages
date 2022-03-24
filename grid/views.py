@@ -3,17 +3,18 @@
 import json
 
 from django.conf import settings
-from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
-from django.urls import reverse
+from django.contrib.auth.decorators import login_required, permission_required
 from django.db.models import Count
 from django.http import HttpResponseRedirect, Http404, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render
-
+from django.urls import reverse
+from django_tables2 import SingleTableView
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 
 from grid.forms import ElementForm, FeatureForm, GridForm, GridPackageForm
 from grid.models import Element, Feature, Grid, GridPackage
+from grid.tables import GridTable
 from package.models import Package
 from package.forms import PackageForm
 from package.views import repo_data_for_js
@@ -28,75 +29,19 @@ def build_element_map(elements):
     return element_map
 
 
-def grids(request, template_name="grid/grids.html"):
-    """lists grids
+class GridListView(SingleTableView):
+    table_class = GridTable
+    template_name = "grid/grids.html"
+    paginate_by = 100
 
-    Template context:
-
-    * ``grids`` - all grid objects
-    """
-    # annotations providing bad counts
-    grids = Grid.objects.filter()
-    grids = grids.prefetch_related("feature_set")
-    grids = grids.annotate(gridpackage_count=Count("gridpackage"))
-    return render(
-        request,
-        template_name,
-        {
-            "grids": grids,
-        },
-    )
-
-
-def grid_detail_landscape(
-    request, slug, template_name="grid/grid_detail_landscape.html"
-):
-    """displays a grid in detail
-
-    Template context:
-
-    * ``grid`` - the grid object
-    * ``elements`` - elements of the grid
-    * ``features`` - feature set used in the grid
-    * ``grid_packages`` - packages involved in the current grid
-    """
-    grid = get_object_or_404(Grid, slug=slug)
-    features = grid.feature_set.all()
-
-    grid_packages = grid.grid_packages.order_by("package__commit_list")
-
-    elements = Element.objects.all().filter(
-        feature__in=features, grid_package__in=grid_packages
-    )
-
-    element_map = build_element_map(elements)
-
-    # These attributes are how we determine what is displayed in the grid
-    default_attributes = [
-        ("repo_description", "Description"),
-        ("category", "Category"),
-        ("pypi_downloads", "Downloads"),
-        ("last_updated", "Last Updated"),
-        ("pypi_version", "Version"),
-        ("repo", "Repo"),
-        ("commits_over_52", "Commits"),
-        ("repo_watchers", "Stars"),
-        ("repo_forks", "Forks"),
-        ("participant_list", "Participants"),
-        ("license_latest", "License"),
-    ]
-
-    return render(
-        request,
-        template_name,
-        {
-            "grid": grid,
-            "features": features,
-            "grid_packages": grid_packages,
-            "attributes": default_attributes,
-            "elements": element_map,
-        },
-    )
+    def get_queryset(self):
+        return (
+            Grid.objects.filter()
+            .prefetch_related("feature_set")
+            .annotate(gridpackage_count=Count("gridpackage"))
+            .filter(gridpackage_count__gt=0)
+            .order_by("-modified", "title")
+        )
 
 
 @login_required
@@ -401,6 +346,22 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
             "elements": element_map,
         },
     )
+
+
+def grid_detail_landscape(
+    request, slug, template_name="grid/grid_detail_landscape.html"
+):
+    """displays a grid in detail
+
+    Template context:
+
+    * ``grid`` - the grid object
+    * ``elements`` - elements of the grid
+    * ``features`` - feature set used in the grid
+    * ``grid_packages`` - packages involved in the current grid
+    """
+
+    return grid_detail(request, slug, template_name="grid/grid_detail_landscape.html")
 
 
 class GridListAPIView(ListAPIView):

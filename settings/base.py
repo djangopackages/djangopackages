@@ -155,6 +155,7 @@ PREREQ_APPS = [
     "dj_pagination",
     "django_better_admin_arrayfield",
     "django_extensions",
+    "django_tables2",
     "rest_framework",
     "reversion",
     "social_django",

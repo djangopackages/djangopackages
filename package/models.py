@@ -8,6 +8,7 @@ from dateutil import relativedelta
 from distutils.version import LooseVersion
 from django.conf import settings
 from django.contrib.auth.models import User
+
 # from django.contrib.postgres.fields import ArrayField
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
@@ -126,9 +127,10 @@ class Package(BaseModel):
     deprecates_package = models.ForeignKey(
         "self",
         blank=True,
+        help_text="The Package that replaces *this* Package",
         null=True,
-        related_name="replacement",
         on_delete=models.PROTECT,
+        related_name="replacement",
     )
     last_exception = models.TextField(blank=True, null=True)
     last_exception_at = models.DateTimeField(blank=True, null=True)

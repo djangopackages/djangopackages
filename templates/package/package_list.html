@@ -2,62 +2,28 @@
 
 {% load i18n %}
 {% load package_tags %}
+{% load django_tables2 %}
 
 {% block head_title %}{% trans "django reusable apps, sites and tools directory" %}{% endblock %}
 
 {% block body %}
+    {% for category in categories %}
     <div class="row">
         <div class="col-lg-12">
-            {% for category in categories %}
-                <h2><a href="{% url 'category' category.slug %}">{{ category.title_plural }}</a> ({{ category.count }})</h2>
-                <p>{{ category.description }}</p>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>{% trans "Name" %}</th>
-                            <th>{% trans "# Using This" %}</th>
-                            {% if category.show_pypi %}
-                                <th>{% trans "PyPi Downloads" %}</th>
-                            {% endif %}
-                            <th>{% trans "Commits" %}</th>
-                            {% if category.show_pypi %}
-                                <th>{% trans "Version" %}</th>
-                            {% endif %}
-                            <th><span class="glyphicon glyphicon-star"></span></th>
-                            <th><span class="glyphicon glyphicon-random"></span></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for package in category.packages %}
-                            <tr>
-                                <td><a href="{% url 'package' package.slug %}">{{ package.title | emojify}}</a></td>
-                                <td>
-                                    {% usage_button %}
-                                    &nbsp;
-                                    <span class="usage-count">{{ package.usage_count }}</span>
-                                </td>
-                                {% if category.show_pypi %}
-                                    <td>{{ package.pypi_downloads }}</td>
-                                {% endif %}
-                                <td><img src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{package|commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
-                                {% if category.show_pypi %}
-                                    <td>{{ package.pypi_version.number|default:"n/a"|slice:":12" }}</td>
-                                {% endif %}
-                                <td>{{ package.repo_watchers|default:"n/a" }}</td>
-                                <td>{{ package.repo_forks|default:"n/a" }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <p>
-                    <a href="{% url 'category' category.slug %}">
-                        {% trans "more " %}{{ category.title_plural|lower }}...
-                    </a>
-                </p>
-            {% endfor %}
+            <h2>
+                <a href="{% url 'category' category.slug %}">{{ category.title_plural }}</a>
+                ({{ category.count }})
+            </h2>
+            <p>{{ category.description }}</p>
+            {% render_table category.table %}
+            <p>
+                <a href="{% url 'category' category.slug %}" class="btn btn-primary">
+                    {% trans "Show " %}{{ category.title_plural }} ({{ category.count }})
+                </a>
+            </p>
         </div>
     </div>
-
+    {% endfor %}
 {% endblock %}
 
 {% block extra_body %}
@@ -76,6 +42,5 @@
                 $('.ui-autocomplete').css({'width': '250px', 'top': ac_top + 10 });
             }
         });
-
     </script>
 {% endblock %}

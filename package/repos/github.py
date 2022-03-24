@@ -23,11 +23,6 @@ class GitHubHandler(BaseHandler):
         else:
             self.github = GitHub()
 
-    def manage_ratelimit(self):
-        while self.github.ratelimit_remaining < 10:
-            print(f"{__file__}::manage_ratelimit::sleep(1)")
-            sleep(1)
-
     def _get_repo(self, package):
         repo_name = package.repo_name()
         if repo_name.endswith("/"):
@@ -38,42 +33,9 @@ class GitHubHandler(BaseHandler):
             return None
         return self.github.repository(username, repo_name)
 
-    def fetch_metadata(self, package):
-        self.manage_ratelimit()
-        try:
-            repo = self._get_repo(package)
-            if repo is None:
-                return package
-
-            # package.repo_watchers = repo.watchers
-            package.repo_watchers = repo.watchers_count
-
-            if repo.archived:
-                if not package.date_repo_archived:
-                    package.date_repo_archived = timezone.now()
-
-            # package.repo_forks = repo.forks
-            package.repo_forks = repo.forks_count
-
-            package.repo_description = repo.description
-            # repo.stargazers_count
-
-            contributors = []
-            for contributor in repo.contributors():
-                contributors.append(contributor.login)
-                self.manage_ratelimit()
-
-            if contributors:
-                package.participants = ",".join(uniquer(contributors))
-
-            return package
-
-        except NotFoundError:
-            raise
-
     def fetch_commits(self, package):
-
         self.manage_ratelimit()
+
         repo = self._get_repo(package)
         if repo is None:
             return package
@@ -82,6 +44,7 @@ class GitHubHandler(BaseHandler):
 
         for commit in repo.commits():
             self.manage_ratelimit()
+
             try:
                 commit_record, created = Commit.objects.get_or_create(
                     package=package, commit_date=commit.commit.committer["date"]
@@ -94,7 +57,45 @@ class GitHubHandler(BaseHandler):
             #   list we want to import
 
         package.save()
+
         return package
+
+    def fetch_metadata(self, package):
+        self.manage_ratelimit()
+
+        try:
+            repo = self._get_repo(package)
+            if repo is None:
+                return package
+
+            if repo.archived:
+                if not package.date_repo_archived:
+                    package.date_repo_archived = timezone.now()
+
+            package.repo_description = repo.description
+            package.repo_forks = repo.forks_count
+            package.repo_watchers = repo.watchers_count
+            # repo.stargazers_count
+
+            contributors = []
+            for contributor in repo.contributors():
+                contributors.append(contributor.login)
+                self.manage_ratelimit()
+
+            if contributors:
+                package.participants = ",".join(uniquer(contributors))
+
+            package.save()
+
+            return package
+
+        except NotFoundError:
+            raise
+
+    def manage_ratelimit(self):
+        while self.github.ratelimit_remaining < 10:
+            print(f"{__file__}::manage_ratelimit::sleep(1)")
+            sleep(1)
 
 
 repo_handler = GitHubHandler()

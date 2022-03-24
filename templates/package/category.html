@@ -1,10 +1,8 @@
 {% extends "base.html" %}
 
-{% load cache %}
 {% load i18n %}
 {% load package_tags %}
-{% load pagination_tags %}
-{% load sorting_tags %}
+{% load render_table from django_tables2 %}
 
 {% block head_title %}{% trans "Welcome" %}{% endblock %}
 
@@ -23,7 +21,7 @@
                 <div class="col-xs-12">
                     <h2><a
                         href="{% url 'categories' %}">{% trans "Categories" %}</a> ›› {{ category.title_plural }}
-                        ( {{ packages.count }} )</h2>
+                        ( {{ table.paginator.count }} )</h2>
                 </div>
             </div>
         </div>
@@ -34,14 +32,13 @@
     <div class="row">
         <div class="col-xs-6">
             <p>{{ category.description }}</p>
+            {% if request.user.is_authenticated and profile.can_add_package %}
+            <p>
+                <a class="btn btn-primary" href="{% url 'add_package' %}">{% trans "Add Package »" %}</a>
+            </p>
+            {% endif %}
         </div>
         <div class="col-xs-6">
-            <p>
-                {% if request.user.is_authenticated and profile.can_add_package %}
-                    <a class="btn btn-default" href="{% url 'add_package' %}">{% trans "add package »" %}</a>
-                {% endif %}
-            </p>
-
             {% with ea_id="category-detail" ea_type="text" %}
                 {% include 'includes/_ethicalads-tag.html' %}
             {% endwith %}
@@ -50,41 +47,11 @@
 
     <div class="row">
         <div class="col-xs-12">
-            {% autosort packages %}
-            {% autopaginate packages %}
-            {% paginate %}
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>{% anchor usage_count "# Using This" %}</th>
-                        <th>{% trans "Development Status" %}</th>
-                        <th>{% anchor title "Name" %}</th>
-                        <th>{% trans "Commits" %}</th>
-                        <th>{% trans "Version" %}</th>
-                        <th>{% anchor repo_watchers "Stars" %}</th>
-                        <th>{% anchor repo_forks "Forks" %}</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {% for package in packages %}
-                        <tr>
-                            <td class="usage-container usage-holder">
-                                {% usage_button %}
-                                &nbsp;
-                                <span class="usage-count">{{ package.usage_count }}</span>
-                            </td>
-                            <td>{{ package.last_released.pretty_status }}</td>
-                            <td><a href="{% url 'package' package.slug %}">{{ package.title | emojify }}</a></td>
-                            <td><img class="package-githubcommits" src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{package.commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
-                            <td>{{ package.pypi_version }}</td>
-                            <td>{{ package.repo_watchers }}</td>
-                            <td>{{ package.repo_forks }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {% paginate %}
+            <div class="row">
+                <div class="col-xs-12">
+                    {% render_table table %}
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

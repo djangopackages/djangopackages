@@ -45,9 +45,4 @@ def test_github_fetch_metadata_unsupported_repo(github_handler, package_invalid)
     )
 
     with pytest.raises(NotFoundError):
-        package = github_handler.fetch_metadata(package_invalid)
-
-    # assert package.repo_description == ""
-    # assert package.repo_watchers == 0
-    # package_invalid.fetch_commits()
-    # assert package.commit_set.count() == 0
+        github_handler.fetch_metadata(package_invalid)
