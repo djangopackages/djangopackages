@@ -23,24 +23,6 @@ class GitlabHandler(BaseHandler):
         path = repo_url.replace(f"{self.url}/", "")
         return self.gitlab.projects.get(path, license=True)
 
-    def fetch_metadata(self, package):
-        repo = self._get_repo(package.repo_url)
-        if repo is None:
-            return package
-
-        if hasattr(repo, "archived"):
-            if repo.archived:
-                if not package.date_repo_archived:
-                    package.date_repo_archived = timezone.now()
-
-        package.repo_watchers = repo.star_count
-        package.repo_forks = repo.forks_count
-        package.repo_description = repo.description
-
-        package.save()
-
-        return package
-
     def fetch_commits(self, package):
         repo = self._get_repo(package.repo_url)
         if repo is None:
@@ -61,6 +43,24 @@ class GitlabHandler(BaseHandler):
                 continue
             # If the commit record already exists, it means we are at the end of the
             #   list we want to import
+
+        package.save()
+
+        return package
+
+    def fetch_metadata(self, package):
+        repo = self._get_repo(package.repo_url)
+        if repo is None:
+            return package
+
+        if hasattr(repo, "archived"):
+            if repo.archived:
+                if not package.date_repo_archived:
+                    package.date_repo_archived = timezone.now()
+
+        package.repo_watchers = repo.star_count
+        package.repo_forks = repo.forks_count
+        package.repo_description = repo.description
 
         package.save()
 

@@ -23,11 +23,6 @@ class GitHubHandler(BaseHandler):
         else:
             self.github = GitHub()
 
-    def manage_ratelimit(self):
-        while self.github.ratelimit_remaining < 10:
-            print(f"{__file__}::manage_ratelimit::sleep(1)")
-            sleep(1)
-
     def _get_repo(self, package):
         repo_name = package.repo_name()
         if repo_name.endswith("/"):
@@ -37,6 +32,33 @@ class GitHubHandler(BaseHandler):
         except ValueError:
             return None
         return self.github.repository(username, repo_name)
+
+    def fetch_commits(self, package):
+        self.manage_ratelimit()
+
+        repo = self._get_repo(package)
+        if repo is None:
+            return package
+
+        from package.models import Commit  # Added here to avoid circular imports
+
+        for commit in repo.commits():
+            self.manage_ratelimit()
+
+            try:
+                commit_record, created = Commit.objects.get_or_create(
+                    package=package, commit_date=commit.commit.committer["date"]
+                )
+                if not created:
+                    break
+            except Commit.MultipleObjectsReturned:
+                continue
+            # If the commit record already exists, it means we are at the end of the
+            #   list we want to import
+
+        package.save()
+
+        return package
 
     def fetch_metadata(self, package):
         self.manage_ratelimit()
@@ -74,32 +96,10 @@ class GitHubHandler(BaseHandler):
         except NotFoundError:
             raise
 
-    def fetch_commits(self, package):
-        self.manage_ratelimit()
-
-        repo = self._get_repo(package)
-        if repo is None:
-            return package
-
-        from package.models import Commit  # Added here to avoid circular imports
-
-        for commit in repo.commits():
-            self.manage_ratelimit()
-
-            try:
-                commit_record, created = Commit.objects.get_or_create(
-                    package=package, commit_date=commit.commit.committer["date"]
-                )
-                if not created:
-                    break
-            except Commit.MultipleObjectsReturned:
-                continue
-            # If the commit record already exists, it means we are at the end of the
-            #   list we want to import
-
-        package.save()
-
-        return package
+    def manage_ratelimit(self):
+        while self.github.ratelimit_remaining < 10:
+            print(f"{__file__}::manage_ratelimit::sleep(1)")
+            sleep(1)
 
 
 repo_handler = GitHubHandler()
