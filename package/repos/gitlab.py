@@ -37,6 +37,8 @@ class GitlabHandler(BaseHandler):
         package.repo_forks = repo.forks_count
         package.repo_description = repo.description
 
+        package.save()
+
         return package
 
     def fetch_commits(self, package):
@@ -61,6 +63,7 @@ class GitlabHandler(BaseHandler):
             #   list we want to import
 
         package.save()
+
         return package
 
 

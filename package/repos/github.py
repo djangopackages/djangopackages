@@ -40,6 +40,7 @@ class GitHubHandler(BaseHandler):
 
     def fetch_metadata(self, package):
         self.manage_ratelimit()
+
         try:
             repo = self._get_repo(package)
             if repo is None:
@@ -66,14 +67,16 @@ class GitHubHandler(BaseHandler):
             if contributors:
                 package.participants = ",".join(uniquer(contributors))
 
+            package.save()
+
             return package
 
         except NotFoundError:
             raise
 
     def fetch_commits(self, package):
-
         self.manage_ratelimit()
+
         repo = self._get_repo(package)
         if repo is None:
             return package
@@ -82,6 +85,7 @@ class GitHubHandler(BaseHandler):
 
         for commit in repo.commits():
             self.manage_ratelimit()
+
             try:
                 commit_record, created = Commit.objects.get_or_create(
                     package=package, commit_date=commit.commit.committer["date"]
@@ -94,6 +98,7 @@ class GitHubHandler(BaseHandler):
             #   list we want to import
 
         package.save()
+
         return package
 
 
