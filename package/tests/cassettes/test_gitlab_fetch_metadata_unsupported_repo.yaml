@@ -1,0 +1,76 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-type:
+      - application/json
+      PRIVATE-TOKEN:
+      - DUMMY
+      User-Agent:
+      - python-gitlab/3.2.0
+    method: GET
+    uri: https://gitlab.com/api/v4/projects/jeff.triplett%2Fdoes-not-exist?license=True
+  response:
+    body:
+      string: '{"message":"404 Project Not Found"}'
+    headers:
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-RAY:
+      - 6f0b8622dbf35ef3-OMA
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '35'
+      Content-Type:
+      - application/json
+      Date:
+      - Thu, 24 Mar 2022 01:09:53 GMT
+      Expect-CT:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      GitLab-LB:
+      - fe-22-lb-gprd
+      GitLab-SV:
+      - localhost
+      NEL:
+      - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+      RateLimit-Limit:
+      - '2000'
+      RateLimit-Observed:
+      - '10'
+      RateLimit-Remaining:
+      - '1990'
+      RateLimit-Reset:
+      - '1648084253'
+      RateLimit-ResetTime:
+      - Thu, 24 Mar 2022 01:10:53 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=PwoHEy7iVUodoyVCYp2gZHQdBKgHvBHEmFXy%2Bt3vxzHi93NiexpPEQ6WgYcsVM0c%2Fo4Xk0YpxsSxArBGdmuN1xjzShd%2F3BKlSxkKYPNUCQhvml7vWqh67ix0YB4%3D"}],"group":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Origin
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Request-Id:
+      - 01FYWQJ4GCK0F5GNBTXGDT5K0G
+      X-Runtime:
+      - '0.029729'
+    status:
+      code: 404
+      message: Not Found
+version: 1

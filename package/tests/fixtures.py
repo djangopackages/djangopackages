@@ -39,9 +39,31 @@ def package_gitlab(db, category) -> Package:
     return baker.make(
         Package,
         category=category,
-        repo_url="https://gitlab.com/delta10/kees",
-        slug="django",
-        title="Django",
+        repo_url="https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields",
+        slug="django-encrypted-model-fields",
+        title="django-encrypted-model-fields",
+    )
+
+
+@pytest.fixture()
+def package_gitlab_archived(db, category) -> Package:
+    return baker.make(
+        Package,
+        category=category,
+        repo_url="https://gitlab.com/jeff.triplett/django-metadata",
+        slug="django-metadata",
+        title="django-metadata",
+    )
+
+
+@pytest.fixture()
+def package_gitlab_invalid(db, category) -> Package:
+    return baker.make(
+        Package,
+        category=category,
+        repo_url="https://gitlab.com/jeff.triplett/does-not-exist",
+        slug="does-not-exist",
+        title="does-not-exist",
     )
 
 
