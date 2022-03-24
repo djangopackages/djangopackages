@@ -68,17 +68,13 @@ class GitHubHandler(BaseHandler):
             if repo is None:
                 return package
 
-            # package.repo_watchers = repo.watchers
-            package.repo_watchers = repo.watchers_count
-
             if repo.archived:
                 if not package.date_repo_archived:
                     package.date_repo_archived = timezone.now()
 
-            # package.repo_forks = repo.forks
-            package.repo_forks = repo.forks_count
-
             package.repo_description = repo.description
+            package.repo_forks = repo.forks_count
+            package.repo_watchers = repo.watchers_count
             # repo.stargazers_count
 
             contributors = []
