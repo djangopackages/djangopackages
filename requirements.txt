@@ -64,8 +64,6 @@ deprecated==1.2.13
     # via
     #   pygithub
     #   redis
-dj-pagination==2.5.0
-    # via -r ./requirements.in
 django==4.0.3
     # via
     #   -r ./requirements.in
