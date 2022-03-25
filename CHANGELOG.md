@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-03-24]
+### Changed
+- :sparkles: Modernize Tables and Pagination ([#815](https://github.com/djangopackages/djangopackages/pull/815))
+
 ## [2022-03-22]
 ### Changed
 - :elephant: Add Package Markers ([#814](https://github.com/djangopackages/djangopackages/pull/814))
