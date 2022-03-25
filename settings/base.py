@@ -80,7 +80,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "dj_pagination.middleware.PaginationMiddleware",
     "waffle.middleware.WaffleMiddleware",
     "django_structlog.middlewares.RequestMiddleware",
     "maintenance_mode.middleware.MaintenanceModeMiddleware",
@@ -155,7 +154,6 @@ PREREQ_APPS = [
     # external
     "maintenance_mode",
     "crispy_forms",
-    "dj_pagination",
     "django_better_admin_arrayfield",
     "django_extensions",
     "django_tables2",
