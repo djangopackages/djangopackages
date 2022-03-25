@@ -86,6 +86,7 @@ class Package(BaseModel):
     pypi_classifiers = ArrayField(
         models.CharField(max_length=100), blank=True, null=True
     )
+    pypi_info = models.JSONField(blank=True, null=True)
     pypi_license = models.CharField(
         _("PyPI License"), max_length=100, blank=True, null=True
     )
@@ -283,6 +284,7 @@ class Package(BaseModel):
 
                 release = json.loads(response.content)
                 info = release["info"]
+                self.pypi_info = info
 
                 version, created = Version.objects.get_or_create(
                     package=self, number=info["version"]

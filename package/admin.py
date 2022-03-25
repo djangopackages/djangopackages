@@ -75,6 +75,7 @@ class PackageAdmin(VersionAdmin, DynamicArrayMixin):
                     "commit_list",
                     "pypi_downloads",
                     "pypi_classifiers",
+                    "pypi_info",
                     "pypi_license",
                     "pypi_licenses",
                     "pypi_requires_python",
