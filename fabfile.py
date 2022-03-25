@@ -111,6 +111,9 @@ def deploy():
         # Pull the latest code
         env.run("git pull origin main")
 
+        # turn maintenance mode on
+        # maintenance_mode_on("django-a")
+
         # Build our primary Docker image
         build_and_restart("django-a")
         time.sleep(10)
@@ -126,6 +129,9 @@ def deploy():
         # collectstatic
         collectstatic("django-a")
 
+        # turn maintenance mode off
+        # maintenance_mode_off("django-a")
+
 
 def build_and_restart(service):
     docker_compose(f"build {service}")
@@ -136,6 +142,14 @@ def build_and_restart(service):
 
 def collectstatic(service):
     docker_compose(f"exec {service} python manage.py collectstatic --no-input -v 1")
+
+
+def maintenance_mode_on(service):
+    docker_compose(f"exec {service} python manage.py maintenance_mode on")
+
+
+def maintenance_mode_off(service):
+    docker_compose(f"exec {service} python manage.py maintenance_mode off")
 
 
 def docker_compose(command):
