@@ -35,12 +35,20 @@ class PackageAdmin(VersionAdmin, DynamicArrayMixin):
         PackageExampleInline,
     ]
     readonly_fields = [
-        "score",
+        "commit_list",
         "created_by",
-        "last_modified_by",
         "last_exception",
         "last_exception_at",
         "last_exception_count",
+        "last_modified_by",
+        "participants",
+        "repo_description",
+        "repo_forks",
+        "repo_watchers",
+        "score",
+        "supports_python3",
+        "supports_python3",
+        "usage",
     ]
     fieldsets = (
         (
@@ -50,35 +58,49 @@ class PackageAdmin(VersionAdmin, DynamicArrayMixin):
                     "title",
                     "slug",
                     "category",
-                    "pypi_url",
                     "repo_url",
-                    "usage",
+                    # "usage",
                     "score",
+                    "date_repo_archived",
+                    "markers",
                     "created_by",
                     "last_modified_by",
-                    "date_repo_archived",
+                )
+            },
+        ),
+        (
+            "Deprecation data",
+            {
+                "fields": (
                     "date_deprecated",
                     "deprecates_package",
                     "deprecated_by",
-                    "markers",
-                )
+                ),
+            },
+        ),
+        (
+            "PyPi data",
+            {
+                "fields": (
+                    "pypi_url",
+                    "pypi_downloads",
+                    "pypi_info",
+                    "pypi_license",
+                    "pypi_licenses",
+                    "pypi_requires_python",
+                    "pypi_classifiers",
+                ),
             },
         ),
         (
             "Pulled data",
             {
-                "classes": ("collapse",),
+                # "classes": ("collapse",),
                 "fields": (
                     "repo_description",
                     "repo_watchers",
                     "repo_forks",
                     "commit_list",
-                    "pypi_downloads",
-                    "pypi_classifiers",
-                    "pypi_info",
-                    "pypi_license",
-                    "pypi_licenses",
-                    "pypi_requires_python",
                     "supports_python3",
                     "participants",
                 ),
@@ -87,7 +109,6 @@ class PackageAdmin(VersionAdmin, DynamicArrayMixin):
         (
             "Exceptions",
             {
-                # "classes": ("collapse",),
                 "fields": (
                     "last_exception",
                     "last_exception_at",
