@@ -62,6 +62,7 @@ urlpatterns = [
         name="funding",
     ),
     path("sitemap.xml", SitemapView.as_view(), name="sitemap"),
+    path("maintenance-mode/", include("maintenance_mode.urls")),
     # new apps
     path("search/", include("searchv2.urls")),
     # apiv3

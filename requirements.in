@@ -10,6 +10,7 @@ django-debug-toolbar
 django-environ
 django-extensions
 django-jsonview
+django-maintenance-mode
 django-reversion
 django-secure
 django-structlog

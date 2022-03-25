@@ -83,6 +83,7 @@ MIDDLEWARE = [
     "dj_pagination.middleware.PaginationMiddleware",
     "waffle.middleware.WaffleMiddleware",
     "django_structlog.middlewares.RequestMiddleware",
+    "maintenance_mode.middleware.MaintenanceModeMiddleware",
 ]
 
 TEMPLATES = [
@@ -113,6 +114,7 @@ TEMPLATES = [
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
                 # Your stuff: custom template context processors go here
+                "maintenance_mode.context_processors.maintenance_mode",
                 "package.context_processors.used_packages_list",
                 "grid.context_processors.grid_headers",
                 "core.context_processors.current_path",
@@ -151,6 +153,7 @@ PREREQ_APPS = [
     "django.contrib.humanize",
     "django.contrib.staticfiles",
     # external
+    "maintenance_mode",
     "crispy_forms",
     "dj_pagination",
     "django_better_admin_arrayfield",
@@ -351,3 +354,12 @@ REST_FRAMEWORK = {
 }
 
 WAFFLE_CREATE_MISSING_SWITCHES = True
+
+# django-maintenance-mode settings
+MAINTENANCE_MODE = None
+
+# alternatively it is possible to use the default storage backend
+MAINTENANCE_MODE_STATE_BACKEND = "maintenance_mode.backends.DefaultStorageBackend"
+
+# if True admin site will not be affected by the maintenance-mode page
+MAINTENANCE_MODE_IGNORE_ADMIN_SITE = True
