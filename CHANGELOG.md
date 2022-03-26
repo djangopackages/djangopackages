@@ -1,5 +1,12 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-03-25]
+### Changed
+- :fire: Removes dj-pagination ([#820](https://github.com/djangopackages/djangopackages/pull/820))
+- :sparkles: Adds django-maintenance-mode support ([#819](https://github.com/djangopackages/djangopackages/pull/819))
+- :elephant: Add an extra pypi_info field to help capture more pypi info ([#818](https://github.com/djangopackages/djangopackages/pull/818))
+- :gear: partially use a pytest settings fixture ([#817](https://github.com/djangopackages/djangopackages/pull/817))
+
 ## [2022-03-24]
 ### Changed
 - :sparkles: Modernize Tables and Pagination ([#815](https://github.com/djangopackages/djangopackages/pull/815))
