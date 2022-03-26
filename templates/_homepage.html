@@ -1,3 +1,4 @@
+{% load humanize %}
 {% load i18n %}
 {% load package_tags %}
 
@@ -9,7 +10,7 @@
                 <div class="categories col-sm-3 text-center">
                     <h2 class="panel-title">{{ category.title_plural }} </h2>
                     <p>{{ category.description }}</p>
-                    <a href="{% url 'category' category.slug %}" class="btn btn-primary">Show {{ category.title_plural }} ({{ category.package_count }})</a>
+                    <a href="{% url 'category' category.slug %}" class="btn btn-primary">Show {{ category.title_plural }} ({{ category.package_count|intcomma }})</a>
                 </div>
                 {% endif %}
         {% endfor %}

@@ -1,8 +1,9 @@
 {% extends "grid/base.html" %}
 
-{% load i18n %}
 {% load cache %}
 {% load grid_tags %}
+{% load humanize %}
+{% load i18n %}
 {% load package_tags %}
 
 {% block head_title %}{{ grid.title }}{% endblock %}
@@ -31,7 +32,6 @@
     {% cache 300 html_grid_detail_outer grid.pk filters %}
         <div class="row">
             <div class="col-lg-{% if features %}3{% else %}6{% endif %}">
-
                 <p>
                     {{ grid.description|urlize|linebreaksbr }}
                 </p>
@@ -153,7 +153,7 @@
                         {% for grid_package in grid_packages %}
                             <td class="usage-holder">
                                 {% with grid_package.package as package %}
-                                    <span class="usage-count" id="usage-count-{{ package.id }}">{{ grid_package.usage_count }}</span>
+                                    <span class="usage-count" id="usage-count-{{ package.id }}">{{ grid_package.usage_count|intcomma }}</span>
                                     {% usage_button %}
                                 {% endwith %}
                             </td>
@@ -214,13 +214,13 @@
                     <tr>
                         <td>{% trans "Stars" %}</td>
                         {% for grid_package in grid_packages %}
-                            <td>{{ grid_package.package.repo_watchers|default:"n/a" }}</td>
+                            <td>{{ grid_package.package.repo_watchers|intcomma|default:"n/a" }}</td>
                         {% endfor %}
                     </tr>
                     <tr>
                         <td>{% trans "Repo Forks" %}</td>
                         {% for grid_package in grid_packages %}
-                            <td>{{ grid_package.package.repo_forks|default:"n/a" }}</td>
+                            <td>{{ grid_package.package.repo_forks|intcomma|default:"n/a" }}</td>
                         {% endfor %}
                     </tr>
                     <tr>
@@ -250,7 +250,7 @@
                                         <span class="glyphicon glyphicon-book"></span>
                                     </a>
                                 {% else %}
-                                    N/A
+                                    n/a
                                 {% endif %}
                             </td>
                         {% endfor %}

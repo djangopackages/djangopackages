@@ -32,14 +32,18 @@ class OpenView(TemplateView):
         }
 
         for classifier in classifiers:
-            context_data[classifier] = Package.objects.active().filter(
-                pypi_classifiers__contains=[classifiers[classifier]]
-            ).count()
+            context_data[classifier] = (
+                Package.objects.active()
+                .filter(pypi_classifiers__contains=[classifiers[classifier]])
+                .count()
+            )
 
         categories = Category.objects.all()
         category_data = {}
         for category in categories:
-            category_data[category] = Package.objects.active().filter(category=category).count()
+            category_data[category] = (
+                Package.objects.active().filter(category=category).count()
+            )
         context_data["categories"] = category_data
 
         top_grid_list = (
@@ -55,11 +59,15 @@ class OpenView(TemplateView):
             .order_by("-num_packages")
         )
 
-        repos_bitbucket = Package.objects.active().filter(
-            repo_url__contains="bitbucket.org"
-        ).count()
-        repos_github = Package.objects.active().filter(repo_url__contains="github.com").count()
-        repos_gitlab = Package.objects.active().filter(repo_url__contains="gitlab.com").count()
+        repos_bitbucket = (
+            Package.objects.active().filter(repo_url__contains="bitbucket.org").count()
+        )
+        repos_github = (
+            Package.objects.active().filter(repo_url__contains="github.com").count()
+        )
+        repos_gitlab = (
+            Package.objects.active().filter(repo_url__contains="gitlab.com").count()
+        )
 
         archive_packages = Package.objects.exclude(date_repo_archived__isnull=True)
         deprecated_packages = Package.objects.exclude(
@@ -155,7 +163,8 @@ def homepage(request, template_name="homepage.html"):
             "psa_body": psa_body,
             "categories": categories,
             "package_count": package_count,
-            "py3_compat": Package.objects.active().filter(version__supports_python3=True)
+            "py3_compat": Package.objects.active()
+            .filter(version__supports_python3=True)
             .select_related()
             .distinct()
             .count(),

@@ -1,3 +1,4 @@
+from django.contrib.humanize.templatetags.humanize import intcomma
 from django.urls import reverse
 from django.utils.html import format_html
 from django_tables2 import Column, Table, TemplateColumn
@@ -32,12 +33,18 @@ class PackageTable(Table):
         model = Package
         template_name = "django_tables2/bootstrap.html"
 
+    def render_repo_forks(self, value, record):
+        return intcomma(record.repo_forks)
+
     def render_title(self, value, record):
         return format_html(
             '<a href="{0}">{1}</a>'.format(
                 reverse("package", kwargs={"slug": record.slug}), emojize(record.title)
             )
         )
+
+    def render_repo_watchers(self, value, record):
+        return intcomma(record.repo_watchers)
 
 
 class PackageByCategoryTable(PackageTable):
