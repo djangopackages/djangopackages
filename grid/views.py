@@ -5,7 +5,7 @@ import json
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.http import HttpResponseRedirect, Http404, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -294,24 +294,26 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
     * ``grid_packages`` - packages involved in the current grid
     """
     grid = get_object_or_404(Grid, slug=slug)
-    features = grid.feature_set.select_related(None)
+
+    # features = grid.feature_set.select_related(None)
+    features = Feature.objects.filter(grid=grid)
 
     filters = {
         "python3": request.GET.get("python3") == "1",
         "stable": request.GET.get("stable") == "1",
     }
 
-    grid_packages = grid.grid_packages.filter(
-        package__score__gt=settings.PACKAGE_SCORE_MIN,
-        **(
-            {"package__version__supports_python3": True}
-            if filters.get("python3")
-            else {}
-        ),
-        **(
-            {"package__version__development_status": 5} if filters.get("stable") else {}
-        ),
-    ).order_by("-package__score")
+    grid_packages = grid.grid_packages.select_related("package").filter(
+        package__score__gt=max(0, settings.PACKAGE_SCORE_MIN)
+    )
+
+    if filters.get("python3"):
+        grid_packages = grid_packages.filter(package__version__supports_python3=True)
+
+    if filters.get("stable"):
+        grid_packages = grid_packages.filter(package__version__development_status=5)
+
+    grid_packages = grid_packages.order_by("-package__score")
 
     elements = Element.objects.filter(
         feature__in=features, grid_package__in=grid_packages
