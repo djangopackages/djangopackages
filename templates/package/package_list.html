@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
+{% load django_tables2 %}
+{% load humanize %}
 {% load i18n %}
 {% load package_tags %}
-{% load django_tables2 %}
 
 {% block head_title %}{% trans "django reusable apps, sites and tools directory" %}{% endblock %}
 
@@ -18,7 +19,7 @@
             {% render_table category.table %}
             <p>
                 <a href="{% url 'category' category.slug %}" class="btn btn-primary">
-                    {% trans "Show " %}{{ category.title_plural }} ({{ category.count }})
+                    {% trans "Show " %}{{ category.title_plural }} ({{ category.count|intcomma }})
                 </a>
             </p>
         </div>
