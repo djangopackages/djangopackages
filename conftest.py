@@ -24,6 +24,15 @@ def pytest_configure(config):
     logging.disable(logging.CRITICAL)
 
 
+@pytest.fixture(scope="session")
+def django_db_setup(django_db_setup, django_db_blocker):
+    """
+    Tie to test database, cleanup at the end.
+    """
+    with django_db_blocker.unblock():
+        yield
+
+
 @pytest.fixture(autouse=True)
 def set_time(time_machine):
     time_machine.move_to(datetime.datetime(2022, 2, 22, 2, 22))
