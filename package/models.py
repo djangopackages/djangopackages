@@ -13,6 +13,7 @@ from django.contrib.auth.models import User
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from django.db.models.constraints import UniqueConstraint
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -470,6 +471,23 @@ class Package(BaseModel):
     def commits_over_52_listed(self):
         return [int(x) for x in self.commits_over_52().split(",")]
 
+class FlaggedPackage(BaseModel):
+    package = models.ForeignKey(Package, on_delete=models.CASCADE)
+    reason = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    approved_flag = models.BooleanField(default=False)
+
+    def approve(self):
+        self.approved_flag = True
+        self.save()
+
+    class Meta:
+        ordering = ["-created"]
+        UniqueConstraint(fields=["package", "user"], name="unique_flagged_package")
+
+    def __str__(self):
+        return f"{self.package.repo_name} - {self.reason}"
 
 class PackageExample(BaseModel):
 
