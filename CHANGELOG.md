@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-04-12]
+### Changed
+- Update django to 4.0.4 ([#823](https://github.com/djangopackages/djangopackages/pull/823))
+
 ## [2022-03-26]
 ### Changed
 - 2022-03-26 Updates ([#821](https://github.com/djangopackages/djangopackages/pull/821))
