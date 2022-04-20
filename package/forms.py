@@ -1,6 +1,6 @@
 from django.forms import ModelForm, TextInput
 
-from package.models import Category, Package, PackageExample
+from package.models import Category, FlaggedPackage, Package, PackageExample
 
 
 def package_help_text():
@@ -40,6 +40,10 @@ class PackageForm(ModelForm):
             "category",
         ]
 
+class FlaggedPackageForm(ModelForm):
+    class Meta:
+        model = FlaggedPackage
+        fields = ["reason"]
 
 class PackageExampleForm(ModelForm):
     class Meta:
