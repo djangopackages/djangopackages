@@ -273,6 +273,13 @@ Listed in alphabetical order.
     <td></td>
   </tr>
   <tr>
+    <td>Leonardo Gregianin</td>
+    <td>
+      <a href="https://github.com/leogregianin">leogregianin</a>
+    </td>
+    <td>leogregianin</td>
+  </tr>
+  <tr>
     <td>Leonardo Santagada</td>
     <td>
       <a href="https://github.com/santagada">santagada</a>
