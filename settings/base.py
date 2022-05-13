@@ -133,7 +133,7 @@ PROJECT_APPS = [
     "grid",
     # "classifiers",
     "core",
-    "commands",
+    # "commands",
     "homepage",
     "package",
     "profiles",
