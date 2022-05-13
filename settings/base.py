@@ -1,14 +1,13 @@
 # Django settings
 
-import os.path
-from os import environ
-import environ as envmax
+from pathlib import Path
+import environ
 
 from django.template.defaultfilters import slugify
 
-env = envmax.Env()
+env = environ.Env()
 
-PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+PROJECT_ROOT = Path(__file__).parent.parent
 
 DEBUG = env.bool("DJANGO_DEBUG", True)
 TEMPLATE_DEBUG = env.bool("TEMPLATE_DEBUG", True)
@@ -47,7 +46,7 @@ USE_TZ = False
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = os.path.join(PROJECT_ROOT, "media")
+MEDIA_ROOT = PROJECT_ROOT.joinpath("media")
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
@@ -56,7 +55,7 @@ MEDIA_URL = "/media/"
 
 # Absolute path to the directory that holds static files like app media.
 # Example: "/home/media/media.lawrence.com/apps/"
-STATIC_ROOT = os.path.join(PROJECT_ROOT, "collected_static")
+STATIC_ROOT = PROJECT_ROOT.joinpath("collected_static")
 
 # URL that handles the static files like app media.
 # Example: "http://media.lawrence.com"
@@ -64,7 +63,7 @@ STATIC_URL = "/static/"
 
 # Additional directories which hold static files
 STATICFILES_DIRS = [
-    os.path.join(PROJECT_ROOT, "static"),
+    PROJECT_ROOT.joinpath("static"),
 ]
 
 # Use the default admin media prefix, which is...
@@ -91,7 +90,7 @@ TEMPLATES = [
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
         "DIRS": [
-            os.path.join(PROJECT_ROOT, "templates"),
+            PROJECT_ROOT.joinpath("templates"),
         ],
         "OPTIONS": {
             # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
@@ -132,7 +131,9 @@ AUTHENTICATION_BACKENDS = [
 
 PROJECT_APPS = [
     "grid",
+    "classifiers",
     "core",
+    "commands",
     "homepage",
     "package",
     "profiles",
@@ -193,7 +194,7 @@ URCHIN_ID = ""
 DEFAULT_FROM_EMAIL = "Django Packages <djangopackages-noreply@djangopackages.org>"
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_SUBJECT_PREFIX = "[Django Packages] "
-SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
+SENDGRID_API_KEY = env("SENDGRID_API_KEY")
 SERVER_EMAIL = "info@djangopackages.org"
 
 try:
@@ -246,9 +247,9 @@ AUTHENTICATION_BACKENDS = (
     "social_core.backends.github.GithubOAuth2",
     "django.contrib.auth.backends.ModelBackend",
 )
-GITHUB_API_SECRET = environ.get("GITHUB_API_SECRET")
-GITHUB_APP_ID = environ.get("GITHUB_APP_ID")
-GITHUB_USERNAME = environ.get("GITHUB_USERNAME")
+GITHUB_API_SECRET = env("GITHUB_API_SECRET")
+GITHUB_APP_ID = env("GITHUB_APP_ID")
+GITHUB_USERNAME = env("GITHUB_USERNAME")
 SOCIAL_AUTH_GITHUB_KEY = GITHUB_APP_ID
 SOCIAL_AUTH_GITHUB_SECRET = GITHUB_API_SECRET
 SOCIAL_AUTH_ENABLED_BACKENDS = ("github",)
@@ -279,7 +280,7 @@ if DEBUG:
         "SHOW_TOOLBAR_CALLBACK": lambda _request: DEBUG,
     }
 
-ADMIN_URL_BASE = environ.get("ADMIN_URL_BASE", r"^admin/")
+ADMIN_URL_BASE = env("ADMIN_URL_BASE", default="admin/")
 
 # LOGGING = {
 #     'version': 1,
@@ -316,7 +317,7 @@ ADMIN_URL_BASE = environ.get("ADMIN_URL_BASE", r"^admin/")
 #         },
 #         '': {
 #             'handlers': ['console', ],
-#             'level': os.environ.get('DEBUG_LEVEL', 'ERROR'),
+#             'level': os.env('DEBUG_LEVEL', 'ERROR'),
 #         },
 #     }
 # }
@@ -337,11 +338,11 @@ CRISPY_TEMPLATE_PACK = "bootstrap3"
 
 
 ########## GITHUB
-GITHUB_API_SECRET = environ.get("GITHUB_API_SECRET")
-GITHUB_APP_ID = environ.get("GITHUB_APP_ID")
-GITHUB_TOKEN = environ.get("GITHUB_TOKEN")
+GITHUB_API_SECRET = env("GITHUB_API_SECRET")
+GITHUB_APP_ID = env("GITHUB_APP_ID")
+GITHUB_TOKEN = env("GITHUB_TOKEN")
 
-GITLAB_TOKEN = environ.get("GITLAB_TOKEN", "")
+GITLAB_TOKEN = env("GITLAB_TOKEN", default="")
 
 ########### SEKURITY
 ALLOWED_HOSTS = ["*"]
