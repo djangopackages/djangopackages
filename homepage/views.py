@@ -176,6 +176,12 @@ def homepage(request, template_name="homepage.html"):
     )
 
 
+def error_404_view(request):
+    response = render(request, "404.html")
+    response.status_code = 404
+    return response
+
+
 def error_500_view(request):
     try:
         response = render(request, "500.html")
@@ -187,9 +193,9 @@ def error_500_view(request):
     return response
 
 
-def error_404_view(request):
-    response = render(request, "404.html")
-    response.status_code = 404
+def error_503_view(request):
+    response = render(request, "503.html")
+    response.status_code = 503
     return response
 
 

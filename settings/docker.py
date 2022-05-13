@@ -34,16 +34,16 @@ ANYMAIL = {
     "MAILGUN_SENDER_DOMAIN": env("MAILGUN_SENDER_DOMAIN"),
 }
 EMAIL_BACKEND = "anymail.backends.mailgun.MailgunBackend"
-EMAIL_SUBJECT_PREFIX = environ.get("EMAIL_SUBJECT_PREFIX", "[Django Packages] ")
+EMAIL_SUBJECT_PREFIX = env("EMAIL_SUBJECT_PREFIX", default="[Django Packages] ")
 
 
 ########## SECRET
-SECRET_KEY = environ.get("SECRET_KEY", "")
+SECRET_KEY = env("SECRET_KEY", default="")
 
 
 ########## SITE
-SITE_TITLE = environ.get("SITE_TITLE")
-FRAMEWORK_TITLE = environ.get("FRAMEWORK_TITLE")
+SITE_TITLE = env("SITE_TITLE")
+FRAMEWORK_TITLE = env("FRAMEWORK_TITLE")
 
 
 ########### Permissions

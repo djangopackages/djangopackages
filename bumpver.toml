@@ -3,7 +3,7 @@ current_version = "2022.5.1"
 version_pattern = "YYYY.MM.INC1"
 commit_message = ":bookmark: bump version {old_version} -> {new_version}"
 commit = true
-push = false  # diabled for GitHub Actions
+push = false  # disabled for GitHub Actions
 tag = true
 
 [bumpver.file_patterns]
