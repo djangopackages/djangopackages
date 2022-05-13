@@ -194,7 +194,7 @@ URCHIN_ID = ""
 DEFAULT_FROM_EMAIL = "Django Packages <djangopackages-noreply@djangopackages.org>"
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_SUBJECT_PREFIX = "[Django Packages] "
-SENDGRID_API_KEY = env("SENDGRID_API_KEY")
+SENDGRID_API_KEY = env("SENDGRID_API_KEY", default="")
 SERVER_EMAIL = "info@djangopackages.org"
 
 try:
@@ -247,9 +247,15 @@ AUTHENTICATION_BACKENDS = (
     "social_core.backends.github.GithubOAuth2",
     "django.contrib.auth.backends.ModelBackend",
 )
-GITHUB_API_SECRET = env("GITHUB_API_SECRET")
-GITHUB_APP_ID = env("GITHUB_APP_ID")
-GITHUB_USERNAME = env("GITHUB_USERNAME")
+
+# GitLab settings
+GITLAB_TOKEN = env("GITLAB_TOKEN", default="")
+
+# GitHub settings
+GITHUB_API_SECRET = env("GITHUB_API_SECRET", default="")
+GITHUB_APP_ID = env("GITHUB_APP_ID", default="")
+GITHUB_TOKEN = env("GITHUB_TOKEN", default="")
+
 SOCIAL_AUTH_GITHUB_KEY = GITHUB_APP_ID
 SOCIAL_AUTH_GITHUB_SECRET = GITHUB_API_SECRET
 SOCIAL_AUTH_ENABLED_BACKENDS = ("github",)
@@ -335,14 +341,6 @@ URL_REGEX_GITHUB = r"(?:http|https|git)://github.com/[^/]*/([^/]*)/{0,1}"
 ########### crispy_forms setup
 CRISPY_TEMPLATE_PACK = "bootstrap3"
 ########### end crispy_forms setup
-
-
-########## GITHUB
-GITHUB_API_SECRET = env("GITHUB_API_SECRET")
-GITHUB_APP_ID = env("GITHUB_APP_ID")
-GITHUB_TOKEN = env("GITHUB_TOKEN")
-
-GITLAB_TOKEN = env("GITLAB_TOKEN", default="")
 
 ########### SEKURITY
 ALLOWED_HOSTS = ["*"]
