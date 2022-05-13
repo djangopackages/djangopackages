@@ -31,7 +31,6 @@
                             {{ version.package.title }}
                             <small>v{{ version.number }}</small>
                         </h4>
-
                         <p class="list-group-item-text">
                             {% with version.package.repo_description|truncatewords:25 as short %}
                                 {% if version.package.repo_description|length > short|length %}
@@ -44,6 +43,10 @@
                     </a>
                 {% endfor %}
             </div>
+
+            {% comment %}
+            <div><a href="{% url "py3_compat" %}">View more</a></div>
+            {% endcomment %}
         </div>
         <!-- end python 3 releases -->
 
@@ -70,6 +73,10 @@
                     </a>
                 {% endfor %}
             </div>
+
+            {% comment %}
+            <div><a href="{% url "latest_packages" %}">View more</a></div>
+            {% endcomment %}
         </div>
         <!-- end latest five packages -->
 
@@ -96,6 +103,10 @@
                     </a>
                 {% endfor %}
             </div>
+
+            {% comment %}
+            <div><a href="{% url "latest_packages" %}">View more</a></div>
+            {% endcomment %}
         </div>
         <!-- end five random packages -->
 
