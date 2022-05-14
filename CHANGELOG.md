@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-05-13]
+### Changed
+- :sparkles: 2022-05-13 Friday Updates ([#826](https://github.com/djangopackages/djangopackages/pull/826))
+
 ## [2022-05-11]
 ### Changed
 - Fixed redirect link ([#825](https://github.com/djangopackages/djangopackages/pull/825))
