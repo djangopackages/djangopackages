@@ -12,18 +12,16 @@ async-timeout==4.0.2
     # via redis
 attrs==21.4.0
     # via pytest
-backports-zoneinfo==0.2.1
-    # via django
 beautifulsoup4==4.11.1
     # via bs4
 billiard==3.6.4.0
     # via celery
 bs4==0.0.1
-    # via -r ./requirements.in
+    # via -r requirements.in
 bumpver==2022.1116
-    # via -r ./requirements.in
+    # via -r requirements.in
 celery==5.2.6
-    # via -r ./requirements.in
+    # via -r requirements.in
 certifi==2021.10.8
     # via
     #   requests
@@ -65,10 +63,10 @@ deprecated==1.2.13
     #   pygithub
     #   redis
 dirty-equals==0.4
-    # via -r ./requirements.in
+    # via -r requirements.in
 django==4.0.4
     # via
-    #   -r ./requirements.in
+    #   -r requirements.in
     #   django-anymail
     #   django-debug-toolbar
     #   django-extensions
@@ -81,49 +79,49 @@ django==4.0.4
     #   model-bakery
     #   webstack-django-sorting
 django-anymail==8.5
-    # via -r ./requirements.in
+    # via -r requirements.in
 django-better-admin-arrayfield==1.4.2
-    # via -r ./requirements.in
+    # via -r requirements.in
 django-click==2.3.0
-    # via -r ./requirements.in
+    # via -r requirements.in
 django-crispy-forms==1.14.0
-    # via -r ./requirements.in
+    # via -r requirements.in
 django-debug-toolbar==3.4.0
-    # via -r ./requirements.in
+    # via -r requirements.in
 django-environ==0.8.1
-    # via -r ./requirements.in
+    # via -r requirements.in
 django-extensions==3.1.5
-    # via -r ./requirements.in
+    # via -r requirements.in
 django-ipware==4.0.2
     # via django-structlog
 django-jsonview==2.0.0
-    # via -r ./requirements.in
+    # via -r requirements.in
 django-maintenance-mode==0.16.3
-    # via -r ./requirements.in
+    # via -r requirements.in
 django-redis==5.2.0
-    # via -r ./requirements.in
+    # via -r requirements.in
 django-reversion==5.0.0
-    # via -r ./requirements.in
+    # via -r requirements.in
 django-secure==1.0.2
-    # via -r ./requirements.in
+    # via -r requirements.in
 django-structlog==2.2.0
-    # via -r ./requirements.in
+    # via -r requirements.in
 django-tables2==2.4.1
-    # via -r ./requirements.in
+    # via -r requirements.in
 django-test-plus==2.2.0
-    # via -r ./requirements.in
+    # via -r requirements.in
 django-waffle==2.4.1
-    # via -r ./requirements.in
+    # via -r requirements.in
 djangorestframework==3.12.4
-    # via -r ./requirements.in
+    # via -r requirements.in
 emoji==1.7.0
-    # via -r ./requirements.in
+    # via -r requirements.in
 faker==13.11.0
-    # via -r ./requirements.in
+    # via -r requirements.in
 feedparser==6.0.8
-    # via -r ./requirements.in
+    # via -r requirements.in
 github3-py==1.0.2
-    # via -r ./requirements.in
+    # via -r requirements.in
 idna==3.3
     # via
     #   requests
@@ -131,7 +129,7 @@ idna==3.3
 iniconfig==1.1.1
     # via pytest
 jinja2==3.1.2
-    # via -r ./requirements.in
+    # via -r requirements.in
 kombu==5.2.4
     # via celery
 lexid==2021.1006
@@ -139,7 +137,7 @@ lexid==2021.1006
 markupsafe==2.1.1
     # via jinja2
 model-bakery==1.5.0
-    # via -r ./requirements.in
+    # via -r requirements.in
 multidict==6.0.2
     # via yarl
 oauthlib==3.2.0
@@ -148,7 +146,7 @@ oauthlib==3.2.0
     #   social-auth-core
 packaging==21.3
     # via
-    #   -r ./requirements.in
+    #   -r requirements.in
     #   pytest
     #   redis
 pathlib2==2.3.7.post1
@@ -158,16 +156,16 @@ pluggy==1.0.0
 prompt-toolkit==3.0.29
     # via click-repl
 psycopg2-binary==2.9.3
-    # via -r ./requirements.in
+    # via -r requirements.in
 py==1.11.0
     # via pytest
 pycparser==2.21
     # via cffi
 pygithub==1.55
-    # via -r ./requirements.in
+    # via -r requirements.in
 pygments==2.12.0
     # via rich
-pyjwt==2.3.0
+pyjwt==2.4.0
     # via
     #   pygithub
     #   social-auth-core
@@ -177,45 +175,45 @@ pyparsing==3.0.9
     # via packaging
 pytest==7.1.2
     # via
-    #   -r ./requirements.in
+    #   -r requirements.in
     #   pytest-cov
     #   pytest-django
     #   pytest-mock
     #   pytest-vcr
 pytest-cov==3.0.0
-    # via -r ./requirements.in
+    # via -r requirements.in
 pytest-django==4.5.2
-    # via -r ./requirements.in
+    # via -r requirements.in
 pytest-mock==3.7.0
-    # via -r ./requirements.in
+    # via -r requirements.in
 pytest-vcr==1.0.2
-    # via -r ./requirements.in
+    # via -r requirements.in
 python-dateutil==2.8.2
     # via
-    #   -r ./requirements.in
+    #   -r requirements.in
     #   faker
     #   github3-py
     #   time-machine
 python-fsutil==0.6.0
     # via django-maintenance-mode
 python-gitlab==3.4.0
-    # via -r ./requirements.in
+    # via -r requirements.in
 python3-openid==3.2.0
     # via social-auth-core
 pytz==2022.1
     # via
-    #   -r ./requirements.in
+    #   -r requirements.in
     #   celery
     #   dirty-equals
 pyyaml==6.0
     # via vcrpy
 redis==4.3.1
     # via
-    #   -r ./requirements.in
+    #   -r requirements.in
     #   django-redis
 requests==2.27.1
     # via
-    #   -r ./requirements.in
+    #   -r requirements.in
     #   django-anymail
     #   github3-py
     #   pygithub
@@ -225,15 +223,15 @@ requests==2.27.1
     #   requests-toolbelt
     #   social-auth-core
 requests-mock==1.9.3
-    # via -r ./requirements.in
+    # via -r requirements.in
 requests-oauthlib==1.3.1
     # via social-auth-core
 requests-toolbelt==0.9.1
     # via python-gitlab
 rich==12.4.1
-    # via -r ./requirements.in
+    # via -r requirements.in
 sentry-sdk==1.5.12
-    # via -r ./requirements.in
+    # via -r requirements.in
 sgmllib3k==1.0.0
     # via feedparser
 six==1.16.0
@@ -244,10 +242,10 @@ six==1.16.0
     #   requests-mock
     #   vcrpy
 social-auth-app-django==5.0.0
-    # via -r ./requirements.in
+    # via -r requirements.in
 social-auth-core==4.2.0
     # via
-    #   -r ./requirements.in
+    #   -r requirements.in
     #   social-auth-app-django
 soupsieve==2.3.2.post1
     # via beautifulsoup4
@@ -257,10 +255,10 @@ sqlparse==0.4.2
     #   django-debug-toolbar
 structlog==21.5.0
     # via
-    #   -r ./requirements.in
+    #   -r requirements.in
     #   django-structlog
 time-machine==2.6.0
-    # via -r ./requirements.in
+    # via -r requirements.in
 toml==0.10.2
     # via bumpver
 tomli==2.0.1
@@ -268,11 +266,9 @@ tomli==2.0.1
     #   coverage
     #   pytest
 trove-classifiers==2022.5.5
-    # via -r ./requirements.in
-typing-extensions==4.2.0
-    # via rich
+    # via -r requirements.in
 unidecode==1.3.4
-    # via -r ./requirements.in
+    # via -r requirements.in
 uritemplate==4.1.1
     # via github3-py
 urllib3==1.26.9
@@ -280,7 +276,7 @@ urllib3==1.26.9
     #   requests
     #   sentry-sdk
 uwsgi==2.0.20
-    # via -r ./requirements.in
+    # via -r requirements.in
 vcrpy==4.1.1
     # via pytest-vcr
 vine==5.0.0
@@ -291,9 +287,9 @@ vine==5.0.0
 wcwidth==0.2.5
     # via prompt-toolkit
 webstack-django-sorting==2.1.1
-    # via -r ./requirements.in
+    # via -r requirements.in
 whitenoise==6.1.0
-    # via -r ./requirements.in
+    # via -r requirements.in
 wrapt==1.14.1
     # via
     #   deprecated
