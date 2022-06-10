@@ -20,8 +20,8 @@ from django_tables2 import SingleTableView
 
 from grid.models import Grid
 from homepage.models import Dpotw, Gotw
-from package.forms import PackageForm, PackageExampleForm, DocumentationForm
-from package.models import Category, Package, PackageExample
+from package.forms import PackageForm, PackageExampleForm, DocumentationForm, FlaggedPackageForm
+from package.models import Category, FlaggedPackage, Package, PackageExample
 from package.repos import get_all_repos
 from package.tables import PackageTable, PackageByCategoryTable
 
@@ -112,6 +112,35 @@ def update_package(request, slug):
 
     return HttpResponseRedirect(reverse("package", kwargs={"slug": package.slug}))
 
+@login_required
+def flag_package(request, slug, template_name="package/flag_form.html"):
+
+    package = get_object_or_404(Package, slug=slug)
+    form = FlaggedPackageForm(request.POST or None)
+
+    if form.is_valid():
+        flagged_package = form.save(commit=False)
+        flagged_package.user = request.user
+        flagged_package.package = package
+        flagged_package.save()
+        messages.add_message(request, messages.INFO, "Flag submission submitted for review")
+        return HttpResponseRedirect(
+            reverse("package", kwargs={"slug": package.slug})
+        )
+
+    return render(request, template_name, {"form": form})
+
+def flag_approve(request, slug):
+    flag = get_object_or_404(FlaggedPackage, package__slug=slug)
+    flag.approve()
+    messages.add_message(request, messages.INFO, "Flag approved")
+    return HttpResponseRedirect(reverse("package", kwargs={"slug": flag.package.slug}))
+
+def flag_remove(request, slug):
+    flag = get_object_or_404(FlaggedPackage, package__slug=slug)
+    flag.delete()
+    messages.add_message(request, messages.INFO, "Flag removed")
+    return HttpResponseRedirect(reverse("package", kwargs={"slug": flag.package.slug}))
 
 @login_required
 def add_example(request, slug, template_name="package/add_example.html"):
