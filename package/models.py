@@ -472,7 +472,7 @@ class Package(BaseModel):
         return [int(x) for x in self.commits_over_52().split(",")]
 
 class FlaggedPackage(BaseModel):
-    package = models.ForeignKey(Package, on_delete=models.CASCADE)
+    package = models.ForeignKey(Package, on_delete=models.CASCADE, related_name="flags")
     reason = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
