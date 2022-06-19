@@ -19,12 +19,18 @@ class CommitAdmin(admin.ModelAdmin):
 @admin.register(Package)
 class PackageAdmin(VersionAdmin, DynamicArrayMixin):
     save_on_top = True
-    search_fields = ["title"]
-    list_filter = ["category", "supports_python3", "date_deprecated"]
+    search_fields = ["title", "slug"]
+    list_filter = [
+        "category",
+        "supports_python3",
+        "date_repo_archived",
+        "date_deprecated",
+    ]
     list_display = [
         "title",
         "score",
         "last_exception_count",
+        "date_repo_archived",
         "date_deprecated",
         "last_fetched",
         "created",

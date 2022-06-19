@@ -243,7 +243,7 @@ def category(request, slug, template_name="package/category.html"):
     sort = request.GET.get("sort")
 
     """
-    These are workarounds primarily seach engine spiders trying weird
+    These are workarounds primarily search engine spiders trying weird
     sorting options when they are crawling the website.
     """
     _mutable = request.GET._mutable

@@ -1,5 +1,21 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-05-13]
+### Changed
+- :sparkles: 2022-05-13 Friday Updates ([#826](https://github.com/djangopackages/djangopackages/pull/826))
+
+## [2022-05-11]
+### Changed
+- Fixed redirect link ([#825](https://github.com/djangopackages/djangopackages/pull/825))
+
+## [2022-04-16]
+### Changed
+- adds base template to 503.html ([#824](https://github.com/djangopackages/djangopackages/pull/824))
+
+## [2022-04-12]
+### Changed
+- Update django to 4.0.4 ([#823](https://github.com/djangopackages/djangopackages/pull/823))
+
 ## [2022-03-26]
 ### Changed
 - 2022-03-26 Updates ([#821](https://github.com/djangopackages/djangopackages/pull/821))

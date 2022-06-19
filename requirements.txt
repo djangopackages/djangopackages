@@ -4,9 +4,9 @@
 #
 #    pip-compile --output-file=./requirements.txt ./requirements.in
 #
-amqp==5.1.0
+amqp==5.1.1
     # via kombu
-asgiref==3.5.0
+asgiref==3.5.1
     # via django
 async-timeout==4.0.2
     # via redis
@@ -14,7 +14,7 @@ attrs==21.4.0
     # via pytest
 backports-zoneinfo==0.2.1
     # via django
-beautifulsoup4==4.10.0
+beautifulsoup4==4.11.1
     # via bs4
 billiard==3.6.4.0
     # via celery
@@ -22,7 +22,7 @@ bs4==0.0.1
     # via -r ./requirements.in
 bumpver==2022.1116
     # via -r ./requirements.in
-celery==5.2.3
+celery==5.2.6
     # via -r ./requirements.in
 certifi==2021.10.8
     # via
@@ -34,7 +34,7 @@ cffi==1.15.0
     #   pynacl
 charset-normalizer==2.0.12
     # via requests
-click==8.0.4
+click==8.1.3
     # via
     #   bumpver
     #   celery
@@ -54,7 +54,7 @@ commonmark==0.9.1
     # via rich
 coverage[toml]==6.3.2
     # via pytest-cov
-cryptography==36.0.2
+cryptography==37.0.2
     # via social-auth-core
 defusedxml==0.7.1
     # via
@@ -64,7 +64,9 @@ deprecated==1.2.13
     # via
     #   pygithub
     #   redis
-django==4.0.3
+dirty-equals==0.4
+    # via -r ./requirements.in
+django==4.0.4
     # via
     #   -r ./requirements.in
     #   django-anymail
@@ -86,7 +88,7 @@ django-click==2.3.0
     # via -r ./requirements.in
 django-crispy-forms==1.14.0
     # via -r ./requirements.in
-django-debug-toolbar==3.2.4
+django-debug-toolbar==3.4.0
     # via -r ./requirements.in
 django-environ==0.8.1
     # via -r ./requirements.in
@@ -96,7 +98,7 @@ django-ipware==4.0.2
     # via django-structlog
 django-jsonview==2.0.0
     # via -r ./requirements.in
-django-maintenance-mode==0.16.2
+django-maintenance-mode==0.16.3
     # via -r ./requirements.in
 django-redis==5.2.0
     # via -r ./requirements.in
@@ -110,13 +112,13 @@ django-tables2==2.4.1
     # via -r ./requirements.in
 django-test-plus==2.2.0
     # via -r ./requirements.in
-django-waffle==2.3.0
+django-waffle==2.4.1
     # via -r ./requirements.in
 djangorestframework==3.12.4
     # via -r ./requirements.in
 emoji==1.7.0
     # via -r ./requirements.in
-faker==13.3.3
+faker==13.11.0
     # via -r ./requirements.in
 feedparser==6.0.8
     # via -r ./requirements.in
@@ -128,7 +130,7 @@ idna==3.3
     #   yarl
 iniconfig==1.1.1
     # via pytest
-jinja2==3.1.0
+jinja2==3.1.2
     # via -r ./requirements.in
 kombu==5.2.4
     # via celery
@@ -136,7 +138,7 @@ lexid==2021.1006
     # via bumpver
 markupsafe==2.1.1
     # via jinja2
-model-bakery==1.4.0
+model-bakery==1.5.0
     # via -r ./requirements.in
 multidict==6.0.2
     # via yarl
@@ -153,7 +155,7 @@ pathlib2==2.3.7.post1
     # via bumpver
 pluggy==1.0.0
     # via pytest
-prompt-toolkit==3.0.28
+prompt-toolkit==3.0.29
     # via click-repl
 psycopg2-binary==2.9.3
     # via -r ./requirements.in
@@ -163,7 +165,7 @@ pycparser==2.21
     # via cffi
 pygithub==1.55
     # via -r ./requirements.in
-pygments==2.11.2
+pygments==2.12.0
     # via rich
 pyjwt==2.3.0
     # via
@@ -171,9 +173,9 @@ pyjwt==2.3.0
     #   social-auth-core
 pynacl==1.5.0
     # via pygithub
-pyparsing==3.0.7
+pyparsing==3.0.9
     # via packaging
-pytest==7.1.1
+pytest==7.1.2
     # via
     #   -r ./requirements.in
     #   pytest-cov
@@ -194,7 +196,9 @@ python-dateutil==2.8.2
     #   faker
     #   github3-py
     #   time-machine
-python-gitlab==3.2.0
+python-fsutil==0.6.0
+    # via django-maintenance-mode
+python-gitlab==3.4.0
     # via -r ./requirements.in
 python3-openid==3.2.0
     # via social-auth-core
@@ -202,9 +206,10 @@ pytz==2022.1
     # via
     #   -r ./requirements.in
     #   celery
+    #   dirty-equals
 pyyaml==6.0
     # via vcrpy
-redis==4.2.0
+redis==4.3.1
     # via
     #   -r ./requirements.in
     #   django-redis
@@ -225,15 +230,14 @@ requests-oauthlib==1.3.1
     # via social-auth-core
 requests-toolbelt==0.9.1
     # via python-gitlab
-rich==12.0.1
+rich==12.4.1
     # via -r ./requirements.in
-sentry-sdk==1.5.8
+sentry-sdk==1.5.12
     # via -r ./requirements.in
 sgmllib3k==1.0.0
     # via feedparser
 six==1.16.0
     # via
-    #   -r ./requirements.in
     #   click-repl
     #   pathlib2
     #   python-dateutil
@@ -245,7 +249,7 @@ social-auth-core==4.2.0
     # via
     #   -r ./requirements.in
     #   social-auth-app-django
-soupsieve==2.3.1
+soupsieve==2.3.2.post1
     # via beautifulsoup4
 sqlparse==0.4.2
     # via
@@ -263,10 +267,12 @@ tomli==2.0.1
     # via
     #   coverage
     #   pytest
-trove-classifiers==2022.3.21
+trove-classifiers==2022.5.5
     # via -r ./requirements.in
-typing-extensions==4.1.1
-    # via redis
+typing-extensions==4.2.0
+    # via rich
+unidecode==1.3.4
+    # via -r ./requirements.in
 uritemplate==4.1.1
     # via github3-py
 urllib3==1.26.9
@@ -284,11 +290,11 @@ vine==5.0.0
     #   kombu
 wcwidth==0.2.5
     # via prompt-toolkit
-webstack-django-sorting==2.1.0
+webstack-django-sorting==2.1.1
     # via -r ./requirements.in
-whitenoise==6.0.0
+whitenoise==6.1.0
     # via -r ./requirements.in
-wrapt==1.14.0
+wrapt==1.14.1
     # via
     #   deprecated
     #   vcrpy

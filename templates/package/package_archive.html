@@ -10,7 +10,7 @@
             <h2>{% trans "Latest 50 packages added" %}</h2>
             {% if request.user.is_authenticated %}
                 {% if profile.can_add_package %}
-                    <p><a class="btn  btn-default" href="{% url 'add_package' %}">{% trans "Add a new package!" %}</a></p>
+                    <p><a class="btn btn-primary" href="{% url 'add_package' %}">{% trans "Add a new package!" %}</a></p>
                 {% endif %}
             {% endif %}
         </div>

@@ -20,8 +20,10 @@ emoji
 feedparser
 # github3.py
 github3.py<1.1
+jinja2
 packaging
 psycopg2-binary
+PyGithub
 python-dateutil
 python-gitlab
 pytz
@@ -33,11 +35,10 @@ social-auth-app-django
 social-auth-core
 structlog
 trove-classifiers
+Unidecode
 uwsgi
 webstack-django-sorting
 whitenoise
-PyGithub
-jinja2
 
 # Celery
 celery
@@ -47,6 +48,7 @@ django-redis
 redis
 
 # testing
+dirty-equals
 django-test-plus
 Faker
 model-bakery
@@ -59,4 +61,3 @@ time-machine
 
 # utils
 bumpver
-six
