@@ -1,9 +1,11 @@
 import pytest
 
+from django.contrib.auth.models import User
+
 from django.test import TestCase
 from package.forms import PackageForm
 
-from package.models import Package, Version
+from package.models import FlaggedPackage, Package, Version
 from package.tests import data, initial_data
 
 
@@ -125,3 +127,16 @@ class PackageTests(TestCase):
     def test_package_form(self):
         f = PackageForm()
         assert 'placeholder="ex: https://github.com/django/django"' in str(f)
+
+    def test_package_flag(self):
+        p = Package.objects.get(slug="testability")
+        f = FlaggedPackage.objects.create(package=p,
+            reason="This is a test",
+            user=User.objects.get(username="user"),
+            )
+
+        f.approve()
+        self.assertEqual(f.approved_flag, True)
+
+        expected_string = f'{p.repo_name} - {f.reason}'
+        self.assertEqual(str(f), expected_string)
