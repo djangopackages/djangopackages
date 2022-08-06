@@ -86,6 +86,7 @@ MIDDLEWARE = [
 
 TEMPLATES = [
     {
+        "APP_DIRS": True,
         # See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-TEMPLATES-BACKEND
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
@@ -96,11 +97,6 @@ TEMPLATES = [
             # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
             "debug": TEMPLATE_DEBUG,
             # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
-            # https://docs.djangoproject.com/en/dev/ref/templates/api/#loader-types
-            "loaders": [
-                "django.template.loaders.filesystem.Loader",
-                "django.template.loaders.app_directories.Loader",
-            ],
             # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
             "context_processors": [
                 "django.template.context_processors.debug",
@@ -162,7 +158,6 @@ PREREQ_APPS = [
     "reversion",
     "social_django",
     "waffle",
-    "webstack_django_sorting",
 ]
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
