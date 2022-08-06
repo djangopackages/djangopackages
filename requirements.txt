@@ -66,7 +66,7 @@ deprecated==1.2.13
     #   redis
 dirty-equals==0.4
     # via -r ./requirements.in
-django==4.0.7
+django==4.1
     # via
     #   -r ./requirements.in
     #   django-anymail
@@ -79,7 +79,6 @@ django==4.0.7
     #   django-tables2
     #   djangorestframework
     #   model-bakery
-    #   webstack-django-sorting
 django-anymail==8.6
     # via -r ./requirements.in
 django-better-admin-arrayfield==1.4.2
@@ -290,8 +289,6 @@ vine==5.0.0
     #   kombu
 wcwidth==0.2.5
     # via prompt-toolkit
-webstack-django-sorting==2.1.1
-    # via -r ./requirements.in
 whitenoise==6.2.0
     # via -r ./requirements.in
 wrapt==1.14.1

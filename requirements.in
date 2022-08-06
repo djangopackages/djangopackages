@@ -1,5 +1,5 @@
 bs4
-Django<4.1
+Django<4.2
 # see requirements-to-watch.txt
 django-anymail
 django-better-admin-arrayfield
@@ -37,7 +37,6 @@ structlog
 trove-classifiers
 Unidecode
 uwsgi
-webstack-django-sorting
 whitenoise
 
 # Celery
