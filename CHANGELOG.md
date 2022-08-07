@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-08-06]
+### Changed
+- :arrow_up: Upgrades to Django 4.0.7 and other deps ([#832](https://github.com/djangopackages/djangopackages/pull/832))
+
 ## [2022-07-04]
 ### Changed
 - :arrow_up: Bumps Django and other deps for security updates ([#831](https://github.com/djangopackages/djangopackages/pull/831))
