@@ -165,6 +165,22 @@
                                 </td>
                             </tr>
                         {% endfor %}
+                        <td>
+                            {% for flag in package.flags.all %}
+                                {% if flag.approved_flag %}
+                                    <span class="glyphicon glyphicon-flag"></span>
+                                {% elif not flag.approved_flag and request.user.is_superuser %}
+                                    <div>{{ flag.reason }}</div>
+                                    <div><a href="{% url 'flag_approve' package.slug %}">Approve</a>&nbsp;|
+                                        <a href="{% url 'flag_remove' package.slug %}">Remove</a>
+                                    </div>
+                                {% elif not flag.approved_flag and not request.user.is_superuser %}
+                                    <p>Flag pending review</p>
+                                {% endif %}
+                                {% empty %}
+                                <a href="{% url 'flag' package.slug %}">Click to flag</a>
+                            {% endfor %}
+                        </td>
                     </tbody>
                 </table>
             {% else %}

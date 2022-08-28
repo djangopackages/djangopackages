@@ -10,6 +10,9 @@ from package.views import (
     delete_example,
     confirm_delete_example,
     update_package,
+    flag_package,
+    flag_approve,
+    flag_remove,
     usage,
     package_detail,
     post_data,
@@ -73,6 +76,21 @@ urlpatterns = [
         "<slug:slug>/example/<int:id>/confirm_delete/",
         view=confirm_delete_example,
         name="confirm_delete_example",
+    ),
+    path(
+        "<slug:slug>/flag/",
+        view=flag_package,
+        name="flag",
+    ),
+    path(
+        "<slug:slug>/flag/approve/",
+        view=flag_approve,
+        name="flag_approve",
+    ),
+    path(
+        "<slug:slug>/flag/remove/",
+        view=flag_remove,
+        name="flag_remove",
     ),
     path(
         "p/<slug:slug>/",

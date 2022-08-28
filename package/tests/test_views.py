@@ -2,8 +2,9 @@ from django.conf import settings
 from django.contrib.auth.models import User, Permission
 from django.urls import reverse
 from django.test import TestCase
+from github3 import user
 
-from package.models import Category, Package, PackageExample
+from package.models import Category, Package, PackageExample, FlaggedPackage
 from package.tests import initial_data
 
 from profiles.models import Profile
@@ -302,6 +303,78 @@ class FunctionalPackageTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRaises(
             PackageExample.DoesNotExist, PackageExample.objects.get, id=e.id
+        )
+
+    def test_flag_package_view(self):
+        p = Package.objects.get(slug="testability")
+        FlaggedPackage.objects.all().delete()
+        url = reverse("flag", kwargs={"slug": p.slug})
+        response = self.client.get(url)
+
+        # The response should be a redirect, since the user is not logged in.
+        self.assertEqual(response.status_code, 302)
+
+        # Once we log in the user, we should get back the appropriate response.
+        self.assertTrue(self.client.login(username="user", password="user"))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        # print(response._container)
+        self.assertTemplateUsed(response, "package/flag_form.html")
+
+        count = FlaggedPackage.objects.count()
+
+        response = self.client.post(
+            url,
+            {
+                "package": p,
+                "reason": "This is a test",
+            },
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(FlaggedPackage.objects.count(), count + 1)
+
+    def test_flag_approve_view(self):
+        p = Package.objects.get(slug="testability")
+        f = FlaggedPackage.objects.create(package=p,
+            reason="This is a test",
+            user=User.objects.get(username="user")
+            )
+        url = reverse("flag_approve", kwargs={"slug": f.package.slug})
+        response = self.client.get(url)
+
+        # The response should be a redirect, since the user is not logged in.
+        self.assertEqual(response.status_code, 302)
+
+        # Once we log in the user, we should get back the appropriate response.
+        self.assertTrue(self.client.login(username="user", password="user"))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+        # print(response._container)
+
+        f = FlaggedPackage.objects.get(package=p)
+        self.assertEqual(f.approved_flag, True)
+
+    def test_flag_remove_view(self):
+        p = Package.objects.get(slug="testability")
+        f = FlaggedPackage.objects.create(package=p,
+            reason="This is a test",
+            user=User.objects.get(username="user")
+            )
+        url = reverse("flag_remove", kwargs={"slug": f.package.slug})
+        response = self.client.get(url)
+
+        # The response should be a redirect, since the user is not logged in.
+        self.assertEqual(response.status_code, 302)
+
+        # Once we log in the user, we should get back the appropriate response.
+        self.assertTrue(self.client.login(username="user", password="user"))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+        # print(response._container)
+
+        self.assertRaises(
+            FlaggedPackage.DoesNotExist, FlaggedPackage.objects.get, package=p
         )
 
     def test_usage_view(self):
