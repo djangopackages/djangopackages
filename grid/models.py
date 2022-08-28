@@ -62,8 +62,9 @@ class Grid(BaseModel):
         return grid_packages
 
     def save(self, *args, **kwargs):
-        self.grid_packages  # fire the cache
-        self.clear_detail_template_cache()  # Delete the template fragment cache
+        if self.pk:
+            self.grid_packages  # fire the cache
+            self.clear_detail_template_cache()  # Delete the template fragment cache
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
