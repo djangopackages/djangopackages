@@ -472,6 +472,7 @@ class Package(BaseModel):
     def commits_over_52_listed(self):
         return [int(x) for x in self.commits_over_52().split(",")]
 
+
 class FlaggedPackage(BaseModel):
     package = models.ForeignKey(Package, on_delete=models.CASCADE, related_name="flags")
     reason = models.TextField()
@@ -489,6 +490,7 @@ class FlaggedPackage(BaseModel):
 
     def __str__(self):
         return f"{self.package.repo_name} - {self.reason}"
+
 
 class PackageExample(BaseModel):
 

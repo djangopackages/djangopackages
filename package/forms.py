@@ -40,10 +40,12 @@ class PackageForm(ModelForm):
             "category",
         ]
 
+
 class FlaggedPackageForm(ModelForm):
     class Meta:
         model = FlaggedPackage
         fields = ["reason"]
+
 
 class PackageExampleForm(ModelForm):
     class Meta:

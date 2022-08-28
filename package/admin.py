@@ -2,7 +2,14 @@ from django.contrib import admin
 from django_better_admin_arrayfield.admin.mixins import DynamicArrayMixin
 from reversion.admin import VersionAdmin
 
-from package.models import Category, FlaggedPackage, Package, PackageExample, Commit, Version
+from package.models import (
+    Category,
+    FlaggedPackage,
+    Package,
+    PackageExample,
+    Commit,
+    Version,
+)
 
 
 class PackageExampleInline(admin.TabularInline):
@@ -134,6 +141,7 @@ class PackageExampleAdmin(admin.ModelAdmin):
     readonly_fields = ["created_by"]
     search_fields = ["title"]
 
+
 @admin.register(FlaggedPackage)
 class FlaggedPackageAdmin(admin.ModelAdmin):
     list_display = [
@@ -143,6 +151,7 @@ class FlaggedPackageAdmin(admin.ModelAdmin):
     ]
     raw_id_fields = ["package"]
     search_fields = ["package__title"]
+
 
 @admin.register(Version)
 class VersionLocalAdmin(admin.ModelAdmin):

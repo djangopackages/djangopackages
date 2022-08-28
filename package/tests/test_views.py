@@ -336,10 +336,9 @@ class FunctionalPackageTest(TestCase):
 
     def test_flag_approve_view(self):
         p = Package.objects.get(slug="testability")
-        f = FlaggedPackage.objects.create(package=p,
-            reason="This is a test",
-            user=User.objects.get(username="user")
-            )
+        f = FlaggedPackage.objects.create(
+            package=p, reason="This is a test", user=User.objects.get(username="user")
+        )
         url = reverse("flag_approve", kwargs={"slug": f.package.slug})
         response = self.client.get(url)
 
@@ -357,10 +356,9 @@ class FunctionalPackageTest(TestCase):
 
     def test_flag_remove_view(self):
         p = Package.objects.get(slug="testability")
-        f = FlaggedPackage.objects.create(package=p,
-            reason="This is a test",
-            user=User.objects.get(username="user")
-            )
+        f = FlaggedPackage.objects.create(
+            package=p, reason="This is a test", user=User.objects.get(username="user")
+        )
         url = reverse("flag_remove", kwargs={"slug": f.package.slug})
         response = self.client.get(url)
 

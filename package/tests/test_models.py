@@ -131,13 +131,14 @@ class PackageTests(TestCase):
 
     def test_package_flag(self):
         p = Package.objects.get(slug="testability")
-        f = FlaggedPackage.objects.create(package=p,
+        f = FlaggedPackage.objects.create(
+            package=p,
             reason="This is a test",
             user=User.objects.get(username="user"),
-            )
+        )
 
         f.approve()
         self.assertEqual(f.approved_flag, True)
 
-        expected_string = f'{p.repo_name} - {f.reason}'
+        expected_string = f"{p.repo_name} - {f.reason}"
         self.assertEqual(str(f), expected_string)
