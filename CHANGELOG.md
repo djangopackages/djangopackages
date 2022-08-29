@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-08-28]
+### Changed
+- Add flagged package ([#830](https://github.com/djangopackages/djangopackages/pull/830))
+- :arrow_up: Upgrade to Django 4.1 ([#833](https://github.com/djangopackages/djangopackages/pull/833))
+
 ## [2022-08-06]
 ### Changed
 - :arrow_up: Upgrades to Django 4.0.7 and other deps ([#832](https://github.com/djangopackages/djangopackages/pull/832))
