@@ -265,7 +265,6 @@ django==4.1 \
     #   django-anymail
     #   django-debug-toolbar
     #   django-extensions
-    #   django-redis
     #   django-reversion
     #   django-secure
     #   django-structlog
@@ -311,10 +310,6 @@ django-jsonview==2.0.0 \
 django-maintenance-mode==0.16.3 \
     --hash=sha256:adacbfdce4b467390ca98bc975fe5957b1f9984317c7da434b9c07c8ff086f99 \
     --hash=sha256:f9a702e333aa48bf9366af7b412ad15790ecf1e6c3892fd991b7c02b6bcedaa4
-    # via -r ./requirements.in
-django-redis==5.2.0 \
-    --hash=sha256:1d037dc02b11ad7aa11f655d26dac3fb1af32630f61ef4428860a2e29ff92026 \
-    --hash=sha256:8a99e5582c79f894168f5865c52bd921213253b7fd64d16733ae4591564465de
     # via -r ./requirements.in
 django-reversion==5.0.2 \
     --hash=sha256:243a12ee4e04c1611c0f076fbfc3074f1ad40afc45adc64de5ba2414cc4eaf29 \
@@ -698,9 +693,7 @@ pyyaml==6.0 \
 redis==4.3.4 \
     --hash=sha256:a52d5694c9eb4292770084fa8c863f79367ca19884b329ab574d5cb2036b3e54 \
     --hash=sha256:ddf27071df4adf3821c4f2ca59d67525c3a82e5f268bed97b813cb4fabf87880
-    # via
-    #   -r ./requirements.in
-    #   django-redis
+    # via -r ./requirements.in
 requests==2.28.1 \
     --hash=sha256:7c5599b102feddaa661c826c56ab4fee28bfd17f5abca1ebbe3e7f19d7c97983 \
     --hash=sha256:8fefa2a1a1365bf5520aac41836fbee479da67864514bdb821f31ce07ce65349
