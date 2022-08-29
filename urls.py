@@ -1,8 +1,9 @@
 from django.conf import settings
-from django.urls import include
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.urls import include
 from django.urls import path, re_path
+from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
 
 from core import __version__
@@ -51,7 +52,7 @@ urlpatterns = [
         "terms/", TemplateView.as_view(template_name="pages/terms.html"), name="terms"
     ),
     path("faq/", TemplateView.as_view(template_name="pages/faq.html"), name="faq"),
-    path("open/", OpenView.as_view(), name="open"),
+    path("open/", cache_page(60 * 5)(OpenView.as_view()), name="open"),
     path(
         "syndication/",
         TemplateView.as_view(template_name="pages/syndication.html"),

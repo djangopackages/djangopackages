@@ -151,27 +151,31 @@ def homepage(request, template_name="homepage.html"):
         psa_body = '<p>There are currently no announcements.  To request a PSA, tweet at <a href="http://twitter.com/open_comparison">@Open_Comparison</a>.</p>'
 
     # Latest Django Packages blog post on homepage
+    latest_packages = Package.objects.active().order_by("-created")[:5]
+    latest_python3 = (
+        Version.objects.filter(supports_python3=True)
+        .select_related("package")
+        .distinct()
+        .order_by("-created")[:5]
+    )
 
     return render(
         request,
         template_name,
         {
-            "latest_packages": Package.objects.active().order_by("-created")[:5],
-            "random_packages": random_packages,
-            "potw": potw,
-            "gotw": gotw,
-            "psa_body": psa_body,
             "categories": categories,
+            "gotw": gotw,
+            "latest_packages": latest_packages,
+            "latest_python3": latest_python3,
             "package_count": package_count,
-            "py3_compat": Package.objects.active()
-            .filter(version__supports_python3=True)
-            .select_related()
-            .distinct()
-            .count(),
-            "latest_python3": Version.objects.filter(supports_python3=True)
-            .select_related("package")
-            .distinct()
-            .order_by("-created")[0:5],
+            "potw": potw,
+            "psa_body": psa_body,
+            "random_packages": random_packages,
+            # "": Package.objects.active()
+            # .filter(version__supports_python3=True)
+            # .select_related()
+            # .distinct()
+            # .count(),
         },
     )
 
