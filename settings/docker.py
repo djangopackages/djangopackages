@@ -141,6 +141,7 @@ structlog.configure(
 # ------------------------------------------------------------------------------
 # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
 DATABASES["default"] = env.db("DATABASE_URL")
+DATABASES["default"]["DISABLE_SERVER_SIDE_CURSORS"] = True
 ########## END DATABASE CONFIGURATION
 
 ########## django-secure
