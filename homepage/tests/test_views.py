@@ -36,6 +36,7 @@
 #     assert response.status_code == 200
 #     assertTemplateUsed(response, "homepage.html")
 
+
 def test_homepage(db, tp, django_assert_num_queries):
     url = tp.reverse("home")
     with django_assert_num_queries(10):

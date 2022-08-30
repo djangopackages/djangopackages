@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from django.db.models import Count
 from itertools import chain, repeat
 
@@ -10,11 +11,18 @@ def grouper(n, iterable, padvalue=None):
 
 
 def grid_headers(request):
-    grid_headers = list(
-        Grid.objects.filter(header=True)
-        .annotate(gridpackage_count=Count("gridpackage"))
-        .filter(gridpackage_count__gt=2)
-        .order_by("title")
-    )
+    if cache.get("grid_headers"):
+        grid_headers = cache.get("grid_headers")
+    else:
+        grid_headers = list(
+            Grid.objects.filter(header=True)
+            .only("pk", "slug", "description", "title")
+            .annotate(gridpackage_count=Count("gridpackage"))
+            .filter(gridpackage_count__gt=2)
+            .order_by("title")
+        )
+        # cache dict for 5 minutes...
+        cache.set("grid_headers", grid_headers, timeout=60 * 5)
+
     grid_headers = grouper(7, grid_headers)
     return {"grid_headers": grid_headers}

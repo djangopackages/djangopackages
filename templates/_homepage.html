@@ -12,7 +12,7 @@
                     <p>{{ category.description }}</p>
                     <a href="{% url 'category' category.slug %}" class="btn btn-primary">Show {{ category.title_plural }} ({{ category.package_count|intcomma }})</a>
                 </div>
-                {% endif %}
+            {% endif %}
         {% endfor %}
         <!-- end Categories panel -->
     </div>
