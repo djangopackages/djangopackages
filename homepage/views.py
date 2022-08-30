@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.cache import cache
 from django.db.models import Count, Q
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -108,7 +109,16 @@ class SitemapView(TemplateView):
 
 
 def homepage(request, template_name="homepage.html"):
-    categories = Category.objects.all().annotate(package_count=Count("package"))
+    if cache.get("categories"):
+        categories = cache.get("categories")
+    else:
+        categories = list(
+            Category.objects.only(
+                "pk", "slug", "description", "title", "title_plural"
+            ).annotate(package_count=Count("package"))
+        )
+        # cache dict for 5 minutes...
+        cache.set("categories", categories, timeout=60 * 5)
 
     # get up to 5 random packages
     package_list = Package.objects.active().values_list("pk", flat=True)
