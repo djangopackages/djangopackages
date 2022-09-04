@@ -53,7 +53,7 @@
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * Section - DataTables extensible objects
 	 * 
-	 * The _oExt object is used to provide an area where user dfined plugins can be 
+	 * The _oExt object is used to provide an area where user defined plugins can be 
 	 * added to DataTables. The following properties of the object are used:
 	 *   oApi - Plug-in API functions
 	 *   aTypes - Auto-detection of types
@@ -288,7 +288,7 @@
 				var nPrevious, nNext, nPreviousInner, nNextInner;
 				
 				/* Store the next and previous elements in the oSettings object as they can be very
-				 * usful for automation - particularly testing
+				 * useful for automation - particularly testing
 				 */
 				if ( !oSettings.bJUI )
 				{
@@ -3778,7 +3778,7 @@
 			
 			/* Remove old sizing and apply the calculated column widths
 			 * Get the unique column headers in the newly created (cloned) header. We want to apply the
-			 * calclated sizes to this header
+			 * calculated sizes to this header
 			 */
 			var nThs = _fnGetUniqueThs( nTheadSize );
 			for ( i=0, iLen=nThs.length ; i<iLen ; i++ )
@@ -5050,7 +5050,7 @@
 		
 		
 		/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-		 * Section - Feature: Processing incidator
+		 * Section - Feature: Processing indicator
 		 */
 		
 		/*
@@ -6395,7 +6395,7 @@
 		{
 			var i=0, iLen, j, jLen, k, kLen;
 			
-			/* Check to see if we are re-initalising a table */
+			/* Check to see if we are re-initialising a table */
 			for ( i=0, iLen=_aoSettings.length ; i<iLen ; i++ )
 			{
 				/* Base check on table node */

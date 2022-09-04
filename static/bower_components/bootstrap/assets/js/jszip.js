@@ -936,7 +936,7 @@ JSZip.prototype = (function () {
  * Compression methods
  * This object is filled in as follow :
  * name : {
- *    magic // the 2 bytes indentifying the compression method
+ *    magic // the 2 bytes identifying the compression method
  *    compress // function, take the uncompressed content and return it compressed.
  *    uncompress // function, take the compressed content and return it uncompressed.
  *    compressInputType // string, the type accepted by the compress method. null to accept everything.
