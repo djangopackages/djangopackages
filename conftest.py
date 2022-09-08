@@ -13,6 +13,11 @@ pytest_plugins = [
 
 
 TEST_SETTINGS = {
+    "CACHES": {
+        "default": {
+            "BACKEND": "django.core.cache.backends.dummy.DummyCache",
+        }
+    },
     "CELERY_TASK_ALWAYS_EAGER": True,
     "EMAIL_BACKEND": "django.core.mail.backends.locmem.EmailBackend",
     "LOGGING_CONFIG": None,

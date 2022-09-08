@@ -1,5 +1,4 @@
 from django.core.management import call_command
-from io import StringIO
 
 from grid.models import Grid
 from package.models import Package
@@ -15,13 +14,7 @@ def test_searchv2_build(db):
     grid_count = Grid.objects.all().count()
     package_count = Package.objects.all().count()
 
-    out = StringIO()
-    call_command(
-        "searchv2_build",
-        stdout=out,
-        stderr=StringIO(),
-    )
-    assert out.getvalue() == ""
+    call_command("searchv2_build")
 
     # TODO: Revisit this, but for now our total search results should be
     # all of our Grids and all of our Packages.

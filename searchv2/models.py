@@ -81,7 +81,7 @@ class SearchV2(BaseModel):
         return pypi_name
 
     def get_resource_uri(self):
-        return "/api/v4/{}/{}/".format(self.item_type, 3)
+        return f"/api/v4/{self.item_type}/3/"
 
     def _self(self):
         return self

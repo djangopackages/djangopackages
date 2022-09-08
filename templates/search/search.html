@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load static %}
+
+{% block head_title %}{% trans "Search" %}{% endblock %}
+{% block body_class %}search{% endblock %}
+
+{% block body %}
+    <h3>
+        Search Packages and Grids
+        <span class="htmx-indicator">
+            <img src="/img/bars.svg"/> Searching...
+        </span>
+    </h3>
+    <input class="form-control"
+        type="search"
+        name="search"
+        placeholder="Begin Typing To Search Packages..."
+        hx-get="/search/v3/"
+        hx-trigger="keyup changed delay:250ms, search"
+        hx-target="#search-results"
+        hx-indicator=".htmx-indicator">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{% trans "Search Weight" %}</th>
+                <th>{% trans "Package" %}</th>
+                <th>{% trans "Description" %}</th>
+                <th>{% trans "Last PyPI Release" %}</th>
+                <th>{% trans "Repo Forks" %}</th>
+                <th>{% trans "Stars" %}</th>
+            </tr>
+        </thead>
+        <tbody id="search-results">
+        </tbody>
+    </table>
+{% endblock body %}
+
+
+{% block extra_body %}
+    <script src="{% static 'js/htmx/htmx.min.js' %}" defer></script>
+{% endblock extra_body %}

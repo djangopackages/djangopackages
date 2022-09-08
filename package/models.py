@@ -16,7 +16,6 @@ from django.db import models
 from django.db.models.constraints import UniqueConstraint
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.functional import cached_property
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
 from django_better_admin_arrayfield.models.fields import ArrayField
@@ -150,7 +149,7 @@ class Package(BaseModel):
     def get_absolute_url(self):
         return reverse("package", args=[self.slug])
 
-    @cached_property
+    @property
     def is_deprecated(self):
         return self.date_deprecated is not None
 

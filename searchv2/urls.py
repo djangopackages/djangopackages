@@ -3,7 +3,7 @@ from django.urls import path
 
 urlpatterns = [
     path(
-        "build",
+        "build/",
         view=views.build_search,
         name="build_search",
     ),
@@ -11,6 +11,11 @@ urlpatterns = [
         "",
         view=views.search2,
         name="search",
+    ),
+    path(
+        "v3/",
+        view=views.search3,
+        name="search_v3",
     ),
     path(
         "packages/autocomplete/",
