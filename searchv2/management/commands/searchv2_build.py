@@ -1,29 +1,26 @@
-from sys import stdout
+import djclick as click
+
 from time import gmtime, strftime
 
-from django.core.management.base import BaseCommand
 from django.conf import settings
+from rich import print
 
-from searchv2.builders import build_1
 from core.utils import healthcheck
+from searchv2.builders import build_1
 
 
-class Command(BaseCommand):
+@click.command()
+def command():
+    """ Constructs the search results for the system """
 
-    help = "Constructs the search results for the system"
+    start_time = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
 
-    def handle(self, *args, **options):
+    print(f"Commencing search result building now {start_time}")
 
-        print(
-            "Commencing search result building now %s "
-            % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()),
-            file=stdout,
-        )
-        build_1()
+    build_1()
 
-        print(
-            "Finished at %s" % strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()),
-            file=stdout,
-        )
-        if getattr(settings, "HEALTHCHECK_ENABLED", False):
-            healthcheck(settings.SEARCHV2_HEALTHCHECK_URL)
+    end_time = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
+    print(f"Finished at {end_time}")
+
+    if getattr(settings, "HEALTHCHECK_ENABLED", False):
+        healthcheck(settings.SEARCHV2_HEALTHCHECK_URL)
