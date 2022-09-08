@@ -265,6 +265,7 @@ django==4.1 \
     #   django-anymail
     #   django-debug-toolbar
     #   django-extensions
+    #   django-htmx
     #   django-reversion
     #   django-secure
     #   django-structlog
@@ -298,6 +299,10 @@ django-environ==0.9.0 \
 django-extensions==3.2.0 \
     --hash=sha256:4c234a7236e9e41c17d9036f6dae7a3a9b212527105b8a0d24b2459b267825f0 \
     --hash=sha256:7dc7cd1da50d83b76447a58f5d7e5c8e6cd83f21e9b7e5f97e6b644f4d4e21a6
+    # via -r ./requirements.in
+django-htmx==1.12.2 \
+    --hash=sha256:93a356ec0a983a33cc11d927bfe4ab3eca847dc89786d6293e80bc12dc9da03c \
+    --hash=sha256:fe2d31eb8eeae1f531248c0b7cc441dc68b77158892514ed2fcf5f6119b89bd5
     # via -r ./requirements.in
 django-ipware==4.0.2 \
     --hash=sha256:602a58325a4808bd19197fef2676a0b2da2df40d0ecf21be414b2ff48c72ad05 \
