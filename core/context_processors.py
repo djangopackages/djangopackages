@@ -14,7 +14,9 @@ def core_values(request):
     if cache.get("max_weight"):
         max_weight = cache.get("max_weight")
     else:
-        max_weight = SearchV2.objects.all().aggregate(Max("weight"))["weight__max"]
+        max_weight = SearchV2.objects.only("weight").aggregate(
+            max_weight=Max("weight")
+        )["max_weight"]
         cache.set("max_weight", max_weight, timeout=60 * 60)
 
     data = {
