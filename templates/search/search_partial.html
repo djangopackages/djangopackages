@@ -1,0 +1,35 @@
+{% for item in items %}
+    <tr>
+        <td>{# item.weight / max_weight * 100 | number:0 #}{{ item.weight_percent }}%</td>
+        <td>
+            <a href="{{ item.absolute_url }}">{{ item.title }}</a>
+        </td>
+        <td>
+            {% if item.item_type == "grid" %}
+                <strong>Grid:</strong>
+            {% endif %}
+            {{ item.description }}
+        </td>
+        <td>
+            {% if item.item_type == "package" %}
+                {{ item.last_released | date }}
+            {% elif item.item_type == "grid" %}
+                N/A
+            {% endif %}
+        </td>
+        <td>
+            {% if item.item_type == "package" %}
+                {{ item.repo_forks }}
+            {% elif item.item_type == "grid" %}
+                N/A
+            {% endif %}
+        </td>
+        <td>
+            {% if item.item_type == "package" %}
+                {{ item.repo_watchers }}
+            {% elif item.item_type == "grid" %}
+                N/A
+            {% endif %}
+        </td>
+    </tr>
+{% endfor %}
