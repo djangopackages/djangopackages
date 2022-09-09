@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-09-08]
+### Changed
+- :construction: 2022-09-08 Thursday updates ([#841](https://github.com/djangopackages/djangopackages/pull/841))
+
 ## [2022-08-30]
 ### Changed
 - :gear: set DISABLE_SERVER_SIDE_CURSORS to True ([#838](https://github.com/djangopackages/djangopackages/pull/838))
