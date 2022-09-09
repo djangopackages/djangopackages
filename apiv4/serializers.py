@@ -1,3 +1,5 @@
+import emoji
+
 from django.core.exceptions import ImproperlyConfigured
 from django.urls import NoReverseMatch
 
@@ -128,12 +130,20 @@ class HyperlinkFeld(serializers.HyperlinkedRelatedField):
 class SearchV2Serializer(serializers.ModelSerializer):
 
     # resource_uri = HyperlinkFeld(source='_self')
+    description = serializers.SerializerMethodField()
+    title = serializers.SerializerMethodField()
 
     class Meta:
         model = SearchV2
         exclude = [
             "id",
         ]
+
+    def get_description(self, obj):
+        return emoji.emojize(obj.description)
+
+    def get_title(self, obj):
+        return emoji.emojize(obj.title)
 
 
 class CategorySerializer(serializers.ModelSerializer):
