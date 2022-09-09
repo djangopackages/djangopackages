@@ -149,7 +149,9 @@ def search3(request, template_name="search/search.html"):
         except (Package.DoesNotExist, Package.MultipleObjectsReturned):
             pass
 
-    max_weight = SearchV2.objects.only("weight").aggregate(max_weight=Max("weight"))["max_weight"]
+    max_weight = SearchV2.objects.only("weight").aggregate(max_weight=Max("weight"))[
+        "max_weight"
+    ]
 
     return render(
         request,
