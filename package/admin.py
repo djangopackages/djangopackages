@@ -134,12 +134,18 @@ class PackageAdmin(VersionAdmin, DynamicArrayMixin):
 
 @admin.register(PackageExample)
 class PackageExampleAdmin(admin.ModelAdmin):
+    list_filter = ["active", "created"]
     list_display = [
         "title",
+        "active",
+        "package",
+        "created_by",
+        "created",
     ]
+    ordering = ["-created"]
     raw_id_fields = ["package"]
     readonly_fields = ["created_by"]
-    search_fields = ["title"]
+    search_fields = ["title", "created_by__username"]
 
 
 @admin.register(FlaggedPackage)

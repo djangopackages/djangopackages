@@ -11,7 +11,7 @@ from searchv2.builders import build_1
 
 @click.command()
 def command():
-    """ Constructs the search results for the system """
+    """Constructs the search results for the system"""
 
     start_time = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
 
