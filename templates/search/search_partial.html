@@ -1,14 +1,16 @@
+{% load package_tags %}
+
 {% for item in items %}
     <tr>
         <td>{# item.weight / max_weight * 100 | number:0 #}{{ item.weight_percent }}%</td>
         <td>
-            <a href="{{ item.absolute_url }}">{{ item.title }}</a>
+            <a href="{{ item.absolute_url }}">{{ item.title|emojify }}</a>
         </td>
         <td>
             {% if item.item_type == "grid" %}
                 <strong>Grid:</strong>
             {% endif %}
-            {{ item.description }}
+            {{ item.description|emojify }}
         </td>
         <td>
             {% if item.item_type == "package" %}
