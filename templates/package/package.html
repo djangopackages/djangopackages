@@ -177,7 +177,7 @@
                                 {% elif not flag.approved_flag and not request.user.is_superuser %}
                                     <p>Flag pending review</p>
                                 {% endif %}
-                                {% empty %}
+                            {% empty %}
                                 <a href="{% url 'flag' package.slug %}">Click to flag</a>
                             {% endfor %}
                         </td>
@@ -204,13 +204,13 @@
                 {% endwith %}
 
                 {% if package.is_deprecated %}
-                <div>
-                    <h3>Replacement Package</h3>
-                    <p><a href="{{ package.deprecates_package.get_pypi_uri }}" target="_blank">{{ package.deprecates_package.pypi_name }}</a></p>
+                    <div>
+                        <h3>Replacement Package</h3>
+                        <p><a href="{{ package.deprecates_package.get_pypi_uri }}" target="_blank">{{ package.deprecates_package.pypi_name }}</a></p>
 
-                    <h3>Date Deprecated</h3>
-                    <p>{{ package.date_deprecated }}</p>
-                </div>
+                        <h3>Date Deprecated</h3>
+                        <p>{{ package.date_deprecated }}</p>
+                    </div>
                 {% endif %}
 
                 <h3>{% trans "Documentation" %}</h3>

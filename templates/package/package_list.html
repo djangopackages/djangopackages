@@ -9,21 +9,21 @@
 
 {% block body %}
     {% for category in categories %}
-    <div class="row">
-        <div class="col-lg-12">
-            <h2>
-                <a href="{% url 'category' category.slug %}">{{ category.title_plural }}</a>
-                ({{ category.count }})
-            </h2>
-            <p>{{ category.description }}</p>
-            {% render_table category.table %}
-            <p>
-                <a href="{% url 'category' category.slug %}" class="btn btn-primary">
-                    {% trans "Show " %}{{ category.title_plural }} ({{ category.count|intcomma }})
-                </a>
-            </p>
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>
+                    <a href="{% url 'category' category.slug %}">{{ category.title_plural }}</a>
+                    ({{ category.count }})
+                </h2>
+                <p>{{ category.description }}</p>
+                {% render_table category.table %}
+                <p>
+                    <a href="{% url 'category' category.slug %}" class="btn btn-primary">
+                        {% trans "Show " %}{{ category.title_plural }} ({{ category.count|intcomma }})
+                    </a>
+                </p>
+            </div>
         </div>
-    </div>
     {% endfor %}
 {% endblock %}
 

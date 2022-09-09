@@ -33,9 +33,9 @@
         <div class="col-xs-6">
             <p>{{ category.description }}</p>
             {% if request.user.is_authenticated and profile.can_add_package %}
-            <p>
-                <a class="btn btn-primary" href="{% url 'add_package' %}">{% trans "Add Package »" %}</a>
-            </p>
+                <p>
+                    <a class="btn btn-primary" href="{% url 'add_package' %}">{% trans "Add Package »" %}</a>
+                </p>
             {% endif %}
         </div>
         <div class="col-xs-6">
