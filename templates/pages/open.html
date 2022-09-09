@@ -36,9 +36,13 @@
             </div>
             <div class="col-sm-6 col-md-3">
                 <h2>{% trans "Django Versions" %}</h2>
-                {% if total_django_4_0 %}
-                    <p>{% trans "Django 4.0 Packages:" %} {{ total_django_4_0|intcomma }}</p>
+                {% if total_django_4_2 %}
+                    <p>{% trans "Django 4.2 Packages:" %} {{ total_django_4_2|intcomma }}</p>
                 {% endif %}
+                {% if total_django_4_1 %}
+                    <p>{% trans "Django 4.1 Packages:" %} {{ total_django_4_1|intcomma }}</p>
+                {% endif %}
+                <p>{% trans "Django 4.0 Packages:" %} {{ total_django_4_0|intcomma }}</p>
                 <p>{% trans "Django 3.2 Packages:" %} {{ total_django_3_2|intcomma }}</p>
                 <p>{% trans "Django 3.1 Packages:" %} {{ total_django_3_1|intcomma }}</p>
                 <p>{% trans "Django 3.0 Packages:" %} {{ total_django_3_0|intcomma }}</p>
