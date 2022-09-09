@@ -183,8 +183,8 @@ SECURE_SSL_REDIRECT = False
 MEDIA_ROOT = "/data/media"
 STATIC_ROOT = os.path.join(PROJECT_ROOT, "collected_static")
 STATICFILES_DIRS = [
-    # os.path.join(PROJECT_ROOT, "static"),
-    "/data/static",
+    PROJECT_ROOT.joinpath("static"),
+    # "/data/static",
 ]
 
 HEALTHCHECK = env.bool("HEALTHCHECK", False)
