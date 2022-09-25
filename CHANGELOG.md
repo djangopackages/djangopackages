@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-09-24]
+### Changed
+- :arrow_up: Update Deps ([#847](https://github.com/djangopackages/djangopackages/pull/847))
+
 ## [2022-09-09]
 ### Changed
 - :sparkles: 2022-09-09 Admin update ([#845](https://github.com/djangopackages/djangopackages/pull/845))
