@@ -151,7 +151,8 @@ http://source.sphene.net/svn/root/django/communitytools
 sebpiq/spiteat/
 schinckel/django-timedelta-field/
 http://projects.unbit.it/hg/uwsgi
-http://www.dataportal.it"""
+http://www.dataportal.it
+https://hg.code.netlandish.com/~petersanchez/django-impersonate"""
     for sample in samples.split("\n"):
         assert isinstance(get_repo_for_repo_url(sample), UnsupportedHandler)
 
