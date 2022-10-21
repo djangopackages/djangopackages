@@ -353,8 +353,9 @@ emoji==2.1.0 \
     # via
     #   -r ./requirements.in
     #   emojificate
-emojificate==0.6.0 \
-    --hash=sha256:eca9fdd0678596717e661ff195b04f26b4c96ffb53b4bb076e4c802680212e93
+emojificate==0.6.0a1 \
+    --hash=sha256:5e33243e2a33a07655ad117030b1649859f93aefe5ec67e545ec60bcfb0fae24 \
+    --hash=sha256:8c101d0d1d66a35f6cf22cc62e652b08b780b5538c0cf695bee2536e6e07a705
     # via -r ./requirements.in
 faker==14.2.1 \
     --hash=sha256:2e28aaea60456857d4ce95dd12aed767769537ad23d13d51a545cd40a654e9d9 \

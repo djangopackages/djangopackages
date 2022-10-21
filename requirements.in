@@ -18,7 +18,7 @@ django-tables2
 django-waffle
 djangorestframework<3.13
 emoji
-emojificate
+emojificate==0.6.0a1
 feedparser
 # github3.py
 github3.py<1.1
