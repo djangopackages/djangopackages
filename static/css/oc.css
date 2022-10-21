@@ -358,3 +358,7 @@ h3, .h3 {
 .btn-primary:hover,.btn-primary:focus,.btn-primary:active,.btn-primary.active,.open .dropdown-toggle.btn-primary {
     background-color: #3d9b72;
 }
+
+.btn-block-display {
+    display:block;
+}
