@@ -304,7 +304,7 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
     }
 
     grid_packages = grid.grid_packages.select_related("package").filter(
-        package__score__gt=max(0, settings.PACKAGE_SCORE_MIN)
+        package__score__gte=max(0, settings.PACKAGE_SCORE_MIN)
     )
 
     if filters.get("python3"):
