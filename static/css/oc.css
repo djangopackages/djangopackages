@@ -362,3 +362,8 @@ h3, .h3 {
 .btn-block-display {
     display:block;
 }
+
+.emojificate {
+    width: 32px;
+    height: 32px;
+}
