@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-10-21]
+### Changed
+- Added View More ([#852](https://github.com/djangopackages/djangopackages/pull/852))
+- :gear: Adds justfile ([#853](https://github.com/djangopackages/djangopackages/pull/853))
+- :bug: Temp fix for patch scoring ([#851](https://github.com/djangopackages/djangopackages/pull/851))
+
 ## [2022-09-24]
 ### Changed
 - :arrow_up: Update Deps ([#847](https://github.com/djangopackages/djangopackages/pull/847))
