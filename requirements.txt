@@ -349,6 +349,11 @@ djangorestframework==3.12.4 \
     # via -r ./requirements.in
 emoji==2.1.0 \
     --hash=sha256:56a8c5e906c11694eb7694b78e5452d745030869b3945f6306a8151ff5cdbc39
+    # via
+    #   -r ./requirements.in
+    #   emojificate
+emojificate==0.6.0 \
+    --hash=sha256:eca9fdd0678596717e661ff195b04f26b4c96ffb53b4bb076e4c802680212e93
     # via -r ./requirements.in
 faker==14.2.1 \
     --hash=sha256:2e28aaea60456857d4ce95dd12aed767769537ad23d13d51a545cd40a654e9d9 \
