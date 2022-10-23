@@ -145,6 +145,7 @@ click==8.1.3 \
     #   click-plugins
     #   click-repl
     #   django-click
+    #   emojificate
 click-didyoumean==0.3.0 \
     --hash=sha256:a0713dc7a1de3f06bc0df5a9567ad19ead2d3d5689b434768a6145bff77c0667 \
     --hash=sha256:f184f0d851d96b6d29297354ed981b7dd71df7ff500d82fa6d11f0856bee8035
@@ -367,6 +368,9 @@ github3-py==1.0.2 \
     --hash=sha256:4e19523745269471b73e13b24b37276485913d1fd65e97281eebe3307ec22429 \
     --hash=sha256:976ffa8b0742fbbd91b02a0dd32fefd9ed13bf380f6ce289a3aa019e305221bd
     # via -r ./requirements.in
+grapheme==0.6.0 \
+    --hash=sha256:44c2b9f21bbe77cfb05835fec230bd435954275267fea1858013b102f8603cca
+    # via emojificate
 idna==3.4 \
     --hash=sha256:814f528e8dead7d329833b91c5faa87d60bf71824cd12a7530b5526063d02cb4 \
     --hash=sha256:90b77e79eaa3eba6de819a0c442c0b4ceefc341a7a2ab77d7562bf49f425c5c2
@@ -721,6 +725,7 @@ requests==2.28.1 \
     # via
     #   -r ./requirements.in
     #   django-anymail
+    #   emojificate
     #   github3-py
     #   pygithub
     #   python-gitlab
