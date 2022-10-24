@@ -1,22 +1,20 @@
 """views for the :mod:`grid` app"""
 
-import json
-
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
-from django.db.models import Count, Q
-from django.http import HttpResponseRedirect, Http404, HttpResponseForbidden
+from django.db.models import Count, Max
+from django.http import Http404, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django_tables2 import SingleTableView
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 
-from grid.forms import ElementForm, FeatureForm, GridForm, GridPackageForm
+from grid.forms import ElementForm, FeatureForm, GridForm, GridPackageFilterForm, GridPackageForm
 from grid.models import Element, Feature, Grid, GridPackage
 from grid.tables import GridTable
-from package.models import Package
 from package.forms import PackageForm
+from package.models import Package
 from package.views import repo_data_for_js
 
 
@@ -292,28 +290,45 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
     * ``elements`` - elements of the grid
     * ``features`` - feature set used in the grid
     * ``grid_packages`` - packages involved in the current grid
+    * ``filter_form`` - form for filtering the grid packages
     """
     grid = get_object_or_404(Grid, slug=slug)
 
     # features = grid.feature_set.select_related(None)
     features = Feature.objects.filter(grid=grid)
-
-    filters = {
-        "python3": request.GET.get("python3") == "1",
-        "stable": request.GET.get("stable") == "1",
-    }
-
     grid_packages = grid.grid_packages.select_related("package").filter(
         package__score__gte=max(0, settings.PACKAGE_SCORE_MIN)
     )
 
-    if filters.get("python3"):
-        grid_packages = grid_packages.filter(package__version__supports_python3=True)
+    filter_form = GridPackageFilterForm(request.GET)
 
-    if filters.get("stable"):
-        grid_packages = grid_packages.filter(package__version__development_status=5)
+    if filter_form.is_valid():
+        python3 = filter_form.cleaned_data["python3"]
+        stable = filter_form.cleaned_data["stable"]
+        sort = filter_form.cleaned_data["sort"]
 
-    grid_packages = grid_packages.order_by("-package__score")
+        if python3:
+            grid_packages = grid_packages.filter(
+                package__version__supports_python3=python3
+            )
+
+        if stable:
+            grid_packages = grid_packages.filter(package__version__development_status=5)
+
+        if sort == GridPackageFilterForm.COMMIT_DATE:
+            grid_packages = grid_packages.annotate(
+                last_commit_date=Max("package__commit__commit_date")
+            ).order_by("-last_commit_date")
+        elif sort == GridPackageFilterForm.WATCHERS:
+            grid_packages = grid_packages.order_by("-package__repo_watchers")
+        elif sort == GridPackageFilterForm.FORKS:
+            grid_packages = grid_packages.order_by("-package__repo_forks")
+        elif sort == GridPackageFilterForm.DOWNLOADS:
+            grid_packages = grid_packages.order_by("-package__pypi_downloads")
+        else:
+            grid_packages = grid_packages.order_by("-package__score")
+    else:
+        grid_packages = grid_packages.order_by("-package__score")
 
     elements = Element.objects.filter(
         feature__in=features, grid_package__in=grid_packages
@@ -340,12 +355,12 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
         request,
         template_name,
         {
-            "filters": json.dumps(sorted(filters.items()), separators=(",", ":")),
             "grid": grid,
             "features": features,
             "grid_packages": grid_packages,
             "attributes": default_attributes,
             "elements": element_map,
+            "filter_form": filter_form,
         },
     )
 
