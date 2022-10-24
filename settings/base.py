@@ -156,6 +156,7 @@ PREREQ_APPS = [
     "django_extensions",
     "django_htmx",
     "django_tables2",
+    "emojificate",
     "rest_framework",
     "reversion",
     "social_django",

@@ -1,6 +1,7 @@
 {% load humanize %}
 {% load i18n %}
 {% load package_tags %}
+{% load emojificate %}
 
 <div class="container">
     <div class="row">
@@ -58,7 +59,7 @@
                 {% for package in latest_packages %}
                     <a href="{{ package.get_absolute_url }}" class="list-group-item">
                         <h4 class="list-group-item-heading">
-                            {{ package.title | emojify}}
+                            {{ package.title | emojify| emojificate }}
                             {% if package.pypi_version %}<small>v{{ package.pypi_version }}</small>{% endif %}
                         </h4>
                         <p class="list-group-item-text">
@@ -89,7 +90,7 @@
                 {% for package in random_packages %}
                     <a href="{{ package.get_absolute_url }}" class="list-group-item">
                         <h4 class="list-group-item-heading">
-                            {{ package.title | emojify }}
+                            {{ package.title | emojify | emojificate }}
                             {% if package.pypi_version %}<small>v{{ package.pypi_version }}</small>{% endif %}
                         </h4>
                         <p class="list-group-item-text">
