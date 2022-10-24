@@ -2,8 +2,9 @@
 
 {% load i18n %}
 {% load package_tags %}
+{% load emojificate %}
 
-{% block head_title %}{{ package.title | emojify }}{% endblock %}
+{% block head_title %}{{ package.title | emojify| emojificate  }}{% endblock %}
 
 {% block extra_head %}
     <meta name="description" content="{{ package.repo_description }}" />
@@ -64,7 +65,7 @@
                 <div class="alert alert-warning" role="alert">This project was archived</div>
             {% endif %}
 
-            <div class="outline">{{ package.repo_description | emojify }}</div>
+            <div class="outline">{{ package.repo_description | emojify | emojificate }}</div>
 
             {% comment %}
     <h3>Usage</h3>
