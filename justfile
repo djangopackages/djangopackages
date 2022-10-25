@@ -1,6 +1,6 @@
 set dotenv-load := false
 
-COMPOSE_FILE := "docker-compose.yml"
+COMPOSE_FILE := "docker-compose.dev.yml"
 
 @_default:
     just --list
@@ -29,15 +29,18 @@ bootstrap *ARGS:
 @cibuild:
     just build
 
+# Drop into the console on the docker image
 @console:
     docker-compose --file {{ COMPOSE_FILE }} run django /bin/bash
 
 @server *ARGS="--detach":
     just up {{ ARGS }}
 
+# Perform the inital setup for the Docker containers
 @setup:
     just bootstrap
 
+# Run the tests using the Django test runner
 @test *ARGS="--no-input":
     docker-compose --file {{ COMPOSE_FILE }} run django python manage.py test {{ ARGS }}
 
@@ -46,31 +49,40 @@ bootstrap *ARGS:
 
 # script to rule them all - end
 
+# Update the version; Used before release to production
 @bump *ARGS:
     bumpver update {{ ARGS }}
 
+# ???
 @caddy-fmt:
     docker-compose run --rm caddy caddy fmt -overwrite /etc/caddy/Caddyfile
 
+# ???
 @caddy-validate:
     docker-compose run --rm caddy caddy validate -adapter caddyfile -config /etc/caddy/Caddyfile
 
+# Fixes common misspellings in text files
 @lint-codespell:
     codespell --skip *.conf,*.js*,./.git,./collected_static,./data,./static .
 
+# Deploys to production
 @deploy:
     fab production deploy
 
+# Bring down your docker containers
 @down:
     docker-compose --file {{ COMPOSE_FILE }} down
 
+# Format the justfile
 @fmt:
     just --fmt --unstable
 
+# Check consistency of your env files
 @lint:
     modenv check
     # just
 
+# ???
 @lint-fmt:
     -unimport -r .
     -pyup-dirs --py37-plus .
@@ -78,6 +90,7 @@ bootstrap *ARGS:
     -tryceratops .
     -djhtml -i templates/*.html templates/**/*.html templates/**/**/*.html
 
+# A Linter for performance anti-patterns
 @perflint:
     pipx run perflint ../djangopackages-git/ --load-plugins=perflint
 
@@ -91,12 +104,15 @@ bootstrap *ARGS:
 @pip-compile-upgrade:
     just pip-compile --upgrade
 
+# Run pre-commit
 @pre-commit:
     git ls-files -- . | xargs pre-commit run --config=./.pre-commit-config.yaml --files
 
+# Run the tests with pytest
 @pytest *ARGS:
     docker-compose --file {{ COMPOSE_FILE }} run django pytest {{ ARGS }}
 
+# Run the tests with pytest and generate coverage reports
 @pytest-coverage *ARGS:
     docker-compose --file {{ COMPOSE_FILE }} run django pytest \
         {{ ARGS }} \
@@ -104,31 +120,43 @@ bootstrap *ARGS:
         --cov-report term:skip-covered \
         --cov .
 
+# Run the collectstatic management command 
 @collectstatic *ARGS="--no-input":
     docker-compose --file {{ COMPOSE_FILE }} run django python manage.py collectstatic {{ ARGS }}
 
+# Run the shell management command 
 @shell *ARGS:
     docker-compose --file {{ COMPOSE_FILE }} run django python manage.py shell {{ ARGS }}
 
+# ???
 @logs *ARGS:
     docker-compose --file {{ COMPOSE_FILE }} logs {{ ARGS }}
 
+# Restart your Docker containers
 @restart *ARGS="--detach":
     just down
     just up {{ ARGS }}
 
+# Bring up your Docker Containers
 @up *ARGS="--detach":
     docker-compose --file {{ COMPOSE_FILE }} up {{ ARGS }}
 
+# Run `django-upgrade` with a target version of 4.1
+# TODO: Make the target-version a variable
 @upgrade:
     git ls-files -- "*.py" | xARGS django-upgrade --target-version=4.1
 
+# Run the searchv2_build management command
 @searchv2_build:
     docker-compose --file {{ COMPOSE_FILE }} run --rm django python manage.py searchv2_build
 
+# Upgrade the PostgreSQL database
+# TODO: Have the backup date be dynamic
 @postgres-upgrade:
     docker-compose --file {{ COMPOSE_FILE }} exec postgres psql --user djangopackages -d djangopackages < ../backups/backup_2021_09_21T19_00_10.sql
 
+# ???
+# TODO: Have the backup date be dynamic
 @restore *ARGS:
     -PGPASSWORD=djangopackages dropdb --host=localhost --username=djangopackages djangopackages
     -PGPASSWORD=djangopackages createdb --host=localhost --username=djangopackages --owner=djangopackages djangopackages
