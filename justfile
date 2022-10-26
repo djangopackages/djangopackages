@@ -7,6 +7,7 @@ COMPOSE_FILE := "docker-compose.dev.yml"
 
 # script to rule them all - start
 
+# Performs intial setup for Docker images and allows Arguments to be passed
 bootstrap *ARGS:
     #!/usr/bin/env bash
     set -euo pipefail
@@ -23,9 +24,11 @@ bootstrap *ARGS:
 
     docker-compose {{ ARGS }} --file {{ COMPOSE_FILE }} build --force-rm
 
+# Builds the Docker Images with optional arguments
 @build *ARGS:
     docker-compose {{ ARGS }} --file {{ COMPOSE_FILE }} build
 
+# Builds the Docker Images with no optional arguments
 @cibuild:
     just build
 
@@ -33,6 +36,7 @@ bootstrap *ARGS:
 @console:
     docker-compose --file {{ COMPOSE_FILE }} run django /bin/bash
 
+# Duplicates the `up` command
 @server *ARGS="--detach":
     just up {{ ARGS }}
 
@@ -44,6 +48,7 @@ bootstrap *ARGS:
 @test *ARGS="--no-input":
     docker-compose --file {{ COMPOSE_FILE }} run django python manage.py test {{ ARGS }}
 
+# Once completed, it will run an update of *something*
 @update:
     echo "TODO: update"
 
@@ -128,7 +133,7 @@ bootstrap *ARGS:
 @shell *ARGS:
     docker-compose --file {{ COMPOSE_FILE }} run django python manage.py shell {{ ARGS }}
 
-# ???
+# Allows you to view the output from running containers
 @logs *ARGS:
     docker-compose --file {{ COMPOSE_FILE }} logs {{ ARGS }}
 
@@ -141,8 +146,8 @@ bootstrap *ARGS:
 @up *ARGS="--detach":
     docker-compose --file {{ COMPOSE_FILE }} up {{ ARGS }}
 
-# Run `django-upgrade` with a target version of 4.1
 # TODO: Make the target-version a variable
+# Run `django-upgrade` with a target version of 4.1
 @upgrade:
     git ls-files -- "*.py" | xARGS django-upgrade --target-version=4.1
 
@@ -155,8 +160,8 @@ bootstrap *ARGS:
 @postgres-upgrade:
     docker-compose --file {{ COMPOSE_FILE }} exec postgres psql --user djangopackages -d djangopackages < ../backups/backup_2021_09_21T19_00_10.sql
 
-# ???
 # TODO: Have the backup date be dynamic
+# ???
 @restore *ARGS:
     -PGPASSWORD=djangopackages dropdb --host=localhost --username=djangopackages djangopackages
     -PGPASSWORD=djangopackages createdb --host=localhost --username=djangopackages --owner=djangopackages djangopackages

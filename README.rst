@@ -32,7 +32,7 @@ Features
   * PyPI
   * GitHub
   * BitBucket
-  * GitLab (coming soon)
+  * GitLab
 
 * Basic search
 
@@ -52,7 +52,8 @@ For detailed installation instructions, consult the docs_.
 
 To download, install and start the local server for development, simply run::
 
-    git clone git@github.com:djangopackages/djangopackages.git
+    Fork this repo
+    git clone git@github.com:<YourUserName>/djangopackages.git
     cd djangopackages
     cp .env.local.example .env.local
     docker-compose -f docker-compose.dev.yml build
