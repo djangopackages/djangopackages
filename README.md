@@ -67,9 +67,6 @@ The code is open-source and licensed under the MIT license.
 
 # Credits
 
-For Django Dash 2010, [@pydanny](https://github.com/pydanny/) and
-[@audreyr](https://github.com/audreyr/) created [Django
-Packages](https://www.djangopackages.org/).
+For Django Dash 2010, [@pydanny](https://github.com/pydanny/) and [@audreyr](https://github.com/audreyr/) created [Django Packages](https://www.djangopackages.org/).
 
-They are joined by a host of core developers and contributors. See
-<https://djangopackages.readthedocs.io/en/latest/contributors.html>
+They are joined by a host of core developers and contributors. See https://djangopackages.readthedocs.io/en/latest/contributors.html
