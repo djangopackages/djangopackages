@@ -1,7 +1,8 @@
 """Forms for the :mod:`grid` app
 """
 
-from django.forms import ModelForm
+from django.forms import BooleanField, ChoiceField, Form, ModelForm
+from django.utils.translation import gettext_lazy as _
 
 from grid.models import Element, Feature, Grid, GridPackage
 
@@ -53,3 +54,27 @@ class GridPackageForm(ModelForm):
     class Meta:
         model = GridPackage
         fields = ["package"]
+
+
+class GridPackageFilterForm(Form):
+    """Filter and sort form for the grid package list"""
+
+    SCORE = "score"
+    COMMIT_DATE = "commit_date"
+    WATCHERS = "watchers"
+    DOWNLOADS = "downloads"
+    FORKS = "forks"
+
+    SORT_CHOICES = (
+        (SCORE, _("Score")),
+        (COMMIT_DATE, _("Last Commit Date")),
+        (WATCHERS, _("Watchers")),
+        (DOWNLOADS, _("Downloads")),
+        (FORKS, _("Forks")),
+    )
+
+    python3 = BooleanField(required=False, label=_("Python 3"))
+    stable = BooleanField(required=False)
+    sort = ChoiceField(
+        choices=SORT_CHOICES, initial=SCORE, required=False, label=_("Sort by")
+    )
