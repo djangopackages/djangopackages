@@ -90,4 +90,3 @@ fabric.properties
 
 # docker
 docker-compose.override.yml
-docker-compose.yml
