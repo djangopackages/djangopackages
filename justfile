@@ -87,7 +87,7 @@ bootstrap *ARGS:
     modenv check
     # just
 
-# ???
+# Lints and formats all of your files using various formatters and linters
 @lint-fmt:
     -unimport -r .
     -pyup-dirs --py37-plus .
@@ -108,6 +108,15 @@ bootstrap *ARGS:
 # Upgrade existing Python dependencies to their latest versions
 @pip-compile-upgrade:
     just pip-compile --upgrade
+
+# Upgrade existing packages and Install pipx packages needed for development
+@pipx-install:
+    pipx upgrade-all
+    pipx install djhtml
+    pipx install tryceratops
+    pipx install black
+    pipx install unimport
+    pipx install pyupgrade-directories
 
 # Run pre-commit
 @pre-commit:
@@ -151,14 +160,19 @@ bootstrap *ARGS:
 @upgrade:
     git ls-files -- "*.py" | xARGS django-upgrade --target-version=4.1
 
-# Run the searchv2_build management command
-@searchv2_build:
-    docker-compose --file {{ COMPOSE_FILE }} run --rm django python manage.py searchv2_build
+# Run a management command as specified by ARGS
+@management-command ARGS:
+    docker-compose --file {{ COMPOSE_FILE }} run --rm django python manage.py {{ARGS}}
 
 # Upgrade the PostgreSQL database
 # TODO: Have the backup date be dynamic
 @postgres-upgrade:
     docker-compose --file {{ COMPOSE_FILE }} exec postgres psql --user djangopackages -d djangopackages < ../backups/backup_2021_09_21T19_00_10.sql
+
+# Create a Superuser
+@superuser USERNAME EMAIL:
+    docker-compose -f docker-compose.dev.yml run django python manage.py createsuperuser --username={{USERNAME}} --email={{EMAIL}}
+
 
 # TODO: Have the backup date be dynamic
 # ???
