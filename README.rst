@@ -55,8 +55,8 @@ To download, install and start the local server for development, simply run::
     git clone git@github.com:djangopackages/djangopackages.git
     cd djangopackages
     cp .env.local.example .env.local
-    docker-compose -f docker-compose.dev.yml build
-    docker-compose -f docker-compose.dev.yml up
+    docker-compose build
+    docker-compose up
 
 Then point your browser to http://localhost:8000 and start hacking!
 
@@ -65,12 +65,12 @@ which re-maps Django (port: 18000) and Postgres (port: 45432). To activate it,
 simply run::
 
     cp docker-compose.override.yml.example docker-compose.override.yml
-    docker-compose -f docker-compose.dev.yml build
-    docker-compose -f docker-compose.dev.yml up
+    docker-compose build
+    docker-compose up
 
 To run tests, run::
 
-    docker-compose -f docker-compose.dev.yml run django python manage.py test
+    docker-compose run django python manage.py test
 
 The Site
 --------

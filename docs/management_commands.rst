@@ -7,7 +7,7 @@ package_updater
 
 You can update all the packages with the following command::
 
-    docker-compose -f docker-compose.dev.yml run django python manage.py package_updater
+    docker-compose run django python manage.py package_updater
 
 Warning: This can take a long, long time.
 
@@ -16,7 +16,7 @@ searchv2_build
 
 To populate the search engine, run::
 
-    docker-compose -f docker-compose.dev.yml run django python manage.py searchv2_build
+    docker-compose run django python manage.py searchv2_build
 
 
 pypi_updater
@@ -24,4 +24,4 @@ pypi_updater
 
 To update packages with the latest data on PyPi, run::
 
-    docker-compose -f docker-compose.dev.yml run django python manage.py pypi_updater
+    docker-compose run django python manage.py pypi_updater
