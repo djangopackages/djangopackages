@@ -38,7 +38,6 @@ Contents:
    repo_handlers
    apiv3_docs
    lessons_learned
-   .. reference
 
 
 The Story

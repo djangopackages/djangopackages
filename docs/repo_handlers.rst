@@ -55,10 +55,3 @@ How about cloning GitBlarg's repos so we can get a better view of the data?
 The problem is that developers, designers, and managers will happily put gigabytes of data into a git/hg/svn/fossil/cvs repo. For a single project that doesn't sound like much, but when you are dealing with thousands of packages in a Django Packages instance the scale of the data becomes... well... terrifying. What is now a mild annoyance becomes a staggeringly large problem.
 
 Therefore, pull requests on repo handlers that attempt to solve the problem this way will be summarily **rejected**.
-
-Can I make a repo handler for Google Project Hosting?
-======================================================
-
-Not at this time. Please read the FAQ_.
-
-.. _faq: faq.html

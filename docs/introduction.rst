@@ -26,5 +26,7 @@ The fixtures provide four categories: apps, frameworks, projects, and utilities.
 What repo sites are supported?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
- * GitHub
- * Bitbucket
+* Bitbucket
+* GitHub
+* GitLab
+ 
