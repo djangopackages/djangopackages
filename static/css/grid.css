@@ -37,18 +37,3 @@ td.package-name {
     text-align: center;
     font-weight: bold;
 }
-.grid-filters {
-    margin-bottom: 20px;
-}
-.grid-filter {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-}
-.grid-filter__checkbox {
-    margin: 0 !important;
-}
-.grid-filter__label {
-    margin: 0 0 0 5px;
-    font-size: 12px;
-}
