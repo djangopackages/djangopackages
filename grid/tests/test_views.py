@@ -23,13 +23,15 @@ class FunctionalGridTest(TestCase):
 
     def test_grid_detail_view(self):
         url = reverse("grid", kwargs={"slug": "testing"})
-        response = self.client.get(url)
+        with self.assertNumQueries(32):
+            response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/grid_detail.html")
 
     def test_grid_detail_landscape_view(self):
         url = reverse("grid_landscape", kwargs={"slug": "testing"})
-        response = self.client.get(url)
+        with self.assertNumQueries(24):
+            response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/grid_detail_landscape.html")
 
