@@ -48,7 +48,7 @@ The effort to support databases besides PostGreSQL was hampered for long time, a
 
 So we use a **Mock** system of creating sample data in our tests and for running a development version of the site. To create some development data, just run::
 
-    docker-compose run django python manage.py load_dev_data
+    just management-command load_dev_data
 
 Unsupported Repo Hosting Services
 =================================

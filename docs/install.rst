@@ -36,6 +36,7 @@ You'll want to install the various formatters, and linters using the following `
 To do this, run:
 
 .. code-block:: bash
+
     just pipx-install
 
 Grab a Local Copy of the Project
@@ -56,6 +57,7 @@ Set Up Your Development Environment
 In order to run the project, you'll need to run the following command:
 
 .. code-block:: bash
+
     just setup
 
 Add A GitHub API Token
@@ -72,7 +74,7 @@ Now build the project using docker-compose:
 
 .. code-block:: bash
 
-    docker-compose build
+    just build
 
 Run the Project
 ---------------
@@ -81,7 +83,7 @@ To start the project, run:
 
 .. code-block:: bash
 
-    docker-compose up
+    just up
 
 Then point your browser to http://localhost:8000 and start hacking!
 
@@ -94,7 +96,7 @@ Create a Django superuser for yourself, replacing joe with your username/email:
 
 .. code-block:: bash
 
-    docker-compose run django python manage.py createsuperuser --username=joe --email=joe@example.com
+    just superuser joe joe@example.com
 
 And then login into the admin interface (/admin/) and create a profile for your user filling all the fields with any data.
 
