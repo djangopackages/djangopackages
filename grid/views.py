@@ -296,9 +296,9 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
 
     # features = grid.feature_set.select_related(None)
     features = Feature.objects.filter(grid=grid)
-    grid_packages = grid.grid_packages.select_related("package").filter(
-        package__score__gte=max(0, settings.PACKAGE_SCORE_MIN)
-    )
+    grid_packages = grid.grid_packages.select_related(
+        "package", "package__category"
+    ).filter(package__score__gte=max(0, settings.PACKAGE_SCORE_MIN))
 
     filter_form = GridPackageFilterForm(request.GET)
 
