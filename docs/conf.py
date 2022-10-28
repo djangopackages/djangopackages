@@ -118,6 +118,11 @@ html_theme = "sphinx_material"
 # documentation.
 # html_theme_options = {}
 
+html_theme_options = {
+    "color_primary": "green",
+    "color_accent": "green",
+}
+
 # Add any paths that contain custom themes here, relative to this directory.
 # html_theme_path = []
 
