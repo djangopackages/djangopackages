@@ -17,7 +17,8 @@ class FunctionalGridTest(TestCase):
 
     def test_grid_list_view(self):
         url = reverse("grids")
-        response = self.client.get(url)
+        with self.assertNumQueries(8):
+            response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/grids.html")
 
@@ -38,7 +39,8 @@ class FunctionalGridTest(TestCase):
     def test_add_grid_view(self):
         Grid.objects.all().delete()
         url = reverse("add_grid")
-        response = self.client.get(url)
+        with self.assertNumQueries(0):
+            response = self.client.get(url)
 
         # The response should be a redirect, since the user is not logged in.
         self.assertEqual(response.status_code, 302)
@@ -72,7 +74,8 @@ class FunctionalGridTest(TestCase):
 
         # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username="user", password="user"))
-        response = self.client.get(url)
+        with self.assertNumQueries(6):
+            response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/update_grid.html")
 
@@ -101,7 +104,8 @@ class FunctionalGridTest(TestCase):
 
         # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username="user", password="user"))
-        response = self.client.get(url)
+        with self.assertNumQueries(6):
+            response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/update_feature.html")
 
@@ -123,7 +127,8 @@ class FunctionalGridTest(TestCase):
 
         # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username="user", password="user"))
-        response = self.client.get(url)
+        with self.assertNumQueries(7):
+            response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/update_feature.html")
 
@@ -144,7 +149,8 @@ class FunctionalGridTest(TestCase):
         # features should be deleted (thus the count should be the same).
         self.assertTrue(self.client.login(username="user", password="user"))
         url = reverse("delete_feature", kwargs={"id": "1"})
-        self.client.get(url)
+        with self.assertNumQueries(4):
+            self.client.get(url)
         self.assertEqual(count, Feature.objects.count())
 
         # Once we log in with the appropriate user, the request should delete
@@ -155,7 +161,8 @@ class FunctionalGridTest(TestCase):
 
     def test_edit_element_view(self):
         url = reverse("edit_element", kwargs={"feature_id": "1", "package_id": "1"})
-        response = self.client.get(url)
+        with self.assertNumQueries(0):
+            response = self.client.get(url)
 
         # The response should be a redirect, since the user is not logged in.
         self.assertEqual(response.status_code, 302)
@@ -194,7 +201,8 @@ class FunctionalGridTest(TestCase):
 
         # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username="user", password="user"))
-        response = self.client.get(url)
+        with self.assertNumQueries(6):
+            response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/add_grid_package.html")
 
@@ -230,7 +238,8 @@ class FunctionalGridTest(TestCase):
 
         # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username="user", password="user"))
-        response = self.client.get(url)
+        with self.assertNumQueries(8):
+            response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "package/package_form.html")
 
@@ -252,7 +261,8 @@ class FunctionalGridTest(TestCase):
 
     def test_ajax_grid_list_view(self):
         url = reverse("ajax_grid_list") + "?q=Testing&package_id=4"
-        response = self.client.get(url)
+        with self.assertNumQueries(5):
+            response = self.client.get(url)
         self.assertContains(response, "Testing")
 
     def test_delete_gridpackage_view(self):
@@ -262,7 +272,8 @@ class FunctionalGridTest(TestCase):
         # features should be deleted (thus the count should be the same).
         self.assertTrue(self.client.login(username="user", password="user"))
         url = reverse("delete_grid_package", kwargs={"id": "1"})
-        self.client.get(url)
+        with self.assertNumQueries(4):
+            self.client.get(url)
         self.assertEqual(count, GridPackage.objects.count())
 
         # Once we log in with the appropriate user, the request should delete
