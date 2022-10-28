@@ -17,7 +17,7 @@ Before you do anything else, login/signup on GitHub and fork Django Packages fro
 Clone Your Fork Locally
 -----------------------
 
-If you have git-scm installed, you now clone your git repo using the following command-line argument where <my-github-name> is your account name on GitHub::
+If you have git installed, you now clone your git repo using the following command-line argument where <my-github-name> is your account name on GitHub::
 
     git clone git@github.com:<my-github-name>/djangopackages.git
 
