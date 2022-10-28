@@ -1,6 +1,5 @@
 {% load i18n profile_tags static %}
 {% load package_tags %}
-{% load emojificate %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}" {% block angular_header %}ng-app{% endblock angular_header %}>
     <head>
@@ -138,7 +137,7 @@
                   </td>
                   <td>
                     <strong ng-if="item.item_type=='grid'">Grid:</strong>
-                    {{ item.description | emojify| emojificate  }}
+                    {{ item.description }}
                   </td>
 
                   <td ng-if="item.item_type=='package'">
