@@ -26,7 +26,6 @@ How can I add a listing for a new Package or an entirely new Grid?
 ----------------------------------------------------------------------------------
 
 * Go the Home page, https://www.djangopackages.org/
-* Go to the left side section called "Add packages and grids".
 * Click the appropriate button, where a package is a program and a grid is a category.
 
 What browsers does Django Packages support?
@@ -39,12 +38,11 @@ How hard is it to add support for a new repo?
 
 We've done a lot of work to make it as straightforward as possible. At PyCon 2011 we launched our formal `Repo Handler API`_.
 
-Installation
-============
 
+Supported Repo Hosting Services
+=================================
 
-What happened to the fixtures?
-------------------------------
+Django Packages supports 
 
 The effort to support databases besides PostGreSQL was hampered for long time, all caused by a third party package we're not going to identify that caused grief in the use of fixtures. This was a significant issue in Django Packages, and used up a lot of development cycles.
 
