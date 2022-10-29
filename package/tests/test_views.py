@@ -170,7 +170,6 @@ class FunctionalPackageTest(TestCase):
         self.assertTrue(self.client.login(username="user", password="user"))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        # print(response._container)
         self.assertTemplateUsed(response, "package/package_form.html")
         self.assertContains(response, p.title)
         self.assertContains(response, p.slug)
@@ -334,7 +333,6 @@ class FunctionalPackageTest(TestCase):
         with self.assertNumQueries(6):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        # print(response._container)
         self.assertTemplateUsed(response, "package/flag_form.html")
 
         count = FlaggedPackage.objects.count()
@@ -368,7 +366,6 @@ class FunctionalPackageTest(TestCase):
         with self.assertNumQueries(8):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
-        # print(response._container)
 
         f = FlaggedPackage.objects.get(package=p)
         self.assertEqual(f.approved_flag, True)
@@ -390,7 +387,6 @@ class FunctionalPackageTest(TestCase):
         with self.assertNumQueries(9):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
-        # print(response._container)
 
         self.assertRaises(
             FlaggedPackage.DoesNotExist, FlaggedPackage.objects.get, package=p
