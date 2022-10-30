@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-10-29]
+### Changed
+- 💚  Add assert num queries to packages ([#864](https://github.com/djangopackages/djangopackages/pull/864))
+
 ## [2022-10-28]
 ### Changed
 - Fix Global Search ([#863](https://github.com/djangopackages/djangopackages/pull/863))
