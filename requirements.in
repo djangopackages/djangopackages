@@ -1,4 +1,5 @@
 bs4
+cloudflare
 Django<4.2
 # see requirements-to-watch.txt
 django-anymail
