@@ -152,6 +152,10 @@ def maintenance_mode_off(service):
     docker_compose(f"exec {service} python manage.py maintenance_mode off")
 
 
+def purge_cache(service):
+    docker_compose(f"exec {service} cli4 --delete purge_everything=true /zones/:djangopackages.org/purge_cache")
+
+
 def docker_compose(command):
     """
     Run a docker-compose command
