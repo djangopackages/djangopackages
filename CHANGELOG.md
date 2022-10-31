@@ -1,5 +1,22 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-10-29]
+### Changed
+- 💚  Add assert num queries to packages ([#864](https://github.com/djangopackages/djangopackages/pull/864))
+
+## [2022-10-28]
+### Changed
+- Fix Global Search ([#863](https://github.com/djangopackages/djangopackages/pull/863))
+- Fix N+1 Query on Grid Detail Page [`package.category`] ([#858](https://github.com/djangopackages/djangopackages/pull/858))
+- :gear: Setups docs for an updated theme ([#860](https://github.com/djangopackages/djangopackages/pull/860))
+- :green_heart: Adds assertNumQueries to Grids ([#859](https://github.com/djangopackages/djangopackages/pull/859))
+- Doc refactor 855 ([#857](https://github.com/djangopackages/djangopackages/pull/857))
+
+## [2022-10-27]
+### Changed
+- Add Option to Sort Grid Packages ([#854](https://github.com/djangopackages/djangopackages/pull/854))
+- Partial doc rewrite (docker) ([#856](https://github.com/djangopackages/djangopackages/pull/856))
+
 ## [2022-10-24]
 ### Changed
 - Add emojificate ([#849](https://github.com/djangopackages/djangopackages/pull/849))

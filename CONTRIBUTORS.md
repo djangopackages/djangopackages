@@ -301,6 +301,13 @@ Listed in alphabetical order.
     <td></td>
   </tr>
   <tr>
+    <td>Maksudul Haque</td>
+    <td>
+      <a href="https://github.com/saadmk11">saadmk11</a>
+    </td>
+    <td>saad_mk11</td>
+  </tr>
+  <tr>
     <td>Marc Tamlyn</td>
     <td>
       <a href="https://github.com/mjtamlyn">mjtamlyn</a>

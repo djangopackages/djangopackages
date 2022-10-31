@@ -17,11 +17,9 @@ function SearchCtrl($scope, $http) {
     } else {
         $scope.items = [];
     };
-    console.log($scope);
   };
 
   $scope.get_python3_packages = function(url){
-    console.log("what")
     $http.get(url).success(function(data) {
         $scope.python3_packages = data.results;
     });

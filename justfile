@@ -1,6 +1,6 @@
 set dotenv-load := false
 
-COMPOSE_FILE := "docker-compose.dev.yml"
+COMPOSE_FILE := "docker-compose.yml"
 
 @_default:
     just --list
@@ -122,6 +122,9 @@ bootstrap *ARGS:
 @pre-commit:
     git ls-files -- . | xargs pre-commit run --config=./.pre-commit-config.yaml --files
 
+@purge_cache:
+    docker-compose --file {{ COMPOSE_FILE }} run django cli4 --delete purge_everything=true /zones/:djangopackages.org/purge_cache
+
 # Run the tests with pytest
 @pytest *ARGS:
     docker-compose --file {{ COMPOSE_FILE }} run django pytest {{ ARGS }}
@@ -134,11 +137,11 @@ bootstrap *ARGS:
         --cov-report term:skip-covered \
         --cov .
 
-# Run the collectstatic management command 
+# Run the collectstatic management command
 @collectstatic *ARGS="--no-input":
     docker-compose --file {{ COMPOSE_FILE }} run django python manage.py collectstatic {{ ARGS }}
 
-# Run the shell management command 
+# Run the shell management command
 @shell *ARGS:
     docker-compose --file {{ COMPOSE_FILE }} run django python manage.py shell {{ ARGS }}
 
@@ -156,15 +159,17 @@ bootstrap *ARGS:
     docker-compose --file {{ COMPOSE_FILE }} up {{ ARGS }}
 
 # TODO: Make the target-version a variable
+
 # Run `django-upgrade` with a target version of 4.1
 @upgrade:
     git ls-files -- "*.py" | xARGS django-upgrade --target-version=4.1
 
 # Run a management command as specified by ARGS
 @management-command ARGS:
-    docker-compose --file {{ COMPOSE_FILE }} run --rm django python manage.py {{ARGS}}
+    docker-compose --file {{ COMPOSE_FILE }} run --rm django python manage.py {{ ARGS }}
 
 # Upgrade the PostgreSQL database
+
 # TODO: Have the backup date be dynamic
 @postgres-upgrade:
     docker-compose --file {{ COMPOSE_FILE }} exec postgres psql --user djangopackages -d djangopackages < ../backups/backup_2021_09_21T19_00_10.sql
@@ -173,8 +178,8 @@ bootstrap *ARGS:
 @superuser USERNAME EMAIL:
     docker-compose -f {{ COMPOSE_FILE }} run django python manage.py createsuperuser --username={{USERNAME}} --email={{EMAIL}}
 
-
 # TODO: Have the backup date be dynamic
+
 # ???
 @restore *ARGS:
     -PGPASSWORD=djangopackages dropdb --host=localhost --username=djangopackages djangopackages
