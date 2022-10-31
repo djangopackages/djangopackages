@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-10-30]
+### Changed
+- :fire: Purge Cloudflare cache ([#865](https://github.com/djangopackages/djangopackages/pull/865))
+
 ## [2022-10-29]
 ### Changed
 - 💚  Add assert num queries to packages ([#864](https://github.com/djangopackages/djangopackages/pull/864))
