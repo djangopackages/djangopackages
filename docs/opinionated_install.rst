@@ -16,6 +16,11 @@ Docker
 
 If you don't have them installed yet, install Docker_ and docker-compose_.
 
+just
+----
+
+We use the command runner just_. Install instructions are available on the just_ GitHub page. 
+
 pipx
 ----
 
@@ -28,16 +33,11 @@ Formatters, Linters, and other miscellanea
 
 You'll want to install the various formatters, and linters using the following `pipx` command. 
 
-To do this, run the following commands:
+To do this, run:
 
 .. code-block:: bash
 
-    pipx upgrade-all
-    pipx install djhtml
-    pipx install tryceratops
-    pipx install black
-    pipx install unimport
-    pipx install pyupgrade-directories
+    just pipx-install
 
 Grab a Local Copy of the Project
 --------------------------------
@@ -58,7 +58,7 @@ In order to run the project, you'll need to run the following command:
 
 .. code-block:: bash
 
-    docker-compose --file docker-compose.dev.yml build --force-rm
+    just setup
 
 Add A GitHub API Token
 ----------------------
@@ -74,7 +74,7 @@ Now build the project using docker-compose:
 
 .. code-block:: bash
 
-    docker-compose  --file docker-compose.dev.yml build
+    just build
 
 Run the Project
 ---------------
@@ -83,7 +83,7 @@ To start the project, run:
 
 .. code-block:: bash
 
-    docker-compose --file docker-compose.dev.yml up --detach
+    just up
 
 Then point your browser to http://localhost:8000 and start hacking!
 
@@ -96,18 +96,11 @@ Create a Django superuser for yourself, replacing joe with your username/email:
 
 .. code-block:: bash
 
-    docker-compose -f docker-compose.dev.yml run django python manage.py createsuperuser --username=joe --email=joe@example.com
+    just superuser joe joe@example.com
 
 And then login into the admin interface (/admin/) and create a profile for your user filling all the fields with any data.
-
-Opinionated Setup
-=================
-
-A more opinionated_ set up using the command runner `just` is also available.
-
 
 .. _Docker: https://docs.docker.com/install/
 .. _docker-compose: https://docs.docker.com/compose/install/
 .. _just: https://github.com/casey/just
 .. _pipx: https://pypa.github.io/pipx/
-.. _opinionated: opinionated_install.html
