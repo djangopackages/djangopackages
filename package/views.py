@@ -4,7 +4,7 @@ import json
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.contrib.postgres.search import SearchQuery, SearchRank
 from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count, Q
@@ -16,7 +16,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.views.generic.base import TemplateView
 from django_tables2 import SingleTableView
-
 
 from grid.models import Grid
 from homepage.models import Dpotw, Gotw
@@ -457,8 +456,10 @@ class PackageListView(TemplateView):
 
 
 def package_detail(request, slug, template_name="package/package.html"):
-
-    package = get_object_or_404(Package, slug=slug)
+    package = get_object_or_404(
+        Package.objects.select_related("category").prefetch_related("grid_set"),
+        slug=slug,
+    )
     no_development = package.no_development
     try:
         if package.category == Category.objects.get(slug="projects"):
