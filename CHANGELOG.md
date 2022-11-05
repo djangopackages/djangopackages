@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-11-04]
+### Changed
+- Improve Package Detail View Database Query ([#866](https://github.com/djangopackages/djangopackages/pull/866))
+
 ## [2022-10-30]
 ### Changed
 - :fire: Purge Cloudflare cache ([#865](https://github.com/djangopackages/djangopackages/pull/865))
