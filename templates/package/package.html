@@ -238,7 +238,7 @@
                     {% endif %}
                 </div>
 
-                {% for grid in package.grids %}
+                {% for grid in package.grid_set.all %}
                     <a href="{% url 'grid' grid.slug %}" title="{{ grid.description }}">{{ grid }}</a> &nbsp;
                 {% endfor %}
                 {% if request.user.is_authenticated and profile.can_add_grid %}

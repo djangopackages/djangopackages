@@ -102,7 +102,7 @@ class FunctionalPackageTest(TestCase):
 
     def test_package_detail_view(self):
         url = reverse("package", kwargs={"slug": "testability"})
-        with self.assertNumQueries(20):
+        with self.assertNumQueries(16):
             response = self.client.get(url)
         self.assertTemplateUsed(response, "package/package.html")
         p = Package.objects.get(slug="testability")
