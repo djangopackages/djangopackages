@@ -6,14 +6,14 @@
 {% load humanize %}
 {% load i18n %}
 {% load package_tags %}
+{% load page_metadata_tags %}
 
-{% block head_title %}{{ grid.title }}{% endblock %}
+{% block metadata %}
+    {% page_metadata page_title=grid.title page_description=grid.description page_keywords=grid.packages.all|join:',' %}
+{% endblock %}
 
 {% block extra_head %}
     {{ block.super }}
-    <meta name="description" content="{{ grid.description }}" />
-    <meta name="keywords" content="{{ grid.packages.all|join:',' }}" />
-
     {% include 'includes/_ethicalads-js.html' %}
 {% endblock %}
 

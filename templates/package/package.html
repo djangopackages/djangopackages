@@ -3,13 +3,13 @@
 {% load i18n %}
 {% load package_tags %}
 {% load emojificate %}
+{% load page_metadata_tags %}
 
-{% block head_title %}{{ package.title | emojify| emojificate  }}{% endblock %}
+{% block metadata %}
+    {% page_metadata page_title=package.title|emojify|emojificate page_description=package.repo_description page_keywords=package.grid_set.all|join:',' %}
+{% endblock %}
 
 {% block extra_head %}
-    <meta name="description" content="{{ package.repo_description }}" />
-    <meta name="keywords" content="{{ package.grid_set.all|join:',' }}" />
-
     {% include 'includes/_ethicalads-js.html' %}
     {{ block.super }}
 {% endblock %}

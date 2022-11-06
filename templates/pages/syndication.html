@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 
 {% load i18n %}
+{% load page_metadata_tags %}
 
-{% block head_title %}{% trans "Syndication (RSS & Atom)" %}{% endblock %}
+{% block metadata %}
+    {% trans "Syndication (RSS & Atom)" as trans_title %}
+    {% page_metadata page_title=trans_title %}
+{% endblock %}
 
 {% block body %}
 

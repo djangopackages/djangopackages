@@ -1,8 +1,12 @@
 {% extends "base.html" %}
+{% load page_metadata_tags %}
 
 {% load i18n %}
 
-{% block head_title %}{% trans "Frequently Asked Questions" %}{% endblock %}
+{% block metadata %}
+    {% trans "Frequently Asked Questions" as trans_title %}
+    {% page_metadata page_title=trans_title %}
+{% endblock %}
 
 {% block body %}
     <div class="container">

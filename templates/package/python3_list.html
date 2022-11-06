@@ -2,8 +2,12 @@
 
 {% load i18n %}
 {% load render_table from django_tables2 %}
+{% load page_metadata_tags %}
 
-{% block head_title %}Python 3{% endblock %}
+{% block metadata %}
+    {% trans "Python 3" as trans_title %}
+    {% page_metadata page_title=trans_title %}
+{% endblock %}
 
 {% block extra_head %}
     {{ block.super }}

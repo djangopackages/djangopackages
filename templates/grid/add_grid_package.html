@@ -1,8 +1,12 @@
 {% extends "grid/base.html" %}
 
 {% load i18n %}
+{% load page_metadata_tags %}
 
-{% block head_title %}{% blocktrans with grid.title as grid_title %}Add a package to Grid '{{ grid_title }}'{% endblocktrans %}{% endblock %}
+{% block metadata %}
+    {% trans "Add a package to Grid " as trans_title %}
+    {% page_metadata page_title=trans_title|add:grid.title %}
+{% endblock %}
 
 {% block body %}
 

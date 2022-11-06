@@ -5,8 +5,12 @@
 {% load package_tags %}
 {% load emojificate %}
 {% load crispy_forms_tags %}
+{% load page_metadata_tags %}
 
-{% block head_title %}Profile for {{ user }}{% endblock %}
+{% block metadata %}
+    {% trans "Profile for " as trans_title %}
+    {% page_metadata page_title=trans_title|add:user.username %}
+{% endblock %}
 
 {% block body %}
     <div class="row">

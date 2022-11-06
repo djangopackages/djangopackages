@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 
 {% load i18n %}
+{% load page_metadata_tags %}
 
-{% block head_title %}{% trans "Help" %}{% endblock %}
+{% block metadata %}
+    {% trans "Help" as trans_title %}
+    {% page_metadata page_title=trans_title %}
+{% endblock %}
 
 {% block body %}
 

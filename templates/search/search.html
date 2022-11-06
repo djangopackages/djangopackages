@@ -2,8 +2,13 @@
 
 {% load i18n %}
 {% load static %}
+{% load page_metadata_tags %}
 
-{% block head_title %}{% trans "Search" %}{% endblock %}
+{% block metadata %}
+    {% trans "Search" as trans_title %}
+    {% page_metadata page_title=trans_title %}
+{% endblock %}
+
 {% block body_class %}search{% endblock %}
 
 {% block body %}

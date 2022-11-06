@@ -1,9 +1,13 @@
 {% extends "grid/base.html" %}
 
-{% load i18n %}
 {% load crispy_forms_tags %}
+{% load i18n %}
+{% load page_metadata_tags %}
 
-{% block head_title %}{% trans "Edit Element" %}{% endblock %}
+{% block metadata %}
+    {% trans "Edit Element" as trans_title %}
+    {% page_metadata page_title=trans_title %}
+{% endblock %}
 
 {% block body %}
 

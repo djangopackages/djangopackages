@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 
 {% load i18n %}
+{% load page_metadata_tags %}
 
-{% block head_title %}{% trans "Not Found" %}{% endblock %}
+{% block metadata %}
+    {% trans "Not Found" as trans_title %}
+    {% page_metadata page_title=trans_title %}
+{% endblock %}
 
 {% block body %}
     <div class="row">

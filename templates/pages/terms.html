@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 
 {% load i18n %}
+{% load page_metadata_tags %}
 
-{% block head_title %}{% trans "Terms of Service" %}{% endblock %}
+{% block metadata %}
+    {% trans "Terms of Service" as trans_title %}
+    {% page_metadata page_title=trans_title %}
+{% endblock %}
 
 {% block body %}
 

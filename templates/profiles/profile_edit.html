@@ -2,8 +2,12 @@
 
 {% load i18n %}
 {% load crispy_forms_tags %}
+{% load page_metadata_tags %}
 
-{% block head_title %}Profile form for {{ profile.user.username }}{% endblock %}
+{% block metadata %}
+    {% trans "Profile for " as trans_title %}
+    {% page_metadata page_title=trans_title|add:profile.user.username %}
+{% endblock %}
 
 {% block body %}
 
