@@ -48,7 +48,7 @@ The effort to support databases besides PostGreSQL was hampered for long time, a
 
 We use a **Mock** system of creating sample data in our tests and for running a development version of the site. To create some development data, just run::
 
-    docker-compose --file docker-compose.dev.yml run --rm django python manage.py load_dev_data
+    docker-compose run --rm django python manage.py load_dev_data
 
 Alternatively, you can use `just`
 

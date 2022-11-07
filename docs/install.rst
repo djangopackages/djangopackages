@@ -58,7 +58,7 @@ In order to run the project, you'll need to run the following command:
 
 .. code-block:: bash
 
-    docker-compose --file docker-compose.dev.yml build --force-rm
+    docker-compose build --force-rm
 
 Add A GitHub API Token
 ----------------------
@@ -74,7 +74,7 @@ Now build the project using docker-compose:
 
 .. code-block:: bash
 
-    docker-compose  --file docker-compose.dev.yml build
+    docker-compose build
 
 Run the Project
 ---------------
@@ -83,7 +83,7 @@ To start the project, run:
 
 .. code-block:: bash
 
-    docker-compose --file docker-compose.dev.yml up --detach
+    docker-compose up --detach
 
 Then point your browser to http://localhost:8000 and start hacking!
 
@@ -96,7 +96,7 @@ Create a Django superuser for yourself, replacing joe with your username/email:
 
 .. code-block:: bash
 
-    docker-compose -f docker-compose.dev.yml run django python manage.py createsuperuser --username=joe --email=joe@example.com
+    docker-compose run django python manage.py createsuperuser --username=joe --email=joe@example.com
 
 And then login into the admin interface (/admin/) and create a profile for your user filling all the fields with any data.
 

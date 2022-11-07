@@ -3,7 +3,6 @@
 {
     "name": "Existing Docker Compose (Extend)",
     "dockerComposeFile": [
-        "../docker-compose.dev.yml",
         "docker-compose.yml"
     ],
     // Add the IDs of extensions you want installed when the container is created.

@@ -12,7 +12,7 @@ Running the test suite
 
 To run all of the Django Packages tests::
 
-    docker-compose --file docker-compose.dev.yml run django python manage.py test --no-input
+    docker-compose run django python manage.py test --no-input
 
 or with `just`
 
@@ -20,7 +20,7 @@ or with `just`
 
 To run tests for a particular Django Packages app, for example the feeds app::
 
-    docker-compose --file docker-compose.dev.yml run django python manage.py test feeds
+    docker-compose run django python manage.py test feeds
 
 or with `just`
 
