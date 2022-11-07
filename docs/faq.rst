@@ -46,9 +46,13 @@ Django Packages supports
 
 The effort to support databases besides PostGreSQL was hampered for long time, all caused by a third party package we're not going to identify that caused grief in the use of fixtures. This was a significant issue in Django Packages, and used up a lot of development cycles.
 
-So we use a **Mock** system of creating sample data in our tests and for running a development version of the site. To create some development data, just run::
+We use a **Mock** system of creating sample data in our tests and for running a development version of the site. To create some development data, just run::
 
-    docker-compose run django python manage.py load_dev_data
+    docker-compose --file docker-compose.dev.yml run --rm django python manage.py load_dev_data
+
+Alternatively, you can use `just`
+
+    just management-command load_dev_data
 
 Unsupported Repo Hosting Services
 =================================

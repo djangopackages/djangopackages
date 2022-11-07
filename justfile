@@ -176,7 +176,7 @@ bootstrap *ARGS:
 
 # Create a Superuser
 @superuser USERNAME EMAIL:
-    docker-compose run django python manage.py createsuperuser --username={{ USERNAME }} --email={{ EMAIL }}
+    docker-compose -f {{ COMPOSE_FILE }} run django python manage.py createsuperuser --username={{USERNAME}} --email={{EMAIL}}
 
 # TODO: Have the backup date be dynamic
 
