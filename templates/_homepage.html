@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load package_tags %}
 {% load emojificate %}
+{% load typogrify_tags %}
 
 <div class="container">
     <div class="row">
@@ -10,7 +11,7 @@
             {% if category.package_count %}
                 <div class="categories col-sm-3 text-center">
                     <h2 class="panel-title">{{ category.title_plural }} </h2>
-                    <p>{{ category.description }}</p>
+                    <p>{{ category.description|widont }}</p>
                     <a href="{% url 'category' category.slug %}" class="btn btn-primary">Show {{ category.title_plural }} ({{ category.package_count|intcomma }})</a>
                 </div>
             {% endif %}
@@ -35,9 +36,9 @@
                         <p class="list-group-item-text">
                             {% with version.package.repo_description|truncatewords:25 as short %}
                                 {% if version.package.repo_description|length > short|length %}
-                                    {{ short|slice:"-3" }}...
+                                    {{ short|slice:"-3"|widont }}...
                                 {% else %}
-                                    {{ short }}
+                                    {{ short|widont }}
                                 {% endif %}
                             {% endwith %}
                         </p>
