@@ -24,7 +24,7 @@ If you have git installed, you now clone your git repo using the following comma
 Install Django Packages Locally
 -------------------------------
 
-Follow our detailed :doc:`installation` instructions. Please record any difficulties you have and share them with the Django Packages community via our `issue tracker`_.
+Follow our detailed :doc:`installation <install>` instructions. Please record any difficulties you have and share them with the Django Packages community via our `issue tracker`_.
 
 Issues!
 =======
