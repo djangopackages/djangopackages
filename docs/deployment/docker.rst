@@ -16,8 +16,7 @@ restarded, the stack won't start automatically.
 
 The current strategy is:
 
- - Use a virtual machine with a well patched OS (debian, ubuntu, RHEL), djangopackages.org is using
- ubuntu 14.04
+ - Use a virtual machine with a well patched OS (debian, ubuntu, RHEL), djangopackages.org is using ubuntu 14.04
  - Install docker, docker-compose, git and supervisord
  - Clone the code on the server
  - Let supervisord run it

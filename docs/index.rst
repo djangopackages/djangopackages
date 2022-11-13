@@ -29,11 +29,8 @@ Contents:
    deployment/index
    troubleshooting
    faq
-   opencomparison_settings
    testing_instructions
    management_commands
-   pypi_issues
-   contributors
    contributing
    repo_handlers
    apiv3_docs
@@ -47,7 +44,7 @@ Daniel and Audrey Roy Greenfeld created Django Packages for Django Dash 2010. Th
 
 Django Dash 2010 was also where Read the Docs was created. Daniel and Audrey took a break from coding in their fancy and weird glass prairie rental house to meet the Read the Docs team in the basement of the Lawrence Journal-World office. Actually, it might have been the first floor. All Audrey remembers is that it was dark and cold like a basement, but with carpet. Or maybe there wasn't carpet. (Audrey checked the Read the Docs story, but it doesn't have details on that.)
 
-Since then the project has had many contributors_. Daniel and Audrey have run numerous open-source sprints over the years to work on it. The code has grown organically in fun and unexpected ways.
+Since then the project has had many contributors. Daniel and Audrey have run numerous open-source sprints over the years to work on it. The code has grown organically in fun and unexpected ways.
 
 Indices and tables
 ==================
@@ -58,4 +55,3 @@ Indices and tables
 
 .. _installation: install.html
 .. _contributing: contributing.html
-.. _contributors: contributors.html
