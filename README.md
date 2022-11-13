@@ -4,7 +4,7 @@ Django Packages helps you easily identify and compare good apps, frameworks, plu
 
 ## Badges
 
-[![image](https://github.com/djangopackages/djangopackages/actions/workflows/actions.yml/badge.svg)](https://github.com/djangopackages/djangopackages/actions/workflows/actions.yml) [![Documentation Status](https://readthedocs.org/projects/djangopackagesorg/badge/?version=latest)](http://djangopackagesorg.readthedocs.io/en/latest/?badge=latest) [![Updates](https://pyup.io/repos/github/djangopackages/djangopackages/shield.svg)](https://pyup.io/repos/github/djangopackages/djangopackages/)
+[![image](https://github.com/djangopackages/djangopackages/actions/workflows/actions.yml/badge.svg)](https://github.com/djangopackages/djangopackages/actions/workflows/actions.yml) [![Documentation Status](https://readthedocs.org/projects/djangopackages/badge/?version=latest)](https://djangopackages.readthedocs.io/en/latest/?badge=latest) [![Updates](https://pyup.io/repos/github/djangopackages/djangopackages/shield.svg)](https://pyup.io/repos/github/djangopackages/djangopackages/)
 
 ## Features
 
@@ -25,7 +25,7 @@ Django Packages helps you easily identify and compare good apps, frameworks, plu
 
 ## Quickstart
 
-For detailed installation instructions, consult the [docs](http://djangopackagesorg.readthedocs.io/en/latest/install.html).
+For detailed installation instructions, consult the [docs](https://djangopackages.readthedocs.io/en/latest/install.html).
 
 To download, install and start the local server for development, simply run:
 
