@@ -29,11 +29,8 @@ Contents:
    deployment/index
    troubleshooting
    faq
-   opencomparison_settings
    testing_instructions
    management_commands
-   pypi_issues
-   contributors
    contributing
    repo_handlers
    apiv3_docs
