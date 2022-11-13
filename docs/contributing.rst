@@ -191,3 +191,4 @@ We finish with a merge and push to GitHub::
 .. _GitHub project: https://github.com/djangopackages/djangopackages
 .. _issue tracker: https://github.com/djangopackages/djangopackages/issues
 .. _pydanny: http://pydanny.com
+.. _installation: install.html
