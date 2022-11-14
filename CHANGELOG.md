@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-11-13]
+### Changed
+- Add Sidebar and Logo for Documentation Page ([#874](https://github.com/djangopackages/djangopackages/pull/874))
+- Update Documentation URL ([#875](https://github.com/djangopackages/djangopackages/pull/875))
+
 ## [2022-11-12]
 ### Changed
 - ✨ Add widont support ([#872](https://github.com/djangopackages/djangopackages/pull/872))
