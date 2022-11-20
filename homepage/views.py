@@ -1,13 +1,14 @@
+from random import sample
+
 from django.contrib.auth.models import User
 from django.core.cache import cache
 from django.db.models import Count, Q
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from random import sample
 
 from grid.models import Grid
-from homepage.models import Dpotw, Gotw, PSA
+from homepage.models import PSA, Dpotw, Gotw
 from package.models import Category, Commit, Package, Version
 
 
@@ -33,21 +34,45 @@ class OpenView(TemplateView):
             "total_python_3_10": "Programming Language :: Python :: 3.10",
             "total_python_3_11": "Programming Language :: Python :: 3.11",
         }
+        vcs_providers = {
+            "repos_bitbucket": "bitbucket.org",
+            "repos_github": "github.com",
+            "repos_gitlab": "gitlab.com",
+        }
 
-        for classifier in classifiers:
-            context_data[classifier] = (
-                Package.objects.active()
-                .filter(pypi_classifiers__contains=[classifiers[classifier]])
-                .count()
-            )
+        active_package_aggregations = Package.objects.active().aggregate(
+            # Total package count for each VCS provider
+            **{
+                key: Count("pk", filter=Q(repo_url__contains=value))
+                for key, value in vcs_providers.items()
+            },
+            # Total package count for each classifier
+            **{
+                key: Count("pk", filter=Q(pypi_classifiers__contains=[value]))
+                for key, value in classifiers.items()
+            },
+        )
+        context_data.update(active_package_aggregations)
 
-        categories = Category.objects.all()
-        category_data = {}
-        for category in categories:
-            category_data[category] = (
-                Package.objects.active().filter(category=category).count()
-            )
-        context_data["categories"] = category_data
+        all_package_aggregations = Package.objects.aggregate(
+            # Total package Count
+            total_packages=Count("pk"),
+            # Total archived package Count
+            archive_packages=Count("pk", filter=~Q(date_repo_archived__isnull=True)),
+            # Total deprecated package Count
+            deprecated_packages=Count(
+                "pk",
+                filter=~Q(date_deprecated__isnull=True, deprecated_by__isnull=True),
+            ),
+        )
+        context_data.update(all_package_aggregations)
+
+        context_data["categories"] = Package.objects.active().aggregate(
+            **{
+                title: Count("pk", filter=Q(category_id=pk))
+                for pk, title in Category.objects.values_list("pk", "title")
+            }
+        )
 
         top_grid_list = (
             Grid.objects.all()
@@ -62,34 +87,13 @@ class OpenView(TemplateView):
             .order_by("-num_packages")
         )
 
-        repos_bitbucket = (
-            Package.objects.active().filter(repo_url__contains="bitbucket.org").count()
-        )
-        repos_github = (
-            Package.objects.active().filter(repo_url__contains="github.com").count()
-        )
-        repos_gitlab = (
-            Package.objects.active().filter(repo_url__contains="gitlab.com").count()
-        )
-
-        archive_packages = Package.objects.exclude(date_repo_archived__isnull=True)
-        deprecated_packages = Package.objects.exclude(
-            Q(date_deprecated__isnull=True), Q(deprecated_by__isnull=True)
-        )
-
         context_data.update(
             {
-                "archive_packages": archive_packages.count(),
-                "deprecated_packages": deprecated_packages.count(),
-                "repos_bitbucket": repos_bitbucket,
-                "repos_github": repos_github,
-                "repos_gitlab": repos_gitlab,
                 "top_grid_list": top_grid_list[0:100],
                 "top_user_list": top_user_list[0:100],
                 "total_categories": Category.objects.count(),
                 "total_commits": Commit.objects.count(),
                 "total_grids": Grid.objects.count(),
-                "total_packages": Package.objects.count(),
                 "total_users": User.objects.count(),
                 "total_versions": Version.objects.count(),
             }
