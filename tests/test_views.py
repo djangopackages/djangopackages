@@ -22,9 +22,11 @@ def test_help(db, tp):
     assert response.status_code == 200
 
 
-def test_open(db, tp):
+def test_open(db, tp, django_assert_num_queries):
     url = tp.reverse("open")
-    response = tp.client.get(url)
+
+    with django_assert_num_queries(12):
+        response = tp.client.get(url)
     assert response.status_code == 200
 
 
