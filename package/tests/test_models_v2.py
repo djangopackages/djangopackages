@@ -105,3 +105,6 @@ def test_package_abandoned_ten_years_score(package_abandoned_ten_years):
 
 def test_package_example(package_example):
     assert str(package_example) == f"{package_example.title}"
+
+    # check that pacages are not active by default
+    assert package_example.active is None
