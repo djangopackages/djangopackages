@@ -498,8 +498,9 @@ class PackageExample(BaseModel):
     url = models.URLField(_("URL"))
     active = models.BooleanField(
         _("Active"),
-        default=True,
+        default=None,
         help_text="Moderators have to approve links before they are provided",
+        null=True,
     )
     created_by = models.ForeignKey(
         User, blank=True, null=True, on_delete=models.SET_NULL
