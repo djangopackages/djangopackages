@@ -134,6 +134,11 @@ class PackageAdmin(VersionAdmin, DynamicArrayMixin):
 
 @admin.register(PackageExample)
 class PackageExampleAdmin(admin.ModelAdmin):
+    actions = [
+        "set_active_to_true",
+        "set_active_to_false",
+        "set_active_to_none",
+    ]
     list_filter = ["active", "created"]
     list_display = [
         "title",
@@ -146,6 +151,18 @@ class PackageExampleAdmin(admin.ModelAdmin):
     raw_id_fields = ["package"]
     readonly_fields = ["created_by"]
     search_fields = ["title", "created_by__username"]
+
+    @admin.action(description="Mark selected examples to active")
+    def set_active_to_true(self, request, queryset):
+        queryset.update(active=True)
+
+    @admin.action(description="Mark selected examples to inactive")
+    def set_active_to_false(self, request, queryset):
+        queryset.update(active=False)
+
+    @admin.action(description="Mark selected examples to none")
+    def set_active_to_none(self, request, queryset):
+        queryset.update(active=None)
 
 
 @admin.register(FlaggedPackage)
