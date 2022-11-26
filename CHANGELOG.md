@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-11-25]
+### Changed
+- Convert docs to markdown 855 ([#880](https://github.com/djangopackages/djangopackages/pull/880))
+
 ## [2022-11-20]
 ### Changed
 - Optimize `OpenView` Database Query ([#877](https://github.com/djangopackages/djangopackages/pull/877))
