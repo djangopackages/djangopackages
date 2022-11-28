@@ -2,13 +2,16 @@
 
 {% load i18n %}
 {% load package_tags %}
+{% load page_metadata_tags %}
 {% load render_table from django_tables2 %}
 
-{% block head_title %}{% trans "Welcome" %}{% endblock %}
+{% block metadata %}
+    {% trans "Welcome" as trans_title %}
+    {% page_metadata page_title=trans_title %}
+{% endblock %}
 
 {% block extra_head %}
     {{ block.super }}
-
     {% include 'includes/_ethicalads-js.html' %}
 {% endblock %}
 

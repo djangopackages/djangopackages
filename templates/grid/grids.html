@@ -2,8 +2,12 @@
 
 {% load i18n %}
 {% load django_tables2 %}
+{% load page_metadata_tags %}
 
-{% block head_title %}{% trans "Grids" %}{% endblock %}
+{% block metadata %}
+    {% trans "Grids" as trans_title %}
+    {% page_metadata page_title=trans_title %}
+{% endblock %}
 
 {% block body %}
     <div class="container">

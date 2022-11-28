@@ -3,8 +3,11 @@
 {% load i18n %}
 {% load grid_tags %}
 {% load package_tags %}
+{% load page_metadata_tags %}
 
-{% block head_title %}{{ grid.title }}{% endblock %}
+{% block metadata %}
+    {% page_metadata page_title=grid.title page_description=grid.description page_keywords=grid.packages.all|join:',' %}
+{% endblock %}
 
 {% block javascript %}
     <script src="{{ STATIC_URL }}bower_components/jquery/jquery.min.js" type="text/javascript"></script>
@@ -16,13 +19,6 @@
     <script src="{{ STATIC_URL }}js/jquery.tools.min.js" type="text/javascript"></script>
     <script src="{{ STATIC_URL }}js/site.js" type="text/javascript"></script>
 {% endblock javascript %}
-
-
-{% block extra_head %}
-    {{ block.super }}
-    <meta name="description" content="{{ grid.description }}" />
-    <meta name="keywords" content="{{ grid.packages.all|join:',' }}" />
-{% endblock %}
 
 {% block body %}
     <h2 id="grid-name">

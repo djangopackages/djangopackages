@@ -2,8 +2,12 @@
 
 {% load i18n %}
 {% load crispy_forms_tags %}
+{% load page_metadata_tags %}
 
-{% block head_title %}{{ action|title }} {% trans "package" %}{% endblock %}
+{% block metadata %}
+    {% trans " package" as trans_title %}
+    {% page_metadata page_title=action|title|add:trans_title %}
+{% endblock %}
 
 {% block body %}
 

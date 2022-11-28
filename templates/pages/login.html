@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 
 {% load i18n profile_tags %}
+{% load page_metadata_tags %}
 
-{% block head_title %}{% trans "Login" %}{% endblock %}
+{% block metadata %}
+    {% trans "Login" as trans_title %}
+    {% page_metadata page_title=trans_title %}
+{% endblock %}
 
 {% block extra_head %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/account.css" />
@@ -26,4 +30,3 @@
         {% blocktrans %}If you have any problems, please <a href="https://github.com/djangopackages/djangopackages/issues">submit an issue</a>.{% endblocktrans %}
     </p>
 {% endblock %}
-

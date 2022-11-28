@@ -2,6 +2,12 @@
 
 {% load i18n %}
 {% load crispy_forms_tags %}
+{% load page_metadata_tags %}
+
+{% block metadata %}
+    {% trans "Add package example" as trans_title %}
+    {% page_metadata page_title=trans_title %}
+{% endblock %}
 
 {% block body %}
     <div class="container">

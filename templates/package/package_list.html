@@ -4,8 +4,12 @@
 {% load humanize %}
 {% load i18n %}
 {% load package_tags %}
+{% load page_metadata_tags %}
 
-{% block head_title %}{% trans "django reusable apps, sites and tools directory" %}{% endblock %}
+{% block metadata %}
+    {% trans "django reusable apps, sites and tools directory" as trans_title %}
+    {% page_metadata page_title=trans_title %}
+{% endblock %}
 
 {% block body %}
     {% for category in categories %}

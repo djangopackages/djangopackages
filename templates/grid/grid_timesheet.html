@@ -1,9 +1,12 @@
 {% extends "grid/base.html" %}
 
 {% load i18n %}
+{% load page_metadata_tags %}
 
-
-{% block head_title %}Timesheet for {{ grid.title }}{% endblock %}
+{% block metadata %}
+    {% trans "Timesheet for " as trans_title %}
+    {% page_metadata page_title=trans_title|add:grid.title %}
+{% endblock %}
 
 {% block extra_head %}
     <link href="{{ STATIC_URL }}css/timesheet.css" media="all" rel="stylesheet" />
