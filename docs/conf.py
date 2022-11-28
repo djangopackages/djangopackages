@@ -35,22 +35,19 @@ import time
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
-    "sphinx_material",
+    "myst_parser",
     "sphinx.ext.autodoc",
-    "sphinx.ext.doctest",
     "sphinx.ext.coverage",
+    "sphinx.ext.doctest",
     "sphinx.ext.viewcode",
-    "rst-to-myst",
+    "sphinx_material",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
 # The suffix of source filenames.
-source_suffix = {
-    ".rst": "restructuredtext",
-    ".md": "markdown"
-}
+source_suffix = {".rst": "restructuredtext", ".md": "markdown"}
 
 # The encoding of source files.
 # source_encoding = 'utf-8-sig'

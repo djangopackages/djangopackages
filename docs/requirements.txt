@@ -1,2 +1,3 @@
-rst-to-myst
+myst-parser
+rst-to-myst[sphinx]
 sphinx-material
