@@ -7,6 +7,7 @@
 {% load i18n %}
 {% load package_tags %}
 {% load page_metadata_tags %}
+{% load emojificate %}
 
 {% block metadata %}
     {% page_metadata page_title=grid.title page_description=grid.description page_keywords=grid.packages.all|join:',' %}
@@ -21,7 +22,7 @@
     <div class="row">
         <div class="col-lg-6">
             <h2>
-                {{ grid.title }}
+                {{ grid.title|emojify|emojificate }}
                 {% if request.user.is_authenticated and profile.can_edit_grid %}
                     <a href="{% url 'edit_grid' grid.slug %}">
                         <span class="glyphicon glyphicon-pencil"></span>
@@ -29,7 +30,7 @@
                 {% endif %}
             </h2>
             <p>
-                {{ grid.description|urlize|linebreaksbr }}
+                {{ grid.description|urlize|linebreaksbr|emojify|emojificate }}
             </p>
         </div>
         <div class="col-lg-6">
@@ -192,7 +193,7 @@
 
                     {% for feature in features %}
                         <tr class="{% cycle 'even' 'odd' %}">
-                            <td>{{ feature.title }}</td>
+                            <td>{{ feature.title|emojify|emojificate }}</td>
                             {% for grid_package in grid_packages %}
                                 {% with elements|hash:feature.pk|hash:grid_package.pk as element %}
                                     <td class="clickable" id="element-f{{ feature.pk }}-p{{ grid_package.pk }}">{% if element %}{{ element.text|style_element|safe|urlize|linebreaksbr }}{% endif %}<noscript>
@@ -256,7 +257,7 @@
                         <tbody>
                             {% for feature in features %}
                                 <tr>
-                                    <td>{{ feature.title }}
+                                    <td>{{ feature.title|emojify|emojificate }}
                                         {% if request.user.is_authenticated and profile.can_edit_grid_feature %}
                                             &nbsp;<a href="{% url 'edit_feature' feature.pk %}">
                                                 <span class="glyphicon glyphicon-pencil"></span>
@@ -268,7 +269,7 @@
                                             {% endif %}
                                         {% endif %}
                                     </td>
-                                    <td>{{ feature.description|wordwrap:80|linebreaksbr }}</td>
+                                    <td>{{ feature.description|wordwrap:80|linebreaksbr|emojify|emojificate }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
