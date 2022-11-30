@@ -45,7 +45,7 @@ class SearchV2(BaseModel):
     absolute_url = models.CharField(_("Absolute URL"), max_length=255)
     repo_watchers = models.IntegerField(_("Stars"), default=0)
     repo_forks = models.IntegerField(_("repo forks"), default=0)
-    pypi_downloads = models.IntegerField(_("Pypi downloads"), default=0)
+    pypi_downloads = models.IntegerField(_("PyPI downloads"), default=0)
     usage = models.IntegerField(_("Number of users"), default=0)
     participants = models.TextField(
         _("Participants"),

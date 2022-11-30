@@ -82,7 +82,7 @@ class Package(BaseModel):
         blank=True,
         default="",
     )
-    pypi_downloads = models.IntegerField(_("Pypi downloads"), default=0)
+    pypi_downloads = models.IntegerField(_("PyPI downloads"), default=0)
     pypi_classifiers = ArrayField(
         models.CharField(max_length=100), blank=True, null=True
     )
