@@ -18,3 +18,6 @@ def test_normalize_license():
     )
     assert normalize_license("Pow" * 80) == "Custom"
     assert normalize_license("MIT") == "MIT"
+
+    # TODO: fix in #888
+    assert normalize_license("GPL-2.0-only OR LGPL-2.1-or-later") == "Custom"

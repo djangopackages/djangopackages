@@ -210,7 +210,7 @@ except Exception:
 EMAIL_SUBJECT_PREFIX = "[Django Packages]"
 
 PACKAGINATOR_HELP_TEXT = {
-    "REPO_URL": "Enter your project repo hosting URL here. Example: https://github.com/djangopackages/opencomparison",
+    "REPO_URL": "Enter your project repo hosting URL here. Example: https://github.com/djangopackages/djangopackages",
     "PYPI_URL": "<strong>Leave this blank if this package does not have a PyPI release.</strong> What PyPI uses to index your package. Example: django-uni-form",
 }
 

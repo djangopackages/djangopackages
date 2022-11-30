@@ -32,7 +32,7 @@ class GitlabHandler(BaseHandler):
 
         from package.models import Commit  # Added here to avoid circular imports
 
-        for commit in repo.commits.list(as_list=False):
+        for commit in repo.commits.list(iterator=True):
             try:
                 commit_record, created = Commit.objects.get_or_create(
                     package=package,

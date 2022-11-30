@@ -10,7 +10,13 @@ from django.urls import reverse
 from django_tables2 import SingleTableView
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 
-from grid.forms import ElementForm, FeatureForm, GridForm, GridPackageFilterForm, GridPackageForm
+from grid.forms import (
+    ElementForm,
+    FeatureForm,
+    GridForm,
+    GridPackageFilterForm,
+    GridPackageForm,
+)
 from grid.models import Element, Feature, Grid, GridPackage
 from grid.tables import GridTable
 from package.forms import PackageForm
