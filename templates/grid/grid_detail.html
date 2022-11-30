@@ -19,7 +19,7 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-6">
             <h2>
                 {{ grid.title }}
                 {% if request.user.is_authenticated and profile.can_edit_grid %}
@@ -28,77 +28,17 @@
                     </a>
                 {% endif %}
             </h2>
+            <p>
+                {{ grid.description|urlize|linebreaksbr }}
+            </p>
+        </div>
+        <div class="col-lg-6">
+            {% with ea_id="grid-detail" ea_type="text" %}
+                {% include 'includes/_ethicalads-tag.html' %}
+            {% endwith %}
         </div>
     </div>
-    {% cache 300 html_grid_detail_outer grid.pk request.GET.urlencode %}
-        <div class="row">
-            <div class="col-lg-{% if features %}3{% else %}6{% endif %}">
-                <p>
-                    {{ grid.description|urlize|linebreaksbr }}
-                </p>
-
-                {% if features %}
-                    {% if request.user.is_authenticated %}
-                        <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add package to the grid" %}</a></p>
-                    {% endif %}
-
-                    {% if request.user.is_authenticated and profile.can_add_grid_feature %}
-                        <p><a href="{% url 'add_feature' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add new feature to the grid" %}</a></p>
-                    {% endif %}
-                {% endif %}
-
-                {% if request.user.is_authenticated and profile.can_edit_grid_element and features %}
-                    <p><span class="glyphicon glyphicon-info-sign"></span> {% trans "Highlighted cells are editable.  Click highlighted cells to change text." %}</p>
-                {% endif %}
-
-                {% with ea_id="grid-detail" ea_type="text" %}
-                    {% include 'includes/_ethicalads-tag.html' %}
-                {% endwith %}
-            </div>
-            {% if features %}
-                <div class="col-lg-9">
-                    <h3>{% trans "Features currently being evaluated" %}</h3>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>{% trans "Feature" %}</th>
-                                <th>{% trans "Description" %}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for feature in features %}
-                                <tr>
-                                    <td>{{ feature.title }}
-                                        {% if request.user.is_authenticated and profile.can_edit_grid_feature %}
-                                            &nbsp;<a href="{% url 'edit_feature' feature.pk %}">
-                                                <span class="glyphicon glyphicon-pencil"></span>
-                                            </a>
-                                            {% if perms.grid.delete_feature %}
-                                                &nbsp;<a href="#" id="feature-delete-{{ feature.pk }}">
-                                                    <span class="glyphicon glyphicon-trash"></span>
-                                                </a>
-                                            {% endif %}
-                                        {% endif %}
-                                    </td>
-                                    <td>{{ feature.description|wordwrap:80|linebreaksbr }}</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            {% else %}
-                <div class="col-lg-6">
-                    {% if request.user.is_authenticated and profile.can_add_grid_package %}
-                        <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add package to the grid" %}</a></p>
-                    {% endif %}
-
-                    {% if request.user.is_authenticated and profile.can_add_grid_feature %}
-                        <p><a href="{% url 'add_feature' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add new feature to the grid" %}</a></p>
-                    {% endif %}
-                </div>
-            {% endif %}
-        </div>
-
+    {% cache -1 html_grid_detail_outer grid.pk request.GET.urlencode %}
         <div class="row">
             <div class="col-lg-12">
                 <h3>{% trans "Filter results" %}</h3>
@@ -288,6 +228,64 @@
                 <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span>&nbsp;{% trans "Add a package to get a grid view" %}</a></p>
             {% endif %}
         {% endif %}
+
+        <div class="row">
+            {% if features and request.user.is_authenticated %}
+                <div class="col-lg-12">
+                    <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add package to the grid" %}</a></p>
+
+                    {% if profile.can_add_grid_feature %}
+                        <p><a href="{% url 'add_feature' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add new feature to the grid" %}</a></p>
+                    {% endif %}
+
+                    {% if profile.can_edit_grid_element %}
+                        <p><span class="glyphicon glyphicon-info-sign"></span> {% trans "Highlighted cells are editable.  Click highlighted cells to change text." %}</p>
+                    {% endif %}
+                </div>
+            {% endif %}
+            {% if features %}
+                <div class="col-lg-12">
+                    <h3>{% trans "Features currently being evaluated" %}</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>{% trans "Feature" %}</th>
+                                <th>{% trans "Description" %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for feature in features %}
+                                <tr>
+                                    <td>{{ feature.title }}
+                                        {% if request.user.is_authenticated and profile.can_edit_grid_feature %}
+                                            &nbsp;<a href="{% url 'edit_feature' feature.pk %}">
+                                                <span class="glyphicon glyphicon-pencil"></span>
+                                            </a>
+                                            {% if perms.grid.delete_feature %}
+                                                &nbsp;<a href="#" id="feature-delete-{{ feature.pk }}">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </a>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ feature.description|wordwrap:80|linebreaksbr }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="col-lg-12">
+                    {% if request.user.is_authenticated and profile.can_add_grid_package %}
+                        <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add package to the grid" %}</a></p>
+                    {% endif %}
+
+                    {% if request.user.is_authenticated and profile.can_add_grid_feature %}
+                        <p><a href="{% url 'add_feature' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add new feature to the grid" %}</a></p>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
     {% endcache %}
 
 {% endblock %}
