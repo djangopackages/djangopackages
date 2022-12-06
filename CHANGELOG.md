@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-11-30]
+### Changed
+- :hammer: Small bugfixes and typos ([#889](https://github.com/djangopackages/djangopackages/pull/889))
+
 ## [2022-11-28]
 ### Changed
 - :arrow_up: Package Updates ([#887](https://github.com/djangopackages/djangopackages/pull/887))
