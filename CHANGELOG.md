@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-12-07]
+### Changed
+- :tractor: Refactors the grid detail layout section ordering ([#890](https://github.com/djangopackages/djangopackages/pull/890))
+
 ## [2022-11-30]
 ### Changed
 - :hammer: Small bugfixes and typos ([#889](https://github.com/djangopackages/djangopackages/pull/889))
