@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2022-12-28]
+### Changed
+- :arrow_up: Rebuilds requirements (docker and requirements.*) and justfile ([#894](https://github.com/djangopackages/djangopackages/pull/894))
+
 ## [2022-12-07]
 ### Changed
 - :tractor: Refactors the grid detail layout section ordering ([#890](https://github.com/djangopackages/djangopackages/pull/890))
