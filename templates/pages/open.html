@@ -69,6 +69,31 @@
 
     <div class="container">
         <div class="row">
+            <hr>
+
+            <div class="col-sm-6 col-md-5">
+                <h1>{% trans "💲 Funding" %}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10 col-md-5">
+              <canvas id="chart_funding_2023"></canvas>
+            </div>
+            <div class="col-sm-10 col-md-5">
+              <canvas id="chart_funding_2022"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10 col-md-5">
+              <canvas id="chart_funding_2021"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <hr>
+
             <div class="col-sm-6 col-md-5">
                 <h2>{% trans "Users who have contributed over ten packages" %}</h2>
                 <table class="table">
@@ -91,7 +116,7 @@
                 </table>
             </div>
             <div class="col-sm-6 col-md-5">
-                <h2>{% trans "Grids with more than fifteen packages" %}</h2>
+                <h2>{% trans "Grids with twenty or more packages" %}</h2>
                 <table class="table">
                     <thead>
                         <tr>
@@ -114,26 +139,6 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6 col-md-5">
-                <h1>{% trans "💲 Funding" %}</h1>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-10 col-md-5">
-              <canvas id="chart_funding_2023"></canvas>
-            </div>
-            <div class="col-sm-10 col-md-5">
-              <canvas id="chart_funding_2022"></canvas>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-10 col-md-5">
-              <canvas id="chart_funding_2021"></canvas>
-            </div>
-        </div>
-    </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 <script>

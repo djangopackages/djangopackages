@@ -77,7 +77,7 @@ class OpenView(TemplateView):
         top_grid_list = (
             Grid.objects.all()
             .annotate(num_packages=Count("packages"))
-            .filter(num_packages__gt=15)
+            .filter(num_packages__gte=25)
             .order_by("-num_packages")[0:100]
         )
         top_user_list = (
