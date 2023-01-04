@@ -1,12 +1,15 @@
-# These are supported funding model platforms
-
-github: pydanny
-# patreon: feldroy
-open_collective: # Replace with a single Open Collective username
-ko_fi: # Replace with a single Ko-fi username
-tidelift: # Replace with a single Tidelift platform-name/package-name e.g., npm/babel
-community_bridge: # Replace with a single Community Bridge project-name e.g., cloud-foundry
-liberapay: # Replace with a single Liberapay username
-issuehunt: # Replace with a single IssueHunt username
-otechie: # Replace with a single Otechie username
-custom: ['https://www.paypal.com/donate?hosted_button_id=LVUNW6ZT69HV4', 'https://commerce.coinbase.com/checkout/ceb8ae77-cb66-4568-a143-961e1b035d3d']
+# TODO: address
+#
+# - https://github.blog/2020-03-24-getting-started-with-github-sponsors/
+# - https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository
+#
+# community_bridge:   community_bridge_username
+# custom:             ["custom_url.com", "another_custom_url.com"]
+# github:             [github_username]
+# issuehunt:          issuehunt_username
+# ko_fi:              ko_fi_username
+# liberapay:          liberapay_username
+# open_collective:    open_collective_username
+# otechie:            otechie_username
+# patreon:            patreon_username
+# tidelift:           tidelift_package_name
