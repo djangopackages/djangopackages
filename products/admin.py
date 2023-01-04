@@ -7,7 +7,7 @@ from products.models import Product, Release
 class ProductAdmin(admin.ModelAdmin):
     list_display = ["title", "slug", "active"]
     list_filter = ["active"]
-    ordering = ["slug"]
+    ordering = ["-active", "slug"]
     search_fields = ["title", "slug"]
 
 
@@ -23,6 +23,6 @@ class ReleaseAdmin(admin.ModelAdmin):
         "eol",
     ]
     list_filter = ["lts", "discontinued", "product"]
-    ordering = ["product__slug"]
+    ordering = ["-release", "-eol"]
     raw_id_fields = ["product"]
     search_fields = ["cycle", "cycle_short_hand", "latest"]
