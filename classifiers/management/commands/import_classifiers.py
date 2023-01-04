@@ -1,5 +1,4 @@
 import djclick as click
-import structlog
 
 from rich import print
 from trove_classifiers import classifiers as trove_classifiers
@@ -17,16 +16,13 @@ ALLOW_LIST = [
     "Programming Language :: Python",
 ]
 
-log = structlog.get_logger(__name__)
-
 
 @click.command()
 def command():
     print("[yellow]import_classifiers[/yellow]")
 
     for trove_classifier in sorted(trove_classifiers):
-        log.info(trove_classifier=trove_classifier)
-        print(trove_classifier)
+        print(f"{trove_classifier=}")
 
         active = any(
             [allow for allow in ALLOW_LIST if trove_classifier.startswith(allow)]
