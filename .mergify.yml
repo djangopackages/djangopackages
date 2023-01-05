@@ -12,13 +12,14 @@ pull_request_rules:
     conditions:
       - or:
         - and:
-          - author=@admins
-          - "#approved-reviews-by>=1"
           - updated-at<1 day ago
+          - approved-reviews-by=@admins
           - label=automerge
         - and:
-          - approved-reviews-by=@admins
           - updated-at<1 day ago
+          - author=@admins
+          - label=automerge
+          # - "#approved-reviews-by>=1"
     actions:
       merge:
         method: merge
