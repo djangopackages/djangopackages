@@ -1,0 +1,30 @@
+queue_rules:
+  - name: hotfix
+    conditions:
+      - and: &CheckRuns
+        - check-success=Tests with Python
+  - name: default
+    conditions:
+      - and: *CheckRuns
+
+pull_request_rules:
+  - name: ":robot: Automatic merge on approval :check_mark_button:"
+    conditions:
+      - or:
+        - and:
+          - author=@admins
+          - "#approved-reviews-by>=1"
+          - updated-at<1 day ago
+        - and:
+          - author=@admins
+          - label=automerge
+          - updated-at<1 day ago
+
+    actions:
+      merge:
+        method: merge
+
+commands_restrictions:
+  backport:
+    conditions:
+      - sender=@admins
