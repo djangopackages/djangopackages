@@ -15,11 +15,10 @@ pull_request_rules:
           - author=@admins
           - "#approved-reviews-by>=1"
           - updated-at<1 day ago
-        - and:
-          - author=@admins
           - label=automerge
+        - and:
+          - approved-reviews-by=@admins
           - updated-at<1 day ago
-
     actions:
       merge:
         method: merge
