@@ -128,15 +128,16 @@ AUTHENTICATION_BACKENDS = [
 
 PROJECT_APPS = [
     "grid",
-    # "classifiers",
+    "apiv3",
+    "classifiers",
     "core",
     # "commands",
+    "feeds",
     "homepage",
     "package",
+    "products",
     "profiles",
-    "feeds",
     "searchv2",
-    "apiv3",
 ]
 
 PREREQ_APPS = [
