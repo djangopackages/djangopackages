@@ -4,7 +4,7 @@ Have you ever had trouble figuring out which Django package is the best one for 
 
 Django Packages is a directory of Django apps, utilities, frameworks, and packages.
 
-Django Packages stores information on fetched packages and provides easy comparison tools for them. Public APIs include PyPI, Github, and BitBucket.
+Django Packages stores information on fetched packages and provides easy comparison tools for them. Public APIs include PyPI, GitHub, and BitBucket.
 
 ## The Django Packages Website
 

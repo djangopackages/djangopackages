@@ -2,7 +2,7 @@
 
 This document describes the Django Packages Repo Handler API.
 
-Adding a new repo system like Github in Django Packages is a relatively straightforward task. You need to provide two things:
+Adding a new repo system like GitHub in Django Packages is a relatively straightforward task. You need to provide two things:
 
 1. Add a new repo handler in the apps.models.repos directory that follows the described API
 2. Add tests to check your work

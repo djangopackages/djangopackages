@@ -37,7 +37,7 @@ Feel free to propose issues that aren't described!
 
 While it's handy to provide useful code snippets in an issue, it is better for
 you as a developer to submit pull requests. By submitting pull request your
-contribution to Django Packages will be recorded by Github.
+contribution to Django Packages will be recorded by GitHub.
 
 In git it is best to isolate each topic or feature into a "topic branch".  While
 individual commits allow you control over how small individual changes are made
