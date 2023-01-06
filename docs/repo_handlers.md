@@ -15,7 +15,7 @@ Lets say you want to use *GitBlarg*, a new service whose API doesn't provide the
 
 For example, as you can see in the `apps.models.repos.base_handler.BaseHandler.fetch_metadata()` method, the Package instance that it expects to see is a comma-separated value:
 
-```
+```python
 def fetch_metadata(self, package):
     """ Accepts a package.models.Package instance:
 
@@ -34,7 +34,7 @@ def fetch_metadata(self, package):
 
 So your code might do the following:
 
-```
+```python
 from GitBlargLib import GitBlargAPI
 def fetch_metadata(self, package):
 

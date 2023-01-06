@@ -14,7 +14,7 @@ Before you do anything else, login/signup on GitHub and fork Django Packages fro
 
 If you have git installed, you now clone your git repo using the following command-line argument where \<my-github-name> is your account name on GitHub:
 
-```
+```bash
 git clone git@github.com:<my-github-name>/djangopackages.git
 ```
 
@@ -57,7 +57,7 @@ without those getting added to the pull.
 To create a topic branch, its easiest to use the convenient `-b` argument to `git
 checkout`:
 
-```
+```bash
 git checkout -b fix-broken-thing
 Switched to a new branch 'fix-broken-thing'
 ```
@@ -70,7 +70,7 @@ When you are ready to generate a pull request, either for preliminary review,
 or for consideration of merging into the project you must first push your local
 topic branch back up to GitHub:
 
-```
+```bash
 git push origin fix-broken-thing
 ```
 
@@ -94,20 +94,20 @@ Django Packages is advancing quickly. It is therefore critical that you pull ups
 
 To pull in upstream changes:
 
-```
+```bash
 git remote add upstream https://github.com/djangopackages/djangopackages.git
 git fetch upstream develop
 ```
 
 Check the log to be sure that you actually want the changes, before merging:
 
-```
+```bash
 git log upstream/develop
 ```
 
 Then merge the changes that you fetched:
 
-```
+```bash
 git merge upstream/develop
 ```
 
@@ -121,7 +121,7 @@ We want your submission. But we also want to provide a stable experience for our
 
 Before you submit a pull request, please run the entire Django Packages test suite via:
 
-```
+```bash
 docker-compose run django pytest
 ```
 
@@ -152,7 +152,7 @@ Django Packages pull requests should be as small/atomic as possible. Large, wide
 
 Memorize the Zen of Python:
 
-```
+```bash
 >>> python -c 'import this'
 ```
 
@@ -172,20 +172,20 @@ Any css/layout changes need to be tested in Chrome, Safari, Firefox, IE8, and IE
 
 First we pull the code into a local branch:
 
-```
+```bash
 git checkout -b <branch-name> <submitter-github-name>
 git pull git://github.com/<submitter-github-name/djangopackages.git develop
 ```
 
 Then we run the tests:
 
-```
+```bash
 python manage.py test --settings=settings.test
 ```
 
 We finish with a merge and push to GitHub:
 
-```
+```bash
 git checkout develop
 git merge <branch-name>
 git push origin develop
