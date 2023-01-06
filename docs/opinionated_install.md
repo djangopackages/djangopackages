@@ -1,4 +1,4 @@
-# Installation
+# Opinionated Installation
 
 These instructions install Django Packages on your computer, using Docker.
 

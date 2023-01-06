@@ -24,6 +24,7 @@ Contents:
 introduction
 license
 install
+opinionated_install.md
 deployment/index
 troubleshooting
 faq
