@@ -50,6 +50,5 @@ Since then the project has had many [contributors]. Daniel and Audrey have run n
 - {ref}`modindex`
 - {ref}`search`
 
-[contributing]: contributing.html
-[contributors]: contributors.html
-[installation]: install.html
+[contributing]: contributing.md
+[installation]: install.md
