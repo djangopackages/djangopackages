@@ -7,7 +7,7 @@
 
 Django Packages solves the problem in the programming community of being able to easily identify good apps, frameworks, and packages. Ever want to know which is the most popular or well supported Python httplib replacement, web framework, or API tool? Django Packages solves that problem for you!
 
-Django Packages stores information on packages fetched from public APIs provided by PyPI, Github, and BitBucket, then provides extremely useful comparison tools for them.
+Django Packages stores information on packages fetched from public APIs provided by PyPI, GitHub, and BitBucket, then provides extremely useful comparison tools for them.
 
 # Info for New Contributors
 
@@ -24,6 +24,7 @@ Contents:
 introduction
 license
 install
+opinionated_install.md
 deployment/index
 troubleshooting
 faq
@@ -49,6 +50,5 @@ Since then the project has had many [contributors]. Daniel and Audrey have run n
 - {ref}`modindex`
 - {ref}`search`
 
-[contributing]: contributing.html
-[contributors]: contributors.html
-[installation]: install.html
+[contributing]: contributing.md
+[installation]: install.md

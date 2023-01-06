@@ -2,7 +2,7 @@
 
 This document describes the Django Packages Repo Handler API.
 
-Adding a new repo system like Github in Django Packages is a relatively straightforward task. You need to provide two things:
+Adding a new repo system like GitHub in Django Packages is a relatively straightforward task. You need to provide two things:
 
 1. Add a new repo handler in the apps.models.repos directory that follows the described API
 2. Add tests to check your work
@@ -15,7 +15,7 @@ Lets say you want to use *GitBlarg*, a new service whose API doesn't provide the
 
 For example, as you can see in the `apps.models.repos.base_handler.BaseHandler.fetch_metadata()` method, the Package instance that it expects to see is a comma-separated value:
 
-```
+```python
 def fetch_metadata(self, package):
     """ Accepts a package.models.Package instance:
 
@@ -34,7 +34,7 @@ def fetch_metadata(self, package):
 
 So your code might do the following:
 
-```
+```python
 from GitBlargLib import GitBlargAPI
 def fetch_metadata(self, package):
 

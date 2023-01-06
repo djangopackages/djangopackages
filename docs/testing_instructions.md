@@ -8,23 +8,27 @@ See the [Install] page for details, or the [Opinionated] install instructions if
 
 To run all of the Django Packages tests:
 
-```
+```bash
 docker-compose run django python manage.py test --no-input
 ```
 
 or with `just`
 
-> just test
+```bash
+just test
+```
 
 To run tests for a particular Django Packages app, for example the feeds app:
 
-```
+```bash
 docker-compose run django python manage.py test feeds
 ```
 
 or with `just`
 
-> just test feeds
+```bash
+just test feeds
+```
 
 [install]: install.html
 [opinionated]: opinionated_install.html
