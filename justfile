@@ -102,7 +102,7 @@ bootstrap *ARGS:
     docker-compose run \
         --entrypoint= \
         --rm django \
-            bash -c "pip install -U pip && \
+            bash -c "pip install -U pip pip-tools && \
                 pip-compile {{ ARGS }} ./requirements.in \
                     --generate-hashes \
                     --resolver=backtracking \

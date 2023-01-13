@@ -1,4 +1,3 @@
-backports.zoneinfo;python_version<"3.9"
 bs4
 cloudflare
 Django<4.2
