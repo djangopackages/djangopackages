@@ -102,9 +102,10 @@ bootstrap *ARGS:
     docker-compose run \
         --entrypoint= \
         --rm django \
-            bash -c "pip install -U pip && \
+            bash -c "pip install -U pip pip-tools && \
                 pip-compile {{ ARGS }} ./requirements.in \
                     --generate-hashes \
+                    --resolver=backtracking \
                     --output-file ./requirements.txt"
 
 # Upgrade existing Python dependencies to their latest versions
