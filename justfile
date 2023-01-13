@@ -104,9 +104,7 @@ bootstrap *ARGS:
         --rm django \
             bash -c "pip install -U pip && \
                 pip-compile {{ ARGS }} ./requirements.in \
-                    --resolver=backtracking \
                     --generate-hashes \
-                    --allow-unsafe \
                     --output-file ./requirements.txt"
 
 # Upgrade existing Python dependencies to their latest versions
