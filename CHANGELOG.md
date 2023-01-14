@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-01-13]
+### Changed
+- :arrow_up: Upgrades emojificate to latest (and other deps) ([#901](https://github.com/djangopackages/djangopackages/pull/901))
+
 ## [2023-01-06]
 ### Changed
 - :tractor: Small doc updates ([#898](https://github.com/djangopackages/djangopackages/pull/898))
