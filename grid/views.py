@@ -384,7 +384,13 @@ def grid_detail_landscape(
     * ``grid_packages`` - packages involved in the current grid
     """
 
-    return grid_detail(request, slug, template_name="grid/grid_detail_landscape.html")
+    return grid_detail(request, slug, template_name=template_name)
+
+
+def grid_opengraph_detail(
+    request, slug, template_name="grid/grid_opengraph.html"
+):
+    return grid_detail(request, slug, template_name=template_name)
 
 
 class GridListAPIView(ListAPIView):
