@@ -493,6 +493,10 @@ def package_detail(request, slug, template_name="package/package.html"):
     )
 
 
+def package_opengraph_detail(request, slug, template_name="package/package_opengraph.html"):
+    return package_detail(request, slug, template_name=template_name)
+
+
 def int_or_0(value):
     try:
         return int(value)

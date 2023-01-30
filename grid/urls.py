@@ -14,6 +14,7 @@ from grid.views import (
     edit_grid,
     edit_feature,
     grid_detail,
+    grid_opengraph_detail,
     GridListView,
 )
 from django.urls import path, re_path
@@ -78,6 +79,11 @@ urlpatterns = [
         "g/<slug:slug>/",
         view=grid_detail,
         name="grid",
+    ),
+    path(
+        "g/<slug:slug>/opengraph/",
+        view=grid_opengraph_detail,
+        name="grid_opengraph",
     ),
     path(
         "g/<slug:slug>/landscape/",

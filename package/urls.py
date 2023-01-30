@@ -15,6 +15,7 @@ from package.views import (
     flag_remove,
     usage,
     package_detail,
+    package_opengraph_detail,
     post_data,
     edit_documentation,
     github_webhook,
@@ -91,6 +92,11 @@ urlpatterns = [
         "<slug:slug>/flag/remove/",
         view=flag_remove,
         name="flag_remove",
+    ),
+    path(
+        "p/<slug:slug>/opengraph/",
+        view=package_opengraph_detail,
+        name="package_opengraph",
     ),
     path(
         "p/<slug:slug>/",
