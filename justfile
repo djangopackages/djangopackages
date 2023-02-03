@@ -90,6 +90,9 @@ bootstrap *ARGS:
 @docs-serve:
     sphinx-reload docs/
 
+@docs-update:
+    pip-compile --resolver=backtracking docs/requirements.in
+
 # --------------------------------------------------
 # Deployment and production recipes
 # --------------------------------------------------
