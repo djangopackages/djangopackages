@@ -1,0 +1,4 @@
+myst-parser
+rst-to-myst[sphinx]
+sphinx-material
+sphinx-reload

@@ -2,7 +2,7 @@
 
 These instructions install Django Packages on your computer, using Docker.
 
-If you run into problems, see the Troubleshooting section.
+If you run into problems, see the [Troubleshooting] section.
 
 ## Set up Tooling
 
@@ -87,7 +87,8 @@ just superuser joe joe@example.com
 
 And then login into the admin interface (/admin/) and create a profile for your user filling all the fields with any data.
 
-[docker]: https://docs.docker.com/install/
 [docker-compose]: https://docs.docker.com/compose/install/
+[docker]: https://docs.docker.com/install/
 [just]: https://github.com/casey/just
 [pipx]: https://pypa.github.io/pipx/
+[Troubleshooting]: troubleshooting.md

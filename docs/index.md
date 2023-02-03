@@ -1,8 +1,3 @@
-% Python Packages documentation master file, created by
-% sphinx-quickstart on Mon Mar 14 13:56:50 2011.
-% You can adapt this file completely to your liking, but it should at least
-% contain the root `toctree` directive.
-
 # Welcome to Django Packages’ Documentation!
 
 Django Packages solves the problem in the programming community of being able to easily identify good apps, frameworks, and packages. Ever want to know which is the most popular or well supported Python httplib replacement, web framework, or API tool? Django Packages solves that problem for you!
@@ -22,18 +17,18 @@ Contents:
 :maxdepth: 1
 
 introduction
-license
-install
-opinionated_install.md
-deployment/index
-troubleshooting
-faq
-testing_instructions
-management_commands
 contributing
+install
+install_opinionated.md
+testing_instructions
+deployment
+management_commands
 repo_handlers
 apiv3_docs
+faq
+troubleshooting
 lessons_learned
+license
 ```
 
 # The Story
