@@ -3,7 +3,13 @@ set dotenv-load := false
 @_default:
     just --list
 
-# script to rule them all - start
+# Format the justfile
+@fmt:
+    just --fmt --unstable
+
+# --------------------------------------------------
+# script to rule them all recipes - start
+# --------------------------------------------------
 
 # Performs intial setup for Docker images and allows Arguments to be passed
 bootstrap *ARGS:
@@ -42,6 +48,10 @@ bootstrap *ARGS:
 @setup:
     just bootstrap
 
+# Create a Superuser
+@superuser USERNAME EMAIL:
+    docker-compose run django python manage.py createsuperuser --username={{ USERNAME }} --email={{ EMAIL }}
+
 # Run the tests using the Django test runner
 @test *ARGS="--no-input":
     docker-compose run django python manage.py test {{ ARGS }}
@@ -50,40 +60,119 @@ bootstrap *ARGS:
 @update:
     echo "TODO: update"
 
-# script to rule them all - end
+# --------------------------------------------------
+# script to rule them all recipes - end
+# --------------------------------------------------
 
 # Update the version; Used before release to production
 @bump *ARGS:
     bumpver update {{ ARGS }}
 
-# ???
+# --------------------------------------------------
+# Caddy recipes
+# --------------------------------------------------
+
+# Format our Caddyfile
 @caddy-fmt:
     docker-compose run --rm caddy caddy fmt -overwrite /etc/caddy/Caddyfile
 
-# ???
+# Ir our Caddyfile valid?
 @caddy-validate:
     docker-compose run --rm caddy caddy validate -adapter caddyfile -config /etc/caddy/Caddyfile
 
-# Fixes common misspellings in text files
-@lint-codespell:
-    codespell --skip *.conf,*.js*,./.git,./collected_static,./data,./static .
+# --------------------------------------------------
+# Docs recipes
+
+# --------------------------------------------------
+@docs:
+    cd docs && make docs
+
+@docs-serve:
+    sphinx-reload docs/
+
+# --------------------------------------------------
+# Deployment and production recipes
+# --------------------------------------------------
 
 # Deploys to production
 @deploy:
     fab production deploy
 
+# Purge our CloudFlare cache
+@purge_cache:
+    docker-compose run django cli4 --delete purge_everything=true /zones/:djangopackages.org/purge_cache
+
+# --------------------------------------------------
+# Docker recipes
+# --------------------------------------------------
+
 # Bring down your docker containers
-@down:
+@down *ARGS:
+    docker-compose down {{ ARGS }}
+
+# Allows you to view the output from running containers
+@logs *ARGS:
+    docker-compose logs {{ ARGS }}
+
+# Restart all services
+@restart *ARGS:
+    docker-compose restart {{ ARGS }}
+
+# Start all services
+@start *ARGS="--detach":
+    docker-compose up {{ ARGS }}
+
+@status:
+    docker-compose ps
+
+# Stop all services
+@stop:
     docker-compose down
 
-# Format the justfile
-@fmt:
-    just --fmt --unstable
+# Tail service logs
+@tail:
+    just logs --follow
+
+# Bring up your Docker Containers
+@up *ARGS="--detach":
+    docker-compose up {{ ARGS }}
+
+# --------------------------------------------------
+# Django recipes
+# --------------------------------------------------
+
+# Run the collectstatic management command
+@collectstatic *ARGS="--no-input":
+    docker-compose run django python manage.py collectstatic {{ ARGS }}
+
+# Run the tests with pytest
+@pytest *ARGS:
+    docker-compose run django pytest {{ ARGS }}
+
+# Run the tests with pytest and generate coverage reports
+@pytest-coverage *ARGS:
+    docker-compose run django pytest \
+        {{ ARGS }} \
+        --cov-report html \
+        --cov-report term:skip-covered \
+        --cov .
+
+# Run the shell management command
+@shell *ARGS:
+    docker-compose run django python manage.py shell {{ ARGS }}
+
+# --------------------------------------------------
+# Linter recipes
+# --------------------------------------------------
 
 # Check consistency of your env files
 @lint:
-    modenv check
-    # just
+    -modenv check
+    -just lint-codespell
+
+# Fixes common misspellings in text files
+@lint-codespell:
+    codespell --skip *.conf,*.csv,*.js*,./.git,./collected_static,./data,./docs/_*,./htmlcov,./static .
 
 # Lints and formats all of your files using various formatters and linters
 @lint-fmt:
@@ -92,6 +181,18 @@ bootstrap *ARGS:
     -black .
     -tryceratops .
     -djhtml -i templates/*.html templates/**/*.html templates/**/**/*.html
+
+# --------------------------------------------------
+# --------------------------------------------------
+
+@cron:
+    just management-command import_classifiers
+    just management-command import_products
+    just management-command import_releases
+    just management-command packages_download_stats ./pypi.db
+
+# --------------------------------------------------
+# --------------------------------------------------
 
 # A Linter for performance anti-patterns
 @perflint:
@@ -125,42 +226,6 @@ bootstrap *ARGS:
 @pre-commit:
     git ls-files -- . | xargs pre-commit run --config=./.pre-commit-config.yaml --files
 
-@purge_cache:
-    docker-compose run django cli4 --delete purge_everything=true /zones/:djangopackages.org/purge_cache
-
-# Run the tests with pytest
-@pytest *ARGS:
-    docker-compose run django pytest {{ ARGS }}
-
-# Run the tests with pytest and generate coverage reports
-@pytest-coverage *ARGS:
-    docker-compose run django pytest \
-        {{ ARGS }} \
-        --cov-report html \
-        --cov-report term:skip-covered \
-        --cov .
-
-# Run the collectstatic management command
-@collectstatic *ARGS="--no-input":
-    docker-compose run django python manage.py collectstatic {{ ARGS }}
-
-# Run the shell management command
-@shell *ARGS:
-    docker-compose run django python manage.py shell {{ ARGS }}
-
-# Allows you to view the output from running containers
-@logs *ARGS:
-    docker-compose logs {{ ARGS }}
-
-# Restart your Docker containers
-@restart *ARGS="--detach":
-    just down
-    just up {{ ARGS }}
-
-# Bring up your Docker Containers
-@up *ARGS="--detach":
-    docker-compose up {{ ARGS }}
-
 # TODO: Make the target-version a variable
 
 # Run `django-upgrade` with a target version of 4.1
@@ -177,14 +242,11 @@ bootstrap *ARGS:
 @postgres-upgrade:
     docker-compose exec postgres psql --user djangopackages -d djangopackages < ../backups/backup_2021_09_21T19_00_10.sql
 
-# Create a Superuser
-@superuser USERNAME EMAIL:
-    docker-compose run django python manage.py createsuperuser --username={{ USERNAME }} --email={{ EMAIL }}
-
 # TODO: Have the backup date be dynamic
 
 # ???
 @restore *ARGS:
+    # TODO: change this to use DSLR...
     -PGPASSWORD=djangopackages dropdb --host=localhost --username=djangopackages djangopackages
     -PGPASSWORD=djangopackages createdb --host=localhost --username=djangopackages --owner=djangopackages djangopackages
     -PGPASSWORD=djangopackages createuser --host=localhost --username=doadmin
@@ -193,3 +255,13 @@ bootstrap *ARGS:
     # docker-compose run --rm postgres dropdb --host=postgres --username=djangopackages djangopackages
     # docker-compose run --rm postgres createdb --host=postgres --username=djangopackages --owner=djangopackages djangopackages
     # docker-compose run --rm postgres pg_restore -Fc --host=postgres --username=djangopackages -d djangopackages < ../backups/backup_2021_12_28.sql
+
+# new...
+
+# Remove current application services
+@remove:
+    ...
+
+@tailwind:
+    npx tailwindcss -i ./input.css -o ./static/css/tailwindcss.css build
+    npx tailwindcss -i ./input.css -o ./static/css/tailwindcss.css --watch
