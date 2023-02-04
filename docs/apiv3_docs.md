@@ -1,4 +1,4 @@
-# Webservice APIv3
+# REST APIv3
 
 This is the APIv3 documentation for Django Packages. It is designed to be language and tool agnostic.
 

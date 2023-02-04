@@ -17,16 +17,16 @@ For example, as you can see in the `apps.models.repos.base_handler.BaseHandler.f
 
 ```python
 def fetch_metadata(self, package):
-    """ Accepts a package.models.Package instance:
+    """Accepts a package.models.Package instance:
 
-            return: package.models.Package instance
+        return: package.models.Package instance
 
-        Must set the following fields:
+    Must set the following fields:
 
-            package.repo_watchers (int)
-            package.repo_forks (int)
-            package.repo_description (text )
-            package.participants = (comma-separated value)
+        package.repo_watchers (int)
+        package.repo_forks (int)
+        package.repo_description (text )
+        package.participants = (comma-separated value)
 
     """
     raise NotImplemented()
@@ -36,16 +36,20 @@ So your code might do the following:
 
 ```python
 from GitBlargLib import GitBlargAPI
+
+
 def fetch_metadata(self, package):
 
     # fetch the GitBlarg data
     git_blarg_data = GitBlargAPI.get(package.repo_name())
 
     # set the package attributes
-    package.repo_watchers = 0 # GitBlagAPI doesn't have this so we set to 0
+    package.repo_watchers = 0  # GitBlagAPI doesn't have this so we set to 0
     package.repo_forks = git_blarg_data.forks
     package.repo_description = git_blarg_data.note
-    package.participants = u"" # GitBlagAPI doesn't have this so we set to an empty string
+    package.participants = (
+        ""  # GitBlagAPI doesn't have this so we set to an empty string
+    )
 
     return package
 ```

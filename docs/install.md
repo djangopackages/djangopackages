@@ -95,5 +95,5 @@ A more [opinionated] set up using the command runner `just` is also available.
 [docker]: https://docs.docker.com/install/
 [docker-compose]: https://docs.docker.com/compose/install/
 [just]: https://github.com/casey/just
-[opinionated]: opinionated_install.md
+[opinionated]: install_opinionated.md
 [pipx]: https://pypa.github.io/pipx/
