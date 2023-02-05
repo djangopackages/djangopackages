@@ -76,7 +76,7 @@ bootstrap *ARGS:
 @caddy-fmt:
     docker-compose run --rm caddy caddy fmt -overwrite /etc/caddy/Caddyfile
 
-# Ir our Caddyfile valid?
+# Is our Caddyfile valid?
 @caddy-validate:
     docker-compose run --rm caddy caddy validate -adapter caddyfile -config /etc/caddy/Caddyfile
 
