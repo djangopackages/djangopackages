@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-02-04]
+### Changed
+- 📝 Adding COC since I didn&#39;t realize it was missing one ([#906](https://github.com/djangopackages/djangopackages/pull/906))
+- :pencil: Doc and justfile updates ([#905](https://github.com/djangopackages/djangopackages/pull/905))
+
 ## [2023-02-03]
 ### Changed
 - :arrow_up: Upgrade Django to 4.1.6 ([#904](https://github.com/djangopackages/djangopackages/pull/904))
