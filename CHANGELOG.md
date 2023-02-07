@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-02-06]
+### Changed
+- ✏️ Fix typo ([#907](https://github.com/djangopackages/djangopackages/pull/907))
+
 ## [2023-02-04]
 ### Changed
 - 📝 Adding COC since I didn&#39;t realize it was missing one ([#906](https://github.com/djangopackages/djangopackages/pull/906))
