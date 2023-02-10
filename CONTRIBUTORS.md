@@ -91,6 +91,13 @@ Listed in alphabetical order.
     <td></td>
   </tr>
   <tr>
+    <td>daheats</td>
+    <td>
+      <a href="https://github.com/daheats">daheats</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
     <td>Daniel Roy Greenfeld</td>
     <td>
       <a href="https://github.com/pydanny">pydanny</a>
