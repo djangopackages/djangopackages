@@ -25,9 +25,9 @@ cd djangopackages
 
 ### Set Up Your Development Environment
 
-In order to run the project, you'll need to run the following command:
-
 All of the environment variables and settings that are needed to run the project are stored in  `.env.local.example` file.
+
+In order to run the project, you'll need to run the following command:
 
 ```shell
 cp .env.local.example .env.local
