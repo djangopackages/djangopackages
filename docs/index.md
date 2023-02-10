@@ -28,6 +28,7 @@ apiv3_docs
 faq
 troubleshooting
 lessons_learned
+history
 license
 ```
 

@@ -1,0 +1,3 @@
+# Project History 
+
+Django Packages was established by Daniel and Audrey Roy Greenfeld in 2010 during the Django Dash event. At the same event, the Read the Docs project was also created. Over the years, the project has benefitted from the contributions of several individuals and has undergone substantial growth and evolution through the efforts of both open-source contributors and dedicated maintainers.
