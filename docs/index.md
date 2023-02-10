@@ -1,15 +1,15 @@
-# Welcome to Django Packages’ Documentation!
+# Welcome to Django Packages’ Documentation
 
-Django Packages solves the problem in the programming community of being able to easily identify good apps, frameworks, and packages. Ever want to know which is the most popular or well supported Python httplib replacement, web framework, or API tool? Django Packages solves that problem for you!
+[Django Packages](https://djangopackages.org/) is a website that helps Django developers choose the right third-party package to use in their Django project. It is written in [Python](https://www.python.org/) and [Django](https://www.djangoproject.com/). 
 
-Django Packages stores information on packages fetched from public APIs provided by PyPI, GitHub, and BitBucket, then provides extremely useful comparison tools for them.
+The documentation is geared toward contributors and maintainers of Django Packages. 
 
-# Info for New Contributors
+# Getting Started
 
-Do you want to contribute to making djangopackages.org better? Here's how to get started:
+Do you want to contribute to making [Django Packages](https://djangopackages.org/) better? Here's how to get started:
 
-1. Follow the [installation] instructions to get the website running on your laptop or other computer.
-2. Follow the [contributing] instructions to make your first contribution easy for us to accept.
+1. Follow the [installation] instructions to get the website running locally 
+2. Consult the [contributing] instructions to help make your first pull request a success 
 
 Contents:
 
@@ -30,10 +30,6 @@ troubleshooting
 lessons_learned
 license
 ```
-
-# The Story
-
-Django Packages was established by Daniel and Audrey Roy Greenfeld in 2010 during the Django Dash event. At the same event, the Read the Docs project was also created. Over the years, the project has benefitted from the contributions of several individuals and has undergone substantial growth and evolution through the efforts of both open-source contributors and dedicated maintainers.
 
 # Indices and tables
 
