@@ -33,11 +33,7 @@ license
 
 # The Story
 
-Daniel and Audrey Roy Greenfeld created Django Packages for Django Dash 2010. This project was originally code-named "Scared of Rabbits" because there were tons of rabbits living in the backyard on the Lawrence, Kansas prairie, and we were scared of them. Actually, that's not really true: the rabbits were cute.
-
-Django Dash 2010 was also where Read the Docs was created. Daniel and Audrey took a break from coding in their fancy and weird glass prairie rental house to meet the Read the Docs team in the basement of the Lawrence Journal-World office. Actually, it might have been the first floor. All Audrey remembers is that it was dark and cold like a basement, but with carpet. Or maybe there wasn't carpet. (Audrey checked the Read the Docs story, but it doesn't have details on that.)
-
-Since then the project has had many [contributors]. Daniel and Audrey have run numerous open-source sprints over the years to work on it. The code has grown organically in fun and unexpected ways.
+Django Packages was established by Daniel and Audrey Roy Greenfeld in 2010 during the Django Dash event. At the same event, the Read the Docs project was also created. Over the years, the project has benefitted from the contributions of several individuals and has undergone substantial growth and evolution through the efforts of both open-source contributors and dedicated maintainers.
 
 # Indices and tables
 
