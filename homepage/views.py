@@ -103,7 +103,6 @@ class OpenView(TemplateView):
 
 
 class SitemapView(TemplateView):
-
     template_name = "sitemap.xml"
     content_type = "text/xml"
 

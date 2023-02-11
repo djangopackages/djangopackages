@@ -1,12 +1,9 @@
 import djclick as click
 import requests
+from requests.exceptions import ConnectionError, HTTPError, ReadTimeout, SSLError
+from rich import print
 
 from package.models import PackageExample
-from requests.exceptions import ConnectionError
-from requests.exceptions import HTTPError
-from requests.exceptions import ReadTimeout
-from requests.exceptions import SSLError
-from rich import print
 
 
 @click.command()

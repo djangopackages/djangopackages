@@ -39,7 +39,6 @@ from GitBlargLib import GitBlargAPI
 
 
 def fetch_metadata(self, package):
-
     # fetch the GitBlarg data
     git_blarg_data = GitBlargAPI.get(package.repo_name())
 

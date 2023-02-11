@@ -1,12 +1,11 @@
 from django.conf import settings
+from django.contrib.auth.models import Permission, User
 from django.test import TestCase
 from django.urls import reverse
-from django.contrib.auth.models import User, Permission
 
-from grid.models import Grid, Element, Feature, GridPackage
-from package.models import Package
-
+from grid.models import Element, Feature, Grid, GridPackage
 from grid.tests import data
+from package.models import Package
 
 
 class FunctionalGridTest(TestCase):

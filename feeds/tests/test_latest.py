@@ -1,5 +1,4 @@
 import feedparser
-
 from django.urls import reverse
 
 from feeds.tests import data

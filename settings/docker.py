@@ -1,15 +1,15 @@
 """Docker specific settings.
 """
 import os.path
+
 import sentry_sdk
 import structlog
-
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
 
-from .base import *
 from core import __version__
 
+from .base import *
 
 DEBUG = env.bool("DJANGO_DEBUG", False)
 

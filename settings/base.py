@@ -1,8 +1,8 @@
 # Django settings
 
 from pathlib import Path
-import environ
 
+import environ
 from django.template.defaultfilters import slugify
 
 env = environ.Env()
@@ -260,7 +260,12 @@ SOCIAL_AUTH_GITHUB_SECRET = GITHUB_API_SECRET
 SOCIAL_AUTH_ENABLED_BACKENDS = ("github",)
 SOCIAL_AUTH_COMPLETE_URL_NAME = "socialauth_complete"
 SOCIAL_AUTH_ASSOCIATE_URL_NAME = "associate_complete"
-SOCIAL_AUTH_DEFAULT_USERNAME = lambda u: slugify(u)
+
+
+def SOCIAL_AUTH_DEFAULT_USERNAME(u):
+    return slugify(u)
+
+
 SOCIAL_AUTH_GITHUB_EXTRA_DATA = []
 SOCIAL_AUTH_CHANGE_SIGNAL_ONLY = True
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = False

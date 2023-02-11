@@ -1,5 +1,4 @@
 import pytest
-
 from django.test import TestCase
 
 from package.repos import get_repo, get_repo_for_repo_url, supported_repos

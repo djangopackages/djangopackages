@@ -1,5 +1,4 @@
 import pytest
-
 from model_bakery import baker
 
 from grid.models import Element, Feature, Grid, GridPackage

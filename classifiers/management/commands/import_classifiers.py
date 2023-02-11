@@ -1,10 +1,8 @@
 import djclick as click
-
 from rich import print
 from trove_classifiers import classifiers as trove_classifiers
 
 from classifiers.models import Classifier
-
 
 ALLOW_LIST = [
     "Development Status",

@@ -1,5 +1,4 @@
 import djclick as click
-
 from django.db.models.functions import Length
 from rich import print
 

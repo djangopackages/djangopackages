@@ -1,20 +1,19 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include
-from django.urls import path, re_path
+from django.urls import include, path, re_path
 from django.views.generic.base import TemplateView
 
 from core import __version__
 from core.apiv1 import apiv1_gone
 from homepage.views import (
-    homepage,
+    OpenView,
+    SitemapView,
     error_404_view,
     error_500_view,
     error_503_view,
     health_check_view,
-    OpenView,
-    SitemapView,
+    homepage,
 )
 from package.views import PackageByCategoryListView, PackagePython3ListView
 from profiles.views import LogoutView

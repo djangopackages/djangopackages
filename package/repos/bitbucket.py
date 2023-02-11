@@ -1,12 +1,11 @@
-from datetime import timedelta
 import re
+from datetime import timedelta
 from warnings import warn
 
+import requests
 from django.utils.timezone import now
 
 from .base_handler import BaseHandler
-
-import requests
 
 API_TARGET = "https://api.bitbucket.org/2.0/repositories"
 

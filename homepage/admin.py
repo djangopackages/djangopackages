@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from homepage.models import Dpotw, Gotw, PSA
+from homepage.models import PSA, Dpotw, Gotw
 
 
 @admin.register(Dpotw)

@@ -1,13 +1,12 @@
 """template tags and filters
 for the :mod:`grid` app"""
 
+import re
+
 from django import template
 from django.conf import settings
 from django.template.defaultfilters import escape, truncatewords
 from django.template.loader import render_to_string
-
-
-import re
 
 register = template.Library()
 
@@ -50,13 +49,13 @@ def style_element(text):
     found = False
     for positive in YES_KEYWORDS:
         if text.startswith(positive):
-            text = "{}&nbsp;{}".format(YES_IMG, text[len(positive) :])
+            text = f"{YES_IMG}&nbsp;{text[len(positive) :]}"
             found = True
             break
     if not found:
         for negative in NO_KEYWORDS:
             if text.startswith(negative):
-                text = "{}&nbsp;{}".format(NO_IMG, text[len(negative) :])
+                text = f"{NO_IMG}&nbsp;{text[len(negative) :]}"
                 break
 
     return text

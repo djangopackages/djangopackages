@@ -1,8 +1,10 @@
 """grid url patterns"""
 
-from grid import views
+from django.urls import path, re_path
 
+from grid import views
 from grid.views import (
+    GridListView,
     add_feature,
     add_grid,
     add_grid_package,
@@ -11,13 +13,11 @@ from grid.views import (
     delete_feature,
     delete_grid_package,
     edit_element,
-    edit_grid,
     edit_feature,
+    edit_grid,
     grid_detail,
     grid_opengraph_detail,
-    GridListView,
 )
-from django.urls import path, re_path
 
 urlpatterns = [
     path(

@@ -1,9 +1,8 @@
 import pytest
-
 from github3.exceptions import NotFoundError
 
-from package.repos.github import GitHubHandler
 from package.models import Commit
+from package.repos.github import GitHubHandler
 
 
 @pytest.fixture()

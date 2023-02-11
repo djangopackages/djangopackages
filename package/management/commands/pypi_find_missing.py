@@ -1,6 +1,6 @@
-import djclick as click
 import logging
 
+import djclick as click
 from django.db.models import Q
 
 from package.models import Package

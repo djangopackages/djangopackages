@@ -1,27 +1,27 @@
+from django.urls import path, re_path
 from django.views.generic.dates import ArchiveIndexView
 
 from package.models import Package
 from package.views import (
+    PackageListView,
     add_example,
     add_package,
     ajax_package_list,
-    edit_package,
-    edit_example,
-    delete_example,
     confirm_delete_example,
-    update_package,
-    flag_package,
+    delete_example,
+    edit_documentation,
+    edit_example,
+    edit_package,
     flag_approve,
+    flag_package,
     flag_remove,
-    usage,
+    github_webhook,
     package_detail,
     package_opengraph_detail,
     post_data,
-    edit_documentation,
-    github_webhook,
-    PackageListView,
+    update_package,
+    usage,
 )
-from django.urls import path, re_path
 
 urlpatterns = [
     path(

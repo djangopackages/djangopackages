@@ -1,24 +1,22 @@
-from django.contrib.auth import logout
 from django.contrib import messages
-from django.urls import reverse
+from django.contrib.auth import logout
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.signals import user_logged_in
+from django.core.exceptions import MultipleObjectsReturned
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
 from django.views.generic import RedirectView
 from django.views.generic.edit import UpdateView
-from django.core.exceptions import MultipleObjectsReturned
-from django.contrib.auth.mixins import LoginRequiredMixin
-
-from django.contrib.auth.signals import user_logged_in
-
-# from social_auth.signals import pre_update
-# from social_auth.backends.contrib.github import GithubBackend
 
 from profiles.forms import ProfileForm
 from profiles.models import Profile
 
+# from social_auth.signals import pre_update
+# from social_auth.backends.contrib.github import GithubBackend
+
 
 def profile_detail(request, github_account, template_name="profiles/profile.html"):
-
     # ugly fix on duplicated profile pages.
     # all of this should be migrated to be saved in the user model
     try:

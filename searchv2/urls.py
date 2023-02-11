@@ -1,5 +1,6 @@
-from searchv2 import views
 from django.urls import path
+
+from searchv2 import views
 
 urlpatterns = [
     path(

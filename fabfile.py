@@ -14,12 +14,12 @@ To list all available commands, run::
 
 
 import time
+
 from fabric.api import *  # noqa
-from fabric.api import cd
-from fabric.api import env
-from fabric.api import lcd
+from fabric.api import cd, env, lcd
 from fabric.colors import blue
-from fabric.operations import local as lrun, run, put
+from fabric.operations import local as lrun
+from fabric.operations import put, run
 
 
 def local():

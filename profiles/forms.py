@@ -1,9 +1,8 @@
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import HTML, ButtonHolder, Fieldset, Layout, Submit
 from django import forms
 
 from profiles.models import Profile
-
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, HTML
 
 
 class ProfileForm(forms.ModelForm):

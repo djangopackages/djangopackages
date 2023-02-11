@@ -1,10 +1,11 @@
 from datetime import timedelta
+
 from django.utils import timezone
 
 from grid.models import Grid
-from package.models import Package, Commit
+from package.models import Commit, Package
 from searchv2.models import SearchV2
-from searchv2.utils import remove_prefix, clean_title
+from searchv2.utils import clean_title, remove_prefix
 
 
 def build_1():
