@@ -44,7 +44,6 @@ management_commands
 repo_handlers
 apiv3_docs
 faq
-troubleshooting
 history
 license
 ```
