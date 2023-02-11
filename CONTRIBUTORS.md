@@ -280,6 +280,13 @@ Listed in alphabetical order.
     <td></td>
   </tr>
   <tr>
+    <td>Lacey Williams Henschel</td>
+    <td>
+      <a href="https://github.com/williln">williln</a>
+    </td>
+    <td>laceynwilliams</td>
+  </tr>
+  <tr>
     <td>Leonardo Gregianin</td>
     <td>
       <a href="https://github.com/leogregianin">leogregianin</a>
