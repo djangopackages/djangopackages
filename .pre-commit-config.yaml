@@ -5,7 +5,7 @@ exclude: |
     (?x)^(
         .github/contributors.json|
         CONTRIBUTORS.md|
-        static/js/htmx.min.js
+        static/.*
     )$
 
 repos:
