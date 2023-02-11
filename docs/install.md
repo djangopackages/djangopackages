@@ -12,6 +12,63 @@ You'll want to make sure your local environment is ready by installing the follo
 
 If you don't have them installed yet, install [Docker] and [docker-compose].
 
+### Grab a Local Copy of the Project
+
+[Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) the Django Packages project
+
+Clone the Django Packages project using git:
+
+```shell
+git clone git@github.com:<your-github-username>/djangopackages.git
+cd djangopackages
+```
+
+### Set Up Your Development Environment
+
+All of the environment variables and settings that are needed to run the project are stored in  `.env.local.example` file.
+
+In order to run the project, you'll need to run the following command:
+
+```shell
+cp .env.local.example .env.local
+```
+
+### Build the Docker Containers
+
+Now build the project using docker-compose:
+
+```shell
+docker-compose build
+```
+
+### Add A GitHub API Token (optional)
+
+Get a [GitHub API token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) and set the `GITHUB_TOKEN` variable in `.env.local`
+to this value.  This is used by the GitHub repo handler for fetching repo
+metadata, and required for certain tests.
+
+### Run the Project
+
+To start the project, run:
+
+```shell
+docker-compose up --detach
+```
+
+Then point your browser to <http://localhost:8000> and start hacking!
+
+### Create a Local Django Superuser
+
+Now, you'll give yourself an admin account on the locally-running version of Django Packages
+
+Create a Django superuser for yourself, replacing joe with your username/email:
+
+```shell
+docker-compose run django python manage.py createsuperuser --username=joe --email=joe@example.com
+```
+
+And then login into the admin interface (/admin/) and create a profile for your user filling all the fields with any data.
+
 ### pipx
 
 We use `pipx` to install various linters and formatters so you'll need to install it.
@@ -24,7 +81,7 @@ You'll want to install the various formatters, and linters using the following `
 
 To do this, run the following commands:
 
-```bash
+```shell
 pipx upgrade-all
 pipx install djhtml
 pipx install tryceratops
@@ -32,61 +89,6 @@ pipx install black
 pipx install unimport
 pipx install pyupgrade-directories
 ```
-
-### Grab a Local Copy of the Project
-
-[Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) the Django Packages project
-
-Clone the Django Packages project using git:
-
-```bash
-git clone git@github.com:<your-github-username>/djangopackages.git
-cd djangopackages
-```
-
-### Set Up Your Development Environment
-
-In order to run the project, you'll need to run the following command:
-
-```bash
-docker-compose build --force-rm
-```
-
-### Add A GitHub API Token
-
-Get a [GitHub API token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) and set the `GITHUB_TOKEN` variable in `.env.local`
-to this value.  This is used by the GitHub repo handler for fetching repo
-metadata, and required for certain tests.
-
-### Build the Docker Containers
-
-Now build the project using docker-compose:
-
-```bash
-docker-compose build
-```
-
-### Run the Project
-
-To start the project, run:
-
-```bash
-docker-compose up --detach
-```
-
-Then point your browser to <http://localhost:8000> and start hacking!
-
-### Create a Local Django Superuser
-
-Now, you'll give yourself an admin account on the locally-running version of Django Packages
-
-Create a Django superuser for yourself, replacing joe with your username/email:
-
-```bash
-docker-compose run django python manage.py createsuperuser --username=joe --email=joe@example.com
-```
-
-And then login into the admin interface (/admin/) and create a profile for your user filling all the fields with any data.
 
 ## Opinionated Setup
 

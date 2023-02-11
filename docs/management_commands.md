@@ -1,83 +1,100 @@
 # Management Commands
 
-## classifiers app
+These are the management commands that we run to keep the website updated and fresh.
 
-### import_classifiers
+## audit_textfield_max_length
 
-```bash
-docker-compose run django python manage.py import_classifiers
+```shell
+docker-compose run django python manage.py audit_textfield_max_length
 ```
 
-## core app
+## calculate_score
 
-### load_dev_data
-
-```bash
-docker-compose run django python manage.py load_dev_data
+```shell
+docker-compose run django python manage.py calculate_score
 ```
 
-## grid app
+## check_package_examples
 
-### fix_grid_element
+```shell
+docker-compose run django python manage.py check_package_examples
+```
 
-```bash
+## cleanup_github_projects
+
+```shell
+docker-compose run django python manage.py cleanup_github_projects [--limit=<number-of-records>]
+```
+
+## fix_grid_element
+
+```shell
 docker-compose run django python manage.py fix_grid_element
 ```
 
-### grid_export
+## grid_export
 
-```bash
+```shell
 docker-compose run django python manage.py grid_export
 ```
 
-### read_grid_stats
+## import_classifiers
 
-```bash
-docker-compose run django python manage.py read_grid_stats
+The `import_classifiers` management command updates our database against PyPI's trove classifiers.
+
+## import_products
+
+```shell
+docker-compose run django python manage.py import_products
 ```
 
-## package app
+## import_releases
 
-### audit_textfield_max_length
+```shell
+docker-compose run django python manage.py import_releases
+```
 
-### calculate_score
+## load_dev_data
 
-### check_package_examples
+```shell
+docker-compose run django python manage.py load_dev_data
+```
 
-### cleanup_github_projects
-
-### package_updater
+## package_updater
 
 You can update all the packages with the following command:
 
-```bash
+```shell
 docker-compose run django python manage.py package_updater
 ```
 
 Warning: This can take a long, long time.
 
-### pypi_find_missing
+## pypi_find_missing
 
-### pypi_updater
+```shell
+docker-compose run django python manage.py pypi_find_missing
+```
+
+## pypi_updater
 
 To update packages with the latest data on PyPi, run:
 
-```bash
+```shell
 docker-compose run django python manage.py pypi_updater
 ```
+Warning: This can take a long, long time.
 
-## products app
+## read_grid_stats
 
-### import_products
+```shell
+docker-compose run django python manage.py read_grid_stats
+```
 
-### import_releases
+## searchv2_build
 
-## searchv2 app
+This command rebuilds and recalculates our search database. 
 
-### searchv2_build
-
-To populate the search engine, run:
-
-```bash
+```shell
 docker-compose run django python manage.py searchv2_build
 ```
