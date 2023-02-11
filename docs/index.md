@@ -4,7 +4,7 @@
 
 The documentation is geared toward contributors and maintainers of Django Packages. 
 
-## About Django Packages 
+## About Django Packages
 
 Django Packages contains information about more than 5,000 packages that can be used by Django developers to make their lives easier. Many types of packages can be added to Django Packages, including: 
 
@@ -15,7 +15,7 @@ Django Packages contains information about more than 5,000 packages that can be 
 
 Django Packages makes it easier to compare packages to one another using **grids**. A **grid** is a collection of packages about a single topic. There is a grid for [CMS packages](https://djangopackages.org/grids/g/cms/), for example. 
 
-## Supported Platforms 
+## Supported Platforms
 
 Django Packages supports packages hosted on the following platforms: 
 

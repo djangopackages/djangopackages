@@ -32,16 +32,6 @@ The configuration in `docker-compose.yml` contains 4 services:
 > - `caddy` that proxies incoming requests to the gunicorn server
 > - `redis` as cache
 
-## Server Provisioning
-
-There's a bootstrap script available, run:
-
-```shell
-curl https://raw.githubusercontent.com/pydanny/djangopackages/master/server_bootstrap.sh
-```
-
-This will install docker, docker-compose on ubuntu 14.04.
-
 ## Deploy code changes
 
 Website releases are managed through [Fabric].
@@ -78,6 +68,20 @@ docker-compose run postgres restore filename.sql
 ```
 
 Backups are located at `/data/djangopackages/backups` as plain SQL files.
+
+## Clear our Media Cache
+
+Our static media files are behind a CDN. We occasionally need to purge cached files. To purge the cache:
+
+```shell
+docker-compose run django cli4 --delete purge_everything=true /zones/:djangopackages.org/purge_cache
+```
+
+Alternatively, you can use `just`
+
+```shell
+just purge_cache:
+```
 
 ## When Things Go Wrong
 

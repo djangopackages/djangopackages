@@ -12,26 +12,6 @@ You'll want to make sure your local environment is ready by installing the follo
 
 If you don't have them installed yet, install [Docker] and [docker-compose].
 
-### just
-
-We use the command runner [just]. Install instructions are available on the [just] GitHub page.
-
-### pipx
-
-We use `pipx` to install various linters and formatters so you'll need to install it.
-
-Install instructions are available on the here on [pipx].
-
-### Formatters, Linters, and other miscellanea
-
-You'll want to install the various formatters, and linters using the following `pipx` command.
-
-To do this, run:
-
-```bash
-just pipx-install
-```
-
 ### Grab a Local Copy of the Project
 
 [Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) the Django Packages project
@@ -82,10 +62,30 @@ Now, you'll give yourself an admin account on the locally-running version of Dja
 Create a Django superuser for yourself, replacing joe with your username/email:
 
 ```bash
-just superuser joe joe@example.com
+just createsuperuser joe joe@example.com
 ```
 
 And then login into the admin interface (/admin/) and create a profile for your user filling all the fields with any data.
+
+### just
+
+We use the command runner [just]. Install instructions are available on the [just] GitHub page.
+
+### pipx
+
+We use `pipx` to install various linters and formatters so you'll need to install it.
+
+Install instructions are available on the here on [pipx].
+
+### Formatters, Linters, and other miscellanea
+
+You'll want to install the various formatters, and linters using the following `pipx` command.
+
+To do this, run:
+
+```bash
+just pipx-install
+```
 
 [docker-compose]: https://docs.docker.com/compose/install/
 [docker]: https://docs.docker.com/install/
