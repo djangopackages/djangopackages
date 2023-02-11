@@ -4,7 +4,7 @@ Django Packages helps you easily identify and compare good apps, frameworks, plu
 
 ## Badges
 
-[![image](https://github.com/djangopackages/djangopackages/actions/workflows/actions.yml/badge.svg)](https://github.com/djangopackages/djangopackages/actions/workflows/actions.yml) [![Documentation Status](https://readthedocs.org/projects/djangopackages/badge/?version=latest)](https://djangopackages.readthedocs.io/en/latest/?badge=latest) [![Updates](https://pyup.io/repos/github/djangopackages/djangopackages/shield.svg)](https://pyup.io/repos/github/djangopackages/djangopackages/)
+[![image](https://github.com/djangopackages/djangopackages/actions/workflows/actions.yml/badge.svg)](https://github.com/djangopackages/djangopackages/actions/workflows/actions.yml) [![Documentation Status](https://readthedocs.org/projects/djangopackages/badge/?version=latest)](https://docs.djangopackages.org/en/latest/?badge=latest) [![Updates](https://pyup.io/repos/github/djangopackages/djangopackages/shield.svg)](https://pyup.io/repos/github/djangopackages/djangopackages/)
 
 ## Features
 
@@ -25,7 +25,7 @@ Django Packages helps you easily identify and compare good apps, frameworks, plu
 
 ## Quickstart
 
-For detailed installation instructions, consult the [docs](https://djangopackages.readthedocs.io/en/latest/install.html).
+For detailed installation instructions, consult the [docs](https://docs.djangopackages.org/en/latest/install.html).
 
 To download, install and start the local server for development, simply run:
 
@@ -59,7 +59,7 @@ https://djangopackages.org
 
 ## The Documentation
 
-The documentation is hosted at http://djangopackages.readthedocs.io/en/latest
+The documentation is hosted at https://docs.djangopackages.org/en/latest
 
 ## License
 
@@ -69,4 +69,4 @@ The code is open-source and licensed under the MIT license.
 
 For Django Dash 2010, [@pydanny](https://github.com/pydanny/) and [@audreyr](https://github.com/audreyr/) created [Django Packages](https://www.djangopackages.org/).
 
-They are joined by a host of core developers and contributors. See https://djangopackages.readthedocs.io/en/latest/contributors.html
+They are joined by a host of core developers and contributors. See https://docs.djangopackages.org/en/latest/contributors.html
