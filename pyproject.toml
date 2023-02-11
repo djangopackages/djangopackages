@@ -1,0 +1,18 @@
+[tool.bumpver]
+current_version = "2023.2.10"
+version_pattern = "YYYY.MM.INC1"
+commit_message = ":bookmark: bump version {old_version} -> {new_version}"
+commit = true
+push = false  # disabled for GitHub Actions
+tag = true
+
+[tool.bumpver.file_patterns]
+"core/__init__.py" = [
+    '__version__ = "{version}"',
+]
+
+[tool.pytest.ini_options]
+addopts = "--cov=. --durations=1 --nomigrations --reuse-db -vv"
+DJANGO_SETTINGS_MODULE = "settings.test"
+norecursedirs = ".git config node_modules scss settings static templates"
+python_files = "test_*.py"
