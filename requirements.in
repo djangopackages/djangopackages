@@ -62,3 +62,7 @@ time-machine
 
 # utils
 bumpver
+
+# pre-commit - please note all linters and autoformatters are in our
+# .pre-commit-config.yaml file
+pre-commit
