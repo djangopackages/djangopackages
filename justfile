@@ -49,8 +49,10 @@ bootstrap *ARGS:
     just bootstrap
 
 # Create a Superuser
-@superuser USERNAME EMAIL:
-    docker-compose run django python manage.py createsuperuser --username={{ USERNAME }} --email={{ EMAIL }}
+@createsuperuser USERNAME EMAIL:
+    docker-compose run django python manage.py createsuperuser \
+        --username={{ USERNAME }} \
+        --email={{ EMAIL }}
 
 # Run the tests using the Django test runner
 @test *ARGS="--no-input":
