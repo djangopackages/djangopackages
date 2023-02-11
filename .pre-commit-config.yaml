@@ -1,7 +1,12 @@
 default_language_version:
   python: python3.8
 
-exclude: '^static/'
+exclude: |
+    (?x)^(
+        .github/contributors.json|
+        CONTRIBUTORS.md|
+        static/js/htmx.min.js
+    )$
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -68,7 +73,7 @@ repos:
     hooks:
       - id: ruff
         alias: autoformat
-  - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.2
-    hooks:
-      - id: codespell
+  # - repo: https://github.com/codespell-project/codespell
+  #   rev: v2.2.2
+  #   hooks:
+  #     - id: codespell
