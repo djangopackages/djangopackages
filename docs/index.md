@@ -35,7 +35,6 @@ Contents:
 ```{toctree}
 :maxdepth: 1
 
-introduction
 contributing
 install
 install_opinionated.md
