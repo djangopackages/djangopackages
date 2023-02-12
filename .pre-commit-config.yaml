@@ -53,12 +53,6 @@ repos:
       - id: django-upgrade
         args: [--target-version, "4.1"]
         alias: autoformat
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v3.3.1
-    hooks:
-      - id: pyupgrade
-        args: [--py38-plus]
-        alias: autoformat
   - repo: https://github.com/psf/black
     rev: 23.1.0
     hooks:
