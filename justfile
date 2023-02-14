@@ -218,18 +218,9 @@ bootstrap *ARGS:
 @pip-compile-upgrade:
     just pip-compile --upgrade
 
-# Upgrade existing packages and Install pipx packages needed for development
-@pipx-install:
-    pipx upgrade-all
-    pipx install djhtml
-    pipx install tryceratops
-    pipx install black
-    pipx install unimport
-    pipx install pyupgrade-directories
-
 # Run pre-commit
 @pre-commit:
-    git ls-files -- . | xargs pre-commit run --config=./.pre-commit-config.yaml --files
+    pre-commit run --config=./.pre-commit-config.yaml --all-files
 
 # TODO: Make the target-version a variable
 

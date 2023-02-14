@@ -77,3 +77,8 @@ repos:
   #     - id: codespell
   #       args: [--write-changes]
   #       alias: autoformat
+  # - repo: https://github.com/guilatrova/tryceratops
+  #   rev: v1.1.0
+  #   hooks:
+  #     - id: tryceratops
+  #       args: [--ignore, TC101, --ignore, TC200]
