@@ -32,6 +32,7 @@ exclude = [
     ".direnv",
     ".eggs",
     ".git",
+    ".github",
     ".hg",
     ".mypy_cache",
     ".nox",
@@ -44,12 +45,15 @@ exclude = [
     "_build",
     "buck-out",
     "build",
+    "CONTRIBUTORS.md",
     "dist",
     "migrations",
     "node_modules",
     "settings/docker.py",
+    "static",
     "venv",
 ]
+
 per-file-ignores = {}
 
 # Same as Black.
