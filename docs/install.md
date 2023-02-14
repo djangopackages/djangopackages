@@ -69,33 +69,35 @@ docker-compose run django python manage.py createsuperuser --username=joe --emai
 
 And then login into the admin interface (/admin/) and create a profile for your user filling all the fields with any data.
 
-### pipx
-
-We use `pipx` to install various linters and formatters so you'll need to install it.
-
-Install instructions are available on the here on [pipx].
-
 ### Formatters, Linters, and other miscellanea
 
-You'll want to install the various formatters, and linters using the following `pipx` command.
+[Pre-commit] is a tool which helps to organize our linters and auto-formatters. Pre-commit runs before our code gets committed automatically or we may run it by hand. Pre-commit runs automatically for every pull request on GitHub too.
 
-To do this, run the following commands:
+To install the pre-commit hooks:
 
 ```shell
-pipx upgrade-all
-pipx install djhtml
-pipx install tryceratops
-pipx install black
-pipx install unimport
-pipx install pyupgrade-directories
+pip install pre-commit
+pre-commit install
+```
+
+To run all pre-commit rules by hand:
+
+```shell
+pre-commit run --all-files
+```
+
+To run a pre-commit rule by hand:
+
+```shell
+pre-commit run black
 ```
 
 ## Opinionated Setup
 
 A more [opinionated] set up using the command runner `just` is also available.
 
-[docker]: https://docs.docker.com/install/
 [docker-compose]: https://docs.docker.com/compose/install/
+[docker]: https://docs.docker.com/install/
 [just]: https://github.com/casey/just
 [opinionated]: install_opinionated.md
-[pipx]: https://pypa.github.io/pipx/
+[pre-commit]: https://github.com/pre-commit/pre-commit
