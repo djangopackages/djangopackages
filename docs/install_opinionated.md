@@ -79,6 +79,7 @@ We use the command runner [just]. Install instructions are available on the [jus
 To install the pre-commit hooks:
 
 ```shell
+pip install pre-commit
 pre-commit install
 ```
 

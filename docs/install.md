@@ -76,6 +76,7 @@ And then login into the admin interface (/admin/) and create a profile for your 
 To install the pre-commit hooks:
 
 ```shell
+pip install pre-commit
 pre-commit install
 ```
 
