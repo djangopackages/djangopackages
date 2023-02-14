@@ -1,14 +1,11 @@
 import emoji
-
 from django.core.exceptions import ImproperlyConfigured
 from django.urls import NoReverseMatch
-
-from rest_framework import relations
+from rest_framework import relations, serializers
 from rest_framework.reverse import reverse
-from rest_framework import serializers
 
 from grid.models import Grid
-from package.models import Package, Category
+from package.models import Category, Package
 from searchv2.models import SearchV2
 
 
@@ -68,7 +65,6 @@ class PackageSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class SearchV2Hyperlink(serializers.HyperlinkedRelatedField):
-
     view_name = "package-detail"
 
     def get_url(self, obj, view_name, request, format):
@@ -84,7 +80,6 @@ class SearchV2Hyperlink(serializers.HyperlinkedRelatedField):
 
 
 class HyperlinkFeld(serializers.HyperlinkedRelatedField):
-
     lookup_field = "pk"
 
     def get_url(self, obj, view_name):
@@ -100,7 +95,6 @@ class HyperlinkFeld(serializers.HyperlinkedRelatedField):
         return reverse(view_name, kwargs=kwargs)
 
     def to_representation(self, value):
-
         self.view_name = f"apiv4:{value.item_type}-detail"
 
         try:
@@ -128,7 +122,6 @@ class HyperlinkFeld(serializers.HyperlinkedRelatedField):
 
 
 class SearchV2Serializer(serializers.ModelSerializer):
-
     # resource_uri = HyperlinkFeld(source='_self')
     description = serializers.SerializerMethodField()
     title = serializers.SerializerMethodField()

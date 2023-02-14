@@ -1,6 +1,5 @@
 import djclick as click
 import requests
-
 from django.template.defaultfilters import slugify
 from rich import print
 

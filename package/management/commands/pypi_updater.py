@@ -1,6 +1,6 @@
-import djclick as click
 import logging
 
+import djclick as click
 from django.conf import settings
 from django.db.models import Q
 from django.utils import timezone

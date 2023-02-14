@@ -2,12 +2,12 @@ from time import sleep
 
 from django.conf import settings
 from django.utils import timezone
-
 from github3 import GitHub, login
 from github3.exceptions import NotFoundError
 
-from .base_handler import BaseHandler
 from package.utils import uniquer
+
+from .base_handler import BaseHandler
 
 
 class GitHubHandler(BaseHandler):

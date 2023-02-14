@@ -1,11 +1,11 @@
 from django.shortcuts import get_object_or_404
-
 from jsonview.decorators import json_view
 
-from .resources import grid_resource, package_resource, category_resource, user_resource
 from grid.models import Grid
-from package.models import Package, Category
+from package.models import Category, Package
 from profiles.models import Profile
+
+from .resources import category_resource, grid_resource, package_resource, user_resource
 
 
 def GET_int(request, value_name, default):
@@ -19,14 +19,13 @@ def GET_int(request, value_name, default):
 def calc_next(request, limit, offset, count):
     # calculate next
     if count > limit + offset:
-        next = "{}?limit={}&offset={}".format(request.path, limit, offset + limit)
+        next = f"{request.path}?limit={limit}&offset={offset + limit}"
     else:
         next = None
     return next
 
 
 def calc_previous(request, limit, offset, count):
-
     # calculate previous
     if offset <= 0:
         previous = None

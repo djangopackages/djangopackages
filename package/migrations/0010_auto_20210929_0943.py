@@ -17,7 +17,6 @@ def migrate_license(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("package", "0009_auto_20210929_0942"),
     ]

@@ -1,7 +1,7 @@
-from django.contrib.auth.models import Group, User, Permission
+from django.contrib.auth.models import Group, Permission, User
 
 from grid.models import Element, Feature, Grid, GridPackage
-from package.models import Category, PackageExample, Package
+from package.models import Category, Package, PackageExample
 
 
 # @pytest.fixture(scope="module")

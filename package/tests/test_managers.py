@@ -1,5 +1,4 @@
 import pytest
-
 from django.utils.timezone import now
 from model_bakery import baker, seq
 

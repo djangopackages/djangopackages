@@ -4,10 +4,10 @@ from reversion.admin import VersionAdmin
 
 from package.models import (
     Category,
+    Commit,
     FlaggedPackage,
     Package,
     PackageExample,
-    Commit,
     Version,
 )
 

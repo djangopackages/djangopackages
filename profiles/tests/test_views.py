@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
-from django.urls import reverse
 from django.test import TestCase
+from django.urls import reverse
 
-from core.tests.data import create_users, STOCK_PASSWORD
+from core.tests.data import STOCK_PASSWORD, create_users
 from profiles.models import Profile
 
 

@@ -1,9 +1,9 @@
 from django.conf import settings
-from django.contrib.auth.models import User, Permission
+from django.contrib.auth.models import Permission, User
 from django.test import TestCase
 from django.urls import reverse
 
-from package.models import Category, Package, PackageExample, FlaggedPackage
+from package.models import Category, FlaggedPackage, Package, PackageExample
 from package.tests import initial_data
 from profiles.models import Profile
 

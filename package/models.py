@@ -1,11 +1,11 @@
 import json
-import re
 import math
-import requests
+import re
 from datetime import timedelta
-from dateutil import relativedelta
-
 from distutils.version import LooseVersion
+
+import requests
+from dateutil import relativedelta
 from django.conf import settings
 from django.contrib.auth.models import User
 
@@ -27,7 +27,7 @@ from core.utils import STATUS_CHOICES, status_choices_switch
 from package.managers import PackageManager
 from package.repos import get_repo_for_repo_url
 from package.signals import signal_fetch_latest_metadata
-from package.utils import get_version, get_pypi_version, normalize_license
+from package.utils import get_pypi_version, get_version, normalize_license
 
 repo_url_help_text = settings.PACKAGINATOR_HELP_TEXT["REPO_URL"]
 pypi_url_help_text = settings.PACKAGINATOR_HELP_TEXT["PYPI_URL"]
@@ -38,7 +38,6 @@ class NoPyPiVersionFound(Exception):
 
 
 class Category(BaseModel):
-
     title = models.CharField(_("Title"), max_length=50)
     slug = models.SlugField(_("slug"))
     description = models.TextField(_("description"), blank=True)
@@ -57,7 +56,6 @@ class Category(BaseModel):
 
 
 class Package(BaseModel):
-
     title = models.CharField(_("Title"), max_length=100)
     slug = models.SlugField(
         _("Slug"),
@@ -216,7 +214,6 @@ class Package(BaseModel):
             return "UNKNOWN"
 
     def grids(self):
-
         return (x.grid for x in self.gridpackage_set.all())
 
     def repo_name(self):
@@ -229,7 +226,6 @@ class Package(BaseModel):
         )
 
     def participant_list(self):
-
         return self.participants.split(",")
 
     def get_usage_count(self):
@@ -374,7 +370,6 @@ class Package(BaseModel):
         return False
 
     def fetch_metadata(self, fetch_pypi: bool = True, fetch_repo: bool = True):
-
         if fetch_pypi:
             self.fetch_pypi_data()
 
@@ -492,7 +487,6 @@ class FlaggedPackage(BaseModel):
 
 
 class PackageExample(BaseModel):
-
     package = models.ForeignKey(Package, on_delete=models.CASCADE)
     title = models.CharField(_("Title"), max_length=100)
     url = models.URLField(_("URL"))
@@ -520,7 +514,6 @@ class PackageExample(BaseModel):
 
 
 class Commit(BaseModel):
-
     package = models.ForeignKey(Package, on_delete=models.CASCADE)
     commit_date = models.DateTimeField(_("Commit Date"))
     commit_hash = models.CharField(
@@ -577,7 +570,6 @@ class VersionManager(models.Manager):
 
 
 class Version(BaseModel):
-
     package = models.ForeignKey(
         Package, blank=True, null=True, on_delete=models.CASCADE
     )

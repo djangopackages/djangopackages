@@ -1,17 +1,16 @@
-from rest_framework import mixins
+from rest_framework import mixins, viewsets
 from rest_framework.response import Response
-from rest_framework import viewsets
 
 from grid.models import Grid
-from package.models import Package, Category
+from package.models import Category, Package
 from searchv2.models import SearchV2
 from searchv2.views import search_function
 
 from .serializers import (
     CategorySerializer,
+    GridSerializer,
     PackageSerializer,
     SearchV2Serializer,
-    GridSerializer,
 )
 
 

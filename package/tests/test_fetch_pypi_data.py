@@ -1,8 +1,8 @@
 import json
-
-from model_bakery import baker
 from pathlib import Path
 from typing import List, Optional
+
+from model_bakery import baker
 
 
 def pypi_package(

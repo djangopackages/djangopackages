@@ -79,7 +79,6 @@ from django import template
 from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
 
-
 register = template.Library()
 
 
@@ -92,7 +91,9 @@ def smart_filter(fn):
         if autoescape:
             esc = conditional_escape
         else:
-            esc = lambda x: x
+
+            def esc(x):
+                return x
 
         return mark_safe(fn(esc(text)))
 

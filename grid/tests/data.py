@@ -1,8 +1,7 @@
-from django.contrib.auth.models import Group, User, Permission
+from django.contrib.auth.models import Group, Permission, User
 
-from grid.models import Grid
-from grid.models import Element, Feature, GridPackage
-from package.models import Category, PackageExample, Package
+from grid.models import Element, Feature, Grid, GridPackage
+from package.models import Category, Package, PackageExample
 from profiles.models import Profile
 
 
@@ -212,4 +211,4 @@ def load():
         title="www.example.com",
     )
     for user in User.objects.all():
-        profile = Profile.objects.create(user=user)
+        Profile.objects.create(user=user)

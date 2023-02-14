@@ -11,7 +11,7 @@ set dotenv-load := false
 # script to rule them all recipes - start
 # --------------------------------------------------
 
-# Performs intial setup for Docker images and allows Arguments to be passed
+# Performs initial setup for Docker images and allows Arguments to be passed
 bootstrap *ARGS:
     #!/usr/bin/env bash
     set -euo pipefail
@@ -44,7 +44,7 @@ bootstrap *ARGS:
 @server *ARGS="--detach":
     just up {{ ARGS }}
 
-# Perform the inital setup for the Docker containers
+# Perform the initial setup for the Docker containers
 @setup:
     just bootstrap
 

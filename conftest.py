@@ -1,9 +1,8 @@
-import logging
 import datetime
+import logging
+
 import pytest
-
 from django.test.utils import override_settings
-
 
 pytest_plugins = [
     "grid.tests.fixtures",

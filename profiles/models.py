@@ -2,9 +2,9 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 
 from core.models import BaseModel
-from django.utils.translation import gettext_lazy as _
 
 
 class Profile(BaseModel):
@@ -37,7 +37,6 @@ class Profile(BaseModel):
     def save(self, **kwargs):
         """Override save to always populate email changes to auth.user model"""
         if self.email is not None:
-
             email = self.email.strip()
             user_obj = User.objects.get(username=self.user.username)
             user_obj.email = email

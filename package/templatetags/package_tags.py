@@ -1,7 +1,6 @@
+import emoji
 from django import template
 from django.template.defaultfilters import stringfilter
-import emoji
-
 
 from package.context_processors import used_packages_list
 

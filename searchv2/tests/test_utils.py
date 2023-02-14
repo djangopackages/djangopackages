@@ -1,6 +1,6 @@
 from django.conf import settings
 
-from searchv2.utils import remove_prefix, clean_title
+from searchv2.utils import clean_title, remove_prefix
 
 
 def test_search_v2_utils_remove_prefix(db):

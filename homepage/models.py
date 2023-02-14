@@ -13,7 +13,6 @@ class RotatorManager(models.Manager):
 
 
 class Dpotw(BaseModel):
-
     package = models.ForeignKey(Package, on_delete=models.CASCADE)
     start_date = models.DateField(_("Start Date"))
     end_date = models.DateField(_("End Date"))
@@ -38,7 +37,6 @@ class Dpotw(BaseModel):
 
 
 class Gotw(BaseModel):
-
     grid = models.ForeignKey(Grid, on_delete=models.CASCADE)
 
     start_date = models.DateField(_("Start Date"))

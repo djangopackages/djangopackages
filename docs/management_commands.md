@@ -93,7 +93,7 @@ docker-compose run django python manage.py read_grid_stats
 
 ## searchv2_build
 
-This command rebuilds and recalculates our search database. 
+This command rebuilds and recalculates our search database.
 
 ```shell
 docker-compose run django python manage.py searchv2_build
