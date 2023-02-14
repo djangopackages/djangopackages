@@ -3,7 +3,9 @@ default_language_version:
 
 exclude: |
     (?x)^(
+        .devcontainer/devcontainer.json|
         .github/contributors.json|
+        .vscode/launch.json|
         CONTRIBUTORS.md|
         static/.*
     )$
@@ -14,20 +16,22 @@ repos:
     hooks:
       - id: check-added-large-files
       - id: check-case-conflict
-      # - id: check-json
+      - id: check-json
       - id: check-merge-conflict
       - id: check-symlinks
       - id: check-toml
       - id: end-of-file-fixer
       - id: trailing-whitespace
   - repo: https://github.com/rtts/djhtml
-    rev: 'v2.0.0'  # replace with the latest tag on GitHub
+    rev: 'v2.0.0'
     hooks:
       - id: djhtml
         entry: djhtml --tabwidth 4
         alias: autoformat
-      # - id: djcss
-      # - id: djjs
+      - id: djcss
+        alias: autoformat
+      - id: djjs
+        alias: autoformat
   # - repo: https://github.com/browniebroke/django-codemod
   #   rev: v1.10.9
   #   hooks:
@@ -63,7 +67,7 @@ repos:
     hooks:
       - id: blacken-docs
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: 'v0.0.245'
+    rev: 'v0.0.246'
     hooks:
       - id: ruff
         alias: autoformat
