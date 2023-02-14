@@ -74,7 +74,7 @@ We use the command runner [just]. Install instructions are available on the [jus
 
 ### Formatters, Linters, and other miscellanea
 
-[Pre-commit] is a tool which helps to organize our linters and auto-formatters. Pre-commit runs before our code gets committed automatically or we may run it by hand. 
+[Pre-commit] is a tool which helps to organize our linters and auto-formatters. Pre-commit runs before our code gets committed automatically or we may run it by hand.
 
 To install the pre-commit hooks:
 
