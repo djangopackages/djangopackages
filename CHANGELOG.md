@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-02-14]
+### Changed
+- :pencil: Adds pre-commit info to docs ([#923](https://github.com/djangopackages/djangopackages/pull/923))
+- :tractor: Adds pre-commit ([#922](https://github.com/djangopackages/djangopackages/pull/922))
+
 ## [2023-02-11]
 ### Changed
 - :broom: Cleanup and config updates ([#921](https://github.com/djangopackages/djangopackages/pull/921))
