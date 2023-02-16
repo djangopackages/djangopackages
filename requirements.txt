@@ -357,9 +357,9 @@ distlib==0.3.6 \
     --hash=sha256:14bad2d9b04d3a36127ac97f30b12a19268f211063d8f8ee4f47108896e11b46 \
     --hash=sha256:f35c4b692542ca110de7ef0bea44d73981caeb34ca0b9b6b2e6d7790dda8f80e
     # via virtualenv
-django==4.1.6 \
-    --hash=sha256:bceb0fe1a386781af0788cae4108622756cd05e7775448deec04a71ddf87685d \
-    --hash=sha256:c6fe7ebe7c017fe59f1029821dae0acb5a2ddcd6c9a0138fd20a8bfefac914bc
+django==4.1.7 \
+    --hash=sha256:44f714b81c5f190d9d2ddad01a532fe502fa01c4cb8faf1d081f4264ed15dcd8 \
+    --hash=sha256:f2f431e75adc40039ace496ad3b9f17227022e8b11566f4b363da44c7e44761e
     # via
     #   -r ./requirements.in
     #   django-anymail
@@ -456,9 +456,9 @@ exceptiongroup==1.1.0 \
     --hash=sha256:327cbda3da756e2de031a3107b81ab7b3770a602c4d16ca618298c526f4bec1e \
     --hash=sha256:bcb67d800a4497e1b404c2dd44fca47d3b7a5e5433dbab67f96c1a685cdfdf23
     # via pytest
-faker==16.8.1 \
-    --hash=sha256:64dcf95eee9f00d2547f29f6762aec80fc3ccbe3752bfa2c45082a6e2cc4d74a \
-    --hash=sha256:ad181f6f9cdc0f7d70ea6eaea35ab4b6549391fbaaea7629cc567aeb2757d296
+faker==17.0.0 \
+    --hash=sha256:17cf85aeb0363a3384ccd4c1f52b52ec8f414c7afaab74ae1f4c3e09a06e14de \
+    --hash=sha256:21c3c6c45183308151c14f62afe59bf54ace68f663e0180973698ba2a9a3b2c4
     # via -r ./requirements.in
 feedparser==6.0.10 \
     --hash=sha256:27da485f4637ce7163cdeab13a80312b93b7d0c1b775bef4a47629a3110bca51 \
@@ -475,9 +475,9 @@ github3-py==1.0.2 \
 grapheme==0.6.0 \
     --hash=sha256:44c2b9f21bbe77cfb05835fec230bd435954275267fea1858013b102f8603cca
     # via emojificate
-identify==2.5.17 \
-    --hash=sha256:7d526dd1283555aafcc91539acc061d8f6f59adb0a7bba462735b0a318bff7ed \
-    --hash=sha256:93cc61a861052de9d4c541a7acb7e3dcc9c11b398a2144f6e52ae5285f5f4f06
+identify==2.5.18 \
+    --hash=sha256:89e144fa560cc4cffb6ef2ab5e9fb18ed9f9b3cb054384bab4b95c12f6c309fe \
+    --hash=sha256:93aac7ecf2f6abf879b8f29a8002d3c6de7086b8c28d88e1ad15045a15ab63f9
     # via pre-commit
 idna==3.4 \
     --hash=sha256:814f528e8dead7d329833b91c5faa87d60bf71824cd12a7530b5526063d02cb4 \
@@ -942,9 +942,9 @@ social-auth-core==4.3.0 \
     # via
     #   -r ./requirements.in
     #   social-auth-app-django
-soupsieve==2.3.2.post1 \
-    --hash=sha256:3b2503d3c7084a42b1ebd08116e5f81aadfaea95863628c80a3b774a11b7c759 \
-    --hash=sha256:fc53893b3da2c33de295667a0e19f078c14bf86544af307354de5fcf12a3f30d
+soupsieve==2.4 \
+    --hash=sha256:49e5368c2cda80ee7e84da9dbe3e110b70a4575f196efb74e51b94549d921955 \
+    --hash=sha256:e28dba9ca6c7c00173e34e4ba57448f0688bb681b7c5e8bf4971daafc093d69a
     # via beautifulsoup4
 sqlparse==0.4.3 \
     --hash=sha256:0323c0ec29cd52bceabc1b4d9d579e311f3e4961b98d174201d5622a23b85e34 \
@@ -1027,9 +1027,9 @@ trove-classifiers==2023.2.8 \
     --hash=sha256:3aff899dd9792c4d095740980a5967eb98094ff881faf0b29afc775b75aaaac6 \
     --hash=sha256:3b6960fb96c1d4cc9988bdc1b90bcd65fcf5d9843d884dfc86bd674ff81a4dea
     # via -r ./requirements.in
-typing-extensions==4.4.0 \
-    --hash=sha256:1511434bb92bf8dd198c12b1cc812e800d4181cfcb867674e0f8279cc93087aa \
-    --hash=sha256:16fa4864408f655d35ec496218b85f79b3437c829e93320c7c9215ccfd92489e
+typing-extensions==4.5.0 \
+    --hash=sha256:5cb5f4a79139d699607b3ef622a1dedafa84e115ab0024e0d9c044a9479ca7cb \
+    --hash=sha256:fb33085c39dd998ac16d1431ebc293a8b3eedd00fd4a32de0ff79002c19511b4
     # via
     #   dirty-equals
     #   rich
