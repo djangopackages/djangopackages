@@ -56,17 +56,19 @@ docker-compose run django python manage.py grid_export
 
 ## import_classifiers
 
-`classifiers/` app.
-
 The `import_classifiers` management command updates our database against PyPI's trove classifiers.
 
 ## import_products
+
+Imports all packages from endoflife.date, and sets some packages to active.
 
 ```shell
 docker-compose run django python manage.py import_products
 ```
 
 ## import_releases
+
+Imports Release data for Packages from endoflife.date.
 
 ```shell
 docker-compose run django python manage.py import_releases
@@ -82,15 +84,21 @@ docker-compose run django python manage.py load_dev_data
 
 ## package_updater
 
-You can update all the packages with the following command:
+Updates all the GitHub Packages in the database.
+
+Warning: This can take a long, long time.
+
+**Optional Arguments**:
+
+- `limit`: `int`. Pass this value if you want to update a specific number of packages.
 
 ```shell
 docker-compose run django python manage.py package_updater
 ```
 
-Warning: This can take a long, long time.
-
 ## pypi_find_missing
+
+Shows count of Packages without pypi URLs or with outdated pypi URLs
 
 ```shell
 docker-compose run django python manage.py pypi_find_missing
@@ -98,7 +106,7 @@ docker-compose run django python manage.py pypi_find_missing
 
 ## pypi_updater
 
-To update packages with the latest data on PyPi, run:
+Updates all the packages in the system by checking against their PyPI data.
 
 ```shell
 docker-compose run django python manage.py pypi_updater

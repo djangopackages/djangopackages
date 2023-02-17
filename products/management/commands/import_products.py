@@ -10,6 +10,7 @@ ACTIVE_PRODUCTS = ["django", "python", "wagtail"]
 
 @click.command()
 def command():
+    """Imports all packages from endoflife.date, and sets some packages to active"""
     print("[yellow]import_products[/yellow]")
 
     url = "https://endoflife.date/api/all.json"

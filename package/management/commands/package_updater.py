@@ -23,13 +23,9 @@ class PackageUpdaterException(Exception):
 
 
 @click.command()
-@click.option("--all", default=False)
 @click.option("--limit", default=None, type=int)
 def command(all, limit):
-    """Updates all the packages in the system. Commands belongs to django-packages.package"""
-
-    # if not all:
-    #     now = timezone.now() - timezone.timedelta(hours=24)
+    """Updates all the GitHub Packages in the database."""
 
     github = github_login(token=settings.GITHUB_TOKEN)
 

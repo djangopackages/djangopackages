@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 
 @click.command()
 def command():
+    """Shows count of Packages without pypi URLs or with outdated pypi URLs"""
     total_empty_packages = Package.objects.filter(
         ~Q(pypi_url__startswith="http")
     ).count()
