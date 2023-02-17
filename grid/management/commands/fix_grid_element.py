@@ -1,6 +1,7 @@
 from collections.abc import defaultdict
 
 from django.core.management.base import BaseCommand
+
 from grid.models import Element
 
 
@@ -16,7 +17,7 @@ class Command(BaseCommand):
 
         for row in rows:
             dedup[(row["grid_package_id"], row["feature_id"])].append(row["id"])
-        print("found {} duplicate rows...".format(len(rows) - len(dedup)))
+        print(f"found {len(rows) - len(dedup)} duplicate rows...")
 
         for (feature, package), ids in dedup.items():
             if inlist := sorted(ids)[1:]:

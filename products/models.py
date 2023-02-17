@@ -48,7 +48,7 @@ class Release(BaseModel):
     )  # : boolean - Whether this release cycle has long-term-support (LTS)
     support = models.CharField(
         _("Has active support"), max_length=50, blank=True, null=True
-    )  # : string or boolean <date> - Wheter this release cycle has active support
+    )  # : string or boolean <date> - Whether this release cycle has active support
     discontinued = models.CharField(
         _("Discontinued"), max_length=50, blank=True, null=True
     )  # : string or boolean <date> - Whether this cycle is now discontinued.
@@ -82,7 +82,7 @@ makemodel Release
 - latest: string - Latest release in this cycle
 - link: string - Link to changelog for the latest release, if available
 - lts: boolean - Whether this release cycle has long-term-support (LTS)
-- support: string or boolean <date> - Wheter this release cycle has active support
+- support: string or boolean <date> - Whether this release cycle has active support
 - cycleShortHand: string - Optional shorthand name for this release cycle
 - discontinued: string or boolean <date> - Whether this cycle is now discontinued.
 """

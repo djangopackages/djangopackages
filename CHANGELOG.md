@@ -1,5 +1,27 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-02-16]
+### Changed
+- :pushpin: Pin django-crispy-forms&lt;2 ([#925](https://github.com/djangopackages/djangopackages/pull/925))
+
+## [2023-02-14]
+### Changed
+- :pencil: Adds pre-commit info to docs ([#923](https://github.com/djangopackages/djangopackages/pull/923))
+- :tractor: Adds pre-commit ([#922](https://github.com/djangopackages/djangopackages/pull/922))
+
+## [2023-02-11]
+### Changed
+- :broom: Cleanup and config updates ([#921](https://github.com/djangopackages/djangopackages/pull/921))
+- :pencil: Doc refactor and updates ([#920](https://github.com/djangopackages/djangopackages/pull/920))
+- :tractor: Updates docs domain ([#918](https://github.com/djangopackages/djangopackages/pull/918))
+- Docs: Refresh the index page  ([#914](https://github.com/djangopackages/djangopackages/pull/914))
+- :arrow_up: Update requirements ([#916](https://github.com/djangopackages/djangopackages/pull/916))
+- :sparkles: 2023-02-10 Doc updates ([#910](https://github.com/djangopackages/djangopackages/pull/910))
+
+## [2023-02-10]
+### Changed
+- Reduces UX copy to reduce cognitive load. ([#908](https://github.com/djangopackages/djangopackages/pull/908))
+
 ## [2023-02-06]
 ### Changed
 - ✏️ Fix typo ([#907](https://github.com/djangopackages/djangopackages/pull/907))

@@ -76,15 +76,15 @@
         </div>
         <div class="row">
             <div class="col-sm-10 col-md-5">
-              <canvas id="chart_funding_2023"></canvas>
+                <canvas id="chart_funding_2023"></canvas>
             </div>
             <div class="col-sm-10 col-md-5">
-              <canvas id="chart_funding_2022"></canvas>
+                <canvas id="chart_funding_2022"></canvas>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-10 col-md-5">
-              <canvas id="chart_funding_2021"></canvas>
+                <canvas id="chart_funding_2021"></canvas>
             </div>
         </div>
     </div>
@@ -139,129 +139,129 @@
     </div>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-<script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script>
 
 
-function draw_chart(title, context, costData, incomeData) {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        function draw_chart(title, context, costData, incomeData) {
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-    return new Chart(context, {
-        type: 'line',
-        data: {
-            labels: months, // x-axis labels
-            datasets: [{
-                label: 'Costs',
-                data: costData,
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)',
-                borderWidth: 1
-            }, {
-                label: 'Income',
-                data: incomeData,
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            title: {
-                display: true,
-                text: title
-            },
-            scales: {
-                yAxes: [{
-                    scaleLabel: {
+            return new Chart(context, {
+                type: 'line',
+                data: {
+                    labels: months, // x-axis labels
+                    datasets: [{
+                        label: 'Costs',
+                        data: costData,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Income',
+                        data: incomeData,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    title: {
                         display: true,
-                        labelString: 'Amount ($)'
+                        text: title
                     },
-                    ticks: {
-                        beginAtZero: true,
-                        callback: function(value, index, values) {
-                            return '$' + value;
-                        }
+                    scales: {
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Amount ($)'
+                            },
+                            ticks: {
+                                beginAtZero: true,
+                                callback: function(value, index, values) {
+                                    return '$' + value;
+                                }
+                            }
+                        }]
                     }
-                }]
-            }
+                }
+            });
         }
-    });
-}
 
-// 2023 data...
+        // 2023 data...
 
-const costsData2023 = [
-    76.01 // DigitalOcean (12/2022)
-];
-const incomeData2023 = [
-    0
-];
-draw_chart('Django Packages 2023', 'chart_funding_2023', costsData2023, incomeData2023);
+        const costsData2023 = [
+            76.01 // DigitalOcean (12/2022)
+        ];
+        const incomeData2023 = [
+            0
+        ];
+        draw_chart('Django Packages 2023', 'chart_funding_2023', costsData2023, incomeData2023);
 
-// 2022 data...
+        // 2022 data...
 
-const costsData2022 = [
-    0,      // DigitalOcean Credit 2022-01
-    63.24,  // DigitalOcean 2022-02
-    71.08,  // DigitalOcean 2022-03
-    71.08,  // DigitalOcean 2022-04
-    71.08,  // DigitalOcean 2022-05
-    71.08,  // DigitalOcean 2022-06
-    71.08,  // DigitalOcean 2022-07
-    82.30 + 29.97,  // DigitalOcean 2022-08 / Dynadot domain registration
-    82.03,  // DigitalOcean 2022-09
-    76.01,  // DigitalOcean 2022-10
-    76.01,  // DigitalOcean 2022-11
-    76.01   // DigitalOcean 2022-12
-];
-const incomeData2022 = [
-    62.90,  // Ethical Ads 2022-01
-    55.13,  // Ethical Ads 2022-02
-    66.18,  // Ethical Ads 2022-03
-    70.98,  // Ethical Ads 2022-04
-    66.21,  // Ethical Ads 2022-05
-    59.12,  // Ethical Ads 2022-06
-    55.05,  // Ethical Ads 2022-07
-    0,
-    92.23,  // Ethical Ads 2022-08 + 2022-09
-    52.12,  // Ethical Ads 2022-10
-    50.91,  // Ethical Ads 2022-11
-    0
-];
+        const costsData2022 = [
+            0,      // DigitalOcean Credit 2022-01
+            63.24,  // DigitalOcean 2022-02
+            71.08,  // DigitalOcean 2022-03
+            71.08,  // DigitalOcean 2022-04
+            71.08,  // DigitalOcean 2022-05
+            71.08,  // DigitalOcean 2022-06
+            71.08,  // DigitalOcean 2022-07
+            82.30 + 29.97,  // DigitalOcean 2022-08 / Dynadot domain registration
+            82.03,  // DigitalOcean 2022-09
+            76.01,  // DigitalOcean 2022-10
+            76.01,  // DigitalOcean 2022-11
+            76.01   // DigitalOcean 2022-12
+        ];
+        const incomeData2022 = [
+            62.90,  // Ethical Ads 2022-01
+            55.13,  // Ethical Ads 2022-02
+            66.18,  // Ethical Ads 2022-03
+            70.98,  // Ethical Ads 2022-04
+            66.21,  // Ethical Ads 2022-05
+            59.12,  // Ethical Ads 2022-06
+            55.05,  // Ethical Ads 2022-07
+            0,
+            92.23,  // Ethical Ads 2022-08 + 2022-09
+            52.12,  // Ethical Ads 2022-10
+            50.91,  // Ethical Ads 2022-11
+            0
+        ];
 
-draw_chart('Django Packages 2022', 'chart_funding_2022', costsData2022, incomeData2022);
+        draw_chart('Django Packages 2022', 'chart_funding_2022', costsData2022, incomeData2022);
 
-// 2021 data...
+        // 2021 data...
 
-const costsData2021 = [
-    53.24,  // DigitalOcean 2021-01
-    53.24,  // DigitalOcean 2021-02
-    53.24,  // DigitalOcean 2021-03
-    53.86,  // DigitalOcean 2021-04
-    56.08,  // DigitalOcean 2021-05
-    56.08,  // DigitalOcean 2021-06
-    56.08,  // DigitalOcean 2021-07
-    61.35,  // DigitalOcean 2021-08
-    71.08,  // DigitalOcean 2021-09
-    71.08,  // DigitalOcean 2021-10
-    71.08,  // DigitalOcean 2021-11
-    71.08   // DigitalOcean 2021-12
-];
-const incomeData2021 = [
-    0,  // 2021-01
-    0,  // 2021-02
-    0,  // 2021-03
-    0,  // 2021-04
-    0,  // 2021-05
-    0,  // 2021-06
-    0,  // 2021-07
-    0,  // 2021-08
-    0,  // 2021-09
-    125.66,  // EthicalAds 2021-10
-    87.46,  // EthicalAds 2021-11
-    78.810  // EthicalAds 2021-12
-];
+        const costsData2021 = [
+            53.24,  // DigitalOcean 2021-01
+            53.24,  // DigitalOcean 2021-02
+            53.24,  // DigitalOcean 2021-03
+            53.86,  // DigitalOcean 2021-04
+            56.08,  // DigitalOcean 2021-05
+            56.08,  // DigitalOcean 2021-06
+            56.08,  // DigitalOcean 2021-07
+            61.35,  // DigitalOcean 2021-08
+            71.08,  // DigitalOcean 2021-09
+            71.08,  // DigitalOcean 2021-10
+            71.08,  // DigitalOcean 2021-11
+            71.08   // DigitalOcean 2021-12
+        ];
+        const incomeData2021 = [
+            0,  // 2021-01
+            0,  // 2021-02
+            0,  // 2021-03
+            0,  // 2021-04
+            0,  // 2021-05
+            0,  // 2021-06
+            0,  // 2021-07
+            0,  // 2021-08
+            0,  // 2021-09
+            125.66,  // EthicalAds 2021-10
+            87.46,  // EthicalAds 2021-11
+            78.810  // EthicalAds 2021-12
+        ];
 
-draw_chart('Django Packages 2021', 'chart_funding_2021', costsData2021, incomeData2021);
+        draw_chart('Django Packages 2021', 'chart_funding_2021', costsData2021, incomeData2021);
 
-</script>
+    </script>
 {% endblock %}

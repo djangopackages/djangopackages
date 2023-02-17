@@ -51,5 +51,13 @@ just management-command load_dev_data
 
 Django Packages supports GitHub and BitBucket. Here is some information about other repo hosting services.
 
+## Troubleshooting
+
+Don't give up!  Submit problems to <http://github.com/djangopackages/djangopackages/issues>. And don't forget:
+
+1. Be polite! We are all volunteers.
+2. Spend the time to learn GitHub markup
+
 [contributions]: contributing.md
+[faq]: faq
 [repo handler api]: repo_handlers.md

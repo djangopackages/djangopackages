@@ -1,12 +1,12 @@
-from django.db import models, migrations
 import django.db.models.deletion
-import core.fields
 import django.utils.timezone
 from django.conf import settings
+from django.db import migrations, models
+
+import core.fields
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]

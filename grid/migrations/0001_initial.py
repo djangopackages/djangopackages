@@ -1,10 +1,10 @@
-from django.db import models, migrations
-import core.fields
 import django.utils.timezone
+from django.db import migrations, models
+
+import core.fields
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("package", "0001_initial"),
     ]

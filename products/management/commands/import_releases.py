@@ -1,6 +1,5 @@
 import djclick as click
 import requests
-
 from dirty_equals import IsDate, IsTrueLike
 from rich import print
 

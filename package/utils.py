@@ -1,8 +1,8 @@
-from trove_classifiers import classifiers
 from distutils.version import LooseVersion as versioner
 
-from requests.compat import quote
 from django.db import models
+from requests.compat import quote
+from trove_classifiers import classifiers
 
 
 # this is gross, but requests doesn't import quote_plus into compat,
@@ -33,7 +33,6 @@ def uniquer(seq, idfun=None):
 
 
 def get_version(package):
-
     versions = package.version_set.exclude(upload_time=None)
     try:
         return versions.latest()

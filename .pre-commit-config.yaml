@@ -1,29 +1,37 @@
 default_language_version:
-  python: python3.9
+  python: python3.8
+
+exclude: |
+    (?x)^(
+        .devcontainer/devcontainer.json|
+        .github/contributors.json|
+        .vscode/launch.json|
+        CONTRIBUTORS.md|
+        static/.*
+    )$
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.3.0
+    rev: v4.4.0
     hooks:
       - id: check-added-large-files
       - id: check-case-conflict
-      # - id: check-json
+      - id: check-json
       - id: check-merge-conflict
       - id: check-symlinks
       - id: check-toml
       - id: end-of-file-fixer
       - id: trailing-whitespace
   - repo: https://github.com/rtts/djhtml
-    rev: 'v1.5.2'  # replace with the latest tag on GitHub
+    rev: 'v2.0.0'
     hooks:
       - id: djhtml
-      # - id: djcss
-      # - id: djjs
-  # - repo: https://github.com/thibaudcolas/curlylint
-  #   rev: v0.13.1
-  #   hooks:
-  #     - id: curlylint
-  #       types: [html]
+        entry: djhtml --tabwidth 4
+        alias: autoformat
+      - id: djcss
+        alias: autoformat
+      - id: djjs
+        alias: autoformat
   # - repo: https://github.com/browniebroke/django-codemod
   #   rev: v1.10.9
   #   hooks:
@@ -43,50 +51,34 @@ repos:
   #         '--removed-in', '4.0',
   #         '--deprecated-in', '4.1',
   #       ]
-  # - repo: https://github.com/adamchainz/django-upgrade
-  #   rev: 1.7.0
-  #   hooks:
-  #     - id: django-upgrade
-  #       args: [--target-version, '4.0']
   - repo: https://github.com/adamchainz/django-upgrade
-    rev: 1.9.0
+    rev: 1.12.0
     hooks:
-    - id: django-upgrade
-      args: [--target-version, "4.1"]
-  - repo: https://github.com/asottile/pyupgrade
-    rev: v2.37.3
-    hooks:
-      - id: pyupgrade
-        args: [--py39-plus]
+      - id: django-upgrade
+        args: [--target-version, "4.1"]
+        alias: autoformat
   - repo: https://github.com/psf/black
-    rev: 22.6.0
+    rev: 23.1.0
     hooks:
       - id: black
+        alias: autoformat
   - repo: https://github.com/asottile/blacken-docs
-    rev: v1.12.1
+    rev: 1.13.0
     hooks:
       - id: blacken-docs
-        additional_dependencies:
-          - black==21.7b0
-  - repo: https://github.com/pycqa/isort
-    rev: 5.10.1
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: 'v0.0.246'
     hooks:
-      - id: isort
-  - repo: https://github.com/PyCQA/flake8
-    rev: 5.0.4
-    hooks:
-      - id: flake8
-        additional_dependencies:
-          - flake8-bugbear
-          - flake8-comprehensions
-          - flake8-print
-          - flake8-no-pep420
-          - flake8-tidy-imports
-  - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.1
-    hooks:
-      - id: codespell
-  # - repo: https://github.com/pre-commit/mirrors-mypy
-  #   rev: v0.950
+      - id: ruff
+        alias: autoformat
+  # - repo: https://github.com/codespell-project/codespell
+  #   rev: v2.2.2
   #   hooks:
-  #     - id: mypy
+  #     - id: codespell
+  #       args: [--write-changes]
+  #       alias: autoformat
+  # - repo: https://github.com/guilatrova/tryceratops
+  #   rev: v1.1.0
+  #   hooks:
+  #     - id: tryceratops
+  #       args: [--ignore, TC101, --ignore, TC200]

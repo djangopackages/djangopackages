@@ -1,10 +1,8 @@
 import pytest
-
 from django.contrib.auth.models import User
-
 from django.test import TestCase
-from package.forms import PackageForm
 
+from package.forms import PackageForm
 from package.models import FlaggedPackage, Package, Version
 from package.tests import data, initial_data
 

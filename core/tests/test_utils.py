@@ -2,7 +2,6 @@ from core import utils
 
 
 def test_oc_slugify():
-
     lst = (
         ("test.this.value", "test-this-value"),
         ("Plone.OpenComparison", "plone-opencomparison"),
@@ -40,4 +39,4 @@ def test_get_pypi_url_fail(requests_mock):
 
     lst = ("ColdFusion is not here", "php is not here")
     for l in lst:
-        assert utils.get_pypi_url(l) == None
+        assert utils.get_pypi_url(l) is None

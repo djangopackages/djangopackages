@@ -6,7 +6,6 @@ STOCK_PASSWORD = "stock_password"
 
 
 def make():
-
     create_users()
 
     category, created = Category.objects.get_or_create(
@@ -53,7 +52,6 @@ def make():
 
 
 def create_users():
-
     user = User.objects.create_user(
         username="user", password=STOCK_PASSWORD, email="user@example.com"
     )

@@ -3,7 +3,7 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.db.models import F, FloatField, Max, Q
 from django.db.models.functions import Cast, Round
-from django.http import HttpResponseForbidden, HttpResponseRedirect, HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from rest_framework.generics import ListAPIView, RetrieveAPIView
@@ -13,12 +13,11 @@ from package.models import Package
 from searchv2.builders import build_1
 from searchv2.forms import SearchForm
 from searchv2.models import SearchV2
-from searchv2.utils import remove_prefix, clean_title
+from searchv2.utils import clean_title, remove_prefix
 
 
 @login_required
 def build_search(request, template_name="searchv2/build_results.html"):
-
     if not request.user.is_superuser:
         return HttpResponseForbidden()
 

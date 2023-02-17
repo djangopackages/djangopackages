@@ -1,6 +1,6 @@
-from django.conf import settings
-
 import re
+
+from django.conf import settings
 
 
 def get_all_repos():

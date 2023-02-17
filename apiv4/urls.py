@@ -1,6 +1,6 @@
 from rest_framework import routers
 
-from .viewsets import PackageViewSet, SearchV2ViewSet, GridViewSet, CategoryViewSet
+from .viewsets import CategoryViewSet, GridViewSet, PackageViewSet, SearchV2ViewSet
 
 app_name = "apiv4"
 

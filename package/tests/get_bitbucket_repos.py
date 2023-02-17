@@ -13,7 +13,10 @@ repo goes away. It may take a few minutes to run, due to only being able
 to hit the APIs so fast.
 """
 
-import requests, json, time
+import json
+import time
+
+import requests
 
 DJPACK_API_URL = "https://djangopackages.org/api/v3/packages/"
 DJPACK_API_URL_BASE = "https://djangopackages.org"

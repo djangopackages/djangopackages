@@ -1,14 +1,13 @@
-import djclick as click
 import json
 import logging
-
-from django.urls import reverse
 from pathlib import Path
+
+import djclick as click
+from django.urls import reverse
 from rich.progress import Progress
 
 from grid.models import Grid
 from package.models import Package
-
 
 logger = logging.getLogger(__name__)
 
@@ -54,9 +53,7 @@ def get_packages(*, domain: str, limit: int) -> list[dict]:
 
 @click.command()
 @click.argument("filename", type=Path, default=Path("opengraph-image-export.json"))
-@click.option(
-    "--domain", type=str, default="https://djangopackages.org"
-)
+@click.option("--domain", type=str, default="https://djangopackages.org")
 @click.option("--limit", default=None, type=int)
 @click.option("--overwrite", default=False, is_flag=True)
 def command(filename, domain, limit, overwrite):

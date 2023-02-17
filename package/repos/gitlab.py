@@ -4,7 +4,6 @@ from gitlab import Gitlab
 from gitlab.exceptions import GitlabGetError
 
 from .base_handler import BaseHandler
-from package.utils import uniquer
 
 
 class GitlabHandler(BaseHandler):

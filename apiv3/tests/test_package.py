@@ -1,10 +1,12 @@
-from django.contrib.auth.models import User
-from django.urls import reverse
-from django.test import TestCase
-from grid.models import Grid, GridPackage
-from package.models import Package, Category
 import json
+
+from django.contrib.auth.models import User
+from django.test import TestCase
+from django.urls import reverse
 from requests.compat import urlencode
+
+from grid.models import Grid, GridPackage
+from package.models import Category, Package
 
 
 class PackageV1Tests(TestCase):
@@ -74,7 +76,7 @@ class PackageV1Tests(TestCase):
     def test_02_category_packages(self):
         querystring_filter_app = {"category__slug": self.app.slug}
         base_url = reverse("apiv3:package_list")
-        url_app_pkg = "{}?{}".format(base_url, urlencode(querystring_filter_app))
+        url_app_pkg = f"{base_url}?{urlencode(querystring_filter_app)}"
         response_app_pkg = self.client.get(url_app_pkg)
         # check that the request was successful
         self.assertEqual(response_app_pkg.status_code, 200)

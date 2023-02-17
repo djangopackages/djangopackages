@@ -1,8 +1,8 @@
 import djclick as click
 import requests
+from rich import print
 
 from package.models import Package
-from rich import print
 
 
 @click.command()

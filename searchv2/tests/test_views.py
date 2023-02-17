@@ -17,7 +17,6 @@ class FunctionalPackageTest(TestCase):
             profile.save()
 
     def test_build_search(self):
-
         count = SearchV2.objects.count()
         url = reverse("build_search")
         response = self.client.get(url)
@@ -69,5 +68,5 @@ class ViewTest(TestCase):
             clean_title="django-uni-form",
         )
         url = reverse("search") + "?q=django-uni-form"
-        response = self.client.get(url)
+        self.client.get(url)
         # print response

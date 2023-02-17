@@ -1,11 +1,10 @@
 import datetime
-
 from datetime import timedelta
+
 from django.contrib.auth.models import User
 from django.utils.timezone import make_aware, now
 
-from package.models import Category, Package, Version, Commit
-
+from package.models import Category, Commit, Package, Version
 
 abandoned_package_last_commit = make_aware(
     datetime.datetime(now().year - 2, now().month, now().day, 0, 0)

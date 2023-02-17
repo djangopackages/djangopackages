@@ -30,7 +30,7 @@ class GridTable(Table):
 
     def render_title(self, value, record):
         return format_html(
-            '<a href="{0}">{1}</a>'.format(
+            '<a href="{}">{}</a>'.format(
                 reverse("grid", kwargs={"slug": record.slug}), emojize(record.title)
             )
         )

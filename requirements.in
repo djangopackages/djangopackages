@@ -5,7 +5,7 @@ Django<4.2
 django-anymail
 django-better-admin-arrayfield
 django-click
-django-crispy-forms
+django-crispy-forms<2
 django-debug-toolbar
 django-environ
 django-extensions
@@ -62,3 +62,7 @@ time-machine
 
 # utils
 bumpver
+
+# pre-commit - please note all linters and autoformatters are in our
+# .pre-commit-config.yaml file
+pre-commit

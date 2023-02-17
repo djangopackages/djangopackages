@@ -1,10 +1,10 @@
 from django.core.cache import cache
 from django.db import models
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 
 from core.models import BaseModel
 from package.models import Package
-from django.utils.translation import gettext_lazy as _
 
 ITEM_TYPE_CHOICES = (
     ("package", "Package"),

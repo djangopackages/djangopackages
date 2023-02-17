@@ -1,9 +1,9 @@
+import re
+
+import requests
 from django.conf import settings
 from django.core.cache import cache
 from django.template.defaultfilters import slugify
-
-import re
-import requests
 
 
 def cache_fetcher(cachekey_func, identifier_model):

@@ -11,7 +11,7 @@ set dotenv-load := false
 # script to rule them all recipes - start
 # --------------------------------------------------
 
-# Performs intial setup for Docker images and allows Arguments to be passed
+# Performs initial setup for Docker images and allows Arguments to be passed
 bootstrap *ARGS:
     #!/usr/bin/env bash
     set -euo pipefail
@@ -44,13 +44,15 @@ bootstrap *ARGS:
 @server *ARGS="--detach":
     just up {{ ARGS }}
 
-# Perform the inital setup for the Docker containers
+# Perform the initial setup for the Docker containers
 @setup:
     just bootstrap
 
 # Create a Superuser
-@superuser USERNAME EMAIL:
-    docker-compose run django python manage.py createsuperuser --username={{ USERNAME }} --email={{ EMAIL }}
+@createsuperuser USERNAME EMAIL:
+    docker-compose run django python manage.py createsuperuser \
+        --username={{ USERNAME }} \
+        --email={{ EMAIL }}
 
 # Run the tests using the Django test runner
 @test *ARGS="--no-input":
@@ -216,18 +218,9 @@ bootstrap *ARGS:
 @pip-compile-upgrade:
     just pip-compile --upgrade
 
-# Upgrade existing packages and Install pipx packages needed for development
-@pipx-install:
-    pipx upgrade-all
-    pipx install djhtml
-    pipx install tryceratops
-    pipx install black
-    pipx install unimport
-    pipx install pyupgrade-directories
-
 # Run pre-commit
 @pre-commit:
-    git ls-files -- . | xargs pre-commit run --config=./.pre-commit-config.yaml --files
+    pre-commit run --config=./.pre-commit-config.yaml --all-files
 
 # TODO: Make the target-version a variable
 

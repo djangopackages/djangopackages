@@ -1,6 +1,7 @@
+from itertools import chain, repeat
+
 from django.core.cache import cache
 from django.db.models import Count
-from itertools import chain, repeat
 
 from grid.models import Grid
 

@@ -8,7 +8,6 @@ logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
-
     help = "Updates the score for all packages"
 
     def handle(self, *args, **options):

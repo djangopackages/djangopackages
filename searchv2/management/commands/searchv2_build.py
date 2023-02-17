@@ -1,7 +1,6 @@
-import djclick as click
-
 from time import gmtime, strftime
 
+import djclick as click
 from django.conf import settings
 from rich import print
 

@@ -1,6 +1,6 @@
 import datetime
-import pytest
 
+import pytest
 from django.utils.timezone import make_aware
 from model_bakery import baker
 

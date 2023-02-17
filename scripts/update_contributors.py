@@ -1,10 +1,11 @@
-import os
 import json
+import os
+from math import ceil
 from pathlib import Path
+
 from github import Github
 from github.NamedUser import NamedUser
 from jinja2 import Template
-from math import ceil
 
 CURRENT_FILE = Path(__file__)
 ROOT = CURRENT_FILE.parents[1]

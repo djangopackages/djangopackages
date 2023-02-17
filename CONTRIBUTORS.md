@@ -15,7 +15,7 @@ accept and merge pull requests.
 
 For Django Dash 2010, @pydanny and @audreyr created Django Packages.
 
-They are joined by a host of core developers and contributors. See https://djangopackages.readthedocs.io/en/latest/contributors.html
+They are joined by a host of core developers and contributors. See https://docs.djangopackages.org/en/latest/contributors.html
 
 ## Other Contributors
 
@@ -278,6 +278,13 @@ Listed in alphabetical order.
       <a href="https://github.com/kulbir">kulbir</a>
     </td>
     <td></td>
+  </tr>
+  <tr>
+    <td>Lacey Williams Henschel</td>
+    <td>
+      <a href="https://github.com/williln">williln</a>
+    </td>
+    <td>laceynwilliams</td>
   </tr>
   <tr>
     <td>Leonardo Gregianin</td>

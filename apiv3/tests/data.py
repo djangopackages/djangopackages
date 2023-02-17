@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.utils import timezone
 
 from grid.models import Grid, GridPackage
-from package.models import Package, Category
+from package.models import Category, Package
 from profiles.models import Profile
 
 

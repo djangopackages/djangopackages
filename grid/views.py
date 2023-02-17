@@ -188,7 +188,6 @@ def delete_grid_package(request, id, template_name="grid/edit_feature.html"):
 def edit_element(
     request, feature_id, package_id, template_name="grid/edit_element.html"
 ):
-
     if not request.user.profile.can_edit_grid_element:
         return HttpResponseForbidden("permission denied")
 
@@ -387,9 +386,7 @@ def grid_detail_landscape(
     return grid_detail(request, slug, template_name=template_name)
 
 
-def grid_opengraph_detail(
-    request, slug, template_name="grid/grid_opengraph.html"
-):
+def grid_opengraph_detail(request, slug, template_name="grid/grid_opengraph.html"):
     return grid_detail(request, slug, template_name=template_name)
 
 

@@ -12,26 +12,6 @@ You'll want to make sure your local environment is ready by installing the follo
 
 If you don't have them installed yet, install [Docker] and [docker-compose].
 
-### just
-
-We use the command runner [just]. Install instructions are available on the [just] GitHub page.
-
-### pipx
-
-We use `pipx` to install various linters and formatters so you'll need to install it.
-
-Install instructions are available on the here on [pipx].
-
-### Formatters, Linters, and other miscellanea
-
-You'll want to install the various formatters, and linters using the following `pipx` command.
-
-To do this, run:
-
-```bash
-just pipx-install
-```
-
 ### Grab a Local Copy of the Project
 
 [Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) the Django Packages project
@@ -82,13 +62,42 @@ Now, you'll give yourself an admin account on the locally-running version of Dja
 Create a Django superuser for yourself, replacing joe with your username/email:
 
 ```bash
-just superuser joe joe@example.com
+just createsuperuser joe joe@example.com
 ```
 
 And then login into the admin interface (/admin/) and create a profile for your user filling all the fields with any data.
 
+### just
+
+We use the command runner [just]. Install instructions are available on the [just] GitHub page.
+
+
+### Formatters, Linters, and other miscellanea
+
+[Pre-commit] is a tool which helps to organize our linters and auto-formatters. Pre-commit runs before our code gets committed automatically or we may run it by hand. Pre-commit runs automatically for every pull request on GitHub too.
+
+To install the pre-commit hooks:
+
+```shell
+pip install pre-commit
+pre-commit install
+```
+
+To run all pre-commit rules by hand:
+
+```shell
+pre-commit run --all-files
+```
+
+To run a pre-commit rule by hand:
+
+```shell
+pre-commit run black
+```
+
 [docker-compose]: https://docs.docker.com/compose/install/
 [docker]: https://docs.docker.com/install/
 [just]: https://github.com/casey/just
-[pipx]: https://pypa.github.io/pipx/
+[opinionated]: install_opinionated.md
+[pre-commit]: https://github.com/pre-commit/pre-commit
 [Troubleshooting]: troubleshooting.md

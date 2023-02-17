@@ -8,7 +8,7 @@ from django.contrib.postgres.search import SearchQuery, SearchRank
 from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count, Q
-from django.http import HttpResponseRedirect, HttpResponse, HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
@@ -20,14 +20,14 @@ from django_tables2 import SingleTableView
 from grid.models import Grid
 from homepage.models import Dpotw, Gotw
 from package.forms import (
-    PackageForm,
-    PackageExampleForm,
     DocumentationForm,
     FlaggedPackageForm,
+    PackageExampleForm,
+    PackageForm,
 )
 from package.models import Category, FlaggedPackage, Package, PackageExample
 from package.repos import get_all_repos
-from package.tables import PackageTable, PackageByCategoryTable
+from package.tables import PackageByCategoryTable, PackageTable
 
 
 def repo_data_for_js():
@@ -45,7 +45,6 @@ def get_form_class(form_name):
 
 @login_required
 def add_package(request, template_name="package/package_form.html"):
-
     if not request.user.profile.can_add_package:
         return HttpResponseForbidden("permission denied")
 
@@ -77,7 +76,6 @@ def add_package(request, template_name="package/package_form.html"):
 
 @login_required
 def edit_package(request, slug, template_name="package/package_form.html"):
-
     if not request.user.profile.can_edit_package:
         return HttpResponseForbidden("permission denied")
 
@@ -107,7 +105,6 @@ def edit_package(request, slug, template_name="package/package_form.html"):
 
 @login_required
 def update_package(request, slug):
-
     package = get_object_or_404(Package, slug=slug)
     package.fetch_metadata()
     package.fetch_commits()
@@ -119,7 +116,6 @@ def update_package(request, slug):
 
 @login_required
 def flag_package(request, slug, template_name="package/flag_form.html"):
-
     package = get_object_or_404(Package, slug=slug)
     form = FlaggedPackageForm(request.POST or None)
 
@@ -152,7 +148,6 @@ def flag_remove(request, slug):
 
 @login_required
 def add_example(request, slug, template_name="package/add_example.html"):
-
     package = get_object_or_404(Package, slug=slug)
     new_package_example = PackageExample()
     form = PackageExampleForm(request.POST or None, instance=new_package_example)
@@ -174,7 +169,6 @@ def add_example(request, slug, template_name="package/add_example.html"):
 
 @login_required
 def edit_example(request, slug, id, template_name="package/edit_example.html"):
-
     package_example = get_object_or_404(PackageExample, id=id)
     form = PackageExampleForm(request.POST or None, instance=package_example)
 
@@ -191,7 +185,6 @@ def edit_example(request, slug, id, template_name="package/edit_example.html"):
 
 @login_required
 def delete_example(request, slug, id, template_name="package/delete_example.html"):
-
     package_example = get_object_or_404(
         PackageExample, id=id, package__slug__iexact=slug
     )
@@ -206,7 +199,6 @@ def delete_example(request, slug, id, template_name="package/delete_example.html
 @login_required
 @require_POST
 def confirm_delete_example(request, slug, id):
-
     package_example = get_object_or_404(
         PackageExample, id=id, package__slug__iexact=slug
     )
@@ -392,7 +384,7 @@ def usage(request, slug, action):
         package.grid_clear_detail_template_cache()
 
     # Return an ajax-appropriate response if necessary
-    if request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest":
+    if request.headers.get("x-requested-with") == "XMLHttpRequest":
         response = {"success": success}
         if success:
             response["change"] = change
@@ -493,7 +485,9 @@ def package_detail(request, slug, template_name="package/package.html"):
     )
 
 
-def package_opengraph_detail(request, slug, template_name="package/package_opengraph.html"):
+def package_opengraph_detail(
+    request, slug, template_name="package/package_opengraph.html"
+):
     return package_detail(request, slug, template_name=template_name)
 
 
