@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-02-16]
+### Changed
+- :pushpin: Pin django-crispy-forms&lt;2 ([#925](https://github.com/djangopackages/djangopackages/pull/925))
+
 ## [2023-02-14]
 ### Changed
 - :pencil: Adds pre-commit info to docs ([#923](https://github.com/djangopackages/djangopackages/pull/923))
