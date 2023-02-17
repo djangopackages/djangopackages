@@ -7,7 +7,7 @@ from django.utils.module_loading import module_has_submodule
 
 
 class Command(BaseCommand):
-    help = "Import development data for local dev"
+    help = "Create sample data for local development"
 
     def handle(self, *args, **options):
         print("Commencing dev data import", file=stdout)

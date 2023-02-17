@@ -6,7 +6,7 @@ from grid.models import Element
 
 
 class Command(BaseCommand):
-    help = "fix Grid.Element table"
+    help = "Removes duplicate Element objects"
 
     def handle(self, *args, **kwargs):
         print("fixing Grid.Element table...")

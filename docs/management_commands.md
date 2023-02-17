@@ -4,11 +4,15 @@ These are the management commands that we run to keep the website updated and fr
 
 ## audit_textfield_max_length
 
+Identifies objects with a text field greater than the maximum length.
+
 ```shell
 docker-compose run django python manage.py audit_textfield_max_length
 ```
 
 ## calculate_score
+
+Calculates the new star score for all Package objects.
 
 ```shell
 docker-compose run django python manage.py calculate_score
@@ -16,17 +20,29 @@ docker-compose run django python manage.py calculate_score
 
 ## check_package_examples
 
+Prints out stats about `PackageExample` objects, like the count of active and inactive objects.
+
+For active `PackageExample`s, checks that the URL is valid. If it isn't, the `PackageExample` is marked inactive.
+
+**Optional arguments**:
+
+- `limit`: `int`. Optional. Useful if you want to spot check the `PackageExample` table for bad URLs.
+
 ```shell
 docker-compose run django python manage.py check_package_examples
 ```
 
 ## cleanup_github_projects
 
+Migrates legacy (http) GitHub packages to https. Migrates existing packages that have moved on GitHub, so their data stays up-to-date.
+
 ```shell
 docker-compose run django python manage.py cleanup_github_projects [--limit=<number-of-records>]
 ```
 
 ## fix_grid_element
+
+Removes duplicate Element objects.
 
 ```shell
 docker-compose run django python manage.py fix_grid_element
@@ -39,6 +55,8 @@ docker-compose run django python manage.py grid_export
 ```
 
 ## import_classifiers
+
+`classifiers/` app.
 
 The `import_classifiers` management command updates our database against PyPI's trove classifiers.
 
@@ -55,6 +73,8 @@ docker-compose run django python manage.py import_releases
 ```
 
 ## load_dev_data
+
+Create sample data for local development.
 
 ```shell
 docker-compose run django python manage.py load_dev_data

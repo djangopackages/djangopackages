@@ -8,6 +8,10 @@ from package.models import Package
 @click.command()
 @click.option("--limit", default=None)
 def command(limit):
+    """
+    Migrates legacy (http) GitHub packages to https. Migrates existing packages that have moved
+    on GitHub, so their data stays up-to-date.
+    """
     # fix non-https links
     packages = Package.objects.filter(repo_url__startswith="http://github.com")
     if packages.exists():
