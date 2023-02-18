@@ -18,60 +18,60 @@
         </div>
 
         {% if django_releases.exists %}
-        <div class="row">
-            <div class="col-sm-6 col-md-4">
-                <h2>{% trans "Django Releases" %}</h2>
-                <ul>
-                {% for release in django_releases %}
-                    <li class="tw-text-2xl">
-                        <a href="{% url 'readiness_detail' product_slug=release.product.slug cycle=release.cycle %}">
-                        {{ release }}
-                        {% if release.lts %} LTS {% endif %}
-                        {% if release.is_eol %}(Past EOL){% endif %}
-                        </a>
-                    </li>
-                {% endfor %}
-                </ul>
+            <div class="row">
+                <div class="col-sm-6 col-md-4">
+                    <h2>{% trans "Django Releases" %}</h2>
+                    <ul>
+                        {% for release in django_releases %}
+                            <li class="tw-text-2xl">
+                                <a href="{% url 'readiness_detail' product_slug=release.product.slug cycle=release.cycle %}">
+                                    {{ release }}
+                                    {% if release.lts %} LTS {% endif %}
+                                    {% if release.is_eol %}(Past EOL){% endif %}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
-        </div>
         {% endif %}
 
         {% if python_releases.exists %}
-        <div class="row">
-            <div class="col-sm-6 col-md-4">
-                <h2>{% trans "Python Releases" %}</h2>
-                <ul>
-                {% for release in python_releases %}
-                    <li class="tw-text-2xl">
-                        <a href="{% url 'readiness_detail' product_slug=release.product.slug cycle=release.cycle %}">
-                        {{ release }}
-                        {% if release.lts %} LTS {% endif %}
-                        {% if release.is_eol %}(Past EOL){% endif %}
-                        </a>
-                    </li>
-                {% endfor %}
-                </ul>
+            <div class="row">
+                <div class="col-sm-6 col-md-4">
+                    <h2>{% trans "Python Releases" %}</h2>
+                    <ul>
+                        {% for release in python_releases %}
+                            <li class="tw-text-2xl">
+                                <a href="{% url 'readiness_detail' product_slug=release.product.slug cycle=release.cycle %}">
+                                    {{ release }}
+                                    {% if release.lts %} LTS {% endif %}
+                                    {% if release.is_eol %}(Past EOL){% endif %}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
-        </div>
         {% endif %}
 
         {% if wagtail_releases.exists %}
-        <div class="row">
-            <div class="col-sm-6 col-md-4">
-                <h2>{% trans "Wagtail Releases" %}</h2>
-                <ul>
-                {% for release in wagtail_releases %}
-                    <li class="tw-text-2xl">
-                        <a href="{% url 'readiness_detail' product_slug=release.product.slug cycle=release.cycle %}">
-                        {{ release }}
-                        {% if release.lts %} LTS {% endif %}
-                        {% if release.is_eol %}(Past EOL){% endif %}
-                        </a>
-                    </li>
-                {% endfor %}
-                </ul>
+            <div class="row">
+                <div class="col-sm-6 col-md-4">
+                    <h2>{% trans "Wagtail Releases" %}</h2>
+                    <ul>
+                        {% for release in wagtail_releases %}
+                            <li class="tw-text-2xl">
+                                <a href="{% url 'readiness_detail' product_slug=release.product.slug cycle=release.cycle %}">
+                                    {{ release }}
+                                    {% if release.lts %} LTS {% endif %}
+                                    {% if release.is_eol %}(Past EOL){% endif %}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
-        </div>
         {% endif %}
 
     </div>
