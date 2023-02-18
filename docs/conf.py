@@ -40,6 +40,7 @@ extensions = [
     "sphinx.ext.coverage",
     "sphinx.ext.doctest",
     "sphinx.ext.viewcode",
+    "sphinx_copybutton",
     "sphinx_material",
 ]
 
@@ -252,3 +253,7 @@ man_pages = [
         1,
     )
 ]
+
+# -- MyST settings  ------------------------------------------------------------
+
+copybutton_prompt_text = "$ "

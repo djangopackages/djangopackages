@@ -104,7 +104,10 @@ sphinx==4.5.0
     # via
     #   myst-parser
     #   rst-to-myst
+    #   sphinx-copybutton
     #   sphinx-material
+sphinx-copybutton==0.5.1
+    # via -r docs/requirements.in
 sphinx-material==0.0.35
     # via -r docs/requirements.in
 sphinx-reload==0.2.0
