@@ -16,7 +16,7 @@
                 <h1 class="text-6xl font-bold">
                     {{ release.product.title }} {{ release.cycle }} Readiness
                 </h1>
-                <div>{{ release.product.title }} {{ release.cycle }} support graph for the {{ limit }} most popular {{ release.product.title }} packages!</div>
+                <div>{{ release.product.title }} {{ release.cycle }} support graph for the {{ packages|length }} most popular {{ release.product.title }} packages!</div>
                 <h2>How do you identify {{ release.product.title }} {{ release.cycle }} support?</h2>
                 <p>We look for the <code>{{ ready_condition}}</code> classifier on the latest release of the project.</p>
             </div>
