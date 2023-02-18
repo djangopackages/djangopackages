@@ -130,6 +130,10 @@
   display: grid
 }
 
+.tw-grid-cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr))
+}
+
 .tw-grid-cols-3 {
   grid-template-columns: repeat(3, minmax(0, 1fr))
 }
@@ -203,4 +207,30 @@
 
 .tw-underline {
   text-decoration-line: underline
+}
+
+@media (min-width: 640px) {
+  .sm\:tw-grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr))
+  }
+
+  .sm\:tw-grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr))
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:tw-grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr))
+  }
+
+  .lg\:tw-grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr))
+  }
+}
+
+@media (min-width: 1280px) {
+  .xl\:tw-grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr))
+  }
 }

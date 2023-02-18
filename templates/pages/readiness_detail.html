@@ -25,7 +25,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <h2 class="tw-text-4xl tw-pb-4 tw-font-medium">{{ product_slug }} Release {{ cycle }}</h2>
-                <div class="tw-grid tw-grid-cols-3 tw-gap-2">
+                <div class="tw-grid sm:tw-grid-cols-2 lg:tw-grid-cols-3 xl:tw-grid-cols-4 tw-gap-2">
                     {% for package in packages %}
                         <div class="tw-px-4 tw-py-2
                             {% if package.is_ready == 'yes' %}tw-bg-green-500 tw-text-gray-900
