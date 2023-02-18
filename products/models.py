@@ -1,5 +1,6 @@
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from core.models import BaseModel
@@ -23,6 +24,21 @@ class Product(BaseModel):
 
 
 class Release(BaseModel):
+    """
+    # see: https://endoflife.date/docs/api
+
+    makemodel Release
+    - cycle: number or string - Release Cycle
+    - release: string <date> - Release Date for the first release in this cycle
+    - eol: string or boolean - End of Life Date for this release cycle
+    - latest: string - Latest release in this cycle
+    - link: string - Link to changelog for the latest release, if available
+    - lts: boolean - Whether this release cycle has long-term-support (LTS)
+    - support: string or boolean <date> - Whether this release cycle has active support
+    - cycleShortHand: string - Optional shorthand name for this release cycle
+    - discontinued: string or boolean <date> - Whether this cycle is now discontinued.
+    """
+
     product = models.ForeignKey("Product", on_delete=models.CASCADE)
     cycle = models.CharField(_("Release Cycle"), max_length=50)  # : number or string -
     cycle_short_hand = models.CharField(
@@ -56,33 +72,8 @@ class Release(BaseModel):
     def __str__(self):
         return f"{self.product.title} {self.cycle}"
 
-
-"""
-python manage.py startapp products
-
-----
-
-# see: https://endoflife.date/docs/api to fetch all
-
-makemodel Product
-
-- name
-- slug
-- endpoint
-- active
-
-----
-
-# see: https://endoflife.date/docs/api
-
-makemodel Release
-- cycle: number or string - Release Cycle
-- release: string <date> - Release Date for the first release in this cycle
-- eol: string or boolean - End of Life Date for this release cycle
-- latest: string - Latest release in this cycle
-- link: string - Link to changelog for the latest release, if available
-- lts: boolean - Whether this release cycle has long-term-support (LTS)
-- support: string or boolean <date> - Whether this release cycle has active support
-- cycleShortHand: string - Optional shorthand name for this release cycle
-- discontinued: string or boolean <date> - Whether this cycle is now discontinued.
-"""
+    @property
+    def is_eol(self):
+        if self.eol:
+            return self.eol < timezone.now().date()
+        return None

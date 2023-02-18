@@ -10,6 +10,7 @@ from django.views.generic import TemplateView
 from grid.models import Grid
 from homepage.models import PSA, Dpotw, Gotw
 from package.models import Category, Commit, Package, Version
+from products.models import Product, Release
 
 
 class OpenView(TemplateView):
@@ -33,6 +34,7 @@ class OpenView(TemplateView):
             "total_python_3_9": "Programming Language :: Python :: 3.9",
             "total_python_3_10": "Programming Language :: Python :: 3.10",
             "total_python_3_11": "Programming Language :: Python :: 3.11",
+            "total_python_3_12": "Programming Language :: Python :: 3.12",
         }
         vcs_providers = {
             "repos_bitbucket": "bitbucket.org",
@@ -98,6 +100,106 @@ class OpenView(TemplateView):
                 "total_versions": Version.objects.count(),
             }
         )
+
+        return context_data
+
+
+class ReadinessView(TemplateView):
+    template_name = "readiness/index.html"
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+
+        # Django Releases
+        django_releases = Release.objects.filter(product__slug="django").order_by(
+            "-release"
+        )
+        context_data["django_releases"] = django_releases
+
+        # Python Releases
+        python_releases = Release.objects.filter(product__slug="python").order_by(
+            "-release"
+        )
+        context_data["python_releases"] = python_releases
+
+        # Wagtail Releases
+        wagtail_releases = Release.objects.filter(product__slug="wagtail").order_by(
+            "-release"
+        )
+        context_data["wagtail_releases"] = wagtail_releases
+
+        return context_data
+
+
+class ReadinessDetailView(TemplateView):
+    template_name = "readiness/readiness_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+
+        limit = 120
+        context_data["limit"] = limit
+
+        product_slug = self.kwargs.get("product_slug")
+        product = Product.objects.get(slug=product_slug)
+        context_data["product"] = product
+
+        cycle = self.kwargs.get("cycle")
+        context_data["cycle"] = cycle
+
+        release = Release.objects.get(product=product, cycle=cycle)
+        context_data["release"] = release
+
+        if product_slug == "django":
+            pypi_classifier = ["Framework :: Django"]
+            ready_condition = f"Framework :: Django :: {cycle}"
+
+        elif product_slug == "python":
+            pypi_classifier = [
+                "Programming Language :: Python",
+                "Programming Language :: Python :: 3",
+            ]
+            ready_condition = f"Programming Language :: Python :: {cycle}"
+
+        elif product_slug == "wagtail":
+            pypi_classifier = ["Framework :: Wagtail"]
+            ready_condition = f"Framework :: Wagtail :: {cycle}"
+
+        else:
+            pypi_classifier = ["None Pizza :: Left Beef"]
+            ready_condition = "None Pizza"
+
+        context_data["ready_condition"] = ready_condition
+
+        packages = (
+            Package.objects.only("title", "pypi_downloads", "pypi_classifiers", "slug")
+            .filter(pypi_classifiers__contains=pypi_classifier)
+            .exclude(
+                Q(title="django") | Q(slug="django")
+            )  # TODO: might be worth re-addressing...
+            .order_by("-pypi_downloads")[:limit]
+        )
+
+        packages = [package.__dict__ for package in packages]
+        for package in packages:
+            classifiers = [
+                classifier
+                for classifier in package["pypi_classifiers"]
+                if classifier.startswith(pypi_classifier[0])
+            ]
+
+            if ready_condition in classifiers:
+                package["is_ready"] = "yes"
+
+            elif len(classifiers) > 1:
+                package["is_ready"] = "no"
+
+            else:
+                package["is_ready"] = "maybe"
+
+        context_data["cycle"] = cycle
+        context_data["packages"] = packages
+        context_data["product_slug"] = product_slug.title()
 
         return context_data
 

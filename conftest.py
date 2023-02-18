@@ -4,10 +4,12 @@ import logging
 import pytest
 from django.test.utils import override_settings
 
+
 pytest_plugins = [
     "grid.tests.fixtures",
     "homepage.tests.fixtures",
     "package.tests.fixtures",
+    "products.tests.fixtures",
 ]
 
 

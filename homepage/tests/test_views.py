@@ -1,3 +1,7 @@
+import pytest
+
+from django.urls.exceptions import NoReverseMatch
+
 # def test_homepage_view(db, tp, homepage_data):
 #     url = reverse("home")
 #     response = tp.client.get(url)
@@ -52,3 +56,21 @@ def test_404_test(db, tp):
 def test_500_test(db, tp):
     response = tp.client.get("/500")
     assert response.status_code == 500
+
+
+def test_readiness(db, tp, django_assert_num_queries, product, release):
+    url = tp.reverse("readiness")
+    with django_assert_num_queries(7):
+        response = tp.client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.xfail(raises=NoReverseMatch)
+def test_readiness_detail(db, tp, django_assert_num_queries, product, release):
+    url = tp.reverse(
+        "readiness_detail",
+        kwargs={"product_slug": str(release.product.slug), "cycle": str(release.cycle)},
+    )
+    with django_assert_num_queries(0):
+        response = tp.client.get(url)
+    assert response.status_code == 200

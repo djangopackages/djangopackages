@@ -258,6 +258,20 @@ bootstrap *ARGS:
 @remove:
     ...
 
-@tailwind:
-    npx tailwindcss -i ./input.css -o ./static/css/tailwindcss.css build
-    npx tailwindcss -i ./input.css -o ./static/css/tailwindcss.css --watch
+# --------------------------------------------------
+# Tailwind CSS recipes
+# --------------------------------------------------
+
+@tailwind *ARGS:
+    npx tailwindcss \
+        --config ./static/js/tailwind.config.js \
+        --input ./static/css/tailwindcss.css \
+        --output ./static/css/tailwindcss.min.css \
+        {{ ARGS }}
+
+@tailwind-build:
+    just tailwind build
+
+@tailwind-watch:
+    just tailwind-build
+    just tailwind --watch
