@@ -6,11 +6,10 @@ from grid.models import Element, Feature, Grid
 from homepage.models import PSA
 from package.models import Category, Package
 
-# from searchv2.models import SearchV2
-
 
 @click.command()
 def command():
+    """Identifies objects with a text field greater than the maximum length."""
     TEXT_LIMIT = 500
 
     items = Element.objects.annotate(text_len=Length("text")).filter(
@@ -68,35 +67,3 @@ def command():
             print(
                 f"pk={item.pk} :: {len(item.repo_description)} :: {item.get_absolute_url()}"
             )
-
-    # items = Package.objects.annotate(text_len=Length("participants")).filter(
-    #     text_len__gt=TEXT_LIMIT
-    # )
-    # if items.exists():
-    #     print(f"[bold][yellow]Package (participants): {items.count()}[/yellow][/bold]")
-    #     for item in items:
-    #         print(f"pk={item.pk} :: {len(item.participants)}")
-
-    # items = Package.objects.annotate(text_len=Length("commit_list")).filter(
-    #     text_len__gt=TEXT_LIMIT
-    # )
-    # if items.exists():
-    #     print(f"[bold][yellow]Package (commit_list): {items.count()}[/yellow][/bold]")
-    #     for item in items:
-    #         print(f"pk={item.pk} :: {len(item.commit_list)}")
-
-    # items = SearchV2.objects.annotate(text_len=Length("description")).filter(
-    #     text_len__gt=TEXT_LIMIT
-    # )
-    # if items.exists():
-    #     print(f"[bold][yellow]SearchV2 (description): {items.count()}[/yellow][/bold]")
-    #     for item in items:
-    #         print(f"pk={item.pk} :: {len(item.description)}")
-
-    # items = SearchV2.objects.annotate(text_len=Length("participants")).filter(
-    #     text_len__gt=TEXT_LIMIT
-    # )
-    # if items.exists():
-    #     print(f"[bold][yellow]SearchV2 (participants): {items.count()}[/yellow][/bold]")
-    #     for item in items:
-    #         print(f"pk={item.pk} :: {len(item.participants)}")

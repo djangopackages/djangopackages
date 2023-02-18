@@ -17,6 +17,7 @@ ALLOW_LIST = [
 
 @click.command()
 def command():
+    """Updates our database against PyPI's trove classifiers"""
     print("[yellow]import_classifiers[/yellow]")
 
     for trove_classifier in sorted(trove_classifiers):

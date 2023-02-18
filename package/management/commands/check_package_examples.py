@@ -9,6 +9,12 @@ from package.models import PackageExample
 @click.command()
 @click.option("--limit", default=None, type=int)
 def command(limit):
+    """
+    Prints out stats about PackageExample objects, like the count of active and inactive objects.
+
+    For active PackageExamples, checks that the URL is valid. If it isn't, the PackageExample
+    is marked inactive.
+    """
     print("[bold]raw stats[/bold]")
     print(f"{PackageExample.objects.filter(active=None).count()=}")
     print(f"{PackageExample.objects.filter(active=True).count()=}")

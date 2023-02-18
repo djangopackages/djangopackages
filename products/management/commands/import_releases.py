@@ -8,6 +8,7 @@ from products.models import Product, Release
 
 @click.command()
 def command():
+    """Imports Release data for Packages from endoflife.date"""
     print("[yellow]import_releases[/yellow]")
 
     products = Product.objects.filter(active=True).order_by("slug")
