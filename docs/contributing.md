@@ -14,8 +14,8 @@ Before you do anything else, login/signup on GitHub and fork Django Packages fro
 
 If you have git installed, you now clone your git repo using the following command-line argument where \<my-github-name> is your account name on GitHub:
 
-```bash
-git clone git@github.com:<my-github-name>/djangopackages.git
+```shell
+$ git clone git@github.com:<my-github-name>/djangopackages.git
 ```
 
 ### Install Django Packages Locally
@@ -57,8 +57,8 @@ without those getting added to the pull.
 To create a topic branch, its easiest to use the convenient `-b` argument to `git
 checkout`:
 
-```bash
-git checkout -b fix-broken-thing
+```shell
+$ git checkout -b fix-broken-thing
 Switched to a new branch 'fix-broken-thing'
 ```
 
@@ -70,8 +70,8 @@ When you are ready to generate a pull request, either for preliminary review,
 or for consideration of merging into the project you must first push your local
 topic branch back up to GitHub:
 
-```bash
-git push origin fix-broken-thing
+```shell
+$ git push origin fix-broken-thing
 ```
 
 Now when you go to your fork on GitHub, you will see this branch listed under
@@ -94,21 +94,21 @@ Django Packages is advancing quickly. It is therefore critical that you pull ups
 
 To pull in upstream changes:
 
-```bash
-git remote add upstream https://github.com/djangopackages/djangopackages.git
-git fetch upstream develop
+```shell
+$ git remote add upstream https://github.com/djangopackages/djangopackages.git
+$ git fetch upstream develop
 ```
 
 Check the log to be sure that you actually want the changes, before merging:
 
-```bash
-git log upstream/develop
+```shell
+$ git log upstream/develop
 ```
 
 Then merge the changes that you fetched:
 
-```bash
-git merge upstream/develop
+```shell
+$ git merge upstream/develop
 ```
 
 For more info, see <http://help.github.com/fork-a-repo/>
@@ -121,8 +121,8 @@ We want your submission. But we also want to provide a stable experience for our
 
 Before you submit a pull request, please run the entire Django Packages test suite via:
 
-```bash
-docker-compose run django pytest
+```shell
+$ docker-compose run django pytest
 ```
 
 The first thing the core committers will do is run this command. Any pull request that fails this test suite will be **rejected**.
@@ -152,7 +152,7 @@ Django Packages pull requests should be as small/atomic as possible. Large, wide
 
 Memorize the Zen of Python:
 
-```bash
+```shell
 >>> python -c 'import this'
 ```
 
@@ -172,23 +172,23 @@ Any css/layout changes need to be tested in Chrome, Safari, Firefox, IE8, and IE
 
 First we pull the code into a local branch:
 
-```bash
-git checkout -b <branch-name> <submitter-github-name>
-git pull git://github.com/<submitter-github-name/djangopackages.git develop
+```shell
+$ git checkout -b <branch-name> <submitter-github-name>
+$ git pull git://github.com/<submitter-github-name/djangopackages.git develop
 ```
 
 Then we run the tests:
 
-```bash
-python manage.py test --settings=settings.test
+```shell
+$ python manage.py test --settings=settings.test
 ```
 
 We finish with a merge and push to GitHub:
 
-```bash
-git checkout develop
-git merge <branch-name>
-git push origin develop
+```shell
+$ git checkout develop
+$ git merge <branch-name>
+$ git push origin develop
 ```
 
 [github project]: https://github.com/djangopackages/djangopackages
