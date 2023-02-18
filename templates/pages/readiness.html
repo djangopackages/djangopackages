@@ -17,8 +17,8 @@
             </div>
         </div>
 
-        {% if django_releases.exists %}
-            <div class="row">
+        <div class="row">
+            {% if django_releases.exists %}
                 <div class="col-sm-6 col-md-4">
                     <h2>{% trans "Django Releases" %}</h2>
                     <ul>
@@ -33,11 +33,9 @@
                         {% endfor %}
                     </ul>
                 </div>
-            </div>
-        {% endif %}
+            {% endif %}
 
-        {% if python_releases.exists %}
-            <div class="row">
+            {% if python_releases.exists %}
                 <div class="col-sm-6 col-md-4">
                     <h2>{% trans "Python Releases" %}</h2>
                     <ul>
@@ -52,11 +50,9 @@
                         {% endfor %}
                     </ul>
                 </div>
-            </div>
-        {% endif %}
+            {% endif %}
 
-        {% if wagtail_releases.exists %}
-            <div class="row">
+            {% if wagtail_releases.exists %}
                 <div class="col-sm-6 col-md-4">
                     <h2>{% trans "Wagtail Releases" %}</h2>
                     <ul>
@@ -71,8 +67,14 @@
                         {% endfor %}
                     </ul>
                 </div>
-            </div>
-        {% endif %}
+            {% endif %}
+        </div>
 
+        <div class="row">
+            <div class="pt-8 pb-4 col-lg-12">
+                <h2>Thanks</h2>
+                <p>This is derivative work from <a href="https://pyreadiness.org">pyreadiness.org</a> and py3readiness.org, a site that previously tracked general compatibility with Python 3, which in turn was a derivative of pythonwheels.com, a site that tracks which Python distributions ship the wheel distribution.</p>
+            </div>
+        </div>
     </div>
 {% endblock %}
