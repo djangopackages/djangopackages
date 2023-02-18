@@ -1,4 +1,5 @@
 myst-parser
 rst-to-myst[sphinx]
+sphinx-copybutton
 sphinx-material
 sphinx-reload
