@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+{% load i18n %}
+{% load page_metadata_tags %}
+
+{% block metadata %}
+    {% trans "Open" as trans_title %}
+    {% page_metadata page_title=trans_title %}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 pt-8 pb-4">
+                <h1 class="text-6xl font-bold">
+                    {{ release.product.title }} {{ release.cycle }} Readiness
+                </h1>
+                <div>{{ release.product.title }} {{ release.cycle }} support graph for the {{ limit }} most popular {{ release.product.title }} packages!</div>
+                <h2>How do you identify {{ release.product.title }} {{ release.cycle }} support?</h2>
+                <p>We look for the <code>{{ ready_condition}}</code> classifier on the latest release of the project.</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="tw-text-4xl tw-pb-4 tw-font-medium">{{ product_slug }} Release {{ cycle }}</h2>
+                <div class="tw-grid tw-grid-cols-3 tw-gap-2">
+                {% for package in packages %}
+                    <div class="tw-px-4 tw-py-2
+                        {% if package.is_ready == 'yes' %}tw-bg-green-500 tw-text-gray-900
+                        {% elif package.is_ready == 'maybe' %}tw-bg-yellow-200 tw-text-gray-900
+                        {% else %}tw-bg-gray-100 tw-text-gray-100{% endif %}">
+                    <a class="tw-text-gray-900 tw-underline" href="{% url 'package' slug=package.slug %}">
+                        {{ forloop.counter }}:
+                        {{ package.title }} ({{ package.pypi_downloads|intcomma }} downloads)
+                    </a>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 pt-8 pb-4">
+                <h2>Thanks</h2>
+                <p>This is derivative work from <a href="https://pyreadiness.org">pyreadiness.org</a> and py3readiness.org, a site that previously tracked general compatibility with Python 3, which in turn was a derivative of pythonwheels.com, a site that tracks which Python distributions ship the wheel distribution.</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
