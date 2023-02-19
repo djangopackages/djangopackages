@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-02-18]
+### Changed
+- :sparkles: Adds very alpha Django/Python/Wagtail Readiness ([#929](https://github.com/djangopackages/djangopackages/pull/929))
+- :books: Docstrings and docs for some management commands  ([#927](https://github.com/djangopackages/djangopackages/pull/927))
+- :books: Add sphinx copybutton ([#928](https://github.com/djangopackages/djangopackages/pull/928))
+
 ## [2023-02-16]
 ### Changed
 - :pushpin: Pin django-crispy-forms&lt;2 ([#925](https://github.com/djangopackages/djangopackages/pull/925))
