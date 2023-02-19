@@ -1,16 +1,23 @@
+  <!-- HTML Meta Tags -->
+<title>{{ site_title }} : {{ page_title }}</title>
 <meta name="description" content="{{ page_description }}" />
 <meta name="keywords" content="{{ page_keywords }}" />
-<title>{{ site_title }} : {{ page_title }}</title>
 
-<meta property="og:type" content="website" />
-<meta property="og:site_name" content="{{ site_title }}" />
-<meta property="og:title" content="{{ site_title }} : {{ page_title }}" />
 <meta property="og:description" content="{{ page_description }}" />
-<meta property="og:url" content="{{ page_url }}" />
 <meta property="og:image" content="{{ og_image_url }}" />
 <meta property="og:image:alt" content="Django Packages logo" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="600" />
+<meta property="og:image:height" content="630" />
 <meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:site_name" content="{{ site_title }}" />
+<meta property="og:title" content="{{ site_title }} : {{ page_title }}" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{ page_url }}" />
 
-<meta name="twitter:card" content="summary_large_image" />
+<!-- Twitter Meta Tags -->
+<meta property="twitter:domain" content="djangopackages.org">
+<meta property="twitter:url" content="{{ page_url }}" />
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:description" content="{{ page_description }}" />
+<meta name="twitter:image" content="{{ og_image_url }}" />
+<meta name="twitter:title" content="{{ site_title }} : {{ page_title }}" />
