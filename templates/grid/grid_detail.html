@@ -10,7 +10,7 @@
 {% load emojificate %}
 
 {% block metadata %}
-    {% page_metadata page_title=grid.title page_description=grid.description page_keywords=grid.packages.all|join:',' %}
+    {% page_metadata page_title=grid.title page_description=grid.description page_keywords=grid.packages.all|join:',' og_image_url=grid.get_opengraph_image_url %}
 {% endblock %}
 
 {% block extra_head %}

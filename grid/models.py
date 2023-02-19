@@ -70,6 +70,9 @@ class Grid(BaseModel):
     def get_absolute_url(self):
         return reverse("grid", args=[self.slug])
 
+    def get_opengraph_image_url(self):
+        return reverse("grid_opengraph", args=[self.slug])
+
     def get_detail_template_cache_key(self):
         return grid_make_template_fragment_key("detail_template_cache", [str(self.pk)])
 

@@ -147,6 +147,9 @@ class Package(BaseModel):
     def get_absolute_url(self):
         return reverse("package", args=[self.slug])
 
+    def get_opengraph_image_url(self):
+        return reverse("package_opengraph", args=[self.slug])
+
     @property
     def is_deprecated(self):
         return self.date_deprecated is not None
