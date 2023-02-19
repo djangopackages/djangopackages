@@ -33,8 +33,6 @@ def page_metadata(
         url = f"{quote_plus(base_url + og_image_url)}"
         og_image_url = f"https://v1.screenshot.11ty.dev/{url}/opengraph/"
 
-    print(f"{og_image_url=}")
-
     return {
         "base_url": base_url,
         "og_image_url": og_image_url,
