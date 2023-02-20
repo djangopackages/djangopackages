@@ -6,7 +6,7 @@
 {% load page_metadata_tags %}
 
 {% block metadata %}
-    {% page_metadata page_title=package.title|emojify|emojificate page_description=package.repo_description page_keywords=package.grid_set.all|join:','  og_image_url=package.get_opengraph_image_url %}
+    {% page_metadata page_title=package.title | emojify | emojificate page_description=package.repo_description page_keywords=package.grid_set.all|join:','  og_image_url=package.get_opengraph_image_url %}
 {% endblock %}
 
 {% block extra_head %}
