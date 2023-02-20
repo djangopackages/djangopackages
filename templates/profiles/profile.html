@@ -55,7 +55,7 @@
                         {% for package in local_profile.my_packages %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
-                                <td><a href="{{ package.get_absolute_url }}">{{ package.title | emojify| emojificate  }}</a></td>
+                                <td><a href="{{ package.get_absolute_url }}">{{ package.title | emojify | emojificate }}</a></td>
                                 <td><a href="{{ package.repo_url }}">{{ package.repo.title }}</a></td>
                             </tr>
                         {% endfor %}

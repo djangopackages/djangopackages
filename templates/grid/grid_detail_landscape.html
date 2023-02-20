@@ -1,7 +1,8 @@
 {% extends "grid/base.html" %}
 
-{% load i18n %}
+{% load emojificate %}
 {% load grid_tags %}
+{% load i18n %}
 {% load package_tags %}
 {% load page_metadata_tags %}
 
@@ -28,7 +29,7 @@
 
     </h2>
     <p>
-        {{ grid.description|urlize|linebreaksbr }}
+        {{ grid.description|emojify|emojificate|safe|urlize|linebreaksbr }}
     </p>
 
     <p id="grid-toggle">&nbsp;</p>

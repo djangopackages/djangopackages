@@ -30,7 +30,7 @@
                 {% endif %}
             </h2>
             <p>
-                {{ grid.description|urlize|linebreaksbr|emojify|emojificate }}
+                {{ grid.description|emojify|emojificate|safe|urlize|linebreaksbr }}
             </p>
         </div>
         <div class="col-lg-6">
