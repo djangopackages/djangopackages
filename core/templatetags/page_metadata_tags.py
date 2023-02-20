@@ -31,7 +31,7 @@ def page_metadata(
         og_image_url = f"{base_url}{settings.STATIC_URL}img/open_graph.png"
     else:
         url = f"{quote_plus(base_url + og_image_url)}"
-        og_image_url = f"https://v1.screenshot.11ty.dev/{url}/opengraph/"
+        og_image_url = f"https://v1.screenshot.11ty.dev/{url}/opengraph/_20230219/"
 
     return {
         "base_url": base_url,
