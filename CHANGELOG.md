@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-02-20]
+### Changed
+- :pencil: Updates description formatting ([#932](https://github.com/djangopackages/djangopackages/pull/932))
+
 ## [2023-02-19]
 ### Changed
 - :art: Adjust opengraph previews ([#930](https://github.com/djangopackages/djangopackages/pull/930))
