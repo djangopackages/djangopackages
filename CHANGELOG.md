@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-02-24]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#933](https://github.com/djangopackages/djangopackages/pull/933))
+
 ## [2023-02-20]
 ### Changed
 - :pencil: Updates description formatting ([#932](https://github.com/djangopackages/djangopackages/pull/932))
