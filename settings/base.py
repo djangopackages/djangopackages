@@ -1,5 +1,5 @@
 # Django settings
-
+import sys
 from pathlib import Path
 
 import environ
@@ -11,6 +11,7 @@ PROJECT_ROOT = Path(__file__).parent.parent
 
 DEBUG = env.bool("DJANGO_DEBUG", True)
 TEMPLATE_DEBUG = env.bool("TEMPLATE_DEBUG", True)
+TEST_MODE = "pytest" in sys.modules
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -282,9 +283,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 WSGI_APPLICATION = "wsgi.application"
 
-if DEBUG:
+if DEBUG and not TEST_MODE:
     INSTALLED_APPS += ["debug_toolbar"]
-    # MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
+    MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
     DEBUG_TOOLBAR_CONFIG = {
         "INTERCEPT_REDIRECTS": False,
         "SHOW_TOOLBAR_CALLBACK": lambda _request: DEBUG,
