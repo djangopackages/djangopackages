@@ -30,29 +30,5 @@ Do you want to contribute to making [Django Packages](https://djangopackages.org
 1. Follow the [installation] instructions to get the website running locally
 2. Consult the [contributing] instructions to help make your first pull request a success
 
-Contents:
-
-```{toctree}
-:maxdepth: 1
-
-contributing
-install
-install_opinionated.md
-testing_instructions
-deployment
-management_commands
-repo_handlers
-apiv3_docs
-faq
-history
-license
-```
-
-# Indices and tables
-
-- {ref}`genindex`
-- {ref}`modindex`
-- {ref}`search`
-
 [contributing]: contributing.md
 [installation]: install.md

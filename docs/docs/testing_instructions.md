@@ -9,13 +9,13 @@ See the [Install] page for details, or the [Opinionated Install] instructions if
 To run all of the Django Packages tests:
 
 ```shell
-$ docker-compose run django pytest
+docker-compose run django pytest
 ```
 
 Alternatively, you can use [just]:
 
 ```shell
-$ just test
+just test
 ```
 
 ## Selectively running tests
@@ -23,13 +23,13 @@ $ just test
 To run tests for a particular Django Packages app, for example the feeds app:
 
 ```shell
-$ docker-compose run django pytest feeds
+docker-compose run django pytest feeds
 ```
 
 Alternatively, you can use [just]:
 
 ```shell
-$ just test feeds
+just test feeds
 ```
 
 [just]: https://github.com/casey/just

@@ -18,13 +18,13 @@ Representation formats
 ### Base URI
 
 | URI                           | Resource | Methods |
-| ----------------------------- | -------- | ------- |
-| \<http-my-domain.com>/api/v3/ | Root     | GET     |
+|-------------------------------|----------|---------|
+| <http-my-domain.com\>/api/v3/ | Root     | GET     |
 
 ### URIs
 
 | URI                         | Resource           | Methods |
-| --------------------------- | ------------------ | ------- |
+|-----------------------------|--------------------|---------|
 | /                           | Index              | GET     |
 | /[categories]/              | Category list      | GET     |
 | /[categories]/\{slug}/      | Category           | GET     |
@@ -41,9 +41,7 @@ Representation formats
 
 Representation:
 
-```{eval-rst}
-.. parsed-literal::
-
+```json
     {
         "absolute_url": "/categories/apps/",
         "show_pypi": true,
@@ -61,16 +59,14 @@ Representation:
 
 Representation:
 
-```{eval-rst}
-.. parsed-literal::
-
+```json
     {
-        absolute_url: "/grids/g/cms/",
-        created: "Sat, 14 Aug 2010 20:12:46 -0400",
-        description: "This is a list of Content Management System applications for Django.",
-        is_locked: false,
-        modified: "Sat, 11 Sep 2010 14:57:16 -0400",
-        packages: [
+        "absolute_url": "/grids/g/cms/",
+        "created": "Sat, 14 Aug 2010 20:12:46 -0400",
+        "description": "This is a list of Content Management System applications for Django.",
+        "is_locked": false,
+        "modified": "Sat, 11 Sep 2010 14:57:16 -0400",
+        "packages": [
             "/api/v3/package/django-cms/",
             "/api/v3/package/mezzanine/",
             "/api/v3/package/django-page-cms/",
@@ -81,11 +77,11 @@ Representation:
             "/api/v3/package/django-gitcms/",
             "/api/v3/package/django-simplepages/",
             "/api/v3/package/djpcms/",
-            "/api/v3/package/feincms/",
+            "/api/v3/package/feincms/"
         ],
-        resource_uri: "/api/v3/grid/cms/",
-        slug: "cms",
-        title: "CMS"
+        "resource_uri": "/api/v3/grid/cms/",
+        "slug": "cms",
+        "title": "CMS"
     }
 ```
 
@@ -93,9 +89,7 @@ Representation:
 
 Representation:
 
-```{eval-rst}
-.. parsed-literal::
-
+```json
     {
         "last_fetched": "2015-02-28T12:04:58.537",
         "slug": "django",
@@ -129,9 +123,7 @@ Representation:
 
 Representation:
 
-```{eval-rst}
-.. parsed-literal::
-
+```json
     {
         "username": "jezdez",
         "last_login": "2014-09-21T07:37:17.619",
