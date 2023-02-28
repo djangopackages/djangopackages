@@ -46,8 +46,8 @@
                     <ul class="nav navbar-nav navbar-right hidden-xs">
                         <form action="{% url 'search' %}" class="navbar-form pull-left hidden-xs">
                             <input type="text" name="q" class="col-12 form-control" style="width: 240px;" id="search-2"
-                                ng-model="model.q" ng-keyup="search(model, '{% url 'apiv4:searchv2-list' %}')"
-                                placeholder="Search" autocomplete="off">
+                                   ng-model="model.q" ng-keyup="search(model, '{% url 'apiv4:searchv2-list' %}')"
+                                   placeholder="Search" autocomplete="off">
                         </form>
                         {% if request.user.is_authenticated %}
                             {% if profile.github_account %}
@@ -60,7 +60,7 @@
                             <li><a href="{% url 'logout' %}">{% trans "Log out" %}</a></li>
                         {% else %}
                             <li><a href="
-                                {% url 'social:begin' 'github' %}{% if current_path %}?next={{ current_path }}{% endif %}">{% trans "Log In" %}</a>
+                                         {% url 'social:begin' 'github' %}{% if current_path %}?next={{ current_path }}{% endif %}">{% trans "Log In" %}</a>
                             </li>
                         {% endif %}
 
