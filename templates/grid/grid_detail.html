@@ -351,8 +351,8 @@
             function scrollFixed() {
                 $win = $(window);
                 var offset = $win.scrollTop(),
-                tableOffsetTop = $table.offset().top,
-                tableOffsetBottom = tableOffsetTop + $table.height() - $header.height();
+                    tableOffsetTop = $table.offset().top,
+                    tableOffsetBottom = tableOffsetTop + $table.height() - $header.height();
                 var toggle = offset >= tableOffsetTop && offset <= tableOffsetBottom;
                 $header.toggle(toggle);
                 $header.css("margin-left", (toggle) ? -$win.scrollLeft() + "px" : 0);
