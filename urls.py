@@ -86,7 +86,7 @@ urlpatterns = [
     # url(r'^api/v1/', include('core.apiv1', namespace="apitest")),
 ]
 
-if settings.DEBUG:
+if settings.DEBUG and not settings.TEST_MODE:
     import debug_toolbar
 
     urlpatterns.append(path("__debug__/", include(debug_toolbar.urls)))
