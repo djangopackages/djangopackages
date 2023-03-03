@@ -38,13 +38,13 @@ The effort to support databases besides PostGreSQL was hampered for long time, a
 We use a **Mock** system of creating sample data in our tests and for running a development version of the site. To create some development data, just run:
 
 ```shell
-$ docker-compose run --rm django python manage.py load_dev_data
+docker-compose run --rm django python manage.py load_dev_data
 ```
 
 Alternatively, you can use `just`
 
 ```shell
-$ just management-command load_dev_data
+just management-command load_dev_data
 ```
 
 ## Unsupported Repo Hosting Services
@@ -59,5 +59,4 @@ Don't give up!  Submit problems to <http://github.com/djangopackages/djangopacka
 2. Spend the time to learn GitHub markup
 
 [contributions]: contributing.md
-[faq]: faq
 [repo handler api]: repo_handlers.md

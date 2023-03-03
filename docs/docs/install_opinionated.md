@@ -2,8 +2,6 @@
 
 These instructions install Django Packages on your computer, using Docker.
 
-If you run into problems, see the [Troubleshooting] section.
-
 ## Set up Tooling
 
 You'll want to make sure your local environment is ready by installing the following tools.
@@ -19,8 +17,8 @@ If you don't have them installed yet, install [Docker] and [docker-compose].
 Clone the Django Packages project using git:
 
 ```shell
-$ git clone git@github.com:<your-github-username>/djangopackages.git
-$ cd djangopackages
+git clone git@github.com:<your-github-username>/djangopackages.git
+cd djangopackages
 ```
 
 ### Set Up Your Development Environment
@@ -28,7 +26,7 @@ $ cd djangopackages
 In order to run the project, you'll need to run the following command:
 
 ```shell
-$ just setup
+just setup
 ```
 
 ### Add A GitHub API Token
@@ -42,7 +40,7 @@ metadata, and required for certain tests.
 Now build the project using docker-compose:
 
 ```shell
-$ just build
+just build
 ```
 
 ### Run the Project
@@ -50,7 +48,7 @@ $ just build
 To start the project, run:
 
 ```shell
-$ just up
+just up
 ```
 
 Then point your browser to <http://localhost:8000> and start hacking!
@@ -62,7 +60,7 @@ Now, you'll give yourself an admin account on the locally-running version of Dja
 Create a Django superuser for yourself, replacing joe with your username/email:
 
 ```shell
-$ just createsuperuser joe joe@example.com
+just createsuperuser joe joe@example.com
 ```
 
 And then login into the admin interface (/admin/) and create a profile for your user filling all the fields with any data.
@@ -79,20 +77,20 @@ We use the command runner [just]. Install instructions are available on the [jus
 To install the pre-commit hooks:
 
 ```shell
-$ pip install pre-commit
-$ pre-commit install
+pip install pre-commit
+pre-commit install
 ```
 
 To run all pre-commit rules by hand:
 
 ```shell
-$ pre-commit run --all-files
+pre-commit run --all-files
 ```
 
 To run a pre-commit rule by hand:
 
 ```shell
-$ pre-commit run black
+pre-commit run black
 ```
 
 [docker-compose]: https://docs.docker.com/compose/install/
@@ -100,4 +98,3 @@ $ pre-commit run black
 [just]: https://github.com/casey/just
 [opinionated]: install_opinionated.md
 [pre-commit]: https://github.com/pre-commit/pre-commit
-[Troubleshooting]: troubleshooting.md
