@@ -7,6 +7,7 @@ services:
       dockerfile: ./compose/django/Dockerfile-dev
     hostname: django
     image: djpkg-dev-django
+    init: true
     command: /start-dev.sh
     depends_on:
       - postgres
@@ -33,6 +34,7 @@ services:
     env_file:
       - .env.local
     image: djpkg-dev-celery
+    init: true
     profiles:
       - celery
     volumes:
@@ -51,6 +53,7 @@ services:
     env_file:
       - .env.local
     image: djpkg-dev-celery-beat
+    init: true
     profiles:
       - celery
     volumes:
@@ -62,6 +65,7 @@ services:
     build: ./compose/postgres
     hostname: postgres
     image: djpkg-dev-postgres
+    init: true
     env_file:
       - .env.local
     expose:
@@ -84,6 +88,7 @@ services:
     expose:
       - 6379
     image: djpkg-dev-redis
+    init: true
     healthcheck:
       test: [
           "CMD",
