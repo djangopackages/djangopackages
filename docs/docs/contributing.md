@@ -12,15 +12,15 @@ Before you do anything else, login/signup on GitHub and fork Django Packages fro
 
 ### Clone Your Fork Locally
 
-If you have git installed, you now clone your git repo using the following command-line argument where \<my-github-name> is your account name on GitHub:
+If you have git installed, you now clone your git repo using the following command-line argument where `<my-github-name>` is your account name on GitHub:
 
 ```shell
-$ git clone git@github.com:<my-github-name>/djangopackages.git
+git clone git@github.com:<my-github-name>/djangopackages.git
 ```
 
 ### Install Django Packages Locally
 
-Follow our detailed {doc}`installation <install>` instructions. Please record any difficulties you have and share them with the Django Packages community via our [issue tracker].
+Follow our detailed [installation](install.md) instructions. Please record any difficulties you have and share them with the Django Packages community via our [issue tracker].
 
 ## Issues!
 
@@ -58,7 +58,9 @@ To create a topic branch, its easiest to use the convenient `-b` argument to `gi
 checkout`:
 
 ```shell
-$ git checkout -b fix-broken-thing
+git checkout -b fix-broken-thing
+```
+```shell
 Switched to a new branch 'fix-broken-thing'
 ```
 
@@ -71,7 +73,7 @@ or for consideration of merging into the project you must first push your local
 topic branch back up to GitHub:
 
 ```shell
-$ git push origin fix-broken-thing
+git push origin fix-broken-thing
 ```
 
 Now when you go to your fork on GitHub, you will see this branch listed under
@@ -95,20 +97,20 @@ Django Packages is advancing quickly. It is therefore critical that you pull ups
 To pull in upstream changes:
 
 ```shell
-$ git remote add upstream https://github.com/djangopackages/djangopackages.git
-$ git fetch upstream develop
+git remote add upstream https://github.com/djangopackages/djangopackages.git
+git fetch upstream develop
 ```
 
 Check the log to be sure that you actually want the changes, before merging:
 
 ```shell
-$ git log upstream/develop
+git log upstream/develop
 ```
 
 Then merge the changes that you fetched:
 
 ```shell
-$ git merge upstream/develop
+git merge upstream/develop
 ```
 
 For more info, see <http://help.github.com/fork-a-repo/>
@@ -122,7 +124,7 @@ We want your submission. But we also want to provide a stable experience for our
 Before you submit a pull request, please run the entire Django Packages test suite via:
 
 ```shell
-$ docker-compose run django pytest
+docker-compose run django pytest
 ```
 
 The first thing the core committers will do is run this command. Any pull request that fails this test suite will be **rejected**.
@@ -144,7 +146,7 @@ If you change two lines of code and correct 200 lines of whitespace issues in a 
 Django Packages pull requests should be as small/atomic as possible. Large, wide-sweeping changes in a pull request will be **rejected**, with comments to isolate the specific code in your pull request. Some examples:
 
 1. If you are making spelling corrections in the docs, don't modify the settings.py file ([pydanny] is guilty of this mistake).
-2. Adding new {doc}`repo_handlers` must not touch the Package model or its methods.
+2. Adding new [Repo Handlers](repo_handlers.md) must not touch the Package model or its methods.
 3. If you are adding a new view don't '*cleanup*' unrelated views. That cleanup belongs in another pull request.
 4. Changing permissions on a file should be in its own pull request with explicit reasons why.
 
@@ -173,22 +175,22 @@ Any css/layout changes need to be tested in Chrome, Safari, Firefox, IE8, and IE
 First we pull the code into a local branch:
 
 ```shell
-$ git checkout -b <branch-name> <submitter-github-name>
-$ git pull git://github.com/<submitter-github-name/djangopackages.git develop
+git checkout -b <branch-name> <submitter-github-name>
+git pull git://github.com/<submitter-github-name/djangopackages.git develop
 ```
 
 Then we run the tests:
 
 ```shell
-$ python manage.py test --settings=settings.test
+python manage.py test --settings=settings.test
 ```
 
 We finish with a merge and push to GitHub:
 
 ```shell
-$ git checkout develop
-$ git merge <branch-name>
-$ git push origin develop
+git checkout develop
+git merge <branch-name>
+git push origin develop
 ```
 
 [github project]: https://github.com/djangopackages/djangopackages

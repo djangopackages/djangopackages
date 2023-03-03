@@ -19,8 +19,8 @@ If you don't have them installed yet, install [Docker] and [docker-compose].
 Clone the Django Packages project using git:
 
 ```shell
-$ git clone git@github.com:<your-github-username>/djangopackages.git
-$ cd djangopackages
+git clone git@github.com:<your-github-username>/djangopackages.git
+cd djangopackages
 ```
 
 ### Set Up Your Development Environment
@@ -30,7 +30,7 @@ All of the environment variables and settings that are needed to run the project
 In order to run the project, you'll need to run the following command:
 
 ```shell
-$ cp .env.local.example .env.local
+cp .env.local.example .env.local
 ```
 
 ### Build the Docker Containers
@@ -38,7 +38,7 @@ $ cp .env.local.example .env.local
 Now build the project using docker-compose:
 
 ```shell
-$ docker-compose build
+docker-compose build
 ```
 
 ### Add A GitHub API Token (optional)
@@ -52,7 +52,7 @@ metadata, and required for certain tests.
 To start the project, run:
 
 ```shell
-$ docker-compose up --detach
+docker-compose up --detach
 ```
 
 Then point your browser to <http://localhost:8000> and start hacking!
@@ -64,7 +64,7 @@ Now, you'll give yourself an admin account on the locally-running version of Dja
 Create a Django superuser for yourself, replacing joe with your username/email:
 
 ```shell
-$ docker-compose run django python manage.py createsuperuser --username=joe --email=joe@example.com
+docker-compose run django python manage.py createsuperuser --username=joe --email=joe@example.com
 ```
 
 And then login into the admin interface (/admin/) and create a profile for your user filling all the fields with any data.
@@ -76,20 +76,20 @@ And then login into the admin interface (/admin/) and create a profile for your 
 To install the pre-commit hooks:
 
 ```shell
-$ pip install pre-commit
-$ pre-commit install
+pip install pre-commit
+pre-commit install
 ```
 
 To run all pre-commit rules by hand:
 
 ```shell
-$ pre-commit run --all-files
+pre-commit run --all-files
 ```
 
 To run a pre-commit rule by hand:
 
 ```shell
-$ pre-commit run black
+pre-commit run black
 ```
 
 ## Opinionated Setup
