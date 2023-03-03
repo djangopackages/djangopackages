@@ -50,7 +50,6 @@ _data
 logfile
 *.dump
 
-collected_static
 .env
 .env.local
 .env.production
