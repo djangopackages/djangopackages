@@ -111,8 +111,6 @@ services:
     init: true
     profiles:
       - docs
-    depends_on:
-      - django
     ports:
       - "4000:4000"
     volumes:
