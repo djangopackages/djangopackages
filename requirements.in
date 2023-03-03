@@ -48,6 +48,9 @@ celery
 # Redis support
 redis
 
+# docs
+-r docs/requirements.in
+
 # testing
 dirty-equals
 django-test-plus
