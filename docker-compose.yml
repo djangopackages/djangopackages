@@ -94,6 +94,25 @@ services:
       timeout: 3s
       retries: 30
 
+  docs:
+    build:
+      context: .
+      dockerfile: ./compose/django/Dockerfile-dev
+    command: sh -c "mkdocs serve -f docs/mkdocs.yml --dev-addr 0.0.0.0:4000"
+    entrypoint: ""
+    environment:
+      FAST_MODE: "true"
+      LIVE_RELOAD_SUPPORT: "true"
+    init: true
+    profiles:
+      - docs
+    depends_on:
+      - django
+    ports:
+      - "4000:4000"
+    volumes:
+      - .:/app
+
 volumes:
   djpkg_postgres_data_dev: {}
   djpkg_postgres_backup_dev: {}
