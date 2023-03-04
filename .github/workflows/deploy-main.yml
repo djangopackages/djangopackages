@@ -12,14 +12,14 @@ jobs:
     if: github.repository_owner == 'djangopackages'
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: Set up Python 3.7
-        uses: actions/setup-python@v2.2.2
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
         with:
-          python-version: 3.7
+          python-version: 3.9
 
       # - name: Get pip cache dir
       #   id: pip-cache
@@ -55,7 +55,7 @@ jobs:
       #   uses: docker/build-push-action@v2
       #   with:
       #     context: .
-      #     file: ./compose/django/Dockerfile
+      #     file: ./dockerfiles/django/Dockerfile
       #     push: true
       #     tags: |
       #       ghcr.io/${{ github.repository }}:latest

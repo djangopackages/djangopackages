@@ -8,7 +8,7 @@ services:
   django-a:
     build:
       context: .
-      dockerfile: ./compose/django/Dockerfile
+      dockerfile: ./dockerfiles/django/Dockerfile
     user: django
     depends_on:
       # - postgres
@@ -28,7 +28,7 @@ services:
   django-b:
     build:
       context: .
-      dockerfile: ./compose/django/Dockerfile
+      dockerfile: ./dockerfiles/django/Dockerfile
     user: django
     depends_on:
       # - postgres
@@ -46,7 +46,7 @@ services:
         # compress: "true"
 
   # postgres:
-  #   build: ./compose/postgres
+  #   build: ./dockerfiles/postgres
   #   volumes:
   #     - /data/djangopackages/postgres:/var/lib/postgresql/data
   #     - /data/djangopackages/backups:/backups
@@ -69,7 +69,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./compose/caddy/Caddyfile:/etc/caddy/Caddyfile  # configuration
+      - ./dockerfiles/caddy/Caddyfile:/etc/caddy/Caddyfile  # configuration
       - /data/djangopackages/caddy/config:/config  # configuration autosaves
       - /data/djangopackages/caddy/data:/data  # saving certificates
       - media:/data/media
@@ -82,7 +82,7 @@ services:
         # compress: "true"
 
   redis:
-    build: ./compose/redis
+    build: ./dockerfiles/redis
     expose:
       - 6379
     logging:
