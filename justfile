@@ -209,10 +209,19 @@ bootstrap *ARGS:
         --entrypoint= \
         --rm django \
             bash -c "pip install -U pip pip-tools && \
-                pip-compile {{ ARGS }} ./requirements.in \
+                pip-compile {{ ARGS }} requirements.in \
                     --generate-hashes \
                     --resolver=backtracking \
-                    --output-file ./requirements.txt"
+                    --output-file requirements.txt"
+
+    docker-compose run \
+        --entrypoint= \
+        --rm django \
+            bash -c "pip install -U pip pip-tools && \
+                pip-compile {{ ARGS }} docs/requirements.in \
+                    --generate-hashes \
+                    --resolver=backtracking \
+                    --output-file docs/requirements.txt"
 
 # Upgrade existing Python dependencies to their latest versions
 @pip-compile-upgrade:
