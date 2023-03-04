@@ -10,14 +10,14 @@ RUN pip install -r /requirements.txt \
     && groupadd -r django \
     && useradd -r -g django django
 
-COPY ./compose/django/entrypoint.sh /entrypoint.sh
+COPY ./dockerfiles/django/entrypoint.sh /entrypoint.sh
 RUN sed -i 's/\r//' /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 COPY . /app
 RUN chown -R django /app
 
-COPY ./compose/django/start.sh /start.sh
+COPY ./dockerfiles/django/start.sh /start.sh
 RUN sed -i 's/\r//' /start.sh \
     && chmod +x /start.sh \
     && chown django /start.sh

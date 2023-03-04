@@ -55,7 +55,7 @@ jobs:
       #   uses: docker/build-push-action@v2
       #   with:
       #     context: .
-      #     file: ./compose/django/Dockerfile
+      #     file: ./dockerfiles/django/Dockerfile
       #     push: true
       #     tags: |
       #       ghcr.io/${{ github.repository }}:latest

@@ -4,7 +4,7 @@ services:
   django:
     build:
       context: .
-      dockerfile: ./compose/django/Dockerfile-dev
+      dockerfile: ./dockerfiles/django/Dockerfile-dev
     hostname: django
     image: djpkg-dev-django
     init: true
@@ -26,7 +26,7 @@ services:
   celery:
     build:
       context: .
-      dockerfile: ./compose/django/Dockerfile-dev
+      dockerfile: ./dockerfiles/django/Dockerfile-dev
     command: ["celery", "-A", "settings", "worker", "--concurrency=10", "--loglevel=debug"]
     depends_on:
       - postgres
@@ -45,7 +45,7 @@ services:
   celery-beat:
     build:
       context: .
-      dockerfile: ./compose/django/Dockerfile-dev
+      dockerfile: ./dockerfiles/django/Dockerfile-dev
     command: ["celery", "-A", "settings", "beat", "--loglevel=debug"]
     depends_on:
       - postgres
@@ -62,7 +62,7 @@ services:
       - djpkg_media_dev:/data/media
 
   postgres:
-    build: ./compose/postgres
+    build: ./dockerfiles/postgres
     hostname: postgres
     image: djpkg-dev-postgres
     init: true
@@ -83,7 +83,7 @@ services:
       retries: 30
 
   redis:
-    build: ./compose/redis
+    build: ./dockerfiles/redis
     hostname: redis
     expose:
       - 6379
@@ -102,7 +102,7 @@ services:
   docs:
     build:
       context: .
-      dockerfile: ./compose/django/Dockerfile-dev
+      dockerfile: ./dockerfiles/django/Dockerfile-dev
     command: sh -c "mkdocs serve -f docs/mkdocs.yml --dev-addr 0.0.0.0:4000"
     entrypoint: ""
     environment:
