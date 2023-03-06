@@ -1,47 +1,76 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
-// https://github.com/microsoft/vscode-dev-containers/tree/v0.187.0/containers/python-3
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-docker-compose
 {
-    "name": "Existing Docker Compose (Extend)",
-    "dockerComposeFile": [
-        "docker-compose.yml"
-    ],
-    // Add the IDs of extensions you want installed when the container is created.
-    "extensions": [
-		"eamodio.gitlens",
-		"editorconfig.editorconfig",
-		"ms-azuretools.vscode-docker",
-		"ms-python.python",
-		"ms-python.vscode-pylance",
-		"redhat.vscode-yaml",
-		"ms-vscode-remote.remote-containers"
+	"name": "Existing Docker Compose (Extend)",
+	// Update the 'dockerComposeFile' list if you have more compose files or use different names.
+	// The .devcontainer/docker-compose.yml file contains any overrides you need/want to make.
+	"dockerComposeFile": [
+		"../docker-compose.yml",
+		"docker-compose.yml"
 	],
-    "mounts": [
-        "source=vscode-server-extensions,target=/root/.vscode-server/extensions,type=volume",
-        "source=vscode-server-insiders-extensions,target=/root/.vscode-server-insiders/extensions,type=volume",
-    ],
-    // mentioned in https://github.com/microsoft/vscode-remote-release/issues/5317
-    "updateRemoteUserUID": false,
-    // "runServices": ["django"],
-    "service": "django",
-    "settings": {
-        "files.exclude":{
-            "**/.DS_Store": true,
-            "**/.git": true,
-            "**/.hg": true,
-            "**/.svn": true,
-            "**/CVS": true,
-            "**/data": true,
-            "**/Thumbs.db": true,
-        },
-        "terminal.integrated.shell.linux": "/bin/bash",
-        "python.defaultInterpreterPath": "/usr/local/bin/python"
-    },
-    // "workspaceMount": "source=${localWorkspaceFolder}/myRepo,target=/workspaces,type=bind,consistency=delegated",
-    "workspaceFolder": "/workspace/"
-    // Use 'forwardPorts' to make a list of ports inside the container available locally.
-    // "forwardPorts": [],
-    // Use 'postCreateCommand' to run commands after the container is created.
-    // "postCreateCommand": "pip3 install --user -r requirements.txt",
-    // Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
-    // "remoteUser": "vscode"
+	"initializeCommand": ".devcontainer/create_dot_env.sh",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"eamodio.gitlens",
+				"editorconfig.editorconfig",
+				"ms-azuretools.vscode-docker",
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"redhat.vscode-yaml",
+				"ms-vscode-remote.remote-containers"
+			],
+			"settings": {
+				// Configure glob patterns for excluding files and folders.
+				// For example, the File Explorer decides which files and folders to show or hide based on this setting.
+				"files.exclude": {
+					"**/.DS_Store": true,
+					"**/.git": true,
+					"**/.hg": true,
+					"**/.svn": true,
+					"**/CVS": true,
+					"**/data": true,
+					"**/Thumbs.db": true
+				},
+				// Configure paths or glob patterns to exclude from file watching.
+				"files.watcherExclude": {
+					"**/.DS_Store": true,
+					"**/.git": true,
+					"**/.hg": true,
+					"**/.svn": true,
+					"**/CVS": true,
+					"**/data": true,
+					"**/Thumbs.db": true,
+					"**/design": true
+				},
+				// The default profile used on Linux.
+				"terminal.integrated.defaultProfile.linux": "bash",
+				"python.defaultInterpreterPath": "/usr/local/bin/python"
+			}
+		}
+	},
+	// mentioned in https://github.com/microsoft/vscode-remote-release/issues/5317
+	"updateRemoteUserUID": false,
+	// The 'service' property is the name of the service for the container that VS Code should
+	// use. Update this value and .devcontainer/docker-compose.yml to the real service name.
+	"service": "django",
+	// The optional 'workspaceFolder' property is the path VS Code should open by default when
+	// connected. This is typically a file mount in .devcontainer/docker-compose.yml
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [
+		8000
+	]
+	// Uncomment the next line if you want start specific services in your Docker Compose config.
+	// "runServices": [],
+	// Uncomment the next line if you want to keep your containers running after VS Code shuts down.
+	// "shutdownAction": "none",
+	// Uncomment the next line to run commands after the container is created.
+	// "postCreateCommand": "cat /etc/os-release",
+	// Configure tool-specific properties.
+	// "customizations": {},
+	// Uncomment to connect as an existing user other than the container default. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "devcontainer"
 }

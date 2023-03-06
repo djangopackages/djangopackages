@@ -5,6 +5,20 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Python: MkDocs",
+      "type": "python",
+      "request": "launch",
+      "module": "mkdocs",
+      "args": [
+        "serve",
+        "-f",
+        "${workspaceFolder}/docs/mkdocs.yml",
+        "--dev-addr",
+        "0.0.0.0:4000"
+      ],
+      "justMyCode": false
+    },
+    {
       "name": "Python: Django",
       "type": "python",
       "request": "launch",
@@ -18,15 +32,15 @@
       "justMyCode": false
     },
     {
-      "name": "pytest test",
+      "name": "Python: PyTest",
       "type": "python",
       "request": "launch",
       "console": "integratedTerminal",
       "python": "${command:python.interpreterPath}",
       "module": "pytest",
       "args": [
-        "-c",
-        "${workspaceFolder}/pytest.ini",
+        // "-c",
+        // "${workspaceFolder}/pytest.ini",
         "--reuse-db",
         // "-v",
         // "-x",

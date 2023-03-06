@@ -1,27 +1,24 @@
-version: '3'
-
+version: '3.6'
 services:
+  # Update this to the name of the service you want to work with in your docker-compose.yml file
   django:
+    # Uncomment if you want to override the service's Dockerfile to one in the .devcontainer
+    # folder. Note that the path of the Dockerfile and context is relative to the *primary*
+    # docker-compose.yml file (the first in the devcontainer.json "dockerComposeFile"
+    # array). The sample below assumes your primary file is in the root of your project.
+    #
+    # build:
+    #   context: .
+    #   dockerfile: .devcontainer/Dockerfile
 
     volumes:
-      - .:/workspace:cached
-      - /var/run/docker.sock:/var/run/docker.sock
-      - vscode-server-extensions:/root/.vscode-server/extensions
-      - vscode-server-insiders-extensions:/root/.vscode-server-insiders/extensions
+      # Update this to wherever you want VS Code to mount the folder of your project
+      - ..:/workspaces:cached
+    # Uncomment the next four lines if you will use a ptrace-based debugger like C++, Go, and Rust.
+    # cap_add:
+    #   - SYS_PTRACE
+    # security_opt:
+    #   - seccomp:unconfined
 
     # Overrides default command so things don't shut down after the process ends.
-    command: sleep infinity
-    # command: /bin/sh -c "while sleep 1000; do :; done"
-
-    # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
-    # network_mode: service:db
-
-    # Uncomment the next line to use a non-root user for all processes.
-    # user: vscode
-
-    # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
-    # (Adding the "ports" property to this file will not forward from a Codespace.)
-
-volumes:
-  vscode-server-extensions:
-  vscode-server-insiders-extensions:
+    # command: sleep infinity
