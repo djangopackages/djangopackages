@@ -8,6 +8,7 @@
 		"../docker-compose.yml",
 		"docker-compose.yml"
 	],
+	"initializeCommand": ".devcontainer/create_dot_env.sh",
 	"customizations": {
 		"vscode": {
 			"extensions": [
