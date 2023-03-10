@@ -94,6 +94,13 @@ def backup():
         env.run("gzip /data/djangopackages/backups/*.sql")
 
 
+def cron():
+    with env.cd(env.project_dir):
+        docker_compose("run django-a python manage.py import_classifiers")
+        docker_compose("run django-a python manage.py import_products")
+        docker_compose("run django-a python manage.py import_releases")
+
+
 def deploy():
     """
     Pulls the latest changes from main, rebuilt and restarts the stack

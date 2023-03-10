@@ -20,6 +20,7 @@ from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
 from django_better_admin_arrayfield.models.fields import ArrayField
 from packaging.specifiers import SpecifierSet
+from requests.exceptions import HTTPError
 from rich import print
 
 from core.models import BaseModel
@@ -261,14 +262,16 @@ class Package(BaseModel):
             pypi_json_uri = self.get_pypi_json_uri()
             if pypi_json_uri:
                 response = requests.get(pypi_json_uri)
-                if settings.DEBUG:
-                    if response.status_code not in (200, 404):
-                        print("BOOM!")
-                        print(f"[red]{self}[/red], {response.status_code}")
-                        print(response.content)
-                        return False
+                try:
+                    response.raise_for_status()
+                except HTTPError as exc:
+                    status_code = exc.response.status_code
 
-                if response.status_code == 404:
+                    if status_code not in [404]:
+                        print(f"[red]{self}[/red], {status_code}")
+                        print(response.url)
+                        print(response.content)
+
                     if settings.DEBUG:
                         print(
                             "[red]BOOM! this package probably does not exist on pypi[/red]"
@@ -310,29 +313,32 @@ class Package(BaseModel):
 
                 if "requires_python" in info and info["requires_python"]:
                     self.pypi_requires_python = info["requires_python"]
-                    if self.pypi_requires_python and any(
-                        [
-                            True
-                            for ver in [
-                                "3.11",
-                                "3.10",
-                                "3.9",
-                                "3.8",
-                                "3.7",
-                                "3.6",
-                                "3.5",
-                                "3.4",
-                                "3.3",
-                                "3.2",
-                                "3.1",
-                                "3",
+                    try:
+                        if self.pypi_requires_python and any(
+                            [
+                                True
+                                for ver in [
+                                    "3.11",
+                                    "3.10",
+                                    "3.9",
+                                    "3.8",
+                                    "3.7",
+                                    "3.6",
+                                    "3.5",
+                                    "3.4",
+                                    "3.3",
+                                    "3.2",
+                                    "3.1",
+                                    "3",
+                                ]
+                                if ver in SpecifierSet(self.pypi_requires_python)
                             ]
-                            if ver in SpecifierSet(self.pypi_requires_python)
-                        ]
-                    ):
-                        self.supports_python3 = True
-                    else:
-                        self.supports_python3 = False
+                        ):
+                            self.supports_python3 = True
+                        else:
+                            self.supports_python3 = False
+                    except Exception as e:
+                        print(e)
 
                 # do we have a license set?
                 if "license" in info and info["license"]:
@@ -366,7 +372,8 @@ class Package(BaseModel):
                 version.save()
 
                 # Calculate total downloads
-                self.pypi_downloads = total_downloads
+                if self.pypi_downloads is None:
+                    self.pypi_downloads = total_downloads
 
                 return True
 

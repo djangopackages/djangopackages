@@ -15,12 +15,13 @@ def command():
 
     url = "https://endoflife.date/api/all.json"
     response = requests.get(url)
+    response.raise_for_status()
     products = response.json()
     for product in products:
         Product.objects.get_or_create(
-            title=product,
+            slug=slugify(product),
             defaults={
-                "slug": slugify(product),
+                "title": product.title(),
                 "active": True if product in ACTIVE_PRODUCTS else False,
             },
         )

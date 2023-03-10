@@ -37,7 +37,7 @@ class PackageV1Tests(TestCase):
             title="Package2",
             slug="package2",
             category=self.app,
-            repo_url="https://github.com/djangopackages/opencomparison",
+            repo_url="https://github.com/djangopackages/djangopackages",
         )
         self.pkg3 = Package.objects.create(
             title="Package3",

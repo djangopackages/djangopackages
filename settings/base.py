@@ -194,20 +194,8 @@ URCHIN_ID = ""
 DEFAULT_FROM_EMAIL = "Django Packages <djangopackages-noreply@djangopackages.org>"
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_SUBJECT_PREFIX = "[Django Packages] "
-SENDGRID_API_KEY = env("SENDGRID_API_KEY", default="")
 SERVER_EMAIL = "info@djangopackages.org"
 
-try:
-    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    EMAIL_HOST = "smtp.sendgrid.net"
-    EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
-    EMAIL_HOST_USER = "apikey"
-    EMAIL_PORT = 587
-    EMAIL_USE_TLS = True
-    EMAIL_USE_TLS = True
-except Exception:
-    EMAIL_HOST = "localhost"
-    EMAIL_PORT = 1025
 
 EMAIL_SUBJECT_PREFIX = "[Django Packages]"
 

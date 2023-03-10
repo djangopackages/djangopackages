@@ -6,7 +6,7 @@ from package.models import Package
 
 
 @click.command()
-@click.option("--limit", default=None)
+@click.option("--limit", type=int, default=None)
 def command(limit):
     """
     Migrates legacy (http) GitHub packages to https. Migrates existing packages that have moved
