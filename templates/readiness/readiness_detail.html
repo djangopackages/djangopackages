@@ -16,6 +16,12 @@
                 <h1 class="text-6xl font-bold">
                     {{ release.product.title }} {{ release.cycle }} Readiness
                 </h1>
+                {% if release.is_eol %}
+                    <div class="tw-bg-yellow-300 tw-text-4xl tw-text-black tw-px-4 tw-py-4">
+                        <span>🚧</span>
+                        {{ release.product.title }} {{ release.cycle }} support expired on {{ release.eol }}.
+                    </div>
+                {% endif %}
                 <div>{{ release.product.title }} {{ release.cycle }} support graph for the {{ packages|length }} most popular {{ release.product.title }} packages!</div>
                 <h2>How do you identify {{ release.product.title }} {{ release.cycle }} support?</h2>
                 <p>We look for the <code>{{ ready_condition}}</code> classifier on the latest release of the project.</p>
@@ -25,7 +31,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <h2 class="tw-text-4xl tw-pb-4 tw-font-medium">{{ product_slug }} Release {{ cycle }}</h2>
-                <div class="tw-grid sm:tw-grid-cols-2 lg:tw-grid-cols-3 xl:tw-grid-cols-4 tw-gap-2">
+                <div class="tw-grid tw-gap-2 sm:tw-grid-cols-2 lg:tw-grid-cols-3 xl:tw-grid-cols-4">
                     {% for package in packages %}
                         <div class="tw-px-4 tw-py-2 tw-rounded tw-rounded-xl
                                     {% if package.is_ready == 'yes' %}tw-bg-green-500 tw-text-gray-900
