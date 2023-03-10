@@ -9,7 +9,7 @@
         <!-- start Categories panel -->
         {% for category in categories %}
             {% if category.package_count %}
-                <div class="categories col-sm-3 text-center">
+                <div class="text-center categories col-sm-3">
                     <h2 class="panel-title">{{ category.title_plural }} </h2>
                     <p>{{ category.description|widont }}</p>
                     <a href="{% url 'category' category.slug %}" class="btn btn-primary">Show {{ category.title_plural }} ({{ category.package_count|intcomma }})</a>
