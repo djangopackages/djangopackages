@@ -13,8 +13,9 @@ logger = logging.getLogger(__name__)
 
 
 @click.command()
-@click.option("--all", default=False)
-def command(all):
+@click.option("--all", is_flag=True, default=False)
+@click.option("--pypi_url", type=str, default=None)
+def command(all, pypi_url):
     """Updates all the packages in the system by checking against their PyPI data."""
     count = 0
     count_updated = 0
@@ -23,16 +24,20 @@ def command(all):
     if not all:
         now = now - timezone.timedelta(hours=24)
 
-    packages = (
-        Package.objects.exclude(
-            Q(pypi_url="")
-            | Q(pypi_url__isnull=True)
-            | Q(date_deprecated__lt=now)
-            | Q(date_repo_archived__lt=now)
+    if pypi_url:
+        packages = Package.objects.filter(pypi_url=pypi_url)
+    else:
+        packages = (
+            Package.objects.exclude(
+                Q(pypi_url="")
+                | Q(pypi_url__isnull=True)
+                | Q(date_deprecated__lt=now)
+                | Q(date_repo_archived__lt=now)
+            )
+            .filter(Q(last_fetched__lt=now) | Q(last_fetched__isnull=True))
+            .order_by("-pypi_downloads", "last_fetched")
         )
-        .filter(Q(last_fetched__lt=now) | Q(last_fetched__isnull=True))
-        .order_by("last_fetched")
-    )
+
     print(f"{packages.count()} to update")
     for package in packages.iterator():
         print(f"{package} | {package.last_fetched} | {package.pypi_url}")
