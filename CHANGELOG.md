@@ -1,5 +1,13 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-03-10]
+### Changed
+- :hammer: Friday updates ([#949](https://github.com/djangopackages/djangopackages/pull/949))
+- Add Tests for APIv4 ([#950](https://github.com/djangopackages/djangopackages/pull/950))
+- :gear: Adds a hook for a new OAuth key ([#948](https://github.com/djangopackages/djangopackages/pull/948))
+- :gear: exclude docs folder ([#947](https://github.com/djangopackages/djangopackages/pull/947))
+- Fix broken links to documentation ([#945](https://github.com/djangopackages/djangopackages/pull/945))
+
 ## [2023-03-07]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#944](https://github.com/djangopackages/djangopackages/pull/944))
