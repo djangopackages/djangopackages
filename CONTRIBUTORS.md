@@ -245,6 +245,13 @@ Listed in alphabetical order.
     <td></td>
   </tr>
   <tr>
+    <td>Josh Thomas</td>
+    <td>
+      <a href="https://github.com/joshuadavidthomas">joshuadavidthomas</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
     <td>José Carlos Menezes</td>
     <td>
       <a href="https://github.com/cacoze">cacoze</a>
