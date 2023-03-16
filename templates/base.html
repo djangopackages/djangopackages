@@ -51,16 +51,16 @@
                         </form>
                         {% if request.user.is_authenticated %}
                             {% if profile.github_account %}
-                                <li><a href="{% url 'profile_detail' profile.github_account %}">{{ profile.github_account }}</a>
+                                <li><a href="{% url 'profile_detail' profile.github_account %}" class="btn">{{ profile.github_account }}</a>
                                 </li>
                             {% endif %}
                             {% if request.user.is_staff %}
-                                <li><a href="{% url 'admin:index' %}">{% trans "Admin" %}</a></li>
+                                <li><a href="{% url 'admin:index' %}" class="btn">{% trans "Admin" %}</a></li>
                             {% endif %}
-                            <li><a href="{% url 'logout' %}">{% trans "Log out" %}</a></li>
+                            <li><a href="{% url 'logout' %}" class="btn">{% trans "Log out" %}</a></li>
                         {% else %}
-                            <li><a href="
-                                         {% url 'social:begin' 'github' %}{% if current_path %}?next={{ current_path }}{% endif %}">{% trans "Log In" %}</a>
+                            <li>
+                                <a href="{% url 'social:begin' 'github' %}{% if current_path %}?next={{ current_path }}{% endif %}" class="btn">{% trans "Log In" %}</a>
                             </li>
                         {% endif %}
 
