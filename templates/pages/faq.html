@@ -11,33 +11,36 @@
 {% block body %}
     <div class="container">
         <div class="row">
-            <div class="col-xs-10">
-                <h2>Frequently Asked Questions</h2>
-
-                <h3>Who maintains this project?</h3>
+            <div class="col-xs-12">
+                <h1>Frequently Asked Questions</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-8">
+                <h2>Who maintains this project?</h2>
 
                 <p>Django Packages is maintained by
+                    <a href="https://twitter.com/webology">Jeff Triplett</a>
+                    and
                     <a href="https://github.com/djangopackages/djangopackages/graphs/contributors">contributors</a>
                     just like you.
+                    Development is sponsored by <a href="https://www.revsys.com/">REVSYS</a>.
                 </p>
 
-                <p>From 2010 to 2021, the majority of hosting and development is provided by
+                <p>From 2010 to 2021, the majority of hosting and development was provided by
                     <a href="https://www.roygreenfeld.com/collections/two-scoops-press">Two Scoops Press</a>, an imprint of
                     <a href="https://www.roygreenfeld.com/">Roy Greenfeld</a>.
                 </p>
 
+                <h2>What role does the DSF have in this project?</h2>
+
                 <p>
-                    The code base maintenance is led by <a href="http://daniel.roygreenfeld.com">Daniel Roy Greenfeld</a> &
-                    <a href="https://audrey.roygreenfeld.com/">Audrey Roy Greenfeld</a>.
+                    Projects listed on Django Packages are third-party packages.
+                    They are not vetted nor endorsed by the <a href="https://www.djangoproject.com/foundation/">Django Software Foundation</a>.
+                    Use them at your own risk.
                 </p>
 
-                <h3>What role does the DSF have in this project?</h3>
-
-                <p>The <a href="https://www.djangoproject.com/foundation/">Django Software Foundation</a>
-                    funded Django Packages development inn late 2017/early 2018.
-                </p>
-
-                <h3>What are grids?</h3>
+                <h2>What are grids?</h2>
 
                 <p><a href="/grids/">Grids</a> let you compare {{ FRAMEWORK_TITLE }} packages to each other.
                     A grid comes with a number of default items compared, but you can add more features in order to get
@@ -48,7 +51,7 @@
                     that grids give us a lot more specificity.
                 </p>
 
-                <h3>What are categories?</h3>
+                <h2>What are categories?</h2>
 
                 <p>Categories are broad groups of {{ FRAMEWORK_TITLE }} packages into something more granular than Grids.
                     A package can only have one category.
@@ -56,20 +59,28 @@
                     This is intentional, done in order to make searching easier.
                 </p>
 
-                <h3>Which source control sites do you support?</h3>
+                <h2>Which source control sites do you support?</h2>
 
-                <p>GitHub and Bitbucket are supported.</p>
+                <p>GitHub, Bitbucket, and GitLab are supported.</p>
 
-                <h3>What about RSS &amp; Atom Syndication?</h3>
+                <h2>What about RSS &amp; Atom Syndication?</h2>
 
                 <p>The <a href="{% url 'syndication' %}">Syndication page</a> has more details.</p>
 
-                <h3>How can I contribute?</h3>
+                <h2>How can I contribute?</h2>
 
-                <p>This is an open source project, and we appreciate
+                <p>
+                    This is an open source project, and we appreciate
                     <a href="https://docs.djangopackages.org/en/latest/contributing">all sorts of contributions</a>.
                 </p>
 
+                <h2>Where is Django Package hosted?</h2>
+
+                <p>
+                    Django Package is hosted on DigitalOcean.
+                    If you would like to support us,
+                    <a href="https://www.digitalocean.com/?refcode=d66a400de67f&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge">please use our referral link and receive a free $200 credit to get you started.</a>
+                </p>
             </div>
         </div>
     </div>
