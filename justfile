@@ -84,13 +84,15 @@ bootstrap *ARGS:
 
 # --------------------------------------------------
 # Docs recipes
-
 # --------------------------------------------------
-@docs:
-    cd docs && make docs
+# @docs:
+#     cd docs && make docs
 
-@docs-serve:
-    sphinx-reload docs/
+@docs-down *ARGS:
+    docker-compose --profile=docs down {{ ARGS }}
+
+@docs-up *ARGS="--detach":
+    docker-compose --profile=docs up {{ ARGS }}
 
 @docs-update:
     pip-compile --resolver=backtracking docs/requirements.in
@@ -228,8 +230,11 @@ bootstrap *ARGS:
     just pip-compile --upgrade
 
 # Run pre-commit
-@pre-commit:
-    pre-commit run --config=./.pre-commit-config.yaml --all-files
+@pre-commit *ARGS:
+    pre-commit run {{ ARGS }}
+
+@pre-commit-all-files:
+    just pre-commit --all-files
 
 # TODO: Make the target-version a variable
 
@@ -280,6 +285,10 @@ bootstrap *ARGS:
 
 @tailwind-build:
     just tailwind build
+
+@tailwind-lint:
+    npx rustywind --check-formatted templates/
+    # npx rustywind --write templates/
 
 @tailwind-watch:
     just tailwind-build
