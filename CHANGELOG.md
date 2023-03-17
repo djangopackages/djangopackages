@@ -1,5 +1,12 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-03-16]
+### Changed
+- Fix NavBar Button Hover Issue ([#954](https://github.com/djangopackages/djangopackages/pull/954))
+- Add `SITE_TITLE` to `.env.local.example` ([#953](https://github.com/djangopackages/djangopackages/pull/953))
+- [pre-commit.ci] pre-commit autoupdate ([#951](https://github.com/djangopackages/djangopackages/pull/951))
+- :pencil: Update contributor attribution and FAQs ([#952](https://github.com/djangopackages/djangopackages/pull/952))
+
 ## [2023-03-10]
 ### Changed
 - :hammer: Friday updates ([#949](https://github.com/djangopackages/djangopackages/pull/949))
