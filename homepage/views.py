@@ -235,7 +235,8 @@ def homepage(request, template_name="homepage.html"):
         package_ids = sample(
             range(1, package_count + 1),  # generate a list from 1 to package_count +1
             min(
-                package_count, 10  # Get a sample of the smallest of 10 or the package count
+                package_count,
+                10,  # Get a sample of the smallest of 10 or the package count
             ),
         )
         # Get the random packages
