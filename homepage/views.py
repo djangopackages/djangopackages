@@ -228,44 +228,38 @@ def homepage(request, template_name="homepage.html"):
         cache.set("categories", categories, timeout=60 * 5)
 
     # get up to 5 random packages
-    package_list = Package.objects.active().values_list("pk", flat=True)
-    package_count = package_list.count()
+    package_count = Package.objects.active().count()
     random_packages = []
-    if package_list.exists():
-        package_ids = set()
-
+    if package_count:
         # Get 5 random keys
         package_ids = sample(
-            list(
-                range(1, package_count + 1)
-            ),  # generate a list from 1 to package_count +1
+            range(1, package_count + 1),  # generate a list from 1 to package_count +1
             min(
-                package_count, 10
-            ),  # Get a sample of the smaller of 10 or the package count
+                package_count, 10  # Get a sample of the smallest of 10 or the package count
+            ),
         )
-
         # Get the random packages
-        random_packages = Package.objects.filter(pk__in=package_ids)[:5]
+        random_packages = Package.objects.active().filter(pk__in=package_ids)[:5]
 
-    try:
-        potw = Dpotw.objects.latest().package
-    except Dpotw.DoesNotExist:
-        potw = None
-    except Package.DoesNotExist:
-        potw = None
-
-    try:
-        gotw = Gotw.objects.latest().grid
-    except Gotw.DoesNotExist:
-        gotw = None
-    except Grid.DoesNotExist:
-        gotw = None
+    # try:
+    #     potw = Dpotw.objects.latest().package
+    # except Dpotw.DoesNotExist:
+    #     potw = None
+    # except Package.DoesNotExist:
+    #     potw = None
+    #
+    # try:
+    #     gotw = Gotw.objects.latest().grid
+    # except Gotw.DoesNotExist:
+    #     gotw = None
+    # except Grid.DoesNotExist:
+    #     gotw = None
 
     # Public Service Announcement on homepage
-    try:
-        psa_body = PSA.objects.latest().body_text
-    except PSA.DoesNotExist:
-        psa_body = '<p>There are currently no announcements.  To request a PSA, tweet at <a href="http://twitter.com/open_comparison">@Open_Comparison</a>.</p>'
+    # try:
+    #     psa_body = PSA.objects.latest().body_text
+    # except PSA.DoesNotExist:
+    #     psa_body = '<p>There are currently no announcements.  To request a PSA, tweet at <a href="http://twitter.com/open_comparison">@Open_Comparison</a>.</p>'
 
     # Latest Django Packages blog post on homepage
     latest_packages = Package.objects.active().order_by("-created")[:5]
@@ -281,13 +275,13 @@ def homepage(request, template_name="homepage.html"):
         template_name,
         {
             "categories": categories,
-            "gotw": gotw,
             "latest_packages": latest_packages,
             "latest_python3": latest_python3,
             "package_count": package_count,
-            "potw": potw,
-            "psa_body": psa_body,
             "random_packages": random_packages,
+            # "gotw": gotw,
+            # "potw": potw,
+            # "psa_body": psa_body,
             # "": Package.objects.active()
             # .filter(version__supports_python3=True)
             # .select_related()
