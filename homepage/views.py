@@ -8,7 +8,6 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 
 from grid.models import Grid
-from homepage.models import PSA, Dpotw, Gotw
 from package.models import Category, Commit, Package, Version
 from products.models import Product, Release
 
