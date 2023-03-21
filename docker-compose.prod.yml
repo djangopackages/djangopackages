@@ -17,6 +17,7 @@ services:
       - static:/data/static
       - media:/data/media
     command: /start.sh
+    restart: always
     env_file: .env
     logging:
       driver: "json-file"
@@ -37,6 +38,7 @@ services:
       - static:/data/static
       - media:/data/media
     command: /start.sh
+    restart: always
     env_file: .env
     logging:
       driver: "json-file"
@@ -64,6 +66,7 @@ services:
       - django-b
     env_file: .env
     command: caddy run --adapter caddyfile --config /etc/caddy/Caddyfile
+    restart: always
     image: caddy:2.4.3
     ports:
       - "80:80"
@@ -85,6 +88,7 @@ services:
     build: ./dockerfiles/redis
     expose:
       - 6379
+    restart: always
     logging:
       driver: "json-file"
       options:
