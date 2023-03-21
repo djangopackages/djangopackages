@@ -8,15 +8,15 @@ www.djangopackages.org {
 	redir https://djangopackages.org{uri}
 }
 
-blue.djangopackages.org, a.djangopackages.org {
+blue.djangopackages.org, a.djangopackages.org, c.djangopackages.org {
 	reverse_proxy django-a:5000
 }
 
-green.djangopackages.org, b.djangopackages.org {
+green.djangopackages.org, b.djangopackages.org, d.djangopackages.org {
 	reverse_proxy django-b:5000
 }
 
-djangopackages.org {
+djangopackages.org, web2.djangopackages.org {
 	encode zstd gzip
 
 	header Strict-Transport-Security max-age=31536000;
@@ -46,22 +46,28 @@ djangopackages.org {
 }
 
 djangopackages.org/media,
+web2.djangopackages.org/media,
 blue.djangopackages.org/media,
 green.djangopackages.org/media,
 a.djangopackages.org/media,
-b.djangopackages.org/media {
-    file_server
+b.djangopackages.org/media,
+c.djangopackages.org/media,
+d.djangopackages.org/media {
+	file_server
 	root * /data/media
 	header / Cache-Control "max-age=2592000"
 	encode zstd gzip
 }
 
 djangopackages.org/static,
+web2.djangopackages.org/static,
 blue.djangopackages.org/static,
 green.djangopackages.org/static,
 a.djangopackages.org/static,
-b.djangopackages.org/static {
-    file_server
+b.djangopackages.org/static,
+c.djangopackages.org/static,
+d.djangopackages.org/static {
+	file_server
 	root * /data/static
 	header / Cache-Control "max-age=2592000"
 	encode zstd gzip
