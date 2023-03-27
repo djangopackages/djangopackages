@@ -24,7 +24,7 @@ class PackageUpdaterException(Exception):
 
 @click.command()
 @click.option("--limit", default=None, type=int)
-def command(all, limit):
+def command(limit):
     """Updates all the GitHub Packages in the database."""
 
     github = github_login(token=settings.GITHUB_TOKEN)
