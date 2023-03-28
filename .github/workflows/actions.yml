@@ -2,8 +2,6 @@ name: CI
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
-  push:
     paths-ignore:
       - '.devcontainer/**'
       - '.github/**'
