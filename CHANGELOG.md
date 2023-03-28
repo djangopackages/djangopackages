@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-03-27]
+### Changed
+- :fire: Removes `--all` option that wasn&#39;t working ([#959](https://github.com/djangopackages/djangopackages/pull/959))
+
 ## [2023-03-16]
 ### Changed
 - Fix NavBar Button Hover Issue ([#954](https://github.com/djangopackages/djangopackages/pull/954))
