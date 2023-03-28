@@ -14,10 +14,6 @@ asgiref==3.6.0 \
     # via
     #   django
     #   django-structlog
-async-timeout==4.0.2 \
-    --hash=sha256:2163e1640ddb52b7a8c80d0a67a08587e5d245cc9c553a74a847056bc2976b15 \
-    --hash=sha256:8ca1e4fcf50d07413d66d1a5e416e42cfdf5851c981d679a09851a6853383b3c
-    # via redis
 attrs==22.2.0 \
     --hash=sha256:29e95c7f6778868dbd49170f98f8818f78f3dc5e0e37c0b1f474e3561b240836 \
     --hash=sha256:c9227bfc2f01993c03f68db37d1d15c9690188323c067c641f1a35ca58185f99
@@ -437,10 +433,6 @@ emojificate==0.7.0 \
     --hash=sha256:78836f3592d6dd8d02cdbdecefe2375fe462f871631c1c756bfacb508c25e579 \
     --hash=sha256:fad26c7dfb0975d8c31d1e61bfb5a7f47320088d5ba295154548bc2c1978b5d4
     # via -r requirements.in
-exceptiongroup==1.1.0 \
-    --hash=sha256:327cbda3da756e2de031a3107b81ab7b3770a602c4d16ca618298c526f4bec1e \
-    --hash=sha256:bcb67d800a4497e1b404c2dd44fca47d3b7a5e5433dbab67f96c1a685cdfdf23
-    # via pytest
 faker==17.6.0 \
     --hash=sha256:51f37ff9df710159d6d736d0ba1c75e063430a8c806b91334d7794305b5a6114 \
     --hash=sha256:5aaa16fa9cfde7d117eef70b6b293a705021e57158f3fa6b44ed1b70202d2065
@@ -474,12 +466,6 @@ idna==3.4 \
     # via
     #   requests
     #   yarl
-importlib-metadata==6.0.0 \
-    --hash=sha256:7efb448ec9a5e313a57655d35aa54cd3e01b7e1fbcf72dce1bf06119420f5bad \
-    --hash=sha256:e354bedeb60efa6affdcc8ae121b73544a7aa74156d047311948f6d711cd378d
-    # via
-    #   markdown
-    #   mkdocs
 iniconfig==2.0.0 \
     --hash=sha256:2d91e135bf72d31a410b17c16da610a82cb55f6b0477d1a902134b24a455b8b3 \
     --hash=sha256:b6a85871a79d2e3b22d2d1b94ac2824226a63c6b741c88f7ae975f18b6778374
@@ -916,9 +902,9 @@ pyyaml-env-tag==0.1 \
     --hash=sha256:70092675bda14fdec33b31ba77e7543de9ddc88f2e5b99160396572d11525bdb \
     --hash=sha256:af31106dec8a4d68c60207c1886031cbf839b68aa7abccdb19868200532c2069
     # via mkdocs
-redis==4.5.1 \
-    --hash=sha256:1eec3741cda408d3a5f84b78d089c8b8d895f21b3b050988351e925faf202864 \
-    --hash=sha256:5deb072d26e67d2be1712603bfb7947ec3431fb0eec9c578994052e33035af6d
+redis==4.5.3 \
+    --hash=sha256:56732e156fe31801c4f43396bd3ca0c2a7f6f83d7936798531b9848d103381aa \
+    --hash=sha256:7df17a0a2b72a4c8895b462dd07616c51b1dcb48fdd7ecb7b6f4bf39ecb2e94e
     # via -r requirements.in
 regex==2022.10.31 \
     --hash=sha256:052b670fafbe30966bbe5d025e90b2a491f85dfe5b2583a163b5e60a85a321ad \
@@ -1143,12 +1129,6 @@ toml==0.10.2 \
     --hash=sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b \
     --hash=sha256:b3bda1d108d5dd99f4a20d24d9c348e91c4db7ab1b749200bded2f839ccbe68f
     # via bumpver
-tomli==2.0.1 \
-    --hash=sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc \
-    --hash=sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f
-    # via
-    #   coverage
-    #   pytest
 trove-classifiers==2023.2.20 \
     --hash=sha256:860b0c0d8c9e0d32629ca5ef137ea1e637580b634b74ba40e1539fd34464c0f5 \
     --hash=sha256:de61417c958b06fd4923b2e26d4e70dd7ffc691d5435bcd7ed78d061278885f1
@@ -1382,10 +1362,6 @@ yarl==1.8.2 \
     --hash=sha256:fc77086ce244453e074e445104f0ecb27530d6fd3a46698e33f6c38951d5a0f1 \
     --hash=sha256:ff205b58dc2929191f68162633d5e10e8044398d7a45265f90a0f1d51f85f72c
     # via vcrpy
-zipp==3.15.0 \
-    --hash=sha256:112929ad649da941c23de50f356a2b5570c954b65150642bccdd66bf194d224b \
-    --hash=sha256:48904fc76a60e542af151aded95726c1a5c34ed43ab4134b597665c86d7ad556
-    # via importlib-metadata
 
 # WARNING: The following packages were not pinned, but pip requires them to be
 # pinned when the requirements file includes hashes. Consider using the --allow-unsafe flag.
