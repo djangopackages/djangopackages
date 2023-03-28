@@ -1,4 +1,3 @@
-from random import sample
 
 from django.contrib.auth.models import User
 from django.core.cache import cache
@@ -226,20 +225,15 @@ def homepage(request, template_name="homepage.html"):
         # cache dict for 5 minutes...
         cache.set("categories", categories, timeout=60 * 5)
 
-    # get up to 5 random packages
+    # Get package count()
     package_count = Package.objects.active().count()
-    random_packages = []
-    if package_count:
-        # Get 5 random keys
-        package_ids = sample(
-            range(1, package_count + 1),  # generate a list from 1 to package_count +1
-            min(
-                package_count,
-                10,  # Get a sample of the smallest of 10 or the package count
-            ),
-        )
-        # Get the random packages
-        random_packages = Package.objects.active().filter(pk__in=package_ids)[:5]
+
+    # Get the random packages
+    random_packages = (
+        Package.objects.active()
+        .exclude(repo_description__in=[None, ""])
+        .order_by("?")[:5]
+    )
 
     # try:
     #     potw = Dpotw.objects.latest().package
@@ -262,10 +256,15 @@ def homepage(request, template_name="homepage.html"):
     #     psa_body = '<p>There are currently no announcements.  To request a PSA, tweet at <a href="http://twitter.com/open_comparison">@Open_Comparison</a>.</p>'
 
     # Latest Django Packages blog post on homepage
-    latest_packages = Package.objects.active().order_by("-created")[:5]
+    latest_packages = (
+        Package.objects.active()
+        # .exclude(repo_description__in=[None, ""])
+        .order_by("-created")[:5]
+    )
     latest_python3 = (
         Version.objects.filter(supports_python3=True)
         .select_related("package")
+        .exclude(package__repo_description__in=[None, ""])
         .distinct()
         .order_by("-created")[:5]
     )
