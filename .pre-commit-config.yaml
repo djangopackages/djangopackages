@@ -70,6 +70,7 @@ repos:
     rev: 'v0.0.259'
     hooks:
       - id: ruff
+        args: [--fix]
         alias: autoformat
   # - repo: https://github.com/codespell-project/codespell
   #   rev: v2.2.2
