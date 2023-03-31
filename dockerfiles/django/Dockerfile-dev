@@ -3,11 +3,14 @@ FROM python:3.9
 ENV PYTHONDONTWRITEBYTECODE true
 ENV PYTHONUNBUFFERED 1
 
+RUN --mount=type=cache,target=/root/.cache,id=pip \
+    pip install --upgrade pip pip-tools
+
 # Requirements have to be pulled and installed here, otherwise caching won't work
 COPY ./requirements.txt /requirements.txt
 
-RUN pip install --upgrade pip pip-tools
-RUN pip install -r /requirements.txt
+RUN --mount=type=cache,target=/root/.cache,id=pip \
+    pip install -r /requirements.txt
 
 COPY ./dockerfiles/django/entrypoint.sh /entrypoint.sh
 RUN sed -i 's/\r//' /entrypoint.sh
@@ -16,7 +19,6 @@ RUN chmod +x /entrypoint.sh
 COPY ./dockerfiles/django/start-dev.sh /start-dev.sh
 RUN sed -i 's/\r//' /start-dev.sh
 RUN chmod +x /start-dev.sh
-
 
 WORKDIR /app
 
