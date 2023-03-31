@@ -39,29 +39,6 @@ def production():
     Work on the production environment
     """
     env.hosts = [
-        "159.203.191.135"
-    ]  # list the ip addresses or domain names of your production boxes here
-    env.port = 56565  # ssh port
-    env.user = "root"  # remote user, see `env.run` if you don't log in as root
-
-    env.compose_file = "docker-compose.prod.yml"
-    env.compose_version = "v1"
-    env.project_dir = "/code/djangopackages"  # this is the project dir where your code lives on this machine
-
-    # if you don't use key authentication, add your password here
-    # env.password = "foobar"
-    # if your machine has no bash installed, fall back to sh
-    # env.shell = "/bin/sh -c"
-
-    env.run = run  # if you don't log in as root, replace with 'env.run = sudo'
-    env.cd = cd
-
-
-def production_2023():
-    """
-    Work on the production environment
-    """
-    env.hosts = [
         "165.22.184.193"
     ]  # list the ip addresses or domain names of your production boxes here
     env.user = "root"  # remote user, see `env.run` if you don't log in as root
@@ -69,12 +46,6 @@ def production_2023():
     env.compose_file = "docker-compose.prod.yml"
     env.compose_version = "v2"
     env.project_dir = "/code/djangopackages"  # this is the project dir where your code lives on this machine
-
-    # if you don't use key authentication, add your password here
-    # env.password = "foobar"
-    # if your machine has no bash installed, fall back to sh
-    # env.shell = "/bin/sh -c"
-
     env.run = run  # if you don't log in as root, replace with 'env.run = sudo'
     env.cd = cd
 
@@ -137,6 +108,22 @@ def backup():
         env.run("gzip /data/djangopackages/backups/*.sql")
 
 
+def build_and_restart(service):
+    docker_compose(f"build {service}")
+    docker_compose(f"create {service}")
+    docker_compose(f"stop {service}")
+    docker_compose(f"start {service}")
+
+
+def clearsessions():
+    """
+    Clear old database sessions
+    """
+
+    with env.cd(env.project_dir):
+        docker_compose("run django-a python manage.py clearsessions")
+
+
 def cron():
     with env.cd(env.project_dir):
         docker_compose("run django-a python manage.py import_classifiers")
@@ -144,16 +131,17 @@ def cron():
         docker_compose("run django-a python manage.py import_releases")
 
 
-def deploy(stash: bool = False):
+def deploy(clearsessions: bool = False, stash: bool = False):
     """
     Pulls the latest changes from main, rebuilt and restarts the stack
     """
 
-    # lrun("git push origin main")
     # copy_secrets()
+
     with env.cd(env.project_dir):
-        # Manage Backups
-        # docker_compose("run django-a python manage.py clearsessions")
+        # Clear old database sessions
+        if clearsessions:
+            docker_compose("run django-a python manage.py clearsessions")
 
         # docker_compose("run postgres backup")
         # env.run("gzip /data/djangopackages/backups/*.sql")
@@ -189,13 +177,6 @@ def deploy(stash: bool = False):
 
         # turn maintenance mode off
         # maintenance_mode_off("django-a")
-
-
-def build_and_restart(service):
-    docker_compose(f"build {service}")
-    docker_compose(f"create {service}")
-    docker_compose(f"stop {service}")
-    docker_compose(f"start {service}")
 
 
 def collectstatic(service):

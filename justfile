@@ -103,8 +103,7 @@ bootstrap *ARGS:
 
 # Deploys to production
 @deploy:
-    fab production deploy:stash=True
-    fab production_2023 deploy
+    fab production deploy
 
 # Purge our CloudFlare cache
 @purge_cache:
