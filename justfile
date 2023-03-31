@@ -101,6 +101,10 @@ bootstrap *ARGS:
 # Deployment and production recipes
 # --------------------------------------------------
 
+# Clear sessions
+@clearsessions:
+    fab production clearsessions
+
 # Deploys to production
 @deploy:
     fab production deploy
