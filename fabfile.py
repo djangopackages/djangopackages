@@ -162,12 +162,15 @@ def deploy(clearsessions: bool = False, stash: bool = False):
 
         # Build our primary Docker image
         build_and_restart("django-a")
+        print("[yellow]waiting 10 seconds[/yellow]")
         time.sleep(10)
 
         # just to make sure they are on
         # docker_compose("start postgres")
         docker_compose("start redis")
-        time.sleep(10)
+
+        # print("[yellow]waiting 10 seconds[/yellow]")
+        # time.sleep(10)
 
         # Build our secondary Docker image
         build_and_restart("django-b")
