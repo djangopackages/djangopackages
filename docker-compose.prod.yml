@@ -1,17 +1,11 @@
-version: '3.2'
-
-volumes:
-  static: {}
-  media: {}
-
 services:
   django-a:
+    init: true
     build:
       context: .
       dockerfile: ./dockerfiles/django/Dockerfile
     user: django
     depends_on:
-      # - postgres
       - redis
     volumes:
       - static:/data/static
@@ -27,12 +21,12 @@ services:
         # compress: "true"
 
   django-b:
+    init: true
     build:
       context: .
       dockerfile: ./dockerfiles/django/Dockerfile
     user: django
     depends_on:
-      # - postgres
       - redis
     volumes:
       - static:/data/static
@@ -47,20 +41,8 @@ services:
         max-file: "5"
         # compress: "true"
 
-  # postgres:
-  #   build: ./dockerfiles/postgres
-  #   volumes:
-  #     - /data/djangopackages/postgres:/var/lib/postgresql/data
-  #     - /data/djangopackages/backups:/backups
-  #   env_file: .env
-  #   logging:
-  #     driver: "json-file"
-  #     options:
-  #       max-size: "600m"
-  #       max-file: "5"
-  #       # compress: "true"
-
   caddy:
+    init: true
     depends_on:
       - django-a
       - django-b
@@ -85,6 +67,7 @@ services:
         # compress: "true"
 
   redis:
+    init: true
     build: ./dockerfiles/redis
     expose:
       - 6379
@@ -95,3 +78,7 @@ services:
         max-size: "100m"
         max-file: "5"
         # compress: "true"
+
+volumes:
+  static: {}
+  media: {}
