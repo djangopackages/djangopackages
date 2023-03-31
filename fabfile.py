@@ -20,6 +20,7 @@ from fabric.api import cd, env, lcd
 from fabric.colors import blue
 from fabric.operations import local as lrun
 from fabric.operations import put, run
+from rich import print
 
 
 def local():
@@ -27,6 +28,7 @@ def local():
     Work on the local environment
     """
     env.compose_file = "docker-compose.yml"
+    env.compose_version = "v1"
     env.project_dir = "."
     env.run = lrun
     env.cd = lcd
@@ -43,6 +45,7 @@ def production():
     env.user = "root"  # remote user, see `env.run` if you don't log in as root
 
     env.compose_file = "docker-compose.prod.yml"
+    env.compose_version = "v1"
     env.project_dir = "/code/djangopackages"  # this is the project dir where your code lives on this machine
 
     # if you don't use key authentication, add your password here
@@ -52,6 +55,40 @@ def production():
 
     env.run = run  # if you don't log in as root, replace with 'env.run = sudo'
     env.cd = cd
+
+
+def production_2023():
+    """
+    Work on the production environment
+    """
+    env.hosts = [
+        "165.22.184.193"
+    ]  # list the ip addresses or domain names of your production boxes here
+    env.user = "root"  # remote user, see `env.run` if you don't log in as root
+
+    env.compose_file = "docker-compose.prod.yml"
+    env.compose_version = "v2"
+    env.project_dir = "/code/djangopackages"  # this is the project dir where your code lives on this machine
+
+    # if you don't use key authentication, add your password here
+    # env.password = "foobar"
+    # if your machine has no bash installed, fall back to sh
+    # env.shell = "/bin/sh -c"
+
+    env.run = run  # if you don't log in as root, replace with 'env.run = sudo'
+    env.cd = cd
+
+
+def setup():
+    env.run("apt update")
+    env.run("apt install apt-transport-https ca-certificates curl software-properties-common")
+    env.run("curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg")
+    env.run('echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null')
+    env.run("apt update")
+    env.run("apt-cache policy docker-ce")
+    env.run("apt install docker-ce")
+    env.run("systemctl status docker")
+    env.run("systemctl enable docker.service")
 
 
 def copy_secrets():
@@ -101,7 +138,7 @@ def cron():
         docker_compose("run django-a python manage.py import_releases")
 
 
-def deploy():
+def deploy(stash: bool = False):
     """
     Pulls the latest changes from main, rebuilt and restarts the stack
     """
@@ -115,8 +152,16 @@ def deploy():
         # docker_compose("run postgres backup")
         # env.run("gzip /data/djangopackages/backups/*.sql")
 
+        # stash existing changes
+        if stash:
+            env.run("git stash")
+
         # Pull the latest code
         env.run("git pull origin main")
+
+        # stash existing changes
+        if stash:
+            env.run("git stash pop")
 
         # turn maintenance mode on
         # maintenance_mode_on("django-a")
@@ -165,10 +210,12 @@ def purge_cache(service):
     )
 
 
-def docker_compose(command):
+def docker_compose(command, old=True):
     """
     Run a docker-compose command
     :param command: Command you want to run
     """
     with env.cd(env.project_dir):
+        if env.compose_version == "v2":
+            return env.run(f"docker compose -f {env.compose_file} {command}")
         return env.run(f"docker-compose -f {env.compose_file} {command}")
