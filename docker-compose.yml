@@ -4,7 +4,6 @@ services:
       context: .
       dockerfile: ./dockerfiles/django/Dockerfile-dev
     hostname: django
-    image: djpkg-dev-django
     init: true
     command: /start-dev.sh
     depends_on:
@@ -31,7 +30,6 @@ services:
       - redis
     env_file:
       - .env.local
-    image: djpkg-dev-celery
     init: true
     profiles:
       - celery
@@ -50,7 +48,6 @@ services:
       - redis
     env_file:
       - .env.local
-    image: djpkg-dev-celery-beat
     init: true
     profiles:
       - celery
@@ -62,7 +59,6 @@ services:
   postgres:
     build: ./dockerfiles/postgres
     hostname: postgres
-    image: djpkg-dev-postgres
     init: true
     env_file:
       - .env.local
@@ -85,7 +81,6 @@ services:
     hostname: redis
     expose:
       - 6379
-    image: djpkg-dev-redis
     init: true
     healthcheck:
       test: [
