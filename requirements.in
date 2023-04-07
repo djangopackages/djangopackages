@@ -17,7 +17,7 @@ django-secure
 django-structlog
 django-tables2
 django-waffle
-djangorestframework<3.13
+djangorestframework<3.15
 emoji
 emojificate
 feedparser
