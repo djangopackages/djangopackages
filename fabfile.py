@@ -109,7 +109,7 @@ def backup():
 
 
 def build_and_restart(service):
-    docker_compose(f"build {service}")
+    docker_compose(f"build {service} --parallel --progress plain")
     docker_compose(f"create {service}")
     docker_compose(f"stop {service}")
     docker_compose(f"start {service}")
