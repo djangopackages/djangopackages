@@ -12,7 +12,7 @@ tag = true
 ]
 
 [tool.pytest.ini_options]
-addopts = "--cov=. --durations=1 --nomigrations --reuse-db -vv"
+addopts = "--durations=1 --nomigrations --reuse-db -vv"
 DJANGO_SETTINGS_MODULE = "settings.test"
 norecursedirs = ".git config node_modules scss settings static templates"
 python_files = "test_*.py"

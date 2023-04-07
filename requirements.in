@@ -1,6 +1,6 @@
 bs4
 cloudflare
-Django<4.2
+Django<5.0
 # see requirements-to-watch.txt
 django-anymail
 django-better-admin-arrayfield
@@ -17,7 +17,7 @@ django-secure
 django-structlog
 django-tables2
 django-waffle
-djangorestframework<3.13
+djangorestframework<3.15
 emoji
 emojificate
 feedparser
