@@ -1,0 +1,26 @@
+# dockerfiles
+*.conf
+*.db
+*.example
+*.md
+*.old
+*.pid
+*.rdb
+*.zip
+.*
+.docker
+.editorconfig
+.git
+.gitignore
+.pytest_cache
+.rsync-exclude-from
+CONTRIBUTORS.txt
+data
+design
+docker-compose*.yml
+docs
+htmlcov
+LICENSE.txt
+node_modules
+script
+static
