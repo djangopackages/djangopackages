@@ -1,6 +1,6 @@
 bs4
 cloudflare
-Django<4.2
+Django<5.0
 # see requirements-to-watch.txt
 django-anymail
 django-better-admin-arrayfield
