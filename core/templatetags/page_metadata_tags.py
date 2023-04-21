@@ -18,7 +18,9 @@ def page_metadata(
         request = context["request"]
         site_title = getattr(settings, "SITE_TITLE", "Django Packages")
         base_url = f"{request.scheme}://{request.get_host()}"
-        page_title = page_title or _("Reusable apps, sites and tools directory for Django")
+        page_title = page_title or _(
+            "Reusable apps, sites and tools directory for Django"
+        )
         page_keywords = page_keywords or _(
             "Django, Django Apps, Packages, Tools, Django Sites, Django Resources"
         )
