@@ -134,8 +134,6 @@ emoji==2.2.0
     #   emojificate
 emojificate==0.7.0
     # via -r requirements.in
-exceptiongroup==1.1.1
-    # via pytest
 faker==18.4.0
     # via -r requirements.in
 feedparser==6.0.10
@@ -154,10 +152,6 @@ idna==3.4
     # via
     #   requests
     #   yarl
-importlib-metadata==6.1.0
-    # via
-    #   markdown
-    #   mkdocs
 iniconfig==2.0.0
     # via pytest
 jinja2==3.1.2
@@ -322,7 +316,7 @@ social-auth-core==4.4.1
     #   social-auth-app-django
 soupsieve==2.4
     # via beautifulsoup4
-sqlparse==0.4.3
+sqlparse==0.4.4
     # via
     #   django
     #   django-debug-toolbar
@@ -334,10 +328,6 @@ time-machine==2.9.0
     # via -r requirements.in
 toml==0.10.2
     # via bumpver
-tomli==2.0.1
-    # via
-    #   coverage
-    #   pytest
 trove-classifiers==2023.3.9
     # via -r requirements.in
 typing-extensions==4.5.0
@@ -373,8 +363,6 @@ wrapt==1.15.0
     #   vcrpy
 yarl==1.8.2
     # via vcrpy
-zipp==3.15.0
-    # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
