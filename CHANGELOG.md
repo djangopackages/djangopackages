@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-05-01]
+### Changed
+- ⬆️ Bump sqlparse from 0.4.3 to 0.4.4 ([#974](https://github.com/djangopackages/djangopackages/pull/974))
+
 ## [2023-04-07]
 ### Changed
 - :whale: Adds a .dockerignore file ([#972](https://github.com/djangopackages/djangopackages/pull/972))
