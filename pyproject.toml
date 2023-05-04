@@ -1,5 +1,5 @@
 [tool.bumpver]
-current_version = "2023.5.1"
+current_version = "2023.5.2"
 version_pattern = "YYYY.MM.INC1"
 commit_message = ":bookmark: bump version {old_version} -> {new_version}"
 commit = true
