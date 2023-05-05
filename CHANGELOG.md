@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-05-04]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#973](https://github.com/djangopackages/djangopackages/pull/973))
+
 ## [2023-05-01]
 ### Changed
 - ⬆️ Bump sqlparse from 0.4.3 to 0.4.4 ([#974](https://github.com/djangopackages/djangopackages/pull/974))
