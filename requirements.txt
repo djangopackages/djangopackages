@@ -78,7 +78,7 @@ dirty-equals==0.5.0
     # via -r requirements.in
 distlib==0.3.6
     # via virtualenv
-django==4.2
+django==4.2.1
     # via
     #   -r requirements.in
     #   django-anymail
