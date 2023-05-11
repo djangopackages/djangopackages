@@ -150,7 +150,7 @@ class PackageExampleAdmin(admin.ModelAdmin):
     ordering = ["-created"]
     raw_id_fields = ["package"]
     readonly_fields = ["created_by"]
-    search_fields = ["title", "created_by__username"]
+    search_fields = ["title", "created_by__username", "package__title"]
 
     @admin.action(description="Mark selected examples to active")
     def set_active_to_true(self, request, queryset):

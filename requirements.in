@@ -24,6 +24,8 @@ feedparser
 # github3.py
 github3.py<1.1
 jinja2
+numpy
+openai
 packaging
 psycopg2-binary
 PyGithub
