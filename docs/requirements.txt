@@ -101,12 +101,6 @@ idna==3.4 \
     --hash=sha256:814f528e8dead7d329833b91c5faa87d60bf71824cd12a7530b5526063d02cb4 \
     --hash=sha256:90b77e79eaa3eba6de819a0c442c0b4ceefc341a7a2ab77d7562bf49f425c5c2
     # via requests
-importlib-metadata==6.1.0 \
-    --hash=sha256:43ce9281e097583d758c2c708c4376371261a02c34682491a8e98352365aad20 \
-    --hash=sha256:ff80f3b5394912eb1b108fcfd444dc78b7f1f3e16b16188054bd01cb9cb86f09
-    # via
-    #   markdown
-    #   mkdocs
 jinja2==3.1.2 \
     --hash=sha256:31351a702a408a9e7595a8fc6150fc3f43bb6bf7e319770cbc0db9df9437e852 \
     --hash=sha256:6088930bfe239f0e6710546ab9c19c9ef35e29792895fed6e6e31a023a182a61
@@ -183,7 +177,7 @@ mkdocs==1.4.2 \
 mkdocs-material==9.1.5 \
     --hash=sha256:744519bca52b1e8fe7c2e80e15ed59baf8948111ec763ae6ae629c409bd16d6e \
     --hash=sha256:981e1ef0250e2fbcc23610e9b20e5f242fe1f808079b9bcfbb6c49aa2999343c
-    # via -r docs/requirements.in
+    # via -r requirements.in
 mkdocs-material-extensions==1.1.1 \
     --hash=sha256:9c003da71e2cc2493d910237448c672e00cefc800d3d6ae93d2fc69979e3bd93 \
     --hash=sha256:e41d9f38e4798b6617ad98ca8f7f1157b1e4385ac1459ca1e4ea219b556df945
@@ -196,9 +190,9 @@ pygments==2.14.0 \
     --hash=sha256:b3ed06a9e8ac9a9aae5a6f5dbe78a8a58655d17b43b93c078f094ddc476ae297 \
     --hash=sha256:fa7bd7bd2771287c0de303af8bfdfc731f51bd2c6a47ab69d117138893b82717
     # via mkdocs-material
-pymdown-extensions==9.10 \
-    --hash=sha256:31eaa76ce6f96aabfcea98787c2fff2c5c0611b20a53a94213970cfbf05f02b8 \
-    --hash=sha256:562c38eee4ce3f101ce631b804bfc2177a8a76c7e4dc908871fb6741a90257a7
+pymdown-extensions==10.0 \
+    --hash=sha256:9a77955e63528c2ee98073a1fb3207c1a45607bc74a34ef21acd098f46c3aa8a \
+    --hash=sha256:e6cbe8ace7d8feda30bc4fd6a21a073893a9a0e90c373e92d69ce5b653051f55
     # via mkdocs-material
 python-dateutil==2.8.2 \
     --hash=sha256:0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86 \
@@ -356,7 +350,3 @@ watchdog==3.0.0 \
     --hash=sha256:d00e6be486affb5781468457b21a6cbe848c33ef43f9ea4a73b4882e5f188a44 \
     --hash=sha256:d429c2430c93b7903914e4db9a966c7f2b068dd2ebdd2fa9b9ce094c7d459f33
     # via mkdocs
-zipp==3.15.0 \
-    --hash=sha256:112929ad649da941c23de50f356a2b5570c954b65150642bccdd66bf194d224b \
-    --hash=sha256:48904fc76a60e542af151aded95726c1a5c34ed43ab4134b597665c86d7ad556
-    # via importlib-metadata
