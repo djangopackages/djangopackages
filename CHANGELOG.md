@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-05-19]
+### Changed
+- :arrow_up: Bumps deps ([#981](https://github.com/djangopackages/djangopackages/pull/981))
+- ⬆️ Bump pymdown-extensions from 9.10 to 10.0 in /docs ([#978](https://github.com/djangopackages/djangopackages/pull/978))
+- [pre-commit.ci] pre-commit autoupdate ([#980](https://github.com/djangopackages/djangopackages/pull/980))
+
 ## [2023-05-11]
 ### Changed
 - :pencil: Updates package example search ([#977](https://github.com/djangopackages/djangopackages/pull/977))
