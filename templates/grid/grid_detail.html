@@ -15,12 +15,11 @@
 
 {% block extra_head %}
     {{ block.super }}
-    {% include 'includes/_ethicalads-js.html' %}
 {% endblock %}
 
 {% block body %}
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-12">
             <h2>
                 {{ grid.title|emojify|emojificate }}
                 {% if request.user.is_authenticated and profile.can_edit_grid %}
@@ -32,11 +31,8 @@
             <p>
                 {{ grid.description|emojify|emojificate|safe|urlize|linebreaksbr }}
             </p>
-        </div>
-        <div class="col-lg-6">
-            {% with ea_id="grid-detail" ea_type="text" %}
-                {% include 'includes/_ethicalads-tag.html' %}
-            {% endwith %}
+
+            <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CWYDEKJL&placement=djangopackagesorg-grid-detail" id="_carbonads_js"></script>
         </div>
     </div>
     {% cache 600 html_grid_detail_outer grid.pk request.GET.urlencode %}

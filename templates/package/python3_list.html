@@ -11,7 +11,6 @@
 
 {% block extra_head %}
     {{ block.super }}
-    {% include 'includes/_ethicalads-js.html' %}
 {% endblock %}
 
 {% block body_class %}home{% endblock %}
@@ -33,9 +32,7 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-12">
-                {% with ea_id="grid-detail" ea_type="text" %}
-                    {% include 'includes/_ethicalads-tag.html' %}
-                {% endwith %}
+                <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CWYDEKJL&placement=djangopackagesorg-grid-detail" id="_carbonads_js"></script>
             </div>
         </div>
         <div class="row">

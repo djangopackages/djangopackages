@@ -10,7 +10,6 @@
 {% endblock %}
 
 {% block extra_head %}
-    {% include 'includes/_ethicalads-js.html' %}
     {{ block.super }}
 {% endblock %}
 
@@ -200,9 +199,7 @@
         <div class="">
             <div class="col-md-4 sidebar">
 
-                {% with ea_id="package-detail" %}
-                    {% include 'includes/_ethicalads-tag.html' %}
-                {% endwith %}
+                <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CWYDEKJJ&placement=djangopackagesorg-detail" id="_carbonads_js"></script>
 
                 {% if package.is_deprecated %}
                     <div>
