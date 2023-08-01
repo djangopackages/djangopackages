@@ -52,22 +52,22 @@ repos:
   #         '--deprecated-in', '4.1',
   #       ]
   - repo: https://github.com/adamchainz/django-upgrade
-    rev: 1.13.0
+    rev: 1.14.0
     hooks:
       - id: django-upgrade
         args: [--target-version, "4.2"]
         alias: autoformat
   - repo: https://github.com/psf/black
-    rev: 23.3.0
+    rev: 23.7.0
     hooks:
       - id: black
         alias: autoformat
   - repo: https://github.com/asottile/blacken-docs
-    rev: 1.13.0
+    rev: 1.15.0
     hooks:
       - id: blacken-docs
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: 'v0.0.269'
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: 'v0.0.281'
     hooks:
       - id: ruff
         args: [--fix]
