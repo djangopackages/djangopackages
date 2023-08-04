@@ -14,19 +14,17 @@ class GridTable(Table):
     last_modified = TemplateColumn(
         "{{ record.modified|date }}", accessor="modified", verbose_name="Last Modified"
     )
-    packages = Column(accessor="gridpackage_count", verbose_name="Packages")
-    features = Column(empty_values=(), orderable=False, verbose_name="Features")
+    total_packages = Column(accessor="gridpackage_count", verbose_name="Total Packages")
+    active_packages = Column(accessor="active_gridpackage_count", verbose_name="Active Packages")
+    features = Column(accessor="feature_count", orderable=False, verbose_name="Features")
 
     class Meta:
-        fields = ["title", "description", "last_modified", "packages", "features"]
+        fields = ["title", "description", "last_modified", "active_packages", "total_packages", "features"]
         model = Grid
         template_name = "django_tables2/bootstrap.html"
 
     def render_description(self, value, record):
         return format_html(emojize(record.description))
-
-    def render_features(self, value, record):
-        return record.feature_set.count()
 
     def render_title(self, value, record):
         return format_html(
