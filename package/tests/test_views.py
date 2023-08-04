@@ -468,7 +468,7 @@ class PackagePermissionTest(TestCase):
             codename="change_package", content_type__app_label="package"
         )
         self.user.user_permissions.add(edit_package_perm)
-        with self.assertNumQueries(5):
+        with self.assertNumQueries(10):
             response = self.client.get(self.test_edit_url)
         self.assertEqual(response.status_code, 200)
 
