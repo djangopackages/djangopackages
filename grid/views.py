@@ -3,7 +3,7 @@
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
-from django.db.models import Count, Max
+from django.db.models import Count, Max, Q
 from django.http import Http404, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -41,8 +41,21 @@ class GridListView(SingleTableView):
     def get_queryset(self):
         return (
             Grid.objects.filter()
-            .prefetch_related("feature_set")
-            .annotate(gridpackage_count=Count("gridpackage"))
+            .annotate(
+                # `distinct=True` parameter is required here for multiple annotations to not yield the wrong results
+                # See: https://docs.djangoproject.com/en/4.2/topics/db/aggregation/#combining-multiple-aggregations
+                gridpackage_count=Count("gridpackage", distinct=True),
+                active_gridpackage_count=Count(
+                    "gridpackage",
+                    filter=Q(
+                        gridpackage__package__score__gte=max(
+                            0, settings.PACKAGE_SCORE_MIN
+                        )
+                    ),
+                    distinct=True,
+                ),
+                feature_count=Count("feature", distinct=True),
+            )
             .filter(gridpackage_count__gt=0)
             .order_by("-modified", "title")
         )
