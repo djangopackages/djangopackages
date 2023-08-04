@@ -48,9 +48,11 @@ class GridListView(SingleTableView):
                 active_gridpackage_count=Count(
                     "gridpackage",
                     filter=Q(
-                        gridpackage__package__score__gte=max(0, settings.PACKAGE_SCORE_MIN)
+                        gridpackage__package__score__gte=max(
+                            0, settings.PACKAGE_SCORE_MIN
+                        )
                     ),
-                    distinct=True
+                    distinct=True,
                 ),
                 feature_count=Count("feature", distinct=True),
             )
