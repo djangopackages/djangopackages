@@ -42,7 +42,7 @@ class GridListView(SingleTableView):
         return (
             Grid.objects.filter()
             .annotate(
-                # `distinct=True` perameter is required here for multiple annotations to not yield the wrong results
+                # `distinct=True` parameter is required here for multiple annotations to not yield the wrong results
                 # See: https://docs.djangoproject.com/en/4.2/topics/db/aggregation/#combining-multiple-aggregations
                 gridpackage_count=Count("gridpackage", distinct=True),
                 active_gridpackage_count=Count(
