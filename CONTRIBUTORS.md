@@ -420,6 +420,13 @@ Listed in alphabetical order.
     <td></td>
   </tr>
   <tr>
+    <td>Sayz Lim</td>
+    <td>
+      <a href="https://github.com/sayzlim">sayzlim</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
     <td>ShreehariVaasishta</td>
     <td>
       <a href="https://github.com/ShreehariVaasishta">ShreehariVaasishta</a>
