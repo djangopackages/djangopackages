@@ -56,6 +56,23 @@ services:
       - djpkg_static_dev:/data/static
       - djpkg_media_dev:/data/media
 
+  utility:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/django/Dockerfile-dev
+    init: true
+    profiles:
+      - utility
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - .env.local
+    volumes:
+      - .:/app
+      - djpkg_static_dev:/data/static
+      - djpkg_media_dev:/data/media
+
   postgres:
     build: ./dockerfiles/postgres
     hostname: postgres
