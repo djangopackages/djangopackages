@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-08-04]
+### Changed
+- Add Active Packages Column to Grid List View and Reduce DB Query Count ([#1004](https://github.com/djangopackages/djangopackages/pull/1004))
+- :arrow_up: Updates requirements ([#1003](https://github.com/djangopackages/djangopackages/pull/1003))
+- Add Carbon Ads ([#998](https://github.com/djangopackages/djangopackages/pull/998))
+
 ## [2023-05-27]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#982](https://github.com/djangopackages/djangopackages/pull/982))
