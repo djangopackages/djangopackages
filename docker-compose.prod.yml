@@ -41,6 +41,26 @@ services:
         max-file: "5"
         # compress: "true"
 
+  utility:
+    init: true
+    build:
+      context: .
+      dockerfile: ./dockerfiles/django/Dockerfile
+    user: django
+    depends_on:
+      - redis
+    profiles:
+      - utility
+    volumes:
+      - static:/data/static
+      - media:/data/media
+    env_file: .env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "400m"
+        max-file: "5"
+
   caddy:
     init: true
     depends_on:
