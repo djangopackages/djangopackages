@@ -447,6 +447,8 @@ django==4.2.4 \
     #   django-debug-toolbar
     #   django-extensions
     #   django-htmx
+    #   django-picklefield
+    #   django-q2
     #   django-reversion
     #   django-secure
     #   django-structlog
@@ -498,6 +500,14 @@ django-jsonview==2.0.0 \
 django-maintenance-mode==0.18.0 \
     --hash=sha256:9fcc4db6c38f7170f5b8ea3d915406075fa7c6da86be58a117067057f706083d \
     --hash=sha256:c4dd2098279154c6a1221a3631ddf070cad1633320074cc457376498fd78f476
+    # via -r requirements.in
+django-picklefield==3.1 \
+    --hash=sha256:c786cbeda78d6def2b43bff4840d19787809c8909f7ad683961703060398d356 \
+    --hash=sha256:d77c504df7311e8ec14e8b779f10ca6fec74de6c7f8e2c136e1ef60cf955125d
+    # via django-q2
+django-q2==1.5.4 \
+    --hash=sha256:29a9742284817bd907cf562d1dedba98baaa9666838dd26ca7d723dc3d638d49 \
+    --hash=sha256:e45b484a72ddec734009432db39db6eeb192acc183244604dcfeec03f19a3e00
     # via -r requirements.in
 django-reversion==5.0.4 \
     --hash=sha256:a591cbce8621b5d036a37617554668b5ef2eb9777682e3af20b6401ee87cfbc5 \

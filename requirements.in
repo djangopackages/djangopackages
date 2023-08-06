@@ -43,6 +43,7 @@ trove-classifiers
 Unidecode
 uwsgi
 whitenoise
+django-q2
 
 # Celery
 celery

@@ -20,6 +20,22 @@ services:
       - djpkg_static_dev:/data/static
       - djpkg_media_dev:/data/media
 
+  django-q:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/django/Dockerfile-dev
+    init: true
+    command: python manage.py qcluster
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - .env.local
+    volumes:
+      - .:/app
+      - djpkg_static_dev:/data/static
+      - djpkg_media_dev:/data/media
+
   celery:
     build:
       context: .
