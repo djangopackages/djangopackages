@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-08-05]
+### Changed
+- Add Utility Service to Run CronJobs ([#1005](https://github.com/djangopackages/djangopackages/pull/1005))
+
 ## [2023-08-04]
 ### Changed
 - Add Active Packages Column to Grid List View and Reduce DB Query Count ([#1004](https://github.com/djangopackages/djangopackages/pull/1004))
