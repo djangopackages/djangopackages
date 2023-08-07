@@ -41,6 +41,26 @@ services:
         max-file: "5"
         # compress: "true"
 
+  django-q:
+    init: true
+    build:
+      context: .
+      dockerfile: ./dockerfiles/django/Dockerfile
+    user: django
+    depends_on:
+      - redis
+    volumes:
+      - static:/data/static
+      - media:/data/media
+    command: python manage.py qcluster
+    restart: always
+    env_file: .env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "400m"
+        max-file: "5"
+
   utility:
     init: true
     build:
