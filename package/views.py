@@ -15,6 +15,7 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.views.generic.base import TemplateView
+from django_q.tasks import async_task
 from django_tables2 import SingleTableView
 
 from grid.models import Grid
@@ -101,17 +102,6 @@ def edit_package(request, slug, template_name="package/package_form.html"):
             "action": "edit",
         },
     )
-
-
-@login_required
-def update_package(request, slug):
-    package = get_object_or_404(Package, slug=slug)
-    package.fetch_metadata()
-    package.fetch_commits()
-    package.last_fetched = timezone.now()
-    messages.add_message(request, messages.INFO, "Package updated successfully")
-
-    return HttpResponseRedirect(reverse("package", kwargs={"slug": package.slug}))
 
 
 @login_required
@@ -499,23 +489,10 @@ def int_or_0(value):
 
 
 @login_required
-def post_data(request, slug):
-    # if request.method == "POST":
-    # try:
-    #     # TODO Do this this with a form, really. Duh!
-    #     package.repo_watchers = int_or_0(request.POST.get("repo_watchers"))
-    #     package.repo_forks = int_or_0(request.POST.get("repo_forks"))
-    #     package.repo_description = request.POST.get("repo_description")
-    #     package.participants = request.POST.get('contributors')
-    #     package.fetch_commits()  # also saves
-    # except Exception as e:
-    #     print e
-    package = get_object_or_404(Package, slug=slug)
-    package.fetch_pypi_data()
-    package.repo.fetch_metadata(package)
-    package.repo.fetch_commits(package)
-    package.last_fetched = timezone.now()
-    package.save()
+def fetch_package_data(request, slug):
+    package = get_object_or_404(Package.objects.only("slug"), slug=slug)
+    async_task("package.tasks.fetch_package_data_task", package.slug)
+    messages.add_message(request, messages.INFO, "Package data is being refreshed")
     return HttpResponseRedirect(reverse("package", kwargs={"slug": package.slug}))
 
 
