@@ -360,6 +360,6 @@ FORM_RENDERER = "django.forms.renderers.DjangoDivFormRenderer"
 # django-q2 settings
 # https://django-q2.readthedocs.io/en/stable/configure.html
 Q_CLUSTER = {
-    'name': 'djangopackages',
-    'redis': env.str("REDIS_URL"),
+    "name": "djangopackages",
+    "redis": env.str("REDIS_URL"),
 }
