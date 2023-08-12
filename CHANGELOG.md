@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-08-11]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1008](https://github.com/djangopackages/djangopackages/pull/1008))
+
 ## [2023-08-05]
 ### Changed
 - Add Utility Service to Run CronJobs ([#1005](https://github.com/djangopackages/djangopackages/pull/1005))
