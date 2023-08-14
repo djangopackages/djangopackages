@@ -362,5 +362,5 @@ FORM_RENDERER = "django.forms.renderers.DjangoDivFormRenderer"
 Q_CLUSTER = {
     "name": "djangopackages",
     "redis": env.str("REDIS_URL"),
-    'workers': 4,
+    "workers": 4,
 }
