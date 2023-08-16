@@ -362,5 +362,6 @@ FORM_RENDERER = "django.forms.renderers.DjangoDivFormRenderer"
 Q_CLUSTER = {
     "name": "djangopackages",
     "redis": env.str("REDIS_URL"),
+    "timeout": 600,  # this won't work for longer running tasks that might take hours to run
     "workers": 4,
 }
