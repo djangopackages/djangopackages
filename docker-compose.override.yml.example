@@ -1,12 +1,21 @@
 services:
   django:
+    # platform: linux/amd64
     ports:
       - "18000:8000"
 
+  # django-q:
+  #   platform: linux/amd64
+
   postgres:
+    # platform: linux/amd64
     ports:
       - "45432:5432"
 
   redis:
+    # platform: linux/amd64
     ports:
       - "6379:6379"
+
+  # utility:
+  #   platform: linux/amd64
