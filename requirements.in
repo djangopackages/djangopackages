@@ -4,7 +4,7 @@ Django<5.0
 django-anymail
 django-better-admin-arrayfield
 django-click
-django-crispy-forms<2
+django-crispy-forms<3
 django-debug-toolbar
 django-environ
 django-extensions
@@ -22,7 +22,7 @@ emoji
 emojificate
 feedparser
 # github3.py
-github3.py<1.1
+github3.py<4.1
 jinja2
 numpy
 openai
