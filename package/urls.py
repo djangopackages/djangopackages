@@ -18,8 +18,7 @@ from package.views import (
     github_webhook,
     package_detail,
     package_opengraph_detail,
-    post_data,
-    update_package,
+    fetch_package_data,
     usage,
 )
 
@@ -50,13 +49,8 @@ urlpatterns = [
     ),
     path(
         "<slug:slug>/fetch-data/",
-        view=update_package,
+        view=fetch_package_data,
         name="fetch_package_data",
-    ),
-    path(
-        "<slug:slug>/post-data/",
-        view=post_data,
-        name="post_package_data",
     ),
     path(
         "<slug:slug>/example/add/",
