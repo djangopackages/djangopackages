@@ -1,7 +1,6 @@
 bs4
 cloudflare
 Django<5.0
-# see requirements-to-watch.txt
 django-anymail
 django-better-admin-arrayfield
 django-click
@@ -12,6 +11,7 @@ django-extensions
 django-htmx
 django-jsonview
 django-maintenance-mode
+django-q2
 django-reversion
 django-secure
 django-structlog
@@ -27,6 +27,7 @@ jinja2
 numpy
 openai
 packaging
+psutil
 psycopg2-binary
 PyGithub
 python-dateutil
@@ -43,11 +44,6 @@ trove-classifiers
 Unidecode
 uwsgi
 whitenoise
-django-q2
-psutil
-
-# Celery
-celery
 
 # Redis support
 redis
