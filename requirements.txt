@@ -97,10 +97,6 @@ aiosignal==1.3.1 \
     --hash=sha256:54cd96e15e1649b75d6c87526a6ff0b6c1b0dd3459f43d9ca11d48c339b68cfc \
     --hash=sha256:f8376fb07dd1e86a584e4fcdec80b36b7f81aac666ebc724e2c090300dd83b17
     # via aiohttp
-amqp==5.1.1 \
-    --hash=sha256:2c1b13fecc0893e946c65cbd5f36427861cffa4ea2201d8f6fca22e2a373b5e2 \
-    --hash=sha256:6f0956d2c23d8fa6e7691934d8c3930eadb44972cbbd1a7ae3a520f735d43359
-    # via kombu
 asgiref==3.7.2 \
     --hash=sha256:89b2ef2247e3b562a16eef663bc0e2e703ec6468e2fa8a5cd61cd449786d4f6e \
     --hash=sha256:9e0ce3aa93a819ba5b45120216b23878cf6e8525eb3848653452b4192b92afed
@@ -125,20 +121,12 @@ beautifulsoup4==4.12.2 \
     # via
     #   bs4
     #   cloudflare
-billiard==4.1.0 \
-    --hash=sha256:0f50d6be051c6b2b75bfbc8bfd85af195c5739c281d3f5b86a5640c65563614a \
-    --hash=sha256:1ad2eeae8e28053d729ba3373d34d9d6e210f6e4d8bf0a9c64f92bd053f1edf5
-    # via celery
 bs4==0.0.1 \
     --hash=sha256:36ecea1fd7cc5c0c6e4a1ff075df26d50da647b75376626cc186e2212886dd3a
     # via -r requirements.in
 bumpver==2023.1125 \
     --hash=sha256:a61f9025c63cdb645db2a8826a01e44d1fa55f689f1e10d7c80148c50e61ef91 \
     --hash=sha256:caf314572c31b9c3dcb47d3faa2d63188e81ffd58ff8ed308bbe996326562f7b
-    # via -r requirements.in
-celery==5.3.1 \
-    --hash=sha256:27f8f3f3b58de6e0ab4f174791383bbd7445aff0471a43e99cfd77727940753f \
-    --hash=sha256:f84d1c21a1520c116c2b7d26593926581191435a03aa74b77c941b93ca1c6210
     # via -r requirements.in
 certifi==2023.7.22 \
     --hash=sha256:539cc1d13202e33ca466e88b2807e29f4c13049d6d87031a3c110744495cb082 \
@@ -302,25 +290,9 @@ click==8.1.6 \
     --hash=sha256:fa244bb30b3b5ee2cae3da8f55c9e5e0c0e86093306301fb418eb9dc40fbded5
     # via
     #   bumpver
-    #   celery
-    #   click-didyoumean
-    #   click-plugins
-    #   click-repl
     #   django-click
     #   emojificate
     #   mkdocs
-click-didyoumean==0.3.0 \
-    --hash=sha256:a0713dc7a1de3f06bc0df5a9567ad19ead2d3d5689b434768a6145bff77c0667 \
-    --hash=sha256:f184f0d851d96b6d29297354ed981b7dd71df7ff500d82fa6d11f0856bee8035
-    # via celery
-click-plugins==1.1.1 \
-    --hash=sha256:46ab999744a9d831159c3411bb0c79346d94a444df9a3a3742e9ed63645f264b \
-    --hash=sha256:5d262006d3222f5057fd81e1623d4443e41dcda5dc815c06b442aa3c02889fc8
-    # via celery
-click-repl==0.3.0 \
-    --hash=sha256:17849c23dba3d667247dc4defe1757fff98694e90fe37474f3feebb69ced26a9 \
-    --hash=sha256:fb7e06deb8da8de86180a33a9da97ac316751c094c6899382da7feeeeb51b812
-    # via celery
 cloudflare==2.11.6 \
     --hash=sha256:6531d4caf160baf304d09974251cf05a624e6963d4cf844578c1154efba96f5e
     # via -r requirements.in
@@ -668,10 +640,6 @@ jsonlines==3.1.0 \
     --hash=sha256:2579cb488d96f815b0eb81629e3e6b0332da0962a18fa3532958f7ba14a5c37f \
     --hash=sha256:632f5e38f93dfcb1ac8c4e09780b92af3a55f38f26e7c47ae85109d420b6ad39
     # via cloudflare
-kombu==5.3.1 \
-    --hash=sha256:48ee589e8833126fd01ceaa08f8a2041334e9f5894e5763c8486a550454551e9 \
-    --hash=sha256:fbd7572d92c0bf71c112a6b45163153dea5a7b6a701ec16b568c27d0fd2370f2
-    # via celery
 lexid==2021.1006 \
     --hash=sha256:509a3a4cc926d3dbf22b203b18a4c66c25e6473fb7c0e0d30374533ac28bafe5 \
     --hash=sha256:5526bb5606fd74c7add23320da5f02805bddd7c77916f2dc1943e6bada8605ed
@@ -917,10 +885,6 @@ pre-commit==3.3.3 \
     --hash=sha256:10badb65d6a38caff29703362271d7dca483d01da88f9d7e05d0b97171c136cb \
     --hash=sha256:a2256f489cd913d575c145132ae196fe335da32d91a8294b7afe6622335dd023
     # via -r requirements.in
-prompt-toolkit==3.0.39 \
-    --hash=sha256:04505ade687dc26dc4284b1ad19a83be2f2afe83e7a828ace0c72f3a1df72aac \
-    --hash=sha256:9dffbe1d8acf91e3de75f3b544e4842382fc06c6babe903ac9acb74dc6e08d88
-    # via click-repl
 psutil==5.9.5 \
     --hash=sha256:104a5cc0e31baa2bcf67900be36acde157756b9c44017b86b2c049f11957887d \
     --hash=sha256:3c6f686f4225553615612f6d9bc21f1c0e305f75d7d8454f9b46e901778e7217 \
@@ -1067,7 +1031,6 @@ python-dateutil==2.8.2 \
     --hash=sha256:961d03dc3453ebbc59dbdea9e4e11c5651520a876d0f4db161e8674aae935da9
     # via
     #   -r requirements.in
-    #   celery
     #   faker
     #   ghp-import
     #   github3-py
@@ -1378,13 +1341,7 @@ trove-classifiers==2023.7.6 \
 typing-extensions==4.7.1 \
     --hash=sha256:440d5dd3af93b060174bf433bccd69b0babc3b15b1a8dca43789fd7f61514b36 \
     --hash=sha256:b75ddc264f0ba5615db7ba217daeb99701ad295353c45f9e95963337ceeeffb2
-    # via
-    #   asgiref
-    #   kombu
-tzdata==2023.3 \
-    --hash=sha256:11ef1e08e54acb0d4f95bdb1be05da659673de4acbd21bf9c69e94cc5e907a3a \
-    --hash=sha256:7e65763eef3120314099b6939b5546db7adce1e7d6f2e179e3df563c70511eda
-    # via celery
+    # via asgiref
 unidecode==1.3.6 \
     --hash=sha256:547d7c479e4f377b430dd91ac1275d593308dce0fc464fb2ab7d41f82ec653be \
     --hash=sha256:fed09cf0be8cf415b391642c2a5addfc72194407caee4f98719e40ec2a72b830
@@ -1408,13 +1365,6 @@ vcrpy==5.1.0 \
     --hash=sha256:605e7b7a63dcd940db1df3ab2697ca7faf0e835c0852882142bafb19649d599e \
     --hash=sha256:bbf1532f2618a04f11bce2a99af3a9647a32c880957293ff91e0a5f187b6b3d2
     # via pytest-vcr
-vine==5.0.0 \
-    --hash=sha256:4c9dceab6f76ed92105027c49c823800dd33cacce13bdedc5b914e3514b7fb30 \
-    --hash=sha256:7d3b1624a953da82ef63462013bbd271d3eb75751489f9807598e8f340bd637e
-    # via
-    #   amqp
-    #   celery
-    #   kombu
 virtualenv==20.24.2 \
     --hash=sha256:43a3052be36080548bdee0b42919c88072037d50d56c28bd3f853cbe92b953ff \
     --hash=sha256:fd8a78f46f6b99a67b7ec5cf73f92357891a7b3a40fd97637c27f854aae3b9e0
@@ -1448,10 +1398,6 @@ watchdog==3.0.0 \
     --hash=sha256:d00e6be486affb5781468457b21a6cbe848c33ef43f9ea4a73b4882e5f188a44 \
     --hash=sha256:d429c2430c93b7903914e4db9a966c7f2b068dd2ebdd2fa9b9ce094c7d459f33
     # via mkdocs
-wcwidth==0.2.6 \
-    --hash=sha256:795b138f6875577cd91bba52baf9e445cd5118fd32723b460e30a0af30ea230e \
-    --hash=sha256:a5220780a404dbe3353789870978e472cfe477761f06ee55077256e509b156d0
-    # via prompt-toolkit
 whitenoise==6.5.0 \
     --hash=sha256:15fe60546ac975b58e357ccaeb165a4ca2d0ab697e48450b8f0307ca368195a8 \
     --hash=sha256:16468e9ad2189f09f4a8c635a9031cc9bb2cdbc8e5e53365407acf99f7ade9ec

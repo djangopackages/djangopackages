@@ -36,42 +36,6 @@ services:
       - djpkg_static_dev:/data/static
       - djpkg_media_dev:/data/media
 
-  celery:
-    build:
-      context: .
-      dockerfile: ./dockerfiles/django/Dockerfile-dev
-    command: ["celery", "-A", "settings", "worker", "--concurrency=10", "--loglevel=debug"]
-    depends_on:
-      - postgres
-      - redis
-    env_file:
-      - .env.local
-    init: true
-    profiles:
-      - celery
-    volumes:
-      - .:/app
-      - djpkg_static_dev:/data/static
-      - djpkg_media_dev:/data/media
-
-  celery-beat:
-    build:
-      context: .
-      dockerfile: ./dockerfiles/django/Dockerfile-dev
-    command: ["celery", "-A", "settings", "beat", "--loglevel=debug"]
-    depends_on:
-      - postgres
-      - redis
-    env_file:
-      - .env.local
-    init: true
-    profiles:
-      - celery
-    volumes:
-      - .:/app
-      - djpkg_static_dev:/data/static
-      - djpkg_media_dev:/data/media
-
   utility:
     build:
       context: .
