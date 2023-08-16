@@ -175,6 +175,10 @@ def deploy(clearsessions: bool = False, stash: bool = False):
         # Build our secondary Docker image
         build_and_restart("django-b")
 
+        # Restart django-q2
+        docker_compose(f"stop django-q")
+        docker_compose(f"start django-q")
+
         # collectstatic
         collectstatic("django-a")
 
