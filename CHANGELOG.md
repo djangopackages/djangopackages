@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-08-16]
+### Changed
+- :fire: Removes Celery ([#1011](https://github.com/djangopackages/djangopackages/pull/1011))
+- Migrate Long Running Tasks to `django-q` ([#1007](https://github.com/djangopackages/djangopackages/pull/1007))
+- [pre-commit.ci] pre-commit autoupdate ([#1009](https://github.com/djangopackages/djangopackages/pull/1009))
+
 ## [2023-08-11]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1008](https://github.com/djangopackages/djangopackages/pull/1008))
