@@ -363,5 +363,7 @@ Q_CLUSTER = {
     "name": "djangopackages",
     "redis": env.str("REDIS_URL"),
     "timeout": 600,  # this won't work for longer running tasks that might take hours to run
+    "retry": 700,
+    "max_attempts": 2,
     "workers": 4,
 }
