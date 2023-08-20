@@ -15,9 +15,7 @@ class Command(BaseCommand):
         pypi_updater = "Update All Packages from PyPI"
 
         success_message = "Created '{tasks_name}' scheduled task successfully"
-        integrity_error_message = (
-            "'{tasks_name}' scheduled task already exists"
-        )
+        integrity_error_message = "'{tasks_name}' scheduled task already exists"
 
         try:
             schedule(
