@@ -1,5 +1,6 @@
 bs4
 cloudflare
+croniter
 Django<5.0
 django-anymail
 django-better-admin-arrayfield
