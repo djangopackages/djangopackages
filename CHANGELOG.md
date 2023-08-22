@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-08-21]
+### Changed
+- Move cron jobs to `django-q` scheduled tasks ([#1012](https://github.com/djangopackages/djangopackages/pull/1012))
+
 ## [2023-08-16]
 ### Changed
 - :fire: Removes Celery ([#1011](https://github.com/djangopackages/djangopackages/pull/1011))
