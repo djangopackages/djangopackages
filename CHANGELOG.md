@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-09-22]
+### Changed
+- ⬆️ Bump the dependencies group with 26 updates ([#1019](https://github.com/djangopackages/djangopackages/pull/1019))
+- [pre-commit.ci] pre-commit autoupdate ([#1015](https://github.com/djangopackages/djangopackages/pull/1015))
+
 ## [2023-08-21]
 ### Changed
 - Move cron jobs to `django-q` scheduled tasks ([#1012](https://github.com/djangopackages/djangopackages/pull/1012))
