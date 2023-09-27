@@ -154,6 +154,7 @@ PREREQ_APPS = [
     # external
     "maintenance_mode",
     "crispy_forms",
+    "crispy_bootstrap3",
     "django_better_admin_arrayfield",
     "django_extensions",
     "django_htmx",
@@ -334,6 +335,7 @@ URL_REGEX_GITHUB = r"(?:http|https|git)://github.com/[^/]*/([^/]*)/{0,1}"
 ########### end redis setup
 
 ########### crispy_forms setup
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap3"
 CRISPY_TEMPLATE_PACK = "bootstrap3"
 ########### end crispy_forms setup
 
