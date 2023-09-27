@@ -145,7 +145,7 @@ bootstrap *ARGS:
     just logs --follow
 
 # Bring up your Docker Containers
-@up *ARGS="--detach":
+@up *ARGS:
     docker-compose up {{ ARGS }}
 
 # --------------------------------------------------
