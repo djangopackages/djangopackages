@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-09-27]
+### Changed
+- :package: Adds crispy-bootstrap3 (hotfix) ([#1027](https://github.com/djangopackages/djangopackages/pull/1027))
+
 ## [2023-09-22]
 ### Changed
 - ⬆️ Bump the dependencies group with 26 updates ([#1019](https://github.com/djangopackages/djangopackages/pull/1019))
