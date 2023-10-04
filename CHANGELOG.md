@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-10-03]
+### Changed
+- :arrow_up: Bumps deps ([#1032](https://github.com/djangopackages/djangopackages/pull/1032))
+- ⬆️ Bump urllib3 from 2.0.4 to 2.0.6 in /docs ([#1030](https://github.com/djangopackages/djangopackages/pull/1030))
+- [pre-commit.ci] pre-commit autoupdate ([#1024](https://github.com/djangopackages/djangopackages/pull/1024))
+
 ## [2023-09-27]
 ### Changed
 - :package: Adds crispy-bootstrap3 (hotfix) ([#1027](https://github.com/djangopackages/djangopackages/pull/1027))
