@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib.auth.models import User
 from django.core.cache import cache
 from django.db.models import Count, Q
@@ -243,10 +245,13 @@ def homepage(request, template_name="homepage.html"):
     #     potw = None
 
     try:
-        gotw = Gotw.objects.latest().grid
-    except Gotw.DoesNotExist:
-        gotw = None
-    except Grid.DoesNotExist:
+        my_today = date.today()
+        gotw = (
+            Gotw.objects.filter(start_date__lte=my_today, end_date__gte=my_today)
+            .latest()
+            .grid
+        )
+    except (Gotw.DoesNotExist, Grid.DoesNotExist):
         gotw = None
 
     # Public Service Announcement on homepage
