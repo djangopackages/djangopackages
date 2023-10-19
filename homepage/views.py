@@ -6,6 +6,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 
 from grid.models import Grid
+from homepage.models import Gotw
 from package.models import Category, Commit, Package, Version
 from products.models import Product, Release
 
@@ -240,13 +241,13 @@ def homepage(request, template_name="homepage.html"):
     #     potw = None
     # except Package.DoesNotExist:
     #     potw = None
-    #
-    # try:
-    #     gotw = Gotw.objects.latest().grid
-    # except Gotw.DoesNotExist:
-    #     gotw = None
-    # except Grid.DoesNotExist:
-    #     gotw = None
+
+    try:
+        gotw = Gotw.objects.latest().grid
+    except Gotw.DoesNotExist:
+        gotw = None
+    except Grid.DoesNotExist:
+        gotw = None
 
     # Public Service Announcement on homepage
     # try:
@@ -277,7 +278,7 @@ def homepage(request, template_name="homepage.html"):
             "latest_python3": latest_python3,
             "package_count": package_count,
             "random_packages": random_packages,
-            # "gotw": gotw,
+            "gotw": gotw,
             # "potw": potw,
             # "psa_body": psa_body,
             # "": Package.objects.active()
