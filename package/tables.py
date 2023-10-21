@@ -27,27 +27,6 @@ class PackageTable(Table):
             "Forks <span class='glyphicon glyphicon-random'></span>"
         ),
     )
-
-    class Meta:
-        fields = ["title", "commits", "version", "repo_watchers", "repo_forks"]
-        model = Package
-        template_name = "django_tables2/bootstrap.html"
-
-    def render_repo_forks(self, value, record):
-        return intcomma(record.repo_forks)
-
-    def render_title(self, value, record):
-        return format_html(
-            '<a href="{}">{}</a>'.format(
-                reverse("package", kwargs={"slug": record.slug}), emojize(record.title)
-            )
-        )
-
-    def render_repo_watchers(self, value, record):
-        return intcomma(record.repo_watchers)
-
-
-class PackageByCategoryTable(PackageTable):
     # <td class="usage-container usage-holder">
     #     {% usage_button %}
     #     &nbsp;
@@ -64,7 +43,7 @@ class PackageByCategoryTable(PackageTable):
         empty_values=(), orderable=False, verbose_name="Development Status"
     )
 
-    class Meta(PackageTable.Meta):
+    class Meta:
         fields = [
             "title",
             "commits",
@@ -74,6 +53,21 @@ class PackageByCategoryTable(PackageTable):
             "repo_watchers",
             "repo_forks",
         ]
+        model = Package
+        template_name = "django_tables2/bootstrap.html"
+
+    def render_repo_forks(self, value, record):
+        return intcomma(record.repo_forks)
+
+    def render_title(self, value, record):
+        return format_html(
+            '<a href="{}">{}</a>'.format(
+                reverse("package", kwargs={"slug": record.slug}), emojize(record.title)
+            )
+        )
+
+    def render_repo_watchers(self, value, record):
+        return intcomma(record.repo_watchers)
 
     def render_last_released(self, value, record):
         last_released = record.last_released()
