@@ -58,7 +58,7 @@ repos:
         args: [--target-version, "4.2"]
         alias: autoformat
   - repo: https://github.com/psf/black
-    rev: 23.9.1
+    rev: 23.10.1
     hooks:
       - id: black
         alias: autoformat
@@ -67,7 +67,7 @@ repos:
     hooks:
       - id: blacken-docs
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: 'v0.0.292'
+    rev: 'v0.1.1'
     hooks:
       - id: ruff
         args: [--fix]
