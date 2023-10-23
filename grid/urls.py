@@ -2,7 +2,6 @@
 
 from django.urls import path, re_path
 
-from grid import views
 from grid.views import (
     GridListView,
     add_feature,
@@ -17,7 +16,10 @@ from grid.views import (
     edit_grid,
     grid_detail,
     grid_opengraph_detail,
+    grid_timesheet,
+    grid_detail_landscape,
 )
+from package.views import PackageByGridListView
 
 urlpatterns = [
     path(
@@ -87,8 +89,13 @@ urlpatterns = [
     ),
     path(
         "g/<slug:slug>/landscape/",
-        view=views.grid_detail_landscape,
+        view=grid_detail_landscape,
         name="grid_landscape",
     ),
-    path("g/<slug:slug>/timesheet/", view=views.grid_timesheet, name="grid_timesheet"),
+    path("g/<slug:slug>/timesheet/", view=grid_timesheet, name="grid_timesheet"),
+    path(
+        "g/<slug:slug>/packages/",
+        view=PackageByGridListView.as_view(),
+        name="grid_packages",
+    ),
 ]

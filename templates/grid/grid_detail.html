@@ -220,6 +220,7 @@
                 </tbody>
 
             </table>
+            <p><a href="{% url 'grid_packages' grid.slug %}"><span class="glyphicon glyphicon-th-list text-success"></span> {% trans "View all grid packages" %}</a></p>
         {% else %}
             {% if request.user.is_authenticated and profile.can_add_grid_package %}
                 <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span>&nbsp;{% trans "Add a package to get a grid view" %}</a></p>

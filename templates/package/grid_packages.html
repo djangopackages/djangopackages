@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load render_table from django_tables2 %}
+{% load page_metadata_tags %}
+
+{% block metadata %}
+    {% trans " Grid Packages" as trans_title %}
+    {% page_metadata page_title=grid.title|add:trans_title %}
+    {% page_metadata page_title=grid.title page_description=grid.description og_image_url=grid.get_opengraph_image_url %}
+{% endblock %}
+
+{% block extra_head %}
+    {{ block.super }}
+{% endblock %}
+
+{% block body_class %}home{% endblock %}
+
+{% block breadcrumb %}
+    <div class="breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2><a href="{% url 'home' %}">{% trans "Home" %}</a> ›› <a href="{% url "grid" slug=grid.slug %}">{{ grid.title }} {% trans "Grid" %}</a> ›› {% trans "Packages" %} ( {{ table.paginator.count }} )</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CWYDEKJL&placement=djangopackagesorg-grid-detail" id="_carbonads_js"></script>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                {% render_table table %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
