@@ -32,65 +32,21 @@ repos:
         alias: autoformat
       - id: djjs
         alias: autoformat
-  # - repo: https://github.com/browniebroke/django-codemod
-  #   rev: v1.10.9
-  #   hooks:
-  #     - id: djcodemod
-  #       stages: [manual]
-  #       args: [
-  #         'run',
-  #         '--deprecated-in', '1.9',
-  #         '--deprecated-in', '1.10',
-  #         '--deprecated-in', '1.11',
-  #         '--deprecated-in', '2.0',
-  #         '--deprecated-in', '2.1',
-  #         '--deprecated-in', '2.2',
-  #         '--removed-in', '3.0',
-  #         '--deprecated-in', '3.0',
-  #         '--deprecated-in', '3.1',
-  #         '--removed-in', '4.0',
-  #         '--deprecated-in', '4.1',
-  #       ]
   - repo: https://github.com/adamchainz/django-upgrade
     rev: 1.15.0
     hooks:
       - id: django-upgrade
         args: [--target-version, "4.2"]
         alias: autoformat
-  - repo: https://github.com/psf/black
-    rev: 23.10.1
-    hooks:
-      - id: black
-        alias: autoformat
   - repo: https://github.com/asottile/blacken-docs
     rev: 1.16.0
     hooks:
       - id: blacken-docs
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: 'v0.1.1'
+    rev: 'v0.1.2'
     hooks:
       - id: ruff
         args: [--fix]
         alias: autoformat
-  # - repo: https://github.com/codespell-project/codespell
-  #   rev: v2.2.2
-  #   hooks:
-  #     - id: codespell
-  #       args: [--write-changes]
-  #       alias: autoformat
-  # - repo: https://github.com/guilatrova/tryceratops
-  #   rev: v1.1.0
-  #   hooks:
-  #     - id: tryceratops
-  #       args: [--ignore, TC101, --ignore, TC200]
-  # - repo: local
-  #   hooks:
-  #     - id: rustywind
-  #       name: rustywind Tailwind CSS class linter
-  #       language: node
-  #       additional_dependencies:
-  #         - rustywind@0.15.3
-  #       entry: rustywind
-  #       args: [--write]
-  #       types_or: [html]
-  #       # exclude: '.*\.min\.css'
+      - id: ruff-format
+        alias: autoformat

@@ -189,7 +189,7 @@ bootstrap *ARGS:
 @lint-fmt:
     -unimport -r .
     -pyup-dirs --py37-plus .
-    -black .
+    -ruff format .
     -tryceratops .
     -djhtml -i templates/*.html templates/**/*.html templates/**/**/*.html
 

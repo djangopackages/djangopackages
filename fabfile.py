@@ -45,7 +45,9 @@ def production():
 
     env.compose_file = "docker-compose.prod.yml"
     env.compose_version = "v2"
-    env.project_dir = "/code/djangopackages"  # this is the project dir where your code lives on this machine
+    env.project_dir = (
+        "/code/djangopackages"
+    )  # this is the project dir where your code lives on this machine
     env.run = run  # if you don't log in as root, replace with 'env.run = sudo'
     env.cd = cd
 
