@@ -90,7 +90,7 @@ pre-commit run --all-files
 To run a pre-commit rule by hand:
 
 ```shell
-pre-commit run autoformat
+pre-commit run ruff
 ```
 
 [docker-compose]: https://docs.docker.com/compose/install/
