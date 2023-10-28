@@ -1,0 +1,8 @@
+{% load i18n %}
+    <div class="text-center categories col-sm-4">
+        <h2>{% trans "Public Service Announcement" %}</h2>
+        {% if psa_body %}
+            <p>{{ psa_body | safe }}</p>
+        {% endif %}
+        </div<
+

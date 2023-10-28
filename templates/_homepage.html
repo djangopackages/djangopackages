@@ -5,8 +5,21 @@
 {% load typogrify_tags %}
 
 <div class="container">
-    {% include "homepage/grid_of_the_week_partial.html" %}
+    <div class="row">
+        {% include "homepage/django_package_of_the_week_partial.html" %}
+        {% include "homepage/grid_of_the_week_partial.html" %}
+        {% include "homepage/public_service_announcement_partial.html" %}
+    </div>
 </div>
+{% comment %} 
+TODO: Fix this hack
+This is a hack to keep the next set of divs from wrapping up and making the display look funny 
+{% endcomment %}
+<div class="container">
+    <div class="row">
+    </div>
+</div>
+
 <div class="container">
     <div class="row">
         <!-- start Categories panel -->

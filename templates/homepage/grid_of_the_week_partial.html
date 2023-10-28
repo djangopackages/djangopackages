@@ -1,17 +1,14 @@
 {% load i18n %}
-{% comment "" %}
-need to do a better job of centering and styling this
-{% endcomment %}
-<div class="row">
+    <div class="text-center categories col-sm-4">
+        <h2>{% trans "Featured Grid" %}</h2>
     {% if gotw %}
-        <div class="col-sm-4 col-lg-4">
-            <h2>{% trans "Featured Grid" %}</h2>
-            <h4><a href="{{ gotw.get_absolute_url }}">{{ gotw.title }}</a></h4>
-            <p>{{ gotw.description }}</p>
-            <p>
-                <strong>{% trans "Packages" %}:</strong> {{ gotw.gridpackage_set.count }}
-                <strong>{% trans "Features" %}:</strong> {{ gotw.feature_set.count }}
-            </p>
-        </div>
+        <h4><a href="{{ gotw.get_absolute_url }}">{{ gotw.title }}</a></h4>
+        <p>{{ gotw.description }}</p>
+        <p>
+            <strong>{% trans "Packages" %}:</strong> {{ gotw.gridpackage_set.count }}
+            <strong>{% trans "Features" %}:</strong> {{ gotw.feature_set.count }}
+        </p>
+    {% else %}
+        <p>There is no Featured Grid for this week</p>
     {% endif %}
-</div>
+    </div>
