@@ -1,5 +1,5 @@
 [tool.bumpver]
-current_version = "2023.10.3"
+current_version = "2023.10.10"
 version_pattern = "YYYY.MM.INC1"
 commit_message = ":bookmark: bump version {old_version} -> {new_version}"
 commit = true
@@ -57,7 +57,7 @@ exclude = [
 per-file-ignores = {}
 
 # Same as Black.
-line-length = 120
+line-length = 88
 
 # Allow unused variables when underscore-prefixed.
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"

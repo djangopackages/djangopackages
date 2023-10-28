@@ -61,11 +61,3 @@ jobs:
 
         run: |
           python -m pytest . -s
-
-      # - name: Lints Python
-      #   run: |
-      #     black --check .
-
-      # - name: Lints HTML templates
-      #   run: |
-      #     djhtml --check src/templates/*.html src/templates/**/*.html

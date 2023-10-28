@@ -479,3 +479,13 @@ def test_category_view(db, django_assert_num_queries, tp):
     with django_assert_num_queries(23):
         response = tp.client.get("/categories/apps/")
     assert "apps" in str(response.content)
+
+
+def test_grid_package_list(db, django_assert_num_queries, tp):
+    initial_data.load()
+
+    with django_assert_num_queries(19):
+        url = tp.reverse("grid_packages", slug="testing")
+        response = tp.client.get(url)
+
+    assert response.status_code == 200

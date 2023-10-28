@@ -178,8 +178,10 @@ bootstrap *ARGS:
 
 # Check consistency of your env files
 @lint:
-    -modenv check
-    -just lint-codespell
+    # TODO: consider bringing these back because they have some value
+    # -modenv check
+    # -just lint-codespell
+    -just pre-commit-all-files
 
 # Fixes common misspellings in text files
 @lint-codespell:
@@ -187,9 +189,10 @@ bootstrap *ARGS:
 
 # Lints and formats all of your files using various formatters and linters
 @lint-fmt:
+    # TODO: verify/finish moving these into pre-commit
     -unimport -r .
     -pyup-dirs --py37-plus .
-    -black .
+    -ruff format .
     -tryceratops .
     -djhtml -i templates/*.html templates/**/*.html templates/**/**/*.html
 

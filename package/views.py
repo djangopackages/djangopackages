@@ -19,7 +19,6 @@ from django_q.tasks import async_task
 from django_tables2 import SingleTableView
 
 from grid.models import Grid
-from homepage.models import Dpotw, Gotw
 from package.forms import (
     DocumentationForm,
     FlaggedPackageForm,
@@ -28,7 +27,7 @@ from package.forms import (
 )
 from package.models import Category, FlaggedPackage, Package, PackageExample
 from package.repos import get_all_repos
-from package.tables import PackageByCategoryTable, PackageTable
+from package.tables import PackageTable
 
 
 def repo_data_for_js():
@@ -203,18 +202,46 @@ def confirm_delete_example(request, slug, id):
     return HttpResponseRedirect(reverse("package", kwargs={"slug": slug}))
 
 
-class PackageByCategoryListView(SingleTableView):
-    table_class = PackageByCategoryTable
-    template_name = "package/category.html"
+class PackageListView(TemplateView):
+    template_name = "package/package_list.html"
 
     def get_context_data(self, **kwargs):
+        categories = []
+        for category in Category.objects.annotate(package_count=Count("package")):
+            package_table = PackageTable(
+                Package.objects.active()
+                .filter(category=category)
+                .active()
+                .select_related()
+                .annotate(usage_count=Count("usage"))
+                .order_by("-pypi_downloads", "-repo_watchers", "title")[:9],
+                prefix=f"{category.slug}_",
+                exclude=("last_released",),
+            )
+            element = {
+                "count": category.package_count,
+                "description": category.description,
+                "slug": category.slug,
+                "table": package_table,
+                "title": category.title,
+                "title_plural": category.title_plural,
+            }
+            categories.append(element)
+
         context_data = super().get_context_data(**kwargs)
-        context_data["category"] = get_object_or_404(Category, slug=self.kwargs["slug"])
+        context_data["categories"] = categories
         return context_data
 
+
+class PackageSingleTableMixin(SingleTableView):
+    table_class = PackageTable
+
+    def package_filters(self):
+        return {}
+
     def get_queryset(self):
-        packages = (
-            Package.objects.filter(category__slug=self.kwargs["slug"])
+        return (
+            Package.objects.filter(**self.package_filters())
             .select_related(
                 "category",
                 "created_by",
@@ -223,9 +250,40 @@ class PackageByCategoryListView(SingleTableView):
                 "deprecates_package",
             )
             .annotate(usage_count=Count("usage"))
-            .order_by("-repo_watchers", "title")
+            .order_by("-repo_watchers", "-pypi_downloads", "title")
         )
-        return packages
+
+
+class PackagePython3ListView(PackageSingleTableMixin):
+    template_name = "package/python3_list.html"
+
+    def package_filters(self):
+        return {"version__supports_python3": True}
+
+
+class PackageByCategoryListView(PackageSingleTableMixin):
+    template_name = "package/category.html"
+
+    def package_filters(self):
+        return {"category__slug": self.kwargs["slug"]}
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data["category"] = get_object_or_404(Category, slug=self.kwargs["slug"])
+        return context_data
+
+
+class PackageByGridListView(PackageSingleTableMixin):
+    template_name = "package/grid_packages.html"
+    table_class = PackageTable
+
+    def package_filters(self):
+        return {"gridpackage__grid__slug": self.kwargs["slug"]}
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data["grid"] = get_object_or_404(Grid, slug=self.kwargs["slug"])
+        return context_data
 
 
 def category(request, slug, template_name="package/category.html"):
@@ -389,52 +447,6 @@ def usage(request, slug, action):
         or reverse("package", kwargs={"slug": package.slug})
     )
     return HttpResponseRedirect(next)
-
-
-class PackagePython3ListView(SingleTableView):
-    table_class = PackageTable
-    template_name = "package/python3_list.html"
-
-    def get_queryset(self):
-        return (
-            Package.objects.filter(version__supports_python3=True)
-            .select_related()
-            .distinct()
-            .order_by("-pypi_downloads", "-repo_watchers", "title")
-        )
-
-
-class PackageListView(TemplateView):
-    template_name = "package/package_list.html"
-
-    def get_context_data(self, **kwargs):
-        categories = []
-        for category in Category.objects.annotate(package_count=Count("package")):
-            package_table = PackageByCategoryTable(
-                Package.objects.active()
-                .filter(category=category)
-                .active()
-                .select_related()
-                .annotate(usage_count=Count("usage"))
-                .order_by("-pypi_downloads", "-repo_watchers", "title")[:9],
-                prefix=f"{category.slug}_",
-                exclude=["last_released"],
-            )
-            element = {
-                "count": category.package_count,
-                "description": category.description,
-                "slug": category.slug,
-                "table": package_table,
-                "title": category.title,
-                "title_plural": category.title_plural,
-            }
-            categories.append(element)
-
-        context_data = super().get_context_data(**kwargs)
-        context_data["categories"] = categories
-        context_data["dpotw"] = Dpotw.objects.get_current()
-        context_data["gotw"] = Gotw.objects.get_current()
-        return context_data
 
 
 def package_detail(request, slug, template_name="package/package.html"):

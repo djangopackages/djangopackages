@@ -1,5 +1,19 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-10-25]
+### Changed
+- Move to Ruff Formatter ([#1046](https://github.com/djangopackages/djangopackages/pull/1046))
+
+## [2023-10-23]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1045](https://github.com/djangopackages/djangopackages/pull/1045))
+- Add Grid Packages List View ([#1043](https://github.com/djangopackages/djangopackages/pull/1043))
+
+## [2023-10-19]
+### Changed
+- ⬆️ Bump the dependencies group with 28 updates ([#1040](https://github.com/djangopackages/djangopackages/pull/1040))
+- [pre-commit.ci] pre-commit autoupdate ([#1038](https://github.com/djangopackages/djangopackages/pull/1038))
+
 ## [2023-10-03]
 ### Changed
 - :arrow_up: Bumps deps ([#1032](https://github.com/djangopackages/djangopackages/pull/1032))
