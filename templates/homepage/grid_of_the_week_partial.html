@@ -1,6 +1,6 @@
 {% load i18n %}
-    <div class="text-center categories col-sm-4">
-        <h2>{% trans "Featured Grid" %}</h2>
+<div class="text-center categories col-sm-4">
+    <h2>{% trans "Featured Grid" %}</h2>
     {% if gotw %}
         <h4><a href="{{ gotw.get_absolute_url }}">{{ gotw.title }}</a></h4>
         <p>{{ gotw.description }}</p>
@@ -11,4 +11,4 @@
     {% else %}
         <p>There is no Featured Grid for this week</p>
     {% endif %}
-    </div>
+</div>

@@ -239,7 +239,11 @@ def homepage(request, template_name="homepage.html"):
     )
 
     try:
-        potw = Dpotw.objects.filter(start_date__lte=my_today, end_date__gte=my_today).latest().package
+        potw = (
+            Dpotw.objects.filter(start_date__lte=my_today, end_date__gte=my_today)
+            .latest()
+            .package
+        )
     except Dpotw.DoesNotExist:
         potw = None
     except Package.DoesNotExist:
