@@ -6,7 +6,6 @@
         <p>{{ potw.description }}</p>
         <p>
             <strong>{% trans "Packages" %}:</strong> {{ potw.gridpackage_set.count }}
-            <strong>{% trans "Features" %}:</strong> {{ potw.feature_set.count }}
         </p>
     {% else %}
         <p>There is no Featured Package for this week</p>
