@@ -31,25 +31,7 @@ We've done a lot of work to make it as straightforward as possible. At PyCon 201
 
 ## Supported Repo Hosting Services
 
-Django Packages supports
-
-The effort to support databases besides PostGreSQL was hampered for long time, all caused by a third party package we're not going to identify that caused grief in the use of fixtures. This was a significant issue in Django Packages, and used up a lot of development cycles.
-
-We use a **Mock** system of creating sample data in our tests and for running a development version of the site. To create some development data, just run:
-
-```shell
-docker-compose run --rm django python manage.py load_dev_data
-```
-
-Alternatively, you can use `just`
-
-```shell
-just management-command load_dev_data
-```
-
-## Unsupported Repo Hosting Services
-
-Django Packages supports GitHub and BitBucket. Here is some information about other repo hosting services.
+Django Packages supports GitHub and BitBucket.
 
 ## Troubleshooting
 

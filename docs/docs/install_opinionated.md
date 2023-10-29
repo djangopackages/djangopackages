@@ -65,6 +65,14 @@ just createsuperuser joe joe@example.com
 
 And then login into the admin interface (/admin/) and create a profile for your user filling all the fields with any data.
 
+### Load Sample Data
+
+We use a **Mock** system of creating sample data in our tests and for running a development version of the site. To create some development data, just run:
+
+```shell
+just management-command load_dev_data
+```
+
 ### just
 
 We use the command runner [just]. Install instructions are available on the [just] GitHub page.
