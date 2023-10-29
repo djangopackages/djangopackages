@@ -69,6 +69,14 @@ docker-compose run django python manage.py createsuperuser --username=joe --emai
 
 And then login into the admin interface (/admin/) and create a profile for your user filling all the fields with any data.
 
+### Load Sample Data
+
+We use a **Mock** system of creating sample data in our tests and for running a development version of the site. To create some development data, just run:
+
+```shell
+docker-compose run --rm django python manage.py load_dev_data
+```
+
 ### Formatters, Linters, and other miscellanea
 
 [Pre-commit] is a tool which helps to organize our linters and auto-formatters. Pre-commit runs before our code gets committed automatically or we may run it by hand. Pre-commit runs automatically for every pull request on GitHub too.
