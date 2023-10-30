@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-10-29]
+### Changed
+- Move Load Sample Data Instructions to Installation Page ([#1048](https://github.com/djangopackages/djangopackages/pull/1048))
+
 ## [2023-10-25]
 ### Changed
 - Move to Ruff Formatter ([#1046](https://github.com/djangopackages/djangopackages/pull/1046))
