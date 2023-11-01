@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-10-31]
+### Changed
+- ⬆️ Bump the dependencies group with 8 updates ([#1050](https://github.com/djangopackages/djangopackages/pull/1050))
+- [pre-commit.ci] pre-commit autoupdate ([#1051](https://github.com/djangopackages/djangopackages/pull/1051))
+
 ## [2023-10-29]
 ### Changed
 - Move Load Sample Data Instructions to Installation Page ([#1048](https://github.com/djangopackages/djangopackages/pull/1048))
