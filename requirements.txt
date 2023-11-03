@@ -367,7 +367,9 @@ coverage[toml]==7.2.7 \
     --hash=sha256:f6951407391b639504e3b3be51b7ba5f3528adbf1a8ac3302b687ecababf929e \
     --hash=sha256:f75f7168ab25dd93110c8a8117a22450c19976afbc44234cbf71481094c1b850 \
     --hash=sha256:fdec9e8cbf13a5bf63290fc6013d216a4c7232efb51548594ca3631a7f13c3a3
-    # via pytest-cov
+    # via
+    #   coverage
+    #   pytest-cov
 crispy-bootstrap3==2022.1 \
     --hash=sha256:be4908ca997e6ee86cda128c631b3adb33f1db483fd97fa72ae45ca3ad49ad02 \
     --hash=sha256:f62729ed06976caf7fd5fd4fe009c0a702b0705db7765c2b486ba96c64341146
@@ -422,9 +424,9 @@ distlib==0.3.7 \
     --hash=sha256:2e24928bc811348f0feb63014e97aaae3037f2cf48712d51ae61df7fd6075057 \
     --hash=sha256:9dafe54b34a028eafd95039d5e5d4851a13734540f1331060d31c9916e7147a8
     # via virtualenv
-django==4.2.6 \
-    --hash=sha256:08f41f468b63335aea0d904c5729e0250300f6a1907bf293a65499496cdbc68f \
-    --hash=sha256:a64d2487cdb00ad7461434320ccc38e60af9c404773a2f95ab0093b4453a3215
+django==4.2.7 \
+    --hash=sha256:8e0f1c2c2786b5c0e39fe1afce24c926040fad47c8ea8ad30aaf1188df29fc41 \
+    --hash=sha256:e1d37c51ad26186de355cbcec16613ebdabfa9689bbade9c538835205a8abbe9
     # via
     #   -r requirements.in
     #   crispy-bootstrap3
@@ -1028,6 +1030,7 @@ pyjwt[crypto]==2.8.0 \
     # via
     #   github3-py
     #   pygithub
+    #   pyjwt
     #   social-auth-core
 pymdown-extensions==10.3 \
     --hash=sha256:77a82c621c58a83efc49a389159181d570e370fff9f810d3a4766a75fc678b66 \
