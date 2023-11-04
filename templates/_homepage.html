@@ -7,15 +7,15 @@
 
 
 {% switch "switch_use_grid_of_the_week" %}
-<div class="container">
-    <div class="row">
-        {% include "homepage/grid_of_the_week_partial.html" %}
-        {% include "homepage/django_package_of_the_week_partial.html" %}
-        {% switch "switch_use_psa" %}
-            {% include "homepage/public_service_announcement_partial.html" %}
-        {% endswitch %}
+    <div class="container">
+        <div class="row">
+            {% include "homepage/grid_of_the_week_partial.html" %}
+            {% include "homepage/django_package_of_the_week_partial.html" %}
+            {% switch "switch_use_psa" %}
+                {% include "homepage/public_service_announcement_partial.html" %}
+            {% endswitch %}
+        </div>
     </div>
-</div>
 {% endswitch %}
 
 
