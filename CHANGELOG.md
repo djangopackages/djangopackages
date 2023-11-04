@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-11-03]
+### Changed
+- ⬆️ Bump django from 4.2.6 to 4.2.7 ([#1052](https://github.com/djangopackages/djangopackages/pull/1052))
+
 ## [2023-10-31]
 ### Changed
 - ⬆️ Bump the dependencies group with 8 updates ([#1050](https://github.com/djangopackages/djangopackages/pull/1050))
