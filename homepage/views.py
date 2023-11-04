@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib.auth.models import User
 from django.core.cache import cache
 from django.db.models import Count, Q
@@ -6,6 +8,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 
 from grid.models import Grid
+from homepage.models import Gotw, Dpotw, PSA
 from package.models import Category, Commit, Package, Version
 from products.models import Product, Release
 
@@ -213,6 +216,7 @@ class SitemapView(TemplateView):
 
 
 def homepage(request, template_name="homepage.html"):
+    my_today = date.today()
     if cache.get("categories"):
         categories = cache.get("categories")
     else:
@@ -234,25 +238,31 @@ def homepage(request, template_name="homepage.html"):
         .order_by("?")[:5]
     )
 
-    # try:
-    #     potw = Dpotw.objects.latest().package
-    # except Dpotw.DoesNotExist:
-    #     potw = None
-    # except Package.DoesNotExist:
-    #     potw = None
-    #
-    # try:
-    #     gotw = Gotw.objects.latest().grid
-    # except Gotw.DoesNotExist:
-    #     gotw = None
-    # except Grid.DoesNotExist:
-    #     gotw = None
+    try:
+        potw = (
+            Dpotw.objects.filter(start_date__lte=my_today, end_date__gte=my_today)
+            .latest()
+            .package
+        )
+    except Dpotw.DoesNotExist:
+        potw = None
+    except Package.DoesNotExist:
+        potw = None
+
+    try:
+        gotw = (
+            Gotw.objects.filter(start_date__lte=my_today, end_date__gte=my_today)
+            .latest()
+            .grid
+        )
+    except (Gotw.DoesNotExist, Grid.DoesNotExist):
+        gotw = None
 
     # Public Service Announcement on homepage
-    # try:
-    #     psa_body = PSA.objects.latest().body_text
-    # except PSA.DoesNotExist:
-    #     psa_body = '<p>There are currently no announcements.  To request a PSA, tweet at <a href="http://twitter.com/open_comparison">@Open_Comparison</a>.</p>'
+    try:
+        psa_body = PSA.objects.latest().body_text
+    except PSA.DoesNotExist:
+        psa_body = '<p>There are currently no announcements.  To request a PSA, tweet at <a href="http://twitter.com/open_comparison">@Open_Comparison</a>.</p>'
 
     # Latest Django Packages blog post on homepage
     latest_packages = (
@@ -277,14 +287,9 @@ def homepage(request, template_name="homepage.html"):
             "latest_python3": latest_python3,
             "package_count": package_count,
             "random_packages": random_packages,
-            # "gotw": gotw,
-            # "potw": potw,
-            # "psa_body": psa_body,
-            # "": Package.objects.active()
-            # .filter(version__supports_python3=True)
-            # .select_related()
-            # .distinct()
-            # .count(),
+            "gotw": gotw,
+            "potw": potw,
+            "psa_body": psa_body,
         },
     )
 
