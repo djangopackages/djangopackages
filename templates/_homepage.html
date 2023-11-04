@@ -1,24 +1,34 @@
+{% load emojificate %}
 {% load humanize %}
 {% load i18n %}
 {% load package_tags %}
-{% load emojificate %}
 {% load typogrify_tags %}
+{% load waffle_tags %}
 
-<div class="container">
-    <div class="row">
-        {% include "homepage/django_package_of_the_week_partial.html" %}
-        {% include "homepage/grid_of_the_week_partial.html" %}
-        {% include "homepage/public_service_announcement_partial.html" %}
+
+{% switch "switch_use_grid_of_the_week" %}
+    <div class="container">
+        <div class="row">
+            {% include "homepage/grid_of_the_week_partial.html" %}
+            {% include "homepage/django_package_of_the_week_partial.html" %}
+            {% switch "switch_use_psa" %}
+                {% include "homepage/public_service_announcement_partial.html" %}
+            {% endswitch %}
+        </div>
     </div>
-</div>
+{% endswitch %}
+
+
 {% comment %}
 TODO: Fix this hack
 This is a hack to keep the next set of divs from wrapping up and making the display look funny
 {% endcomment %}
+
 <div class="container">
     <div class="row">
     </div>
 </div>
+
 
 <div class="container">
     <div class="row">
@@ -35,7 +45,6 @@ This is a hack to keep the next set of divs from wrapping up and making the disp
         <!-- end Categories panel -->
     </div>
 </div>
-
 
 
 <div class="container">

@@ -262,7 +262,7 @@ def homepage(request, template_name="homepage.html"):
     try:
         psa_body = PSA.objects.latest().body_text
     except PSA.DoesNotExist:
-        psa_body = '<p>There are currently no announcements.  To request a PSA, tweet at <a href="http://twitter.com/open_comparison">@Open_Comparison</a>.</p>'
+        psa_body = None
 
     # Latest Django Packages blog post on homepage
     latest_packages = (
