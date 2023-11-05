@@ -245,9 +245,7 @@ def homepage(request, template_name="homepage.html"):
             .latest()
             .package
         )
-    except Dpotw.DoesNotExist:
-        potw = None
-    except Package.DoesNotExist:
+    except (Dpotw.DoesNotExist, Package.DoesNotExist):
         potw = None
 
     try:
