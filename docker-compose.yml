@@ -24,7 +24,6 @@ services:
     <<: *common-settings
     command: python manage.py qcluster
     init: true
-    volumes:
 
   postgres:
     # image: "pgautoupgrade/pgautoupgrade:latest"
