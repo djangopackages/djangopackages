@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-11-04]
+### Changed
+- :sparkles: Feature flag grid and package of the week + psa ([#1053](https://github.com/djangopackages/djangopackages/pull/1053))
+- Add back Grid of the Week ([#1047](https://github.com/djangopackages/djangopackages/pull/1047))
+
 ## [2023-11-03]
 ### Changed
 - ⬆️ Bump django from 4.2.6 to 4.2.7 ([#1052](https://github.com/djangopackages/djangopackages/pull/1052))
