@@ -25,8 +25,8 @@
                 <p>{{ total_commits|intcomma }} {% trans "Commits" %}</p>
                 <p>{{ total_versions|intcomma }} {% trans "Versions" %}</p>
                 <h2>{% trans "Repos" %}</h2>
-                <p>{{ repos_bitbucket|intcomma }} {% trans "Bitbucket Repos" %}</p>
                 <p>{{ repos_github|intcomma }} {% trans "GitHub Repos" %}</p>
+                <p>{{ repos_bitbucket|intcomma }} {% trans "Bitbucket Repos" %}</p>
                 <p>{{ repos_gitlab|intcomma }} {% trans "GitLab Repos" %}</p>
             </div>
             <div class="col-sm-6 col-md-3">
@@ -40,28 +40,20 @@
             </div>
             <div class="col-sm-6 col-md-3">
                 <h2>{% trans "Django Versions" %}</h2>
-                {% if total_django_4_2 %}
-                    <p>{% trans "Django 4.2 Packages:" %} {{ total_django_4_2|intcomma }}</p>
-                {% endif %}
-                {% if total_django_4_1 %}
-                    <p>{% trans "Django 4.1 Packages:" %} {{ total_django_4_1|intcomma }}</p>
-                {% endif %}
-                <p>{% trans "Django 4.0 Packages:" %} {{ total_django_4_0|intcomma }}</p>
+                <p>{% trans "Django 5.0 Packages:" %} {{ total_django_5_0|intcomma }}</p>
+                <p>{% trans "Django 4.2 Packages:" %} {{ total_django_4_2|intcomma }}</p>
+                <p>{% trans "Django 4.1 Packages:" %} {{ total_django_4_1|intcomma }}</p>
                 <p>{% trans "Django 3.2 Packages:" %} {{ total_django_3_2|intcomma }}</p>
-                <p>{% trans "Django 3.1 Packages:" %} {{ total_django_3_1|intcomma }}</p>
-                <p>{% trans "Django 3.0 Packages:" %} {{ total_django_3_0|intcomma }}</p>
                 <p>{% trans "Django 2.2 Packages:" %} {{ total_django_2_2|intcomma }}</p>
             </div>
             <div class="col-sm-6 col-md-3">
                 <h2>{% trans "Python Versions" %}</h2>
                 <p>{% trans "Python 3 Packages:" %} {{ total_python_3|intcomma }}</p>
+                <p>{% trans "Python 3.12 Packages:" %} {{ total_python_3_12|intcomma }}</p>
                 <p>{% trans "Python 3.11 Packages:" %} {{ total_python_3_11|intcomma }}</p>
                 <p>{% trans "Python 3.10 Packages:" %} {{ total_python_3_10|intcomma }}</p>
                 <p>{% trans "Python 3.9 Packages:" %} {{ total_python_3_9|intcomma }}</p>
                 <p>{% trans "Python 3.8 Packages:" %} {{ total_python_3_8|intcomma }}</p>
-                <p>{% trans "Python 3.7 Packages:" %} {{ total_python_3_7|intcomma }}</p>
-                <p>{% trans "Python 3.6 Packages:" %} {{ total_python_3_6|intcomma }}</p>
-                <p>{% trans "Python 2.7 Packages:" %} {{ total_python_2_7|intcomma }}</p>
             </div>
         </div>
     </div>
