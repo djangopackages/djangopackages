@@ -264,13 +264,6 @@ class PackageSingleTableMixin(SingleTableView):
         )
 
 
-class PackagePython3ListView(PackageSingleTableMixin):
-    template_name = "package/python3_list.html"
-
-    def package_filters(self):
-        return {"version__supports_python3": True}
-
-
 class PackageByCategoryListView(PackageSingleTableMixin):
     template_name = "package/category.html"
 
@@ -502,11 +495,11 @@ def package_details_rules(request, slug, template_name="package/package_rules.ht
         DescriptionRule(),
         DownloadsRule(),
         ForkRule(),
-        LastUpdatedRule(),  # testing in `ScoreRuleGroup`
-        RecentReleaseRule(),  # testing in `ScoreRuleGroup`
+        # LastUpdatedRule(),  # testing in `ScoreRuleGroup`
+        # RecentReleaseRule(),  # testing in `ScoreRuleGroup`
         UsageCountRule(),
         WatchersRule(),
-        # group,
+        group,
     ]
 
     package_score = calc_package_weight(

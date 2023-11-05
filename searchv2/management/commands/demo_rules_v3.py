@@ -2,8 +2,17 @@ import djclick as click
 import json
 from rich import print
 
-from searchv2.rules import *
 from package.models import Package
+from searchv2.rules import calc_package_weight
+from searchv2.rules import DeprecatedRule
+from searchv2.rules import DescriptionRule
+from searchv2.rules import DownloadsRule
+from searchv2.rules import ForkRule
+from searchv2.rules import LastUpdatedRule
+from searchv2.rules import RecentReleaseRule
+from searchv2.rules import ScoreRuleGroup
+from searchv2.rules import UsageCountRule
+from searchv2.rules import WatchersRule
 
 
 @click.command()
