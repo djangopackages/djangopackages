@@ -472,39 +472,6 @@ class PackagePython3ListView(SingleTableView):
         )
 
 
-# class PackageListView(TemplateView):
-#     template_name = "package/package_list.html"
-
-#     def get_context_data(self, **kwargs):
-#         categories = []
-#         for category in Category.objects.annotate(package_count=Count("package")):
-#             package_table = PackageByCategoryTable(
-#                 Package.objects.active()
-#                 .filter(category=category)
-#                 .active()
-#                 .select_related()
-#                 .annotate(usage_count=Count("usage"))
-#                 .order_by("-pypi_downloads", "-repo_watchers", "title")[:9],
-#                 prefix=f"{category.slug}_",
-#                 exclude=["last_released"],
-#             )
-#             element = {
-#                 "count": category.package_count,
-#                 "description": category.description,
-#                 "slug": category.slug,
-#                 "table": package_table,
-#                 "title": category.title,
-#                 "title_plural": category.title_plural,
-#             }
-#             categories.append(element)
-
-#         context_data = super().get_context_data(**kwargs)
-#         context_data["categories"] = categories
-#         context_data["dpotw"] = Dpotw.objects.get_current()
-#         context_data["gotw"] = Gotw.objects.get_current()
-#         return context_data
-
-
 def package_details_rules(request, slug, template_name="package/package_rules.html"):
     package = get_object_or_404(
         Package.objects.select_related("category").prefetch_related("grid_set"),
