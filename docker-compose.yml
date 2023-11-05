@@ -1,69 +1,36 @@
+x-common-settings: &common-settings
+  build:
+    context: .
+    dockerfile: ./dockerfiles/django/Dockerfile-dev
+  depends_on:
+    - postgres
+    - redis
+  env_file:
+    - .env.local
+  volumes:
+    - .:/app
+    - djpkg_static_dev:/data/static
+    - djpkg_media_dev:/data/media
+
 services:
   django:
-    build:
-      context: .
-      dockerfile: ./dockerfiles/django/Dockerfile-dev
-    hostname: django
-    init: true
+    <<: *common-settings
     command: /start-dev.sh
-    depends_on:
-      - postgres
-      - redis
-    env_file:
-      - .env.local
-    expose:
-      - 8000
+    init: true
     ports:
       - "8000:8000"
-    volumes:
-      - .:/app
-      - djpkg_static_dev:/data/static
-      - djpkg_media_dev:/data/media
 
   django-q:
-    build:
-      context: .
-      dockerfile: ./dockerfiles/django/Dockerfile-dev
-    init: true
+    <<: *common-settings
     command: python manage.py qcluster
-    depends_on:
-      - postgres
-      - redis
-    env_file:
-      - .env.local
-    volumes:
-      - .:/app
-      - djpkg_static_dev:/data/static
-      - djpkg_media_dev:/data/media
-
-  utility:
-    build:
-      context: .
-      dockerfile: ./dockerfiles/django/Dockerfile-dev
     init: true
-    profiles:
-      - utility
-    depends_on:
-      - postgres
-      - redis
-    env_file:
-      - .env.local
     volumes:
-      - .:/app
-      - djpkg_static_dev:/data/static
-      - djpkg_media_dev:/data/media
 
   postgres:
+    # image: "pgautoupgrade/pgautoupgrade:latest"
     build: ./dockerfiles/postgres
-    hostname: postgres
-    init: true
-    env_file:
-      - .env.local
     expose:
       - 5432
-    volumes:
-      - djpkg_postgres_data_dev:/var/lib/postgresql/data
-      - djpkg_postgres_backup_dev:/backups
     healthcheck:
       test: [
           "CMD",
@@ -72,42 +39,38 @@ services:
       interval: 3s
       timeout: 3s
       retries: 30
+    init: true
+    volumes:
+      - djpkg_postgres_data_dev:/var/lib/postgresql/data
+      - djpkg_postgres_backup_dev:/backups
 
   redis:
-    build: ./dockerfiles/redis
-    hostname: redis
+    image: redis:7
     expose:
       - 6379
     init: true
-    healthcheck:
-      test: [
-          "CMD",
-          "redis-cli",
-          "ping"
-      ]
-      interval: 3s
-      timeout: 3s
-      retries: 30
 
   docs:
-    build:
-      context: .
-      dockerfile: ./dockerfiles/django/Dockerfile-dev
+    <<: *common-settings
     command: sh -c "mkdocs serve -f docs/mkdocs.yml --dev-addr 0.0.0.0:4000"
     entrypoint: ""
     environment:
       FAST_MODE: "true"
       LIVE_RELOAD_SUPPORT: "true"
     init: true
-    profiles:
-      - docs
     ports:
       - "4000:4000"
-    volumes:
-      - .:/app
+    profiles:
+      - docs
+
+  utility:
+    <<: *common-settings
+    init: true
+    profiles:
+      - utility
 
 volumes:
-  djpkg_postgres_data_dev: {}
-  djpkg_postgres_backup_dev: {}
   djpkg_media_dev: {}
+  djpkg_postgres_backup_dev: {}
+  djpkg_postgres_data_dev: {}
   djpkg_static_dev: {}
