@@ -11,6 +11,7 @@ class CheckResult(BaseModel):
     """
     Model to store the result of a check, which includes the score and a message.
     """
+
     score: int
     message: str
 
@@ -71,6 +72,7 @@ class ScoreRuleGroup(ScoreRule):
         check: Checks the given package against each scoring rule in this group, and returns a CheckResult instance
                with the normalized total score and a combined message.
     """
+
     rules: List[ScoreRule]
 
     def check(self, package: Package) -> CheckResult:
@@ -104,13 +106,14 @@ class ScoreRuleGroup(ScoreRule):
         # Combine all the messages from the checks.
         messages = [result.message for result in results]
 
-        return CheckResult(score=int(normalized_score), message=' '.join(messages))
+        return CheckResult(score=int(normalized_score), message=" ".join(messages))
 
 
 class DeprecatedRule(ScoreRule):
     """
     A specific rule that checks if the package is deprecated.
     """
+
     name: str = "Deprecated Rule"
     description: str = "Check if the package is deprecated"
     max_score: int = 20
@@ -123,7 +126,9 @@ class DeprecatedRule(ScoreRule):
         or a zero score and an error message otherwise.
         """
         if not package.is_deprecated:
-            return CheckResult(score=self.max_score, message="Package is not deprecated.")
+            return CheckResult(
+                score=self.max_score, message="Package is not deprecated."
+            )
         else:
             return CheckResult(score=0, message="Package is deprecated.")
 
@@ -132,6 +137,7 @@ class DescriptionRule(ScoreRule):
     """
     A specific rule that checks if the package has a description.
     """
+
     name: str = "Description Rule"
     description: str = "Check if the package has a description"
     max_score: int = 20
@@ -143,7 +149,9 @@ class DescriptionRule(ScoreRule):
         or a zero score and an error message otherwise.
         """
         if package.repo_description and package.repo_description.strip():
-            return CheckResult(score=self.max_score, message="Package has a description.")
+            return CheckResult(
+                score=self.max_score, message="Package has a description."
+            )
         else:
             return CheckResult(score=0, message="Package has no description.")
 
@@ -152,6 +160,7 @@ class DocumentationRule(ScoreRule):
     """
     A specific rule that checks for the presence of documentation in a package.
     """
+
     name: str = "Documentation Rule"
     description: str = "Check if the package has a documentation URL"
     max_score: int = 20
@@ -172,6 +181,7 @@ class DownloadsRule(ScoreRule):
     """
     A specific rule that scores based on the number of PyPi downloads.
     """
+
     name: str = "Downloads Rule"
     description: str = "Score based on the number of PyPi downloads"
     max_score: int = 20
@@ -184,15 +194,21 @@ class DownloadsRule(ScoreRule):
         """
         if package.pypi_downloads:
             score = min(int(package.pypi_downloads / 1_000), self.max_score)
-            return CheckResult(score=score, message=f"Package has {package.pypi_downloads} PyPi downloads.")
+            return CheckResult(
+                score=score,
+                message=f"Package has {package.pypi_downloads} PyPi downloads.",
+            )
         else:
-            return CheckResult(score=0, message="No PyPi downloads data for the package.")
+            return CheckResult(
+                score=0, message="No PyPi downloads data for the package."
+            )
 
 
 class ForkRule(ScoreRule):
     """
     A specific rule that scores based on the number of repository forks.
     """
+
     name: str = "Fork Rule"
     description: str = "Score based on the number of forks"
     max_score: int = 20
@@ -205,15 +221,21 @@ class ForkRule(ScoreRule):
         """
         if package.repo_forks:
             score = min(package.repo_forks, self.max_score)
-            return CheckResult(score=score, message=f"Package repository has {package.repo_forks} forks.")
+            return CheckResult(
+                score=score,
+                message=f"Package repository has {package.repo_forks} forks.",
+            )
         else:
-            return CheckResult(score=0, message="No forks data for the package repository.")
+            return CheckResult(
+                score=0, message="No forks data for the package repository."
+            )
 
 
 class LastUpdatedRule(ScoreRule):
     """
     A specific rule that scores based on how recently the package was last updated.
     """
+
     name: str = "Last Updated Rule"
     description: str = "Score based on how recently the package was last updated"
     max_score: int = 20
@@ -229,13 +251,24 @@ class LastUpdatedRule(ScoreRule):
             now = timezone.now()
 
             if (now - last_updated) < timedelta(90):  # less than 3 months
-                return CheckResult(score=self.max_score, message="Package was updated less than 3 months ago.")
+                return CheckResult(
+                    score=self.max_score,
+                    message="Package was updated less than 3 months ago.",
+                )
             elif (now - last_updated) < timedelta(182):  # less than 6 months
-                return CheckResult(score=int(self.max_score / 2), message="Package was updated less than 6 months ago.")
+                return CheckResult(
+                    score=int(self.max_score / 2),
+                    message="Package was updated less than 6 months ago.",
+                )
             elif (now - last_updated) < timedelta(365):  # less than 1 year
-                return CheckResult(score=int(self.max_score / 4), message="Package was updated less than 1 year ago.")
+                return CheckResult(
+                    score=int(self.max_score / 4),
+                    message="Package was updated less than 1 year ago.",
+                )
             else:
-                return CheckResult(score=0, message="Package was updated more than 1 year ago.")
+                return CheckResult(
+                    score=0, message="Package was updated more than 1 year ago."
+                )
         except AttributeError:
             return CheckResult(score=0, message="No update data found for the package.")
 
@@ -244,6 +277,7 @@ class RecentReleaseRule(ScoreRule):
     """
     A specific rule that scores based on whether the last release is less than a year old.
     """
+
     name: str = "Recent Release Rule"
     description: str = "Score if the last release is less than a year old"
     max_score: int = 20
@@ -258,17 +292,25 @@ class RecentReleaseRule(ScoreRule):
             last_released = package.last_released()
             now = timezone.now()
             if now - last_released.upload_time < timedelta(365):
-                return CheckResult(score=self.max_score, message="Last release is less than a year old.")
+                return CheckResult(
+                    score=self.max_score,
+                    message="Last release is less than a year old.",
+                )
             else:
-                return CheckResult(score=0, message="Last release is more than a year old.")
+                return CheckResult(
+                    score=0, message="Last release is more than a year old."
+                )
         except AttributeError:
-            return CheckResult(score=0, message="No release data found for the package.")
+            return CheckResult(
+                score=0, message="No release data found for the package."
+            )
 
 
 class UsageCountRule(ScoreRule):
     """
     A specific rule that scores based on the usage count of the package.
     """
+
     name: str = "Usage Count Rule"
     description: str = "Score based on the usage count"
     max_score: int = 20
@@ -282,7 +324,9 @@ class UsageCountRule(ScoreRule):
         usage_count = package.usage.count()
         if usage_count:
             score = min(usage_count, self.max_score)
-            return CheckResult(score=score, message=f"Package has a usage count of {usage_count}.")
+            return CheckResult(
+                score=score, message=f"Package has a usage count of {usage_count}."
+            )
         else:
             return CheckResult(score=0, message="No usage data found for the package.")
 
@@ -291,6 +335,7 @@ class WatchersRule(ScoreRule):
     """
     A specific rule that scores based on the number of watchers of the package's repository.
     """
+
     name: str = "Watchers Rule"
     description: str = "Score based on the number of watchers"
     max_score: int = 20
@@ -303,9 +348,14 @@ class WatchersRule(ScoreRule):
         """
         if package.repo_watchers:
             score = min(package.repo_watchers, self.max_score)
-            return CheckResult(score=score, message=f"Package repository has {package.repo_watchers} watchers.")
+            return CheckResult(
+                score=score,
+                message=f"Package repository has {package.repo_watchers} watchers.",
+            )
         else:
-            return CheckResult(score=0, message="No watchers data for the package repository.")
+            return CheckResult(
+                score=0, message="No watchers data for the package repository."
+            )
 
 
 def calc_package_weight(
@@ -344,10 +394,12 @@ def calc_package_weight(
         )
 
     max_possible_score = sum(rule.max_score for rule in rules)
-    normalized_score = (total_score / max_possible_score) * max_score if max_possible_score > 0 else 0
+    normalized_score = (
+        (total_score / max_possible_score) * max_score if max_possible_score > 0 else 0
+    )
 
     return {
         "total_score": int(normalized_score),
-        "message": ' '.join(messages),
+        "message": " ".join(messages),
         "breakdown": breakdown,
     }

@@ -47,13 +47,13 @@
                 </thead>
                 <tbody>
                     {% for breakdown in package_score.breakdown %}
-                    <tr>
-                        <td>{{ breakdown.rule }}</td>
-                        <td>{{ breakdown.description }}</td>
-                        <td>{{ breakdown.score }}</td>
-                        <td>{{ breakdown.max_score }}</td>
-                        <td>{{ breakdown.documentation_url|default:"" }}</td>
-                    </tr>
+                        <tr>
+                            <td>{{ breakdown.rule }}</td>
+                            <td>{{ breakdown.description }}</td>
+                            <td>{{ breakdown.score }}</td>
+                            <td>{{ breakdown.max_score }}</td>
+                            <td>{{ breakdown.documentation_url|default:"" }}</td>
+                        </tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -78,4 +78,3 @@
     <script type="text/javascript" src="{{ STATIC_URL }}js/underscore.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/gh3.js"></script>
 {% endblock %}
-

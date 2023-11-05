@@ -1,12 +1,7 @@
-from time import gmtime, strftime
-
 import djclick as click
 import json
-from django.conf import settings
 from rich import print
 
-from core.utils import healthcheck
-from searchv2.builders import build_1
 from searchv2.rules import *
 from package.models import Package
 
