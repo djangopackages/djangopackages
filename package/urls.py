@@ -17,6 +17,7 @@ from package.views import (
     flag_remove,
     github_webhook,
     package_detail,
+    package_details_rules,
     package_opengraph_detail,
     fetch_package_data,
     usage,
@@ -91,6 +92,11 @@ urlpatterns = [
         "p/<slug:slug>/opengraph/",
         view=package_opengraph_detail,
         name="package_opengraph",
+    ),
+    path(
+        "p/<slug:slug>/rules/",
+        view=package_details_rules,
+        name="package",
     ),
     path(
         "p/<slug:slug>/",

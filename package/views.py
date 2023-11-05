@@ -28,6 +28,16 @@ from package.forms import (
 from package.models import Category, FlaggedPackage, Package, PackageExample
 from package.repos import get_all_repos
 from package.tables import PackageTable
+from searchv2.rules import calc_package_weight
+from searchv2.rules import DeprecatedRule
+from searchv2.rules import DescriptionRule
+from searchv2.rules import DownloadsRule
+from searchv2.rules import ForkRule
+from searchv2.rules import LastUpdatedRule
+from searchv2.rules import RecentReleaseRule
+from searchv2.rules import ScoreRuleGroup
+from searchv2.rules import UsageCountRule
+from searchv2.rules import WatchersRule
 
 
 def repo_data_for_js():
@@ -447,6 +457,113 @@ def usage(request, slug, action):
         or reverse("package", kwargs={"slug": package.slug})
     )
     return HttpResponseRedirect(next)
+
+
+class PackagePython3ListView(SingleTableView):
+    table_class = PackageTable
+    template_name = "package/python3_list.html"
+
+    def get_queryset(self):
+        return (
+            Package.objects.filter(version__supports_python3=True)
+            .select_related()
+            .distinct()
+            .order_by("-pypi_downloads", "-repo_watchers", "title")
+        )
+
+
+# class PackageListView(TemplateView):
+#     template_name = "package/package_list.html"
+
+#     def get_context_data(self, **kwargs):
+#         categories = []
+#         for category in Category.objects.annotate(package_count=Count("package")):
+#             package_table = PackageByCategoryTable(
+#                 Package.objects.active()
+#                 .filter(category=category)
+#                 .active()
+#                 .select_related()
+#                 .annotate(usage_count=Count("usage"))
+#                 .order_by("-pypi_downloads", "-repo_watchers", "title")[:9],
+#                 prefix=f"{category.slug}_",
+#                 exclude=["last_released"],
+#             )
+#             element = {
+#                 "count": category.package_count,
+#                 "description": category.description,
+#                 "slug": category.slug,
+#                 "table": package_table,
+#                 "title": category.title,
+#                 "title_plural": category.title_plural,
+#             }
+#             categories.append(element)
+
+#         context_data = super().get_context_data(**kwargs)
+#         context_data["categories"] = categories
+#         context_data["dpotw"] = Dpotw.objects.get_current()
+#         context_data["gotw"] = Gotw.objects.get_current()
+#         return context_data
+
+
+def package_details_rules(request, slug, template_name="package/package_rules.html"):
+    package = get_object_or_404(
+        Package.objects.select_related("category").prefetch_related("grid_set"),
+        slug=slug,
+    )
+
+    # rules = [
+    #     DeprecatedRule(),
+    #     DescriptionRule(),
+    #     DownloadsRule(),
+    #     ForkRule(),
+    #     LastUpdatedRule(),
+    #     RecentReleaseRule(),
+    #     UsageCountRule(),
+    #     WatchersRule(),
+    # ]
+
+    group = ScoreRuleGroup(
+        name="Activity Rules",
+        description="Rules related to the package's recent activity",
+        max_score=40,
+        documentation_url="https://docs.yoursite.com/rules/groups/activity",
+        rules=[LastUpdatedRule(), RecentReleaseRule()],
+    )
+
+    rules = [
+        DeprecatedRule(),
+        DescriptionRule(),
+        DownloadsRule(),
+        ForkRule(),
+        LastUpdatedRule(),  # testing in `ScoreRuleGroup`
+        RecentReleaseRule(),  # testing in `ScoreRuleGroup`
+        UsageCountRule(),
+        WatchersRule(),
+        # group,
+    ]
+
+    package_score = calc_package_weight(
+        package=package,
+        rules=rules,
+        max_score=100,
+    )
+
+    print(json.dumps(package_score, indent=2))
+
+    return render(
+        request,
+        template_name,
+        dict(
+            package=package,
+            package_score=package_score,
+            # pypi_ancient=pypi_ancient,
+            # no_development=no_development,
+            # pypi_no_release=pypi_no_release,
+            # warnings=warnings,
+            latest_version=package.last_released(),
+            repo=package.repo,
+        ),
+    )
 
 
 def package_detail(request, slug, template_name="package/package.html"):
