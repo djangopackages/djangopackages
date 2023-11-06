@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-11-05]
+### Changed
+- 🔨  November 4 updates ([#1055](https://github.com/djangopackages/djangopackages/pull/1055))
+
 ## [2023-11-04]
 ### Changed
 - :sparkles: Feature flag grid and package of the week + psa ([#1053](https://github.com/djangopackages/djangopackages/pull/1053))
