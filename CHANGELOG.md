@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-11-06]
+### Changed
+- ⬆️ Bump the dependencies group with 7 updates ([#1057](https://github.com/djangopackages/djangopackages/pull/1057))
+
 ## [2023-11-05]
 ### Changed
 - 🔨  November 4 updates ([#1055](https://github.com/djangopackages/djangopackages/pull/1055))
