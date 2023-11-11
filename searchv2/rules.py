@@ -5,6 +5,7 @@ from typing import List
 from typing import Optional
 
 from package.models import Package
+from settings.base import DOCS_URL
 
 
 class CheckResult(BaseModel):
@@ -117,7 +118,7 @@ class DeprecatedRule(ScoreRule):
     name: str = "Deprecated Rule"
     description: str = "Check if the package is deprecated"
     max_score: int = 20
-    documentation_url: str = "https://docs.yoursite.com/rules/deprecated"
+    documentation_url: str = f"{DOCS_URL}/rules/deprecated"
 
     def check(self, package: Package) -> CheckResult:
         """
@@ -141,6 +142,7 @@ class DescriptionRule(ScoreRule):
     name: str = "Description Rule"
     description: str = "Check if the package has a description"
     max_score: int = 20
+    documentation_url: str = f"{DOCS_URL}/rules/description"
 
     def check(self, package: Package) -> CheckResult:
         """
@@ -185,6 +187,7 @@ class DownloadsRule(ScoreRule):
     name: str = "Downloads Rule"
     description: str = "Score based on the number of PyPi downloads"
     max_score: int = 20
+    documentation_url: str = f"{DOCS_URL}/rules/downloads"    
 
     def check(self, package: Package) -> CheckResult:
         """
@@ -212,6 +215,7 @@ class ForkRule(ScoreRule):
     name: str = "Fork Rule"
     description: str = "Score based on the number of forks"
     max_score: int = 20
+    documentation_url: str = f"{DOCS_URL}/rules/fork"
 
     def check(self, package: Package) -> CheckResult:
         """
@@ -314,6 +318,7 @@ class UsageCountRule(ScoreRule):
     name: str = "Usage Count Rule"
     description: str = "Score based on the usage count"
     max_score: int = 20
+    documentation_url: str = f"{DOCS_URL}/rules/usage_count"
 
     def check(self, package: Package) -> CheckResult:
         """
@@ -339,6 +344,7 @@ class WatchersRule(ScoreRule):
     name: str = "Watchers Rule"
     description: str = "Score based on the number of watchers"
     max_score: int = 20
+    documentation_url: str = f"{DOCS_URL}/rules/watchers"
 
     def check(self, package: Package) -> CheckResult:
         """
