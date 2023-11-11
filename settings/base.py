@@ -369,3 +369,8 @@ Q_CLUSTER = {
     "max_attempts": 2,
     "workers": 4,
 }
+
+if DEBUG:
+    DOCS_URL = "http://0.0.0.0:4000"
+else:
+    DOCS_URL = "https://docs.djangopackages.org"
