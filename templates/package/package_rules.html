@@ -52,7 +52,9 @@
                             <td>{{ breakdown.description }}</td>
                             <td>{{ breakdown.score }}</td>
                             <td>{{ breakdown.max_score }}</td>
-                            <td>{{ breakdown.documentation_url|default:"" }}</td>
+                            <td>
+                                <a href="{{ breakdown.documentation_url|default:"" }}">Details</a>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
