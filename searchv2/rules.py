@@ -187,7 +187,7 @@ class DownloadsRule(ScoreRule):
     name: str = "Downloads Rule"
     description: str = "Score based on the number of PyPi downloads"
     max_score: int = 20
-    documentation_url: str = f"{DOCS_URL}/rules/downloads"    
+    documentation_url: str = f"{DOCS_URL}/rules/downloads"
 
     def check(self, package: Package) -> CheckResult:
         """
