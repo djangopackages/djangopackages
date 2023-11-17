@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load package_tags %}
+{% load emojificate %}
+{% load page_metadata_tags %}
+
+{% block metadata %}
+    {% page_metadata page_title=package.title|emojify|emojificate page_description=package.repo_description page_keywords=package.grid_set.all|join:','  og_image_url=package.get_opengraph_image_url %}
+{% endblock %}
+
+{% block breadcrumb %}
+    <div class="breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2>
+                        <a href="{% url 'packages' %}">{% trans "Packages" %}</a> ›› {{ package.title }}
+                        <div class="pull-right">
+                            <div class="btn btn-default">
+                                <a href="{% url 'edit_package' package.slug %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                            </div>
+                        </div>
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-8 main">
+            <h2>package_score:: {{ package_score.total_score }}</h2>
+
+            <p>{{ package_score.message }}</p>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>{% trans "Rule" %}</th>
+                        <th>{% trans "Description" %}</th>
+                        <th>{% trans "Score" %}</th>
+                        <th>{% trans "Max Score" %}</th>
+                        <th>{% trans "More Info" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for breakdown in package_score.breakdown %}
+                        <tr>
+                            <td>{{ breakdown.rule }}</td>
+                            <td>{{ breakdown.description }}</td>
+                            <td>{{ breakdown.score }}</td>
+                            <td>{{ breakdown.max_score }}</td>
+                            <td>
+                                <a href="{{ breakdown.documentation_url|default:"" }}">Details</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <pre>package_score:: {{ package_score }}</pre>
+
+        </div> <!-- end six column section -->
+
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+    {% comment %}
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
+    <script>
+    tailwind.config = {
+        prefix: 'tw-',
+    }
+    </script>
+    {% endcomment %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/underscore.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/gh3.js"></script>
+{% endblock %}

@@ -31,6 +31,7 @@ openai
 packaging
 psutil
 psycopg2-binary
+pydantic
 PyGithub
 python-dateutil
 python-gitlab
@@ -41,6 +42,7 @@ rich
 sentry-sdk
 social-auth-app-django
 social-auth-core
+sqlite-utils
 structlog
 trove-classifiers
 Unidecode

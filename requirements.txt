@@ -207,9 +207,15 @@ click==8.1.6 \
     --hash=sha256:fa244bb30b3b5ee2cae3da8f55c9e5e0c0e86093306301fb418eb9dc40fbded5
     # via
     #   bumpver
+    #   click-default-group
     #   django-click
     #   emojificate
     #   mkdocs
+    #   sqlite-utils
+click-default-group==1.2.4 \
+    --hash=sha256:9b60486923720e7fc61731bdb32b617039aba820e22e1c88766b1125592eaa5f \
+    --hash=sha256:eb3f3c99ec0d456ca6cd2a7f08f7d4e91771bef51b01bdd9580cc6450fe1251e
+    # via sqlite-utils
 cloudflare==2.12.4 \
     --hash=sha256:517f11382ea92fc591f36cc9ba95243da73e68345e52f221f03d51d6e8d786a5
     # via -r requirements.in
@@ -786,7 +792,9 @@ platformdirs==3.10.0 \
 pluggy==1.2.0 \
     --hash=sha256:c2fd55a7d7a3863cba1a013e4e2414658b1d07b6bc57b3919e0c63c9abb99849 \
     --hash=sha256:d12f0c4b579b15f5e054301bb226ee85eeeba08ffec228092f8defbaa3a4c4b3
-    # via pytest
+    # via
+    #   pytest
+    #   sqlite-utils
 pre-commit==3.5.0 \
     --hash=sha256:5804465c675b659b0862f07907f96295d490822a450c4c40e747d0b1c6ebcb32 \
     --hash=sha256:841dc9aef25daba9a0238cd27984041fa0467b4199fc4852e27950664919f660
@@ -887,7 +895,9 @@ pycparser==2.21 \
 pydantic==2.4.2 \
     --hash=sha256:94f336138093a5d7f426aac732dcfe7ab4eb4da243c88f891d65deb4a2556ee7 \
     --hash=sha256:bc3ddf669d234f4220e6e1c4d96b061abe0998185a8d7855c0126782b7abc8c1
-    # via openai
+    # via
+    #   -r requirements.in
+    #   openai
 pydantic-core==2.10.1 \
     --hash=sha256:042462d8d6ba707fd3ce9649e7bf268633a41018d6a998fb5fbacb7e928a183e \
     --hash=sha256:0523aeb76e03f753b58be33b26540880bac5aa54422e4462404c432230543f33 \
@@ -1064,6 +1074,7 @@ python-dateutil==2.8.2 \
     #   faker
     #   ghp-import
     #   github3-py
+    #   sqlite-utils
     #   time-machine
 python-fsutil==0.10.0 \
     --hash=sha256:5f02ed7764cac27633b4aaaa9cf56af2245a64a6cc048866b6f02792a8c5bf86 \
@@ -1306,6 +1317,14 @@ soupsieve==2.4.1 \
     --hash=sha256:1c1bfee6819544a3447586c889157365a27e10d88cde3ad3da0cf0ddf646feb8 \
     --hash=sha256:89d12b2d5dfcd2c9e8c22326da9d9aa9cb3dfab0a83a024f05704076ee8d35ea
     # via beautifulsoup4
+sqlite-fts4==1.0.3 \
+    --hash=sha256:0359edd8dea6fd73c848989e1e2b1f31a50fe5f9d7272299ff0e8dbaa62d035f \
+    --hash=sha256:78b05eeaf6680e9dbed8986bde011e9c086a06cb0c931b3cf7da94c214e8930c
+    # via sqlite-utils
+sqlite-utils==3.35.2 \
+    --hash=sha256:590b14ad277914cb3fc7d5e254764847facdaaa23c7bafd85ec93874f6f42143 \
+    --hash=sha256:afd7df2d248adb9a107695ad73a9abf39b1a4913a80e6915f696ca7420d42a16
+    # via -r requirements.in
 sqlparse==0.4.4 \
     --hash=sha256:5430a4fe2ac7d0f93e66f1efc6e1338a41884b7ddf2a350cedd20ccc4d9d28f3 \
     --hash=sha256:d446183e84b8349fa3061f0fe7f06ca94ba65b426946ffebe6e3e8295332420c
@@ -1318,6 +1337,10 @@ structlog==23.2.0 \
     # via
     #   -r requirements.in
     #   django-structlog
+tabulate==0.9.0 \
+    --hash=sha256:0095b12bf5966de529c0feb1fa08671671b3368eec77d7ef7ab114be2c068b3c \
+    --hash=sha256:024ca478df22e9340661486f85298cff5f6dcdba14f3813e8830015b9ed1948f
+    # via sqlite-utils
 time-machine==2.13.0 \
     --hash=sha256:02b33a8c19768c94f7ffd6aa6f9f64818e88afce23250016b28583929d20fb12 \
     --hash=sha256:0c9829b2edfcf6b5d72a6ff330d4380f36a937088314c675531b43d3423dd8af \
