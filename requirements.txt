@@ -219,6 +219,10 @@ click-default-group==1.2.4 \
 cloudflare==2.12.4 \
     --hash=sha256:517f11382ea92fc591f36cc9ba95243da73e68345e52f221f03d51d6e8d786a5
     # via -r requirements.in
+cogapp==3.3.0 \
+    --hash=sha256:1be95183f70282422d594fa42426be6923070a4bd8335621f6347f3aeee81db0 \
+    --hash=sha256:8b5b5f6063d8ee231961c05da010cb27c30876b2279e23ad0eae5f8f09460d50
+    # via -r requirements.in
 colorama==0.4.6 \
     --hash=sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44 \
     --hash=sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6
