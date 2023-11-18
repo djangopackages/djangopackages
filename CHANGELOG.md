@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-11-17]
+### Changed
+- :sparkles: Rules Engine v1 ([#1056](https://github.com/djangopackages/djangopackages/pull/1056))
+- ⬆️ Bump the dependencies group with 6 updates ([#1059](https://github.com/djangopackages/djangopackages/pull/1059))
+- [pre-commit.ci] pre-commit autoupdate ([#1060](https://github.com/djangopackages/djangopackages/pull/1060))
+
 ## [2023-11-06]
 ### Changed
 - ⬆️ Bump the dependencies group with 7 updates ([#1057](https://github.com/djangopackages/djangopackages/pull/1057))
