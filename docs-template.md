@@ -17,7 +17,7 @@ def extract_docstrings(file_path, class_name=None):
     module = load_module_from_file(file_path)
     class_docstring = None
     method_docstring = None
-    
+
     for name, obj in inspect.getmembers(module):
         if inspect.isclass(obj) and (class_name is None or name == class_name):
             class_docstring = inspect.getdoc(obj)
@@ -26,7 +26,7 @@ def extract_docstrings(file_path, class_name=None):
                 method_docstring = inspect.getdoc(getattr(obj, 'check'))
                 method_docstring = method_docstring.replace('\n', ' ')
             break
-    
+
     return class_docstring, method_docstring
 
 file_path = Path('searchv2/rules.py')
