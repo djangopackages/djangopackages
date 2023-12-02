@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-12-01]
+### Changed
+- Add Missing `env_file` to docker-compose `postgres` service ([#1072](https://github.com/djangopackages/djangopackages/pull/1072))
+- ⬆️ Bump the dependencies group with 7 updates ([#1069](https://github.com/djangopackages/djangopackages/pull/1069))
+
 ## [2023-11-21]
 ### Changed
 - ⬆️ Bump the dependencies group with 9 updates ([#1067](https://github.com/djangopackages/djangopackages/pull/1067))
