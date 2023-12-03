@@ -51,9 +51,25 @@ nav:
   - faq.md
   - history.md
   - license.md
+  - rules/deprecated.md
+  - rules/description.md
+  - rules/downloads.md
+  - rules/fork.md
+  - rules/usage_count.md
+  - rules/watchers.md
 
 plugins:
   - search
+  - mkdocstrings:
+      show_root_heading: false
+      show_bases: false
+      handlers:
+        python:
+          paths: [../searchv2]
+
+  
+
+
 
 markdown_extensions:
   - toc:
