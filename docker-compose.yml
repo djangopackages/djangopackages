@@ -28,6 +28,8 @@ services:
   postgres:
     # image: "pgautoupgrade/pgautoupgrade:latest"
     build: ./dockerfiles/postgres
+    env_file:
+      - .env.local
     expose:
       - 5432
     healthcheck:
