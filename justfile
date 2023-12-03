@@ -97,10 +97,6 @@ bootstrap *ARGS:
 @docs-update:
     pip-compile --resolver=backtracking docs/requirements.in
 
-# Generate the rules docs based on the doc strings of the Classes and their check method
-@docs-rules-gen:
-    ./scripts/generate_rules.sh
-
 # --------------------------------------------------
 # Deployment and production recipes
 # --------------------------------------------------
