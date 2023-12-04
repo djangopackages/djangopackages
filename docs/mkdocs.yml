@@ -58,6 +58,8 @@ nav:
     - Fork: rules/fork.md
     - Usage Count: rules/usage_count.md
     - Watchers: rules/watchers.md
+    - Groups:
+      - Score: rules/groups/score_rule.md
 
 plugins:
   - search
