@@ -51,20 +51,31 @@ nav:
   - faq.md
   - history.md
   - license.md
-  - rules/deprecated.md
-  - rules/description.md
-  - rules/downloads.md
-  - rules/fork.md
-  - rules/usage_count.md
-  - rules/watchers.md
+  - Rules:
+    - Deprecated: rules/deprecated.md
+    - Description: rules/description.md
+    - Downloads: rules/downloads.md
+    - Fork: rules/fork.md
+    - Usage Count: rules/usage_count.md
+    - Watchers: rules/watchers.md
 
 plugins:
   - search
   - mkdocstrings:
-      show_root_heading: false
-      show_bases: false
+      show_root_heading: true
       handlers:
         python:
+          options:
+            # More options are located at https://mkdocstrings.github.io/python/usage/configuration/general/
+            show_bases: false
+            show_root_heading: false
+            show_category_heading: false
+            group_by_category: false
+            show_source: false
+            heading_level: 2
+            show_if_no_docstring: true
+            members:
+              - check
           paths: [../searchv2]
 
 
