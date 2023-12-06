@@ -51,15 +51,7 @@ nav:
   - faq.md
   - history.md
   - license.md
-  - Rules:
-    - Deprecated: rules/deprecated.md
-    - Description: rules/description.md
-    - Downloads: rules/downloads.md
-    - Fork: rules/fork.md
-    - Usage Count: rules/usage_count.md
-    - Watchers: rules/watchers.md
-    - Groups:
-      - Score: rules/groups/score_rule.md
+  - Rules: rules/rules.md
 
 plugins:
   - search
