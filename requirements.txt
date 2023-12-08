@@ -430,9 +430,9 @@ django-reversion==5.0.8 \
 django-secure==1.0.2 \
     --hash=sha256:b9511e5be1399616649be0402e341382ea40ba361efd48a81a0bbd3efc77f197
     # via -r requirements.in
-django-structlog==6.0.0 \
-    --hash=sha256:07d9b35cdc3aca6de1daacb0ad7a7c58e0506a858687844ff770eb4bde5d0236 \
-    --hash=sha256:233a5cc81981c547a702e141d1ece89a02a47e8127a8d0c80c8d9add4324dea2
+django-structlog==6.0.1 \
+    --hash=sha256:75ec2385b817d10fffaccc4f4280193ae364b6839f4dda1f6639b3f0c13435ea \
+    --hash=sha256:ce52d54b952a7a56c185141409f618e0aa6775653e4c947213bca3e7911dd5f0
     # via -r requirements.in
 django-tables2==2.6.0 \
     --hash=sha256:04f23c1181d93716c67085a3c324b449180fd0c5162ef4619acb0b2d9a166133 \
@@ -766,9 +766,9 @@ oauthlib==3.2.2 \
     # via
     #   requests-oauthlib
     #   social-auth-core
-openai==1.3.5 \
-    --hash=sha256:163e7ece4af76e961f58b75ea20a42b0d0c2a240c2f81b41a3d1c5962463cdf8 \
-    --hash=sha256:9437458978fb502e61336c3082e02b09c49feebe0e8516a2b8fb4563e6e4af4e
+openai==1.3.7 \
+    --hash=sha256:18074a0f51f9b49d1ae268c7abc36f7f33212a0c0d08ce11b7053ab2d17798de \
+    --hash=sha256:e5c51367a910297e4d1cd33d2298fb87d7edf681edbe012873925ac16f95bee0
     # via -r requirements.in
 packaging==23.2 \
     --hash=sha256:048fb0e9405036518eaaf48a55953c750c11e1a1b68e0dd1a9d62ed0c092cfc5 \
@@ -1080,9 +1080,9 @@ python-fsutil==0.10.0 \
     --hash=sha256:5f02ed7764cac27633b4aaaa9cf56af2245a64a6cc048866b6f02792a8c5bf86 \
     --hash=sha256:e0421440b5763d08129dcc469364105f3b434fc9736c3bc6ed181b1c623148ee
     # via django-maintenance-mode
-python-gitlab==4.1.1 \
-    --hash=sha256:9da309ce97d5de56947bd8ad09e321ab7de21bb360796c6c0e083397d1ff3399 \
-    --hash=sha256:e4912083d5d40a79b57875a033083e2c860e34bcc4644ef64ca377a755c5b0c9
+python-gitlab==4.2.0 \
+    --hash=sha256:f870d76f98c95d05c43399d73b1eaab59c671b32793830cd2f9ddf32cc93541e \
+    --hash=sha256:fa265266f24740ee654de51860ff78c9c3e422bb8a8c7ea8eedf353c75f57609
     # via -r requirements.in
 python3-openid==3.2.0 \
     --hash=sha256:33fbf6928f401e0b790151ed2b5290b02545e8775f982485205a066f874aaeaf \
@@ -1284,9 +1284,9 @@ rich==13.7.0 \
     --hash=sha256:5cb5123b5cf9ee70584244246816e9114227e0b98ad9176eede6ad54bf5403fa \
     --hash=sha256:6da14c108c4866ee9520bbffa71f6fe3962e193b7da68720583850cd4548e235
     # via -r requirements.in
-sentry-sdk==1.37.1 \
-    --hash=sha256:7cd324dd2877fdc861f75cba4242bce23a58272a6fea581fcb218bb718bd9cc5 \
-    --hash=sha256:a249c7364827ee89daaa078bb8b56ece0b3d52d9130961bef2302b79bdf7fe70
+sentry-sdk==1.38.0 \
+    --hash=sha256:0017fa73b8ae2d4e57fd2522ee3df30453715b29d2692142793ec5d5f90b94a6 \
+    --hash=sha256:8feab81de6bbf64f53279b085bd3820e3e737403b0a0d9317f73a2c3374ae359
     # via -r requirements.in
 sgmllib3k==1.0.0 \
     --hash=sha256:7868fb1c8bfa764c1ac563d3cf369c381d1325d36124933a726f29fcdaa812e9
@@ -1303,13 +1303,14 @@ sniffio==1.3.0 \
     # via
     #   anyio
     #   httpx
+    #   openai
 social-auth-app-django==5.4.0 \
     --hash=sha256:09ac02a063cb313eed5e9ef2f9ac4477c8bf5bbd685925ff3aba43f9072f1bbb \
     --hash=sha256:28c65b2e2092f30cdb3cf912eeaa6988b49fdf4001b29bd89e683673d700a38e
     # via -r requirements.in
-social-auth-core==4.5.0 \
-    --hash=sha256:3d4154f45c0bacffe54ccf4361bce7e66cf5f5cd1bb0ebb7507ad09a1b07d9d9 \
-    --hash=sha256:f4ae5d8e503a401f319498bcad59fd1f6c473517eeae89c22299250f63c33365
+social-auth-core==4.5.1 \
+    --hash=sha256:307a4ba64d4f3ec86e4389163eac1d8b8656ffe5ab2e964aeff043ab00b3a662 \
+    --hash=sha256:54d0c598bf6ea0ec12bbcf78bee035c7cd604b5d781d80b7997e9e033c3ac05d
     # via
     #   -r requirements.in
     #   social-auth-app-django
@@ -1413,9 +1414,9 @@ tqdm==4.65.0 \
     --hash=sha256:1871fb68a86b8fb3b59ca4cdd3dcccbc7e6d613eeed31f4c332531977b89beb5 \
     --hash=sha256:c4f53a17fe37e132815abceec022631be8ffe1b9381c2e6e30aa70edc99e9671
     # via openai
-trove-classifiers==2023.11.22 \
-    --hash=sha256:533df77e284fd645d90deeafd3ef710d290884efafe4f5009aa1663f95aec992 \
-    --hash=sha256:c31a7e92f965f060a244b57d8ed5ee6f53fcb413ee17ce790e00577cb369ad99
+trove-classifiers==2023.11.29 \
+    --hash=sha256:02307750cbbac2b3d13078662f8a5bf077732bf506e9c33c97204b7f68f3699e \
+    --hash=sha256:ff8f7fd82c7932113b46e7ef6742c70091cc63640c8c65db00d91f2e940b9514
     # via -r requirements.in
 typing-extensions==4.8.0 \
     --hash=sha256:8f92fc8806f9a6b641eaa5318da32b44d401efaac0f6678c9bc448ba3605faa0 \
