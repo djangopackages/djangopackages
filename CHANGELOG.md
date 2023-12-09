@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-12-08]
+### Changed
+- 📝Initial idea for docs generation ([#1073](https://github.com/djangopackages/djangopackages/pull/1073))
+- ⬆️ Bump the dependencies group with 6 updates ([#1074](https://github.com/djangopackages/djangopackages/pull/1074))
+
 ## [2023-12-01]
 ### Changed
 - Add Missing `env_file` to docker-compose `postgres` service ([#1072](https://github.com/djangopackages/djangopackages/pull/1072))
