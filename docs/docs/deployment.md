@@ -49,7 +49,7 @@ docker-compose run django cli4 --delete purge_everything=true /zones/:djangopack
 Alternatively, you can use `just`
 
 ```shell
-just purge_cache:
+just purge_cache
 ```
 
 ## When Things Go Wrong
