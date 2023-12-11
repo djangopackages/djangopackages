@@ -29,8 +29,10 @@ The configuration in `docker-compose.yml` contains 4 services:
 
 > - `postgres` that powers the database
 > - `django-a` and `django-b` that runs the WSGI server and serves the app through gunicorn
+> - `django-q` runs the server for long running tasks
 > - `caddy` that proxies incoming requests to the gunicorn server
 > - `redis` as cache
+> - `utility` runs cron jobs
 
 ## Deploy code changes
 
