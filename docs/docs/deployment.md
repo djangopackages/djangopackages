@@ -18,7 +18,7 @@ All of our `docker-compose*.yml` configurations contains the following services:
 - `postgres` powers our database.
 - `django` powers our Python and Django backend. In production we use call these `django-a` and `django-b` to run our WSGI server and serves the app through gunicorn.
 - `django-q` powers our task queues and background workers.
-- `utility` runs our various commands to keep our `django*` services from blocking when we run one-off commands.
+- `utility` runs our various commands including cron jobs to keep our `django*` services from blocking when we run one-off commands.
 - `caddy` (production only) proxies incoming requests to the gunicorn server
 - `redis` as cache
 - `docs` (local only) runs our mkdocs server so we can work on docs.
