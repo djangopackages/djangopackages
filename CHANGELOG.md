@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-12-11]
+### Changed
+- :pencil: Updates deployment docs ([#1076](https://github.com/djangopackages/djangopackages/pull/1076))
+- 📝 Added docs for django-q and utility ([#1075](https://github.com/djangopackages/djangopackages/pull/1075))
+
 ## [2023-12-08]
 ### Changed
 - 📝Initial idea for docs generation ([#1073](https://github.com/djangopackages/djangopackages/pull/1073))
