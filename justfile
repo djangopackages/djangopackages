@@ -253,28 +253,6 @@ bootstrap *ARGS:
 @management-command ARGS:
     docker-compose run --rm django python manage.py {{ ARGS }}
 
-# Upgrade the PostgreSQL database
-
-# TODO: Have the backup date be dynamic
-@postgres-upgrade:
-    docker-compose exec postgres psql --user djangopackages -d djangopackages < ../backups/backup_2021_09_21T19_00_10.sql
-
-# TODO: Have the backup date be dynamic
-
-# ???
-@restore *ARGS:
-    # TODO: change this to use DSLR...
-    -PGPASSWORD=djangopackages dropdb --host=localhost --username=djangopackages djangopackages
-    -PGPASSWORD=djangopackages createdb --host=localhost --username=djangopackages --owner=djangopackages djangopackages
-    -PGPASSWORD=djangopackages createuser --host=localhost --username=doadmin
-    -PGPASSWORD=djangopackages pg_restore -Fc --host=localhost --username=djangopackages -d djangopackages < ../backups/backup_2021_12_28.sql
-
-    # docker-compose run --rm postgres dropdb --host=postgres --username=djangopackages djangopackages
-    # docker-compose run --rm postgres createdb --host=postgres --username=djangopackages --owner=djangopackages djangopackages
-    # docker-compose run --rm postgres pg_restore -Fc --host=postgres --username=djangopackages -d djangopackages < ../backups/backup_2021_12_28.sql
-
-# new...
-
 # Remove current application services
 @remove:
     ...
