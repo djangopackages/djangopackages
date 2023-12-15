@@ -3,8 +3,10 @@ x-common-settings: &common-settings
     context: .
     dockerfile: ./dockerfiles/django/Dockerfile-dev
   depends_on:
-    - postgres
-    - redis
+    redis:
+      condition: service_healthy
+    postgres:
+      condition: service_healthy
   env_file:
     - .env.local
   volumes:
@@ -26,30 +28,30 @@ services:
     init: true
 
   postgres:
-    # image: "pgautoupgrade/pgautoupgrade:latest"
-    build: ./dockerfiles/postgres
+    image: "pgautoupgrade/pgautoupgrade:latest"
     env_file:
       - .env.local
     expose:
       - 5432
     healthcheck:
-      test: [
-          "CMD",
-          "/usr/local/bin/healthcheck_pg.sh",
-      ]
+      test: ["CMD-SHELL", "pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER"]
       interval: 3s
       timeout: 3s
       retries: 30
     init: true
     volumes:
       - djpkg_postgres_data_dev:/var/lib/postgresql/data
-      - djpkg_postgres_backup_dev:/backups
 
   redis:
     image: redis:7
     expose:
       - 6379
     init: true
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 3s
+      timeout: 3s
+      retries: 10
 
   docs:
     <<: *common-settings
@@ -72,6 +74,5 @@ services:
 
 volumes:
   djpkg_media_dev: {}
-  djpkg_postgres_backup_dev: {}
   djpkg_postgres_data_dev: {}
   djpkg_static_dev: {}

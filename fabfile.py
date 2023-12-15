@@ -100,14 +100,6 @@ def rollback(commit="HEAD~1"):
     deploy()
 
 
-def backup():
-    with env.cd(env.project_dir):
-        # Manage Backups
-        docker_compose("run django-a python manage.py clearsessions")
-        docker_compose("run postgres backup")
-        env.run("gzip /data/djangopackages/backups/*.sql")
-
-
 def build_and_restart(service):
     docker_compose(f"build {service} --parallel --progress plain")
     docker_compose(f"create {service}")
@@ -142,9 +134,6 @@ def deploy(clearsessions: bool = False, stash: bool = False):
         # Clear old database sessions
         if clearsessions:
             docker_compose("run django-a python manage.py clearsessions")
-
-        # docker_compose("run postgres backup")
-        # env.run("gzip /data/djangopackages/backups/*.sql")
 
         # stash existing changes
         if stash:
