@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-12-15]
+### Changed
+- ⬆️ Bump the dependencies group with 10 updates ([#1078](https://github.com/djangopackages/djangopackages/pull/1078))
+- Use `pgautoupgrade` Docker Image for `postgres` Docker Service ([#1080](https://github.com/djangopackages/djangopackages/pull/1080))
+- [pre-commit.ci] pre-commit autoupdate ([#1079](https://github.com/djangopackages/djangopackages/pull/1079))
+
 ## [2023-12-11]
 ### Changed
 - :pencil: Updates deployment docs ([#1076](https://github.com/djangopackages/djangopackages/pull/1076))
