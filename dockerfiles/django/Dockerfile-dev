@@ -11,6 +11,7 @@ RUN set -x \
        --no-install-recommends \
        --no-install-suggests \
        gcc \
+       build-essential \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
