@@ -1,8 +1,6 @@
 from datetime import timedelta
 from django.utils import timezone
 from pydantic import BaseModel
-from typing import List
-from typing import Optional
 
 from package.models import Package
 from settings.base import DOCS_URL
