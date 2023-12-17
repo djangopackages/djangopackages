@@ -1,7 +1,18 @@
-FROM python:3.9
+FROM python:3.11-slim-bookworm
 
 ENV PYTHONDONTWRITEBYTECODE true
 ENV PYTHONUNBUFFERED 1
+
+# Install System dependencies
+RUN set -x \
+    && apt-get update \
+    && apt-get install \
+       -y \
+       --no-install-recommends \
+       --no-install-suggests \
+       gcc \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN --mount=type=cache,target=/root/.cache,id=pip \
     pip install --upgrade pip pip-tools
@@ -13,8 +24,8 @@ RUN --mount=type=cache,target=/root/.cache,id=pip \
     pip install -r /requirements.txt
 
 COPY ./dockerfiles/django/entrypoint.sh /entrypoint.sh
-RUN sed -i 's/\r//' /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN sed -i 's/\r//' /entrypoint.sh \
+    && chmod +x /entrypoint.sh
 
 COPY . /app
 

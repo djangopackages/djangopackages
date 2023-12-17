@@ -1,8 +1,6 @@
 from datetime import timedelta
 from django.utils import timezone
 from pydantic import BaseModel
-from typing import List
-from typing import Optional
 
 from package.models import Package
 from settings.base import DOCS_URL
@@ -36,7 +34,7 @@ class ScoreRule(BaseModel):
     name: str
     description: str
     max_score: int
-    documentation_url: Optional[str] = None
+    documentation_url: str | None = None
     # rules: Optional[List["ScoreRule"]] = None
 
     class Config:
@@ -74,7 +72,7 @@ class ScoreRuleGroup(ScoreRule):
                with the normalized total score and a combined message.
     """
 
-    rules: List[ScoreRule]
+    rules: list[ScoreRule]
 
     def check(self, package: Package) -> CheckResult:
         """
@@ -365,7 +363,7 @@ class WatchersRule(ScoreRule):
 
 
 def calc_package_weight(
-    *, package: Package, rules: List[ScoreRule], max_score: int
+    *, package: Package, rules: list[ScoreRule], max_score: int
 ) -> dict:
     """
     Calculates the normalized total score of a given package based on a list of scoring rules.
