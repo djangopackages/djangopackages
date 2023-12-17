@@ -1,5 +1,5 @@
 default_language_version:
-  python: python3.9
+  python: python3.11
 
 exclude: |
     (?x)^(
@@ -50,3 +50,8 @@ repos:
         alias: autoformat
       - id: ruff-format
         alias: autoformat
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.15.0
+    hooks:
+      - id: pyupgrade
+        args: [--py311-plus]

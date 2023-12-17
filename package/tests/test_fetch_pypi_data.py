@@ -6,13 +6,13 @@ from model_bakery import baker
 
 
 def pypi_package(
-    author: Optional[str] = None,
-    author_email: Optional[str] = None,
-    classifiers: Optional[List[str]] = [],
-    license: Optional[str] = None,
+    author: str | None = None,
+    author_email: str | None = None,
+    classifiers: list[str] | None = [],
+    license: str | None = None,
     package_name: str = "example-package",
     requires_python: str = None,
-    version: Optional[str] = "1.0.0",
+    version: str | None = "1.0.0",
 ):
     return {
         "info": {
