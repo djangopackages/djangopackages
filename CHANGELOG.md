@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2023-12-17]
+### Changed
+- Upgrade to Python 3.11 ([#1081](https://github.com/djangopackages/djangopackages/pull/1081))
+- :whale: Adds build-essentials to fix uwsgi build ([#1083](https://github.com/djangopackages/djangopackages/pull/1083))
+
 ## [2023-12-15]
 ### Changed
 - ⬆️ Bump the dependencies group with 10 updates ([#1078](https://github.com/djangopackages/djangopackages/pull/1078))
