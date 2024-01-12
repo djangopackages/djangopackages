@@ -11,6 +11,7 @@
 
 {% block extra_head %}
     {{ block.super }}
+    {% include 'includes/_ethicalads-js.html' %}
 {% endblock %}
 
 {% block breadcrumb %}
@@ -191,9 +192,9 @@
         </div> <!-- end six column section -->
         <div class="">
             <div class="col-md-4 sidebar">
-                {% comment %}
-                <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CWYDEKJJ&placement=djangopackagesorg-detail" id="_carbonads_js"></script>
-                {% endcomment %}
+                {% with ea_id="package-detail" ea_type="text" %}
+                    {% include 'includes/_ethicalads-tag.html' %}
+                {% endwith %}
 
                 {% if package.is_deprecated %}
                     <div>
