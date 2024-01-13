@@ -25,8 +25,8 @@ def test_gitlab_fetch_metadata(gitlab_handler, package_gitlab):
     assert package.repo_description.startswith(
         "A set of fields that wrap standard Django fields with encryption provided by the python cryptography library."
     )
-    assert package.repo_watchers == 26
-    assert package.repo_forks == 22
+    assert package.repo_watchers == 33
+    assert package.repo_forks == 25
     assert package.participants == ""
 
 

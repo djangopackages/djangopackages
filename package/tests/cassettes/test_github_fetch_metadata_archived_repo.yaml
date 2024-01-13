@@ -13,19 +13,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WSQY7DIAxF78I6CzqhUZPLIEQ9qaUAGTtZVb17TSN1SJRUI80KsM3T/x/uioDT
-        TB5YdXflE0FeBww4qe6sta7UzHBVnalkNDiMGHs5tW2TCwwydmpMc66N/ro8KsXgyN8KSP1GyKZA
-        5PoKoE1bC6AnN95+hgMZa8YicCOjzhSMEwhpwhRtcBG/gUXprrO/IpecLIYxUck6/Ya0Rr0aexZ9
-        uoJl72IO087jkJwk/BYn9w4yWzp7fp3PVtnSHCOQJeiRp8X/hvwBvZVr9CtL9hhKSPktNo6PHkQo
-        IuZ/f+vxBBQsnzGtAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114078},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117618},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117618},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114078},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117618},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117618},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117618},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114078},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117618},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114078}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -43,7 +38,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:53 GMT
+      - Sat, 13 Jan 2024 02:46:58 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -63,7 +58,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D397:19D7:229B797:555BF61:62240F81
+      - EE11:62BE:489F362:96BF83C:65A1F9A2
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -71,13 +66,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -95,39 +92,16 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/repos/pydanny/dj-paginator
   response:
     body:
-      string: !!binary |
-        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
-        nrWpfBQAAA==
+      string: '{"id":39753819,"node_id":"MDEwOlJlcG9zaXRvcnkzOTc1MzgxOQ==","name":"dj-paginator","full_name":"pydanny/dj-paginator","private":false,"owner":{"login":"pydanny","id":62857,"node_id":"MDQ6VXNlcjYyODU3","avatar_url":"https://avatars.githubusercontent.com/u/62857?v=4","gravatar_id":"","url":"https://api.github.com/users/pydanny","html_url":"https://github.com/pydanny","followers_url":"https://api.github.com/users/pydanny/followers","following_url":"https://api.github.com/users/pydanny/following{/other_user}","gists_url":"https://api.github.com/users/pydanny/gists{/gist_id}","starred_url":"https://api.github.com/users/pydanny/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/pydanny/subscriptions","organizations_url":"https://api.github.com/users/pydanny/orgs","repos_url":"https://api.github.com/users/pydanny/repos","events_url":"https://api.github.com/users/pydanny/events{/privacy}","received_events_url":"https://api.github.com/users/pydanny/received_events","type":"User","site_admin":false},"html_url":"https://github.com/pydanny/dj-paginator","description":"Django
+        + Pagination made easy.","fork":false,"url":"https://api.github.com/repos/pydanny/dj-paginator","forks_url":"https://api.github.com/repos/pydanny/dj-paginator/forks","keys_url":"https://api.github.com/repos/pydanny/dj-paginator/keys{/key_id}","collaborators_url":"https://api.github.com/repos/pydanny/dj-paginator/collaborators{/collaborator}","teams_url":"https://api.github.com/repos/pydanny/dj-paginator/teams","hooks_url":"https://api.github.com/repos/pydanny/dj-paginator/hooks","issue_events_url":"https://api.github.com/repos/pydanny/dj-paginator/issues/events{/number}","events_url":"https://api.github.com/repos/pydanny/dj-paginator/events","assignees_url":"https://api.github.com/repos/pydanny/dj-paginator/assignees{/user}","branches_url":"https://api.github.com/repos/pydanny/dj-paginator/branches{/branch}","tags_url":"https://api.github.com/repos/pydanny/dj-paginator/tags","blobs_url":"https://api.github.com/repos/pydanny/dj-paginator/git/blobs{/sha}","git_tags_url":"https://api.github.com/repos/pydanny/dj-paginator/git/tags{/sha}","git_refs_url":"https://api.github.com/repos/pydanny/dj-paginator/git/refs{/sha}","trees_url":"https://api.github.com/repos/pydanny/dj-paginator/git/trees{/sha}","statuses_url":"https://api.github.com/repos/pydanny/dj-paginator/statuses/{sha}","languages_url":"https://api.github.com/repos/pydanny/dj-paginator/languages","stargazers_url":"https://api.github.com/repos/pydanny/dj-paginator/stargazers","contributors_url":"https://api.github.com/repos/pydanny/dj-paginator/contributors","subscribers_url":"https://api.github.com/repos/pydanny/dj-paginator/subscribers","subscription_url":"https://api.github.com/repos/pydanny/dj-paginator/subscription","commits_url":"https://api.github.com/repos/pydanny/dj-paginator/commits{/sha}","git_commits_url":"https://api.github.com/repos/pydanny/dj-paginator/git/commits{/sha}","comments_url":"https://api.github.com/repos/pydanny/dj-paginator/comments{/number}","issue_comment_url":"https://api.github.com/repos/pydanny/dj-paginator/issues/comments{/number}","contents_url":"https://api.github.com/repos/pydanny/dj-paginator/contents/{+path}","compare_url":"https://api.github.com/repos/pydanny/dj-paginator/compare/{base}...{head}","merges_url":"https://api.github.com/repos/pydanny/dj-paginator/merges","archive_url":"https://api.github.com/repos/pydanny/dj-paginator/{archive_format}{/ref}","downloads_url":"https://api.github.com/repos/pydanny/dj-paginator/downloads","issues_url":"https://api.github.com/repos/pydanny/dj-paginator/issues{/number}","pulls_url":"https://api.github.com/repos/pydanny/dj-paginator/pulls{/number}","milestones_url":"https://api.github.com/repos/pydanny/dj-paginator/milestones{/number}","notifications_url":"https://api.github.com/repos/pydanny/dj-paginator/notifications{?since,all,participating}","labels_url":"https://api.github.com/repos/pydanny/dj-paginator/labels{/name}","releases_url":"https://api.github.com/repos/pydanny/dj-paginator/releases{/id}","deployments_url":"https://api.github.com/repos/pydanny/dj-paginator/deployments","created_at":"2015-07-27T03:45:43Z","updated_at":"2023-01-28T14:46:19Z","pushed_at":"2016-11-07T08:42:39Z","git_url":"git://github.com/pydanny/dj-paginator.git","ssh_url":"git@github.com:pydanny/dj-paginator.git","clone_url":"https://github.com/pydanny/dj-paginator.git","svn_url":"https://github.com/pydanny/dj-paginator","homepage":"","size":29,"stargazers_count":36,"watchers_count":36,"language":"Python","has_issues":true,"has_projects":true,"has_downloads":true,"has_wiki":true,"has_pages":false,"has_discussions":false,"forks_count":4,"mirror_url":null,"archived":true,"disabled":false,"open_issues_count":5,"license":{"key":"bsd-3-clause","name":"BSD
+        3-Clause \"New\" or \"Revised\" License","spdx_id":"BSD-3-Clause","url":"https://api.github.com/licenses/bsd-3-clause","node_id":"MDc6TGljZW5zZTU="},"allow_forking":true,"is_template":false,"web_commit_signoff_required":false,"topics":[],"visibility":"public","forks":4,"open_issues":5,"watchers":36,"default_branch":"master","permissions":{"admin":false,"maintain":false,"push":false,"triage":false,"pull":true},"temp_clone_token":"","network_count":4,"subscribers_count":5}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -145,11 +119,11 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:53 GMT
+      - Sat, 13 Jan 2024 02:46:58 GMT
       ETag:
-      - W/"617ef47653c2c7dd60530d90bebc5bee0f775ef1739768339ed43c74be6d62ba"
+      - W/"d75a0af78771bf0fbba63c8d5ccc1686b5917f38921524bd894c9e5b122a48dd"
       Last-Modified:
-      - Thu, 30 Apr 2020 18:58:34 GMT
+      - Sat, 28 Jan 2023 14:46:19 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -170,7 +144,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D397:19D7:229B798:555BF67:62240F81
+      - EE12:3A3A:49BFD9B:98EDB32:65A1F9A2
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -178,13 +152,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4995'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '5'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -202,22 +178,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/repos/pydanny/dj-paginator/contributors?per_page=100
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA62TW0+DMBiG/0uviTXupCTGm91uxosZjTFLBx3UdC1pCwsj++9+LTAcMRq6XXHq
-        +/Tlg+ejQlwmTKAQkTxWtNxSHitZogCxGIWz8Wz0ECAhY7q212gxf5m+vi159BXdLg+LCawjBTFE
-        rXPF4XlqTKZDjOub+iZhJs03uaYqksJQYW4iucM5duCn4nEMgEQ1CLcD3OihMtZg6iywNO6XTc2O
-        9yrUW7tMf/VWci73wOm3/ncrfIpCz/qcicQXA9EKS5NSGB+81tEOg2njUcvFKmwP8KEsSMNHUTQe
-        Xq0JQrG9gE4VVjSTjphvdKRYZpgUHhXP4oCTKiGCHYgnDuIaKLacRxkXgzgt4J/0yNe5CmeKFSQq
-        7XgUjSgrYOK+zB4AkKbMKCixgn/Dzp8Zuibxztq6JVzTAFmpFNvkboYonB6DzuesjIkQrcnTu/vJ
-        7HeT38vn+WoEG3iZ7MAXmNzV/Nvhbt0ge5uYv7fngEuMbUkXudpCrmfpifhTbx8/W9BQM9vccCfb
-        5HVs7Hqciezh4ej4+Q0HVRc9WQcAAA==
+      string: '[{"login":"audreyfeldroy","id":74739,"node_id":"MDQ6VXNlcjc0NzM5","avatar_url":"https://avatars.githubusercontent.com/u/74739?v=4","gravatar_id":"","url":"https://api.github.com/users/audreyfeldroy","html_url":"https://github.com/audreyfeldroy","followers_url":"https://api.github.com/users/audreyfeldroy/followers","following_url":"https://api.github.com/users/audreyfeldroy/following{/other_user}","gists_url":"https://api.github.com/users/audreyfeldroy/gists{/gist_id}","starred_url":"https://api.github.com/users/audreyfeldroy/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/audreyfeldroy/subscriptions","organizations_url":"https://api.github.com/users/audreyfeldroy/orgs","repos_url":"https://api.github.com/users/audreyfeldroy/repos","events_url":"https://api.github.com/users/audreyfeldroy/events{/privacy}","received_events_url":"https://api.github.com/users/audreyfeldroy/received_events","type":"User","site_admin":false,"contributions":6},{"login":"pydanny","id":62857,"node_id":"MDQ6VXNlcjYyODU3","avatar_url":"https://avatars.githubusercontent.com/u/62857?v=4","gravatar_id":"","url":"https://api.github.com/users/pydanny","html_url":"https://github.com/pydanny","followers_url":"https://api.github.com/users/pydanny/followers","following_url":"https://api.github.com/users/pydanny/following{/other_user}","gists_url":"https://api.github.com/users/pydanny/gists{/gist_id}","starred_url":"https://api.github.com/users/pydanny/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/pydanny/subscriptions","organizations_url":"https://api.github.com/users/pydanny/orgs","repos_url":"https://api.github.com/users/pydanny/repos","events_url":"https://api.github.com/users/pydanny/events{/privacy}","received_events_url":"https://api.github.com/users/pydanny/received_events","type":"User","site_admin":false,"contributions":3}]'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -235,11 +203,11 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:53 GMT
+      - Sat, 13 Jan 2024 02:46:58 GMT
       ETag:
       - W/"1373daa274c5ac376dc23eb58bf5b129556f787fe3af486ed2af7d4e1a7f9add"
       Last-Modified:
-      - Thu, 30 Apr 2020 18:58:34 GMT
+      - Sat, 28 Jan 2023 14:46:19 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -260,7 +228,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D397:19D7:229B79B:555BF76:62240F81
+      - EE13:6324:4BF1EEB:9D4E8A9:65A1F9A2
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -268,13 +236,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4994'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '6'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -292,19 +262,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WSQY7DIAxF78I6CzqhUZPLIEQ9qaUAGTtZVb17TSN1SJRUI80KZJun/z++KwJO
-        M3lg1d2VTwT5HDDgpLqz1rpSM8NVdU0lo8FhxNirzrStyQUGGTs1pjnXRn9dHpVicORvBaR+I+RS
-        IHJ9BdCmrQXQkxtvP8OBjDVjEbiRUWcKxgmENGGKNriI38CidNfZX5FLThbDmKhknX5DWqNejT2L
-        Pl3Bsncxh2nncUhOEn6Lk3cHmS2dPb/OZ6tsaY4RyBL0yNPif0P+gN7KNfqVJXsMJaRci43jow8R
-        ioj53249ng7NriytAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":6,"remaining":4994,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114079},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117619},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117619},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114079},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117619},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117619},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117619},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114079},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117619},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114079}},"rate":{"limit":5000,"used":6,"remaining":4994,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -322,7 +287,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:53 GMT
+      - Sat, 13 Jan 2024 02:46:59 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -342,7 +307,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D397:19D7:229B79E:555BF80:62240F81
+      - EE14:7F06:4BD0317:9CFF22E:65A1F9A3
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -350,13 +315,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4994'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '6'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -374,19 +341,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WSQY7DIAxF78I6CzqhUZPLIEQ9qaUAGTtZVb17TSN1SJRUI80KZJun/z++KwJO
-        M3lg1d2VTwT5HDDgpLqz1rpSM8NVdU0lo8FhxNirzrStyQUGGTs1pjnXRn9dHpVicORvBaR+I+RS
-        IHJ9BdCmrQXQkxtvP8OBjDVjEbiRUWcKxgmENGGKNriI38CidNfZX5FLThbDmKhknX5DWqNejT2L
-        Pl3Bsncxh2nncUhOEn6Lk3cHmS2dPb/OZ6tsaY4RyBL0yNPif0P+gN7KNfqVJXsMJaRci43jow8R
-        ioj53249ng7NriytAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":6,"remaining":4994,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114079},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117619},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117619},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114079},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117619},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117619},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117619},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114079},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117619},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114079}},"rate":{"limit":5000,"used":6,"remaining":4994,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -404,7 +366,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:53 GMT
+      - Sat, 13 Jan 2024 02:46:59 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -424,7 +386,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D397:19D7:229B7A0:555BF8A:62240F81
+      - EE15:1C96:4A4F14D:9A11193:65A1F9A3
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -432,13 +394,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4994'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '6'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK

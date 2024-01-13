@@ -13,19 +13,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WSQY7DIAxF78I6CzqhUZPLIEQ9qaUAGTtZVb17TSN1SJRUI80KZJun/z++KwJO
-        M3lg1d2VTwT5HDDgpLqz1rpSM8NVdU0lo8FhxNirzrStyQUGGTs1pjnXRn9dHpVicORvBaR+I+RS
-        IHJ9BdCmNQLoyY23n+FAxpqxCNzIqDMF4wRCmjBFG1zEb2BRuuvsr8glJ4thTFSyTr8hrVGvxp5F
-        n65g2buYw7TzOCQnCb/FybuDzJbOnl/ns1W2NMcIZAl65GnxvyF/QG/lGv3Kkj2GElKuxcbx0YcI
-        RcT8b7ceT3OwijGtAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":6,"remaining":4994,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114079},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117619},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117619},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114079},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117619},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117619},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117619},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114079},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117619},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114079}},"rate":{"limit":5000,"used":6,"remaining":4994,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -43,7 +38,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:54 GMT
+      - Sat, 13 Jan 2024 02:46:59 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -63,7 +58,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D398:07E0:507E9EA:D5DDAED:62240F82
+      - EE16:17F1:4BA3D85:9CB3157:65A1F9A3
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -71,13 +66,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4994'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '6'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -95,16 +92,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/repos/djangopackages/does-not-exist
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAAx3JQQqAIBBG4avEtK3cd4CWXSHMJhPSCed3EdHdkzaPD95DkVWtZxppFjSTlLRR
-        R5u4EjnBIkhaSj7rP4BLR2Pq08EHHGUdnESTWVGzc+bkuOoSbT2jt/3vAMk3vR/3hhbbawAAAA==
+      string: '{"message":"Not Found","documentation_url":"https://docs.github.com/rest/repos/repos#get-a-repository"}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -120,7 +115,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:54 GMT
+      - Sat, 13 Jan 2024 02:46:59 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -140,7 +135,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D398:07E0:507E9ED:D5DDAFA:62240F82
+      - EE17:73D7:4C951A9:9E87E5A:65A1F9A3
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -148,13 +143,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4993'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '7'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 404
       message: Not Found

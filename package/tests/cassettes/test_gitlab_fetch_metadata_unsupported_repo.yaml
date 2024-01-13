@@ -13,7 +13,7 @@ interactions:
       PRIVATE-TOKEN:
       - DUMMY
       User-Agent:
-      - python-gitlab/3.2.0
+      - python-gitlab/4.3.0
     method: GET
     uri: https://gitlab.com/api/v4/projects/jeff.triplett%2Fdoes-not-exist?license=True
   response:
@@ -21,11 +21,9 @@ interactions:
       string: '{"message":"404 Project Not Found"}'
     headers:
       CF-Cache-Status:
-      - DYNAMIC
+      - MISS
       CF-RAY:
-      - 6f0bf57e18705f17-OMA
-      Cache-Control:
-      - no-cache
+      - 844a50e6b8be26eb-FSD
       Connection:
       - keep-alive
       Content-Length:
@@ -33,43 +31,50 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 24 Mar 2022 02:25:55 GMT
-      Expect-CT:
-      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
-      GitLab-LB:
-      - fe-04-lb-gprd
-      GitLab-SV:
-      - localhost
+      - Sat, 13 Jan 2024 02:47:42 GMT
       NEL:
       - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
-      RateLimit-Limit:
-      - '2000'
-      RateLimit-Observed:
-      - '8'
-      RateLimit-Remaining:
-      - '1992'
-      RateLimit-Reset:
-      - '1648088815'
-      RateLimit-ResetTime:
-      - Thu, 24 Mar 2022 02:26:55 GMT
-      Referrer-Policy:
-      - strict-origin-when-cross-origin
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=JpakdUmp7OSqpLawNlic2B4JLqJTYUSmoJuA6BQqPdubHfKwnLUtJRmY5GxDaKyJF6oii7L6RquMa5w5PTUpZFCsAIUUXSDcNHCZcTXg%2BDaZqgE37ybR2ojPcIw%3D"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=WqTN8oJvbmLSNLsAAnG9omA4QR1jSGHXOPcRrWi%2FqCS0Kiy%2BdYgnLTv1L93dZq6vr%2FnGsbJbl8zF5KermQlV0Iwv67Fg5ch%2FWUI6BI3G%2F4TRTS8nRRlQCxsKQLU%3D"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
-      Strict-Transport-Security:
+      Set-Cookie:
+      - _cfuvid=kSqK7NYOiMwFkmtz1pPRx8RMfEPpeHrSJ9ICRnitwtA-1705114062040-0-604800000;
+        path=/; domain=.gitlab.com; HttpOnly; Secure; SameSite=None
+      cache-control:
+      - no-cache
+      content-security-policy:
+      - default-src 'none'
+      gitlab-lb:
+      - haproxy-main-51-lb-gprd
+      gitlab-sv:
+      - localhost
+      ratelimit-limit:
+      - '2000'
+      ratelimit-observed:
+      - '1'
+      ratelimit-remaining:
+      - '1999'
+      ratelimit-reset:
+      - '1705114121'
+      ratelimit-resettime:
+      - Sat, 13 Jan 2024 02:48:41 GMT
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      strict-transport-security:
       - max-age=31536000
-      Vary:
-      - Origin
-      X-Content-Type-Options:
+      vary:
+      - Origin, Accept-Encoding
+      x-content-type-options:
       - nosniff
-      X-Frame-Options:
+      x-frame-options:
       - SAMEORIGIN
-      X-Request-Id:
-      - 01FYWVXASHMAEQBWFXVRMXAK5P
-      X-Runtime:
-      - '0.034560'
+      x-gitlab-meta:
+      - '{"correlation_id":"51cfa6423c90dc36626c5b03a943a8bd","version":"1"}'
+      x-request-id:
+      - 51cfa6423c90dc36626c5b03a943a8bd
+      x-runtime:
+      - '0.028938'
     status:
       code: 404
       message: Not Found

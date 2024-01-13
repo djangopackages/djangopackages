@@ -9,33 +9,50 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - python-requests/2.27.1
+      - python-requests/2.31.0
     method: GET
     uri: https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA61X247bNhD9FUKA0YcudZclGQjSFsE+FN1e06emMChyJDErkSpJresu/O8FKcmX
-        xEB3Uz/4wTTnzHBmzpnxs6dp722Q13Dj3SGvJXq744/c26CadBrukNdx8ai9DXr2dsTQFtT0pVVQ
-        W8PWmEFvgoAM3K+4qUb6CMaXqgliPwwUDFJzIxUHHTwQUSsI2EciGol7rf/qgiPm4Q55lSKCtnBT
-        BwpqHRyBrRdDmtt7cKAWncq+5+amDhZIB99JAd4G/fHsfVqBy+xfSbY/F1mQ3kJMpfMOd+iE1XDz
-        zQXO5gU4Wrfe4c875GnobE+c4P5fc9jQPC1HRW24t0INtKIOuTV9dxX3IgHXutaZkydiiLoOsDdw
-        RgQ1XQ1W+Xc1yasyzEpc1DXDaRjVuEzSGpMa0jLLozIq1qv83Vuj3wx700oxRSrlTMFPa/6FrGsd
-        oE1vLdVtoSdAC83kTnSSsJty4QRqXXCtx9vKxYxowYex6xT8NYK+LZ0vcA/WE1VADLCtFJaWcRil
-        OIpwlL0Po01cbpLQT8K4KKKvw3AThlan67HrtguPr1DU3pE7AVN/Mq6HjuxPBpy2BDo0Gdq748iZ
-        9f0cr8M4zZIKQ15RnOawxlVZFTjJ6zCCKCVhmh2sxWksvJL1owalLRde4mqVv3sNV1+OGvwXhzXQ
-        UYHfzOT1qeyDmcc0z5KQZnHJaMwYJWUVreM1K0NC6zRZr9+yN074Vsm3q/h+Fd9PdrgngjTQgzAY
-        T0faHzXegTY49gclmT+MVcepT0yHB0K0L8Cs4nsuuOGk06v4/uEBh/4gGs81jtkPTsltTm1RBKeP
-        l11hTwmlchRmO5U4y/IwKzYFLYqyTnO8ZmWCU5JTXNYFwSws8yQvC6CUuBxp/o/1kYZhGsfr8155
-        iZi5XlnCPG4DexvWDirNjYvffpVPoBRnsNVgDBfzjJ4mNxfNtpcMrF4vewmDmoyd2fagGthqo4iB
-        Zn92YTLdKtBGcWq4FFaJnLmTJ9BU8cGe285/4FRJLWuDfvvlB6RBPYFCFaGPIBiqpULv3NqC1CgE
-        Fw2SAu24YHKn/Q/qg7CfHyUi1PAn6PaoJ1wYwgUwRARDUnR7pMdhkMpoNA7IyAUw8os7tGs5bVFL
-        tPjKIAUU+BMw5HqQmz2q+d+gXRR7IEr7Nl92VTvqn1Gj3dV0Nzb2Mecrlr3L9XZQ/Im4bC8JXBrl
-        08sdEc1IGleYeQjNg2I7yI5Tm2OPdJ3cbSext1qp5Eegxk3DL1aGnZ1FA6GnVXGG1cHPv/70/WuE
-        YJbEI2LwOdLEwOvz+2KPnekTWJIt28AF3KILSWzndpSlSZrlSZhccnRJkaXpvID9Lgw3HTB09tsj
-        uPy6B5+TrUqgTOtojWmR1jiNcooLqNc4hrwo8nWSMhoeXIps60297x63kG8+OnPfE21AOZtjopzJ
-        0kan+bCAnO6d4Tx8Nk5u1wJfUHRn8uLqHl90/H8ymQbXavnKMWllZhzY5WwvcFjgOH4flZs02YSp
-        n9nFL55n++FfC0UyYJINAAA=
+      string: '{"type": "repository", "full_name": "Manfre/django-mssql", "links":
+        {"self": {"href": "https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql"},
+        "html": {"href": "https://bitbucket.org/Manfre/django-mssql"}, "avatar": {"href":
+        "https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python"},
+        "pullrequests": {"href": "https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/pullrequests"},
+        "commits": {"href": "https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commits"},
+        "forks": {"href": "https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/forks"},
+        "watchers": {"href": "https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/watchers"},
+        "branches": {"href": "https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/refs/branches"},
+        "tags": {"href": "https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/refs/tags"},
+        "downloads": {"href": "https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/downloads"},
+        "source": {"href": "https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/src"},
+        "clone": [{"name": "https", "href": "https://bitbucket.org/Manfre/django-mssql.git"},
+        {"name": "ssh", "href": "git@bitbucket.org:Manfre/django-mssql.git"}], "issues":
+        {"href": "https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/issues"},
+        "hooks": {"href": "https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/hooks"}},
+        "name": "django-mssql", "slug": "django-mssql", "description": "Microsoft
+        SQL server backend for Django running on windows.\r\n\r\nNo actively maintained
+        and only supports up to Django 1.8, which hasn''t received security fixes
+        for years.", "scm": "git", "website": "", "owner": {"display_name": "Michael
+        Manfre", "links": {"self": {"href": "https://api.bitbucket.org/2.0/users/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D"},
+        "avatar": {"href": "https://secure.gravatar.com/avatar/c7530c529dc2ddca9b1626d90acf4366?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-0.png"},
+        "html": {"href": "https://bitbucket.org/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D/"}},
+        "type": "user", "uuid": "{2602453b-e7bc-47e6-b9b8-37f01e14a045}", "account_id":
+        "557058:8c889f47-6d93-4a7c-9f8a-d0973798ecca", "nickname": "Manfre"}, "workspace":
+        {"type": "workspace", "uuid": "{2602453b-e7bc-47e6-b9b8-37f01e14a045}", "name":
+        "Michael Manfre", "slug": "Manfre", "links": {"avatar": {"href": "https://bitbucket.org/workspaces/Manfre/avatar/?ts=1543457303"},
+        "html": {"href": "https://bitbucket.org/Manfre/"}, "self": {"href": "https://api.bitbucket.org/2.0/workspaces/Manfre"}}},
+        "is_private": false, "project": {"type": "project", "key": "PROJ", "uuid":
+        "{b3e94f16-c84f-417c-8ef6-2e7887634dc0}", "name": "Untitled project", "links":
+        {"self": {"href": "https://api.bitbucket.org/2.0/workspaces/Manfre/projects/PROJ"},
+        "html": {"href": "https://bitbucket.org/Manfre/workspace/projects/PROJ"},
+        "avatar": {"href": "https://bitbucket.org/account/user/Manfre/projects/PROJ/avatar/32?ts=1543457303"}}},
+        "fork_policy": "allow_forks", "created_on": "2014-11-15T01:29:30.302881+00:00",
+        "updated_on": "2023-03-28T23:23:14.419025+00:00", "size": 4004226, "language":
+        "python", "uuid": "{fa7b9059-8ffd-401f-934f-afe495719186}", "mainbranch":
+        {"name": "master", "type": "branch"}, "override_settings": {"default_merge_strategy":
+        false, "branching_model": false}, "parent": null, "has_issues": true, "has_wiki":
+        false}'
     headers:
       Cache-Control:
       - max-age=900
@@ -46,46 +63,60 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:46 GMT
-      ETag:
-      - '"gz[71788797a66233d20b42b76d9c085fce]"'
-      Server:
-      - nginx
+      - Sat, 13 Jan 2024 02:47:35 GMT
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
       Transfer-Encoding:
       - chunked
-      Vary:
-      - Authorization, Origin, Accept-Encoding
-      X-Accepted-OAuth-Scopes:
-      - repository
-      X-B3-TraceId:
-      - 8675080a4d51ffd5
       X-Cache-Info:
       - caching
-      X-Dc-Location:
-      - Micros
-      X-Frame-Options:
+      X-Content-Type-Options:
+      - nosniff
+      X-Trace-Id:
+      - 9f324412cc0f64c9
+      X-XSS-Protection:
+      - 1; mode=block
+      etag:
+      - '"3243214196e063a7ed385e8888de2c91"'
+      server:
+      - envoy
+      vary:
+      - Authorization, Origin, Accept-Encoding
+      x-accepted-oauth-scopes:
+      - repository
+      x-b3-spanid:
+      - 35322d17d336f828
+      x-b3-traceid:
+      - 9f324412cc0f64c9
+      x-dc-location:
+      - Micros-3
+      x-envoy-upstream-service-time:
+      - '74'
+      x-frame-options:
       - SAMEORIGIN
-      X-Render-Time:
-      - '0.134763002396'
-      X-Request-Count:
-      - '1899'
-      X-Served-By:
-      - 61a1fb9fe2c2
-      X-Static-Version:
-      - 56e21fda85e9
-      X-Usage-Input-Ops:
+      x-render-time:
+      - '0.06330037117004395'
+      x-request-count:
+      - '161'
+      x-request-id:
+      - 9f324412cc0f64c9
+      x-served-by:
+      - 335dfe4a3e22
+      x-static-version:
+      - 04b49d4d4db1
+      x-usage-input-ops:
       - '0'
-      X-Usage-Output-Ops:
+      x-usage-output-ops:
       - '0'
-      X-Usage-System-Time:
-      - '0.002456'
-      X-Usage-User-Time:
-      - '0.100457'
-      X-Version:
-      - 56e21fda85e9
-      X-View-Name:
+      x-usage-system-time:
+      - '0.003391'
+      x-usage-user-time:
+      - '0.036503'
+      x-used-mesh:
+      - 'False'
+      x-version:
+      - 04b49d4d4db1
+      x-view-name:
       - bitbucket.apps.repo2.api.v20.repo.RepositoryHandler
     status:
       code: 200
@@ -100,93 +131,412 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - python-requests/2.27.1
+      - python-requests/2.31.0
     method: GET
     uri: https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/forks/
   response:
     body:
-      string: !!binary |
-        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
+      string: '{"values": [{"type": "repository", "full_name": "yosp/django-mssql",
+        "links": {"self": {"href": "https://api.bitbucket.org/2.0/repositories/yosp/django-mssql"},
+        "html": {"href": "https://bitbucket.org/yosp/django-mssql"}, "avatar": {"href":
+        "https://bytebucket.org/ravatar/%7B1030ae61-a86c-4b53-ad74-15f546823c91%7D?ts=python"},
+        "pullrequests": {"href": "https://api.bitbucket.org/2.0/repositories/yosp/django-mssql/pullrequests"},
+        "commits": {"href": "https://api.bitbucket.org/2.0/repositories/yosp/django-mssql/commits"},
+        "forks": {"href": "https://api.bitbucket.org/2.0/repositories/yosp/django-mssql/forks"},
+        "watchers": {"href": "https://api.bitbucket.org/2.0/repositories/yosp/django-mssql/watchers"},
+        "branches": {"href": "https://api.bitbucket.org/2.0/repositories/yosp/django-mssql/refs/branches"},
+        "tags": {"href": "https://api.bitbucket.org/2.0/repositories/yosp/django-mssql/refs/tags"},
+        "downloads": {"href": "https://api.bitbucket.org/2.0/repositories/yosp/django-mssql/downloads"},
+        "source": {"href": "https://api.bitbucket.org/2.0/repositories/yosp/django-mssql/src"},
+        "clone": [{"name": "https", "href": "https://bitbucket.org/yosp/django-mssql.git"},
+        {"name": "ssh", "href": "git@bitbucket.org:yosp/django-mssql.git"}], "issues":
+        {"href": "https://api.bitbucket.org/2.0/repositories/yosp/django-mssql/issues"},
+        "hooks": {"href": "https://api.bitbucket.org/2.0/repositories/yosp/django-mssql/hooks"}},
+        "name": "django-mssql", "slug": "django-mssql", "description": "", "scm":
+        "git", "website": null, "owner": {"display_name": "Yeison  Segura", "links":
+        {"self": {"href": "https://api.bitbucket.org/2.0/users/%7Bbccde9cf-b7fd-4979-b855-fb43bc930598%7D"},
+        "avatar": {"href": "https://secure.gravatar.com/avatar/731e3709cdfc56cab9f70447f2d375fb?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FYS-6.png"},
+        "html": {"href": "https://bitbucket.org/%7Bbccde9cf-b7fd-4979-b855-fb43bc930598%7D/"}},
+        "type": "user", "uuid": "{bccde9cf-b7fd-4979-b855-fb43bc930598}", "account_id":
+        "557058:38e63932-6b67-4744-b37e-c172c73483d1", "nickname": "Yeison  Segura"},
+        "workspace": {"type": "workspace", "uuid": "{bccde9cf-b7fd-4979-b855-fb43bc930598}",
+        "name": "Yeison  Segura", "slug": "yosp", "links": {"avatar": {"href": "https://bitbucket.org/workspaces/yosp/avatar/?ts=1543631478"},
+        "html": {"href": "https://bitbucket.org/yosp/"}, "self": {"href": "https://api.bitbucket.org/2.0/workspaces/yosp"}}},
+        "is_private": false, "project": {"type": "project", "key": "PROJ", "uuid":
+        "{49aa4163-0b53-4c11-8423-e833af6d832a}", "name": "Untitled project", "links":
+        {"self": {"href": "https://api.bitbucket.org/2.0/workspaces/yosp/projects/PROJ"},
+        "html": {"href": "https://bitbucket.org/yosp/workspace/projects/PROJ"}, "avatar":
+        {"href": "https://bitbucket.org/account/user/yosp/projects/PROJ/avatar/32?ts=1543631478"}}},
+        "fork_policy": "allow_forks", "created_on": "2014-11-27T12:13:32.297965+00:00",
+        "updated_on": "2014-11-27T12:13:32.394861+00:00", "size": 2415246, "language":
+        "python", "uuid": "{1030ae61-a86c-4b53-ad74-15f546823c91}", "mainbranch":
+        {"name": "master", "type": "branch"}, "override_settings": {"default_merge_strategy":
+        false, "branching_model": false}, "parent": {"type": "repository", "full_name":
+        "Manfre/django-mssql", "links": {"self": {"href": "https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql"},
+        "html": {"href": "https://bitbucket.org/Manfre/django-mssql"}, "avatar": {"href":
+        "https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python"}},
+        "name": "django-mssql", "uuid": "{fa7b9059-8ffd-401f-934f-afe495719186}"},
+        "has_issues": true, "has_wiki": false}, {"type": "repository", "full_name":
+        "amanjeev/django-mssql", "links": {"self": {"href": "https://api.bitbucket.org/2.0/repositories/amanjeev/django-mssql"},
+        "html": {"href": "https://bitbucket.org/amanjeev/django-mssql"}, "avatar":
+        {"href": "https://bytebucket.org/ravatar/%7B1189066a-53ef-4f13-b275-d307a81014a8%7D?ts=python"},
+        "pullrequests": {"href": "https://api.bitbucket.org/2.0/repositories/amanjeev/django-mssql/pullrequests"},
+        "commits": {"href": "https://api.bitbucket.org/2.0/repositories/amanjeev/django-mssql/commits"},
+        "forks": {"href": "https://api.bitbucket.org/2.0/repositories/amanjeev/django-mssql/forks"},
+        "watchers": {"href": "https://api.bitbucket.org/2.0/repositories/amanjeev/django-mssql/watchers"},
+        "branches": {"href": "https://api.bitbucket.org/2.0/repositories/amanjeev/django-mssql/refs/branches"},
+        "tags": {"href": "https://api.bitbucket.org/2.0/repositories/amanjeev/django-mssql/refs/tags"},
+        "downloads": {"href": "https://api.bitbucket.org/2.0/repositories/amanjeev/django-mssql/downloads"},
+        "source": {"href": "https://api.bitbucket.org/2.0/repositories/amanjeev/django-mssql/src"},
+        "clone": [{"name": "https", "href": "https://bitbucket.org/amanjeev/django-mssql.git"},
+        {"name": "ssh", "href": "git@bitbucket.org:amanjeev/django-mssql.git"}], "issues":
+        {"href": "https://api.bitbucket.org/2.0/repositories/amanjeev/django-mssql/issues"},
+        "hooks": {"href": "https://api.bitbucket.org/2.0/repositories/amanjeev/django-mssql/hooks"}},
+        "name": "django-mssql", "slug": "django-mssql", "description": "", "scm":
+        "git", "website": null, "owner": {"display_name": "Amanjeev Sethi", "links":
+        {"self": {"href": "https://api.bitbucket.org/2.0/users/%7B35251e40-7a4f-4222-ba91-bb0aea5eac0c%7D"},
+        "avatar": {"href": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:732177f7-805a-4fa0-a615-849902dab14d/fef6ed17-837b-4ef5-a5af-36342b4460d1/128"},
+        "html": {"href": "https://bitbucket.org/%7B35251e40-7a4f-4222-ba91-bb0aea5eac0c%7D/"}},
+        "type": "user", "uuid": "{35251e40-7a4f-4222-ba91-bb0aea5eac0c}", "account_id":
+        "557058:732177f7-805a-4fa0-a615-849902dab14d", "nickname": "amanjeev"}, "workspace":
+        {"type": "workspace", "uuid": "{35251e40-7a4f-4222-ba91-bb0aea5eac0c}", "name":
+        "Amanjeev Sethi", "slug": "amanjeev", "links": {"avatar": {"href": "https://bitbucket.org/workspaces/amanjeev/avatar/?ts=1543458915"},
+        "html": {"href": "https://bitbucket.org/amanjeev/"}, "self": {"href": "https://api.bitbucket.org/2.0/workspaces/amanjeev"}}},
+        "is_private": false, "project": {"type": "project", "key": "PROJ", "uuid":
+        "{9a6d23b8-f2e8-4aaa-aba4-6c307580640c}", "name": "Untitled project", "links":
+        {"self": {"href": "https://api.bitbucket.org/2.0/workspaces/amanjeev/projects/PROJ"},
+        "html": {"href": "https://bitbucket.org/amanjeev/workspace/projects/PROJ"},
+        "avatar": {"href": "https://bitbucket.org/account/user/amanjeev/projects/PROJ/avatar/32?ts=1543458915"}}},
+        "fork_policy": "allow_forks", "created_on": "2014-12-12T16:11:17.648035+00:00",
+        "updated_on": "2015-08-01T10:32:09.035375+00:00", "size": 2818618, "language":
+        "python", "uuid": "{1189066a-53ef-4f13-b275-d307a81014a8}", "mainbranch":
+        {"name": "master", "type": "branch"}, "override_settings": {"default_merge_strategy":
+        false, "branching_model": false}, "parent": {"type": "repository", "full_name":
+        "Manfre/django-mssql", "links": {"self": {"href": "https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql"},
+        "html": {"href": "https://bitbucket.org/Manfre/django-mssql"}, "avatar": {"href":
+        "https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python"}},
+        "name": "django-mssql", "uuid": "{fa7b9059-8ffd-401f-934f-afe495719186}"},
+        "has_issues": true, "has_wiki": false}, {"type": "repository", "full_name":
+        "rparent/django-mssql", "links": {"self": {"href": "https://api.bitbucket.org/2.0/repositories/rparent/django-mssql"},
+        "html": {"href": "https://bitbucket.org/rparent/django-mssql"}, "avatar":
+        {"href": "https://bytebucket.org/ravatar/%7B17267d49-0d3b-471f-a78c-e8a612189944%7D?ts=python"},
+        "pullrequests": {"href": "https://api.bitbucket.org/2.0/repositories/rparent/django-mssql/pullrequests"},
+        "commits": {"href": "https://api.bitbucket.org/2.0/repositories/rparent/django-mssql/commits"},
+        "forks": {"href": "https://api.bitbucket.org/2.0/repositories/rparent/django-mssql/forks"},
+        "watchers": {"href": "https://api.bitbucket.org/2.0/repositories/rparent/django-mssql/watchers"},
+        "branches": {"href": "https://api.bitbucket.org/2.0/repositories/rparent/django-mssql/refs/branches"},
+        "tags": {"href": "https://api.bitbucket.org/2.0/repositories/rparent/django-mssql/refs/tags"},
+        "downloads": {"href": "https://api.bitbucket.org/2.0/repositories/rparent/django-mssql/downloads"},
+        "source": {"href": "https://api.bitbucket.org/2.0/repositories/rparent/django-mssql/src"},
+        "clone": [{"name": "https", "href": "https://bitbucket.org/rparent/django-mssql.git"},
+        {"name": "ssh", "href": "git@bitbucket.org:rparent/django-mssql.git"}], "issues":
+        {"href": "https://api.bitbucket.org/2.0/repositories/rparent/django-mssql/issues"},
+        "hooks": {"href": "https://api.bitbucket.org/2.0/repositories/rparent/django-mssql/hooks"}},
+        "name": "django-mssql", "slug": "django-mssql", "description": "", "scm":
+        "git", "website": null, "owner": {"display_name": "Renaud Parent", "links":
+        {"self": {"href": "https://api.bitbucket.org/2.0/users/%7B82c6c344-e890-425d-99bc-24dd9fa28e65%7D"},
+        "avatar": {"href": "https://secure.gravatar.com/avatar/3b39595b6dd106a675f6417579247d8a?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FRP-4.png"},
+        "html": {"href": "https://bitbucket.org/%7B82c6c344-e890-425d-99bc-24dd9fa28e65%7D/"}},
+        "type": "user", "uuid": "{82c6c344-e890-425d-99bc-24dd9fa28e65}", "account_id":
+        "557058:008a936b-5121-4cc6-b5c1-5a47d40291d5", "nickname": "rparent"}, "workspace":
+        {"type": "workspace", "uuid": "{82c6c344-e890-425d-99bc-24dd9fa28e65}", "name":
+        "Renaud Parent", "slug": "rparent", "links": {"avatar": {"href": "https://bitbucket.org/workspaces/rparent/avatar/?ts=1543631762"},
+        "html": {"href": "https://bitbucket.org/rparent/"}, "self": {"href": "https://api.bitbucket.org/2.0/workspaces/rparent"}}},
+        "is_private": false, "project": {"type": "project", "key": "PROJ", "uuid":
+        "{bae70d09-31d2-4bf3-b35f-ee8083725ba1}", "name": "Untitled project", "links":
+        {"self": {"href": "https://api.bitbucket.org/2.0/workspaces/rparent/projects/PROJ"},
+        "html": {"href": "https://bitbucket.org/rparent/workspace/projects/PROJ"},
+        "avatar": {"href": "https://bitbucket.org/account/user/rparent/projects/PROJ/avatar/32?ts=1543631762"}}},
+        "fork_policy": "allow_forks", "created_on": "2014-12-23T09:07:44.914357+00:00",
+        "updated_on": "2014-12-23T09:07:45.015258+00:00", "size": 2415246, "language":
+        "python", "uuid": "{17267d49-0d3b-471f-a78c-e8a612189944}", "mainbranch":
+        {"name": "master", "type": "branch"}, "override_settings": {"default_merge_strategy":
+        false, "branching_model": false}, "parent": {"type": "repository", "full_name":
+        "Manfre/django-mssql", "links": {"self": {"href": "https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql"},
+        "html": {"href": "https://bitbucket.org/Manfre/django-mssql"}, "avatar": {"href":
+        "https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python"}},
+        "name": "django-mssql", "uuid": "{fa7b9059-8ffd-401f-934f-afe495719186}"},
+        "has_issues": true, "has_wiki": false}, {"type": "repository", "full_name":
+        "qurben/django-mssql", "links": {"self": {"href": "https://api.bitbucket.org/2.0/repositories/qurben/django-mssql"},
+        "html": {"href": "https://bitbucket.org/qurben/django-mssql"}, "avatar": {"href":
+        "https://bytebucket.org/ravatar/%7Bbb9c1474-b947-4985-8dd8-ca2cdbf60a2e%7D?ts=python"},
+        "pullrequests": {"href": "https://api.bitbucket.org/2.0/repositories/qurben/django-mssql/pullrequests"},
+        "commits": {"href": "https://api.bitbucket.org/2.0/repositories/qurben/django-mssql/commits"},
+        "forks": {"href": "https://api.bitbucket.org/2.0/repositories/qurben/django-mssql/forks"},
+        "watchers": {"href": "https://api.bitbucket.org/2.0/repositories/qurben/django-mssql/watchers"},
+        "branches": {"href": "https://api.bitbucket.org/2.0/repositories/qurben/django-mssql/refs/branches"},
+        "tags": {"href": "https://api.bitbucket.org/2.0/repositories/qurben/django-mssql/refs/tags"},
+        "downloads": {"href": "https://api.bitbucket.org/2.0/repositories/qurben/django-mssql/downloads"},
+        "source": {"href": "https://api.bitbucket.org/2.0/repositories/qurben/django-mssql/src"},
+        "clone": [{"name": "https", "href": "https://bitbucket.org/qurben/django-mssql.git"},
+        {"name": "ssh", "href": "git@bitbucket.org:qurben/django-mssql.git"}], "issues":
+        {"href": "https://api.bitbucket.org/2.0/repositories/qurben/django-mssql/issues"},
+        "hooks": {"href": "https://api.bitbucket.org/2.0/repositories/qurben/django-mssql/hooks"}},
+        "name": "django-mssql", "slug": "django-mssql", "description": "", "scm":
+        "git", "website": null, "owner": {"display_name": "qurben NA", "links": {"self":
+        {"href": "https://api.bitbucket.org/2.0/users/%7Bea2bb243-5595-48c5-a69d-e42529c8da6f%7D"},
+        "avatar": {"href": "https://secure.gravatar.com/avatar/d21015502f7b6651e900896738c67e5f?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FQN-6.png"},
+        "html": {"href": "https://bitbucket.org/%7Bea2bb243-5595-48c5-a69d-e42529c8da6f%7D/"}},
+        "type": "user", "uuid": "{ea2bb243-5595-48c5-a69d-e42529c8da6f}", "account_id":
+        "557058:4f64216a-d9f8-45f5-8b21-89062703540e", "nickname": "qurben NA"}, "workspace":
+        {"type": "workspace", "uuid": "{ea2bb243-5595-48c5-a69d-e42529c8da6f}", "name":
+        "qurben", "slug": "qurben", "links": {"avatar": {"href": "https://bitbucket.org/workspaces/qurben/avatar/?ts=1543637243"},
+        "html": {"href": "https://bitbucket.org/qurben/"}, "self": {"href": "https://api.bitbucket.org/2.0/workspaces/qurben"}}},
+        "is_private": false, "project": {"type": "project", "key": "PROJ", "uuid":
+        "{99f70a01-406f-404b-a124-6defde0a5bfc}", "name": "Untitled project", "links":
+        {"self": {"href": "https://api.bitbucket.org/2.0/workspaces/qurben/projects/PROJ"},
+        "html": {"href": "https://bitbucket.org/qurben/workspace/projects/PROJ"},
+        "avatar": {"href": "https://bitbucket.org/account/user/qurben/projects/PROJ/avatar/32?ts=1543637243"}}},
+        "fork_policy": "allow_forks", "created_on": "2015-04-15T15:21:48.155182+00:00",
+        "updated_on": "2015-04-15T15:21:48.252807+00:00", "size": 2822810, "language":
+        "python", "uuid": "{bb9c1474-b947-4985-8dd8-ca2cdbf60a2e}", "mainbranch":
+        {"name": "master", "type": "branch"}, "override_settings": {"default_merge_strategy":
+        false, "branching_model": false}, "parent": {"type": "repository", "full_name":
+        "Manfre/django-mssql", "links": {"self": {"href": "https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql"},
+        "html": {"href": "https://bitbucket.org/Manfre/django-mssql"}, "avatar": {"href":
+        "https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python"}},
+        "name": "django-mssql", "uuid": "{fa7b9059-8ffd-401f-934f-afe495719186}"},
+        "has_issues": true, "has_wiki": false}, {"type": "repository", "full_name":
+        "byoung/django-mssql", "links": {"self": {"href": "https://api.bitbucket.org/2.0/repositories/byoung/django-mssql"},
+        "html": {"href": "https://bitbucket.org/byoung/django-mssql"}, "avatar": {"href":
+        "https://bytebucket.org/ravatar/%7Be7fb858c-34f7-4c23-8a24-a36da0f644ec%7D?ts=python"},
+        "pullrequests": {"href": "https://api.bitbucket.org/2.0/repositories/byoung/django-mssql/pullrequests"},
+        "commits": {"href": "https://api.bitbucket.org/2.0/repositories/byoung/django-mssql/commits"},
+        "forks": {"href": "https://api.bitbucket.org/2.0/repositories/byoung/django-mssql/forks"},
+        "watchers": {"href": "https://api.bitbucket.org/2.0/repositories/byoung/django-mssql/watchers"},
+        "branches": {"href": "https://api.bitbucket.org/2.0/repositories/byoung/django-mssql/refs/branches"},
+        "tags": {"href": "https://api.bitbucket.org/2.0/repositories/byoung/django-mssql/refs/tags"},
+        "downloads": {"href": "https://api.bitbucket.org/2.0/repositories/byoung/django-mssql/downloads"},
+        "source": {"href": "https://api.bitbucket.org/2.0/repositories/byoung/django-mssql/src"},
+        "clone": [{"name": "https", "href": "https://bitbucket.org/byoung/django-mssql.git"},
+        {"name": "ssh", "href": "git@bitbucket.org:byoung/django-mssql.git"}], "issues":
+        {"href": "https://api.bitbucket.org/2.0/repositories/byoung/django-mssql/issues"},
+        "hooks": {"href": "https://api.bitbucket.org/2.0/repositories/byoung/django-mssql/hooks"}},
+        "name": "django-mssql", "slug": "django-mssql", "description": "", "scm":
+        "git", "website": null, "owner": {"display_name": "Bradley Young", "links":
+        {"self": {"href": "https://api.bitbucket.org/2.0/users/%7B4fd5fc81-c479-4da8-a0f0-33b589af34a9%7D"},
+        "avatar": {"href": "https://secure.gravatar.com/avatar/d23979103be380e6f698fa852d20bcf2?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FBY-6.png"},
+        "html": {"href": "https://bitbucket.org/%7B4fd5fc81-c479-4da8-a0f0-33b589af34a9%7D/"}},
+        "type": "user", "uuid": "{4fd5fc81-c479-4da8-a0f0-33b589af34a9}", "account_id":
+        "5ba5ae911fa6b77b1676355d", "nickname": "byoung"}, "workspace": {"type": "workspace",
+        "uuid": "{4fd5fc81-c479-4da8-a0f0-33b589af34a9}", "name": "Bradley Young",
+        "slug": "byoung", "links": {"avatar": {"href": "https://bitbucket.org/workspaces/byoung/avatar/?ts=1543458024"},
+        "html": {"href": "https://bitbucket.org/byoung/"}, "self": {"href": "https://api.bitbucket.org/2.0/workspaces/byoung"}}},
+        "is_private": false, "project": {"type": "project", "key": "PROJ", "uuid":
+        "{fd8b4bcc-baba-4b12-988f-cf174f58a3a3}", "name": "Untitled project", "links":
+        {"self": {"href": "https://api.bitbucket.org/2.0/workspaces/byoung/projects/PROJ"},
+        "html": {"href": "https://bitbucket.org/byoung/workspace/projects/PROJ"},
+        "avatar": {"href": "https://bitbucket.org/account/user/byoung/projects/PROJ/avatar/32?ts=1543458024"}}},
+        "fork_policy": "allow_forks", "created_on": "2015-04-16T14:25:14.617667+00:00",
+        "updated_on": "2015-10-20T23:11:03.515379+00:00", "size": 3493184, "language":
+        "python", "uuid": "{e7fb858c-34f7-4c23-8a24-a36da0f644ec}", "mainbranch":
+        {"name": "master", "type": "branch"}, "override_settings": {"default_merge_strategy":
+        false, "branching_model": false}, "parent": {"type": "repository", "full_name":
+        "Manfre/django-mssql", "links": {"self": {"href": "https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql"},
+        "html": {"href": "https://bitbucket.org/Manfre/django-mssql"}, "avatar": {"href":
+        "https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python"}},
+        "name": "django-mssql", "uuid": "{fa7b9059-8ffd-401f-934f-afe495719186}"},
+        "has_issues": true, "has_wiki": false}, {"type": "repository", "full_name":
+        "vegitron/django-mssql", "links": {"self": {"href": "https://api.bitbucket.org/2.0/repositories/vegitron/django-mssql"},
+        "html": {"href": "https://bitbucket.org/vegitron/django-mssql"}, "avatar":
+        {"href": "https://bytebucket.org/ravatar/%7B44d54b63-8c6b-49bb-ad3c-991837056057%7D?ts=python"},
+        "pullrequests": {"href": "https://api.bitbucket.org/2.0/repositories/vegitron/django-mssql/pullrequests"},
+        "commits": {"href": "https://api.bitbucket.org/2.0/repositories/vegitron/django-mssql/commits"},
+        "forks": {"href": "https://api.bitbucket.org/2.0/repositories/vegitron/django-mssql/forks"},
+        "watchers": {"href": "https://api.bitbucket.org/2.0/repositories/vegitron/django-mssql/watchers"},
+        "branches": {"href": "https://api.bitbucket.org/2.0/repositories/vegitron/django-mssql/refs/branches"},
+        "tags": {"href": "https://api.bitbucket.org/2.0/repositories/vegitron/django-mssql/refs/tags"},
+        "downloads": {"href": "https://api.bitbucket.org/2.0/repositories/vegitron/django-mssql/downloads"},
+        "source": {"href": "https://api.bitbucket.org/2.0/repositories/vegitron/django-mssql/src"},
+        "clone": [{"name": "https", "href": "https://bitbucket.org/vegitron/django-mssql.git"},
+        {"name": "ssh", "href": "git@bitbucket.org:vegitron/django-mssql.git"}], "issues":
+        {"href": "https://api.bitbucket.org/2.0/repositories/vegitron/django-mssql/issues"},
+        "hooks": {"href": "https://api.bitbucket.org/2.0/repositories/vegitron/django-mssql/hooks"}},
+        "name": "django-mssql", "slug": "django-mssql", "description": "", "scm":
+        "git", "website": null, "owner": {"display_name": "Patrick Michaud", "links":
+        {"self": {"href": "https://api.bitbucket.org/2.0/users/%7Be009c0aa-59bd-41ae-b4a9-25bbac9776a3%7D"},
+        "avatar": {"href": "https://secure.gravatar.com/avatar/bc8c6b935cae785430266752112fcb8a?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FPM-2.png"},
+        "html": {"href": "https://bitbucket.org/%7Be009c0aa-59bd-41ae-b4a9-25bbac9776a3%7D/"}},
+        "type": "user", "uuid": "{e009c0aa-59bd-41ae-b4a9-25bbac9776a3}", "account_id":
+        "70121:c7e57bb7-5f07-4683-843d-bab0a2caa0b8", "nickname": "vegitron"}, "workspace":
+        {"type": "workspace", "uuid": "{e009c0aa-59bd-41ae-b4a9-25bbac9776a3}", "name":
+        "Patrick Michaud", "slug": "vegitron", "links": {"avatar": {"href": "https://bitbucket.org/workspaces/vegitron/avatar/?ts=1543529339"},
+        "html": {"href": "https://bitbucket.org/vegitron/"}, "self": {"href": "https://api.bitbucket.org/2.0/workspaces/vegitron"}}},
+        "is_private": false, "project": {"type": "project", "key": "PROJ", "uuid":
+        "{1239cde7-1cf8-47dd-b0fe-6b5e585961e2}", "name": "Untitled project", "links":
+        {"self": {"href": "https://api.bitbucket.org/2.0/workspaces/vegitron/projects/PROJ"},
+        "html": {"href": "https://bitbucket.org/vegitron/workspace/projects/PROJ"},
+        "avatar": {"href": "https://bitbucket.org/account/user/vegitron/projects/PROJ/avatar/32?ts=1543529339"}}},
+        "fork_policy": "allow_forks", "created_on": "2015-05-04T17:26:40.057626+00:00",
+        "updated_on": "2015-05-04T17:26:40.118569+00:00", "size": 2822810, "language":
+        "python", "uuid": "{44d54b63-8c6b-49bb-ad3c-991837056057}", "mainbranch":
+        {"name": "master", "type": "branch"}, "override_settings": {"default_merge_strategy":
+        false, "branching_model": false}, "parent": {"type": "repository", "full_name":
+        "Manfre/django-mssql", "links": {"self": {"href": "https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql"},
+        "html": {"href": "https://bitbucket.org/Manfre/django-mssql"}, "avatar": {"href":
+        "https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python"}},
+        "name": "django-mssql", "uuid": "{fa7b9059-8ffd-401f-934f-afe495719186}"},
+        "has_issues": true, "has_wiki": false}, {"type": "repository", "full_name":
+        "vinod_jacob/django-mssql", "links": {"self": {"href": "https://api.bitbucket.org/2.0/repositories/vinod_jacob/django-mssql"},
+        "html": {"href": "https://bitbucket.org/vinod_jacob/django-mssql"}, "avatar":
+        {"href": "https://bytebucket.org/ravatar/%7B7fade1ef-e41b-45ab-94d0-f8e4073b3cf4%7D?ts=python"},
+        "pullrequests": {"href": "https://api.bitbucket.org/2.0/repositories/vinod_jacob/django-mssql/pullrequests"},
+        "commits": {"href": "https://api.bitbucket.org/2.0/repositories/vinod_jacob/django-mssql/commits"},
+        "forks": {"href": "https://api.bitbucket.org/2.0/repositories/vinod_jacob/django-mssql/forks"},
+        "watchers": {"href": "https://api.bitbucket.org/2.0/repositories/vinod_jacob/django-mssql/watchers"},
+        "branches": {"href": "https://api.bitbucket.org/2.0/repositories/vinod_jacob/django-mssql/refs/branches"},
+        "tags": {"href": "https://api.bitbucket.org/2.0/repositories/vinod_jacob/django-mssql/refs/tags"},
+        "downloads": {"href": "https://api.bitbucket.org/2.0/repositories/vinod_jacob/django-mssql/downloads"},
+        "source": {"href": "https://api.bitbucket.org/2.0/repositories/vinod_jacob/django-mssql/src"},
+        "clone": [{"name": "https", "href": "https://bitbucket.org/vinod_jacob/django-mssql.git"},
+        {"name": "ssh", "href": "git@bitbucket.org:vinod_jacob/django-mssql.git"}],
+        "issues": {"href": "https://api.bitbucket.org/2.0/repositories/vinod_jacob/django-mssql/issues"},
+        "hooks": {"href": "https://api.bitbucket.org/2.0/repositories/vinod_jacob/django-mssql/hooks"}},
+        "name": "django-mssql", "slug": "django-mssql", "description": "", "scm":
+        "git", "website": null, "owner": {"display_name": "vinod_jacob", "links":
+        {"self": {"href": "https://api.bitbucket.org/2.0/users/%7B2b01922a-f1b8-43d6-be54-568f3bdf48b4%7D"},
+        "avatar": {"href": "https://secure.gravatar.com/avatar/403f32642f935a814236a46db53cb837?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FV-4.png"},
+        "html": {"href": "https://bitbucket.org/%7B2b01922a-f1b8-43d6-be54-568f3bdf48b4%7D/"}},
+        "type": "user", "uuid": "{2b01922a-f1b8-43d6-be54-568f3bdf48b4}", "account_id":
+        "557058:d1b947e8-cc4e-4fcf-8068-053a5af9c578", "nickname": "vinod_jacob"},
+        "workspace": {"type": "workspace", "uuid": "{2b01922a-f1b8-43d6-be54-568f3bdf48b4}",
+        "name": "vinod_jacob", "slug": "vinod_jacob", "links": {"avatar": {"href":
+        "https://bitbucket.org/workspaces/vinod_jacob/avatar/?ts=1543525826"}, "html":
+        {"href": "https://bitbucket.org/vinod_jacob/"}, "self": {"href": "https://api.bitbucket.org/2.0/workspaces/vinod_jacob"}}},
+        "is_private": false, "project": {"type": "project", "key": "PROJ", "uuid":
+        "{3bb005a3-a416-44fb-bb3c-6830c7c8f13b}", "name": "Untitled project", "links":
+        {"self": {"href": "https://api.bitbucket.org/2.0/workspaces/vinod_jacob/projects/PROJ"},
+        "html": {"href": "https://bitbucket.org/vinod_jacob/workspace/projects/PROJ"},
+        "avatar": {"href": "https://bitbucket.org/account/user/vinod_jacob/projects/PROJ/avatar/32?ts=1543525826"}}},
+        "fork_policy": "allow_forks", "created_on": "2015-07-31T16:26:55.111901+00:00",
+        "updated_on": "2015-07-31T16:26:55.234898+00:00", "size": 3440009, "language":
+        "python", "uuid": "{7fade1ef-e41b-45ab-94d0-f8e4073b3cf4}", "mainbranch":
+        {"name": "master", "type": "branch"}, "override_settings": {"default_merge_strategy":
+        false, "branching_model": false}, "parent": {"type": "repository", "full_name":
+        "Manfre/django-mssql", "links": {"self": {"href": "https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql"},
+        "html": {"href": "https://bitbucket.org/Manfre/django-mssql"}, "avatar": {"href":
+        "https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python"}},
+        "name": "django-mssql", "uuid": "{fa7b9059-8ffd-401f-934f-afe495719186}"},
+        "has_issues": true, "has_wiki": false}, {"type": "repository", "full_name":
+        "jgsogo/django-mssql", "links": {"self": {"href": "https://api.bitbucket.org/2.0/repositories/jgsogo/django-mssql"},
+        "html": {"href": "https://bitbucket.org/jgsogo/django-mssql"}, "avatar": {"href":
+        "https://bytebucket.org/ravatar/%7B86738ab3-6d11-498a-af20-0e3b75c23d65%7D?ts=python"},
+        "pullrequests": {"href": "https://api.bitbucket.org/2.0/repositories/jgsogo/django-mssql/pullrequests"},
+        "commits": {"href": "https://api.bitbucket.org/2.0/repositories/jgsogo/django-mssql/commits"},
+        "forks": {"href": "https://api.bitbucket.org/2.0/repositories/jgsogo/django-mssql/forks"},
+        "watchers": {"href": "https://api.bitbucket.org/2.0/repositories/jgsogo/django-mssql/watchers"},
+        "branches": {"href": "https://api.bitbucket.org/2.0/repositories/jgsogo/django-mssql/refs/branches"},
+        "tags": {"href": "https://api.bitbucket.org/2.0/repositories/jgsogo/django-mssql/refs/tags"},
+        "downloads": {"href": "https://api.bitbucket.org/2.0/repositories/jgsogo/django-mssql/downloads"},
+        "source": {"href": "https://api.bitbucket.org/2.0/repositories/jgsogo/django-mssql/src"},
+        "clone": [{"name": "https", "href": "https://bitbucket.org/jgsogo/django-mssql.git"},
+        {"name": "ssh", "href": "git@bitbucket.org:jgsogo/django-mssql.git"}], "hooks":
+        {"href": "https://api.bitbucket.org/2.0/repositories/jgsogo/django-mssql/hooks"}},
+        "name": "django-mssql", "slug": "django-mssql", "description": "", "scm":
+        "git", "website": null, "owner": {"display_name": "Javier G. Sogo", "links":
+        {"self": {"href": "https://api.bitbucket.org/2.0/users/%7Bcc9c53b9-c45c-4c40-b903-371bc8df2863%7D"},
+        "avatar": {"href": "https://secure.gravatar.com/avatar/74285139dbc24c216077d8c833cfd59c?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FJS-5.png"},
+        "html": {"href": "https://bitbucket.org/%7Bcc9c53b9-c45c-4c40-b903-371bc8df2863%7D/"}},
+        "type": "user", "uuid": "{cc9c53b9-c45c-4c40-b903-371bc8df2863}", "account_id":
+        "557058:16992d3b-fed9-4a78-b04c-cf4eb8139917", "nickname": "jgsogo"}, "workspace":
+        {"type": "workspace", "uuid": "{cc9c53b9-c45c-4c40-b903-371bc8df2863}", "name":
+        "Javier G. Sogo", "slug": "jgsogo", "links": {"avatar": {"href": "https://bitbucket.org/workspaces/jgsogo/avatar/?ts=1543464172"},
+        "html": {"href": "https://bitbucket.org/jgsogo/"}, "self": {"href": "https://api.bitbucket.org/2.0/workspaces/jgsogo"}}},
+        "is_private": false, "project": {"type": "project", "key": "PROJ", "uuid":
+        "{900e80f6-368e-44f4-b171-bd9435b68131}", "name": "Untitled project", "links":
+        {"self": {"href": "https://api.bitbucket.org/2.0/workspaces/jgsogo/projects/PROJ"},
+        "html": {"href": "https://bitbucket.org/jgsogo/workspace/projects/PROJ"},
+        "avatar": {"href": "https://bitbucket.org/account/user/jgsogo/projects/PROJ/avatar/32?ts=1543464172"}}},
+        "fork_policy": "allow_forks", "created_on": "2015-10-05T07:28:57.625794+00:00",
+        "updated_on": "2015-10-05T08:39:00.437694+00:00", "size": 3507087, "language":
+        "python", "uuid": "{86738ab3-6d11-498a-af20-0e3b75c23d65}", "mainbranch":
+        {"name": "master", "type": "branch"}, "override_settings": {"default_merge_strategy":
+        false, "branching_model": false}, "parent": {"type": "repository", "full_name":
+        "Manfre/django-mssql", "links": {"self": {"href": "https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql"},
+        "html": {"href": "https://bitbucket.org/Manfre/django-mssql"}, "avatar": {"href":
+        "https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python"}},
+        "name": "django-mssql", "uuid": "{fa7b9059-8ffd-401f-934f-afe495719186}"},
+        "has_issues": false, "has_wiki": false}, {"type": "repository", "full_name":
+        "timograham/django-mssql", "links": {"self": {"href": "https://api.bitbucket.org/2.0/repositories/timograham/django-mssql"},
+        "html": {"href": "https://bitbucket.org/timograham/django-mssql"}, "avatar":
+        {"href": "https://bytebucket.org/ravatar/%7B2d1228a3-08cf-4f5b-9d83-e577e469e74e%7D?ts=python"},
+        "pullrequests": {"href": "https://api.bitbucket.org/2.0/repositories/timograham/django-mssql/pullrequests"},
+        "commits": {"href": "https://api.bitbucket.org/2.0/repositories/timograham/django-mssql/commits"},
+        "forks": {"href": "https://api.bitbucket.org/2.0/repositories/timograham/django-mssql/forks"},
+        "watchers": {"href": "https://api.bitbucket.org/2.0/repositories/timograham/django-mssql/watchers"},
+        "branches": {"href": "https://api.bitbucket.org/2.0/repositories/timograham/django-mssql/refs/branches"},
+        "tags": {"href": "https://api.bitbucket.org/2.0/repositories/timograham/django-mssql/refs/tags"},
+        "downloads": {"href": "https://api.bitbucket.org/2.0/repositories/timograham/django-mssql/downloads"},
+        "source": {"href": "https://api.bitbucket.org/2.0/repositories/timograham/django-mssql/src"},
+        "clone": [{"name": "https", "href": "https://bitbucket.org/timograham/django-mssql.git"},
+        {"name": "ssh", "href": "git@bitbucket.org:timograham/django-mssql.git"}],
+        "hooks": {"href": "https://api.bitbucket.org/2.0/repositories/timograham/django-mssql/hooks"}},
+        "name": "django-mssql", "slug": "django-mssql", "description": "", "scm":
+        "git", "website": null, "owner": {"display_name": "Tim Graham", "links": {"self":
+        {"href": "https://api.bitbucket.org/2.0/users/%7B6e913d2d-3a19-4d57-a93a-52662e4a533f%7D"},
+        "avatar": {"href": "https://secure.gravatar.com/avatar/fa170777273ca7b235bdde7d80e9f8a6?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FTG-2.png"},
+        "html": {"href": "https://bitbucket.org/%7B6e913d2d-3a19-4d57-a93a-52662e4a533f%7D/"}},
+        "type": "user", "uuid": "{6e913d2d-3a19-4d57-a93a-52662e4a533f}", "account_id":
+        "557058:5c01c80e-d2de-44c8-adb9-22d286249b8c", "nickname": "timograham"},
+        "workspace": {"type": "workspace", "uuid": "{6e913d2d-3a19-4d57-a93a-52662e4a533f}",
+        "name": "Tim Graham", "slug": "timograham", "links": {"avatar": {"href": "https://bitbucket.org/workspaces/timograham/avatar/?ts=1543458113"},
+        "html": {"href": "https://bitbucket.org/timograham/"}, "self": {"href": "https://api.bitbucket.org/2.0/workspaces/timograham"}}},
+        "is_private": false, "project": {"type": "project", "key": "PROJ", "uuid":
+        "{e688d05a-bbcb-48e4-b6ad-b0d0dc9b445a}", "name": "Untitled project", "links":
+        {"self": {"href": "https://api.bitbucket.org/2.0/workspaces/timograham/projects/PROJ"},
+        "html": {"href": "https://bitbucket.org/timograham/workspace/projects/PROJ"},
+        "avatar": {"href": "https://bitbucket.org/account/user/timograham/projects/PROJ/avatar/32?ts=1543458113"}}},
+        "fork_policy": "allow_forks", "created_on": "2015-10-14T12:29:34.870822+00:00",
+        "updated_on": "2016-10-14T21:15:11.365649+00:00", "size": 3595136, "language":
+        "python", "uuid": "{2d1228a3-08cf-4f5b-9d83-e577e469e74e}", "mainbranch":
+        {"name": "master", "type": "branch"}, "override_settings": {"default_merge_strategy":
+        false, "branching_model": false}, "parent": {"type": "repository", "full_name":
+        "Manfre/django-mssql", "links": {"self": {"href": "https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql"},
+        "html": {"href": "https://bitbucket.org/Manfre/django-mssql"}, "avatar": {"href":
+        "https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python"}},
+        "name": "django-mssql", "uuid": "{fa7b9059-8ffd-401f-934f-afe495719186}"},
+        "has_issues": false, "has_wiki": false}, {"type": "repository", "full_name":
+        "tomas_walch/django-mssql", "links": {"self": {"href": "https://api.bitbucket.org/2.0/repositories/tomas_walch/django-mssql"},
+        "html": {"href": "https://bitbucket.org/tomas_walch/django-mssql"}, "avatar":
+        {"href": "https://bytebucket.org/ravatar/%7B8ea45a10-9f7a-4743-8144-30d758105398%7D?ts=python"},
+        "pullrequests": {"href": "https://api.bitbucket.org/2.0/repositories/tomas_walch/django-mssql/pullrequests"},
+        "commits": {"href": "https://api.bitbucket.org/2.0/repositories/tomas_walch/django-mssql/commits"},
+        "forks": {"href": "https://api.bitbucket.org/2.0/repositories/tomas_walch/django-mssql/forks"},
+        "watchers": {"href": "https://api.bitbucket.org/2.0/repositories/tomas_walch/django-mssql/watchers"},
+        "branches": {"href": "https://api.bitbucket.org/2.0/repositories/tomas_walch/django-mssql/refs/branches"},
+        "tags": {"href": "https://api.bitbucket.org/2.0/repositories/tomas_walch/django-mssql/refs/tags"},
+        "downloads": {"href": "https://api.bitbucket.org/2.0/repositories/tomas_walch/django-mssql/downloads"},
+        "source": {"href": "https://api.bitbucket.org/2.0/repositories/tomas_walch/django-mssql/src"},
+        "clone": [{"name": "https", "href": "https://bitbucket.org/tomas_walch/django-mssql.git"},
+        {"name": "ssh", "href": "git@bitbucket.org:tomas_walch/django-mssql.git"}],
+        "hooks": {"href": "https://api.bitbucket.org/2.0/repositories/tomas_walch/django-mssql/hooks"}},
+        "name": "django-mssql", "slug": "django-mssql", "description": "", "scm":
+        "git", "website": null, "owner": {"display_name": "Tomas Walch", "links":
+        {"self": {"href": "https://api.bitbucket.org/2.0/users/%7Baca18f5c-f760-41da-bd79-e4a6d1d32903%7D"},
+        "avatar": {"href": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:c2b7391e-8234-4a0b-bd42-6c6974a1467a/180cc946-5e67-46ab-8efe-29c076e741e9/128"},
+        "html": {"href": "https://bitbucket.org/%7Baca18f5c-f760-41da-bd79-e4a6d1d32903%7D/"}},
+        "type": "user", "uuid": "{aca18f5c-f760-41da-bd79-e4a6d1d32903}", "account_id":
+        "557058:c2b7391e-8234-4a0b-bd42-6c6974a1467a", "nickname": "tomas_walch"},
+        "workspace": {"type": "workspace", "uuid": "{aca18f5c-f760-41da-bd79-e4a6d1d32903}",
+        "name": "Tomas Walch", "slug": "tomas_walch", "links": {"avatar": {"href":
+        "https://bitbucket.org/workspaces/tomas_walch/avatar/?ts=1543619587"}, "html":
+        {"href": "https://bitbucket.org/tomas_walch/"}, "self": {"href": "https://api.bitbucket.org/2.0/workspaces/tomas_walch"}}},
+        "is_private": false, "project": {"type": "project", "key": "PROJ", "uuid":
+        "{2a75d88c-935d-4559-923b-7172371fb474}", "name": "Untitled project", "links":
+        {"self": {"href": "https://api.bitbucket.org/2.0/workspaces/tomas_walch/projects/PROJ"},
+        "html": {"href": "https://bitbucket.org/tomas_walch/workspace/projects/PROJ"},
+        "avatar": {"href": "https://bitbucket.org/account/user/tomas_walch/projects/PROJ/avatar/32?ts=1543619587"}}},
+        "fork_policy": "allow_forks", "created_on": "2015-11-13T13:23:03.425937+00:00",
+        "updated_on": "2015-11-24T09:13:43.813809+00:00", "size": 3561340, "language":
+        "python", "uuid": "{8ea45a10-9f7a-4743-8144-30d758105398}", "mainbranch":
+        {"name": "master", "type": "branch"}, "override_settings": {"default_merge_strategy":
+        false, "branching_model": false}, "parent": {"type": "repository", "full_name":
+        "Manfre/django-mssql", "links": {"self": {"href": "https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql"},
+        "html": {"href": "https://bitbucket.org/Manfre/django-mssql"}, "avatar": {"href":
+        "https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python"}},
+        "name": "django-mssql", "uuid": "{fa7b9059-8ffd-401f-934f-afe495719186}"},
+        "has_issues": false, "has_wiki": false}], "pagelen": 10, "size": 37, "page":
+        1, "next": "https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/forks/?page=2"}'
     headers:
       Cache-Control:
       - max-age=900
@@ -197,46 +547,60 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:47 GMT
-      ETag:
-      - '"gz[6be37b311af9cfd5919b38511fad9bbf]"'
-      Server:
-      - nginx
+      - Sat, 13 Jan 2024 02:47:36 GMT
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
       Transfer-Encoding:
       - chunked
-      Vary:
-      - Authorization, Origin, Accept-Encoding
-      X-Accepted-OAuth-Scopes:
-      - repository
-      X-B3-TraceId:
-      - c763b8c75a94c5f2
       X-Cache-Info:
       - caching
-      X-Dc-Location:
-      - Micros
-      X-Frame-Options:
+      X-Content-Type-Options:
+      - nosniff
+      X-Trace-Id:
+      - c966490699c03b14
+      X-XSS-Protection:
+      - 1; mode=block
+      etag:
+      - '"5a6024b0a4af7fa750c43ea94a07710b"'
+      server:
+      - envoy
+      vary:
+      - Authorization, Origin, Accept-Encoding
+      x-accepted-oauth-scopes:
+      - repository
+      x-b3-spanid:
+      - 7d8858d6eb393c8f
+      x-b3-traceid:
+      - c966490699c03b14
+      x-dc-location:
+      - Micros-3
+      x-envoy-upstream-service-time:
+      - '295'
+      x-frame-options:
       - SAMEORIGIN
-      X-Render-Time:
-      - '0.811105012894'
-      X-Request-Count:
-      - '3248'
-      X-Served-By:
-      - 7704f1e7dd7c
-      X-Static-Version:
-      - 56e21fda85e9
-      X-Usage-Input-Ops:
+      x-render-time:
+      - '0.2850377559661865'
+      x-request-count:
+      - '350'
+      x-request-id:
+      - c966490699c03b14
+      x-served-by:
+      - c9e21792148d
+      x-static-version:
+      - 04b49d4d4db1
+      x-usage-input-ops:
       - '0'
-      X-Usage-Output-Ops:
+      x-usage-output-ops:
       - '0'
-      X-Usage-System-Time:
-      - '0.020766'
-      X-Usage-User-Time:
-      - '0.636608'
-      X-Version:
-      - 56e21fda85e9
-      X-View-Name:
+      x-usage-system-time:
+      - '0.005121'
+      x-usage-user-time:
+      - '0.174172'
+      x-used-mesh:
+      - 'False'
+      x-version:
+      - 04b49d4d4db1
+      x-view-name:
       - bitbucket.apps.repo2.api.v20.repo.RepositoryForksHandler
     status:
       code: 200
@@ -251,38 +615,72 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - python-requests/2.27.1
+      - python-requests/2.31.0
     method: GET
     uri: https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/watchers/
   response:
     body:
-      string: !!binary |
-        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
-        vzHz298BbXwW5O0WAAA=
+      string: "{\"values\": [{\"display_name\": \"Michael Manfre\", \"links\": {\"self\":
+        {\"href\": \"https://api.bitbucket.org/2.0/users/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/c7530c529dc2ddca9b1626d90acf4366?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-0.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{2602453b-e7bc-47e6-b9b8-37f01e14a045}\",
+        \"account_id\": \"557058:8c889f47-6d93-4a7c-9f8a-d0973798ecca\", \"nickname\":
+        \"Manfre\"}, {\"display_name\": \"Amanjeev Sethi\", \"links\": {\"self\":
+        {\"href\": \"https://api.bitbucket.org/2.0/users/%7B35251e40-7a4f-4222-ba91-bb0aea5eac0c%7D\"},
+        \"avatar\": {\"href\": \"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:732177f7-805a-4fa0-a615-849902dab14d/fef6ed17-837b-4ef5-a5af-36342b4460d1/128\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B35251e40-7a4f-4222-ba91-bb0aea5eac0c%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{35251e40-7a4f-4222-ba91-bb0aea5eac0c}\",
+        \"account_id\": \"557058:732177f7-805a-4fa0-a615-849902dab14d\", \"nickname\":
+        \"amanjeev\"}, {\"display_name\": \"Sergey Prymak\", \"links\": {\"self\":
+        {\"href\": \"https://api.bitbucket.org/2.0/users/%7B1d829303-30e3-4d42-8826-8d1bea5d8108%7D\"},
+        \"avatar\": {\"href\": \"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:6072dd15-23e3-453f-a5f7-88c2ab27bf4a/b6ee70e6-ab20-4390-9c01-750aeaa79c74/128\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B1d829303-30e3-4d42-8826-8d1bea5d8108%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{1d829303-30e3-4d42-8826-8d1bea5d8108}\",
+        \"account_id\": \"557058:6072dd15-23e3-453f-a5f7-88c2ab27bf4a\", \"nickname\":
+        \"Sergey Prymak\"}, {\"display_name\": \"Nick Schonning\", \"links\": {\"self\":
+        {\"href\": \"https://api.bitbucket.org/2.0/users/%7B12534892-ccdd-4c23-a010-f2cb2b7603e8%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/629fa905b76d5e22210586cec7a98825?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FNS-5.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B12534892-ccdd-4c23-a010-f2cb2b7603e8%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{12534892-ccdd-4c23-a010-f2cb2b7603e8}\",
+        \"account_id\": \"557058:070b3469-5138-45b4-9d26-5f1737cca2f1\", \"nickname\":
+        \"nschonni\"}, {\"display_name\": \"Andreas Bohne\", \"links\": {\"self\":
+        {\"href\": \"https://api.bitbucket.org/2.0/users/%7B6139b5c9-5a01-4a7f-9cc2-0a72ebd0578a%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/d065c584cf1dfe04565e879a4f43ced9?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FAB-1.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B6139b5c9-5a01-4a7f-9cc2-0a72ebd0578a%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{6139b5c9-5a01-4a7f-9cc2-0a72ebd0578a}\",
+        \"account_id\": \"557058:cdad168a-a9a5-4571-acd2-607a065c1df1\", \"nickname\":
+        \"abohne\"}, {\"display_name\": \"Elif T. Ku\u015F\", \"links\": {\"self\":
+        {\"href\": \"https://api.bitbucket.org/2.0/users/%7Bfc26384b-50d0-442d-b390-2b40572d185d%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/ff6f4322792c0f0b431f00dfd943c6ab?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FEK-3.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7Bfc26384b-50d0-442d-b390-2b40572d185d%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{fc26384b-50d0-442d-b390-2b40572d185d}\",
+        \"account_id\": \"557058:08e7f7d0-1c29-4ab0-bbde-9399b7f392e4\", \"nickname\":
+        \"Elif Kus\"}, {\"display_name\": \"Gerald Pharin\", \"links\": {\"self\":
+        {\"href\": \"https://api.bitbucket.org/2.0/users/%7B356c63fc-f647-4a4e-992c-badbc93b806a%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/f297a7254188da5e2741f654724a4fc3?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FGP-3.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B356c63fc-f647-4a4e-992c-badbc93b806a%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{356c63fc-f647-4a4e-992c-badbc93b806a}\",
+        \"account_id\": \"557058:1debcfc0-1dd3-4bcf-b7d8-88da0280f400\", \"nickname\":
+        \"Gerald Pharin\"}, {\"display_name\": \"Renaud Parent\", \"links\": {\"self\":
+        {\"href\": \"https://api.bitbucket.org/2.0/users/%7B549f64ed-9575-47c4-9f22-a00a4750c21a%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/f7f640d8a2559159dcc41726cb394696?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FRP-6.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B549f64ed-9575-47c4-9f22-a00a4750c21a%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{549f64ed-9575-47c4-9f22-a00a4750c21a}\",
+        \"account_id\": \"557058:184b41ee-94e1-47d6-8b53-97856ab53c7a\", \"nickname\":
+        \"renobryce\"}, {\"display_name\": \"Christian Bergmiller\", \"links\": {\"self\":
+        {\"href\": \"https://api.bitbucket.org/2.0/users/%7B982e4365-7dfc-446c-ae90-4122d8878fc2%7D\"},
+        \"avatar\": {\"href\": \"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:f8a941a0-3b9e-45bb-8c3b-2b454019218e/084a28cd-7da0-4e82-be95-be7a6953bddf/128\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B982e4365-7dfc-446c-ae90-4122d8878fc2%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{982e4365-7dfc-446c-ae90-4122d8878fc2}\",
+        \"account_id\": \"557058:f8a941a0-3b9e-45bb-8c3b-2b454019218e\", \"nickname\":
+        \"cbergmiller\"}, {\"display_name\": \"Frederico Estrela Ga\xEDva\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B1085b34d-8dd4-49b4-9554-4ea83804ca65%7D\"},
+        \"avatar\": {\"href\": \"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:918a6c44-0b27-4077-b10b-862b0a408d7e/ea73cdf4-fc5b-437a-9f4e-ef0774c38622/128\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B1085b34d-8dd4-49b4-9554-4ea83804ca65%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{1085b34d-8dd4-49b4-9554-4ea83804ca65}\",
+        \"account_id\": \"557058:918a6c44-0b27-4077-b10b-862b0a408d7e\", \"nickname\":
+        \"fredcido\"}], \"pagelen\": 10, \"size\": 16, \"page\": 1, \"next\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/watchers/?page=2\"}"
     headers:
       Cache-Control:
       - max-age=900
@@ -293,46 +691,60 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:47 GMT
-      ETag:
-      - '"gz[aef4bfc9214035536d97ff0bff42c6e6]"'
-      Server:
-      - nginx
+      - Sat, 13 Jan 2024 02:47:36 GMT
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
       Transfer-Encoding:
       - chunked
-      Vary:
-      - Authorization, Origin, Accept-Encoding
-      X-Accepted-OAuth-Scopes:
-      - repository
-      X-B3-TraceId:
-      - f6bc4b1b8f5ba217
       X-Cache-Info:
       - caching
-      X-Dc-Location:
-      - Micros
-      X-Frame-Options:
+      X-Content-Type-Options:
+      - nosniff
+      X-Trace-Id:
+      - 43ae0ffa4c44b962
+      X-XSS-Protection:
+      - 1; mode=block
+      etag:
+      - '"6e5076386d53f147dd052e344c102538"'
+      server:
+      - envoy
+      vary:
+      - Authorization, Origin, Accept-Encoding
+      x-accepted-oauth-scopes:
+      - repository
+      x-b3-spanid:
+      - 89a526068dd6f1ad
+      x-b3-traceid:
+      - 43ae0ffa4c44b962
+      x-dc-location:
+      - Micros-3
+      x-envoy-upstream-service-time:
+      - '303'
+      x-frame-options:
       - SAMEORIGIN
-      X-Render-Time:
-      - '0.226340055466'
-      X-Request-Count:
-      - '3953'
-      X-Served-By:
-      - e5346af2611a
-      X-Static-Version:
-      - 56e21fda85e9
-      X-Usage-Input-Ops:
+      x-render-time:
+      - '0.2928307056427002'
+      x-request-count:
+      - '391'
+      x-request-id:
+      - 43ae0ffa4c44b962
+      x-served-by:
+      - b09c81a03b30
+      x-static-version:
+      - 04b49d4d4db1
+      x-usage-input-ops:
       - '0'
-      X-Usage-Output-Ops:
+      x-usage-output-ops:
       - '0'
-      X-Usage-System-Time:
-      - '0.004854'
-      X-Usage-User-Time:
-      - '0.091090'
-      X-Version:
-      - 56e21fda85e9
-      X-View-Name:
+      x-usage-system-time:
+      - '0.006809'
+      x-usage-user-time:
+      - '0.177331'
+      x-used-mesh:
+      - 'False'
+      x-version:
+      - 04b49d4d4db1
+      x-view-name:
       - bitbucket.apps.repo2.api.v20.repo.RepositoryWatchersHandler
     status:
       code: 200
