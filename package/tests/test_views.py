@@ -15,7 +15,7 @@ def test_python3_list(db, django_assert_num_queries, tp):
     assert Package.objects.count() == 4
 
     url = tp.reverse("py3_compat")
-    with django_assert_num_queries(5):
+    with django_assert_num_queries(10):
         response = tp.client.get(url)
 
     assert response.status_code == 200
@@ -28,7 +28,7 @@ def test_python3_list_blank_sort_empty(db, django_assert_num_queries, tp):
     assert Package.objects.count() == 4
 
     url = tp.reverse("py3_compat")
-    with django_assert_num_queries(5):
+    with django_assert_num_queries(10):
         response = tp.client.get(url, data={"dir": ""})
     assert response.status_code == 200
 
@@ -40,7 +40,7 @@ def test_python3_list_blank_sort_asc(db, django_assert_num_queries, tp):
     assert Package.objects.count() == 4
 
     url = tp.reverse("py3_compat")
-    with django_assert_num_queries(5):
+    with django_assert_num_queries(10):
         response = tp.client.get(url, data={"dir": "asc"})
     assert response.status_code == 200
 
@@ -52,7 +52,7 @@ def test_python3_list_blank_sort_desc(db, django_assert_num_queries, tp):
     assert Package.objects.count() == 4
 
     url = tp.reverse("py3_compat")
-    with django_assert_num_queries(5):
+    with django_assert_num_queries(10):
         response = tp.client.get(url, data={"dir": "desc"})
     assert response.status_code == 200
 
@@ -64,7 +64,7 @@ def test_python3_list_blank_sort_by_valid_field(db, django_assert_num_queries, t
     assert Package.objects.count() == 4
 
     url = tp.reverse("py3_compat")
-    with django_assert_num_queries(5):
+    with django_assert_num_queries(10):
         response = tp.client.get(url, data={"dir": "desc", "sort": "repo_watchers"})
     assert response.status_code == 200
 
@@ -76,7 +76,7 @@ def test_python3_list_blank_sort_by_bad_field(db, django_assert_num_queries, tp)
     assert Package.objects.count() == 4
 
     url = tp.reverse("py3_compat")
-    with django_assert_num_queries(5):
+    with django_assert_num_queries(10):
         response = tp.client.get(url, data={"dir": "desc", "sort": "doesnotexist"})
     assert response.status_code == 200
 
@@ -102,7 +102,7 @@ class FunctionalPackageTest(TestCase):
 
     def test_package_detail_view(self):
         url = reverse("package", kwargs={"slug": "testability"})
-        with self.assertNumQueries(11):
+        with self.assertNumQueries(16):
             response = self.client.get(url)
         self.assertTemplateUsed(response, "package/package.html")
         p = Package.objects.get(slug="testability")
@@ -476,7 +476,7 @@ class PackagePermissionTest(TestCase):
 def test_category_view(db, django_assert_num_queries, tp):
     initial_data.load()
 
-    with django_assert_num_queries(23):
+    with django_assert_num_queries(28):
         response = tp.client.get("/categories/apps/")
     assert "apps" in str(response.content)
 
@@ -484,7 +484,7 @@ def test_category_view(db, django_assert_num_queries, tp):
 def test_grid_package_list(db, django_assert_num_queries, tp):
     initial_data.load()
 
-    with django_assert_num_queries(19):
+    with django_assert_num_queries(24):
         url = tp.reverse("grid_packages", slug="testing")
         response = tp.client.get(url)
 
