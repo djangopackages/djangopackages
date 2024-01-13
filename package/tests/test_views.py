@@ -240,7 +240,7 @@ class FunctionalPackageTest(TestCase):
         self.assertTemplateUsed(response, "package/edit_example.html")
         self.assertNotContains(response, "example-delete-btn")
 
-        with self.assertNumQueries(10):
+        with self.assertNumQueries(5):
             response = self.client.post(
                 url,
                 {
@@ -440,12 +440,12 @@ class PackagePermissionTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
         settings.RESTRICT_PACKAGE_EDITORS = True
-        with self.assertNumQueries(10):
+        with self.assertNumQueries(5):
             response = self.client.get(self.test_add_url)
         self.assertEqual(response.status_code, 403)
 
     def test_add_package_permission_fail(self):
-        with self.assertNumQueries(10):
+        with self.assertNumQueries(5):
             response = self.client.get(self.test_add_url)
         self.assertEqual(response.status_code, 403)
 
@@ -459,7 +459,7 @@ class PackagePermissionTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_edit_package_permission_fail(self):
-        with self.assertNumQueries(10):
+        with self.assertNumQueries(5):
             response = self.client.get(self.test_edit_url)
         self.assertEqual(response.status_code, 403)
 
