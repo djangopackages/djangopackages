@@ -13,19 +13,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WS0Q6CMAxF/2XPPExFA/zMssyKTdiGLTwZ/91OEh0EjIlPW9ru5N7b3RUBx5Ec
-        sGruykWCdHbocVDNUWtdqJHhrJp9IaPeYsDQqqas6yoVGGRsdypPx0Op99WjUAyW3DWDHN4IuWSI
-        VJ8BdFnVAmjJ9tdbtyFjzpgELmUkCoYBhDRgDMbbgBdgUbrq7FfklJNB30fKWbtPSHPUq7Fm0cUz
-        GHY2pDDN2HfRSsJvcfJuI7Ops+bXumSVDY0hABmCFnmY/C/IX9BLubLSlCU79Dkk/xYLx1sLEYqI
-        +e9vPZ7qEdW6rQIAAA==
+      string: '{"resources":{"core":{"limit":5000,"used":2,"remaining":4998,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114068},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117608},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117608},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114068},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117608},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117608},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117608},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114068},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117608},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114068}},"rate":{"limit":5000,"used":2,"remaining":4998,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -43,7 +38,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:49 GMT
+      - Sat, 13 Jan 2024 02:46:48 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -63,7 +58,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DCFE:DD2C51F:62240F7D
+      - EDEF:793A:4C30890:9DD08D9:65A1F998
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -71,13 +66,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4998'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '2'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -95,37 +92,15 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/repos/django/deps
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA+1YUW/bNhD+K4Ve50S24zaJgKIbkK7YgDXb0Ieiw2BQEm2xoUSBpOw5Qv77viMl
-        Wba7pvTLXgoEic3c9/Hj8e7IYxuJPEpmN9evFtdXLydRpXK+pKHot7u323v5q8ze3T6yj39usurh
-        n/u7bP7+Lnt8/8fr1xGMWclhmfPa4NuqkXLZD31m1VrF3X9qLTbMwnTFpOGTSG0rrqOkjaRai4oY
-        nDk4aOb59c10caRkd/9wu/s0/7lhH+sifyc36edfru7vfpoCw8DN9LLREkyFtbVJ4tgPmsu1sEWT
-        NobrTFWWV/YyU2XcxG6SN5vXCxCsdUfh1o2BI6padDQeCy4TD4oLW8qjuf2czngwWykp1RbIY53/
-        TR4PGHKuw4tqHYwHpo2VLThcBOlPtGBhbIgQZ9/G9AexQQwGHtc8DxDTISCFNv+pjTWvlaNqUpNp
-        UVuhqhBRBzjwKL1mlXhkoTzAUfSSnJDpnT1wfIOgCgF6QBu7pMh25ALNMy42cGcw2RESXHZXU07e
-        j7xBThaWL1leUra5JHyaIFWej9w+g3M+7BHI71y6vnhbFazKeAkHvPhdK/gDzJhspfTDkOtfzSXn
-        xC5J+qkI/Yw/T2BIFYAw9QPfBWMJ08b43cV2hlRjqdLMqufS9VTIAbiNx19ppy1nZbBABwK4UCrc
-        Mw4EsDCm4d8UYKeLclgT95FbNWXqC8m3xOspnUdBEzNGrCvOgz0yANu4r2mpRiwW4VQ9ro39J7dL
-        bB0siTCAplKlwVgcGLEDtrEpmK/QdnmOCmIi3AGR5quzJBFuILL6jH1ycgg40OAYsNiyYD09Lm47
-        D0mUoIatw5kGIHaLDqU1e3z2WD6N4T0SNHS10CJtzisYeywp8qch8ivcRXvonsgdq18/pr+wuNGR
-        7JZXluK5M+6UpYMdhOKZVBRHx3T0/fmj98uyCNfG+zrmi2PHGOqtrjr2esa83Z0zeCt7XNz+UDNb
-        UEUAfc00DxXXweI2ZTj0Ly8v24Izd4UruT4jezwKcKazAneWUD1tj8OJXTLr7oErkpPjXigVy4N9
-        NQBB4rciVJNHjfetRisTLMSBxiylkNxYVYXXqD1yzFcpK1Yi+5Yb7mnYH4DbN0bg5jZhUk4QVVZk
-        AnGGToF2ApcfHr56j4Jc9IT+Tis5Qi7Yi5p7XBv7TgMtpFS7szJ9BKUE0hw9aL5kFjfY+XS2uJgu
-        LmaLD7NF8vI2uZp/gk1T52Ob+fxienUxnX2YzhL8LBZkUzem2NOQyfxiNv8wu0lm8+TllExQrroY
-        xCc0oycNobvrUlMJY2OKvfGPe9PE945j00wimI6i++vcm+Pa/2VzyChUyWucp1FSIY6pY3jE56vZ
-        7cEpmammgv+url9Noi2zuHDhnBoP9qdrT1Mws/T5FSVWN2j+aaTW6jPPrBm6BBrcJ/LIcisexIEV
-        adzjfLPQCbjBq0EptFbdY4BfSFdw0Np3rw+5MCyVfD+gal51Ivu14CVEioxXZvAHUkVtlzQf0qRf
-        izBLy8tajh83rKpFBoV//T2JNsKIVEhhd4i5uknBCVf7ZiUhuaOpowST9j7tXJzzFWukXfqrKThK
-        hg4OMch1Ca9Sx0zPKOPGDi6AjSW7fsEUscMXXFTcLnfOoKLlV4OOkNay9EFm1QOnlxlMNm6svz/a
-        uMel74823x9t/p9Hm4rbLWpQX6eohoxbhq4S3r56+heruXEg2RUAAA==
+      string: '{"id":18764735,"node_id":"MDEwOlJlcG9zaXRvcnkxODc2NDczNQ==","name":"deps","full_name":"django/deps","private":false,"owner":{"login":"django","id":27804,"node_id":"MDEyOk9yZ2FuaXphdGlvbjI3ODA0","avatar_url":"https://avatars.githubusercontent.com/u/27804?v=4","gravatar_id":"","url":"https://api.github.com/users/django","html_url":"https://github.com/django","followers_url":"https://api.github.com/users/django/followers","following_url":"https://api.github.com/users/django/following{/other_user}","gists_url":"https://api.github.com/users/django/gists{/gist_id}","starred_url":"https://api.github.com/users/django/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/django/subscriptions","organizations_url":"https://api.github.com/users/django/orgs","repos_url":"https://api.github.com/users/django/repos","events_url":"https://api.github.com/users/django/events{/privacy}","received_events_url":"https://api.github.com/users/django/received_events","type":"Organization","site_admin":false},"html_url":"https://github.com/django/deps","description":"Django
+        Enhancement Proposals","fork":false,"url":"https://api.github.com/repos/django/deps","forks_url":"https://api.github.com/repos/django/deps/forks","keys_url":"https://api.github.com/repos/django/deps/keys{/key_id}","collaborators_url":"https://api.github.com/repos/django/deps/collaborators{/collaborator}","teams_url":"https://api.github.com/repos/django/deps/teams","hooks_url":"https://api.github.com/repos/django/deps/hooks","issue_events_url":"https://api.github.com/repos/django/deps/issues/events{/number}","events_url":"https://api.github.com/repos/django/deps/events","assignees_url":"https://api.github.com/repos/django/deps/assignees{/user}","branches_url":"https://api.github.com/repos/django/deps/branches{/branch}","tags_url":"https://api.github.com/repos/django/deps/tags","blobs_url":"https://api.github.com/repos/django/deps/git/blobs{/sha}","git_tags_url":"https://api.github.com/repos/django/deps/git/tags{/sha}","git_refs_url":"https://api.github.com/repos/django/deps/git/refs{/sha}","trees_url":"https://api.github.com/repos/django/deps/git/trees{/sha}","statuses_url":"https://api.github.com/repos/django/deps/statuses/{sha}","languages_url":"https://api.github.com/repos/django/deps/languages","stargazers_url":"https://api.github.com/repos/django/deps/stargazers","contributors_url":"https://api.github.com/repos/django/deps/contributors","subscribers_url":"https://api.github.com/repos/django/deps/subscribers","subscription_url":"https://api.github.com/repos/django/deps/subscription","commits_url":"https://api.github.com/repos/django/deps/commits{/sha}","git_commits_url":"https://api.github.com/repos/django/deps/git/commits{/sha}","comments_url":"https://api.github.com/repos/django/deps/comments{/number}","issue_comment_url":"https://api.github.com/repos/django/deps/issues/comments{/number}","contents_url":"https://api.github.com/repos/django/deps/contents/{+path}","compare_url":"https://api.github.com/repos/django/deps/compare/{base}...{head}","merges_url":"https://api.github.com/repos/django/deps/merges","archive_url":"https://api.github.com/repos/django/deps/{archive_format}{/ref}","downloads_url":"https://api.github.com/repos/django/deps/downloads","issues_url":"https://api.github.com/repos/django/deps/issues{/number}","pulls_url":"https://api.github.com/repos/django/deps/pulls{/number}","milestones_url":"https://api.github.com/repos/django/deps/milestones{/number}","notifications_url":"https://api.github.com/repos/django/deps/notifications{?since,all,participating}","labels_url":"https://api.github.com/repos/django/deps/labels{/name}","releases_url":"https://api.github.com/repos/django/deps/releases{/id}","deployments_url":"https://api.github.com/repos/django/deps/deployments","created_at":"2014-04-14T14:59:32Z","updated_at":"2024-01-04T15:56:35Z","pushed_at":"2023-12-19T21:59:33Z","git_url":"git://github.com/django/deps.git","ssh_url":"git@github.com:django/deps.git","clone_url":"https://github.com/django/deps.git","svn_url":"https://github.com/django/deps","homepage":null,"size":379,"stargazers_count":401,"watchers_count":401,"language":null,"has_issues":true,"has_projects":false,"has_downloads":true,"has_wiki":false,"has_pages":false,"has_discussions":false,"forks_count":85,"mirror_url":null,"archived":false,"disabled":false,"open_issues_count":7,"license":null,"allow_forking":true,"is_template":false,"web_commit_signoff_required":false,"topics":[],"visibility":"public","forks":85,"open_issues":7,"watchers":401,"default_branch":"main","permissions":{"admin":false,"maintain":false,"push":false,"triage":false,"pull":true},"temp_clone_token":"","custom_properties":{},"organization":{"login":"django","id":27804,"node_id":"MDEyOk9yZ2FuaXphdGlvbjI3ODA0","avatar_url":"https://avatars.githubusercontent.com/u/27804?v=4","gravatar_id":"","url":"https://api.github.com/users/django","html_url":"https://github.com/django","followers_url":"https://api.github.com/users/django/followers","following_url":"https://api.github.com/users/django/following{/other_user}","gists_url":"https://api.github.com/users/django/gists{/gist_id}","starred_url":"https://api.github.com/users/django/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/django/subscriptions","organizations_url":"https://api.github.com/users/django/orgs","repos_url":"https://api.github.com/users/django/repos","events_url":"https://api.github.com/users/django/events{/privacy}","received_events_url":"https://api.github.com/users/django/received_events","type":"Organization","site_admin":false},"network_count":85,"subscribers_count":96}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -143,11 +118,11 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:49 GMT
+      - Sat, 13 Jan 2024 02:46:49 GMT
       ETag:
-      - W/"ef7a6eaac1c0fc20aee073578bcb45404ae5d632adfba384364b545242bde51e"
+      - W/"c10ca93c29e2f6118cdc102b5f5b87e371ea02c22bf41ca82bfc0aaf8695fe3e"
       Last-Modified:
-      - Tue, 01 Mar 2022 01:01:44 GMT
+      - Thu, 04 Jan 2024 15:56:35 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -168,7 +143,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD02:DD2C533:62240F7D
+      - EDF0:7675:51D8983:A8E90AF:65A1F999
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -176,13 +151,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4997'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '3'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -200,58 +177,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/repos/django/deps/contributors?per_page=100
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA63cXW/a2BYG4P/CdU/BHxCnUjWq1EiTC5MTiYymOjqqHHDABHBkIASi+e+zjb2/
-        HOxo7XddzUxnv29WaR9tbLb533tvlc+zTe9bb5oUq+W696WXzXrfRt4wGn3pbfJZ+rv871788370
-        19/j1XT56208mftiXfKa7JLi975Yif+/2O1ett/6/eoXt1/n2W6xf9xv02Kab3bpZvd1mq/7+/65
-        +I/X76EomBd1xfkniF9oVL1kdU2VFV3bvppysVuvGj+7+pnnxWrZU75a5QeRbM7ZXt5XGTFS9e/Z
-        Zk7Oi8x7P98tUvESidH/KX/D2XZHGeS8/r1f/kP8KZQNW/GKF+mMMEydEKMcNmKK936RvuTnqv3j
-        dlpkL7ss31CGsnKiJy/mySY7JdQekduKeDkO5cef14tc+ir+UlGCVeC9/1Jkr8n0WL4ERTpNs1fx
-        cpLLGknRtTu+pOJv8YP4oy5f3GyX/k5m61LWU7Lapl96pYMie9yfX6fet8D/54vGt0ym+WOWbES0
-        xOB7Xhhd5nf7Fk/uSz1O/M7FAD9jzm6AxkISQZlzR9hoQBiqKgiiauGjqCtNxC4YVROVowrSQaoo
-        D0ljEouzA0o/NFEmyX6+3+6E4UrlVRRde4PLLKfh3c/nt/jH9++uNKt2wKY5bjdOcyVJpwq682xW
-        ID51FwRU1/AJNTpRorqKalQn6Uh1lkepOQvMNDCZ7or0uNhvxLsbuXtGw2DoX3Z6G44nsRfP3Z36
-        53bAqTVvN1RrKUmqTrpT/dCBWDXKIKxGD59WsxTlanRRvRpROlgjzCPWmgYl611bO+tmVqSHeT47
-        qM01GHlRi9nYjyfzo+u+ei4GuCb2rN1gG4tJZM2sO9oLLQhbqw6CazXx0bVrUbxWG5WvFaYDtuI8
-        hBsTwYgjE/H+MS02+XZX7OVdI88PovDyvntzjE/zgavhczFg2B61m7C9liTYiLoD/liC+DXbIL5m
-        EZ9eqxXFa5ZR7ZpZOl0zzSPXngeG61k3m9LTLD3Vb5a9Udsl7Y3Ydn84X86WvYDYpZyxG6taRnJa
-        pdyJWnlEZ10Ewaw7+EzKQpRj3UOVWMfoCOsgjz81BUrP2jKTWSFu8i7yVS4+Oynf0ZY3e71oEA68
-        lm0zFB+8HOJ798vVqh2Q+GHmbpEflpNk2ml3oRd7EKmNQkhso4tPbrMYFdzoo0puxOmiGwU8sj9M
-        hQofmXvrdpmnxWyZP6p7xuKd6+j6su5pWL4pHi+fnXfZq+hcD/A2B+6Wba4koVZBd8/NCoSy7oIU
-        6xo+wEYnaldXUdnqJF2szvJgNWdhdZo8J4nYizO5B/tDcV/3stKb43gibhsje/C5HUBqTNtt1FhI
-        Iipz7kIbDQhQVQX5VC18PHUlqlM1UXGqIN2mivLQNCbhlTlL1tNFkm3kFWo0vBoNWnbQuTc+/Trc
-        ATardsSmOe8nOs2lNJ8qCQhtdkBGdRmmVPcwOjVKYam6i2xVRx206jCTV3MaVKx1TkJczG7mq1Ru
-        pYPAj7y228CH+HQbihNMzu94vaoeAKvH7daq15Go1jF3p3YBglQ2QUJlCR9P1YjalEVUmDJHVymT
-        PCT1HKwey8Ovu3wzzx63uTy7NApHrQd6xRUocKC3LAY0NoftNtlcTZJphd19XqpBlNp9kFW7ik9s
-        oxd1a9dR9dppumE7zyO5OROr5zgpnvfbP+v9Nbwajrzg8qXqfTCe/HqLD+63i6t2wLMetluyXkcy
-        XMfc9doFiFvZBImVJXxWVSOqVBZRfcocXaZM8pjUc6AareOGm3T2mOxqjH5wFbVcmt6exqf50PXE
-        w7kYYKim7FaolpEQVil3g1YeIVgXQQLrDj6AshD1V/dQ+dUxur46yINPTcFqTzxNNSvyg9wJo+ug
-        5SG1+/BuEjs/pBaWxQA+PWa3Pr2OxK+OufuzCxCAsgkSKEv4CKpG1KAsoiKUObpCmeRhqOfgdZit
-        xcObi0Qe/As9L2r7kPNePLA295FbtFU74tEY9xORxkqaSRkEVDYqIJeqC5Opahht6k5Yp6oi+1RJ
-        B6Eqy2TUmIVV6V/ZdvGaLLPdf+sNcyg+RxldX12+dnzw45/P/t1k6nxrtq4HoFoTd0u1lpKo6qS7
-        1Q8dCFajDNJq9PBxNUtRr0YXFawRpYs1wjxkrWlQs9aD4MkqfTusxOef8sZtMPB8v+Wh0/gQT26P
-        yEOnVTsg1pq3W6y1lCRWJ93FfuhAxBplkFijh0+sWYqKNbqoYo0oXawR5hFrTYOKtU7Tn5+xyZ7k
-        DaGh2GFbDvPeeneTX0PkMK9/bke4qmE/sarW0aBWMUCpVQARrZswn3UJI07ZCMusi8gs65yDyTrJ
-        BFLNwauxCMtvhynP1QdDTzypffnNrngEfPJwQs70Ve0IxWrSTxxWi2gIRQYQqNMQv7IGs1c2MMI7
-        18HqyhYyuTLk4K2MMWGrJmCVJp7+fE6Ll/R5m8zl5jcKgravLfLjU+z+tUVlMWCtMWu3ucZikj0z
-        627wQgti0aqDTFpNfDbtWtSo1Ua1aoXpZq04j93GRKyG08MyT6aLTD3AHQ6vxGnby3vmzWA8mZbn
-        bZ1vEHlVPQDZHLhbsbmSRFgF3f02KxC8uguSq2v42BqdqFldRQWrk3StOstD1ZyF1elytn8q0u1G
-        nrENwqtR0HLENh4Ioqcx8E1kVTug1By3W6m5kqRUBd2VNisQpboLUqpr+JQanahSXUVVqpN0pTrL
-        o9SchVdpUmwXh2QhP20JvUHUclDvYSC+WyFEDuoNz+0IUj3tJ0b1QhrROgcItRsgoLIK8ylbGHmq
-        SlinbCLjlEEHmzLKRFNPwipzvdwl69VRfaYSXQ+jlpu0sTg59BAiN2mDczsg05i2W6axkCRT5txl
-        NhoQmaoKkqla+GTqSlSmaqLKVEG6TBXlkWlMwirzKV1lb2/y+tOPRsOo7Tls8Qz28kF8ze6D8/Vn
-        XQ/Q1ON2y9TrSDDrmLtLuwBhKZsglbKED6VqRE3KIipJmaOLlEkekHoOVo/rx1VyXKvTB6NAPN3V
-        8hmKuMgUz40hn6FU7QBHY9puj8ZCEkiZcxfZaEBIqirIpGrhQ6krUZWqicpSBekuVZQHpjEJr8xM
-        nApKV/95ri8vvaE/GLR82nLjxcsfhzvgHlDVjtA0xv3EprGShlMGAZ2NCoin6sJ8qhpGoLoTFqqq
-        yERV0sGoyjIhNWZhVfq8Oc4X6qv9gujKC4ZtN2rD8enmNAa+C6GuB5TqcbuN6nUkoXXM3addgOiU
-        TZBNWcInUzWiLmURVaXM0U3KJI9IPQfu8f//AoKL/5jXbAAA
+      string: '[{"login":"carljm","id":61586,"node_id":"MDQ6VXNlcjYxNTg2","avatar_url":"https://avatars.githubusercontent.com/u/61586?v=4","gravatar_id":"","url":"https://api.github.com/users/carljm","html_url":"https://github.com/carljm","followers_url":"https://api.github.com/users/carljm/followers","following_url":"https://api.github.com/users/carljm/following{/other_user}","gists_url":"https://api.github.com/users/carljm/gists{/gist_id}","starred_url":"https://api.github.com/users/carljm/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/carljm/subscriptions","organizations_url":"https://api.github.com/users/carljm/orgs","repos_url":"https://api.github.com/users/carljm/repos","events_url":"https://api.github.com/users/carljm/events{/privacy}","received_events_url":"https://api.github.com/users/carljm/received_events","type":"User","site_admin":false,"contributions":32},{"login":"jacobian","id":21148,"node_id":"MDQ6VXNlcjIxMTQ4","avatar_url":"https://avatars.githubusercontent.com/u/21148?v=4","gravatar_id":"","url":"https://api.github.com/users/jacobian","html_url":"https://github.com/jacobian","followers_url":"https://api.github.com/users/jacobian/followers","following_url":"https://api.github.com/users/jacobian/following{/other_user}","gists_url":"https://api.github.com/users/jacobian/gists{/gist_id}","starred_url":"https://api.github.com/users/jacobian/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jacobian/subscriptions","organizations_url":"https://api.github.com/users/jacobian/orgs","repos_url":"https://api.github.com/users/jacobian/repos","events_url":"https://api.github.com/users/jacobian/events{/privacy}","received_events_url":"https://api.github.com/users/jacobian/received_events","type":"User","site_admin":false,"contributions":25},{"login":"aaugustin","id":788910,"node_id":"MDQ6VXNlcjc4ODkxMA==","avatar_url":"https://avatars.githubusercontent.com/u/788910?v=4","gravatar_id":"","url":"https://api.github.com/users/aaugustin","html_url":"https://github.com/aaugustin","followers_url":"https://api.github.com/users/aaugustin/followers","following_url":"https://api.github.com/users/aaugustin/following{/other_user}","gists_url":"https://api.github.com/users/aaugustin/gists{/gist_id}","starred_url":"https://api.github.com/users/aaugustin/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/aaugustin/subscriptions","organizations_url":"https://api.github.com/users/aaugustin/orgs","repos_url":"https://api.github.com/users/aaugustin/repos","events_url":"https://api.github.com/users/aaugustin/events{/privacy}","received_events_url":"https://api.github.com/users/aaugustin/received_events","type":"User","site_admin":false,"contributions":23},{"login":"andrewgodwin","id":36182,"node_id":"MDQ6VXNlcjM2MTgy","avatar_url":"https://avatars.githubusercontent.com/u/36182?v=4","gravatar_id":"","url":"https://api.github.com/users/andrewgodwin","html_url":"https://github.com/andrewgodwin","followers_url":"https://api.github.com/users/andrewgodwin/followers","following_url":"https://api.github.com/users/andrewgodwin/following{/other_user}","gists_url":"https://api.github.com/users/andrewgodwin/gists{/gist_id}","starred_url":"https://api.github.com/users/andrewgodwin/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/andrewgodwin/subscriptions","organizations_url":"https://api.github.com/users/andrewgodwin/orgs","repos_url":"https://api.github.com/users/andrewgodwin/repos","events_url":"https://api.github.com/users/andrewgodwin/events{/privacy}","received_events_url":"https://api.github.com/users/andrewgodwin/received_events","type":"User","site_admin":false,"contributions":20},{"login":"treyhunner","id":285352,"node_id":"MDQ6VXNlcjI4NTM1Mg==","avatar_url":"https://avatars.githubusercontent.com/u/285352?v=4","gravatar_id":"","url":"https://api.github.com/users/treyhunner","html_url":"https://github.com/treyhunner","followers_url":"https://api.github.com/users/treyhunner/followers","following_url":"https://api.github.com/users/treyhunner/following{/other_user}","gists_url":"https://api.github.com/users/treyhunner/gists{/gist_id}","starred_url":"https://api.github.com/users/treyhunner/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/treyhunner/subscriptions","organizations_url":"https://api.github.com/users/treyhunner/orgs","repos_url":"https://api.github.com/users/treyhunner/repos","events_url":"https://api.github.com/users/treyhunner/events{/privacy}","received_events_url":"https://api.github.com/users/treyhunner/received_events","type":"User","site_admin":false,"contributions":19},{"login":"ubernostrum","id":12384,"node_id":"MDQ6VXNlcjEyMzg0","avatar_url":"https://avatars.githubusercontent.com/u/12384?v=4","gravatar_id":"","url":"https://api.github.com/users/ubernostrum","html_url":"https://github.com/ubernostrum","followers_url":"https://api.github.com/users/ubernostrum/followers","following_url":"https://api.github.com/users/ubernostrum/following{/other_user}","gists_url":"https://api.github.com/users/ubernostrum/gists{/gist_id}","starred_url":"https://api.github.com/users/ubernostrum/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/ubernostrum/subscriptions","organizations_url":"https://api.github.com/users/ubernostrum/orgs","repos_url":"https://api.github.com/users/ubernostrum/repos","events_url":"https://api.github.com/users/ubernostrum/events{/privacy}","received_events_url":"https://api.github.com/users/ubernostrum/received_events","type":"User","site_admin":false,"contributions":11},{"login":"jezdez","id":1610,"node_id":"MDQ6VXNlcjE2MTA=","avatar_url":"https://avatars.githubusercontent.com/u/1610?v=4","gravatar_id":"","url":"https://api.github.com/users/jezdez","html_url":"https://github.com/jezdez","followers_url":"https://api.github.com/users/jezdez/followers","following_url":"https://api.github.com/users/jezdez/following{/other_user}","gists_url":"https://api.github.com/users/jezdez/gists{/gist_id}","starred_url":"https://api.github.com/users/jezdez/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jezdez/subscriptions","organizations_url":"https://api.github.com/users/jezdez/orgs","repos_url":"https://api.github.com/users/jezdez/repos","events_url":"https://api.github.com/users/jezdez/events{/privacy}","received_events_url":"https://api.github.com/users/jezdez/received_events","type":"User","site_admin":false,"contributions":8},{"login":"adrianholovaty","id":180401,"node_id":"MDQ6VXNlcjE4MDQwMQ==","avatar_url":"https://avatars.githubusercontent.com/u/180401?v=4","gravatar_id":"","url":"https://api.github.com/users/adrianholovaty","html_url":"https://github.com/adrianholovaty","followers_url":"https://api.github.com/users/adrianholovaty/followers","following_url":"https://api.github.com/users/adrianholovaty/following{/other_user}","gists_url":"https://api.github.com/users/adrianholovaty/gists{/gist_id}","starred_url":"https://api.github.com/users/adrianholovaty/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/adrianholovaty/subscriptions","organizations_url":"https://api.github.com/users/adrianholovaty/orgs","repos_url":"https://api.github.com/users/adrianholovaty/repos","events_url":"https://api.github.com/users/adrianholovaty/events{/privacy}","received_events_url":"https://api.github.com/users/adrianholovaty/received_events","type":"User","site_admin":false,"contributions":6},{"login":"sjoerdjob","id":7838469,"node_id":"MDQ6VXNlcjc4Mzg0Njk=","avatar_url":"https://avatars.githubusercontent.com/u/7838469?v=4","gravatar_id":"","url":"https://api.github.com/users/sjoerdjob","html_url":"https://github.com/sjoerdjob","followers_url":"https://api.github.com/users/sjoerdjob/followers","following_url":"https://api.github.com/users/sjoerdjob/following{/other_user}","gists_url":"https://api.github.com/users/sjoerdjob/gists{/gist_id}","starred_url":"https://api.github.com/users/sjoerdjob/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/sjoerdjob/subscriptions","organizations_url":"https://api.github.com/users/sjoerdjob/orgs","repos_url":"https://api.github.com/users/sjoerdjob/repos","events_url":"https://api.github.com/users/sjoerdjob/events{/privacy}","received_events_url":"https://api.github.com/users/sjoerdjob/received_events","type":"User","site_admin":false,"contributions":6},{"login":"akaariai","id":125285,"node_id":"MDQ6VXNlcjEyNTI4NQ==","avatar_url":"https://avatars.githubusercontent.com/u/125285?v=4","gravatar_id":"","url":"https://api.github.com/users/akaariai","html_url":"https://github.com/akaariai","followers_url":"https://api.github.com/users/akaariai/followers","following_url":"https://api.github.com/users/akaariai/following{/other_user}","gists_url":"https://api.github.com/users/akaariai/gists{/gist_id}","starred_url":"https://api.github.com/users/akaariai/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/akaariai/subscriptions","organizations_url":"https://api.github.com/users/akaariai/orgs","repos_url":"https://api.github.com/users/akaariai/repos","events_url":"https://api.github.com/users/akaariai/events{/privacy}","received_events_url":"https://api.github.com/users/akaariai/received_events","type":"User","site_admin":false,"contributions":6},{"login":"carltongibson","id":64686,"node_id":"MDQ6VXNlcjY0Njg2","avatar_url":"https://avatars.githubusercontent.com/u/64686?v=4","gravatar_id":"","url":"https://api.github.com/users/carltongibson","html_url":"https://github.com/carltongibson","followers_url":"https://api.github.com/users/carltongibson/followers","following_url":"https://api.github.com/users/carltongibson/following{/other_user}","gists_url":"https://api.github.com/users/carltongibson/gists{/gist_id}","starred_url":"https://api.github.com/users/carltongibson/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/carltongibson/subscriptions","organizations_url":"https://api.github.com/users/carltongibson/orgs","repos_url":"https://api.github.com/users/carltongibson/repos","events_url":"https://api.github.com/users/carltongibson/events{/privacy}","received_events_url":"https://api.github.com/users/carltongibson/received_events","type":"User","site_admin":false,"contributions":6},{"login":"adamchainz","id":857609,"node_id":"MDQ6VXNlcjg1NzYwOQ==","avatar_url":"https://avatars.githubusercontent.com/u/857609?v=4","gravatar_id":"","url":"https://api.github.com/users/adamchainz","html_url":"https://github.com/adamchainz","followers_url":"https://api.github.com/users/adamchainz/followers","following_url":"https://api.github.com/users/adamchainz/following{/other_user}","gists_url":"https://api.github.com/users/adamchainz/gists{/gist_id}","starred_url":"https://api.github.com/users/adamchainz/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/adamchainz/subscriptions","organizations_url":"https://api.github.com/users/adamchainz/orgs","repos_url":"https://api.github.com/users/adamchainz/repos","events_url":"https://api.github.com/users/adamchainz/events{/privacy}","received_events_url":"https://api.github.com/users/adamchainz/received_events","type":"User","site_admin":false,"contributions":4},{"login":"ovangle","id":1032814,"node_id":"MDQ6VXNlcjEwMzI4MTQ=","avatar_url":"https://avatars.githubusercontent.com/u/1032814?v=4","gravatar_id":"","url":"https://api.github.com/users/ovangle","html_url":"https://github.com/ovangle","followers_url":"https://api.github.com/users/ovangle/followers","following_url":"https://api.github.com/users/ovangle/following{/other_user}","gists_url":"https://api.github.com/users/ovangle/gists{/gist_id}","starred_url":"https://api.github.com/users/ovangle/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/ovangle/subscriptions","organizations_url":"https://api.github.com/users/ovangle/orgs","repos_url":"https://api.github.com/users/ovangle/repos","events_url":"https://api.github.com/users/ovangle/events{/privacy}","received_events_url":"https://api.github.com/users/ovangle/received_events","type":"User","site_admin":false,"contributions":4},{"login":"timgraham","id":411869,"node_id":"MDQ6VXNlcjQxMTg2OQ==","avatar_url":"https://avatars.githubusercontent.com/u/411869?v=4","gravatar_id":"","url":"https://api.github.com/users/timgraham","html_url":"https://github.com/timgraham","followers_url":"https://api.github.com/users/timgraham/followers","following_url":"https://api.github.com/users/timgraham/following{/other_user}","gists_url":"https://api.github.com/users/timgraham/gists{/gist_id}","starred_url":"https://api.github.com/users/timgraham/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/timgraham/subscriptions","organizations_url":"https://api.github.com/users/timgraham/orgs","repos_url":"https://api.github.com/users/timgraham/repos","events_url":"https://api.github.com/users/timgraham/events{/privacy}","received_events_url":"https://api.github.com/users/timgraham/received_events","type":"User","site_admin":false,"contributions":3},{"login":"thedrow","id":48936,"node_id":"MDQ6VXNlcjQ4OTM2","avatar_url":"https://avatars.githubusercontent.com/u/48936?v=4","gravatar_id":"","url":"https://api.github.com/users/thedrow","html_url":"https://github.com/thedrow","followers_url":"https://api.github.com/users/thedrow/followers","following_url":"https://api.github.com/users/thedrow/following{/other_user}","gists_url":"https://api.github.com/users/thedrow/gists{/gist_id}","starred_url":"https://api.github.com/users/thedrow/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/thedrow/subscriptions","organizations_url":"https://api.github.com/users/thedrow/orgs","repos_url":"https://api.github.com/users/thedrow/repos","events_url":"https://api.github.com/users/thedrow/events{/privacy}","received_events_url":"https://api.github.com/users/thedrow/received_events","type":"User","site_admin":false,"contributions":3},{"login":"nedbat","id":23789,"node_id":"MDQ6VXNlcjIzNzg5","avatar_url":"https://avatars.githubusercontent.com/u/23789?v=4","gravatar_id":"","url":"https://api.github.com/users/nedbat","html_url":"https://github.com/nedbat","followers_url":"https://api.github.com/users/nedbat/followers","following_url":"https://api.github.com/users/nedbat/following{/other_user}","gists_url":"https://api.github.com/users/nedbat/gists{/gist_id}","starred_url":"https://api.github.com/users/nedbat/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/nedbat/subscriptions","organizations_url":"https://api.github.com/users/nedbat/orgs","repos_url":"https://api.github.com/users/nedbat/repos","events_url":"https://api.github.com/users/nedbat/events{/privacy}","received_events_url":"https://api.github.com/users/nedbat/received_events","type":"User","site_admin":false,"contributions":3},{"login":"MarkusH","id":475613,"node_id":"MDQ6VXNlcjQ3NTYxMw==","avatar_url":"https://avatars.githubusercontent.com/u/475613?v=4","gravatar_id":"","url":"https://api.github.com/users/MarkusH","html_url":"https://github.com/MarkusH","followers_url":"https://api.github.com/users/MarkusH/followers","following_url":"https://api.github.com/users/MarkusH/following{/other_user}","gists_url":"https://api.github.com/users/MarkusH/gists{/gist_id}","starred_url":"https://api.github.com/users/MarkusH/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/MarkusH/subscriptions","organizations_url":"https://api.github.com/users/MarkusH/orgs","repos_url":"https://api.github.com/users/MarkusH/repos","events_url":"https://api.github.com/users/MarkusH/events{/privacy}","received_events_url":"https://api.github.com/users/MarkusH/received_events","type":"User","site_admin":false,"contributions":3},{"login":"jdufresne","id":347634,"node_id":"MDQ6VXNlcjM0NzYzNA==","avatar_url":"https://avatars.githubusercontent.com/u/347634?v=4","gravatar_id":"","url":"https://api.github.com/users/jdufresne","html_url":"https://github.com/jdufresne","followers_url":"https://api.github.com/users/jdufresne/followers","following_url":"https://api.github.com/users/jdufresne/following{/other_user}","gists_url":"https://api.github.com/users/jdufresne/gists{/gist_id}","starred_url":"https://api.github.com/users/jdufresne/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jdufresne/subscriptions","organizations_url":"https://api.github.com/users/jdufresne/orgs","repos_url":"https://api.github.com/users/jdufresne/repos","events_url":"https://api.github.com/users/jdufresne/events{/privacy}","received_events_url":"https://api.github.com/users/jdufresne/received_events","type":"User","site_admin":false,"contributions":2},{"login":"thibaudcolas","id":877585,"node_id":"MDQ6VXNlcjg3NzU4NQ==","avatar_url":"https://avatars.githubusercontent.com/u/877585?v=4","gravatar_id":"","url":"https://api.github.com/users/thibaudcolas","html_url":"https://github.com/thibaudcolas","followers_url":"https://api.github.com/users/thibaudcolas/followers","following_url":"https://api.github.com/users/thibaudcolas/following{/other_user}","gists_url":"https://api.github.com/users/thibaudcolas/gists{/gist_id}","starred_url":"https://api.github.com/users/thibaudcolas/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/thibaudcolas/subscriptions","organizations_url":"https://api.github.com/users/thibaudcolas/orgs","repos_url":"https://api.github.com/users/thibaudcolas/repos","events_url":"https://api.github.com/users/thibaudcolas/events{/privacy}","received_events_url":"https://api.github.com/users/thibaudcolas/received_events","type":"User","site_admin":false,"contributions":2},{"login":"VishvajitP","id":5609697,"node_id":"MDQ6VXNlcjU2MDk2OTc=","avatar_url":"https://avatars.githubusercontent.com/u/5609697?v=4","gravatar_id":"","url":"https://api.github.com/users/VishvajitP","html_url":"https://github.com/VishvajitP","followers_url":"https://api.github.com/users/VishvajitP/followers","following_url":"https://api.github.com/users/VishvajitP/following{/other_user}","gists_url":"https://api.github.com/users/VishvajitP/gists{/gist_id}","starred_url":"https://api.github.com/users/VishvajitP/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/VishvajitP/subscriptions","organizations_url":"https://api.github.com/users/VishvajitP/orgs","repos_url":"https://api.github.com/users/VishvajitP/repos","events_url":"https://api.github.com/users/VishvajitP/events{/privacy}","received_events_url":"https://api.github.com/users/VishvajitP/received_events","type":"User","site_admin":false,"contributions":2},{"login":"alexwlchan","id":301220,"node_id":"MDQ6VXNlcjMwMTIyMA==","avatar_url":"https://avatars.githubusercontent.com/u/301220?v=4","gravatar_id":"","url":"https://api.github.com/users/alexwlchan","html_url":"https://github.com/alexwlchan","followers_url":"https://api.github.com/users/alexwlchan/followers","following_url":"https://api.github.com/users/alexwlchan/following{/other_user}","gists_url":"https://api.github.com/users/alexwlchan/gists{/gist_id}","starred_url":"https://api.github.com/users/alexwlchan/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/alexwlchan/subscriptions","organizations_url":"https://api.github.com/users/alexwlchan/orgs","repos_url":"https://api.github.com/users/alexwlchan/repos","events_url":"https://api.github.com/users/alexwlchan/events{/privacy}","received_events_url":"https://api.github.com/users/alexwlchan/received_events","type":"User","site_admin":false,"contributions":1},{"login":"andreif","id":259691,"node_id":"MDQ6VXNlcjI1OTY5MQ==","avatar_url":"https://avatars.githubusercontent.com/u/259691?v=4","gravatar_id":"","url":"https://api.github.com/users/andreif","html_url":"https://github.com/andreif","followers_url":"https://api.github.com/users/andreif/followers","following_url":"https://api.github.com/users/andreif/following{/other_user}","gists_url":"https://api.github.com/users/andreif/gists{/gist_id}","starred_url":"https://api.github.com/users/andreif/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/andreif/subscriptions","organizations_url":"https://api.github.com/users/andreif/orgs","repos_url":"https://api.github.com/users/andreif/repos","events_url":"https://api.github.com/users/andreif/events{/privacy}","received_events_url":"https://api.github.com/users/andreif/received_events","type":"User","site_admin":false,"contributions":1},{"login":"berkerpeksag","id":26338,"node_id":"MDQ6VXNlcjI2MzM4","avatar_url":"https://avatars.githubusercontent.com/u/26338?v=4","gravatar_id":"","url":"https://api.github.com/users/berkerpeksag","html_url":"https://github.com/berkerpeksag","followers_url":"https://api.github.com/users/berkerpeksag/followers","following_url":"https://api.github.com/users/berkerpeksag/following{/other_user}","gists_url":"https://api.github.com/users/berkerpeksag/gists{/gist_id}","starred_url":"https://api.github.com/users/berkerpeksag/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/berkerpeksag/subscriptions","organizations_url":"https://api.github.com/users/berkerpeksag/orgs","repos_url":"https://api.github.com/users/berkerpeksag/repos","events_url":"https://api.github.com/users/berkerpeksag/events{/privacy}","received_events_url":"https://api.github.com/users/berkerpeksag/received_events","type":"User","site_admin":false,"contributions":1},{"login":"ewjoachim","id":1457576,"node_id":"MDQ6VXNlcjE0NTc1NzY=","avatar_url":"https://avatars.githubusercontent.com/u/1457576?v=4","gravatar_id":"","url":"https://api.github.com/users/ewjoachim","html_url":"https://github.com/ewjoachim","followers_url":"https://api.github.com/users/ewjoachim/followers","following_url":"https://api.github.com/users/ewjoachim/following{/other_user}","gists_url":"https://api.github.com/users/ewjoachim/gists{/gist_id}","starred_url":"https://api.github.com/users/ewjoachim/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/ewjoachim/subscriptions","organizations_url":"https://api.github.com/users/ewjoachim/orgs","repos_url":"https://api.github.com/users/ewjoachim/repos","events_url":"https://api.github.com/users/ewjoachim/events{/privacy}","received_events_url":"https://api.github.com/users/ewjoachim/received_events","type":"User","site_admin":false,"contributions":1},{"login":"jarshwah","id":541083,"node_id":"MDQ6VXNlcjU0MTA4Mw==","avatar_url":"https://avatars.githubusercontent.com/u/541083?v=4","gravatar_id":"","url":"https://api.github.com/users/jarshwah","html_url":"https://github.com/jarshwah","followers_url":"https://api.github.com/users/jarshwah/followers","following_url":"https://api.github.com/users/jarshwah/following{/other_user}","gists_url":"https://api.github.com/users/jarshwah/gists{/gist_id}","starred_url":"https://api.github.com/users/jarshwah/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/jarshwah/subscriptions","organizations_url":"https://api.github.com/users/jarshwah/orgs","repos_url":"https://api.github.com/users/jarshwah/repos","events_url":"https://api.github.com/users/jarshwah/events{/privacy}","received_events_url":"https://api.github.com/users/jarshwah/received_events","type":"User","site_admin":false,"contributions":1},{"login":"mjtamlyn","id":389581,"node_id":"MDQ6VXNlcjM4OTU4MQ==","avatar_url":"https://avatars.githubusercontent.com/u/389581?v=4","gravatar_id":"","url":"https://api.github.com/users/mjtamlyn","html_url":"https://github.com/mjtamlyn","followers_url":"https://api.github.com/users/mjtamlyn/followers","following_url":"https://api.github.com/users/mjtamlyn/following{/other_user}","gists_url":"https://api.github.com/users/mjtamlyn/gists{/gist_id}","starred_url":"https://api.github.com/users/mjtamlyn/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/mjtamlyn/subscriptions","organizations_url":"https://api.github.com/users/mjtamlyn/orgs","repos_url":"https://api.github.com/users/mjtamlyn/repos","events_url":"https://api.github.com/users/mjtamlyn/events{/privacy}","received_events_url":"https://api.github.com/users/mjtamlyn/received_events","type":"User","site_admin":false,"contributions":1},{"login":"felixxm","id":2865885,"node_id":"MDQ6VXNlcjI4NjU4ODU=","avatar_url":"https://avatars.githubusercontent.com/u/2865885?v=4","gravatar_id":"","url":"https://api.github.com/users/felixxm","html_url":"https://github.com/felixxm","followers_url":"https://api.github.com/users/felixxm/followers","following_url":"https://api.github.com/users/felixxm/following{/other_user}","gists_url":"https://api.github.com/users/felixxm/gists{/gist_id}","starred_url":"https://api.github.com/users/felixxm/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/felixxm/subscriptions","organizations_url":"https://api.github.com/users/felixxm/orgs","repos_url":"https://api.github.com/users/felixxm/repos","events_url":"https://api.github.com/users/felixxm/events{/privacy}","received_events_url":"https://api.github.com/users/felixxm/received_events","type":"User","site_admin":false,"contributions":1},{"login":"mblayman","id":636865,"node_id":"MDQ6VXNlcjYzNjg2NQ==","avatar_url":"https://avatars.githubusercontent.com/u/636865?v=4","gravatar_id":"","url":"https://api.github.com/users/mblayman","html_url":"https://github.com/mblayman","followers_url":"https://api.github.com/users/mblayman/followers","following_url":"https://api.github.com/users/mblayman/following{/other_user}","gists_url":"https://api.github.com/users/mblayman/gists{/gist_id}","starred_url":"https://api.github.com/users/mblayman/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/mblayman/subscriptions","organizations_url":"https://api.github.com/users/mblayman/orgs","repos_url":"https://api.github.com/users/mblayman/repos","events_url":"https://api.github.com/users/mblayman/events{/privacy}","received_events_url":"https://api.github.com/users/mblayman/received_events","type":"User","site_admin":false,"contributions":1},{"login":"michael-k","id":152008,"node_id":"MDQ6VXNlcjE1MjAwOA==","avatar_url":"https://avatars.githubusercontent.com/u/152008?v=4","gravatar_id":"","url":"https://api.github.com/users/michael-k","html_url":"https://github.com/michael-k","followers_url":"https://api.github.com/users/michael-k/followers","following_url":"https://api.github.com/users/michael-k/following{/other_user}","gists_url":"https://api.github.com/users/michael-k/gists{/gist_id}","starred_url":"https://api.github.com/users/michael-k/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/michael-k/subscriptions","organizations_url":"https://api.github.com/users/michael-k/orgs","repos_url":"https://api.github.com/users/michael-k/repos","events_url":"https://api.github.com/users/michael-k/events{/privacy}","received_events_url":"https://api.github.com/users/michael-k/received_events","type":"User","site_admin":false,"contributions":1},{"login":"knyghty","id":3871354,"node_id":"MDQ6VXNlcjM4NzEzNTQ=","avatar_url":"https://avatars.githubusercontent.com/u/3871354?v=4","gravatar_id":"","url":"https://api.github.com/users/knyghty","html_url":"https://github.com/knyghty","followers_url":"https://api.github.com/users/knyghty/followers","following_url":"https://api.github.com/users/knyghty/following{/other_user}","gists_url":"https://api.github.com/users/knyghty/gists{/gist_id}","starred_url":"https://api.github.com/users/knyghty/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/knyghty/subscriptions","organizations_url":"https://api.github.com/users/knyghty/orgs","repos_url":"https://api.github.com/users/knyghty/repos","events_url":"https://api.github.com/users/knyghty/events{/privacy}","received_events_url":"https://api.github.com/users/knyghty/received_events","type":"User","site_admin":false,"contributions":1},{"login":"nessita","id":124304,"node_id":"MDQ6VXNlcjEyNDMwNA==","avatar_url":"https://avatars.githubusercontent.com/u/124304?v=4","gravatar_id":"","url":"https://api.github.com/users/nessita","html_url":"https://github.com/nessita","followers_url":"https://api.github.com/users/nessita/followers","following_url":"https://api.github.com/users/nessita/following{/other_user}","gists_url":"https://api.github.com/users/nessita/gists{/gist_id}","starred_url":"https://api.github.com/users/nessita/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/nessita/subscriptions","organizations_url":"https://api.github.com/users/nessita/orgs","repos_url":"https://api.github.com/users/nessita/repos","events_url":"https://api.github.com/users/nessita/events{/privacy}","received_events_url":"https://api.github.com/users/nessita/received_events","type":"User","site_admin":false,"contributions":1}]'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -269,11 +202,11 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:49 GMT
+      - Sat, 13 Jan 2024 02:46:49 GMT
       ETag:
-      - W/"ced3cf0d2b87a5522e066fe40ba45acb58651f97954a02bb331fda7a7da0778f"
+      - W/"9ef20788a14dc21600776e944a5964a7bf44b22aca35608e59aa7d64492438f6"
       Last-Modified:
-      - Tue, 01 Mar 2022 01:01:44 GMT
+      - Thu, 04 Jan 2024 15:56:35 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -294,7 +227,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD08:DD2C549:62240F7D
+      - EDF1:9DA9:47F8B30:957C13B:65A1F999
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -302,13 +235,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -326,19 +261,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WSQY7DIAxF78I6CzqhUZPLIEQ9qaUAGTtZVb17TSN1SJRUI80KsM3T/x/uioDT
-        TB5YdXflE0FeBww4qe6sta7UzHBVnalkNDiMGHs5tW2TCwwydmpMc66N/ro8KsXgyN8KSP1GyKZA
-        5PoKoE2rBdCTG28/w4GMNWMRuJFRZwrGCYQ0YYo2uIjfwKJ019lfkUtOFsOYqGSdfkNao16NPYs+
-        XcGydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/6A3so1+pUlewwlpPwWG8dHDyIU
-        EfO/v/V4ApXAPT2tAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114069},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117609},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117609},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114069},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117609},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117609},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117609},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114069},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117609},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114069}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -356,7 +286,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:50 GMT
+      - Sat, 13 Jan 2024 02:46:49 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -376,7 +306,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD12:DD2C560:62240F7E
+      - EDF2:7F9B:4CF36A8:9F3630B:65A1F999
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -384,13 +314,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -408,19 +340,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WSQY7DIAxF78I6CzqhUZPLIEQ9qaUAGTtZVb17TSN1SJRUI80KsM3T/x/uioDT
-        TB5YdXflE0FeBww4qe6sta7UzHBVnalkNDiMGHs5tW2TCwwydmpMc66N/ro8KsXgyN8KSP1GyKZA
-        5PoKoE2rBdCTG28/w4GMNWMRuJFRZwrGCYQ0YYo2uIjfwKJ019lfkUtOFsOYqGSdfkNao16NPYs+
-        XcGydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/6A3so1+pUlewwlpPwWG8dHDyIU
-        EfO/v/V4ApXAPT2tAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114070},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117610},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117610},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114070},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117610},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117610},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117610},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114070},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117610},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114070}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -438,7 +365,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:50 GMT
+      - Sat, 13 Jan 2024 02:46:50 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -458,7 +385,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD16:DD2C573:62240F7E
+      - EDF3:1A93:4CE9E27:9F3B589:65A1F99A
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -466,13 +393,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -490,19 +419,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WSQY7DIAxF78I6CzqhUZPLIEQ9qaUAGTtZVb17TSN1SJRUI80KsM3T/x/uioDT
-        TB5YdXflE0FeBww4qe6sta7UzHBVnalkNDiMGHs5tW2TCwwydmpMc66N/ro8KsXgyN8KSP1GyKZA
-        5PoKoE2rBdCTG28/w4GMNWMRuJFRZwrGCYQ0YYo2uIjfwKJ019lfkUtOFsOYqGSdfkNao16NPYs+
-        XcGydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/6A3so1+pUlewwlpPwWG8dHDyIU
-        EfO/v/V4ApXAPT2tAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114070},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117610},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117610},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114070},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117610},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117610},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117610},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114070},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117610},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114070}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -520,7 +444,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:50 GMT
+      - Sat, 13 Jan 2024 02:46:50 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -540,7 +464,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD1F:DD2C58F:62240F7E
+      - EDF4:0C07:4BD31BC:9D04133:65A1F99A
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -548,13 +472,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -572,19 +498,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WSQY7DIAxF78I6CzqhUZPLIEQ9qaUAGTtZVb17TSN1SJRUI80KsM3T/x/uioDT
-        TB5YdXflE0FeBww4qe6sta7UzHBVnalkNDiMGHs5tW2TCwwydmpMc66N/ro8KsXgyN8KSP1GyKZA
-        5PoKoE2rBdCTG28/w4GMNWMRuJFRZwrGCYQ0YYo2uIjfwKJ019lfkUtOFsOYqGSdfkNao16NPYs+
-        XcGydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/6A3so1+pUlewwlpPwWG8dHDyIU
-        EfO/v/V4ApXAPT2tAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114070},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117610},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117610},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114070},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117610},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117610},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117610},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114070},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117610},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114070}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -602,7 +523,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:50 GMT
+      - Sat, 13 Jan 2024 02:46:50 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -622,7 +543,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD28:DD2C5A2:62240F7E
+      - EDF5:645A:48A523D:96B7110:65A1F99A
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -630,13 +551,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -654,19 +577,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WSQY7DIAxF78I6CzqhUZPLIEQ9qaUAGTtZVb17TSN1SJRUI80KsM3T/x/uioDT
-        TB5YdXflE0FeBww4qe6sta7UzHBVnalkNDiMGHs5tW2TCwwydmpMc66N/ro8KsXgyN8KSP1GyKZA
-        5PoKoE2rBdCTG28/w4GMNWMRuJFRZwrGCYQ0YYo2uIjfwKJ019lfkUtOFsOYqGSdfkNao16NPYs+
-        XcGydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/6A3so1+pUlewwlpPwWG8dHDyIU
-        EfO/v/V4ApXAPT2tAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114070},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117610},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117610},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114070},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117610},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117610},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117610},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114070},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117610},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114070}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -684,7 +602,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:50 GMT
+      - Sat, 13 Jan 2024 02:46:50 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -704,7 +622,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD2D:DD2C5B7:62240F7E
+      - EDF6:2CAD:49B249A:98D1F97:65A1F99A
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -712,13 +630,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -736,19 +656,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WSQY7DIAxF78I6CzqhUZPLIEQ9qaUAGTtZVb17TSN1SJRUI80KsM3T/x/uioDT
-        TB5YdXflE0FeBww4qe6sta7UzHBVnalkNDiMGHs5tW2TCwwydmpMc66N/ro8KsXgyN8KSP1GyKZA
-        5PoKoE2rBdCTG28/w4GMNWMRuJFRZwrGCYQ0YYo2uIjfwKJ019lfkUtOFsOYqGSdfkNao16NPYs+
-        XcGydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/6A3so1+pUlewwlpPwWG8dHDyIU
-        EfO/v/V4ApXAPT2tAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114071},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117611},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117611},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114071},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117611},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117611},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117611},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114071},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117611},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114071}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -766,7 +681,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:50 GMT
+      - Sat, 13 Jan 2024 02:46:51 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -786,7 +701,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD37:DD2C5C9:62240F7E
+      - EDF7:9837:4D779AA:A04DC66:65A1F99B
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -794,13 +709,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -818,19 +735,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WSQY7DIAxF78I6CzqhUZPLIEQ9qaUAGTtZVb17TSN1SJRUI80KsM3T/x/uioDT
-        TB5YdXflE0FeBww4qe6sta7UzHBVnalkNDiMGHs5tW2TCwwydmpMc66N/ro8KsXgyN8KSP1GyKZA
-        5PoKoE2rBdCTG28/w4GMNWMRuJFRZwrGCYQ0YYo2uIjfwKJ019lfkUtOFsOYqGSdfkNao16NPYs+
-        XcGydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/6A3so1+pUlewwlpPwWG8dHDyIU
-        EfO/v/V4ApXAPT2tAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114071},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117611},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117611},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114071},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117611},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117611},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117611},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114071},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117611},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114071}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -848,7 +760,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:50 GMT
+      - Sat, 13 Jan 2024 02:46:51 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -868,7 +780,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD3D:DD2C5D4:62240F7E
+      - EDF8:0711:4A5DAF8:9A22935:65A1F99B
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -876,13 +788,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -900,19 +814,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WSQY7DIAxF78I6CzqhUZPLIEQ9qaUAGTtZVb17TSN1SJRUI80KsM3T/x/uioDT
-        TB5YdXflE0FeBww4qe6sta7UzHBVnalkNDiMGHs5tW2TCwwydmpMc66N/ro8KsXgyN8KSP1GyKZA
-        5PoKoE2rBdCTG28/w4GMNWMRuJFRZwrGCYQ0YYo2uIjfwKJ019lfkUtOFsOYqGSdfkNao16NPYs+
-        XcGydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/6A3so1+pUlewwlpPwWG8dHDyIU
-        EfO/v/V4ApXAPT2tAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114071},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117611},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117611},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114071},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117611},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117611},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117611},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114071},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117611},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114071}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -930,7 +839,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:50 GMT
+      - Sat, 13 Jan 2024 02:46:51 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -950,7 +859,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD3F:DD2C5E2:62240F7E
+      - EDF9:7F9B:4CF3899:9F36727:65A1F99B
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -958,13 +867,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -982,19 +893,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WSQY7DIAxF78I6CzqhUZPLIEQ9qaUAGTtZVb17TSN1SJRUI80KsM3T/x/uioDT
-        TB5YdXflE0FeBww4qe6sta7UzHBVnalkNDiMGHs5tW2TCwwydmpMc66N/ro8KsXgyN8KSP1GyKZA
-        5PoKoE2rBdCTG28/w4GMNWMRuJFRZwrGCYQ0YYo2uIjfwKJ019lfkUtOFsOYqGSdfkNao16NPYs+
-        XcGydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/6A3so1+pUlewwlpPwWG8dHDyIU
-        EfO/v/V4ApXAPT2tAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114071},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117611},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117611},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114071},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117611},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117611},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117611},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114071},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117611},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114071}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -1012,7 +918,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:50 GMT
+      - Sat, 13 Jan 2024 02:46:51 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -1032,7 +938,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD43:DD2C5F3:62240F7E
+      - EDFA:483A:4A1720C:99B302B:65A1F99B
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -1040,13 +946,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -1064,19 +972,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WSQY7DIAxF78I6CzqhUZPLIEQ9qaUAGTtZVb17TSN1SJRUI80KsM3T/x/uioDT
-        TB5YdXflE0FeBww4qe6sta7UzHBVnalkNDiMGHs5tW2TCwwydmpMc66N/ro8KsXgyN8KSP1GyKZA
-        5PoKoE2rBdCTG28/w4GMNWMRuJFRZwrGCYQ0YYo2uIjfwKJ019lfkUtOFsOYqGSdfkNao16NPYs+
-        XcGydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/6A3so1+pUlewwlpPwWG8dHDyIU
-        EfO/v/V4ApXAPT2tAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114072},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117612},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117612},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114072},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117612},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117612},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117612},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114072},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117612},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114072}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -1094,7 +997,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:50 GMT
+      - Sat, 13 Jan 2024 02:46:52 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -1114,7 +1017,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD4B:DD2C600:62240F7E
+      - EDFB:6324:4BF1935:9D4DC3B:65A1F99C
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -1122,13 +1025,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -1146,19 +1051,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WS0W7DIAxF/4XnPJCFRkt+BiHqpZYCZHbyVPXfaxqpI1EyTdoTYJujey/cFQGn
-        hTyw6u/KJ4K8jhhwVv1Fa12pheGqelPJaHAYMQ5y6ro2FxhkrG5Ne2mM/vh8VIrBkb8VkOaNkE2B
-        yPUNQJuuFsBAbrp9jycytoxV4E5GkykYZxDSjCna4CJ+AYvSQ2d/Ra45WQxTopJV/4S0Rb0aRxZ9
-        uoJl72IO0y7TmJwk/BYn904yWztHfp3PVtnSEiOQJRiQ59X/jvwLei/X6FeW7DGUkPJb7ByfPYhQ
-        RMz//tbjCepkXDmtAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114072},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117612},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117612},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114072},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117612},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117612},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117612},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114072},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117612},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114072}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -1176,7 +1076,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:51 GMT
+      - Sat, 13 Jan 2024 02:46:52 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -1196,7 +1096,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD50:DD2C60D:62240F7F
+      - EDFC:8444:4C5D674:9E28B74:65A1F99C
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -1204,13 +1104,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -1228,19 +1130,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WS0W7DIAxF/4XnPJCFRkt+BiHqpZYCZHbyVPXfaxqpI1EyTdoTYJujey/cFQGn
-        hTyw6u/KJ4K8jhhwVv1Fa12pheGqelPJaHAYMQ5y6ro2FxhkrG5Ne2mM/vh8VIrBkb8VkOaNkE2B
-        yPUNQJuuFsBAbrp9jycytoxV4E5GkykYZxDSjCna4CJ+AYvSQ2d/Ra45WQxTopJV/4S0Rb0aRxZ9
-        uoJl72IO0y7TmJwk/BYn904yWztHfp3PVtnSEiOQJRiQ59X/jvwLei/X6FeW7DGUkPJb7ByfPYhQ
-        RMz//tbjCepkXDmtAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114072},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117612},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117612},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114072},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117612},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117612},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117612},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114072},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117612},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114072}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -1258,7 +1155,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:51 GMT
+      - Sat, 13 Jan 2024 02:46:52 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -1278,7 +1175,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD58:DD2C623:62240F7F
+      - EDFD:7675:51D8D93:A8E9940:65A1F99C
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -1286,13 +1183,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -1310,19 +1209,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WS0W7DIAxF/4XnPJCFRkt+BiHqpZYCZHbyVPXfaxqpI1EyTdoTYJujey/cFQGn
-        hTyw6u/KJ4K8jhhwVv1Fa12pheGqelPJaHAYMQ5y6ro2FxhkrG5Ne2mM/vh8VIrBkb8VkOaNkE2B
-        yPUNQJuuFsBAbrp9jycytoxV4E5GkykYZxDSjCna4CJ+AYvSQ2d/Ra45WQxTopJV/4S0Rb0aRxZ9
-        uoJl72IO0y7TmJwk/BYn904yWztHfp3PVtnSEiOQJRiQ59X/jvwLei/X6FeW7DGUkPJb7ByfPYhQ
-        RMz//tbjCepkXDmtAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114073},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117613},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117613},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114073},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117613},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117613},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117613},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114073},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117613},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114073}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -1340,7 +1234,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:51 GMT
+      - Sat, 13 Jan 2024 02:46:53 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -1360,7 +1254,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD5D:DD2C634:62240F7F
+      - EDFE:0711:4A5DC79:9A22C5C:65A1F99C
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -1368,13 +1262,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -1392,19 +1288,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WS0W7DIAxF/4XnPJCFRkt+BiHqpZYCZHbyVPXfaxqpI1EyTdoTYJujey/cFQGn
-        hTyw6u/KJ4K8jhhwVv1Fa12pheGqelPJaHAYMQ5y6ro2FxhkrG5Ne2mM/vh8VIrBkb8VkOaNkE2B
-        yPUNQJuuFsBAbrp9jycytoxV4E5GkykYZxDSjCna4CJ+AYvSQ2d/Ra45WQxTopJV/4S0Rb0aRxZ9
-        uoJl72IO0y7TmJwk/BYn904yWztHfp3PVtnSEiOQJRiQ59X/jvwLei/X6FeW7DGUkPJb7ByfPYhQ
-        RMz//tbjCepkXDmtAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114073},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117613},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117613},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114073},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117613},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117613},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117613},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114073},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117613},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114073}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -1422,7 +1313,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:51 GMT
+      - Sat, 13 Jan 2024 02:46:53 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -1442,7 +1333,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD60:DD2C63E:62240F7F
+      - EDFF:62BE:489EE1F:96BECFB:65A1F99D
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -1450,13 +1341,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -1474,19 +1367,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WS0W7DIAxF/4XnPJCFRkt+BiHqpZYCZHbyVPXfaxqpI1EyTdoTYJujey/cFQGn
-        hTyw6u/KJ4K8jhhwVv1Fa12pheGqelPJaHAYMQ5y6ro2FxhkrG5Ne2mM/vh8VIrBkb8VkOaNkE2B
-        yPUNQJuuFsBAbrp9jycytoxV4E5GkykYZxDSjCna4CJ+AYvSQ2d/Ra45WQxTopJV/4S0Rb0aRxZ9
-        uoJl72IO0y7TmJwk/BYn904yWztHfp3PVtnSEiOQJRiQ59X/jvwLei/X6FeW7DGUkPJb7ByfPYhQ
-        RMz//tbjCepkXDmtAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114073},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117613},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117613},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114073},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117613},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117613},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117613},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114073},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117613},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114073}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -1504,7 +1392,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:51 GMT
+      - Sat, 13 Jan 2024 02:46:53 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -1524,7 +1412,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD65:DD2C659:62240F7F
+      - EE00:1326:AAC2C7:1634186:65A1F99D
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -1532,13 +1420,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -1556,19 +1446,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WS0W7DIAxF/4XnPJCFRkt+BiHqpZYCZHbyVPXfaxqpI1EyTdoTYJujey/cFQGn
-        hTyw6u/KJ4K8jhhwVv1Fa12pheGqelPJaHAYMQ5y6ro2FxhkrG5Ne2mM/vh8VIrBkb8VkOaNkE2B
-        yPUNQJuuFsBAbrp9jycytoxV4E5GkykYZxDSjCna4CJ+AYvSQ2d/Ra45WQxTopJV/4S0Rb0aRxZ9
-        uoJl72IO0y7TmJwk/BYn904yWztHfp3PVtnSEiOQJRiQ59X/jvwLei/X6FeW7DGUkPJb7ByfPYhQ
-        RMz//tbjCepkXDmtAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114073},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117613},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117613},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114073},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117613},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117613},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117613},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114073},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117613},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114073}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -1586,7 +1471,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:51 GMT
+      - Sat, 13 Jan 2024 02:46:53 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -1606,7 +1491,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD70:DD2C669:62240F7F
+      - EE01:4DB7:4AADE93:9AC2054:65A1F99D
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -1614,13 +1499,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -1638,19 +1525,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WS0W7DIAxF/4XnPJCFRkt+BiHqpZYCZHbyVPXfaxqpI1EyTdoTYJujey/cFQGn
-        hTyw6u/KJ4K8jhhwVv1Fa12pheGqelPJaHAYMQ5y6ro2FxhkrG5Ne2mM/vh8VIrBkb8VkOaNkE2B
-        yPUNQJuuFsBAbrp9jycytoxV4E5GkykYZxDSjCna4CJ+AYvSQ2d/Ra45WQxTopJV/4S0Rb0aRxZ9
-        uoJl72IO0y7TmJwk/BYn904yWztHfp3PVtnSEiOQJRiQ59X/jvwLei/X6FeW7DGUkPJb7ByfPYhQ
-        RMz//tbjCepkXDmtAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114074},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117614},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117614},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114074},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117614},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117614},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117614},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114074},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117614},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114074}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -1668,7 +1550,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:51 GMT
+      - Sat, 13 Jan 2024 02:46:54 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -1688,7 +1570,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD79:DD2C678:62240F7F
+      - EE02:793A:4C30D12:9DD1276:65A1F99D
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -1696,13 +1578,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -1720,19 +1604,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WS0W7DIAxF/4XnPJCFRkt+BiHqpZYCZHbyVPXfaxqpI1EyTdoTYJujey/cFQGn
-        hTyw6u/KJ4K8jhhwVv1Fa12pheGqelPJaHAYMQ5y6ro2FxhkrG5Ne2mM/vh8VIrBkb8VkOaNkE2B
-        yPUNQJuuFsBAbrp9jycytoxV4E5GkykYZxDSjCna4CJ+AYvSQ2d/Ra45WQxTopJV/4S0Rb0aRxZ9
-        uoJl72IO0y7TmJwk/BYn904yWztHfp3PVtnSEiOQJRiQ59X/jvwLei/X6FeW7DGUkPJb7ByfPYhQ
-        RMz//tbjCepkXDmtAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114074},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117614},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117614},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114074},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117614},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117614},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117614},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114074},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117614},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114074}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -1750,7 +1629,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:51 GMT
+      - Sat, 13 Jan 2024 02:46:54 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -1770,7 +1649,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD7E:DD2C689:62240F7F
+      - EE03:1A93:4CEA23B:9F3BE32:65A1F99E
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -1778,13 +1657,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -1802,19 +1683,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WS0W7DIAxF/4XnPJCFRkt+BiHqpZYCZHbyVPXfaxqpI1EyTdoTYJujey/cFQGn
-        hTyw6u/KJ4K8jhhwVv1Fa12pheGqelPJaHAYMQ5y6ro2FxhkrG5Ne2mM/vh8VIrBkb8VkOaNkE2B
-        yPUNQJuuFsBAbrp9jycytoxV4E5GkykYZxDSjCna4CJ+AYvSQ2d/Ra45WQxTopJV/4S0Rb0aRxZ9
-        uoJl72IO0y7TmJwk/BYn904yWztHfp3PVtnSEiOQJRiQ59X/jvwLei/X6FeW7DGUkPJb7ByfPYhQ
-        RMz//tbjCepkXDmtAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114074},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117614},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117614},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114074},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117614},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117614},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117614},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114074},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117614},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114074}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -1832,7 +1708,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:51 GMT
+      - Sat, 13 Jan 2024 02:46:54 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -1852,7 +1728,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD84:DD2C693:62240F7F
+      - EE04:514D:4DEEA1A:A13B314:65A1F99E
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -1860,13 +1736,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -1884,19 +1762,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WS0W7DIAxF/4XnPJCFRkt+BiHqpZYCZHbyVPXfaxqpI1EyTdoTYJujey/cFQGn
-        hTyw6u/KJ4K8jhhwVv1Fa12pheGqelPJaHAYMQ5y6ro2FxhkrG5Ne2mM/vh8VIrBkb8VkOaNkE2B
-        yPUNQJuuFsBAbrp9jycytoxV4E5GkykYZxDSjCna4CJ+AYvSQ2d/Ra45WQxTopJV/4S0Rb0aRxZ9
-        uoJl72IO0y7TmJwk/BYn904yWztHfp3PVtnSEiOQJRiQ59X/jvwLei/X6FeW7DGUkPJb7ByfPYhQ
-        RMz//tbjCepkXDmtAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114074},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117614},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117614},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114074},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117614},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117614},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117614},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114074},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117614},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114074}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -1914,7 +1787,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:51 GMT
+      - Sat, 13 Jan 2024 02:46:54 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -1934,7 +1807,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD8A:DD2C6A3:62240F7F
+      - EE05:5F79:4C45D73:9DF6EA4:65A1F99E
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -1942,13 +1815,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -1966,19 +1841,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WSQY7DIAxF78I6C9rQqMllEKKe1FKAjJ2sqt59TCO1JEpGI80KsM3T/x8eioDT
-        TB5YdQ/lE0FeBww4qe6ita7UzHBTnalkNDiMGHs5tW2TCwwydmpMc6mNPl+flWJw5O8FpH4jZFMg
-        cn0F0KY9C6AnN96/hwMZa8YicCOjzhSMEwhpwhRtcBG/gEXprrO/IpecLIYxUck6fUJao16NPYs+
-        3cCydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/4FvZVr9CtL9hhKSPktNo6PHkQo
-        IuZ/f+v5A2uI/jWtAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114075},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117615},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117615},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114075},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117615},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117615},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117615},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114075},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117615},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114075}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -1996,7 +1866,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:52 GMT
+      - Sat, 13 Jan 2024 02:46:55 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -2016,7 +1886,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD95:DD2C6B3:62240F80
+      - EE06:02FB:4BAB012:9CBE890:65A1F99E
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -2024,13 +1894,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -2048,19 +1920,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WSQY7DIAxF78I6C9rQqMllEKKe1FKAjJ2sqt59TCO1JEpGI80KsM3T/x8eioDT
-        TB5YdQ/lE0FeBww4qe6ita7UzHBTnalkNDiMGHs5tW2TCwwydmpMc6mNPl+flWJw5O8FpH4jZFMg
-        cn0F0KY9C6AnN96/hwMZa8YicCOjzhSMEwhpwhRtcBG/gEXprrO/IpecLIYxUck6fUJao16NPYs+
-        3cCydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/4FvZVr9CtL9hhKSPktNo6PHkQo
-        IuZ/f+v5A2uI/jWtAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114075},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117615},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117615},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114075},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117615},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117615},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117615},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114075},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117615},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114075}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -2078,7 +1945,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:52 GMT
+      - Sat, 13 Jan 2024 02:46:55 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -2098,7 +1965,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD9A:DD2C6C2:62240F80
+      - EE07:5F79:4C45DF1:9DF6FBB:65A1F99F
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -2106,13 +1973,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -2130,19 +1999,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WSQY7DIAxF78I6C9rQqMllEKKe1FKAjJ2sqt59TCO1JEpGI80KsM3T/x8eioDT
-        TB5YdQ/lE0FeBww4qe6ita7UzHBTnalkNDiMGHs5tW2TCwwydmpMc6mNPl+flWJw5O8FpH4jZFMg
-        cn0F0KY9C6AnN96/hwMZa8YicCOjzhSMEwhpwhRtcBG/gEXprrO/IpecLIYxUck6fUJao16NPYs+
-        3cCydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/4FvZVr9CtL9hhKSPktNo6PHkQo
-        IuZ/f+v5A2uI/jWtAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114075},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117615},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117615},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114075},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117615},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117615},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117615},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114075},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117615},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114075}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -2160,7 +2024,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:52 GMT
+      - Sat, 13 Jan 2024 02:46:55 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -2180,7 +2044,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD9C:DD2C6CF:62240F80
+      - EE08:3F16:4C4B7B0:9DF0C8D:65A1F99F
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -2188,13 +2052,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -2212,19 +2078,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WSQY7DIAxF78I6C9rQqMllEKKe1FKAjJ2sqt59TCO1JEpGI80KsM3T/x8eioDT
-        TB5YdQ/lE0FeBww4qe6ita7UzHBTnalkNDiMGHs5tW2TCwwydmpMc6mNPl+flWJw5O8FpH4jZFMg
-        cn0F0KY9C6AnN96/hwMZa8YicCOjzhSMEwhpwhRtcBG/gEXprrO/IpecLIYxUck6fUJao16NPYs+
-        3cCydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/4FvZVr9CtL9hhKSPktNo6PHkQo
-        IuZ/f+v5A2uI/jWtAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114075},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117615},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117615},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114075},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117615},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117615},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117615},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114075},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117615},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114075}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -2242,7 +2103,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:52 GMT
+      - Sat, 13 Jan 2024 02:46:55 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -2262,7 +2123,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DD9F:DD2C6E2:62240F80
+      - EE09:4701:4868CEA:964E907:65A1F99F
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -2270,13 +2131,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -2294,19 +2157,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WSQY7DIAxF78I6C9rQqMllEKKe1FKAjJ2sqt59TCO1JEpGI80KsM3T/x8eioDT
-        TB5YdQ/lE0FeBww4qe6ita7UzHBTnalkNDiMGHs5tW2TCwwydmpMc6mNPl+flWJw5O8FpH4jZFMg
-        cn0F0KY9C6AnN96/hwMZa8YicCOjzhSMEwhpwhRtcBG/gEXprrO/IpecLIYxUck6fUJao16NPYs+
-        3cCydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/4FvZVr9CtL9hhKSPktNo6PHkQo
-        IuZ/f+v5A2uI/jWtAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114076},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117616},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117616},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114076},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117616},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117616},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117616},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114076},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117616},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114076}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -2324,7 +2182,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:52 GMT
+      - Sat, 13 Jan 2024 02:46:56 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -2344,7 +2202,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DDA3:DD2C6F2:62240F80
+      - EE0A:0EEC:4DB8DC6:A0DE30E:65A1F9A0
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -2352,13 +2210,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -2376,19 +2236,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WSQY7DIAxF78I6C9rQqMllEKKe1FKAjJ2sqt59TCO1JEpGI80KsM3T/x8eioDT
-        TB5YdQ/lE0FeBww4qe6ita7UzHBTnalkNDiMGHs5tW2TCwwydmpMc6mNPl+flWJw5O8FpH4jZFMg
-        cn0F0KY9C6AnN96/hwMZa8YicCOjzhSMEwhpwhRtcBG/gEXprrO/IpecLIYxUck6fUJao16NPYs+
-        3cCydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/4FvZVr9CtL9hhKSPktNo6PHkQo
-        IuZ/f+v5A2uI/jWtAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114076},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117616},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117616},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114076},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117616},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117616},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117616},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114076},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117616},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114076}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -2406,7 +2261,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:52 GMT
+      - Sat, 13 Jan 2024 02:46:56 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -2426,7 +2281,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DDA7:DD2C705:62240F80
+      - EE0B:3F16:4C4B888:9DF0E53:65A1F9A0
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -2434,13 +2289,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -2458,19 +2315,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WSQY7DIAxF78I6C9rQqMllEKKe1FKAjJ2sqt59TCO1JEpGI80KsM3T/x8eioDT
-        TB5YdQ/lE0FeBww4qe6ita7UzHBTnalkNDiMGHs5tW2TCwwydmpMc6mNPl+flWJw5O8FpH4jZFMg
-        cn0F0KY9C6AnN96/hwMZa8YicCOjzhSMEwhpwhRtcBG/gEXprrO/IpecLIYxUck6fUJao16NPYs+
-        3cCydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/4FvZVr9CtL9hhKSPktNo6PHkQo
-        IuZ/f+v5A2uI/jWtAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114076},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117616},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117616},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114076},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117616},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117617},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117617},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114077},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117617},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114077}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -2488,7 +2340,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:52 GMT
+      - Sat, 13 Jan 2024 02:46:57 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -2508,7 +2360,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DDB4:DD2C716:62240F80
+      - EE0C:688C:4C9A620:9E8E3BE:65A1F9A0
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -2516,13 +2368,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -2540,19 +2394,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WSQY7DIAxF78I6C9rQqMllEKKe1FKAjJ2sqt59TCO1JEpGI80KsM3T/x8eioDT
-        TB5YdQ/lE0FeBww4qe6ita7UzHBTnalkNDiMGHs5tW2TCwwydmpMc6mNPl+flWJw5O8FpH4jZFMg
-        cn0F0KY9C6AnN96/hwMZa8YicCOjzhSMEwhpwhRtcBG/gEXprrO/IpecLIYxUck6fUJao16NPYs+
-        3cCydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/4FvZVr9CtL9hhKSPktNo6PHkQo
-        IuZ/f+v5A2uI/jWtAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114077},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117617},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117617},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114077},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117617},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117617},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117617},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114077},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117617},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114077}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -2570,7 +2419,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:52 GMT
+      - Sat, 13 Jan 2024 02:46:57 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -2590,7 +2439,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DDB9:DD2C728:62240F80
+      - EE0D:135F:2C08273:5B53806:65A1F9A1
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -2598,13 +2447,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -2622,19 +2473,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WSQY7DIAxF78I6C9rQqMllEKKe1FKAjJ2sqt59TCO1JEpGI80KsM3T/x8eioDT
-        TB5YdQ/lE0FeBww4qe6ita7UzHBTnalkNDiMGHs5tW2TCwwydmpMc6mNPl+flWJw5O8FpH4jZFMg
-        cn0F0KY9C6AnN96/hwMZa8YicCOjzhSMEwhpwhRtcBG/gEXprrO/IpecLIYxUck6fUJao16NPYs+
-        3cCydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/4FvZVr9CtL9hhKSPktNo6PHkQo
-        IuZ/f+v5A2uI/jWtAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114077},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117617},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117617},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114077},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117617},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117617},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117617},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114077},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117617},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114077}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -2652,7 +2498,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:52 GMT
+      - Sat, 13 Jan 2024 02:46:57 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -2672,7 +2518,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DDC0:DD2C73C:62240F80
+      - EE0E:5A37:4D54FD6:A00A87C:65A1F9A1
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -2680,13 +2526,15 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK
@@ -2704,19 +2552,14 @@ interactions:
       Content-Type:
       - application/json
       User-Agent:
-      - github3.py/1.0.2
+      - github3.py/4.0.1
       authorization:
       - DUMMY
     method: GET
     uri: https://api.github.com/rate_limit
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6WSQY7DIAxF78I6C9rQqMllEKKe1FKAjJ2sqt59TCO1JEpGI80KsM3T/x8eioDT
-        TB5YdQ/lE0FeBww4qe6ita7UzHBTnalkNDiMGHs5tW2TCwwydmpMc6mNPl+flWJw5O8FpH4jZFMg
-        cn0F0KY9C6AnN96/hwMZa8YicCOjzhSMEwhpwhRtcBG/gEXprrO/IpecLIYxUck6fUJao16NPYs+
-        3cCydzGHaedxSE4SfouTeweZLZ09v85nq2xpjhHIEvTI0+J/Q/4FvZVr9CtL9hhKSPktNo6PHkQo
-        IuZ/f+v5A2uI/jWtAgAA
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114077},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117617},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117617},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114077},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117617},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117617},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117617},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114077},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117617},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114077}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
     headers:
       Access-Control-Allow-Origin:
       - '*'
@@ -2734,7 +2577,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:52 GMT
+      - Sat, 13 Jan 2024 02:46:57 GMT
       Referrer-Policy:
       - origin-when-cross-origin, strict-origin-when-cross-origin
       Server:
@@ -2754,7 +2597,7 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; param=full; format=json
       X-GitHub-Request-Id:
-      - D392:0A66:519DDC2:DD2C749:62240F80
+      - EE0F:9DA9:47F92BD:957D13E:65A1F9A1
       X-OAuth-Scopes:
       - repo, user, workflow
       X-RateLimit-Limit:
@@ -2762,13 +2605,94 @@ interactions:
       X-RateLimit-Remaining:
       - '4996'
       X-RateLimit-Reset:
-      - '1646534028'
+      - '1705117606'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
       - '4'
       X-XSS-Protection:
       - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/vnd.github.v3.full+json
+      Accept-Charset:
+      - utf-8
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Type:
+      - application/json
+      User-Agent:
+      - github3.py/4.0.1
+      authorization:
+      - DUMMY
+    method: GET
+    uri: https://api.github.com/rate_limit
+  response:
+    body:
+      string: '{"resources":{"core":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606},"search":{"limit":30,"used":0,"remaining":30,"reset":1705114077},"graphql":{"limit":5000,"used":0,"remaining":5000,"reset":1705117617},"integration_manifest":{"limit":5000,"used":0,"remaining":5000,"reset":1705117617},"source_import":{"limit":100,"used":0,"remaining":100,"reset":1705114077},"code_scanning_upload":{"limit":1000,"used":0,"remaining":1000,"reset":1705117617},"actions_runner_registration":{"limit":10000,"used":0,"remaining":10000,"reset":1705117617},"scim":{"limit":15000,"used":0,"remaining":15000,"reset":1705117617},"dependency_snapshots":{"limit":100,"used":0,"remaining":100,"reset":1705114077},"audit_log":{"limit":1750,"used":0,"remaining":1750,"reset":1705117617},"code_search":{"limit":10,"used":0,"remaining":10,"reset":1705114077}},"rate":{"limit":5000,"used":4,"remaining":4996,"reset":1705117606}}'
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sat, 13 Jan 2024 02:46:57 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; param=full; format=json
+      X-GitHub-Request-Id:
+      - EE10:1C96:4A4EFE6:9A10E82:65A1F9A1
+      X-OAuth-Scopes:
+      - repo, user, workflow
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4996'
+      X-RateLimit-Reset:
+      - '1705117606'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '4'
+      X-XSS-Protection:
+      - '0'
+      x-github-api-version-selected:
+      - '2022-11-28'
     status:
       code: 200
       message: OK

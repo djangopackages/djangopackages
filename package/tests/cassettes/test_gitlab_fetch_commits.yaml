@@ -13,46 +13,22 @@ interactions:
       PRIVATE-TOKEN:
       - DUMMY
       User-Agent:
-      - python-gitlab/3.2.0
+      - python-gitlab/4.3.0
     method: GET
     uri: https://gitlab.com/api/v4/projects/lansharkconsulting%2Fdjango%2Fdjango-encrypted-model-fields?license=True
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA7SUQW/cIBCF/wqaM1683s3G4dSo2UOkpIc2p1aVhYG16WKwYLyRFfW/V9hO00aK
-        GrXpbQzP3xsYPR7AKOC7cl1cFGcUlI4ymB6Nd8DhkkSNxB/IwWirIsFWILkPoicRhVMiKHL1TbjG
-        PwruDbZEOxnGCUH64E9GaUXqkWCrST9i6x2Z9n0TRN+OxJo6iDCugIITnQYOamJmC0errPNK22z2
-        WGRVsqpSFXsh019WuNiKcJTexcGicQ1hZEb9LF5m9gLbV1gn2Wus2Qxif+LJoAVqVQkEDkW+LrN8
-        l+Vnd+st35zxbbkqN7vPkOZyEIPFqg7CyalRfdLW90ABRVNZExH4l68U0PdGxrmOsa2GYCv0VdC9
-        Bw6NwXeNQSvqlfQd/8u+V41BoNAi9s/4aSlyxp482L953Os6WbwpGigELVSn35zMMlZbX7NlOOzj
-        /vLqdr/qFFCwRmoX/7/nzfX7/YdP+ydH4A9w1CNw6KYrXUJ2e31HbhYFBWfkcd5wg7Vptp39pVXO
-        mGy9j1os0LnjuY6sM8iAQvRDkMsJE+Y7BXESKMLTEoWDD8dYST84BF4UFGISPH7vKFgRsRISzcng
-        +BiMosjyIiu2d8WG5zlfl6uLTf55Oc0Sw4fpKdvkeV5u8mePyfOEA4WjcSpFIvghxegwWFstmhdH
-        MWGCdlglq/V2e56fl7+fEtgPAAAA//+sVkFywyAM/AtnN1x6ymcYwLKrGANF4MaH/L0DxunUidPx
-        TK+wK4llJUjeOFkuhmaKMPKSgi8gXuvjJcEbamdPF9//ZfUSgvY9wm4N085GiRaCCNAjxTALHGUP
-        wgfo8MrObF0//UsTCYN2oKw7geme1y098umd++AuoCPx+tCwhiFRAjrE4pXTsBFCDyLAZwKKB4Ns
-        uHkYeFcH69GCMpUwujDze4DsYAXmYKTKaRhMYI8eqXKyLqOCcFiQhXTL5taD7IEEWKkMtGvTwujj
-        XId8Jw1Bw2TQHzhlSF2YkFChwZhHjU/KoC7ikjMTCJdiW166FrtOtEg6EaGzdOcvl/uTOYYE25ve
-        7n7hgNu1i1MPOLLoPTzyn7TMlglhQg2iBRoe2NKK5QEXv8oUaFdIPZTUGoiEyTOandkaZ/HeYqB9
-        zEaCXVyerGj7fUBRa3dXJTTti/B3DXcRvlhnd9t5CDJ/C19gpJVmjqifQr4BAAD//5RXy3LbMAz8
-        F519cKYzaZqfwTAkaKPmKyApJ+3k3zsQST8k59CjtBQIgotdqC15cGff54y68mIjwYCOPjlSQeP6
-        g8Q0qyI+iF6Ry8LPO/6LQqIBriEgb1jk7M2rzuaFF5EXn/j59Gv/9LKbyKfIBXJRpUqPWgqUj6M2
-        ATpZuhc+7yZNMAa/AxUwmMSeWkqawEY+Kzby3sVPL7a06ltN8Du+QYknDJB1TLhJtHWqLMvjPAsT
-        oJDHWMv0+uN5v99NqpYIWqrnIGEwwrRECR2FRTVXRAIdZ2S1EPeAHzcJ6RgsHbrV3pV3maub07UB
-        Ngb3Ccq5eO4NRvayJ+SqNaK5Csjtwhggn4Sv5vLB2IwxFyZdoGZkqS8FNDArJjnANdxo5s6Vdd0e
-        5aacu5U2UCzHXwTQ3MT1cUbow1KzDVC2ILdAI8/EFMSOV9oipvtYJD2WY5SRpoXZTfm9qnyEOH7n
-        BpeitYLWwwGzQNIZngp4zFldE2hRO1bQJyc9Mq6sxf4GXchicI5pW7hbrDEXcmFV8CDGId1NocYq
-        diZLtYtZTm+RMWg0MAaHdvQTYgLZWm6KC1mly8Bau3b240eiJj9AoSDP6jKSqiT/qcpleEMbGcc9
-        7HeTJ+bIl9zxoyAH5UDVcoxMf1pA7VTOZEm3x8XLp9dJtFvxCY10Khh0uMAy0vYKP0DlpgZR3ysx
-        Sl9vJOcO+2/524jVFbKsPJ5lRm8t2DVpfcErT3oMX+Rhs2HDCysKWzAhexrDwd+pzyv9lGOHRSbu
-        3n19/QMAAP//AwD/jyyJzBAAAA==
+      string: '{"id":6812925,"description":"A set of fields that wrap standard Django
+        fields with encryption provided by the python cryptography library.","name":"django-encrypted-model-fields","name_with_namespace":"lansharkconsulting
+        / django / django-encrypted-model-fields","path":"django-encrypted-model-fields","path_with_namespace":"lansharkconsulting/django/django-encrypted-model-fields","created_at":"2018-06-05T14:35:48.836Z","default_branch":"develop","tag_list":[],"topics":[],"ssh_url_to_repo":"git@gitlab.com:lansharkconsulting/django/django-encrypted-model-fields.git","http_url_to_repo":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields.git","web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields","readme_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/blob/develop/README.md","forks_count":25,"license_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/blob/develop/LICENSE","license":{"key":"mit","name":"MIT
+        License","nickname":null,"html_url":"https://opensource.org/licenses/MIT","source_url":null},"avatar_url":null,"star_count":33,"last_activity_at":"2022-08-12T13:20:02.438Z","namespace":{"id":3000830,"name":"django","path":"django","kind":"group","full_path":"lansharkconsulting/django","parent_id":1447078,"avatar_url":"/uploads/-/system/group/avatar/3000830/shark-icon.jpg","web_url":"https://gitlab.com/groups/lansharkconsulting/django"},"container_registry_image_prefix":"registry.gitlab.com/lansharkconsulting/django/django-encrypted-model-fields","_links":{"self":"https://gitlab.com/api/v4/projects/6812925","issues":"https://gitlab.com/api/v4/projects/6812925/issues","merge_requests":"https://gitlab.com/api/v4/projects/6812925/merge_requests","repo_branches":"https://gitlab.com/api/v4/projects/6812925/repository/branches","labels":"https://gitlab.com/api/v4/projects/6812925/labels","events":"https://gitlab.com/api/v4/projects/6812925/events","members":"https://gitlab.com/api/v4/projects/6812925/members","cluster_agents":"https://gitlab.com/api/v4/projects/6812925/cluster_agents"},"code_suggestions":true,"packages_enabled":null,"empty_repo":false,"archived":false,"visibility":"public","resolve_outdated_diff_discussions":false,"issues_enabled":true,"merge_requests_enabled":true,"wiki_enabled":true,"jobs_enabled":true,"snippets_enabled":true,"container_registry_enabled":true,"service_desk_enabled":true,"can_create_merge_request_in":true,"issues_access_level":"enabled","repository_access_level":"enabled","merge_requests_access_level":"enabled","forking_access_level":"enabled","wiki_access_level":"enabled","builds_access_level":"enabled","snippets_access_level":"enabled","pages_access_level":"enabled","analytics_access_level":"enabled","container_registry_access_level":"enabled","security_and_compliance_access_level":"private","releases_access_level":"enabled","environments_access_level":"enabled","feature_flags_access_level":"enabled","infrastructure_access_level":"enabled","monitor_access_level":"enabled","model_experiments_access_level":"enabled","model_registry_access_level":"enabled","emails_disabled":false,"emails_enabled":true,"shared_runners_enabled":true,"lfs_enabled":false,"creator_id":719018,"import_status":"finished","open_issues_count":6,"description_html":"\u003cp
+        data-sourcepos=\"1:1-1:109\" dir=\"auto\"\u003eA set of fields that wrap standard
+        Django fields with encryption provided by the python cryptography library.\u003c/p\u003e","updated_at":"2022-08-12T13:20:02.438Z","ci_config_path":null,"public_jobs":true,"shared_with_groups":[],"only_allow_merge_if_pipeline_succeeds":false,"allow_merge_on_skipped_pipeline":null,"request_access_enabled":false,"only_allow_merge_if_all_discussions_are_resolved":false,"remove_source_branch_after_merge":null,"printing_merge_request_link_enabled":true,"merge_method":"merge","squash_option":"default_off","enforce_auth_checks_on_uploads":true,"suggestion_commit_message":null,"merge_commit_template":null,"squash_commit_template":null,"issue_branch_template":null,"autoclose_referenced_issues":true,"external_authorization_classification_label":"","requirements_enabled":false,"requirements_access_level":"enabled","security_and_compliance_enabled":false,"compliance_frameworks":[],"permissions":{"project_access":null,"group_access":null}}'
     headers:
       CF-Cache-Status:
-      - DYNAMIC
+      - MISS
       CF-RAY:
-      - 6f0bf3a10d265ecf-OMA
-      Cache-Control:
-      - max-age=0, private, must-revalidate
+      - 844a50cada4d26eb-FSD
       Connection:
       - keep-alive
       Content-Encoding:
@@ -60,47 +36,44 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 24 Mar 2022 02:24:38 GMT
-      Etag:
-      - W/"70dc8677e9600ae57a8e214ac9bfab47"
-      Expect-CT:
-      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
-      GitLab-LB:
-      - fe-04-lb-gprd
-      GitLab-SV:
-      - localhost
+      - Sat, 13 Jan 2024 02:47:37 GMT
       NEL:
       - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
-      RateLimit-Limit:
-      - '2000'
-      RateLimit-Observed:
-      - '1'
-      RateLimit-Remaining:
-      - '1999'
-      RateLimit-Reset:
-      - '1648088738'
-      RateLimit-ResetTime:
-      - Thu, 24 Mar 2022 02:25:38 GMT
-      Referrer-Policy:
-      - strict-origin-when-cross-origin
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=pq9dap8%2FIqT0Q9oPGotpL%2BlI6QYSfTnpiypNC9OoWVnOhesb83ojoRLRsMjqZD%2BdvtdsuVsfZYXR2LdSJ%2Bz%2B8YBB%2BJTYDZ87HT4qyrZQROFZbfBaejhPz8nzc0w%3D"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=m1ZyrmmTmMgPP5Y1hAM9xr86OekG%2B9Ur0Rb5JoHTBuf1yp7q%2BC5%2FhwYrQLoORCmkMu1MO4NcTMznmDw0mpXESFOd1KpGMTGdBXYV7JfHhhVoE3Xh0PYVh9qvoYI%3D"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
-      Strict-Transport-Security:
-      - max-age=31536000
+      Set-Cookie:
+      - _cfuvid=6x40ymBt5wzs9Me9LgcxN0vQlKb6VkBgWxD_xFVBRow-1705114057789-0-604800000;
+        path=/; domain=.gitlab.com; HttpOnly; Secure; SameSite=None
       Transfer-Encoding:
       - chunked
-      Vary:
-      - Origin
-      X-Content-Type-Options:
+      cache-control:
+      - max-age=0, private, must-revalidate
+      content-security-policy:
+      - default-src 'none'
+      etag:
+      - W/"c3e472f3a8e54f5bab17379e2696b477"
+      gitlab-lb:
+      - haproxy-main-07-lb-gprd
+      gitlab-sv:
+      - api-gke-us-east1-c
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      strict-transport-security:
+      - max-age=31536000
+      vary:
+      - Origin, Accept-Encoding
+      x-content-type-options:
       - nosniff
-      X-Frame-Options:
+      x-frame-options:
       - SAMEORIGIN
-      X-Request-Id:
-      - 01FYWVV07BD5FTG70TPJPT21Y2
-      X-Runtime:
-      - '0.100502'
+      x-gitlab-meta:
+      - '{"correlation_id":"1b32b0cff7c55453012c421941a90d43","version":"1"}'
+      x-request-id:
+      - 1b32b0cff7c55453012c421941a90d43
+      x-runtime:
+      - '0.272733'
     status:
       code: 200
       message: OK
@@ -115,70 +88,90 @@ interactions:
       - keep-alive
       Content-type:
       - application/json
+      Cookie:
+      - _cfuvid=6x40ymBt5wzs9Me9LgcxN0vQlKb6VkBgWxD_xFVBRow-1705114057789-0-604800000
       PRIVATE-TOKEN:
       - DUMMY
       User-Agent:
-      - python-gitlab/3.2.0
+      - python-gitlab/4.3.0
     method: GET
     uri: https://gitlab.com/api/v4/projects/6812925/repository/commits
   response:
     body:
-      string: !!binary |
-        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
+      string: "[{\"id\":\"3a68fa64428d9e64bc298d9c9c9ce21d54d4263d\",\"short_id\":\"3a68fa64\",\"created_at\":\"2022-07-12T09:28:12.000-04:00\",\"parent_ids\":[\"864198780bca7c98e73a28d26fd57def5de3d463\"],\"title\":\"Finish
+        conversion to poetry build\",\"message\":\"Finish conversion to poetry build\\n\",\"author_name\":\"Scott
+        Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2022-07-12T09:28:12.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2022-07-12T09:28:12.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/3a68fa64428d9e64bc298d9c9c9ce21d54d4263d\"},{\"id\":\"864198780bca7c98e73a28d26fd57def5de3d463\",\"short_id\":\"86419878\",\"created_at\":\"2022-02-24T15:17:44.000-05:00\",\"parent_ids\":[\"d68f9e81c1edacc791a62315c05a4c10ca8e6fec\"],\"title\":\"begin
+        converting to poetry build\",\"message\":\"begin converting to poetry build\\n\",\"author_name\":\"Scott
+        Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2022-02-24T15:17:44.000-05:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2022-02-24T15:17:44.000-05:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/864198780bca7c98e73a28d26fd57def5de3d463\"},{\"id\":\"d68f9e81c1edacc791a62315c05a4c10ca8e6fec\",\"short_id\":\"d68f9e81\",\"created_at\":\"2022-02-24T14:28:23.000-05:00\",\"parent_ids\":[\"8bcf3bd79f38ab781556438a07f8abd0e6ec0588\"],\"title\":\"correct
+        to github-flavored-markdown\",\"message\":\"correct to github-flavored-markdown\\n\",\"author_name\":\"Scott
+        Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2022-02-24T14:28:23.000-05:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2022-02-24T14:28:23.000-05:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/d68f9e81c1edacc791a62315c05a4c10ca8e6fec\"},{\"id\":\"8bcf3bd79f38ab781556438a07f8abd0e6ec0588\",\"short_id\":\"8bcf3bd7\",\"created_at\":\"2022-02-24T14:21:30.000-05:00\",\"parent_ids\":[\"5bdd16f3e452ab49d893a07ad372e6a56d0e0c02\"],\"title\":\"convert
+        .rst to .md\",\"message\":\"convert .rst to .md\\n\",\"author_name\":\"Scott
+        Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2022-02-24T14:21:30.000-05:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2022-02-24T14:21:30.000-05:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/8bcf3bd79f38ab781556438a07f8abd0e6ec0588\"},{\"id\":\"5bdd16f3e452ab49d893a07ad372e6a56d0e0c02\",\"short_id\":\"5bdd16f3\",\"created_at\":\"2022-02-24T13:38:12.000-05:00\",\"parent_ids\":[\"715cd5ad826ee12a33ce45bf6d0054f6a763e9ed\"],\"title\":\"add
+        Python \\u003c 4, redo Docs, release 0.6.2\",\"message\":\"add Python \\u003c
+        4, redo Docs, release 0.6.2\\n\",\"author_name\":\"Scott Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2022-02-24T13:38:12.000-05:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2022-02-24T13:38:12.000-05:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/5bdd16f3e452ab49d893a07ad372e6a56d0e0c02\"},{\"id\":\"715cd5ad826ee12a33ce45bf6d0054f6a763e9ed\",\"short_id\":\"715cd5ad\",\"created_at\":\"2022-02-05T23:13:56.000-05:00\",\"parent_ids\":[\"8e0b38851bca5ff18d9fa8364cbd486668ae6986\",\"0cdcb4749ff99d181de6b04eed29981580555a4c\"],\"title\":\"Merge
+        branch 'main' into develop\",\"message\":\"Merge branch 'main' into develop\\n\\n*
+        main:\\n  Add Django 4.0 and Python 3.10 Support\\n  Release 0.6.0\\n  Publish
+        0.6.0\\n\",\"author_name\":\"Scott Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2022-02-05T23:13:56.000-05:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2022-02-05T23:13:56.000-05:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/715cd5ad826ee12a33ce45bf6d0054f6a763e9ed\"},{\"id\":\"0cdcb4749ff99d181de6b04eed29981580555a4c\",\"short_id\":\"0cdcb474\",\"created_at\":\"2022-02-05T23:12:39.000-05:00\",\"parent_ids\":[\"c12476d7f38cd7e63bd9bca3a5210c63d6f161ea\"],\"title\":\"Add
+        Django 4.0 and Python 3.10 Support\",\"message\":\"Add Django 4.0 and Python
+        3.10 Support\\n\",\"author_name\":\"Scott Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2022-02-05T23:12:39.000-05:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2022-02-05T23:12:39.000-05:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/0cdcb4749ff99d181de6b04eed29981580555a4c\"},{\"id\":\"8e0b38851bca5ff18d9fa8364cbd486668ae6986\",\"short_id\":\"8e0b3885\",\"created_at\":\"2021-12-21T14:33:26.000+00:00\",\"parent_ids\":[\"e107dd0ffa419b7cf27e89f48703bacda819b846\",\"63820169fc94ab6a148fe6e6a41221098dce399b\"],\"title\":\"Merge
+        branch 'just-paja-develop-patch-22957' into 'develop'\",\"message\":\"Merge
+        branch 'just-paja-develop-patch-22957' into 'develop'\\n\\nAllow patch versions
+        of python-3.10\\n\\nSee merge request lansharkconsulting/django/django-encrypted-model-fields!19\",\"author_name\":\"Scott
+        Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2021-12-21T14:33:26.000+00:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2021-12-21T14:33:26.000+00:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/8e0b38851bca5ff18d9fa8364cbd486668ae6986\"},{\"id\":\"63820169fc94ab6a148fe6e6a41221098dce399b\",\"short_id\":\"63820169\",\"created_at\":\"2021-12-20T17:21:19.000+00:00\",\"parent_ids\":[\"e107dd0ffa419b7cf27e89f48703bacda819b846\"],\"title\":\"Allow
+        patch versions of python-3.10\",\"message\":\"Allow patch versions of python-3.10\",\"author_name\":\"Pavel
+        \u017D\xE1k\",\"author_email\":\"pavel@zak.global\",\"authored_date\":\"2021-12-20T17:21:19.000+00:00\",\"committer_name\":\"Pavel
+        \u017D\xE1k\",\"committer_email\":\"pavel@zak.global\",\"committed_date\":\"2021-12-20T17:21:19.000+00:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/63820169fc94ab6a148fe6e6a41221098dce399b\"},{\"id\":\"c12476d7f38cd7e63bd9bca3a5210c63d6f161ea\",\"short_id\":\"c12476d7\",\"created_at\":\"2021-08-25T21:03:06.000-04:00\",\"parent_ids\":[\"e9599c3a0599a13e3c569250741ac5abdb43ca95\"],\"title\":\"Release
+        0.6.0\",\"message\":\"Release 0.6.0\\n\",\"author_name\":\"Scott Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2021-08-25T21:03:06.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2021-08-25T21:03:06.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/c12476d7f38cd7e63bd9bca3a5210c63d6f161ea\"},{\"id\":\"e9599c3a0599a13e3c569250741ac5abdb43ca95\",\"short_id\":\"e9599c3a\",\"created_at\":\"2021-08-25T20:56:55.000-04:00\",\"parent_ids\":[\"e107dd0ffa419b7cf27e89f48703bacda819b846\"],\"title\":\"Publish
+        0.6.0\",\"message\":\"Publish 0.6.0\\n\",\"author_name\":\"Scott Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2021-08-25T20:56:55.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2021-08-25T20:56:55.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/e9599c3a0599a13e3c569250741ac5abdb43ca95\"},{\"id\":\"e107dd0ffa419b7cf27e89f48703bacda819b846\",\"short_id\":\"e107dd0f\",\"created_at\":\"2021-08-25T20:20:29.000-04:00\",\"parent_ids\":[\"9b8c4cb9c13b5ab00f91fc3d25335208c69a6bf5\"],\"title\":\"More
+        Documentation Updates\",\"message\":\"More Documentation Updates\\n\",\"author_name\":\"Scott
+        Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2021-08-25T20:20:29.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2021-08-25T20:20:29.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/e107dd0ffa419b7cf27e89f48703bacda819b846\"},{\"id\":\"9b8c4cb9c13b5ab00f91fc3d25335208c69a6bf5\",\"short_id\":\"9b8c4cb9\",\"created_at\":\"2021-08-25T20:19:29.000-04:00\",\"parent_ids\":[\"d517498da09ade043bde6a964acb9c53fa3949db\"],\"title\":\"More
+        Documentation Updates\",\"message\":\"More Documentation Updates\\n\",\"author_name\":\"Scott
+        Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2021-08-25T20:19:29.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2021-08-25T20:19:29.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/9b8c4cb9c13b5ab00f91fc3d25335208c69a6bf5\"},{\"id\":\"d517498da09ade043bde6a964acb9c53fa3949db\",\"short_id\":\"d517498d\",\"created_at\":\"2021-08-25T20:17:43.000-04:00\",\"parent_ids\":[\"f9200e2ebd07a97b84068b471587b7c5ea92af72\"],\"title\":\"Update
+        README\",\"message\":\"Update README\\n\",\"author_name\":\"Scott Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2021-08-25T20:17:43.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2021-08-25T20:17:43.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/d517498da09ade043bde6a964acb9c53fa3949db\"},{\"id\":\"f9200e2ebd07a97b84068b471587b7c5ea92af72\",\"short_id\":\"f9200e2e\",\"created_at\":\"2021-08-25T20:10:37.000-04:00\",\"parent_ids\":[\"61de933e0ff909f960a3479801b269325935c043\"],\"title\":\"Incorporate
+        Oleg Pesok's cached validator crash\",\"message\":\"Incorporate Oleg Pesok's
+        cached validator crash\\n\",\"author_name\":\"Scott Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2021-08-25T20:10:37.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2021-08-25T20:10:37.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/f9200e2ebd07a97b84068b471587b7c5ea92af72\"},{\"id\":\"61de933e0ff909f960a3479801b269325935c043\",\"short_id\":\"61de933e\",\"created_at\":\"2021-08-25T19:57:12.000-04:00\",\"parent_ids\":[\"cc2d14bee2ba69be1c45bba495cd5747ade3a109\"],\"title\":\"Incorporate
+        Oleg Pesok's Bug fix: Support datetimes with timezones\",\"message\":\"Incorporate
+        Oleg Pesok's Bug fix: Support datetimes with timezones\\n\",\"author_name\":\"Scott
+        Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2021-08-25T19:57:12.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2021-08-25T19:57:12.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/61de933e0ff909f960a3479801b269325935c043\"},{\"id\":\"cc2d14bee2ba69be1c45bba495cd5747ade3a109\",\"short_id\":\"cc2d14be\",\"created_at\":\"2021-08-25T16:55:26.000-04:00\",\"parent_ids\":[\"25fad64676305cbf32faccb555d6240356d7aeab\"],\"title\":\"Update
+        Documentation for using generate_new_key\",\"message\":\"Update Documentation
+        for using generate_new_key\\n\",\"author_name\":\"Scott Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2021-08-25T16:55:26.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2021-08-25T16:55:26.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/cc2d14bee2ba69be1c45bba495cd5747ade3a109\"},{\"id\":\"25fad64676305cbf32faccb555d6240356d7aeab\",\"short_id\":\"25fad646\",\"created_at\":\"2021-08-25T16:19:47.000-04:00\",\"parent_ids\":[\"91106ab3b9aac3bfba64c30ff4462e2b9d924f14\"],\"title\":\"Convert
+        format() to f-strings\",\"message\":\"Convert format() to f-strings\\n\",\"author_name\":\"Scott
+        Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2021-08-25T16:19:47.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2021-08-25T16:19:47.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/25fad64676305cbf32faccb555d6240356d7aeab\"},{\"id\":\"91106ab3b9aac3bfba64c30ff4462e2b9d924f14\",\"short_id\":\"91106ab3\",\"created_at\":\"2021-08-25T15:21:43.000-04:00\",\"parent_ids\":[\"34d878e1a0d84cbbe2b0f10c1fcb40baefbe5b78\"],\"title\":\"
+        0.6.0 - Major Update\",\"message\":\" 0.6.0 - Major Update\\n\\n  * Drop Python
+        2 Support\\n  * Drop support for Django \\u003c 2.2\\n  * Add support for
+        Django 2.2, 3.0, 3.1, and 3.2\\n  * Drop support for Python \\u003c 3.6\\n
+        \ * Add Support for Python 3.6, 3.7, 3.8, and 3.9\\n  * Move travis-ci testing
+        to gitlab\\n  * Remove Support for EncryptedNullBooleanField (deprecated by
+        Django 4.0)\\n  * Update Test App to Django 2.2 standard\\n\",\"author_name\":\"Scott
+        Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2021-08-25T15:20:43.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2021-08-25T15:21:43.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/91106ab3b9aac3bfba64c30ff4462e2b9d924f14\"},{\"id\":\"34d878e1a0d84cbbe2b0f10c1fcb40baefbe5b78\",\"short_id\":\"34d878e1\",\"created_at\":\"2021-08-24T17:41:32.000-04:00\",\"parent_ids\":[\"3794febc379160d23dca35a5f66b929b56b0f3fd\"],\"title\":\"Drop
+        Python 2, upgrade to Django 2.2+\",\"message\":\"Drop Python 2, upgrade to
+        Django 2.2+\\n\\nDrop support for python 2\\nUpgrade to support python 3.6,
+        3.7, 3.8, and 3.9\\nUpgrade to support Django 2.2, 3.0, 3.1, and 3.2\\n\",\"author_name\":\"Scott
+        Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2021-08-24T17:41:32.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2021-08-24T17:41:32.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/34d878e1a0d84cbbe2b0f10c1fcb40baefbe5b78\"}]"
     headers:
       CF-Cache-Status:
-      - DYNAMIC
+      - MISS
       CF-RAY:
-      - 6f0bf3a2ae7d5ecf-OMA
-      Cache-Control:
-      - max-age=0, private, must-revalidate
+      - 844a50ce5a1726e1-FSD
       Connection:
       - keep-alive
       Content-Encoding:
@@ -186,60 +179,54 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 24 Mar 2022 02:24:39 GMT
-      Etag:
-      - W/"652d6485172dc27148f7ee9fc434a470"
-      Expect-CT:
-      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
-      GitLab-LB:
-      - fe-01-lb-gprd
-      GitLab-SV:
-      - localhost
-      Link:
+      - Sat, 13 Jan 2024 02:47:38 GMT
+      NEL:
+      - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=5w0YXeuKWl%2FWIpPaI01qseca1YLNCkqbsA3cGsZa2%2FnHNMH0II5Pw7VnfDtXf%2BXMABLvstE%2BcSvR3XRGOA%2Br%2F0caryLgolmHPEKEDkyC8cH5UCpJGqp2VUwMWHg%3D"}],"group":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - max-age=0, private, must-revalidate
+      content-security-policy:
+      - default-src 'none'
+      etag:
+      - W/"d56fdc6bfdcec24ec8441f1734353399"
+      gitlab-lb:
+      - haproxy-main-49-lb-gprd
+      gitlab-sv:
+      - api-gke-us-east1-c
+      link:
       - <https://gitlab.com/api/v4/projects/6812925/repository/commits?id=6812925&order=default&page=2&per_page=20&trailers=false>;
         rel="next", <https://gitlab.com/api/v4/projects/6812925/repository/commits?id=6812925&order=default&page=1&per_page=20&trailers=false>;
         rel="first", <https://gitlab.com/api/v4/projects/6812925/repository/commits?id=6812925&order=default&page=2&per_page=20&trailers=false>;
         rel="last"
-      NEL:
-      - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
-      RateLimit-Limit:
-      - '2000'
-      RateLimit-Observed:
-      - '2'
-      RateLimit-Remaining:
-      - '1998'
-      RateLimit-Reset:
-      - '1648088738'
-      RateLimit-ResetTime:
-      - Thu, 24 Mar 2022 02:25:38 GMT
-      Referrer-Policy:
+      referrer-policy:
       - strict-origin-when-cross-origin
-      Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=4KXmVcZpsZLN6GgFJYS4trJ0%2BTn4fTGGwlTDUkcuGzHbjKqldvbxQ49emmewcFoG5JEm74qLgmz6DIr%2BLhj41iN5jGR5Ds5t9zYNfun2TFqW9cSE%2Fr5yBb%2F%2FbYg%3D"}],"group":"cf-nel","max_age":604800}'
-      Server:
-      - cloudflare
-      Strict-Transport-Security:
+      strict-transport-security:
       - max-age=31536000
-      Transfer-Encoding:
-      - chunked
-      Vary:
-      - Origin
-      X-Content-Type-Options:
+      vary:
+      - Origin, Accept-Encoding
+      x-content-type-options:
       - nosniff
-      X-Frame-Options:
+      x-frame-options:
       - SAMEORIGIN
-      X-Next-Page:
+      x-gitlab-meta:
+      - '{"correlation_id":"8ed84e37ce129cab92c1365a9e07ee80","version":"1"}'
+      x-next-page:
       - '2'
-      X-Page:
+      x-page:
       - '1'
-      X-Per-Page:
+      x-per-page:
       - '20'
-      X-Prev-Page:
+      x-prev-page:
       - ''
-      X-Request-Id:
-      - 01FYWVV0F6Y046N7NGH5GBKAJ7
-      X-Runtime:
-      - '0.080253'
+      x-request-id:
+      - 8ed84e37ce129cab92c1365a9e07ee80
+      x-runtime:
+      - '0.169696'
     status:
       code: 200
       message: OK
@@ -254,67 +241,99 @@ interactions:
       - keep-alive
       Content-type:
       - application/json
+      Cookie:
+      - _cfuvid=6x40ymBt5wzs9Me9LgcxN0vQlKb6VkBgWxD_xFVBRow-1705114057789-0-604800000
       PRIVATE-TOKEN:
       - DUMMY
       User-Agent:
-      - python-gitlab/3.2.0
+      - python-gitlab/4.3.0
     method: GET
     uri: https://gitlab.com/api/v4/projects/6812925/repository/commits?id=6812925&order=default&page=2&per_page=20&trailers=false
   response:
     body:
-      string: !!binary |
-        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
-        qBmRG/nOKqBNBejv9x8AAP//AwAG8Itt1zgAAA==
+      string: '[{"id":"3794febc379160d23dca35a5f66b929b56b0f3fd","short_id":"3794febc","created_at":"2018-08-23T09:34:20.000-04:00","parent_ids":["cdffa9d3b4f1e4970a6b5cdce29e87bcf47dd060","92489592d38e6db33d964d2d15e373540c97394e"],"title":"Merge
+        branch ''DEKHTIARJonathan/django-encrypted-model-fields-patch-1'' into develop","message":"Merge
+        branch ''DEKHTIARJonathan/django-encrypted-model-fields-patch-1'' into develop\n\n*
+        DEKHTIARJonathan/django-encrypted-model-fields-patch-1:\n  Deprecation Warning
+        Fix: RemovedInDjango30Warning: Remove the context parameter from EncryptedCharField.from_db_value().
+        Support for it will be removed in Django 3.0.\n  fix generate_key, drop support
+        for older django\n  Fixed the issue with django 2.0 where stdout.write fails
+        because of the string being bytes and not a string\n","author_name":"Scott
+        Sharkey","author_email":"ssharkey@lanshark.com","authored_date":"2018-08-23T09:34:20.000-04:00","committer_name":"Scott
+        Sharkey","committer_email":"ssharkey@lanshark.com","committed_date":"2018-08-23T09:34:20.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/3794febc379160d23dca35a5f66b929b56b0f3fd"},{"id":"92489592d38e6db33d964d2d15e373540c97394e","short_id":"92489592","created_at":"2018-08-04T12:49:30.000+00:00","parent_ids":["f83726696d71c82528a3f551e5994c0c047ae72a"],"title":"Deprecation
+        Warning Fix: RemovedInDjango30Warning: Remove the context parameter from EncryptedCharField.from_db_value().
+        Support for it will be removed in Django 3.0.","message":"Deprecation Warning
+        Fix: RemovedInDjango30Warning: Remove the context parameter from EncryptedCharField.from_db_value().
+        Support for it will be removed in Django 3.0.","author_name":"Jonathan DEKHTIAR","author_email":"contact@jonathandekhtiar.eu","authored_date":"2018-08-04T12:49:30.000+00:00","committer_name":"Jonathan
+        DEKHTIAR","committer_email":"contact@jonathandekhtiar.eu","committed_date":"2018-08-04T12:49:30.000+00:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/92489592d38e6db33d964d2d15e373540c97394e"},{"id":"f83726696d71c82528a3f551e5994c0c047ae72a","short_id":"f8372669","created_at":"2018-07-29T21:40:42.000-04:00","parent_ids":["b04ff667a8af384936e4896d10f0767fcfed2bcd","cdffa9d3b4f1e4970a6b5cdce29e87bcf47dd060"],"title":"Merge
+        branch ''develop''","message":"Merge branch ''develop''\n\n* develop:\n  release
+        0.5.8 - moved to gitlab\n  add wheel to dev requirements\n  restored credit
+        in CHANGELOG\n","author_name":"Scott Sharkey","author_email":"ssharkey@lanshark.com","authored_date":"2018-07-29T21:40:42.000-04:00","committer_name":"Scott
+        Sharkey","committer_email":"ssharkey@lanshark.com","committed_date":"2018-07-29T21:40:42.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/f83726696d71c82528a3f551e5994c0c047ae72a"},{"id":"cdffa9d3b4f1e4970a6b5cdce29e87bcf47dd060","short_id":"cdffa9d3","created_at":"2018-07-29T21:40:31.000-04:00","parent_ids":["ad8c1022cf6e4572dfcf190b7edad14e182d8813"],"title":"release
+        0.5.8 - moved to gitlab","message":"release 0.5.8 - moved to gitlab\n","author_name":"Scott
+        Sharkey","author_email":"ssharkey@lanshark.com","authored_date":"2018-07-29T21:40:31.000-04:00","committer_name":"Scott
+        Sharkey","committer_email":"ssharkey@lanshark.com","committed_date":"2018-07-29T21:40:31.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/cdffa9d3b4f1e4970a6b5cdce29e87bcf47dd060"},{"id":"ad8c1022cf6e4572dfcf190b7edad14e182d8813","short_id":"ad8c1022","created_at":"2018-07-29T20:54:53.000-04:00","parent_ids":["e644d98e07f58c2be62f55648c6d791123b8620b"],"title":"add
+        wheel to dev requirements","message":"add wheel to dev requirements\n","author_name":"Scott
+        Sharkey","author_email":"ssharkey@lanshark.com","authored_date":"2018-07-29T20:54:53.000-04:00","committer_name":"Scott
+        Sharkey","committer_email":"ssharkey@lanshark.com","committed_date":"2018-07-29T20:54:53.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/ad8c1022cf6e4572dfcf190b7edad14e182d8813"},{"id":"e644d98e07f58c2be62f55648c6d791123b8620b","short_id":"e644d98e","created_at":"2018-07-29T20:53:19.000-04:00","parent_ids":["f07d51771c753ef0e6c055c81c7bb0d6d5ae6cb1"],"title":"restored
+        credit in CHANGELOG","message":"restored credit in CHANGELOG\n","author_name":"Scott
+        Sharkey","author_email":"ssharkey@lanshark.com","authored_date":"2018-07-29T20:53:19.000-04:00","committer_name":"Scott
+        Sharkey","committer_email":"ssharkey@lanshark.com","committed_date":"2018-07-29T20:53:19.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/e644d98e07f58c2be62f55648c6d791123b8620b"},{"id":"b04ff667a8af384936e4896d10f0767fcfed2bcd","short_id":"b04ff667","created_at":"2018-07-29T20:52:14.000-04:00","parent_ids":["1ceec1e82b71bc6f8a046258c6f9ae2201dd0266","f07d51771c753ef0e6c055c81c7bb0d6d5ae6cb1"],"title":"Merge
+        branch ''develop''","message":"Merge branch ''develop''\n\n* develop:\n  final
+        tweaks for 0.5.7 release\n","author_name":"Scott Sharkey","author_email":"ssharkey@lanshark.com","authored_date":"2018-07-29T20:52:14.000-04:00","committer_name":"Scott
+        Sharkey","committer_email":"ssharkey@lanshark.com","committed_date":"2018-07-29T20:52:14.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/b04ff667a8af384936e4896d10f0767fcfed2bcd"},{"id":"f07d51771c753ef0e6c055c81c7bb0d6d5ae6cb1","short_id":"f07d5177","created_at":"2018-07-29T20:51:20.000-04:00","parent_ids":["ff51d26825799cb4fe8bff373c80b6bd6d19c9f6"],"title":"final
+        tweaks for 0.5.7 release","message":"final tweaks for 0.5.7 release\n","author_name":"Scott
+        Sharkey","author_email":"ssharkey@lanshark.com","authored_date":"2018-07-29T20:51:20.000-04:00","committer_name":"Scott
+        Sharkey","committer_email":"ssharkey@lanshark.com","committed_date":"2018-07-29T20:51:20.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/f07d51771c753ef0e6c055c81c7bb0d6d5ae6cb1"},{"id":"1ceec1e82b71bc6f8a046258c6f9ae2201dd0266","short_id":"1ceec1e8","created_at":"2018-07-29T20:46:16.000-04:00","parent_ids":["a2ca84d00955e568f553883b1012c60ede54f94d","ff51d26825799cb4fe8bff373c80b6bd6d19c9f6"],"title":"Merge
+        branch ''develop''","message":"Merge branch ''develop''\n\n* develop:\n  prepare
+        for 0.5.7 release\n  Define default value for FIELD_ENCRYPTION_KEY\n  Force
+        `str` value for output\n","author_name":"Scott Sharkey","author_email":"ssharkey@lanshark.com","authored_date":"2018-07-29T20:46:16.000-04:00","committer_name":"Scott
+        Sharkey","committer_email":"ssharkey@lanshark.com","committed_date":"2018-07-29T20:46:16.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/1ceec1e82b71bc6f8a046258c6f9ae2201dd0266"},{"id":"ff51d26825799cb4fe8bff373c80b6bd6d19c9f6","short_id":"ff51d268","created_at":"2018-07-29T20:39:26.000-04:00","parent_ids":["8e4369be0f3b8c0a07a16ef12630cceef3f9ccab"],"title":"prepare
+        for 0.5.7 release","message":"prepare for 0.5.7 release\n","author_name":"Scott
+        Sharkey","author_email":"ssharkey@lanshark.com","authored_date":"2018-07-29T20:39:26.000-04:00","committer_name":"Scott
+        Sharkey","committer_email":"ssharkey@lanshark.com","committed_date":"2018-07-29T20:39:26.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/ff51d26825799cb4fe8bff373c80b6bd6d19c9f6"},{"id":"a2ca84d00955e568f553883b1012c60ede54f94d","short_id":"a2ca84d0","created_at":"2018-07-29T19:56:31.000-04:00","parent_ids":["e441ed0911d1c4bc3d833f1eb3bfae3d48c60ced","220168ccb934a39a2e036dbad20f0842d2705ac1"],"title":"Merge
+        branch ''rel-5.5.6''","message":"Merge branch ''rel-5.5.6''\n\n* rel-5.5.6:\n  fix
+        generate_key, drop support for older django\n  fix classifier to include Django
+        2.0\n","author_name":"Scott Sharkey","author_email":"ssharkey@lanshark.com","authored_date":"2018-07-29T19:56:31.000-04:00","committer_name":"Scott
+        Sharkey","committer_email":"ssharkey@lanshark.com","committed_date":"2018-07-29T19:56:31.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/a2ca84d00955e568f553883b1012c60ede54f94d"},{"id":"8e4369be0f3b8c0a07a16ef12630cceef3f9ccab","short_id":"8e4369be","created_at":"2018-07-28T12:30:20.000+00:00","parent_ids":["d510aba54f9bf401ab370c4e55d173cd7a6f050c","793c9a1f840a5684707c002334b7ebd6779b0e29"],"title":"Merge
+        branch ''develop'' into ''develop''","message":"Merge branch ''develop'' into
+        ''develop''\n\nForce `str` value for output\n\nSee merge request lansharkconsulting/django/django-encrypted-model-fields!10\n\nClose
+        #10","author_name":"Scott Sharkey","author_email":"ssharkey@lanshark.com","authored_date":"2018-07-28T12:30:20.000+00:00","committer_name":"Scott
+        Sharkey","committer_email":"ssharkey@lanshark.com","committed_date":"2018-07-28T12:30:20.000+00:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/8e4369be0f3b8c0a07a16ef12630cceef3f9ccab"},{"id":"d510aba54f9bf401ab370c4e55d173cd7a6f050c","short_id":"d510aba5","created_at":"2018-07-28T12:27:10.000+00:00","parent_ids":["956120014daeef615664b2e0b10c26c4d6227766","18561ad7051cdae66dc4ee2b0ba7f4e4375b50c9"],"title":"Merge
+        branch ''patch-1'' into ''develop''","message":"Merge branch ''patch-1'' into
+        ''develop''\n\nDefine default value for FIELD_ENCRYPTION_KEY\n\nSee merge
+        request lansharkconsulting/django/django-encrypted-model-fields!11\n\nCloses
+        #11","author_name":"Scott Sharkey","author_email":"ssharkey@lanshark.com","authored_date":"2018-07-28T12:27:10.000+00:00","committer_name":"Scott
+        Sharkey","committer_email":"ssharkey@lanshark.com","committed_date":"2018-07-28T12:27:10.000+00:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/d510aba54f9bf401ab370c4e55d173cd7a6f050c"},{"id":"18561ad7051cdae66dc4ee2b0ba7f4e4375b50c9","short_id":"18561ad7","created_at":"2018-07-19T01:43:40.000+00:00","parent_ids":["956120014daeef615664b2e0b10c26c4d6227766"],"title":"Define
+        default value for FIELD_ENCRYPTION_KEY","message":"Define default value for
+        FIELD_ENCRYPTION_KEY\n\nWithout a default value it fails with `AttributeError:
+        ''Settings'' object has no attribute ''FIELD_ENCRYPTION_KEY''`, so we need
+        to provide `None` as default which is used in the next line to check if it''s
+        defined or not and raise an `ImproperlyConfigured` exception.","author_name":"Manuel
+        Kaufmann","author_email":"humitos@gmail.com","authored_date":"2018-07-19T01:43:40.000+00:00","committer_name":"Manuel
+        Kaufmann","committer_email":"humitos@gmail.com","committed_date":"2018-07-19T01:43:40.000+00:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/18561ad7051cdae66dc4ee2b0ba7f4e4375b50c9"},{"id":"793c9a1f840a5684707c002334b7ebd6779b0e29","short_id":"793c9a1f","created_at":"2018-07-06T19:08:23.000+00:00","parent_ids":["956120014daeef615664b2e0b10c26c4d6227766"],"title":"Force
+        `str` value for output","message":"Force `str` value for output","author_name":"Will
+        Gordon","author_email":"wgordon@redhat.com","authored_date":"2018-07-06T19:08:23.000+00:00","committer_name":"Will
+        Gordon","committer_email":"wgordon@redhat.com","committed_date":"2018-07-06T19:08:23.000+00:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/793c9a1f840a5684707c002334b7ebd6779b0e29"},{"id":"220168ccb934a39a2e036dbad20f0842d2705ac1","short_id":"220168cc","created_at":"2018-06-28T14:03:21.000-04:00","parent_ids":["956120014daeef615664b2e0b10c26c4d6227766"],"title":"fix
+        generate_key, drop support for older django","message":"fix generate_key,
+        drop support for older django\n","author_name":"Scott Sharkey","author_email":"ssharkey@lanshark.com","authored_date":"2018-06-28T14:03:21.000-04:00","committer_name":"Scott
+        Sharkey","committer_email":"ssharkey@lanshark.com","committed_date":"2018-06-28T14:03:21.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/220168ccb934a39a2e036dbad20f0842d2705ac1"},{"id":"956120014daeef615664b2e0b10c26c4d6227766","short_id":"95612001","created_at":"2018-05-29T01:08:28.000-04:00","parent_ids":["2cb5faaf3c2d34f34daa4324b874ea63bfa91551"],"title":"fix
+        classifier to include Django 2.0","message":"fix classifier to include Django
+        2.0\n","author_name":"Scott Sharkey","author_email":"ssharkey@lanshark.com","authored_date":"2018-05-29T01:08:28.000-04:00","committer_name":"Scott
+        Sharkey","committer_email":"ssharkey@lanshark.com","committed_date":"2018-05-29T01:08:28.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/956120014daeef615664b2e0b10c26c4d6227766"},{"id":"e441ed0911d1c4bc3d833f1eb3bfae3d48c60ced","short_id":"e441ed09","created_at":"2018-05-29T01:00:49.000-04:00","parent_ids":["f4c0f33f2ffa2289767bdec7585607c2ab854c11","2cb5faaf3c2d34f34daa4324b874ea63bfa91551"],"title":"Merge
+        branch ''develop''","message":"Merge branch ''develop''\n\n* develop:\n  bump
+        version to 0.5.5 to fix README\n  fix README\n","author_name":"Scott Sharkey","author_email":"ssharkey@lanshark.com","authored_date":"2018-05-29T01:00:49.000-04:00","committer_name":"Scott
+        Sharkey","committer_email":"ssharkey@lanshark.com","committed_date":"2018-05-29T01:00:49.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/e441ed0911d1c4bc3d833f1eb3bfae3d48c60ced"},{"id":"2cb5faaf3c2d34f34daa4324b874ea63bfa91551","short_id":"2cb5faaf","created_at":"2018-05-29T01:00:32.000-04:00","parent_ids":["df4a925aa03a7be73c60f6569668d18018c9c33f"],"title":"bump
+        version to 0.5.5 to fix README","message":"bump version to 0.5.5 to fix README\n","author_name":"Scott
+        Sharkey","author_email":"ssharkey@lanshark.com","authored_date":"2018-05-29T01:00:32.000-04:00","committer_name":"Scott
+        Sharkey","committer_email":"ssharkey@lanshark.com","committed_date":"2018-05-29T01:00:32.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/2cb5faaf3c2d34f34daa4324b874ea63bfa91551"},{"id":"df4a925aa03a7be73c60f6569668d18018c9c33f","short_id":"df4a925a","created_at":"2018-05-29T00:59:05.000-04:00","parent_ids":["b95d6c4cf4ce2e3af4e148d8bdcd9033c8846782"],"title":"fix
+        README","message":"fix README\n","author_name":"Scott Sharkey","author_email":"ssharkey@lanshark.com","authored_date":"2018-05-29T00:59:05.000-04:00","committer_name":"Scott
+        Sharkey","committer_email":"ssharkey@lanshark.com","committed_date":"2018-05-29T00:59:05.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/df4a925aa03a7be73c60f6569668d18018c9c33f"}]'
     headers:
       CF-Cache-Status:
-      - DYNAMIC
+      - MISS
       CF-RAY:
-      - 6f0bf3a4a8885ecf-OMA
-      Cache-Control:
-      - max-age=0, private, must-revalidate
+      - 844a50d1fee926ea-FSD
       Connection:
       - keep-alive
       Content-Encoding:
@@ -322,61 +341,55 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 24 Mar 2022 02:24:39 GMT
-      Etag:
-      - W/"3a0b339f565c655d348c621dc46a2147"
-      Expect-CT:
-      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
-      GitLab-LB:
-      - fe-14-lb-gprd
-      GitLab-SV:
-      - localhost
-      Link:
+      - Sat, 13 Jan 2024 02:47:38 GMT
+      NEL:
+      - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=9A8VdmZhCfJ5DpKAtIzONa6sigVnZzUDYHCz9%2FDJj9xCHrcPWwQqDe%2F2pEjr2wck1jwWxF1hZCNrDeRUsv3Ccnmm1ABpsdygSpVjDU4yXg%2BL%2B7JWPQ%2FdH6iYoic%3D"}],"group":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - max-age=0, private, must-revalidate
+      content-security-policy:
+      - default-src 'none'
+      etag:
+      - W/"efddd8bbe90e3be3d9527415a730ddfc"
+      gitlab-lb:
+      - haproxy-main-14-lb-gprd
+      gitlab-sv:
+      - api-gke-us-east1-d
+      link:
       - <https://gitlab.com/api/v4/projects/6812925/repository/commits?id=6812925&order=default&page=1&per_page=20&trailers=false>;
         rel="prev", <https://gitlab.com/api/v4/projects/6812925/repository/commits?id=6812925&order=default&page=3&per_page=20&trailers=false>;
         rel="next", <https://gitlab.com/api/v4/projects/6812925/repository/commits?id=6812925&order=default&page=1&per_page=20&trailers=false>;
         rel="first", <https://gitlab.com/api/v4/projects/6812925/repository/commits?id=6812925&order=default&page=3&per_page=20&trailers=false>;
         rel="last"
-      NEL:
-      - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
-      RateLimit-Limit:
-      - '2000'
-      RateLimit-Observed:
-      - '3'
-      RateLimit-Remaining:
-      - '1997'
-      RateLimit-Reset:
-      - '1648088739'
-      RateLimit-ResetTime:
-      - Thu, 24 Mar 2022 02:25:39 GMT
-      Referrer-Policy:
+      referrer-policy:
       - strict-origin-when-cross-origin
-      Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=IqcB%2FEckF57fYtbRlhEm5PUGayLQ3ap28WRuvARPnvr2H2BPVEA0n%2Fd3j2h5SJRmeiuE7A6144Xp6n62YU%2FeLdXB%2FRBHjxmsNyXBytwraJYt%2Ffad4QVQgcrkkvI%3D"}],"group":"cf-nel","max_age":604800}'
-      Server:
-      - cloudflare
-      Strict-Transport-Security:
+      strict-transport-security:
       - max-age=31536000
-      Transfer-Encoding:
-      - chunked
-      Vary:
-      - Origin
-      X-Content-Type-Options:
+      vary:
+      - Origin, Accept-Encoding
+      x-content-type-options:
       - nosniff
-      X-Frame-Options:
+      x-frame-options:
       - SAMEORIGIN
-      X-Next-Page:
+      x-gitlab-meta:
+      - '{"correlation_id":"becfe5cab66c3958cf6aa45b7cdb82ab","version":"1"}'
+      x-next-page:
       - '3'
-      X-Page:
+      x-page:
       - '2'
-      X-Per-Page:
+      x-per-page:
       - '20'
-      X-Prev-Page:
+      x-prev-page:
       - '1'
-      X-Request-Id:
-      - 01FYWVV0S9WRZPM6KW1RTMHB1N
-      X-Runtime:
-      - '0.088999'
+      x-request-id:
+      - becfe5cab66c3958cf6aa45b7cdb82ab
+      x-runtime:
+      - '0.146135'
     status:
       code: 200
       message: OK
@@ -391,65 +404,93 @@ interactions:
       - keep-alive
       Content-type:
       - application/json
+      Cookie:
+      - _cfuvid=6x40ymBt5wzs9Me9LgcxN0vQlKb6VkBgWxD_xFVBRow-1705114057789-0-604800000
       PRIVATE-TOKEN:
       - DUMMY
       User-Agent:
-      - python-gitlab/3.2.0
+      - python-gitlab/4.3.0
     method: GET
     uri: https://gitlab.com/api/v4/projects/6812925/repository/commits?id=6812925&order=default&page=3&per_page=20&trailers=false
   response:
     body:
-      string: !!binary |
-        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
-        AA==
+      string: "[{\"id\":\"f4c0f33f2ffa2289767bdec7585607c2ab854c11\",\"short_id\":\"f4c0f33f\",\"created_at\":\"2018-05-29T00:41:31.000-04:00\",\"parent_ids\":[\"ea7e94481f05c0c6f0b754d2325fa549d2c93b93\",\"b95d6c4cf4ce2e3af4e148d8bdcd9033c8846782\"],\"title\":\"Merge
+        branch 'develop'\",\"message\":\"Merge branch 'develop'\\n\\n* develop:\\n
+        \ add CHANGELOG.rst\\n  update readme for testing environments\\n  tell travis
+        to run tox\\n  refactor dev environment, expand testing\\n  bump version,
+        update license and requirements and add more tests to tox\\n  fix test\\n\",\"author_name\":\"Scott
+        Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2018-05-29T00:41:31.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2018-05-29T00:41:31.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/f4c0f33f2ffa2289767bdec7585607c2ab854c11\"},{\"id\":\"b95d6c4cf4ce2e3af4e148d8bdcd9033c8846782\",\"short_id\":\"b95d6c4c\",\"created_at\":\"2018-05-29T00:40:22.000-04:00\",\"parent_ids\":[\"b9a80cc349b97bfbd05e2ac10ccdf935b4d0fb88\"],\"title\":\"add
+        CHANGELOG.rst\",\"message\":\"add CHANGELOG.rst\\n\",\"author_name\":\"Scott
+        Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2018-05-29T00:40:22.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2018-05-29T00:40:22.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/b95d6c4cf4ce2e3af4e148d8bdcd9033c8846782\"},{\"id\":\"b9a80cc349b97bfbd05e2ac10ccdf935b4d0fb88\",\"short_id\":\"b9a80cc3\",\"created_at\":\"2018-05-29T00:15:06.000-04:00\",\"parent_ids\":[\"a7517237a30a26608a3748f107ed25d39dd58ac2\"],\"title\":\"remove
+        extra dash from env names\",\"message\":\"remove extra dash from env names\\n\",\"author_name\":\"Scott
+        Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2018-05-29T00:15:06.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2018-05-29T00:15:06.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/b9a80cc349b97bfbd05e2ac10ccdf935b4d0fb88\"},{\"id\":\"a7517237a30a26608a3748f107ed25d39dd58ac2\",\"short_id\":\"a7517237\",\"created_at\":\"2018-05-29T00:10:57.000-04:00\",\"parent_ids\":[\"e168c738f5e7c0b584ff5e6dbff754189bc221e1\"],\"title\":\"refactor
+        travis support\",\"message\":\"refactor travis support\\n\",\"author_name\":\"Scott
+        Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2018-05-29T00:10:57.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2018-05-29T00:10:57.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/a7517237a30a26608a3748f107ed25d39dd58ac2\"},{\"id\":\"e168c738f5e7c0b584ff5e6dbff754189bc221e1\",\"short_id\":\"e168c738\",\"created_at\":\"2018-05-28T23:52:24.000-04:00\",\"parent_ids\":[\"c92e74515cb64af840bcde054834d16e9f3a41ef\"],\"title\":\"update
+        readme for testing environments\",\"message\":\"update readme for testing
+        environments\\n\",\"author_name\":\"Scott Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2018-05-28T23:52:24.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2018-05-28T23:52:24.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/e168c738f5e7c0b584ff5e6dbff754189bc221e1\"},{\"id\":\"c92e74515cb64af840bcde054834d16e9f3a41ef\",\"short_id\":\"c92e7451\",\"created_at\":\"2018-05-28T23:34:53.000-04:00\",\"parent_ids\":[\"e475bd89ad92d10dd32457ecafe29727af5e960b\"],\"title\":\"tell
+        travis to run tox\",\"message\":\"tell travis to run tox\\n\",\"author_name\":\"Scott
+        Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2018-05-28T23:34:53.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2018-05-28T23:34:53.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/c92e74515cb64af840bcde054834d16e9f3a41ef\"},{\"id\":\"e475bd89ad92d10dd32457ecafe29727af5e960b\",\"short_id\":\"e475bd89\",\"created_at\":\"2018-05-28T23:29:52.000-04:00\",\"parent_ids\":[\"48c439d754a02ead71c36c74463c693780669e7e\"],\"title\":\"fix
+        dev-requirements to import requirements\",\"message\":\"fix dev-requirements
+        to import requirements\\n\",\"author_name\":\"Scott Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2018-05-28T23:29:52.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2018-05-28T23:29:52.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/e475bd89ad92d10dd32457ecafe29727af5e960b\"},{\"id\":\"48c439d754a02ead71c36c74463c693780669e7e\",\"short_id\":\"48c439d7\",\"created_at\":\"2018-05-28T23:24:46.000-04:00\",\"parent_ids\":[\"a8743086071071de53089a5cce3680cb5e3a6822\"],\"title\":\"fix
+        travis builds\",\"message\":\"fix travis builds\\n\",\"author_name\":\"Scott
+        Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2018-05-28T23:24:46.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2018-05-28T23:24:46.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/48c439d754a02ead71c36c74463c693780669e7e\"},{\"id\":\"a8743086071071de53089a5cce3680cb5e3a6822\",\"short_id\":\"a8743086\",\"created_at\":\"2018-05-28T23:11:06.000-04:00\",\"parent_ids\":[\"12dfcd5a810b717de8ed0445dcc024c06e261ee2\"],\"title\":\"refactor
+        dev environment, expand testing\",\"message\":\"refactor dev environment,
+        expand testing\\n\",\"author_name\":\"Scott Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2018-05-28T23:11:06.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2018-05-28T23:11:06.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/a8743086071071de53089a5cce3680cb5e3a6822\"},{\"id\":\"12dfcd5a810b717de8ed0445dcc024c06e261ee2\",\"short_id\":\"12dfcd5a\",\"created_at\":\"2018-05-28T22:54:37.000-04:00\",\"parent_ids\":[\"e6b87f7ac6868849de8c0d78f2586d2f64e0cb9b\"],\"title\":\"bump
+        version, update license and requirements and add more tests to tox\",\"message\":\"bump
+        version, update license and requirements and add more tests to tox\\n\",\"author_name\":\"Scott
+        Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2018-05-28T22:54:37.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2018-05-28T22:54:37.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/12dfcd5a810b717de8ed0445dcc024c06e261ee2\"},{\"id\":\"e6b87f7ac6868849de8c0d78f2586d2f64e0cb9b\",\"short_id\":\"e6b87f7a\",\"created_at\":\"2018-05-28T22:36:13.000-04:00\",\"parent_ids\":[\"694029bc29fd43e6604c7b66738de3efe6660cbf\"],\"title\":\"fix
+        test\",\"message\":\"fix test\\n\",\"author_name\":\"Scott Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2018-05-28T22:36:13.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2018-05-28T22:36:13.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/e6b87f7ac6868849de8c0d78f2586d2f64e0cb9b\"},{\"id\":\"ea7e94481f05c0c6f0b754d2325fa549d2c93b93\",\"short_id\":\"ea7e9448\",\"created_at\":\"2018-05-25T13:54:12.000-04:00\",\"parent_ids\":[\"694029bc29fd43e6604c7b66738de3efe6660cbf\",\"76892992610f19cabfc4d1ffd10caf965430f4c2\"],\"title\":\"Merge
+        pull request #8 from radding/master\",\"message\":\"Merge pull request #8
+        from radding/master\\n\\nFixed the issue with django 2.0 where stdout.write
+        fails because of t\u2026\",\"author_name\":\"Scott Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2018-05-25T13:54:12.000-04:00\",\"committer_name\":\"GitHub\",\"committer_email\":\"noreply@github.com\",\"committed_date\":\"2018-05-25T13:54:12.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/ea7e94481f05c0c6f0b754d2325fa549d2c93b93\"},{\"id\":\"76892992610f19cabfc4d1ffd10caf965430f4c2\",\"short_id\":\"76892992\",\"created_at\":\"2018-02-14T09:54:46.000-05:00\",\"parent_ids\":[\"694029bc29fd43e6604c7b66738de3efe6660cbf\"],\"title\":\"Fixed
+        the issue with django 2.0 where stdout.write fails because of the string being
+        bytes and not a string\",\"message\":\"Fixed the issue with django 2.0 where
+        stdout.write fails because of the string being bytes and not a string\\n\",\"author_name\":\"Yoseph
+        Radding\",\"author_email\":\"yoseph@shuttl.io\",\"authored_date\":\"2018-02-14T09:54:46.000-05:00\",\"committer_name\":\"Yoseph
+        Radding\",\"committer_email\":\"yoseph@shuttl.io\",\"committed_date\":\"2018-02-14T09:54:46.000-05:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/76892992610f19cabfc4d1ffd10caf965430f4c2\"},{\"id\":\"694029bc29fd43e6604c7b66738de3efe6660cbf\",\"short_id\":\"694029bc\",\"created_at\":\"2017-03-15T19:46:39.000-04:00\",\"parent_ids\":[\"18286be587af6391103919362ec13893273ff357\"],\"title\":\"rename
+        package, update to 0.5.3\",\"message\":\"rename package, update to 0.5.3\\n\",\"author_name\":\"Scott
+        Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2017-03-15T19:46:39.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2017-03-15T19:46:39.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/694029bc29fd43e6604c7b66738de3efe6660cbf\"},{\"id\":\"18286be587af6391103919362ec13893273ff357\",\"short_id\":\"18286be5\",\"created_at\":\"2017-03-14T12:32:51.000-04:00\",\"parent_ids\":[\"3a922750e2a7c634fec1fddf848d6206585070f7\"],\"title\":\"remove
+        SuspiciousOperation exception\",\"message\":\"remove SuspiciousOperation exception\\n\",\"author_name\":\"Scott
+        Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2017-03-14T12:32:51.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2017-03-14T12:32:51.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/18286be587af6391103919362ec13893273ff357\"},{\"id\":\"3a922750e2a7c634fec1fddf848d6206585070f7\",\"short_id\":\"3a922750\",\"created_at\":\"2017-03-14T11:27:52.000-04:00\",\"parent_ids\":[\"46be00dd39b6ddc2a33207b0fb4ea3272295564d\"],\"title\":\"Throw
+        SuspiciousOperation if decode fails, PEP8 changes - relax line length limits\",\"message\":\"Throw
+        SuspiciousOperation if decode fails, PEP8 changes - relax line length limits\\n\",\"author_name\":\"Scott
+        Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2017-03-14T11:26:48.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2017-03-14T11:27:52.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/3a922750e2a7c634fec1fddf848d6206585070f7\"},{\"id\":\"46be00dd39b6ddc2a33207b0fb4ea3272295564d\",\"short_id\":\"46be00dd\",\"created_at\":\"2017-03-14T11:05:08.000-04:00\",\"parent_ids\":[\"72abb28d397b9bef8116b3d0635b87c6732160d6\"],\"title\":\"rename
+        package, update for python 3, switch tests to tox/travis-ci\",\"message\":\"rename
+        package, update for python 3, switch tests to tox/travis-ci\\n\",\"author_name\":\"Scott
+        Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2017-03-14T11:05:08.000-04:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2017-03-14T11:05:08.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/46be00dd39b6ddc2a33207b0fb4ea3272295564d\"},{\"id\":\"72abb28d397b9bef8116b3d0635b87c6732160d6\",\"short_id\":\"72abb28d\",\"created_at\":\"2017-03-09T17:13:45.000-05:00\",\"parent_ids\":[\"c7dbbe5eab60b7a9ec452754df67d89f3923c715\"],\"title\":\"fix
+        issues running under python 3.5.2\",\"message\":\"fix issues running under
+        python 3.5.2\\n\",\"author_name\":\"Scott Sharkey\",\"author_email\":\"ssharkey@lanshark.com\",\"authored_date\":\"2017-03-09T17:13:45.000-05:00\",\"committer_name\":\"Scott
+        Sharkey\",\"committer_email\":\"ssharkey@lanshark.com\",\"committed_date\":\"2017-03-09T17:13:45.000-05:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/72abb28d397b9bef8116b3d0635b87c6732160d6\"},{\"id\":\"c7dbbe5eab60b7a9ec452754df67d89f3923c715\",\"short_id\":\"c7dbbe5e\",\"created_at\":\"2016-09-27T19:25:27.000-04:00\",\"parent_ids\":[\"df41bd7366629a00c41210972503666cdecbbeb8\"],\"title\":\"add
+        build to gitignore\",\"message\":\"add build to gitignore\\nadd tests for
+        key rotation and key creation on module loading\\nupdate key creation to properly
+        allow an iterable list/tuple of keys to be defined in settings\\nremove support
+        for dict key settings since we can't guarantee order of the keys, which invalidates
+        key rotation\\nadd missing urls file for testapp\\n\",\"author_name\":\"Dana
+        Spiegel\",\"author_email\":\"dana@foundertherapy.co\",\"authored_date\":\"2016-09-27T19:18:35.000-04:00\",\"committer_name\":\"Dana
+        Spiegel\",\"committer_email\":\"dana@foundertherapy.co\",\"committed_date\":\"2016-09-27T19:25:27.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/c7dbbe5eab60b7a9ec452754df67d89f3923c715\"},{\"id\":\"df41bd7366629a00c41210972503666cdecbbeb8\",\"short_id\":\"df41bd73\",\"created_at\":\"2016-09-23T12:25:09.000-04:00\",\"parent_ids\":[\"4611a33a84e68bd615b419bc8537ecb0bbc871f8\"],\"title\":\"update
+        setup to use more generic configuration\",\"message\":\"update setup to use
+        more generic configuration\\n\",\"author_name\":\"Dana Spiegel\",\"author_email\":\"dana@foundertherapy.co\",\"authored_date\":\"2016-09-23T10:13:36.000-04:00\",\"committer_name\":\"Dana
+        Spiegel\",\"committer_email\":\"dana@foundertherapy.co\",\"committed_date\":\"2016-09-23T12:25:09.000-04:00\",\"trailers\":{},\"extended_trailers\":{},\"web_url\":\"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/df41bd7366629a00c41210972503666cdecbbeb8\"}]"
     headers:
       CF-Cache-Status:
-      - DYNAMIC
+      - MISS
       CF-RAY:
-      - 6f0bf3a6da805ecf-OMA
-      Cache-Control:
-      - max-age=0, private, must-revalidate
+      - 844a50d52cb026e7-FSD
       Connection:
       - keep-alive
       Content-Encoding:
@@ -457,61 +498,55 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 24 Mar 2022 02:24:39 GMT
-      Etag:
-      - W/"7504cc02cfee121a4c555bf808e49571"
-      Expect-CT:
-      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
-      GitLab-LB:
-      - fe-16-lb-gprd
-      GitLab-SV:
-      - localhost
-      Link:
+      - Sat, 13 Jan 2024 02:47:39 GMT
+      NEL:
+      - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=SeXkWuOrWHSCiCFc35941TSMuDdSaSEOuLcyMi9HQm%2B0xv9KGjzp1N0StNUfHeOdvXLm5QxIefSG5Uy9uaFwY%2FSHQXc8Lor5whoHlD1OydCmrUUdjbolRwmqGuI%3D"}],"group":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - max-age=0, private, must-revalidate
+      content-security-policy:
+      - default-src 'none'
+      etag:
+      - W/"8f38674a931a576e23b7f4f78039bf92"
+      gitlab-lb:
+      - haproxy-main-34-lb-gprd
+      gitlab-sv:
+      - api-gke-us-east1-c
+      link:
       - <https://gitlab.com/api/v4/projects/6812925/repository/commits?id=6812925&order=default&page=2&per_page=20&trailers=false>;
         rel="prev", <https://gitlab.com/api/v4/projects/6812925/repository/commits?id=6812925&order=default&page=4&per_page=20&trailers=false>;
         rel="next", <https://gitlab.com/api/v4/projects/6812925/repository/commits?id=6812925&order=default&page=1&per_page=20&trailers=false>;
         rel="first", <https://gitlab.com/api/v4/projects/6812925/repository/commits?id=6812925&order=default&page=4&per_page=20&trailers=false>;
         rel="last"
-      NEL:
-      - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
-      RateLimit-Limit:
-      - '2000'
-      RateLimit-Observed:
-      - '4'
-      RateLimit-Remaining:
-      - '1996'
-      RateLimit-Reset:
-      - '1648088739'
-      RateLimit-ResetTime:
-      - Thu, 24 Mar 2022 02:25:39 GMT
-      Referrer-Policy:
+      referrer-policy:
       - strict-origin-when-cross-origin
-      Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=T3%2F3yy93LNFGb5TLnSMA%2FxP6NOEK7Np5dVYeDjaEROBFKjCsFquBPNq%2F35%2Fz88Yo5zaqHMzFdUZHF0FLwI2yd0gfMx0OUeSzJL3xZ3BIb%2BLnpFCNkKKf5t1Vayw%3D"}],"group":"cf-nel","max_age":604800}'
-      Server:
-      - cloudflare
-      Strict-Transport-Security:
+      strict-transport-security:
       - max-age=31536000
-      Transfer-Encoding:
-      - chunked
-      Vary:
-      - Origin
-      X-Content-Type-Options:
+      vary:
+      - Origin, Accept-Encoding
+      x-content-type-options:
       - nosniff
-      X-Frame-Options:
+      x-frame-options:
       - SAMEORIGIN
-      X-Next-Page:
+      x-gitlab-meta:
+      - '{"correlation_id":"c03c7cf1ea97bee11a9b76320cc111e1","version":"1"}'
+      x-next-page:
       - '4'
-      X-Page:
+      x-page:
       - '3'
-      X-Per-Page:
+      x-per-page:
       - '20'
-      X-Prev-Page:
+      x-prev-page:
       - '2'
-      X-Request-Id:
-      - 01FYWVV14P1SX81KB9WYQT8AVY
-      X-Runtime:
-      - '0.085379'
+      x-request-id:
+      - c03c7cf1ea97bee11a9b76320cc111e1
+      x-runtime:
+      - '0.113462'
     status:
       code: 200
       message: OK
@@ -526,70 +561,81 @@ interactions:
       - keep-alive
       Content-type:
       - application/json
+      Cookie:
+      - _cfuvid=6x40ymBt5wzs9Me9LgcxN0vQlKb6VkBgWxD_xFVBRow-1705114057789-0-604800000
       PRIVATE-TOKEN:
       - DUMMY
       User-Agent:
-      - python-gitlab/3.2.0
+      - python-gitlab/4.3.0
     method: GET
     uri: https://gitlab.com/api/v4/projects/6812925/repository/commits?id=6812925&order=default&page=4&per_page=20&trailers=false
   response:
     body:
-      string: !!binary |
-        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
-        1hynQvjHr/8HAAD//wMAsa0P4ZQ4AAA=
+      string: '[{"id":"4611a33a84e68bd615b419bc8537ecb0bbc871f8","short_id":"4611a33a","created_at":"2016-09-20T19:05:34.000+03:00","parent_ids":["f8dff3b7cfbda7ea9513bbf1f53617513ea48682"],"title":"use
+        django 1.9+ for tests","message":"use django 1.9+ for tests\n","author_name":"ghalebkhaled","author_email":"ghaleb@foundertherapy.co","authored_date":"2016-09-08T13:32:02.000+03:00","committer_name":"ghalebkhaled","committer_email":"ghaleb@foundertherapy.co","committed_date":"2016-09-20T19:05:34.000+03:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/4611a33a84e68bd615b419bc8537ecb0bbc871f8"},{"id":"f8dff3b7cfbda7ea9513bbf1f53617513ea48682","short_id":"f8dff3b7","created_at":"2016-09-20T19:05:30.000+03:00","parent_ids":["ecc02b6cdc7e8bbda38dcfa70bcc6c2b14610ea7"],"title":"don''t
+        use SubfieldBase as its removed in django 1.10","message":"don''t use SubfieldBase
+        as its removed in django 1.10\n","author_name":"ghalebkhaled","author_email":"ghaleb@foundertherapy.co","authored_date":"2016-09-07T14:45:17.000+03:00","committer_name":"ghalebkhaled","committer_email":"ghaleb@foundertherapy.co","committed_date":"2016-09-20T19:05:30.000+03:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/f8dff3b7cfbda7ea9513bbf1f53617513ea48682"},{"id":"ecc02b6cdc7e8bbda38dcfa70bcc6c2b14610ea7","short_id":"ecc02b6c","created_at":"2016-09-05T14:48:59.000+03:00","parent_ids":["cc4dfc4d0aabcf33f07c44a53dd0c4dac57b05f7"],"title":"remove
+        unneeded unencrypted_max_length","message":"remove unneeded unencrypted_max_length\n","author_name":"ghalebkhaled","author_email":"ghaleb@foundertherapy.co","authored_date":"2016-09-05T14:48:59.000+03:00","committer_name":"ghalebkhaled","committer_email":"ghaleb@foundertherapy.co","committed_date":"2016-09-05T14:48:59.000+03:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/ecc02b6cdc7e8bbda38dcfa70bcc6c2b14610ea7"},{"id":"cc4dfc4d0aabcf33f07c44a53dd0c4dac57b05f7","short_id":"cc4dfc4d","created_at":"2016-09-05T14:45:50.000+03:00","parent_ids":["e15aca7d503aa46f3d553fcda822e8de83da08bc"],"title":"remove
+        unneeded new length calculation","message":"remove unneeded new length calculation\n","author_name":"ghalebkhaled","author_email":"ghaleb@foundertherapy.co","authored_date":"2016-09-05T14:45:50.000+03:00","committer_name":"ghalebkhaled","committer_email":"ghaleb@foundertherapy.co","committed_date":"2016-09-05T14:45:50.000+03:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/cc4dfc4d0aabcf33f07c44a53dd0c4dac57b05f7"},{"id":"e15aca7d503aa46f3d553fcda822e8de83da08bc","short_id":"e15aca7d","created_at":"2016-08-30T14:24:49.000+03:00","parent_ids":["80a7fe63371bc427ad234e5be6842903cecb3749"],"title":"generic
+        version number","message":"generic version number\n","author_name":"nasief","author_email":"nasief304@gmail.com","authored_date":"2016-08-30T14:24:49.000+03:00","committer_name":"nasief","committer_email":"nasief304@gmail.com","committed_date":"2016-08-30T14:24:49.000+03:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/e15aca7d503aa46f3d553fcda822e8de83da08bc"},{"id":"80a7fe63371bc427ad234e5be6842903cecb3749","short_id":"80a7fe63","created_at":"2016-08-16T18:12:55.000+03:00","parent_ids":["f4d005b1afeecb5559b7914e99885a94de0ed453"],"title":"make
+        version reading more generic","message":"make version reading more generic\n","author_name":"nasief","author_email":"nasief304@gmail.com","authored_date":"2016-08-16T18:12:55.000+03:00","committer_name":"nasief","committer_email":"nasief304@gmail.com","committed_date":"2016-08-16T18:12:55.000+03:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/80a7fe63371bc427ad234e5be6842903cecb3749"},{"id":"f4d005b1afeecb5559b7914e99885a94de0ed453","short_id":"f4d005b1","created_at":"2016-04-05T14:16:40.000+03:00","parent_ids":["4464825f1c3da2feb4594172862d2212577b7070"],"title":"Raise
+        an error in settings.py only when encryption key is None","message":"Raise
+        an error in settings.py only when encryption key is None\n","author_name":"waseem-omar","author_email":"waseem.omar@gmail.com","authored_date":"2016-04-05T14:16:40.000+03:00","committer_name":"waseem-omar","committer_email":"waseem.omar@gmail.com","committed_date":"2016-04-05T14:16:40.000+03:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/f4d005b1afeecb5559b7914e99885a94de0ed453"},{"id":"4464825f1c3da2feb4594172862d2212577b7070","short_id":"4464825f","created_at":"2016-04-05T13:55:58.000+03:00","parent_ids":["2e5535fc34a93592c4d061bdfe72b30d7485b0e0"],"title":"Fixed
+        an issue in getattr for encryption key","message":"Fixed an issue in getattr
+        for encryption key\n","author_name":"waseem-omar","author_email":"waseem.omar@gmail.com","authored_date":"2016-04-05T13:55:58.000+03:00","committer_name":"waseem-omar","committer_email":"waseem.omar@gmail.com","committed_date":"2016-04-05T13:55:58.000+03:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/4464825f1c3da2feb4594172862d2212577b7070"},{"id":"2e5535fc34a93592c4d061bdfe72b30d7485b0e0","short_id":"2e5535fc","created_at":"2016-03-06T11:43:09.000-05:00","parent_ids":["b314350552e9967273429fc9d42f536a1746628f"],"title":"update
+        for 0.3.0 release","message":"update for 0.3.0 release\n","author_name":"Dana
+        Spiegel","author_email":"dana@foundertherapy.co","authored_date":"2016-03-06T11:43:09.000-05:00","committer_name":"Dana
+        Spiegel","committer_email":"dana@foundertherapy.co","committed_date":"2016-03-06T11:43:09.000-05:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/2e5535fc34a93592c4d061bdfe72b30d7485b0e0"},{"id":"b314350552e9967273429fc9d42f536a1746628f","short_id":"b3143505","created_at":"2016-03-06T10:48:05.000-05:00","parent_ids":["bfd4c61edfede128fe9f31378eba2b2a753e13de"],"title":"Use
+        TextField for all fields","message":"Use TextField for all fields\n\n- Allow
+        max_length to be None\n- Remove max_length from the kwargs returned in the
+        deconstruct method\n- Update tests and make sure all fields use TextField
+        as the underlying\n  type.\n- Add test to verify form validation\n","author_name":"Dylan
+        Gregersen","author_email":"dylan@eventboard.io","authored_date":"2015-10-01T12:30:46.000-06:00","committer_name":"Dana
+        Spiegel","committer_email":"dana@foundertherapy.co","committed_date":"2016-03-06T10:48:05.000-05:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/b314350552e9967273429fc9d42f536a1746628f"},{"id":"bfd4c61edfede128fe9f31378eba2b2a753e13de","short_id":"bfd4c61e","created_at":"2016-02-04T23:28:41.000-05:00","parent_ids":["d77fe5862554531a8f27d2fa5547c0ca30354e01","b3dfb5f117dbb4f7b20563cbcc931e4d5dae8664"],"title":"Merge
+        branch ''pep8'' of https://github.com/JshWright/django-cryptographic-fields
+        into JshWright-pep8","message":"Merge branch ''pep8'' of https://github.com/JshWright/django-cryptographic-fields
+        into JshWright-pep8\n","author_name":"Dana Spiegel","author_email":"dana@foundertherapy.co","authored_date":"2016-02-04T23:28:41.000-05:00","committer_name":"Dana
+        Spiegel","committer_email":"dana@foundertherapy.co","committed_date":"2016-02-04T23:28:41.000-05:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/bfd4c61edfede128fe9f31378eba2b2a753e13de"},{"id":"d77fe5862554531a8f27d2fa5547c0ca30354e01","short_id":"d77fe586","created_at":"2016-02-04T23:27:35.000-05:00","parent_ids":["7082f2156378c83b8e64b3fb0fc34b4c1d3af84b","10ea6f2813a0d51d268a1bd5b3201bbf76c4e931"],"title":"Merge
+        branch ''master'' of https://github.com/guruofgentoo/django-cryptographic-fields
+        into guruofgentoo-master","message":"Merge branch ''master'' of https://github.com/guruofgentoo/django-cryptographic-fields
+        into guruofgentoo-master\n","author_name":"Dana Spiegel","author_email":"dana@foundertherapy.co","authored_date":"2016-02-04T23:27:35.000-05:00","committer_name":"Dana
+        Spiegel","committer_email":"dana@foundertherapy.co","committed_date":"2016-02-04T23:27:35.000-05:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/d77fe5862554531a8f27d2fa5547c0ca30354e01"},{"id":"7082f2156378c83b8e64b3fb0fc34b4c1d3af84b","short_id":"7082f215","created_at":"2016-02-04T23:25:42.000-05:00","parent_ids":["ec45107658b4935634f142b18316633bc6b4e8a0"],"title":"fix
+        issue with incorrect README file name and README content","message":"fix issue
+        with incorrect README file name and README content\n","author_name":"Dana
+        Spiegel","author_email":"dana@foundertherapy.co","authored_date":"2016-02-04T23:25:42.000-05:00","committer_name":"Dana
+        Spiegel","committer_email":"dana@foundertherapy.co","committed_date":"2016-02-04T23:25:42.000-05:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/7082f2156378c83b8e64b3fb0fc34b4c1d3af84b"},{"id":"10ea6f2813a0d51d268a1bd5b3201bbf76c4e931","short_id":"10ea6f28","created_at":"2016-02-04T14:30:41.000-05:00","parent_ids":["ec45107658b4935634f142b18316633bc6b4e8a0"],"title":"make
+        fields and tests compatible with Python 3","message":"make fields and tests
+        compatible with Python 3\n\nFixes #13\n\nNote that freezegun also does not
+        appear to be compatible with Python 3, so its usage has been removed from
+        tests.\n","author_name":"Matt Lewellyn","author_email":"guruofgentoo@gmail.com","authored_date":"2016-02-04T14:30:41.000-05:00","committer_name":"Matt
+        Lewellyn","committer_email":"guruofgentoo@gmail.com","committed_date":"2016-02-04T14:30:41.000-05:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/10ea6f2813a0d51d268a1bd5b3201bbf76c4e931"},{"id":"b3dfb5f117dbb4f7b20563cbcc931e4d5dae8664","short_id":"b3dfb5f1","created_at":"2015-10-04T09:53:15.000-04:00","parent_ids":["b7852519106aded975169517d23cf58eff524ca8"],"title":"Remove
+        unused import (PEP8)","message":"Remove unused import (PEP8)\n","author_name":"Josh
+        Wright","author_email":"jshwright@gmail.com","authored_date":"2015-10-04T09:53:15.000-04:00","committer_name":"Josh
+        Wright","committer_email":"jshwright@gmail.com","committed_date":"2015-10-04T09:53:15.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/b3dfb5f117dbb4f7b20563cbcc931e4d5dae8664"},{"id":"b7852519106aded975169517d23cf58eff524ca8","short_id":"b7852519","created_at":"2015-10-04T09:52:24.000-04:00","parent_ids":["ec45107658b4935634f142b18316633bc6b4e8a0"],"title":"Remove
+        some extra blank lines (PEP8)","message":"Remove some extra blank lines (PEP8)\n","author_name":"Josh
+        Wright","author_email":"jshwright@gmail.com","authored_date":"2015-10-04T09:52:24.000-04:00","committer_name":"Josh
+        Wright","committer_email":"jshwright@gmail.com","committed_date":"2015-10-04T09:52:24.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/b7852519106aded975169517d23cf58eff524ca8"},{"id":"ec45107658b4935634f142b18316633bc6b4e8a0","short_id":"ec451076","created_at":"2015-10-03T14:01:51.000-04:00","parent_ids":["224109aab141927bc7f1dbf2d9296be245bc1584","8115fe6386a1f50f022f7ab0343ae2e52ba2f640"],"title":"Merge
+        pull request #9 from JshWright/patch-1","message":"Merge pull request #9 from
+        JshWright/patch-1\n\nMake relative import explicit","author_name":"Dana Spiegel","author_email":"dana@foundertherapy.co","authored_date":"2015-10-03T14:01:51.000-04:00","committer_name":"Dana
+        Spiegel","committer_email":"dana@foundertherapy.co","committed_date":"2015-10-03T14:01:51.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/ec45107658b4935634f142b18316633bc6b4e8a0"},{"id":"8115fe6386a1f50f022f7ab0343ae2e52ba2f640","short_id":"8115fe63","created_at":"2015-10-03T13:26:25.000-04:00","parent_ids":["224109aab141927bc7f1dbf2d9296be245bc1584"],"title":"Make
+        relative import explicit","message":"Make relative import explicit\n\nThis
+        commit makes the relative import of the ''settings'' module explicit. This
+        is necessary for Python 3 (and a good practice in Python 2)","author_name":"Josh
+        Wright","author_email":"jshwright@gmail.com","authored_date":"2015-10-03T13:26:25.000-04:00","committer_name":"Josh
+        Wright","committer_email":"jshwright@gmail.com","committed_date":"2015-10-03T13:26:25.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/8115fe6386a1f50f022f7ab0343ae2e52ba2f640"},{"id":"224109aab141927bc7f1dbf2d9296be245bc1584","short_id":"224109aa","created_at":"2015-08-17T18:10:03.000-04:00","parent_ids":["a7a899c8165b8d5f39b3b1ede193f85898ff70ea","4428c935957075b78836bc7b414c663b4bde8030"],"title":"Merge
+        pull request #4 from enderlabs/dev","message":"Merge pull request #4 from
+        enderlabs/dev\n\nAllow key rotation by specifying multiple keys in the settings
+        file as a list, tuple, or dict","author_name":"Dana Spiegel","author_email":"dana@foundertherapy.co","authored_date":"2015-08-17T18:10:03.000-04:00","committer_name":"Dana
+        Spiegel","committer_email":"dana@foundertherapy.co","committed_date":"2015-08-17T18:10:03.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/224109aab141927bc7f1dbf2d9296be245bc1584"},{"id":"4428c935957075b78836bc7b414c663b4bde8030","short_id":"4428c935","created_at":"2015-08-17T16:03:51.000-06:00","parent_ids":["a7a899c8165b8d5f39b3b1ede193f85898ff70ea"],"title":"Allow
+        key rotation","message":"Allow key rotation\n\n- Use MultiFernet to allow
+        key rotation\n- Interpret, tuples, lists, and OrderedDicts as containers for
+        keys\n","author_name":"Lucas Roesler","author_email":"lucas@enderlabs.com","authored_date":"2015-08-17T16:03:51.000-06:00","committer_name":"Lucas
+        Roesler","committer_email":"lucas@enderlabs.com","committed_date":"2015-08-17T16:03:51.000-06:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/4428c935957075b78836bc7b414c663b4bde8030"}]'
     headers:
       CF-Cache-Status:
-      - DYNAMIC
+      - MISS
       CF-RAY:
-      - 6f0bf3a92cd55ecf-OMA
-      Cache-Control:
-      - max-age=0, private, must-revalidate
+      - 844a50d7ceed26e8-FSD
       Connection:
       - keep-alive
       Content-Encoding:
@@ -597,61 +643,55 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 24 Mar 2022 02:24:40 GMT
-      Etag:
-      - W/"cd3e47ac140d1fc5f464d77b0a71f0d7"
-      Expect-CT:
-      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
-      GitLab-LB:
-      - fe-14-lb-gprd
-      GitLab-SV:
-      - localhost
-      Link:
+      - Sat, 13 Jan 2024 02:47:39 GMT
+      NEL:
+      - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=bcjv9N%2BeEnwhHCQwsvFPLi2v%2B79BnlMbzaYlNAZuZTxmeERmxWwMfRnSyJfZQIfFHZ6ZI1fr0YgF88LX8g6E7G9%2BQRtmbfggrzg%2FvQ%2F4vB8ja77MBbOU%2BCW4FWI%3D"}],"group":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - max-age=0, private, must-revalidate
+      content-security-policy:
+      - default-src 'none'
+      etag:
+      - W/"b91f3ea1d05e110808dffe17495e7bca"
+      gitlab-lb:
+      - haproxy-main-11-lb-gprd
+      gitlab-sv:
+      - api-gke-us-east1-d
+      link:
       - <https://gitlab.com/api/v4/projects/6812925/repository/commits?id=6812925&order=default&page=3&per_page=20&trailers=false>;
         rel="prev", <https://gitlab.com/api/v4/projects/6812925/repository/commits?id=6812925&order=default&page=5&per_page=20&trailers=false>;
         rel="next", <https://gitlab.com/api/v4/projects/6812925/repository/commits?id=6812925&order=default&page=1&per_page=20&trailers=false>;
         rel="first", <https://gitlab.com/api/v4/projects/6812925/repository/commits?id=6812925&order=default&page=5&per_page=20&trailers=false>;
         rel="last"
-      NEL:
-      - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
-      RateLimit-Limit:
-      - '2000'
-      RateLimit-Observed:
-      - '5'
-      RateLimit-Remaining:
-      - '1995'
-      RateLimit-Reset:
-      - '1648088740'
-      RateLimit-ResetTime:
-      - Thu, 24 Mar 2022 02:25:40 GMT
-      Referrer-Policy:
+      referrer-policy:
       - strict-origin-when-cross-origin
-      Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=kI1jQk6cNuIT5MNsSQEARXvg8j5brV2ciY152JFoWDV%2BQGdsruAfLjZ%2BiFIAU87jtTqdmR3M43zkaSPebQwDyb0A%2BbofwfeHt%2B4aAZ958n2mfN3yBQYf1%2Fvl2pk%3D"}],"group":"cf-nel","max_age":604800}'
-      Server:
-      - cloudflare
-      Strict-Transport-Security:
+      strict-transport-security:
       - max-age=31536000
-      Transfer-Encoding:
-      - chunked
-      Vary:
-      - Origin
-      X-Content-Type-Options:
+      vary:
+      - Origin, Accept-Encoding
+      x-content-type-options:
       - nosniff
-      X-Frame-Options:
+      x-frame-options:
       - SAMEORIGIN
-      X-Next-Page:
+      x-gitlab-meta:
+      - '{"correlation_id":"83ebe8d915f8432876f2e47267a90ba7","version":"1"}'
+      x-next-page:
       - '5'
-      X-Page:
+      x-page:
       - '4'
-      X-Per-Page:
+      x-per-page:
       - '20'
-      X-Prev-Page:
+      x-prev-page:
       - '3'
-      X-Request-Id:
-      - 01FYWVV1HARVZSA60G3A75T5F0
-      X-Runtime:
-      - '0.094278'
+      x-request-id:
+      - 83ebe8d915f8432876f2e47267a90ba7
+      x-runtime:
+      - '0.108517'
     status:
       code: 200
       message: OK
@@ -666,46 +706,62 @@ interactions:
       - keep-alive
       Content-type:
       - application/json
+      Cookie:
+      - _cfuvid=6x40ymBt5wzs9Me9LgcxN0vQlKb6VkBgWxD_xFVBRow-1705114057789-0-604800000
       PRIVATE-TOKEN:
       - DUMMY
       User-Agent:
-      - python-gitlab/3.2.0
+      - python-gitlab/4.3.0
     method: GET
     uri: https://gitlab.com/api/v4/projects/6812925/repository/commits?id=6812925&order=default&page=5&per_page=20&trailers=false
   response:
     body:
-      string: !!binary |
-        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
+      string: '[{"id":"a7a899c8165b8d5f39b3b1ede193f85898ff70ea","short_id":"a7a899c8","created_at":"2015-05-11T10:57:37.000-04:00","parent_ids":["d4220319dc35995858b38df832b81bd9dbcac69d"],"title":"updated
+        Django to v1.7.8 security release","message":"updated Django to v1.7.8 security
+        release\n","author_name":"Dana Spiegel","author_email":"dana@sociabledesign.com","authored_date":"2015-05-11T10:57:37.000-04:00","committer_name":"Dana
+        Spiegel","committer_email":"dana@sociabledesign.com","committed_date":"2015-05-11T10:57:37.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/a7a899c8165b8d5f39b3b1ede193f85898ff70ea"},{"id":"d4220319dc35995858b38df832b81bd9dbcac69d","short_id":"d4220319","created_at":"2015-05-08T12:03:35.000-04:00","parent_ids":["80a76080d7d43eabaca00a72408c78a18a8ef8a0"],"title":"added
+        instructions on generating an encryption key","message":"added instructions
+        on generating an encryption key\n","author_name":"Dana Spiegel","author_email":"dana@sociabledesign.com","authored_date":"2015-05-08T12:03:35.000-04:00","committer_name":"Dana
+        Spiegel","committer_email":"dana@sociabledesign.com","committed_date":"2015-05-08T12:03:35.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/d4220319dc35995858b38df832b81bd9dbcac69d"},{"id":"80a76080d7d43eabaca00a72408c78a18a8ef8a0","short_id":"80a76080","created_at":"2015-05-08T01:23:09.000-04:00","parent_ids":["917ed55cd239817c4c091d15e1440f7adc3e947e"],"title":"Prepared
+        for PyPi release for v0.1.0","message":"Prepared for PyPi release for v0.1.0\n\n-
+        Moved and reformatted README from markdown to rst\n- updated setup.py with
+        new README.rst file\n- updated gitignore to ignore pypi distribution files\n-
+        updated version to v0.1.0 from v0.0.1\n","author_name":"Dana Spiegel","author_email":"dana@sociabledesign.com","authored_date":"2015-05-08T01:23:09.000-04:00","committer_name":"Dana
+        Spiegel","committer_email":"dana@sociabledesign.com","committed_date":"2015-05-08T01:23:09.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/80a76080d7d43eabaca00a72408c78a18a8ef8a0"},{"id":"917ed55cd239817c4c091d15e1440f7adc3e947e","short_id":"917ed55c","created_at":"2015-05-07T21:31:03.000-04:00","parent_ids":["3ba7b2405fdef3466cb961c20f64219a9175c19c"],"title":"Fixed
+        implementation of some encrypted fields to ensure they pass tests","message":"Fixed
+        implementation of some encrypted fields to ensure they pass tests\n\n- fixed
+        db saving of boolean fields to ensure they are actually encrypted\n- fixed
+        None checking for EncryptedMixin\n- removed incorrect get_db_prep_save  for
+        EncryptedEmailField\n","author_name":"Dana Spiegel","author_email":"dana@sociabledesign.com","authored_date":"2015-05-07T21:31:03.000-04:00","committer_name":"Dana
+        Spiegel","committer_email":"dana@sociabledesign.com","committed_date":"2015-05-07T21:31:03.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/917ed55cd239817c4c091d15e1440f7adc3e947e"},{"id":"3ba7b2405fdef3466cb961c20f64219a9175c19c","short_id":"3ba7b240","created_at":"2015-05-07T21:30:36.000-04:00","parent_ids":["566d779a6172632c0c4577041f7f767975db3834"],"title":"added
+        psql database for testing","message":"added psql database for testing\n","author_name":"Dana
+        Spiegel","author_email":"dana@sociabledesign.com","authored_date":"2015-05-07T21:30:36.000-04:00","committer_name":"Dana
+        Spiegel","committer_email":"dana@sociabledesign.com","committed_date":"2015-05-07T21:30:36.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/3ba7b2405fdef3466cb961c20f64219a9175c19c"},{"id":"566d779a6172632c0c4577041f7f767975db3834","short_id":"566d779a","created_at":"2015-05-01T16:48:59.000-04:00","parent_ids":["f140d1a6876fdeffdff347760575e47d3ba17f3f"],"title":"fixed
+        boolean encoding","message":"fixed boolean encoding\n","author_name":"Dana
+        Spiegel","author_email":"dana@sociabledesign.com","authored_date":"2015-05-01T16:48:59.000-04:00","committer_name":"Dana
+        Spiegel","committer_email":"dana@sociabledesign.com","committed_date":"2015-05-01T16:48:59.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/566d779a6172632c0c4577041f7f767975db3834"},{"id":"f140d1a6876fdeffdff347760575e47d3ba17f3f","short_id":"f140d1a6","created_at":"2015-05-01T16:41:31.000-04:00","parent_ids":["6d66eae9a1bc0a104120e7053fb447b508d5f8e0"],"title":"more
+        db settings updates","message":"more db settings updates\n","author_name":"Dana
+        Spiegel","author_email":"dana@sociabledesign.com","authored_date":"2015-05-01T16:41:31.000-04:00","committer_name":"Dana
+        Spiegel","committer_email":"dana@sociabledesign.com","committed_date":"2015-05-01T16:41:31.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/f140d1a6876fdeffdff347760575e47d3ba17f3f"},{"id":"6d66eae9a1bc0a104120e7053fb447b508d5f8e0","short_id":"6d66eae9","created_at":"2015-05-01T16:40:04.000-04:00","parent_ids":["88434adcaa9e632308d9c42a804aab34816e1bb9"],"title":"fixed
+        postgres db spec in circleci settings","message":"fixed postgres db spec in
+        circleci settings\n","author_name":"Dana Spiegel","author_email":"dana@sociabledesign.com","authored_date":"2015-05-01T16:40:04.000-04:00","committer_name":"Dana
+        Spiegel","committer_email":"dana@sociabledesign.com","committed_date":"2015-05-01T16:40:04.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/6d66eae9a1bc0a104120e7053fb447b508d5f8e0"},{"id":"88434adcaa9e632308d9c42a804aab34816e1bb9","short_id":"88434adc","created_at":"2015-05-01T16:39:01.000-04:00","parent_ids":["0af1df3c70f0379b8f08e8879b53113e72b4470f"],"title":"full
+        upgrade for more fields and some refactoring","message":"full upgrade for
+        more fields and some refactoring\nadded automated testing with circleci\n","author_name":"Dana
+        Spiegel","author_email":"dana@sociabledesign.com","authored_date":"2015-05-01T16:39:01.000-04:00","committer_name":"Dana
+        Spiegel","committer_email":"dana@sociabledesign.com","committed_date":"2015-05-01T16:39:01.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/88434adcaa9e632308d9c42a804aab34816e1bb9"},{"id":"0af1df3c70f0379b8f08e8879b53113e72b4470f","short_id":"0af1df3c","created_at":"2015-04-30T11:59:09.000-04:00","parent_ids":["06583ee6c275e7755f0bdf4b665e5b631a32c709"],"title":"updated
+        readme and moved MANIFEST.in to the correct location","message":"updated readme
+        and moved MANIFEST.in to the correct location\n","author_name":"Dana Spiegel","author_email":"dana@sociabledesign.com","authored_date":"2015-04-30T11:59:09.000-04:00","committer_name":"Dana
+        Spiegel","committer_email":"dana@sociabledesign.com","committed_date":"2015-04-30T11:59:09.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/0af1df3c70f0379b8f08e8879b53113e72b4470f"},{"id":"06583ee6c275e7755f0bdf4b665e5b631a32c709","short_id":"06583ee6","created_at":"2015-04-29T18:52:04.000-04:00","parent_ids":["be9ed58e7ec1a27fb23905a2f07ef4cf1f9083d3"],"title":"initial
+        commit","message":"initial commit\n","author_name":"Dana Spiegel","author_email":"dana@sociabledesign.com","authored_date":"2015-04-29T18:52:04.000-04:00","committer_name":"Dana
+        Spiegel","committer_email":"dana@sociabledesign.com","committed_date":"2015-04-29T18:52:04.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/06583ee6c275e7755f0bdf4b665e5b631a32c709"},{"id":"be9ed58e7ec1a27fb23905a2f07ef4cf1f9083d3","short_id":"be9ed58e","created_at":"2015-04-29T18:49:48.000-04:00","parent_ids":[],"title":"Initial
+        commit","message":"Initial commit\n","author_name":"Dana Spiegel","author_email":"dana@foundertherapy.co","authored_date":"2015-04-29T18:49:48.000-04:00","committer_name":"Dana
+        Spiegel","committer_email":"dana@foundertherapy.co","committed_date":"2015-04-29T18:49:48.000-04:00","trailers":{},"extended_trailers":{},"web_url":"https://gitlab.com/lansharkconsulting/django/django-encrypted-model-fields/-/commit/be9ed58e7ec1a27fb23905a2f07ef4cf1f9083d3"}]'
     headers:
       CF-Cache-Status:
-      - DYNAMIC
+      - MISS
       CF-RAY:
-      - 6f0bf3ac6f2f5ecf-OMA
-      Cache-Control:
-      - max-age=0, private, must-revalidate
+      - 844a50da5c2626e8-FSD
       Connection:
       - keep-alive
       Content-Encoding:
@@ -713,60 +769,54 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 24 Mar 2022 02:24:40 GMT
-      Etag:
-      - W/"34804777b88ea5442db792105713bea8"
-      Expect-CT:
-      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
-      GitLab-LB:
-      - fe-11-lb-gprd
-      GitLab-SV:
-      - localhost
-      Link:
+      - Sat, 13 Jan 2024 02:47:40 GMT
+      NEL:
+      - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=VGLztpeCBh%2B7rsmiVQrk1tBC92t51O%2FDQ0oxWW6zaKxvIBqHjgOO0u%2B05pIqdQ0SpUYJc3KHAEFxDIvVc0agLWXsjZ9HCPsGgVI%2Bq9cJl4Q52INsyuMrTXOMfJ0%3D"}],"group":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - max-age=0, private, must-revalidate
+      content-security-policy:
+      - default-src 'none'
+      etag:
+      - W/"df655e45e774521ad1ba6d60833084d8"
+      gitlab-lb:
+      - haproxy-main-53-lb-gprd
+      gitlab-sv:
+      - api-gke-us-east1-d
+      link:
       - <https://gitlab.com/api/v4/projects/6812925/repository/commits?id=6812925&order=default&page=4&per_page=20&trailers=false>;
         rel="prev", <https://gitlab.com/api/v4/projects/6812925/repository/commits?id=6812925&order=default&page=1&per_page=20&trailers=false>;
         rel="first", <https://gitlab.com/api/v4/projects/6812925/repository/commits?id=6812925&order=default&page=5&per_page=20&trailers=false>;
         rel="last"
-      NEL:
-      - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
-      RateLimit-Limit:
-      - '2000'
-      RateLimit-Observed:
-      - '6'
-      RateLimit-Remaining:
-      - '1994'
-      RateLimit-Reset:
-      - '1648088740'
-      RateLimit-ResetTime:
-      - Thu, 24 Mar 2022 02:25:40 GMT
-      Referrer-Policy:
+      referrer-policy:
       - strict-origin-when-cross-origin
-      Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=T%2BDa4V8lvvCCW45KpraA7DJQl8DIK1MSpSu%2F0DQ7RaeaaRtGaF8IglVZNdABOniRUJ4%2F7LpZ7%2BPqtW1mHtOReXIuuRZunYI0a%2BjFcVvS1Y8p%2FCmyr43rturDdUc%3D"}],"group":"cf-nel","max_age":604800}'
-      Server:
-      - cloudflare
-      Strict-Transport-Security:
+      strict-transport-security:
       - max-age=31536000
-      Transfer-Encoding:
-      - chunked
-      Vary:
-      - Origin
-      X-Content-Type-Options:
+      vary:
+      - Origin, Accept-Encoding
+      x-content-type-options:
       - nosniff
-      X-Frame-Options:
+      x-frame-options:
       - SAMEORIGIN
-      X-Next-Page:
+      x-gitlab-meta:
+      - '{"correlation_id":"74482a502aef591cea724c8beed14ce8","version":"1"}'
+      x-next-page:
       - ''
-      X-Page:
+      x-page:
       - '5'
-      X-Per-Page:
+      x-per-page:
       - '20'
-      X-Prev-Page:
+      x-prev-page:
       - '4'
-      X-Request-Id:
-      - 01FYWVV21H6H4J8XD29YWDCGHR
-      X-Runtime:
-      - '0.088150'
+      x-request-id:
+      - 74482a502aef591cea724c8beed14ce8
+      x-runtime:
+      - '0.098208'
     status:
       code: 200
       message: OK

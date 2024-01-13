@@ -13,47 +13,25 @@ interactions:
       PRIVATE-TOKEN:
       - DUMMY
       User-Agent:
-      - python-gitlab/3.2.0
+      - python-gitlab/4.3.0
     method: GET
     uri: https://gitlab.com/api/v4/projects/jeff.triplett%2Fdjango-metadata?license=True
   response:
     body:
-      string: !!binary |
-        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
-        AA==
+      string: '{"id":46520,"description":"Metadata package for models. \r\n\r\nMy
+        forked copy of: https://github.com/rafaelsierra/django-metadata","name":"django-metadata","name_with_namespace":"Jeff
+        Triplett / django-metadata","path":"django-metadata","path_with_namespace":"jeff.triplett/django-metadata","created_at":"2014-04-27T20:52:58.000Z","default_branch":"master","tag_list":["django","python"],"topics":["django","python"],"ssh_url_to_repo":"git@gitlab.com:jeff.triplett/django-metadata.git","http_url_to_repo":"https://gitlab.com/jeff.triplett/django-metadata.git","web_url":"https://gitlab.com/jeff.triplett/django-metadata","readme_url":"https://gitlab.com/jeff.triplett/django-metadata/-/blob/master/README.markdown","forks_count":0,"license_url":"https://gitlab.com/jeff.triplett/django-metadata/-/blob/master/LICENSE","license":{"key":"bsd-3-clause","name":"BSD
+        3-Clause \"New\" or \"Revised\" License","nickname":null,"html_url":"https://opensource.org/licenses/BSD-3-Clause","source_url":null},"avatar_url":null,"star_count":0,"last_activity_at":"2014-04-27T20:54:43.000Z","namespace":{"id":235,"name":"Jeff
+        Triplett","path":"jeff.triplett","kind":"user","full_path":"jeff.triplett","parent_id":null,"avatar_url":"https://secure.gravatar.com/avatar/1b3be6df639795c46dce9443d93c38bb?s=80\u0026d=identicon","web_url":"https://gitlab.com/jeff.triplett"},"container_registry_image_prefix":"registry.gitlab.com/jeff.triplett/django-metadata","_links":{"self":"https://gitlab.com/api/v4/projects/46520","issues":"https://gitlab.com/api/v4/projects/46520/issues","merge_requests":"https://gitlab.com/api/v4/projects/46520/merge_requests","repo_branches":"https://gitlab.com/api/v4/projects/46520/repository/branches","labels":"https://gitlab.com/api/v4/projects/46520/labels","events":"https://gitlab.com/api/v4/projects/46520/events","members":"https://gitlab.com/api/v4/projects/46520/members","cluster_agents":"https://gitlab.com/api/v4/projects/46520/cluster_agents"},"code_suggestions":true,"packages_enabled":null,"empty_repo":false,"archived":true,"visibility":"public","owner":{"id":306,"username":"jeff.triplett","name":"Jeff
+        Triplett","state":"active","locked":false,"avatar_url":"https://secure.gravatar.com/avatar/1b3be6df639795c46dce9443d93c38bb?s=80\u0026d=identicon","web_url":"https://gitlab.com/jeff.triplett"},"resolve_outdated_diff_discussions":null,"issues_enabled":true,"merge_requests_enabled":true,"wiki_enabled":true,"jobs_enabled":true,"snippets_enabled":false,"container_registry_enabled":false,"service_desk_enabled":null,"can_create_merge_request_in":false,"issues_access_level":"enabled","repository_access_level":"enabled","merge_requests_access_level":"enabled","forking_access_level":"enabled","wiki_access_level":"enabled","builds_access_level":"enabled","snippets_access_level":"disabled","pages_access_level":"enabled","analytics_access_level":"enabled","container_registry_access_level":"disabled","security_and_compliance_access_level":"private","releases_access_level":"enabled","environments_access_level":"enabled","feature_flags_access_level":"enabled","infrastructure_access_level":"enabled","monitor_access_level":"enabled","model_experiments_access_level":"enabled","model_registry_access_level":"enabled","emails_disabled":false,"emails_enabled":true,"shared_runners_enabled":true,"lfs_enabled":true,"creator_id":306,"import_url":"","import_type":null,"import_status":"none","import_error":null,"open_issues_count":0,"description_html":"\u003cp
+        data-sourcepos=\"1:1-1:29\" dir=\"auto\"\u003eMetadata package for models.\u003c/p\u003e\n\u003cp
+        data-sourcepos=\"3:1-3:66\" dir=\"auto\"\u003eMy forked copy of: \u003ca href=\"https://github.com/rafaelsierra/django-metadata\"
+        rel=\"nofollow noreferrer noopener\" target=\"_blank\"\u003ehttps://github.com/rafaelsierra/django-metadata\u003c/a\u003e\u003c/p\u003e","updated_at":"2022-03-24T00:08:50.115Z","ci_default_git_depth":null,"ci_forward_deployment_enabled":null,"ci_forward_deployment_rollback_allowed":true,"ci_job_token_scope_enabled":false,"ci_separated_caches":true,"ci_allow_fork_pipelines_to_run_in_parent_project":true,"build_git_strategy":"fetch","keep_latest_artifact":true,"restrict_user_defined_variables":false,"runners_token":"GR1348941hiWvUVSzkUJ6CormW1ha","runner_token_expiration_interval":null,"group_runners_enabled":true,"auto_cancel_pending_pipelines":"enabled","build_timeout":3600,"auto_devops_enabled":false,"auto_devops_deploy_strategy":"continuous","ci_config_path":null,"public_jobs":true,"shared_with_groups":[],"only_allow_merge_if_pipeline_succeeds":false,"allow_merge_on_skipped_pipeline":null,"request_access_enabled":true,"only_allow_merge_if_all_discussions_are_resolved":null,"remove_source_branch_after_merge":null,"printing_merge_request_link_enabled":true,"merge_method":"merge","squash_option":"default_off","enforce_auth_checks_on_uploads":true,"suggestion_commit_message":null,"merge_commit_template":null,"squash_commit_template":null,"issue_branch_template":null,"autoclose_referenced_issues":true,"external_authorization_classification_label":"","requirements_enabled":false,"requirements_access_level":"enabled","security_and_compliance_enabled":true,"compliance_frameworks":[],"permissions":{"project_access":{"access_level":50,"notification_level":3},"group_access":null}}'
     headers:
       CF-Cache-Status:
-      - DYNAMIC
+      - MISS
       CF-RAY:
-      - 6f0bf577ad545f05-OMA
-      Cache-Control:
-      - max-age=0, private, must-revalidate
+      - 844a50e18d4226eb-FSD
       Connection:
       - keep-alive
       Content-Encoding:
@@ -61,47 +39,44 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 24 Mar 2022 02:25:54 GMT
-      Etag:
-      - W/"1a9547a915c1148dbaeb42bfdfb691f5"
-      Expect-CT:
-      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
-      GitLab-LB:
-      - fe-04-lb-gprd
-      GitLab-SV:
-      - localhost
+      - Sat, 13 Jan 2024 02:47:41 GMT
       NEL:
       - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
-      RateLimit-Limit:
-      - '2000'
-      RateLimit-Observed:
-      - '6'
-      RateLimit-Remaining:
-      - '1994'
-      RateLimit-Reset:
-      - '1648088814'
-      RateLimit-ResetTime:
-      - Thu, 24 Mar 2022 02:26:54 GMT
-      Referrer-Policy:
-      - strict-origin-when-cross-origin
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=fQy6wQuqf%2FshS1r0jzjarWkyk3D92qgPYW%2BGuA64Ae9%2BuLJPSA8jf5QXvZWZ5g6q3AwokBvDeZ%2FImBhP49EsIMP8CPCmAuduWCTLrN4tE%2BRBtpMqb64UNuQ2ya0%3D"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=EQaA%2BaPNqJotPto1OLaejVhDKVMTPtRr%2BP8gq%2BOKfKXltjLZg0Yx8kikYxiHwVQ2dChxm649XHMTgU2OLrfP9iw0WmXDK%2BweQjUiOsbilQTITuxNsXzSsAhOWgo%3D"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
-      Strict-Transport-Security:
-      - max-age=31536000
+      Set-Cookie:
+      - _cfuvid=_SMasL.wvFoZ7ANCeXv103f_eW.erZzPZoxMnLULdq4-1705114061384-0-604800000;
+        path=/; domain=.gitlab.com; HttpOnly; Secure; SameSite=None
       Transfer-Encoding:
       - chunked
-      Vary:
-      - Origin
-      X-Content-Type-Options:
+      cache-control:
+      - max-age=0, private, must-revalidate
+      content-security-policy:
+      - default-src 'none'
+      etag:
+      - W/"4442a4aca652b7671631b40c26c651f9"
+      gitlab-lb:
+      - haproxy-main-05-lb-gprd
+      gitlab-sv:
+      - api-gke-us-east1-d
+      referrer-policy:
+      - strict-origin-when-cross-origin
+      strict-transport-security:
+      - max-age=31536000
+      vary:
+      - Origin, Accept-Encoding
+      x-content-type-options:
       - nosniff
-      X-Frame-Options:
+      x-frame-options:
       - SAMEORIGIN
-      X-Request-Id:
-      - 01FYWVX9T2F7DZBW01FRR9SS21
-      X-Runtime:
-      - '0.139109'
+      x-gitlab-meta:
+      - '{"correlation_id":"8b52d0255d64d9ca7b2bc5e253e59e93","version":"1"}'
+      x-request-id:
+      - 8b52d0255d64d9ca7b2bc5e253e59e93
+      x-runtime:
+      - '0.250084'
     status:
       code: 200
       message: OK
@@ -116,26 +91,25 @@ interactions:
       - keep-alive
       Content-type:
       - application/json
+      Cookie:
+      - _cfuvid=_SMasL.wvFoZ7ANCeXv103f_eW.erZzPZoxMnLULdq4-1705114061384-0-604800000
       PRIVATE-TOKEN:
       - DUMMY
       User-Agent:
-      - python-gitlab/3.2.0
+      - python-gitlab/4.3.0
     method: GET
     uri: https://gitlab.com/api/v4/projects/46520/repository/contributors
   response:
     body:
-      string: !!binary |
-        H4sIAAAAAAAAA6zQPwvCMBCH4a9Sbg7B4p8hUydBR3UTh7S51JQklUucxO8uDbVkKCLieO/we+DO
-        D/DSIQjYBZJoiy3dm2tEAgbopLEgwOixVV4F3vQOGDS9cyYGECUDqZSJpvcBxIKBQovv68mm+bSR
-        jyaOT9Pt0H8d36PWxYnMzWKMGdKh1jyOfZ5YfkkcpB7eczRIJDOCUu9CW67mgfVfAB5Sr4Ksa8LB
-        4DXlzOYjc3kBAAD//wMA5+C2tugBAAA=
+      string: '[{"name":"Israel Fruchter","email":"ifruchter@nds.com","commits":1,"additions":0,"deletions":0},{"name":"fruch","email":"israel.fruchter@gmail.com","commits":1,"additions":0,"deletions":0},{"name":"Jeff
+        Triplett","email":"jeff.triplett@gmail.com","commits":3,"additions":0,"deletions":0},{"name":"Rafael
+        Sierra","email":"rafaeljsg14@gmail.com","commits":5,"additions":0,"deletions":0},{"name":"Rafael
+        Sierra","email":"rafael.sierra@sabbre.com.br","commits":6,"additions":0,"deletions":0}]'
     headers:
       CF-Cache-Status:
-      - DYNAMIC
+      - MISS
       CF-RAY:
-      - 6f0bf57a8f755f05-OMA
-      Cache-Control:
-      - max-age=0, private, must-revalidate
+      - 844a50e47f4b26e8-FSD
       Connection:
       - keep-alive
       Content-Encoding:
@@ -143,62 +117,56 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Thu, 24 Mar 2022 02:25:54 GMT
-      Etag:
+      - Sat, 13 Jan 2024 02:47:41 GMT
+      NEL:
+      - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=lXJ7tzbJvJkF%2FaXdlNCC0y8bAe6K4XRU0nGxzgkODR05oHq9EHbfBNi4qMcIEeUwnykGmrikMb6MOSTR2IkPwg%2BS67tRnzdTXltfJOBcv%2B5hM5Pqah06sQ5SIpc%3D"}],"group":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Transfer-Encoding:
+      - chunked
+      cache-control:
+      - max-age=0, private, must-revalidate
+      content-security-policy:
+      - default-src 'none'
+      etag:
       - W/"bcb806486d23642a4f960c0735336815"
-      Expect-CT:
-      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
-      GitLab-LB:
-      - fe-19-lb-gprd
-      GitLab-SV:
-      - localhost
-      Link:
+      gitlab-lb:
+      - haproxy-main-59-lb-gprd
+      gitlab-sv:
+      - api-gke-us-east1-d
+      link:
       - <https://gitlab.com/api/v4/projects/46520/repository/contributors?id=46520&order_by=commits&page=1&per_page=20&sort=asc>;
         rel="first", <https://gitlab.com/api/v4/projects/46520/repository/contributors?id=46520&order_by=commits&page=1&per_page=20&sort=asc>;
         rel="last"
-      NEL:
-      - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
-      RateLimit-Limit:
-      - '2000'
-      RateLimit-Observed:
-      - '7'
-      RateLimit-Remaining:
-      - '1993'
-      RateLimit-Reset:
-      - '1648088814'
-      RateLimit-ResetTime:
-      - Thu, 24 Mar 2022 02:26:54 GMT
-      Referrer-Policy:
+      referrer-policy:
       - strict-origin-when-cross-origin
-      Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=db7DbAqFPJ9O6kN7rKi6TnlPJ0CIG0Ta3482tpgMu5NHpdBD1%2B6z4MDL5hyOMzpzi1ZGHYKGNsfol4fQe05vTvdJl4QJ%2BsZLm4VRkrYJmtnTKoSGjYC42POg2bk%3D"}],"group":"cf-nel","max_age":604800}'
-      Server:
-      - cloudflare
-      Strict-Transport-Security:
+      strict-transport-security:
       - max-age=31536000
-      Transfer-Encoding:
-      - chunked
-      Vary:
-      - Origin
-      X-Content-Type-Options:
+      vary:
+      - Origin, Accept-Encoding
+      x-content-type-options:
       - nosniff
-      X-Frame-Options:
+      x-frame-options:
       - SAMEORIGIN
-      X-Next-Page:
+      x-gitlab-meta:
+      - '{"correlation_id":"616f97c1390f0b31a544c0cd296d2fe9","version":"1"}'
+      x-next-page:
       - ''
-      X-Page:
+      x-page:
       - '1'
-      X-Per-Page:
+      x-per-page:
       - '20'
-      X-Prev-Page:
+      x-prev-page:
       - ''
-      X-Request-Id:
-      - 01FYWVXA6VB7B9JD04VCT3Q8FM
-      X-Runtime:
-      - '0.202042'
-      X-Total:
+      x-request-id:
+      - 616f97c1390f0b31a544c0cd296d2fe9
+      x-runtime:
+      - '0.098402'
+      x-total:
       - '5'
-      X-Total-Pages:
+      x-total-pages:
       - '1'
     status:
       code: 200

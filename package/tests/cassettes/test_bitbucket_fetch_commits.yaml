@@ -9,166 +9,1077 @@ interactions:
       Connection:
       - keep-alive
       User-Agent:
-      - python-requests/2.27.1
+      - python-requests/2.31.0
     method: GET
     uri: https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commits/?limit=50
   response:
     body:
-      string: !!binary |
-        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
+      string: "{\"values\": [{\"type\": \"commit\", \"hash\": \"5c1672ba764b65a30e81863ad0a1672b81376bec\",
+        \"date\": \"2018-08-22T18:50:22+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Michael Manfre <mmanfre@gmail.com>\", \"user\": {\"display_name\":
+        \"Michael Manfre\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/c7530c529dc2ddca9b1626d90acf4366?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-0.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{2602453b-e7bc-47e6-b9b8-37f01e14a045}\",
+        \"account_id\": \"557058:8c889f47-6d93-4a7c-9f8a-d0973798ecca\", \"nickname\":
+        \"Manfre\"}}, \"message\": \"Recommend using django-pyodbc-azure\", \"summary\":
+        {\"type\": \"rendered\", \"raw\": \"Recommend using django-pyodbc-azure\",
+        \"markup\": \"markdown\", \"html\": \"<p>Recommend using django-pyodbc-azure</p>\"},
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/5c1672ba764b65a30e81863ad0a1672b81376bec\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/5c1672ba764b65a30e81863ad0a1672b81376bec\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/5c1672ba764b65a30e81863ad0a1672b81376bec\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/5c1672ba764b65a30e81863ad0a1672b81376bec/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/5c1672ba764b65a30e81863ad0a1672b81376bec/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/5c1672ba764b65a30e81863ad0a1672b81376bec/statuses\"},
+        \"patch\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/patch/5c1672ba764b65a30e81863ad0a1672b81376bec\"}},
+        \"parents\": [{\"hash\": \"539658797852867c386022a80b1ed50ce281a776\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/539658797852867c386022a80b1ed50ce281a776\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/539658797852867c386022a80b1ed50ce281a776\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Recommend using django-pyodbc-azure\", \"markup\": \"markdown\",
+        \"html\": \"<p>Recommend using django-pyodbc-azure</p>\"}}, \"repository\":
+        {\"type\": \"repository\", \"full_name\": \"Manfre/django-mssql\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"539658797852867c386022a80b1ed50ce281a776\",
+        \"date\": \"2018-08-22T18:41:05+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Phillip Stromberg <phillip@stromberg.me>\", \"user\": {\"display_name\":
+        \"Phillip Stromberg\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B79e90159-067b-4774-8d57-ec0dc59002d8%7D\"},
+        \"avatar\": {\"href\": \"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:75df6bcc-5f8a-413e-892c-f244f5631ca1/26fb3f8a-375e-4092-ae36-0773929669c5/128\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B79e90159-067b-4774-8d57-ec0dc59002d8%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{79e90159-067b-4774-8d57-ec0dc59002d8}\",
+        \"account_id\": \"557058:75df6bcc-5f8a-413e-892c-f244f5631ca1\", \"nickname\":
+        \"phistrom\"}}, \"message\": \"Merged in phistrom/django-mssql (pull request
+        #15)\\n\\nProperly handle missing microsecond attribute on DateTime fields\\n\\nApproved-by:
+        Jorn Vanloofsvelt <jorn_vanloofsvelt@hotmail.com>\\nApproved-by: Phillip Stromberg
+        <phillip@stromberg.me>\\n\", \"summary\": {\"type\": \"rendered\", \"raw\":
+        \"Merged in phistrom/django-mssql (pull request #15)\\n\\nProperly handle
+        missing microsecond attribute on DateTime fields\\n\\nApproved-by: Jorn Vanloofsvelt
+        <jorn_vanloofsvelt@hotmail.com>\\nApproved-by: Phillip Stromberg <phillip@stromberg.me>\\n\",
+        \"markup\": \"markdown\", \"html\": \"<p>Merged in <a href=\\\"https://bitbucket.org/phistrom/django-mssql\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">phistrom/django-mssql</a>
+        (<a href=\\\"https://bitbucket.org/Manfre/django-mssql/pull-requests/15/properly-handle-missing-microsecond\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">pull request #15</a>)</p>\\n<p>Properly
+        handle missing microsecond attribute on DateTime fields</p>\\n<p>Approved-by:
+        Jorn Vanloofsvelt <a href=\\\"/Manfre/django-mssql/src/5c1672ba764b65a30e81863ad0a1672b81376bec/&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#106;&#111;&#114;&#110;&#95;&#118;&#97;&#110;&#108;&#111;&#111;&#102;&#115;&#118;&#101;&#108;&#116;&#64;&#104;&#111;&#116;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;\\\">&#106;&#111;&#114;&#110;&#95;&#118;&#97;&#110;&#108;&#111;&#111;&#102;&#115;&#118;&#101;&#108;&#116;&#64;&#104;&#111;&#116;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a><br>\\nApproved-by:
+        Phillip Stromberg <a href=\\\"/Manfre/django-mssql/src/5c1672ba764b65a30e81863ad0a1672b81376bec/&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#112;&#104;&#105;&#108;&#108;&#105;&#112;&#64;&#115;&#116;&#114;&#111;&#109;&#98;&#101;&#114;&#103;&#46;&#109;&#101;\\\">&#112;&#104;&#105;&#108;&#108;&#105;&#112;&#64;&#115;&#116;&#114;&#111;&#109;&#98;&#101;&#114;&#103;&#46;&#109;&#101;</a></p>\"},
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/539658797852867c386022a80b1ed50ce281a776\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/539658797852867c386022a80b1ed50ce281a776\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/539658797852867c386022a80b1ed50ce281a776\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/539658797852867c386022a80b1ed50ce281a776/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/539658797852867c386022a80b1ed50ce281a776/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/539658797852867c386022a80b1ed50ce281a776/statuses\"}},
+        \"parents\": [{\"hash\": \"ff10b076bcb62578f059466644bdb2932012d3e1\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/ff10b076bcb62578f059466644bdb2932012d3e1\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/ff10b076bcb62578f059466644bdb2932012d3e1\"}},
+        \"type\": \"commit\"}, {\"hash\": \"3df0bac0ac4381c680f802aec2e3dbb072283bf3\",
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/3df0bac0ac4381c680f802aec2e3dbb072283bf3\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/3df0bac0ac4381c680f802aec2e3dbb072283bf3\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Merged in phistrom/django-mssql (pull request #15)\\n\\nProperly
+        handle missing microsecond attribute on DateTime fields\\n\\nApproved-by:
+        Jorn Vanloofsvelt <jorn_vanloofsvelt@hotmail.com>\\nApproved-by: Phillip Stromberg
+        <phillip@stromberg.me>\\n\", \"markup\": \"markdown\", \"html\": \"<p>Merged
+        in <a href=\\\"https://bitbucket.org/phistrom/django-mssql\\\" rel=\\\"nofollow\\\"
+        class=\\\"ap-connect-link\\\">phistrom/django-mssql</a> (<a href=\\\"https://bitbucket.org/Manfre/django-mssql/pull-requests/15/properly-handle-missing-microsecond\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">pull request #15</a>)</p>\\n<p>Properly
+        handle missing microsecond attribute on DateTime fields</p>\\n<p>Approved-by:
+        Jorn Vanloofsvelt <a href=\\\"/Manfre/django-mssql/src/5c1672ba764b65a30e81863ad0a1672b81376bec/&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#106;&#111;&#114;&#110;&#95;&#118;&#97;&#110;&#108;&#111;&#111;&#102;&#115;&#118;&#101;&#108;&#116;&#64;&#104;&#111;&#116;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;\\\">&#106;&#111;&#114;&#110;&#95;&#118;&#97;&#110;&#108;&#111;&#111;&#102;&#115;&#118;&#101;&#108;&#116;&#64;&#104;&#111;&#116;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a><br>\\nApproved-by:
+        Phillip Stromberg <a href=\\\"/Manfre/django-mssql/src/5c1672ba764b65a30e81863ad0a1672b81376bec/&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#112;&#104;&#105;&#108;&#108;&#105;&#112;&#64;&#115;&#116;&#114;&#111;&#109;&#98;&#101;&#114;&#103;&#46;&#109;&#101;\\\">&#112;&#104;&#105;&#108;&#108;&#105;&#112;&#64;&#115;&#116;&#114;&#111;&#109;&#98;&#101;&#114;&#103;&#46;&#109;&#101;</a></p>\"}},
+        \"repository\": {\"type\": \"repository\", \"full_name\": \"Manfre/django-mssql\",
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"ff10b076bcb62578f059466644bdb2932012d3e1\",
+        \"date\": \"2018-08-22T18:37:55+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Mikhail <mu5h3r@30l.io>\", \"user\": {\"display_name\": \"Mikhail\",
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B7e16cff0-9f57-4f12-8012-1b9b76771493%7D\"},
+        \"avatar\": {\"href\": \"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:56d40880-a85c-42f9-88fb-a007d04d21c0/0e5f2698-9172-452b-ad38-c34a8d9f3009/128\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B7e16cff0-9f57-4f12-8012-1b9b76771493%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{7e16cff0-9f57-4f12-8012-1b9b76771493}\",
+        \"account_id\": \"557058:56d40880-a85c-42f9-88fb-a007d04d21c0\", \"nickname\":
+        \"mu5h3r\"}}, \"message\": \"Merged in mu5h3r/django-mssql (pull request #17)\\n\\nDjango
+        2.0.x compatibility\\n\\nApproved-by: William Zimmermann <zimmermann.william@outlook.com>\\n\",
+        \"summary\": {\"type\": \"rendered\", \"raw\": \"Merged in mu5h3r/django-mssql
+        (pull request #17)\\n\\nDjango 2.0.x compatibility\\n\\nApproved-by: William
+        Zimmermann <zimmermann.william@outlook.com>\\n\", \"markup\": \"markdown\",
+        \"html\": \"<p>Merged in <a href=\\\"https://bitbucket.org/mu5h3r/django-mssql\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">mu5h3r/django-mssql</a>
+        (<a href=\\\"https://bitbucket.org/Manfre/django-mssql/pull-requests/17/django-20x-compatibility\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">pull request #17</a>)</p>\\n<p>Django
+        2.0.x compatibility</p>\\n<p>Approved-by: William Zimmermann <a href=\\\"/Manfre/django-mssql/src/5c1672ba764b65a30e81863ad0a1672b81376bec/&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#122;&#105;&#109;&#109;&#101;&#114;&#109;&#97;&#110;&#110;&#46;&#119;&#105;&#108;&#108;&#105;&#97;&#109;&#64;&#111;&#117;&#116;&#108;&#111;&#111;&#107;&#46;&#99;&#111;&#109;\\\">&#122;&#105;&#109;&#109;&#101;&#114;&#109;&#97;&#110;&#110;&#46;&#119;&#105;&#108;&#108;&#105;&#97;&#109;&#64;&#111;&#117;&#116;&#108;&#111;&#111;&#107;&#46;&#99;&#111;&#109;</a></p>\"},
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/ff10b076bcb62578f059466644bdb2932012d3e1\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/ff10b076bcb62578f059466644bdb2932012d3e1\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/ff10b076bcb62578f059466644bdb2932012d3e1\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/ff10b076bcb62578f059466644bdb2932012d3e1/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/ff10b076bcb62578f059466644bdb2932012d3e1/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/ff10b076bcb62578f059466644bdb2932012d3e1/statuses\"}},
+        \"parents\": [{\"hash\": \"d44721ba17acf95da89f06bd7270dabc1cd33deb\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/d44721ba17acf95da89f06bd7270dabc1cd33deb\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/d44721ba17acf95da89f06bd7270dabc1cd33deb\"}},
+        \"type\": \"commit\"}, {\"hash\": \"830e11b59f880a0264c8d06626df36ed5fce8961\",
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/830e11b59f880a0264c8d06626df36ed5fce8961\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/830e11b59f880a0264c8d06626df36ed5fce8961\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Merged in mu5h3r/django-mssql (pull request #17)\\n\\nDjango 2.0.x
+        compatibility\\n\\nApproved-by: William Zimmermann <zimmermann.william@outlook.com>\\n\",
+        \"markup\": \"markdown\", \"html\": \"<p>Merged in <a href=\\\"https://bitbucket.org/mu5h3r/django-mssql\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">mu5h3r/django-mssql</a>
+        (<a href=\\\"https://bitbucket.org/Manfre/django-mssql/pull-requests/17/django-20x-compatibility\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">pull request #17</a>)</p>\\n<p>Django
+        2.0.x compatibility</p>\\n<p>Approved-by: William Zimmermann <a href=\\\"/Manfre/django-mssql/src/5c1672ba764b65a30e81863ad0a1672b81376bec/&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#122;&#105;&#109;&#109;&#101;&#114;&#109;&#97;&#110;&#110;&#46;&#119;&#105;&#108;&#108;&#105;&#97;&#109;&#64;&#111;&#117;&#116;&#108;&#111;&#111;&#107;&#46;&#99;&#111;&#109;\\\">&#122;&#105;&#109;&#109;&#101;&#114;&#109;&#97;&#110;&#110;&#46;&#119;&#105;&#108;&#108;&#105;&#97;&#109;&#64;&#111;&#117;&#116;&#108;&#111;&#111;&#107;&#46;&#99;&#111;&#109;</a></p>\"}},
+        \"repository\": {\"type\": \"repository\", \"full_name\": \"Manfre/django-mssql\",
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"830e11b59f880a0264c8d06626df36ed5fce8961\",
+        \"date\": \"2017-12-12T10:03:22+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Mikhail <mu5h3r@30l.io>\", \"user\": {\"display_name\": \"Mikhail\",
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B7e16cff0-9f57-4f12-8012-1b9b76771493%7D\"},
+        \"avatar\": {\"href\": \"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:56d40880-a85c-42f9-88fb-a007d04d21c0/0e5f2698-9172-452b-ad38-c34a8d9f3009/128\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B7e16cff0-9f57-4f12-8012-1b9b76771493%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{7e16cff0-9f57-4f12-8012-1b9b76771493}\",
+        \"account_id\": \"557058:56d40880-a85c-42f9-88fb-a007d04d21c0\", \"nickname\":
+        \"mu5h3r\"}}, \"message\": \"Import force_text from django.utils.encoding
+        instead django.utils.text\", \"summary\": {\"type\": \"rendered\", \"raw\":
+        \"Import force_text from django.utils.encoding instead django.utils.text\",
+        \"markup\": \"markdown\", \"html\": \"<p>Import force_text from django.utils.encoding
+        instead django.utils.text</p>\"}, \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/830e11b59f880a0264c8d06626df36ed5fce8961\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/830e11b59f880a0264c8d06626df36ed5fce8961\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/830e11b59f880a0264c8d06626df36ed5fce8961\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/830e11b59f880a0264c8d06626df36ed5fce8961/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/830e11b59f880a0264c8d06626df36ed5fce8961/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/830e11b59f880a0264c8d06626df36ed5fce8961/statuses\"},
+        \"patch\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/patch/830e11b59f880a0264c8d06626df36ed5fce8961\"}},
+        \"parents\": [{\"hash\": \"d44721ba17acf95da89f06bd7270dabc1cd33deb\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/d44721ba17acf95da89f06bd7270dabc1cd33deb\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/d44721ba17acf95da89f06bd7270dabc1cd33deb\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Import force_text from django.utils.encoding instead django.utils.text\",
+        \"markup\": \"markdown\", \"html\": \"<p>Import force_text from django.utils.encoding
+        instead django.utils.text</p>\"}}, \"repository\": {\"type\": \"repository\",
+        \"full_name\": \"Manfre/django-mssql\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"3df0bac0ac4381c680f802aec2e3dbb072283bf3\",
+        \"date\": \"2017-08-03T18:52:00+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Phillip Stromberg <phillip@4stromberg.com>\", \"user\": {\"display_name\":
+        \"Phillip Stromberg\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B79e90159-067b-4774-8d57-ec0dc59002d8%7D\"},
+        \"avatar\": {\"href\": \"https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:75df6bcc-5f8a-413e-892c-f244f5631ca1/26fb3f8a-375e-4092-ae36-0773929669c5/128\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B79e90159-067b-4774-8d57-ec0dc59002d8%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{79e90159-067b-4774-8d57-ec0dc59002d8}\",
+        \"account_id\": \"557058:75df6bcc-5f8a-413e-892c-f244f5631ca1\", \"nickname\":
+        \"phistrom\"}}, \"message\": \"Properly handle missing microsecond attribute
+        on DateTime fields\\n\", \"summary\": {\"type\": \"rendered\", \"raw\": \"Properly
+        handle missing microsecond attribute on DateTime fields\\n\", \"markup\":
+        \"markdown\", \"html\": \"<p>Properly handle missing microsecond attribute
+        on DateTime fields</p>\"}, \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/3df0bac0ac4381c680f802aec2e3dbb072283bf3\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/3df0bac0ac4381c680f802aec2e3dbb072283bf3\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/3df0bac0ac4381c680f802aec2e3dbb072283bf3\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/3df0bac0ac4381c680f802aec2e3dbb072283bf3/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/3df0bac0ac4381c680f802aec2e3dbb072283bf3/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/3df0bac0ac4381c680f802aec2e3dbb072283bf3/statuses\"},
+        \"patch\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/patch/3df0bac0ac4381c680f802aec2e3dbb072283bf3\"}},
+        \"parents\": [{\"hash\": \"d44721ba17acf95da89f06bd7270dabc1cd33deb\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/d44721ba17acf95da89f06bd7270dabc1cd33deb\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/d44721ba17acf95da89f06bd7270dabc1cd33deb\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Properly handle missing microsecond attribute on DateTime fields\\n\",
+        \"markup\": \"markdown\", \"html\": \"<p>Properly handle missing microsecond
+        attribute on DateTime fields</p>\"}}, \"repository\": {\"type\": \"repository\",
+        \"full_name\": \"Manfre/django-mssql\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"d44721ba17acf95da89f06bd7270dabc1cd33deb\",
+        \"date\": \"2016-12-01T05:33:39+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Michael Manfre <mmanfre@gmail.com>\", \"user\": {\"display_name\":
+        \"Michael Manfre\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/c7530c529dc2ddca9b1626d90acf4366?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-0.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{2602453b-e7bc-47e6-b9b8-37f01e14a045}\",
+        \"account_id\": \"557058:8c889f47-6d93-4a7c-9f8a-d0973798ecca\", \"nickname\":
+        \"Manfre\"}}, \"message\": \"Bump version to 1.8 for release\\n\", \"summary\":
+        {\"type\": \"rendered\", \"raw\": \"Bump version to 1.8 for release\\n\",
+        \"markup\": \"markdown\", \"html\": \"<p>Bump version to 1.8 for release</p>\"},
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/d44721ba17acf95da89f06bd7270dabc1cd33deb\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/d44721ba17acf95da89f06bd7270dabc1cd33deb\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/d44721ba17acf95da89f06bd7270dabc1cd33deb\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/d44721ba17acf95da89f06bd7270dabc1cd33deb/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/d44721ba17acf95da89f06bd7270dabc1cd33deb/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/d44721ba17acf95da89f06bd7270dabc1cd33deb/statuses\"},
+        \"patch\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/patch/d44721ba17acf95da89f06bd7270dabc1cd33deb\"}},
+        \"parents\": [{\"hash\": \"552362b5b5125bcfd133a3df6621a1ab9dc9c5fb\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/552362b5b5125bcfd133a3df6621a1ab9dc9c5fb\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/552362b5b5125bcfd133a3df6621a1ab9dc9c5fb\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Bump version to 1.8 for release\\n\", \"markup\": \"markdown\",
+        \"html\": \"<p>Bump version to 1.8 for release</p>\"}}, \"repository\": {\"type\":
+        \"repository\", \"full_name\": \"Manfre/django-mssql\", \"links\": {\"self\":
+        {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"552362b5b5125bcfd133a3df6621a1ab9dc9c5fb\",
+        \"date\": \"2016-10-02T04:04:21+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Michael Manfre <mmanfre@gmail.com>\", \"user\": {\"display_name\":
+        \"Michael Manfre\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/c7530c529dc2ddca9b1626d90acf4366?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-0.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{2602453b-e7bc-47e6-b9b8-37f01e14a045}\",
+        \"account_id\": \"557058:8c889f47-6d93-4a7c-9f8a-d0973798ecca\", \"nickname\":
+        \"Manfre\"}}, \"message\": \"Bump version to 1.8b2\\n\", \"summary\": {\"type\":
+        \"rendered\", \"raw\": \"Bump version to 1.8b2\\n\", \"markup\": \"markdown\",
+        \"html\": \"<p>Bump version to 1.8b2</p>\"}, \"links\": {\"self\": {\"href\":
+        \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/552362b5b5125bcfd133a3df6621a1ab9dc9c5fb\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/552362b5b5125bcfd133a3df6621a1ab9dc9c5fb\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/552362b5b5125bcfd133a3df6621a1ab9dc9c5fb\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/552362b5b5125bcfd133a3df6621a1ab9dc9c5fb/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/552362b5b5125bcfd133a3df6621a1ab9dc9c5fb/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/552362b5b5125bcfd133a3df6621a1ab9dc9c5fb/statuses\"},
+        \"patch\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/patch/552362b5b5125bcfd133a3df6621a1ab9dc9c5fb\"}},
+        \"parents\": [{\"hash\": \"67f412f3eaf2be9973b5a69bd56e7b0e65835d14\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/67f412f3eaf2be9973b5a69bd56e7b0e65835d14\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/67f412f3eaf2be9973b5a69bd56e7b0e65835d14\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Bump version to 1.8b2\\n\", \"markup\": \"markdown\", \"html\":
+        \"<p>Bump version to 1.8b2</p>\"}}, \"repository\": {\"type\": \"repository\",
+        \"full_name\": \"Manfre/django-mssql\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"67f412f3eaf2be9973b5a69bd56e7b0e65835d14\",
+        \"date\": \"2016-10-02T04:03:41+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Michael Manfre <mmanfre@gmail.com>\", \"user\": {\"display_name\":
+        \"Michael Manfre\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/c7530c529dc2ddca9b1626d90acf4366?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-0.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{2602453b-e7bc-47e6-b9b8-37f01e14a045}\",
+        \"account_id\": \"557058:8c889f47-6d93-4a7c-9f8a-d0973798ecca\", \"nickname\":
+        \"Manfre\"}}, \"message\": \"Fix date and time related conversions for django-mssql
+        provided fields.\\n\", \"summary\": {\"type\": \"rendered\", \"raw\": \"Fix
+        date and time related conversions for django-mssql provided fields.\\n\",
+        \"markup\": \"markdown\", \"html\": \"<p>Fix date and time related conversions
+        for django-mssql provided fields.</p>\"}, \"links\": {\"self\": {\"href\":
+        \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/67f412f3eaf2be9973b5a69bd56e7b0e65835d14\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/67f412f3eaf2be9973b5a69bd56e7b0e65835d14\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/67f412f3eaf2be9973b5a69bd56e7b0e65835d14\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/67f412f3eaf2be9973b5a69bd56e7b0e65835d14/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/67f412f3eaf2be9973b5a69bd56e7b0e65835d14/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/67f412f3eaf2be9973b5a69bd56e7b0e65835d14/statuses\"},
+        \"patch\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/patch/67f412f3eaf2be9973b5a69bd56e7b0e65835d14\"}},
+        \"parents\": [{\"hash\": \"94db7c651c87c5ca90559bd420dae200438a6f96\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/94db7c651c87c5ca90559bd420dae200438a6f96\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/94db7c651c87c5ca90559bd420dae200438a6f96\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Fix date and time related conversions for django-mssql provided
+        fields.\\n\", \"markup\": \"markdown\", \"html\": \"<p>Fix date and time related
+        conversions for django-mssql provided fields.</p>\"}}, \"repository\": {\"type\":
+        \"repository\", \"full_name\": \"Manfre/django-mssql\", \"links\": {\"self\":
+        {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"94db7c651c87c5ca90559bd420dae200438a6f96\",
+        \"date\": \"2016-10-02T01:57:31+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Michael Manfre <mmanfre@gmail.com>\", \"user\": {\"display_name\":
+        \"Michael Manfre\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/c7530c529dc2ddca9b1626d90acf4366?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-0.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{2602453b-e7bc-47e6-b9b8-37f01e14a045}\",
+        \"account_id\": \"557058:8c889f47-6d93-4a7c-9f8a-d0973798ecca\", \"nickname\":
+        \"Manfre\"}}, \"message\": \"Add changelog for previous commits.\\n\", \"summary\":
+        {\"type\": \"rendered\", \"raw\": \"Add changelog for previous commits.\\n\",
+        \"markup\": \"markdown\", \"html\": \"<p>Add changelog for previous commits.</p>\"},
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/94db7c651c87c5ca90559bd420dae200438a6f96\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/94db7c651c87c5ca90559bd420dae200438a6f96\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/94db7c651c87c5ca90559bd420dae200438a6f96\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/94db7c651c87c5ca90559bd420dae200438a6f96/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/94db7c651c87c5ca90559bd420dae200438a6f96/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/94db7c651c87c5ca90559bd420dae200438a6f96/statuses\"},
+        \"patch\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/patch/94db7c651c87c5ca90559bd420dae200438a6f96\"}},
+        \"parents\": [{\"hash\": \"dfc1d537e10bf5a07fa26e0a2698134589dcf9bc\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/dfc1d537e10bf5a07fa26e0a2698134589dcf9bc\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/dfc1d537e10bf5a07fa26e0a2698134589dcf9bc\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Add changelog for previous commits.\\n\", \"markup\": \"markdown\",
+        \"html\": \"<p>Add changelog for previous commits.</p>\"}}, \"repository\":
+        {\"type\": \"repository\", \"full_name\": \"Manfre/django-mssql\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"dfc1d537e10bf5a07fa26e0a2698134589dcf9bc\",
+        \"date\": \"2016-10-02T01:55:40+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Michael Manfre <mmanfre@gmail.com>\", \"user\": {\"display_name\":
+        \"Michael Manfre\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/c7530c529dc2ddca9b1626d90acf4366?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-0.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{2602453b-e7bc-47e6-b9b8-37f01e14a045}\",
+        \"account_id\": \"557058:8c889f47-6d93-4a7c-9f8a-d0973798ecca\", \"nickname\":
+        \"Manfre\"}}, \"message\": \"Preserve field nullability when changing the
+        field type.\\n\", \"summary\": {\"type\": \"rendered\", \"raw\": \"Preserve
+        field nullability when changing the field type.\\n\", \"markup\": \"markdown\",
+        \"html\": \"<p>Preserve field nullability when changing the field type.</p>\"},
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/dfc1d537e10bf5a07fa26e0a2698134589dcf9bc\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/dfc1d537e10bf5a07fa26e0a2698134589dcf9bc\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/dfc1d537e10bf5a07fa26e0a2698134589dcf9bc\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/dfc1d537e10bf5a07fa26e0a2698134589dcf9bc/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/dfc1d537e10bf5a07fa26e0a2698134589dcf9bc/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/dfc1d537e10bf5a07fa26e0a2698134589dcf9bc/statuses\"},
+        \"patch\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/patch/dfc1d537e10bf5a07fa26e0a2698134589dcf9bc\"}},
+        \"parents\": [{\"hash\": \"011ff094f79504be36dedf97be4d2fbc21a5603f\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/011ff094f79504be36dedf97be4d2fbc21a5603f\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/011ff094f79504be36dedf97be4d2fbc21a5603f\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Preserve field nullability when changing the field type.\\n\",
+        \"markup\": \"markdown\", \"html\": \"<p>Preserve field nullability when changing
+        the field type.</p>\"}}, \"repository\": {\"type\": \"repository\", \"full_name\":
+        \"Manfre/django-mssql\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"011ff094f79504be36dedf97be4d2fbc21a5603f\",
+        \"date\": \"2016-10-02T01:15:02+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Michael Manfre <mmanfre@gmail.com>\", \"user\": {\"display_name\":
+        \"Michael Manfre\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/c7530c529dc2ddca9b1626d90acf4366?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-0.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{2602453b-e7bc-47e6-b9b8-37f01e14a045}\",
+        \"account_id\": \"557058:8c889f47-6d93-4a7c-9f8a-d0973798ecca\", \"nickname\":
+        \"Manfre\"}}, \"message\": \"Merge branch 'master' of https://bitbucket.org/Manfre/django-mssql\\n\",
+        \"summary\": {\"type\": \"rendered\", \"raw\": \"Merge branch 'master' of
+        https://bitbucket.org/Manfre/django-mssql\\n\", \"markup\": \"markdown\",
+        \"html\": \"<p>Merge branch 'master' of <a href=\\\"https://bitbucket.org/Manfre/django-mssql\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">https://bitbucket.org/Manfre/django-mssql</a></p>\"},
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/011ff094f79504be36dedf97be4d2fbc21a5603f\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/011ff094f79504be36dedf97be4d2fbc21a5603f\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/011ff094f79504be36dedf97be4d2fbc21a5603f\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/011ff094f79504be36dedf97be4d2fbc21a5603f/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/011ff094f79504be36dedf97be4d2fbc21a5603f/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/011ff094f79504be36dedf97be4d2fbc21a5603f/statuses\"}},
+        \"parents\": [{\"hash\": \"4f89b608866624bbf7829d6b6358ddc781f533db\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/4f89b608866624bbf7829d6b6358ddc781f533db\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/4f89b608866624bbf7829d6b6358ddc781f533db\"}},
+        \"type\": \"commit\"}, {\"hash\": \"ca3843c1fc7cd18511bb523eda534befbcca023f\",
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/ca3843c1fc7cd18511bb523eda534befbcca023f\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/ca3843c1fc7cd18511bb523eda534befbcca023f\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Merge branch 'master' of https://bitbucket.org/Manfre/django-mssql\\n\",
+        \"markup\": \"markdown\", \"html\": \"<p>Merge branch 'master' of <a href=\\\"https://bitbucket.org/Manfre/django-mssql\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">https://bitbucket.org/Manfre/django-mssql</a></p>\"}},
+        \"repository\": {\"type\": \"repository\", \"full_name\": \"Manfre/django-mssql\",
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"ca3843c1fc7cd18511bb523eda534befbcca023f\",
+        \"date\": \"2016-10-02T01:14:38+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Michael Manfre <mmanfre@gmail.com>\", \"user\": {\"display_name\":
+        \"Michael Manfre\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/c7530c529dc2ddca9b1626d90acf4366?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-0.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{2602453b-e7bc-47e6-b9b8-37f01e14a045}\",
+        \"account_id\": \"557058:8c889f47-6d93-4a7c-9f8a-d0973798ecca\", \"nickname\":
+        \"Manfre\"}}, \"message\": \"Merged in AdamChainz/django-mssql/integrityerror
+        (pull request #13)\\n\\nRemove IntegrityError assignment\\n\", \"summary\":
+        {\"type\": \"rendered\", \"raw\": \"Merged in AdamChainz/django-mssql/integrityerror
+        (pull request #13)\\n\\nRemove IntegrityError assignment\\n\", \"markup\":
+        \"markdown\", \"html\": \"<p>Merged in AdamChainz/django-mssql/integrityerror
+        (<a href=\\\"https://bitbucket.org/Manfre/django-mssql/pull-requests/13/remove-integrityerror-assignment\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">pull request #13</a>)</p>\\n<p>Remove
+        IntegrityError assignment</p>\"}, \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/ca3843c1fc7cd18511bb523eda534befbcca023f\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/ca3843c1fc7cd18511bb523eda534befbcca023f\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/ca3843c1fc7cd18511bb523eda534befbcca023f\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/ca3843c1fc7cd18511bb523eda534befbcca023f/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/ca3843c1fc7cd18511bb523eda534befbcca023f/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/ca3843c1fc7cd18511bb523eda534befbcca023f/statuses\"}},
+        \"parents\": [{\"hash\": \"67abf932e56827f93fb8cf540d57fcc787f9e7dc\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/67abf932e56827f93fb8cf540d57fcc787f9e7dc\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/67abf932e56827f93fb8cf540d57fcc787f9e7dc\"}},
+        \"type\": \"commit\"}, {\"hash\": \"28f0b894a18b79a8ed657d7f3c6654fc4cf1a60e\",
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/28f0b894a18b79a8ed657d7f3c6654fc4cf1a60e\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/28f0b894a18b79a8ed657d7f3c6654fc4cf1a60e\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Merged in AdamChainz/django-mssql/integrityerror (pull request
+        #13)\\n\\nRemove IntegrityError assignment\\n\", \"markup\": \"markdown\",
+        \"html\": \"<p>Merged in AdamChainz/django-mssql/integrityerror (<a href=\\\"https://bitbucket.org/Manfre/django-mssql/pull-requests/13/remove-integrityerror-assignment\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">pull request #13</a>)</p>\\n<p>Remove
+        IntegrityError assignment</p>\"}}, \"repository\": {\"type\": \"repository\",
+        \"full_name\": \"Manfre/django-mssql\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"67abf932e56827f93fb8cf540d57fcc787f9e7dc\",
+        \"date\": \"2016-09-27T14:06:55+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Michael Manfre <mmanfre@gmail.com>\", \"user\": {\"display_name\":
+        \"Michael Manfre\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/c7530c529dc2ddca9b1626d90acf4366?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-0.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{2602453b-e7bc-47e6-b9b8-37f01e14a045}\",
+        \"account_id\": \"557058:8c889f47-6d93-4a7c-9f8a-d0973798ecca\", \"nickname\":
+        \"Manfre\"}}, \"message\": \"Merged in AdamChainz/django-mssql/readthedocs.io
+        (pull request #12)\\n\\nConvert readthedocs link for their .org -> .io migration
+        for hosted projects\\n\", \"summary\": {\"type\": \"rendered\", \"raw\": \"Merged
+        in AdamChainz/django-mssql/readthedocs.io (pull request #12)\\n\\nConvert
+        readthedocs link for their .org -> .io migration for hosted projects\\n\",
+        \"markup\": \"markdown\", \"html\": \"<p>Merged in AdamChainz/django-mssql/readthedocs.io
+        (<a href=\\\"https://bitbucket.org/Manfre/django-mssql/pull-requests/12/convert-readthedocs-link-for-their-org-io\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">pull request #12</a>)</p>\\n<p>Convert
+        readthedocs link for their .org -&gt; .io migration for hosted projects</p>\"},
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/67abf932e56827f93fb8cf540d57fcc787f9e7dc\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/67abf932e56827f93fb8cf540d57fcc787f9e7dc\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/67abf932e56827f93fb8cf540d57fcc787f9e7dc\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/67abf932e56827f93fb8cf540d57fcc787f9e7dc/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/67abf932e56827f93fb8cf540d57fcc787f9e7dc/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/67abf932e56827f93fb8cf540d57fcc787f9e7dc/statuses\"}},
+        \"parents\": [{\"hash\": \"fbf534c236ca23a519dafc17cb0738e24ed8b225\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/fbf534c236ca23a519dafc17cb0738e24ed8b225\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/fbf534c236ca23a519dafc17cb0738e24ed8b225\"}},
+        \"type\": \"commit\"}, {\"hash\": \"ef9415e2b9525462ad8946a7360f9786e283db34\",
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/ef9415e2b9525462ad8946a7360f9786e283db34\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/ef9415e2b9525462ad8946a7360f9786e283db34\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Merged in AdamChainz/django-mssql/readthedocs.io (pull request
+        #12)\\n\\nConvert readthedocs link for their .org -> .io migration for hosted
+        projects\\n\", \"markup\": \"markdown\", \"html\": \"<p>Merged in AdamChainz/django-mssql/readthedocs.io
+        (<a href=\\\"https://bitbucket.org/Manfre/django-mssql/pull-requests/12/convert-readthedocs-link-for-their-org-io\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">pull request #12</a>)</p>\\n<p>Convert
+        readthedocs link for their .org -&gt; .io migration for hosted projects</p>\"}},
+        \"repository\": {\"type\": \"repository\", \"full_name\": \"Manfre/django-mssql\",
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"28f0b894a18b79a8ed657d7f3c6654fc4cf1a60e\",
+        \"date\": \"2016-09-27T09:56:16+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Adam Chainz <adam@adamj.eu>\", \"user\": {\"display_name\": \"Adam
+        Johnson\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7Be4bb313b-1d9a-4aec-aa09-06e97f3f9b41%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/b9289fe5b858396401d2c086e9ca292e?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FAJ-2.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7Be4bb313b-1d9a-4aec-aa09-06e97f3f9b41%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{e4bb313b-1d9a-4aec-aa09-06e97f3f9b41}\",
+        \"account_id\": \"557058:d597ffa9-facc-4b81-b2ee-02b6088ed1bd\", \"nickname\":
+        \"AdamChainz\"}}, \"message\": \"Remove IntegrityError assignment\\n\\nIt
+        hasn't been required for Django for a long time, I just removed them from
+        its master at https://github.com/django/django/pull/7298 .\\n\", \"summary\":
+        {\"type\": \"rendered\", \"raw\": \"Remove IntegrityError assignment\\n\\nIt
+        hasn't been required for Django for a long time, I just removed them from
+        its master at https://github.com/django/django/pull/7298 .\\n\", \"markup\":
+        \"markdown\", \"html\": \"<p>Remove IntegrityError assignment</p>\\n<p>It
+        hasn't been required for Django for a long time, I just removed them from
+        its master at <a href=\\\"https://github.com/django/django/pull/7298\\\" rel=\\\"nofollow\\\"
+        class=\\\"ap-connect-link\\\">https://github.com/django/django/pull/7298</a>
+        .</p>\"}, \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/28f0b894a18b79a8ed657d7f3c6654fc4cf1a60e\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/28f0b894a18b79a8ed657d7f3c6654fc4cf1a60e\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/28f0b894a18b79a8ed657d7f3c6654fc4cf1a60e\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/28f0b894a18b79a8ed657d7f3c6654fc4cf1a60e/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/28f0b894a18b79a8ed657d7f3c6654fc4cf1a60e/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/28f0b894a18b79a8ed657d7f3c6654fc4cf1a60e/statuses\"},
+        \"patch\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/patch/28f0b894a18b79a8ed657d7f3c6654fc4cf1a60e\"}},
+        \"parents\": [{\"hash\": \"fbf534c236ca23a519dafc17cb0738e24ed8b225\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/fbf534c236ca23a519dafc17cb0738e24ed8b225\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/fbf534c236ca23a519dafc17cb0738e24ed8b225\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Remove IntegrityError assignment\\n\\nIt hasn't been required for
+        Django for a long time, I just removed them from its master at https://github.com/django/django/pull/7298
+        .\\n\", \"markup\": \"markdown\", \"html\": \"<p>Remove IntegrityError assignment</p>\\n<p>It
+        hasn't been required for Django for a long time, I just removed them from
+        its master at <a href=\\\"https://github.com/django/django/pull/7298\\\" rel=\\\"nofollow\\\"
+        class=\\\"ap-connect-link\\\">https://github.com/django/django/pull/7298</a>
+        .</p>\"}}, \"repository\": {\"type\": \"repository\", \"full_name\": \"Manfre/django-mssql\",
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"ef9415e2b9525462ad8946a7360f9786e283db34\",
+        \"date\": \"2016-09-27T09:52:59+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Adam Chainz <adam@adamj.eu>\", \"user\": {\"display_name\": \"Adam
+        Johnson\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7Be4bb313b-1d9a-4aec-aa09-06e97f3f9b41%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/b9289fe5b858396401d2c086e9ca292e?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FAJ-2.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7Be4bb313b-1d9a-4aec-aa09-06e97f3f9b41%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{e4bb313b-1d9a-4aec-aa09-06e97f3f9b41}\",
+        \"account_id\": \"557058:d597ffa9-facc-4b81-b2ee-02b6088ed1bd\", \"nickname\":
+        \"AdamChainz\"}}, \"message\": \"Convert readthedocs link for their .org ->
+        .io migration for hosted projects\\n\\nAs per [their blog post of the 27th
+        April](https://blog.readthedocs.com/securing-subdomains/) \u2018Securing subdomains\u2019:\\n\\n>
+        Starting today, Read the Docs will start hosting projects from subdomains
+        on the domain readthedocs.io, instead of on readthedocs.org. This change addresses
+        some security concerns around site cookies while hosting user generated data
+        on the same domain as our dashboard.\\n\\nTest Plan: Manually visited all
+        the links I\u2019ve modified.\\n\\ndiff --git a/README.rst b/README.rst\\nindex
+        4bdb76e..5b92f2a 100644\\n--- a/README.rst\\n+++ b/README.rst\\n@@ -38,5 +38,5
+        @@ References\\n\\n .. _`Django-mssql`: https://bitbucket.org/Manfre/django-mssql\\n-..
+        _django-mssql.readthedocs.org: http://django-mssql.readthedocs.org/\\n+..
+        _django-mssql.readthedocs.org: https://django-mssql.readthedocs.io/\\n ..
+        _PyWin32: http://sourceforge.net/projects/pywin32/\\n\", \"summary\": {\"type\":
+        \"rendered\", \"raw\": \"Convert readthedocs link for their .org -> .io migration
+        for hosted projects\\n\\nAs per [their blog post of the 27th April](https://blog.readthedocs.com/securing-subdomains/)
+        \u2018Securing subdomains\u2019:\\n\\n> Starting today, Read the Docs will
+        start hosting projects from subdomains on the domain readthedocs.io, instead
+        of on readthedocs.org. This change addresses some security concerns around
+        site cookies while hosting user generated data on the same domain as our dashboard.\\n\\nTest
+        Plan: Manually visited all the links I\u2019ve modified.\\n\\ndiff --git a/README.rst
+        b/README.rst\\nindex 4bdb76e..5b92f2a 100644\\n--- a/README.rst\\n+++ b/README.rst\\n@@
+        -38,5 +38,5 @@ References\\n\\n .. _`Django-mssql`: https://bitbucket.org/Manfre/django-mssql\\n-..
+        _django-mssql.readthedocs.org: http://django-mssql.readthedocs.org/\\n+..
+        _django-mssql.readthedocs.org: https://django-mssql.readthedocs.io/\\n ..
+        _PyWin32: http://sourceforge.net/projects/pywin32/\\n\", \"markup\": \"markdown\",
+        \"html\": \"<p>Convert readthedocs link for their .org -&gt; .io migration
+        for hosted projects</p>\\n<p>As per <a data-is-external-link=\\\"true\\\"
+        href=\\\"https://blog.readthedocs.com/securing-subdomains/\\\" rel=\\\"nofollow\\\">their
+        blog post of the 27th April</a> \u2018Securing subdomains\u2019:</p>\\n<blockquote>\\n<p>Starting
+        today, Read the Docs will start hosting projects from subdomains on the domain
+        readthedocs.io, instead of on readthedocs.org. This change addresses some
+        security concerns around site cookies while hosting user generated data on
+        the same domain as our dashboard.</p>\\n</blockquote>\\n<p>Test Plan: Manually
+        visited all the links I\u2019ve modified.</p>\\n<p>diff --git a/README.rst
+        b/README.rst<br>\\nindex <a href=\\\"https://bitbucket.org/Manfre/django-mssql/commits/4bdb76e\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">4bdb76e</a>..<a href=\\\"https://bitbucket.org/Manfre/django-mssql/commits/5b92f2a\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">5b92f2a</a> 100644<br>\\n---
+        a/README.rst<br>\\n+++ b/README.rst<br>\\n@@ -38,5 +38,5 @@ References</p>\\n<p>..
+        _<code>Django-mssql</code>: <a href=\\\"https://bitbucket.org/Manfre/django-mssql\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">https://bitbucket.org/Manfre/django-mssql</a><br>\\n-..
+        _django-mssql.readthedocs.org: <a href=\\\"http://django-mssql.readthedocs.org/\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">http://django-mssql.readthedocs.org/</a><br>\\n+..
+        _django-mssql.readthedocs.org: <a href=\\\"https://django-mssql.readthedocs.io/\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">https://django-mssql.readthedocs.io/</a><br>\\n
+        .. _PyWin32: <a href=\\\"http://sourceforge.net/projects/pywin32/\\\" rel=\\\"nofollow\\\"
+        class=\\\"ap-connect-link\\\">http://sourceforge.net/projects/pywin32/</a></p>\"},
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/ef9415e2b9525462ad8946a7360f9786e283db34\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/ef9415e2b9525462ad8946a7360f9786e283db34\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/ef9415e2b9525462ad8946a7360f9786e283db34\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/ef9415e2b9525462ad8946a7360f9786e283db34/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/ef9415e2b9525462ad8946a7360f9786e283db34/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/ef9415e2b9525462ad8946a7360f9786e283db34/statuses\"},
+        \"patch\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/patch/ef9415e2b9525462ad8946a7360f9786e283db34\"}},
+        \"parents\": [{\"hash\": \"fbf534c236ca23a519dafc17cb0738e24ed8b225\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/fbf534c236ca23a519dafc17cb0738e24ed8b225\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/fbf534c236ca23a519dafc17cb0738e24ed8b225\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Convert readthedocs link for their .org -> .io migration for hosted
+        projects\\n\\nAs per [their blog post of the 27th April](https://blog.readthedocs.com/securing-subdomains/)
+        \u2018Securing subdomains\u2019:\\n\\n> Starting today, Read the Docs will
+        start hosting projects from subdomains on the domain readthedocs.io, instead
+        of on readthedocs.org. This change addresses some security concerns around
+        site cookies while hosting user generated data on the same domain as our dashboard.\\n\\nTest
+        Plan: Manually visited all the links I\u2019ve modified.\\n\\ndiff --git a/README.rst
+        b/README.rst\\nindex 4bdb76e..5b92f2a 100644\\n--- a/README.rst\\n+++ b/README.rst\\n@@
+        -38,5 +38,5 @@ References\\n\\n .. _`Django-mssql`: https://bitbucket.org/Manfre/django-mssql\\n-..
+        _django-mssql.readthedocs.org: http://django-mssql.readthedocs.org/\\n+..
+        _django-mssql.readthedocs.org: https://django-mssql.readthedocs.io/\\n ..
+        _PyWin32: http://sourceforge.net/projects/pywin32/\\n\", \"markup\": \"markdown\",
+        \"html\": \"<p>Convert readthedocs link for their .org -&gt; .io migration
+        for hosted projects</p>\\n<p>As per <a data-is-external-link=\\\"true\\\"
+        href=\\\"https://blog.readthedocs.com/securing-subdomains/\\\" rel=\\\"nofollow\\\">their
+        blog post of the 27th April</a> \u2018Securing subdomains\u2019:</p>\\n<blockquote>\\n<p>Starting
+        today, Read the Docs will start hosting projects from subdomains on the domain
+        readthedocs.io, instead of on readthedocs.org. This change addresses some
+        security concerns around site cookies while hosting user generated data on
+        the same domain as our dashboard.</p>\\n</blockquote>\\n<p>Test Plan: Manually
+        visited all the links I\u2019ve modified.</p>\\n<p>diff --git a/README.rst
+        b/README.rst<br>\\nindex <a href=\\\"https://bitbucket.org/Manfre/django-mssql/commits/4bdb76e\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">4bdb76e</a>..<a href=\\\"https://bitbucket.org/Manfre/django-mssql/commits/5b92f2a\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">5b92f2a</a> 100644<br>\\n---
+        a/README.rst<br>\\n+++ b/README.rst<br>\\n@@ -38,5 +38,5 @@ References</p>\\n<p>..
+        _<code>Django-mssql</code>: <a href=\\\"https://bitbucket.org/Manfre/django-mssql\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">https://bitbucket.org/Manfre/django-mssql</a><br>\\n-..
+        _django-mssql.readthedocs.org: <a href=\\\"http://django-mssql.readthedocs.org/\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">http://django-mssql.readthedocs.org/</a><br>\\n+..
+        _django-mssql.readthedocs.org: <a href=\\\"https://django-mssql.readthedocs.io/\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">https://django-mssql.readthedocs.io/</a><br>\\n
+        .. _PyWin32: <a href=\\\"http://sourceforge.net/projects/pywin32/\\\" rel=\\\"nofollow\\\"
+        class=\\\"ap-connect-link\\\">http://sourceforge.net/projects/pywin32/</a></p>\"}},
+        \"repository\": {\"type\": \"repository\", \"full_name\": \"Manfre/django-mssql\",
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"4f89b608866624bbf7829d6b6358ddc781f533db\",
+        \"date\": \"2016-09-27T03:31:29+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Michael Manfre <mmanfre@gmail.com>\", \"user\": {\"display_name\":
+        \"Michael Manfre\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/c7530c529dc2ddca9b1626d90acf4366?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-0.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{2602453b-e7bc-47e6-b9b8-37f01e14a045}\",
+        \"account_id\": \"557058:8c889f47-6d93-4a7c-9f8a-d0973798ecca\", \"nickname\":
+        \"Manfre\"}}, \"message\": \"Pass datetime.date over COM as isoformat string\\n\",
+        \"summary\": {\"type\": \"rendered\", \"raw\": \"Pass datetime.date over COM
+        as isoformat string\\n\", \"markup\": \"markdown\", \"html\": \"<p>Pass datetime.date
+        over COM as isoformat string</p>\"}, \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/4f89b608866624bbf7829d6b6358ddc781f533db\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/4f89b608866624bbf7829d6b6358ddc781f533db\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/4f89b608866624bbf7829d6b6358ddc781f533db\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/4f89b608866624bbf7829d6b6358ddc781f533db/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/4f89b608866624bbf7829d6b6358ddc781f533db/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/4f89b608866624bbf7829d6b6358ddc781f533db/statuses\"},
+        \"patch\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/patch/4f89b608866624bbf7829d6b6358ddc781f533db\"}},
+        \"parents\": [{\"hash\": \"fbf534c236ca23a519dafc17cb0738e24ed8b225\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/fbf534c236ca23a519dafc17cb0738e24ed8b225\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/fbf534c236ca23a519dafc17cb0738e24ed8b225\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Pass datetime.date over COM as isoformat string\\n\", \"markup\":
+        \"markdown\", \"html\": \"<p>Pass datetime.date over COM as isoformat string</p>\"}},
+        \"repository\": {\"type\": \"repository\", \"full_name\": \"Manfre/django-mssql\",
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"fbf534c236ca23a519dafc17cb0738e24ed8b225\",
+        \"date\": \"2016-09-27T00:59:29+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Michael Manfre <mmanfre@gmail.com>\", \"user\": {\"display_name\":
+        \"Michael Manfre\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/c7530c529dc2ddca9b1626d90acf4366?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-0.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{2602453b-e7bc-47e6-b9b8-37f01e14a045}\",
+        \"account_id\": \"557058:8c889f47-6d93-4a7c-9f8a-d0973798ecca\", \"nickname\":
+        \"Manfre\"}}, \"message\": \"Force pywintypes.datetime to datetime.datetime\\n\",
+        \"summary\": {\"type\": \"rendered\", \"raw\": \"Force pywintypes.datetime
+        to datetime.datetime\\n\", \"markup\": \"markdown\", \"html\": \"<p>Force
+        pywintypes.datetime to datetime.datetime</p>\"}, \"links\": {\"self\": {\"href\":
+        \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/fbf534c236ca23a519dafc17cb0738e24ed8b225\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/fbf534c236ca23a519dafc17cb0738e24ed8b225\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/fbf534c236ca23a519dafc17cb0738e24ed8b225\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/fbf534c236ca23a519dafc17cb0738e24ed8b225/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/fbf534c236ca23a519dafc17cb0738e24ed8b225/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/fbf534c236ca23a519dafc17cb0738e24ed8b225/statuses\"},
+        \"patch\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/patch/fbf534c236ca23a519dafc17cb0738e24ed8b225\"}},
+        \"parents\": [{\"hash\": \"f8ccaae4eb9a6bfe06f77e7455fe27c43d61ebb8\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/f8ccaae4eb9a6bfe06f77e7455fe27c43d61ebb8\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/f8ccaae4eb9a6bfe06f77e7455fe27c43d61ebb8\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Force pywintypes.datetime to datetime.datetime\\n\", \"markup\":
+        \"markdown\", \"html\": \"<p>Force pywintypes.datetime to datetime.datetime</p>\"}},
+        \"repository\": {\"type\": \"repository\", \"full_name\": \"Manfre/django-mssql\",
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"f8ccaae4eb9a6bfe06f77e7455fe27c43d61ebb8\",
+        \"date\": \"2016-08-25T04:21:44+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Michael Manfre <mmanfre@gmail.com>\", \"user\": {\"display_name\":
+        \"Michael Manfre\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/c7530c529dc2ddca9b1626d90acf4366?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-0.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{2602453b-e7bc-47e6-b9b8-37f01e14a045}\",
+        \"account_id\": \"557058:8c889f47-6d93-4a7c-9f8a-d0973798ecca\", \"nickname\":
+        \"Manfre\"}}, \"message\": \"Add changelog to Tim's PR\\n\", \"summary\":
+        {\"type\": \"rendered\", \"raw\": \"Add changelog to Tim's PR\\n\", \"markup\":
+        \"markdown\", \"html\": \"<p>Add changelog to Tim's PR</p>\"}, \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/f8ccaae4eb9a6bfe06f77e7455fe27c43d61ebb8\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/f8ccaae4eb9a6bfe06f77e7455fe27c43d61ebb8\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/f8ccaae4eb9a6bfe06f77e7455fe27c43d61ebb8\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/f8ccaae4eb9a6bfe06f77e7455fe27c43d61ebb8/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/f8ccaae4eb9a6bfe06f77e7455fe27c43d61ebb8/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/f8ccaae4eb9a6bfe06f77e7455fe27c43d61ebb8/statuses\"},
+        \"patch\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/patch/f8ccaae4eb9a6bfe06f77e7455fe27c43d61ebb8\"}},
+        \"parents\": [{\"hash\": \"99aa3561bc3284f556d41c24ee08794db1b3722c\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/99aa3561bc3284f556d41c24ee08794db1b3722c\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/99aa3561bc3284f556d41c24ee08794db1b3722c\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Add changelog to Tim's PR\\n\", \"markup\": \"markdown\", \"html\":
+        \"<p>Add changelog to Tim's PR</p>\"}}, \"repository\": {\"type\": \"repository\",
+        \"full_name\": \"Manfre/django-mssql\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"99aa3561bc3284f556d41c24ee08794db1b3722c\",
+        \"date\": \"2016-08-25T04:16:37+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Tim Graham <timograham@gmail.com>\", \"user\": {\"display_name\":
+        \"Tim Graham\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B6e913d2d-3a19-4d57-a93a-52662e4a533f%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/fa170777273ca7b235bdde7d80e9f8a6?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FTG-2.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B6e913d2d-3a19-4d57-a93a-52662e4a533f%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{6e913d2d-3a19-4d57-a93a-52662e4a533f}\",
+        \"account_id\": \"557058:5c01c80e-d2de-44c8-adb9-22d286249b8c\", \"nickname\":
+        \"timograham\"}}, \"message\": \"Removed Python 3.3 trove classifier.\\n\",
+        \"summary\": {\"type\": \"rendered\", \"raw\": \"Removed Python 3.3 trove
+        classifier.\\n\", \"markup\": \"markdown\", \"html\": \"<p>Removed Python
+        3.3 trove classifier.</p>\"}, \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/99aa3561bc3284f556d41c24ee08794db1b3722c\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/99aa3561bc3284f556d41c24ee08794db1b3722c\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/99aa3561bc3284f556d41c24ee08794db1b3722c\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/99aa3561bc3284f556d41c24ee08794db1b3722c/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/99aa3561bc3284f556d41c24ee08794db1b3722c/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/99aa3561bc3284f556d41c24ee08794db1b3722c/statuses\"},
+        \"patch\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/patch/99aa3561bc3284f556d41c24ee08794db1b3722c\"}},
+        \"parents\": [{\"hash\": \"ef4ea0b51db09c1ba50c53fceed48d2de6834404\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/ef4ea0b51db09c1ba50c53fceed48d2de6834404\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/ef4ea0b51db09c1ba50c53fceed48d2de6834404\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Removed Python 3.3 trove classifier.\\n\", \"markup\": \"markdown\",
+        \"html\": \"<p>Removed Python 3.3 trove classifier.</p>\"}}, \"repository\":
+        {\"type\": \"repository\", \"full_name\": \"Manfre/django-mssql\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"ef4ea0b51db09c1ba50c53fceed48d2de6834404\",
+        \"date\": \"2016-08-25T04:16:37+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Tim Graham <timograham@gmail.com>\", \"user\": {\"display_name\":
+        \"Tim Graham\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B6e913d2d-3a19-4d57-a93a-52662e4a533f%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/fa170777273ca7b235bdde7d80e9f8a6?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FTG-2.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B6e913d2d-3a19-4d57-a93a-52662e4a533f%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{6e913d2d-3a19-4d57-a93a-52662e4a533f}\",
+        \"account_id\": \"557058:5c01c80e-d2de-44c8-adb9-22d286249b8c\", \"nickname\":
+        \"timograham\"}}, \"message\": \"Added Django 1.8 trove classifier.\\n\",
+        \"summary\": {\"type\": \"rendered\", \"raw\": \"Added Django 1.8 trove classifier.\\n\",
+        \"markup\": \"markdown\", \"html\": \"<p>Added Django 1.8 trove classifier.</p>\"},
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/ef4ea0b51db09c1ba50c53fceed48d2de6834404\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/ef4ea0b51db09c1ba50c53fceed48d2de6834404\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/ef4ea0b51db09c1ba50c53fceed48d2de6834404\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/ef4ea0b51db09c1ba50c53fceed48d2de6834404/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/ef4ea0b51db09c1ba50c53fceed48d2de6834404/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/ef4ea0b51db09c1ba50c53fceed48d2de6834404/statuses\"},
+        \"patch\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/patch/ef4ea0b51db09c1ba50c53fceed48d2de6834404\"}},
+        \"parents\": [{\"hash\": \"f5f43b8634a2ca1a768b1bc31fb73b444d86410e\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/f5f43b8634a2ca1a768b1bc31fb73b444d86410e\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/f5f43b8634a2ca1a768b1bc31fb73b444d86410e\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Added Django 1.8 trove classifier.\\n\", \"markup\": \"markdown\",
+        \"html\": \"<p>Added Django 1.8 trove classifier.</p>\"}}, \"repository\":
+        {\"type\": \"repository\", \"full_name\": \"Manfre/django-mssql\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"f5f43b8634a2ca1a768b1bc31fb73b444d86410e\",
+        \"date\": \"2016-08-25T04:16:37+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Tim Graham <timograham@gmail.com>\", \"user\": {\"display_name\":
+        \"Tim Graham\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B6e913d2d-3a19-4d57-a93a-52662e4a533f%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/fa170777273ca7b235bdde7d80e9f8a6?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FTG-2.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B6e913d2d-3a19-4d57-a93a-52662e4a533f%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{6e913d2d-3a19-4d57-a93a-52662e4a533f}\",
+        \"account_id\": \"557058:5c01c80e-d2de-44c8-adb9-22d286249b8c\", \"nickname\":
+        \"timograham\"}}, \"message\": \"Removed obsolete code for old Django versions.\\n\",
+        \"summary\": {\"type\": \"rendered\", \"raw\": \"Removed obsolete code for
+        old Django versions.\\n\", \"markup\": \"markdown\", \"html\": \"<p>Removed
+        obsolete code for old Django versions.</p>\"}, \"links\": {\"self\": {\"href\":
+        \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/f5f43b8634a2ca1a768b1bc31fb73b444d86410e\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/f5f43b8634a2ca1a768b1bc31fb73b444d86410e\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/f5f43b8634a2ca1a768b1bc31fb73b444d86410e\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/f5f43b8634a2ca1a768b1bc31fb73b444d86410e/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/f5f43b8634a2ca1a768b1bc31fb73b444d86410e/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/f5f43b8634a2ca1a768b1bc31fb73b444d86410e/statuses\"},
+        \"patch\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/patch/f5f43b8634a2ca1a768b1bc31fb73b444d86410e\"}},
+        \"parents\": [{\"hash\": \"61341def25f1d4829f4a7984b26109cc8d04f7e8\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/61341def25f1d4829f4a7984b26109cc8d04f7e8\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/61341def25f1d4829f4a7984b26109cc8d04f7e8\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Removed obsolete code for old Django versions.\\n\", \"markup\":
+        \"markdown\", \"html\": \"<p>Removed obsolete code for old Django versions.</p>\"}},
+        \"repository\": {\"type\": \"repository\", \"full_name\": \"Manfre/django-mssql\",
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"61341def25f1d4829f4a7984b26109cc8d04f7e8\",
+        \"date\": \"2016-08-25T04:04:17+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Michael Manfre <mmanfre@gmail.com>\", \"user\": {\"display_name\":
+        \"Michael Manfre\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/c7530c529dc2ddca9b1626d90acf4366?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-0.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{2602453b-e7bc-47e6-b9b8-37f01e14a045}\",
+        \"account_id\": \"557058:8c889f47-6d93-4a7c-9f8a-d0973798ecca\", \"nickname\":
+        \"Manfre\"}}, \"message\": \"Fix django ticket 25894 with patch to Query\\n\",
+        \"summary\": {\"type\": \"rendered\", \"raw\": \"Fix django ticket 25894 with
+        patch to Query\\n\", \"markup\": \"markdown\", \"html\": \"<p>Fix django ticket
+        25894 with patch to Query</p>\"}, \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/61341def25f1d4829f4a7984b26109cc8d04f7e8\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/61341def25f1d4829f4a7984b26109cc8d04f7e8\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/61341def25f1d4829f4a7984b26109cc8d04f7e8\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/61341def25f1d4829f4a7984b26109cc8d04f7e8/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/61341def25f1d4829f4a7984b26109cc8d04f7e8/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/61341def25f1d4829f4a7984b26109cc8d04f7e8/statuses\"},
+        \"patch\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/patch/61341def25f1d4829f4a7984b26109cc8d04f7e8\"}},
+        \"parents\": [{\"hash\": \"13a00e6290c9e5adb3fe8ccedc94938e2ddf1ef6\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/13a00e6290c9e5adb3fe8ccedc94938e2ddf1ef6\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/13a00e6290c9e5adb3fe8ccedc94938e2ddf1ef6\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Fix django ticket 25894 with patch to Query\\n\", \"markup\": \"markdown\",
+        \"html\": \"<p>Fix django ticket 25894 with patch to Query</p>\"}}, \"repository\":
+        {\"type\": \"repository\", \"full_name\": \"Manfre/django-mssql\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"13a00e6290c9e5adb3fe8ccedc94938e2ddf1ef6\",
+        \"date\": \"2016-08-25T04:04:17+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Michael Manfre <mmanfre@gmail.com>\", \"user\": {\"display_name\":
+        \"Michael Manfre\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/c7530c529dc2ddca9b1626d90acf4366?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-0.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{2602453b-e7bc-47e6-b9b8-37f01e14a045}\",
+        \"account_id\": \"557058:8c889f47-6d93-4a7c-9f8a-d0973798ecca\", \"nickname\":
+        \"Manfre\"}}, \"message\": \"Fix imports in runtests.py\\n\", \"summary\":
+        {\"type\": \"rendered\", \"raw\": \"Fix imports in runtests.py\\n\", \"markup\":
+        \"markdown\", \"html\": \"<p>Fix imports in runtests.py</p>\"}, \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/13a00e6290c9e5adb3fe8ccedc94938e2ddf1ef6\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/13a00e6290c9e5adb3fe8ccedc94938e2ddf1ef6\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/13a00e6290c9e5adb3fe8ccedc94938e2ddf1ef6\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/13a00e6290c9e5adb3fe8ccedc94938e2ddf1ef6/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/13a00e6290c9e5adb3fe8ccedc94938e2ddf1ef6/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/13a00e6290c9e5adb3fe8ccedc94938e2ddf1ef6/statuses\"},
+        \"patch\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/patch/13a00e6290c9e5adb3fe8ccedc94938e2ddf1ef6\"}},
+        \"parents\": [{\"hash\": \"027352e69558b0e1b6f15a27cf60758a7aa10e62\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/027352e69558b0e1b6f15a27cf60758a7aa10e62\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/027352e69558b0e1b6f15a27cf60758a7aa10e62\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Fix imports in runtests.py\\n\", \"markup\": \"markdown\", \"html\":
+        \"<p>Fix imports in runtests.py</p>\"}}, \"repository\": {\"type\": \"repository\",
+        \"full_name\": \"Manfre/django-mssql\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"027352e69558b0e1b6f15a27cf60758a7aa10e62\",
+        \"date\": \"2016-08-25T02:30:56+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Michael Manfre <mmanfre@gmail.com>\", \"user\": {\"display_name\":
+        \"Michael Manfre\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/c7530c529dc2ddca9b1626d90acf4366?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-0.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{2602453b-e7bc-47e6-b9b8-37f01e14a045}\",
+        \"account_id\": \"557058:8c889f47-6d93-4a7c-9f8a-d0973798ecca\", \"nickname\":
+        \"Manfre\"}}, \"message\": \"Merged in isobolev/django-mssql (pull request
+        #7)\\n\\nDelete Check constraints before removing field\\n\", \"summary\":
+        {\"type\": \"rendered\", \"raw\": \"Merged in isobolev/django-mssql (pull
+        request #7)\\n\\nDelete Check constraints before removing field\\n\", \"markup\":
+        \"markdown\", \"html\": \"<p>Merged in <a href=\\\"https://bitbucket.org/isobolev/django-mssql\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">isobolev/django-mssql</a>
+        (<a href=\\\"https://bitbucket.org/Manfre/django-mssql/pull-requests/7/delete-check-constraints-before-removing\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">pull request #7</a>)</p>\\n<p>Delete
+        Check constraints before removing field</p>\"}, \"links\": {\"self\": {\"href\":
+        \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/027352e69558b0e1b6f15a27cf60758a7aa10e62\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/027352e69558b0e1b6f15a27cf60758a7aa10e62\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/027352e69558b0e1b6f15a27cf60758a7aa10e62\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/027352e69558b0e1b6f15a27cf60758a7aa10e62/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/027352e69558b0e1b6f15a27cf60758a7aa10e62/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/027352e69558b0e1b6f15a27cf60758a7aa10e62/statuses\"}},
+        \"parents\": [{\"hash\": \"144855caf16476dfc1dd9963a17fbda726fdd0f8\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/144855caf16476dfc1dd9963a17fbda726fdd0f8\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/144855caf16476dfc1dd9963a17fbda726fdd0f8\"}},
+        \"type\": \"commit\"}, {\"hash\": \"74b304619a20ad1d90369de4f9642c675389fab5\",
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/74b304619a20ad1d90369de4f9642c675389fab5\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/74b304619a20ad1d90369de4f9642c675389fab5\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Merged in isobolev/django-mssql (pull request #7)\\n\\nDelete Check
+        constraints before removing field\\n\", \"markup\": \"markdown\", \"html\":
+        \"<p>Merged in <a href=\\\"https://bitbucket.org/isobolev/django-mssql\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">isobolev/django-mssql</a>
+        (<a href=\\\"https://bitbucket.org/Manfre/django-mssql/pull-requests/7/delete-check-constraints-before-removing\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">pull request #7</a>)</p>\\n<p>Delete
+        Check constraints before removing field</p>\"}}, \"repository\": {\"type\":
+        \"repository\", \"full_name\": \"Manfre/django-mssql\", \"links\": {\"self\":
+        {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"144855caf16476dfc1dd9963a17fbda726fdd0f8\",
+        \"date\": \"2016-08-25T02:28:06+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Michael Manfre <mmanfre@gmail.com>\", \"user\": {\"display_name\":
+        \"Michael Manfre\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/c7530c529dc2ddca9b1626d90acf4366?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-0.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{2602453b-e7bc-47e6-b9b8-37f01e14a045}\",
+        \"account_id\": \"557058:8c889f47-6d93-4a7c-9f8a-d0973798ecca\", \"nickname\":
+        \"Manfre\"}}, \"message\": \"Merged in jblissnge/django-mssql-1/jblissnge/note-that-use_legacy_date_fields-is-no-l-1471541232097
+        (pull request #11)\\n\\nNote that use_legacy_date_fields is no longer an option\\n\",
+        \"summary\": {\"type\": \"rendered\", \"raw\": \"Merged in jblissnge/django-mssql-1/jblissnge/note-that-use_legacy_date_fields-is-no-l-1471541232097
+        (pull request #11)\\n\\nNote that use_legacy_date_fields is no longer an option\\n\",
+        \"markup\": \"markdown\", \"html\": \"<p>Merged in <a href=\\\"https://bitbucket.org/jblissnge/django-mssql-1\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">jblissnge/django-mssql-1</a>/jblissnge/note-that-use_legacy_date_fields-is-no-l-1471541232097
+        (<a href=\\\"https://bitbucket.org/Manfre/django-mssql/pull-requests/11/note-that-use_legacy_date_fields-is-no\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">pull request #11</a>)</p>\\n<p>Note
+        that use_legacy_date_fields is no longer an option</p>\"}, \"links\": {\"self\":
+        {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/144855caf16476dfc1dd9963a17fbda726fdd0f8\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/144855caf16476dfc1dd9963a17fbda726fdd0f8\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/144855caf16476dfc1dd9963a17fbda726fdd0f8\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/144855caf16476dfc1dd9963a17fbda726fdd0f8/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/144855caf16476dfc1dd9963a17fbda726fdd0f8/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/144855caf16476dfc1dd9963a17fbda726fdd0f8/statuses\"}},
+        \"parents\": [{\"hash\": \"bbb48b104b6f0cee8a08f8a34242db4b5f4e5cf6\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/bbb48b104b6f0cee8a08f8a34242db4b5f4e5cf6\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/bbb48b104b6f0cee8a08f8a34242db4b5f4e5cf6\"}},
+        \"type\": \"commit\"}, {\"hash\": \"e950e0ca3c71f2166904cac97fa48a09f60bf449\",
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/e950e0ca3c71f2166904cac97fa48a09f60bf449\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/e950e0ca3c71f2166904cac97fa48a09f60bf449\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Merged in jblissnge/django-mssql-1/jblissnge/note-that-use_legacy_date_fields-is-no-l-1471541232097
+        (pull request #11)\\n\\nNote that use_legacy_date_fields is no longer an option\\n\",
+        \"markup\": \"markdown\", \"html\": \"<p>Merged in <a href=\\\"https://bitbucket.org/jblissnge/django-mssql-1\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">jblissnge/django-mssql-1</a>/jblissnge/note-that-use_legacy_date_fields-is-no-l-1471541232097
+        (<a href=\\\"https://bitbucket.org/Manfre/django-mssql/pull-requests/11/note-that-use_legacy_date_fields-is-no\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">pull request #11</a>)</p>\\n<p>Note
+        that use_legacy_date_fields is no longer an option</p>\"}}, \"repository\":
+        {\"type\": \"repository\", \"full_name\": \"Manfre/django-mssql\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"e950e0ca3c71f2166904cac97fa48a09f60bf449\",
+        \"date\": \"2016-08-18T17:27:15+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"James Bliss <jbliss@nextgenerationenrollment.com>\", \"user\":
+        {\"display_name\": \"James Bliss\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B6ae33256-4d41-4948-bc8f-233fb0461ed9%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/8730e3a098567de4f4e085d4d964a033?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FJB-5.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B6ae33256-4d41-4948-bc8f-233fb0461ed9%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{6ae33256-4d41-4948-bc8f-233fb0461ed9}\",
+        \"account_id\": \"557058:647a3e49-da3d-4ade-ac51-fb6fdcc9981f\", \"nickname\":
+        \"jblissnge\"}}, \"message\": \"Note that use_legacy_date_fields is no longer
+        an option\", \"summary\": {\"type\": \"rendered\", \"raw\": \"Note that use_legacy_date_fields
+        is no longer an option\", \"markup\": \"markdown\", \"html\": \"<p>Note that
+        use_legacy_date_fields is no longer an option</p>\"}, \"links\": {\"self\":
+        {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/e950e0ca3c71f2166904cac97fa48a09f60bf449\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/e950e0ca3c71f2166904cac97fa48a09f60bf449\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/e950e0ca3c71f2166904cac97fa48a09f60bf449\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/e950e0ca3c71f2166904cac97fa48a09f60bf449/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/e950e0ca3c71f2166904cac97fa48a09f60bf449/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/e950e0ca3c71f2166904cac97fa48a09f60bf449/statuses\"},
+        \"patch\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/patch/e950e0ca3c71f2166904cac97fa48a09f60bf449\"}},
+        \"parents\": [{\"hash\": \"bbb48b104b6f0cee8a08f8a34242db4b5f4e5cf6\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/bbb48b104b6f0cee8a08f8a34242db4b5f4e5cf6\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/bbb48b104b6f0cee8a08f8a34242db4b5f4e5cf6\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Note that use_legacy_date_fields is no longer an option\", \"markup\":
+        \"markdown\", \"html\": \"<p>Note that use_legacy_date_fields is no longer
+        an option</p>\"}}, \"repository\": {\"type\": \"repository\", \"full_name\":
+        \"Manfre/django-mssql\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"bbb48b104b6f0cee8a08f8a34242db4b5f4e5cf6\",
+        \"date\": \"2016-06-27T00:03:45+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Michael Manfre <mmanfre@gmail.com>\", \"user\": {\"display_name\":
+        \"Michael Manfre\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/c7530c529dc2ddca9b1626d90acf4366?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-0.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{2602453b-e7bc-47e6-b9b8-37f01e14a045}\",
+        \"account_id\": \"557058:8c889f47-6d93-4a7c-9f8a-d0973798ecca\", \"nickname\":
+        \"Manfre\"}}, \"message\": \"Bump version to 1.8b1\\n\", \"summary\": {\"type\":
+        \"rendered\", \"raw\": \"Bump version to 1.8b1\\n\", \"markup\": \"markdown\",
+        \"html\": \"<p>Bump version to 1.8b1</p>\"}, \"links\": {\"self\": {\"href\":
+        \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/bbb48b104b6f0cee8a08f8a34242db4b5f4e5cf6\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/bbb48b104b6f0cee8a08f8a34242db4b5f4e5cf6\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/bbb48b104b6f0cee8a08f8a34242db4b5f4e5cf6\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/bbb48b104b6f0cee8a08f8a34242db4b5f4e5cf6/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/bbb48b104b6f0cee8a08f8a34242db4b5f4e5cf6/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/bbb48b104b6f0cee8a08f8a34242db4b5f4e5cf6/statuses\"},
+        \"patch\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/patch/bbb48b104b6f0cee8a08f8a34242db4b5f4e5cf6\"}},
+        \"parents\": [{\"hash\": \"e212858b5454790ba1fb49aeffe1fd064b2ea21a\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/e212858b5454790ba1fb49aeffe1fd064b2ea21a\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/e212858b5454790ba1fb49aeffe1fd064b2ea21a\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Bump version to 1.8b1\\n\", \"markup\": \"markdown\", \"html\":
+        \"<p>Bump version to 1.8b1</p>\"}}, \"repository\": {\"type\": \"repository\",
+        \"full_name\": \"Manfre/django-mssql\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"e212858b5454790ba1fb49aeffe1fd064b2ea21a\",
+        \"date\": \"2016-06-27T00:02:52+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"erinwyher <emullaney@caktusgroup.com>\", \"user\": {\"display_name\":
+        \"Erin Mullaney\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B1ac69b2c-e60e-443b-884d-8427322d5f33%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/ec494c4ca3d3887bac1b124a6747ff0d?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FEM-4.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B1ac69b2c-e60e-443b-884d-8427322d5f33%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{1ac69b2c-e60e-443b-884d-8427322d5f33}\",
+        \"account_id\": \"557058:7d26cb0a-d183-44c3-8b2f-81a4f11e1a09\", \"nickname\":
+        \"Erin Mullaney\"}}, \"message\": \"Fix `isoformat()` usage for Python 2.7\\n\",
+        \"summary\": {\"type\": \"rendered\", \"raw\": \"Fix `isoformat()` usage for
+        Python 2.7\\n\", \"markup\": \"markdown\", \"html\": \"<p>Fix <code>isoformat()</code>
+        usage for Python 2.7</p>\"}, \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/e212858b5454790ba1fb49aeffe1fd064b2ea21a\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/e212858b5454790ba1fb49aeffe1fd064b2ea21a\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/e212858b5454790ba1fb49aeffe1fd064b2ea21a\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/e212858b5454790ba1fb49aeffe1fd064b2ea21a/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/e212858b5454790ba1fb49aeffe1fd064b2ea21a/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/e212858b5454790ba1fb49aeffe1fd064b2ea21a/statuses\"},
+        \"patch\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/patch/e212858b5454790ba1fb49aeffe1fd064b2ea21a\"}},
+        \"parents\": [{\"hash\": \"24ef16a3c7d0e157ebd26f96b561e812c5ebc07b\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/24ef16a3c7d0e157ebd26f96b561e812c5ebc07b\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/24ef16a3c7d0e157ebd26f96b561e812c5ebc07b\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Fix `isoformat()` usage for Python 2.7\\n\", \"markup\": \"markdown\",
+        \"html\": \"<p>Fix <code>isoformat()</code> usage for Python 2.7</p>\"}},
+        \"repository\": {\"type\": \"repository\", \"full_name\": \"Manfre/django-mssql\",
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"24ef16a3c7d0e157ebd26f96b561e812c5ebc07b\",
+        \"date\": \"2016-03-15T17:14:13+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Michael Manfre <mmanfre@gmail.com>\", \"user\": {\"display_name\":
+        \"Michael Manfre\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/c7530c529dc2ddca9b1626d90acf4366?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-0.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{2602453b-e7bc-47e6-b9b8-37f01e14a045}\",
+        \"account_id\": \"557058:8c889f47-6d93-4a7c-9f8a-d0973798ecca\", \"nickname\":
+        \"Manfre\"}}, \"message\": \"Fixed #83 - Added missing _hints to RawStoredProcedureQuerySet.
+        Thanks Xiayun Sun\\n\", \"summary\": {\"type\": \"rendered\", \"raw\": \"Fixed
+        #83 - Added missing _hints to RawStoredProcedureQuerySet. Thanks Xiayun Sun\\n\",
+        \"markup\": \"markdown\", \"html\": \"<p>Fixed <a href=\\\"https://bitbucket.org/Manfre/django-mssql/issues/83/self_hints-missing-from\\\"
+        rel=\\\"nofollow\\\" title=\\\"`self._hints` missing from RawStoredProcedureQuerySet
+        when using a db router\\\" class=\\\"ap-connect-link\\\"><s>#83</s></a> -
+        Added missing _hints to RawStoredProcedureQuerySet. Thanks Xiayun Sun</p>\"},
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/24ef16a3c7d0e157ebd26f96b561e812c5ebc07b\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/24ef16a3c7d0e157ebd26f96b561e812c5ebc07b\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/24ef16a3c7d0e157ebd26f96b561e812c5ebc07b\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/24ef16a3c7d0e157ebd26f96b561e812c5ebc07b/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/24ef16a3c7d0e157ebd26f96b561e812c5ebc07b/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/24ef16a3c7d0e157ebd26f96b561e812c5ebc07b/statuses\"},
+        \"patch\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/patch/24ef16a3c7d0e157ebd26f96b561e812c5ebc07b\"}},
+        \"parents\": [{\"hash\": \"bb3befa2ec10e304cce7b36764af866ed0de77fe\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/bb3befa2ec10e304cce7b36764af866ed0de77fe\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/bb3befa2ec10e304cce7b36764af866ed0de77fe\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Fixed #83 - Added missing _hints to RawStoredProcedureQuerySet.
+        Thanks Xiayun Sun\\n\", \"markup\": \"markdown\", \"html\": \"<p>Fixed <a
+        href=\\\"https://bitbucket.org/Manfre/django-mssql/issues/83/self_hints-missing-from\\\"
+        rel=\\\"nofollow\\\" title=\\\"`self._hints` missing from RawStoredProcedureQuerySet
+        when using a db router\\\" class=\\\"ap-connect-link\\\"><s>#83</s></a> -
+        Added missing _hints to RawStoredProcedureQuerySet. Thanks Xiayun Sun</p>\"}},
+        \"repository\": {\"type\": \"repository\", \"full_name\": \"Manfre/django-mssql\",
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}},
+        {\"type\": \"commit\", \"hash\": \"bb3befa2ec10e304cce7b36764af866ed0de77fe\",
+        \"date\": \"2016-03-15T17:08:55+00:00\", \"author\": {\"type\": \"author\",
+        \"raw\": \"Michael Manfre <mmanfre@gmail.com>\", \"user\": {\"display_name\":
+        \"Michael Manfre\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/users/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D\"},
+        \"avatar\": {\"href\": \"https://secure.gravatar.com/avatar/c7530c529dc2ddca9b1626d90acf4366?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FMM-0.png\"},
+        \"html\": {\"href\": \"https://bitbucket.org/%7B2602453b-e7bc-47e6-b9b8-37f01e14a045%7D/\"}},
+        \"type\": \"user\", \"uuid\": \"{2602453b-e7bc-47e6-b9b8-37f01e14a045}\",
+        \"account_id\": \"557058:8c889f47-6d93-4a7c-9f8a-d0973798ecca\", \"nickname\":
+        \"Manfre\"}}, \"message\": \"Merged in denisenkom/django-mssql/django1.9-support
+        (pull request #6)\\n\\nDjango 1.9 support\\n\", \"summary\": {\"type\": \"rendered\",
+        \"raw\": \"Merged in denisenkom/django-mssql/django1.9-support (pull request
+        #6)\\n\\nDjango 1.9 support\\n\", \"markup\": \"markdown\", \"html\": \"<p>Merged
+        in <a href=\\\"https://bitbucket.org/denisenkom/django-mssql\\\" rel=\\\"nofollow\\\"
+        class=\\\"ap-connect-link\\\">denisenkom/django-mssql</a>/django1.9-support
+        (<a href=\\\"https://bitbucket.org/Manfre/django-mssql/pull-requests/6/django-19-support\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">pull request #6</a>)</p>\\n<p>Django
+        1.9 support</p>\"}, \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/bb3befa2ec10e304cce7b36764af866ed0de77fe\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/bb3befa2ec10e304cce7b36764af866ed0de77fe\"},
+        \"diff\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/diff/bb3befa2ec10e304cce7b36764af866ed0de77fe\"},
+        \"approve\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/bb3befa2ec10e304cce7b36764af866ed0de77fe/approve\"},
+        \"comments\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/bb3befa2ec10e304cce7b36764af866ed0de77fe/comments\"},
+        \"statuses\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/bb3befa2ec10e304cce7b36764af866ed0de77fe/statuses\"}},
+        \"parents\": [{\"hash\": \"9237f5e20825142e5ec77a24f898800b0e4fcaa0\", \"links\":
+        {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/9237f5e20825142e5ec77a24f898800b0e4fcaa0\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/9237f5e20825142e5ec77a24f898800b0e4fcaa0\"}},
+        \"type\": \"commit\"}, {\"hash\": \"994d1b6d82fa569390cf1392aad1dd8755a6d135\",
+        \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commit/994d1b6d82fa569390cf1392aad1dd8755a6d135\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql/commits/994d1b6d82fa569390cf1392aad1dd8755a6d135\"}},
+        \"type\": \"commit\"}], \"rendered\": {\"message\": {\"type\": \"rendered\",
+        \"raw\": \"Merged in denisenkom/django-mssql/django1.9-support (pull request
+        #6)\\n\\nDjango 1.9 support\\n\", \"markup\": \"markdown\", \"html\": \"<p>Merged
+        in <a href=\\\"https://bitbucket.org/denisenkom/django-mssql\\\" rel=\\\"nofollow\\\"
+        class=\\\"ap-connect-link\\\">denisenkom/django-mssql</a>/django1.9-support
+        (<a href=\\\"https://bitbucket.org/Manfre/django-mssql/pull-requests/6/django-19-support\\\"
+        rel=\\\"nofollow\\\" class=\\\"ap-connect-link\\\">pull request #6</a>)</p>\\n<p>Django
+        1.9 support</p>\"}}, \"repository\": {\"type\": \"repository\", \"full_name\":
+        \"Manfre/django-mssql\", \"links\": {\"self\": {\"href\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql\"},
+        \"html\": {\"href\": \"https://bitbucket.org/Manfre/django-mssql\"}, \"avatar\":
+        {\"href\": \"https://bytebucket.org/ravatar/%7Bfa7b9059-8ffd-401f-934f-afe495719186%7D?ts=python\"}},
+        \"name\": \"django-mssql\", \"uuid\": \"{fa7b9059-8ffd-401f-934f-afe495719186}\"}}],
+        \"pagelen\": 30, \"next\": \"https://api.bitbucket.org/2.0/repositories/Manfre/django-mssql/commits/?limit=50&ctx=dc1b9b5d6cb2188fcb3e14bd5a152048&page=2\"}"
     headers:
       Cache-Control:
       - max-age=900
@@ -179,48 +1090,62 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sun, 06 Mar 2022 01:33:45 GMT
-      ETag:
-      - '"gz[ad13adae0d418f7d23cc053a5fbb1739]"'
-      Last-Modified:
-      - Wed, 22 Aug 2018 19:43:04 GMT
-      Server:
-      - nginx
+      - Sat, 13 Jan 2024 02:47:35 GMT
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains; preload
       Transfer-Encoding:
       - chunked
-      Vary:
-      - Authorization, Origin, Accept-Encoding
-      X-Accepted-OAuth-Scopes:
-      - repository
-      X-B3-TraceId:
-      - b46ed2c7c3e1ef0f
       X-Cache-Info:
       - caching
-      X-Dc-Location:
-      - Micros
-      X-Frame-Options:
+      X-Content-Type-Options:
+      - nosniff
+      X-Trace-Id:
+      - d19d3a88696be191
+      X-XSS-Protection:
+      - 1; mode=block
+      etag:
+      - '"669899bad4de57f7aeaf503df6210cbe"'
+      last-modified:
+      - Tue, 28 Mar 2023 23:23:14 GMT
+      server:
+      - envoy
+      vary:
+      - Authorization, Origin, Accept-Encoding
+      x-accepted-oauth-scopes:
+      - repository
+      x-b3-spanid:
+      - 25ee645c038a1079
+      x-b3-traceid:
+      - d19d3a88696be191
+      x-dc-location:
+      - Micros-3
+      x-envoy-upstream-service-time:
+      - '814'
+      x-frame-options:
       - SAMEORIGIN
-      X-Render-Time:
-      - '0.572666883469'
-      X-Request-Count:
-      - '3022'
-      X-Served-By:
-      - 01ac86ba2da5
-      X-Static-Version:
-      - 56e21fda85e9
-      X-Usage-Input-Ops:
-      - '32'
-      X-Usage-Output-Ops:
+      x-render-time:
+      - '0.803504467010498'
+      x-request-count:
+      - '326'
+      x-request-id:
+      - d19d3a88696be191
+      x-served-by:
+      - b7b6c7de5df0
+      x-static-version:
+      - 04b49d4d4db1
+      x-usage-input-ops:
+      - '304'
+      x-usage-output-ops:
       - '0'
-      X-Usage-System-Time:
-      - '0.002827'
-      X-Usage-User-Time:
-      - '0.366783'
-      X-Version:
-      - 56e21fda85e9
-      X-View-Name:
+      x-usage-system-time:
+      - '0.013699'
+      x-usage-user-time:
+      - '0.507858'
+      x-used-mesh:
+      - 'False'
+      x-version:
+      - 04b49d4d4db1
+      x-view-name:
       - bitbucket.apps.repo2.api.v20.commit.CommitsHandler
     status:
       code: 200
