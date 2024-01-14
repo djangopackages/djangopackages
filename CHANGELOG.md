@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-01-13]
+### Changed
+- :arrow_up: Bumps deps ([#1092](https://github.com/djangopackages/djangopackages/pull/1092))
+- :sparkles: Friday updates ([#1087](https://github.com/djangopackages/djangopackages/pull/1087))
+
 ## [2024-01-12]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1085](https://github.com/djangopackages/djangopackages/pull/1085))
