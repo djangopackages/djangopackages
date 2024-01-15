@@ -281,9 +281,9 @@ coverage[toml]==7.4.0 \
     # via
     #   coverage
     #   pytest-cov
-crispy-bootstrap3==2022.1 \
-    --hash=sha256:be4908ca997e6ee86cda128c631b3adb33f1db483fd97fa72ae45ca3ad49ad02 \
-    --hash=sha256:f62729ed06976caf7fd5fd4fe009c0a702b0705db7765c2b486ba96c64341146
+crispy-bootstrap3==2024.1 \
+    --hash=sha256:257555c61ec6cd792e8654822e836794237465442a6e4b47ed31f7464e8c10f4 \
+    --hash=sha256:343c696ae1a854ac0ccad25e9e7d782400783034220a11aa179d1d799acf6161
     # via -r requirements.in
 croniter==2.0.1 \
     --hash=sha256:4cb064ce2d8f695b3b078be36ff50115cf8ac306c10a7e8653ee2a5b534673d7 \
@@ -339,9 +339,9 @@ distro==1.9.0 \
     --hash=sha256:2fa77c6fd8940f116ee1d6b94a2f90b13b5ea8d019b98bc8bafdcabcdd9bdbed \
     --hash=sha256:7bffd925d65168f85027d8da9af6bddab658135b840670a223589bc0c8ef02b2
     # via openai
-django==4.2.9 \
-    --hash=sha256:12498cc3cb8bc8038539fef9e90e95f507502436c1f0c3a673411324fa675d14 \
-    --hash=sha256:2cc2fc7d1708ada170ddd6c99f35cc25db664f165d3794bc7723f46b2f8c8984
+django==5.0.1 \
+    --hash=sha256:8c8659665bc6e3a44fefe1ab0a291e5a3fb3979f9a8230be29de975e57e8f854 \
+    --hash=sha256:f47a37a90b9bbe2c8ec360235192c7fddfdc832206fcf618bb849b39256affc1
     # via
     #   -r requirements.in
     #   crispy-bootstrap3
@@ -1090,9 +1090,9 @@ python-fsutil==0.13.0 \
     --hash=sha256:8cc999d9594da083eb59e6b4d10835ee331bde3658de48bda3202e5298a3ee59 \
     --hash=sha256:f40d37ba29524b1cef77bb206f1541d2d509ecf03a586709b8c2ec453804ab2e
     # via django-maintenance-mode
-python-gitlab==4.3.0 \
-    --hash=sha256:cc1dc49c562c02ffbad3656e668234c45ea6210688ade59865b284313f45000d \
-    --hash=sha256:eb31d1f2bfd8653f74996f9d0bf84ce7afb0843f9122a257c9a93b0e027d1df0
+python-gitlab==4.4.0 \
+    --hash=sha256:1d117bf7b433ae8255e5d74e72c660978f50ee85eb62248c9fb52ef43c3e3814 \
+    --hash=sha256:cdad39d016f59664cdaad0f878f194c79cb4357630776caa9a92c1da25c8d986
     # via -r requirements.in
 python-ipware==2.0.1 \
     --hash=sha256:1992920ef553165dfa35e6ea5a90762f64f3b943cc22ee6b4ec02e2c86d31178 \
