@@ -224,6 +224,13 @@ Listed in alphabetical order.
     <td></td>
   </tr>
   <tr>
+    <td>Jayden Clark</td>
+    <td>
+      <a href="https://github.com/jayden-clark">jayden-clark</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
     <td>Jeff Triplett</td>
     <td>
       <a href="https://github.com/jefftriplett">jefftriplett</a>
