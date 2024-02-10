@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-02-09]
+### Changed
+- 📝 Clean up for nav display ([#1096](https://github.com/djangopackages/djangopackages/pull/1096))
+- :arrow_up: Bumps deps ([#1102](https://github.com/djangopackages/djangopackages/pull/1102))
+
 ## [2024-01-13]
 ### Changed
 - :arrow_up: Bumps deps ([#1092](https://github.com/djangopackages/djangopackages/pull/1092))
