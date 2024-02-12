@@ -216,8 +216,8 @@ click-default-group==1.2.4 \
     --hash=sha256:9b60486923720e7fc61731bdb32b617039aba820e22e1c88766b1125592eaa5f \
     --hash=sha256:eb3f3c99ec0d456ca6cd2a7f08f7d4e91771bef51b01bdd9580cc6450fe1251e
     # via sqlite-utils
-cloudflare==2.18.0 \
-    --hash=sha256:1200cfbd525c340d6b57dc3cc2d6bc0e57e04373e871ed2145b3dc30f284ff13
+cloudflare==2.18.1 \
+    --hash=sha256:7530fd1cedba7a515d7cd309c65c8ad6329fe3159ccfdf3f5eb288dc4a544ac7
     # via -r requirements.in
 colorama==0.4.6 \
     --hash=sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44 \
@@ -349,9 +349,9 @@ distro==1.9.0 \
     --hash=sha256:2fa77c6fd8940f116ee1d6b94a2f90b13b5ea8d019b98bc8bafdcabcdd9bdbed \
     --hash=sha256:7bffd925d65168f85027d8da9af6bddab658135b840670a223589bc0c8ef02b2
     # via openai
-django==4.2.10 \
-    --hash=sha256:a2d4c4d4ea0b6f0895acde632071aff6400bfc331228fc978b05452a0ff3e9f1 \
-    --hash=sha256:b1260ed381b10a11753c73444408e19869f3241fc45c985cd55a30177c789d13
+django==5.0.2 \
+    --hash=sha256:56ab63a105e8bb06ee67381d7b65fe6774f057e41a8bab06c8020c8882d8ecd4 \
+    --hash=sha256:b5bb1d11b2518a5f91372a282f24662f58f66749666b0a286ab057029f728080
     # via
     #   -r requirements.in
     #   crispy-bootstrap3
@@ -633,9 +633,9 @@ mkdocs-autorefs==0.5.0 \
     --hash=sha256:7930fcb8ac1249f10e683967aeaddc0af49d90702af111a5e390e8b20b3d97ff \
     --hash=sha256:9a5054a94c08d28855cfab967ada10ed5be76e2bfad642302a610b252c3274c0
     # via mkdocstrings
-mkdocs-material==9.5.8 \
-    --hash=sha256:14563314bbf97da4bfafc69053772341babfaeb3329cde01d3e63cec03997af8 \
-    --hash=sha256:2a429213e83f84eda7a588e2b186316d806aac602b7f93990042f7a1f3d3cf65
+mkdocs-material==9.5.9 \
+    --hash=sha256:635df543c01c25c412d6c22991872267723737d5a2f062490f33b2da1c013c6d \
+    --hash=sha256:a5d62b73b3b74349e45472bfadc129c871dd2d4add68d84819580597b2f50d5d
     # via -r docs/requirements.in
 mkdocs-material-extensions==1.3.1 \
     --hash=sha256:10c9511cea88f568257f960358a467d12b970e1f7b2c0e5fb2bb48cab1928443 \
@@ -826,9 +826,9 @@ pluggy==1.4.0 \
     # via
     #   pytest
     #   sqlite-utils
-pre-commit==3.6.0 \
-    --hash=sha256:c255039ef399049a5544b6ce13d135caba8f2c28c3b4033277a788f434308376 \
-    --hash=sha256:d30bad9abf165f7785c15a21a1f46da7d0677cb00ee7ff4c579fd38922efe15d
+pre-commit==3.6.1 \
+    --hash=sha256:9fe989afcf095d2c4796ce7c553cf28d4d4a9b9346de3cda079bcf40748454a4 \
+    --hash=sha256:c90961d8aa706f75d60935aba09469a6b0bcb8345f127c3fbee4bdc5f114cf4b
     # via -r requirements.in
 psutil==5.9.8 \
     --hash=sha256:02615ed8c5ea222323408ceba16c60e99c3f91639b07da6373fb7e6539abc56d \
