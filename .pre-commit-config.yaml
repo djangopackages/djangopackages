@@ -33,7 +33,7 @@ repos:
       - id: djjs
         alias: autoformat
   - repo: https://github.com/adamchainz/django-upgrade
-    rev: 1.15.0
+    rev: 1.16.0
     hooks:
       - id: django-upgrade
         args: [--target-version, "4.2"]
@@ -43,7 +43,7 @@ repos:
     hooks:
       - id: blacken-docs
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: 'v0.1.11'
+    rev: 'v0.2.1'
     hooks:
       - id: ruff
         args: [--fix]
