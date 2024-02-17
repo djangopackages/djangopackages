@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-02-16]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1104](https://github.com/djangopackages/djangopackages/pull/1104))
+
 ## [2024-02-09]
 ### Changed
 - 📝 Clean up for nav display ([#1096](https://github.com/djangopackages/djangopackages/pull/1096))
