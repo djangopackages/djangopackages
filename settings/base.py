@@ -40,9 +40,6 @@ SITE_ID = 1
 # to load the internationalization machinery.
 USE_I18N = True
 
-# RemovedInDjango50Warning: The default value of USE_TZ will change from
-# False to True in Django 5.0. Set USE_TZ to False in your project
-# settings if you want to keep the current default behavior.
 USE_TZ = False
 
 # Absolute path to the directory that holds media.
@@ -169,6 +166,9 @@ PREREQ_APPS = [
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
 
+# Set the default scheme for forms.URLField to "https"
+# TODO: Remove transitional setting in Django 6.0
+FORMS_URLFIELD_ASSUME_HTTPS = True
 
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 

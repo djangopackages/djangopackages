@@ -36,7 +36,7 @@ repos:
     rev: 1.16.0
     hooks:
       - id: django-upgrade
-        args: [--target-version, "4.2"]
+        args: [--target-version, "5.0"]
         alias: autoformat
   - repo: https://github.com/asottile/blacken-docs
     rev: 1.16.0
