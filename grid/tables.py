@@ -41,5 +41,5 @@ class GridTable(Table):
         return format_html(
             '<a href="{}">{}</a>',
             reverse("grid", kwargs={"slug": record.slug}),
-            emojize(record.title)
+            emojize(record.title),
         )

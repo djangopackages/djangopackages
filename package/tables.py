@@ -18,9 +18,7 @@ class PackageTable(Table):
     version = Column(accessor="pypi_version", orderable=False, verbose_name="Version")
     repo_watchers = Column(
         accessor="repo_watchers",
-        verbose_name=mark_safe(
-            "Stars <span class='glyphicon glyphicon-star'></span>"
-        ),
+        verbose_name=mark_safe("Stars <span class='glyphicon glyphicon-star'></span>"),
     )
     repo_forks = Column(
         accessor="repo_forks",
