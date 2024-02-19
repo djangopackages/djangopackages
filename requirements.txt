@@ -216,8 +216,8 @@ click-default-group==1.2.4 \
     --hash=sha256:9b60486923720e7fc61731bdb32b617039aba820e22e1c88766b1125592eaa5f \
     --hash=sha256:eb3f3c99ec0d456ca6cd2a7f08f7d4e91771bef51b01bdd9580cc6450fe1251e
     # via sqlite-utils
-cloudflare==2.18.0 \
-    --hash=sha256:1200cfbd525c340d6b57dc3cc2d6bc0e57e04373e871ed2145b3dc30f284ff13
+cloudflare==2.19.0 \
+    --hash=sha256:b55dc8e3313f883f3df64e637c1fd1a4dc72f3632fe66e6908480159515183da
     # via -r requirements.in
 colorama==0.4.6 \
     --hash=sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44 \
@@ -349,9 +349,9 @@ distro==1.9.0 \
     --hash=sha256:2fa77c6fd8940f116ee1d6b94a2f90b13b5ea8d019b98bc8bafdcabcdd9bdbed \
     --hash=sha256:7bffd925d65168f85027d8da9af6bddab658135b840670a223589bc0c8ef02b2
     # via openai
-django==4.2.10 \
-    --hash=sha256:a2d4c4d4ea0b6f0895acde632071aff6400bfc331228fc978b05452a0ff3e9f1 \
-    --hash=sha256:b1260ed381b10a11753c73444408e19869f3241fc45c985cd55a30177c789d13
+django==5.0.2 \
+    --hash=sha256:56ab63a105e8bb06ee67381d7b65fe6774f057e41a8bab06c8020c8882d8ecd4 \
+    --hash=sha256:b5bb1d11b2518a5f91372a282f24662f58f66749666b0a286ab057029f728080
     # via
     #   -r requirements.in
     #   crispy-bootstrap3
@@ -461,9 +461,9 @@ emojificate==0.7.0 \
     --hash=sha256:78836f3592d6dd8d02cdbdecefe2375fe462f871631c1c756bfacb508c25e579 \
     --hash=sha256:fad26c7dfb0975d8c31d1e61bfb5a7f47320088d5ba295154548bc2c1978b5d4
     # via -r requirements.in
-faker==23.1.0 \
-    --hash=sha256:60e89e5c0b584e285a7db05eceba35011a241954afdab2853cb246c8a56700a2 \
-    --hash=sha256:b7f76bb1b2ac4cdc54442d955e36e477c387000f31ce46887fb9722a041be60b
+faker==23.2.1 \
+    --hash=sha256:0520a6b97e07c658b2798d7140971c1d5bc4bcd5013e7937fe075fd054aa320c \
+    --hash=sha256:f07b64d27f67b62c7f0536a72f47813015b3b51cd4664918454011094321e464
     # via -r requirements.in
 feedparser==6.0.11 \
     --hash=sha256:0be7ee7b395572b19ebeb1d6aafb0028dee11169f1c934e0ed67d54992f4ad45 \
@@ -633,9 +633,9 @@ mkdocs-autorefs==0.5.0 \
     --hash=sha256:7930fcb8ac1249f10e683967aeaddc0af49d90702af111a5e390e8b20b3d97ff \
     --hash=sha256:9a5054a94c08d28855cfab967ada10ed5be76e2bfad642302a610b252c3274c0
     # via mkdocstrings
-mkdocs-material==9.5.8 \
-    --hash=sha256:14563314bbf97da4bfafc69053772341babfaeb3329cde01d3e63cec03997af8 \
-    --hash=sha256:2a429213e83f84eda7a588e2b186316d806aac602b7f93990042f7a1f3d3cf65
+mkdocs-material==9.5.10 \
+    --hash=sha256:3c6c46b57d2ee3c8890e6e0406e68b6863cf65768f0f436990a742702d198442 \
+    --hash=sha256:6ad626dbb31070ebbaedff813323a16a406629620e04b96458f16e6e9c7008fe
     # via -r docs/requirements.in
 mkdocs-material-extensions==1.3.1 \
     --hash=sha256:10c9511cea88f568257f960358a467d12b970e1f7b2c0e5fb2bb48cab1928443 \
@@ -826,9 +826,9 @@ pluggy==1.4.0 \
     # via
     #   pytest
     #   sqlite-utils
-pre-commit==3.6.0 \
-    --hash=sha256:c255039ef399049a5544b6ce13d135caba8f2c28c3b4033277a788f434308376 \
-    --hash=sha256:d30bad9abf165f7785c15a21a1f46da7d0677cb00ee7ff4c579fd38922efe15d
+pre-commit==3.6.2 \
+    --hash=sha256:ba637c2d7a670c10daedc059f5c49b5bd0aadbccfcd7ec15592cf9665117532c \
+    --hash=sha256:c3ef34f463045c88658c5b99f38c1e297abdcc0ff13f98d3370055fbbfabc67e
     # via -r requirements.in
 psutil==5.9.8 \
     --hash=sha256:02615ed8c5ea222323408ceba16c60e99c3f91639b07da6373fb7e6539abc56d \
@@ -1029,7 +1029,6 @@ pyjwt[crypto]==2.8.0 \
     # via
     #   github3-py
     #   pygithub
-    #   pyjwt
     #   social-auth-core
 pymdown-extensions==10.7 \
     --hash=sha256:6ca215bc57bc12bf32b414887a68b810637d039124ed9b2e5bd3325cbb2c050c \
@@ -1049,9 +1048,9 @@ pynacl==1.5.0 \
     --hash=sha256:a422368fc821589c228f4c49438a368831cb5bbc0eab5ebe1d7fac9dded6567b \
     --hash=sha256:e46dae94e34b085175f8abb3b0aaa7da40767865ac82c928eeb9e57e1ea8a543
     # via pygithub
-pytest==8.0.0 \
-    --hash=sha256:249b1b0864530ba251b7438274c4d251c58d868edaaec8762893ad4a0d71c36c \
-    --hash=sha256:50fb9cbe836c3f20f0dfa99c565201fb75dc54c8d76373cd1bde06b06657bdb6
+pytest==8.0.1 \
+    --hash=sha256:267f6563751877d772019b13aacbe4e860d73fe8f651f28112e9ac37de7513ae \
+    --hash=sha256:3e4f16fe1c0a9dc9d9389161c127c3edc5d810c38d6793042fb81d9f48a59fca
     # via
     #   -r requirements.in
     #   pytest-cov
@@ -1303,9 +1302,9 @@ rich==13.7.0 \
     --hash=sha256:5cb5123b5cf9ee70584244246816e9114227e0b98ad9176eede6ad54bf5403fa \
     --hash=sha256:6da14c108c4866ee9520bbffa71f6fe3962e193b7da68720583850cd4548e235
     # via -r requirements.in
-sentry-sdk==1.40.3 \
-    --hash=sha256:3c2b027979bb400cd65a47970e64f8cef8acda86b288a27f42a98692505086cd \
-    --hash=sha256:73383f28311ae55602bb6cc3b013830811135ba5521e41333a6e68f269413502
+sentry-sdk==1.40.4 \
+    --hash=sha256:657abae98b0050a0316f0873d7149f951574ae6212f71d2e3a1c4c88f62d6456 \
+    --hash=sha256:ac5cf56bb897ec47135d239ddeedf7c1c12d406fb031a4c0caa07399ed014d7e
     # via -r requirements.in
 sgmllib3k==1.0.0 \
     --hash=sha256:7868fb1c8bfa764c1ac563d3cf369c381d1325d36124933a726f29fcdaa812e9
@@ -1327,9 +1326,9 @@ social-auth-app-django==5.4.0 \
     --hash=sha256:09ac02a063cb313eed5e9ef2f9ac4477c8bf5bbd685925ff3aba43f9072f1bbb \
     --hash=sha256:28c65b2e2092f30cdb3cf912eeaa6988b49fdf4001b29bd89e683673d700a38e
     # via -r requirements.in
-social-auth-core==4.5.2 \
-    --hash=sha256:47b48be9b6da59aed4792d805cc25f4c7b7f57e0bbf86d659b5df0ff3f253109 \
-    --hash=sha256:e313bfd09ad78a4af44c5630f3770776b24f468e9a5b71160ade9583efa43f8a
+social-auth-core==4.5.3 \
+    --hash=sha256:8d16e66eb97bb7be43a023d6efa16628cdc94cefd8d8053930c98a0f676867e7 \
+    --hash=sha256:9d9b51b7ce2ccd0b7139e6b7f52a32cb922726de819fb13babe35f12ae89852a
     # via
     #   -r requirements.in
     #   social-auth-app-django
