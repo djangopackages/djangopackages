@@ -35,11 +35,11 @@ class GridTable(Table):
         template_name = "django_tables2/bootstrap.html"
 
     def render_description(self, value, record):
-        return format_html(emojize(record.description))
+        return format_html("{}", emojize(record.description))
 
     def render_title(self, value, record):
         return format_html(
-            '<a href="{}">{}</a>'.format(
-                reverse("grid", kwargs={"slug": record.slug}), emojize(record.title)
-            )
+            '<a href="{}">{}</a>',
+            reverse("grid", kwargs={"slug": record.slug}),
+            emojize(record.title),
         )
