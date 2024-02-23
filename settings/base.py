@@ -127,6 +127,7 @@ AUTHENTICATION_BACKENDS = [
 PROJECT_APPS = [
     "grid",
     "apiv3",
+    "blog",
     "classifiers",
     "core",
     # "commands",
