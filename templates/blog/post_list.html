@@ -2,6 +2,7 @@
 
 {% load humanize %}
 {% load i18n %}
+{% load markdown_tags %}
 {% load page_metadata_tags %}
 
 {% block metadata %}
@@ -25,7 +26,7 @@
                         <div class="tw-text-3xl"><a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a></div>
                     </div>
                     <div class="col-xs-8">
-                        {{ post.content | linebreaks }}
+                        {{ post.content | markdown }}
                     </div>
                 </section>
             {% endfor %}
