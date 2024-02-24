@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-02-23]
+### Changed
+- ⬆️ Bump the dependencies group with 11 updates ([#1109](https://github.com/djangopackages/djangopackages/pull/1109))
+- [pre-commit.ci] pre-commit autoupdate ([#1107](https://github.com/djangopackages/djangopackages/pull/1107))
+- Upgrade to Django 5.0 ([#1105](https://github.com/djangopackages/djangopackages/pull/1105))
+
 ## [2024-02-16]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1104](https://github.com/djangopackages/djangopackages/pull/1104))
