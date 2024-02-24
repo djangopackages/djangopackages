@@ -93,3 +93,4 @@ docker-compose.override.yml
 # our files
 *.db
 *.gz
+data
