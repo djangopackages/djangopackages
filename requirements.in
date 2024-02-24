@@ -25,7 +25,10 @@ emojificate
 feedparser
 # github3.py
 github3.py<4.1
+heroicons[django]
 jinja2
+markdown-it-py[linkify]
+markdownify
 numpy
 openai
 packaging
