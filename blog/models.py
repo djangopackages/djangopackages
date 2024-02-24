@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from django.db import models
 from django.utils.text import slugify
 
@@ -14,7 +13,7 @@ class Post(BaseModel):
         unique_for_date="published_date",
     )
     content = models.TextField()
-    author = models.ForeignKey(User, blank=True, on_delete=models.CASCADE, null=True)
+    author = models.CharField(blank=True, max_length=200, null=True)
     published_date = models.DateTimeField(blank=True, null=True)
 
     class Meta:
