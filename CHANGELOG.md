@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-02-24]
+### Changed
+- :sparkles: Add Blog app + model ([#1110](https://github.com/djangopackages/djangopackages/pull/1110))
+
 ## [2024-02-23]
 ### Changed
 - ⬆️ Bump the dependencies group with 11 updates ([#1109](https://github.com/djangopackages/djangopackages/pull/1109))
