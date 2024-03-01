@@ -32,6 +32,7 @@ urlpatterns = [
     path(
         "robots.txt",
         TemplateView.as_view(content_type="text/plain", template_name="robots.txt"),
+        name="robots_txt",
     ),
     path("health_check/", health_check_view, name="health_check"),
     path("404", error_404_view, name="404"),

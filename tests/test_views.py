@@ -30,6 +30,12 @@ def test_open(db, tp, django_assert_num_queries):
     assert response.status_code == 200
 
 
+def test_robots_txt(db, tp):
+    url = tp.reverse("robots_txt")
+    response = tp.client.get(url)
+    assert response.status_code == 200
+
+
 def test_sitemap(db, tp):
     url = tp.reverse("sitemap")
     response = tp.client.get(url)
