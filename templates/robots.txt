@@ -1,0 +1,43 @@
+# Dark Visitors robots.txt
+
+# AI Data Scraper
+# https://darkvisitors.com/agents/anthropic-ai
+
+User-agent: anthropic-ai
+Disallow: /
+
+# AI Data Scraper
+# https://darkvisitors.com/agents/bytespider
+
+User-agent: Bytespider
+Disallow: /
+
+# AI Data Scraper
+# https://darkvisitors.com/agents/ccbot
+
+User-agent: CCBot
+Disallow: /
+
+# AI Data Scraper
+# https://darkvisitors.com/agents/facebookbot
+
+User-agent: FacebookBot
+Disallow: /
+
+# AI Data Scraper
+# https://darkvisitors.com/agents/google-extended
+
+User-agent: Google-Extended
+Disallow: /
+
+# AI Data Scraper
+# https://darkvisitors.com/agents/gptbot
+
+User-agent: GPTBot
+Disallow: /
+
+# AI Data Scraper
+# https://darkvisitors.com/agents/omgili
+
+User-agent: omgili
+Disallow: /

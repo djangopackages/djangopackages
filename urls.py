@@ -29,6 +29,10 @@ urlpatterns = [
     path("auth/", include("social_django.urls", namespace="social")),
     # url('', include('social_auth.urls')),
     path("", homepage, name="home"),
+    path(
+        "robots.txt",
+        TemplateView.as_view(content_type="text/plain", template_name="robots.txt"),
+    ),
     path("health_check/", health_check_view, name="health_check"),
     path("404", error_404_view, name="404"),
     path("500", error_500_view, name="500"),
