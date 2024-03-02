@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-03-01]
+### Changed
+- :sparkles: Adds robots.txt file ([#1113](https://github.com/djangopackages/djangopackages/pull/1113))
+
 ## [2024-02-24]
 ### Changed
 - :sparkles: Add Blog app + model ([#1110](https://github.com/djangopackages/djangopackages/pull/1110))
