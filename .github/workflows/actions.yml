@@ -48,8 +48,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt
+          python -m pip install uv
+          python -m uv venv .venv
+          echo "VIRTUAL_ENV=.venv" >> $GITHUB_ENV
+          echo "$PWD/.venv/bin" >> $GITHUB_PATH
+          python -m uv pip install --requirement requirements.txt
         if: steps.cache.outputs.cache-hit != 'true'
 
       - name: Test with pytest
@@ -60,4 +63,5 @@ jobs:
           SECRET_KEY: 'this-is-for-testing-only'
 
         run: |
+          . .venv/bin/activate
           python -m pytest . -s

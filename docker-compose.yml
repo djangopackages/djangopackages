@@ -17,14 +17,14 @@ x-common-settings: &common-settings
 services:
   django:
     <<: *common-settings
-    command: /start-dev.sh
+    command: ["/start-dev.sh"]
     init: true
     ports:
       - "8000:8000"
 
   django-q:
     <<: *common-settings
-    command: python manage.py qcluster
+    command: ["python", "manage.py", "qcluster"]
     init: true
 
   postgres:
@@ -55,7 +55,7 @@ services:
 
   docs:
     <<: *common-settings
-    command: sh -c "mkdocs serve -f docs/mkdocs.yml --dev-addr 0.0.0.0:4000"
+    command: ["sh", "-c", "'mkdocs serve -f docs/mkdocs.yml --dev-addr 0.0.0.0:4000'"]
     entrypoint: ""
     environment:
       FAST_MODE: "true"
@@ -71,6 +71,7 @@ services:
     init: true
     profiles:
       - utility
+    tty: true
 
 volumes:
   djpkg_media_dev: {}
