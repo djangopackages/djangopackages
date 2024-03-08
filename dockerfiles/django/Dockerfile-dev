@@ -1,6 +1,6 @@
 FROM python:3.11-slim-bookworm
 
-ENV PATH /venv/bin:/bin:/usr/bin:/usr/local/bin
+ENV PATH /venv/bin:/bin:/usr/bin:/usr/sbin:/usr/local/bin
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONPATH /code
 ENV PYTHONUNBUFFERED 1
