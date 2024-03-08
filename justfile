@@ -217,8 +217,7 @@ bootstrap *ARGS:
     docker-compose run \
         --entrypoint= \
         --rm django \
-            bash -c "pip install -U pip pip-tools && \
-                pip-compile {{ ARGS }} requirements.in \
+            bash -c "uv pip compile {{ ARGS }} requirements.in \
                     --generate-hashes \
                     --resolver=backtracking \
                     --output-file requirements.txt"
@@ -226,8 +225,7 @@ bootstrap *ARGS:
     docker-compose run \
         --entrypoint= \
         --rm django \
-            bash -c "pip install -U pip pip-tools && \
-                pip-compile {{ ARGS }} docs/requirements.in \
+            bash -c "uv pip compile {{ ARGS }} docs/requirements.in \
                     --generate-hashes \
                     --resolver=backtracking \
                     --output-file docs/requirements.txt"

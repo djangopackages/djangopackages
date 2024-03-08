@@ -1,28 +1,31 @@
 FROM python:3.11-slim-bookworm
 
-ENV PYTHONDONTWRITEBYTECODE true
+ENV PATH /venv/bin:/bin:/usr/bin:/usr/local/bin
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONPATH /code
 ENV PYTHONUNBUFFERED 1
+ENV PYTHONWARNINGS ignore
 
 # Install System dependencies
-RUN set -x \
+RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    rm -f /etc/apt/apt.conf.d/docker-clean \
     && apt-get update \
-    && apt-get install \
-       -y \
-       --no-install-recommends \
-       --no-install-suggests \
+    && apt-get -y --no-install-recommends install \
        gcc \
-       build-essential \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+       build-essential
 
 RUN --mount=type=cache,target=/root/.cache,id=pip \
-    pip install --upgrade pip pip-tools
+    python -m pip install --upgrade pip uv
 
 # Requirements have to be pulled and installed here, otherwise caching won't work
-COPY ./requirements.txt /requirements.txt
+COPY requirements.txt /code/requirements.txt
+
+RUN uv venv /venv
 
 RUN --mount=type=cache,target=/root/.cache,id=pip \
-    pip install -r /requirements.txt
+    . /venv/bin/activate && \
+    uv pip install --requirement /code/requirements.txt
 
 COPY ./dockerfiles/django/entrypoint.sh /entrypoint.sh
 RUN sed -i 's/\r//' /entrypoint.sh \
