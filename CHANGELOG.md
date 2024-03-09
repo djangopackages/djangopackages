@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-03-08]
+### Changed
+- :tractor: :whale: Switch to uv add upgrade reqs ([#1114](https://github.com/djangopackages/djangopackages/pull/1114))
+
 ## [2024-03-01]
 ### Changed
 - :sparkles: Adds robots.txt file ([#1113](https://github.com/djangopackages/djangopackages/pull/1113))
