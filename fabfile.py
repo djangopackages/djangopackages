@@ -12,7 +12,6 @@ To list all available commands, run::
     fab -l
 """
 
-
 import time
 
 from fabric.api import *  # noqa

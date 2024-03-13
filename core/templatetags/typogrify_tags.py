@@ -73,6 +73,7 @@ Python version by Stuart Colville http://muffinresearch.co.uk
 License: http://www.opensource.org/licenses/mit-license.php
 
 """
+
 import re
 
 from django import template

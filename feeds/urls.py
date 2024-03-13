@@ -1,4 +1,5 @@
 """url patterns for the feeds"""
+
 from django.urls import path
 
 from .feeds import AtomLatestPackagesFeed, RssLatestPackagesFeed
