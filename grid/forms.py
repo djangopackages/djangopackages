@@ -1,5 +1,4 @@
-"""Forms for the :mod:`grid` app
-"""
+"""Forms for the :mod:`grid` app"""
 
 from django.forms import BooleanField, ChoiceField, Form, ModelForm
 from django.utils.translation import gettext_lazy as _
