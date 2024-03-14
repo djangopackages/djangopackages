@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-03-13]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1116](https://github.com/djangopackages/djangopackages/pull/1116))
+
 ## [2024-03-08]
 ### Changed
 - :tractor: :whale: Switch to uv add upgrade reqs ([#1114](https://github.com/djangopackages/djangopackages/pull/1114))
