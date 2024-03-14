@@ -1,5 +1,7 @@
 set dotenv-load := false
 
+alias pip-compile := lock
+
 @_default:
     just --list
 
@@ -94,8 +96,13 @@ bootstrap *ARGS:
 @docs-up *ARGS="--detach":
     docker-compose --profile=docs up {{ ARGS }}
 
-@docs-update:
-    pip-compile --resolver=backtracking docs/requirements.in
+@docs-update *ARGS:
+    docker-compose run \
+        --entrypoint= \
+        --rm django \
+            bash -c "uv pip compile {{ ARGS }} docs/requirements.in \
+                    --generate-hashes \
+                    --output-file docs/requirements.txt"
 
 # --------------------------------------------------
 # Deployment and production recipes
@@ -213,13 +220,12 @@ bootstrap *ARGS:
     pipx run perflint ../djangopackages-git/ --load-plugins=perflint
 
 # Compile new python dependencies
-@pip-compile *ARGS:
+@lock *ARGS:
     docker-compose run \
         --entrypoint= \
         --rm django \
             bash -c "uv pip compile {{ ARGS }} requirements.in \
                     --generate-hashes \
-                    --resolver=backtracking \
                     --output-file requirements.txt"
 
     docker-compose run \
@@ -227,12 +233,7 @@ bootstrap *ARGS:
         --rm django \
             bash -c "uv pip compile {{ ARGS }} docs/requirements.in \
                     --generate-hashes \
-                    --resolver=backtracking \
                     --output-file docs/requirements.txt"
-
-# Upgrade existing Python dependencies to their latest versions
-@pip-compile-upgrade:
-    just pip-compile --upgrade
 
 # Run pre-commit
 @pre-commit *ARGS:
@@ -241,11 +242,10 @@ bootstrap *ARGS:
 @pre-commit-all-files:
     just pre-commit --all-files
 
-# TODO: Make the target-version a variable
-
-# Run `django-upgrade` with a target version of 4.1
+# Upgrade existing Python dependencies to their latest versions
 @upgrade:
-    git ls-files -- "*.py" | xARGS django-upgrade --target-version=4.1
+    just lock --upgrade
+    # git ls-files -- "*.py" | xARGS django-upgrade --target-version=4.1
 
 # Run a management command as specified by ARGS
 @management-command ARGS:

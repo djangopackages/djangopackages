@@ -1,6 +1,5 @@
 FROM python:3.11-slim-bookworm
 
-ENV PATH /venv/bin:/bin:/usr/bin:/usr/sbin:/usr/local/bin
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONPATH /code
 ENV PYTHONUNBUFFERED 1
@@ -21,11 +20,8 @@ RUN --mount=type=cache,target=/root/.cache,id=pip \
 # Requirements have to be pulled and installed here, otherwise caching won't work
 COPY requirements.txt /code/requirements.txt
 
-RUN uv venv /venv
-
 RUN --mount=type=cache,target=/root/.cache,id=pip \
-    . /venv/bin/activate && \
-    uv pip install --requirement /code/requirements.txt
+    uv pip install --system --requirement /code/requirements.txt
 
 COPY ./dockerfiles/django/entrypoint.sh /entrypoint.sh
 RUN sed -i 's/\r//' /entrypoint.sh \

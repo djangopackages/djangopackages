@@ -1,6 +1,6 @@
 #!/bin/sh
-python /app/manage.py migrate --noinput
-python /app/manage.py collectstatic --noinput
+python -m manage migrate --noinput
+python -m manage collectstatic --noinput
 /venv/bin/uwsgi \
     --chdir /app \
     --disable-write-exception \
