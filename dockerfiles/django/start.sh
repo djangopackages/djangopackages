@@ -1,7 +1,9 @@
 #!/bin/sh
 python -m manage migrate --noinput
+
 python -m manage collectstatic --noinput
-python -m uwsgi \
+
+/usr/local/bin/uwsgi \
     --chdir /app \
     --disable-write-exception \
     --enable-threads \
