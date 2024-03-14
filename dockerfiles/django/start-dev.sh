@@ -1,3 +1,3 @@
 #!/bin/sh
-python manage.py migrate --noinput
-python manage.py runserver 0.0.0.0:8000
+python -m manage migrate --noinput
+python -m manage runserver 0.0.0.0:8000
