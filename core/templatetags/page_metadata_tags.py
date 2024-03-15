@@ -27,7 +27,7 @@ def page_metadata(
         page_description = page_description or _(
             "Django Packages stores information on fetched packages "
             "and provides easy comparison tools for them. "
-            "Public APIs include PyPI, GitHub, and BitBucket."
+            "Public APIs include PyPI, GitHub, and Bitbucket."
         )
 
         if og_image_url is None:

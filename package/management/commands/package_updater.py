@@ -36,7 +36,7 @@ def command(limit):
         packages = packages[:limit]
 
     for package in packages.iterator():
-        # Simple attempt to deal with Github rate limiting
+        # Simple attempt to deal with GitHub rate limiting
         while True:
             if github.ratelimit_remaining < 50:
                 print(f"github.ratelimit_remaining=={github.ratelimit_remaining}")

@@ -47,8 +47,10 @@ class TestProfile(TestCase):
         # submit some content
         data = {
             "bitbucket_url": "zerg",
+            "gitlab_url": "zerg",
         }
         response = self.client.post(url, data, follow=True)
         self.assertContains(response, "Profile for user")
         p = Profile.objects.get(user=self.user)
         self.assertEqual(p.bitbucket_url, "zerg")
+        self.assertEqual(p.gitlab_url, "zerg")

@@ -107,7 +107,7 @@ def user_resource(profile, list_packages=False):
         "date_joined": user.date_joined,
         "last_login": user.last_login,
         "bitbucket_url": profile.bitbucket_url,
-        "google_code_url": profile.google_code_url,
+        "gitlab_url": profile.gitlab_url,
     }
     if list_packages:
         data["packages"] = [

@@ -19,7 +19,7 @@ Django Packages makes it easier to compare packages to one another using **grids
 
 Django Packages supports packages hosted on the following platforms:
 
-- BitBucket (some support)
+- Bitbucket (some support)
 - GitHub (fully supported)
 - GitLab (some support)
 

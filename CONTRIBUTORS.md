@@ -8,7 +8,7 @@ accept and merge pull requests.
 <table>
   <tr>
     <th>Name</th>
-    <th>Github</th>
+    <th>GitHub</th>
     <th>Twitter</th>
   </tr>
 </table>
@@ -24,7 +24,7 @@ Listed in alphabetical order.
 <table>
   <tr>
     <th>Name</th>
-    <th>Github</th>
+    <th>GitHub</th>
     <th>Twitter</th>
   </tr>
   <tr>

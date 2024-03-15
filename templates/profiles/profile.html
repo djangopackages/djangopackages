@@ -23,19 +23,19 @@
 
             {% if local_profile.github_account %}
                 <p><b>{% trans "GitHub account" %}</b>:
-                    <span class="fn"><a href="https://github.com/{{ local_profile.github_account }}">{{ local_profile.github_account }}</a></span>
+                    <span class="fn"><a href="https://github.com/{{ local_profile.github_account }}" target="_blank">{{ local_profile.github_account }}</a></span>
                 </p>
             {% endif %}
 
             {% if local_profile.bitbucket_url %}
-                <p><b>{% trans "BitBucket account" %}</b>:
-                    <span class="fn"><a href="https://bitbucket.org/{{ local_profile.bitbucket_url     }}">{{ local_profile.bitbucket_url }}</a></span>
+                <p><b>{% trans "Bitbucket account" %}</b>:
+                    <span class="fn"><a href="https://bitbucket.org/{{ local_profile.bitbucket_url }}" target="_blank">{{ local_profile.bitbucket_url }}</a></span>
                 </p>
             {% endif %}
 
-            {% if local_profile.google_code_url %}
-                <p><b>{% trans "Google Code account" %}</b>:
-                    <span class="fn"><a href="http://code.google.com/u/{{ local_profile.google_code_url|urlize }}/">{{ local_profile.google_code_url|urlize }}</a></span>
+            {% if local_profile.gitlab_url %}
+                <p><b>{% trans "GitLab account" %}</b>:
+                    <span class="fn"><a href="https://gitlab.com/{{ local_profile.gitlab_url }}" target="_blank">{{ local_profile.gitlab_url }}</a></span>
                 </p>
             {% endif %}
         </div>

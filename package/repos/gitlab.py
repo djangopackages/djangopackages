@@ -6,7 +6,7 @@ from gitlab.exceptions import GitlabGetError
 from .base_handler import BaseHandler
 
 
-class GitlabHandler(BaseHandler):
+class GitLabHandler(BaseHandler):
     title = "GitLab"
     url_regex = "(http|https|git)://gitlab.com/"
     url = "https://gitlab.com"
@@ -80,4 +80,4 @@ class GitlabHandler(BaseHandler):
             raise
 
 
-repo_handler = GitlabHandler()
+repo_handler = GitLabHandler()

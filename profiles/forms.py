@@ -16,11 +16,11 @@ class ProfileForm(forms.ModelForm):
                 "",
                 HTML(
                     """
-                    <p>Github account, <strong>{{ profile.github_account }}</strong></p>
+                    <p>GitHub account, <strong>{{ profile.github_account }}</strong></p>
                 """
                 ),
                 "bitbucket_url",
-                "google_code_url",
+                "gitlab_url",
             ),
             ButtonHolder(Submit("edit", "Edit", css_class="btn btn-default")),
         )
@@ -28,6 +28,6 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         fields = (
             "bitbucket_url",
-            "google_code_url",
+            "gitlab_url",
         )
         model = Profile

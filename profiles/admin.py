@@ -18,3 +18,4 @@ def user_email(obj):
 class ProfileAdmin(VersionAdmin):
     search_fields = ("user__username", "github_account", "user__email", "email")
     list_display = ("github_account", "email", username, user_email)
+    autocomplete_fields = ["user"]

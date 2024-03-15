@@ -130,9 +130,9 @@ Representation:
         "date_joined": "2010-08-21T07:14:03",
         "created": "2011-09-09T17:10:29.509",
         "absolute_url": "/profiles/jezdez/",
-        "google_code_url": null,
         "github_account": "jezdez",
         "bitbucket_url": "jezdez",
+        "gitlab_url": "jezdez",
         "modified": "2014-09-21T07:37:17.598",
         "resource_uri": "/api/v3/users/jezdez/"
     }
