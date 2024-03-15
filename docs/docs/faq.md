@@ -31,7 +31,7 @@ We've done a lot of work to make it as straightforward as possible. At PyCon 201
 
 ## Supported Repo Hosting Services
 
-Django Packages supports GitHub and BitBucket.
+Django Packages supports GitHub and Bitbucket.
 
 ## Troubleshooting
 

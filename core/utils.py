@@ -57,7 +57,7 @@ def get_repo_from_url(url):
     Needs to account for:
 
         1. GitHub Design
-        2. Ability to assign special CNAME for BitBucket repos
+        2. Ability to assign special CNAME for Bitbucket repos
         3. et al
     """
 

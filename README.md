@@ -14,7 +14,7 @@ Django Packages helps you easily identify and compare good apps, frameworks, plu
 -   Storage of package info, fetched from public APIs
     -   PyPI
     -   GitHub
-    -   BitBucket
+    -   Bitbucket
     -   GitLab (coming soon)
 -   Basic search
     -   Autocomplete packages/grids

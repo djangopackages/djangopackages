@@ -2,12 +2,12 @@ import pytest
 from gitlab.exceptions import GitlabGetError
 
 from package.models import Commit
-from package.repos.gitlab import GitlabHandler
+from package.repos.gitlab import GitLabHandler
 
 
 @pytest.fixture()
 def gitlab_handler():
-    return GitlabHandler()
+    return GitLabHandler()
 
 
 @pytest.mark.vcr()

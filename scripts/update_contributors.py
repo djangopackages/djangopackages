@@ -16,7 +16,7 @@ GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", None)
 def main() -> None:
     """
     Script entry point.
-    1. Fetch recent contributors from the Github API
+    1. Fetch recent contributors from the GitHub API
     2. Add missing ones to the JSON file
     3. Generate Markdown from JSON file
     """
@@ -38,8 +38,8 @@ def main() -> None:
 def iter_recent_authors():
     """
     Fetch users who opened recently merged pull requests.
-    Use Github API to fetch recent authors rather than
-    git CLI to work with Github usernames.
+    Use GitHub API to fetch recent authors rather than
+    git CLI to work with GitHub usernames.
     """
     repo = Github(per_page=20, login_or_token=GITHUB_TOKEN).get_repo(
         "djangopackages/djangopackages"
@@ -69,7 +69,7 @@ class ContributorsJSONFile:
     def __contains__(self, github_login: str):
         """Provide a nice API to do: `username in file`."""
         return any(
-            # Github usernames are case insensitive
+            # GitHub usernames are case insensitive
             github_login.lower() == contrib["github_login"].lower()
             for contrib in self.content
         )
