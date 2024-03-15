@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-03-14]
+### Changed
+- :tractor: Switch to uv --system ([#1117](https://github.com/djangopackages/djangopackages/pull/1117))
+
 ## [2024-03-13]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1116](https://github.com/djangopackages/djangopackages/pull/1116))
