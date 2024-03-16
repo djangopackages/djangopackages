@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-03-15]
+### Changed
+- :tractor: Adds raw_id_fields to Profile ([#1120](https://github.com/djangopackages/djangopackages/pull/1120))
+- Update User Profile ([#1119](https://github.com/djangopackages/djangopackages/pull/1119))
+
 ## [2024-03-14]
 ### Changed
 - :tractor: Switch to uv --system ([#1117](https://github.com/djangopackages/djangopackages/pull/1117))
