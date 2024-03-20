@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-03-19]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1121](https://github.com/djangopackages/djangopackages/pull/1121))
+
 ## [2024-03-15]
 ### Changed
 - :tractor: Adds raw_id_fields to Profile ([#1120](https://github.com/djangopackages/djangopackages/pull/1120))
