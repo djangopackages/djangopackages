@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-03-21]
+### Changed
+- Enable Sentry Profiling ([#1122](https://github.com/djangopackages/djangopackages/pull/1122))
+
 ## [2024-03-19]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1121](https://github.com/djangopackages/djangopackages/pull/1121))
