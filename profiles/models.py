@@ -27,6 +27,15 @@ class Profile(BaseModel):
         _("GitLab account"), null=True, blank=True, max_length=100
     )
     email = models.EmailField(_("Email"), null=True, blank=True)
+    extra_field_label_01 = models.CharField(_("Extra field label 01"), max_length=255, blank=True, null=True)
+    extra_field_label_02 = models.CharField(_("Extra field label 02"), max_length=255, blank=True, null=True)
+    extra_field_label_03 = models.CharField(_("Extra field label 03"), max_length=255, blank=True, null=True)
+    extra_field_label_04 = models.CharField(_("Extra field label 04"), max_length=255, blank=True, null=True)
+
+    extra_field_content_01 = models.CharField(_("Extra field content 01"), max_length=255, blank=True, null=True)
+    extra_field_content_02 = models.CharField(_("Extra field content 02"), max_length=255, blank=True, null=True)
+    extra_field_content_03 = models.CharField(_("Extra field content 03"), max_length=255, blank=True, null=True)
+    extra_field_content_04 = models.CharField(_("Extra field content 04"), max_length=255, blank=True, null=True)
 
     def __str__(self):
         if not self.github_account:

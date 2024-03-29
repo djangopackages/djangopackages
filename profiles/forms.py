@@ -21,6 +21,14 @@ class ProfileForm(forms.ModelForm):
                 ),
                 "bitbucket_url",
                 "gitlab_url",
+                "extra_field_label_01",
+                "extra_field_content_01",
+                "extra_field_label_02",
+                "extra_field_content_02",
+                "extra_field_label_03",
+                "extra_field_content_03",
+                "extra_field_label_04",
+                "extra_field_content_04",
             ),
             ButtonHolder(Submit("edit", "Edit", css_class="btn btn-default")),
         )
@@ -29,5 +37,13 @@ class ProfileForm(forms.ModelForm):
         fields = (
             "bitbucket_url",
             "gitlab_url",
+            "extra_field_label_01",
+            "extra_field_content_01",
+            "extra_field_label_02",
+            "extra_field_content_02",
+            "extra_field_label_03",
+            "extra_field_content_03",
+            "extra_field_label_04",
+            "extra_field_content_04",
         )
         model = Profile
