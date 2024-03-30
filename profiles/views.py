@@ -9,8 +9,8 @@ from django.urls import reverse
 from django.views.generic import RedirectView
 from django.views.generic.edit import UpdateView
 
-from profiles.forms import ProfileForm
-from profiles.models import Profile
+from profiles.forms import ProfileForm, ExtraFieldFormSet
+from profiles.models import Profile, ExtraFields
 
 # from social_auth.signals import pre_update
 # from social_auth.backends.contrib.github import GithubBackend
@@ -24,10 +24,12 @@ def profile_detail(request, github_account, template_name="profiles/profile.html
     except MultipleObjectsReturned:
         profile = Profile.objects.filter(github_account=github_account).latest("pk")
 
+    extra_fields = ExtraFields.objects.filter(profile=profile)
+
     return render(
         request,
         template_name,
-        {"local_profile": profile, "user": profile.user},
+        {"local_profile": profile, "user": profile.user, "extra_fields": extra_fields},
     )
 
 
@@ -38,13 +40,29 @@ class ProfileEditUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_object(self):
         return self.request.user.profile
+    
+    def get_context_data(self, **kwargs):
+        context = super(ProfileEditUpdateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context["extra_fields_formset"] = ExtraFieldFormSet(self.request.POST, instance=self.object)
+        else:
+            context["extra_fields_formset"] = ExtraFieldFormSet(instance=self.object)
+        return context
 
     def form_valid(self, form):
-        form.save()
-        messages.add_message(self.request, messages.INFO, "Profile Saved")
-        return HttpResponseRedirect(
-            reverse("profile_detail", kwargs={"github_account": self.get_object()})
-        )
+        context = self.get_context_data()
+        formset = context['extra_fields_formset']
+        if formset.is_valid():
+            self.object = form.save()
+            formset.instance = self.object
+            formset.save()
+            return HttpResponseRedirect(
+                reverse("profile_detail", kwargs={"github_account": self.get_object()})
+            )
+        else:
+            return HttpResponseRedirect(
+                reverse("profile_edit")
+            )
 
 
 def github_user_update(sender, **kwargs):

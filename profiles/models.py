@@ -27,15 +27,6 @@ class Profile(BaseModel):
         _("GitLab account"), null=True, blank=True, max_length=100
     )
     email = models.EmailField(_("Email"), null=True, blank=True)
-    extra_field_label_01 = models.CharField(_("Extra field label 01"), max_length=255, blank=True, null=True)
-    extra_field_label_02 = models.CharField(_("Extra field label 02"), max_length=255, blank=True, null=True)
-    extra_field_label_03 = models.CharField(_("Extra field label 03"), max_length=255, blank=True, null=True)
-    extra_field_label_04 = models.CharField(_("Extra field label 04"), max_length=255, blank=True, null=True)
-
-    extra_field_content_01 = models.CharField(_("Extra field content 01"), max_length=255, blank=True, null=True)
-    extra_field_content_02 = models.CharField(_("Extra field content 02"), max_length=255, blank=True, null=True)
-    extra_field_content_03 = models.CharField(_("Extra field content 03"), max_length=255, blank=True, null=True)
-    extra_field_content_04 = models.CharField(_("Extra field content 04"), max_length=255, blank=True, null=True)
 
     def __str__(self):
         if not self.github_account:
@@ -150,3 +141,17 @@ class Profile(BaseModel):
         if getattr(settings, "RESTRICT_GRID_EDITORS", False):
             return self.user.has_perm("grid.change_element")
         return True
+
+
+class ExtraFields(BaseModel):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    key = models.CharField(max_length=256)
+    value = models.CharField(max_length=256)
+
+    class Meta:
+        verbose_name = "Extra Field"
+        verbose_name_plural = "Extra Fields"
+
+    def __str__(self):
+        return f"{self.profile} - {self.key}"
+    

@@ -2,8 +2,25 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, ButtonHolder, Fieldset, Layout, Submit
 from django import forms
 
-from profiles.models import Profile
+from profiles.models import Profile, ExtraFields
 
+
+class ExtraFieldForm(forms.ModelForm):
+    class Meta:
+        model = ExtraFields
+        fields = ('key','value',)
+        widgets = {
+            'key': forms.TextInput(attrs={'placeholder': 'Key', 'class': 'textinput form-control'},),
+            'value': forms.TextInput(attrs={'placeholder': 'Value', 'class': 'textinput form-control'}),
+        }
+
+
+ExtraFieldFormSet = forms.inlineformset_factory(
+    Profile, ExtraFields,
+    form=ExtraFieldForm,
+    extra=4,
+    max_num=4,
+)
 
 class ProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -21,14 +38,9 @@ class ProfileForm(forms.ModelForm):
                 ),
                 "bitbucket_url",
                 "gitlab_url",
-                "extra_field_label_01",
-                "extra_field_content_01",
-                "extra_field_label_02",
-                "extra_field_content_02",
-                "extra_field_label_03",
-                "extra_field_content_03",
-                "extra_field_label_04",
-                "extra_field_content_04",
+            ),
+            HTML(
+                """{{ extra_fields_formset }}"""
             ),
             ButtonHolder(Submit("edit", "Edit", css_class="btn btn-default")),
         )
@@ -37,13 +49,5 @@ class ProfileForm(forms.ModelForm):
         fields = (
             "bitbucket_url",
             "gitlab_url",
-            "extra_field_label_01",
-            "extra_field_content_01",
-            "extra_field_label_02",
-            "extra_field_content_02",
-            "extra_field_label_03",
-            "extra_field_content_03",
-            "extra_field_label_04",
-            "extra_field_content_04",
         )
         model = Profile
