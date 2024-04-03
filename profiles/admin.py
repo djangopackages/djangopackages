@@ -20,6 +20,7 @@ class ProfileAdmin(VersionAdmin):
     list_display = ("github_account", "email", username, user_email)
     raw_id_fields = ["user"]
 
+
 @admin.register(ExtraFields)
 class ExtraFieldsAdmin(VersionAdmin):
     pass

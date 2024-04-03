@@ -8,19 +8,28 @@ from profiles.models import Profile, ExtraFields
 class ExtraFieldForm(forms.ModelForm):
     class Meta:
         model = ExtraFields
-        fields = ('key','value',)
+        fields = (
+            "key",
+            "value",
+        )
         widgets = {
-            'key': forms.TextInput(attrs={'placeholder': 'Key', 'class': 'textinput form-control'},),
-            'value': forms.TextInput(attrs={'placeholder': 'Value', 'class': 'textinput form-control'}),
+            "key": forms.TextInput(
+                attrs={"placeholder": "Key", "class": "textinput form-control"},
+            ),
+            "value": forms.TextInput(
+                attrs={"placeholder": "Value", "class": "textinput form-control"}
+            ),
         }
 
 
 ExtraFieldFormSet = forms.inlineformset_factory(
-    Profile, ExtraFields,
+    Profile,
+    ExtraFields,
     form=ExtraFieldForm,
     extra=4,
     max_num=4,
 )
+
 
 class ProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -39,9 +48,7 @@ class ProfileForm(forms.ModelForm):
                 "bitbucket_url",
                 "gitlab_url",
             ),
-            HTML(
-                """{{ extra_fields_formset }}"""
-            ),
+            HTML("""{{ extra_fields_formset }}"""),
             ButtonHolder(Submit("edit", "Edit", css_class="btn btn-default")),
         )
 

@@ -154,4 +154,3 @@ class ExtraFields(BaseModel):
 
     def __str__(self):
         return f"{self.profile} - {self.key}"
-    

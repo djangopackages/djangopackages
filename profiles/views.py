@@ -1,4 +1,3 @@
-from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.signals import user_logged_in
@@ -40,18 +39,20 @@ class ProfileEditUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_object(self):
         return self.request.user.profile
-    
+
     def get_context_data(self, **kwargs):
-        context = super(ProfileEditUpdateView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         if self.request.POST:
-            context["extra_fields_formset"] = ExtraFieldFormSet(self.request.POST, instance=self.object)
+            context["extra_fields_formset"] = ExtraFieldFormSet(
+                self.request.POST, instance=self.object
+            )
         else:
             context["extra_fields_formset"] = ExtraFieldFormSet(instance=self.object)
         return context
 
     def form_valid(self, form):
         context = self.get_context_data()
-        formset = context['extra_fields_formset']
+        formset = context["extra_fields_formset"]
         if formset.is_valid():
             self.object = form.save()
             formset.instance = self.object
@@ -60,9 +61,7 @@ class ProfileEditUpdateView(LoginRequiredMixin, UpdateView):
                 reverse("profile_detail", kwargs={"github_account": self.get_object()})
             )
         else:
-            return HttpResponseRedirect(
-                reverse("profile_edit")
-            )
+            return HttpResponseRedirect(reverse("profile_edit"))
 
 
 def github_user_update(sender, **kwargs):
