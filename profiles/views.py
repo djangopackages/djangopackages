@@ -57,6 +57,7 @@ class ProfileEditUpdateView(LoginRequiredMixin, UpdateView):
             self.object = form.save()
             formset.instance = self.object
             formset.save()
+            messages.add_message(self.request, messages.INFO, "Profile Saved")
             return HttpResponseRedirect(
                 reverse("profile_detail", kwargs={"github_account": self.get_object()})
             )
