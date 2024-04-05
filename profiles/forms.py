@@ -14,7 +14,7 @@ class ExtraFieldForm(forms.ModelForm):
         )
         widgets = {
             "key": forms.TextInput(
-                attrs={"placeholder": "Key", "class": "textinput form-control"},
+                attrs={"placeholder": "Label", "class": "textinput form-control"},
             ),
             "value": forms.TextInput(
                 attrs={"placeholder": "Value", "class": "textinput form-control"}
