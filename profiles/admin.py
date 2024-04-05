@@ -23,4 +23,4 @@ class ProfileAdmin(VersionAdmin):
 
 @admin.register(ExtraFields)
 class ExtraFieldsAdmin(VersionAdmin):
-    pass
+    list_select_related = ["profile"]
