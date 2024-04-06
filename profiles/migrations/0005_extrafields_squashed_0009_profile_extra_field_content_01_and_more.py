@@ -6,8 +6,6 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    replaces = [('profiles', '0005_extrafields'), ('profiles', '0006_remove_extrafields_user_extrafields_profile'), ('profiles', '0007_alter_extrafields_content'), ('profiles', '0008_delete_extrafields'), ('profiles', '0009_profile_extra_field_content_01_and_more')]
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('profiles', '0004_remove_profile_google_code_url_profile_gitlab_url_and_more'),
