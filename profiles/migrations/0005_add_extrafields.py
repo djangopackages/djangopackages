@@ -8,8 +8,6 @@ import django_extensions.db.fields
 
 class Migration(migrations.Migration):
 
-    replaces = [('profiles', '0005_extrafields_squashed_0009_profile_extra_field_content_01_and_more'), ('profiles', '0010_alter_profile_extra_field_content_01_and_more'), ('profiles', '0011_remove_profile_extra_field_content_01_and_more'), ('profiles', '0012_alter_extrafields_options'), ('profiles', '0013_alter_extrafields_key_alter_extrafields_value')]
-
     dependencies = [
         ('profiles', '0004_remove_profile_google_code_url_profile_gitlab_url_and_more'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
