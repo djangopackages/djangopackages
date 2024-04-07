@@ -24,3 +24,4 @@ class ProfileAdmin(VersionAdmin):
 @admin.register(ExtraFields)
 class ExtraFieldsAdmin(VersionAdmin):
     list_select_related = ["profile"]
+    raw_id_fields = ["profile"]
