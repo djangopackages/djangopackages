@@ -17,7 +17,7 @@ class ExtraFieldForm(forms.ModelForm):
                 attrs={"placeholder": "Label", "class": "textinput form-control"},
             ),
             "value": forms.TextInput(
-                attrs={"placeholder": "Value", "class": "textinput form-control"}
+                attrs={"placeholder": "URL", "class": "textinput form-control"}
             ),
         }
 

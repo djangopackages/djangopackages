@@ -63,8 +63,13 @@ class ProfileEditUpdateView(LoginRequiredMixin, UpdateView):
                 reverse("profile_detail", kwargs={"github_account": self.get_object()})
             )
         else:
+            for error in formset.errors:
+                error_message = error
+                messages.add_message(self.request, messages.ERROR, error_message)
             return HttpResponseRedirect(reverse("profile_edit"))
 
+
+    
 
 def github_user_update(sender, **kwargs):
     # import ipdb; ipdb.set_trace()

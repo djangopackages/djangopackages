@@ -146,7 +146,7 @@ class Profile(BaseModel):
 class ExtraFields(BaseModel):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     key = models.CharField(max_length=256)
-    value = models.CharField(max_length=256)
+    value = models.URLField(max_length=256)
 
     class Meta:
         verbose_name = "Extra Field"
