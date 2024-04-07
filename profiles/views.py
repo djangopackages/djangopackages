@@ -63,9 +63,11 @@ class ProfileEditUpdateView(LoginRequiredMixin, UpdateView):
                 reverse("profile_detail", kwargs={"github_account": self.get_object()})
             )
         else:
-            messages.add_message(self.request, messages.ERROR, "There are errors in the form")
-            context['form'] = form
-            context['extra_fields_formset'] = formset
+            messages.add_message(
+                self.request, messages.ERROR, "There are errors in the form"
+            )
+            context["form"] = form
+            context["extra_fields_formset"] = formset
             return self.render_to_response(context)
 
 
