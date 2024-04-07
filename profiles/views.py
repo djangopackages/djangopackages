@@ -69,8 +69,6 @@ class ProfileEditUpdateView(LoginRequiredMixin, UpdateView):
             return HttpResponseRedirect(reverse("profile_edit"))
 
 
-    
-
 def github_user_update(sender, **kwargs):
     # import ipdb; ipdb.set_trace()
     try:
