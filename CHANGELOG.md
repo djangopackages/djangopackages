@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-04-12]
+### Changed
+- ⬆️ Bump idna from 3.6 to 3.7 ([#1131](https://github.com/djangopackages/djangopackages/pull/1131))
+- [pre-commit.ci] pre-commit autoupdate ([#1127](https://github.com/djangopackages/djangopackages/pull/1127))
+- ⬆️ Bump idna from 3.6 to 3.7 in /docs ([#1130](https://github.com/djangopackages/djangopackages/pull/1130))
+
 ## [2024-04-03]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1124](https://github.com/djangopackages/djangopackages/pull/1124))
