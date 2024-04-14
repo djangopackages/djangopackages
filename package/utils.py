@@ -77,7 +77,7 @@ def normalize_license(license: str):
 
 
 def build_commit_chart_url(commits):
-    chart_base_url = "https://charts.googleapis.com/chart"
+    chart_base_url = "https://quickchart.io/chart"
     chart_config = {
         "type": "bar",
         "data": {
