@@ -1,7 +1,7 @@
 from django.contrib import admin
 from reversion.admin import VersionAdmin
 
-from profiles.models import Profile, ExtraFields
+from profiles.models import Profile, ExtraField
 
 
 @admin.display(description="User username")
@@ -21,7 +21,7 @@ class ProfileAdmin(VersionAdmin):
     raw_id_fields = ["user"]
 
 
-@admin.register(ExtraFields)
-class ExtraFieldsAdmin(VersionAdmin):
+@admin.register(ExtraField)
+class ExtraFieldAdmin(VersionAdmin):
     list_select_related = ["profile"]
     raw_id_fields = ["profile"]

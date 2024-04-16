@@ -10,7 +10,7 @@ from django.views.generic import RedirectView
 from django.views.generic.edit import UpdateView
 
 from profiles.forms import ProfileForm, ExtraFieldFormSet
-from profiles.models import Profile, ExtraFields
+from profiles.models import Profile, ExtraField
 
 # from social_auth.signals import pre_update
 # from social_auth.backends.contrib.github import GithubBackend
@@ -24,7 +24,7 @@ def profile_detail(request, github_account, template_name="profiles/profile.html
     except MultipleObjectsReturned:
         profile = Profile.objects.filter(github_account=github_account).latest("pk")
 
-    extra_fields = ExtraFields.objects.filter(profile=profile)
+    extra_fields = ExtraField.objects.filter(profile=profile)
 
     return render(
         request,

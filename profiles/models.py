@@ -143,14 +143,10 @@ class Profile(BaseModel):
         return True
 
 
-class ExtraFields(BaseModel):
+class ExtraField(BaseModel):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    key = models.CharField(max_length=256)
-    value = models.URLField(max_length=256)
-
-    class Meta:
-        verbose_name = "Extra Field"
-        verbose_name_plural = "Extra Fields"
+    label = models.CharField(max_length=256)
+    url = models.URLField(max_length=256)
 
     def __str__(self):
         return f"{self.profile} - {self.key}"

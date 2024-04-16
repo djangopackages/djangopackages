@@ -2,21 +2,21 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, ButtonHolder, Fieldset, Layout, Submit
 from django import forms
 
-from profiles.models import Profile, ExtraFields
+from profiles.models import Profile, ExtraField
 
 
 class ExtraFieldForm(forms.ModelForm):
     class Meta:
-        model = ExtraFields
+        model = ExtraField
         fields = (
-            "key",
-            "value",
+            "label",
+            "url",
         )
         widgets = {
-            "key": forms.TextInput(
+            "label": forms.TextInput(
                 attrs={"placeholder": "Label", "class": "textinput form-control"},
             ),
-            "value": forms.TextInput(
+            "url": forms.TextInput(
                 attrs={"placeholder": "URL", "class": "textinput form-control"}
             ),
         }
@@ -24,7 +24,7 @@ class ExtraFieldForm(forms.ModelForm):
 
 ExtraFieldFormSet = forms.inlineformset_factory(
     Profile,
-    ExtraFields,
+    ExtraField,
     form=ExtraFieldForm,
     extra=4,
     max_num=4,
