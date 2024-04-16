@@ -38,6 +38,15 @@
                     <span class="fn"><a href="https://gitlab.com/{{ local_profile.gitlab_url }}" target="_blank">{{ local_profile.gitlab_url }}</a></span>
                 </p>
             {% endif %}
+
+            {% if extra_fields%}
+                {% for field in extra_fields%}
+                    <p><b>{{ field.label }}:</b> {{ field.url }}</p>
+                {% endfor%}
+            {% endif %}
+
+
+
         </div>
 
         <div class="col-xs-5">

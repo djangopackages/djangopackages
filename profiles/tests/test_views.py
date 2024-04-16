@@ -33,7 +33,7 @@ class TestProfile(TestCase):
         response = self.client.get(url)
         self.assertContains(response, "Profile for user")
 
-    def test_edit(self):
+    def test_edit_ryan(self):
         self.assertTrue(
             self.client.login(username=self.user.username, password=STOCK_PASSWORD)
         )
@@ -48,6 +48,14 @@ class TestProfile(TestCase):
         data = {
             "bitbucket_url": "zerg",
             "gitlab_url": "zerg",
+            "extrafield_set-TOTAL_FORMS": 2,
+            "extrafield_set-INITIAL_FORMS": 0,
+            "extrafield_set-MIN_NUM_FORMS": 0,
+            "extrafield_set-MAX_NUM_FORMS": 4,
+            "extrafield-0-label": "Key1",
+            "extrafield-0-url": "Value1",
+            "extrafield-1-label": "Key2",
+            "extrafield-1-url": "Value2",
         }
         response = self.client.post(url, data, follow=True)
         self.assertContains(response, "Profile for user")

@@ -2,7 +2,33 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, ButtonHolder, Fieldset, Layout, Submit
 from django import forms
 
-from profiles.models import Profile
+from profiles.models import Profile, ExtraField
+
+
+class ExtraFieldForm(forms.ModelForm):
+    class Meta:
+        model = ExtraField
+        fields = (
+            "label",
+            "url",
+        )
+        widgets = {
+            "label": forms.TextInput(
+                attrs={"placeholder": "Label", "class": "textinput form-control"},
+            ),
+            "url": forms.TextInput(
+                attrs={"placeholder": "URL", "class": "textinput form-control"}
+            ),
+        }
+
+
+ExtraFieldFormSet = forms.inlineformset_factory(
+    Profile,
+    ExtraField,
+    form=ExtraFieldForm,
+    extra=4,
+    max_num=4,
+)
 
 
 class ProfileForm(forms.ModelForm):
@@ -22,6 +48,7 @@ class ProfileForm(forms.ModelForm):
                 "bitbucket_url",
                 "gitlab_url",
             ),
+            HTML("""{{ extra_fields_formset }}"""),
             ButtonHolder(Submit("edit", "Edit", css_class="btn btn-default")),
         )
 

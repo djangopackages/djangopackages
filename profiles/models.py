@@ -141,3 +141,12 @@ class Profile(BaseModel):
         if getattr(settings, "RESTRICT_GRID_EDITORS", False):
             return self.user.has_perm("grid.change_element")
         return True
+
+
+class ExtraField(BaseModel):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    label = models.CharField(max_length=256)
+    url = models.URLField(max_length=256)
+
+    def __str__(self):
+        return f"{self.profile} - {self.key}"
