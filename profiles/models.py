@@ -149,4 +149,4 @@ class ExtraField(BaseModel):
     url = models.URLField(max_length=256)
 
     def __str__(self):
-        return f"{self.profile} - {self.key}"
+        return f"{self.profile} - {self.url}"
