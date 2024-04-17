@@ -141,7 +141,7 @@
                     <tr>
                         <td>{% trans "Commits" %}</td>
                         {% for grid_package in grid_packages %}
-                            <td><img class="package-githubcommits" src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{ grid_package.package|commits_over_52 }}&chco=666666&chbh=1,1,1&chds=0,20" /></td>
+                            <td>{% include "package/includes/_commits.html" with value=grid_package.package.commits_over_52 %}</td>
                         {% endfor %}
                     </tr>
                     <tr>
@@ -291,9 +291,7 @@
 {% endblock %}
 
 {% block extra_body %}
-    <script type="text/javascript" src="{{ STATIC_URL }}js/rtd.js"></script>
     <script type="text/javascript">
-
         $(function() {
 
             {% if request.user.is_authenticated %}

@@ -117,8 +117,8 @@
                 <tbody>
                     <tr>
                         <td><a href="{{ package.repo_url }}">{{ package.repo_url }}</a></td>
-                        <td><img
-                            src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{ package.commits_over_52 }}&chco=666666&chbh=1,1,1&chds=0,20"/>
+                        <td>
+                            {% include "package/includes/_commits.html" with value=package.commits_over_52 %}
                         </td>
                         <td>{{ package.repo_watchers|default:"n/a" }}</td>
                         <td>{{ package.repo_forks|default:"n/a" }}</td>

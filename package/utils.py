@@ -1,6 +1,4 @@
-import json
 from distutils.version import LooseVersion as versioner
-from urllib.parse import urlencode
 
 from django.db import models
 from requests.compat import quote
@@ -74,49 +72,3 @@ def normalize_license(license: str):
             return "Custom"
         return stripped_license
     return "UNKNOWN"
-
-
-def build_commit_chart_url(commits):
-    chart_base_url = "https://quickchart.io/chart"
-    chart_config = {
-        "type": "bar",
-        "data": {
-            "labels": commits,
-            "datasets": [
-                {
-                    "data": commits,
-                    "backgroundColor": "#666666",
-                    "borderWidth": 1,
-                },
-            ],
-        },
-        "options": {
-            "legend": {
-                "display": False,
-            },
-            "scales": {
-                "xAxes": [
-                    {
-                        "display": False,
-                        "gridLines": {
-                            "display": False,
-                        },
-                    },
-                ],
-                "yAxes": [
-                    {
-                        "display": False,
-                        "gridLines": {
-                            "display": False,
-                        },
-                    },
-                ],
-            },
-        },
-    }
-    url_params = {
-        "width": 105,
-        "height": 20,
-        "chart": json.dumps(chart_config, separators=(",", ":")),
-    }
-    return f"{chart_base_url}?{urlencode(url_params)}"
