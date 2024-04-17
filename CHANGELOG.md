@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-04-16]
+### Changed
+- Issue 1115 update profile page options ([#1125](https://github.com/djangopackages/djangopackages/pull/1125))
+- [pre-commit.ci] pre-commit autoupdate ([#1136](https://github.com/djangopackages/djangopackages/pull/1136))
+- :elephant: Updates Profiles extra fields migration ([#1138](https://github.com/djangopackages/djangopackages/pull/1138))
+
 ## [2024-04-12]
 ### Changed
 - ⬆️ Bump idna from 3.6 to 3.7 ([#1131](https://github.com/djangopackages/djangopackages/pull/1131))
