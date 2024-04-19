@@ -41,7 +41,7 @@
 
             {% if extra_fields%}
                 {% for field in extra_fields%}
-                    <p><b>{{ field.label }}:</b> {{ field.url }}</p>
+                    <p><b>{{ field.label }}:</b> {{ field.url|urlize }}</p>
                 {% endfor%}
             {% endif %}
 
