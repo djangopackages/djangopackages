@@ -1,6 +1,7 @@
 {% load i18n profile_tags static %}
 {% load package_tags %}
 {% load page_metadata_tags %}
+{% load tailwind_cli %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}" {% block angular_header %}ng-app{% endblock angular_header %}>
     <head>
@@ -16,7 +17,7 @@
         <link rel="stylesheet" href="{{ STATIC_URL }}components/audreyr-rotatingnav/dist/jquery.rotatingnav.min.css" type="text/css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}components/audreyr-topbar/dist/jquery.topbar.min.css" type="text/css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/oc.css" type="text/css" />
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/tailwindcss.min.css" type="text/css" />
+        {% tailwind_css %}
         <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" />
         {% block extra_head %}{% endblock %}
     </head>

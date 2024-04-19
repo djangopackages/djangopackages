@@ -41,6 +41,7 @@ certifi==2024.2.2 \
     --hash=sha256:0569859f95fc761b18b45ef421b1290a0f65f147e92a1e5eb3e635f9a5e4e66f \
     --hash=sha256:dc383c07b76109f368f6106eee2b593b04a011ea4d55f652c6ca24a754d1cdd1
     # via
+    #   django-tailwind-cli
     #   httpcore
     #   httpx
     #   requests
@@ -204,10 +205,12 @@ click==8.1.7 \
     #   bumpver
     #   click-default-group
     #   django-click
+    #   django-typer
     #   emojificate
     #   mkdocs
     #   mkdocstrings
     #   sqlite-utils
+    #   typer-slim
 click-default-group==1.2.4 \
     --hash=sha256:9b60486923720e7fc61731bdb32b617039aba820e22e1c88766b1125592eaa5f \
     --hash=sha256:eb3f3c99ec0d456ca6cd2a7f08f7d4e91771bef51b01bdd9580cc6450fe1251e
@@ -354,6 +357,8 @@ django==5.0.4 \
     #   django-secure
     #   django-structlog
     #   django-tables2
+    #   django-tailwind-cli
+    #   django-typer
     #   django-waffle
     #   djangorestframework
     #   heroicons
@@ -412,9 +417,16 @@ django-structlog==8.0.0 \
 django-tables2==2.7.0 \
     --hash=sha256:4113fcc575eb438a12e83a4d4ea01452e4800d970e8bdd0e4122ac171af1900d \
     --hash=sha256:99e06d966ca8ac69fd74092eb45c79a280dd5ca0ccb81395d96261f62128e1af
+django-tailwind-cli==2.10.0 \
+    --hash=sha256:44118b6da8510719f52f08d2570d438819e9a9442cdbc8f44b6e4d788cdac17c \
+    --hash=sha256:bf7081918af0503affea47e83b8e74bddbacba708b8a23916117d8c13efacb17
 django-test-plus==2.2.3 \
     --hash=sha256:5a8e26c9bf8eab092012c2cce9c605e0dba5a15879771feeb992c424504a18fe \
     --hash=sha256:72e1ca5dcaaf4ad73c9c796ad6e0dc165db39f706c3ad822074d961f72eed743
+django-typer==1.1.1 \
+    --hash=sha256:1626fc8a8d718071fa5566d8dcaa5ce4df9663858daa18d1c7a0bdac1d63b2f4 \
+    --hash=sha256:cd92d0e4ed8940c17c575e5c81caa52b623f88b13ca31f0a3b716779408c21ff
+    # via django-tailwind-cli
 django-waffle==4.1.0 \
     --hash=sha256:5979a2f3dd674ef7086480525b39651fc2045427f6d8e6a614192656d3402c5b \
     --hash=sha256:e49d7d461d89f3bd8e53f20efe39310acca8f275c9888495e68e195345bf18b1
@@ -1261,6 +1273,10 @@ setuptools==69.5.1 \
 sgmllib3k==1.0.0 \
     --hash=sha256:7868fb1c8bfa764c1ac563d3cf369c381d1325d36124933a726f29fcdaa812e9
     # via feedparser
+shellingham==1.5.4 \
+    --hash=sha256:7ecfff8f2fd72616f7481040475a65b2bf8af90a56c89140852d1120324e8686 \
+    --hash=sha256:8dbca0739d487e5bd35ab3ca4b36e11c4078f3a234bfce294b0a0291363404de
+    # via django-typer
 six==1.16.0 \
     --hash=sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926 \
     --hash=sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254
@@ -1374,6 +1390,10 @@ tqdm==4.66.2 \
 trove-classifiers==2024.4.10 \
     --hash=sha256:49f40bb6a746b72a1cba4f8d55ee8252169cda0f70802e3fd24f04b7fb25a492 \
     --hash=sha256:678bd6fcc5218d72e3304e27a608acc9b91e17bd00c3f3d8c968497c843ad98b
+typer-slim==0.12.3 \
+    --hash=sha256:142c73d91ac1df79a49cec5a1c2210c00b1b4040a91014b539792af5ba81c65c \
+    --hash=sha256:633965eb413074aa6c47549d1820832f229709e9a59857a4f57ee82b655602af
+    # via django-typer
 typing-extensions==4.11.0 \
     --hash=sha256:83f085bd5ca59c80295fc2a82ab5dac679cbe02b9f33f7d83af68e241bea51b0 \
     --hash=sha256:c1f94d72897edaf4ce775bb7558d5b79d8126906a14ea5ed1635921406c0387a
@@ -1382,6 +1402,7 @@ typing-extensions==4.11.0 \
     #   pydantic
     #   pydantic-core
     #   pygithub
+    #   typer-slim
 uc-micro-py==1.0.3 \
     --hash=sha256:d321b92cff673ec58027c04015fcaa8bb1e005478643ff4a500882eaab88c48a \
     --hash=sha256:db1dffff340817673d7b466ec86114a9dc0e9d4d9b5ba229d9d60e5c12600cd5

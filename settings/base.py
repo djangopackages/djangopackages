@@ -7,6 +7,8 @@ from django.template.defaultfilters import slugify
 
 env = environ.Env()
 
+BASE_DIR = Path(__file__).parent.parent
+
 PROJECT_ROOT = Path(__file__).parent.parent
 
 DEBUG = env.bool("DJANGO_DEBUG", True)
@@ -151,12 +153,13 @@ PREREQ_APPS = [
     "django.contrib.staticfiles",
     # external
     "maintenance_mode",
-    "crispy_forms",
     "crispy_bootstrap3",
+    "crispy_forms",
     "django_better_admin_arrayfield",
     "django_extensions",
     "django_htmx",
     "django_tables2",
+    "django_tailwind_cli",
     "emojificate",
     "rest_framework",
     "reversion",
@@ -272,7 +275,6 @@ DATABASES = {"default": env.db("DATABASE_URL")}
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
-
 WSGI_APPLICATION = "wsgi.application"
 
 if DEBUG and not TEST_MODE:
@@ -375,3 +377,8 @@ if DEBUG:
     DOCS_URL = "http://0.0.0.0:4000"
 else:
     DOCS_URL = "https://docs.djangopackages.org"
+
+TAILWIND_CLI_AUTOMATIC_DOWNLOAD = False
+TAILWIND_CLI_CONFIG_FILE = "tailwind.config.js"
+TAILWIND_CLI_SRC_CSS = "tailwindcss.css"
+TAILWIND_CLI_VERSION = "3.4.1"
