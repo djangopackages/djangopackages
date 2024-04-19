@@ -11,7 +11,7 @@ from package.models import Package
 class PackageTable(Table):
     title = Column(empty_values=(), verbose_name="Title")
     commits = TemplateColumn(
-        '<img class="package-githubcommits" src="https://chart.googleapis.com/chart?cht=bvg&chs=105x20&chd=t:{{record.commits_over_52}}&chco=666666&chbh=1,1,1&chds=0,20" />',
+        '{% include "package/includes/_commits.html" with value=record.commits_over_52 %}',
         orderable=False,
         verbose_name="Commits",
     )

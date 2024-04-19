@@ -97,7 +97,9 @@ def style_title(value):
 
 
 def style_commits(value):
-    return render_to_string("grid/snippets/_commits.html", {"value": value})
+    return render_to_string(
+        "package/includes/_commits.html", {"value": value, "graph_width": 45}
+    )
 
 
 @register.filter
