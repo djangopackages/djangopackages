@@ -245,7 +245,6 @@ bootstrap *ARGS:
 # Upgrade existing Python dependencies to their latest versions
 @upgrade:
     just lock --upgrade
-    # git ls-files -- "*.py" | xARGS django-upgrade --target-version=4.1
 
 # Run a management command as specified by ARGS
 @management-command ARGS:
