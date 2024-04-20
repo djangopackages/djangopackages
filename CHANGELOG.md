@@ -1,5 +1,15 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-04-19]
+### Changed
+- :art: urlize extra field url value ([#1142](https://github.com/djangopackages/djangopackages/pull/1142))
+- Remove Full Page Cache for `stack/` Page ([#1140](https://github.com/djangopackages/djangopackages/pull/1140))
+- :broom: Target version cleanup ([#1141](https://github.com/djangopackages/djangopackages/pull/1141))
+- Replace Google Chart with `svg-sparkline.js` for Commit Chart Generation ([#1129](https://github.com/djangopackages/djangopackages/pull/1129))
+- :arrow_up: Weekly upgrades ([#1139](https://github.com/djangopackages/djangopackages/pull/1139))
+- Add Tech Stack Page ([#1133](https://github.com/djangopackages/djangopackages/pull/1133))
+- ⬆️ Bump sqlparse from 0.4.4 to 0.5.0 ([#1137](https://github.com/djangopackages/djangopackages/pull/1137))
+
 ## [2024-04-16]
 ### Changed
 - Issue 1115 update profile page options ([#1125](https://github.com/djangopackages/djangopackages/pull/1125))
