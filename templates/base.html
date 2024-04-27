@@ -21,7 +21,7 @@
         <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" />
         {% block extra_head %}{% endblock %}
     </head>
-    <body ng-controller="SearchCtrl" ng-init="init_search('{{ request.GET.q|escapejs }}', '{% url 'apiv4:searchv2-list' %}', {{ MAX_WEIGHT }})">
+    <body class="tw-flex tw-flex-col tw-min-h-screen" ng-controller="SearchCtrl" ng-init="init_search('{{ request.GET.q|escapejs }}', '{% url 'apiv4:searchv2-list' %}', {{ MAX_WEIGHT }})">
 
         {% for message in messages %}
             <div class="topbar topbar-default{% if message.tags %} {{ message.tags }}{% endif %}" id="message_{{ forloop.counter }}">
@@ -114,7 +114,7 @@
                                 <th>{% trans "Search Weight" %}</th>
                                 <th>{% trans "Package" %}</th>
                                 <th>{% trans "Description" %}</th>
-                                <th>{% trans "Last PyPI release:" %}</th>
+                                <th>{% trans "Last PyPI release" %}</th>
                                 <th>{% trans "Repo Forks" %}</th>
                                 <th>{% trans "Stars" %}</th>
                             </tr>
