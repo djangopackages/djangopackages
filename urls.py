@@ -1,11 +1,16 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.sitemaps import views as sitemap_views
 from django.urls import include, path, re_path
+from django.views.decorators.cache import cache_page
 from django.views.generic.base import TemplateView
 
+from blog.sitemaps import BlogSitemap
 from core import __version__
 from core.apiv1 import apiv1_gone
+from core.sitemaps import StaticViewSitemap
+from grid.sitemaps import GridSitemap
 from homepage.views import error_404_view
 from homepage.views import error_500_view
 from homepage.views import error_503_view
@@ -14,7 +19,7 @@ from homepage.views import homepage
 from homepage.views import OpenView
 from homepage.views import ReadinessDetailView
 from homepage.views import ReadinessView
-from homepage.views import SitemapView
+from package.sitemaps import PackageSitemap
 from package.views import PackageByCategoryListView, PackagePython3ListView
 from profiles.views import LogoutView
 
@@ -23,6 +28,15 @@ admin_header = f"Django Packages v{__version__}"
 admin.site.enable_nav_sidebar = False  # disabled until Django 3.x
 admin.site.site_header = admin_header
 admin.site.site_title = admin_header
+
+SITEMAPS_CACHE_TTL = 24 * 60 * 60  # 24 Hours
+
+sitemaps = {
+    "static": StaticViewSitemap,
+    "packages": PackageSitemap,
+    "grids": GridSitemap,
+    "blog": BlogSitemap,
+}
 
 urlpatterns = [
     # url(r'^login/\{\{item\.absolute_url\}\}/', RedirectView.as_view(url="/login/github/")),
@@ -78,7 +92,18 @@ urlpatterns = [
         TemplateView.as_view(template_name="pages/funding.html"),
         name="funding",
     ),
-    path("sitemap.xml", SitemapView.as_view(), name="sitemap"),
+    path(
+        "sitemap.xml",
+        cache_page(SITEMAPS_CACHE_TTL)(sitemap_views.index),
+        {"sitemaps": sitemaps, "sitemap_url_name": "sitemaps"},
+        name="sitemap_index",
+    ),
+    path(
+        "sitemap-<section>.xml",
+        cache_page(SITEMAPS_CACHE_TTL)(sitemap_views.sitemap),
+        {"sitemaps": sitemaps},
+        name="sitemaps",
+    ),
     path("maintenance-mode/", include("maintenance_mode.urls")),
     # new apps
     path("search/", include("searchv2.urls")),
