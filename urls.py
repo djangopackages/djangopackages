@@ -29,7 +29,7 @@ admin.site.enable_nav_sidebar = False  # disabled until Django 3.x
 admin.site.site_header = admin_header
 admin.site.site_title = admin_header
 
-SITEMAPS_CACHE_TTL = 24 * 60 * 60  # 24 Hours
+SITEMAPS_CACHE_TTL = 12 * 60 * 60  # 24 Hours
 
 sitemaps = {
     "static": StaticViewSitemap,
