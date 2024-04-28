@@ -11,9 +11,3 @@ class StaticViewSitemap(Sitemap):
 
     def location(self, item):
         return reverse(item)
-
-    def get_urls(self, page=1, site=None, protocol=None):
-        s = super().get_urls(page, site, protocol)
-        print("==========================================")
-        print(s)
-        return s
