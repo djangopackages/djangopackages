@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.text import slugify
 
 from core.models import BaseModel
@@ -30,3 +31,6 @@ class Post(BaseModel):
             self.slug = slugify(f"{date_str}-{self.title}")
 
         super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse("post_detail", args=[self.slug])

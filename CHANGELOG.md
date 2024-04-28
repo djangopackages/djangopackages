@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-04-27]
+### Changed
+- ⬆️ Bump social-auth-app-django from 5.4.0 to 5.4.1 ([#1145](https://github.com/djangopackages/djangopackages/pull/1145))
+
 ## [2024-04-19]
 ### Changed
 - :art: urlize extra field url value ([#1142](https://github.com/djangopackages/djangopackages/pull/1142))
