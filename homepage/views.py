@@ -205,17 +205,6 @@ class ReadinessDetailView(TemplateView):
         return context_data
 
 
-class SitemapView(TemplateView):
-    template_name = "sitemap.xml"
-    content_type = "text/xml"
-
-    def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-        data["packages"] = Package.objects.all()
-        data["grids"] = Grid.objects.all()
-        return data
-
-
 def homepage(request, template_name="homepage.html"):
     my_today = date.today()
     if cache.get("categories"):
