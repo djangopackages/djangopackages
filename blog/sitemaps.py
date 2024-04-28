@@ -7,9 +7,9 @@ class BlogSitemap(Sitemap):
     priority = 0.7
 
     def items(self):
-        return Post.objects.filter(
-            published_date__isnull=False
-        ).order_by('-published_date')
+        return Post.objects.filter(published_date__isnull=False).order_by(
+            "-published_date"
+        )
 
     def lastmod(self, obj):
         return obj.modified
