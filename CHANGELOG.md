@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-04-28]
+### Changed
+- Move Sitemaps to Django Sitemap Framework ([#1147](https://github.com/djangopackages/djangopackages/pull/1147))
+
 ## [2024-04-27]
 ### Changed
 - ⬆️ Bump social-auth-app-django from 5.4.0 to 5.4.1 ([#1145](https://github.com/djangopackages/djangopackages/pull/1145))
