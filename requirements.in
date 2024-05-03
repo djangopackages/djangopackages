@@ -43,7 +43,7 @@ requests
 requests-mock
 rich
 sentry-sdk
-social-auth-app-django
+social-auth-app-django==5.4.0
 social-auth-core
 sqlite-utils
 structlog
