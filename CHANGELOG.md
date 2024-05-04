@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-05-03]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1148](https://github.com/djangopackages/djangopackages/pull/1148))
+
 ## [2024-04-28]
 ### Changed
 - Move Sitemaps to Django Sitemap Framework ([#1147](https://github.com/djangopackages/djangopackages/pull/1147))
