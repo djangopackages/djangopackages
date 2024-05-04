@@ -69,14 +69,6 @@
 
 {% block javascript %}
     {{ block.super }}
-    {% comment %}
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
-    <script>
-    tailwind.config = {
-        prefix: 'tw-',
-    }
-    </script>
-    {% endcomment %}
     <script type="text/javascript" src="{{ STATIC_URL }}js/underscore.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/gh3.js"></script>
 {% endblock %}

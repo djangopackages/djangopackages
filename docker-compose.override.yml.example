@@ -1,18 +1,14 @@
 services:
   django:
-    platform: linux/amd64
+    tty: true
 
-  django-q:
-    platform: linux/amd64
+  # django-q:
 
-  docs:
-    platform: linux/amd64
+  # docs:
 
-  postgres:
-    platform: linux/amd64
+  # postgres:
 
-  redis:
-    platform: linux/amd64
+  # redis:
 
   utility:
-    platform: linux/amd64
+    tty: true
