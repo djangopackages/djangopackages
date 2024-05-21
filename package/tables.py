@@ -32,6 +32,7 @@ class PackageTable(Table):
     #     <span class="usage-count">{{ package.usage_count }}</span>
     # </td>
     # <td>{{ package.last_released.pretty_status }}</td>
+
     # "# Using This"
     usage_count = TemplateColumn(
         '<span class="usage-count">{{ record.usage_count }}</span>',
