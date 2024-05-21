@@ -461,6 +461,7 @@ class PackagePython3ListView(SingleTableView):
         return (
             Package.objects.filter(version__supports_python3=True)
             .select_related()
+            .annotate(usage_count=Count("usage"))
             .distinct()
             .order_by("-pypi_downloads", "-repo_watchers", "title")
         )
