@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from jsonview.decorators import json_view
 
@@ -136,6 +137,7 @@ def category_detail(request, slug):
 
 
 @json_view
+@login_required
 def user_list(request):
     count = Profile.objects.count()
     limit = GET_int(request, "limit", 20)
@@ -159,6 +161,7 @@ def user_list(request):
 
 
 @json_view
+@login_required
 def user_detail(request, github_account):
     profile = get_object_or_404(Profile, github_account=github_account)
     list_packages = request.GET.get("list_packages", False)
