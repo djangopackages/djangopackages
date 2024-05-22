@@ -1,5 +1,12 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-05-21]
+### Changed
+- :fire: Remove user api crawling ([#1158](https://github.com/djangopackages/djangopackages/pull/1158))
+- :bug: Fix broken python3 using this filter ([#1157](https://github.com/djangopackages/djangopackages/pull/1157))
+- :arrow_up: Updates deps ([#1156](https://github.com/djangopackages/djangopackages/pull/1156))
+- [pre-commit.ci] pre-commit autoupdate ([#1153](https://github.com/djangopackages/djangopackages/pull/1153))
+
 ## [2024-05-03]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1148](https://github.com/djangopackages/djangopackages/pull/1148))
