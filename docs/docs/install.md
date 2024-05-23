@@ -10,7 +10,7 @@ You'll want to make sure your local environment is ready by installing the follo
 
 ### Docker
 
-If you don't have them installed yet, install [Docker] and [docker-compose].
+If you don't have them installed yet, install [Docker] and [Compose].
 
 ### Grab a Local Copy of the Project
 
@@ -104,7 +104,7 @@ pre-commit run ruff
 
 A more [opinionated] set up using the command runner `just` is also available.
 
-[docker-compose]: https://docs.docker.com/compose/install/
+[compose]: https://docs.docker.com/compose/install/
 [docker]: https://docs.docker.com/install/
 [just]: https://github.com/casey/just
 [opinionated]: install_opinionated.md
