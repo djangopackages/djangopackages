@@ -26,8 +26,8 @@ def local():
     """
     Work on the local environment
     """
-    env.compose_file = "docker-compose.yml"
-    env.compose_version = "v1"
+    env.compose_file = "compose.yml"
+    env.compose_version = "v2"
     env.project_dir = "."
     env.run = lrun
     env.cd = lcd
@@ -112,14 +112,14 @@ def clearsessions():
     """
 
     with env.cd(env.project_dir):
-        docker_compose("run django-a python manage.py clearsessions")
+        docker_compose("run django-a python -m manage clearsessions")
 
 
 def cron():
     with env.cd(env.project_dir):
-        docker_compose("run django-a python manage.py import_classifiers")
-        docker_compose("run django-a python manage.py import_products")
-        docker_compose("run django-a python manage.py import_releases")
+        docker_compose("run django-a python -m manage import_classifiers")
+        docker_compose("run django-a python -m manage import_products")
+        docker_compose("run django-a python -m manage import_releases")
 
 
 def deploy(clearsessions: bool = False, stash: bool = False):
@@ -132,7 +132,7 @@ def deploy(clearsessions: bool = False, stash: bool = False):
     with env.cd(env.project_dir):
         # Clear old database sessions
         if clearsessions:
-            docker_compose("run django-a python manage.py clearsessions")
+            docker_compose("run django-a python -m manage clearsessions")
 
         # stash existing changes
         if stash:
@@ -175,15 +175,15 @@ def deploy(clearsessions: bool = False, stash: bool = False):
 
 
 def collectstatic(service):
-    docker_compose(f"exec {service} python manage.py collectstatic --no-input -v 1")
+    docker_compose(f"exec {service} python -m manage collectstatic --no-input -v 1")
 
 
 def maintenance_mode_on(service):
-    docker_compose(f"exec {service} python manage.py maintenance_mode on")
+    docker_compose(f"exec {service} python -m manage maintenance_mode on")
 
 
 def maintenance_mode_off(service):
-    docker_compose(f"exec {service} python manage.py maintenance_mode off")
+    docker_compose(f"exec {service} python -m manage maintenance_mode off")
 
 
 def purge_cache(service):

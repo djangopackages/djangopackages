@@ -1,0 +1,79 @@
+x-common-settings: &common-settings
+  build:
+    context: .
+    dockerfile: ./dockerfiles/django/Dockerfile-dev
+  depends_on:
+    redis:
+      condition: service_healthy
+    postgres:
+      condition: service_healthy
+  env_file:
+    - .env.local
+  volumes:
+    - .:/app
+    - djpkg_static_dev:/data/static
+    - djpkg_media_dev:/data/media
+
+services:
+  django:
+    <<: *common-settings
+    command: ["/start-dev.sh"]
+    init: true
+    ports:
+      - "8000:8000"
+
+  django-q:
+    <<: *common-settings
+    command: ["python", "-m", manage", "qcluster"]
+    init: true
+
+  postgres:
+    image: "pgautoupgrade/pgautoupgrade:latest"
+    env_file:
+      - .env.local
+    expose:
+      - 5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+    init: true
+    volumes:
+      - djpkg_postgres_data_dev:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    expose:
+      - 6379
+    init: true
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+
+  docs:
+    <<: *common-settings
+    command: ["sh", "-c", "mkdocs serve -f docs/mkdocs.yml --dev-addr 0.0.0.0:4000"]
+    entrypoint: ""
+    environment:
+      FAST_MODE: "true"
+      LIVE_RELOAD_SUPPORT: "true"
+    init: true
+    ports:
+      - "4000:4000"
+    profiles:
+      - docs
+
+  utility:
+    <<: *common-settings
+    init: true
+    profiles:
+      - utility
+    tty: true
+
+volumes:
+  djpkg_media_dev: {}
+  djpkg_postgres_data_dev: {}
+  djpkg_static_dev: {}

@@ -37,7 +37,7 @@ metadata, and required for certain tests.
 
 ### Build the Docker Containers
 
-Now build the project using docker-compose:
+Now build the project using docker compose:
 
 ```shell
 just build

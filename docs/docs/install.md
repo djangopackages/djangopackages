@@ -35,10 +35,10 @@ cp .env.local.example .env.local
 
 ### Build the Docker Containers
 
-Now build the project using docker-compose:
+Now build the project using Docker Compose:
 
 ```shell
-docker-compose build
+docker compose build
 ```
 
 ### Add A GitHub API Token (optional)
@@ -52,7 +52,7 @@ metadata, and required for certain tests.
 To start the project, run:
 
 ```shell
-docker-compose up --detach
+docker compose up --detach
 ```
 
 Then point your browser to <http://localhost:8000> and start hacking!
@@ -64,7 +64,7 @@ Now, you'll give yourself an admin account on the locally-running version of Dja
 Create a Django superuser for yourself, replacing joe with your username/email:
 
 ```shell
-docker-compose run django python manage.py createsuperuser --username=joe --email=joe@example.com
+docker compose run django python -m manage createsuperuser --username=joe --email=joe@example.com
 ```
 
 And then login into the admin interface (/admin/) and create a profile for your user filling all the fields with any data.
@@ -74,7 +74,7 @@ And then login into the admin interface (/admin/) and create a profile for your 
 We use a **Mock** system of creating sample data in our tests and for running a development version of the site. To create some development data, just run:
 
 ```shell
-docker-compose run --rm django python manage.py load_dev_data
+docker compose run --rm django python -m manage load_dev_data
 ```
 
 ### Formatters, Linters, and other miscellanea
