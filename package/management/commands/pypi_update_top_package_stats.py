@@ -5,7 +5,6 @@ from package.models import Package
 from rich import print
 
 
-DOWNLOAD_PATH = "top-pypi-packages-30-days.min.json"
 DOWNLOAD_URL = "https://raw.githubusercontent.com/hugovk/top-pypi-packages/main/top-pypi-packages-30-days.min.json"
 
 
