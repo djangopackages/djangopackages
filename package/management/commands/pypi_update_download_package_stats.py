@@ -66,7 +66,7 @@ def command(filename, limit, url):
 
     objs = []
 
-    for package in packages:
+    for package in packages.iterator():
         pypi_slug = normalize_pypi_slug(package.pypi_url)
 
         sql = (
