@@ -58,7 +58,7 @@ def command(filename, limit, url):
 
     db = Database(filename)
 
-    packages = Package.objects.exclude(pypi_url__in=[None, ""])
+    packages = Package.objects.exclude(pypi_url="").only("pypi_url", "pypi_downloads")
     print(f"{packages.count()=}")
 
     if limit:
