@@ -7,7 +7,7 @@ These are the management commands that we run to keep the website updated and fr
 Identifies objects with a text field greater than the maximum length.
 
 ```shell
-docker-compose run django python manage.py audit_textfield_max_length
+docker compose run django python -m manage audit_textfield_max_length
 ```
 
 ## calculate_score
@@ -15,7 +15,7 @@ docker-compose run django python manage.py audit_textfield_max_length
 Calculates the new star score for all Package objects.
 
 ```shell
-docker-compose run django python manage.py calculate_score
+docker compose run django python -m manage calculate_score
 ```
 
 ## check_package_examples
@@ -29,7 +29,7 @@ For active `PackageExample`s, checks that the URL is valid. If it isn't, the `Pa
 - `limit`: `int`. Optional. Useful if you want to spot check the `PackageExample` table for bad URLs.
 
 ```shell
-docker-compose run django python manage.py check_package_examples
+docker compose run django python -m manage check_package_examples
 ```
 
 ## cleanup_github_projects
@@ -37,7 +37,7 @@ docker-compose run django python manage.py check_package_examples
 Migrates legacy (http) GitHub packages to https. Migrates existing packages that have moved on GitHub, so their data stays up-to-date.
 
 ```shell
-docker-compose run django python manage.py cleanup_github_projects [--limit=<number-of-records>]
+docker compose run django python -m manage cleanup_github_projects [--limit=<number-of-records>]
 ```
 
 ## fix_grid_element
@@ -45,13 +45,13 @@ docker-compose run django python manage.py cleanup_github_projects [--limit=<num
 Removes duplicate Element objects.
 
 ```shell
-docker-compose run django python manage.py fix_grid_element
+docker compose run django python -m manage fix_grid_element
 ```
 
 ## grid_export
 
 ```shell
-docker-compose run django python manage.py grid_export
+docker compose run django python -m manage grid_export
 ```
 
 ## import_classifiers
@@ -63,7 +63,7 @@ The `import_classifiers` management command updates our database against PyPI's 
 Imports all packages from endoflife.date, and sets some packages to active.
 
 ```shell
-docker-compose run django python manage.py import_products
+docker compose run django python -m manage import_products
 ```
 
 ## import_releases
@@ -71,7 +71,7 @@ docker-compose run django python manage.py import_products
 Imports Release data for Packages from endoflife.date.
 
 ```shell
-docker-compose run django python manage.py import_releases
+docker compose run django python -m manage import_releases
 ```
 
 ## load_dev_data
@@ -79,7 +79,7 @@ docker-compose run django python manage.py import_releases
 Create sample data for local development.
 
 ```shell
-docker-compose run django python manage.py load_dev_data
+docker compose run django python -m manage load_dev_data
 ```
 
 ## package_updater
@@ -93,7 +93,7 @@ Warning: This can take a long, long time.
 - `limit`: `int`. Pass this value if you want to update a specific number of packages.
 
 ```shell
-docker-compose run django python manage.py package_updater
+docker compose run django python -m manage package_updater
 ```
 
 ## pypi_find_missing
@@ -101,7 +101,7 @@ docker-compose run django python manage.py package_updater
 Shows count of Packages without pypi URLs or with outdated pypi URLs
 
 ```shell
-docker-compose run django python manage.py pypi_find_missing
+docker compose run django python -m manage pypi_find_missing
 ```
 
 ## pypi_updater
@@ -109,14 +109,14 @@ docker-compose run django python manage.py pypi_find_missing
 Updates all the packages in the system by checking against their PyPI data.
 
 ```shell
-docker-compose run django python manage.py pypi_updater
+docker compose run django python -m manage pypi_updater
 ```
 Warning: This can take a long, long time.
 
 ## read_grid_stats
 
 ```shell
-docker-compose run django python manage.py read_grid_stats
+docker compose run django python -m manage read_grid_stats
 ```
 
 ## searchv2_build
@@ -124,5 +124,5 @@ docker-compose run django python manage.py read_grid_stats
 This command rebuilds and recalculates our search database.
 
 ```shell
-docker-compose run django python manage.py searchv2_build
+docker compose run django python -m manage searchv2_build
 ```

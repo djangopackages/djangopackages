@@ -124,7 +124,7 @@ We want your submission. But we also want to provide a stable experience for our
 Before you submit a pull request, please run the entire Django Packages test suite via:
 
 ```shell
-docker-compose run django pytest
+docker compose run django pytest
 ```
 
 The first thing the core committers will do is run this command. Any pull request that fails this test suite will be **rejected**.
@@ -182,7 +182,7 @@ git pull git://github.com/<submitter-github-name/djangopackages.git develop
 Then we run the tests:
 
 ```shell
-python manage.py test --settings=settings.test
+python -m manage test --settings=settings.test
 ```
 
 We finish with a merge and push to GitHub:

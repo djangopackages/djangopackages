@@ -10,7 +10,7 @@ You'll want to make sure your local environment is ready by installing the follo
 
 ### Docker
 
-If you don't have them installed yet, install [Docker] and [docker-compose].
+If you don't have them installed yet, install [Docker] and [Compose].
 
 ### Grab a Local Copy of the Project
 
@@ -35,10 +35,10 @@ cp .env.local.example .env.local
 
 ### Build the Docker Containers
 
-Now build the project using docker-compose:
+Now build the project using Docker Compose:
 
 ```shell
-docker-compose build
+docker compose build
 ```
 
 ### Add A GitHub API Token (optional)
@@ -52,7 +52,7 @@ metadata, and required for certain tests.
 To start the project, run:
 
 ```shell
-docker-compose up --detach
+docker compose up --detach
 ```
 
 Then point your browser to <http://localhost:8000> and start hacking!
@@ -64,7 +64,7 @@ Now, you'll give yourself an admin account on the locally-running version of Dja
 Create a Django superuser for yourself, replacing joe with your username/email:
 
 ```shell
-docker-compose run django python manage.py createsuperuser --username=joe --email=joe@example.com
+docker compose run django python -m manage createsuperuser --username=joe --email=joe@example.com
 ```
 
 And then login into the admin interface (/admin/) and create a profile for your user filling all the fields with any data.
@@ -74,7 +74,7 @@ And then login into the admin interface (/admin/) and create a profile for your 
 We use a **Mock** system of creating sample data in our tests and for running a development version of the site. To create some development data, just run:
 
 ```shell
-docker-compose run --rm django python manage.py load_dev_data
+docker compose run --rm django python -m manage load_dev_data
 ```
 
 ### Formatters, Linters, and other miscellanea
@@ -104,7 +104,7 @@ pre-commit run ruff
 
 A more [opinionated] set up using the command runner `just` is also available.
 
-[docker-compose]: https://docs.docker.com/compose/install/
+[compose]: https://docs.docker.com/compose/install/
 [docker]: https://docs.docker.com/install/
 [just]: https://github.com/casey/just
 [opinionated]: install_opinionated.md

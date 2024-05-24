@@ -3,10 +3,10 @@
 {
 	"name": "Existing Docker Compose (Extend)",
 	// Update the 'dockerComposeFile' list if you have more compose files or use different names.
-	// The .devcontainer/docker-compose.yml file contains any overrides you need/want to make.
+	// The .devcontainer/compose.yml file contains any overrides you need/want to make.
 	"dockerComposeFile": [
-		"../docker-compose.yml",
-		"docker-compose.yml"
+		"../compose.yml",
+		"compose.yml"
 	],
 	"initializeCommand": ".devcontainer/create_dot_env.sh",
 	"customizations": {
@@ -52,10 +52,10 @@
 	// mentioned in https://github.com/microsoft/vscode-remote-release/issues/5317
 	"updateRemoteUserUID": false,
 	// The 'service' property is the name of the service for the container that VS Code should
-	// use. Update this value and .devcontainer/docker-compose.yml to the real service name.
+	// use. Update this value and .devcontainer/compose.yml to the real service name.
 	"service": "django",
 	// The optional 'workspaceFolder' property is the path VS Code should open by default when
-	// connected. This is typically a file mount in .devcontainer/docker-compose.yml
+	// connected. This is typically a file mount in .devcontainer/compose.yml
 	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},

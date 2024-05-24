@@ -13,7 +13,7 @@ The current strategy is:
 
 ## Stack
 
-All of our `docker-compose*.yml` configurations contains the following services:
+All of our `compose*.yml` configurations contains the following services:
 
 - `postgres` powers our database.
 - `django` powers our Python and Django backend. In production we use call these `django-a` and `django-b` to run our WSGI server and serves the app through gunicorn.
@@ -43,7 +43,7 @@ just deploy
 Our static media files are behind a CDN. We occasionally need to purge cached files. To purge the cache:
 
 ```shell
-docker-compose run django cli4 --delete purge_everything=true /zones/:djangopackages.org/purge_cache
+docker compose run django cli4 --delete purge_everything=true /zones/:djangopackages.org/purge_cache
 ```
 
 Alternatively, you can use `just`
@@ -70,21 +70,21 @@ just purge_cache
 
   ```shell
   cd /code/djangopackages
-  docker-compose ps
+  docker compose ps
   ```
 
 - Check the logs for all services:
 
   ```shell
   cd /code/djangopackages
-  docker-compose logs
+  docker compose logs
   ```
 
 - Check the logs for individual services:
 
   ```shell
   cd /code/djangopackages
-  docker-compose logs postgres|django-a|django-b|caddy
+  docker compose logs postgres|django-a|django-b|caddy
   ```
 
 [Fabric]: https://www.fabfile.org/

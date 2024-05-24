@@ -15,6 +15,7 @@
 .gitignore
 .pytest_cache
 .rsync-exclude-from
+compose*.yml
 CONTRIBUTORS.txt
 data
 design

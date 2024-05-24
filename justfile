@@ -23,16 +23,11 @@ bootstrap *ARGS:
         cp .env.local.example .env.local
     fi
 
-    if [ ! -f "docker-compose.override.yml" ]; then
-        echo "docker-compose.override.yml created"
-        cp docker-compose.override.yml.example docker-compose.override.yml
-    fi
-
-    docker-compose {{ ARGS }} build --force-rm
+    docker compose {{ ARGS }} build --force-rm
 
 # Builds the Docker Images with optional arguments
 @build *ARGS:
-    docker-compose {{ ARGS }} build
+    docker compose {{ ARGS }} build
 
 # Builds the Docker Images with no optional arguments
 @cibuild:
@@ -40,7 +35,7 @@ bootstrap *ARGS:
 
 # Drop into the console on the docker image
 @console:
-    docker-compose run django /bin/bash
+    docker compose run django /bin/bash
 
 # Duplicates the `up` command
 @server *ARGS="--detach":
@@ -52,13 +47,13 @@ bootstrap *ARGS:
 
 # Create a Superuser
 @createsuperuser USERNAME EMAIL:
-    docker-compose run django python manage.py createsuperuser \
+    docker compose run django python manage.py createsuperuser \
         --username={{ USERNAME }} \
         --email={{ EMAIL }}
 
 # Run the tests using the Django test runner
 @test *ARGS="--no-input":
-    docker-compose run django python manage.py test {{ ARGS }}
+    docker compose run django python manage.py test {{ ARGS }}
 
 # Once completed, it will run an update of *something*
 @update:
@@ -78,11 +73,11 @@ bootstrap *ARGS:
 
 # Format our Caddyfile
 @caddy-fmt:
-    docker-compose run --rm caddy caddy fmt -overwrite /etc/caddy/Caddyfile
+    docker compose run --rm caddy caddy fmt -overwrite /etc/caddy/Caddyfile
 
 # Is our Caddyfile valid?
 @caddy-validate:
-    docker-compose run --rm caddy caddy validate -adapter caddyfile -config /etc/caddy/Caddyfile
+    docker compose run --rm caddy caddy validate -adapter caddyfile -config /etc/caddy/Caddyfile
 
 # --------------------------------------------------
 # Docs recipes
@@ -91,13 +86,13 @@ bootstrap *ARGS:
 #     cd docs && make docs
 
 @docs-down *ARGS:
-    docker-compose --profile=docs down {{ ARGS }}
+    docker compose --profile=docs down {{ ARGS }}
 
 @docs-up *ARGS="--detach":
-    docker-compose --profile=docs up {{ ARGS }}
+    docker compose --profile=docs up {{ ARGS }}
 
 @docs-update *ARGS:
-    docker-compose run \
+    docker compose run \
         --entrypoint= \
         --rm django \
             bash -c "uv pip compile {{ ARGS }} docs/requirements.in \
@@ -118,7 +113,7 @@ bootstrap *ARGS:
 
 # Purge our CloudFlare cache
 @purge_cache:
-    docker-compose run django cli4 --delete purge_everything=true /zones/:djangopackages.org/purge_cache
+    docker compose run django cli4 --delete purge_everything=true /zones/:djangopackages.org/purge_cache
 
 # --------------------------------------------------
 # Docker recipes
@@ -126,26 +121,26 @@ bootstrap *ARGS:
 
 # Bring down your docker containers
 @down *ARGS:
-    docker-compose down {{ ARGS }}
+    docker compose down {{ ARGS }}
 
 # Allows you to view the output from running containers
 @logs *ARGS:
-    docker-compose logs {{ ARGS }}
+    docker compose logs {{ ARGS }}
 
 # Restart all services
 @restart *ARGS:
-    docker-compose restart {{ ARGS }}
+    docker compose restart {{ ARGS }}
 
 # Start all services
 @start *ARGS="--detach":
-    docker-compose up {{ ARGS }}
+    docker compose up {{ ARGS }}
 
 @status:
-    docker-compose ps
+    docker compose ps
 
 # Stop all services
 @stop:
-    docker-compose down
+    docker compose down
 
 # Tail service logs
 @tail:
@@ -153,7 +148,7 @@ bootstrap *ARGS:
 
 # Bring up your Docker Containers
 @up *ARGS:
-    docker-compose up {{ ARGS }}
+    docker compose up {{ ARGS }}
 
 # --------------------------------------------------
 # Django recipes
@@ -161,15 +156,15 @@ bootstrap *ARGS:
 
 # Run the collectstatic management command
 @collectstatic *ARGS="--no-input":
-    docker-compose run django python manage.py collectstatic {{ ARGS }}
+    docker compose run django python manage.py collectstatic {{ ARGS }}
 
 # Run the tests with pytest
 @pytest *ARGS:
-    docker-compose run django pytest {{ ARGS }}
+    docker compose run django pytest {{ ARGS }}
 
 # Run the tests with pytest and generate coverage reports
 @pytest-coverage *ARGS:
-    docker-compose run django pytest \
+    docker compose run django pytest \
         {{ ARGS }} \
         --cov-report html \
         --cov-report term:skip-covered \
@@ -177,7 +172,7 @@ bootstrap *ARGS:
 
 # Run the shell management command
 @shell *ARGS:
-    docker-compose run django python manage.py shell {{ ARGS }}
+    docker compose run django python manage.py shell {{ ARGS }}
 
 # --------------------------------------------------
 # Linter recipes
@@ -221,14 +216,14 @@ bootstrap *ARGS:
 
 # Compile new python dependencies
 @lock *ARGS:
-    docker-compose run \
+    docker compose run \
         --entrypoint= \
         --rm django \
             bash -c "uv pip compile {{ ARGS }} requirements.in \
                     --generate-hashes \
                     --output-file requirements.txt"
 
-    docker-compose run \
+    docker compose run \
         --entrypoint= \
         --rm django \
             bash -c "uv pip compile {{ ARGS }} docs/requirements.in \
@@ -248,7 +243,7 @@ bootstrap *ARGS:
 
 # Run a management command as specified by ARGS
 @management-command ARGS:
-    docker-compose run --rm django python manage.py {{ ARGS }}
+    docker compose run --rm django python manage.py {{ ARGS }}
 
 # Remove current application services
 @remove:
