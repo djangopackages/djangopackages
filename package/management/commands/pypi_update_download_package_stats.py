@@ -44,9 +44,8 @@ def normalize_pypi_slug(url: str) -> str:
 
 @click.command()
 @click.argument("url", type=str)
-@click.argument("filename", type=str)
 @click.option("--limit", type=int, default=None)
-def command(filename, limit, url):
+def command(limit, url):
     filename = normalize_pypi_slug(url=url)
 
     download_file(url=url, filename=filename)
