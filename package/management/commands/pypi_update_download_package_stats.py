@@ -39,7 +39,7 @@ def download_file(*, url: str, filename: str):
 
 
 def normalize_pypi_slug(url: str) -> str:
-    return url.rstrip("/").rsplit('/', 1)[-1]
+    return url.rstrip("/").rsplit("/", 1)[-1]
 
 
 @click.command()
