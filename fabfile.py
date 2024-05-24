@@ -42,7 +42,7 @@ def production():
     ]  # list the ip addresses or domain names of your production boxes here
     env.user = "root"  # remote user, see `env.run` if you don't log in as root
 
-    env.compose_file = "docker-compose.prod.yml"
+    env.compose_file = "compose.prod.yml"
     env.compose_version = "v2"
     env.project_dir = "/code/djangopackages"  # this is the project dir where your code lives on this machine
     env.run = run  # if you don't log in as root, replace with 'env.run = sudo'
@@ -194,7 +194,7 @@ def purge_cache(service):
 
 def docker_compose(command, old=True):
     """
-    Run a docker-compose command
+    Run a docker compose command
     :param command: Command you want to run
     """
     with env.cd(env.project_dir):
