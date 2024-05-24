@@ -33,7 +33,8 @@ def command(url):
         package_lookup[project] = download_count
 
     objs = []
-    packages = Package.objects.exclude(pypi_url__in=[None, ""]).order_by("pypi_url")
+    packages = Package.objects.exclude(pypi_url="").only("pypi_url", "pypi_downloads")
+.order_by("pypi_url")
     for package in packages:
         pypi_slug = normalize_pypi_slug(package.pypi_url)
         if pypi_slug in package_lookup:
