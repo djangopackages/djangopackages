@@ -33,12 +33,15 @@ def command(url):
         package_lookup[project] = download_count
 
     objs = []
-    packages = Package.objects.exclude(pypi_url="").only("pypi_url", "pypi_downloads")
-.order_by("pypi_url")
+    packages = (
+        Package.objects.exclude(pypi_url="")
+        .only("pypi_url", "pypi_downloads")
+        .order_by("pypi_url")
+    )
     for package in packages.iterator():
         pypi_slug = normalize_pypi_slug(package.pypi_url)
         if pypi_slug in package_lookup:
-            package.pypi_downloads = package_lookup.get("pypi_slug", 0)
+            package.pypi_downloads = package_lookup.get("pypi_slug")
             objs.append(package)
 
     if len(objs):
