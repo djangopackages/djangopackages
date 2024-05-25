@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-05-24]
+### Changed
+- :whale: Refactor docker compose ([#1159](https://github.com/djangopackages/djangopackages/pull/1159))
+- :sparkles: Adds pypi_update_top_package_stats management command ([#1160](https://github.com/djangopackages/djangopackages/pull/1160))
+
 ## [2024-05-21]
 ### Changed
 - :fire: Remove user api crawling ([#1158](https://github.com/djangopackages/djangopackages/pull/1158))
