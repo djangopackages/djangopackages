@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-05-28]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1161](https://github.com/djangopackages/djangopackages/pull/1161))
+
 ## [2024-05-24]
 ### Changed
 - :whale: Refactor docker compose ([#1159](https://github.com/djangopackages/djangopackages/pull/1159))
