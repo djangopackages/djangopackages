@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 
+from blog.managers import PostManager
 from core.models import BaseModel
 
 
@@ -16,6 +17,8 @@ class Post(BaseModel):
     content = models.TextField()
     author = models.CharField(blank=True, max_length=200, null=True)
     published_date = models.DateTimeField(blank=True, null=True)
+
+    objects = PostManager()
 
     class Meta:
         ordering = ["-published_date"]
