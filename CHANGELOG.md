@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-05-31]
+### Changed
+- :sparkles: Add feeds to the Changelog ([#1163](https://github.com/djangopackages/djangopackages/pull/1163))
+
 ## [2024-05-28]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1161](https://github.com/djangopackages/djangopackages/pull/1161))
