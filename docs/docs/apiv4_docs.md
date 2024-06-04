@@ -381,7 +381,7 @@ curl -X GET -H "Content-Type: application/json" https://djangopackages.org/api/v
         "repo_forks": 189,
         "pypi_downloads": 0,
         "usage": 2,
-        "participants": "PhilipGarnero,hugocore,bmpenuelas,tamayonauta,puneetagg,vbabiy,adamyala,alexpilot11,aljazkosir,ashishmohite,afonsocarlos,dutkiewicz,oudeismetis,grahamhealy20,SukiCZ,knaperek,jperelli,marcelchastain,c-bata,tejon-melero,ronlut,ryan-blunden,trumpet2012,Virako,deshraj,islam-kamel,mizvyt",
+        "participants": "user-xxx,user-yyy",
         "last_committed": "2024-01-12T10:03:34",
         "last_released": "2024-01-12T15:28:41"
     }
