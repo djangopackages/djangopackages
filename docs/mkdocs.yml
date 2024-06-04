@@ -47,7 +47,9 @@ nav:
   - deployment.md
   - management_commands.md
   - repo_handlers.md
-  - apiv3_docs.md
+  - REST API:
+    - APIv3: apiv3_docs.md
+    - APIv4: apiv4_docs.md
   - faq.md
   - history.md
   - license.md
@@ -58,6 +60,7 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
+          paths: [../searchv2]
           options:
             # More options are located at https://mkdocstrings.github.io/python/usage/configuration/general/
             # General
@@ -74,7 +77,6 @@ plugins:
             show_root_members_full_path: false
             show_object_full_path: false
             show_category_heading: true
-            show_symbol_type_heading: false
             show_symbol_type_heading: false
             show_symbol_type_toc: false
 
@@ -121,13 +123,6 @@ plugins:
             separate_signature: true
             signature_crossrefs: false
             unwrap_annotated: false
-
-
-          paths: [../searchv2]
-
-
-
-
 
 markdown_extensions:
   - toc:
