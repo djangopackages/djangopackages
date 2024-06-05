@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-06-04]
+### Changed
+- [DOCS] Add APIv4 Documentation ([#1165](https://github.com/djangopackages/djangopackages/pull/1165))
+- [pre-commit.ci] pre-commit autoupdate ([#1164](https://github.com/djangopackages/djangopackages/pull/1164))
+
 ## [2024-05-31]
 ### Changed
 - :sparkles: Add feeds to the Changelog ([#1163](https://github.com/djangopackages/djangopackages/pull/1163))
