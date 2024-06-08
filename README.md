@@ -69,3 +69,8 @@ The code is open-source and licensed under the MIT license.
 For Django Dash 2010, [@pydanny](https://github.com/pydanny/) and [@audreyr](https://github.com/audreyr/) created [Django Packages](https://www.djangopackages.org/).
 
 They are joined by a host of core developers and contributors. See [contributors](CONTRIBUTORS.md).
+
+### Infrastructure model
+![Infrastructure main model](.infragenie/infrastructure_main_model.svg)
+
+---
