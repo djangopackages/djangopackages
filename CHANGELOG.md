@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-06-10]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1168](https://github.com/djangopackages/djangopackages/pull/1168))
+
 ## [2024-06-04]
 ### Changed
 - [DOCS] Add APIv4 Documentation ([#1165](https://github.com/djangopackages/djangopackages/pull/1165))
