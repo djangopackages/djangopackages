@@ -38,6 +38,7 @@ class PackageForm(ModelForm):
             "slug",
             "pypi_url",
             "category",
+            "documentation_url",
         ]
 
 
