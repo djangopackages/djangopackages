@@ -177,7 +177,7 @@ First we pull the code into a local branch:
 
 ```shell
 git checkout -b <branch-name> <submitter-github-name>
-git pull git://github.com/<submitter-github-name/djangopackages.git develop
+git pull git://github.com/<submitter-github-name/djangopackages.git main
 ```
 
 Then we run the tests:
@@ -189,9 +189,9 @@ python -m manage test --settings=settings.test
 We finish with a merge and push to GitHub:
 
 ```shell
-git checkout develop
+git checkout main
 git merge <branch-name>
-git push origin develop
+git push origin main
 ```
 
 [github project]: https://github.com/djangopackages/djangopackages
