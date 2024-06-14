@@ -39,7 +39,7 @@ While it's handy to provide useful code snippets in an issue, it is better for
 you as a developer to submit pull requests. By submitting pull request your
 contribution to Django Packages will be recorded by GitHub.
 
-In git it is best to isolate each topic or feature into a "topic branch".  While
+In git it is best to isolate each topic or feature into a "topic branch". While
 individual commits allow you control over how small individual changes are made
 to the code, branches are a great way to group a set of commits all related to
 one feature together, or to isolate different efforts when you might be working
@@ -50,7 +50,7 @@ commits, a topic branch should be limited in scope to a single `issue` as
 submitted to an issue tracker.
 
 Also since GitHub pegs and syncs a pull request to a specific branch, it is the
-**ONLY** way that you can submit more than one fix at a time.  If you submit
+**ONLY** way that you can submit more than one fix at a time. If you submit
 a pull from your develop branch, you can't make any more commits to your develop
 without those getting added to the pull.
 
@@ -60,12 +60,13 @@ checkout`:
 ```shell
 git checkout -b fix-broken-thing
 ```
+
 ```shell
 Switched to a new branch 'fix-broken-thing'
 ```
 
 You should use a verbose enough name for your branch so it is clear what it is
-about.  Now you can commit your changes and regularly merge in the upstream
+about. Now you can commit your changes and regularly merge in the upstream
 develop as described below.
 
 When you are ready to generate a pull request, either for preliminary review,
@@ -77,40 +78,40 @@ git push origin fix-broken-thing
 ```
 
 Now when you go to your fork on GitHub, you will see this branch listed under
-the "Source" tab where it says "Switch Branches".  Go ahead and select your
+the "Source" tab where it says "Switch Branches". Go ahead and select your
 topic branch from this list, and then click the "Pull request" button.
 
-Here you can add a comment about your branch.  If this in response to
+Here you can add a comment about your branch. If this in response to
 a submitted issue, it is good to put a link to that issue in this initial
-comment.  The repo managers will be notified of your pull request and it will
-be reviewed (see below for best practices).  Note that you can continue to add
+comment. The repo managers will be notified of your pull request and it will
+be reviewed (see below for best practices). Note that you can continue to add
 commits to your topic branch (and push them up to GitHub) either if you see
-something that needs changing, or in response to a reviewer's comments.  If
+something that needs changing, or in response to a reviewer's comments. If
 a reviewer asks for changes, you do not need to close the pull and reissue it
 after making changes. Just make the changes locally, push them to GitHub, then
 add a comment to the discussion section of the pull request.
 
 ## Pull upstream changes into your fork regularly
 
-Django Packages is advancing quickly. It is therefore critical that you pull upstream changes from develop into your fork on a regular basis. Nothing is worse than putting in a days of hard work into a pull request only to have it rejected because it has diverged too far from develop.
+Django Packages is advancing quickly. It is therefore critical that you pull upstream changes from main into your fork on a regular basis. Nothing is worse than putting in a days of hard work into a pull request only to have it rejected because it has diverged too far from main branch.
 
 To pull in upstream changes:
 
 ```shell
 git remote add upstream https://github.com/djangopackages/djangopackages.git
-git fetch upstream develop
+git fetch upstream main
 ```
 
 Check the log to be sure that you actually want the changes, before merging:
 
 ```shell
-git log upstream/develop
+git log upstream/main
 ```
 
 Then merge the changes that you fetched:
 
 ```shell
-git merge upstream/develop
+git merge upstream/main
 ```
 
 For more info, see <http://help.github.com/fork-a-repo/>
@@ -147,7 +148,7 @@ Django Packages pull requests should be as small/atomic as possible. Large, wide
 
 1. If you are making spelling corrections in the docs, don't modify the settings.py file ([pydanny] is guilty of this mistake).
 2. Adding new [Repo Handlers](repo_handlers.md) must not touch the Package model or its methods.
-3. If you are adding a new view don't '*cleanup*' unrelated views. That cleanup belongs in another pull request.
+3. If you are adding a new view don't '_cleanup_' unrelated views. That cleanup belongs in another pull request.
 4. Changing permissions on a file should be in its own pull request with explicit reasons why.
 
 ### Follow PEP-8 and keep your code simple!
@@ -176,7 +177,7 @@ First we pull the code into a local branch:
 
 ```shell
 git checkout -b <branch-name> <submitter-github-name>
-git pull git://github.com/<submitter-github-name/djangopackages.git develop
+git pull git://github.com/<submitter-github-name/djangopackages.git main
 ```
 
 Then we run the tests:
@@ -188,9 +189,9 @@ python -m manage test --settings=settings.test
 We finish with a merge and push to GitHub:
 
 ```shell
-git checkout develop
+git checkout main
 git merge <branch-name>
-git push origin develop
+git push origin main
 ```
 
 [github project]: https://github.com/djangopackages/djangopackages
