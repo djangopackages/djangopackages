@@ -140,6 +140,13 @@ Listed in alphabetical order.
     <td></td>
   </tr>
   <tr>
+    <td>Farhan Ali Raza</td>
+    <td>
+      <a href="https://github.com/FarhanAliRaza">FarhanAliRaza</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
     <td>Florent Gallaire</td>
     <td>
       <a href="https://github.com/fgallaire">fgallaire</a>
