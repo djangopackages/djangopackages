@@ -72,3 +72,13 @@ def normalize_license(license: str):
             return "Custom"
         return stripped_license
     return "UNKNOWN"
+
+
+def extract_documentation_url_from_markdown(description):
+    url_start = description.find("[Documentation](")
+    if url_start != -1:
+        url_start = url_start + len("[Documentation](")
+        url_end = description[url_start:].find(")")
+        if url_end != -1:
+            return description[url_start : url_start + url_end]
+    return None
