@@ -397,12 +397,12 @@ class Package(BaseModel):
                     elif docs_url := info.get("docs_url"):
                         self.documentation_url = docs_url
                     elif (
-                        info.get("desctiption")
+                        info.get("description")
                         and info.get("description_content_type") == "text/markdown"
                     ):
                         self.documentation_url = (
                             extract_documentation_url_from_markdown(
-                                info.get("desctiption")
+                                info.get("description")
                             )
                         )
 
