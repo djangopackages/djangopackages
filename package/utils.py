@@ -3,6 +3,8 @@ from distutils.version import LooseVersion as versioner
 from django.db import models
 from requests.compat import quote
 from trove_classifiers import classifiers
+from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
 
 
 # this is gross, but requests doesn't import quote_plus into compat,
@@ -80,5 +82,11 @@ def extract_documentation_url_from_markdown(description):
         url_start = url_start + len("[Documentation](")
         url_end = description[url_start:].find(")")
         if url_end != -1:
-            return description[url_start : url_start + url_end]
+            url = description[url_start : url_start + url_end]
+            try:
+                validator = URLValidator()
+                validator(url)
+                return url
+            except ValidationError:
+                return None
     return None

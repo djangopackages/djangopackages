@@ -381,13 +381,21 @@ class Package(BaseModel):
                     self.pypi_downloads = total_downloads
 
                 # get documents_url from pypi
-                if self.documentation_url is None:
-                    if info["project_urls"].get("Documentation"):
-                        self.documentation_url = info["project_urls"].get(
-                            "Documentation"
-                        )
-                    elif info.get("docs_url"):
-                        self.documentation_url = info.get("docs_url")
+                if not self.documentation_url:
+                    if docs_url := info["project_urls"].get("Documentation"):
+                        self.documentation_url = docs_url
+
+                    elif docs_url := info["project_urls"].get("Docs"):
+                        self.documentation_url = docs_url
+
+                    elif docs_url := info["project_urls"].get("docs"):
+                        self.documentation_url = docs_url
+
+                    elif docs_url := info["project_urls"].get("documentation"):
+                        self.documentation_url = docs_url
+
+                    elif docs_url := info.get("docs_url"):
+                        self.documentation_url = docs_url
                     elif (
                         info.get("desctiption")
                         and info.get("description_content_type") == "text/markdown"

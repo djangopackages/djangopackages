@@ -35,3 +35,10 @@ def test_extract_documentation_url_from_markdown():
         extract_documentation_url_from_markdown(description)
         == "https://www.crummy.com/software/BeautifulSoup/bs4/doc/"
     )
+
+
+def test_extract_documentation_invalid_url_from_markdown():
+    description = """
+    description="[Documentation](This is not a URL)"
+    """
+    assert extract_documentation_url_from_markdown(description) is None
