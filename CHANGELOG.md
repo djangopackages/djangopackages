@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-06-23]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1175](https://github.com/djangopackages/djangopackages/pull/1175))
+
 ## [2024-06-14]
 ### Changed
 - documentation_url field added ([#1173](https://github.com/djangopackages/djangopackages/pull/1173))
