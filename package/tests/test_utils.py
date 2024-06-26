@@ -1,8 +1,4 @@
-from package.utils import (
-    normalize_license,
-    uniquer,
-    extract_documentation_url_from_markdown,
-)
+from package.utils import normalize_license, uniquer
 
 
 def test_uniquer():
@@ -25,20 +21,3 @@ def test_normalize_license():
 
     # TODO: fix in #888
     assert normalize_license("GPL-2.0-only OR LGPL-2.1-or-later") == "Custom"
-
-
-def test_extract_documentation_url_from_markdown():
-    description = """
-    To go beyond the basics, [comprehensive documentation is available](https://www.crummy.com/software/BeautifulSoup/bs4/doc/). # Links * [Homepage](https://www.crummy.com/software/BeautifulSoup/bs4/) * [Documentation](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) * [Discussion group](https://groups.google.com/group/beautifulsoup/) * [Development](https://code.launchpad.net/beautifulsoup/) * [Bug tracker](https://bugs.launchpad.net/beautifulsoup/) *
-    """
-    assert (
-        extract_documentation_url_from_markdown(description)
-        == "https://www.crummy.com/software/BeautifulSoup/bs4/doc/"
-    )
-
-
-def test_extract_documentation_invalid_url_from_markdown():
-    description = """
-    description="[Documentation](This is not a URL)"
-    """
-    assert extract_documentation_url_from_markdown(description) is None

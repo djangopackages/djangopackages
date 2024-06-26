@@ -28,12 +28,7 @@ from core.utils import STATUS_CHOICES, status_choices_switch
 from package.managers import PackageManager
 from package.repos import get_repo_for_repo_url
 from package.signals import signal_fetch_latest_metadata
-from package.utils import (
-    get_pypi_version,
-    get_version,
-    normalize_license,
-    extract_documentation_url_from_markdown,
-)
+from package.utils import get_pypi_version, get_version, normalize_license
 
 repo_url_help_text = settings.PACKAGINATOR_HELP_TEXT["REPO_URL"]
 pypi_url_help_text = settings.PACKAGINATOR_HELP_TEXT["PYPI_URL"]
@@ -393,18 +388,6 @@ class Package(BaseModel):
 
                     elif docs_url := info["project_urls"].get("documentation"):
                         self.documentation_url = docs_url
-
-                    elif docs_url := info.get("docs_url"):
-                        self.documentation_url = docs_url
-                    elif (
-                        info.get("description")
-                        and info.get("description_content_type") == "text/markdown"
-                    ):
-                        self.documentation_url = (
-                            extract_documentation_url_from_markdown(
-                                info.get("description")
-                            )
-                        )
 
                 return True
 
