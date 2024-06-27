@@ -64,9 +64,16 @@ def test_pypi_documentation_url_valid(db, faker, requests_mock):
     package_name = "valid-documentation"
     documentation_url = "https://docs.djangopackages.org/en/latest/"
 
-    package = baker.make("package.Package", title=package_name, pypi_url=package_name, documentation_url=documentation_url)
+    package = baker.make(
+        "package.Package",
+        title=package_name,
+        pypi_url=package_name,
+        documentation_url=documentation_url,
+    )
 
-    pypi_data = pypi_package(documentation_url=documentation_url, package_name=package_name)
+    pypi_data = pypi_package(
+        documentation_url=documentation_url, package_name=package_name
+    )
 
     requests_mock.get(
         f"https://pypi.org/pypi/{package_name}/json",
