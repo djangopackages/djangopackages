@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-06-27]
+### Changed
+- Extract documentaion_url from pypi ([#1180](https://github.com/djangopackages/djangopackages/pull/1180))
+- :green_heart: Removes pk’s from load data ([#1181](https://github.com/djangopackages/djangopackages/pull/1181))
+
 ## [2024-06-25]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1182](https://github.com/djangopackages/djangopackages/pull/1182))
