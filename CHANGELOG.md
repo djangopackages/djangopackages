@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-06-28]
+### Changed
+- :green_heart: Adds tests for documentation_url ([#1184](https://github.com/djangopackages/djangopackages/pull/1184))
+
 ## [2024-06-27]
 ### Changed
 - Extract documentaion_url from pypi ([#1180](https://github.com/djangopackages/djangopackages/pull/1180))
