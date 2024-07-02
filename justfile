@@ -2,6 +2,8 @@ set dotenv-load := false
 
 alias pip-compile := lock
 
+DATABASE_URL := env_var_or_default('DATABASE_URL', 'postgres://djangopackages:djangopackages@postgres/djangopackages')
+
 @_default:
     just --list
 
@@ -270,3 +272,29 @@ bootstrap *ARGS:
 @tailwind-watch:
     just tailwind-build
     just tailwind --watch
+
+# dump database to file
+@pg_dump file='db.dump':
+    docker compose run \
+        --no-deps \
+        --rm \
+        postgres \
+        pg_dump \
+            --dbname "{{ DATABASE_URL }}" \
+            --file /app/{{ file }} \
+            --format=c \
+            --verbose
+
+# restore database dump from file
+@pg_restore file='db.dump':
+    docker compose run \
+        --no-deps \
+        --rm \
+        postgres \
+        pg_restore \
+            --clean \
+            --dbname "{{ DATABASE_URL }}" \
+            --if-exists \
+            --no-owner \
+            --verbose \
+            /app/{{ file }}

@@ -40,7 +40,7 @@ services:
       retries: 30
     init: true
     volumes:
-      - djpkg_postgres_data_dev:/var/lib/postgresql/data
+      - .:/app
 
   redis:
     image: redis:7
