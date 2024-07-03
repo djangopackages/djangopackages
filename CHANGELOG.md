@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-07-02]
+### Changed
+- :elephant: Adds pg_dump and pg_restore recipes ([#1188](https://github.com/djangopackages/djangopackages/pull/1188))
+- Add changelog pre-footer link ([#1185](https://github.com/djangopackages/djangopackages/pull/1185))
+- [pre-commit.ci] pre-commit autoupdate ([#1186](https://github.com/djangopackages/djangopackages/pull/1186))
+
 ## [2024-06-28]
 ### Changed
 - :green_heart: Adds tests for documentation_url ([#1184](https://github.com/djangopackages/djangopackages/pull/1184))
