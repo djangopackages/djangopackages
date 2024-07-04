@@ -42,7 +42,7 @@
             <div class="col-lg-12">
                 <h3>{% trans "Filter results" %}</h3>
             </div>
-            <form method="get" action="{{ request.path }}" id="filterForm">
+            <form method="get" action="{{ request.path }}" id="filterForm" class="form-inline">
                 <div class="col-lg-2 col-md-3 col-sm-4">
                     {{ filter_form|crispy }}
                 </div>
