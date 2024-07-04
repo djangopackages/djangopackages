@@ -8,6 +8,7 @@ def pypi_package(
     author: str | None = None,
     author_email: str | None = None,
     classifiers: list[str] | None = [],
+    documentation_url: str | None = None,
     license: str | None = None,
     package_name: str = "example-package",
     requires_python: str = None,
@@ -35,6 +36,7 @@ def pypi_package(
             "project_url": f"https://pypi.org/project/{package_name}/",
             "project_urls": {
                 "Changelog": None,
+                "Documentation": documentation_url,
                 "Funding": None,
                 "Homepage": None,
                 "Source": None,
@@ -56,6 +58,29 @@ def pypi_package(
             }
         ],
     }
+
+
+def test_pypi_documentation_url_valid(db, faker, requests_mock):
+    package_name = "valid-documentation"
+    documentation_url = "https://docs.djangopackages.org/en/latest/"
+
+    package = baker.make(
+        "package.Package",
+        title=package_name,
+        pypi_url=package_name,
+        documentation_url=documentation_url,
+    )
+
+    pypi_data = pypi_package(
+        documentation_url=documentation_url, package_name=package_name
+    )
+
+    requests_mock.get(
+        f"https://pypi.org/pypi/{package_name}/json",
+        text=json.dumps(pypi_data),
+    )
+
+    assert package.documentation_url == documentation_url
 
 
 def test_pypi_license_valid(db, faker, requests_mock):
@@ -242,6 +267,7 @@ def test_django(db, requests_mock):
     assert package.deprecated_by is None
     assert package.deprecates_package is None
     assert package.development_status is None
+    assert package.documentation_url == ""
     assert package.license_latest == "UNKNOWN"
     assert package.pypi_classifiers is None
     assert package.pypi_license is None
@@ -260,6 +286,7 @@ def test_django(db, requests_mock):
     assert package.deprecated_by is None
     assert package.deprecates_package is None
     assert package.development_status == "Production/Stable"
+    assert package.documentation_url == "https://docs.djangoproject.com/"
     assert package.license_latest == "BSD-3-Clause"
     assert len(package.pypi_classifiers) == 17
     assert package.pypi_license == "BSD-3-Clause"
@@ -290,6 +317,7 @@ def test_djangorestframework(db, requests_mock):
     assert package.deprecated_by is None
     assert package.deprecates_package is None
     assert package.development_status is None
+    assert package.documentation_url == ""
     assert package.license_latest == "UNKNOWN"
     assert package.pypi_classifiers is None
     assert package.pypi_license is None
@@ -308,6 +336,7 @@ def test_djangorestframework(db, requests_mock):
     assert package.deprecated_by is None
     assert package.deprecates_package is None
     assert package.development_status == "Production/Stable"
+    assert package.documentation_url == ""
     assert package.license_latest == "BSD"
     assert len(package.pypi_classifiers) == 20
     assert package.pypi_license == "BSD"
@@ -338,6 +367,7 @@ def test_django_crispy_forms_data(db, requests_mock):
     assert package.deprecated_by is None
     assert package.deprecates_package is None
     assert package.development_status is None
+    assert package.documentation_url == ""
     assert package.license_latest == "UNKNOWN"
     assert package.pypi_classifiers is None
     assert package.pypi_license is None
@@ -357,6 +387,7 @@ def test_django_crispy_forms_data(db, requests_mock):
     assert package.deprecated_by is None
     assert package.deprecates_package is None
     assert package.development_status == "Production/Stable"
+    assert package.documentation_url == ""
     assert package.license_latest == "MIT"
     assert package.pypi_license == "MIT"
     assert package.pypi_licenses == ["MIT", "MIT License"]
@@ -380,6 +411,7 @@ def test_nango_data(db, requests_mock):
     assert package.deprecated_by is None
     assert package.deprecates_package is None
     assert package.development_status is None
+    assert package.documentation_url == ""
     assert package.license_latest == "UNKNOWN"
     assert package.pypi_classifiers is None
     assert package.pypi_license is None
@@ -399,6 +431,7 @@ def test_nango_data(db, requests_mock):
     assert package.deprecated_by is None
     assert package.deprecates_package is None
     assert package.development_status == "Unknown"
+    assert package.documentation_url == ""
     assert package.license_latest == "MIT License"
     assert package.pypi_license == "MIT License"
     assert package.pypi_licenses == ["MIT License"]

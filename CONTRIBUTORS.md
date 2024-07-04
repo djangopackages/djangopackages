@@ -496,4 +496,11 @@ Listed in alphabetical order.
     </td>
     <td>JaIn10VaIbHaV</td>
   </tr>
+  <tr>
+    <td>Victoria Cruces</td>
+    <td>
+      <a href="https://github.com/vcruces">vcruces</a>
+    </td>
+    <td></td>
+  </tr>
 </table>

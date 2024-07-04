@@ -375,6 +375,20 @@ class Package(BaseModel):
                 if self.pypi_downloads is None:
                     self.pypi_downloads = total_downloads
 
+                # get documents_url from pypi
+                if not self.documentation_url:
+                    if docs_url := info["project_urls"].get("Documentation"):
+                        self.documentation_url = docs_url
+
+                    elif docs_url := info["project_urls"].get("Docs"):
+                        self.documentation_url = docs_url
+
+                    elif docs_url := info["project_urls"].get("docs"):
+                        self.documentation_url = docs_url
+
+                    elif docs_url := info["project_urls"].get("documentation"):
+                        self.documentation_url = docs_url
+
                 return True
 
         return False
