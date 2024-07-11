@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-07-10]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1193](https://github.com/djangopackages/djangopackages/pull/1193))
+
 ## [2024-07-02]
 ### Changed
 - :elephant: Adds pg_dump and pg_restore recipes ([#1188](https://github.com/djangopackages/djangopackages/pull/1188))
