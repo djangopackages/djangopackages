@@ -1,5 +1,8 @@
 """Forms for the :mod:`grid` app"""
 
+from crispy_forms.bootstrap import InlineField
+from crispy_forms.helper import FormHelper
+from crispy_forms.helper import Layout
 from django.forms import BooleanField, ChoiceField, Form, ModelForm
 from django.utils.translation import gettext_lazy as _
 
@@ -77,3 +80,9 @@ class GridPackageFilterForm(Form):
     sort = ChoiceField(
         choices=SORT_CHOICES, initial=SCORE, required=False, label=_("Sort by")
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.field_template = "bootstrap3/layout/inline_field.html"
+        self.helper.form_class = "form-inline"
