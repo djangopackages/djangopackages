@@ -1,8 +1,6 @@
 """Forms for the :mod:`grid` app"""
 
-from crispy_forms.bootstrap import InlineField
 from crispy_forms.helper import FormHelper
-from crispy_forms.helper import Layout
 from django.forms import BooleanField, ChoiceField, Form, ModelForm
 from django.utils.translation import gettext_lazy as _
 
