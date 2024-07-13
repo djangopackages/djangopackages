@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-07-12]
+### Changed
+- :art: Updates filter layout ([#1196](https://github.com/djangopackages/djangopackages/pull/1196))
+- ⬆️ Bump django from 5.0.6 to 5.0.7 ([#1194](https://github.com/djangopackages/djangopackages/pull/1194))
+- Inline filter results on grid page ([#1190](https://github.com/djangopackages/djangopackages/pull/1190))
+
 ## [2024-07-10]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1193](https://github.com/djangopackages/djangopackages/pull/1193))
