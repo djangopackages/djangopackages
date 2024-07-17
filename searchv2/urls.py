@@ -25,7 +25,9 @@ urlpatterns = [
     ),
     path(
         "opensearch/description/",
-        views.OpenSearchDescription.as_view(content_type="application/opensearchdescription+xml"),
+        views.OpenSearchDescription.as_view(
+            content_type="application/opensearchdescription+xml"
+        ),
         name="opensearch-description",
     ),
     path(
@@ -33,5 +35,4 @@ urlpatterns = [
         views.OpenSearchSuggestions.as_view(),
         name="opensearch-suggestions",
     ),
-    
 ]
