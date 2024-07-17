@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-07-16]
+### Changed
+- ⬆️ Bump the dependencies group with 30 updates ([#1197](https://github.com/djangopackages/djangopackages/pull/1197))
+- [pre-commit.ci] pre-commit autoupdate ([#1198](https://github.com/djangopackages/djangopackages/pull/1198))
+
 ## [2024-07-12]
 ### Changed
 - :art: Updates filter layout ([#1196](https://github.com/djangopackages/djangopackages/pull/1196))
