@@ -102,6 +102,7 @@ class Package(BaseModel):
         help_text="List of collaborats/participants on the project",
         blank=True,
     )
+    favorite_count = models.IntegerField(_("Favorite"), default=0, help_text="Favorite count")
     usage = models.ManyToManyField(User, blank=True)
     created_by = models.ForeignKey(
         User, blank=True, null=True, related_name="creator", on_delete=models.SET_NULL
