@@ -147,6 +147,13 @@ Listed in alphabetical order.
     <td></td>
   </tr>
   <tr>
+    <td>Felipe de Morais</td>
+    <td>
+      <a href="https://github.com/lipemorais">lipemorais</a>
+    </td>
+    <td>felipedemorais_</td>
+  </tr>
+  <tr>
     <td>Florent Gallaire</td>
     <td>
       <a href="https://github.com/fgallaire">fgallaire</a>
@@ -495,5 +502,12 @@ Listed in alphabetical order.
       <a href="https://github.com/vaibhav-jain">vaibhav-jain</a>
     </td>
     <td>JaIn10VaIbHaV</td>
+  </tr>
+  <tr>
+    <td>Victoria Cruces</td>
+    <td>
+      <a href="https://github.com/vcruces">vcruces</a>
+    </td>
+    <td></td>
   </tr>
 </table>

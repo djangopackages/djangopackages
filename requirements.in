@@ -19,7 +19,7 @@ django-structlog
 django-tables2
 django-waffle
 Django<5.2
-djangorestframework<3.15
+djangorestframework<3.16
 emoji
 emojificate
 feedparser
@@ -43,7 +43,7 @@ requests
 requests-mock
 rich
 sentry-sdk
-social-auth-app-django==5.4.0
+social-auth-app-django==5.4.2
 social-auth-core
 sqlite-utils
 structlog

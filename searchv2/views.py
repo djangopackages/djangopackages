@@ -3,9 +3,15 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.db.models import F, FloatField, Max, Q
 from django.db.models.functions import Cast, Round
-from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
+from django.http import (
+    HttpResponse,
+    HttpResponseForbidden,
+    HttpResponseRedirect,
+    JsonResponse,
+)
 from django.shortcuts import render
 from django.urls import reverse
+from django.views.generic import View, TemplateView
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 
 from homepage.views import homepage
@@ -187,3 +193,25 @@ class SearchListAPIView(ListAPIView):
 
 class SearchDetailAPIView(RetrieveAPIView):
     model = SearchV2
+
+
+class OpenSearchDescription(TemplateView):
+    template_name = "search_description.xml"
+
+
+class OpenSearchSuggestions(View):
+    def get(self, request):
+        suggestions = []
+        q = request.GET.get("q", "")
+        print(q, "query")
+        results = search_function(q)[:15]
+        suggestions.append(q)
+        titles = []
+        links = []
+        for result in results:
+            titles.append(result.title)
+            links.append(result.absolute_url)
+        suggestions.append(titles)
+        suggestions.append([])
+        suggestions.append(links)
+        return JsonResponse(suggestions, safe=False)

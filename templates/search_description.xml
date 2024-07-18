@@ -1,0 +1,15 @@
+{% load static %}<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
+                       xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+  <ShortName>Django Packages</ShortName>
+  <Description>Search Django Packages</Description>
+  <InputEncoding>UTF-8</InputEncoding>
+  <OutputEncoding>UTF-8</OutputEncoding>
+  <Developer>Django Packages Team</Developer>
+  <Image width="16" height="16" type="image/png">{{ STATIC_URL }}img/favicon.png</Image>
+  <SyndicationRight>open</SyndicationRight>
+  <AdultContent>false</AdultContent>
+  <Url type="application/x-suggestions+json" rel="suggestions" template="http://{{ request.get_host }}{% url 'opensearch-suggestions' %}?q={searchTerms}"/>
+  <Url type="text/html" rel="results" method="get" template="http://{{ request.get_host }}{% url 'search' %}?q={searchTerms}"/>
+  <Url type="application/opensearchdescription+xml" rel="self" template="http://{{ request.get_host }}{% url 'opensearch-description' %}"/>
+</OpenSearchDescription>
