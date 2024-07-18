@@ -23,4 +23,16 @@ urlpatterns = [
         view=views.search_packages_autocomplete,
         name="search_packages_autocomplete",
     ),
+    path(
+        "opensearch/description/",
+        views.OpenSearchDescription.as_view(
+            content_type="application/opensearchdescription+xml"
+        ),
+        name="opensearch-description",
+    ),
+    path(
+        "opensearch/suggestions/",
+        views.OpenSearchSuggestions.as_view(),
+        name="opensearch-suggestions",
+    ),
 ]
