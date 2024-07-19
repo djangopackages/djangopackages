@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import F
 from django.contrib.auth.models import User
 from core.models import BaseModel
 from package.models import Package
@@ -12,10 +13,10 @@ class Favorite(BaseModel):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        self.package.favorite_count += 1
+        self.package.favorite_count = F("favorite_count") + 1
         self.package.save()
 
     def delete(self, *args, **kwargs):
-        self.package.favorite_count -= 1
+        self.package.favorite_count = F("favorite_count") - 1
         self.package.save()
         super().delete(*args, **kwargs)
