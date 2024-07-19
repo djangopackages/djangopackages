@@ -80,7 +80,6 @@ class SearchDescriptionTest(TestCase):
     def test_description(self):
         url = reverse("opensearch-description")
         response = self.client.get(url)
-        print(response.content)
         self.assertEqual(response.status_code, 200)
         self.assertContains(
             response,
