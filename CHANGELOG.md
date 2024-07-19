@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-07-18]
+### Changed
+- Add opensearch  ([#1200](https://github.com/djangopackages/djangopackages/pull/1200))
+
 ## [2024-07-16]
 ### Changed
 - ⬆️ Bump the dependencies group with 30 updates ([#1197](https://github.com/djangopackages/djangopackages/pull/1197))
