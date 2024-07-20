@@ -1,5 +1,13 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-07-19]
+### Changed
+- package_admin favorite_count ([#1211](https://github.com/djangopackages/djangopackages/pull/1211))
+- tests for opensearch ([#1209](https://github.com/djangopackages/djangopackages/pull/1209))
+- use F field ([#1208](https://github.com/djangopackages/djangopackages/pull/1208))
+- Favorite model and favorites app ([#1204](https://github.com/djangopackages/djangopackages/pull/1204))
+- Add the field favorite_count to package model ([#1206](https://github.com/djangopackages/djangopackages/pull/1206))
+
 ## [2024-07-18]
 ### Changed
 - Add opensearch  ([#1200](https://github.com/djangopackages/djangopackages/pull/1200))
