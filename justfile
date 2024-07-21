@@ -281,7 +281,7 @@ bootstrap *ARGS:
         postgres \
         pg_dump \
             --dbname "{{ DATABASE_URL }}" \
-            --file /app/{{ file }} \
+            --file /code/{{ file }} \
             --format=c \
             --verbose
 
@@ -297,4 +297,4 @@ bootstrap *ARGS:
             --if-exists \
             --no-owner \
             --verbose \
-            /app/{{ file }}
+            /code/{{ file }}
