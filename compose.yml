@@ -24,7 +24,7 @@ services:
 
   django-q:
     <<: *common-settings
-    command: ["python", "-m", manage", "qcluster"]
+    command: ["python", "-m", "manage", "qcluster"]
     init: true
 
   postgres:
