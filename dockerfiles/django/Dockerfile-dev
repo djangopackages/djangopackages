@@ -31,6 +31,6 @@ COPY ./dockerfiles/django/start-dev.sh /start-dev.sh
 RUN sed -i 's/\r//' /start-dev.sh \
     && chmod +x /start-dev.sh
 
-WORKDIR /app
+WORKDIR /code
 
 ENTRYPOINT ["/entrypoint.sh"]

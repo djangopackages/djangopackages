@@ -27,11 +27,11 @@ COPY ./dockerfiles/django/entrypoint.sh /entrypoint.sh
 RUN sed -i 's/\r//' /entrypoint.sh \
     && chmod +x /entrypoint.sh
 
-COPY . /app
+COPY . /code
 
 RUN groupadd -r django \
     && useradd -r -g django django \
-    && chown -R django /app
+    && chown -R django /code
 
 COPY ./dockerfiles/django/start.sh /start.sh
 
@@ -39,7 +39,7 @@ RUN sed -i 's/\r//' /start.sh \
     && chmod +x /start.sh \
     && chown django /start.sh
 
-WORKDIR /app
+WORKDIR /code
 
 RUN mkdir /data \
     && chown django.django /data

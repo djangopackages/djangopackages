@@ -4,7 +4,7 @@ python -m manage migrate --noinput
 python -m manage collectstatic --noinput
 
 /usr/local/bin/uwsgi \
-    --chdir /app \
+    --chdir /code \
     --disable-write-exception \
     --enable-threads \
     --harakiri 120 \
@@ -16,4 +16,4 @@ python -m manage collectstatic --noinput
     --processes 3 \
     --single-interpreter \
     --stats :1717 \
-    --wsgi-file /app/wsgi.py
+    --wsgi-file /code/wsgi.py
