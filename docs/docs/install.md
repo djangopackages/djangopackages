@@ -79,13 +79,13 @@ docker compose run --rm django python -m manage load_dev_data
 
 ### Rebuild Search Indexes
 
-Next we need to rebuilds and recalculate our search database.
+Next, we need to rebuild and recalculate our search database.
 
 ```shell
 docker compose run --rm django python -m manage searchv2_build
 ```
 
-While the search v2 is our current default search algorithm, we have an experimental v3 that we are testing. To rebuild and recalculate our search database using the v3 engine we run:
+While the search v2 is our current default search algorithm, we have an experimental v3 that we are testing. To rebuild and recalculate our search database using the v3 engine, we run:
 
 ```shell
 docker compose run --rm django python -m manage searchv3_build
