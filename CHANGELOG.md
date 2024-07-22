@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-07-21]
+### Changed
+- :whale: Docker hotfix ([#1215](https://github.com/djangopackages/djangopackages/pull/1215))
+
 ## [2024-07-19]
 ### Changed
 - package_admin favorite_count ([#1211](https://github.com/djangopackages/djangopackages/pull/1211))
