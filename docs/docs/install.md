@@ -77,6 +77,20 @@ We use a **Mock** system of creating sample data in our tests and for running a 
 docker compose run --rm django python -m manage load_dev_data
 ```
 
+### Rebuild Search Indexes
+
+Next we need to rebuilds and recalculate our search database.
+
+```shell
+docker compose run --rm django python -m manage searchv2_build
+```
+
+While the search v2 is our current default search algorithm, we have an experimental v3 that we are testing. To rebuild and recalculate our search database using the v3 engine we run:
+
+```shell
+docker compose run --rm django python -m manage searchv3_build
+```
+
 ### Formatters, Linters, and other miscellanea
 
 [Pre-commit] is a tool which helps to organize our linters and auto-formatters. Pre-commit runs before our code gets committed automatically or we may run it by hand. Pre-commit runs automatically for every pull request on GitHub too.
