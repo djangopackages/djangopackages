@@ -4,11 +4,11 @@
 {% load package_tags %}
 {% load emojificate %}
 {% load page_metadata_tags %}
+{% load static %}
 
 {% block metadata %}
     {% page_metadata page_title=package.title|emojify|emojificate page_description=package.repo_description page_keywords=package.grid_set.all|join:','  og_image_url=package.get_opengraph_image_url %}
 {% endblock %}
-
 {% block extra_head %}
     {{ block.super }}
     {% include 'includes/_ethicalads-js.html' %}
@@ -24,6 +24,15 @@
                         <div class="pull-right">
                             <div class="btn btn-default">
                                 <a href="{% url 'edit_package' package.slug %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                            </div>
+                            <script>
+                                document.body.addEventListener('htmx:configRequest', function(event) {
+                                    event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}'; // add a new parameter into the mix
+                                });
+                            </script>
+                            <div class="btn btn-default " id="favorite-btn" hx-post="{% url 'add_favorite' package.id %}" hx-target="this" hx-swap="innerHTML">
+                                <span class="glyphicon glyphicon-heart-empty"></span>
+                                Add to Favorite
                             </div>
                         </div>
                     </h2>
@@ -317,4 +326,6 @@
 
         });
     </script>
+    <script src="{% static 'js/htmx.min.js' %}" defer></script>
+
 {% endblock %}
