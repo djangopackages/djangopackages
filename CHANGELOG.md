@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-07-22]
+### Changed
+- ⬆️ Bump the dependencies group with 10 updates ([#1217](https://github.com/djangopackages/djangopackages/pull/1217))
+- :books: Adds Rebuild Search Indexs to docs ([#1216](https://github.com/djangopackages/djangopackages/pull/1216))
+
 ## [2024-07-21]
 ### Changed
 - :whale: Docker hotfix ([#1215](https://github.com/djangopackages/djangopackages/pull/1215))
