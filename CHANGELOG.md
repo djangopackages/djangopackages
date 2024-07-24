@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-07-23]
+### Changed
+- :pencil: Updates footer and funding pages ([#1220](https://github.com/djangopackages/djangopackages/pull/1220))
+
 ## [2024-07-22]
 ### Changed
 - ⬆️ Bump the dependencies group with 10 updates ([#1217](https://github.com/djangopackages/djangopackages/pull/1217))
