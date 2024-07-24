@@ -70,3 +70,31 @@ class ViewTest(TestCase):
         url = reverse("search") + "?q=django-uni-form"
         self.client.get(url)
         # print response
+
+
+class SearchDescriptionTest(TestCase):
+    def setUp(self):
+        pass
+        # build_1()
+
+    def test_description(self):
+        url = reverse("opensearch-description")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            '<Url type="text/html" rel="results" method="get" template="http://testserver/search/?q={searchTerms}"/>',
+        )
+
+    def test_suggestions(self):
+        SearchV2.objects.get_or_create(
+            item_type="package",
+            title="django-uni-form",
+            slug="django-uni-form",
+            slug_no_prefix="uni-form",
+            clean_title="django-uni-form",
+        )
+        url = reverse("opensearch-suggestions") + "?q=django-uni-form"
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '["django-uni-form"]')

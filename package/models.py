@@ -102,7 +102,9 @@ class Package(BaseModel):
         help_text="List of collaborats/participants on the project",
         blank=True,
     )
-    favorite_count = models.IntegerField(_("Favorite"), default=0, help_text="Favorite count")
+    favorite_count = models.IntegerField(
+        _("Favorite"), default=0, help_text="Favorite count"
+    )
     usage = models.ManyToManyField(User, blank=True)
     created_by = models.ForeignKey(
         User, blank=True, null=True, related_name="creator", on_delete=models.SET_NULL
@@ -375,6 +377,20 @@ class Package(BaseModel):
                 # Calculate total downloads
                 if self.pypi_downloads is None:
                     self.pypi_downloads = total_downloads
+
+                # get documents_url from pypi
+                if not self.documentation_url:
+                    if docs_url := info["project_urls"].get("Documentation"):
+                        self.documentation_url = docs_url
+
+                    elif docs_url := info["project_urls"].get("Docs"):
+                        self.documentation_url = docs_url
+
+                    elif docs_url := info["project_urls"].get("docs"):
+                        self.documentation_url = docs_url
+
+                    elif docs_url := info["project_urls"].get("documentation"):
+                        self.documentation_url = docs_url
 
                 return True
 

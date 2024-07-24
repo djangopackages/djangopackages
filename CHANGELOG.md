@@ -1,5 +1,68 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-07-23]
+### Changed
+- :pencil: Updates footer and funding pages ([#1220](https://github.com/djangopackages/djangopackages/pull/1220))
+
+## [2024-07-22]
+### Changed
+- ⬆️ Bump the dependencies group with 10 updates ([#1217](https://github.com/djangopackages/djangopackages/pull/1217))
+- :books: Adds Rebuild Search Indexs to docs ([#1216](https://github.com/djangopackages/djangopackages/pull/1216))
+
+## [2024-07-21]
+### Changed
+- :whale: Docker hotfix ([#1215](https://github.com/djangopackages/djangopackages/pull/1215))
+
+## [2024-07-19]
+### Changed
+- package_admin favorite_count ([#1211](https://github.com/djangopackages/djangopackages/pull/1211))
+- tests for opensearch ([#1209](https://github.com/djangopackages/djangopackages/pull/1209))
+- use F field ([#1208](https://github.com/djangopackages/djangopackages/pull/1208))
+- Favorite model and favorites app ([#1204](https://github.com/djangopackages/djangopackages/pull/1204))
+- Add the field favorite_count to package model ([#1206](https://github.com/djangopackages/djangopackages/pull/1206))
+
+## [2024-07-18]
+### Changed
+- Add opensearch  ([#1200](https://github.com/djangopackages/djangopackages/pull/1200))
+
+## [2024-07-16]
+### Changed
+- ⬆️ Bump the dependencies group with 30 updates ([#1197](https://github.com/djangopackages/djangopackages/pull/1197))
+- [pre-commit.ci] pre-commit autoupdate ([#1198](https://github.com/djangopackages/djangopackages/pull/1198))
+
+## [2024-07-12]
+### Changed
+- :art: Updates filter layout ([#1196](https://github.com/djangopackages/djangopackages/pull/1196))
+- ⬆️ Bump django from 5.0.6 to 5.0.7 ([#1194](https://github.com/djangopackages/djangopackages/pull/1194))
+- Inline filter results on grid page ([#1190](https://github.com/djangopackages/djangopackages/pull/1190))
+
+## [2024-07-10]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1193](https://github.com/djangopackages/djangopackages/pull/1193))
+
+## [2024-07-02]
+### Changed
+- :elephant: Adds pg_dump and pg_restore recipes ([#1188](https://github.com/djangopackages/djangopackages/pull/1188))
+- Add changelog pre-footer link ([#1185](https://github.com/djangopackages/djangopackages/pull/1185))
+- [pre-commit.ci] pre-commit autoupdate ([#1186](https://github.com/djangopackages/djangopackages/pull/1186))
+
+## [2024-06-28]
+### Changed
+- :green_heart: Adds tests for documentation_url ([#1184](https://github.com/djangopackages/djangopackages/pull/1184))
+
+## [2024-06-27]
+### Changed
+- Extract documentaion_url from pypi ([#1180](https://github.com/djangopackages/djangopackages/pull/1180))
+- :green_heart: Removes pk’s from load data ([#1181](https://github.com/djangopackages/djangopackages/pull/1181))
+
+## [2024-06-25]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1182](https://github.com/djangopackages/djangopackages/pull/1182))
+
+## [2024-06-23]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1175](https://github.com/djangopackages/djangopackages/pull/1175))
+
 ## [2024-06-14]
 ### Changed
 - documentation_url field added ([#1173](https://github.com/djangopackages/djangopackages/pull/1173))

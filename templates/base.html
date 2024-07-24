@@ -17,6 +17,7 @@
         <link rel="stylesheet" href="{{ STATIC_URL }}components/audreyr-topbar/dist/jquery.topbar.min.css" type="text/css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/oc.css" type="text/css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/tailwindcss.min.css" type="text/css" />
+        <link rel="search" type="application/opensearchdescription+xml" href="{% url 'opensearch-description' %}" title="Django Packages">
         <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" />
         {% block extra_head %}{% endblock %}
     </head>
@@ -171,8 +172,6 @@
 
                     <a href="{% url 'faq' %}">{% trans "FAQ" %}</a>
 
-                    {% comment %}<a href="{% url 'funding' %}">{% trans "Funding" %}</a>{% endcomment %}
-
                     <a href="{% url 'terms' %}">{% trans "Terms" %}</a>
 
                     <a href="https://docs.djangopackages.org/en/latest/contributing">{% trans "Contribute" %}</a>
@@ -180,6 +179,14 @@
                     <a href="https://docs.djangopackages.org/en/latest/apiv3_docs">{% trans "API" %}</a>
 
                     <a href="{% url 'syndication' %}">{% trans "RSS / Atom" %}</a>
+
+                    <a href="{% url 'post_list' %}">{% trans "Changelog" %}</a>
+
+                    <a href="{% url 'funding' %}">{% trans "Funding" %}</a>
+
+                    <a href="https://jobs.django-news.com">{% trans "Django News Jobs" %}</a>
+
+                    <a href="https://django-news.com">{% trans "Django News Newsletter" %}</a>
 
                 </div>
 

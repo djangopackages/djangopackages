@@ -130,6 +130,7 @@ PROJECT_APPS = [
     "blog",
     "classifiers",
     "core",
+    "favorites",
     # "commands",
     "feeds",
     "homepage",
