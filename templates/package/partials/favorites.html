@@ -5,13 +5,53 @@
         <span class="glyphicon glyphicon-heart-empty"></span>
         Add to Favorite
     </div>
+
 {% endpartialdef %}
 
 
 
 {% partialdef unfavorite_btn %}
-    <div class="btn btn-default " id="unfavorite-btn" hx-post="{% url 'remove_favorite' package.id %}" hx-target="#favorite" hx-swap="innerHTML">
+    <div class="btn btn-default " id="unfavorite-btn" onclick="openModal()" >
         <span class="glyphicon glyphicon-heart"></span>
         Favorited
     </div>
+    <dialog>
+        <h3>
+            Do you want to unfavorite {{package.title}}?
+        </h3>
+        <div class="action ">
+            <button class="btn btn-default" onclick="closeModal()" id="no">
+                No
+            </button>
+            <button class="btn btn-default" id="yes" hx-post="{% url 'remove_favorite' package.id %}" hx-target="#favorite" hx-swap="innerHTML">
+                Yes
+            </button>
+        </div>
+    </dialog>
+    <script>
+        function closeModal(){
+            let dialog = document.querySelector("dialog")
+            dialog.close()
+        }
+        function openModal(){
+            let dialog = document.querySelector("dialog")
+            dialog.showModal()
+        }
+    </script>
+    <style>
+        .action {
+            display: flex;
+            justify-content: end;
+            gap: 10px;
+        }
+        dialog {
+            z-index: 10;
+            margin-top: 100px;
+            border: none;
+            border-radius: 1rem;
+        }
+        dialog::backdrop {
+            background-color: hsla(0, 0%, 0%, 0.40);
+        }
+    </style>
 {% endpartialdef %}

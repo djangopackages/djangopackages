@@ -1,5 +1,5 @@
 from django.views.generic import View
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.contrib import messages
 from django.conf import settings
 from django_htmx.http import HttpResponseClientRedirect
@@ -16,7 +16,7 @@ class FavoritePackage(View):
             package = Package.objects.get(id=id)
         except Package.DoesNotExist:
             messages.error(request, "Package does not exist")
-            return redirect("/")
+            return HttpResponseClientRedirect("/")
 
         _, created = Favorite.objects.get_or_create(
             package=package, favorited_by=request.user
@@ -37,13 +37,10 @@ class UnFavoritePackage(View):
             package = Package.objects.get(id=id)
         except Package.DoesNotExist:
             messages.error(request, "Package does not exist")
-            return redirect("/")
-
-        # _, created = Favorite.objects.get_or_create(
-        #     package=package, favorited_by=request.user
-        # )
+            return HttpResponseClientRedirect("/")
+        Favorite.objects.get(package=package, favorited_by=request.user).delete()
         return render(
             request,
-            "package/partials/favorites.html#unfavorite_btn",
+            "package/partials/favorites.html#favorite_btn",
             {"package": package},
         )
