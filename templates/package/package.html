@@ -30,10 +30,18 @@
                                     event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}'; // add a new parameter into the mix
                                 });
                             </script>
-                            <div class="btn btn-default " id="favorite-btn" hx-post="{% url 'add_favorite' package.id %}" hx-target="this" hx-swap="innerHTML">
-                                <span class="glyphicon glyphicon-heart-empty"></span>
-                                Add to Favorite
-                            </div>
+                            {% if is_favorited %}
+                                <div class="btn btn-default " id="favorite-btn" hx-post="{% url 'add_favorite' package.id %}" hx-target="this" hx-swap="innerHTML">
+                                    <span class="glyphicon glyphicon-heart"></span>
+                                    Favorited
+                                </div>
+
+                            {% else %}
+                                <div class="btn btn-default " id="favorite-btn" hx-post="{% url 'add_favorite' package.id %}" hx-target="this" hx-swap="innerHTML">
+                                    <span class="glyphicon glyphicon-heart-empty"></span>
+                                    Add to Favorite
+                                </div>
+                            {% endif %}
                         </div>
                     </h2>
                 </div>

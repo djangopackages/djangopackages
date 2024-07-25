@@ -22,14 +22,6 @@ class FavoritePackage(View):
         _, created = Favorite.objects.get_or_create(
             package=package, favorited_by=request.user
         )
-
-        # if created:
-        #     messages.info(request, "Added to your favorite packages")
-        # else:
-        #     messages.info(request, "Package is already in your favorite packages")
-
-        # return redirect(reverse("package", kwargs={"slug":package.slug}))
-
         return HttpResponse(
             '<span class="glyphicon glyphicon-heart "></span> Favorited'
         )
