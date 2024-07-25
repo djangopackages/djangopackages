@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-07-24]
+### Changed
+- Feat/add share favorites ([#1221](https://github.com/djangopackages/djangopackages/pull/1221))
+
 ## [2024-07-23]
 ### Changed
 - :pencil: Updates footer and funding pages ([#1220](https://github.com/djangopackages/djangopackages/pull/1220))
