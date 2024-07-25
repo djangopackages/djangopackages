@@ -1,0 +1,17 @@
+{% load partials %}
+
+{% partialdef favorite_btn %}
+    <div class="btn btn-default " id="favorite-btn" hx-post="{% url 'add_favorite' package.id %}" hx-target="#favorite" hx-swap="innerHTML">
+        <span class="glyphicon glyphicon-heart-empty"></span>
+        Add to Favorite
+    </div>
+{% endpartialdef %}
+
+
+
+{% partialdef unfavorite_btn %}
+    <div class="btn btn-default " id="unfavorite-btn" hx-post="{% url 'remove_favorite' package.id %}" hx-target="#favorite" hx-swap="innerHTML">
+        <span class="glyphicon glyphicon-heart"></span>
+        Favorited
+    </div>
+{% endpartialdef %}

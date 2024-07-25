@@ -23,6 +23,7 @@ djangorestframework<3.16
 emoji
 emojificate
 feedparser
+django-template-partials
 # github3.py
 github3.py<4.1
 heroicons[django]

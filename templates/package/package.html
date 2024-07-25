@@ -5,6 +5,7 @@
 {% load emojificate %}
 {% load page_metadata_tags %}
 {% load static %}
+{% load partials %}
 
 {% block metadata %}
     {% page_metadata page_title=package.title|emojify|emojificate page_description=package.repo_description page_keywords=package.grid_set.all|join:','  og_image_url=package.get_opengraph_image_url %}
@@ -30,18 +31,14 @@
                                     event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}'; // add a new parameter into the mix
                                 });
                             </script>
-                            {% if is_favorited %}
-                                <div class="btn btn-default " id="favorite-btn" hx-post="{% url 'add_favorite' package.id %}" hx-target="this" hx-swap="innerHTML">
-                                    <span class="glyphicon glyphicon-heart"></span>
-                                    Favorited
-                                </div>
+                            <span id="favorite">
+                                {% if is_favorited %}
+                                    {% include "package/partials/favorites.html#unfavorite_btn" %}
+                                {% else %}
+                                    {% include "package/partials/favorites.html#favorite_btn" %}
+                                {% endif %}
+                            </span>
 
-                            {% else %}
-                                <div class="btn btn-default " id="favorite-btn" hx-post="{% url 'add_favorite' package.id %}" hx-target="this" hx-swap="innerHTML">
-                                    <span class="glyphicon glyphicon-heart-empty"></span>
-                                    Add to Favorite
-                                </div>
-                            {% endif %}
                         </div>
                     </h2>
                 </div>

@@ -236,7 +236,7 @@ mkdocs-material-extensions==1.3.1 \
     --hash=sha256:10c9511cea88f568257f960358a467d12b970e1f7b2c0e5fb2bb48cab1928443 \
     --hash=sha256:adff8b62700b25cb77b53358dad940f3ef973dd6db797907c49e3c2ef3ab4e31
     # via mkdocs-material
-mkdocstrings[python]==0.25.1 \
+mkdocstrings==0.25.1 \
     --hash=sha256:c3a2515f31577f311a9ee58d089e4c51fc6046dbd9e9b4c3de4c3194667fe9bf \
     --hash=sha256:da01fcc2670ad61888e8fe5b60afe9fee5781017d67431996832d63e887c2e51
     # via
