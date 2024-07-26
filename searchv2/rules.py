@@ -252,25 +252,29 @@ class LastUpdatedRule(ScoreRule):
             last_updated = package.last_updated()
             now = timezone.now()
 
-            if (now - last_updated) < timedelta(90):  # less than 3 months
-                return CheckResult(
-                    score=self.max_score,
-                    message="Package was updated less than 3 months ago.",
-                )
-            elif (now - last_updated) < timedelta(182):  # less than 6 months
-                return CheckResult(
-                    score=int(self.max_score / 2),
-                    message="Package was updated less than 6 months ago.",
-                )
-            elif (now - last_updated) < timedelta(365):  # less than 1 year
-                return CheckResult(
-                    score=int(self.max_score / 4),
-                    message="Package was updated less than 1 year ago.",
-                )
-            else:
-                return CheckResult(
-                    score=0, message="Package was updated more than 1 year ago."
-                )
+            if last_updated:
+                if (now - last_updated) < timedelta(90):  # less than 3 months
+                    return CheckResult(
+                        score=self.max_score,
+                        message="Package was updated less than 3 months ago.",
+                    )
+                elif (now - last_updated) < timedelta(182):  # less than 6 months
+                    return CheckResult(
+                        score=int(self.max_score / 2),
+                        message="Package was updated less than 6 months ago.",
+                    )
+                elif (now - last_updated) < timedelta(365):  # less than 1 year
+                    return CheckResult(
+                        score=int(self.max_score / 4),
+                        message="Package was updated less than 1 year ago.",
+                    )
+                else:
+                    return CheckResult(
+                        score=0, message="Package was updated more than 1 year ago."
+                    )
+
+            return CheckResult(score=0, message="No update data found for the package.")
+
         except AttributeError:
             return CheckResult(score=0, message="No update data found for the package.")
 
