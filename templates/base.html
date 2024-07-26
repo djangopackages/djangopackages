@@ -1,6 +1,7 @@
 {% load i18n profile_tags static %}
 {% load package_tags %}
 {% load page_metadata_tags %}
+{% load tailwind_cli %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}" {% block angular_header %}ng-app{% endblock angular_header %}>
     <head>
@@ -16,12 +17,12 @@
         <link rel="stylesheet" href="{{ STATIC_URL }}components/audreyr-rotatingnav/dist/jquery.rotatingnav.min.css" type="text/css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}components/audreyr-topbar/dist/jquery.topbar.min.css" type="text/css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/oc.css" type="text/css" />
-        <link rel="stylesheet" href="{{ STATIC_URL }}css/tailwindcss.min.css" type="text/css" />
         <link rel="search" type="application/opensearchdescription+xml" href="{% url 'opensearch-description' %}" title="Django Packages">
+        {% tailwind_css %}
         <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" />
         {% block extra_head %}{% endblock %}
     </head>
-    <body ng-controller="SearchCtrl" ng-init="init_search('{{ request.GET.q|escapejs }}', '{% url 'apiv4:searchv2-list' %}', {{ MAX_WEIGHT }})">
+    <body class="tw-flex tw-flex-col tw-min-h-screen" ng-controller="SearchCtrl" ng-init="init_search('{{ request.GET.q|escapejs }}', '{% url 'apiv4:searchv2-list' %}', {{ MAX_WEIGHT }})">
 
         {% for message in messages %}
             <div class="topbar topbar-default{% if message.tags %} {{ message.tags }}{% endif %}" id="message_{{ forloop.counter }}">
@@ -101,7 +102,7 @@
         </div>
         {% block pre_body %}{% endblock %}
         {% block breadcrumb %}{% endblock %}
-        <div class="container" ng-hide="items">
+        <div class="container tw-flex-grow" ng-hide="items">
             {% block body %}
             {% endblock %}
         </div>
@@ -114,7 +115,7 @@
                                 <th>{% trans "Search Weight" %}</th>
                                 <th>{% trans "Package" %}</th>
                                 <th>{% trans "Description" %}</th>
-                                <th>{% trans "Last PyPI release:" %}</th>
+                                <th>{% trans "Last PyPI release" %}</th>
                                 <th>{% trans "Repo Forks" %}</th>
                                 <th>{% trans "Stars" %}</th>
                             </tr>

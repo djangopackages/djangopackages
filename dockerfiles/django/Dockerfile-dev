@@ -24,13 +24,23 @@ RUN --mount=type=cache,target=/root/.cache,id=pip \
     uv pip install --system --requirement /code/requirements.txt
 
 COPY ./dockerfiles/django/entrypoint.sh /entrypoint.sh
-RUN sed -i 's/\r//' /entrypoint.sh \
-    && chmod +x /entrypoint.sh
+# RUN sed -i 's/\r//' /entrypoint.sh \
+#     && chmod +x /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 COPY ./dockerfiles/django/start-dev.sh /start-dev.sh
-RUN sed -i 's/\r//' /start-dev.sh \
-    && chmod +x /start-dev.sh
+# RUN sed -i 's/\r//' /start-dev.sh \
+#     && chmod +x /start-dev.sh
+RUN chmod +x /start-dev.sh
 
 WORKDIR /code
+
+COPY . /app
+
+# RUN python -m manage tailwind --skip-checks download_cli
+
+RUN DATABASE_URL=sqlite://:memory: SECRET_KEY=build-key REDIS_URL= python manage.py tailwind --skip-checks download_cli
+
+# RUN DATABASE_URL=sqlite://:memory: SECRET_KEY=build-key python manage.py collectstatic --noinput --clear
 
 ENTRYPOINT ["/entrypoint.sh"]
