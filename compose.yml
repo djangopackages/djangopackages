@@ -41,6 +41,7 @@ services:
     init: true
     volumes:
       - .:/code
+      - djpkg_postgres_data_dev:/var/lib/postgresql/data
 
   redis:
     image: redis:7
