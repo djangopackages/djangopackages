@@ -35,7 +35,7 @@ RUN chmod +x /start-dev.sh
 
 WORKDIR /code
 
-COPY . /app
+COPY . /code
 
 # RUN python -m manage tailwind --skip-checks download_cli
 
