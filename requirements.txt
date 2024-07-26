@@ -222,7 +222,7 @@ colorama==0.4.6 \
     #   bumpver
     #   griffe
     #   mkdocs-material
-coverage[toml]==7.5.1 \
+coverage==7.5.1 \
     --hash=sha256:0646599e9b139988b63704d704af8e8df7fa4cbc4a1f33df69d97f36cb0a38de \
     --hash=sha256:0cdcbc320b14c3e5877ee79e649677cb7d89ef588852e9583e6b24c2e5072661 \
     --hash=sha256:0d0a0f5e06881ecedfe6f3dd2f56dcb057b6dbeb3327fd32d4b12854df36bf26 \
@@ -361,6 +361,7 @@ django==5.0.7 \
     #   django-secure
     #   django-structlog
     #   django-tables2
+    #   django-template-partials
     #   django-waffle
     #   djangorestframework
     #   heroicons
@@ -435,6 +436,10 @@ django-tables2==2.7.0 \
     --hash=sha256:4113fcc575eb438a12e83a4d4ea01452e4800d970e8bdd0e4122ac171af1900d \
     --hash=sha256:99e06d966ca8ac69fd74092eb45c79a280dd5ca0ccb81395d96261f62128e1af
     # via -r requirements.in
+django-template-partials==24.2 \
+    --hash=sha256:b859072e6b3cd780743399bf5e9cee8be1c56c88844425a4e669a65c136205b2 \
+    --hash=sha256:e594063faec6d012df3a4170edf3c5dcc07c82b1c311aa42a1a5838493fd3a72
+    # via -r requirements.in
 django-test-plus==2.2.4 \
     --hash=sha256:06488209a07dca60dc2bbeaeae5ce340d17344163e0b121709cdac7405c6d9ef \
     --hash=sha256:96e4e16fabd3e0339a4b46e02a0a88c92c19800de38d00446571ea036614d332
@@ -488,7 +493,7 @@ h11==0.14.0 \
     --hash=sha256:8f19fbbe99e72420ff35c00b27a34cb9937e902a8b810e2c88300c6f0a3b699d \
     --hash=sha256:e3fe4ac4b851c468cc8363d500db52c2ead036020723024a109d37346efaa761
     # via httpcore
-heroicons[django]==2.6.0 \
+heroicons==2.6.0 \
     --hash=sha256:17a2b5c726768f3caacd2b6d5006d9047ba4690ed1f396d2f71617eea3efda81 \
     --hash=sha256:fd2408c7fa058b35eb1f821aab485ecd0261d7f5ec6544f1dddcb7cb591427bd
     # via -r requirements.in
@@ -547,7 +552,7 @@ markdown==3.6 \
     #   mkdocs-material
     #   mkdocstrings
     #   pymdown-extensions
-markdown-it-py[linkify]==3.0.0 \
+markdown-it-py==3.0.0 \
     --hash=sha256:355216845c60bd96232cd8d8c40e8f9765cc86f46880e43a8fd22dc1a1a8cab1 \
     --hash=sha256:e3f60a94fa066dc52ec76661e37c851cb232d92f9886b15cb560aaada2df8feb
     # via
@@ -657,7 +662,7 @@ mkdocs-material-extensions==1.3.1 \
     --hash=sha256:10c9511cea88f568257f960358a467d12b970e1f7b2c0e5fb2bb48cab1928443 \
     --hash=sha256:adff8b62700b25cb77b53358dad940f3ef973dd6db797907c49e3c2ef3ab4e31
     # via mkdocs-material
-mkdocstrings[python]==0.25.1 \
+mkdocstrings==0.25.1 \
     --hash=sha256:c3a2515f31577f311a9ee58d089e4c51fc6046dbd9e9b4c3de4c3194667fe9bf \
     --hash=sha256:da01fcc2670ad61888e8fe5b60afe9fee5781017d67431996832d63e887c2e51
     # via
@@ -1060,7 +1065,7 @@ pygments==2.18.0 \
     # via
     #   mkdocs-material
     #   rich
-pyjwt[crypto]==2.8.0 \
+pyjwt==2.8.0 \
     --hash=sha256:57e28d156e3d5c10088e0c68abb90bfac3df82b40a71bd0daa20c65ccd5c23de \
     --hash=sha256:59127c392cc44c2da5bb3192169a91f429924e17aff6534d70fdc02ab3e04320
     # via
@@ -1327,6 +1332,10 @@ sentry-sdk==2.10.0 \
     --hash=sha256:545fcc6e36c335faa6d6cda84669b6e17025f31efbf3b2211ec14efe008b75d1 \
     --hash=sha256:87b3d413c87d8e7f816cc9334bff255a83d8b577db2b22042651c30c19c09190
     # via -r requirements.in
+setuptools==71.1.0 \
+    --hash=sha256:032d42ee9fb536e33087fb66cac5f840eb9391ed05637b3f2a76a7c8fb477936 \
+    --hash=sha256:33874fdc59b3188304b2e7c80d9029097ea31627180896fb549c578ceb8a0855
+    # via nodeenv
 sgmllib3k==1.0.0 \
     --hash=sha256:7868fb1c8bfa764c1ac563d3cf369c381d1325d36124933a726f29fcdaa812e9
     # via feedparser
