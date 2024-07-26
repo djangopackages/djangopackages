@@ -168,6 +168,7 @@ PREREQ_APPS = [
     "social_django",
     "waffle",
     "django_q",
+    "template_partials",
 ]
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS

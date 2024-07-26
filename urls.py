@@ -107,6 +107,7 @@ urlpatterns = [
     path("maintenance-mode/", include("maintenance_mode.urls")),
     # new apps
     path("search/", include("searchv2.urls")),
+    path("favorites/", include("favorites.urls")),
     # apiv3
     path("api/v3/", include("apiv3.urls", namespace="apiv3")),
     # apiv4

@@ -39,6 +39,7 @@ from searchv2.rules import RecentReleaseRule
 from searchv2.rules import ScoreRuleGroup
 from searchv2.rules import UsageCountRule
 from searchv2.rules import WatchersRule
+from favorites.models import Favorite
 
 
 def repo_data_for_js():
@@ -547,10 +548,13 @@ def package_detail(request, slug, template_name="package/package.html"):
         pypi_ancient = False
         pypi_no_release = False
         warnings = no_development
-
+    is_favorited = False
+    if request.user.is_authenticated:
+        is_favorited = Favorite.objects.filter(
+            favorited_by=request.user, package=package
+        ).exists()
     if request.GET.get("message"):
         messages.add_message(request, messages.INFO, request.GET.get("message"))
-
     return render(
         request,
         template_name,
@@ -562,6 +566,7 @@ def package_detail(request, slug, template_name="package/package.html"):
             warnings=warnings,
             latest_version=package.last_released(),
             repo=package.repo,
+            is_favorited=is_favorited,
         ),
     )
 
