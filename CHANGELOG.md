@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-07-26]
+### Changed
+- :bug: Fixes a last_updated is None issue ([#1226](https://github.com/djangopackages/djangopackages/pull/1226))
+- :tractor: Re-stage TailwindCSS ([#1225](https://github.com/djangopackages/djangopackages/pull/1225))
+- favorite and unfavorite view package ([#1218](https://github.com/djangopackages/djangopackages/pull/1218))
+
 ## [2024-07-24]
 ### Changed
 - Feat/add share favorites ([#1221](https://github.com/djangopackages/djangopackages/pull/1221))
