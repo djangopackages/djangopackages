@@ -6,6 +6,7 @@
 {% load page_metadata_tags %}
 {% load static %}
 {% load partials %}
+{% load waffle_tags %}
 
 {% block metadata %}
     {% page_metadata page_title=package.title|emojify|emojificate page_description=package.repo_description page_keywords=package.grid_set.all|join:','  og_image_url=package.get_opengraph_image_url %}
@@ -26,18 +27,21 @@
                             <div class="btn btn-default">
                                 <a href="{% url 'edit_package' package.slug %}"><span class="glyphicon glyphicon-pencil"></span></a>
                             </div>
-                            <script>
-                                document.body.addEventListener('htmx:configRequest', function(event) {
-                                    event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}'; // add a new parameter into the mix
-                                });
-                            </script>
-                            <span id="favorite">
-                                {% if is_favorited %}
-                                    {% include "package/partials/favorites.html#unfavorite_btn" %}
-                                {% else %}
-                                    {% include "package/partials/favorites.html#favorite_btn" %}
-                                {% endif %}
-                            </span>
+                            {% flag "favorite_feature_flag" %}
+                                <script>
+                                    document.body.addEventListener('htmx:configRequest', function(event) {
+                                        event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}'; // add a new parameter into the mix
+                                    });
+                                </script>
+                                <span id="favorite">
+                                    {% if is_favorited %}
+                                        {% include "package/partials/favorites.html#unfavorite_btn" %}
+                                    {% else %}
+                                        {% include "package/partials/favorites.html#favorite_btn" %}
+                                    {% endif %}
+                                </span>
+                            {% endflag %}
+
 
                         </div>
                     </h2>
