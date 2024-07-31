@@ -4,7 +4,7 @@ from django.urls import reverse
 
 from core.tests.data import STOCK_PASSWORD, create_users
 from favorites.models import Favorite
-from package.models import Package
+from package.models import Category, Package
 from profiles.models import Profile
 
 
@@ -66,8 +66,15 @@ class TestProfile(TestCase):
         self.assertEqual(p.gitlab_url, "zerg")
 
     def test_view_with_favorite_packages(self):
-        package = Package.objects.create(title="Test Favorite", slug="test_favorite")
-        Favorite.objects.create(package=package, user=self.user)
+        category = Category.objects.create(
+            title="Test Favorite",
+            slug="test_favorite",
+            description="Category to test favorites",
+        )
+        package = Package.objects.create(
+            title="Test Favorite", slug="test_favorite", category=category
+        )
+        Favorite.objects.create(package=package, favorited_by=self.user)
         self.assertTrue(
             self.client.login(username=self.user.username, password=STOCK_PASSWORD)
         )
