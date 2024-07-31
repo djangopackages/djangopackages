@@ -44,57 +44,80 @@
                     <p><b>{{ field.label }}:</b> {{ field.url|urlize }}</p>
                 {% endfor%}
             {% endif %}
-
-
-
         </div>
 
-        <div class="col-xs-5">
-            {% if local_profile.my_packages %}
-                <h3>{% trans "Packages Contributed To" %}</h3>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>{% trans "Package" %}</th>
-                            <th>{% trans "Repo" %}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for package in local_profile.my_packages %}
+        <div class="col-xs-10">
+            <div class="col-xs-6">
+                {% if local_profile.my_packages %}
+                    <h3>{% trans "Packages Contributed To" %}</h3>
+                    <table class="table">
+                        <thead>
                             <tr>
-                                <td>{{ forloop.counter }}</td>
-                                <td><a href="{{ package.get_absolute_url }}">{{ package.title | emojify | emojificate }}</a></td>
-                                <td><a href="{{ package.repo_url }}">{{ package.repo.title }}</a></td>
+                                <th>#</th>
+                                <th>{% trans "Package" %}</th>
+                                <th>{% trans "Repo" %}</th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% endif %}
-        </div>
+                        </thead>
+                        <tbody>
+                            {% for package in local_profile.my_packages %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td><a href="{{ package.get_absolute_url }}">{{ package.title | emojify | emojificate }}</a></td>
+                                    <td><a href="{{ package.repo_url }}">{{ package.repo.title }}</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
 
-        <div class="col-xs-5">
-            <h3>{% trans "Packages Used" %}</h3>
-            <ul class="usage-list">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>{% trans "Package" %}</th>
-                            <th>{% trans "Repo" %}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for package in user|package_usage %}
+            <div class="col-xs-6">
+                <h3>{% trans "Packages Used" %}</h3>
+                <ul class="usage-list">
+                    <table class="table">
+                        <thead>
                             <tr>
-                                <td>{{ forloop.counter }}</td>
-                                <td><a href="{{ package.get_absolute_url }}">{{ package.title | emojify | emojificate  }}</a></td>
-                                <td><a href="{{ package.repo_url }}">{{ package.repo.title }}</a></td>
+                                <th>#</th>
+                                <th>{% trans "Package" %}</th>
+                                <th>{% trans "Repo" %}</th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </ul>
+                        </thead>
+                        <tbody>
+                            {% for package in user|package_usage %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td><a href="{{ package.get_absolute_url }}">{{ package.title | emojify | emojificate  }}</a></td>
+                                    <td><a href="{{ package.repo_url }}">{{ package.repo.title }}</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </ul>
+            </div>
+
+            <div class="col-xs-6">
+                {% if favorite_packages %}
+                    <h3>{% trans "Favorite packages" %}</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>{% trans "Package" %}</th>
+                                <th>{% trans "Repo" %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for package in favorite_packages %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td><a href="{{ package.get_absolute_url }}">{{ package.title | emojify | emojificate }}</a></td>
+                                    <td><a href="{{ package.repo_url }}">{{ package.repo.title }}</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
         </div>
     </div>
 {% endblock %}

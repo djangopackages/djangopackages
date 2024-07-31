@@ -3,6 +3,8 @@ from django.test import TestCase
 from django.urls import reverse
 
 from core.tests.data import STOCK_PASSWORD, create_users
+from favorites.models import Favorite
+from package.models import Package
 from profiles.models import Profile
 
 
@@ -62,3 +64,17 @@ class TestProfile(TestCase):
         p = Profile.objects.get(user=self.user)
         self.assertEqual(p.bitbucket_url, "zerg")
         self.assertEqual(p.gitlab_url, "zerg")
+
+    def test_view_with_favorite_packages(self):
+        package = Package.objects.create(title="Test Favorite", slug="test_favorite")
+        Favorite.objects.create(package=package, user=self.user)
+        self.assertTrue(
+            self.client.login(username=self.user.username, password=STOCK_PASSWORD)
+        )
+        url = reverse(
+            "profile_detail", kwargs={"github_account": self.profile.github_account}
+        )
+        response = self.client.get(url)
+        self.assertContains(response, "Profile for user")
+        self.assertContains(response, "Favorite packages")
+        self.assertContains(response, "Test Favorite")
