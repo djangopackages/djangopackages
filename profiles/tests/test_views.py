@@ -66,6 +66,8 @@ class TestProfile(TestCase):
         self.assertEqual(p.gitlab_url, "zerg")
 
     def test_view_with_favorite_packages(self):
+        self.profile.share_favorites = True
+        self.profile.save()
         category = Category.objects.create(
             title="Test Favorite",
             slug="test_favorite",

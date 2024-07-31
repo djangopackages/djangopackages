@@ -35,7 +35,7 @@ def profile_detail(request, github_account, template_name="profiles/profile.html
     if profile.share_favorites:
         context["favorite_packages"] = Package.objects.filter(
             favorite__favorited_by=profile.user
-        )
+        )[:25]
 
     return render(request, template_name, context)
 
