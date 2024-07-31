@@ -3,6 +3,8 @@ from django.test import TestCase
 from django.urls import reverse
 
 from core.tests.data import STOCK_PASSWORD, create_users
+from favorites.models import Favorite
+from package.models import Category, Package
 from profiles.models import Profile
 
 
@@ -14,6 +16,11 @@ class TestProfile(TestCase):
         self.profile = Profile.objects.create(
             github_account="user",
             user=self.user,
+        )
+        self.category = Category.objects.create(
+            title="Test Favorite",
+            slug="test_favorite",
+            description="Category to test favorites",
         )
 
     def test_view(self):
@@ -62,3 +69,38 @@ class TestProfile(TestCase):
         p = Profile.objects.get(user=self.user)
         self.assertEqual(p.bitbucket_url, "zerg")
         self.assertEqual(p.gitlab_url, "zerg")
+
+    def test_view_with_favorite_packages(self):
+        self.profile.share_favorites = True
+        self.profile.save()
+        package = Package.objects.create(
+            title="Test Favorite", slug="test_favorite", category=self.category
+        )
+        Favorite.objects.create(package=package, favorited_by=self.user)
+        self.assertTrue(
+            self.client.login(username=self.user.username, password=STOCK_PASSWORD)
+        )
+        url = reverse(
+            "profile_detail", kwargs={"github_account": self.profile.github_account}
+        )
+        response = self.client.get(url)
+        self.assertContains(response, "Profile for user")
+        self.assertContains(response, "Favorite packages")
+        self.assertContains(response, "Test Favorite")
+
+    def test_view_without_favorite_packages(self):
+        self.profile.share_favorites = False
+        self.profile.save()
+        package = Package.objects.create(
+            title="Test Favorite 2", slug="test_favorite_2", category=self.category
+        )
+        Favorite.objects.create(package=package, favorited_by=self.user)
+        self.assertTrue(
+            self.client.login(username=self.user.username, password=STOCK_PASSWORD)
+        )
+        url = reverse(
+            "profile_detail", kwargs={"github_account": self.profile.github_account}
+        )
+        response = self.client.get(url)
+        self.assertContains(response, "Profile for user")
+        self.assertNotContains(response, "Favorite packages")

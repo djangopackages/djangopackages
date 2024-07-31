@@ -9,6 +9,7 @@ from django.urls import reverse
 from django.views.generic import RedirectView
 from django.views.generic.edit import UpdateView
 
+from package.models import Package
 from profiles.forms import ProfileForm, ExtraFieldFormSet
 from profiles.models import Profile, ExtraField
 
@@ -26,11 +27,17 @@ def profile_detail(request, github_account, template_name="profiles/profile.html
 
     extra_fields = ExtraField.objects.filter(profile=profile)
 
-    return render(
-        request,
-        template_name,
-        {"local_profile": profile, "user": profile.user, "extra_fields": extra_fields},
-    )
+    context = {
+        "local_profile": profile,
+        "user": profile.user,
+        "extra_fields": extra_fields,
+    }
+    if profile.share_favorites:
+        context["favorite_packages"] = Package.objects.filter(
+            favorite__favorited_by=profile.user
+        )[:25]
+
+    return render(request, template_name, context)
 
 
 class ProfileEditUpdateView(LoginRequiredMixin, UpdateView):
