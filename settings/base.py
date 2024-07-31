@@ -354,6 +354,7 @@ REST_FRAMEWORK = {
 }
 
 WAFFLE_CREATE_MISSING_SWITCHES = True
+WAFFLE_CREATE_MISSING_FLAGS = True
 
 # django-maintenance-mode settings
 MAINTENANCE_MODE = None
