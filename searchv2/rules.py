@@ -149,9 +149,7 @@ class FavoritePackageRule(ScoreRule):
         or a zero score and an error message otherwise.
         """
         if not package.is_deprecated:
-            return CheckResult(
-                score=self.max_score, message="Package is not favorite."
-            )
+            return CheckResult(score=self.max_score, message="Package is not favorite.")
         else:
             return CheckResult(score=0, message="Package is favorite.")
 
