@@ -132,6 +132,30 @@ class DeprecatedRule(ScoreRule):
             return CheckResult(score=0, message="Package is deprecated.")
 
 
+class FavoritePackageRule(ScoreRule):
+    """
+    A specific rule that checks if the package is favorite.
+    """
+
+    name: str = "Favorite Package Rule"
+    description: str = "Check if the package is favorite"
+    max_score: int = 20
+    documentation_url: str = f"{DOCS_URL}/rules/favorite-package"
+
+    def check(self, package: Package) -> CheckResult:
+        """
+        Check if the package is favorite.
+        Returns a full score and a success message if the package is not favorite,
+        or a zero score and an error message otherwise.
+        """
+        if not package.is_deprecated:
+            return CheckResult(
+                score=self.max_score, message="Package is not favorite."
+            )
+        else:
+            return CheckResult(score=0, message="Package is favorite.")
+
+
 class DescriptionRule(ScoreRule):
     """
     A specific rule that checks if the package has a description.
