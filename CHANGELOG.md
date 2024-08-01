@@ -1,5 +1,12 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-07-31]
+### Changed
+- favorite package feature flag ([#1233](https://github.com/djangopackages/djangopackages/pull/1233))
+- add git and git cli and precommit in devcontainer ([#1232](https://github.com/djangopackages/djangopackages/pull/1232))
+- Favorite Packages: Modify User Profile view ([#1230](https://github.com/djangopackages/djangopackages/pull/1230))
+- [pre-commit.ci] pre-commit autoupdate ([#1229](https://github.com/djangopackages/djangopackages/pull/1229))
+
 ## [2024-07-26]
 ### Changed
 - :bug: Fixes a last_updated is None issue ([#1226](https://github.com/djangopackages/djangopackages/pull/1226))
