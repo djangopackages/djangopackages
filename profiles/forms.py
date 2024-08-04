@@ -47,6 +47,7 @@ class ProfileForm(forms.ModelForm):
                 ),
                 "bitbucket_url",
                 "gitlab_url",
+                "share_favorites",
             ),
             HTML("""{{ extra_fields_formset }}"""),
             ButtonHolder(Submit("edit", "Edit", css_class="btn btn-default")),
@@ -56,5 +57,6 @@ class ProfileForm(forms.ModelForm):
         fields = (
             "bitbucket_url",
             "gitlab_url",
+            "share_favorites",
         )
         model = Profile
