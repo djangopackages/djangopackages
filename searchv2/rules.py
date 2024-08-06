@@ -148,7 +148,7 @@ class FavoritePackageRule(ScoreRule):
         Returns a full score and a success message if the package is not favorite,
         or a zero score and an error message otherwise.
         """
-        if package.is_favorite:
+        if package.has_favorite:
             return CheckResult(score=0, message="Package is favorite.")
         else:
             return CheckResult(score=self.max_score, message="Package is not favorite.")

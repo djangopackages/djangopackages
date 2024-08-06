@@ -159,7 +159,7 @@ class Package(BaseModel):
         return self.date_deprecated is not None
 
     @property
-    def is_favorite(self):
+    def has_favorite(self):
         if self.favorite_count > 0:
             return True
         return False
