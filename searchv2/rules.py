@@ -149,9 +149,9 @@ class FavoritePackageRule(ScoreRule):
         or a zero score and an error message otherwise.
         """
         if package.has_favorite:
-            return CheckResult(score=0, message="Package is favorite.")
+            return CheckResult(score=self.max_score, message="Package is favorite.")
         else:
-            return CheckResult(score=self.max_score, message="Package is not favorite.")
+            return CheckResult(score=0, message="Package is not favorite.")
 
 
 class DescriptionRule(ScoreRule):
