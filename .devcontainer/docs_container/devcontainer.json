@@ -5,8 +5,7 @@
 	// Update the 'dockerComposeFile' list if you have more compose files or use different names.
 	// The .devcontainer/compose.yml file contains any overrides you need/want to make.
 	"dockerComposeFile": [
-		"../compose.yml",
-		"compose.yml"
+		"../../compose.yml"
 	],
 	"features": {
 		"ghcr.io/devcontainers/features/common-utils:2": {
@@ -68,7 +67,7 @@
 	"updateRemoteUserUID": false,
 	// The 'service' property is the name of the service for the container that VS Code should
 	// use. Update this value and .devcontainer/compose.yml to the real service name.
-	"service": "django",
+	"service": "docs",
 	// The optional 'workspaceFolder' property is the path VS Code should open by default when
 	// connected. This is typically a file mount in .devcontainer/compose.yml
 	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
@@ -76,7 +75,6 @@
 	// "features": {},
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [
-		8000,
 		4000
 	]
 	// Uncomment the next line if you want start specific services in your Docker Compose config.
