@@ -148,10 +148,12 @@ class FavoritePackageRule(ScoreRule):
         Returns a full score and a success message if the package is not favorite,
         or a zero score and an error message otherwise.
         """
-        if not package.is_deprecated:
-            return CheckResult(score=self.max_score, message="Package is not favorite.")
-        else:
+        if package.is_favorite:
             return CheckResult(score=0, message="Package is favorite.")
+        else:
+            return CheckResult(
+                score=self.max_score, message="Package is not favorite."
+            )
 
 
 class DescriptionRule(ScoreRule):
