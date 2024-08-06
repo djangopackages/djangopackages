@@ -1,5 +1,13 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-08-05]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1240](https://github.com/djangopackages/djangopackages/pull/1240))
+
+## [2024-08-04]
+### Changed
+- share favorites in profile form ([#1239](https://github.com/djangopackages/djangopackages/pull/1239))
+
 ## [2024-07-31]
 ### Changed
 - favorite package feature flag ([#1233](https://github.com/djangopackages/djangopackages/pull/1233))

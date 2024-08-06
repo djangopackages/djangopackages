@@ -41,7 +41,7 @@ RUN sed -i 's/\r//' /start.sh \
 
 WORKDIR /code
 
-RUN python -m manage tailwind --skip-checks download_cli
+RUN DATABASE_URL=sqlite://:memory: REDIS_URL= python -m manage tailwind --skip-checks download_cli
 
 RUN mkdir /data \
     && chown django.django /data
