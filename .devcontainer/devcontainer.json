@@ -5,6 +5,7 @@
 	// Update the 'dockerComposeFile' list if you have more compose files or use different names.
 	// The .devcontainer/compose.yml file contains any overrides you need/want to make.
 	"dockerComposeFile": [
+		"compose.yml",
 		"../compose.yml"
 	],
 	"features": {
@@ -80,7 +81,6 @@
 	],
 	// Uncomment the next line if you want start specific services in your Docker Compose config.
 	"runServices": [
-		"django",
 		"docs"
 	]
 	// Uncomment the next line if you want to keep your containers running after VS Code shuts down.
