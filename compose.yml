@@ -64,7 +64,8 @@ services:
     init: true
     ports:
       - "4000:4000"
-
+    profiles:
+      - docs
 
   utility:
     <<: *common-settings
