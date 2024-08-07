@@ -5,8 +5,8 @@
 	// Update the 'dockerComposeFile' list if you have more compose files or use different names.
 	// The .devcontainer/compose.yml file contains any overrides you need/want to make.
 	"dockerComposeFile": [
-		"compose.yml",
-		"../compose.yml"
+		"../compose.yml",
+		"compose.yml"
 	],
 	"features": {
 		"ghcr.io/devcontainers/features/common-utils:2": {
