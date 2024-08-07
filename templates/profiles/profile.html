@@ -71,29 +71,7 @@
                 {% endif %}
             </div>
 
-            <div class="col-xs-6">
-                <h3>{% trans "Packages Used" %}</h3>
-                <ul class="usage-list">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>{% trans "Package" %}</th>
-                                <th>{% trans "Repo" %}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for package in user|package_usage %}
-                                <tr>
-                                    <td>{{ forloop.counter }}</td>
-                                    <td><a href="{{ package.get_absolute_url }}">{{ package.title | emojify | emojificate  }}</a></td>
-                                    <td><a href="{{ package.repo_url }}">{{ package.repo.title }}</a></td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </ul>
-            </div>
+
 
             <div class="col-xs-6">
                 {% if favorite_packages %}
