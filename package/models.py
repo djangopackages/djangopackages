@@ -158,6 +158,12 @@ class Package(BaseModel):
     def is_deprecated(self):
         return self.date_deprecated is not None
 
+    @property
+    def has_favorite(self):
+        if self.favorite_count > 0:
+            return True
+        return False
+
     def get_pypi_uri(self):
         if self.pypi_name and len(self.pypi_name):
             return f"https://pypi.org/project/{self.pypi_name}/"
