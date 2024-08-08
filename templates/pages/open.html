@@ -40,6 +40,7 @@
             </div>
             <div class="col-sm-6 col-md-3">
                 <h2>{% trans "Django Versions" %}</h2>
+                <p>{% trans "Django 5.1 Packages:" %} {{ total_django_5_1|intcomma }}</p>
                 <p>{% trans "Django 5.0 Packages:" %} {{ total_django_5_0|intcomma }}</p>
                 <p>{% trans "Django 4.2 Packages:" %} {{ total_django_4_2|intcomma }}</p>
                 <p>{% trans "Django 4.1 Packages:" %} {{ total_django_4_1|intcomma }}</p>
@@ -49,6 +50,7 @@
             <div class="col-sm-6 col-md-3">
                 <h2>{% trans "Python Versions" %}</h2>
                 <p>{% trans "Python 3 Packages:" %} {{ total_python_3|intcomma }}</p>
+                <p>{% trans "Python 3.13 Packages:" %} {{ total_python_3_13|intcomma }}</p>
                 <p>{% trans "Python 3.12 Packages:" %} {{ total_python_3_12|intcomma }}</p>
                 <p>{% trans "Python 3.11 Packages:" %} {{ total_python_3_11|intcomma }}</p>
                 <p>{% trans "Python 3.10 Packages:" %} {{ total_python_3_10|intcomma }}</p>
