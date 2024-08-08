@@ -1,5 +1,12 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-08-07]
+### Changed
+- ⬆️ Bump django from 5.0.7 to 5.0.8 ([#1244](https://github.com/djangopackages/djangopackages/pull/1244))
+- Profile view update ([#1245](https://github.com/djangopackages/djangopackages/pull/1245))
+- fix #1234: Add FavoritePackageRule to score favorite packages ([#1237](https://github.com/djangopackages/djangopackages/pull/1237))
+- Fix docs in github codespace ([#1241](https://github.com/djangopackages/djangopackages/pull/1241))
+
 ## [2024-08-05]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1240](https://github.com/djangopackages/djangopackages/pull/1240))
