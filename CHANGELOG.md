@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-08-08]
+### Changed
+- :arrow_up: Bumps for Django 5.1 and Python 3.13 ([#1248](https://github.com/djangopackages/djangopackages/pull/1248))
+
 ## [2024-08-07]
 ### Changed
 - ⬆️ Bump django from 5.0.7 to 5.0.8 ([#1244](https://github.com/djangopackages/djangopackages/pull/1244))
