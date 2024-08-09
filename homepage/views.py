@@ -175,12 +175,14 @@ class ReadinessDetailView(TemplateView):
         context_data["ready_condition"] = ready_condition
 
         packages = (
-            Package.objects.only("title", "pypi_downloads", "pypi_classifiers", "slug")
+            Package.objects.only(
+                "title", "pypi_downloads", "pypi_classifiers", "slug", "repo_watchers"
+            )
             .filter(pypi_classifiers__contains=pypi_classifier)
             .exclude(
                 Q(title="django") | Q(slug="django")
             )  # TODO: might be worth re-addressing...
-            .order_by("-pypi_downloads")[:limit]
+            .order_by("-repo_watchers", "-pypi_downloads")[:limit]
         )
 
         packages = [package.__dict__ for package in packages]
