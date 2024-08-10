@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-08-09]
+### Changed
+- :pencil: Updates repo_watchers ([#1249](https://github.com/djangopackages/djangopackages/pull/1249))
+
 ## [2024-08-08]
 ### Changed
 - :arrow_up: Bumps for Django 5.1 and Python 3.13 ([#1248](https://github.com/djangopackages/djangopackages/pull/1248))
