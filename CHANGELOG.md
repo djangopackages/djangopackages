@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-08-13]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1251](https://github.com/djangopackages/djangopackages/pull/1251))
+
 ## [2024-08-09]
 ### Changed
 - :pencil: Updates repo_watchers ([#1249](https://github.com/djangopackages/djangopackages/pull/1249))
