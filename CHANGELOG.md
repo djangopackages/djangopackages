@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-08-21]
+### Changed
+- Fix Large Grid Display Issue ([#1255](https://github.com/djangopackages/djangopackages/pull/1255))
+
 ## [2024-08-13]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1251](https://github.com/djangopackages/djangopackages/pull/1251))
