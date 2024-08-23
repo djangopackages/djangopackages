@@ -47,9 +47,12 @@
                     <!-- Main nav -->
                     <ul class="nav navbar-nav navbar-right hidden-xs">
                         <form action="{% url 'search' %}" class="navbar-form pull-left hidden-xs">
-                            <input type="text" name="q" class="col-12 form-control" style="width: 240px;" id="search-2"
-                                   ng-model="model.q" ng-keyup="search(model, '{% url 'apiv4:searchv2-list' %}')"
-                                   placeholder="Search" autocomplete="off">
+                            <div class="input-group">
+                                <input type="text" name="q" class="col-12 form-control" style="width: 240px;" id="search-2"
+                                       ng-model="model.q" ng-keyup="search(model, '{% url 'apiv4:searchv2-list' %}')"
+                                       placeholder="Search (Press “/” to focus)" autocomplete="off">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-search text-success" aria-hidden="true"></span></span>
+                            </div>
                         </form>
                         {% if request.user.is_authenticated %}
                             {% if profile.github_account %}

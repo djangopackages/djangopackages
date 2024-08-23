@@ -55,3 +55,14 @@ $(".scrollable").scrollable();
 $(".topbar").topBar({
   slide: false
 });
+
+// Lets users press "/" key to focus the search bar
+document.addEventListener('keydown', function(event) {
+  if ((event.key === '/') && $('input:focus, textarea:focus').length === 0) {
+    event.preventDefault();
+
+    const searchInput = document.getElementById('search-2');
+    searchInput.setSelectionRange(0, searchInput.value.length);
+    searchInput.focus();
+  }
+});
