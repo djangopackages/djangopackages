@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-08-23]
+### Changed
+- Add Search Hotkey (&#34;/&#34;) for Navbar Search Input ([#1258](https://github.com/djangopackages/djangopackages/pull/1258))
+- [pre-commit.ci] pre-commit autoupdate ([#1254](https://github.com/djangopackages/djangopackages/pull/1254))
+
 ## [2024-08-21]
 ### Changed
 - Fix Large Grid Display Issue ([#1255](https://github.com/djangopackages/djangopackages/pull/1255))
