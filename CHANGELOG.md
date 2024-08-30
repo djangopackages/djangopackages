@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-08-29]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1260](https://github.com/djangopackages/djangopackages/pull/1260))
+
 ## [2024-08-23]
 ### Changed
 - Add Search Hotkey (&#34;/&#34;) for Navbar Search Input ([#1258](https://github.com/djangopackages/djangopackages/pull/1258))
