@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-08-30]
+### Changed
+- :arrow_up: Upgrade Django to 5.1 ([#1247](https://github.com/djangopackages/djangopackages/pull/1247))
+
 ## [2024-08-29]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1260](https://github.com/djangopackages/djangopackages/pull/1260))
