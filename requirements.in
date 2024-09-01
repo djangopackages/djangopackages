@@ -35,7 +35,7 @@ numpy
 openai
 packaging
 psutil
-psycopg2-binary
+psycopg[binary, pool]
 pydantic
 PyGithub
 python-dateutil
