@@ -275,6 +275,13 @@ LOGIN_REDIRECT_URL = "/"
 # SOCIAL_AUTH_ASSOCIATE_BY_MAIL = True
 
 DATABASES = {"default": env.db("DATABASE_URL")}
+DATABASES["default"]["OPTIONS"] = {
+    "pool": {
+        "min_size": 2,
+        "max_size": 4,
+        "timeout": 10,
+    }
+}
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
