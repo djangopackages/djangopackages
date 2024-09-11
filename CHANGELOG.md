@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-09-10]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1265](https://github.com/djangopackages/djangopackages/pull/1265))
+
 ## [2024-09-06]
 ### Changed
 - Migrate to `psycopg3` and add connection pooling ([#1261](https://github.com/djangopackages/djangopackages/pull/1261))
