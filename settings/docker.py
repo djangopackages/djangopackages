@@ -150,7 +150,7 @@ DATABASES["default"]["CONN_HEALTH_CHECKS"] = True
 DATABASES["default"]["OPTIONS"] = {
     "pool": {
         "min_size": 2,
-        "max_size": 4,
+        "max_size": 10,
         "timeout": 10,
     }
 }
