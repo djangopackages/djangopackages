@@ -13,7 +13,7 @@ python -m manage collectstatic --noinput
     --ignore-write-errors \
     --master \
     --max-requests 5000 \
-    --processes 3 \
+    --processes 4 \
     --single-interpreter \
     --stats :1717 \
     --wsgi-file /code/wsgi.py
