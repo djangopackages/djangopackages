@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-09-18]
+### Changed
+- :fire: Removes `--reuse-db` testing option ([#1270](https://github.com/djangopackages/djangopackages/pull/1270))
+- :elephant: :tractor: Moves connection pooling to docker settings ([#1269](https://github.com/djangopackages/djangopackages/pull/1269))
+
 ## [2024-09-17]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1267](https://github.com/djangopackages/djangopackages/pull/1267))
