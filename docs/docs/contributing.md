@@ -34,7 +34,7 @@ If you don't have them installed yet, install [Docker] and [Compose].
 
 ### Set Up Options
 
-There are two options for setting up your development environment: 
+There are two options for setting up your development environment:
 
 1. Standard - use standard docker compose commands in your terminal
 2. [Just] - use the `just` command runner in your terminal
