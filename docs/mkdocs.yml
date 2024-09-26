@@ -40,9 +40,7 @@ theme:
 
 nav:
   - Home: index.md
-  - contributing.md
-  - install.md
-  - install_opinionated.md
+  - Contributing: contributing.md
   - testing_instructions.md
   - deployment.md
   - management_commands.md
@@ -134,3 +132,5 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true

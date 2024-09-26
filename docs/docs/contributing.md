@@ -18,9 +18,182 @@ If you have git installed, you now clone your git repo using the following comma
 git clone git@github.com:<my-github-name>/djangopackages.git
 ```
 
-### Install Django Packages Locally
+## Install Django Packages Locally
 
-Follow our detailed [installation](install.md) instructions. Please record any difficulties you have and share them with the Django Packages community via our [issue tracker].
+These instructions install Django Packages on your computer, using Docker.
+
+If you run into problems, see the Troubleshooting section. If that doesn't solve your issue please report them via our [issue tracker].
+
+### Set up Tooling
+
+You'll want to make sure your local environment is ready by installing the following tools.
+
+#### Docker
+
+If you don't have them installed yet, install [Docker] and [Compose].
+
+### Set Up Options
+
+There are two options for setting up your development environment:
+
+1. Standard - use standard docker compose commands in your terminal
+2. [Just] - use the `just` command runner in your terminal
+
+### Set Up Your Development Environment
+
+All of the environment variables and settings that are needed to run the project are stored in  `.env.local.example` file.
+
+In order to run the project, you'll need to run the following command:
+
+=== "Standard"
+
+    ```shell
+    cp .env.local.example .env.local
+    ```
+
+=== "Just"
+
+    ```shell
+    just setup
+    ```
+
+#### Build the Docker Containers
+
+Now build the project using Docker Compose:
+
+=== "Standard"
+
+    ```shell
+    docker compose build
+    ```
+
+=== "Just"
+
+    ```shell
+    just build
+    ```
+
+
+#### Add A GitHub API Token (optional)
+
+Get a [GitHub API token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) and set the `GITHUB_TOKEN` variable in `.env.local`
+to this value.  This is used by the GitHub repo handler for fetching repo
+metadata, and required for certain tests.
+
+#### Run the Project
+
+To start the project, run:
+
+=== "Standard"
+
+    ```shell
+    docker compose up --detach
+    ```
+
+=== "Just"
+
+    ```shell
+    just up --detach
+    ```
+
+
+Then point your browser to <http://localhost:8000> and start hacking!
+
+#### Create a Local Django Superuser
+
+Now, you'll give yourself an admin account on the locally-running version of Django Packages
+
+Create a Django superuser for yourself, replacing joe with your username/email:
+
+=== "Standard"
+
+    ```shell
+    docker compose run django python -m manage createsuperuser --username=joe --email=joe@example.com
+    ```
+
+=== "Just"
+
+    ```shell
+    just createsuperuser joe joe@example.com
+    ```
+
+And then login into the admin interface (/admin/) and create a profile for your user filling all the fields with any data.
+
+#### Load Sample Data
+
+We use a **Mock** system of creating sample data in our tests and for running a development version of the site. To create some development data, just run:
+
+=== "Standard"
+
+    ```shell
+    docker compose run --rm django python -m manage load_dev_data
+    ```
+
+=== "Just"
+
+    ```shell
+    just management-command load_dev_data
+    ```
+
+
+#### Rebuild Search Indexes
+
+Next, we need to rebuild and recalculate our search database.
+
+=== "Standard"
+
+    ```shell
+    docker compose run --rm django python -m manage searchv2_build
+    ```
+
+=== "Just"
+
+    ```shell
+    just management-command searchv2_build
+    ```
+
+While the search v2 is our current default search algorithm, we have an experimental v3 that we are testing. To rebuild and recalculate our search database using the v3 engine, we run:
+
+=== "Standard"
+
+    ```shell
+    docker compose run --rm django python -m manage searchv3_build
+    ```
+
+=== "Just"
+
+    ```shell
+    just management-command searchv3_build
+    ```
+
+#### Formatters, Linters, and other miscellanea
+
+[Pre-commit] is a tool which helps to organize our linters and auto-formatters. Pre-commit runs before our code gets committed automatically or we may run it by hand. Pre-commit runs automatically for every pull request on GitHub too.
+
+To install the pre-commit hooks:
+
+```shell
+pip install pre-commit
+pre-commit install
+```
+
+To run all pre-commit rules by hand:
+
+```shell
+pre-commit run --all-files
+```
+
+To run a pre-commit rule by hand:
+
+```shell
+pre-commit run ruff
+```
+
+[compose]: https://docs.docker.com/compose/install/
+[docker]: https://docs.docker.com/install/
+[just]: https://github.com/casey/just
+[opinionated]: install_opinionated.md
+[pre-commit]: https://github.com/pre-commit/pre-commit
 
 ## Issues!
 
