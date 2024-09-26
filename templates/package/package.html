@@ -7,6 +7,7 @@
 {% load static %}
 {% load partials %}
 {% load waffle_tags %}
+{% load heroicons %}
 
 {% block metadata %}
     {% page_metadata page_title=package.title|emojify|emojificate page_description=package.repo_description page_keywords=package.grid_set.all|join:','  og_image_url=package.get_opengraph_image_url %}
@@ -14,6 +15,7 @@
 {% block extra_head %}
     {{ block.super }}
     {% include 'includes/_ethicalads-js.html' %}
+    <script src="{% static 'js/clipboard.min.js' %}"></script>
 {% endblock %}
 
 {% block breadcrumb %}
@@ -280,9 +282,16 @@
                         <p>No sites using this package have been listed yet.</p>
                     {% endif %}
                 {% endwith %}
+
+                <h3>{% trans "README Badge" %}</h3>
+                <div>
+                    {% blocktrans %}If you're the maintainer of this project, publicize Django Packages by adding the badge to your README!{% endblocktrans %}
+                    <div>
+                        <pre id="badgeurl">[![Published on Django Packages](https://img.shields.io/badge/Published%20on-Django%20Packages-0c3c26)]({{ request.build_absolute_uri }})
+<button class="copybtn btn btn-default btn-xs" aria-label="{% trans 'Copy to Clipboard' %}" title="{% trans 'Copy to Clipboard' %}" data-clipboard-target="#badgeurl">{% heroicon_outline 'document-duplicate' %}</button></pre>
+                    </div>
+                </div>
             </div>
-
-
         </div>
 
     </div>
@@ -336,5 +345,5 @@
         });
     </script>
     <script src="{% static 'js/htmx.min.js' %}" defer></script>
-
+    <script>new ClipboardJS('.copybtn');</script>
 {% endblock %}
