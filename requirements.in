@@ -19,7 +19,6 @@ django-structlog
 django-tables2
 django-tailwind-cli
 django-waffle
-django-heroicons
 Django<5.2
 djangorestframework<3.16
 emoji
