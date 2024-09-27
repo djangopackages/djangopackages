@@ -448,6 +448,13 @@ Listed in alphabetical order.
     <td></td>
   </tr>
   <tr>
+    <td>sheepman4267</td>
+    <td>
+      <a href="https://github.com/sheepman4267">sheepman4267</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
     <td>ShreehariVaasishta</td>
     <td>
       <a href="https://github.com/ShreehariVaasishta">ShreehariVaasishta</a>
