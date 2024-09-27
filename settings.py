@@ -403,7 +403,6 @@ if not DEBUG:
     ########## end django-secure
 
 
-
 ADMIN_URL_BASE = env("ADMIN_URL_BASE", default="admin/")
 
 if not DEBUG:
@@ -471,8 +470,7 @@ if not DEBUG:
         logger_factory=structlog.stdlib.LoggerFactory(),
         wrapper_class=structlog.stdlib.BoundLogger,
         cache_logger_on_first_use=True,
-    )    
-
+    )
 
 
 URL_REGEX_GITHUB = r"(?:http|https|git)://github.com/[^/]*/([^/]*)/{0,1}"
