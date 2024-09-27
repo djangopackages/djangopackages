@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-09-26]
+### Changed
+- Consolidate contributing and installation guides ([#1277](https://github.com/djangopackages/djangopackages/pull/1277))
+- Add a README Badge ([#1275](https://github.com/djangopackages/djangopackages/pull/1275))
+
 ## [2024-09-18]
 ### Changed
 - :fire: Removes `--reuse-db` testing option ([#1270](https://github.com/djangopackages/djangopackages/pull/1270))
