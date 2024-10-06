@@ -25,7 +25,7 @@ def build_1(*, verbose: bool = False):
     SearchV2.objects.filter(created__lte=last_week).delete()
 
     index_packages(verbose=verbose)
-    # index_groups()
+    index_groups(verbose=verbose)
 
     return SearchV2.objects.all()
 
