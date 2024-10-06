@@ -1,9 +1,6 @@
-{% load i18n profile_tags static %}
-{% load package_tags %}
-{% load page_metadata_tags %}
-{% load tailwind_cli %}
+{% load i18n package_tags page_metadata_tags profile_tags static tailwind_cli %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}" {% block angular_header %}ng-app{% endblock angular_header %}>
+<html xmlns="http://www.w3.org/1999/xhtml" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}" {% block angular_header %}ng-app{% endblock %}>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -60,12 +57,12 @@
                                 </li>
                             {% endif %}
                             {% if request.user.is_staff %}
-                                <li><a href="{% url 'admin:index' %}" class="btn">{% trans "Admin" %}</a></li>
+                                <li><a href="{% url 'admin:index' %}" class="btn">{% translate "Admin" %}</a></li>
                             {% endif %}
-                            <li><a href="{% url 'logout' %}" class="btn">{% trans "Log out" %}</a></li>
+                            <li><a href="{% url 'logout' %}" class="btn">{% translate "Log out" %}</a></li>
                         {% else %}
                             <li>
-                                <a href="{% url 'social:begin' 'github' %}{% if current_path %}?next={{ current_path }}{% endif %}" class="btn">{% trans "Log In" %}</a>
+                                <a href="{% url 'social:begin' 'github' %}{% if current_path %}?next={{ current_path }}{% endif %}" class="btn">{% translate "Log In" %}</a>
                             </li>
                         {% endif %}
 
@@ -88,7 +85,7 @@
                                 <a href="{% url 'grid' tab.slug %}" title="{{ tab.description }}">{{ tab.title|truncatechars:"17" }}</a><br />
                             {% endif %}
                             {% if forloop.parentloop.last and forloop.last %}
-                                <a class="gridnav-name" href="{% url 'grids' %}">{% trans "&raquo; more grids..." %}</a>
+                                <a class="gridnav-name" href="{% url 'grids' %}">{% translate "&raquo; more grids..." %}</a>
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -107,7 +104,7 @@
         {% block breadcrumb %}{% endblock %}
         <div class="container tw-flex-grow" ng-hide="items">
             {% block body %}
-            {% endblock %}
+            {% endblock body %}
         </div>
         <div class="container" ng-show="items">
             <div class="row">
@@ -115,12 +112,12 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>{% trans "Search Weight" %}</th>
-                                <th>{% trans "Package" %}</th>
-                                <th>{% trans "Description" %}</th>
-                                <th>{% trans "Last PyPI release" %}</th>
-                                <th>{% trans "Repo Forks" %}</th>
-                                <th>{% trans "Stars" %}</th>
+                                <th>{% translate "Search Weight" %}</th>
+                                <th>{% translate "Package" %}</th>
+                                <th>{% translate "Description" %}</th>
+                                <th>{% translate "Last PyPI release" %}</th>
+                                <th>{% translate "Repo Forks" %}</th>
+                                <th>{% translate "Stars" %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -174,23 +171,23 @@
 
                     <a href="https://github.com/djangopackages/djangopackages">Repo</a>
 
-                    <a href="{% url 'faq' %}">{% trans "FAQ" %}</a>
+                    <a href="{% url 'faq' %}">{% translate "FAQ" %}</a>
 
-                    <a href="{% url 'terms' %}">{% trans "Terms" %}</a>
+                    <a href="{% url 'terms' %}">{% translate "Terms" %}</a>
 
-                    <a href="https://docs.djangopackages.org/en/latest/contributing">{% trans "Contribute" %}</a>
+                    <a href="https://docs.djangopackages.org/en/latest/contributing">{% translate "Contribute" %}</a>
 
-                    <a href="https://docs.djangopackages.org/en/latest/apiv3_docs">{% trans "API" %}</a>
+                    <a href="https://docs.djangopackages.org/en/latest/apiv3_docs">{% translate "API" %}</a>
 
-                    <a href="{% url 'syndication' %}">{% trans "RSS / Atom" %}</a>
+                    <a href="{% url 'syndication' %}">{% translate "RSS / Atom" %}</a>
 
-                    <a href="{% url 'post_list' %}">{% trans "Changelog" %}</a>
+                    <a href="{% url 'post_list' %}">{% translate "Changelog" %}</a>
 
-                    <a href="{% url 'funding' %}">{% trans "Funding" %}</a>
+                    <a href="{% url 'funding' %}">{% translate "Funding" %}</a>
 
-                    <a href="https://jobs.django-news.com">{% trans "Django News Jobs" %}</a>
+                    <a href="https://jobs.django-news.com">{% translate "Django News Jobs" %}</a>
 
-                    <a href="https://django-news.com">{% trans "Django News Newsletter" %}</a>
+                    <a href="https://django-news.com">{% translate "Django News Newsletter" %}</a>
 
                 </div>
 

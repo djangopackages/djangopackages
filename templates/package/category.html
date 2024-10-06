@@ -1,19 +1,17 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load package_tags %}
-{% load page_metadata_tags %}
+{% load i18n package_tags page_metadata_tags %}
 {% load render_table from django_tables2 %}
 
 {% block metadata %}
-    {% trans "Welcome" as trans_title %}
+    {% translate "Welcome" as trans_title %}
     {% page_metadata page_title=trans_title %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block extra_head %}
     {{ block.super }}
     {% include 'includes/_ethicalads-js.html' %}
-{% endblock %}
+{% endblock extra_head %}
 
 {% block body_class %}home{% endblock %}
 
@@ -23,13 +21,13 @@
             <div class="row">
                 <div class="col-xs-12">
                     <h2><a
-                        href="{% url 'categories' %}">{% trans "Categories" %}</a> ›› {{ category.title_plural }}
+                        href="{% url 'categories' %}">{% translate "Categories" %}</a> ›› {{ category.title_plural }}
                         ( {{ table.paginator.count }} )</h2>
                 </div>
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock breadcrumb %}
 
 {% block body %}
     <div class="row">
@@ -37,7 +35,7 @@
             <p>{{ category.description }}</p>
             {% if request.user.is_authenticated and profile.can_add_package %}
                 <p>
-                    <a class="btn btn-primary" href="{% url 'add_package' %}">{% trans "Add Package »" %}</a>
+                    <a class="btn btn-primary" href="{% url 'add_package' %}">{% translate "Add Package »" %}</a>
                 </p>
             {% endif %}
             {% with ea_id="category-detail" ea_type="text" %}
@@ -55,4 +53,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock body %}

@@ -1,26 +1,24 @@
 {% extends "base.html" %}
 
-{% load humanize %}
-{% load i18n %}
-{% load page_metadata_tags %}
+{% load humanize i18n page_metadata_tags %}
 
 {% block metadata %}
-    {% trans "Readiness" as trans_title %}
+    {% translate "Readiness" as trans_title %}
     {% page_metadata page_title=trans_title %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block body %}
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h1>{% trans "Readiness" %}</h1>
+                <h1>{% translate "Readiness" %}</h1>
             </div>
         </div>
 
         <div class="row">
             {% if django_releases.exists %}
                 <div class="col-sm-6 col-md-4">
-                    <h2>{% trans "Django Releases" %}</h2>
+                    <h2>{% translate "Django Releases" %}</h2>
                     <ul>
                         {% for release in django_releases %}
                             <li class="tw-text-2xl">
@@ -37,7 +35,7 @@
 
             {% if python_releases.exists %}
                 <div class="col-sm-6 col-md-4">
-                    <h2>{% trans "Python Releases" %}</h2>
+                    <h2>{% translate "Python Releases" %}</h2>
                     <ul>
                         {% for release in python_releases %}
                             <li class="tw-text-2xl">
@@ -54,7 +52,7 @@
 
             {% if wagtail_releases.exists %}
                 <div class="col-sm-6 col-md-4">
-                    <h2>{% trans "Wagtail Releases" %}</h2>
+                    <h2>{% translate "Wagtail Releases" %}</h2>
                     <ul>
                         {% for release in wagtail_releases %}
                             <li class="tw-text-2xl">
@@ -72,4 +70,4 @@
 
         {% include "includes/_readiness-footer.html" %}
     </div>
-{% endblock %}
+{% endblock body %}

@@ -1,6 +1,6 @@
 {% load i18n %}
 <tr class="grid-row-header">
-    <th>{% trans "Package" %}</th>
+    <th>{% translate "Package" %}</th>
     {% for grid_package in grid_packages %}
         <th>
             <a href="{% url 'package' grid_package.package.slug %}">

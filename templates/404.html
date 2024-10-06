@@ -1,28 +1,27 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load page_metadata_tags %}
+{% load i18n page_metadata_tags %}
 
 {% block metadata %}
-    {% trans "Not Found" as trans_title %}
+    {% translate "Not Found" as trans_title %}
     {% page_metadata page_title=trans_title %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block body %}
     <div class="row">
         <div class="col-12">
-            <h2>{% trans "Not Found" %}</h2>
+            <h2>{% translate "Not Found" %}</h2>
 
             <p>
-                {% trans "We can't find it!  Oh no!  The page isn't here!" %}
+                {% translate "We can't find it!  Oh no!  The page isn't here!" %}
             </p>
 
             <p>
-                {% trans "If it's our fault, would you please do us a favor and" %} <a href="https://github.com/djangopackages/djangopackages/issues">{% trans "create a ticket?" %}</a>
+                {% translate "If it's our fault, would you please do us a favor and" %} <a href="https://github.com/djangopackages/djangopackages/issues">{% translate "create a ticket?" %}</a>
             </p>
 
             <img src="{{ STATIC_URL }}img/logo_501x316.png" />
 
         </div>
     </div>
-{% endblock %}
+{% endblock body %}

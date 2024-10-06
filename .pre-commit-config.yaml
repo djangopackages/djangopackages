@@ -32,6 +32,11 @@ repos:
         alias: autoformat
       - id: djjs
         alias: autoformat
+  - repo: https://github.com/adamchainz/djade-pre-commit
+    rev: 1.2.0
+    hooks:
+      - id: djade
+        args: [--target-version, "5.1"]
   - repo: https://github.com/adamchainz/django-upgrade
     rev: 1.21.0
     hooks:

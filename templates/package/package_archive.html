@@ -1,20 +1,19 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load page_metadata_tags %}
+{% load i18n page_metadata_tags %}
 
 {% block metadata %}
-    {% trans "Packages" as trans_title %}
+    {% translate "Packages" as trans_title %}
     {% page_metadata page_title=trans_title %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block body %}
     <div class="row">
         <div class="col-xs-12">
-            <h2>{% trans "Latest 50 packages added" %}</h2>
+            <h2>{% translate "Latest 50 packages added" %}</h2>
             {% if request.user.is_authenticated %}
                 {% if profile.can_add_package %}
-                    <p><a class="btn btn-primary" href="{% url 'add_package' %}">{% trans "Add a new package!" %}</a></p>
+                    <p><a class="btn btn-primary" href="{% url 'add_package' %}">{% translate "Add a new package!" %}</a></p>
                 {% endif %}
             {% endif %}
         </div>
@@ -23,9 +22,9 @@
         <div class="col-xs-12">
             <div class="list-group">
                 {% for package in latest %}
-                    {% include "package/includes/_package.html"%}
+                    {% include "package/includes/_package.html" %}
                 {% endfor %}
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock body %}
