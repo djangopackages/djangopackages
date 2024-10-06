@@ -1,9 +1,4 @@
-{% load emojificate %}
-{% load humanize %}
-{% load i18n %}
-{% load package_tags %}
-{% load typogrify_tags %}
-{% load waffle_tags %}
+{% load emojificate humanize i18n package_tags typogrify_tags waffle_tags %}
 
 
 {% switch "switch_use_grid_of_the_week" %}
@@ -51,7 +46,7 @@ This is a hack to keep the next set of divs from wrapping up and making the disp
     <div class="row">
         <!-- start python 3 releases -->
         <div class="col-sm-4 col-lg-4">
-            <h2>{% trans "Latest Python 3 Package Releases" %}</h2>
+            <h2>{% translate "Latest Python 3 Package Releases" %}</h2>
 
             <div class="list-group">
                 {% for version in latest_python3 %}
@@ -81,13 +76,13 @@ This is a hack to keep the next set of divs from wrapping up and making the disp
 
         <!-- start latest five packages -->
         <div class="col-sm-4 col-lg-4">
-            <h2>{% trans "Latest Five Packages Added" %}</h2>
+            <h2>{% translate "Latest Five Packages Added" %}</h2>
 
             <div class="list-group">
                 {% for package in latest_packages %}
                     <a href="{{ package.get_absolute_url }}" class="list-group-item">
                         <h4 class="list-group-item-heading">
-                            {{ package.title | emojify| emojificate }}
+                            {{ package.title|emojify|emojificate }}
                             {% if package.pypi_version %}<small>v{{ package.pypi_version }}</small>{% endif %}
                         </h4>
                         <p class="list-group-item-text">
@@ -101,7 +96,7 @@ This is a hack to keep the next set of divs from wrapping up and making the disp
                         </p>
                     </a>
                 {% endfor %}
-                <a href="{% url 'latest_packages'%}" class="btn btn-primary btn-block-display">View More</a>
+                <a href="{% url 'latest_packages' %}" class="btn btn-primary btn-block-display">View More</a>
             </div>
 
             {% comment %}
@@ -112,13 +107,13 @@ This is a hack to keep the next set of divs from wrapping up and making the disp
 
         <!-- start five random packages -->
         <div class="col-sm-4 col-lg-4">
-            <h2>{% trans "Random Five Packages" %}</h2>
+            <h2>{% translate "Random Five Packages" %}</h2>
 
             <div class="list-group">
                 {% for package in random_packages %}
                     <a href="{{ package.get_absolute_url }}" class="list-group-item">
                         <h4 class="list-group-item-heading">
-                            {{ package.title | emojify | emojificate }}
+                            {{ package.title|emojify|emojificate }}
                             {% if package.pypi_version %}<small>v{{ package.pypi_version }}</small>{% endif %}
                         </h4>
                         <p class="list-group-item-text">

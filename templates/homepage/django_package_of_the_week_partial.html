@@ -1,11 +1,11 @@
 {% load i18n %}
 <div class="text-center categories col-sm-4">
-    <h2>{% trans "Featured Package" %}</h2>
+    <h2>{% translate "Featured Package" %}</h2>
     {% if potw %}
         <h4><a href="{{ potw.get_absolute_url }}">{{ potw.title }}</a></h4>
         <p>{{ potw.description }}</p>
         <p>
-            <strong>{% trans "Packages" %}:</strong> {{ potw.gridpackage_set.count }}
+            <strong>{% translate "Packages" %}:</strong> {{ potw.gridpackage_set.count }}
         </p>
     {% else %}
         <p>There is no Featured Package for this week</p>

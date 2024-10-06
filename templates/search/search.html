@@ -1,13 +1,11 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load static %}
-{% load page_metadata_tags %}
+{% load i18n page_metadata_tags static %}
 
 {% block metadata %}
-    {% trans "Search" as trans_title %}
+    {% translate "Search" as trans_title %}
     {% page_metadata page_title=trans_title %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block body_class %}search{% endblock %}
 
@@ -30,12 +28,12 @@
     <table class="table">
         <thead>
             <tr>
-                <th>{% trans "Search Weight" %}</th>
-                <th>{% trans "Package" %}</th>
-                <th>{% trans "Description" %}</th>
-                <th>{% trans "Last PyPI Release" %}</th>
-                <th>{% trans "Repo Forks" %}</th>
-                <th>{% trans "Stars" %}</th>
+                <th>{% translate "Search Weight" %}</th>
+                <th>{% translate "Package" %}</th>
+                <th>{% translate "Description" %}</th>
+                <th>{% translate "Last PyPI Release" %}</th>
+                <th>{% translate "Repo Forks" %}</th>
+                <th>{% translate "Stars" %}</th>
             </tr>
         </thead>
         <tbody id="search-results">

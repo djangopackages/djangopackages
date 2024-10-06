@@ -1,13 +1,11 @@
-{% load i18n %}
-{% load package_tags %}
-{% load emojificate %}
+{% load emojificate i18n package_tags %}
 
 <a href="{% url 'package' package.slug %}" class="list-group-item">
     <h4 class="list-group-item-heading">
-        {{ package.title | emojify | emojificate  }}
+        {{ package.title|emojify|emojificate }}
     </h4>
     <p class="list-group-item-text">
-        {{ package.repo_description | emojify | emojificate }}
+        {{ package.repo_description|emojify|emojificate }}
     </p>
     <p class="list-group-item-text">
         <!-- TODO: do something better with this -->

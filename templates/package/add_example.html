@@ -1,19 +1,17 @@
 {% extends "package/base.html" %}
 
-{% load i18n %}
-{% load crispy_forms_tags %}
-{% load page_metadata_tags %}
+{% load crispy_forms_tags i18n page_metadata_tags %}
 
 {% block metadata %}
-    {% trans "Add package example" as trans_title %}
+    {% translate "Add package example" as trans_title %}
     {% page_metadata page_title=trans_title %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block body %}
     <div class="container">
         <div class="row">
             <div class="col-lg-6">
-                <h2>{% trans "Example Form" %}</h2>
+                <h2>{% translate "Example Form" %}</h2>
 
                 <p>This form adds a website to the &ldquo;Sites using this package&rdquo; list.</p>
 
@@ -23,17 +21,17 @@
                         {{ form|crispy }}
 
                         <div class="form_block">
-                            <input class="btn btn-default" type="submit" name="add" value="{% trans "Add new example" %}">
+                            <input class="btn btn-default" type="submit" name="add" value="{% translate "Add new example" %}">
                         </div>
                     </fieldset>
                 </form>
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock body %}
 
 {% block extra_body %}
     <script>
         $("#id_title").focus();
     </script>
-{% endblock %}
+{% endblock extra_body %}

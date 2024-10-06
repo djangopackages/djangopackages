@@ -1,16 +1,15 @@
 {% extends "base.html" %}
 
-{% load i18n profile_tags %}
-{% load page_metadata_tags %}
+{% load i18n page_metadata_tags profile_tags %}
 
 {% block metadata %}
-    {% trans "Login" as trans_title %}
+    {% translate "Login" as trans_title %}
     {% page_metadata page_title=trans_title %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block extra_head %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/account.css" />
-{% endblock %}
+{% endblock extra_head %}
 
 {% block body_class %}account{% endblock %}
 
@@ -27,6 +26,6 @@
     <p>GitHub is the place for developers these days. Using them takes a lot of weight off the {{ SITE_TITLE }} team. We're also interested in supporting other OAUTH/OpenID providers such as PyPI.</p>
 
     <p>
-        {% blocktrans %}If you have any problems, please <a href="https://github.com/djangopackages/djangopackages/issues">submit an issue</a>.{% endblocktrans %}
+        {% blocktranslate %}If you have any problems, please <a href="https://github.com/djangopackages/djangopackages/issues">submit an issue</a>.{% endblocktranslate %}
     </p>
-{% endblock %}
+{% endblock body %}

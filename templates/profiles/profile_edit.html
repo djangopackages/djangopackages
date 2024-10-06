@@ -1,13 +1,11 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load crispy_forms_tags %}
-{% load page_metadata_tags %}
+{% load crispy_forms_tags i18n page_metadata_tags %}
 
 {% block metadata %}
-    {% trans "Profile for " as trans_title %}
+    {% translate "Profile for " as trans_title %}
     {% page_metadata page_title=trans_title|add:profile.user.username %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block body %}
 

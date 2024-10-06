@@ -1,15 +1,11 @@
 {% extends "base.html" %}
 
-{% load django_tables2 %}
-{% load humanize %}
-{% load i18n %}
-{% load package_tags %}
-{% load page_metadata_tags %}
+{% load django_tables2 humanize i18n package_tags page_metadata_tags %}
 
 {% block metadata %}
-    {% trans "django reusable apps, sites and tools directory" as trans_title %}
+    {% translate "django reusable apps, sites and tools directory" as trans_title %}
     {% page_metadata page_title=trans_title %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block body %}
     {% for category in categories %}
@@ -23,10 +19,10 @@
                 {% render_table category.table %}
                 <p>
                     <a href="{% url 'category' category.slug %}" class="btn btn-primary">
-                        {% trans "Show " %}{{ category.title_plural }} ({{ category.count|intcomma }})
+                        {% translate "Show " %}{{ category.title_plural }} ({{ category.count|intcomma }})
                     </a>
                 </p>
             </div>
         </div>
     {% endfor %}
-{% endblock %}
+{% endblock body %}

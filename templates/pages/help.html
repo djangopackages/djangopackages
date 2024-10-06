@@ -1,12 +1,11 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load page_metadata_tags %}
+{% load i18n page_metadata_tags %}
 
 {% block metadata %}
-    {% trans "Help" as trans_title %}
+    {% translate "Help" as trans_title %}
     {% page_metadata page_title=trans_title %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block body %}
 
@@ -34,4 +33,4 @@
 
     <h3>We'll be adding more to this section soon!</h3>
     {# TODO - flesh out this page #}
-{% endblock %}
+{% endblock body %}
