@@ -1,22 +1,15 @@
 {% extends "grid/base.html" %}
 
-{% load cache %}
-{% load crispy_forms_tags %}
-{% load grid_tags %}
-{% load humanize %}
-{% load i18n %}
-{% load package_tags %}
-{% load page_metadata_tags %}
-{% load emojificate %}
+{% load cache crispy_forms_tags emojificate grid_tags humanize i18n package_tags page_metadata_tags %}
 
 {% block metadata %}
     {% page_metadata page_title=grid.title page_description=grid.description page_keywords=grid.packages.all|join:',' og_image_url=grid.get_opengraph_image_url %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block extra_head %}
     {{ block.super }}
     {% include 'includes/_ethicalads-js.html' %}
-{% endblock %}
+{% endblock extra_head %}
 
 {% block body %}
     <div class="row">
@@ -42,7 +35,7 @@
     {% cache 600 html_grid_detail_outer grid.pk request.GET.urlencode %}
         <div class="row">
             <div class="col-lg-12">
-                <h3>{% trans "Filter results" %}</h3>
+                <h3>{% translate "Filter results" %}</h3>
             </div>
             <form method="get" action="{{ request.path }}" id="filterForm" class="form-inline">
                 <div class="col-lg-12 col-md-12 col-sm-12">
@@ -64,7 +57,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{% trans "Description" %}</td>
+                        <td>{% translate "Description" %}</td>
                         {% for grid_package in grid_packages %}
                             <td>
                                 {% with grid_package.package.repo_description|truncatewords:20 as short %}
@@ -78,13 +71,13 @@
                         {% endfor %}
                     </tr>
                     <tr>
-                        <td>{% trans "Category" %}</td>
+                        <td>{% translate "Category" %}</td>
                         {% for grid_package in grid_packages %}
                             <td>{{ grid_package.package.category }}</td>
                         {% endfor %}
                     </tr>
                     <tr>
-                        <td>{% trans "# Using This" %}</td>
+                        <td>{% translate "# Using This" %}</td>
                         {% for grid_package in grid_packages %}
                             <td class="usage-holder">
                                 {% with grid_package.package as package %}
@@ -95,13 +88,13 @@
                         {% endfor %}
                     </tr>
                     <tr>
-                        <td>{% trans "Python 3?" %}</td>
+                        <td>{% translate "Python 3?" %}</td>
                         {% for grid_package in grid_packages %}
                             <td>{% if grid_package.package.last_released.supports_python3 %}<span class="glyphicon glyphicon-ok"></span>{% else %}<span class="glyphicon glyphicon-remove"></span>{% endif %}</td>
                         {% endfor %}
                     </tr>
                     <tr>
-                        <td>{% trans "Development Status" %}</td>
+                        <td>{% translate "Development Status" %}</td>
                         {% for grid_package in grid_packages %}
                             <td>
                                 {% with pretty_status=grid_package.package.last_released.pretty_status %}
@@ -116,7 +109,7 @@
                         {% endfor %}
                     </tr>
                     <tr>
-                        <td>{% trans "Last updated" %}</td>
+                        <td>{% translate "Last updated" %}</td>
                         {% for grid_package in grid_packages %}
                             <td>
                                 {% with last_updated=grid_package.package.last_updated %}
@@ -128,38 +121,38 @@
                         {% endfor %}
                     </tr>
                     <tr>
-                        <td>{% trans "Version" %}</td>
+                        <td>{% translate "Version" %}</td>
                         {% for grid_package in grid_packages %}
                             <td>{{ grid_package.package.pypi_version|default:"n/a" }}</td>
                         {% endfor %}
 
                     </tr>
                     <tr>
-                        <td>{% trans "Repo" %}</td>
+                        <td>{% translate "Repo" %}</td>
                         {% for grid_package in grid_packages %}
                             <td><a href="{{ grid_package.package.repo_url }}">{{ grid_package.package.repo }}</a></td>
                         {% endfor %}
                     </tr>
                     <tr>
-                        <td>{% trans "Commits" %}</td>
+                        <td>{% translate "Commits" %}</td>
                         {% for grid_package in grid_packages %}
                             <td>{% include "package/includes/_commits.html" with value=grid_package.package.commits_over_52 %}</td>
                         {% endfor %}
                     </tr>
                     <tr>
-                        <td>{% trans "Stars" %}</td>
+                        <td>{% translate "Stars" %}</td>
                         {% for grid_package in grid_packages %}
                             <td>{{ grid_package.package.repo_watchers|intcomma|default:"n/a" }}</td>
                         {% endfor %}
                     </tr>
                     <tr>
-                        <td>{% trans "Repo Forks" %}</td>
+                        <td>{% translate "Repo Forks" %}</td>
                         {% for grid_package in grid_packages %}
                             <td>{{ grid_package.package.repo_forks|intcomma|default:"n/a" }}</td>
                         {% endfor %}
                     </tr>
                     <tr>
-                        <td>{% trans "Participants" %}</td>
+                        <td>{% translate "Participants" %}</td>
                         {% for grid_package in grid_packages %}
                             <td>
                                 {% for collaborator in grid_package.package.participant_list %}
@@ -170,14 +163,14 @@
                                         {% endif %}
                                     {% endif %}
                                     {% if forloop.counter == 11 %}
-                                        <a href="{% url 'package' grid_package.package.slug %}">{% trans "more..." %}</a>
+                                        <a href="{% url 'package' grid_package.package.slug %}">{% translate "more..." %}</a>
                                     {% endif %}
                                 {% endfor %}
                             </td>
                         {% endfor %}
                     </tr>
                     <tr>
-                        <td>{% trans "Documentation" %}</td>
+                        <td>{% translate "Documentation" %}</td>
                         {% for grid_package in grid_packages %}
                             <td>
                                 {% if grid_package.package.documentation_url.strip and grid_package.package.documentation_url.strip != None %}
@@ -198,7 +191,7 @@
                                 {% with elements|hash:feature.pk|hash:grid_package.pk as element %}
                                     <td class="clickable" id="element-f{{ feature.pk }}-p{{ grid_package.pk }}">{% if element %}{{ element.text|style_element|safe|urlize|linebreaksbr }}{% endif %}<noscript>
                                         {% if request.user.is_authenticated and profile.can_edit_grid_element %}
-                                            <a class="edit" href="{% url 'edit_element' feature.pk grid_package.pk %}">{% trans "[edit]" %}</a>
+                                            <a class="edit" href="{% url 'edit_element' feature.pk grid_package.pk %}">{% translate "[edit]" %}</a>
                                         {% endif %}
                                     </noscript></td>
                                 {% endwith %}
@@ -224,35 +217,35 @@
                 </tbody>
 
             </table>
-            <p><a href="{% url 'grid_packages' grid.slug %}"><span class="glyphicon glyphicon-th-list text-success"></span> {% trans "View all grid packages" %}</a></p>
+            <p><a href="{% url 'grid_packages' grid.slug %}"><span class="glyphicon glyphicon-th-list text-success"></span> {% translate "View all grid packages" %}</a></p>
         {% else %}
             {% if request.user.is_authenticated and profile.can_add_grid_package %}
-                <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span>&nbsp;{% trans "Add a package to get a grid view" %}</a></p>
+                <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span>&nbsp;{% translate "Add a package to get a grid view" %}</a></p>
             {% endif %}
         {% endif %}
 
         <div class="row">
             {% if features and request.user.is_authenticated %}
                 <div class="col-lg-12">
-                    <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add package to the grid" %}</a></p>
+                    <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% translate "Add package to the grid" %}</a></p>
 
                     {% if profile.can_add_grid_feature %}
-                        <p><a href="{% url 'add_feature' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add new feature to the grid" %}</a></p>
+                        <p><a href="{% url 'add_feature' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% translate "Add new feature to the grid" %}</a></p>
                     {% endif %}
 
                     {% if profile.can_edit_grid_element %}
-                        <p><span class="glyphicon glyphicon-info-sign"></span> {% trans "Highlighted cells are editable.  Click highlighted cells to change text." %}</p>
+                        <p><span class="glyphicon glyphicon-info-sign"></span> {% translate "Highlighted cells are editable.  Click highlighted cells to change text." %}</p>
                     {% endif %}
                 </div>
             {% endif %}
             {% if features %}
                 <div class="col-lg-12">
-                    <h3>{% trans "Features currently being evaluated" %}</h3>
+                    <h3>{% translate "Features currently being evaluated" %}</h3>
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>{% trans "Feature" %}</th>
-                                <th>{% trans "Description" %}</th>
+                                <th>{% translate "Feature" %}</th>
+                                <th>{% translate "Description" %}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -279,18 +272,18 @@
             {% else %}
                 <div class="col-lg-12">
                     {% if request.user.is_authenticated and profile.can_add_grid_package %}
-                        <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add package to the grid" %}</a></p>
+                        <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% translate "Add package to the grid" %}</a></p>
                     {% endif %}
 
                     {% if request.user.is_authenticated and profile.can_add_grid_feature %}
-                        <p><a href="{% url 'add_feature' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% trans "Add new feature to the grid" %}</a></p>
+                        <p><a href="{% url 'add_feature' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% translate "Add new feature to the grid" %}</a></p>
                     {% endif %}
                 </div>
             {% endif %}
         </div>
     {% endcache %}
 
-{% endblock %}
+{% endblock body %}
 
 {% block extra_body %}
     <script type="text/javascript">
@@ -310,7 +303,7 @@
                         // The deletes are placed in here so there is just one place needed
                         e.preventDefault();
 
-                        if(confirm('{% trans "Are you sure? This cannot be undone!" %}')) {
+                        if(confirm('{% translate "Are you sure? This cannot be undone!" %}')) {
                             window.location = url;
                         }
                     };
@@ -365,4 +358,4 @@
             });
         });
     </script>
-{% endblock %}
+{% endblock extra_body %}

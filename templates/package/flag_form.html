@@ -1,17 +1,15 @@
 {% extends "package/base.html" %}
 
-{% load i18n %}
-{% load crispy_forms_tags %}
-{% load page_metadata_tags %}
+{% load crispy_forms_tags i18n page_metadata_tags %}
 
 {% block metadata %}
-    {% trans " package" as trans_title %}
+    {% translate " package" as trans_title %}
     {% page_metadata page_title=action|title|add:trans_title %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block body %}
 
-    <h2><a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'packages' %}">{% trans "packages" %}</a> / {{ action|title }} {% trans "flag" %}</h2>
+    <h2><a href="{% url 'home' %}">{% translate "home" %}</a> / <a href="{% url 'packages' %}">{% translate "packages" %}</a> / {{ action|title }} {% translate "flag" %}</h2>
 
     <p id="package-form-message"></p>
     <form action="{{ request.path }}" method="post" id="package-form">
@@ -22,10 +20,10 @@
             {{ form|crispy }}
         </fieldset>
 
-        <input class="btn btn-default" type="submit" name="add" value="{{ action }} {% trans "Submit" %}">
+        <input class="btn btn-default" type="submit" name="add" value="{{ action }} {% translate "Submit" %}">
     </form>
 
-{% endblock %}
+{% endblock body %}
 
 {% block extra_body %}
     <script src="{{ STATIC_URL }}js/urlify.js" type="text/javascript"></script>
@@ -36,4 +34,4 @@
         });
     </script>
 
-{% endblock %}
+{% endblock extra_body %}

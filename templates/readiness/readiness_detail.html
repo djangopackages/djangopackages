@@ -1,13 +1,11 @@
 {% extends "base.html" %}
 
-{% load humanize %}
-{% load i18n %}
-{% load page_metadata_tags %}
+{% load humanize i18n page_metadata_tags %}
 
 {% block metadata %}
-    {% trans "Readiness" as trans_title %}
+    {% translate "Readiness" as trans_title %}
     {% page_metadata page_title=trans_title %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block body %}
     <div class="container">
@@ -24,7 +22,7 @@
                 {% endif %}
                 <div>{{ release.product.title }} {{ release.cycle }} support graph for the {{ packages|length }} most popular {{ release.product.title }} packages!</div>
                 <h2>How do you identify {{ release.product.title }} {{ release.cycle }} support?</h2>
-                <p>We look for the <code>{{ ready_condition}}</code> classifier on the latest release of the project.</p>
+                <p>We look for the <code>{{ ready_condition }}</code> classifier on the latest release of the project.</p>
             </div>
         </div>
 
@@ -49,4 +47,4 @@
 
         {% include "includes/_readiness-footer.html" %}
     </div>
-{% endblock %}
+{% endblock body %}

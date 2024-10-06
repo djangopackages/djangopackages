@@ -1,40 +1,38 @@
 {% extends "grid/base.html" %}
 
-{% load i18n %}
-{% load crispy_forms_tags %}
-{% load page_metadata_tags %}
+{% load crispy_forms_tags i18n page_metadata_tags %}
 
 {% block metadata %}
-    {% trans "Grid Form" as trans_title %}
+    {% translate "Grid Form" as trans_title %}
     {% page_metadata page_title=trans_title %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block body %}
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h2>{% trans "Grid Form" %}</h2>
+                <h2>{% translate "Grid Form" %}</h2>
 
-                <p>{% trans "Grids added here are publicly listed in the" %} <a href="/grids">{% trans "list of all grids" %}</a>.</p>
+                <p>{% translate "Grids added here are publicly listed in the" %} <a href="/grids">{% translate "list of all grids" %}</a>.</p>
 
-                <p>{% trans "Periodically, we will add some of these grids to the top navigation bar!" %}</p>
+                <p>{% translate "Periodically, we will add some of these grids to the top navigation bar!" %}</p>
 
                 <form action="{{ request.path }}" method="post">
                     {% csrf_token %}
                     <fieldset>
                         {{ form|crispy }}
                         <div class="form_block">
-                            <input class="btn btn-default" type="submit" name="add" value="{% trans "Submit »" %}">
+                            <input class="btn btn-default" type="submit" name="add" value="{% translate "Submit »" %}">
                         </div>
                     </fieldset>
                 </form>
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock body %}
 
 {% block extra_body %}
     <script>
         $("#id_title").focus();
     </script>
-{% endblock %}
+{% endblock extra_body %}

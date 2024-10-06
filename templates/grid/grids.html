@@ -1,22 +1,20 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load django_tables2 %}
-{% load page_metadata_tags %}
+{% load django_tables2 i18n page_metadata_tags %}
 
 {% block metadata %}
-    {% trans "Grids" as trans_title %}
+    {% translate "Grids" as trans_title %}
     {% page_metadata page_title=trans_title %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block body %}
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h2>{% trans "Grids" %}</h2>
+                <h2>{% translate "Grids" %}</h2>
                 {% if request.user.is_authenticated and profile.can_add_grid %}
                     <p>
-                        <a class="btn btn-primary" href="{% url 'add_grid' %}">{% trans "Add Grid »" %}</a>
+                        <a class="btn btn-primary" href="{% url 'add_grid' %}">{% translate "Add Grid »" %}</a>
                     </p>
                 {% endif %}
             </div>
@@ -27,4 +25,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock body %}

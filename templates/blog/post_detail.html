@@ -1,12 +1,10 @@
 {% extends "blog/base.html" %}
 
-{% load humanize %}
-{% load markdown_tags %}
-{% load page_metadata_tags %}
+{% load humanize markdown_tags page_metadata_tags %}
 
 {% block metadata %}
     {% page_metadata page_title=post.title %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block body %}
     <div class="container">
@@ -23,9 +21,9 @@
                     <div class="tw-text-3xl"><a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a></div>
                 </div>
                 <div class="col-xs-8">
-                    {{ post.content | markdown }}
+                    {{ post.content|markdown }}
                 </div>
             </main>
         </div>
     </div>
-{% endblock %}
+{% endblock body %}

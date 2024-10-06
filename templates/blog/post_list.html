@@ -1,14 +1,11 @@
 {% extends "blog/base.html" %}
 
-{% load humanize %}
-{% load i18n %}
-{% load markdown_tags %}
-{% load page_metadata_tags %}
+{% load humanize i18n markdown_tags page_metadata_tags %}
 
 {% block metadata %}
-    {% trans "Changelog" as trans_title %}
+    {% translate "Changelog" as trans_title %}
     {% page_metadata page_title=trans_title %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block body %}
     <div class="container">
@@ -26,10 +23,10 @@
                         <div class="tw-text-3xl"><a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a></div>
                     </div>
                     <div class="col-xs-8">
-                        {{ post.content | markdown }}
+                        {{ post.content|markdown }}
                     </div>
                 </section>
             {% endfor %}
         </div>
     </div>
-{% endblock %}
+{% endblock body %}
