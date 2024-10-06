@@ -3,7 +3,7 @@ from django.utils import timezone
 from pydantic import BaseModel
 
 from package.models import Package
-from settings.base import DOCS_URL
+from core.settings import DOCS_URL
 
 
 class CheckResult(BaseModel):

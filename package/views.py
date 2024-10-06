@@ -17,7 +17,7 @@ from django.views.decorators.http import require_POST
 from django.views.generic.base import TemplateView
 from django_q.tasks import async_task
 from django_tables2 import SingleTableView
-from settings.base import DOCS_URL
+from core.settings import DOCS_URL
 
 from grid.models import Grid
 from package.forms import (
