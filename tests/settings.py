@@ -4,25 +4,7 @@ locally.
 
 import logging
 
-<<<<<<<< HEAD:test-settings.py
-from settings import *  # noqa
-|||||||| a9b39b6d:settings/test.py
-from settings.base import *  # noqa
-========
-<<<<<<<< HEAD:tests/settings.py
-<<<<<<<< HEAD:tests/settings.py
 from core.settings import *  # noqa
-|||||||| a9b39b6d:settings/test.py
-from settings.base import *  # noqa
-========
-from settings import *  # noqa
->>>>>>>> issue-915:test-settings.py
-|||||||| a9b39b6d:settings/test.py
-from settings.base import *  # noqa
-========
-from settings import *  # noqa
->>>>>>>> issue-915:test-settings.py
->>>>>>>> fun-with-settings:tests/settings.py
 
 logging.disable(logging.CRITICAL)
 

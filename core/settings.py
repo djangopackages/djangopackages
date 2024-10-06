@@ -211,7 +211,13 @@ PREREQ_APPS = [
     "template_partials",
 ]
 
-INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS + ["anymail",]
+INSTALLED_APPS = (
+    PREREQ_APPS
+    + PROJECT_APPS
+    + [
+        "anymail",
+    ]
+)
 
 ANYMAIL = {
     "MAILGUN_API_KEY": env("MAILGUN_API_KEY"),
