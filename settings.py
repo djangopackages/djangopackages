@@ -19,7 +19,6 @@ BASE_DIR = Path(__file__).parent.parent
 PROJECT_ROOT = Path(__file__).parent.parent
 
 DEBUG = env.bool("DJANGO_DEBUG", True)
-DEBUG = env.bool("DJANGO_DEBUG", False)
 TEMPLATE_DEBUG = env.bool("TEMPLATE_DEBUG", True)
 TEST_MODE = "pytest" in sys.modules
 
