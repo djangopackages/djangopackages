@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-10-06]
+### Changed
+- Try Djade (Django template formatter) ([#1283](https://github.com/djangopackages/djangopackages/pull/1283))
+
 ## [2024-10-01]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1281](https://github.com/djangopackages/djangopackages/pull/1281))
