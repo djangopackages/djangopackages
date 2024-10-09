@@ -220,8 +220,8 @@ INSTALLED_APPS = (
 )
 
 ANYMAIL = {
-    "MAILGUN_API_KEY": env("MAILGUN_API_KEY"),
-    "MAILGUN_SENDER_DOMAIN": env("MAILGUN_SENDER_DOMAIN"),
+    "MAILGUN_API_KEY": env.str("MAILGUN_API_KEY", "mail-gun-api-key"),
+    "MAILGUN_SENDER_DOMAIN": env.str("MAILGUN_SENDER_DOMAIN", "mail-gun-sender-domain"),
 }
 
 

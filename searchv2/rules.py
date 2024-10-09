@@ -3,7 +3,7 @@ from django.utils import timezone
 from pydantic import BaseModel
 
 from package.models import Package
-from core.settings import DOCS_URL
+from django.conf import settings
 
 
 class CheckResult(BaseModel):
@@ -116,7 +116,7 @@ class DeprecatedRule(ScoreRule):
     name: str = "Deprecated Rule"
     description: str = "Check if the package is deprecated"
     max_score: int = 20
-    documentation_url: str = f"{DOCS_URL}/rules/deprecated"
+    documentation_url: str = f"{settings.DOCS_URL}/rules/deprecated"
 
     def check(self, package: Package) -> CheckResult:
         """
@@ -140,7 +140,7 @@ class FavoritePackageRule(ScoreRule):
     name: str = "Favorite Package Rule"
     description: str = "Check if the package is favorite"
     max_score: int = 20
-    documentation_url: str = f"{DOCS_URL}/rules/favorite-package"
+    documentation_url: str = f"{settings.DOCS_URL}/rules/favorite-package"
 
     def check(self, package: Package) -> CheckResult:
         """
@@ -162,7 +162,7 @@ class DescriptionRule(ScoreRule):
     name: str = "Description Rule"
     description: str = "Check if the package has a description"
     max_score: int = 20
-    documentation_url: str = f"{DOCS_URL}/rules/description"
+    documentation_url: str = f"{settings.DOCS_URL}/rules/description"
 
     def check(self, package: Package) -> CheckResult:
         """
@@ -207,7 +207,7 @@ class DownloadsRule(ScoreRule):
     name: str = "Downloads Rule"
     description: str = "Score based on the number of PyPi downloads"
     max_score: int = 20
-    documentation_url: str = f"{DOCS_URL}/rules/downloads"
+    documentation_url: str = f"{settings.DOCS_URL}/rules/downloads"
 
     def check(self, package: Package) -> CheckResult:
         """
@@ -235,7 +235,7 @@ class ForkRule(ScoreRule):
     name: str = "Fork Rule"
     description: str = "Score based on the number of forks"
     max_score: int = 20
-    documentation_url: str = f"{DOCS_URL}/rules/fork"
+    documentation_url: str = f"{settings.DOCS_URL}/rules/fork"
 
     def check(self, package: Package) -> CheckResult:
         """
@@ -342,7 +342,7 @@ class UsageCountRule(ScoreRule):
     name: str = "Usage Count Rule"
     description: str = "Score based on the usage count"
     max_score: int = 20
-    documentation_url: str = f"{DOCS_URL}/rules/usage_count"
+    documentation_url: str = f"{settings.DOCS_URL}/rules/usage_count"
 
     def check(self, package: Package) -> CheckResult:
         """
@@ -368,7 +368,7 @@ class WatchersRule(ScoreRule):
     name: str = "Watchers Rule"
     description: str = "Score based on the number of watchers"
     max_score: int = 20
-    documentation_url: str = f"{DOCS_URL}/rules/watchers"
+    documentation_url: str = f"{settings.DOCS_URL}/rules/watchers"
 
     def check(self, package: Package) -> CheckResult:
         """

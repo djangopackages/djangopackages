@@ -17,7 +17,7 @@ from django.views.decorators.http import require_POST
 from django.views.generic.base import TemplateView
 from django_q.tasks import async_task
 from django_tables2 import SingleTableView
-from core.settings import DOCS_URL
+from django.conf import settings
 
 from grid.models import Grid
 from package.forms import (
@@ -489,7 +489,7 @@ def package_details_rules(request, slug, template_name="package/package_rules.ht
         name="Activity Rules",
         description="Rules related to the package's recent activity",
         max_score=40,
-        documentation_url=f"{DOCS_URL}/rules/groups/activity",
+        documentation_url=f"{settings.DOCS_URL}/rules/groups/activity",
         rules=[LastUpdatedRule(), RecentReleaseRule()],
     )
 
