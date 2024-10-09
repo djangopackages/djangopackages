@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-10-08]
+### Changed
+- :arrow_up: Bumps all requirements ([#1288](https://github.com/djangopackages/djangopackages/pull/1288))
+- [pre-commit.ci] pre-commit autoupdate ([#1287](https://github.com/djangopackages/djangopackages/pull/1287))
+
 ## [2024-10-06]
 ### Changed
 - Try Djade (Django template formatter) ([#1283](https://github.com/djangopackages/djangopackages/pull/1283))
