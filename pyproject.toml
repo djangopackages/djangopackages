@@ -13,8 +13,8 @@ tag = true
 
 [tool.pytest.ini_options]
 addopts = "--durations=1 --nomigrations"
-DJANGO_SETTINGS_MODULE = "settings.test"
-norecursedirs = ".git config node_modules scss settings sponsors static templates"
+DJANGO_SETTINGS_MODULE = "tests.settings"
+norecursedirs = ".git config node_modules scss sponsors static templates"
 python_files = "test_*.py"
 
 [tool.ruff]
