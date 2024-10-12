@@ -212,10 +212,7 @@ PREREQ_APPS = [
     "anymail",
 ]
 
-INSTALLED_APPS = (
-    PREREQ_APPS
-    + PROJECT_APPS
-)
+INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
 
 ANYMAIL = {
     "MAILGUN_API_KEY": env.str("MAILGUN_API_KEY", "mail-gun-api-key"),
