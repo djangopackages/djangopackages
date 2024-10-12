@@ -4,7 +4,7 @@ locally.
 
 import logging
 
-from core.settings import *  # noqa
+from settings import *  # noqa
 
 logging.disable(logging.CRITICAL)
 

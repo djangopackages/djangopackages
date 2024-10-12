@@ -14,9 +14,9 @@ from core import __version__
 
 env = environ.Env()
 
-BASE_DIR = Path(__file__).parent.parent
+BASE_DIR = Path(__file__).parent
 
-PROJECT_ROOT = Path(__file__).parent.parent
+PROJECT_ROOT = Path(__file__).parent
 
 DEBUG = env.bool("DJANGO_DEBUG", True)
 TEMPLATE_DEBUG = env.bool("TEMPLATE_DEBUG", True)
@@ -385,6 +385,9 @@ if DEBUG and not TEST_MODE:
     }
 
 ########## django-secure
+
+# SESSION_COOKIE_SECURE = False
+
 # TODO: remove django-secure
 if not DEBUG:
     INSTALLED_APPS += [
