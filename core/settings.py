@@ -209,14 +209,12 @@ PREREQ_APPS = [
     "waffle",
     "django_q",
     "template_partials",
+    "anymail",
 ]
 
 INSTALLED_APPS = (
     PREREQ_APPS
     + PROJECT_APPS
-    + [
-        "anymail",
-    ]
 )
 
 ANYMAIL = {
