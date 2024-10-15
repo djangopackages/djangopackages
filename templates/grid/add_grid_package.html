@@ -10,7 +10,7 @@
 {% block body %}
 
     {% url 'grid' grid.slug as grid_url %}
-    <h2><a href="{% url 'home' %}">{% translate "home" %}</a> / <a href="{% url 'grids' %}">{% translate "grids" %}</a> / {% blocktranslate with grid.title as grid_title %}Add a package to grid '<a href="{{ grid_url }}">{{ grid_title }}</a>'{% endblocktranslate %}</h2>
+    <h2><a href="{% url 'home' %}">{% translate "home" %}</a> / <a href="{% url 'grids' %}">{% translate "grids" %}</a> / {% blocktranslate with grid_title=grid.title %}Add a package to grid '<a href="{{ grid_url }}">{{ grid_title }}</a>'{% endblocktranslate %}</h2>
 
     <form action="{{ request.PATH }}" method="post" id="grid-package-form">
         {% csrf_token %}
