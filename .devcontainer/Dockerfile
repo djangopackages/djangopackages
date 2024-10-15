@@ -1,6 +1,6 @@
 # See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.187.0/containers/python-3/.devcontainer/base.Dockerfile
 
-ARG VARIANT="3.11-bookworm"
+ARG VARIANT="3.12-bookworm"
 # FROM mcr.microsoft.com/vscode/devcontainers/python:0-${VARIANT}
 FROM mcr.microsoft.com/vscode/devcontainers/python:${VARIANT}
 
