@@ -1,11 +1,9 @@
-{% load i18n %}
-{% load package_tags %}
-{% load emojificate %}
+{% load emojificate i18n package_tags %}
 
 <li class="package-item" id="package-{{ package.id }}">
-    <h3>{{ package.title | emojify | emojificate  }} {% if package.slug in packages_already_added_list %}<span class="in-grid-already">(in grid already)</span>{% endif %}</h3>
-    <p class="date">{% trans "Added" %} {{ package.created|timesince }} ago</p>
+    <h3>{{ package.title|emojify|emojificate }} {% if package.slug in packages_already_added_list %}<span class="in-grid-already">(in grid already)</span>{% endif %}</h3>
+    <p class="date">{% translate "Added" %} {{ package.created|timesince }} ago</p>
     <div class="package-downloads">{{ package.pypi_downloads }}</div>
     <div class="package-stars">{{ package.repo_watchers }}</div>
-    <p class="description">{{ package.repo_description | emojify | emojificate  }}</p>
+    <p class="description">{{ package.repo_description|emojify|emojificate }}</p>
 </li>

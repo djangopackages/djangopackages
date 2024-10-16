@@ -1,23 +1,24 @@
 {% extends "base.html" %}
 
-{% load cache %}
-{% load i18n %}
+{% load cache i18n %}
 
 {% block body_class %}home{% endblock %}
+
 {% block pre_body %}
     <div class="jumbotron" ng-hide="items">
         <div class="container text-center">
             <div class="row">
                 <div class="col-sm-10 col-sm-offset-1">
                     <h1>{{ SITE_TITLE }} is a directory of reusable apps, sites, tools, and more for your {{ FRAMEWORK_TITLE }}&nbsp;projects.</h1>
-                    <p><a class="btn btn-primary btn-lg" href="{% url 'add_package' %}" role="button">{% trans "Add Package" %}</a>
-                        <a class="btn btn-primary btn-lg" href="{% url 'add_grid' %}" role="button">{% trans "Add Grid" %}</a></p>
+                    <p><a class="btn btn-primary btn-lg" href="{% url 'add_package' %}" role="button">{% translate "Add Package" %}</a>
+                        <a class="btn btn-primary btn-lg" href="{% url 'add_grid' %}" role="button">{% translate "Add Grid" %}</a></p>
                 </div>
             </div>
 
         </div>
     </div>
-{% endblock %}
+{% endblock pre_body %}
+
 {% block body %}
     {% include "_homepage.html" %}
-{% endblock %}
+{% endblock body %}

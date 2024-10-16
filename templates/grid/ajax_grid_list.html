@@ -1,8 +1,8 @@
 {% load i18n %}
 <div id="target">
-    <h2>{% if grids.exists %}{% trans "Grids" %}{% else %}{% trans "No grids found" %}{% endif %}</h2>
+    <h2>{% if grids.exists %}{% translate "Grids" %}{% else %}{% translate "No grids found" %}{% endif %}</h2>
     {% if grids.exists %}
-        <p class="clickable">{% trans "Click a grid to add your package to it." %}</p>
+        <p class="clickable">{% translate "Click a grid to add your package to it." %}</p>
     {% endif %}
     {% for grid in grids %}
         <dl class="grid-item" id="grid-{{ grid.id }}">

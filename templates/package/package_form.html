@@ -1,20 +1,18 @@
 {% extends "package/base.html" %}
 
-{% load i18n %}
-{% load crispy_forms_tags %}
-{% load page_metadata_tags %}
+{% load crispy_forms_tags i18n page_metadata_tags %}
 
 {% block metadata %}
-    {% trans " package" as trans_title %}
+    {% translate " package" as trans_title %}
     {% page_metadata page_title=action|title|add:trans_title %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block body %}
 
-    <h2><a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'packages' %}">{% trans "packages" %}</a> / {{ action|title }} {% trans "package" %}</h2>
-    <p id="instructions">{% blocktrans %}The easiest way to use this form is to simply enter the
+    <h2><a href="{% url 'home' %}">{% translate "home" %}</a> / <a href="{% url 'packages' %}">{% translate "packages" %}</a> / {{ action|title }} {% translate "package" %}</h2>
+    <p id="instructions">{% blocktranslate %}The easiest way to use this form is to simply enter the
         package repo URL into the repo URL field. {{ SITE_TITLE }} then does it's best to figure out the title,
-        slug, and then fills in the appropriate fields for you.{% endblocktrans %}
+        slug, and then fills in the appropriate fields for you.{% endblocktranslate %}
     </p>
 
     <p id="package-form-message"></p>
@@ -26,10 +24,10 @@
             {{ form|crispy }}
         </fieldset>
 
-        <input class="btn btn-default" type="submit" name="add" value="{{ action }} {% trans "package" %}">
+        <input class="btn btn-default" type="submit" name="add" value="{{ action }} {% translate "package" %}">
     </form>
 
-{% endblock %}
+{% endblock body %}
 
 {% block extra_body %}
     <script src="{{ STATIC_URL }}js/urlify.js" type="text/javascript"></script>
@@ -40,4 +38,4 @@
         });
     </script>
 
-{% endblock %}
+{% endblock extra_body %}

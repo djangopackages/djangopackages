@@ -17,7 +17,7 @@
     </div>
     <dialog>
         <h3>
-            Do you want to unfavorite {{package.title}}?
+            Do you want to unfavorite {{ package.title }}?
         </h3>
         <div class="action ">
             <button class="btn btn-default" id="yes" hx-post="{% url 'remove_favorite' package.id %}" hx-target="#favorite" hx-swap="innerHTML">

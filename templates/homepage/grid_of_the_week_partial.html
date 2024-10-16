@@ -1,12 +1,12 @@
 {% load i18n %}
 <div class="text-center categories col-sm-4">
-    <h2>{% trans "Featured Grid" %}</h2>
+    <h2>{% translate "Featured Grid" %}</h2>
     {% if gotw %}
         <h4><a href="{{ gotw.get_absolute_url }}">{{ gotw.title }}</a></h4>
         <p>{{ gotw.description }}</p>
         <p>
-            <strong>{% trans "Packages" %}:</strong> {{ gotw.gridpackage_set.count }}
-            <strong>{% trans "Features" %}:</strong> {{ gotw.feature_set.count }}
+            <strong>{% translate "Packages" %}:</strong> {{ gotw.gridpackage_set.count }}
+            <strong>{% translate "Features" %}:</strong> {{ gotw.feature_set.count }}
         </p>
     {% else %}
         <p>There is no Featured Grid for this week</p>

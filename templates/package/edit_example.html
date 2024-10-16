@@ -1,38 +1,35 @@
 {% extends "package/base.html" %}
 
-{% load i18n %}
-{% load crispy_forms_tags %}
-{% load page_metadata_tags %}
+{% load crispy_forms_tags i18n page_metadata_tags %}
 
 {% block metadata %}
-    {% trans "Edit package example" as trans_title %}
+    {% translate "Edit package example" as trans_title %}
     {% page_metadata page_title=trans_title %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block body %}
 
-    <h2>{% trans "Edit package example" %}</h2>
+    <h2>{% translate "Edit package example" %}</h2>
 
     <form action="{{ request.path }}" method="post">
         {% csrf_token %}
         <fieldset>
             {{ form|crispy }}
             <div class="form_block">
-                <input class="btn btn-default" type="submit" name="edit" value="{% trans "Edit" %}">
-                <a href="{% url 'package' package_example.package.slug %}">{% trans "cancel" %}</a>
+                <input class="btn btn-default" type="submit" name="edit" value="{% translate "Edit" %}">
+                <a href="{% url 'package' package_example.package.slug %}">{% translate "cancel" %}</a>
             </div>
         </fieldset>
 
     </form>
     {% if user.id == package_example.created_by.id %}
-        <a class="btn btn-danger" name="delete" href="{% url 'delete_example' package_example.package.slug package_example.id %}" id="example-delete-btn">{% trans "Delete" %}</a>
+        <a class="btn btn-danger" name="delete" href="{% url 'delete_example' package_example.package.slug package_example.id %}" id="example-delete-btn">{% translate "Delete" %}</a>
     {% endif %}
 
-{% endblock %}
-
+{% endblock body %}
 
 {% block extra_body %}
     <script>
         $("#id_title").focus();
     </script>
-{% endblock %}
+{% endblock extra_body %}

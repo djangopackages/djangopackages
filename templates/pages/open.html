@@ -1,61 +1,59 @@
 {% extends "base.html" %}
 
-{% load humanize %}
-{% load i18n %}
-{% load page_metadata_tags %}
+{% load humanize i18n page_metadata_tags %}
 
 {% block metadata %}
-    {% trans "Open" as trans_title %}
+    {% translate "Open" as trans_title %}
     {% page_metadata page_title=trans_title %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block body %}
     <div class="container">
         <div class="row">
             <div class="col-sm-6 col-md-5">
-                <h1 class="tw-text-6xl">{% trans "📊 Open" %}</h1>
+                <h1 class="tw-text-6xl">{% translate "📊 Open" %}</h1>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 col-md-3">
-                <h2>{% trans "Tracking" %}</h2>
-                <p>{{ total_users|intcomma }} {% trans "Users" %}</p>
-                <p>{{ total_grids|intcomma }} {% trans "Grids" %}</p>
-                <p>{{ total_categories|intcomma }} {% trans "Categories" %}</p>
-                <p>{{ total_commits|intcomma }} {% trans "Commits" %}</p>
-                <p>{{ total_versions|intcomma }} {% trans "Versions" %}</p>
-                <h2>{% trans "Repos" %}</h2>
-                <p>{{ repos_github|intcomma }} {% trans "GitHub Repos" %}</p>
-                <p>{{ repos_bitbucket|intcomma }} {% trans "Bitbucket Repos" %}</p>
-                <p>{{ repos_gitlab|intcomma }} {% trans "GitLab Repos" %}</p>
+                <h2>{% translate "Tracking" %}</h2>
+                <p>{{ total_users|intcomma }} {% translate "Users" %}</p>
+                <p>{{ total_grids|intcomma }} {% translate "Grids" %}</p>
+                <p>{{ total_categories|intcomma }} {% translate "Categories" %}</p>
+                <p>{{ total_commits|intcomma }} {% translate "Commits" %}</p>
+                <p>{{ total_versions|intcomma }} {% translate "Versions" %}</p>
+                <h2>{% translate "Repos" %}</h2>
+                <p>{{ repos_github|intcomma }} {% translate "GitHub Repos" %}</p>
+                <p>{{ repos_bitbucket|intcomma }} {% translate "Bitbucket Repos" %}</p>
+                <p>{{ repos_gitlab|intcomma }} {% translate "GitLab Repos" %}</p>
             </div>
             <div class="col-sm-6 col-md-3">
-                <h2>{% trans "Packages" %}</h2>
-                <p>{{ total_packages|intcomma }} {% trans "Packages" %}</p>
+                <h2>{% translate "Packages" %}</h2>
+                <p>{{ total_packages|intcomma }} {% translate "Packages" %}</p>
                 {% for key, value in categories.items %}
-                    <p>{{ value|intcomma }} {{ key }} {% trans "Packages" %}</p>
+                    <p>{{ value|intcomma }} {{ key }} {% translate "Packages" %}</p>
                 {% endfor %}
-                <p>{{ archive_packages|intcomma }} {% trans "Archived Packages" %}</p>
-                <p>{{ deprecated_packages|intcomma }} {% trans "Deprecated Packages" %}</p>
+                <p>{{ archive_packages|intcomma }} {% translate "Archived Packages" %}</p>
+                <p>{{ deprecated_packages|intcomma }} {% translate "Deprecated Packages" %}</p>
             </div>
             <div class="col-sm-6 col-md-3">
-                <h2>{% trans "Django Versions" %}</h2>
-                <p>{% trans "Django 5.1 Packages:" %} {{ total_django_5_1|intcomma }}</p>
-                <p>{% trans "Django 5.0 Packages:" %} {{ total_django_5_0|intcomma }}</p>
-                <p>{% trans "Django 4.2 Packages:" %} {{ total_django_4_2|intcomma }}</p>
-                <p>{% trans "Django 4.1 Packages:" %} {{ total_django_4_1|intcomma }}</p>
-                <p>{% trans "Django 3.2 Packages:" %} {{ total_django_3_2|intcomma }}</p>
-                <p>{% trans "Django 2.2 Packages:" %} {{ total_django_2_2|intcomma }}</p>
+                <h2>{% translate "Django Versions" %}</h2>
+                <p>{% translate "Django 5.1 Packages:" %} {{ total_django_5_1|intcomma }}</p>
+                <p>{% translate "Django 5.0 Packages:" %} {{ total_django_5_0|intcomma }}</p>
+                <p>{% translate "Django 4.2 Packages:" %} {{ total_django_4_2|intcomma }}</p>
+                <p>{% translate "Django 4.1 Packages:" %} {{ total_django_4_1|intcomma }}</p>
+                <p>{% translate "Django 3.2 Packages:" %} {{ total_django_3_2|intcomma }}</p>
+                <p>{% translate "Django 2.2 Packages:" %} {{ total_django_2_2|intcomma }}</p>
             </div>
             <div class="col-sm-6 col-md-3">
-                <h2>{% trans "Python Versions" %}</h2>
-                <p>{% trans "Python 3 Packages:" %} {{ total_python_3|intcomma }}</p>
-                <p>{% trans "Python 3.13 Packages:" %} {{ total_python_3_13|intcomma }}</p>
-                <p>{% trans "Python 3.12 Packages:" %} {{ total_python_3_12|intcomma }}</p>
-                <p>{% trans "Python 3.11 Packages:" %} {{ total_python_3_11|intcomma }}</p>
-                <p>{% trans "Python 3.10 Packages:" %} {{ total_python_3_10|intcomma }}</p>
-                <p>{% trans "Python 3.9 Packages:" %} {{ total_python_3_9|intcomma }}</p>
-                <p>{% trans "Python 3.8 Packages:" %} {{ total_python_3_8|intcomma }}</p>
+                <h2>{% translate "Python Versions" %}</h2>
+                <p>{% translate "Python 3 Packages:" %} {{ total_python_3|intcomma }}</p>
+                <p>{% translate "Python 3.13 Packages:" %} {{ total_python_3_13|intcomma }}</p>
+                <p>{% translate "Python 3.12 Packages:" %} {{ total_python_3_12|intcomma }}</p>
+                <p>{% translate "Python 3.11 Packages:" %} {{ total_python_3_11|intcomma }}</p>
+                <p>{% translate "Python 3.10 Packages:" %} {{ total_python_3_10|intcomma }}</p>
+                <p>{% translate "Python 3.9 Packages:" %} {{ total_python_3_9|intcomma }}</p>
+                <p>{% translate "Python 3.8 Packages:" %} {{ total_python_3_8|intcomma }}</p>
             </div>
         </div>
     </div>
@@ -65,7 +63,7 @@
             <hr>
 
             <div class="col-sm-6 col-md-5">
-                <h1>{% trans "💲 Funding" %}</h1>
+                <h1>{% translate "💲 Funding" %}</h1>
             </div>
         </div>
         <div class="row">
@@ -88,13 +86,13 @@
             <hr>
 
             <div class="col-sm-6 col-md-5">
-                <h2>{% trans "Users who have contributed over ten packages" %}</h2>
+                <h2>{% translate "Users who have contributed over ten packages" %}</h2>
                 <table class="table">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>{% trans "User" %}</th>
-                            <th>{% trans "Packages" %}</th>
+                            <th>{% translate "User" %}</th>
+                            <th>{% translate "Packages" %}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -102,20 +100,20 @@
                             <tr>
                                 <td>{% ifchanged top_user.num_packages %}{{ forloop.counter }}{% endifchanged %}</td>
                                 <td><a href="{% url 'profile_detail' github_account=top_user.username %}">{{ top_user }}</a></td>
-                                <td>{{ top_user.num_packages }} {% trans "packages" %}</td>
+                                <td>{{ top_user.num_packages }} {% translate "packages" %}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
             <div class="col-sm-6 col-md-5">
-                <h2>{% trans "Grids with twenty-five or more packages" %}</h2>
+                <h2>{% translate "Grids with twenty-five or more packages" %}</h2>
                 <table class="table">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>{% trans "Grid" %}</th>
-                            <th>{% trans "Packages" %}</th>
+                            <th>{% translate "Grid" %}</th>
+                            <th>{% translate "Packages" %}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -123,7 +121,7 @@
                             <tr>
                                 <td>{% ifchanged grid.num_packages %}{{ forloop.counter }}{% endifchanged %}</td>
                                 <td><a href="{{ grid.get_absolute_url }}">{{ grid }}</a></td>
-                                <td>{{ grid.num_packages }} {% trans "packages" %}</td>
+                                <td>{{ grid.num_packages }} {% translate "packages" %}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -280,4 +278,4 @@
         draw_chart('Django Packages 2021', 'chart_funding_2021', costsData2021, incomeData2021);
 
     </script>
-{% endblock %}
+{% endblock body %}

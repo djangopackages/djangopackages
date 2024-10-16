@@ -1,8 +1,8 @@
 {% load i18n %}
 <div class="text-center categories col-sm-4">
-    <h2>{% trans "Public Service Announcement" %}</h2>
+    <h2>{% translate "Public Service Announcement" %}</h2>
     {% if psa_body %}
-        <p>{{ psa_body | safe }}</p>
+        <p>{{ psa_body|safe }}</p>
     {% else %}
         <p>
             There are currently no announcements.

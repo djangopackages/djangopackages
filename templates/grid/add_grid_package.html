@@ -1,17 +1,16 @@
 {% extends "grid/base.html" %}
 
-{% load i18n %}
-{% load page_metadata_tags %}
+{% load i18n page_metadata_tags %}
 
 {% block metadata %}
-    {% trans "Add a package to Grid " as trans_title %}
+    {% translate "Add a package to Grid " as trans_title %}
     {% page_metadata page_title=trans_title|add:grid.title %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block body %}
 
     {% url 'grid' grid.slug as grid_url %}
-    <h2><a href="{% url 'home' %}">{% trans "home" %}</a> / <a href="{% url 'grids' %}">{% trans "grids" %}</a> / {% blocktrans with grid.title as grid_title %}Add a package to grid '<a href="{{ grid_url }}">{{ grid_title }}</a>'{% endblocktrans %}</h2>
+    <h2><a href="{% url 'home' %}">{% translate "home" %}</a> / <a href="{% url 'grids' %}">{% translate "grids" %}</a> / {% blocktranslate with grid.title as grid_title %}Add a package to grid '<a href="{{ grid_url }}">{{ grid_title }}</a>'{% endblocktranslate %}</h2>
 
     <form action="{{ request.PATH }}" method="post" id="grid-package-form">
         {% csrf_token %}
@@ -26,9 +25,9 @@
 
     <h3>What if the Package isn't in the database?</h3>
 
-    <p><a class="btn btn-default" href="{% url 'add_new_grid_package' grid.slug %}">{% trans "How about adding it? »" %}</a></p>
+    <p><a class="btn btn-default" href="{% url 'add_new_grid_package' grid.slug %}">{% translate "How about adding it? »" %}</a></p>
 
-{% endblock %}
+{% endblock body %}
 
 {% block extra_body %}
     <script type="text/javascript">
@@ -65,4 +64,4 @@
 
         });
     </script>
-{% endblock %}
+{% endblock extra_body %}

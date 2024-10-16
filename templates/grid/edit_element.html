@@ -1,21 +1,19 @@
 {% extends "grid/base.html" %}
 
-{% load crispy_forms_tags %}
-{% load i18n %}
-{% load page_metadata_tags %}
+{% load crispy_forms_tags i18n page_metadata_tags %}
 
 {% block metadata %}
-    {% trans "Edit Element" as trans_title %}
+    {% translate "Edit Element" as trans_title %}
     {% page_metadata page_title=trans_title %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block body %}
 
-    <h2>{% trans "Edit Element which is related to:" %}</h2>
+    <h2>{% translate "Edit Element which is related to:" %}</h2>
 
-    <p><strong>{% trans "Grid:" %} {{ grid }}</strong></p>
-    <p><strong>{% trans "Package:" %} {{ package }}</strong></p>
-    <p><strong>{% trans "Feature:" %} {{ feature.title }}</strong> {{ feature.description}}</p>
+    <p><strong>{% translate "Grid:" %} {{ grid }}</strong></p>
+    <p><strong>{% translate "Package:" %} {{ package }}</strong></p>
+    <p><strong>{% translate "Feature:" %} {{ feature.title }}</strong> {{ feature.description }}</p>
 
 
     <form action="{{ request.path }}" method="post">
@@ -23,8 +21,8 @@
         <fieldset>
             {{ form|crispy }}
             <div class="form_block">
-                <input class="btn btn-default" type="submit" name="edit" value="{% trans "Edit" %}">
-                <a href="{% url 'grid' grid.slug %}">{% trans "cancel" %}</a>
+                <input class="btn btn-default" type="submit" name="edit" value="{% translate "Edit" %}">
+                <a href="{% url 'grid' grid.slug %}">{% translate "cancel" %}</a>
             </div>
 
         </fieldset>
@@ -34,10 +32,10 @@
 
     </p>
 
-{% endblock %}
+{% endblock body %}
 
 {% block extra_body %}
     <script>
         $("#id_text").focus();
     </script>
-{% endblock %}
+{% endblock extra_body %}

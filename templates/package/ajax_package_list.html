@@ -1,8 +1,8 @@
 {% load i18n %}
 <div id="target">
-    <h2>{% if packages|length %}{% trans "Packages" %}{% else %}{% trans "No packages found" %}{% endif %}</h2>
+    <h2>{% if packages|length %}{% translate "Packages" %}{% else %}{% translate "No packages found" %}{% endif %}</h2>
     {% if packages|length %}
-        <p class="editable-cell">{% trans "Click a package to add it to the grid." %}</p>
+        <p class="editable-cell">{% translate "Click a package to add it to the grid." %}</p>
     {% endif %}
     {% for package in packages %}
         {% include "package/includes/_package_no_link.html" %}

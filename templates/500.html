@@ -1,12 +1,11 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load page_metadata_tags %}
+{% load i18n page_metadata_tags %}
 
 {% block metadata %}
-    {% trans "Not Found" as trans_title %}
+    {% translate "Not Found" as trans_title %}
     {% page_metadata page_title=trans_title %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block body %}
     <div class="row">
@@ -15,4 +14,4 @@
             <p>If this seems like a bug, would you please do us a favor and <a href="https://github.com/djangopackages/djangopackages/issues">create a ticket?</a></p>
         </div>
     </div>
-{% endblock %}
+{% endblock body %}

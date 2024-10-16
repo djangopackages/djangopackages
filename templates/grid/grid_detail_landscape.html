@@ -1,14 +1,10 @@
 {% extends "grid/base.html" %}
 
-{% load emojificate %}
-{% load grid_tags %}
-{% load i18n %}
-{% load package_tags %}
-{% load page_metadata_tags %}
+{% load emojificate grid_tags i18n package_tags page_metadata_tags %}
 
 {% block metadata %}
     {% page_metadata page_title=grid.title page_description=grid.description page_keywords=grid.packages.all|join:',' %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block javascript %}
     {{ block.super }}
@@ -154,7 +150,7 @@
     {% endif %}
 
 
-{% endblock %}
+{% endblock body %}
 
 {% block extra_body %}
     <script type="text/javascript">
@@ -174,7 +170,7 @@
             if (usingSimpleGrid) {
                 // just keep the simple table, then set the toggle to reload to a smart grid
                 toggleURL = toggleURL.replace('?simpleGrid=true','');
-                $('#grid-toggle').html('<a href="'+ toggleURL +'">{% trans "Switch to smart grid" %}</a>');
+                $('#grid-toggle').html('<a href="'+ toggleURL +'">{% translate "Switch to smart grid" %}</a>');
             } else {
                 // set the toggle to reload to a simple table, then build a smart grid
                 if (window.location.search.indexOf('simpleGrid=true') === -1) {
@@ -184,7 +180,7 @@
                         toggleURL = toggleURL.replace('?', '?simpleGrid=true&');
                     }
                 }
-                $('#grid-toggle').html('<a href="'+ toggleURL +'">{% trans "Switch to simple table" %}</a>');
+                $('#grid-toggle').html('<a href="'+ toggleURL +'">{% translate "Switch to simple table" %}</a>');
 
 
                 /* freeze table-column widths before splitting the package grid */
@@ -292,4 +288,4 @@
             handleRTD($.makeArray($('table#grid span.rtd-status')));
         });
     </script>
-{% endblock %}
+{% endblock extra_body %}

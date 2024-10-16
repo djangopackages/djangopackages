@@ -5,15 +5,15 @@
 {% load page_metadata_tags %}
 
 {% block metadata %}
-    {% trans " Grid Packages" as trans_title %}
+    {% translate " Grid Packages" as trans_title %}
     {% page_metadata page_title=grid.title|add:trans_title %}
     {% page_metadata page_title=grid.title page_description=grid.description og_image_url=grid.get_opengraph_image_url %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block extra_head %}
     {{ block.super }}
     {% include 'includes/_ethicalads-js.html' %}
-{% endblock %}
+{% endblock extra_head %}
 
 {% block body_class %}home{% endblock %}
 
@@ -22,13 +22,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-12">
-                    <h2><a href="{% url 'home' %}">{% trans "Home" %}</a> ›› <a href="{% url "grid" slug=grid.slug %}">{{ grid.title }} {% trans "Grid" %}</a> ›› {% trans "Packages" %} ( {{ table.paginator.count }} )</h2>
+                    <h2><a href="{% url 'home' %}">{% translate "Home" %}</a> ›› <a href="{% url "grid" slug=grid.slug %}">{{ grid.title }} {% translate "Grid" %}</a> ›› {% translate "Packages" %} ( {{ table.paginator.count }} )</h2>
                 </div>
             </div>
         </div>
     </div>
-{% endblock %}
-
+{% endblock breadcrumb %}
 
 {% block body %}
     <div class="container">
@@ -45,4 +44,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock body %}

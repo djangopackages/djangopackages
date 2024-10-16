@@ -162,6 +162,7 @@ PREREQ_APPS = [
     "django_htmx",
     "django_tables2",
     "django_tailwind_cli",
+    "heroicons",
     "emojificate",
     "rest_framework",
     "reversion",

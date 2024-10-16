@@ -1,12 +1,11 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load page_metadata_tags %}
+{% load i18n page_metadata_tags %}
 
 {% block metadata %}
-    {% trans "Funding" as trans_title %}
+    {% translate "Funding" as trans_title %}
     {% page_metadata page_title=trans_title %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block body %}
     <div class="container">
@@ -50,4 +49,4 @@
                 </div>
             </div>
         </div>
-{% endblock %}
+{% endblock body %}

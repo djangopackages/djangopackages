@@ -1,13 +1,10 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load package_tags %}
-{% load emojificate %}
-{% load page_metadata_tags %}
+{% load emojificate i18n package_tags page_metadata_tags %}
 
 {% block metadata %}
-    {% page_metadata page_title=package.title|emojify|emojificate page_description=package.repo_description page_keywords=package.grid_set.all|join:','  og_image_url=package.get_opengraph_image_url %}
-{% endblock %}
+    {% page_metadata page_title=package.title|emojify|emojificate page_description=package.repo_description page_keywords=package.grid_set.all|join:',' og_image_url=package.get_opengraph_image_url %}
+{% endblock metadata %}
 
 {% block breadcrumb %}
     <div class="breadcrumb">
@@ -15,7 +12,7 @@
             <div class="row">
                 <div class="col-xs-12">
                     <h2>
-                        <a href="{% url 'packages' %}">{% trans "Packages" %}</a> ›› {{ package.title }}
+                        <a href="{% url 'packages' %}">{% translate "Packages" %}</a> ›› {{ package.title }}
                         <div class="pull-right">
                             <div class="btn btn-default">
                                 <a href="{% url 'edit_package' package.slug %}"><span class="glyphicon glyphicon-pencil"></span></a>
@@ -26,7 +23,7 @@
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock breadcrumb %}
 
 {% block body %}
     <div class="row">
@@ -38,11 +35,11 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>{% trans "Rule" %}</th>
-                        <th>{% trans "Description" %}</th>
-                        <th>{% trans "Score" %}</th>
-                        <th>{% trans "Max Score" %}</th>
-                        <th>{% trans "More Info" %}</th>
+                        <th>{% translate "Rule" %}</th>
+                        <th>{% translate "Description" %}</th>
+                        <th>{% translate "Score" %}</th>
+                        <th>{% translate "Max Score" %}</th>
+                        <th>{% translate "More Info" %}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -65,10 +62,10 @@
         </div> <!-- end six column section -->
 
     </div>
-{% endblock %}
+{% endblock body %}
 
 {% block javascript %}
     {{ block.super }}
     <script type="text/javascript" src="{{ STATIC_URL }}js/underscore.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/gh3.js"></script>
-{% endblock %}
+{% endblock javascript %}

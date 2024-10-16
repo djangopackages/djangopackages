@@ -1,12 +1,11 @@
 {% extends "base.html" %}
 
-{% load i18n %}
-{% load page_metadata_tags %}
+{% load i18n page_metadata_tags %}
 
 {% block metadata %}
-    {% trans "Syndication (RSS & Atom)" as trans_title %}
+    {% translate "Syndication (RSS & Atom)" as trans_title %}
     {% page_metadata page_title=trans_title %}
-{% endblock %}
+{% endblock metadata %}
 
 {% block body %}
 
@@ -19,4 +18,4 @@
         <li><a href="/feeds/packages/latest/atom/">Latest 15 packages (Atom)</a></li>
     </ul>
 
-{% endblock %}
+{% endblock body %}

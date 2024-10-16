@@ -4,7 +4,7 @@ Django Packages helps you easily identify and compare good apps, frameworks, plu
 
 ## Badges
 
-[![image](https://github.com/djangopackages/djangopackages/actions/workflows/actions.yml/badge.svg)](https://github.com/djangopackages/djangopackages/actions/workflows/actions.yml) [![Documentation Status](https://readthedocs.org/projects/djangopackages/badge/?version=latest)](https://docs.djangopackages.org/en/latest/?badge=latest) [![Updates](https://pyup.io/repos/github/djangopackages/djangopackages/shield.svg)](https://pyup.io/repos/github/djangopackages/djangopackages/)
+[![image](https://github.com/djangopackages/djangopackages/actions/workflows/actions.yml/badge.svg)](https://github.com/djangopackages/djangopackages/actions/workflows/actions.yml) [![Documentation Status](https://readthedocs.org/projects/djangopackages/badge/?version=latest)](https://docs.djangopackages.org/en/latest/?badge=latest) [![Updates](https://pyup.io/repos/github/djangopackages/djangopackages/shield.svg)](https://pyup.io/repos/github/djangopackages/djangopackages/) [![Published on Django Packages](https://img.shields.io/badge/Published%20on-Django%20Packages-0c3c26)](https://djangopackages.org/packages/p/djangopackages/)
 
 ## Features
 
