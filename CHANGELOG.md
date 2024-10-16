@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-10-15]
+### Changed
+- Upgrade to Python 3.12 ([#1291](https://github.com/djangopackages/djangopackages/pull/1291))
+
 ## [2024-10-08]
 ### Changed
 - :arrow_up: Bumps all requirements ([#1288](https://github.com/djangopackages/djangopackages/pull/1288))
