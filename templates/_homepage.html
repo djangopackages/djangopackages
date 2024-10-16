@@ -56,7 +56,7 @@ This is a hack to keep the next set of divs from wrapping up and making the disp
                             <small>v{{ version.number }}</small>
                         </h4>
                         <p class="list-group-item-text">
-                            {% with version.package.repo_description|truncatewords:25 as short %}
+                            {% with short=version.package.repo_description|truncatewords:25 %}
                                 {% if version.package.repo_description|length > short|length %}
                                     {{ short|slice:"-3"|widont }}...
                                 {% else %}
@@ -86,7 +86,7 @@ This is a hack to keep the next set of divs from wrapping up and making the disp
                             {% if package.pypi_version %}<small>v{{ package.pypi_version }}</small>{% endif %}
                         </h4>
                         <p class="list-group-item-text">
-                            {% with package.repo_description|truncatewords:25 as short %}
+                            {% with short=package.repo_description|truncatewords:25 %}
                                 {% if package.repo_description|length > short|length %}
                                     {{ short|slice:"-3" }}...
                                 {% else %}
@@ -117,7 +117,7 @@ This is a hack to keep the next set of divs from wrapping up and making the disp
                             {% if package.pypi_version %}<small>v{{ package.pypi_version }}</small>{% endif %}
                         </h4>
                         <p class="list-group-item-text">
-                            {% with package.repo_description|truncatewords:25 as short %}
+                            {% with short=package.repo_description|truncatewords:25 %}
                                 {% if package.repo_description|length > short|length %}
                                     {{ short|slice:"-3" }}...
                                 {% else %}
