@@ -110,14 +110,14 @@
                                 {% if attribute_name == "repo" %}
                                     <td><a href="{{ package.package.repo_url }}">{{ package.package.repo }}</a></td>
                                 {% else %}
-                                    {% with attribute_name|style_attribute:package.package as val %}
+                                    {% with val=attribute_name|style_attribute:package.package %}
                                         <td>{{ val }}</td>
                                     {% endwith %}
                                 {% endif %}
                             {% endif %}
                         {% endfor %}
                         {% for feature in features %}
-                            {% with elements|hash:feature.pk|hash:package.pk as element %}
+                            {% with element=elements|hash:feature.pk|hash:package.pk %}
                                 <td id="element-f{{ feature.pk }}-p{{ package.pk }}">{% if element %}{{ element.text|style_element|safe|urlize|linebreaksbr }}{% endif %}<noscript> <a class="edit" href="{% url 'edit_element' feature.pk package.pk %}">[edit]</a></noscript></td>
                             {% endwith %}
                         {% endfor %}
@@ -218,7 +218,7 @@
                 // Handle element edit redirects
                 {% for feature in features %}
                     {% for grid_package in grid_packages %}
-                        {% with elements|hash:feature.pk|hash:grid_package.pk as element %}
+                        {% with element=elements|hash:feature.pk|hash:grid_package.pk %}
 
                         {% endwith %}
 

@@ -28,7 +28,7 @@
     <script type="text/javascript">
         new Timesheet('timesheet', 2008, 2016, [
             {% for grid_package in grid_packages %}
-                {% with grid_package.package as package %}
+                {% with package=grid_package.package %}
                     ['{{ package.created|date:"m/Y" }}', '{{ package.last_commit.commit_date|date:"m/Y" }}', '{{ package.slug }}', ''],
                 {% endwith %}
             {% endfor %}

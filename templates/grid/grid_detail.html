@@ -60,7 +60,7 @@
                         <td>{% translate "Description" %}</td>
                         {% for grid_package in grid_packages %}
                             <td>
-                                {% with grid_package.package.repo_description|truncatewords:20 as short %}
+                                {% with short=grid_package.package.repo_description|truncatewords:20 %}
                                     {% if grid_package.package.repo_description|length > short|length %}
                                         {{ short|wordwrap:30|linebreaksbr|slice:"-3" }}<a href="{{ grid_package.package.get_absolute_url }}">...</a>
                                     {% else %}
@@ -80,7 +80,7 @@
                         <td>{% translate "# Using This" %}</td>
                         {% for grid_package in grid_packages %}
                             <td class="usage-holder">
-                                {% with grid_package.package as package %}
+                                {% with package=grid_package.package %}
                                     <span class="usage-count" id="usage-count-{{ package.id }}">{{ grid_package.usage_count|intcomma }}</span>
                                     {% usage_button %}
                                 {% endwith %}
@@ -188,7 +188,7 @@
                         <tr class="{% cycle 'even' 'odd' %}">
                             <td>{{ feature.title|emojify|emojificate }}</td>
                             {% for grid_package in grid_packages %}
-                                {% with elements|hash:feature.pk|hash:grid_package.pk as element %}
+                                {% with element=elements|hash:feature.pk|hash:grid_package.pk %}
                                     <td class="clickable" id="element-f{{ feature.pk }}-p{{ grid_package.pk }}">{% if element %}{{ element.text|style_element|safe|urlize|linebreaksbr }}{% endif %}<noscript>
                                         {% if request.user.is_authenticated and profile.can_edit_grid_element %}
                                             <a class="edit" href="{% url 'edit_element' feature.pk grid_package.pk %}">{% translate "[edit]" %}</a>
