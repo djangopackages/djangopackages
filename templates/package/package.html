@@ -99,7 +99,7 @@
             <td>
                 {{ package.usage.count }}
                 &nbsp;
-                {% with package as package %}
+                {% with package=package %}
                     {% usage_button %}
                 {% endwith %}
             </td>
@@ -259,7 +259,7 @@
                     {% endif %}
                 </div>
 
-                {% with package.active_examples as examples %}
+                {% with examples=package.active_examples %}
                     {% if examples %}
                         <ul>
                             {% for example in examples %}
