@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-10-16]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1290](https://github.com/djangopackages/djangopackages/pull/1290))
+
 ## [2024-10-08]
 ### Changed
 - :arrow_up: Bumps all requirements ([#1288](https://github.com/djangopackages/djangopackages/pull/1288))
