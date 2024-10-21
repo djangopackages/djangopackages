@@ -2,7 +2,7 @@ import json
 import math
 import re
 from datetime import timedelta
-from distutils.version import LooseVersion
+import packaging.version as LooseVersion
 
 import requests
 from dateutil import relativedelta
