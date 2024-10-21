@@ -1,4 +1,4 @@
-from distutils.version import LooseVersion as versioner
+import packaging.version as versioner
 
 from django.db import models
 from requests.compat import quote
