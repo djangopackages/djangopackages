@@ -2,7 +2,6 @@ import json
 import math
 import re
 from datetime import timedelta
-import packaging.version as LooseVersion
 
 import requests
 from dateutil import relativedelta
@@ -19,6 +18,7 @@ from django.utils import timezone
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
 from django_better_admin_arrayfield.models.fields import ArrayField
+from looseversion import LooseVersion
 from packaging.specifiers import SpecifierSet
 from requests.exceptions import HTTPError
 from rich import print
