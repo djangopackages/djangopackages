@@ -29,6 +29,7 @@ django-template-partials
 github3.py<4.1
 heroicons[django]
 jinja2
+looseversion
 markdown-it-py[linkify]
 markdownify
 numpy
