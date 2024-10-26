@@ -49,7 +49,6 @@ exclude = [
     "dist",
     "migrations",
     "node_modules",
-    "settings/docker.py",
     "static",
     "venv",
 ]
