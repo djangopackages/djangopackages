@@ -3,6 +3,7 @@ from looseversion import LooseVersion
 from requests.compat import quote
 from trove_classifiers import classifiers
 
+
 # this is gross, but requests doesn't import quote_plus into compat,
 # so we re-implement it here
 def quote_plus(s, safe=""):
