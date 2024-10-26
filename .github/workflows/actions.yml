@@ -58,6 +58,8 @@ jobs:
           DEBUG: false
           REDIS_URL: 'redis://redis:6379/0'
           SECRET_KEY: 'this-is-for-testing-only'
+          MAILGUN_API_KEY: 'test-mailgun-api-key'
+          MAILGUN_SENDER_DOMAIN: 'test-mailgun-sender-domain'
 
         run: |
           python -m pytest . -s
