@@ -42,8 +42,6 @@ def index_packages(*, verbose: bool = False):
         WatchersRule(),
     ]
 
-    # package = Package.objects.first()
-
     # demo the group rule
 
     # group = ScoreRuleGroup(
@@ -64,8 +62,9 @@ def index_packages(*, verbose: bool = False):
     #     group,
     # ]
 
+    # example of how to test it...
+    # package = Package.objects.first()
     # package_score = calc_package_weight(package=package, rules=rules, max_score=100)
-
     # print(json.dumps(package_score, indent=2))
 
     for package in Package.objects.all().iterator():
