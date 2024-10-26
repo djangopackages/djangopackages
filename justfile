@@ -20,6 +20,8 @@ bootstrap *ARGS:
     #!/usr/bin/env bash
     set -euo pipefail
 
+    python -m pip install --upgrade pip uv
+
     if [ ! -f ".env.local" ]; then
         echo ".env.local created"
         cp .env.local.example .env.local
@@ -94,12 +96,11 @@ bootstrap *ARGS:
     docker compose --profile=docs up {{ ARGS }}
 
 @docs-update *ARGS:
-    docker compose run \
-        --entrypoint= \
-        --rm django \
-            bash -c "uv pip compile {{ ARGS }} docs/requirements.in \
-                    --generate-hashes \
-                    --output-file docs/requirements.txt"
+    uv --quiet pip compile \
+        {{ ARGS }} \
+        docs/requirements.in \
+        --generate-hashes \
+        --output-file docs/requirements.txt
 
 # --------------------------------------------------
 # Deployment and production recipes
@@ -107,11 +108,19 @@ bootstrap *ARGS:
 
 # Clear sessions
 @clearsessions:
-    fab production clearsessions
+    uv --quiet tool run \
+        --python=3.9 \
+        --with Fabric3 \
+        --with rich \
+        fab production clearsessions
 
 # Deploys to production
 @deploy:
-    fab production deploy
+    uv --quiet tool run \
+        --python=3.9 \
+        --with Fabric3 \
+        --with rich \
+        fab production deploy
 
 # Purge our CloudFlare cache
 @purge_cache:
@@ -191,16 +200,6 @@ bootstrap *ARGS:
 @lint-codespell:
     codespell --skip *.conf,*.csv,*.js*,./.git,./collected_static,./data,./docs/_*,./htmlcov,./static .
 
-# Lints and formats all of your files using various formatters and linters
-@lint-fmt:
-    # TODO: verify/finish moving these into pre-commit
-    -unimport -r .
-    -pyup-dirs --py37-plus .
-    -ruff format .
-    -tryceratops .
-    -djhtml -i templates/*.html templates/**/*.html templates/**/**/*.html
-
-# --------------------------------------------------
 # --------------------------------------------------
 
 @cron:
@@ -210,31 +209,32 @@ bootstrap *ARGS:
     just management-command packages_download_stats ./pypi.db
 
 # --------------------------------------------------
-# --------------------------------------------------
 
 # A Linter for performance anti-patterns
 @perflint:
-    pipx run perflint ../djangopackages-git/ --load-plugins=perflint
+    uv --quiet tool run \
+        perflint ../djangopackages-git/ \
+        --load-plugins=perflint
 
 # Compile new python dependencies
 @lock *ARGS:
-    docker compose run \
-        --entrypoint= \
-        --rm django \
-            bash -c "uv pip compile {{ ARGS }} requirements.in \
-                    --generate-hashes \
-                    --output-file requirements.txt"
+    uv pip compile \
+        {{ ARGS }} \
+        requirements.in \
+        --generate-hashes \
+        --output-file requirements.txt
 
-    docker compose run \
-        --entrypoint= \
-        --rm django \
-            bash -c "uv pip compile {{ ARGS }} docs/requirements.in \
-                    --generate-hashes \
-                    --output-file docs/requirements.txt"
+    uv pip compile \
+        {{ ARGS }} \
+        docs/requirements.in \
+        --generate-hashes \
+        --output-file docs/requirements.txt
 
 # Run pre-commit
 @pre-commit *ARGS:
-    pre-commit run {{ ARGS }}
+    uv tool run \
+        --with pre-commit-uv \
+        pre-commit run {{ ARGS }}
 
 @pre-commit-all-files:
     just pre-commit --all-files
