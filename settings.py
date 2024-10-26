@@ -383,8 +383,6 @@ if DEBUG and not TEST_MODE:
 
 ########## django-secure
 
-# SESSION_COOKIE_SECURE = False
-
 # TODO: remove django-secure
 if not DEBUG:
     INSTALLED_APPS += [
