@@ -189,6 +189,13 @@ Listed in alphabetical order.
     <td></td>
   </tr>
   <tr>
+    <td>hriprsd</td>
+    <td>
+      <a href="https://github.com/hriprsd">hriprsd</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
     <td>Hugo Alvarado</td>
     <td>
       <a href="https://github.com/hugoalvarado">hugoalvarado</a>
