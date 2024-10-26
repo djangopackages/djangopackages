@@ -10,7 +10,7 @@ class Command(BaseCommand):
     help = "Add Scheduled Jobs to django-q cluster"
 
     def handle(self, *args, **options):
-        searchv2_build_tasks_name = "Build Search V2"
+        searchv3_build_tasks_name = "Build Search V3"
         package_updater_tasks_name = "Update All Packages from GitHub"
         pypi_updater = "Update All Packages from PyPI"
 
@@ -20,8 +20,8 @@ class Command(BaseCommand):
         try:
             schedule(
                 "django.core.management.call_command",
-                "searchv2_build",
-                name=searchv2_build_tasks_name,
+                "searchv3_build",
+                name=searchv3_build_tasks_name,
                 schedule_type=Schedule.CRON,
                 cron="12 23 * * *",
                 q_options={
@@ -32,13 +32,13 @@ class Command(BaseCommand):
         except IntegrityError:
             self.stdout.write(
                 self.style.WARNING(
-                    integrity_error_message.format(tasks_name=searchv2_build_tasks_name)
+                    integrity_error_message.format(tasks_name=searchv3_build_tasks_name)
                 )
             )
         else:
             self.stdout.write(
                 self.style.SUCCESS(
-                    success_message.format(tasks_name=searchv2_build_tasks_name)
+                    success_message.format(tasks_name=searchv3_build_tasks_name)
                 )
             )
 
