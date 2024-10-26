@@ -30,54 +30,6 @@ def build_1(*, verbose: bool = False):
     return SearchV2.objects.all()
 
 
-# def calc_package_weight(*, package: Package) -> int:
-#     now = timezone.now()
-
-#     weight = 0
-
-#     # does our package have documentation? (20 points)
-#     if package.documentation_url and len(package.documentation_url):
-#         weight += 20
-
-#     # is our package deprecated? (6 * 20 = 120 points)
-#     if not package.is_deprecated:
-#         if package.repo_description and package.repo_description.strip():
-#             weight += 20
-
-#         if package.repo_forks:
-#             weight += min(package.repo_forks, 20)
-
-#         if package.repo_watchers:
-#             weight += min(package.repo_watchers, 20)
-
-#         # PyPi downloads are always zero right now
-#         if package.pypi_downloads:
-#             weight += min(int(package.pypi_downloads / 1_000), 20)
-
-#         # based on our Version model
-#         if usage_count := package.usage.count():
-#             weight += min(usage_count, 20)
-
-#         # Is the last release less than a year old?
-#         try:
-#             if last_released := package.last_released():
-#                 if now - last_released.upload_time < timedelta(365):
-#                     weight += 20
-#         except AttributeError:
-#             ...
-
-#     # Is there ongoing work or is this forgotten?
-#     if last_updated := package.last_updated():
-#         if (now - last_updated) < timedelta(90):
-#             weight += 20
-#         elif now - last_updated < timedelta(182):
-#             weight += 10
-#         elif now - last_updated < timedelta(365):
-#             weight += 5
-
-#     return weight
-
-
 def index_packages(*, verbose: bool = False):
     rules = [
         DeprecatedRule(),
