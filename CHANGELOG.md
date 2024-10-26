@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-10-25]
+### Changed
+- upgrading to python 3.12 ([#1291](https://github.com/djangopackages/djangopackages/pull/1291))
+
 ## [2024-10-21]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1293](https://github.com/djangopackages/djangopackages/pull/1293))
