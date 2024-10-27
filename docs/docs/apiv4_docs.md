@@ -23,16 +23,16 @@ Representation formats
 
 ### URIs
 
-| URI                     | Resource       | Methods |
-|-------------------------|----------------|---------|
-| /                       | Index          | GET     |
-| /categories/            | Category list  | GET     |
-| /categories/\{id}/      | Category       | GET     |
-| /grids/                 | Grid list      | GET     |
+| URI                      | Resource       | Methods |
+|--------------------------|----------------|---------|
+| /                        | Index          | GET     |
+| /categories/             | Category list  | GET     |
+| /categories/\{id}/       | Category       | GET     |
+| /grids/                  | Grid list      | GET     |
 | /grids/\{id \| slug}/    | Grid           | GET     |
-| /packages/              | Package list   | GET     |
+| /packages/               | Package list   | GET     |
 | /packages/\{id \| slug}/ | Package        | GET     |
-| /search/                | Package Search | GET     |
+| /search/                 | Package Search | GET     |
 
 
 ### Resources
