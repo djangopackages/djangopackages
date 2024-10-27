@@ -6,6 +6,7 @@ from package.models import Category, Package
 from searchv2.models import SearchV2
 from searchv2.views import search_function
 
+from .mixins import MultiLookupFieldMixin
 from .serializers import (
     CategorySerializer,
     GridSerializer,
@@ -29,7 +30,7 @@ class SearchV2ViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
         return Response(serializer.data)
 
 
-class PackageViewSet(viewsets.ReadOnlyModelViewSet):
+class PackageViewSet(MultiLookupFieldMixin, viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows packages to be viewed or edited.
     """
@@ -39,7 +40,7 @@ class PackageViewSet(viewsets.ReadOnlyModelViewSet):
     paginate_by = 20
 
 
-class GridViewSet(viewsets.ReadOnlyModelViewSet):
+class GridViewSet(MultiLookupFieldMixin, viewsets.ReadOnlyModelViewSet):
     queryset = Grid.objects.all().order_by("-id")
     serializer_class = GridSerializer
     paginate_by = 20

@@ -23,16 +23,16 @@ Representation formats
 
 ### URIs
 
-| URI                | Resource       | Methods |
-|--------------------|----------------|---------|
-| /                  | Index          | GET     |
-| /categories/       | Category list  | GET     |
-| /categories/\{id}/ | Category       | GET     |
-| /grids/            | Grid list      | GET     |
-| /grids/\{id}/      | Grid           | GET     |
-| /packages/         | Package list   | GET     |
-| /packages/\{id}/   | Package        | GET     |
-| /search/           | Package Search | GET     |
+| URI                     | Resource       | Methods |
+|-------------------------|----------------|---------|
+| /                       | Index          | GET     |
+| /categories/            | Category list  | GET     |
+| /categories/\{id}/      | Category       | GET     |
+| /grids/                 | Grid list      | GET     |
+| /grids/\{id | slug}/    | Grid           | GET     |
+| /packages/              | Package list   | GET     |
+| /packages/\{id | slug}/ | Package        | GET     |
+| /search/                | Package Search | GET     |
 
 
 ### Resources
@@ -172,15 +172,16 @@ curl -X GET -H "Content-Type: application/json" https://djangopackages.org/api/v
 
 #### Grid
 
-**URL:** `/api/v4/grids/{id}`
+**URL:** `/api/v4/grids/{id | slug}`
 
 **Method:** `GET`
 
 **Path parameters:**
 
-| Name | Type    | Required | Description                                   |
-|------|---------|----------|-----------------------------------------------|
+| Name   | Type    | Required | Description                                   |
+|--------|---------|----------|-----------------------------------------------|
 | `id`   | integer | yes      | A unique integer value identifying this grid. |
+| `slug` | string  | yes      | A unique string value identifying this grid.  |
 
 **Query parameters:**
 `None`
@@ -189,6 +190,10 @@ curl -X GET -H "Content-Type: application/json" https://djangopackages.org/api/v
 
 ```bash
 curl -X GET -H "Content-Type: application/json" https://djangopackages.org/api/v4/grids/438/
+```
+
+```bash
+curl -X GET -H "Content-Type: application/json" https://djangopackages.org/api/v4/grids/healt-checkers/
 ```
 
 **Example Response:**
@@ -225,8 +230,8 @@ curl -X GET -H "Content-Type: application/json" https://djangopackages.org/api/v
 
 **Query parameters:**
 
-| Name   | Type      | Description                                         |
-|--------|-----------|-----------------------------------------------------|
+| Name   | Type      | Description                                           |
+|--------|-----------|-------------------------------------------------------|
 | `limit`  | integer   | Number of results to return per page.               |
 | `offset` | integer   | The initial index from which to return the results. |
 
@@ -282,15 +287,16 @@ curl -X GET -H "Content-Type: application/json" https://djangopackages.org/api/v
 
 #### Package
 
-**URL:** `/api/v4/packages/{id}`
+**URL:** `/api/v4/packages/{id | slug}`
 
 **Method:** `GET`
 
 **Path parameters:**
 
-| Name | Type    | Required | Description                                      |
-|------|---------|----------|--------------------------------------------------|
+| Name   | Type    | Required | Description                                      |
+|--------|---------|----------|--------------------------------------------------|
 | `id`   | integer | yes      | A unique integer value identifying this package. |
+| `slug` | string  | yes      | A unique string value identifying this package.  |
 
 **Query parameters:**
 `None`
@@ -299,6 +305,10 @@ curl -X GET -H "Content-Type: application/json" https://djangopackages.org/api/v
 
 ```bash
 curl -X GET -H "Content-Type: application/json" https://djangopackages.org/api/v4/packages/34/
+```
+
+```bash
+curl -X GET -H "Content-Type: application/json" https://djangopackages.org/api/v4/packages/django-debug-toolbar/
 ```
 
 **Example Response:**

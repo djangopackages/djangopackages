@@ -11,7 +11,10 @@ from searchv2.models import SearchV2
 
 class GridSerializer(serializers.ModelSerializer):
     packages = serializers.HyperlinkedRelatedField(
-        many=True, view_name="apiv4:package-detail", read_only=True
+        many=True,
+        view_name="apiv4:package-detail",
+        read_only=True,
+        lookup_url_kwarg="pk_or_slug",
     )
 
     class Meta:
@@ -34,7 +37,10 @@ class PackageSerializer(serializers.HyperlinkedModelSerializer):
     participants = serializers.ListField(source="participant_list")
     commits_over_52 = serializers.ListField(source="commits_over_52_listed")
     grids = serializers.HyperlinkedRelatedField(
-        many=True, view_name="apiv4:grid-detail", read_only=True
+        many=True,
+        view_name="apiv4:grid-detail",
+        read_only=True,
+        lookup_url_kwarg="pk_or_slug",
     )
     category = serializers.HyperlinkedRelatedField(
         view_name="apiv4:category-detail", read_only=True

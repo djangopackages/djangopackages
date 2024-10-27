@@ -14,8 +14,15 @@ def test_package_list_get(client, package):
 
 
 @pytest.mark.django_db
-def test_package_retrieve_get(client, package):
-    url = reverse("apiv4:package-detail", kwargs={"pk": package.pk})
+def test_package_retrieve_pk_get(client, package):
+    url = reverse("apiv4:package-detail", kwargs={"pk_or_slug": package.pk})
+    response = client.get(url)
+    assert response.status_code == status.HTTP_200_OK
+
+
+@pytest.mark.django_db
+def test_package_retrieve_slug_get(client, package):
+    url = reverse("apiv4:package-detail", kwargs={"pk_or_slug": package.slug})
     response = client.get(url)
     assert response.status_code == status.HTTP_200_OK
 
@@ -42,8 +49,15 @@ def test_grid_list_get(client, grid):
 
 
 @pytest.mark.django_db
-def test_grid_retrieve_get(client, grid):
-    url = reverse("apiv4:grid-detail", kwargs={"pk": grid.pk})
+def test_grid_retrieve_pk_get(client, grid):
+    url = reverse("apiv4:grid-detail", kwargs={"pk_or_slug": grid.pk})
+    response = client.get(url)
+    assert response.status_code == status.HTTP_200_OK
+
+
+@pytest.mark.django_db
+def test_grid_retrieve_slug_get(client, grid):
+    url = reverse("apiv4:grid-detail", kwargs={"pk_or_slug": grid.slug})
     response = client.get(url)
     assert response.status_code == status.HTTP_200_OK
 
