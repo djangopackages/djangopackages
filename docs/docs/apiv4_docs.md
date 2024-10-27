@@ -29,9 +29,9 @@ Representation formats
 | /categories/            | Category list  | GET     |
 | /categories/\{id}/      | Category       | GET     |
 | /grids/                 | Grid list      | GET     |
-| /grids/\{id | slug}/    | Grid           | GET     |
+| /grids/\{id \| slug}/    | Grid           | GET     |
 | /packages/              | Package list   | GET     |
-| /packages/\{id | slug}/ | Package        | GET     |
+| /packages/\{id \| slug}/ | Package        | GET     |
 | /search/                | Package Search | GET     |
 
 
@@ -188,9 +188,13 @@ curl -X GET -H "Content-Type: application/json" https://djangopackages.org/api/v
 
 **Example cURL:**
 
+**Using `id`:**
+
 ```bash
 curl -X GET -H "Content-Type: application/json" https://djangopackages.org/api/v4/grids/438/
 ```
+
+**Using `slug`:**
 
 ```bash
 curl -X GET -H "Content-Type: application/json" https://djangopackages.org/api/v4/grids/healt-checkers/
@@ -303,9 +307,13 @@ curl -X GET -H "Content-Type: application/json" https://djangopackages.org/api/v
 
 **Example cURL:**
 
+**Using `id`:**
+
 ```bash
 curl -X GET -H "Content-Type: application/json" https://djangopackages.org/api/v4/packages/34/
 ```
+
+**Using `slug`:**
 
 ```bash
 curl -X GET -H "Content-Type: application/json" https://djangopackages.org/api/v4/packages/django-debug-toolbar/
