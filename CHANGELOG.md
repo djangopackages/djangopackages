@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-10-26]
+### Changed
+- :tractor: Expand uv recipes and fix “fab deploy” ([#1294](https://github.com/djangopackages/djangopackages/pull/1294))
+- :sparkles: Adds searchv3 builder ([#1284](https://github.com/djangopackages/djangopackages/pull/1284))
+- Ugly hack to start settings files consolidation ([#1280](https://github.com/djangopackages/djangopackages/pull/1280))
+
 ## [2024-10-25]
 ### Changed
 - upgrading to python 3.12 ([#1291](https://github.com/djangopackages/djangopackages/pull/1291))
