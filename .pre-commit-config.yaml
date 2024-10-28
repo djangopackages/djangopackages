@@ -33,7 +33,7 @@ repos:
       - id: djjs
         alias: autoformat
   - repo: https://github.com/adamchainz/djade-pre-commit
-    rev: 1.3.0
+    rev: 1.3.2
     hooks:
       - id: djade
         args: [--target-version, "5.1"]
@@ -44,11 +44,11 @@ repos:
         args: [--target-version, "5.0"]
         alias: autoformat
   - repo: https://github.com/asottile/blacken-docs
-    rev: 1.19.0
+    rev: 1.19.1
     hooks:
       - id: blacken-docs
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: 'v0.7.0'
+    rev: 'v0.7.1'
     hooks:
       - id: ruff
         args: [--fix]
@@ -56,7 +56,7 @@ repos:
       - id: ruff-format
         alias: autoformat
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.18.0
+    rev: v3.19.0
     hooks:
       - id: pyupgrade
         args: [--py312-plus]
