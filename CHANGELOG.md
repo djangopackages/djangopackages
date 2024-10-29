@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-10-28]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1297](https://github.com/djangopackages/djangopackages/pull/1297))
+
 ## [2024-10-27]
 ### Changed
 - [APIv4] Make Grid and Package Detail API accept both `slug` and `pk` ([#1296](https://github.com/djangopackages/djangopackages/pull/1296))
