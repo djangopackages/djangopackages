@@ -192,7 +192,6 @@ pre-commit run ruff
 [compose]: https://docs.docker.com/compose/install/
 [docker]: https://docs.docker.com/install/
 [just]: https://github.com/casey/just
-[opinionated]: install_opinionated.md
 [pre-commit]: https://github.com/pre-commit/pre-commit
 
 ## Issues!

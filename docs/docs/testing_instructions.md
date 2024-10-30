@@ -2,7 +2,7 @@
 
 In order to run the tests you'll need to make sure that you have the [just] command runner installed.
 
-See the [Install] page for details, or the [Opinionated Install] instructions if you want to use the [just] command runner.
+See the [Install] page for details.
 
 ## Running the full test suite
 
@@ -33,5 +33,4 @@ just test feeds
 ```
 
 [just]: https://github.com/casey/just
-[Install]: install.md
-[Opinionated Install]: install_opinionated.md
+[Install]: contributing.md#install-django-packages-locally

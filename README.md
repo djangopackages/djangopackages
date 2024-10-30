@@ -25,7 +25,7 @@ Django Packages helps you easily identify and compare good apps, frameworks, plu
 
 ## Quickstart
 
-For detailed installation instructions, consult the [docs](https://docs.djangopackages.org/en/latest/install).
+For detailed installation instructions, consult the [docs](https://docs.djangopackages.org/en/latest/contributing/#install-django-packages-locally).
 
 To download, install and start the local server for development, simply run:
 
