@@ -31,4 +31,4 @@ Do you want to contribute to making [Django Packages](https://djangopackages.org
 2. Consult the [contributing] instructions to help make your first pull request a success
 
 [contributing]: contributing.md
-[installation]: install.md
+[installation]: contributing.md#install-django-packages-locally

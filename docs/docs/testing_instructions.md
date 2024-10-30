@@ -33,5 +33,5 @@ just test feeds
 ```
 
 [just]: https://github.com/casey/just
-[Install]: install.md
+[Install]: contributing.md#install-django-packages-locally
 [Opinionated Install]: install_opinionated.md
