@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-10-30]
+### Changed
+- broken link fix ([#1299](https://github.com/djangopackages/djangopackages/pull/1299))
+
 ## [2024-10-28]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1297](https://github.com/djangopackages/djangopackages/pull/1297))
