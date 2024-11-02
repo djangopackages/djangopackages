@@ -35,9 +35,9 @@ def command(slug, delay):
             package.pypi_downloads = pypi_downloads
             package.save(update_fields=["pypi_downloads"])
 
-            # Delay between API calls to avoid rate limiting
-            logger.debug(f"Delaying for {delay} seconds...")
-            time.sleep(delay)
-
         except Exception as e:
             print(f"{e=}")
+
+        # Delay between API calls to avoid rate limiting
+        logger.debug(f"Delaying for {delay} seconds...")
+        time.sleep(delay)
