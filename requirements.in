@@ -19,7 +19,7 @@ django-structlog
 django-tables2
 django-tailwind-cli
 django-waffle
-Django<5.2
+Django>5.0
 djangorestframework<3.16
 emoji
 emojificate
