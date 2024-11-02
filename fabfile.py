@@ -199,5 +199,7 @@ def docker_compose(command, old=True):
     """
     with env.cd(env.project_dir):
         if env.compose_version == "v2":
-            return env.run(f"docker compose -f {env.compose_file} {command}")
+            return env.run(
+                f"docker compose -f {env.compose_file} --profile utility {command}"
+            )
         return env.run(f"docker-compose -f {env.compose_file} {command}")
