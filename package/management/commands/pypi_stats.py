@@ -6,6 +6,7 @@ import json
 import pypistats
 
 from rich import print
+from rich.progress import track
 
 from package.models import Package
 
@@ -23,7 +24,13 @@ def command(slug, delay):
     else:
         packages = Package.objects.active().exclude(pypi_url="")
 
-    for package in packages.iterator():
+    total_packages = packages.count()
+
+    for package in track(
+        sequence=packages.iterator(),
+        total=total_packages,
+        description="Fetching PyPI stats..."
+    ):
         try:
             pypi_slug = package.pypi_url.strip("/").split("/")[-1]
             response = pypistats.recent(pypi_slug, "month", format="json")
