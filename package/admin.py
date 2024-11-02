@@ -36,6 +36,7 @@ class PackageAdmin(VersionAdmin, DynamicArrayMixin):
     list_display = [
         "title",
         "score",
+        "pypi_downloads",
         "last_exception_count",
         "date_repo_archived",
         "date_deprecated",
