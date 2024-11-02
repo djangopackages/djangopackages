@@ -1,4 +1,5 @@
 import logging
+import time
 
 import djclick as click
 import json
@@ -13,7 +14,10 @@ logger = logging.getLogger(__name__)
 
 @click.command()
 @click.option("--slug", type=str, default=None)
-def command(slug):
+@click.option(
+    "--delay", type=float, default=2.0, help="Delay between API calls in seconds"
+)
+def command(slug, delay):
     if slug:
         packages = Package.objects.filter(slug=slug)
     else:
@@ -30,6 +34,10 @@ def command(slug):
 
             package.pypi_downloads = pypi_downloads
             package.save(update_fields=["pypi_downloads"])
+
+            # Delay between API calls to avoid rate limiting
+            logger.debug(f"Delaying for {delay} seconds...")
+            time.sleep(delay)
 
         except Exception as e:
             print(f"{e=}")
