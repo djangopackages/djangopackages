@@ -1,7 +1,5 @@
 import pytest
-from gitlab.exceptions import GitlabGetError
 
-from package.models import Commit
 from package.repos.gitlab import GitLabHandler
 
 

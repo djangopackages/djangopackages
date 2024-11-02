@@ -1,6 +1,5 @@
 import pytest
 
-from package.models import Commit
 from package.repos.bitbucket import BitbucketHandler
 
 
