@@ -19,7 +19,7 @@ django-structlog
 django-tables2
 django-tailwind-cli
 django-waffle
-Django<5.2
+Django>5.0
 djangorestframework<3.16
 emoji
 emojificate
@@ -39,6 +39,7 @@ psutil
 psycopg[binary, pool]
 pydantic
 PyGithub
+pypistats
 python-dateutil
 python-gitlab
 pytz
@@ -70,7 +71,6 @@ pytest
 pytest-cov
 pytest-django
 pytest-mock
-pytest-vcr
 time-machine
 
 # utils

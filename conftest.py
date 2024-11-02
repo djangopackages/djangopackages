@@ -50,14 +50,3 @@ def set_time(time_machine):
 def use_test_settings():
     with override_settings(**TEST_SETTINGS):
         yield
-
-
-@pytest.fixture(scope="module")
-def vcr_config():
-    return {
-        # Replace the Authorization request header with "DUMMY" in cassettes
-        "filter_headers": [
-            ("authorization", "DUMMY"),
-            ("PRIVATE-TOKEN", "DUMMY"),
-        ],
-    }
