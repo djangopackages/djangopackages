@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-11-02]
+### Changed
+- ✨ Adds delay option to pypi_stats ([#1303](https://github.com/djangopackages/djangopackages/pull/1303))
+- :gear: :whale: Adds missing `--profile` option ([#1302](https://github.com/djangopackages/djangopackages/pull/1302))
+- :hammer: Adds pypistats ([#1300](https://github.com/djangopackages/djangopackages/pull/1300))
+
 ## [2024-10-30]
 ### Changed
 - broken link fix ([#1299](https://github.com/djangopackages/djangopackages/pull/1299))
