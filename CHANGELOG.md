@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-11-05]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1304](https://github.com/djangopackages/djangopackages/pull/1304))
+
 ## [2024-11-02]
 ### Changed
 - ✨ Adds delay option to pypi_stats ([#1303](https://github.com/djangopackages/djangopackages/pull/1303))
