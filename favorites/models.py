@@ -20,3 +20,8 @@ class Favorite(BaseModel):
         self.package.favorite_count = F("favorite_count") - 1
         self.package.save()
         super().delete(*args, **kwargs)
+
+    def __str__(self) -> str:
+        favorited_by = self.favorited_by or "Anonymous"
+        package = self.package or "No package"
+        return f"{favorited_by} favorited {package}"
