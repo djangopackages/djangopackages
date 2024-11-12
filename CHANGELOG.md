@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-11-11]
+### Changed
+- Added a string rep of favorite ([#1305](https://github.com/djangopackages/djangopackages/pull/1305))
+
 ## [2024-11-05]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1304](https://github.com/djangopackages/djangopackages/pull/1304))
