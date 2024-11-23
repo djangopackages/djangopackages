@@ -40,10 +40,14 @@ COPY . /code
 
 # RUN python -m manage tailwind --skip-checks download_cli
 
-# install standalone cli of tailwind from https://github.com/tailwindlabs/tailwindcss/releases/download/v4.0.0-beta.1/tailwindcss-linux-x64
+# install standalone tawildind cli and cache it
 
-RUN curl -L https://github.com/tailwindlabs/tailwindcss/releases/download/v4.0.0-beta.1/tailwindcss-linux-x64 -o /usr/local/bin/tailwind \
-    && chmod +x /usr/local/bin/tailwind
+RUN --mount=type=cache,target=/tmp/tailwind-cache \
+    if [ ! -f /tmp/tailwind-cache/tailwindcss ]; then \
+        curl -L https://github.com/tailwindlabs/tailwindcss/releases/download/v4.0.0-beta.1/tailwindcss-linux-x64 -o /tmp/tailwind-cache/tailwindcss; \
+    fi && \
+    cp /tmp/tailwind-cache/tailwindcss /usr/local/bin/tailwind && \
+    chmod +x /usr/local/bin/tailwind
 
 
 

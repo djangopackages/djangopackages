@@ -636,14 +636,6 @@
     font-size: var(--tw-text-6xl);
     line-height: var(--tw-leading, var(--tw-text-6xl--line-height));
   }
-  .tw\:text-lg {
-    font-size: var(--tw-text-lg);
-    line-height: var(--tw-leading, var(--tw-text-lg--line-height));
-  }
-  .tw\:text-xl {
-    font-size: var(--tw-text-xl);
-    line-height: var(--tw-leading, var(--tw-text-xl--line-height));
-  }
   .tw\:font-bold {
     --tw-font-weight: var(--tw-font-weight-bold);
     font-weight: var(--tw-font-weight-bold);
@@ -660,9 +652,6 @@
   }
   .tw\:text-gray-900 {
     color: var(--tw-color-gray-900);
-  }
-  .tw\:text-red-400 {
-    color: var(--tw-color-red-400);
   }
   .tw\:underline {
     text-decoration-line: underline;
