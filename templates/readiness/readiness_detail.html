@@ -15,7 +15,7 @@
                     {{ release.product.title }} {{ release.cycle }} Readiness
                 </h1>
                 {% if release.is_eol %}
-                    <div class="tw-bg-yellow-300 tw-text-4xl tw-text-black tw-px-4 tw-py-4">
+                    <div class="tw:bg-yellow-300 tw:text-4xl tw:text-black tw:px-4 tw:py-4">
                         <span>🚧</span>
                         {{ release.product.title }} {{ release.cycle }} support expired on {{ release.eol }}.
                     </div>
@@ -28,16 +28,16 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <h2 class="tw-text-4xl tw-pb-4 tw-font-medium">{{ product_slug }} Release {{ cycle }}</h2>
-                <div class="tw-grid tw-gap-2 sm:tw-grid-cols-2 lg:tw-grid-cols-3 xl:tw-grid-cols-4">
+                <h2 class="tw:text-4xl tw:pb-4 tw:font-medium">{{ product_slug }} Release {{ cycle }}</h2>
+                <div class="tw:grid tw:gap-2 sm:tw:grid-cols-2 lg:tw:grid-cols-3 xl:tw:grid-cols-4">
                     {% for package in packages %}
-                        <div class="tw-px-4 tw-py-2 tw-rounded tw-rounded-xl
-                                    {% if package.is_ready == 'yes' %}tw-bg-green-500 tw-text-gray-900
-                                    {% elif package.is_ready == 'maybe' %}tw-bg-yellow-200 tw-text-gray-900
-                                    {% else %}tw-bg-gray-100 tw-text-gray-100{% endif %}">
-                            <a class="tw-text-gray-900" href="{% url 'package' slug=package.slug %}">
-                                <span class="tw-font-bold tw-rounded tw-rounded-3xl">#{{ forloop.counter }}</span>
-                                <span class="tw-underline">{{ package.title }} ({{ package.pypi_downloads|intcomma }} downloads)</span>
+                        <div class="tw:px-4 tw:py-2 tw:rounded tw:rounded-xl
+                                    {% if package.is_ready == 'yes' %}tw:bg-green-500 tw:text-gray-900
+                                    {% elif package.is_ready == 'maybe' %}tw:bg-yellow-200 tw:text-gray-900
+                                    {% else %}tw:bg-gray-100 tw:text-gray-100{% endif %}">
+                            <a class="tw:text-gray-900" href="{% url 'package' slug=package.slug %}">
+                                <span class="tw:font-bold tw:rounded tw:rounded-3xl">#{{ forloop.counter }}</span>
+                                <span class="tw:underline">{{ package.title }} ({{ package.pypi_downloads|intcomma }} downloads)</span>
                             </a>
                         </div>
                     {% endfor %}

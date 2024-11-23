@@ -11,8 +11,9 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     rm -f /etc/apt/apt.conf.d/docker-clean \
     && apt-get update \
     && apt-get -y --no-install-recommends install \
-       gcc \
-       build-essential
+    gcc \
+    build-essential \
+    curl
 
 RUN --mount=type=cache,target=/root/.cache,id=pip \
     python -m pip install --upgrade pip uv
@@ -39,7 +40,14 @@ COPY . /code
 
 # RUN python -m manage tailwind --skip-checks download_cli
 
-RUN DATABASE_URL=sqlite://:memory: SECRET_KEY=build-key REDIS_URL= python manage.py tailwind --skip-checks download_cli
+# install standalone cli of tailwind from https://github.com/tailwindlabs/tailwindcss/releases/download/v4.0.0-beta.1/tailwindcss-linux-x64
+
+RUN curl -L https://github.com/tailwindlabs/tailwindcss/releases/download/v4.0.0-beta.1/tailwindcss-linux-x64 -o /usr/local/bin/tailwind \
+    && chmod +x /usr/local/bin/tailwind
+
+
+
+# RUN DATABASE_URL=sqlite://:memory: SECRET_KEY=build-key REDIS_URL= python manage.py tailwind --skip-checks download_cli
 
 # RUN DATABASE_URL=sqlite://:memory: SECRET_KEY=build-key python manage.py collectstatic --noinput --clear
 

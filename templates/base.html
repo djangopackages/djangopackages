@@ -14,12 +14,12 @@
         <link rel="stylesheet" href="{{ STATIC_URL }}components/audreyr-rotatingnav/dist/jquery.rotatingnav.min.css" type="text/css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}components/audreyr-topbar/dist/jquery.topbar.min.css" type="text/css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/oc.css" type="text/css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/tailwind-output.css" type="text/css" />
         <link rel="search" type="application/opensearchdescription+xml" href="{% url 'opensearch-description' %}" title="Django Packages">
-        {% tailwind_css %}
         <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" />
         {% block extra_head %}{% endblock %}
     </head>
-    <body class="tw-flex tw-flex-col tw-min-h-screen" ng-controller="SearchCtrl" ng-init="init_search('{{ request.GET.q|escapejs }}', '{% url 'apiv4:searchv2-list' %}', {{ MAX_WEIGHT }})">
+    <body class="tw:flex tw:flex-col tw:min-h-screen" ng-controller="SearchCtrl" ng-init="init_search('{{ request.GET.q|escapejs }}', '{% url 'apiv4:searchv2-list' %}', {{ MAX_WEIGHT }})">
 
         {% for message in messages %}
             <div class="topbar topbar-default{% if message.tags %} {{ message.tags }}{% endif %}" id="message_{{ forloop.counter }}">
@@ -36,9 +36,9 @@
                 <div class="navbar">
 
                     <!-- Logo and title -->
-                    <a class="navbar-brand" href="{% url 'home' %}">
+                    <a class="navbar-brand tw:flex" href="{% url 'home' %}">
                         <img src="{{ STATIC_URL }}img/logo_squares.png" />
-                        <h1>{{ SITE_TITLE }}</h1>
+                        <h1 class="tw:text-red-400">{{ SITE_TITLE }}</h1>
                     </a>
 
                     <!-- Main nav -->
@@ -102,7 +102,7 @@
         </div>
         {% block pre_body %}{% endblock %}
         {% block breadcrumb %}{% endblock %}
-        <div class="container tw-flex-grow" ng-hide="items">
+        <div class="container tw:flex-grow" ng-hide="items">
             {% block body %}
             {% endblock body %}
         </div>
