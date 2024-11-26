@@ -44,7 +44,7 @@ services:
       - djpkg_postgres_data_dev:/var/lib/postgresql/data
 
   redis:
-    image: redis:7
+    image: valkey/valkey:7.2
     expose:
       - 6379
     init: true
