@@ -269,9 +269,9 @@ bootstrap *ARGS:
     npx rustywind --check-formatted templates/
     # npx rustywind --write templates/
 
+
 @tailwind-watch:
-    just tailwind-build
-    just tailwind --watch
+     docker compose run django tailwind -i tailwindcss.css -o static/css/tailwind-output.css --watch
 
 # dump database to file
 @pg_dump file='db.dump':
