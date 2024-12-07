@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-12-06]
+### Changed
+- ⬆️ Bump django from 5.1.2 to 5.1.4 ([#1311](https://github.com/djangopackages/djangopackages/pull/1311))
+
 ## [2024-12-03]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1310](https://github.com/djangopackages/djangopackages/pull/1310))
