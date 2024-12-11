@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-12-10]
+### Changed
+- ⬆️ Bump the dependencies group across 1 directory with 27 updates ([#1314](https://github.com/djangopackages/djangopackages/pull/1314))
+- [pre-commit.ci] pre-commit autoupdate ([#1313](https://github.com/djangopackages/djangopackages/pull/1313))
+
 ## [2024-12-06]
 ### Changed
 - ⬆️ Bump django from 5.1.2 to 5.1.4 ([#1311](https://github.com/djangopackages/djangopackages/pull/1311))
