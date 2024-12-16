@@ -889,9 +889,9 @@ oauthlib==3.2.2 \
     # via
     #   requests-oauthlib
     #   social-auth-core
-openai==1.57.1 \
-    --hash=sha256:3865686c927e93492d1145938d4a24b634951531c4b2769d43ca5dbd4b25d8fd \
-    --hash=sha256:a95f22e04ab3df26e64a15d958342265e802314131275908b3b3e36f8c5d4377
+openai==1.57.4 \
+    --hash=sha256:7def1ab2d52f196357ce31b9cfcf4181529ce00838286426bb35be81c035dafb \
+    --hash=sha256:a8f071a3e9198e2818f63aade68e759417b9f62c0971bdb83de82504b70b77f7
     # via -r requirements.in
 packaging==24.2 \
     --hash=sha256:09abb1bccd265c01f4a3aa3f7a7db064b36514d2cba19a2f694fe6150451a759 \
