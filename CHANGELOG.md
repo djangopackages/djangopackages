@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-12-24]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1320](https://github.com/djangopackages/djangopackages/pull/1320))
+
 ## [2024-12-23]
 ### Changed
 - ⬆️ Bump the dependencies group with 8 updates ([#1318](https://github.com/djangopackages/djangopackages/pull/1318))
