@@ -313,7 +313,7 @@ if LOCAL_INSTALLED_APPS:
     INSTALLED_APPS.extend(LOCAL_INSTALLED_APPS)
 
 # SUPPORTED_REPO.extend(["bitbucket", "github", "gitlab"])
-SUPPORTED_REPO.extend(["bitbucket", "github"])
+SUPPORTED_REPO.extend(["bitbucket", "github", "codeberg"])
 
 
 AUTHENTICATION_BACKENDS = (
@@ -323,6 +323,9 @@ AUTHENTICATION_BACKENDS = (
 
 # GitLab settings
 GITLAB_TOKEN = env("GITLAB_TOKEN", default="")
+
+# Codeberg settings
+CODEBERG_TOKEN = env("CODEBERG_TOKEN", default="")
 
 # GitHub settings
 GITHUB_API_SECRET = env("GITHUB_API_SECRET", default="")
