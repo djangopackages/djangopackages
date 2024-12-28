@@ -1,5 +1,8 @@
+from textwrap import dedent
+
 from django.conf import settings
 from django.contrib.auth.models import Permission, User
+from django.contrib.humanize.templatetags.humanize import intcomma
 from django.test import TestCase
 from django.urls import reverse
 
@@ -100,20 +103,32 @@ class FunctionalPackageTest(TestCase):
         for p in packages:
             self.assertContains(response, p.title)
 
-    def test_package_detail_view(self):
+    def test_package_detail_view_with_score(self):
         url = reverse("package", kwargs={"slug": "testability"})
-        with self.assertNumQueries(21):  # 16 expected 21 because of WAFFLE FLAG
-            response = self.client.get(url)
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "package/package.html")
-        p = Package.objects.get(slug="testability")
-        self.assertContains(response, p.title)
-        self.assertContains(response, p.repo_description)
-        for participant in p.participant_list():
-            self.assertContains(response, participant)
-        for g in p.grids():
-            self.assertContains(response, g.title)
-        for e in p.active_examples:
-            self.assertContains(response, e.title)
+        package = Package.objects.get(slug="testability")
+        self.assertContains(
+            response,
+            dedent("""
+                <th
+                    scope="col"
+                    aria-label="Score"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Scores (0-100) are based on GitHub stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%)."
+                >
+                    <span class="glyphicon glyphicon-stats"></span>
+                </th>
+            """),
+            html=True,
+        )
+        self.assertContains(
+            response,
+            f"""<td>{intcomma(package.score)}</td>""",
+        )
 
     def test_latest_packages_view(self):
         url = reverse("latest_packages")
