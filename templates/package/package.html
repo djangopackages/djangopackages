@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load emojificate heroicons humanize i18n package_tags page_metadata_tags partials waffle_tags static %}
+{% load emojificate heroicons humanize i18n package_tags page_metadata_tags partials static waffle_tags %}
 
 {% block metadata %}
     {% page_metadata page_title=package.title|emojify|emojificate page_description=package.repo_description page_keywords=package.grid_set.all|join:',' og_image_url=package.get_opengraph_image_url %}
@@ -138,7 +138,7 @@
                             data-toggle="tooltip"
                             data-placement="top"
                             aria-label="{% translate 'Score' %}"
-                            title="{% translate 'Scores (0-100) are based on GitHub stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%).' %}"
+                            title="{% translate 'Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%).' %}"
                         >
                             <span class="glyphicon glyphicon-stats"></span>
                         </th>
@@ -147,7 +147,7 @@
                             data-toggle="tooltip"
                             data-placement="top"
                             aria-label="{% translate 'Number of Stars' %}"
-                            title="{% translate 'Number of stars on GitHub' %}"
+                            title="{% translate 'Number of stars on the Repository.' %}"
                         >
                             <span class="glyphicon glyphicon-star"></span>
                         </th>
@@ -156,7 +156,7 @@
                             data-toggle="tooltip"
                             data-placement="top"
                             aria-label="{% translate 'Number of Forks' %}"
-                            title="{% translate 'Number of forks on GitHub' %}"
+                            title="{% translate 'Number of forks on the Repository.' %}"
                         >
                             <span class="glyphicon glyphicon-random"></span>
                         </th>

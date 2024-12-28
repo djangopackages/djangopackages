@@ -118,7 +118,7 @@ class FunctionalPackageTest(TestCase):
                     aria-label="Score"
                     data-toggle="tooltip"
                     data-placement="top"
-                    title="Scores (0-100) are based on GitHub stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%)."
+                    title="Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%)."
                 >
                     <span class="glyphicon glyphicon-stats"></span>
                 </th>
