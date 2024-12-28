@@ -1,6 +1,6 @@
 {% extends "grid/base.html" %}
 
-{% load cache crispy_forms_tags emojificate grid_tags humanize i18n package_tags page_metadata_tags static %}
+{% load cache crispy_forms_tags emojificate grid_tags humanize i18n package_tags page_metadata_tags %}
 
 {% block metadata %}
     {% page_metadata page_title=grid.title page_description=grid.description page_keywords=grid.packages.all|join:',' og_image_url=grid.get_opengraph_image_url %}
@@ -300,7 +300,7 @@
 
 {% block javascript %}
     {{ block.super }}
-    <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}" defer></script>
+    <script src="{{ STATIC_URL }}bower_components/bootstrap/dist/js/bootstrap.min.js" defer></script>
 {% endblock javascript %}
 
 {% block extra_body %}
