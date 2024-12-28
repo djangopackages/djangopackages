@@ -1,5 +1,8 @@
+from textwrap import dedent
+
 from django.conf import settings
 from django.contrib.auth.models import Permission, User
+from django.contrib.humanize.templatetags.humanize import intcomma
 from django.test import TestCase
 from django.urls import reverse
 
@@ -91,6 +94,46 @@ class FunctionalGridTest(TestCase):
         )
         self.assertEqual(Grid.objects.count(), count)
         self.assertContains(response, "TEST TITLE")
+
+    def test_grid_detail_view_with_score(self):
+        url = reverse("grid", kwargs={"slug": "testing"})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "grid/grid_detail.html")
+
+        grid = Grid.objects.get(slug="testing")
+
+        self.assertContains(
+            response,
+            dedent(
+                """
+                    <td>
+                        Score
+                        <span
+                            class="glyphicon glyphicon-info-sign"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Scores (0-100) are based on GitHub stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%)."
+                        ></span>
+                    </td>
+                """
+            ),
+            html=True,
+        )
+
+        for package in grid.packages.all():
+            self.assertContains(
+                response,
+                dedent(
+                    f"""
+                        <td>
+                            {intcomma(package.score)}
+                        </td>
+                    """
+                ),
+                html=True,
+            )
 
     def test_add_feature_view(self):
         Feature.objects.all().delete()  # Zero out the features

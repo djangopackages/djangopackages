@@ -1,6 +1,6 @@
 {% extends "grid/base.html" %}
 
-{% load cache crispy_forms_tags emojificate grid_tags humanize i18n package_tags page_metadata_tags %}
+{% load cache crispy_forms_tags emojificate grid_tags humanize i18n package_tags page_metadata_tags static %}
 
 {% block metadata %}
     {% page_metadata page_title=grid.title page_description=grid.description page_keywords=grid.packages.all|join:',' og_image_url=grid.get_opengraph_image_url %}
@@ -104,7 +104,6 @@
                                         n/a
                                     {% endif %}
                                 {% endwith %}
-
                             </td>
                         {% endfor %}
                     </tr>
@@ -143,6 +142,20 @@
                         <td>{% translate "Stars" %}</td>
                         {% for grid_package in grid_packages %}
                             <td>{{ grid_package.package.repo_watchers|intcomma|default:"n/a" }}</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>
+                            {% translate "Score" %}
+                            <span
+                                class="glyphicon glyphicon-info-sign"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title="{% translate 'Scores (0-100) are based on GitHub stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%).' %}"
+                            ></span>
+                        </td>
+                        {% for grid_package in grid_packages %}
+                            <td>{{ grid_package.package.score|intcomma|default:"n/a" }}</td>
                         {% endfor %}
                     </tr>
                     <tr>
@@ -285,6 +298,11 @@
 
 {% endblock body %}
 
+{% block javascript %}
+    {{ block.super }}
+    <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}" defer></script>
+{% endblock javascript %}
+
 {% block extra_body %}
     <script type="text/javascript">
         $(function() {
@@ -355,6 +373,11 @@
 
             $("#filterForm").on("input", function() {
                 this.submit();
+            });
+
+            // Enable tooltips
+            $('[data-toggle="tooltip"]').tooltip({
+                container: 'body',
             });
         });
     </script>
