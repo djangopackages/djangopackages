@@ -324,9 +324,6 @@ AUTHENTICATION_BACKENDS = (
 # GitLab settings
 GITLAB_TOKEN = env("GITLAB_TOKEN", default="")
 
-# Codeberg settings
-CODEBERG_TOKEN = env("CODEBERG_TOKEN", default="")
-
 # GitHub settings
 GITHUB_API_SECRET = env("GITHUB_API_SECRET", default="")
 GITHUB_APP_ID = env("GITHUB_APP_ID", default="")
