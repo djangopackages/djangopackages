@@ -1,8 +1,6 @@
 from dataclasses import dataclass
 import logging
-from typing import Optional, Dict
 
-from django.conf import settings
 import httpx
 
 from .base_handler import BaseHandler
@@ -18,7 +16,7 @@ COMMITS_URL = "https://codeberg.org/api/v1/repos/{repository}/commits"
 @dataclass
 class ForgejoMetadata:
     archived: bool
-    archived_at: Optional[str]
+    archived_at: str | None
     description: str
     forks_count: int
     watchers_count: int
@@ -38,7 +36,7 @@ class ForgejoClient:
     Collaborators are extracted from commits.
     """
 
-    def fetch_repository(self, repository: str) -> Optional[ForgejoMetadata]:
+    def fetch_repository(self, repository: str) -> ForgejoMetadata | None:
         try:
             url = REPOSITORY_URL.format(repository=repository)
             response = httpx.get(url)

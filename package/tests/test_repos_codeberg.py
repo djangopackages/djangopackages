@@ -1,5 +1,3 @@
-from typing import Optional
-
 import pytest
 
 from package.models import Package
@@ -31,7 +29,7 @@ class MockClient(ForgejoClient):
         ForgejoCommit("456", "2024-12-20T14:20", "bar"),
     ]
 
-    def fetch_repository(self, repository: str) -> Optional[ForgejoMetadata]:
+    def fetch_repository(self, repository: str) -> ForgejoMetadata | None:
         return self.meta
 
     def fetch_commits(self, repository: str, page_size=50):
