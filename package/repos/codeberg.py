@@ -37,6 +37,7 @@ class ForgejoClient:
     The collaborator endpoint seems to have some issues, so it is not implemented.
     Collaborators are extracted from commits.
     """
+
     def fetch_repository(self, repository: str) -> Optional[ForgejoMetadata]:
         try:
             url = REPOSITORY_URL.format(repository=repository)
@@ -80,7 +81,9 @@ class ForgejoClient:
                 break
 
             if response.status_code != httpx.codes.OK:
-                logger.error(f"Response code: {response.status_code} for URL {url} with params {params}")
+                logger.error(
+                    f"Response code: {response.status_code} for URL {url} with params {params}"
+                )
                 break
 
             for commit in response.json():
@@ -94,7 +97,10 @@ class ForgejoClient:
                     logger.error(f"no created timestamp for {url} with params {params}")
                     break
 
-            if "x-hasmore" in response.headers and response.headers["x-hasmore"] == "true":
+            if (
+                "x-hasmore" in response.headers
+                and response.headers["x-hasmore"] == "true"
+            ):
                 current_page = current_page + 1
             else:
                 break
