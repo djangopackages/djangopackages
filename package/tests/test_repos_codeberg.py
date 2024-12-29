@@ -1,5 +1,7 @@
 from typing import Optional
 
+import pytest
+
 from package.models import Package
 from package.repos.codeberg import CodebergHandler, ForgejoClient, ForgejoCommit, ForgejoMetadata
 
@@ -59,3 +61,18 @@ def test_repos_codeberg_archived(package_codeberg):
 
     package = Package.objects.get(id=package_codeberg.id)
     assert(package.date_repo_archived.hour == 14)
+
+
+@pytest.mark.skip(reason="live request for debugging purpose only")
+def test_repos_codeberg_live(package_codeberg):
+    handler = CodebergHandler()
+
+    assert(package_codeberg.commit_set.count() == 0)
+
+    handler.fetch_metadata(package_codeberg)
+    handler.fetch_commits(package_codeberg)
+
+    package = Package.objects.get(id=package_codeberg.id)
+    assert(package.repo_description == "test description")
+    assert(package.commit_set.count() == 3)
+    assert("timo_sams" in package.participants)
