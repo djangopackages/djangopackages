@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-12-28]
+### Changed
+- ⬆️ Bump jinja2 from 3.1.4 to 3.1.5 in /docs ([#1319](https://github.com/djangopackages/djangopackages/pull/1319))
+
 ## [2024-12-24]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1320](https://github.com/djangopackages/djangopackages/pull/1320))
