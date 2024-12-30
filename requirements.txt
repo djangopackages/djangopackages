@@ -481,9 +481,9 @@ django-structlog==9.0.0 \
     --hash=sha256:0ada1ac0fa4e90a499fc9ce22fc164830304e7219cab12d3b5ef9c2f2967ff5b \
     --hash=sha256:8c32097b3f09b2727b746d6cdf4f50565c62fd040b3a0c98cb731de0b380b854
     # via -r requirements.in
-django-tables2==2.7.1 \
-    --hash=sha256:1ac6426b05dc4b537ba3a952d2920c51653302ca7dcbd1d320cf6e421eeb2dbf \
-    --hash=sha256:d96f70884889197a28d91d1b006f997de3d8c3bcf867828fb2ed54bd86d38807
+django-tables2==2.7.4 \
+    --hash=sha256:1f9373bdfea7f8ec5bef80542f58c1ca2eb19f86a8bec90936eccea6f1564347 \
+    --hash=sha256:25c22986d88aa5d911a0f0175bcdfbeaeab4f5fc086ac58b02a29daa8bc3e5a8
     # via -r requirements.in
 django-tailwind-cli==2.21.1 \
     --hash=sha256:181f69dc172f50914823632dfec6d1d4d52150fcde4358b7439da37da025110b \
@@ -1210,9 +1210,9 @@ python-fsutil==0.14.1 \
     --hash=sha256:0d45e623f0f4403f674bdd8ae7aa7d24a4b3132ea45c65416bd2865e6b20b035 \
     --hash=sha256:8fb204fa8059f37bdeee8a1dc0fff010170202ea47c4225ee71bb3c26f3997be
     # via django-maintenance-mode
-python-gitlab==5.2.0 \
-    --hash=sha256:1fb99d9de78aa93fdc97a106db44f0870cba225ea2064426302db02d14027967 \
-    --hash=sha256:aa0136f3377210682970688789c1b510f948b68c4c14d1b873b590335501bd04
+python-gitlab==5.3.0 \
+    --hash=sha256:18f10764b6ac14ad0cb5252ed66025bdfe628ce747b1abbbcfe76a822ac6bae7 \
+    --hash=sha256:1c5653ef5fb25d5f0fe6122b2132238d34dd47d1d92bbde5cf5d0b9a8ab778bb
     # via -r requirements.in
 python-ipware==3.0.0 \
     --hash=sha256:9117b1c4dddcb5d5ca49e6a9617de2fc66aec2ef35394563ac4eecabdf58c062 \
