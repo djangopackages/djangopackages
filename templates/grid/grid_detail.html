@@ -145,7 +145,7 @@
                         {% endfor %}
                     </tr>
                     <tr>
-                        <td>
+                        <td {% if TEST_MODE %}data-testid="grid-detail-score-header"{% endif %}>
                             {% translate "Score" %}
                             <span
                                 class="glyphicon glyphicon-info-sign"
@@ -155,7 +155,9 @@
                             ></span>
                         </td>
                         {% for grid_package in grid_packages %}
-                            <td>{{ grid_package.package.score|intcomma|default:"n/a" }}</td>
+                            <td {% if TEST_MODE %}data-testid="grid-{{ grid_package.package.slug }}-detail-score-cell"{% endif %}>
+                                {{ grid_package.package.score|intcomma|default:"n/a" }}
+                            </td>
                         {% endfor %}
                     </tr>
                     <tr>

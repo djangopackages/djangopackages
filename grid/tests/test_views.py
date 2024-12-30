@@ -108,7 +108,7 @@ class FunctionalGridTest(TestCase):
             response,
             dedent(
                 """
-                    <td>
+                    <td data-testid="grid-detail-score-header">
                         Score
                         <span
                             class="glyphicon glyphicon-info-sign"
@@ -127,7 +127,7 @@ class FunctionalGridTest(TestCase):
                 response,
                 dedent(
                     f"""
-                        <td>
+                        <td data-testid="grid-{package.slug}-detail-score-cell">
                             {intcomma(package.score)}
                         </td>
                     """

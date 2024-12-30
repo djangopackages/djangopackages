@@ -114,6 +114,7 @@ class FunctionalPackageTest(TestCase):
             response,
             dedent("""
                 <th
+                    data-testid="repository-statistics-score-header"
                     scope="col"
                     aria-label="Score"
                     data-toggle="tooltip"
@@ -127,7 +128,12 @@ class FunctionalPackageTest(TestCase):
         )
         self.assertContains(
             response,
-            f"""<td>{intcomma(package.score)}</td>""",
+            dedent(f"""
+                <td data-testid="repository-statistics-score-cell">
+                    {intcomma(package.score)}
+                </td>
+            """),
+            html=True,
         )
 
     def test_latest_packages_view(self):

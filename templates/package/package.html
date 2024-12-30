@@ -134,6 +134,7 @@
                             {% translate "Commits" %}
                         </th>
                         <th
+                            {% if TEST_MODE %}data-testid="repository-statistics-score-header"{% endif %}
                             scope="col"
                             data-toggle="tooltip"
                             data-placement="top"
@@ -168,7 +169,9 @@
                         <td>
                             {% include "package/includes/_commits.html" with value=package.commits_over_52 %}
                         </td>
-                        <td>{{ package.score|intcomma|default:"n/a" }}</td>
+                        <td {% if TEST_MODE %}data-testid="repository-statistics-score-cell"{% endif %}>
+                            {{ package.score|intcomma|default:"n/a" }}
+                        </td>
                         <td>{{ package.repo_watchers|intcomma|default:"n/a" }}</td>
                         <td>{{ package.repo_forks|intcomma|default:"n/a" }}</td>
                     </tr>
