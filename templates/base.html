@@ -239,6 +239,18 @@
 
         {% block extra_body %}{% endblock %}
 
+        <!-- Start of Bootstrap initialization -->
+        <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}" defer></script>
+        <script type="text/javascript">
+            $(function() {
+                // Enable tooltips sidewide
+                $('[data-toggle="tooltip"]').tooltip({
+                    container: 'body',
+                });
+            });
+        </script>
+        <!-- End of Bootstrap initialization -->
+
         {{ PIWIK_CODE|safe }}
     </body>
 </html>

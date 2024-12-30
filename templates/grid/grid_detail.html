@@ -302,11 +302,6 @@
 
 {% endblock body %}
 
-{% block javascript %}
-    {{ block.super }}
-    <script src="{{ STATIC_URL }}bower_components/bootstrap/dist/js/bootstrap.min.js" defer></script>
-{% endblock javascript %}
-
 {% block extra_body %}
     <script type="text/javascript">
         $(function() {
@@ -377,11 +372,6 @@
 
             $("#filterForm").on("input", function() {
                 this.submit();
-            });
-
-            // Enable tooltips
-            $('[data-toggle="tooltip"]').tooltip({
-                container: 'body',
             });
         });
     </script>
