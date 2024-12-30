@@ -1,10 +1,12 @@
 from textwrap import dedent
 
+import pytest
 from django.conf import settings
 from django.contrib.auth.models import Permission, User
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.test import TestCase
 from django.urls import reverse
+from waffle.testutils import override_flag
 
 from grid.models import Element, Feature, Grid, GridPackage
 from grid.tests import data
@@ -24,9 +26,10 @@ class FunctionalGridTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/grids.html")
 
+    @override_flag("enabled_packages_score_values", active=True)
     def test_grid_detail_view(self):
         url = reverse("grid", kwargs={"slug": "testing"})
-        with self.assertNumQueries(32):
+        with self.assertNumQueries(33):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/grid_detail.html")
@@ -95,6 +98,7 @@ class FunctionalGridTest(TestCase):
         self.assertEqual(Grid.objects.count(), count)
         self.assertContains(response, "TEST TITLE")
 
+    @override_flag("enabled_packages_score_values", active=True)
     def test_grid_detail_view_with_score(self):
         url = reverse("grid", kwargs={"slug": "testing"})
         response = self.client.get(url)
@@ -134,6 +138,25 @@ class FunctionalGridTest(TestCase):
                 ),
                 html=True,
             )
+
+    @override_flag("enabled_packages_score_values", active=False)
+    @pytest.mark.deprecated(
+        """
+        This test should be deleted after the `packages_score_values` checks
+        are completely removed from the codebase.
+        """
+    )
+    def test_grid_detail_view_with_score_when_the_flag_is_disabled(self):
+        url = reverse("grid", kwargs={"slug": "testing"})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "grid/grid_detail.html")
+
+        self.assertNotContains(
+            response,
+            '<td data-testid="grid-detail-score-header">',
+        )
 
     def test_add_feature_view(self):
         Feature.objects.all().delete()  # Zero out the features
