@@ -1,10 +1,12 @@
 from textwrap import dedent
 
+import pytest
 from django.conf import settings
 from django.contrib.auth.models import Permission, User
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.test import TestCase
 from django.urls import reverse
+from waffle.testutils import override_flag
 
 from package.models import Category, FlaggedPackage, Package, PackageExample
 from package.tests import initial_data
@@ -103,6 +105,7 @@ class FunctionalPackageTest(TestCase):
         for p in packages:
             self.assertContains(response, p.title)
 
+    @override_flag("enabled_packages_score_values", active=True)
     def test_package_detail_view_with_score(self):
         url = reverse("package", kwargs={"slug": "testability"})
         response = self.client.get(url)
@@ -134,6 +137,28 @@ class FunctionalPackageTest(TestCase):
                 </td>
             """),
             html=True,
+        )
+
+    @override_flag("enabled_packages_score_values", active=False)
+    @pytest.mark.deprecated(
+        """
+        This test should be deleted after the `packages_score_values` checks
+        are completely removed from the codebase.
+        """
+    )
+    def test_package_detail_view_with_score_when_the_flag_is_disabled(self):
+        url = reverse("package", kwargs={"slug": "testability"})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "package/package.html")
+        self.assertNotContains(
+            response,
+            'data-testid="repository-statistics-score-header"',
+        )
+        self.assertNotContains(
+            response,
+            'data-testid="repository-statistics-score-cell"',
         )
 
     def test_latest_packages_view(self):

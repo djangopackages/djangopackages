@@ -133,16 +133,18 @@
                         >
                             {% translate "Commits" %}
                         </th>
-                        <th
-                            {% if TEST_MODE %}data-testid="repository-statistics-score-header"{% endif %}
-                            scope="col"
-                            data-toggle="tooltip"
-                            data-placement="top"
-                            aria-label="{% translate 'Score' %}"
-                            title="{% translate 'Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%).' %}"
-                        >
-                            <span class="glyphicon glyphicon-stats"></span>
-                        </th>
+                        {% flag "enabled_packages_score_values" %}
+                            <th
+                                {% if TEST_MODE %}data-testid="repository-statistics-score-header"{% endif %}
+                                scope="col"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                aria-label="{% translate 'Score' %}"
+                                title="{% translate 'Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%).' %}"
+                            >
+                                <span class="glyphicon glyphicon-stats"></span>
+                            </th>
+                        {% endflag %}
                         <th
                             scope="col"
                             data-toggle="tooltip"
@@ -169,9 +171,11 @@
                         <td>
                             {% include "package/includes/_commits.html" with value=package.commits_over_52 %}
                         </td>
-                        <td {% if TEST_MODE %}data-testid="repository-statistics-score-cell"{% endif %}>
-                            {{ package.score|intcomma|default:"n/a" }}
-                        </td>
+                        {% flag "enabled_packages_score_values" %}
+                            <td {% if TEST_MODE %}data-testid="repository-statistics-score-cell"{% endif %}>
+                                {{ package.score|intcomma|default:"n/a" }}
+                            </td>
+                        {% endflag %}
                         <td>{{ package.repo_watchers|intcomma|default:"n/a" }}</td>
                         <td>{{ package.repo_forks|intcomma|default:"n/a" }}</td>
                     </tr>
