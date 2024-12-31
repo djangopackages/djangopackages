@@ -106,6 +106,17 @@ def package_example(db, package) -> PackageExample:
 
 
 @pytest.fixture()
+def package_codeberg(db, category) -> Package:
+    return baker.make(
+        Package,
+        category=category,
+        repo_url="https://codeberg.org/timo_sams/djangopackages-test",
+        slug="codeberg-djangopackages-test",
+        title="codeberg-djangopackages-test",
+    )
+
+
+@pytest.fixture()
 def version(db, package) -> Version:
     return baker.make(Version, package=package)
 

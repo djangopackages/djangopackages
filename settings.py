@@ -313,7 +313,7 @@ if LOCAL_INSTALLED_APPS:
     INSTALLED_APPS.extend(LOCAL_INSTALLED_APPS)
 
 # SUPPORTED_REPO.extend(["bitbucket", "github", "gitlab"])
-SUPPORTED_REPO.extend(["bitbucket", "github"])
+SUPPORTED_REPO.extend(["bitbucket", "github", "codeberg"])
 
 
 AUTHENTICATION_BACKENDS = (
