@@ -1,7 +1,12 @@
+from textwrap import dedent
+
+import pytest
 from django.conf import settings
 from django.contrib.auth.models import Permission, User
+from django.contrib.humanize.templatetags.humanize import intcomma
 from django.test import TestCase
 from django.urls import reverse
+from waffle.testutils import override_flag
 
 from package.models import Category, FlaggedPackage, Package, PackageExample
 from package.tests import initial_data
@@ -100,20 +105,61 @@ class FunctionalPackageTest(TestCase):
         for p in packages:
             self.assertContains(response, p.title)
 
-    def test_package_detail_view(self):
+    @override_flag("enabled_packages_score_values", active=True)
+    def test_package_detail_view_with_score(self):
         url = reverse("package", kwargs={"slug": "testability"})
-        with self.assertNumQueries(21):  # 16 expected 21 because of WAFFLE FLAG
-            response = self.client.get(url)
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "package/package.html")
-        p = Package.objects.get(slug="testability")
-        self.assertContains(response, p.title)
-        self.assertContains(response, p.repo_description)
-        for participant in p.participant_list():
-            self.assertContains(response, participant)
-        for g in p.grids():
-            self.assertContains(response, g.title)
-        for e in p.active_examples:
-            self.assertContains(response, e.title)
+        package = Package.objects.get(slug="testability")
+        self.assertContains(
+            response,
+            dedent("""
+                <th
+                    data-testid="repository-statistics-score-header"
+                    scope="col"
+                    aria-label="Score"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%)."
+                >
+                    <span class="glyphicon glyphicon-stats"></span>
+                </th>
+            """),
+            html=True,
+        )
+        self.assertContains(
+            response,
+            dedent(f"""
+                <td data-testid="repository-statistics-score-cell">
+                    {intcomma(package.score)}
+                </td>
+            """),
+            html=True,
+        )
+
+    @override_flag("enabled_packages_score_values", active=False)
+    @pytest.mark.deprecated(
+        """
+        This test should be deleted after the `packages_score_values` checks
+        are completely removed from the codebase.
+        """
+    )
+    def test_package_detail_view_with_score_when_the_flag_is_disabled(self):
+        url = reverse("package", kwargs={"slug": "testability"})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "package/package.html")
+        self.assertNotContains(
+            response,
+            'data-testid="repository-statistics-score-header"',
+        )
+        self.assertNotContains(
+            response,
+            'data-testid="repository-statistics-score-cell"',
+        )
 
     def test_latest_packages_view(self):
         url = reverse("latest_packages")

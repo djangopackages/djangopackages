@@ -1,11 +1,11 @@
 # Django settings
+import os.path
 import sys
 from pathlib import Path
-import os.path
 
+import environ
 import sentry_sdk
 import structlog
-import environ
 from django.template.defaultfilters import slugify
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
@@ -156,6 +156,7 @@ TEMPLATES = [
                 "social_django.context_processors.backends",
                 "social_django.context_processors.login_redirect",
                 "core.context_processors.core_values",
+                "core.context_processors.settings_context",
             ],
         },
     },

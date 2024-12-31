@@ -364,6 +364,7 @@ def grid_detail(request, slug, template_name="grid/grid_detail.html"):
         ("repo", "Repo"),
         ("commits_over_52", "Commits"),
         ("repo_watchers", "Stars"),
+        ("score", "Score"),
         ("repo_forks", "Forks"),
         ("participant_list", "Participants"),
         ("license_latest", "License"),

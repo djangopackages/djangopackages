@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load emojificate heroicons i18n package_tags page_metadata_tags partials static waffle_tags %}
+{% load emojificate heroicons humanize i18n package_tags page_metadata_tags partials static waffle_tags %}
 
 {% block metadata %}
     {% page_metadata page_title=package.title|emojify|emojificate page_description=package.repo_description page_keywords=package.grid_set.all|join:',' og_image_url=package.get_opengraph_image_url %}
@@ -109,33 +109,75 @@
 
     <!-- end Usage panel -->
     {% endcomment %}
-            <h2>Repo Activity
+            <h2>
+                {% translate "Repo Activity" %}
                 <div class="pull-right" id="fetch-cell">
                     {% if package.last_fetched %}
-                        <span class="small-text"> Last fetched: {{ package.last_fetched|timesince }} ago</span>&nbsp;
+                        <span class="small-text">{% translate "Last fetched" %}: {{ package.last_fetched|timesince }} ago</span>&nbsp;
                     {% endif %}
                     <a class="btn btn-default btn-xs"
                        href="{% url 'fetch_package_data' package.slug %}">{% translate "Fetch latest data" %}</a>
                 </div>
             </h2>
 
-            <table class="table">
+            <table class="table" aria-label="Repository Statistics">
                 <thead>
                     <tr>
-                        <th></th>
-                        <th>{% translate "Commits" %}</th>
-                        <th><span class="glyphicon glyphicon-star"></span></th>
-                        <th><span class="glyphicon glyphicon-random"></span></th>
+                        <th scope="col">Repository</th>
+                        <th
+                            scope="col"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            aria-label="{% translate 'History of commits in the last 52 weeks' %}"
+                            title="{% translate 'History of commits in the last 52 weeks' %}"
+                        >
+                            {% translate "Commits" %}
+                        </th>
+                        {% flag "enabled_packages_score_values" %}
+                            <th
+                                {% if TEST_MODE %}data-testid="repository-statistics-score-header"{% endif %}
+                                scope="col"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                aria-label="{% translate 'Score' %}"
+                                title="{% translate 'Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%).' %}"
+                            >
+                                <span class="glyphicon glyphicon-stats"></span>
+                            </th>
+                        {% endflag %}
+                        <th
+                            scope="col"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            aria-label="{% translate 'Number of Stars' %}"
+                            title="{% translate 'Number of stars on the Repository.' %}"
+                        >
+                            <span class="glyphicon glyphicon-star"></span>
+                        </th>
+                        <th
+                            scope="col"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            aria-label="{% translate 'Number of Forks' %}"
+                            title="{% translate 'Number of forks on the Repository.' %}"
+                        >
+                            <span class="glyphicon glyphicon-random"></span>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><a href="{{ package.repo_url }}">{{ package.repo_url }}</a></td>
+                        <td scope="row"><a href="{{ package.repo_url }}">{{ package.repo_url }}</a></td>
                         <td>
                             {% include "package/includes/_commits.html" with value=package.commits_over_52 %}
                         </td>
-                        <td>{{ package.repo_watchers|default:"n/a" }}</td>
-                        <td>{{ package.repo_forks|default:"n/a" }}</td>
+                        {% flag "enabled_packages_score_values" %}
+                            <td {% if TEST_MODE %}data-testid="repository-statistics-score-cell"{% endif %}>
+                                {{ package.score|intcomma|default:"n/a" }}
+                            </td>
+                        {% endflag %}
+                        <td>{{ package.repo_watchers|intcomma|default:"n/a" }}</td>
+                        <td>{{ package.repo_forks|intcomma|default:"n/a" }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -335,7 +377,6 @@
                 });
 
             });
-
         });
     </script>
     <script src="{% static 'js/htmx.min.js' %}" defer></script>

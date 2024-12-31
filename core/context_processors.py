@@ -38,3 +38,9 @@ def current_path(request):
     if request.path.strip() != reverse("logout"):
         context["current_path"] = request.path
     return context
+
+
+def settings_context(request):
+    return {
+        "TEST_MODE": settings.TEST_MODE,
+    }

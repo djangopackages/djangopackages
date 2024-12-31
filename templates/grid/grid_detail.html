@@ -1,6 +1,6 @@
 {% extends "grid/base.html" %}
 
-{% load cache crispy_forms_tags emojificate grid_tags humanize i18n package_tags page_metadata_tags %}
+{% load cache crispy_forms_tags emojificate grid_tags humanize i18n package_tags page_metadata_tags waffle_tags %}
 
 {% block metadata %}
     {% page_metadata page_title=grid.title page_description=grid.description page_keywords=grid.packages.all|join:',' og_image_url=grid.get_opengraph_image_url %}
@@ -104,7 +104,6 @@
                                         n/a
                                     {% endif %}
                                 {% endwith %}
-
                             </td>
                         {% endfor %}
                     </tr>
@@ -145,6 +144,24 @@
                             <td>{{ grid_package.package.repo_watchers|intcomma|default:"n/a" }}</td>
                         {% endfor %}
                     </tr>
+                    {% flag "enabled_packages_score_values" %}
+                        <tr>
+                            <td {% if TEST_MODE %}data-testid="grid-detail-score-header"{% endif %}>
+                                {% translate "Score" %}
+                                <span
+                                    class="glyphicon glyphicon-info-sign"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="{% translate 'Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%).' %}"
+                                ></span>
+                            </td>
+                            {% for grid_package in grid_packages %}
+                                <td {% if TEST_MODE %}data-testid="grid-{{ grid_package.package.slug }}-detail-score-cell"{% endif %}>
+                                    {{ grid_package.package.score|intcomma|default:"n/a" }}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endflag %}
                     <tr>
                         <td>{% translate "Repo Forks" %}</td>
                         {% for grid_package in grid_packages %}
