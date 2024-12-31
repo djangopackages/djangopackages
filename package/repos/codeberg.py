@@ -89,7 +89,9 @@ class ForgejoClient:
                     yield ForgejoCommit(
                         sha=commit["sha"],
                         created=commit["created"],
-                        user=commit["author"]["login"] if "author" in commit and commit["author"] else None,
+                        user=commit["author"]["login"]
+                        if "author" in commit and commit["author"]
+                        else None,
                     )
                 except KeyError:
                     logger.error(f"no created timestamp for {url} with params {params}")
