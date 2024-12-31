@@ -26,7 +26,7 @@ class ForgejoMetadata:
 class ForgejoCommit:
     sha: str
     created: str
-    user: str
+    user: str | None
 
 
 class ForgejoClient:
@@ -89,7 +89,9 @@ class ForgejoClient:
                     yield ForgejoCommit(
                         sha=commit["sha"],
                         created=commit["created"],
-                        user=commit["author"]["login"],
+                        user=commit["author"]["login"]
+                        if "author" in commit and commit["author"]
+                        else None,
                     )
                 except KeyError:
                     logger.error(f"no created timestamp for {url} with params {params}")
