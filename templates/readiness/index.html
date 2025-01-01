@@ -21,7 +21,7 @@
                     <h2>{% translate "Django Releases" %}</h2>
                     <ul>
                         {% for release in django_releases %}
-                            <li class="tw-text-2xl">
+                            <li class="tw:text-2xl">
                                 <a href="{% url 'readiness_detail' product_slug=release.product.slug cycle=release.cycle %}">
                                     {{ release }}
                                     {% if release.lts %} LTS {% endif %}
@@ -38,7 +38,7 @@
                     <h2>{% translate "Python Releases" %}</h2>
                     <ul>
                         {% for release in python_releases %}
-                            <li class="tw-text-2xl">
+                            <li class="tw:text-2xl">
                                 <a href="{% url 'readiness_detail' product_slug=release.product.slug cycle=release.cycle %}">
                                     {{ release }}
                                     {% if release.lts %} LTS {% endif %}
@@ -55,7 +55,7 @@
                     <h2>{% translate "Wagtail Releases" %}</h2>
                     <ul>
                         {% for release in wagtail_releases %}
-                            <li class="tw-text-2xl">
+                            <li class="tw:text-2xl">
                                 <a href="{% url 'readiness_detail' product_slug=release.product.slug cycle=release.cycle %}">
                                     {{ release }}
                                     {% if release.lts %} LTS {% endif %}
