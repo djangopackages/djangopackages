@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2024-12-31]
+### Changed
+- 🔥 Updates Codeberg User reference ([#1325](https://github.com/djangopackages/djangopackages/pull/1325))
+- Integrate score value into Package/Grid results #1063 ([#1322](https://github.com/djangopackages/djangopackages/pull/1322))
+- codeberg support #1266 ([#1321](https://github.com/djangopackages/djangopackages/pull/1321))
+
 ## [2024-12-28]
 ### Changed
 - ⬆️ Bump jinja2 from 3.1.4 to 3.1.5 in /docs ([#1319](https://github.com/djangopackages/djangopackages/pull/1319))
