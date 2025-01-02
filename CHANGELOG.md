@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-01-01]
+### Changed
+- ⬆️ Bump the dependencies group with 3 updates ([#1323](https://github.com/djangopackages/djangopackages/pull/1323))
+
 ## [2024-12-31]
 ### Changed
 - 🔥 Updates Codeberg User reference ([#1325](https://github.com/djangopackages/djangopackages/pull/1325))
