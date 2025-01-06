@@ -256,14 +256,14 @@ bootstrap *ARGS:
 # --------------------------------------------------
 
 @tailwind *ARGS:
-    npx tailwindcss \
-        --config ./static/js/tailwind.config.js \
-        --input ./static/css/tailwindcss.css \
-        --output ./static/css/tailwindcss.min.css \
-        {{ ARGS }}
+    docker compose run django tailwind \
+    -i tailwind.css \
+    -o static/css/tailwind-output.css \
+    {{ ARGS }}
 
+# minify and optimize the output css
 @tailwind-build:
-    just tailwind build
+    just tailwind --minify
 
 @tailwind-lint:
     npx rustywind --check-formatted templates/
@@ -271,7 +271,7 @@ bootstrap *ARGS:
 
 
 @tailwind-watch:
-     docker compose run django tailwind -i tailwindcss.css -o static/css/tailwind-output.css --watch
+    just tailwind --watch
 
 # dump database to file
 @pg_dump file='db.dump':
