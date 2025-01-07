@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-01-06]
+### Changed
+- ⬆️ Bump the dependencies group with 3 updates ([#1326](https://github.com/djangopackages/djangopackages/pull/1326))
+
 ## [2025-01-01]
 ### Changed
 - ⬆️ Bump the dependencies group with 3 updates ([#1323](https://github.com/djangopackages/djangopackages/pull/1323))
