@@ -140,11 +140,14 @@ class CodebergHandler(BaseHandler):
                 if not created:
                     break
 
-                collaborators.append(commit.user)
+                if commit.user and commit.user != "":
+                    collaborators.append(commit.user)
             except Commit.MultipleObjectsReturned:
                 continue
 
-        package.participants = ",".join(set(collaborators))
+        if len(collaborators) > 0:
+            package.participants = ",".join(set(collaborators))
+
         package.save()
 
         return package
