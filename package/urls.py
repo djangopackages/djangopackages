@@ -43,9 +43,8 @@ urlpatterns = [
         "liked/",
         view=ArchiveIndexView.as_view(
             queryset=Package.objects.annotate(
-            distinct_favs=Count("favorite__favorited_by", distinct=True)
-        )
-        .filter(distinct_favs__gt=0),
+                distinct_favs=Count("favorite__favorited_by", distinct=True)
+            ).filter(distinct_favs__gt=0),
             paginate_by=50,
             date_field="created",
         ),

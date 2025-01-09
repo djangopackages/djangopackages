@@ -277,7 +277,7 @@ def homepage(request, template_name="homepage.html"):
         .filter(distinct_favs__gt=0)
         .order_by("-distinct_favs")[:5]
     )
-    
+
     return render(
         request,
         template_name,
