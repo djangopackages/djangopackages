@@ -105,6 +105,36 @@ This is a hack to keep the next set of divs from wrapping up and making the disp
         </div>
         <!-- end latest five packages -->
 
+        <!-- most favorite packages -->
+        <div class="col-sm-4 col-lg-4">
+            <h2>{% translate "Most Liked Packages" %}</h2>
+
+            <div class="list-group">
+                {% for package in most_liked_packages %}
+                    <a href="{{ package.get_absolute_url }}" class="list-group-item">
+                        <h4 class="list-group-item-heading">
+                            {{ package.title|emojify|emojificate }}
+                            {% if package.pypi_version %}<small>v{{ package.pypi_version }}</small>{% endif %}
+                        </h4>
+                        <p class="list-group-item-text">
+                            {% with short=package.repo_description|truncatewords:25 %}
+                                {% if package.repo_description|length > short|length %}
+                                    {{ short|slice:"-3" }}...
+                                {% else %}
+                                    {{ short }}
+                                {% endif %}
+                            {% endwith %}
+                        </p>
+                    </a>
+                {% endfor %}
+                <a href="{% url 'liked_packages' %}" class="btn btn-primary btn-block-display">View More</a>
+            </div>
+
+             
+        </div>
+
+        <!-- end most favorite packages -->
+
         <!-- start five random packages -->
         <div class="col-sm-4 col-lg-4">
             <h2>{% translate "Random Five Packages" %}</h2>

@@ -270,6 +270,14 @@ def homepage(request, template_name="homepage.html"):
         .order_by("-created")[:5]
     )
 
+    most_liked_packages = (
+        Package.objects.annotate(
+            distinct_favs=Count("favorite__favorited_by", distinct=True)
+        )
+        .filter(distinct_favs__gt=0)
+        .order_by("-distinct_favs")[:5]
+    )
+    
     return render(
         request,
         template_name,
@@ -279,6 +287,7 @@ def homepage(request, template_name="homepage.html"):
             "latest_python3": latest_python3,
             "package_count": package_count,
             "random_packages": random_packages,
+            "most_liked_packages": most_liked_packages,
             "gotw": gotw,
             "potw": potw,
             "psa_body": psa_body,
