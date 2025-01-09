@@ -1,0 +1,18 @@
+@import "tailwindcss" prefix(tw);
+
+
+/* body {
+    font-family: "Roboto", Corbel, Avenir, "Lucida Grande", "Lucida Sans", sans-serif;
+    color: #0C3C26;
+    line-height: 1.6;
+    -moz-osx-font-smoothing: grayscale;
+} */
+
+:root {
+    --font-family: "Roboto", Corbel, Avenir, "Lucida Grande", "Lucida Sans", sans-serif;
+    --color-primary: #0C3C26;
+    --color-secondary: #F2F2F2;
+    --line-height: 1.6;
+    --font-smoothing: grayscale;
+}
+

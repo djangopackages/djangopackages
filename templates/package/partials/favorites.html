@@ -15,11 +15,12 @@
         <span class="glyphicon glyphicon-heart"></span>
         Favorited
     </div>
-    <dialog>
-        <h3>
+
+    <dialog class="tw:backdrop-brightness-50 tw:backdrop-blur-sm tw:z-10 tw:mt-[100px] tw:border-none tw:rounded-2xl tw:bg-white tw:shadow-lg   tw:p-4 tw:mx-auto tw:mt-20" id="dialog">
+        <h3 class="tw:text-lg tw:font-semibold tw:text-center">
             Do you want to unfavorite {{ package.title }}?
         </h3>
-        <div class="action ">
+        <div class="tw:flex tw:justify-end tw:mt-4 tw:gap-4">
             <button class="btn btn-default" id="yes" hx-post="{% url 'remove_favorite' package.id %}" hx-target="#favorite" hx-swap="innerHTML">
                 Yes
             </button>
@@ -38,20 +39,5 @@
             dialog.showModal()
         }
     </script>
-    <style>
-        .action {
-            display: flex;
-            justify-content: end;
-            gap: 10px;
-        }
-        dialog {
-            z-index: 10;
-            margin-top: 100px;
-            border: none;
-            border-radius: 1rem;
-        }
-        dialog::backdrop {
-            background-color: hsla(0, 0%, 0%, 0.40);
-        }
-    </style>
+    
 {% endpartialdef %}
