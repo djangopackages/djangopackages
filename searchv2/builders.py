@@ -86,6 +86,7 @@ def index_packages(verbose: bool = False):
                 "pypi_downloads": package.pypi_downloads,
                 "repo_forks": package.repo_forks,
                 "repo_watchers": package.repo_watchers,
+                "score": package.score,
                 "slug_no_prefix": remove_prefix(package.slug),
                 "title": package.title,
                 "title_no_prefix": remove_prefix(package.title),
