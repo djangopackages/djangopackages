@@ -25,6 +25,7 @@ class SearchV2(BaseModel):
         number of forks
         last repo commit
         last release on PyPI
+        score
     """
 
     weight = models.IntegerField(_("Weight"), default=0)
@@ -46,6 +47,7 @@ class SearchV2(BaseModel):
     repo_watchers = models.IntegerField(_("Stars"), default=0)
     repo_forks = models.IntegerField(_("repo forks"), default=0)
     pypi_downloads = models.IntegerField(_("PyPI downloads"), default=0)
+    score = models.IntegerField(_("Score"), default=0)
     usage = models.IntegerField(_("Number of users"), default=0)
     participants = models.TextField(
         _("Participants"),
