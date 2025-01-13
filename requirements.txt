@@ -377,9 +377,9 @@ deprecated==1.2.14 \
     --hash=sha256:6fac8b097794a90302bdbb17b9b815e732d3c4720583ff1b198499d78470466c \
     --hash=sha256:e5323eb936458dccc2582dc6f9c322c852a775a27065ff2b0c4970b9d53d01b3
     # via pygithub
-dirty-equals==0.8.0 \
-    --hash=sha256:0ef998ba3c395e03cf5eb3cd1c13c26a9a992efa18c0d59c22ba27344519cee1 \
-    --hash=sha256:798db3b9481b9a5024c0e520946507676ed2f0c65317d3e95bdce1a01657cf60
+dirty-equals==0.9.0 \
+    --hash=sha256:17f515970b04ed7900b733c95fd8091f4f85e52f1fb5f268757f25c858eb1f7b \
+    --hash=sha256:ff4d027f5cfa1b69573af00f7ba9043ea652dbdce3fe5cbe828e478c7346db9c
     # via -r requirements.in
 distlib==0.3.9 \
     --hash=sha256:47f8c22fd27c27e25a65601af709b38e4f0a45ea4fc2e710f65755fa8caaaf87 \
@@ -466,9 +466,9 @@ django-picklefield==3.2 \
     --hash=sha256:aa463f5d79d497dbe789f14b45180f00a51d0d670067d0729f352a3941cdfa4d \
     --hash=sha256:e9a73539d110f69825d9320db18bcb82e5189ff48dbed41821c026a20497764c
     # via django-q2
-django-q2==1.7.4 \
-    --hash=sha256:56a3781cc480474fa9c04bbde62445b0a9b4195adc409bd963b8f593b0598c43 \
-    --hash=sha256:6eda6d56505822ee5ebc6c4eac1dde726f5dbf20ee9ea7080575535852e2671f
+django-q2==1.7.6 \
+    --hash=sha256:5210b121573cf65b97d495dbebefe6cfac394d8c0aec9ca2117e8e56e2fda17d \
+    --hash=sha256:9060f4d68e1f3a8a748e0ebd0bd83c8c24bc13036105035873faab9d85b0e8f6
     # via -r requirements.in
 django-reversion==5.1.0 \
     --hash=sha256:084d4f117d9e2b4e8dfdfaad83ebb34410a03eed6071c96089e6811fdea82ad3 \
@@ -523,9 +523,9 @@ emojificate==0.7.0 \
     --hash=sha256:78836f3592d6dd8d02cdbdecefe2375fe462f871631c1c756bfacb508c25e579 \
     --hash=sha256:fad26c7dfb0975d8c31d1e61bfb5a7f47320088d5ba295154548bc2c1978b5d4
     # via -r requirements.in
-faker==33.3.0 \
-    --hash=sha256:2abb551a05b75d268780b6095100a48afc43c53e97422002efbfc1272ebf5f26 \
-    --hash=sha256:ae074d9c7ef65817a93b448141a5531a16b2ea2e563dc5774578197c7c84060c
+faker==33.3.1 \
+    --hash=sha256:49dde3b06a5602177bc2ad013149b6f60a290b7154539180d37b6f876ae79b20 \
+    --hash=sha256:ac4cf2f967ce02c898efa50651c43180bd658a7707cfd676fcc5410ad1482c03
     # via -r requirements.in
 feedparser==6.0.11 \
     --hash=sha256:0be7ee7b395572b19ebeb1d6aafb0028dee11169f1c934e0ed67d54992f4ad45 \
@@ -554,9 +554,9 @@ h11==0.14.0 \
     --hash=sha256:8f19fbbe99e72420ff35c00b27a34cb9937e902a8b810e2c88300c6f0a3b699d \
     --hash=sha256:e3fe4ac4b851c468cc8363d500db52c2ead036020723024a109d37346efaa761
     # via httpcore
-heroicons[django]==2.9.0 \
-    --hash=sha256:c9b380221bc7397aed99fcca86b8e6cd210346bf5326bcd7626cd5df69dce2d3 \
-    --hash=sha256:d1b0787e233b6e59583fc1877d77709e21941d2ad0fadb53a27c65a3691d7ebf
+heroicons[django]==2.10.0 \
+    --hash=sha256:3e739e1ca74e126874d02385b7ada988b589bd579a4e3932b98a2c5e0dccb75a \
+    --hash=sha256:af8a525c5691c66c4f8a7544210109c578c6a65625db6f3bee529512968c3882
     # via -r requirements.in
 httpcore==1.0.6 \
     --hash=sha256:27b59625743b85577a8c0e10e55b50b5368a4f2cfe8cc7bcfa9cf00829c2682f \
@@ -818,9 +818,9 @@ mkdocstrings-python==1.12.2 \
     --hash=sha256:7a1760941c0b52a2cd87b960a9e21112ffe52e7df9d0b9583d04d47ed2e186f3 \
     --hash=sha256:7f7d40d6db3cb1f5d19dbcd80e3efe4d0ba32b073272c0c0de9de2e604eda62a
     # via mkdocstrings
-model-bakery==1.20.0 \
-    --hash=sha256:875326466f5982ee8f0281abdfa774d78893d5473562575dfd5a9304ac7c5b8c \
-    --hash=sha256:ec9dc846b9a00b20f92df38fac310263323ab61b59b6eeebf77a4aefb0412724
+model-bakery==1.20.1 \
+    --hash=sha256:6b9dcdcdbbc65f6c1e0c61ebea173777020ddcdce52f3e21362ba7f6000f90fe \
+    --hash=sha256:eb3b4301e6a5620dac9a16d5d586796869bda05b958a95239fbccf69e79c3831
     # via -r requirements.in
 nodeenv==1.9.1 \
     --hash=sha256:6ec12890a2dab7946721edbfbcd91f3319c6ccc9aec47be7c7e6b7011ee6645f \
@@ -889,9 +889,9 @@ oauthlib==3.2.2 \
     # via
     #   requests-oauthlib
     #   social-auth-core
-openai==1.59.3 \
-    --hash=sha256:7f7fff9d8729968588edf1524e73266e8593bb6cab09298340efb755755bb66f \
-    --hash=sha256:b041887a0d8f3e70d1fc6ffbb2bf7661c3b9a2f3e806c04bf42f572b9ac7bc37
+openai==1.59.6 \
+    --hash=sha256:b28ed44eee3d5ebe1a3ea045ee1b4b50fea36ecd50741aaa5ce5a5559c900cb6 \
+    --hash=sha256:c7670727c2f1e4473f62fea6fa51475c8bc098c9ffb47bfb9eef5be23c747934
     # via -r requirements.in
 packaging==24.2 \
     --hash=sha256:09abb1bccd265c01f4a3aa3f7a7db064b36514d2cba19a2f694fe6150451a759 \
@@ -1210,9 +1210,9 @@ python-fsutil==0.14.1 \
     --hash=sha256:0d45e623f0f4403f674bdd8ae7aa7d24a4b3132ea45c65416bd2865e6b20b035 \
     --hash=sha256:8fb204fa8059f37bdeee8a1dc0fff010170202ea47c4225ee71bb3c26f3997be
     # via django-maintenance-mode
-python-gitlab==5.3.0 \
-    --hash=sha256:18f10764b6ac14ad0cb5252ed66025bdfe628ce747b1abbbcfe76a822ac6bae7 \
-    --hash=sha256:1c5653ef5fb25d5f0fe6122b2132238d34dd47d1d92bbde5cf5d0b9a8ab778bb
+python-gitlab==5.3.1 \
+    --hash=sha256:57e8705ccd04617d6d199494487f4ea26f76cb9ac4ebab2490909cc464ea5e8e \
+    --hash=sha256:caabcb500210f4f59ef9f8feec4f99e821d652a55c72ec9f5bf820f45fc17298
     # via -r requirements.in
 python-ipware==3.0.0 \
     --hash=sha256:9117b1c4dddcb5d5ca49e6a9617de2fc66aec2ef35394563ac4eecabdf58c062 \
@@ -1574,9 +1574,9 @@ tqdm==4.66.5 \
     --hash=sha256:90279a3770753eafc9194a0364852159802111925aa30eb3f9d85b0e805ac7cd \
     --hash=sha256:e1020aef2e5096702d8a025ac7d16b1577279c9d63f8375b63083e9a5f0fcbad
     # via openai
-trove-classifiers==2024.10.21.16 \
-    --hash=sha256:0fb11f1e995a757807a8ef1c03829fbd4998d817319abcef1f33165750f103be \
-    --hash=sha256:17cbd055d67d5e9d9de63293a8732943fabc21574e4c7b74edf112b4928cf5f3
+trove-classifiers==2025.1.10.15 \
+    --hash=sha256:9824eb16f7df1b1cc1c217c52ce56c76869d6263da2067f8eadc45122a731cfc \
+    --hash=sha256:be2c7d25e46cd39d5c7151acd389584df3919f61890f5f163c8ee2090ff71e7f
     # via -r requirements.in
 typepy[datetime]==1.3.2 \
     --hash=sha256:b69fd48b9f50cdb3809906eef36b855b3134ff66c8893a4f8580abddb0b39517 \
