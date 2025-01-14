@@ -1,4 +1,4 @@
-{% load i18n package_tags page_metadata_tags profile_tags static tailwind_cli %}
+{% load i18n package_tags page_metadata_tags profile_tags static tailwind_cli waffle_tags cache %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}" {% block angular_header %}ng-app{% endblock %}>
     <head>
@@ -19,7 +19,11 @@
         <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" />
         {% block extra_head %}{% endblock %}
     </head>
-    <body class="tw-flex tw-flex-col tw-min-h-screen" ng-controller="SearchCtrl" ng-init="init_search('{{ request.GET.q|escapejs }}', '{% url 'apiv4:searchv2-list' %}', {{ MAX_WEIGHT }})">
+    <body
+        class="tw-flex tw-flex-col tw-min-h-screen"
+        ng-controller="SearchCtrl"
+        ng-init="init_search('{{ request.GET.q|escapejs }}', '{% url 'apiv4:searchv2-list' %}', {{ MAX_WEIGHT }}, {{ TEST_MODE }})"
+    >
 
         {% for message in messages %}
             <div class="topbar topbar-default{% if message.tags %} {{ message.tags }}{% endif %}" id="message_{{ forloop.counter }}">
@@ -250,6 +254,8 @@
             });
         </script>
         <!-- End of Bootstrap initialization -->
+
+        <script type="text/javascript" defer src="{% url 'wafflejs' %}"></script>
 
         {{ PIWIK_CODE|safe }}
     </body>

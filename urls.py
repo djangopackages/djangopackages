@@ -11,18 +11,19 @@ from core import __version__
 from core.apiv1 import apiv1_gone
 from core.sitemaps import StaticViewSitemap
 from grid.sitemaps import GridSitemap
-from homepage.views import error_404_view
-from homepage.views import error_500_view
-from homepage.views import error_503_view
-from homepage.views import health_check_view
-from homepage.views import homepage
-from homepage.views import OpenView
-from homepage.views import ReadinessDetailView
-from homepage.views import ReadinessView
+from homepage.views import (
+    OpenView,
+    ReadinessDetailView,
+    ReadinessView,
+    error_404_view,
+    error_500_view,
+    error_503_view,
+    health_check_view,
+    homepage,
+)
 from package.sitemaps import PackageSitemap
 from package.views import PackageByCategoryListView, PackagePython3ListView
 from profiles.views import LogoutView
-
 
 admin_header = f"Django Packages v{__version__}"
 admin.site.enable_nav_sidebar = False  # disabled until Django 3.x
@@ -119,6 +120,7 @@ urlpatterns = [
         name="apiv1_gone",
     ),
     # url(r'^api/v1/', include('core.apiv1', namespace="apitest")),
+    path("wafflejs/", include("waffle.urls")),
 ]
 
 if settings.DEBUG and not settings.TEST_MODE:

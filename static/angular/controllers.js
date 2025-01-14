@@ -1,10 +1,11 @@
 function SearchCtrl($scope, $http) {
   $scope.model = {};
 
-  $scope.init_search = function(q, url, max_weight){
+  $scope.init_search = function(q, url, max_weight, test_mode){
     // search page initialization
     $scope.model.q = q;
     $scope.max_weight = max_weight;
+    $scope.TEST_MODE = test_mode;
     $scope.search($scope.model, url);
   };
 
@@ -24,4 +25,6 @@ function SearchCtrl($scope, $http) {
         $scope.python3_packages = data.results;
     });
   };
+
+  $scope.waffle_flag_is_active = (flagName) => waffle.flag_is_active(flagName);
 }
