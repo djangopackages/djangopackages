@@ -33,5 +33,14 @@
                 N/A
             {% endif %}
         </td>
+        {% flag "enabled_packages_score_values" %}
+            <td data-testid="search-results-{{ item.slug }}-score-cell">
+                {% if item.item_type == "package" %}
+                    {{ item.score }}
+                {% elif item.item_type == "grid" %}
+                    N/A
+                {% endif %}
+            </td>
+        {% endflag %}
     </tr>
 {% endfor %}

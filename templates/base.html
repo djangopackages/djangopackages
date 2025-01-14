@@ -112,7 +112,7 @@
         </div>
         <div class="container" ng-show="items">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 table-responsive">
                     <table class="table">
                         <thead>
                             <tr>
@@ -120,40 +120,84 @@
                                 <th>{% translate "Package" %}</th>
                                 <th>{% translate "Description" %}</th>
                                 <th>{% translate "Last PyPI release" %}</th>
-                                <th>{% translate "Repo Forks" %}</th>
-                                <th>{% translate "Stars" %}</th>
+                                {% flag "enabled_packages_score_values" %}
+                                    <th
+                                        {% if TEST_MODE %}data-testid="search-results-score-header"{% endif %}
+                                        scope="col"
+                                        data-toggle="tooltip"
+                                        data-placement="bottom"
+                                        container="body"
+                                        aria-label="{% translate 'Score' %}"
+                                        title="{% translate 'Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%).' %}"
+                                    >
+                                        {% translate "Score" %}
+                                        <span class="glyphicon glyphicon-stats"></span>
+                                    </th>
+                                {% endflag %}
+                                <th
+                                    scope="col"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    aria-label="{% translate 'Number of Stars' %}"
+                                    title="{% translate 'Number of stars on the Repository.' %}"
+                                >
+                                    {% translate "Stars" %}
+                                    <span class="glyphicon glyphicon-star"></span>
+                                </th>
+                                <th
+                                    scope="col"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    aria-label="{% translate 'Number of Forks' %}"
+                                    title="{% translate 'Number of forks on the Repository.' %}"
+                                >
+                                    {% translate "Forks" %}
+                                    <span class="glyphicon glyphicon-random"></span>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             {% verbatim %}
-                <tr ng-repeat="item in items">
-                  <td>{{ item.weight / max_weight * 100 | number:0 }}%</td>
-                  <td>
-                      <a ng-href="{{ item.absolute_url }}">{{ item.title }}</a>
-                  </td>
-                  <td>
-                    <strong ng-if="item.item_type=='grid'">Grid:</strong>
-                    {{ item.description }}
-                  </td>
+                                <tr ng-repeat="item in items">
+                                    <td>{{ item.weight / max_weight * 100 | number:0 }}%</td>
+                                    <td>
+                                        <a ng-href="{{ item.absolute_url }}">{{ item.title }}</a>
+                                    </td>
+                                    <td>
+                                        <strong ng-if="item.item_type=='grid'">Grid:</strong>
+                                        {{ item.description }}
+                                    </td>
 
-                  <td ng-if="item.item_type=='package'">
-                        {{ item.last_released | date: 'mediumDate' }}
-                  </td>
-                  <td ng-if="item.item_type=='grid'">
-                        N/A
-                  </td>
-                  <td  ng-if="item.item_type=='package'">
-                    {{ item.repo_forks }}
-                  </td>
-                  <td ng-if="item.item_type=='grid'">
-                        N/A
-                  </td>
-                  <td  ng-if="item.item_type=='package'">{{ item.repo_watchers }}</td>
-                  <td ng-if="item.item_type=='grid'">
-                        N/A
-                  </td>
-                </tr>
-                {% endverbatim %}
+                                    <td ng-if="item.item_type=='package'">
+                                        {{ item.last_released | date: 'mediumDate' }}
+                                    </td>
+                                    <td ng-if="item.item_type=='grid'">
+                                        N/A
+                                    </td>
+                                    <td
+                                        ng-attr-testId="{{ testMode ? 'search-results-' + item.slug + '-score-cell' : undefined }}"
+                                        ng-if="item.item_type=='package' && waffle_flag_is_active('enabled_packages_score_values')"
+                                    >
+                                        {{ item.score }}
+                                    </td>
+                                    <td
+                                        ng-attr-testId="{{ testMode ? 'search-results-' + item.slug + '-score-cell' : undefined }}"
+                                        ng-if="item.item_type=='grid' && waffle_flag_is_active('enabled_packages_score_values')"
+                                    >
+                                        N/A
+                                    </td>
+                                    <td ng-if="item.item_type=='package'">{{ item.repo_watchers }}</td>
+                                    <td ng-if="item.item_type=='grid'">
+                                        N/A
+                                    </td>
+                                    <td ng-if="item.item_type=='package'">
+                                        {{ item.repo_forks }}
+                                    </td>
+                                    <td ng-if="item.item_type=='grid'">
+                                        N/A
+                                    </td>
+                                </tr>
+                            {% endverbatim %}
                         </tbody>
                     </table>
                 </div>
