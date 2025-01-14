@@ -1,4 +1,4 @@
-{% load i18n package_tags page_metadata_tags profile_tags static tailwind_cli waffle_tags cache %}
+{% load cache i18n package_tags page_metadata_tags profile_tags static tailwind_cli waffle_tags %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}" {% block angular_header %}ng-app{% endblock %}>
     <head>
