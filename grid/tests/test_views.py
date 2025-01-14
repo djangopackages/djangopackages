@@ -21,7 +21,7 @@ class FunctionalGridTest(TestCase):
 
     def test_grid_list_view(self):
         url = reverse("grids")
-        with self.assertNumQueries(7):
+        with self.assertNumQueries(8):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/grids.html")
@@ -29,7 +29,7 @@ class FunctionalGridTest(TestCase):
     @override_flag("enabled_packages_score_values", active=True)
     def test_grid_detail_view(self):
         url = reverse("grid", kwargs={"slug": "testing"})
-        with self.assertNumQueries(33):
+        with self.assertNumQueries(28):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/grid_detail.html")
@@ -169,7 +169,7 @@ class FunctionalGridTest(TestCase):
 
         # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username="user", password="user"))
-        with self.assertNumQueries(6):
+        with self.assertNumQueries(7):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/update_feature.html")
