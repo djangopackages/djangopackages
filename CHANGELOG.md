@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-01-17]
+### Changed
+- ⬆️ Bump django from 5.1.4 to 5.1.5 ([#1334](https://github.com/djangopackages/djangopackages/pull/1334))
+- fix participant extraction in CodebergHandler ([#1329](https://github.com/djangopackages/djangopackages/pull/1329))
+
 ## [2025-01-07]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1327](https://github.com/djangopackages/djangopackages/pull/1327))
