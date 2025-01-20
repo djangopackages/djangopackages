@@ -175,13 +175,13 @@
                                         N/A
                                     </td>
                                     <td
-                                        ng-attr-testId="{{ testMode ? 'search-results-' + item.slug + '-score-cell' : undefined }}"
+                                        data-testId="{{ TEST_MODE ? 'search-results-' + item.slug + '-score-cell' : null }}"
                                         ng-if="item.item_type=='package' && waffle_flag_is_active('enabled_packages_score_values')"
                                     >
                                         {{ item.score }}
                                     </td>
                                     <td
-                                        ng-attr-testId="{{ testMode ? 'search-results-' + item.slug + '-score-cell' : undefined }}"
+                                        data-testId="{{ TEST_MODE ? 'search-results-' + item.slug + '-score-cell' : null }}"
                                         ng-if="item.item_type=='grid' && waffle_flag_is_active('enabled_packages_score_values')"
                                     >
                                         N/A
