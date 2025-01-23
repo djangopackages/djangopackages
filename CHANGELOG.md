@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-01-22]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1336](https://github.com/djangopackages/djangopackages/pull/1336))
+
 ## [2025-01-17]
 ### Changed
 - ⬆️ Bump django from 5.1.4 to 5.1.5 ([#1334](https://github.com/djangopackages/djangopackages/pull/1334))
