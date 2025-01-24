@@ -1,6 +1,9 @@
+from textwrap import dedent
+
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
+from waffle.testutils import override_flag
 
 from package.tests import initial_data
 from profiles.models import Profile
@@ -70,6 +73,65 @@ class ViewTest(TestCase):
         url = reverse("search") + "?q=django-uni-form"
         self.client.get(url)
         # print response
+
+    @override_flag("enabled_packages_score_values", active=True)
+    def test_search_results_must_include_the_score(self):
+        SearchV2.objects.get_or_create(
+            item_type="package",
+            title="django-uni-form",
+            slug="django-uni-form",
+            slug_no_prefix="uni-form",
+            clean_title="django-uni-form",
+            score=600,
+        )
+        url = reverse("search") + "?q=django-uni-form"
+        response = self.client.get(url)
+
+        self.assertContains(
+            response,
+            dedent(
+                """
+                    <th
+                        data-testid="search-results-score-header"
+                        scope="col"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        container="body"
+                        aria-label="Score"
+                        title="Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%)."
+                    >
+                        Score
+                        <span class="glyphicon glyphicon-stats"></span>
+                    </th>
+                """
+            ),
+            html=True,
+        )
+
+        # Note:
+        # This is a test of the Angular template, not the Django template,
+        # it's not really testing anything besides that the Django templates
+        # does render the expected Angular template.
+        self.assertContains(
+            response,
+            dedent(
+                """
+                    <td
+                        data-testId="{{ TEST_MODE ? 'search-results-' + item.slug + '-score-cell' : null }}"
+                        ng-if="item.item_type=='package' && waffle_flag_is_active('enabled_packages_score_values')"
+                    >
+                        {{ item.score }}
+                    </td>
+                    <td
+                        data-testId="{{ TEST_MODE ? 'search-results-' + item.slug + '-score-cell' : null }}"
+                        ng-if="item.item_type=='grid' && waffle_flag_is_active('enabled_packages_score_values')"
+                    >
+                        N/A
+                    </td>
+                """
+            ),
+            html=True,
+        )
 
 
 class SearchDescriptionTest(TestCase):

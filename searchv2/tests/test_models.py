@@ -18,6 +18,7 @@ def test_searchv2_create(db):
         absolute_url="/packages/p/django-uni-form/",
         repo_watchers=500,
         repo_forks=85,
+        score=600,
         pypi_downloads=30000,
         participants="pydanny,maraujop,et,al",
         last_committed=now(),

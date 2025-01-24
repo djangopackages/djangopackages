@@ -12,6 +12,7 @@ class SearchV2Admin(admin.ModelAdmin):
         "category",
         "pypi_downloads",
         "repo_watchers",
+        "score",
     ]
     list_filter = ["item_type", "category"]
     ordering = ["-weight"]
