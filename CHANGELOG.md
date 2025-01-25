@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-01-24]
+### Changed
+- #1062 Integrate score value into Search results ([#1333](https://github.com/djangopackages/djangopackages/pull/1333))
+- ⬆️ Bump the dependencies group with 18 updates ([#1335](https://github.com/djangopackages/djangopackages/pull/1335))
+
 ## [2025-01-22]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1336](https://github.com/djangopackages/djangopackages/pull/1336))
