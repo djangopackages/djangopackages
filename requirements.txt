@@ -523,9 +523,9 @@ emojificate==0.7.0 \
     --hash=sha256:78836f3592d6dd8d02cdbdecefe2375fe462f871631c1c756bfacb508c25e579 \
     --hash=sha256:fad26c7dfb0975d8c31d1e61bfb5a7f47320088d5ba295154548bc2c1978b5d4
     # via -r requirements.in
-faker==33.3.1 \
-    --hash=sha256:49dde3b06a5602177bc2ad013149b6f60a290b7154539180d37b6f876ae79b20 \
-    --hash=sha256:ac4cf2f967ce02c898efa50651c43180bd658a7707cfd676fcc5410ad1482c03
+faker==35.0.0 \
+    --hash=sha256:42f2da8cf561e38c72b25e9891168b1e25fec42b6b0b5b0b6cd6041da54af885 \
+    --hash=sha256:926d2301787220e0554c2e39afc4dc535ce4b0a8d0a089657137999f66334ef4
     # via -r requirements.in
 feedparser==6.0.11 \
     --hash=sha256:0be7ee7b395572b19ebeb1d6aafb0028dee11169f1c934e0ed67d54992f4ad45 \
@@ -889,9 +889,9 @@ oauthlib==3.2.2 \
     # via
     #   requests-oauthlib
     #   social-auth-core
-openai==1.59.8 \
-    --hash=sha256:a8b8ee35c4083b88e6da45406d883cf6bd91a98ab7dd79178b8bc24c8bfb09d9 \
-    --hash=sha256:ac4bda5fa9819fdc6127e8ea8a63501f425c587244bc653c7c11a8ad84f953e1
+openai==1.60.1 \
+    --hash=sha256:714181ec1c452353d456f143c22db892de7b373e3165063d02a2b798ed575ba1 \
+    --hash=sha256:beb1541dfc38b002bd629ab68b0d6fe35b870c5f4311d9bc4404d85af3214d5e
     # via -r requirements.in
 packaging==24.2 \
     --hash=sha256:09abb1bccd265c01f4a3aa3f7a7db064b36514d2cba19a2f694fe6150451a759 \
@@ -927,9 +927,9 @@ pluggy==1.5.0 \
     # via
     #   pytest
     #   sqlite-utils
-pre-commit==4.0.1 \
-    --hash=sha256:80905ac375958c0444c65e9cebebd948b3cdb518f335a091a670a89d652139d2 \
-    --hash=sha256:efde913840816312445dc98787724647c65473daefe420785f885e8ed9a06878
+pre-commit==4.1.0 \
+    --hash=sha256:ae3f018575a588e30dfddfab9a05448bfbd6b73d78709617b5a2b853549716d4 \
+    --hash=sha256:d29e7cb346295bcc1cc75fc3e92e343495e3ea0196c9ec6ba53f49f10ab6ae7b
     # via -r requirements.in
 prettytable==3.12.0 \
     --hash=sha256:77ca0ad1c435b6e363d7e8623d7cc4fcf2cf15513bf77a1c1b2e814930ac57cc \
@@ -1033,9 +1033,9 @@ pycparser==2.22 \
     --hash=sha256:491c8be9c040f5390f5bf44a5b07752bd07f56edf992381b05c701439eec10f6 \
     --hash=sha256:c3702b6d3dd8c7abc1afa565d7e63d53a1d0bd86cdc24edd75470f4de499cfcc
     # via cffi
-pydantic==2.10.5 \
-    --hash=sha256:278b38dbbaec562011d659ee05f63346951b3a248a6f3642e1bc68894ea2b4ff \
-    --hash=sha256:4dd4e322dbe55472cb7ca7e73f4b63574eecccf2835ffa2af9021ce113c83c53
+pydantic==2.10.6 \
+    --hash=sha256:427d664bf0b8a2b34ff5dd0f5a18df00591adcee7198fbd71981054cef37b584 \
+    --hash=sha256:ca5daa827cce33de7a42be142548b0096bf05a7e7b365aebfa5f8eeec7128236
     # via
     #   -r requirements.in
     #   cloudflare
@@ -1177,9 +1177,9 @@ pynacl==1.5.0 \
     --hash=sha256:a422368fc821589c228f4c49438a368831cb5bbc0eab5ebe1d7fac9dded6567b \
     --hash=sha256:e46dae94e34b085175f8abb3b0aaa7da40767865ac82c928eeb9e57e1ea8a543
     # via pygithub
-pypistats==1.7.0 \
-    --hash=sha256:5431c7db2a541b9304330d1e8896fb9ebddb2615bdf8659f4117f3f55d6d2655 \
-    --hash=sha256:dbd5ebaf0f0769eab42ee21c4bf183e4f5ca78292fdaf92a2fa4893ebc57a9f5
+pypistats==1.8.0 \
+    --hash=sha256:c0d6da0cb0f11fba6ff8b7bc5c9040486793c905ba5cf5bb08c3ebfd72f76419 \
+    --hash=sha256:e7697659dc063b629a98cb3d2010434cb2f68c9dafa7ecc94bd645fc8940f362
     # via -r requirements.in
 pytablewriter[html]==1.2.0 \
     --hash=sha256:0204a4bb684a22140d640f2599f09e137bcdc18b3dd49426f4a555016e246b46 \
