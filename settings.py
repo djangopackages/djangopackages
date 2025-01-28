@@ -302,7 +302,6 @@ if SENTRY_DSN := env("DJANGO_SENTRY_DSN", default=None):
 
 
 LOCAL_INSTALLED_APPS = []
-SUPPORTED_REPO = []
 
 ########################## Site specific stuff
 FRAMEWORK_TITLE = env("FRAMEWORK_TITLE", default="Django")
@@ -313,9 +312,7 @@ PACKAGE_SCORE_MIN = env.int("PACKAGE_SCORE_MIN", default=-500)
 if LOCAL_INSTALLED_APPS:
     INSTALLED_APPS.extend(LOCAL_INSTALLED_APPS)
 
-# SUPPORTED_REPO.extend(["bitbucket", "github", "gitlab"])
-SUPPORTED_REPO.extend(["bitbucket", "github", "codeberg"])
-
+SUPPORTED_REPO = ["bitbucket", "github", "gitlab", "codeberg"]
 
 AUTHENTICATION_BACKENDS = (
     "social_core.backends.github.GithubOAuth2",
