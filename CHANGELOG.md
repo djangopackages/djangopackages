@@ -1,5 +1,12 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-01-28]
+### Changed
+- Cleanup `SUPPORTED_REPO` Settings ([#1340](https://github.com/djangopackages/djangopackages/pull/1340))
+- ⬆️ Bump the dependencies group with 5 updates ([#1337](https://github.com/djangopackages/djangopackages/pull/1337))
+- [pre-commit.ci] pre-commit autoupdate ([#1338](https://github.com/djangopackages/djangopackages/pull/1338))
+- :copyright: Update copyright notice ([#1339](https://github.com/djangopackages/djangopackages/pull/1339))
+
 ## [2025-01-24]
 ### Changed
 - #1062 Integrate score value into Search results ([#1333](https://github.com/djangopackages/djangopackages/pull/1333))
