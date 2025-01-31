@@ -27,7 +27,6 @@ def local():
     Work on the local environment
     """
     env.compose_file = "compose.yml"
-    env.compose_version = "v2"
     env.project_dir = "."
     env.run = lrun
     env.cd = lcd
@@ -43,7 +42,6 @@ def production():
     env.user = "root"  # remote user, see `env.run` if you don't log in as root
 
     env.compose_file = "compose.prod.yml"
-    env.compose_version = "v2"
     env.project_dir = "/code/djangopackages"  # this is the project dir where your code lives on this machine
     env.run = run  # if you don't log in as root, replace with 'env.run = sudo'
     env.cd = cd
@@ -198,8 +196,6 @@ def docker_compose(command, old=True):
     :param command: Command you want to run
     """
     with env.cd(env.project_dir):
-        if env.compose_version == "v2":
-            return env.run(
-                f"docker compose -f {env.compose_file} --profile utility {command}"
-            )
-        return env.run(f"docker-compose -f {env.compose_file} {command}")
+        return env.run(
+            f"docker compose -f {env.compose_file} --profile utility {command}"
+        )
