@@ -70,7 +70,9 @@ def index_packages(*, verbose: bool = False):
 
     for package in Package.objects.all().iterator():
         try:
-            package_score = calc_package_weight(package=package, rules=rules, max_score=100)
+            package_score = calc_package_weight(
+                package=package, rules=rules, max_score=100
+            )
             weight = package_score["total_score"]
 
             if verbose:
@@ -114,6 +116,7 @@ def index_packages(*, verbose: bool = False):
 
         except Exception as e:
             print(f"[red]{e=}[/red]")
+
 
 def calc_grid_weight(
     *,
