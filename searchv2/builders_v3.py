@@ -2,6 +2,7 @@ import json
 
 from datetime import timedelta
 from django.utils import timezone
+from rich import print
 
 from grid.models import Grid
 from package.models import Commit, Package
@@ -68,48 +69,51 @@ def index_packages(*, verbose: bool = False):
     # print(json.dumps(package_score, indent=2))
 
     for package in Package.objects.all().iterator():
-        package_score = calc_package_weight(package=package, rules=rules, max_score=100)
-        weight = package_score["total_score"]
-
-        if verbose:
-            print(f"{package.pk=}::{weight=}")
-            print(json.dumps(package_score, indent=2))
-
-        obj, created = SearchV2.objects.update_or_create(
-            item_type="package",
-            slug=package.slug,
-            defaults={
-                "absolute_url": package.get_absolute_url(),
-                "category": package.category.title,
-                "clean_title": clean_title(remove_prefix(package.slug)),
-                "description": package.repo_description,
-                "participants": package.participants,
-                "pypi_downloads": package.pypi_downloads,
-                "repo_forks": package.repo_forks,
-                "repo_watchers": package.repo_watchers,
-                "slug_no_prefix": remove_prefix(package.slug),
-                "title": package.title,
-                "title_no_prefix": remove_prefix(package.title),
-                "usage": package.usage.count(),
-                "weight": weight,
-            },
-        )
-
-        optional_save = False
         try:
-            obj.last_committed = package.last_updated()
-            optional_save = True
-        except Commit.DoesNotExist:
-            pass
+            package_score = calc_package_weight(package=package, rules=rules, max_score=100)
+            weight = package_score["total_score"]
 
-        last_released = package.last_released()
-        if last_released and last_released.upload_time:
-            obj.last_released = last_released.upload_time
-            optional_save = True
+            if verbose:
+                print(f"{package.pk=}::{weight=}")
+                print(json.dumps(package_score, indent=2))
 
-        if optional_save:
-            obj.save()
+            obj, created = SearchV2.objects.update_or_create(
+                item_type="package",
+                slug=package.slug,
+                defaults={
+                    "absolute_url": package.get_absolute_url(),
+                    "category": package.category.title,
+                    "clean_title": clean_title(remove_prefix(package.slug)),
+                    "description": package.repo_description,
+                    "participants": package.participants,
+                    "pypi_downloads": package.pypi_downloads,
+                    "repo_forks": package.repo_forks,
+                    "repo_watchers": package.repo_watchers,
+                    "slug_no_prefix": remove_prefix(package.slug),
+                    "title": package.title,
+                    "title_no_prefix": remove_prefix(package.title),
+                    "usage": package.usage.count(),
+                    "weight": weight,
+                },
+            )
 
+            optional_save = False
+            try:
+                obj.last_committed = package.last_updated()
+                optional_save = True
+            except Commit.DoesNotExist:
+                pass
+
+            last_released = package.last_released()
+            if last_released and last_released.upload_time:
+                obj.last_released = last_released.upload_time
+                optional_save = True
+
+            if optional_save:
+                obj.save()
+
+        except Exception as e:
+            print(f"[red]{e=}[/red]")
 
 def calc_grid_weight(
     *,
@@ -133,27 +137,34 @@ def calc_grid_weight(
 
 
 def index_groups(verbose: bool = False):
-    max_weight = SearchV2.objects.only("weight").order_by("-weight").first().weight
+    max_weight = SearchV2.objects.only("weight").order_by("-weight").first()
+    if max_weight:
+        max_weight = max_weight.weight
+    else:
+        max_weight = 0
 
     if verbose:
         print(f"{max_weight=}")
 
     for grid in Grid.objects.all().iterator():
-        weight = calc_grid_weight(grid=grid, max_weight=max_weight)
+        try:
+            weight = calc_grid_weight(grid=grid, max_weight=max_weight)
 
-        if verbose:
-            print(f"{grid.pk=}::{weight=}")
+            if verbose:
+                print(f"{grid.pk=}::{weight=}")
 
-        obj, created = SearchV2.objects.update_or_create(
-            item_type="grid",
-            slug=grid.slug,
-            defaults={
-                "absolute_url": grid.get_absolute_url(),
-                "clean_title": clean_title(remove_prefix(grid.slug)),
-                "description": grid.description,
-                "slug_no_prefix": remove_prefix(grid.slug),
-                "title": grid.title,
-                "title_no_prefix": remove_prefix(grid.title),
-                "weight": weight,
-            },
-        )
+            obj, created = SearchV2.objects.update_or_create(
+                item_type="grid",
+                slug=grid.slug,
+                defaults={
+                    "absolute_url": grid.get_absolute_url(),
+                    "clean_title": clean_title(remove_prefix(grid.slug)),
+                    "description": grid.description,
+                    "slug_no_prefix": remove_prefix(grid.slug),
+                    "title": grid.title,
+                    "title_no_prefix": remove_prefix(grid.title),
+                    "weight": weight,
+                },
+            )
+        except Exception as e:
+            print(f"[red]{e=}[/red]")

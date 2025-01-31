@@ -8,13 +8,13 @@ from searchv2.models import SearchV2
 from searchv2.utils import clean_title, remove_prefix
 
 
-def build_1():
+def build_1(*, verbose: bool = False):
     last_week = timezone.now() - timedelta(7)
 
     SearchV2.objects.filter(created__lte=last_week).delete()
 
-    index_packages()
-    index_groups()
+    index_packages(verbose=verbose)
+    index_groups(verbose=verbose)
 
     return SearchV2.objects.all()
 
