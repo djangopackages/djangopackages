@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-01-31]
+### Changed
+- :tractor: Sort-of fix for Search ([#1342](https://github.com/djangopackages/djangopackages/pull/1342))
+
 ## [2025-01-28]
 ### Changed
 - Cleanup `SUPPORTED_REPO` Settings ([#1340](https://github.com/djangopackages/djangopackages/pull/1340))
