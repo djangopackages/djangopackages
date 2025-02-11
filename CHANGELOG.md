@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-02-10]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1344](https://github.com/djangopackages/djangopackages/pull/1344))
+
 ## [2025-01-31]
 ### Changed
 - :tractor: Sort-of fix for Search ([#1342](https://github.com/djangopackages/djangopackages/pull/1342))
