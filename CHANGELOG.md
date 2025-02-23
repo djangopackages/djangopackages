@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-02-22]
+### Changed
+- ⬆️ Bump cryptography from 43.0.3 to 44.0.1 ([#1347](https://github.com/djangopackages/djangopackages/pull/1347))
+
 ## [2025-02-13]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1346](https://github.com/djangopackages/djangopackages/pull/1346))
