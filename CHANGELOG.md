@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-03-06]
+### Changed
+- ⬆️ Bump jinja2 from 3.1.5 to 3.1.6 in /docs ([#1361](https://github.com/djangopackages/djangopackages/pull/1361))
+- ⬆️ Bump jinja2 from 3.1.5 to 3.1.6 ([#1359](https://github.com/djangopackages/djangopackages/pull/1359))
+- ⬆️ Bump django from 5.1.5 to 5.1.7 ([#1360](https://github.com/djangopackages/djangopackages/pull/1360))
+
 ## [2025-03-04]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1358](https://github.com/djangopackages/djangopackages/pull/1358))
