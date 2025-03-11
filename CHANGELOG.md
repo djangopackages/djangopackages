@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-03-10]
+### Changed
+- ⬆️ Bump the dependencies group with 22 updates ([#1362](https://github.com/djangopackages/djangopackages/pull/1362))
+
 ## [2025-03-06]
 ### Changed
 - ⬆️ Bump jinja2 from 3.1.5 to 3.1.6 in /docs ([#1361](https://github.com/djangopackages/djangopackages/pull/1361))
