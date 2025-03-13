@@ -108,7 +108,7 @@ services:
 
   redis:
     init: true
-    build: ./dockerfiles/redis
+    build: ./dockerfiles/valkey
     expose:
       - 6379
     restart: always
