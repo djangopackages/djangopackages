@@ -1,23 +1,23 @@
 # Single Rule Logic
 
-::: rules.DeprecatedRule
+::: searchv2.rules.DeprecatedRule
 
 
-::: rules.DescriptionRule
+::: searchv2.rules.DescriptionRule
 
 
-::: rules.DownloadsRule
+::: searchv2.rules.DownloadsRule
 
 
-::: rules.ForkRule
+::: searchv2.rules.ForkRule
 
 
-::: rules.UsageCountRule
+::: searchv2.rules.UsageCountRule
 
 
-::: rules.WatchersRule
+::: searchv2.rules.WatchersRule
 
 
 # Group Rule Logic
 
-::: rules.ScoreRuleGroup
+::: searchv2.rules.ScoreRuleGroup
