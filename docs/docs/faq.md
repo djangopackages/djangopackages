@@ -29,6 +29,30 @@ We do formal tests on Chrome, Safari and Firefox.
 
 We've done a lot of work to make it as straightforward as possible. At PyCon 2011 we launched our formal [Repo Handler API].
 
+## Reporting Issues with Package Data on Django Packages
+
+### I noticed incorrect or outdated information about a package on Django Packages. How can I report this?
+
+Django Packages primarily fetches data from three sources: 
+
+* PyPI
+* GitHub
+* Bitbucket
+
+If you notice inaccurate information, the best approach is to:
+
+1. **Check the original source**: First, verify if the information is correctly represented in the original source (PyPI, GitHub, or Bitbucket).
+
+2. **For PyPI-related issues**: If the package information on PyPI is incorrect or outdated, the package maintainer should update the metadata in their package configuration (setup.py, pyproject.toml, etc.). Once updated on PyPI, Django Packages will fetch the new metadata during its next update cycle.
+
+3. **For GitHub/Bitbucket repository issues**: If repository information is incorrect, ensure the repository details are properly configured on the source platform.
+
+4. **File an issue on GitHub**: If you've verified the source information is correct but Django Packages is displaying it incorrectly, [open a Bad Data Issue](https://github.com/djangopackages/djangopackages/issues/new/choose)
+
+### How often does Django Packages refresh its data from sources?
+
+Django Packages periodically fetches metadata from PyPI, GitHub, and Bitbucket. This happens through an automated process, but there can sometimes be a delay between when a source is updated and when those changes appear on Django Packages.
+
 ## Supported Repo Hosting Services
 
 Django Packages supports GitHub and Bitbucket.
