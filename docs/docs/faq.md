@@ -29,9 +29,9 @@ We do formal tests on Chrome, Safari and Firefox.
 
 We've done a lot of work to make it as straightforward as possible. At PyCon 2011 we launched our formal [Repo Handler API].
 
-### Why does a package not show support for Python 3 on DjangoPackages, but the repository does? 
+### Why does a package not show support for Python 3 on DjangoPackages, but the repository does?
 
-The indicator for support for of Python 3 is support is determined by the data that is fetched from PyPI with the fetch_pypi_dat [method](https://github.com/djangopackages/djangopackages/blob/f259e6f39445cd243ac897af51abb1c06836ef82/package/models.py#L266). Typically if Python 3 is not indicated as being supported it's because there is no PyPI package for the package. 
+The indicator for support for of Python 3 is support is determined by the data that is fetched from PyPI with the fetch_pypi_dat [method](https://github.com/djangopackages/djangopackages/blob/f259e6f39445cd243ac897af51abb1c06836ef82/package/models.py#L266). Typically if Python 3 is not indicated as being supported it's because there is no PyPI package for the package.
 
 ## Supported Repo Hosting Services
 
