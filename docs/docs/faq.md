@@ -33,7 +33,7 @@ We've done a lot of work to make it as straightforward as possible. At PyCon 201
 
 ### I noticed incorrect or outdated information about a package on Django Packages. How can I report this?
 
-Django Packages primarily fetches data from three sources: 
+Django Packages primarily fetches data from three sources:
 
 * PyPI
 * GitHub
