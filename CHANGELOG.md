@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-03-23]
+### Changed
+- Fixed Docs Build ([#1368](https://github.com/djangopackages/djangopackages/pull/1368))
+
 ## [2025-03-20]
 ### Changed
 - ⬆️ Bump the dependencies group with 8 updates ([#1364](https://github.com/djangopackages/djangopackages/pull/1364))
