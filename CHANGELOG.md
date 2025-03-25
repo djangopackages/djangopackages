@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-03-24]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1371](https://github.com/djangopackages/djangopackages/pull/1371))
+- ⬆️ Bump mkdocstrings[python] from 0.26.2 to 0.29.0 in the dependencies group ([#1370](https://github.com/djangopackages/djangopackages/pull/1370))
+- Reporting Bad Data ([#1367](https://github.com/djangopackages/djangopackages/pull/1367))
+
 ## [2025-03-23]
 ### Changed
 - Fixed Docs Build ([#1368](https://github.com/djangopackages/djangopackages/pull/1368))
