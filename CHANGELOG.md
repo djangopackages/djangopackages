@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-03-26]
+### Changed
+- Added Python 3 Support ([#1366](https://github.com/djangopackages/djangopackages/pull/1366))
+
 ## [2025-03-24]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1371](https://github.com/djangopackages/djangopackages/pull/1371))
