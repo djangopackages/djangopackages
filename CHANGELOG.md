@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-03-27]
+### Changed
+- :memo: fixed formatting for rules page ([#1372](https://github.com/djangopackages/djangopackages/pull/1372))
+
 ## [2025-03-26]
 ### Changed
 - Added Python 3 Support ([#1366](https://github.com/djangopackages/djangopackages/pull/1366))
