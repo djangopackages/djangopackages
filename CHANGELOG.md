@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-04-01]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1374](https://github.com/djangopackages/djangopackages/pull/1374))
+- :ring: 2025-04-01 Update ([#1375](https://github.com/djangopackages/djangopackages/pull/1375))
+
 ## [2025-03-27]
 ### Changed
 - :memo: fixed formatting for rules page ([#1372](https://github.com/djangopackages/djangopackages/pull/1372))
