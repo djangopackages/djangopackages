@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-04-21]
+### Changed
+- clarity improvement ([#1380](https://github.com/djangopackages/djangopackages/pull/1380))
+
 ## [2025-04-14]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1378](https://github.com/djangopackages/djangopackages/pull/1378))
