@@ -1,9 +1,13 @@
+# Don't load environment variables from .env file
 set dotenv-load := false
 
+# Create an alias for pip-compile to use the lock recipe
 alias pip-compile := lock
 
+# Set the database URL with a default value if not in environment
 DATABASE_URL := env_var_or_default('DATABASE_URL', 'postgres://djangopackages:djangopackages@postgres/djangopackages')
 
+# Show list of available recipes when just is run without arguments
 @_default:
     just --list
 
@@ -89,12 +93,15 @@ bootstrap *ARGS:
 # @docs:
 #     cd docs && make docs
 
+# Stop documentation services
 @docs-down *ARGS:
     docker compose --profile=docs down {{ ARGS }}
 
+# Start documentation services
 @docs-up *ARGS="--detach":
     docker compose --profile=docs up {{ ARGS }}
 
+# Update documentation dependencies
 @docs-update *ARGS:
     uv --quiet pip compile \
         {{ ARGS }} \
@@ -146,6 +153,7 @@ bootstrap *ARGS:
 @start *ARGS="--detach":
     docker compose up {{ ARGS }}
 
+# Show status of running containers
 @status:
     docker compose ps
 
@@ -202,6 +210,7 @@ bootstrap *ARGS:
 
 # --------------------------------------------------
 
+# Run all scheduled tasks in sequence
 @cron:
     just management-command import_classifiers
     just management-command import_products
@@ -230,12 +239,13 @@ bootstrap *ARGS:
         --generate-hashes \
         --output-file docs/requirements.txt
 
-# Run pre-commit
+# Run pre-commit hooks with specified arguments
 @pre-commit *ARGS:
     uv tool run \
         --with pre-commit-uv \
         pre-commit run {{ ARGS }}
 
+# Run pre-commit hooks on all files
 @pre-commit-all-files:
     just pre-commit --all-files
 
@@ -247,7 +257,7 @@ bootstrap *ARGS:
 @management-command ARGS:
     docker compose run --rm django python manage.py {{ ARGS }}
 
-# Remove current application services
+# Remove all application services and volumes
 @remove:
     ...
 
@@ -255,6 +265,7 @@ bootstrap *ARGS:
 # Tailwind CSS recipes
 # --------------------------------------------------
 
+# Process Tailwind CSS with optional arguments
 @tailwind *ARGS:
     npx tailwindcss \
         --config ./static/js/tailwind.config.js \
@@ -262,13 +273,16 @@ bootstrap *ARGS:
         --output ./static/css/tailwindcss.min.css \
         {{ ARGS }}
 
+# Build Tailwind CSS once
 @tailwind-build:
     just tailwind build
 
+# Check for proper Tailwind CSS class ordering
 @tailwind-lint:
     npx rustywind --check-formatted templates/
     # npx rustywind --write templates/
 
+# Build and then watch for Tailwind CSS changes
 @tailwind-watch:
     just tailwind-build
     just tailwind --watch
