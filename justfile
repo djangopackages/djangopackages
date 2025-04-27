@@ -15,17 +15,17 @@ DATABASE_URL := env_var_or_default('DATABASE_URL', 'postgres://djangopackages:dj
 # --------------------------------------------------
 
 # Show list of available recipes when just is run without arguments
-[group('core')]
+[group('utils')]
 @_default:
     just --list
 
 # Format the justfile
-[group('core')]
+[group('utils')]
 @fmt:
     just --fmt --unstable
 
 # Update the version; Used before release to production
-[group('core')]
+[group('utils')]
 @bump *ARGS:
     bumpver update {{ ARGS }}
 
@@ -34,7 +34,7 @@ DATABASE_URL := env_var_or_default('DATABASE_URL', 'postgres://djangopackages:dj
 # --------------------------------------------------
 
 # Performs initial setup for Docker images and allows Arguments to be passed
-[group('setup')]
+[group('utils')]
 bootstrap *ARGS:
     #!/usr/bin/env bash
     set -euo pipefail
@@ -49,12 +49,12 @@ bootstrap *ARGS:
     docker compose {{ ARGS }} build --force-rm
 
 # Perform the initial setup for the Docker containers
-[group('setup')]
+[group('utils')]
 @setup:
     just bootstrap
 
 # Compile new python dependencies
-[group('setup')]
+[group('utils')]
 @lock *ARGS:
     uv pip compile \
         {{ ARGS }} \
@@ -69,7 +69,7 @@ bootstrap *ARGS:
         --output-file docs/requirements.txt
 
 # Upgrade existing Python dependencies to their latest versions
-[group('setup')]
+[group('utils')]
 @upgrade:
     just lock --upgrade
 
@@ -177,7 +177,7 @@ bootstrap *ARGS:
     just management-command packages_download_stats ./pypi.db
 
 # Once completed, it will run an update of *something*
-[group('django')]
+[group('utils')]
 @update:
     echo "TODO: update"
 
@@ -273,7 +273,7 @@ bootstrap *ARGS:
             /code/{{ file }}
 
 # Clear sessions
-[group('database')]
+[group('django')]
 @clearsessions:
     uv --quiet tool run \
         --python=3.9 \
