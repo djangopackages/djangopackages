@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-04-26]
+### Changed
+- :sparkles: Add justfile recipe comments and grouping recipes ([#1382](https://github.com/djangopackages/djangopackages/pull/1382))
+
 ## [2025-04-22]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1381](https://github.com/djangopackages/djangopackages/pull/1381))
