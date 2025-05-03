@@ -1,0 +1,9 @@
+*.conf
+*.csv
+*.js*
+./.git
+./collected_static
+./data
+./docs/_*
+./htmlcov
+./static
