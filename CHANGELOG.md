@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-05-05]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1388](https://github.com/djangopackages/djangopackages/pull/1388))
+
 ## [2025-05-02]
 ### Changed
 - potential fix for Windows 11 development ([#1384](https://github.com/djangopackages/djangopackages/pull/1384))
