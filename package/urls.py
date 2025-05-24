@@ -1,5 +1,6 @@
 from django.urls import path, re_path
 from django.views.generic.dates import ArchiveIndexView
+from django.db.models import Count
 
 from package.models import Package
 from package.views import (
@@ -37,6 +38,17 @@ urlpatterns = [
             date_field="created",
         ),
         name="latest_packages",
+    ),
+    path(
+        "liked/",
+        view=ArchiveIndexView.as_view(
+            queryset=Package.objects.annotate(
+                distinct_favs=Count("favorite__favorited_by", distinct=True)
+            ).filter(distinct_favs__gt=0),
+            paginate_by=50,
+            date_field="created",
+        ),
+        name="liked_packages",
     ),
     path(
         "add/",
