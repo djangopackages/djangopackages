@@ -109,7 +109,7 @@ curl -X GET -H "Content-Type: application/json" https://djangopackages.org/api/v
     "id": 1,
     "title": "App",
     "slug": "apps",
-    "description": "Small components used to build projects. An app is anything that is installed by placing in settings.INSTALLED_APPS.",
+    "description": "Small components used to build projects. An app is anything that is installed by placing it in settings.INSTALLED_APPS.",
     "title_plural": "Apps",
     "show_pypi": true,
     "created": "2010-08-14T22:47:52",

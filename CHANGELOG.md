@@ -1,5 +1,125 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-05-13]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1389](https://github.com/djangopackages/djangopackages/pull/1389))
+
+## [2025-05-05]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1388](https://github.com/djangopackages/djangopackages/pull/1388))
+
+## [2025-05-02]
+### Changed
+- potential fix for Windows 11 development ([#1384](https://github.com/djangopackages/djangopackages/pull/1384))
+
+## [2025-04-28]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1385](https://github.com/djangopackages/djangopackages/pull/1385))
+
+## [2025-04-26]
+### Changed
+- :sparkles: Add justfile recipe comments and grouping recipes ([#1382](https://github.com/djangopackages/djangopackages/pull/1382))
+
+## [2025-04-22]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1381](https://github.com/djangopackages/djangopackages/pull/1381))
+
+## [2025-04-21]
+### Changed
+- clarity improvement ([#1380](https://github.com/djangopackages/djangopackages/pull/1380))
+
+## [2025-04-14]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1378](https://github.com/djangopackages/djangopackages/pull/1378))
+
+## [2025-04-08]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1377](https://github.com/djangopackages/djangopackages/pull/1377))
+- ⬆️ Bump mkdocstrings[python] from 0.26.2 to 0.29.1 in the dependencies group ([#1376](https://github.com/djangopackages/djangopackages/pull/1376))
+
+## [2025-04-01]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1374](https://github.com/djangopackages/djangopackages/pull/1374))
+- :ring: 2025-04-01 Update ([#1375](https://github.com/djangopackages/djangopackages/pull/1375))
+
+## [2025-03-27]
+### Changed
+- :memo: fixed formatting for rules page ([#1372](https://github.com/djangopackages/djangopackages/pull/1372))
+
+## [2025-03-26]
+### Changed
+- Added Python 3 Support ([#1366](https://github.com/djangopackages/djangopackages/pull/1366))
+
+## [2025-03-24]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1371](https://github.com/djangopackages/djangopackages/pull/1371))
+- ⬆️ Bump mkdocstrings[python] from 0.26.2 to 0.29.0 in the dependencies group ([#1370](https://github.com/djangopackages/djangopackages/pull/1370))
+- Reporting Bad Data ([#1367](https://github.com/djangopackages/djangopackages/pull/1367))
+
+## [2025-03-23]
+### Changed
+- Fixed Docs Build ([#1368](https://github.com/djangopackages/djangopackages/pull/1368))
+
+## [2025-03-20]
+### Changed
+- ⬆️ Bump the dependencies group with 8 updates ([#1364](https://github.com/djangopackages/djangopackages/pull/1364))
+- [pre-commit.ci] pre-commit autoupdate ([#1363](https://github.com/djangopackages/djangopackages/pull/1363))
+
+## [2025-03-10]
+### Changed
+- ⬆️ Bump the dependencies group with 22 updates ([#1362](https://github.com/djangopackages/djangopackages/pull/1362))
+
+## [2025-03-06]
+### Changed
+- ⬆️ Bump jinja2 from 3.1.5 to 3.1.6 in /docs ([#1361](https://github.com/djangopackages/djangopackages/pull/1361))
+- ⬆️ Bump jinja2 from 3.1.5 to 3.1.6 ([#1359](https://github.com/djangopackages/djangopackages/pull/1359))
+- ⬆️ Bump django from 5.1.5 to 5.1.7 ([#1360](https://github.com/djangopackages/djangopackages/pull/1360))
+
+## [2025-03-04]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1358](https://github.com/djangopackages/djangopackages/pull/1358))
+
+## [2025-02-25]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1356](https://github.com/djangopackages/djangopackages/pull/1356))
+
+## [2025-02-22]
+### Changed
+- ⬆️ Bump cryptography from 43.0.3 to 44.0.1 ([#1347](https://github.com/djangopackages/djangopackages/pull/1347))
+
+## [2025-02-13]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1346](https://github.com/djangopackages/djangopackages/pull/1346))
+
+## [2025-02-10]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1344](https://github.com/djangopackages/djangopackages/pull/1344))
+
+## [2025-01-31]
+### Changed
+- :tractor: Sort-of fix for Search ([#1342](https://github.com/djangopackages/djangopackages/pull/1342))
+
+## [2025-01-28]
+### Changed
+- Cleanup `SUPPORTED_REPO` Settings ([#1340](https://github.com/djangopackages/djangopackages/pull/1340))
+- ⬆️ Bump the dependencies group with 5 updates ([#1337](https://github.com/djangopackages/djangopackages/pull/1337))
+- [pre-commit.ci] pre-commit autoupdate ([#1338](https://github.com/djangopackages/djangopackages/pull/1338))
+- :copyright: Update copyright notice ([#1339](https://github.com/djangopackages/djangopackages/pull/1339))
+
+## [2025-01-24]
+### Changed
+- #1062 Integrate score value into Search results ([#1333](https://github.com/djangopackages/djangopackages/pull/1333))
+- ⬆️ Bump the dependencies group with 18 updates ([#1335](https://github.com/djangopackages/djangopackages/pull/1335))
+
+## [2025-01-22]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1336](https://github.com/djangopackages/djangopackages/pull/1336))
+
+## [2025-01-17]
+### Changed
+- ⬆️ Bump django from 5.1.4 to 5.1.5 ([#1334](https://github.com/djangopackages/djangopackages/pull/1334))
+- fix participant extraction in CodebergHandler ([#1329](https://github.com/djangopackages/djangopackages/pull/1329))
+
 ## [2025-01-07]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1327](https://github.com/djangopackages/djangopackages/pull/1327))

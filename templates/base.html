@@ -1,4 +1,4 @@
-{% load i18n package_tags page_metadata_tags profile_tags static tailwind_cli %}
+{% load cache i18n package_tags page_metadata_tags profile_tags static tailwind_cli waffle_tags %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}" {% block angular_header %}ng-app{% endblock %}>
     <head>
@@ -19,7 +19,11 @@
         <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" />
         {% block extra_head %}{% endblock %}
     </head>
-    <body class="tw-flex tw-flex-col tw-min-h-screen" ng-controller="SearchCtrl" ng-init="init_search('{{ request.GET.q|escapejs }}', '{% url 'apiv4:searchv2-list' %}', {{ MAX_WEIGHT }})">
+    <body
+        class="tw-flex tw-flex-col tw-min-h-screen"
+        ng-controller="SearchCtrl"
+        ng-init="init_search('{{ request.GET.q|escapejs }}', '{% url 'apiv4:searchv2-list' %}', {{ MAX_WEIGHT }}, {{ TEST_MODE }})"
+    >
 
         {% for message in messages %}
             <div class="topbar topbar-default{% if message.tags %} {{ message.tags }}{% endif %}" id="message_{{ forloop.counter }}">
@@ -108,7 +112,7 @@
         </div>
         <div class="container" ng-show="items">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 table-responsive">
                     <table class="table">
                         <thead>
                             <tr>
@@ -116,40 +120,84 @@
                                 <th>{% translate "Package" %}</th>
                                 <th>{% translate "Description" %}</th>
                                 <th>{% translate "Last PyPI release" %}</th>
-                                <th>{% translate "Repo Forks" %}</th>
-                                <th>{% translate "Stars" %}</th>
+                                {% flag "enabled_packages_score_values" %}
+                                    <th
+                                        {% if TEST_MODE %}data-testid="search-results-score-header"{% endif %}
+                                        scope="col"
+                                        data-toggle="tooltip"
+                                        data-placement="bottom"
+                                        container="body"
+                                        aria-label="{% translate 'Score' %}"
+                                        title="{% translate 'Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%).' %}"
+                                    >
+                                        {% translate "Score" %}
+                                        <span class="glyphicon glyphicon-stats"></span>
+                                    </th>
+                                {% endflag %}
+                                <th
+                                    scope="col"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    aria-label="{% translate 'Number of Stars' %}"
+                                    title="{% translate 'Number of stars on the Repository.' %}"
+                                >
+                                    {% translate "Stars" %}
+                                    <span class="glyphicon glyphicon-star"></span>
+                                </th>
+                                <th
+                                    scope="col"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    aria-label="{% translate 'Number of Forks' %}"
+                                    title="{% translate 'Number of forks on the Repository.' %}"
+                                >
+                                    {% translate "Forks" %}
+                                    <span class="glyphicon glyphicon-random"></span>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             {% verbatim %}
-                <tr ng-repeat="item in items">
-                  <td>{{ item.weight / max_weight * 100 | number:0 }}%</td>
-                  <td>
-                      <a ng-href="{{ item.absolute_url }}">{{ item.title }}</a>
-                  </td>
-                  <td>
-                    <strong ng-if="item.item_type=='grid'">Grid:</strong>
-                    {{ item.description }}
-                  </td>
+                                <tr ng-repeat="item in items">
+                                    <td>{{ item.weight / max_weight * 100 | number:0 }}%</td>
+                                    <td>
+                                        <a ng-href="{{ item.absolute_url }}">{{ item.title }}</a>
+                                    </td>
+                                    <td>
+                                        <strong ng-if="item.item_type=='grid'">Grid:</strong>
+                                        {{ item.description }}
+                                    </td>
 
-                  <td ng-if="item.item_type=='package'">
-                        {{ item.last_released | date: 'mediumDate' }}
-                  </td>
-                  <td ng-if="item.item_type=='grid'">
-                        N/A
-                  </td>
-                  <td  ng-if="item.item_type=='package'">
-                    {{ item.repo_forks }}
-                  </td>
-                  <td ng-if="item.item_type=='grid'">
-                        N/A
-                  </td>
-                  <td  ng-if="item.item_type=='package'">{{ item.repo_watchers }}</td>
-                  <td ng-if="item.item_type=='grid'">
-                        N/A
-                  </td>
-                </tr>
-                {% endverbatim %}
+                                    <td ng-if="item.item_type=='package'">
+                                        {{ item.last_released | date: 'mediumDate' }}
+                                    </td>
+                                    <td ng-if="item.item_type=='grid'">
+                                        N/A
+                                    </td>
+                                    <td
+                                        data-testId="{{ TEST_MODE ? 'search-results-' + item.slug + '-score-cell' : null }}"
+                                        ng-if="item.item_type=='package' && waffle_flag_is_active('enabled_packages_score_values')"
+                                    >
+                                        {{ item.score }}
+                                    </td>
+                                    <td
+                                        data-testId="{{ TEST_MODE ? 'search-results-' + item.slug + '-score-cell' : null }}"
+                                        ng-if="item.item_type=='grid' && waffle_flag_is_active('enabled_packages_score_values')"
+                                    >
+                                        N/A
+                                    </td>
+                                    <td ng-if="item.item_type=='package'">{{ item.repo_watchers }}</td>
+                                    <td ng-if="item.item_type=='grid'">
+                                        N/A
+                                    </td>
+                                    <td ng-if="item.item_type=='package'">
+                                        {{ item.repo_forks }}
+                                    </td>
+                                    <td ng-if="item.item_type=='grid'">
+                                        N/A
+                                    </td>
+                                </tr>
+                            {% endverbatim %}
                         </tbody>
                     </table>
                 </div>
@@ -193,6 +241,21 @@
 
             </div>
         </div>
+
+        <!-- Start of webring -->
+        <div class="webring pre-pre-footer">
+            <div class="container">
+                <div class="row tw:m-8">
+                    <div class="col-sm-4 col-lg-4"></div>
+                    <div class="col-sm-4 col-lg-4">
+                        <webring-css site="https://djangopackages.org"></webring-css>
+                        <script src="https://djangowebring.com/static/webring.js"></script>
+                    </div>
+                    <div class="col-sm-4 col-lg-4"></div>
+                </div>
+            </div>
+        </div>
+
         <!-- Start of footer -->
         <div class="footer">
             <div class="container">
@@ -250,6 +313,8 @@
             });
         </script>
         <!-- End of Bootstrap initialization -->
+
+        <script type="text/javascript" defer src="{% url 'wafflejs' %}"></script>
 
         {{ PIWIK_CODE|safe }}
     </body>

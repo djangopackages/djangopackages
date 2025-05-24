@@ -1,5 +1,4 @@
 import pytest
-
 from django.urls.exceptions import NoReverseMatch
 
 # def test_homepage_view(db, tp, homepage_data):

@@ -77,3 +77,20 @@ def test_calc_package_weight(db, faker):
     # three deltas for [20, 10, 5]
 
     # TODO: package.last_released()
+
+
+def test_package_score_after_build(db):
+    package = baker.make("package.Package", score=600)
+    build_1()
+    search_v2 = SearchV2.objects.get(item_type="package", slug=package.slug)
+    assert search_v2.score == 600
+
+
+def test_grid_score_is_zero_even_after_adding_a_package(db):
+    package = baker.make("package.Package", score=600)
+    grid = baker.make("grid.Grid")
+    grid.packages.add(package)
+
+    build_1()
+    search_v2 = SearchV2.objects.get(item_type="grid", slug=grid.slug)
+    assert search_v2.score == 0

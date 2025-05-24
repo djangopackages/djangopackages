@@ -48,7 +48,7 @@ Representation:
         "slug": "apps",
         "title_plural": "Apps",
         "created": "2010-08-14T22:47:52",
-        "description": "Small components used to build projects. An app is anything that is installed by placing in settings.INSTALLED_APPS.",
+        "description": "Small components used to build projects. An app is anything that is installed by placing it in settings.INSTALLED_APPS.",
         "title": "App",
         "resource_uri": "/api/v3/categories/apps/",
         "modified": "2010-09-12T22:42:58.053"
