@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-05-24]
+### Changed
+- most liked packages ([#1330](https://github.com/djangopackages/djangopackages/pull/1330))
+- [pre-commit.ci] pre-commit autoupdate ([#1390](https://github.com/djangopackages/djangopackages/pull/1390))
+
 ## [2025-05-13]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1389](https://github.com/djangopackages/djangopackages/pull/1389))
