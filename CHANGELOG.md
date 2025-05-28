@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-05-27]
+### Changed
+- Fix Homepage Test ([#1392](https://github.com/djangopackages/djangopackages/pull/1392))
+- [pre-commit.ci] pre-commit autoupdate ([#1391](https://github.com/djangopackages/djangopackages/pull/1391))
+
 ## [2025-05-24]
 ### Changed
 - most liked packages ([#1330](https://github.com/djangopackages/djangopackages/pull/1330))
