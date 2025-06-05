@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-06-04]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1393](https://github.com/djangopackages/djangopackages/pull/1393))
+
 ## [2025-05-27]
 ### Changed
 - Fix Homepage Test ([#1392](https://github.com/djangopackages/djangopackages/pull/1392))
