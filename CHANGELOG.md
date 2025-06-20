@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-06-19]
+### Changed
+- ⬆️ Bump urllib3 from 2.2.3 to 2.5.0 in /docs ([#1396](https://github.com/djangopackages/djangopackages/pull/1396))
+
 ## [2025-06-16]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1394](https://github.com/djangopackages/djangopackages/pull/1394))
