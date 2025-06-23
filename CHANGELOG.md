@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-06-22]
+### Changed
+- ⬆️ Bump requests from 2.32.3 to 2.32.4 in /docs ([#1395](https://github.com/djangopackages/djangopackages/pull/1395))
+
 ## [2025-06-19]
 ### Changed
 - ⬆️ Bump urllib3 from 2.2.3 to 2.5.0 in /docs ([#1396](https://github.com/djangopackages/djangopackages/pull/1396))
