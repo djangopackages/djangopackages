@@ -45,6 +45,7 @@ def search_function(q: str, max_weight: int = 1):
                 | Q(title_no_prefix__startswith=q.lower())
                 | Q(slug__startswith=q.lower())
                 | Q(slug_no_prefix__startswith=q.lower())
+                | Q(description__icontains=q)
             )
             .annotate(weight_as_float=Cast("weight", output_field=FloatField()))
             .annotate(
