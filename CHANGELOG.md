@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-06-25]
+### Changed
+- fix(search): add description to search fields ([#1398](https://github.com/djangopackages/djangopackages/pull/1398))
+
 ## [2025-06-22]
 ### Changed
 - ⬆️ Bump requests from 2.32.3 to 2.32.4 in /docs ([#1395](https://github.com/djangopackages/djangopackages/pull/1395))
