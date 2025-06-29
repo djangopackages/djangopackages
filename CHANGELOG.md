@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-06-28]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1397](https://github.com/djangopackages/djangopackages/pull/1397))
+
 ## [2025-06-25]
 ### Changed
 - fix(search): add description to search fields ([#1398](https://github.com/djangopackages/djangopackages/pull/1398))
