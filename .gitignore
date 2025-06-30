@@ -99,3 +99,7 @@ docker-compose.override.yml
 *.db
 *.gz
 data
+
+# Virtual env
+venv
+.venv
