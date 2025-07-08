@@ -1,5 +1,47 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-07-01]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1399](https://github.com/djangopackages/djangopackages/pull/1399))
+
+## [2025-06-28]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1397](https://github.com/djangopackages/djangopackages/pull/1397))
+
+## [2025-06-25]
+### Changed
+- fix(search): add description to search fields ([#1398](https://github.com/djangopackages/djangopackages/pull/1398))
+
+## [2025-06-22]
+### Changed
+- ⬆️ Bump requests from 2.32.3 to 2.32.4 in /docs ([#1395](https://github.com/djangopackages/djangopackages/pull/1395))
+
+## [2025-06-19]
+### Changed
+- ⬆️ Bump urllib3 from 2.2.3 to 2.5.0 in /docs ([#1396](https://github.com/djangopackages/djangopackages/pull/1396))
+
+## [2025-06-16]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1394](https://github.com/djangopackages/djangopackages/pull/1394))
+
+## [2025-06-04]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1393](https://github.com/djangopackages/djangopackages/pull/1393))
+
+## [2025-05-27]
+### Changed
+- Fix Homepage Test ([#1392](https://github.com/djangopackages/djangopackages/pull/1392))
+- [pre-commit.ci] pre-commit autoupdate ([#1391](https://github.com/djangopackages/djangopackages/pull/1391))
+
+## [2025-05-24]
+### Changed
+- most liked packages ([#1330](https://github.com/djangopackages/djangopackages/pull/1330))
+- [pre-commit.ci] pre-commit autoupdate ([#1390](https://github.com/djangopackages/djangopackages/pull/1390))
+
+## [2025-05-13]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1389](https://github.com/djangopackages/djangopackages/pull/1389))
+
 ## [2025-05-05]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1388](https://github.com/djangopackages/djangopackages/pull/1388))

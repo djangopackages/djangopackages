@@ -42,8 +42,12 @@ class FunctionalPackageTest(TestCase):
 
     def test_search_function(self):
         build_1()
-        results = search_function("ser")
-        self.assertEqual(results[0].title, "Serious Testing")
+        results_1 = search_function("ser")
+        results_2 = search_function("wax")
+        self.assertEqual(results_1[0].title, "Serious Testing")
+        self.assertEqual(
+            results_2[0].description, "Make testing as painless as waxing your legs."
+        )
 
 
 class ViewTest(TestCase):
