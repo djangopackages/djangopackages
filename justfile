@@ -1,3 +1,5 @@
+set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
+
 # Don't load environment variables from .env file
 
 set dotenv-load := false
@@ -27,7 +29,8 @@ DATABASE_URL := env_var_or_default('DATABASE_URL', 'postgres://djangopackages:dj
 # Update the version; Used before release to production
 [group('utils')]
 @bump *ARGS:
-    bumpver update {{ ARGS }}
+    uv --quiet tool run \
+        bumpver update {{ ARGS }}
 
 # --------------------------------------------------
 # Setup and Environment
@@ -39,7 +42,16 @@ bootstrap *ARGS:
     #!/usr/bin/env bash
     set -euo pipefail
 
-    python -m pip install --upgrade pip uv
+    # Check if virtual environment exists (looking for bin/activate)
+    if [ "${VIRTUAL_ENV:-}" ]; then
+        echo "Virtual environment already exists"
+    else
+        echo "Creating virtual environment using uv..."
+        uv venv
+        echo "Virtual environment created successfully"
+    fi
+
+    uv pip install --upgrade pip uv
 
     if [ ! -f ".env.local" ]; then
         echo ".env.local created"
@@ -135,7 +147,7 @@ bootstrap *ARGS:
 # Remove all application services and volumes
 [group('docker')]
 @remove:
-    ...
+    echo "TODO: remove"
 
 # --------------------------------------------------
 # Django Management
@@ -144,29 +156,29 @@ bootstrap *ARGS:
 # Drop into the console on the docker image
 [group('django')]
 @console:
-    docker compose run django /bin/bash
+    docker compose run --rm django /bin/bash
 
 # Create a Superuser
 [group('django')]
 @createsuperuser USERNAME EMAIL:
-    docker compose run django python manage.py createsuperuser \
+    docker compose run --rm django python manage.py createsuperuser \
         --username={{ USERNAME }} \
         --email={{ EMAIL }}
 
 # Run the collectstatic management command
 [group('django')]
 @collectstatic *ARGS="--no-input":
-    docker compose run django python manage.py collectstatic {{ ARGS }}
+    docker compose run --rm django python manage.py collectstatic {{ ARGS }}
 
 # Run the shell management command
 [group('django')]
 @shell *ARGS:
-    docker compose run django python manage.py shell {{ ARGS }}
+    docker compose run --rm django python manage.py shell {{ ARGS }}
 
 # Run a management command as specified by ARGS
 [group('django')]
 @management-command ARGS:
-    docker compose run --rm django python manage.py {{ ARGS }}
+    docker compose run --rm --rm django python manage.py {{ ARGS }}
 
 # Run all scheduled tasks in sequence
 [group('django')]
@@ -188,17 +200,17 @@ bootstrap *ARGS:
 # Run the tests using the Django test runner
 [group('testing')]
 @test *ARGS="--no-input":
-    docker compose run django python manage.py test {{ ARGS }}
+    docker compose run --rm django python manage.py test {{ ARGS }}
 
 # Run the tests with pytest
 [group('testing')]
 @pytest *ARGS:
-    docker compose run django pytest {{ ARGS }}
+    docker compose run --rm django pytest {{ ARGS }}
 
 # Run the tests with pytest and generate coverage reports
 [group('testing')]
 @pytest-coverage *ARGS:
-    docker compose run django pytest \
+    docker compose run --rm django pytest \
         {{ ARGS }} \
         --cov-report html \
         --cov-report term:skip-covered \
@@ -219,7 +231,8 @@ bootstrap *ARGS:
 # Fixes common misspellings in text files
 [group('linting')]
 @lint-codespell:
-    codespell --skip *.conf,*.csv,*.js*,./.git,./collected_static,./data,./docs/_*,./htmlcov,./static .
+    uv --quiet tool run \
+        codespell -I .codespellignore .
 
 # A Linter for performance anti-patterns
 [group('linting')]
@@ -247,7 +260,7 @@ bootstrap *ARGS:
 # dump database to file
 [group('database')]
 @pg_dump file='db.dump':
-    docker compose run \
+    docker compose run --rm \
         --no-deps \
         --rm \
         postgres \
@@ -260,7 +273,7 @@ bootstrap *ARGS:
 # restore database dump from file
 [group('database')]
 @pg_restore file='db.dump':
-    docker compose run \
+    docker compose run --rm \
         --no-deps \
         --rm \
         postgres \
@@ -274,6 +287,7 @@ bootstrap *ARGS:
 
 # Clear sessions
 [group('django')]
+[group('server-admin')]
 @clearsessions:
     uv --quiet tool run \
         --python=3.9 \
@@ -285,8 +299,9 @@ bootstrap *ARGS:
 # Frontend Development
 # --------------------------------------------------
 
-# Process Tailwind CSS with optional arguments
+# Process Tailwind CSS with optional arguments. Requires the file `./static/js/tailwind.config.js` to exist.
 [group('frontend')]
+[group('experimental')]
 @tailwind *ARGS:
     npx tailwindcss \
         --config ./static/js/tailwind.config.js \
@@ -294,19 +309,22 @@ bootstrap *ARGS:
         --output ./static/css/tailwindcss.min.css \
         {{ ARGS }}
 
-# Build Tailwind CSS once
+# Build Tailwind CSS once. Requires the file `./static/js/tailwind.config.js` to exist.
 [group('frontend')]
+[group('experimental')]
 @tailwind-build:
     just tailwind build
 
-# Check for proper Tailwind CSS class ordering
+# Check for proper Tailwind CSS class ordering. Requires the file `./static/js/tailwind.config.js` to exist.
 [group('frontend')]
+[group('experimental')]
 @tailwind-lint:
     npx rustywind --check-formatted templates/
     # npx rustywind --write templates/
 
-# Build and then watch for Tailwind CSS changes
+# Build and then watch for Tailwind CSS changes. Requires the file `./static/js/tailwind.config.js` to exist.
 [group('frontend')]
+[group('experimental')]
 @tailwind-watch:
     just tailwind-build
     just tailwind --watch
@@ -338,12 +356,12 @@ bootstrap *ARGS:
 # Server Configuration
 # --------------------------------------------------
 
-# Format our Caddyfile
+# Format our Caddyfile. Must be run with the `compose.prod.yml` compose file.
 [group('server')]
 @caddy-fmt:
     docker compose run --rm caddy caddy fmt -overwrite /etc/caddy/Caddyfile
 
-# Is our Caddyfile valid?
+# Is our Caddyfile valid? Must be run with the `compose.prod.yml` compose file.
 [group('server')]
 @caddy-validate:
     docker compose run --rm caddy caddy validate -adapter caddyfile -config /etc/caddy/Caddyfile
@@ -352,8 +370,9 @@ bootstrap *ARGS:
 # Deployment
 # --------------------------------------------------
 
-# Deploys to production
+# Deploys to production. Requires root access to the server.
 [group('deployment')]
+[group('server-admin')]
 @deploy:
     uv --quiet tool run \
         --python=3.9 \
@@ -363,5 +382,6 @@ bootstrap *ARGS:
 
 # Purge our CloudFlare cache
 [group('deployment')]
+[group('server-admin')]
 @purge_cache:
-    docker compose run django cli4 --delete purge_everything=true /zones/:djangopackages.org/purge_cache
+    docker compose run --rm django cli4 --delete purge_everything=true /zones/:djangopackages.org/purge_cache
