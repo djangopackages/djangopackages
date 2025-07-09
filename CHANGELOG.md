@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-07-08]
+### Changed
+- Clean up justfile ([#1387](https://github.com/djangopackages/djangopackages/pull/1387))
+- [pre-commit.ci] pre-commit autoupdate ([#1400](https://github.com/djangopackages/djangopackages/pull/1400))
+
 ## [2025-07-01]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1399](https://github.com/djangopackages/djangopackages/pull/1399))
