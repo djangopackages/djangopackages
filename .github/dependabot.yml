@@ -8,4 +8,4 @@ updates:
          patterns:
             - "*"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
