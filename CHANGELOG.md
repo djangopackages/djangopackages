@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-08-12]
+### Changed
+- Update Dependabot schedule from weekly to monthly ([#1406](https://github.com/djangopackages/djangopackages/pull/1406))
+- [pre-commit.ci] pre-commit autoupdate ([#1405](https://github.com/djangopackages/djangopackages/pull/1405))
+
 ## [2025-08-04]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1404](https://github.com/djangopackages/djangopackages/pull/1404))
