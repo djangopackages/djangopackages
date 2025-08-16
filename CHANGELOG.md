@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-08-15]
+### Changed
+- ⬆️ Bump mkdocstrings[python] from 0.26.2 to 0.30.0 in the dependencies group ([#1407](https://github.com/djangopackages/djangopackages/pull/1407))
+
 ## [2025-08-12]
 ### Changed
 - Update Dependabot schedule from weekly to monthly ([#1406](https://github.com/djangopackages/djangopackages/pull/1406))
