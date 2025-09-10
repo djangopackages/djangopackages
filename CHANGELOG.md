@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-09-09]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1412](https://github.com/djangopackages/djangopackages/pull/1412))
+
 ## [2025-09-04]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1410](https://github.com/djangopackages/djangopackages/pull/1410))
