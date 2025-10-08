@@ -403,9 +403,9 @@ distro==1.9.0 \
     # via
     #   cloudflare
     #   openai
-django==5.1.7 \
-    --hash=sha256:1323617cb624add820cb9611cdcc788312d250824f92ca6048fda8625514af2b \
-    --hash=sha256:30de4ee43a98e5d3da36a9002f287ff400b43ca51791920bfb35f6917bfe041c
+django==5.1.13 \
+    --hash=sha256:06f257f79dc4c17f3f9e23b106a4c5ed1335abecbe731e83c598c941d14fbeed \
+    --hash=sha256:543ff21679f15e80edfc01fe7ea35f8291b6d4ea589433882913626a7c1cf929
     # via
     #   -r requirements.in
     #   crispy-bootstrap3
