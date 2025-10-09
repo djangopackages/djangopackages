@@ -1385,9 +1385,9 @@ sniffio==1.3.1 \
     #   cloudflare
     #   httpx
     #   openai
-social-auth-app-django==5.4.3 \
-    --hash=sha256:d1f4286d5ca1e512c9b2f686e7ecb2a0128148f1a33d853b69dc07b58508362e \
-    --hash=sha256:db70b972faeb10ee1ec83d0dc7dbd0558d5f5830417bba317b712b10ff58d031
+social-auth-app-django==5.6.0 \
+    --hash=sha256:43ca88cc5cd9161710896165ced58b3155e8aafaaff847e859879194770f138d \
+    --hash=sha256:c695501fcbf6fe87f68f5a79e379abe853662f5129e7ec6cb758a75d5b28c888
     # via -r requirements.in
 social-auth-core==4.5.6 \
     --hash=sha256:14753d4cf870b820918729ce8a2dfe51f332075528fb13bed908701a8486da80 \
