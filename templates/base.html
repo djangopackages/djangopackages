@@ -20,7 +20,7 @@
         {% block extra_head %}{% endblock %}
     </head>
     <body
-        class="tw-flex tw-flex-col tw-min-h-screen"
+        class="flex flex-col min-h-screen"
         ng-controller="SearchCtrl"
         ng-init="init_search('{{ request.GET.q|escapejs }}', '{% url 'apiv4:searchv2-list' %}', {{ MAX_WEIGHT }}, {{ TEST_MODE }})"
     >
@@ -40,7 +40,7 @@
                 <div class="navbar">
 
                     <!-- Logo and title -->
-                    <a class="navbar-brand" href="{% url 'home' %}">
+                    <a class="navbar-brand flex items-center" href="{% url 'home' %}">
                         <img src="{{ STATIC_URL }}img/logo_squares.png" />
                         <h1>{{ SITE_TITLE }}</h1>
                     </a>
@@ -106,7 +106,7 @@
         </div>
         {% block pre_body %}{% endblock %}
         {% block breadcrumb %}{% endblock %}
-        <div class="container tw-flex-grow" ng-hide="items">
+        <div class="container flex-grow" ng-hide="items">
             {% block body %}
             {% endblock body %}
         </div>

@@ -1,9 +1,5 @@
 @import "tailwindcss";
 
-@config {
-  --prefix: tw-;
-}
-
 @plugin "@tailwindcss/typography";
 @plugin "@tailwindcss/aspect-ratio";
 @plugin "@tailwindcss/container-queries";

@@ -523,7 +523,7 @@ if DEBUG:
 else:
     DOCS_URL = "https://docs.djangopackages.org"
 
-TAILWIND_CLI_AUTOMATIC_DOWNLOAD = False
+TAILWIND_CLI_AUTOMATIC_DOWNLOAD = True
 TAILWIND_CLI_DIST_CSS = "css/tailwind.css"
 TAILWIND_CLI_SRC_CSS = "tailwindcss.css"
-TAILWIND_CLI_VERSION = "4.1.0"
+TAILWIND_CLI_VERSION = "4.1.14"
