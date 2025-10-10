@@ -1,5 +1,10 @@
-@tailwind base;
+@import "tailwindcss";
 
-@tailwind components;
+@plugin "@tailwindcss/typography";
+@plugin "@tailwindcss/aspect-ratio";
+@plugin "@tailwindcss/container-queries";
 
-@tailwind utilities;
+@variant htmx-settling (&.htmx-settling, .htmx-settling &);
+@variant htmx-request (&.htmx-request, .htmx-request &);
+@variant htmx-swapping (&.htmx-swapping, .htmx-swapping &);
+@variant htmx-added (&.htmx-added, .htmx-added &);

@@ -17,7 +17,7 @@ django-reversion
 django-secure
 django-structlog
 django-tables2
-django-tailwind-cli
+django-tailwind-cli>=4.4.2
 django-waffle
 Django>5.0
 djangorestframework<3.16

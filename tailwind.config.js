@@ -1,5 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-const plugin = require("tailwindcss/plugin");
 const { spawnSync } = require("child_process");
 
 // Calls Django to fetch template files
@@ -34,23 +33,4 @@ const getTemplateFiles = () => {
 
 module.exports = {
   content: [].concat(getTemplateFiles()),
-  corePlugins: {
-    preflight: false,
-  },
-  prefix: 'tw-',
-  theme: {
-    extend: {},
-  },
-  plugins: [
-    require("@tailwindcss/typography"),
-    // require("@tailwindcss/forms"),
-    require("@tailwindcss/aspect-ratio"),
-    require("@tailwindcss/container-queries"),
-    plugin(function ({ addVariant }) {
-      addVariant("htmx-settling", ["&.htmx-settling", ".htmx-settling &"]);
-      addVariant("htmx-request", ["&.htmx-request", ".htmx-request &"]);
-      addVariant("htmx-swapping", ["&.htmx-swapping", ".htmx-swapping &"]);
-      addVariant("htmx-added", ["&.htmx-added", ".htmx-added &"]);
-    }),
-  ],
 };

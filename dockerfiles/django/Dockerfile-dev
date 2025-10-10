@@ -24,14 +24,12 @@ RUN --mount=type=cache,target=/root/.cache,id=pip \
     uv pip install --system --requirement /code/requirements.txt
 
 COPY ./dockerfiles/django/entrypoint.sh /entrypoint.sh
-# RUN sed -i 's/\r//' /entrypoint.sh \
-#     && chmod +x /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN sed -i 's/\r//' /entrypoint.sh \
+    && chmod +x /entrypoint.sh
 
 COPY ./dockerfiles/django/start-dev.sh /start-dev.sh
-# RUN sed -i 's/\r//' /start-dev.sh \
-#     && chmod +x /start-dev.sh
-RUN chmod +x /start-dev.sh
+RUN sed -i 's/\r//' /start-dev.sh \
+    && chmod +x /start-dev.sh
 
 WORKDIR /code
 
