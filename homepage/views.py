@@ -28,6 +28,8 @@ class OpenView(TemplateView):
             "total_django_4_2": "Framework :: Django :: 4.2",
             "total_django_5_0": "Framework :: Django :: 5.0",
             "total_django_5_1": "Framework :: Django :: 5.1",
+            "total_django_5_2": "Framework :: Django :: 5.2",
+            "total_django_6_0": "Framework :: Django :: 6.0",
             "total_python_2_7": "Programming Language :: Python :: 2.7",
             "total_python_3": "Programming Language :: Python :: 3",
             "total_python_3_6": "Programming Language :: Python :: 3.6",
@@ -38,6 +40,8 @@ class OpenView(TemplateView):
             "total_python_3_11": "Programming Language :: Python :: 3.11",
             "total_python_3_12": "Programming Language :: Python :: 3.12",
             "total_python_3_13": "Programming Language :: Python :: 3.13",
+            "total_python_3_14": "Programming Language :: Python :: 3.14",
+            "total_python_3_15": "Programming Language :: Python :: 3.15",
         }
         vcs_providers = {
             "repos_bitbucket": "bitbucket.org",
