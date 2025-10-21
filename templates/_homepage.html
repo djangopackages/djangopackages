@@ -2,15 +2,15 @@
 
 
 {% switch "switch_use_grid_of_the_week" %}
-    <div class="container">
-        <div class="row">
-            {% include "homepage/grid_of_the_week_partial.html" %}
-            {% include "homepage/django_package_of_the_week_partial.html" %}
-            {% switch "switch_use_psa" %}
-                {% include "homepage/public_service_announcement_partial.html" %}
-            {% endswitch %}
-        </div>
+<div class="container">
+    <div class="row">
+        {% include "homepage/grid_of_the_week_partial.html" %}
+        {% include "homepage/django_package_of_the_week_partial.html" %}
+        {% switch "switch_use_psa" %}
+        {% include "homepage/public_service_announcement_partial.html" %}
+        {% endswitch %}
     </div>
+</div>
 {% endswitch %}
 
 
@@ -29,13 +29,14 @@ This is a hack to keep the next set of divs from wrapping up and making the disp
     <div class="row">
         <!-- start Categories panel -->
         {% for category in categories %}
-            {% if category.package_count %}
-                <div class="text-center categories col-sm-3">
-                    <h2 class="panel-title">{{ category.title_plural }} </h2>
-                    <p>{{ category.description|widont }}</p>
-                    <a href="{% url 'category' category.slug %}" class="btn btn-primary">Show {{ category.title_plural }} ({{ category.package_count|intcomma }})</a>
-                </div>
-            {% endif %}
+        {% if category.package_count %}
+        <div class="text-center categories col-sm-3">
+            <h2 class="panel-title">{{ category.title_plural }} </h2>
+            <p>{{ category.description|widont }}</p>
+            <a href="{% url 'category' category.slug %}" class="btn btn-primary">Show {{ category.title_plural }} ({{
+                category.package_count|intcomma }})</a>
+        </div>
+        {% endif %}
         {% endfor %}
         <!-- end Categories panel -->
     </div>
@@ -50,26 +51,26 @@ This is a hack to keep the next set of divs from wrapping up and making the disp
 
             <div class="list-group">
                 {% for version in latest_python3 %}
-                    <a href="{{ version.package.get_absolute_url }}" class="list-group-item">
-                        <h4 class="list-group-item-heading">
-                            {{ version.package.title }}
-                            <small>v{{ version.number }}</small>
-                        </h4>
-                        <p class="list-group-item-text">
-                            {% with short=version.package.repo_description|truncatewords:25 %}
-                                {% if version.package.repo_description|length > short|length %}
-                                    {{ short|slice:"-3"|widont }}...
-                                {% else %}
-                                    {{ short|widont }}
-                                {% endif %}
-                            {% endwith %}
-                        </p>
-                    </a>
+                <a href="{{ version.package.get_absolute_url }}" class="list-group-item">
+                    <h4 class="list-group-item-heading">
+                        {{ version.package.title }}
+                        <small>v{{ version.number }}</small>
+                    </h4>
+                    <p class="list-group-item-text line-clamp-3 wrap-break-word">
+                        {% with short=version.package.repo_description|truncatewords:25 %}
+                        {% if version.package.repo_description|length > short|length %}
+                        {{ short|slice:"-3"|widont }}...
+                        {% else %}
+                        {{ short|widont }}
+                        {% endif %}
+                        {% endwith %}
+                    </p>
+                </a>
                 {% endfor %}
             </div>
 
             {% comment %}
-            <div><a href="{% url "py3_compat" %}">View more</a></div>
+            <div><a href="{% url " py3_compat" %}">View more</a></div>
             {% endcomment %}
         </div>
         <!-- end python 3 releases -->
@@ -80,27 +81,27 @@ This is a hack to keep the next set of divs from wrapping up and making the disp
 
             <div class="list-group">
                 {% for package in latest_packages %}
-                    <a href="{{ package.get_absolute_url }}" class="list-group-item">
-                        <h4 class="list-group-item-heading">
-                            {{ package.title|emojify|emojificate }}
-                            {% if package.pypi_version %}<small>v{{ package.pypi_version }}</small>{% endif %}
-                        </h4>
-                        <p class="list-group-item-text">
-                            {% with short=package.repo_description|truncatewords:25 %}
-                                {% if package.repo_description|length > short|length %}
-                                    {{ short|slice:"-3" }}...
-                                {% else %}
-                                    {{ short }}
-                                {% endif %}
-                            {% endwith %}
-                        </p>
-                    </a>
+                <a href="{{ package.get_absolute_url }}" class="list-group-item">
+                    <h4 class="list-group-item-heading">
+                        {{ package.title|emojify|emojificate }}
+                        {% if package.pypi_version %}<small>v{{ package.pypi_version }}</small>{% endif %}
+                    </h4>
+                    <p class="list-group-item-text line-clamp-3 wrap-break-word">
+                        {% with short=package.repo_description|truncatewords:25 %}
+                        {% if package.repo_description|length > short|length %}
+                        {{ short|slice:"-3" }}...
+                        {% else %}
+                        {{ short }}
+                        {% endif %}
+                        {% endwith %}
+                    </p>
+                </a>
                 {% endfor %}
                 <a href="{% url 'latest_packages' %}" class="btn btn-primary btn-block-display">View More</a>
             </div>
 
             {% comment %}
-            <div><a href="{% url "latest_packages" %}">View more</a></div>
+            <div><a href="{% url " latest_packages" %}">View more</a></div>
             {% endcomment %}
         </div>
         <!-- end latest five packages -->
@@ -111,21 +112,21 @@ This is a hack to keep the next set of divs from wrapping up and making the disp
 
             <div class="list-group">
                 {% for package in most_liked_packages %}
-                    <a href="{{ package.get_absolute_url }}" class="list-group-item">
-                        <h4 class="list-group-item-heading">
-                            {{ package.title|emojify|emojificate }}
-                            {% if package.pypi_version %}<small>v{{ package.pypi_version }}</small>{% endif %}
-                        </h4>
-                        <p class="list-group-item-text">
-                            {% with short=package.repo_description|truncatewords:25 %}
-                                {% if package.repo_description|length > short|length %}
-                                    {{ short|slice:"-3" }}...
-                                {% else %}
-                                    {{ short }}
-                                {% endif %}
-                            {% endwith %}
-                        </p>
-                    </a>
+                <a href="{{ package.get_absolute_url }}" class="list-group-item">
+                    <h4 class="list-group-item-heading">
+                        {{ package.title|emojify|emojificate }}
+                        {% if package.pypi_version %}<small>v{{ package.pypi_version }}</small>{% endif %}
+                    </h4>
+                    <p class="list-group-item-text line-clamp-3 wrap-break-word">
+                        {% with short=package.repo_description|truncatewords:25 %}
+                        {% if package.repo_description|length > short|length %}
+                        {{ short|slice:"-3" }}...
+                        {% else %}
+                        {{ short }}
+                        {% endif %}
+                        {% endwith %}
+                    </p>
+                </a>
                 {% endfor %}
                 <a href="{% url 'liked_packages' %}" class="btn btn-primary btn-block-display">View More</a>
             </div>
@@ -141,26 +142,26 @@ This is a hack to keep the next set of divs from wrapping up and making the disp
 
             <div class="list-group">
                 {% for package in random_packages %}
-                    <a href="{{ package.get_absolute_url }}" class="list-group-item">
-                        <h4 class="list-group-item-heading">
-                            {{ package.title|emojify|emojificate }}
-                            {% if package.pypi_version %}<small>v{{ package.pypi_version }}</small>{% endif %}
-                        </h4>
-                        <p class="list-group-item-text">
-                            {% with short=package.repo_description|truncatewords:25 %}
-                                {% if package.repo_description|length > short|length %}
-                                    {{ short|slice:"-3" }}...
-                                {% else %}
-                                    {{ short }}
-                                {% endif %}
-                            {% endwith %}
-                        </p>
-                    </a>
+                <a href="{{ package.get_absolute_url }}" class="list-group-item">
+                    <h4 class="list-group-item-heading">
+                        {{ package.title|emojify|emojificate }}
+                        {% if package.pypi_version %}<small>v{{ package.pypi_version }}</small>{% endif %}
+                    </h4>
+                    <p class="list-group-item-text line-clamp-3 wrap-break-word">
+                        {% with short=package.repo_description|truncatewords:25 %}
+                        {% if package.repo_description|length > short|length %}
+                        {{ short|slice:"-3" }}...
+                        {% else %}
+                        {{ short }}
+                        {% endif %}
+                        {% endwith %}
+                    </p>
+                </a>
                 {% endfor %}
             </div>
 
             {% comment %}
-            <div><a href="{% url "latest_packages" %}">View more</a></div>
+            <div><a href="{% url " latest_packages" %}">View more</a></div>
             {% endcomment %}
         </div>
         <!-- end five random packages -->
