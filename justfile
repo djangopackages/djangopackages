@@ -36,7 +36,7 @@ DATABASE_URL := env_var_or_default('DATABASE_URL', 'postgres://djangopackages:dj
 # Setup and Environment
 # --------------------------------------------------
 
-# Performs initial setup for Docker images and allows Arguments to be passed
+# Perform initial setup: create venv, .env.local, and build Docker images
 [group('utils')]
 bootstrap *ARGS:
     #!/usr/bin/env bash
@@ -60,12 +60,12 @@ bootstrap *ARGS:
 
     docker compose {{ ARGS }} build --force-rm
 
-# Perform the initial setup for the Docker containers
+# Alias for bootstrap - perform initial setup
 [group('utils')]
 @setup:
     just bootstrap
 
-# Compile new python dependencies
+# Compile Python dependencies with hashes
 [group('utils')]
 @lock *ARGS:
     uv pip compile \
@@ -94,17 +94,17 @@ bootstrap *ARGS:
 @build *ARGS:
     docker compose {{ ARGS }} build
 
-# Builds the Docker Images with no optional arguments
+# Build Docker images for CI
 [group('docker')]
 @cibuild:
     just build
 
-# Bring down your docker containers
+# Bring down Docker containers
 [group('docker')]
 @down *ARGS:
     docker compose down {{ ARGS }}
 
-# Allows you to view the output from running containers
+# View output from running containers
 [group('docker')]
 @logs *ARGS:
     docker compose logs {{ ARGS }}
@@ -134,12 +134,12 @@ bootstrap *ARGS:
 @tail:
     just logs --follow
 
-# Bring up your Docker Containers
+# Start Docker containers
 [group('docker')]
 @up *ARGS:
     docker compose up {{ ARGS }}
 
-# Duplicates the `up` command
+# Alias for up - start Docker containers
 [group('docker')]
 @server *ARGS="--detach":
     just up {{ ARGS }}
@@ -153,34 +153,34 @@ bootstrap *ARGS:
 # Django Management
 # --------------------------------------------------
 
-# Drop into the console on the docker image
+# Drop into a bash shell in the Django container
 [group('django')]
 @console:
     docker compose run --rm django /bin/bash
 
-# Create a Superuser
+# Create a Django superuser
 [group('django')]
 @createsuperuser USERNAME EMAIL:
     docker compose run --rm django python manage.py createsuperuser \
         --username={{ USERNAME }} \
         --email={{ EMAIL }}
 
-# Run the collectstatic management command
+# Collect static files
 [group('django')]
 @collectstatic *ARGS="--no-input":
     docker compose run --rm django python manage.py collectstatic {{ ARGS }}
 
-# Run the shell management command
+# Run Django shell
 [group('django')]
 @shell *ARGS:
     docker compose run --rm django python manage.py shell {{ ARGS }}
 
-# Run a management command as specified by ARGS
+# Run a Django management command
 [group('django')]
 @run ARGS:
     docker compose run --rm django python manage.py {{ ARGS }}
 
-# Run all scheduled tasks in sequence
+# Run scheduled data import tasks
 [group('django')]
 @cron:
     just run import_classifiers
@@ -188,26 +188,21 @@ bootstrap *ARGS:
     just run import_releases
     just run packages_download_stats ./pypi.db
 
-# Once completed, it will run an update of *something*
-[group('utils')]
-@update:
-    echo "TODO: update"
-
 # --------------------------------------------------
 # Testing
 # --------------------------------------------------
 
-# Run the tests using the Django test runner
+# Run tests using Django test runner
 [group('testing')]
 @test *ARGS="--no-input":
     docker compose run --rm django python manage.py test {{ ARGS }}
 
-# Run the tests with pytest
+# Run tests with pytest
 [group('testing')]
 @pytest *ARGS:
     docker compose run --rm django pytest {{ ARGS }}
 
-# Run the tests with pytest and generate coverage reports
+# Run tests with pytest and generate coverage reports
 [group('testing')]
 @coverage *ARGS:
     docker compose run --rm django pytest \
@@ -220,14 +215,14 @@ bootstrap *ARGS:
 # Linting and Code Quality
 # --------------------------------------------------
 
-# Run linting and code quality checks
+# Run all pre-commit linting and code quality checks
 [group('linting')]
 @lint *ARGS:
     uv tool run \
         --with pre-commit-uv \
         pre-commit run --all-files {{ ARGS }}
 
-# A Linter for performance anti-patterns
+# Check for performance anti-patterns
 [group('linting')]
 @perflint:
     uv --quiet tool run \
@@ -238,7 +233,7 @@ bootstrap *ARGS:
 # Database Operations
 # --------------------------------------------------
 
-# dump database to file
+# Dump database to file
 [group('database')]
 @pg_dump file='db.dump':
     docker compose run --rm \
@@ -251,7 +246,7 @@ bootstrap *ARGS:
             --format=c \
             --verbose
 
-# restore database dump from file
+# Restore database from dump file
 [group('database')]
 @pg_restore file='db.dump':
     docker compose run --rm \
@@ -266,7 +261,7 @@ bootstrap *ARGS:
             --verbose \
             /code/{{ file }}
 
-# Clear sessions
+# Clear Django sessions on production server
 [group('production')]
 @clearsessions:
     uv --quiet tool run \
@@ -302,12 +297,12 @@ bootstrap *ARGS:
 # Server Configuration
 # --------------------------------------------------
 
-# Format our Caddyfile. Must be run with the `compose.prod.yml` compose file.
+# Format Caddyfile (requires compose.prod.yml)
 [group('server')]
 @caddy-fmt:
     docker compose run --rm caddy caddy fmt -overwrite /etc/caddy/Caddyfile
 
-# Is our Caddyfile valid? Must be run with the `compose.prod.yml` compose file.
+# Validate Caddyfile (requires compose.prod.yml)
 [group('server')]
 @caddy-validate:
     docker compose run --rm caddy caddy validate -adapter caddyfile -config /etc/caddy/Caddyfile
@@ -316,7 +311,7 @@ bootstrap *ARGS:
 # Production
 # --------------------------------------------------
 
-# Deploys to production. Requires root access to the server.
+# Deploy to production server (requires root access)
 [group('production')]
 @deploy:
     uv --quiet tool run \
@@ -325,7 +320,7 @@ bootstrap *ARGS:
         --with rich \
         fab production deploy
 
-# Purge our CloudFlare cache
+# Purge Cloudflare cache
 [group('production')]
 @purge_cache:
     docker compose run --rm django cli4 --delete purge_everything=true /zones/:djangopackages.org/purge_cache
