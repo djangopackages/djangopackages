@@ -27,6 +27,12 @@ services:
     command: ["python", "-m", "manage", "qcluster"]
     init: true
 
+  tailwind:
+    <<: *common-settings
+    command: ["python", "manage.py", "tailwind", "--skip-checks", "watch"]
+    init: true
+    tty: true
+
   postgres:
     image: "pgautoupgrade/pgautoupgrade:latest"
     env_file:
