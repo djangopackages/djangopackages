@@ -10,13 +10,13 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-10">
-                <h1 class="font-bold text-6xl"><a href="{% url 'post_list' %}">Changelog</a></h1>
+                <h1 class="text-6xl font-bold"><a href="{% url 'post_list' %}">Changelog</a></h1>
                 <h2 class="text-5xl">Follow Django Packages updates and improvements.</h2>
             </div>
         </div>
-        <div class="row flex flex-col gap-16">
+        <div class="flex flex-col gap-16 row">
             <main class="flex flex-row gap-8">
-                <div class="col-xs-2 flex flex-col gap-4">
+                <div class="flex flex-col gap-4 col-xs-2">
                     <div class="text-4xl">{{ post.published_date|date:"F j, Y" }}</div>
                     <div class="text-3xl"><a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a></div>
                 </div>

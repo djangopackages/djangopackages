@@ -1,7 +1,7 @@
 {% load partials %}
 
 {% partialdef favorite_btn %}
-    <div class="btn btn-default " id="favorite-btn" hx-post="{% url 'add_favorite' package.id %}" hx-target="#favorite" hx-swap="innerHTML">
+    <div class="btn btn-default" id="favorite-btn" hx-post="{% url 'add_favorite' package.id %}" hx-target="#favorite" hx-swap="innerHTML">
         <span class="glyphicon glyphicon-heart-empty"></span>
         Add to Favorite
     </div>
@@ -11,7 +11,7 @@
 
 
 {% partialdef unfavorite_btn %}
-    <div class="btn btn-default " id="unfavorite-btn" onclick="openModal()" >
+    <div class="btn btn-default" id="unfavorite-btn" onclick="openModal()" >
         <span class="glyphicon glyphicon-heart"></span>
         Favorited
     </div>
@@ -19,7 +19,7 @@
         <h3>
             Do you want to unfavorite {{ package.title }}?
         </h3>
-        <div class="action ">
+        <div class="action">
             <button class="btn btn-default" id="yes" hx-post="{% url 'remove_favorite' package.id %}" hx-target="#favorite" hx-swap="innerHTML">
                 Yes
             </button>
