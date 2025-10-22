@@ -139,24 +139,19 @@ bootstrap *ARGS:
 @up *ARGS:
     docker compose up {{ ARGS }}
 
-# Alias for up - start Docker containers
-[group('docker')]
-@server *ARGS="--detach":
-    just up {{ ARGS }}
-
 # Remove all application services and volumes
 [group('docker')]
 @remove:
     echo "TODO: remove"
 
+# Drop into a bash shell in the Django container
+[group('docker')]
+@console:
+    docker compose run --rm django /bin/bash
+
 # --------------------------------------------------
 # Django Management
 # --------------------------------------------------
-
-# Drop into a bash shell in the Django container
-[group('django')]
-@console:
-    docker compose run --rm django /bin/bash
 
 # Create a Django superuser
 [group('django')]
