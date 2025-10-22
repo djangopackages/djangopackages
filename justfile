@@ -177,16 +177,16 @@ bootstrap *ARGS:
 
 # Run a management command as specified by ARGS
 [group('django')]
-@management-command ARGS:
-    docker compose run --rm --rm django python manage.py {{ ARGS }}
+@run ARGS:
+    docker compose run --rm django python manage.py {{ ARGS }}
 
 # Run all scheduled tasks in sequence
 [group('django')]
 @cron:
-    just management-command import_classifiers
-    just management-command import_products
-    just management-command import_releases
-    just management-command packages_download_stats ./pypi.db
+    just run import_classifiers
+    just run import_products
+    just run import_releases
+    just run packages_download_stats ./pypi.db
 
 # Once completed, it will run an update of *something*
 [group('utils')]
@@ -209,7 +209,7 @@ bootstrap *ARGS:
 
 # Run the tests with pytest and generate coverage reports
 [group('testing')]
-@pytest-coverage *ARGS:
+@coverage *ARGS:
     docker compose run --rm django pytest \
         {{ ARGS }} \
         --cov-report html \
@@ -220,19 +220,12 @@ bootstrap *ARGS:
 # Linting and Code Quality
 # --------------------------------------------------
 
-# Check consistency of your env files
+# Run linting and code quality checks
 [group('linting')]
-@lint:
-    # TODO: consider bringing these back because they have some value
-    # -modenv check
-    # -just lint-codespell
-    -just pre-commit-all-files
-
-# Fixes common misspellings in text files
-[group('linting')]
-@lint-codespell:
-    uv --quiet tool run \
-        codespell -I .codespellignore .
+@lint *ARGS:
+    uv tool run \
+        --with pre-commit-uv \
+        pre-commit run --all-files {{ ARGS }}
 
 # A Linter for performance anti-patterns
 [group('linting')]
@@ -240,18 +233,6 @@ bootstrap *ARGS:
     uv --quiet tool run \
         perflint ../djangopackages-git/ \
         --load-plugins=perflint
-
-# Run pre-commit hooks with specified arguments
-[group('linting')]
-@pre-commit *ARGS:
-    uv tool run \
-        --with pre-commit-uv \
-        pre-commit run {{ ARGS }}
-
-# Run pre-commit hooks on all files
-[group('linting')]
-@pre-commit-all-files:
-    just pre-commit --all-files
 
 # --------------------------------------------------
 # Database Operations
@@ -286,48 +267,13 @@ bootstrap *ARGS:
             /code/{{ file }}
 
 # Clear sessions
-[group('django')]
-[group('server-admin')]
+[group('production')]
 @clearsessions:
     uv --quiet tool run \
         --python=3.9 \
         --with Fabric3 \
         --with rich \
         fab production clearsessions
-
-# --------------------------------------------------
-# Frontend Development
-# --------------------------------------------------
-
-# Process Tailwind CSS with optional arguments. Requires the file `./static/js/tailwind.config.js` to exist.
-[group('frontend')]
-[group('experimental')]
-@tailwind *ARGS:
-    npx tailwindcss \
-        --config ./static/js/tailwind.config.js \
-        --input ./static/css/tailwindcss.css \
-        --output ./static/css/tailwindcss.min.css \
-        {{ ARGS }}
-
-# Build Tailwind CSS once. Requires the file `./static/js/tailwind.config.js` to exist.
-[group('frontend')]
-[group('experimental')]
-@tailwind-build:
-    just tailwind build
-
-# Check for proper Tailwind CSS class ordering. Requires the file `./static/js/tailwind.config.js` to exist.
-[group('frontend')]
-[group('experimental')]
-@tailwind-lint:
-    npx rustywind --check-formatted templates/
-    # npx rustywind --write templates/
-
-# Build and then watch for Tailwind CSS changes. Requires the file `./static/js/tailwind.config.js` to exist.
-[group('frontend')]
-[group('experimental')]
-@tailwind-watch:
-    just tailwind-build
-    just tailwind --watch
 
 # --------------------------------------------------
 # Documentation
@@ -367,12 +313,11 @@ bootstrap *ARGS:
     docker compose run --rm caddy caddy validate -adapter caddyfile -config /etc/caddy/Caddyfile
 
 # --------------------------------------------------
-# Deployment
+# Production
 # --------------------------------------------------
 
 # Deploys to production. Requires root access to the server.
-[group('deployment')]
-[group('server-admin')]
+[group('production')]
 @deploy:
     uv --quiet tool run \
         --python=3.9 \
@@ -381,7 +326,6 @@ bootstrap *ARGS:
         fab production deploy
 
 # Purge our CloudFlare cache
-[group('deployment')]
-[group('server-admin')]
+[group('production')]
 @purge_cache:
     docker compose run --rm django cli4 --delete purge_everything=true /zones/:djangopackages.org/purge_cache
