@@ -11,7 +11,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-6 col-md-5">
-                <h1 class="tw-text-6xl">{% translate "📊 Open" %}</h1>
+                <h1 class="text-6xl">{% translate "📊 Open" %}</h1>
             </div>
         </div>
         <div class="row">
@@ -38,22 +38,23 @@
             </div>
             <div class="col-sm-6 col-md-3">
                 <h2>{% translate "Django Versions" %}</h2>
+                <p>{% translate "Django 6.0 Packages:" %} {{ total_django_6_0|intcomma }}</p>
+                <p>{% translate "Django 5.2 Packages:" %} {{ total_django_5_2|intcomma }}</p>
                 <p>{% translate "Django 5.1 Packages:" %} {{ total_django_5_1|intcomma }}</p>
                 <p>{% translate "Django 5.0 Packages:" %} {{ total_django_5_0|intcomma }}</p>
                 <p>{% translate "Django 4.2 Packages:" %} {{ total_django_4_2|intcomma }}</p>
-                <p>{% translate "Django 4.1 Packages:" %} {{ total_django_4_1|intcomma }}</p>
                 <p>{% translate "Django 3.2 Packages:" %} {{ total_django_3_2|intcomma }}</p>
                 <p>{% translate "Django 2.2 Packages:" %} {{ total_django_2_2|intcomma }}</p>
             </div>
             <div class="col-sm-6 col-md-3">
                 <h2>{% translate "Python Versions" %}</h2>
                 <p>{% translate "Python 3 Packages:" %} {{ total_python_3|intcomma }}</p>
+                <p>{% translate "Python 3.15 Packages:" %} {{ total_python_3_15|intcomma }}</p>
+                <p>{% translate "Python 3.14 Packages:" %} {{ total_python_3_14|intcomma }}</p>
                 <p>{% translate "Python 3.13 Packages:" %} {{ total_python_3_13|intcomma }}</p>
                 <p>{% translate "Python 3.12 Packages:" %} {{ total_python_3_12|intcomma }}</p>
                 <p>{% translate "Python 3.11 Packages:" %} {{ total_python_3_11|intcomma }}</p>
                 <p>{% translate "Python 3.10 Packages:" %} {{ total_python_3_10|intcomma }}</p>
-                <p>{% translate "Python 3.9 Packages:" %} {{ total_python_3_9|intcomma }}</p>
-                <p>{% translate "Python 3.8 Packages:" %} {{ total_python_3_8|intcomma }}</p>
             </div>
         </div>
     </div>
