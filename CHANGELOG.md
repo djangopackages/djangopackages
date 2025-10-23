@@ -1,5 +1,12 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-10-22]
+### Changed
+- ⬆️ Bump requests from 2.32.3 to 2.32.4 ([#1428](https://github.com/djangopackages/djangopackages/pull/1428))
+- ⬆️ Bump urllib3 from 2.2.3 to 2.5.0 ([#1429](https://github.com/djangopackages/djangopackages/pull/1429))
+- :sparkles: Show Django 6.0/5.2 and Python 3.14/3.15 counts ([#1426](https://github.com/djangopackages/djangopackages/pull/1426))
+- Tailwind changes ([#1418](https://github.com/djangopackages/djangopackages/pull/1418))
+
 ## [2025-10-21]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1427](https://github.com/djangopackages/djangopackages/pull/1427))
