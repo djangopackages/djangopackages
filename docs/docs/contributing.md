@@ -132,7 +132,7 @@ We use a **Mock** system of creating sample data in our tests and for running a 
 === "Just"
 
     ```shell
-    just management-command load_dev_data
+    just run load_dev_data
     ```
 
 
@@ -149,7 +149,7 @@ Next, we need to rebuild and recalculate our search database.
 === "Just"
 
     ```shell
-    just management-command searchv2_build
+    just run searchv2_build
     ```
 
 While the search v2 is our current default search algorithm, we have an experimental v3 that we are testing. To rebuild and recalculate our search database using the v3 engine, we run:
@@ -163,7 +163,7 @@ While the search v2 is our current default search algorithm, we have an experime
 === "Just"
 
     ```shell
-    just management-command searchv3_build
+    just run searchv3_build
     ```
 
 #### Formatters, Linters, and other miscellanea

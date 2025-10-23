@@ -36,7 +36,7 @@ DATABASE_URL := env_var_or_default('DATABASE_URL', 'postgres://djangopackages:dj
 # Setup and Environment
 # --------------------------------------------------
 
-# Performs initial setup for Docker images and allows Arguments to be passed
+# Perform initial setup: create venv, .env.local, and build Docker images
 [group('utils')]
 bootstrap *ARGS:
     #!/usr/bin/env bash
@@ -60,12 +60,12 @@ bootstrap *ARGS:
 
     docker compose {{ ARGS }} build --force-rm
 
-# Perform the initial setup for the Docker containers
+# Alias for bootstrap - perform initial setup
 [group('utils')]
 @setup:
     just bootstrap
 
-# Compile new python dependencies
+# Compile Python dependencies with hashes
 [group('utils')]
 @lock *ARGS:
     uv pip compile \
@@ -94,17 +94,17 @@ bootstrap *ARGS:
 @build *ARGS:
     docker compose {{ ARGS }} build
 
-# Builds the Docker Images with no optional arguments
+# Build Docker images for CI
 [group('docker')]
 @cibuild:
     just build
 
-# Bring down your docker containers
+# Bring down Docker containers
 [group('docker')]
 @down *ARGS:
     docker compose down {{ ARGS }}
 
-# Allows you to view the output from running containers
+# View output from running containers
 [group('docker')]
 @logs *ARGS:
     docker compose logs {{ ARGS }}
@@ -134,82 +134,72 @@ bootstrap *ARGS:
 @tail:
     just logs --follow
 
-# Bring up your Docker Containers
+# Start Docker containers
 [group('docker')]
 @up *ARGS:
     docker compose up {{ ARGS }}
-
-# Duplicates the `up` command
-[group('docker')]
-@server *ARGS="--detach":
-    just up {{ ARGS }}
 
 # Remove all application services and volumes
 [group('docker')]
 @remove:
     echo "TODO: remove"
 
+# Drop into a bash shell in the Django container
+[group('docker')]
+@console:
+    docker compose run --rm django /bin/bash
+
 # --------------------------------------------------
 # Django Management
 # --------------------------------------------------
 
-# Drop into the console on the docker image
-[group('django')]
-@console:
-    docker compose run --rm django /bin/bash
-
-# Create a Superuser
+# Create a Django superuser
 [group('django')]
 @createsuperuser USERNAME EMAIL:
     docker compose run --rm django python manage.py createsuperuser \
         --username={{ USERNAME }} \
         --email={{ EMAIL }}
 
-# Run the collectstatic management command
+# Collect static files
 [group('django')]
 @collectstatic *ARGS="--no-input":
     docker compose run --rm django python manage.py collectstatic {{ ARGS }}
 
-# Run the shell management command
+# Run Django shell
 [group('django')]
 @shell *ARGS:
     docker compose run --rm django python manage.py shell {{ ARGS }}
 
-# Run a management command as specified by ARGS
+# Run a Django management command
 [group('django')]
-@management-command ARGS:
-    docker compose run --rm --rm django python manage.py {{ ARGS }}
+@run ARGS:
+    docker compose run --rm django python manage.py {{ ARGS }}
 
-# Run all scheduled tasks in sequence
+# Run scheduled data import tasks
 [group('django')]
 @cron:
-    just management-command import_classifiers
-    just management-command import_products
-    just management-command import_releases
-    just management-command packages_download_stats ./pypi.db
-
-# Once completed, it will run an update of *something*
-[group('utils')]
-@update:
-    echo "TODO: update"
+    just run import_classifiers
+    just run import_products
+    just run import_releases
+    just run packages_download_stats ./pypi.db
 
 # --------------------------------------------------
 # Testing
 # --------------------------------------------------
 
-# Run the tests using the Django test runner
+# Run tests using Django test runner
 [group('testing')]
 @test *ARGS="--no-input":
     docker compose run --rm django python manage.py test {{ ARGS }}
 
-# Run the tests with pytest
+# Run tests with pytest
 [group('testing')]
 @pytest *ARGS:
     docker compose run --rm django pytest {{ ARGS }}
 
-# Run the tests with pytest and generate coverage reports
+# Run tests with pytest and generate coverage reports
 [group('testing')]
-@pytest-coverage *ARGS:
+@coverage *ARGS:
     docker compose run --rm django pytest \
         {{ ARGS }} \
         --cov-report html \
@@ -220,44 +210,25 @@ bootstrap *ARGS:
 # Linting and Code Quality
 # --------------------------------------------------
 
-# Check consistency of your env files
+# Run all pre-commit linting and code quality checks
 [group('linting')]
-@lint:
-    # TODO: consider bringing these back because they have some value
-    # -modenv check
-    # -just lint-codespell
-    -just pre-commit-all-files
+@lint *ARGS:
+    uv tool run \
+        --with pre-commit-uv \
+        pre-commit run --all-files {{ ARGS }}
 
-# Fixes common misspellings in text files
-[group('linting')]
-@lint-codespell:
-    uv --quiet tool run \
-        codespell -I .codespellignore .
-
-# A Linter for performance anti-patterns
+# Check for performance anti-patterns
 [group('linting')]
 @perflint:
     uv --quiet tool run \
         perflint ../djangopackages-git/ \
         --load-plugins=perflint
 
-# Run pre-commit hooks with specified arguments
-[group('linting')]
-@pre-commit *ARGS:
-    uv tool run \
-        --with pre-commit-uv \
-        pre-commit run {{ ARGS }}
-
-# Run pre-commit hooks on all files
-[group('linting')]
-@pre-commit-all-files:
-    just pre-commit --all-files
-
 # --------------------------------------------------
 # Database Operations
 # --------------------------------------------------
 
-# dump database to file
+# Dump database to file
 [group('database')]
 @pg_dump file='db.dump':
     docker compose run --rm \
@@ -270,7 +241,7 @@ bootstrap *ARGS:
             --format=c \
             --verbose
 
-# restore database dump from file
+# Restore database from dump file
 [group('database')]
 @pg_restore file='db.dump':
     docker compose run --rm \
@@ -285,49 +256,14 @@ bootstrap *ARGS:
             --verbose \
             /code/{{ file }}
 
-# Clear sessions
-[group('django')]
-[group('server-admin')]
+# Clear Django sessions on production server
+[group('production')]
 @clearsessions:
     uv --quiet tool run \
         --python=3.9 \
         --with Fabric3 \
         --with rich \
         fab production clearsessions
-
-# --------------------------------------------------
-# Frontend Development
-# --------------------------------------------------
-
-# Process Tailwind CSS with optional arguments. Requires the file `./static/js/tailwind.config.js` to exist.
-[group('frontend')]
-[group('experimental')]
-@tailwind *ARGS:
-    npx tailwindcss \
-        --config ./static/js/tailwind.config.js \
-        --input ./static/css/tailwindcss.css \
-        --output ./static/css/tailwindcss.min.css \
-        {{ ARGS }}
-
-# Build Tailwind CSS once. Requires the file `./static/js/tailwind.config.js` to exist.
-[group('frontend')]
-[group('experimental')]
-@tailwind-build:
-    just tailwind build
-
-# Check for proper Tailwind CSS class ordering. Requires the file `./static/js/tailwind.config.js` to exist.
-[group('frontend')]
-[group('experimental')]
-@tailwind-lint:
-    npx rustywind --check-formatted templates/
-    # npx rustywind --write templates/
-
-# Build and then watch for Tailwind CSS changes. Requires the file `./static/js/tailwind.config.js` to exist.
-[group('frontend')]
-[group('experimental')]
-@tailwind-watch:
-    just tailwind-build
-    just tailwind --watch
 
 # --------------------------------------------------
 # Documentation
@@ -356,23 +292,22 @@ bootstrap *ARGS:
 # Server Configuration
 # --------------------------------------------------
 
-# Format our Caddyfile. Must be run with the `compose.prod.yml` compose file.
+# Format Caddyfile (requires compose.prod.yml)
 [group('server')]
 @caddy-fmt:
     docker compose run --rm caddy caddy fmt -overwrite /etc/caddy/Caddyfile
 
-# Is our Caddyfile valid? Must be run with the `compose.prod.yml` compose file.
+# Validate Caddyfile (requires compose.prod.yml)
 [group('server')]
 @caddy-validate:
     docker compose run --rm caddy caddy validate -adapter caddyfile -config /etc/caddy/Caddyfile
 
 # --------------------------------------------------
-# Deployment
+# Production
 # --------------------------------------------------
 
-# Deploys to production. Requires root access to the server.
-[group('deployment')]
-[group('server-admin')]
+# Deploy to production server (requires root access)
+[group('production')]
 @deploy:
     uv --quiet tool run \
         --python=3.9 \
@@ -380,8 +315,7 @@ bootstrap *ARGS:
         --with rich \
         fab production deploy
 
-# Purge our CloudFlare cache
-[group('deployment')]
-[group('server-admin')]
+# Purge Cloudflare cache
+[group('production')]
 @purge_cache:
     docker compose run --rm django cli4 --delete purge_everything=true /zones/:djangopackages.org/purge_cache

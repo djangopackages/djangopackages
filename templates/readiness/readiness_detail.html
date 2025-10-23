@@ -15,7 +15,7 @@
                     {{ release.product.title }} {{ release.cycle }} Readiness
                 </h1>
                 {% if release.is_eol %}
-                    <div class="bg-yellow-300 text-4xl text-black px-4 py-4">
+                    <div class="py-4 px-4 text-4xl text-black bg-yellow-300">
                         <span>🚧</span>
                         {{ release.product.title }} {{ release.cycle }} support expired on {{ release.eol }}.
                     </div>
@@ -28,7 +28,7 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <h2 class="text-4xl pb-4 font-medium">{{ product_slug }} Release {{ cycle }}</h2>
+                <h2 class="pb-4 text-4xl font-medium">{{ product_slug }} Release {{ cycle }}</h2>
                 <div class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {% for package in packages %}
                         <div class="px-4 py-2 rounded rounded-xl
