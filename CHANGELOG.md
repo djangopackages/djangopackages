@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-10-23]
+### Changed
+-   🚜 Remove entrypoint.sh and rely on Docker healthchecks ([#1432](https://github.com/djangopackages/djangopackages/pull/1432))
+- ♻️ Clean up justfile and linting ([#1431](https://github.com/djangopackages/djangopackages/pull/1431))
+
 ## [2025-10-22]
 ### Changed
 - ⬆️ Bump requests from 2.32.3 to 2.32.4 ([#1428](https://github.com/djangopackages/djangopackages/pull/1428))
