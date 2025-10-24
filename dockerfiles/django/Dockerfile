@@ -1,9 +1,9 @@
 FROM python:3.12-slim-bookworm
 
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONPATH /code
-ENV PYTHONUNBUFFERED 1
-ENV PYTHONWARNINGS ignore
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONPATH=/code
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONWARNINGS=ignore
 
 # Install System dependencies
 RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
