@@ -13,6 +13,7 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     && apt-get -y --no-install-recommends install \
        curl \
        gcc \
+       wget \
        build-essential
 
 RUN --mount=type=cache,target=/root/.cache,id=pip \
