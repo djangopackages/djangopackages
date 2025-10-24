@@ -23,10 +23,6 @@ COPY requirements.txt /code/requirements.txt
 RUN --mount=type=cache,target=/root/.cache,id=pip \
     uv pip install --system --requirement /code/requirements.txt
 
-# COPY ./dockerfiles/django/entrypoint.sh /entrypoint.sh
-# RUN sed -i 's/\r//' /entrypoint.sh \
-#     && chmod +x /entrypoint.sh
-
 COPY . /code
 
 RUN groupadd -r django \
@@ -53,3 +49,4 @@ RUN mkdir /data/media \
     && chown django.django /data/media
 
 # ENTRYPOINT ["/entrypoint.sh"]
+CMD ["/start.sh"]
