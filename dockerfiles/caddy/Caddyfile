@@ -9,11 +9,11 @@ www.djangopackages.org {
 }
 
 blue.djangopackages.org, a.djangopackages.org, c.djangopackages.org {
-	reverse_proxy django-a:5000
+	reverse_proxy django-a:8000
 }
 
 green.djangopackages.org, b.djangopackages.org, d.djangopackages.org {
-	reverse_proxy django-b:5000
+	reverse_proxy django-b:8000
 }
 
 djangopackages.org, web2.djangopackages.org {
@@ -28,7 +28,7 @@ djangopackages.org, web2.djangopackages.org {
 	# Replace backends health checks and provide one for this LB
 	respond /health 200
 
-	reverse_proxy django-a:5000 django-b:5000 {
+	reverse_proxy django-a:8000 django-b:8000 {
 		health_uri /health_check/
 		health_interval 1s
 		health_timeout 5s

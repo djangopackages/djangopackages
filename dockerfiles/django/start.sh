@@ -8,12 +8,12 @@ python -m manage collectstatic --noinput
     --disable-write-exception \
     --enable-threads \
     --harakiri 120 \
-    --http :5000 \
+    --http :8000 \
     --ignore-sigpipe \
     --ignore-write-errors \
     --master \
     --max-requests 5000 \
-    --processes 4 \
+    --processes 8 \
     --single-interpreter \
     --stats :1717 \
     --wsgi-file /code/wsgi.py
