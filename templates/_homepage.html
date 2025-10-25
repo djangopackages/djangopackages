@@ -44,9 +44,9 @@ This is a hack to keep the next set of divs from wrapping up and making the disp
 
 <div class="container">
     <div class="row">
-        <!-- start python 3 releases -->
+        <!-- start python releases -->
         <div class="col-sm-4 col-lg-4">
-            <h2>{% translate "Latest Python 3 Package Releases" %}</h2>
+            <h2>{% translate "Latest Python Package Releases" %}</h2>
 
             <div class="list-group">
                 {% for version in latest_python3 %}
@@ -72,7 +72,7 @@ This is a hack to keep the next set of divs from wrapping up and making the disp
             <div><a href="{% url "py3_compat" %}">View more</a></div>
             {% endcomment %}
         </div>
-        <!-- end python 3 releases -->
+        <!-- end python releases -->
 
         <!-- start latest five packages -->
         <div class="col-sm-4 col-lg-4">
