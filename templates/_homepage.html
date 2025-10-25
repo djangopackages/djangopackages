@@ -55,7 +55,7 @@ This is a hack to keep the next set of divs from wrapping up and making the disp
                             {{ version.package.title }}
                             <small>v{{ version.number }}</small>
                         </h4>
-                        <p class="list-group-item-text">
+                        <p class="list-group-item-text line-clamp-3 wrap-break-word">
                             {% with short=version.package.repo_description|truncatewords:25 %}
                                 {% if version.package.repo_description|length > short|length %}
                                     {{ short|slice:"-3"|widont }}...
@@ -85,7 +85,7 @@ This is a hack to keep the next set of divs from wrapping up and making the disp
                             {{ package.title|emojify|emojificate }}
                             {% if package.pypi_version %}<small>v{{ package.pypi_version }}</small>{% endif %}
                         </h4>
-                        <p class="list-group-item-text">
+                        <p class="list-group-item-text line-clamp-3 wrap-break-word">
                             {% with short=package.repo_description|truncatewords:25 %}
                                 {% if package.repo_description|length > short|length %}
                                     {{ short|slice:"-3" }}...
@@ -116,7 +116,7 @@ This is a hack to keep the next set of divs from wrapping up and making the disp
                             {{ package.title|emojify|emojificate }}
                             {% if package.pypi_version %}<small>v{{ package.pypi_version }}</small>{% endif %}
                         </h4>
-                        <p class="list-group-item-text">
+                        <p class="list-group-item-text line-clamp-3 wrap-break-word">
                             {% with short=package.repo_description|truncatewords:25 %}
                                 {% if package.repo_description|length > short|length %}
                                     {{ short|slice:"-3" }}...
@@ -146,7 +146,7 @@ This is a hack to keep the next set of divs from wrapping up and making the disp
                             {{ package.title|emojify|emojificate }}
                             {% if package.pypi_version %}<small>v{{ package.pypi_version }}</small>{% endif %}
                         </h4>
-                        <p class="list-group-item-text">
+                        <p class="list-group-item-text line-clamp-3 wrap-break-word">
                             {% with short=package.repo_description|truncatewords:25 %}
                                 {% if package.repo_description|length > short|length %}
                                     {{ short|slice:"-3" }}...
