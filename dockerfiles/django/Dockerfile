@@ -65,4 +65,5 @@ CMD ["/start-worker.sh"]
 FROM base AS web
 
 USER django
-CMD ["/start-web.sh"]
+# CMD ["/start-web.sh"]
+CMD ["/start.sh"]
