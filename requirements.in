@@ -27,6 +27,7 @@ feedparser
 django-template-partials
 # github3.py
 github3.py<4.1
+gunicorn
 heroicons[django]
 jinja2
 looseversion
