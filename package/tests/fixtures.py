@@ -113,6 +113,20 @@ def package_codeberg(db, category) -> Package:
         repo_url="https://codeberg.org/timo_sams/djangopackages-test",
         slug="codeberg-djangopackages-test",
         title="codeberg-djangopackages-test",
+        repo_host="codeberg",
+    )
+
+
+
+@pytest.fixture()
+def package_forgejo(db, category) -> Package:
+    return baker.make(
+        Package,
+        category=category,
+        repo_url="https://git.example.com/example/forgejo-repo",
+        slug="forgejo-repo",
+        title="forgejo-repo",
+        repo_host="forgejo",
     )
 
 

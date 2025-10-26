@@ -3,6 +3,7 @@ from django.test import TestCase
 
 from package.repos import get_repo, get_repo_for_repo_url, supported_repos
 from package.repos.base_handler import BaseHandler
+from package.repos.forgejo import ForgejoHandler
 from package.repos.unsupported import UnsupportedHandler
 
 
@@ -59,6 +60,7 @@ http://bitbucket.org/smileychris/django-countries/
 http://code.google.com/p/django-courier
 http://django-cube.googlecode.com/hg
 http://launchpad.net/django-debian
+
 http://pypi.python.org/pypi/django-debug-toolbar-extra
 http://code.playfire.com/django-debug-toolbar-user-panel
 http://svn.os4d.org/svn/djangodevtools/trunk
@@ -154,6 +156,13 @@ http://www.dataportal.it
 https://hg.code.netlandish.com/~petersanchez/django-impersonate"""
     for sample in samples.split("\n"):
         assert isinstance(get_repo_for_repo_url(sample), UnsupportedHandler)
+
+def test_get_repo_for_repo_url_with_explicit_host():
+    handler = get_repo_for_repo_url(
+        "https://git.example.com/example/forgejo-repo", repo_host="forgejo"
+    )
+    assert isinstance(handler, ForgejoHandler)
+
 
 
 def test_get_repo_registry(package):

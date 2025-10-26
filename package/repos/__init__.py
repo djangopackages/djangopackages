@@ -12,9 +12,17 @@ def get_repo(repo_id):
     return getattr(mod.repos, repo_id).repo_handler
 
 
-def get_repo_for_repo_url(repo_url):
+def get_repo_for_repo_url(repo_url, repo_host=None):
+    if repo_host:
+        try:
+            return get_repo(repo_host)
+        except ImportError:
+            pass
+
     for handler in get_all_repos():
-        if re.match(handler.repo_regex, repo_url):
+        if not getattr(handler, "supports_auto_detection", True):
+            continue
+        if handler.repo_regex and re.match(handler.repo_regex, repo_url):
             return handler
 
     from package.repos.unsupported import repo_handler as unsupported_handler

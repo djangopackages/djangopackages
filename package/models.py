@@ -2,6 +2,7 @@ import json
 import math
 import re
 from datetime import timedelta
+from functools import lru_cache
 
 import requests
 from dateutil import relativedelta
@@ -32,6 +33,22 @@ from package.utils import get_pypi_version, get_version, normalize_license
 
 repo_url_help_text = settings.PACKAGINATOR_HELP_TEXT["REPO_URL"]
 pypi_url_help_text = settings.PACKAGINATOR_HELP_TEXT["PYPI_URL"]
+
+
+@lru_cache
+def repo_host_field_choices():
+    labels = {
+        "bitbucket": "Bitbucket",
+        "github": "GitHub",
+        "gitlab": "GitLab",
+        "codeberg": "Codeberg",
+        "forgejo": "Forgejo",
+    }
+    options = [
+        (slug, labels.get(slug, slug.replace("_", " ").title()))
+        for slug in settings.SUPPORTED_REPO
+    ]
+    return [("", _("Auto-detect"))] + options
 
 
 class NoPyPiVersionFound(Exception):
@@ -71,6 +88,16 @@ class Package(BaseModel):
     )
     repo_url = models.URLField(
         _("repo URL"), help_text=repo_url_help_text, blank=True, unique=True
+    )
+    repo_host = models.CharField(
+        _("Repo host"),
+        max_length=30,
+        choices=repo_host_field_choices(),
+        blank=True,
+        default="",
+        help_text=_(
+            "Select the hosting service when auto-detection cannot determine it."
+        ),
     )
     repo_watchers = models.IntegerField(_("Stars"), default=0)
     repo_forks = models.IntegerField(_("repo forks"), default=0)
@@ -213,7 +240,7 @@ class Package(BaseModel):
 
     @property
     def repo(self):
-        return get_repo_for_repo_url(self.repo_url)
+        return get_repo_for_repo_url(self.repo_url, self.repo_host or None)
 
     @property
     def active_examples(self):
@@ -230,7 +257,7 @@ class Package(BaseModel):
         return (x.grid for x in self.gridpackage_set.all())
 
     def repo_name(self):
-        return re.sub(self.repo.url_regex, "", self.repo_url)
+        return self.repo.extract_repo_name(self.repo_url)
 
     def repo_info(self):
         return dict(

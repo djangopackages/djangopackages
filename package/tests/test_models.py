@@ -4,6 +4,7 @@ from django.test import TestCase
 
 from package.forms import PackageForm
 from package.models import FlaggedPackage, Package, Version
+from package.repos.forgejo import ForgejoHandler
 from package.tests import data, initial_data
 
 
@@ -140,3 +141,13 @@ class PackageTests(TestCase):
 
         expected_string = f"{p.repo_name} - {f.reason}"
         self.assertEqual(str(f), expected_string)
+
+
+def test_package_repo_uses_repo_host(package_forgejo):
+    assert isinstance(package_forgejo.repo, ForgejoHandler)
+
+
+def test_package_repo_name_strips_git_suffix(package_forgejo):
+    package_forgejo.repo_url = "https://git.example.com/example/forgejo-repo.git"
+    assert package_forgejo.repo_name() == "example/forgejo-repo"
+

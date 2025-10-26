@@ -34,6 +34,7 @@ class PackageForm(ModelForm):
         model = Package
         fields = [
             "repo_url",
+            "repo_host",
             "title",
             "slug",
             "pypi_url",
