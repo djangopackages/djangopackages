@@ -20,4 +20,3 @@ class CodebergHandler(ForgejoHandler):
 
 
 repo_handler = CodebergHandler()
-

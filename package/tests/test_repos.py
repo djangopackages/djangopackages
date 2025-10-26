@@ -157,12 +157,12 @@ https://hg.code.netlandish.com/~petersanchez/django-impersonate"""
     for sample in samples.split("\n"):
         assert isinstance(get_repo_for_repo_url(sample), UnsupportedHandler)
 
+
 def test_get_repo_for_repo_url_with_explicit_host():
     handler = get_repo_for_repo_url(
         "https://git.example.com/example/forgejo-repo", repo_host="forgejo"
     )
     assert isinstance(handler, ForgejoHandler)
-
 
 
 def test_get_repo_registry(package):

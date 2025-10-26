@@ -150,4 +150,3 @@ def test_package_repo_uses_repo_host(package_forgejo):
 def test_package_repo_name_strips_git_suffix(package_forgejo):
     package_forgejo.repo_url = "https://git.example.com/example/forgejo-repo.git"
     assert package_forgejo.repo_name() == "example/forgejo-repo"
-

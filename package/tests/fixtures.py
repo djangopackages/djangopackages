@@ -117,7 +117,6 @@ def package_codeberg(db, category) -> Package:
     )
 
 
-
 @pytest.fixture()
 def package_forgejo(db, category) -> Package:
     return baker.make(

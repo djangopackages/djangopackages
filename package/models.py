@@ -1,6 +1,5 @@
 import json
 import math
-import re
 from datetime import timedelta
 from functools import lru_cache
 

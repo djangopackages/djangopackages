@@ -205,4 +205,5 @@ class ForgejoHandler(BaseHandler):
 
         return package
 
+
 repo_handler = ForgejoHandler()
