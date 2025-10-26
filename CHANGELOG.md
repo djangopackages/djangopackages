@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-10-25]
+### Changed
+- No need to say &#39;Python 3&#39; on the homepage in 2025 ([#1434](https://github.com/djangopackages/djangopackages/pull/1434))
+- fix(homepage): prevent URL overflow in package description cards ([#1430](https://github.com/djangopackages/djangopackages/pull/1430))
+
 ## [2025-10-23]
 ### Changed
 -   🚜 Remove entrypoint.sh and rely on Docker healthchecks ([#1432](https://github.com/djangopackages/djangopackages/pull/1432))
