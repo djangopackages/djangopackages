@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-10-28]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1437](https://github.com/djangopackages/djangopackages/pull/1437))
+
 ## [2025-10-25]
 ### Changed
 - No need to say &#39;Python 3&#39; on the homepage in 2025 ([#1434](https://github.com/djangopackages/djangopackages/pull/1434))
