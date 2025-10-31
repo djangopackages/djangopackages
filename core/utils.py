@@ -3,6 +3,7 @@ import re
 import requests
 from django.conf import settings
 from django.core.cache import cache
+from django.db import models
 from django.template.defaultfilters import slugify
 
 
@@ -34,22 +35,24 @@ def get_pypi_url(title: str, timeout: float = 1.0):
             return None
 
 
-STATUS_CHOICES = (
-    (0, "Unknown"),
-    (1, "Development Status :: 1 - Planning"),
-    (2, "Development Status :: 2 - Pre-Alpha"),
-    (3, "Development Status :: 3 - Alpha"),
-    (4, "Development Status :: 4 - Beta"),
-    (5, "Development Status :: 5 - Production/Stable"),
-    (6, "Development Status :: 6 - Mature"),
-    (7, "Development Status :: 7 - Inactive"),
-)
+class PackageStatus(models.IntegerChoices):
+    UNKNOWN = 0, "Unknown"
+    PLANNING = 1, "Development Status :: 1 - Planning"
+    PRE_ALPHA = 2, "Development Status :: 2 - Pre-Alpha"
+    ALPHA = 3, "Development Status :: 3 - Alpha"
+    BETA = 4, "Development Status :: 4 - Beta"
+    STABLE = 5, "Development Status :: 5 - Production/Stable"
+    MATURE = 6, "Development Status :: 6 - Mature"
+    INACTIVE = 7, "Development Status :: 7 - Inactive"
+
+
+STATUS_CHOICES = PackageStatus.choices
 
 
 def status_choices_switch(status):
-    for key, value in STATUS_CHOICES:
-        if status == value:
-            return key
+    for choice, label in STATUS_CHOICES:
+        if status == label:
+            return choice
 
 
 def get_repo_from_url(url):

@@ -24,7 +24,7 @@ from requests.exceptions import HTTPError
 from rich import print
 
 from core.models import BaseModel
-from core.utils import STATUS_CHOICES, status_choices_switch
+from core.utils import PackageStatus, status_choices_switch
 from package.managers import PackageManager
 from package.repos import get_repo_for_repo_url
 from package.signals import signal_fetch_latest_metadata
@@ -34,20 +34,24 @@ repo_url_help_text = settings.PACKAGINATOR_HELP_TEXT["REPO_URL"]
 pypi_url_help_text = settings.PACKAGINATOR_HELP_TEXT["PYPI_URL"]
 
 
+class RepoHost(models.TextChoices):
+    BITBUCKET = "bitbucket", _("Bitbucket")
+    GITHUB = "github", _("GitHub")
+    GITLAB = "gitlab", _("GitLab")
+    CODEBERG = "codeberg", _("Codeberg")
+    FORGEJO = "forgejo", _("Forgejo")
+
+
 @lru_cache
 def repo_host_field_choices():
-    labels = {
-        "bitbucket": "Bitbucket",
-        "github": "GitHub",
-        "gitlab": "GitLab",
-        "codeberg": "Codeberg",
-        "forgejo": "Forgejo",
-    }
-    options = [
-        (slug, labels.get(slug, slug.replace("_", " ").title()))
-        for slug in settings.SUPPORTED_REPO
-    ]
-    return [("", _("Auto-detect"))] + options
+    choices = [("", _("Auto-detect"))]
+    for slug in settings.SUPPORTED_REPO:
+        try:
+            label = RepoHost(slug).label
+        except ValueError:
+            label = slug.replace("_", " ").title()
+        choices.append((slug, label))
+    return choices
 
 
 class NoPyPiVersionFound(Exception):
@@ -650,7 +654,7 @@ class Version(BaseModel):
         null=True,
     )
     development_status = models.IntegerField(
-        _("Development Status"), choices=STATUS_CHOICES, default=0
+        _("Development Status"), choices=PackageStatus.choices, default=0
     )
     supports_python3 = models.BooleanField(_("Supports Python 3"), default=False)
 
