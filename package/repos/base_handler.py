@@ -3,11 +3,14 @@ Base class for objects that interact with third-party code repository services.
 """
 
 import json
+import re
 
 import requests
 
 
 class BaseHandler:
+    supports_auto_detection = True
+
     def __str__(self):
         return self.title
 
@@ -74,6 +77,12 @@ class BaseHandler:
     def slug_regex(self):
         """Used by the JavaScript forms"""
         return NotImplemented
+
+    def extract_repo_name(self, repo_url):
+        """Return the repository path (e.g. owner/repo) for a given URL."""
+        if not repo_url:
+            return ""
+        return re.sub(self.url_regex, "", repo_url)
 
     def packages_for_profile(self, profile):
         """Return a list of all packages contributed to by a profile."""

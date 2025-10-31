@@ -1,7 +1,7 @@
 import json
 import math
-import re
 from datetime import timedelta
+from functools import lru_cache
 
 import requests
 from dateutil import relativedelta
@@ -24,7 +24,7 @@ from requests.exceptions import HTTPError
 from rich import print
 
 from core.models import BaseModel
-from core.utils import STATUS_CHOICES, status_choices_switch
+from core.utils import PackageStatus, status_choices_switch
 from package.managers import PackageManager
 from package.repos import get_repo_for_repo_url
 from package.signals import signal_fetch_latest_metadata
@@ -32,6 +32,26 @@ from package.utils import get_pypi_version, get_version, normalize_license
 
 repo_url_help_text = settings.PACKAGINATOR_HELP_TEXT["REPO_URL"]
 pypi_url_help_text = settings.PACKAGINATOR_HELP_TEXT["PYPI_URL"]
+
+
+class RepoHost(models.TextChoices):
+    BITBUCKET = "bitbucket", _("Bitbucket")
+    GITHUB = "github", _("GitHub")
+    GITLAB = "gitlab", _("GitLab")
+    CODEBERG = "codeberg", _("Codeberg")
+    FORGEJO = "forgejo", _("Forgejo")
+
+
+@lru_cache
+def repo_host_field_choices():
+    choices = [("", _("Auto-detect"))]
+    for slug in settings.SUPPORTED_REPO:
+        try:
+            label = RepoHost(slug).label
+        except ValueError:
+            label = slug.replace("_", " ").title()
+        choices.append((slug, label))
+    return choices
 
 
 class NoPyPiVersionFound(Exception):
@@ -71,6 +91,16 @@ class Package(BaseModel):
     )
     repo_url = models.URLField(
         _("repo URL"), help_text=repo_url_help_text, blank=True, unique=True
+    )
+    repo_host = models.CharField(
+        _("Repo host"),
+        max_length=30,
+        choices=repo_host_field_choices(),
+        blank=True,
+        default="",
+        help_text=_(
+            "Select the hosting service when auto-detection cannot determine it."
+        ),
     )
     repo_watchers = models.IntegerField(_("Stars"), default=0)
     repo_forks = models.IntegerField(_("repo forks"), default=0)
@@ -213,7 +243,7 @@ class Package(BaseModel):
 
     @property
     def repo(self):
-        return get_repo_for_repo_url(self.repo_url)
+        return get_repo_for_repo_url(self.repo_url, self.repo_host or None)
 
     @property
     def active_examples(self):
@@ -230,7 +260,7 @@ class Package(BaseModel):
         return (x.grid for x in self.gridpackage_set.all())
 
     def repo_name(self):
-        return re.sub(self.repo.url_regex, "", self.repo_url)
+        return self.repo.extract_repo_name(self.repo_url)
 
     def repo_info(self):
         return dict(
@@ -624,7 +654,7 @@ class Version(BaseModel):
         null=True,
     )
     development_status = models.IntegerField(
-        _("Development Status"), choices=STATUS_CHOICES, default=0
+        _("Development Status"), choices=PackageStatus.choices, default=0
     )
     supports_python3 = models.BooleanField(_("Supports Python 3"), default=False)
 

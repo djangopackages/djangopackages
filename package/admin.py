@@ -32,6 +32,7 @@ class PackageAdmin(VersionAdmin, DynamicArrayMixin):
         "supports_python3",
         "date_repo_archived",
         "date_deprecated",
+        "repo_host",
     ]
     list_display = [
         "title",
@@ -74,6 +75,7 @@ class PackageAdmin(VersionAdmin, DynamicArrayMixin):
                     "slug",
                     "category",
                     "repo_url",
+                    "repo_host",
                     # "usage",
                     "score",
                     "favorite_count",

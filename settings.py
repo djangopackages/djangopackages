@@ -312,7 +312,7 @@ PACKAGE_SCORE_MIN = env.int("PACKAGE_SCORE_MIN", default=-500)
 if LOCAL_INSTALLED_APPS:
     INSTALLED_APPS.extend(LOCAL_INSTALLED_APPS)
 
-SUPPORTED_REPO = ["bitbucket", "github", "gitlab", "codeberg"]
+SUPPORTED_REPO = ["bitbucket", "github", "gitlab", "codeberg", "forgejo"]
 
 AUTHENTICATION_BACKENDS = (
     "social_core.backends.github.GithubOAuth2",

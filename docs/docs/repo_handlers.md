@@ -9,6 +9,10 @@ Adding a new repo system like GitHub in Django Packages is a relatively straight
 3. Document any special settings.
 4. Change the SUPPORTED_REPO to include the name of the new repo handler.
 
+If automatic detection is not possible (for example, with self-hosted Forgejo instances),
+set the **Repo host** field on a package to the desired handler. The selected handler will
+be used even when the repository URL does not match a built-in regex.
+
 ## What if my target repo doesn't support all the necessary fields?
 
 Lets say you want to use *GitBlarg*, a new service whose API doesn't provide the number of repo_watchers or participants. In order to handle them you would just set those values until such a time as *GitBlarg* would support the right data.

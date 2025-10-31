@@ -1,12 +1,8 @@
 import pytest
 
 from package.models import Package
-from package.repos.codeberg import (
-    CodebergHandler,
-    ForgejoClient,
-    ForgejoCommit,
-    ForgejoMetadata,
-)
+from package.repos.codeberg import CodebergHandler
+from package.repos.forgejo import ForgejoClient, ForgejoCommit, ForgejoMetadata
 
 
 class MockClient(ForgejoClient):
@@ -15,12 +11,18 @@ class MockClient(ForgejoClient):
     participants and archiving packages.
     """
 
+    def __init__(self):
+        # Avoid calling the parent constructor which requires a base_url argument
+        self.base_url = "https://codeberg.org"
+        self.api_base_url = f"{self.base_url}/api/v1"
+
     meta = ForgejoMetadata(
         archived=False,
         archived_at=None,
         description="test description",
         forks_count=20,
-        watchers_count=100,
+        stars_count=100,
+        watchers_count=5,
     )
 
     commits = [
@@ -47,6 +49,7 @@ def test_repos_codeberg(package_codeberg):
 
     package = Package.objects.get(id=package_codeberg.id)
     assert package.repo_description == handler.client.meta.description
+    assert package.repo_watchers == handler.client.meta.stars_count
     assert package.commit_set.count() == 3
     assert "foo" in package.participants
     assert "bar" in package.participants
