@@ -1,4 +1,4 @@
-FROM python:3.12-slim-bookworm
+FROM python:3.12-slim-bookworm AS base
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONPATH=/code
@@ -31,11 +31,16 @@ RUN groupadd -r django \
     && useradd -r -g django django \
     && chown -R django /code
 
-COPY ./dockerfiles/django/start.sh /start.sh
+COPY ./dockerfiles/django/start-web.sh /start-web.sh
+COPY ./dockerfiles/django/start-worker.sh /start-worker.sh
 
-RUN sed -i 's/\r//' /start.sh \
-    && chmod +x /start.sh \
-    && chown django /start.sh
+RUN sed -i 's/\r//' /start-web.sh \
+    && chmod +x /start-web.sh \
+    && chown django /start-web.sh
+
+RUN sed -i 's/\r//' /start-worker.sh \
+    && chmod +x /start-worker.sh \
+    && chown django /start-worker.sh
 
 WORKDIR /code
 
@@ -50,5 +55,15 @@ RUN mkdir /data/static \
 RUN mkdir /data/media \
     && chown django.django /data/media
 
-# ENTRYPOINT ["/entrypoint.sh"]
+# Worker stage
+FROM base AS worker
+
+USER django
+CMD ["/start-worker.sh"]
+
+# Web stage (default)
+FROM base AS web
+
+USER django
+# CMD ["/start-web.sh"]
 CMD ["/start.sh"]

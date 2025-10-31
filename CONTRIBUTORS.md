@@ -35,6 +35,13 @@ Listed in alphabetical order.
     <td>aaronlelevier</td>
   </tr>
   <tr>
+    <td>Aayush Gauba</td>
+    <td>
+      <a href="https://github.com/aayushgauba">aayushgauba</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
     <td>Adam Johnson</td>
     <td>
       <a href="https://github.com/adamchainz">adamchainz</a>
@@ -119,6 +126,13 @@ Listed in alphabetical order.
     <td></td>
   </tr>
   <tr>
+    <td>Diva Dugar</td>
+    <td>
+      <a href="https://github.com/Divan009">Divan009</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
     <td>Dougal Matthews</td>
     <td>
       <a href="https://github.com/d0ugal">d0ugal</a>
@@ -199,6 +213,13 @@ Listed in alphabetical order.
     <td>Hugo Alvarado</td>
     <td>
       <a href="https://github.com/hugoalvarado">hugoalvarado</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Hugo van Kemenade</td>
+    <td>
+      <a href="https://github.com/hugovk">hugovk</a>
     </td>
     <td></td>
   </tr>
@@ -301,11 +322,25 @@ Listed in alphabetical order.
     <td></td>
   </tr>
   <tr>
+    <td>Kim Christie</td>
+    <td>
+      <a href="https://github.com/lovelydinosaur">lovelydinosaur</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
     <td>Kishan Mehta</td>
     <td>
       <a href="https://github.com/kishan3">kishan3</a>
     </td>
     <td>kishan_mehta</td>
+  </tr>
+  <tr>
+    <td>Kojo Idrissa</td>
+    <td>
+      <a href="https://github.com/kojoidrissa">kojoidrissa</a>
+    </td>
+    <td></td>
   </tr>
   <tr>
     <td>Kulbir Singh</td>
@@ -334,6 +369,13 @@ Listed in alphabetical order.
       <a href="https://github.com/santagada">santagada</a>
     </td>
     <td></td>
+  </tr>
+  <tr>
+    <td>Luan Fonseca</td>
+    <td>
+      <a href="https://github.com/luanfonceca">luanfonceca</a>
+    </td>
+    <td>luanfonceca</td>
   </tr>
   <tr>
     <td>Lukasz</td>
@@ -388,6 +430,13 @@ Listed in alphabetical order.
     <td>Nikita Sobolev</td>
     <td>
       <a href="https://github.com/sobolevn">sobolevn</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Pravin</td>
+    <td>
+      <a href="https://github.com/p-r-a-v-i-n">p-r-a-v-i-n</a>
     </td>
     <td></td>
   </tr>
@@ -493,6 +542,13 @@ Listed in alphabetical order.
     <td>Tim Gates</td>
     <td>
       <a href="https://github.com/timgates42">timgates42</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Timo Zimmermann</td>
+    <td>
+      <a href="https://github.com/fallenhitokiri">fallenhitokiri</a>
     </td>
     <td></td>
   </tr>
