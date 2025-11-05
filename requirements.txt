@@ -413,6 +413,7 @@ django==5.1.13 \
     #   django-crispy-forms
     #   django-debug-toolbar
     #   django-extensions
+    #   django-health-check
     #   django-htmx
     #   django-picklefield
     #   django-q2
@@ -457,6 +458,10 @@ django-environ==0.12.0 \
 django-extensions==3.2.3 \
     --hash=sha256:44d27919d04e23b3f40231c4ab7af4e61ce832ef46d610cc650d53e68328410a \
     --hash=sha256:9600b7562f79a92cbf1fde6403c04fee314608fefbb595502e34383ae8203401
+    # via -r requirements.in
+django-health-check==3.20.0 \
+    --hash=sha256:bcb2b8f36f463cead0564a028345c5b17e2a2d18e9cc88ecd611b13a26521926 \
+    --hash=sha256:cd69ac5facf73fe7241d9492d939b57bd20e24f46c4edea91e6a900bf22c2d8e
     # via -r requirements.in
 django-htmx==1.23.0 \
     --hash=sha256:71e6242ac6bd32a0e14fcb12b340f901c9a924f0b4e9b461a5e6a6eea8d9c6dd \
