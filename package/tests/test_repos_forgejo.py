@@ -35,7 +35,7 @@ def test_forgejo_handler_updates_package(package_forgejo):
 
     package = Package.objects.get(id=package_forgejo.id)
     assert package.repo_description == handler.client.meta.description
-    assert package.repo_watchers == handler.client.meta.stars_count
+    assert package.repo_watchers == handler.client.meta.watchers_count
     assert package.repo_forks == handler.client.meta.forks_count
     assert package.commit_set.count() == 2
     assert "alice" in package.participants
