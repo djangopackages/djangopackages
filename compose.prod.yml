@@ -10,7 +10,7 @@ services:
     volumes:
       - static:/data/static
       - media:/data/media
-    command: /start.sh
+    command: /start-web.sh
     restart: always
     env_file: .env
     logging:
@@ -31,7 +31,7 @@ services:
     volumes:
       - static:/data/static
       - media:/data/media
-    command: /start.sh
+    command: /start-web.sh
     restart: always
     env_file: .env
     logging:
