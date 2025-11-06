@@ -34,7 +34,7 @@ services:
     tty: true
 
   postgres:
-    image: "pgautoupgrade/pgautoupgrade:latest"
+    image: "pgautoupgrade/pgautoupgrade:17-alpine"
     env_file:
       - .env.local
     expose:
