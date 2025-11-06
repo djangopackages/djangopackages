@@ -320,3 +320,7 @@ def error_503_view(request):
     response = render(request, "503.html")
     response.status_code = 503
     return response
+
+
+def health_check_view(request):
+    return HttpResponse("ok")
