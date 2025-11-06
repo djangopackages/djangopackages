@@ -103,5 +103,3 @@ data
 # Virtual env
 venv
 .venv
-collected_static
-.django_tailwind_cli

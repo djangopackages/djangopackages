@@ -211,12 +211,6 @@ PREREQ_APPS = [
     "django_q",
     "template_partials",
     "anymail",
-    # health checks
-    "health_check",
-    "health_check.db",
-    "health_check.cache",
-    # "health_check.storage",
-    # "health_check.contrib.redis",
 ]
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
