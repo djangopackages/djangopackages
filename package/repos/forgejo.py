@@ -187,7 +187,7 @@ class ForgejoHandler(BaseHandler):
 
         package.repo_description = repo.description
         package.repo_forks = repo.forks_count
-        package.repo_watchers = repo.watchers_count
+        package.repo_watchers = repo.stars_count
         package.save()
 
         return package
