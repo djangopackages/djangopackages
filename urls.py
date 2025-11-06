@@ -18,7 +18,6 @@ from homepage.views import (
     error_404_view,
     error_500_view,
     error_503_view,
-    health_check_view,
     homepage,
 )
 from package.sitemaps import PackageSitemap
@@ -49,7 +48,7 @@ urlpatterns = [
         TemplateView.as_view(content_type="text/plain", template_name="robots.txt"),
         name="robots_txt",
     ),
-    path("health_check/", health_check_view, name="health_check"),
+    path("health/", include("health_check.urls")),
     path("404", error_404_view, name="404"),
     path("500", error_500_view, name="500"),
     path("503", error_503_view, name="503"),
