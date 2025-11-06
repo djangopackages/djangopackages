@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-11-05]
+### Changed
+- Add django-health-check for /health/ endpoint ([#1440](https://github.com/djangopackages/djangopackages/pull/1440))
+
 ## [2025-11-03]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1439](https://github.com/djangopackages/djangopackages/pull/1439))
