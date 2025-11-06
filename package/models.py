@@ -82,7 +82,7 @@ class Package(BaseModel):
     repo_host = models.CharField(
         _("Repo host"),
         max_length=30,
-        choices=RepoHost.choices,
+        choices=RepoHost,
         blank=True,
         default=RepoHost.AUTO_DETECT,
         help_text=_(
