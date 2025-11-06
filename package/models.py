@@ -1,8 +1,6 @@
 import json
 import math
 from datetime import timedelta
-from functools import lru_cache
-
 import requests
 from dateutil import relativedelta
 from django.conf import settings
@@ -35,23 +33,12 @@ pypi_url_help_text = settings.PACKAGINATOR_HELP_TEXT["PYPI_URL"]
 
 
 class RepoHost(models.TextChoices):
+    AUTO_DETECT = "", _("Auto-detect")
     BITBUCKET = "bitbucket", _("Bitbucket")
     GITHUB = "github", _("GitHub")
     GITLAB = "gitlab", _("GitLab")
     CODEBERG = "codeberg", _("Codeberg")
     FORGEJO = "forgejo", _("Forgejo")
-
-
-@lru_cache
-def repo_host_field_choices():
-    choices = [("", _("Auto-detect"))]
-    for slug in settings.SUPPORTED_REPO:
-        try:
-            label = RepoHost(slug).label
-        except ValueError:
-            label = slug.replace("_", " ").title()
-        choices.append((slug, label))
-    return choices
 
 
 class NoPyPiVersionFound(Exception):
@@ -95,9 +82,9 @@ class Package(BaseModel):
     repo_host = models.CharField(
         _("Repo host"),
         max_length=30,
-        choices=repo_host_field_choices(),
+        choices=RepoHost.choices,
         blank=True,
-        default="",
+        default=RepoHost.AUTO_DETECT,
         help_text=_(
             "Select the hosting service when auto-detection cannot determine it."
         ),

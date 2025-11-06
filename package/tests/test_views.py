@@ -20,9 +20,7 @@ def test_python3_list(db, django_assert_num_queries, tp):
     assert Package.objects.count() == 4
 
     url = tp.reverse("py3_compat")
-    # Additional queries are issued now that the package list pulls the new
-    # `repo_host` field along with count annotations.
-    with django_assert_num_queries(7):
+    with django_assert_num_queries(5):
         response = tp.client.get(url)
 
     assert response.status_code == 200

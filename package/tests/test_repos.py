@@ -60,7 +60,6 @@ http://bitbucket.org/smileychris/django-countries/
 http://code.google.com/p/django-courier
 http://django-cube.googlecode.com/hg
 http://launchpad.net/django-debian
-
 http://pypi.python.org/pypi/django-debug-toolbar-extra
 http://code.playfire.com/django-debug-toolbar-user-panel
 http://svn.os4d.org/svn/djangodevtools/trunk

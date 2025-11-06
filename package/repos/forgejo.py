@@ -41,15 +41,11 @@ class ForgejoClient:
         url = self._build_url(f"/repos/{repository}")
         try:
             response = httpx.get(url)
-        except Exception as exp:
-            logger.error(exp)
+            response.raise_for_status()
+            data = response.json()
+        except (httpx.HTTPError, ValueError) as exc:
+            logger.error("Failed to fetch %s: %s", url, exc)
             return None
-
-        if response.status_code != httpx.codes.OK:
-            logger.error("Response code: %s for URL %s", response.status_code, url)
-            return None
-
-        data = response.json()
 
         try:
             return ForgejoMetadata(
@@ -74,20 +70,11 @@ class ForgejoClient:
 
             try:
                 response = httpx.get(url, params=params)
-            except Exception as exp:
-                logger.error(exp)
+                response.raise_for_status()
+                commits = response.json()
+            except (httpx.HTTPError, ValueError) as exc:
+                logger.error("Failed to fetch %s with params %s: %s", url, params, exc)
                 break
-
-            if response.status_code != httpx.codes.OK:
-                logger.error(
-                    "Response code: %s for URL %s with params %s",
-                    response.status_code,
-                    url,
-                    params,
-                )
-                break
-
-            commits = response.json()
 
             for commit in commits:
                 try:
@@ -200,7 +187,7 @@ class ForgejoHandler(BaseHandler):
 
         package.repo_description = repo.description
         package.repo_forks = repo.forks_count
-        package.repo_watchers = repo.stars_count
+        package.repo_watchers = repo.watchers_count
         package.save()
 
         return package

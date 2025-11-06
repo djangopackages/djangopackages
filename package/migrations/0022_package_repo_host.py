@@ -23,6 +23,7 @@ class Migration(migrations.Migration):
                 default="",
                 help_text="Select the hosting service when auto-detection cannot determine it.",
                 max_length=30,
+                verbose_name="Repo host",
             ),
         ),
     ]

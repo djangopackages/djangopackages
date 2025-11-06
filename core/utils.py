@@ -46,11 +46,8 @@ class PackageStatus(models.IntegerChoices):
     INACTIVE = 7, "Development Status :: 7 - Inactive"
 
 
-STATUS_CHOICES = PackageStatus.choices
-
-
 def status_choices_switch(status):
-    for choice, label in STATUS_CHOICES:
+    for choice, label in PackageStatus.choices:
         if status == label:
             return choice
 

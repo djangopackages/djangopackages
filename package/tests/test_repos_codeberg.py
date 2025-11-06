@@ -12,9 +12,7 @@ class MockClient(ForgejoClient):
     """
 
     def __init__(self):
-        # Avoid calling the parent constructor which requires a base_url argument
-        self.base_url = "https://codeberg.org"
-        self.api_base_url = f"{self.base_url}/api/v1"
+        super().__init__("https://codeberg.org")
 
     meta = ForgejoMetadata(
         archived=False,
@@ -49,7 +47,7 @@ def test_repos_codeberg(package_codeberg):
 
     package = Package.objects.get(id=package_codeberg.id)
     assert package.repo_description == handler.client.meta.description
-    assert package.repo_watchers == handler.client.meta.stars_count
+    assert package.repo_watchers == handler.client.meta.watchers_count
     assert package.commit_set.count() == 3
     assert "foo" in package.participants
     assert "bar" in package.participants
