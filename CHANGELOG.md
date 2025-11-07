@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-11-06]
+### Changed
+- Forgejo changes ([#1435](https://github.com/djangopackages/djangopackages/pull/1435))
+- Reapply &#34;Merge branch &#39;main&#39; into main&#34; ([#1441](https://github.com/djangopackages/djangopackages/pull/1441))
+
 ## [2025-11-05]
 ### Changed
 - Add django-health-check for /health/ endpoint ([#1440](https://github.com/djangopackages/djangopackages/pull/1440))
