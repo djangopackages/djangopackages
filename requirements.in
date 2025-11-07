@@ -9,6 +9,7 @@ django-crispy-forms<3
 django-debug-toolbar
 django-environ
 django-extensions
+django-health-check
 django-htmx
 django-jsonview
 django-maintenance-mode
