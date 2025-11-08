@@ -26,11 +26,11 @@ This is a hack to keep the next set of divs from wrapping up and making the disp
 
 
 <div class="container">
-    <div class="row">
+    <div class="grid grid-cols-1 gap-6 py-5 md:grid-cols-3 lg:grid-cols-5">
         <!-- start Categories panel -->
         {% for category in categories %}
             {% if category.package_count %}
-                <div class="text-center categories col-sm-3">
+                <div class="text-center categories">
                     <h2 class="panel-title">{{ category.title_plural }} </h2>
                     <p>{{ category.description|widont }}</p>
                     <a href="{% url 'category' category.slug %}" class="btn btn-primary">Show {{ category.title_plural }} ({{ category.package_count|intcomma }})</a>
