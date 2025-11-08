@@ -29,7 +29,7 @@ djangopackages.org, web2.djangopackages.org {
 	respond /health 200
 
 	reverse_proxy django-a:8000 django-b:8000 {
-		health_uri /health_check/
+		health_uri /health/
 		health_interval 1s
 		health_timeout 5s
 		fail_duration 5s
