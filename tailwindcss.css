@@ -2,7 +2,6 @@
 
 @plugin "@tailwindcss/typography";
 @plugin "@tailwindcss/aspect-ratio";
-@plugin "@tailwindcss/container-queries";
 
 @variant htmx-settling (&.htmx-settling, .htmx-settling &);
 @variant htmx-request (&.htmx-request, .htmx-request &);
