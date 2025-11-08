@@ -47,7 +47,7 @@ def test_repos_codeberg(package_codeberg):
 
     package = Package.objects.get(id=package_codeberg.id)
     assert package.repo_description == handler.client.meta.description
-    assert package.repo_watchers == handler.client.meta.stars_count
+    assert package.repo_watchers == handler.client.meta.watchers_count
     assert package.commit_set.count() == 3
     assert "foo" in package.participants
     assert "bar" in package.participants
