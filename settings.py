@@ -404,6 +404,7 @@ if not DEBUG:
 
     # TODO: Change this to True when we get closer to real deployment
     SECURE_SSL_REDIRECT = False
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
     ########## end django-secure
 
