@@ -34,6 +34,18 @@
             </div>
         {% endfor %}
 
+        <!-- Migration Notice Banner -->
+        <div class="alert alert-warning" role="alert" style="margin-bottom: 0; border-radius: 0; text-align: center; background-color: #fff3cd; border-color: #ffeaa7; color: #856404;">
+            <div class="container">
+                <strong>{% translate "Scheduled Maintenance:" %}</strong>
+                {% translate "We will be migrating to a new server soon. Please expect a brief downtime during the migration." %}
+                <a href="https://github.com/djangopackages/djangopackages/issues/1436" target="_blank" rel="noopener noreferrer" style="color: #856404; text-decoration: underline;">
+                    {% translate "Learn more" %}
+                </a>
+            </div>
+        </div>
+        <!-- End Migration Notice Banner -->
+
         <div class="header">
             <div class="container">
                 <!-- Start of navbar -->
