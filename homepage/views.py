@@ -79,7 +79,7 @@ class OpenView(TemplateView):
         context_data["categories"] = Package.objects.active().aggregate(
             **{
                 title: Count("pk", filter=Q(category_id=pk))
-                for pk, title in Category.objects.values_list("pk", "title")
+                for pk, title in Category.objects.values_list("pk", "slug")
             }
         )
 
