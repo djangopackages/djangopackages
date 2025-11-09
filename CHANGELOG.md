@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-11-08]
+### Changed
+- :sparkles: Add migration notice banner to base template ([#1446](https://github.com/djangopackages/djangopackages/pull/1446))
+- :hammer: Forgejo fixes ([#1444](https://github.com/djangopackages/djangopackages/pull/1444))
+
 ## [2025-11-06]
 ### Changed
 - Forgejo changes ([#1435](https://github.com/djangopackages/djangopackages/pull/1435))
