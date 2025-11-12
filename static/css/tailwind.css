@@ -259,9 +259,6 @@
       max-width: 96rem;
     }
   }
-  .mt-940 {
-    margin-top: calc(var(--spacing) * 940);
-  }
   .line-clamp-3 {
     overflow: hidden;
     display: -webkit-box;

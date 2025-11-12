@@ -143,17 +143,112 @@ body {
  * GridNav: bar color
  */
 
-.rotatingnav-inner {
+.grid-nav {
     background-color: #F8F8F8;
+    border-bottom: 1px solid #dfe7e2;
 }
 
-/**
- * GridNav: left/right scroll arrows
- */
+.grid-nav-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem 0 1.5rem;
+}
 
-.rotatingnav-control {
+.grid-nav-scroll {
+    flex: 1 1 auto;
+    width: 100%;
+    overflow-x: auto;
+    padding: 0.5rem 0.75rem;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+}
+
+.grid-nav-scroll::-webkit-scrollbar {
+    height: 8px;
+}
+
+.grid-nav-scroll::-webkit-scrollbar-thumb {
+    background-color: rgba(68, 183, 139, 0.6);
+    border-radius: 9999px;
+}
+
+.grid-nav-list {
+    display: flex;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.grid-nav-item {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+}
+
+.grid-nav-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.4rem 1.25rem;
+    border-radius: 9999px;
+    border: 1px solid #cfe3d9;
+    background-color: #fff;
+    color: #0C3C26;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.grid-nav-link:hover,
+.grid-nav-link:focus {
+    text-decoration: none;
     background-color: #44B78B;
-    text-shadow: 0 1px 2px #8ec5ba;
+    color: #fff;
+}
+
+.grid-nav-link--more {
+    border-style: dashed;
+}
+
+.grid-nav-button {
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #cfe3d9;
+    border-radius: 9999px;
+    color: #0C3C26;
+    display: flex;
+    font-size: 16px;
+    height: 44px;
+    justify-content: center;
+    padding: 0 1.25rem;
+    width: 100%;
+    box-shadow: 0 12px 28px -14px rgba(12, 60, 38, 0.6);
+}
+
+.grid-nav-button:focus-visible {
+    outline: 3px solid #44B78B;
+    outline-offset: 3px;
+}
+
+@media (min-width: 768px) {
+    .grid-nav-inner {
+        align-items: center;
+        flex-direction: row;
+        gap: 1.5rem;
+        padding: 1rem 2.5rem;
+    }
+
+    .grid-nav-button {
+        height: 48px;
+        padding: 0;
+        width: 48px;
+    }
+
+    .grid-nav-scroll {
+        padding: 0.5rem 0;
+    }
 }
 
 .breadcrumb{

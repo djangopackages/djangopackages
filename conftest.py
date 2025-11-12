@@ -1,8 +1,12 @@
 import datetime
 import logging
 
+import django
 import pytest
 from django.test.utils import override_settings
+
+# Ensure Django is set up before fixtures are loaded
+django.setup()
 
 pytest_plugins = [
     "grid.tests.fixtures",
