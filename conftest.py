@@ -1,7 +1,6 @@
 import datetime
 import logging
 
-import django
 import pytest
 from django.test.utils import override_settings
 
