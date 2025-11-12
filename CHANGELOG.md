@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2025-11-11]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1449](https://github.com/djangopackages/djangopackages/pull/1449))
+
 ## [2025-11-08]
 ### Changed
 - :sparkles: Add migration notice banner to base template ([#1446](https://github.com/djangopackages/djangopackages/pull/1446))
