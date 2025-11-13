@@ -106,25 +106,27 @@
                          aria-label="{% translate 'Popular grids' %}">
                         <ul class="grid-nav-list">
                             {% for grid_chunk in grid_headers %}
-                                {% for tab in grid_chunk %}
-                                    {% if tab %}
-                                        <li class="grid-nav-item">
-                                            <a href="{% url 'grid' tab.slug %}"
-                                               title="{{ tab.description }}"
-                                               class="grid-nav-link">
-                                                {{ tab.title|truncatechars:"17" }}
-                                            </a>
-                                        </li>
-                                    {% endif %}
-                                    {% if forloop.parentloop.last and forloop.last %}
-                                        <li class="grid-nav-item">
-                                            <a class="grid-nav-link grid-nav-link--more" href="{% url 'grids' %}">
-                                                {% translate "&raquo; more grids..." %}
-                                            </a>
-                                        </li>
-                                    {% endif %}
-                                {% endfor %}
+                                <li class="grid-nav-column">
+                                    <ul class="grid-nav-column-list">
+                                        {% for tab in grid_chunk %}
+                                            {% if tab %}
+                                                <li class="grid-nav-item">
+                                                    <a href="{% url 'grid' tab.slug %}"
+                                                       title="{{ tab.description }}"
+                                                       class="grid-nav-link">
+                                                        {{ tab.title|truncatechars:"17" }}
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </li>
                             {% endfor %}
+                            <li class="grid-nav-column grid-nav-column--more">
+                                <a class="grid-nav-link grid-nav-link--more" href="{% url 'grids' %}">
+                                    {% translate "&raquo; more grids..." %}
+                                </a>
+                            </li>
                         </ul>
                     </div>
                     <button type="button"
