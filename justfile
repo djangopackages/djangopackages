@@ -256,15 +256,6 @@ bootstrap *ARGS:
             --verbose \
             /code/{{ file }}
 
-# Clear Django sessions on production server
-[group('production')]
-@clearsessions:
-    uv --quiet tool run \
-        --python=3.9 \
-        --with Fabric3 \
-        --with rich \
-        fab production clearsessions
-
 # --------------------------------------------------
 # Documentation
 # --------------------------------------------------
@@ -289,31 +280,8 @@ bootstrap *ARGS:
         --output-file docs/requirements.txt
 
 # --------------------------------------------------
-# Server Configuration
-# --------------------------------------------------
-
-# Format Caddyfile (requires compose.prod.yml)
-[group('server')]
-@caddy-fmt:
-    docker compose run --rm caddy caddy fmt -overwrite /etc/caddy/Caddyfile
-
-# Validate Caddyfile (requires compose.prod.yml)
-[group('server')]
-@caddy-validate:
-    docker compose run --rm caddy caddy validate -adapter caddyfile -config /etc/caddy/Caddyfile
-
-# --------------------------------------------------
 # Production
 # --------------------------------------------------
-
-# Deploy to production server (requires root access)
-[group('production')]
-@deploy:
-    uv --quiet tool run \
-        --python=3.9 \
-        --with Fabric3 \
-        --with rich \
-        fab production deploy
 
 # Purge Cloudflare cache
 [group('production')]
