@@ -2,41 +2,19 @@
 
 ## Foreword
 
-djangopackages.org use Docker Compose both for local development and in production.
-
-The current strategy is:
-
-- Use a virtual machine with a well patched OS (debian or ubuntu), djangopackages.org is using
-- Install Docker, Docker Compose, git, and supervisord (manages Docker)
-- Clone the code on the server
-- Start our services
+djangopackages.org uses Docker Compose for local development.
 
 ## Stack
 
-All of our `compose*.yml` configurations contains the following services:
+Our `compose.yml` configuration contains the following services for local development:
 
-- `postgres` powers our database.
-- `django` powers our Python and Django backend. In production we use call these `django-a` and `django-b` to run our WSGI server and serves the app through gunicorn.
+- `postgres` powers our database (using pgautoupgrade for automatic version upgrades in local development).
+- `django` powers our Python and Django backend, serving the app through the development server.
 - `django-q` powers our task queues and background workers.
-- `utility` runs our various commands including cron jobs to keep our `django*` services from blocking when we run one-off commands.
-- `caddy` (production only) proxies incoming requests to the gunicorn server
-- `redis` as cache
-- `docs` (local only) runs our mkdocs server so we can work on docs.
-
-## Deploy code changes
-
-Website releases are managed through [Fabric].
-When the `deploy` command is ran, Fabric will SSH to our production server, pull the latest changes from our GitHub repository, build a new Docker image, and then perform a blue/green deploy with our new container image.
-
-```shell
-fab deploy
-```
-
-or via `just`:
-
-```shell
-just deploy
-```
+- `tailwind` watches and compiles Tailwind CSS during development.
+- `utility` runs various commands including cron jobs to keep our `django*` services from blocking when we run one-off commands.
+- `redis` provides caching.
+- `docs` (profile: docs) runs our mkdocs server for documentation development.
 
 ## Clear our Media Cache
 
@@ -52,39 +30,48 @@ Alternatively, you can use `just`
 just purge_cache
 ```
 
-## When Things Go Wrong
+## Troubleshooting
 
-- Is docker running?:
+- Check if Docker is running:
 
   ```shell
-  service docker status
+  docker info
   ```
 
-- Is supervisor and both daemonized processes running?:
+- Check if all services are running:
 
   ```shell
-  supervisorctl status
-  ```
-
-- Are all services running?:
-
-  ```shell
-  cd /code/djangopackages
   docker compose ps
   ```
 
-- Check the logs for all services:
+- View logs for all services:
 
   ```shell
-  cd /code/djangopackages
   docker compose logs
   ```
 
-- Check the logs for individual services:
+  or with `just`:
 
   ```shell
-  cd /code/djangopackages
-  docker compose logs postgres|django-a|django-b|caddy
+  just logs
   ```
 
-[Fabric]: https://www.fabfile.org/
+- Follow logs in real-time:
+
+  ```shell
+  docker compose logs --follow
+  ```
+
+  or with `just`:
+
+  ```shell
+  just tail
+  ```
+
+- Check logs for individual services:
+
+  ```shell
+  docker compose logs <service-name>
+  ```
+
+  Where `<service-name>` can be: `postgres`, `django`, `django-q`, `redis`, `tailwind`, or `docs`.
