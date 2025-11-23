@@ -168,6 +168,13 @@ Listed in alphabetical order.
     <td>felipedemorais_</td>
   </tr>
   <tr>
+    <td>Felipe de Morais</td>
+    <td>
+      <a href="https://github.com/felipythondev">felipythondev</a>
+    </td>
+    <td>felipedemorais_</td>
+  </tr>
+  <tr>
     <td>Florent Gallaire</td>
     <td>
       <a href="https://github.com/fgallaire">fgallaire</a>
