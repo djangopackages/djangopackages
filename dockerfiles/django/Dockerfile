@@ -23,14 +23,14 @@ WORKDIR /code
 COPY pyproject.toml uv.lock ./
 
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen
+    uv sync --locked --no-dev
 
 COPY ./dockerfiles/django/entrypoint.sh /entrypoint.sh
 
 RUN sed -i 's/\r//' /entrypoint.sh \
     && chmod +x /entrypoint.sh
 
-COPY . /code
+COPY . .
 
 RUN groupadd -r django \
     && useradd -r -g django django \

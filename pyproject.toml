@@ -149,10 +149,17 @@ dev = [
     "pytest-mock",
     "time-machine",
 
-    # utils
-    "bumpver",
-
     # pre-commit - please note all linters and autoformatters are in our
     # .pre-commit-config.yaml file
     "pre-commit",
+]
+
+ci = [
+    # utils
+  "bumpver",
+]
+
+maintenance = [
+  "PyGithub==2.6.1",
+  "jinja2==3.1.6",
 ]
