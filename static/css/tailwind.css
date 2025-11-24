@@ -259,9 +259,6 @@
       max-width: 96rem;
     }
   }
-  .mt-940 {
-    margin-top: calc(var(--spacing) * 940);
-  }
   .line-clamp-3 {
     overflow: hidden;
     display: -webkit-box;
@@ -551,9 +548,6 @@
   .ease-out {
     --tw-ease: var(--ease-out);
     transition-timing-function: var(--ease-out);
-  }
-  .\[program\:djangopackages\] {
-    program: djangopackages;
   }
   .sm\:grid-cols-2 {
     @media (width >= 40rem) {

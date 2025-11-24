@@ -43,7 +43,7 @@ bootstrap *ARGS:
     set -euo pipefail
 
     # Check if virtual environment exists (looking for bin/activate)
-    if [ "${VIRTUAL_ENV:-}" ]; then
+    if [ -d ".venv" ]; then
         echo "Virtual environment already exists"
     else
         echo "Creating virtual environment using uv..."
