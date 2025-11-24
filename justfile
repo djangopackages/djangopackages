@@ -43,7 +43,7 @@ bootstrap *ARGS:
     set -euo pipefail
 
     # Check if virtual environment exists (looking for bin/activate)
-    if [ "${VIRTUAL_ENV:-}" ]; then
+    if [ -d ".venv" ]; then
         echo "Virtual environment already exists"
     else
         echo "Creating virtual environment using uv..."
@@ -51,7 +51,7 @@ bootstrap *ARGS:
         echo "Virtual environment created successfully"
     fi
 
-    uv pip install --upgrade pip uv
+    uv sync
 
     if [ ! -f ".env.local" ]; then
         echo ".env.local created"
@@ -68,17 +68,7 @@ bootstrap *ARGS:
 # Compile Python dependencies with hashes
 [group('utils')]
 @lock *ARGS:
-    uv pip compile \
-        {{ ARGS }} \
-        requirements.in \
-        --generate-hashes \
-        --output-file requirements.txt
-
-    uv pip compile \
-        {{ ARGS }} \
-        docs/requirements.in \
-        --generate-hashes \
-        --output-file docs/requirements.txt
+    uv lock {{ ARGS }}
 
 # Upgrade existing Python dependencies to their latest versions
 [group('utils')]
@@ -271,13 +261,13 @@ bootstrap *ARGS:
     docker compose --profile=docs up {{ ARGS }}
 
 # Update documentation dependencies
-[group('docs')]
-@docs-update *ARGS:
-    uv --quiet pip compile \
-        {{ ARGS }} \
-        docs/requirements.in \
-        --generate-hashes \
-        --output-file docs/requirements.txt
+#[group('docs')]
+#@docs-update *ARGS:
+#    uv --quiet pip compile \
+#        {{ ARGS }} \
+#        docs/requirements.in \
+#        --generate-hashes \
+#        --output-file docs/requirements.txt
 
 # --------------------------------------------------
 # Production
