@@ -25,3 +25,4 @@ htmlcov
 LICENSE.txt
 node_modules
 script
+.venv
