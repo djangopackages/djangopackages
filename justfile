@@ -261,13 +261,13 @@ bootstrap *ARGS:
     docker compose --profile=docs up {{ ARGS }}
 
 # Update documentation dependencies
-#[group('docs')]
-#@docs-update *ARGS:
-#    uv --quiet pip compile \
-#        {{ ARGS }} \
-#        docs/requirements.in \
-#        --generate-hashes \
-#        --output-file docs/requirements.txt
+[group('docs')]
+@docs-update *ARGS:
+    uv --quiet pip compile \
+        {{ ARGS }} \
+        docs/requirements.in \
+        --generate-hashes \
+        --output-file docs/requirements.txt
 
 # --------------------------------------------------
 # Production
