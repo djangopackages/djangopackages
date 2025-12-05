@@ -14,13 +14,15 @@
         <link rel="stylesheet" href="{{ STATIC_URL }}components/audreyr-rotatingnav/dist/jquery.rotatingnav.min.css" type="text/css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}components/audreyr-topbar/dist/jquery.topbar.min.css" type="text/css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/oc.css" type="text/css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/dark-mode.css" type="text/css" />
         <link rel="search" type="application/opensearchdescription+xml" href="{% url 'opensearch-description' %}" title="Django Packages">
         {% tailwind_css %}
+        <script src="{{ STATIC_URL }}js/dark-mode.js"></script>
         <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" />
         {% block extra_head %}{% endblock %}
     </head>
     <body
-        class="flex flex-col min-h-screen"
+        class="flex flex-col min-h-screen dark:bg-gray-900 dark:text-gray-100"
         ng-controller="SearchCtrl"
         ng-init="init_search('{{ request.GET.q|escapejs }}', '{% url 'apiv4:searchv2-list' %}', {{ MAX_WEIGHT }}, {{ TEST_MODE }})"
     >
@@ -68,6 +70,11 @@
                             </div>
                         </form>
                         {% if request.user.is_authenticated %}
+                            <li>
+                                <button onclick="toggleDarkMode()" class="btn btn-link" style="padding: 15px 10px; color: inherit;" title="Toggle Dark Mode">
+                                    <span class="glyphicon glyphicon-adjust" aria-hidden="true"></span>
+                                </button>
+                            </li>
                             {% if profile.github_account %}
                                 <li><a href="{% url 'profile_detail' profile.github_account %}" class="btn">{{ profile.github_account }}</a>
                                 </li>
@@ -77,6 +84,11 @@
                             {% endif %}
                             <li><a href="{% url 'logout' %}" class="btn">{% translate "Log out" %}</a></li>
                         {% else %}
+                            <li>
+                                <button onclick="toggleDarkMode()" class="btn btn-link" style="padding: 15px 10px; color: inherit;" title="Toggle Dark Mode">
+                                    <span class="glyphicon glyphicon-adjust" aria-hidden="true"></span>
+                                </button>
+                            </li>
                             <li>
                                 <a href="{% url 'social:begin' 'github' %}{% if current_path %}?next={{ current_path }}{% endif %}" class="btn">{% translate "Log In" %}</a>
                             </li>

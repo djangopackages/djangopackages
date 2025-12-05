@@ -1,0 +1,174 @@
+html.dark body {
+    background-color: #171717;
+    color: #f5f5f5;
+}
+
+html.dark .header,
+html.dark .navbar {
+    background-color: #0C3C26;
+    border-bottom-color: #0f4d31;
+}
+
+html.dark .topbar-default {
+    background-color: #86e3d0;
+    border-bottom: 1px solid #5BC0DE;
+}
+
+html.dark .navbar-brand h1,
+html.dark .navbar-brand {
+    color: #fff !important;
+}
+
+html.dark a {
+    color: #ffffff;
+}
+
+html.dark a:hover {
+    color: #c0f1de;
+}
+
+html.dark .topbar-default a {
+    color: #0C3C26;
+}
+
+html.dark .btn-link {
+    color: #e5e5e5 !important;
+}
+
+html.dark .jumbotron {
+    background-color: #262626;
+    color: #f5f5f5;
+}
+
+html.dark .sidebar {
+    background-color: #262626;
+    border-right: 1px solid #404040;
+    color: #d4d4d4;
+}
+
+html.dark .sidebar h3 {
+    border-bottom-color: #404040;
+    color: #f5f5f5;
+}
+
+html.dark .pre-pre-footer {
+    background-color: #262626;
+    color: #a3a3a3;
+    border-top: 1px solid #404040;
+}
+
+html.dark .pre-footer {
+    background-color: #2B8C67;
+    color: #fff;
+}
+
+html.dark .footer {
+    background-color: #0C3C26;
+    color: #2B8C67;
+    border-top: none;
+}
+
+html.dark .panel,
+html.dark .well {
+    background-color: #262626;
+    border-color: #404040;
+}
+
+html.dark .panel-default>.panel-heading {
+    background-color: #404040;
+    color: #f5f5f5;
+    border-color: #525252;
+}
+
+html.dark .panel-footer {
+    background-color: #404040;
+    border-top-color: #525252;
+}
+
+html.dark .table {
+    color: #f5f5f5;
+}
+
+html.dark .table-striped>tbody>tr:nth-of-type(odd) {
+    background-color: #404040;
+}
+
+html.dark .table>thead>tr>th,
+html.dark .table>tbody>tr>td,
+html.dark .table>tbody>tr>th {
+    border-color: #404040;
+}
+
+html.dark .table-bordered,
+html.dark .table-bordered>thead>tr>th,
+html.dark .table-bordered>tbody>tr>th,
+html.dark .table-bordered>tfoot>tr>th,
+html.dark .table-bordered>thead>tr>td,
+html.dark .table-bordered>tbody>tr>td,
+html.dark .table-bordered>tfoot>tr>td {
+    border-color: #404040;
+}
+
+html.dark .form-control {
+    background-color: #404040;
+    border-color: #525252;
+    color: #f5f5f5;
+}
+
+html.dark .input-group-addon {
+    background-color: #404040;
+    border-color: #525252;
+    color: #f5f5f5;
+    text-shadow: none;
+}
+
+html.dark .dropdown-menu {
+    background-color: #262626;
+    border-color: #404040;
+}
+
+html.dark .dropdown-menu>li>a {
+    color: #f5f5f5;
+}
+
+html.dark .dropdown-menu>li>a:hover {
+    background-color: #404040;
+    color: #fff;
+}
+
+html.dark .rotatingnav-inner {
+    background-color: #262626;
+}
+
+html.dark .gridnav-name {
+    color: #d4d4d4;
+}
+
+html.dark .rotatingnav-control {
+    background-color: #44B78B;
+}
+
+html.dark .breadcrumb {
+    background-color: #44B78B;
+    color: #C9F0DD;
+}
+
+html.dark .breadcrumb a {
+    color: #C9F0DD;
+}
+
+html.dark .list-group-item {
+    background-color: #262626;
+    border-color: #404040;
+    color: #f5f5f5;
+}
+
+html.dark a.list-group-item:hover,
+html.dark a.list-group-item:focus {
+    background-color: #404040;
+    color: #ffffff;
+}
+
+html.dark .list-group-item-heading {
+    color: #f5f5f5;
+}

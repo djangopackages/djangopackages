@@ -32,5 +32,6 @@ const getTemplateFiles = () => {
 };
 
 module.exports = {
+  darkMode: "class",
   content: [].concat(getTemplateFiles()),
 };
