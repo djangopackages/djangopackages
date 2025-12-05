@@ -188,3 +188,41 @@ html.dark a.list-group-item:focus {
 html.dark .list-group-item-heading {
     color: #f5f5f5;
 }
+
+
+html.dark .clickable {
+    background-color: #1a3a3a;
+    color: #d4d4d4;
+}
+
+html.dark .grid-delete {
+    background-color: #4a1a1a;
+}
+
+html.dark .grid-row-header {
+    background-color: #2B8C67;
+    color: #ffffff;
+}
+
+html.dark .grid-row-header a {
+    color: #ffffff;
+}
+
+html.dark .glyphicon-trash {
+    color: #e05d5d;
+}
+
+html.dark .glyphicon-pencil {
+    color: #f0ad4e;
+}
+
+html.dark pre,
+html.dark code {
+    background-color: #262626;
+    color: #f5f5f5;
+    border-color: #404040;
+}
+
+html.dark .fixed-header tr {
+    background-color: #171717;
+}
