@@ -22,7 +22,7 @@
         {% block extra_head %}{% endblock %}
     </head>
     <body
-        class="flex flex-col min-h-screen dark:bg-gray-900 dark:text-gray-100"
+        class="flex flex-col min-h-screen dark:text-gray-100 dark:bg-gray-900"
         ng-controller="SearchCtrl"
         ng-init="init_search('{{ request.GET.q|escapejs }}', '{% url 'apiv4:searchv2-list' %}', {{ MAX_WEIGHT }}, {{ TEST_MODE }})"
     >
