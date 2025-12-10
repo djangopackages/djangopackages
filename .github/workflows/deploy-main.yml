@@ -20,13 +20,14 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: 3.12
-          cache: pip
-          cache-dependency-path: '**/requirements.txt'
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
 
       - name: Install bumpver
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install bumpver
+        run: uvx bumpver update --no-fetch --verbose
 
       - name: Configure git to push
         run: |
@@ -35,7 +36,7 @@ jobs:
 
       - name: Bump Version
         run: |
-          bumpver update --no-fetch --verbose
+          uv run bumpver update --no-fetch --verbose
 
       # - name: Set up Docker Buildx
       #   id: buildx
