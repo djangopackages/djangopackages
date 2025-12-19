@@ -275,26 +275,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // ============================================
-  // Flag Button (Package Detail Page)
-  // ============================================
-  // const flagBtn = document.getElementById('flag-btn');
-  // const flagText = document.getElementById('flag-text');
-
-  // if (flagBtn && flagText) {
-  //     let flagged = false;
-  //     flagBtn.addEventListener('click', function() {
-  //         flagged = !flagged;
-  //         if (flagged) {
-  //             flagBtn.classList.add('bg-destructive/10', 'text-destructive', 'border-destructive');
-  //             flagText.textContent = 'Flagged';
-  //         } else {
-  //             flagBtn.classList.remove('bg-destructive/10', 'text-destructive', 'border-destructive');
-  //             flagText.textContent = 'Flag';
-  //         }
-  //     });
-  // }
-
-  // ============================================
   // Copy Badge Button (Package Detail Page)
   // ============================================
   const copyBadgeBtn = document.getElementById("copy-badge-btn");
