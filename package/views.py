@@ -39,6 +39,7 @@ from searchv2.rules import ScoreRuleGroup
 from searchv2.rules import UsageCountRule
 from searchv2.rules import WatchersRule
 from favorites.models import Favorite
+from django.views.generic import ListView
 
 
 def repo_data_for_js():
@@ -528,7 +529,7 @@ def package_details_rules(request, slug, template_name="package/package_rules.ht
     )
 
 
-def package_detail(request, slug, template_name="package/package.html"):
+def package_detail(request, slug, template_name="new/package_detail.html"):
     package = get_object_or_404(
         Package.objects.select_related("category").prefetch_related("grid_set"),
         slug=slug,
@@ -624,3 +625,18 @@ def github_webhook(request):
         package.last_fetched = timezone.now()
         package.save()
     return HttpResponse()
+
+
+class PackageVersionListView(ListView):
+    template_name = "new/partials/releases_table.html"
+    context_object_name = "versions"
+    paginate_by = 10
+
+    def get_queryset(self):
+        self.package = get_object_or_404(Package, slug=self.kwargs["slug"])
+        return self.package.version_set.by_version_not_hidden()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["package"] = self.package
+        return context

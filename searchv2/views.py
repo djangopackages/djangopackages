@@ -112,6 +112,28 @@ def search2(request, template_name="searchv2/search.html"):
     return homepage(request, template_name=template_name)
 
 
+def search_suggestions(request):
+    q = request.GET.get("q", "")
+    items = search_function(q)
+    from django.core.paginator import Paginator
+
+    paginator = Paginator(items, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        "packages": page_obj,
+        "query": q,
+        "total_count": paginator.count,
+        "shown_count": len(page_obj),
+        "has_more": page_obj.has_next(),
+        "next_page": page_obj.next_page_number() if page_obj.has_next() else None,
+        "dropdown_id": request.GET.get("dropdown_id", "suggestions-dropdown"),
+        "is_load_more": request.GET.get("load_more") == "1",
+    }
+    return render(request, "new/partials/suggestions.html", context)
+
+
 def search3(request, template_name="search/search.html"):
     """
     Searches in Grids and Packages
@@ -204,7 +226,6 @@ class OpenSearchSuggestions(View):
     def get(self, request):
         suggestions = []
         q = request.GET.get("q", "")
-        print(q, "query")
         results = search_function(q)[:15]
         suggestions.append(q)
         titles = []

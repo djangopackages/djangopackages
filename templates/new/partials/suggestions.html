@@ -1,0 +1,54 @@
+{% with dropdown_slug=dropdown_id|default:'suggestions-dropdown' %}
+    {% if is_load_more %}
+
+        {% include 'new/partials/suggestion_items.html' %}
+        <div
+            id="{{ dropdown_slug }}-summary-wrapper"
+            class="p-3 text-left border-t bg-muted/30 border-border/30"
+            hx-swap-oob="outerHTML"
+        >
+            <p class="text-xs text-muted-foreground">
+                Showing {{ shown_count }} of {{ total_count }} result{{ total_count|pluralize }} • Use
+                <kbd class="py-0.5 px-1.5 text-xs rounded border bg-muted">↑</kbd>
+                <kbd class="py-0.5 px-1.5 text-xs rounded border bg-muted">↓</kbd> to
+                navigate,
+                <kbd class="py-0.5 px-1.5 text-xs rounded border bg-muted">Enter</kbd> to
+                select
+            </p>
+        </div>
+    {% else %}
+        {% if packages %}
+            <div class="p-1">
+                <div
+                    id="{{ dropdown_slug }}-results"
+                    class="overflow-y-auto pr-1 space-y-1 max-h-80 suggestions-results"
+                >
+                    {% include 'new/partials/suggestion_items.html' %}
+                </div>
+            </div>
+            <div
+                id="{{ dropdown_slug }}-summary-wrapper"
+                class="p-3 text-left border-t bg-muted/30 border-border/30"
+            >
+                <p class="text-xs text-muted-foreground">
+                    Showing {{ shown_count }} of {{ total_count }} result{{ total_count|pluralize }} • Use
+                    <kbd class="py-0.5 px-1.5 text-xs rounded border bg-muted">↑</kbd>
+                    <kbd class="py-0.5 px-1.5 text-xs rounded border bg-muted">↓</kbd> to
+                    navigate,
+                    <kbd class="py-0.5 px-1.5 text-xs rounded border bg-muted">Enter</kbd> to
+                    select
+                </p>
+            </div>
+        {% elif request.GET.q %}
+            <div class="p-6">
+                <i
+                    class="block mb-3 text-4xl ph-bold ph-magnifying-glass text-muted-foreground"
+                ></i>
+                <p class="mb-1 text-sm font-medium text-foreground">No packages found</p>
+                <p class="text-xs text-muted-foreground">
+                    Try searching with different keywords
+                </p>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endwith %}

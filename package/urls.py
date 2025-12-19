@@ -22,6 +22,7 @@ from package.views import (
     package_opengraph_detail,
     fetch_package_data,
     usage,
+    PackageVersionListView,
 )
 
 urlpatterns = [
@@ -131,4 +132,9 @@ urlpatterns = [
         name="edit_documentation",
     ),
     path("github-webhook/", view=github_webhook, name="github_webhook"),
+    path(
+        "<slug:slug>/versions/",
+        view=PackageVersionListView.as_view(),
+        name="package_versions",
+    ),
 ]

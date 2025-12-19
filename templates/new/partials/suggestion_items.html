@@ -1,0 +1,84 @@
+{% for package in packages %}
+    <a
+        href="{% url 'package' package.slug %}"
+        class="block text-left suggestion-item"
+        data-index="{{ forloop.counter0 }}"
+    >
+        <div class="flex gap-3 items-start">
+            <div class="flex-shrink-0 mt-1 suggestion-icon">
+                <i class="text-sm ph-bold ph-package"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+                <div class="flex gap-2 justify-between items-center">
+                    <span class="font-medium truncate"
+                    >{{ package.title }}</span
+                        >
+                    </div>
+
+                    {% if package.description %}
+                        <p
+                            class="mt-0.5 text-xs suggestion-description text-muted-foreground truncate"
+                        >
+                            {{ package.description }}
+                        </p>
+                    {% endif %}
+
+                    <div class="flex flex-wrap gap-2 items-center mt-2">
+                        {% if package.category %}
+                            <span class="whitespace-nowrap badge suggestion-badge"
+                            >{{ package.category.title }}</span
+                                >
+                        {% endif %}
+                        {% if package.pypi_version %}
+                            <span
+                                class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge"
+                            >
+                                <i class="text-xs ph-bold ph-tag"></i>
+                                {{ package.pypi_version }}
+                            </span>
+                        {% endif %}
+
+                        <span
+                            class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge"
+                        >
+                            <i class="text-xs ph-bold ph-star"></i>
+                            {{ package.repo_watchers|default:0 }}
+                        </span>
+
+                        <span
+                            class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge"
+                        >
+                            <i class="text-xs ph-bold ph-git-fork"></i>
+                            {{ package.repo_forks|default:0 }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </a>
+{% endfor %}
+{% if has_more and next_page %}
+    {% with dropdown_slug=dropdown_id|default:'suggestions-dropdown' %}
+        <div
+            id="{{ dropdown_slug }}-load-more-page-{{ next_page }}"
+            class="suggestions-load-more"
+            hx-get="{% url 'search_suggestions' %}?q={{ query|default_if_none:''|urlencode }}&page={{ next_page }}&load_more=1&dropdown_id={{ dropdown_slug|urlencode }}"
+            hx-trigger="intersect once root:#{{ dropdown_slug }}-results threshold:0.95"
+            hx-swap="outerHTML"
+            hx-indicator="#{{ dropdown_slug }}-load-more-spinner-{{ next_page }}"
+        >
+            <div
+                id="{{ dropdown_slug }}-load-more-spinner-{{ next_page }}"
+                class="flex gap-2 justify-center items-center py-3 text-xs text-muted-foreground"
+            >
+                <i class="text-sm animate-spin ph-bold ph-circle-notch"></i>
+                <span>Loading more results…</span>
+            </div>
+        </div>
+    {% endwith %}
+{% elif packages and not has_more %}
+    <div
+        class="py-3 text-xs text-center border-t text-muted-foreground border-border/40"
+    >
+        End of results
+    </div>
+{% endif %}

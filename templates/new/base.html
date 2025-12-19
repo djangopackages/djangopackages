@@ -1,0 +1,25 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{% block title %}Django Packages{% endblock %}</title>
+
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/tailwind.css' %}" />
+        <link rel="stylesheet" href="{% static "css/phosphor-icons/bold.min.css" %}" type="text/css" />
+        {% block extra_head %}{% endblock %}
+
+    </head>
+    <body class="min-h-screen bg-background">
+        {% include 'new/partials/navbar.html' %}
+        {% include 'new/partials/messages.html' %}
+        {% block content %}{% endblock %}
+        {% include 'new/partials/footer.html' %}
+
+        <script src="{% static 'js/app.js' %}"></script>
+        {% block extra_js %}{% endblock %}
+    </body>
+</html>

@@ -1,0 +1,91 @@
+{% load static %}
+<table class="w-full min-w-[600px]">
+    <thead>
+        <tr class="text-left border-b">
+            <th class="pb-3 text-sm font-medium text-muted-foreground">Version</th>
+            <th class="pb-3 text-sm font-medium text-muted-foreground">License</th>
+            <th class="pb-3 text-sm font-medium text-muted-foreground">Released</th>
+            <th class="hidden pb-3 text-sm font-medium sm:table-cell text-muted-foreground">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for version in versions %}
+            <tr class="border-b transition-colors last:border-0 hover:bg-muted/30">
+                <td class="py-3 text-sm font-medium text-foreground">{{ version.number }}</td>
+                <td class="py-3 text-sm text-muted-foreground">{{ version.license|default:"-" }}</td>
+                <td class="py-3 text-sm text-muted-foreground">{{ version.upload_time|date:"M d, Y" }}</td>
+                <td class="hidden py-3 sm:table-cell">
+                    {% if version.hidden %}
+                        <span class="inline-flex items-center py-1 px-2 text-xs font-medium rounded border bg-muted text-muted-foreground border-border">
+                            {{ version.pretty_status }}
+                        </span>
+                    {% else %}
+                        <span class="inline-flex items-center py-1 px-2 text-xs font-medium text-green-700 bg-green-50 rounded border border-green-200">
+                            <i class="mr-1 text-xs ph-bold ph-check-circle"></i>
+                            {{ version.pretty_status }}
+                        </span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="4" class="py-6 text-sm text-center text-muted-foreground">
+                    No versions found.
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if is_paginated %}
+    <div class="mt-6">
+        <div class="flex justify-center">
+            <div class="inline-flex flex-wrap gap-1 items-center">
+                <button
+                    {% if page_obj.has_previous %}
+                        hx-get="{% url 'package_versions' slug=package.slug %}?page={{ page_obj.previous_page_number }}"
+                        hx-target="#versions-table-container"
+                        hx-swap="innerHTML"
+                    {% else %}
+                        disabled
+                    {% endif %}
+                    class="inline-flex justify-center items-center px-2 h-9 text-sm font-medium whitespace-nowrap rounded-md transition-colors sm:px-3 disabled:opacity-50 disabled:pointer-events-none hover:bg-accent hover:text-accent-foreground">
+                    <i class="mr-1 ph-bold ph-caret-left"></i>
+                    <span class="hidden sm:inline">Previous</span>
+                </button>
+
+                <div class="inline-flex gap-1 items-center">
+                    {% for i in paginator.page_range %}
+                        {% if page_obj.number == i %}
+                            <button
+                                class="inline-flex justify-center items-center w-9 h-9 text-sm font-medium whitespace-nowrap rounded-md transition-colors bg-primary text-primary-foreground">
+                                {{ i }}
+                            </button>
+                        {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
+                            <button
+                                hx-get="{% url 'package_versions' slug=package.slug %}?page={{ i }}"
+                                hx-target="#versions-table-container"
+                                hx-swap="innerHTML"
+                                class="inline-flex justify-center items-center w-9 h-9 text-sm font-medium whitespace-nowrap rounded-md transition-colors hover:bg-accent hover:text-accent-foreground">
+                                {{ i }}
+                            </button>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <button
+                    {% if page_obj.has_next %}
+                        hx-get="{% url 'package_versions' slug=package.slug %}?page={{ page_obj.next_page_number }}"
+                        hx-target="#versions-table-container"
+                        hx-swap="innerHTML"
+                    {% else %}
+                        disabled
+                    {% endif %}
+                    class="inline-flex justify-center items-center px-2 h-9 text-sm font-medium whitespace-nowrap rounded-md transition-colors sm:px-3 disabled:opacity-50 disabled:pointer-events-none hover:bg-accent hover:text-accent-foreground">
+                    <span class="hidden sm:inline">Next</span>
+                    <i class="ml-1 ph-bold ph-caret-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+{% endif %}

@@ -35,4 +35,9 @@ urlpatterns = [
         views.OpenSearchSuggestions.as_view(),
         name="opensearch-suggestions",
     ),
+    path(
+        "suggestions/",
+        view=views.search_suggestions,
+        name="search_suggestions",
+    ),
 ]

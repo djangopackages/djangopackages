@@ -213,18 +213,29 @@ class ReadinessDetailView(TemplateView):
         return context_data
 
 
-def homepage(request, template_name="homepage.html"):
+def homepage(request, template_name="new/index.html"):
     my_today = date.today()
     if cache.get("categories"):
         categories = cache.get("categories")
     else:
         categories = list(
-            Category.objects.only(
-                "pk", "slug", "description", "title", "title_plural"
-            ).annotate(package_count=Count("package"))
+            Category.objects.only("pk", "slug", "description", "title", "title_plural")
+            .annotate(package_count=Count("package"))
+            .order_by("-package_count")[:4]
         )
         # cache dict for 5 minutes...
         cache.set("categories", categories, timeout=60 * 5)
+
+    grids = list(
+        Grid.objects.filter(header=True)
+        .only("pk", "slug", "description", "title")
+        # .annotate(gridpackage_count=Count("gridpackage"))
+        # .filter(gridpackage_count__gt=2)
+        .order_by("title")
+    )
+    midpoint = len(grids) // 2 + (len(grids) % 2)
+    grids_1 = grids[:midpoint]
+    grids_2 = grids[midpoint:]
 
     # Get package count()
     package_count = Package.objects.active().count()
@@ -287,6 +298,8 @@ def homepage(request, template_name="homepage.html"):
         template_name,
         {
             "categories": categories,
+            "grids_1": grids_1,
+            "grids_2": grids_2,
             "latest_packages": latest_packages,
             "latest_python3": latest_python3,
             "package_count": package_count,
