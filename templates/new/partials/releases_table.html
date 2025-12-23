@@ -1,11 +1,11 @@
-{% load static %}
+{% load static i18n %}
 <table class="w-full min-w-[600px]">
     <thead>
         <tr class="text-left border-b">
-            <th class="pb-3 text-sm font-medium text-muted-foreground">Version</th>
-            <th class="pb-3 text-sm font-medium text-muted-foreground">License</th>
-            <th class="pb-3 text-sm font-medium text-muted-foreground">Released</th>
-            <th class="hidden pb-3 text-sm font-medium sm:table-cell text-muted-foreground">Status</th>
+            <th class="pb-3 text-sm font-medium text-muted-foreground">{% translate "Version" %}</th>
+            <th class="pb-3 text-sm font-medium text-muted-foreground">{% translate "License" %}</th>
+            <th class="pb-3 text-sm font-medium text-muted-foreground">{% translate "Released" %}</th>
+            <th class="pb-3 text-sm font-medium text-muted-foreground">{% translate "Status" %}</th>
         </tr>
     </thead>
     <tbody>
@@ -14,7 +14,7 @@
                 <td class="py-3 text-sm font-medium text-foreground">{{ version.number }}</td>
                 <td class="py-3 text-sm text-muted-foreground">{{ version.license|default:"-" }}</td>
                 <td class="py-3 text-sm text-muted-foreground">{{ version.upload_time|date:"M d, Y" }}</td>
-                <td class="hidden py-3 sm:table-cell">
+                <td class="py-3">
                     {% if version.hidden %}
                         <span class="inline-flex items-center py-1 px-2 text-xs font-medium rounded border bg-muted text-muted-foreground border-border">
                             {{ version.pretty_status }}
@@ -30,7 +30,7 @@
         {% empty %}
             <tr>
                 <td colspan="4" class="py-6 text-sm text-center text-muted-foreground">
-                    No versions found.
+                    {% translate "No versions found." %}
                 </td>
             </tr>
         {% endfor %}
@@ -51,7 +51,7 @@
                     {% endif %}
                     class="inline-flex justify-center items-center px-2 h-9 text-sm font-medium whitespace-nowrap rounded-md transition-colors sm:px-3 disabled:opacity-50 disabled:pointer-events-none hover:bg-accent hover:text-accent-foreground">
                     <i class="mr-1 ph-bold ph-caret-left"></i>
-                    <span class="hidden sm:inline">Previous</span>
+                    <span class="hidden sm:inline">{% translate "Previous" %}</span>
                 </button>
 
                 <div class="inline-flex gap-1 items-center">
@@ -82,7 +82,7 @@
                         disabled
                     {% endif %}
                     class="inline-flex justify-center items-center px-2 h-9 text-sm font-medium whitespace-nowrap rounded-md transition-colors sm:px-3 disabled:opacity-50 disabled:pointer-events-none hover:bg-accent hover:text-accent-foreground">
-                    <span class="hidden sm:inline">Next</span>
+                    <span class="hidden sm:inline">{% translate "Next" %}</span>
                     <i class="ml-1 ph-bold ph-caret-right"></i>
                 </button>
             </div>

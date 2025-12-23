@@ -1,3 +1,4 @@
+{% load i18n %}
 {% with dropdown_slug=dropdown_id|default:'suggestions-dropdown' %}
     {% if is_load_more %}
 
@@ -8,12 +9,10 @@
             hx-swap-oob="outerHTML"
         >
             <p class="text-xs text-muted-foreground">
-                Showing {{ shown_count }} of {{ total_count }} result{{ total_count|pluralize }} • Use
+                {% blocktranslate count counter=total_count %}Showing {{ shown_count }} of {{ counter }} result{% plural %}Showing {{ shown_count }} of {{ counter }} results{% endblocktranslate %} • {% translate "Use" %}
                 <kbd class="py-0.5 px-1.5 text-xs rounded border bg-muted">↑</kbd>
-                <kbd class="py-0.5 px-1.5 text-xs rounded border bg-muted">↓</kbd> to
-                navigate,
-                <kbd class="py-0.5 px-1.5 text-xs rounded border bg-muted">Enter</kbd> to
-                select
+                <kbd class="py-0.5 px-1.5 text-xs rounded border bg-muted">↓</kbd> {% translate "to navigate," %}
+                <kbd class="py-0.5 px-1.5 text-xs rounded border bg-muted">Enter</kbd> {% translate "to select" %}
             </p>
         </div>
     {% else %}
@@ -31,12 +30,10 @@
                 class="p-3 text-left border-t bg-muted/30 border-border/30"
             >
                 <p class="text-xs text-muted-foreground">
-                    Showing {{ shown_count }} of {{ total_count }} result{{ total_count|pluralize }} • Use
+                    {% blocktranslate count counter=total_count %}Showing {{ shown_count }} of {{ counter }} result{% plural %}Showing {{ shown_count }} of {{ counter }} results{% endblocktranslate %} • {% translate "Use" %}
                     <kbd class="py-0.5 px-1.5 text-xs rounded border bg-muted">↑</kbd>
-                    <kbd class="py-0.5 px-1.5 text-xs rounded border bg-muted">↓</kbd> to
-                    navigate,
-                    <kbd class="py-0.5 px-1.5 text-xs rounded border bg-muted">Enter</kbd> to
-                    select
+                    <kbd class="py-0.5 px-1.5 text-xs rounded border bg-muted">↓</kbd> {% translate "to navigate," %}
+                    <kbd class="py-0.5 px-1.5 text-xs rounded border bg-muted">Enter</kbd> {% translate "to select" %}
                 </p>
             </div>
         {% elif request.GET.q %}
@@ -44,9 +41,9 @@
                 <i
                     class="block mb-3 text-4xl ph-bold ph-magnifying-glass text-muted-foreground"
                 ></i>
-                <p class="mb-1 text-sm font-medium text-foreground">No packages found</p>
+                <p class="mb-1 text-sm font-medium text-foreground">{% translate "No packages found" %}</p>
                 <p class="text-xs text-muted-foreground">
-                    Try searching with different keywords
+                    {% translate "Try searching with different keywords" %}
                 </p>
             </div>
         {% endif %}

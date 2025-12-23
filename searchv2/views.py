@@ -11,7 +11,7 @@ from django.http import (
 )
 from django.shortcuts import render
 from django.urls import reverse
-from django.views.generic import View, TemplateView
+from django.views.generic import ListView, TemplateView, View
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 
 from homepage.views import homepage
@@ -112,26 +112,40 @@ def search2(request, template_name="searchv2/search.html"):
     return homepage(request, template_name=template_name)
 
 
-def search_suggestions(request):
-    q = request.GET.get("q", "")
-    items = search_function(q)
-    from django.core.paginator import Paginator
+class SearchSuggestionsView(ListView):
+    model = SearchV2
+    template_name = "new/partials/suggestions.html"
+    context_object_name = "packages"
+    paginate_by = 10
 
-    paginator = Paginator(items, 10)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
+    def get_queryset(self):
+        self.form = SearchForm(self.request.GET)
+        if self.form.is_valid():
+            q = self.form.cleaned_data["q"]
+            return search_function(q)
+        return SearchV2.objects.none()
 
-    context = {
-        "packages": page_obj,
-        "query": q,
-        "total_count": paginator.count,
-        "shown_count": len(page_obj),
-        "has_more": page_obj.has_next(),
-        "next_page": page_obj.next_page_number() if page_obj.has_next() else None,
-        "dropdown_id": request.GET.get("dropdown_id", "suggestions-dropdown"),
-        "is_load_more": request.GET.get("load_more") == "1",
-    }
-    return render(request, "new/partials/suggestions.html", context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        page_obj = context["page_obj"]
+        paginator = context["paginator"]
+
+        context.update(
+            {
+                "query": self.request.GET.get("q", ""),
+                "total_count": paginator.count,
+                "shown_count": page_obj.end_index(),
+                "has_more": page_obj.has_next(),
+                "next_page": (
+                    page_obj.next_page_number() if page_obj.has_next() else None
+                ),
+                "dropdown_id": self.request.GET.get(
+                    "dropdown_id", "suggestions-dropdown"
+                ),
+                "is_load_more": self.request.GET.get("load_more") == "1",
+            }
+        )
+        return context
 
 
 def search3(request, template_name="search/search.html"):

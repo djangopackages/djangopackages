@@ -1,3 +1,4 @@
+{% load humanize i18n %}
 {% for package in packages %}
     <a
         href="{% url 'package' package.slug %}"
@@ -42,7 +43,7 @@
                             class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge"
                         >
                             <i class="text-xs ph-bold ph-star"></i>
-                            {{ package.repo_watchers|default:0 }}
+                            {{ package.repo_watchers|intcomma|default:0 }}
                         </span>
 
                         <span
@@ -71,7 +72,7 @@
                 class="flex gap-2 justify-center items-center py-3 text-xs text-muted-foreground"
             >
                 <i class="text-sm animate-spin ph-bold ph-circle-notch"></i>
-                <span>Loading more results…</span>
+                <span>{% translate "Loading more results…" %}</span>
             </div>
         </div>
     {% endwith %}
@@ -79,6 +80,6 @@
     <div
         class="py-3 text-xs text-center border-t text-muted-foreground border-border/40"
     >
-        End of results
+        {% translate "End of results" %}
     </div>
 {% endif %}

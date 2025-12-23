@@ -1,17 +1,18 @@
-{% load static %}
+{% load i18n page_metadata_tags static tailwind_cli %}
 
 <!doctype html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}" {% block angular_header %}ng-app{% endblock %}>
     <head>
         <meta charset="UTF-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>{% block title %}Django Packages{% endblock %}</title>
+        {% block metadata %}{% page_metadata %}{% endblock %}
+        <link rel="search" type="application/opensearchdescription+xml" href="{% url 'opensearch-description' %}" title="Django Packages">
 
-        {% load static %}
-        <link rel="stylesheet" href="{% static 'css/tailwind.css' %}" />
+        {% tailwind_css %}
         <link rel="stylesheet" href="{% static "css/phosphor-icons/bold.min.css" %}" type="text/css" />
+        <link rel="shortcut icon" href="{% static "img/favicon.png" %}" />
         {% block extra_head %}{% endblock %}
-
     </head>
     <body class="min-h-screen bg-background">
         {% include 'new/partials/navbar.html' %}
@@ -20,6 +21,7 @@
         {% include 'new/partials/footer.html' %}
 
         <script src="{% static 'js/app.js' %}"></script>
+        <script src="{% static 'js/htmx.min.js' %}" defer></script>
         {% block extra_js %}{% endblock %}
     </body>
 </html>

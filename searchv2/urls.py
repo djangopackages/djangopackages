@@ -37,7 +37,7 @@ urlpatterns = [
     ),
     path(
         "suggestions/",
-        view=views.search_suggestions,
+        view=views.SearchSuggestionsView.as_view(),
         name="search_suggestions",
     ),
 ]

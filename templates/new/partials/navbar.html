@@ -1,9 +1,10 @@
+{% load i18n static %}
 <!-- Header -->
 <header class="sticky top-0 z-40 border-b bg-primary">
     <div class="container flex justify-between items-center px-4 mx-auto h-16">
         <div class="flex items-center space-x-6">
             <a href="{% url 'home' %}" class="flex items-center space-x-2">
-                <img src="{{ STATIC_URL }}img/logo_squares.png" class="w-auto h-8" />
+                <img src="{% static 'img/logo_squares.png' %}" class="w-auto h-8" />
                 <span class="text-xl font-bold text-primary-foreground">{{ SITE_TITLE }}</span>
             </a>
             <nav class="hidden items-center space-x-4 md:flex">
@@ -11,13 +12,13 @@
                     href="{% url 'packages' %}"
                     class="py-2 px-3 text-sm font-medium rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5"
                 >
-                    Packages
+                    {% translate "Packages" %}
                 </a>
                 <a
                     href="{% url 'grids' %}"
                     class="py-2 px-3 text-sm font-medium rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5"
                 >
-                    Grids
+                    {% translate "Grids" %}
                 </a>
             </nav>
         </div>
@@ -34,7 +35,7 @@
                             id="navbar-search-input"
                             type="text"
                             name="q"
-                            placeholder="Search packages..."
+                            placeholder="{% translate 'Search packages...' %}"
                             class="py-2 pr-12 pl-10 w-80 h-9 rounded-md border-2 transition-colors focus:outline-none peer bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/60 focus:bg-background focus:text-foreground focus:border-primary focus:placeholder:text-muted-foreground"
                             autocomplete="off"
                             hx-get="{% url 'search_suggestions' %}"
@@ -75,9 +76,9 @@
                         {{ request.user.username }}
                     </a>
                 {% endif %}
-                <a href="{% url 'logout' %}" class="hidden sm:inline-flex btn-secondary">Log Out</a>
+                <a href="{% url 'logout' %}" class="hidden sm:inline-flex btn-secondary">{% translate "Log Out" %}</a>
             {% else %}
-                <a href="{% url 'social:begin' 'github' %}" class="hidden sm:inline-flex btn-secondary">Log In</a>
+                <a href="{% url 'social:begin' 'github' %}" class="hidden sm:inline-flex btn-secondary">{% translate "Log In" %}</a>
             {% endif %}
 
       <!-- Mobile menu button -->
@@ -107,7 +108,7 @@
                             id="mobile-navbar-search-input"
                             type="text"
                             name="q"
-                            placeholder="Search packages..."
+                            placeholder="{% translate 'Search packages...' %}"
                             class="py-2 pr-12 pl-10 w-full h-9 rounded-md border-2 transition-colors focus:outline-none bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/60 focus:bg-background focus:text-foreground focus:border-primary focus:placeholder:text-muted-foreground"
                             autocomplete="off"
                             hx-get="{% url 'search_suggestions' %}"
@@ -134,15 +135,15 @@
                 </div>
             {% endif %}
 
-            <a href="{% url 'packages' %}" class="block py-2 px-3 text-base font-medium rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5">Packages</a>
-            <a href="{% url 'grids' %}" class="block py-2 px-3 text-base font-medium rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5">Grids</a>
+            <a href="{% url 'packages' %}" class="block py-2 px-3 text-base font-medium rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5">{% translate "Packages" %}</a>
+            <a href="{% url 'grids' %}" class="block py-2 px-3 text-base font-medium rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5">{% translate "Grids" %}</a>
             {% if request.user.is_authenticated %}
                 {% if request.user.profile.github_account %}
                     <a href="{% url 'profile_detail' request.user.profile.github_account %}" class="block py-2 px-3 text-base font-medium rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5">{{ request.user.username }}</a>
                 {% endif %}
-                <a href="{% url 'logout' %}" class="block py-2 px-3 text-base font-medium rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5">Log Out</a>
+                <a href="{% url 'logout' %}" class="block py-2 px-3 text-base font-medium rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5">{% translate "Log Out" %}</a>
             {% else %}
-                <a href="{% url 'social:begin' 'github' %}" class="block py-2 px-3 text-base font-medium rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5">Log In</a>
+                <a href="{% url 'social:begin' 'github' %}" class="block py-2 px-3 text-base font-medium rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5">{% translate "Log In" %}</a>
             {% endif %}
         </nav>
     </div>
