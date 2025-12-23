@@ -1,5 +1,5 @@
 {% if messages %}
-    <div id="toast-container" class="flex fixed top-24 z-50 flex-col gap-3 w-full max-w-md pointer-events-none right-0 left-0 mx-auto px-4 md:right-5 md:left-auto md:px-0">
+    <div id="toast-container" class="flex fixed right-0 left-0 top-24 z-50 flex-col gap-3 px-4 mx-auto w-full max-w-md pointer-events-none md:right-5 md:left-auto md:px-0">
         {% for message in messages %}
             <div class="pointer-events-auto flex items-start p-4 rounded-lg shadow-lg border border-opacity-20 bg-white
                         {% if 'success' in message.tags %}border-green-500{% endif %}

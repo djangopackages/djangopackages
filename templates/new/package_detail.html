@@ -17,12 +17,12 @@
                 </div>
                 <div class="flex flex-wrap gap-2 items-center w-full sm:w-auto">
                     {% if request.user.is_authenticated %}
-                        <a href="{% url 'edit_package' package.slug %}" class="flex-shrink-0 btn-secondary flex-1 sm:flex-none">
+                        <a href="{% url 'edit_package' package.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
                             <i class="mr-1 text-base ph-bold ph-pencil-simple"></i>
                             <span>{% translate "Edit" %}</span>
                         </a>
                     {% endif %}
-                    <a href="{% url 'flag' package.slug %}" id="flag-btn" class="flex-shrink-0 btn-secondary flex-1 sm:flex-none">
+                    <a href="{% url 'flag' package.slug %}" id="flag-btn" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
                         <i class="mr-1 text-base ph-bold ph-arrow-square-out"></i>
                         <span id="flag-text">{% translate "Flag" %}</span>
                     </a>

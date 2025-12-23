@@ -258,7 +258,8 @@ def add_grid_package(request, grid_slug, template_name="grid/add_grid_package.ht
             messages.add_message(
                 request,
                 messages.SUCCESS,
-                "Package '%s' has been added to the grid '%s'." % (package.title, grid.title),
+                "Package '%s' has been added to the grid '%s'."
+                % (package.title, grid.title),
             )
             redirect = request.POST.get("redirect", "")
             if redirect:

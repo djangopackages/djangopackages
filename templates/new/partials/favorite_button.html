@@ -2,7 +2,7 @@
 
 {% if is_favorited %}
     <button
-        class="flex-shrink-0 btn-secondary bg-primary/10 text-primary border-primary/20 flex-1 sm:flex-none"
+        class="flex-1 flex-shrink-0 sm:flex-none btn-secondary bg-primary/10 text-primary border-primary/20"
         hx-post="{% url 'remove_favorite' package.id %}"
         hx-swap="outerHTML"
         hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
@@ -13,7 +13,7 @@
     </button>
 {% else %}
     <button
-        class="flex-shrink-0 btn-secondary flex-1 sm:flex-none"
+        class="flex-1 flex-shrink-0 sm:flex-none btn-secondary"
         hx-post="{% url 'add_favorite' package.id %}"
         hx-swap="outerHTML"
         hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
