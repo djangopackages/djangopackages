@@ -18,16 +18,17 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: 3.12
-        cache: pip
-        cache-dependency-path: '**/requirements.txt'
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v6
+      with:
+        enable-cache: true
 
     - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements-maintenance.txt
+      run: uv sync --locked --group maintenance --no-dev
 
     - name: Update list
-      run: python scripts/update_changelog.py
+      run: uv run python scripts/update_changelog.py
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

@@ -67,3 +67,100 @@ target-version = "py312"
 [tool.ruff.mccabe]
 # Unlike Flake8, default to a complexity level of 10.
 max-complexity = 10
+
+[project]
+name="djangopackages"
+version="2025.10.10"
+requires-python = ">=3.12"
+dependencies = [
+    "bs4",
+    "cloudflare",
+    "crispy-bootstrap3",
+    "croniter",
+    "django-anymail",
+    "django-better-admin-arrayfield",
+    "django-click",
+    "django-crispy-forms<3",
+    "django-debug-toolbar",
+    "django-environ",
+    "django-extensions",
+    "django-health-check",
+    "django-htmx",
+    "django-jsonview",
+    "django-maintenance-mode",
+    "django-q2",
+    "django-reversion",
+    "django-secure",
+    "django-structlog",
+    "django-tables2",
+    "django-tailwind-cli>=4.4.2",
+    "django-waffle",
+    "Django>5.0",
+    "djangorestframework<3.16",
+    "emoji",
+    "emojificate",
+    "feedparser",
+    "django-template-partials",
+    # github3.py
+    "github3.py<4.1",
+    "gunicorn",
+    "heroicons[django]",
+    "jinja2",
+    "looseversion",
+    "markdown-it-py[linkify]",
+    "markdownify",
+    "numpy",
+    "openai",
+    "packaging",
+    "psutil",
+    "psycopg[binary, pool]",
+    "pydantic",
+    "PyGithub",
+    "pypistats",
+    "python-dateutil",
+    "python-gitlab",
+    "pytz",
+    "requests",
+    "requests-mock",
+    "rich",
+    "sentry-sdk",
+    "social-auth-app-django==5.4.3",
+    "social-auth-core",
+    "sqlite-utils",
+    "structlog",
+    "trove-classifiers",
+    "Unidecode",
+    "uwsgi",
+    "whitenoise",
+
+    # Redis support
+    "redis",
+]
+
+[dependency-groups]
+dev = [
+    # testing
+    "dirty-equals",
+    "django-test-plus",
+    "Faker",
+    "model-bakery",
+    "pytest",
+    "pytest-cov",
+    "pytest-django",
+    "pytest-mock",
+    "time-machine",
+
+    # pre-commit - please note all linters and autoformatters are in our
+    # .pre-commit-config.yaml file
+    "pre-commit",
+]
+
+ci = [
+    # utils
+  "bumpver",
+]
+
+maintenance = [
+  "PyGithub==2.6.1",
+  "jinja2==3.1.6",
+]
