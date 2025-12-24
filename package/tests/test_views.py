@@ -1,9 +1,6 @@
-from textwrap import dedent
-
 import pytest
 from django.conf import settings
 from django.contrib.auth.models import Permission, User
-from django.contrib.humanize.templatetags.humanize import intcomma
 from django.test import TestCase
 from django.urls import reverse
 from waffle.testutils import override_flag
