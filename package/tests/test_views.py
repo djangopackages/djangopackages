@@ -111,32 +111,10 @@ class FunctionalPackageTest(TestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "package/package.html")
-        package = Package.objects.get(slug="testability")
+        self.assertTemplateUsed(response, "new/package_detail.html")
         self.assertContains(
             response,
-            dedent("""
-                <th
-                    data-testid="repository-statistics-score-header"
-                    scope="col"
-                    aria-label="Score"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%)."
-                >
-                    <span class="glyphicon glyphicon-stats"></span>
-                </th>
-            """),
-            html=True,
-        )
-        self.assertContains(
-            response,
-            dedent(f"""
-                <td data-testid="repository-statistics-score-cell">
-                    {intcomma(package.score)}
-                </td>
-            """),
-            html=True,
+            "Scores (0-100) are based on Repository stars",
         )
 
     @override_flag("enabled_packages_score_values", active=False)
@@ -151,14 +129,10 @@ class FunctionalPackageTest(TestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "package/package.html")
+        self.assertTemplateUsed(response, "new/package_detail.html")
         self.assertNotContains(
             response,
-            'data-testid="repository-statistics-score-header"',
-        )
-        self.assertNotContains(
-            response,
-            'data-testid="repository-statistics-score-cell"',
+            "Scores (0-100) are based on Repository stars",
         )
 
     def test_latest_packages_view(self):

@@ -1,13 +1,17 @@
-{% load humanize i18n %}
+{% load humanize i18n waffle_tags %}
 {% for package in packages %}
     <a
-        href="{% url 'package' package.slug %}"
+        href="{% if package.is_grid %}{% url 'grid' package.slug %}{% else %}{% url 'package' package.slug %}{% endif %}"
         class="block text-left suggestion-item"
         data-index="{{ forloop.counter0 }}"
     >
         <div class="flex gap-3 items-start">
             <div class="flex-shrink-0 mt-1 suggestion-icon">
-                <i class="text-sm ph-bold ph-package"></i>
+                {% if package.is_grid %}
+                    <i class="text-sm ph-bold ph-squares-four"></i>
+                {% else %}
+                    <i class="text-sm ph-bold ph-package"></i>
+                {% endif %}
             </div>
             <div class="flex-1 min-w-0">
                 <div class="flex gap-2 justify-between items-center">
@@ -25,33 +29,65 @@
                     {% endif %}
 
                     <div class="flex flex-wrap gap-2 items-center mt-2">
-                        {% if package.category %}
-                            <span class="whitespace-nowrap badge suggestion-badge"
-                            >{{ package.category.title }}</span
+                        {% if package.is_grid %}
+                            <span class="whitespace-nowrap badge suggestion-badge">
+                                {% translate "Grid" %}
+                            </span>
+                        {% else %}
+                            {% if package.category %}
+                                <span class="whitespace-nowrap badge suggestion-badge"
+                                >{{ package.category.title }}</span
+                                    >
+                            {% endif %}
+                            {% if package.pypi_version %}
+                                <span
+                                    class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge"
+                                    data-toggle="tooltip"
+                                    title="{% translate 'Latest PyPI Version' %}"
                                 >
-                        {% endif %}
-                        {% if package.pypi_version %}
+                                    <i class="text-xs ph-bold ph-tag"></i>
+                                    {{ package.pypi_version }}
+                                </span>
+                            {% endif %}
+                            {% if package.last_released %}
+                                <span
+                                    class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge"
+                                    data-toggle="tooltip"
+                                    title="{% translate 'Last Released' %}"
+                                >
+                                    <i class="text-xs ph-bold ph-calendar-check"></i>
+                                    {{ package.last_released|date }}
+                                </span>
+                            {% endif %}
+                            {% flag "enabled_packages_score_values" %}
+                                <span
+                                    class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge"
+                                    data-toggle="tooltip"
+                                    title="{% translate 'Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%).' %}"
+                                >
+                                    <i class="text-xs ph-bold ph-chart-bar"></i>
+                                    {{ package.score|intcomma|default:"n/a" }}
+                                </span>
+                            {% endflag %}
+
                             <span
                                 class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge"
+                                data-toggle="tooltip"
+                                title="{% translate 'Stars' %}"
                             >
-                                <i class="text-xs ph-bold ph-tag"></i>
-                                {{ package.pypi_version }}
+                                <i class="text-xs ph-bold ph-star"></i>
+                                {{ package.repo_watchers|intcomma|default:0 }}
+                            </span>
+
+                            <span
+                                class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge"
+                                data-toggle="tooltip"
+                                title="{% translate 'Forks' %}"
+                            >
+                                <i class="text-xs ph-bold ph-git-fork"></i>
+                                {{ package.repo_forks|default:0 }}
                             </span>
                         {% endif %}
-
-                        <span
-                            class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge"
-                        >
-                            <i class="text-xs ph-bold ph-star"></i>
-                            {{ package.repo_watchers|intcomma|default:0 }}
-                        </span>
-
-                        <span
-                            class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge"
-                        >
-                            <i class="text-xs ph-bold ph-git-fork"></i>
-                            {{ package.repo_forks|default:0 }}
-                        </span>
                     </div>
                 </div>
             </div>

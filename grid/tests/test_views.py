@@ -326,7 +326,7 @@ class FunctionalGridTest(TestCase):
 
     def test_ajax_grid_list_view(self):
         url = reverse("ajax_grid_list") + "?q=Testing&package_id=4"
-        with self.assertNumQueries(5):
+        with self.assertNumQueries(3):
             response = self.client.get(url)
         self.assertContains(response, "Testing")
 

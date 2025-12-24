@@ -95,6 +95,12 @@
                                         <i class="text-base ph-bold ph-git-fork"></i>
                                         {{ package.repo_forks|intcomma|default:"n/a" }}
                                     </span>
+                                    {% flag "enabled_packages_score_values" %}
+                                        <span class="flex gap-1 items-center" title="{% translate 'Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%).' %}">
+                                            <i class="text-base ph-bold ph-chart-bar"></i>
+                                            {{ package.score|intcomma|default:"n/a" }}
+                                        </span>
+                                    {% endflag %}
                                 </div>
                             </div>
                         </div>
