@@ -1,7 +1,6 @@
 from django import template
 from django.db.models import Count
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
 
 from grid.models import Grid
 from package.models import Package
