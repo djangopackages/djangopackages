@@ -231,8 +231,8 @@ class HomepageView(TemplateView):
             grids = list(
                 Grid.objects.filter(header=True)
                 .only("pk", "slug", "description", "title")
-                # .annotate(gridpackage_count=Count("gridpackage"))
-                # .filter(gridpackage_count__gt=2)
+                .annotate(gridpackage_count=Count("gridpackage"))
+                .filter(gridpackage_count__gt=2)
                 .order_by("title")
             )
             # cache dict for 5 minutes...
