@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.postgres.search import SearchQuery, SearchRank
 from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Exists, OuterRef
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -15,6 +15,7 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.views.generic.base import TemplateView
+from django.views.generic import DetailView
 from django_q.tasks import async_task
 from django_tables2 import SingleTableView
 
@@ -223,7 +224,6 @@ class PackageListView(TemplateView):
             package_table = PackageTable(
                 Package.objects.active()
                 .filter(category=category)
-                .active()
                 .select_related()
                 .annotate(usage_count=Count("usage"))
                 .order_by("-pypi_downloads", "-repo_watchers", "title")[:9],
@@ -529,52 +529,58 @@ def package_details_rules(request, slug, template_name="package/package_rules.ht
     )
 
 
-def package_detail(request, slug, template_name="new/package_detail.html"):
-    package = get_object_or_404(
-        Package.objects.select_related("category").prefetch_related("grid_set"),
-        slug=slug,
-    )
-    no_development = package.no_development
-    try:
-        if package.category == Category.objects.get(slug="projects"):
-            # projects get a bye because they are a website
-            pypi_ancient = False
-            pypi_no_release = False
-        else:
-            pypi_ancient = package.pypi_ancient
-            pypi_no_release = package.pypi_ancient is None
-        warnings = no_development or pypi_ancient or pypi_no_release
-    except Category.DoesNotExist:
-        pypi_ancient = False
-        pypi_no_release = False
-        warnings = no_development
-    is_favorited = False
-    if request.user.is_authenticated:
-        is_favorited = Favorite.objects.filter(
-            favorited_by=request.user, package=package
-        ).exists()
-    if request.GET.get("message"):
-        messages.add_message(request, messages.INFO, request.GET.get("message"))
-    return render(
-        request,
-        template_name,
-        dict(
-            package=package,
-            pypi_ancient=pypi_ancient,
-            no_development=no_development,
-            pypi_no_release=pypi_no_release,
-            warnings=warnings,
-            latest_version=package.last_released(),
-            repo=package.repo,
-            is_favorited=is_favorited,
-        ),
-    )
+class PackageDetailView(DetailView):
+    template_name = "new/package_detail.html"
+    model = Package
+    context_object_name = "package"
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
+
+    def get_queryset(self):
+        qs = (
+            super()
+            .get_queryset()
+            .active()
+            .select_related("category")
+            .prefetch_related(
+                "grid_set",
+            )
+            .annotate(
+                _commit_count=Count("commit", distinct=True),
+                _version_count=Count("version", distinct=True),
+            )
+        )
+        if self.request.user.is_authenticated:
+            qs = qs.annotate(
+                _is_favorited=Exists(
+                    Favorite.objects.filter(
+                        favorited_by=self.request.user, package_id=OuterRef("pk")
+                    )
+                )
+            )
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                "is_favorited": getattr(self.object, "_is_favorited", False),
+                "commit_count": getattr(self.object, "_commit_count", 0),
+                "version_count": getattr(self.object, "_version_count", 0),
+            }
+        )
+        return context
 
 
-def package_opengraph_detail(
-    request, slug, template_name="package/package_opengraph.html"
-):
-    return package_detail(request, slug, template_name=template_name)
+class PackageOpenGraphDetailView(DetailView):
+    template_name = "package/package_opengraph.html"
+    model = Package
+    context_object_name = "package"
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
+
+    def get_queryset(self):
+        return super().get_queryset().active()
 
 
 def int_or_0(value):

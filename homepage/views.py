@@ -1,5 +1,3 @@
-from datetime import date
-
 from django.contrib.auth.models import User
 from django.core.cache import cache
 from django.db.models import Count, Q
@@ -8,7 +6,6 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 
 from grid.models import Grid
-from homepage.models import Gotw, Dpotw, PSA
 from package.models import Category, Commit, Package, Version
 from products.models import Product, Release
 
@@ -213,103 +210,85 @@ class ReadinessDetailView(TemplateView):
         return context_data
 
 
-def homepage(request, template_name="new/index.html"):
-    my_today = date.today()
-    if cache.get("categories"):
-        categories = cache.get("categories")
-    else:
-        categories = list(
-            Category.objects.only("pk", "slug", "description", "title", "title_plural")
-            .annotate(package_count=Count("package"))
-            .order_by("-package_count")[:4]
+class HomepageView(TemplateView):
+    template_name = "new/index.html"
+
+    def _get_categories(self):
+        if not (categories := cache.get("categories")):
+            categories = list(
+                Category.objects.only(
+                    "pk", "slug", "description", "title", "title_plural"
+                )
+                .annotate(package_count=Count("package"))
+                .order_by("-package_count")[:4]
+            )
+            # cache dict for 5 minutes...
+            cache.set("categories", categories, timeout=60 * 5)
+        return categories
+
+    def _get_grid_lists(self):
+        if not (grids := cache.get("grid_list")):
+            grids = list(
+                Grid.objects.filter(header=True)
+                .only("pk", "slug", "description", "title")
+                # .annotate(gridpackage_count=Count("gridpackage"))
+                # .filter(gridpackage_count__gt=2)
+                .order_by("title")
+            )
+            # cache dict for 5 minutes...
+            cache.set("grid_list", grids, timeout=60 * 5)
+
+        midpoint = len(grids) // 2 + (len(grids) % 2)
+        grids_1 = grids[:midpoint]
+        grids_2 = grids[midpoint:]
+        return grids_1, grids_2
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        categories = self._get_categories()
+        grids_1, grids_2 = self._get_grid_lists()
+
+        # Get the random packages
+        random_packages = (
+            Package.objects.active()
+            .exclude(repo_description__in=[None, ""])
+            .order_by("?")[:5]
         )
-        # cache dict for 5 minutes...
-        cache.set("categories", categories, timeout=60 * 5)
 
-    grids = list(
-        Grid.objects.filter(header=True)
-        .only("pk", "slug", "description", "title")
-        .annotate(gridpackage_count=Count("gridpackage"))
-        .filter(gridpackage_count__gt=2)
-        .order_by("title")
-    )
-    midpoint = len(grids) // 2 + (len(grids) % 2)
-    grids_1 = grids[:midpoint]
-    grids_2 = grids[midpoint:]
-
-    # Get package count()
-    package_count = Package.objects.active().count()
-
-    # Get the random packages
-    random_packages = (
-        Package.objects.active()
-        .exclude(repo_description__in=[None, ""])
-        .order_by("?")[:5]
-    )
-
-    try:
-        potw = (
-            Dpotw.objects.filter(start_date__lte=my_today, end_date__gte=my_today)
-            .latest()
-            .package
+        # Latest Django Packages blog post on homepage
+        latest_packages = (
+            Package.objects.active()
+            .select_related("category")
+            .annotate(usage_count=Count("usage"))
+            .order_by("-created")[:5]
         )
-    except (Dpotw.DoesNotExist, Package.DoesNotExist):
-        potw = None
-
-    try:
-        gotw = (
-            Gotw.objects.filter(start_date__lte=my_today, end_date__gte=my_today)
-            .latest()
-            .grid
+        latest_python3 = (
+            Package.objects.active()
+            .filter(version__supports_python3=True)
+            .exclude(repo_description__in=[None, ""])
+            .distinct()
+            .order_by("-version__created")[:5]
         )
-    except (Gotw.DoesNotExist, Grid.DoesNotExist):
-        gotw = None
-
-    # Public Service Announcement on homepage
-    try:
-        psa_body = PSA.objects.latest().body_text
-    except PSA.DoesNotExist:
-        psa_body = None
-
-    # Latest Django Packages blog post on homepage
-    latest_packages = (
-        Package.objects.active()
-        # .exclude(repo_description__in=[None, ""])
-        .order_by("-created")[:5]
-    )
-    latest_python3 = (
-        Version.objects.filter(supports_python3=True)
-        .select_related("package")
-        .exclude(package__repo_description__in=[None, ""])
-        .distinct()
-        .order_by("-created")[:5]
-    )
-
-    most_liked_packages = (
-        Package.objects.annotate(
-            distinct_favs=Count("favorite__favorited_by", distinct=True)
+        most_liked_packages = (
+            Package.objects.annotate(
+                distinct_favs=Count("favorite__favorited_by", distinct=True)
+            )
+            .filter(distinct_favs__gt=0)
+            .order_by("-distinct_favs")[:5]
         )
-        .filter(distinct_favs__gt=0)
-        .order_by("-distinct_favs")[:5]
-    )
 
-    return render(
-        request,
-        template_name,
-        {
-            "categories": categories,
-            "grids_1": grids_1,
-            "grids_2": grids_2,
-            "latest_packages": latest_packages,
-            "latest_python3": latest_python3,
-            "package_count": package_count,
-            "random_packages": random_packages,
-            "most_liked_packages": most_liked_packages,
-            "gotw": gotw,
-            "potw": potw,
-            "psa_body": psa_body,
-        },
-    )
+        context.update(
+            {
+                "categories": categories,
+                "grids_1": grids_1,
+                "grids_2": grids_2,
+                "latest_packages": latest_packages,
+                "latest_python3": latest_python3,
+                "random_packages": random_packages,
+                "most_liked_packages": most_liked_packages,
+            }
+        )
+        return context
 
 
 def error_404_view(request):

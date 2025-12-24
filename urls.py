@@ -12,13 +12,13 @@ from core.apiv1 import apiv1_gone
 from core.sitemaps import StaticViewSitemap
 from grid.sitemaps import GridSitemap
 from homepage.views import (
+    HomepageView,
     OpenView,
     ReadinessDetailView,
     ReadinessView,
     error_404_view,
     error_500_view,
     error_503_view,
-    homepage,
 )
 from package.sitemaps import PackageSitemap
 from package.views import PackageByCategoryListView, PackagePython3ListView
@@ -42,7 +42,7 @@ urlpatterns = [
     # url(r'^login/\{\{item\.absolute_url\}\}/', RedirectView.as_view(url="/login/github/")),
     path("auth/", include("social_django.urls", namespace="social")),
     # url('', include('social_auth.urls')),
-    path("", homepage, name="home"),
+    path("", HomepageView.as_view(), name="home"),
     path(
         "robots.txt",
         TemplateView.as_view(content_type="text/plain", template_name="robots.txt"),
@@ -61,7 +61,7 @@ urlpatterns = [
     path(
         "categories/<slug:slug>/", PackageByCategoryListView.as_view(), name="category"
     ),
-    path("categories/", homepage, name="categories"),
+    path("categories/", HomepageView.as_view(), name="categories"),
     path("python3/", PackagePython3ListView.as_view(), name="py3_compat"),
     # url(regex=r'^login/$', view=TemplateView.as_view(template_name='pages/login.html'), name='login',),
     path("logout/", LogoutView.as_view(), name="logout"),

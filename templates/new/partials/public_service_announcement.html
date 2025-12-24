@@ -1,0 +1,20 @@
+{% load i18n humanize %}
+<div class="flex flex-col h-full card">
+    <div class="pb-4 text-center card-header">
+        <h2 class="text-xl font-bold">{% translate "Public Service Announcement" %}</h2>
+    </div>
+    <div class="flex-1 text-center card-content">
+        {% if psa %}
+            <div class="text-muted-foreground">{{ psa.body_text|safe }}</div>
+            <p class="mt-4 text-xs text-muted-foreground">
+                {% translate "Posted" %} {{ psa.created|naturaltime }}
+            </p>
+        {% else %}
+            <p class="text-muted-foreground">
+                There are currently no announcements.
+                To request a PSA, please post at <a href="https://fosstodon.org/@djangopackages" class="transition-colors text-primary hover:text-primary/80">@djangopackages</a>
+                or open a <a href="https://github.com/djangopackages/djangopackages/discussions" class="transition-colors text-primary hover:text-primary/80">GitHub Discussion</a>.
+            </p>
+        {% endif %}
+    </div>
+</div>

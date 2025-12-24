@@ -1,0 +1,140 @@
+{% load i18n humanize psa_tag waffle_tags %}
+<section class="py-8">
+    <div class="container px-4 mx-auto">
+        <div class="grid gap-6 md:grid-cols-3">
+            <div class="flex flex-col h-full card">
+                <div class="flex gap-2 justify-center items-center pb-4 text-center card-header">
+                    <i class="text-xl text-yellow-500 ph-bold ph-star"></i>
+                    <h2 class="text-xl font-bold">{% translate "Featured Grid" %}</h2>
+                </div>
+                <div class="flex-1 card-content">
+                    {% if gotw %}
+                    <div class="mb-6 text-center">
+                        <h4 class="mb-2 text-lg font-semibold">
+                            <a
+                                href="{{ gotw.get_absolute_url }}"
+                                class="transition-colors text-primary hover:text-primary/80"
+                            >
+                                {{ gotw.title }}
+                            </a>
+                        </h4>
+                        <p class="text-sm text-muted-foreground line-clamp-3">{{ gotw.description }}</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-x-8 gap-y-4 w-fit mx-auto">
+                        <div class="flex gap-2 items-center text-sm">
+                            <i class="text-muted-foreground ph-bold ph-package"></i>
+                            <span class="text-muted-foreground">{% translate "Packages" %}:</span>
+                            <span class="font-medium">{{ gotw.package_count }}</span>
+                        </div>
+                        <div class="flex gap-2 items-center text-sm">
+                            <i class="text-muted-foreground ph-bold ph-list-checks"></i>
+                            <span class="text-muted-foreground">{% translate "Features" %}:</span>
+                            <span class="font-medium">{{ gotw.feature_count }}</span>
+                        </div>
+                        <div class="flex gap-2 justify-center items-center text-sm col-span-2">
+                            <i class="text-muted-foreground ph-bold ph-calendar-blank"></i>
+                            <span class="text-muted-foreground">{% translate "Created" %}:</span>
+                            <span class="font-medium">{{ gotw.created|date:"M Y" }}</span>
+                        </div>
+                    </div>
+                    {% else %}
+                    <p class="text-center text-muted-foreground">
+                        {% translate "There is no Featured Grid for this week" %}
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="flex flex-col h-full card">
+                <div class="flex gap-2 justify-center items-center pb-4 text-center card-header">
+                    <i class="text-xl text-yellow-500 ph-bold ph-trophy"></i>
+                    <h2 class="text-xl font-bold">{% translate "Featured Package" %}</h2>
+                </div>
+                <div class="flex-1 card-content">
+                    {% if potw %}
+                    <div class="mb-6 text-center">
+                        <h4 class="mb-2 text-lg font-semibold">
+                            <a
+                                href="{{ potw.get_absolute_url }}"
+                                class="transition-colors text-primary hover:text-primary/80"
+                            >
+                                {{ potw.title }}
+                            </a>
+                        </h4>
+                        <p class="text-sm text-muted-foreground line-clamp-3">{{ potw.repo_description }}</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-x-8 gap-y-4 mb-6 w-fit mx-auto">
+                        <div class="flex gap-2 items-center text-sm">
+                            <i class="text-muted-foreground ph-bold ph-grid-nine"></i>
+                            <span class="text-muted-foreground">{% translate "Grids" %}:</span>
+                            <span class="font-medium">{{ potw.grid_count }}</span>
+                        </div>
+                        <div class="flex gap-2 items-center text-sm">
+                            <i class="text-muted-foreground ph-bold ph-star"></i>
+                            <span class="text-muted-foreground">{% translate "Stars" %}:</span>
+                            <span class="font-medium">{{ potw.repo_watchers|intcomma }}</span>
+                        </div>
+                        <div class="flex gap-2 items-center text-sm">
+                            <i class="text-muted-foreground ph-bold ph-git-fork"></i>
+                            <span class="text-muted-foreground">{% translate "Forks" %}:</span>
+                            <span class="font-medium">{{ potw.repo_forks|intcomma }}</span>
+                        </div>
+                        <div class="flex gap-2 items-center text-sm">
+                            <i class="text-muted-foreground ph-bold ph-file-text"></i>
+                            <span class="text-muted-foreground">{% translate "License" %}:</span>
+                            <span class="font-medium truncate" title="{{ potw.pypi_license }}"
+                                >{{ potw.pypi_license|default:"Unknown"|truncatechars:15 }}</span
+                            >
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4 justify-center items-center pt-4 border-t">
+                        {% if potw.repo_url %}
+                        <a
+                            href="{{ potw.repo_url }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-muted-foreground hover:text-primary"
+                            title="{% translate 'Repository' %}"
+                        >
+                            <i class="text-xl ph-bold ph-git-branch"></i>
+                        </a>
+                        {% endif %}
+                        {% if potw.pypi_url %}
+                        <a
+                            href="{{ potw.pypi_url }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-muted-foreground hover:text-primary"
+                            title="{% translate 'PyPI' %}"
+                        >
+                            <i class="text-xl ph-bold ph-file-py"></i>
+                        </a>
+                        {% endif %}
+                        {% if potw.documentation_url %}
+                        <a
+                            href="{{ potw.documentation_url }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-muted-foreground hover:text-primary"
+                            title="{% translate 'Documentation' %}"
+                        >
+                            <i class="text-xl ph-bold ph-book-open"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                    {% else %}
+                    <p class="text-center text-muted-foreground">
+                        {% translate "There is no Featured Package for this week" %}
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+            {% switch "switch_use_psa" %}
+                {% psa %}
+            {% endswitch %}
+        </div>
+    </div>
+</section>

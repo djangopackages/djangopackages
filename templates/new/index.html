@@ -1,5 +1,5 @@
 {% extends 'new/base.html' %}
-{% load i18n static %}
+{% load grid_of_the_week_tag i18n static waffle_tags %}
 
 {% block content %}
 <!-- Hero Section -->
@@ -123,16 +123,20 @@
         </div>
     </section>
 
+    {% switch "switch_use_grid_of_the_week" %}
+        {% grid_of_the_week %}
+    {% endswitch %}
+
 <!-- Package Listings -->
     <section class="py-8 bg-muted/20">
         <div class="container px-4 mx-auto">
-            <div class="grid gap-8 lg:grid-cols-3">
+            <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             <!-- Latest Packages -->
                 <div>
                     <h2 class="mb-6 text-xl font-semibold">{% translate "Latest Package Releases" %}</h2>
                     <div class="space-y-4">
-                        {% for version in latest_python3 %}
-                            {% include 'new/partials/package_card.html' with package=version.package %}
+                        {% for package in latest_python3 %}
+                            {% include 'new/partials/package_card.html' with package=package %}
                         {% empty %}
                             <div class="card">
                                 <div class="p-4 card-content">
@@ -182,6 +186,27 @@
                             </div>
                         {% endfor %}
                     </div>
+                </div>
+
+            <!-- Most Liked Packages -->
+                <div>
+                    <h2 class="mb-6 text-xl font-semibold">{% translate "Most Liked Packages" %}</h2>
+                    <div class="space-y-4">
+                        {% for package in most_liked_packages %}
+                            {% include 'new/partials/package_card.html' with package=package %}
+                        {% empty %}
+                            <div class="card">
+                                <div class="p-4 card-content">
+                                    <p class="text-sm text-muted-foreground">
+                                        {% translate "No packages found." %}
+                                    </p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% if most_liked_packages %}
+                        <a href="{% url 'liked_packages' %}" class="mt-6 w-full btn-secondary">{% translate "View More" %}</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

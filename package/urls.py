@@ -5,6 +5,7 @@ from django.db.models import Count
 from package.models import Package
 from package.views import (
     PackageListView,
+    PackageOpenGraphDetailView,
     add_example,
     add_package,
     ajax_package_list,
@@ -17,12 +18,11 @@ from package.views import (
     flag_package,
     flag_remove,
     github_webhook,
-    package_detail,
     package_details_rules,
-    package_opengraph_detail,
     fetch_package_data,
     usage,
     PackageVersionListView,
+    PackageDetailView,
 )
 
 urlpatterns = [
@@ -103,7 +103,7 @@ urlpatterns = [
     ),
     path(
         "p/<slug:slug>/opengraph/",
-        view=package_opengraph_detail,
+        view=PackageOpenGraphDetailView.as_view(),
         name="package_opengraph",
     ),
     path(
@@ -113,7 +113,7 @@ urlpatterns = [
     ),
     path(
         "p/<slug:slug>/",
-        view=package_detail,
+        view=PackageDetailView.as_view(),
         name="package",
     ),
     path(

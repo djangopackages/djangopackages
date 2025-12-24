@@ -14,7 +14,7 @@ from django.urls import reverse
 from django.views.generic import ListView, TemplateView, View
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 
-from homepage.views import homepage
+from homepage.views import HomepageView
 from package.models import Package
 from searchv2.builders import build_1
 from searchv2.forms import SearchForm
@@ -109,7 +109,7 @@ def search2(request, template_name="searchv2/search.html"):
     """
     Searches in Grids and Packages
     """
-    return homepage(request, template_name=template_name)
+    return HomepageView.as_view(template_name=template_name)(request)
 
 
 class SearchSuggestionsView(ListView):

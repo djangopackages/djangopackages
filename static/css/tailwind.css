@@ -89,7 +89,6 @@
     --color-muted-foreground: oklch(0.45 0 0);
     --color-accent: oklch(0.5 0.15 162);
     --color-accent-foreground: oklch(1 0 0);
-    --color-destructive: oklch(0.65 0.2 25);
     --color-border: oklch(0.88 0 0);
     --color-input: oklch(0.88 0 0);
     --radius-full: 9999px;
@@ -306,9 +305,6 @@
   .right-4 {
     right: calc(var(--spacing) * 4);
   }
-  .right-5 {
-    right: calc(var(--spacing) * 5);
-  }
   .bottom-0 {
     bottom: calc(var(--spacing) * 0);
   }
@@ -341,6 +337,9 @@
   }
   .col-12 {
     grid-column: 12;
+  }
+  .col-span-2 {
+    grid-column: span 2 / span 2;
   }
   .container {
     width: 100%;
@@ -537,6 +536,9 @@
   .w-auto {
     width: auto;
   }
+  .w-fit {
+    width: fit-content;
+  }
   .w-full {
     width: 100%;
   }
@@ -594,6 +596,9 @@
   }
   .grid-cols-1 {
     grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .flex-col {
     flex-direction: column;
@@ -672,6 +677,9 @@
       margin-block-end: calc(calc(var(--spacing) * 6) * calc(1 - var(--tw-space-y-reverse)));
     }
   }
+  .gap-x-8 {
+    column-gap: calc(var(--spacing) * 8);
+  }
   .space-x-1 {
     :where(& > :not(:last-child)) {
       --tw-space-x-reverse: 0;
@@ -699,6 +707,9 @@
       margin-inline-start: calc(calc(var(--spacing) * 6) * var(--tw-space-x-reverse));
       margin-inline-end: calc(calc(var(--spacing) * 6) * calc(1 - var(--tw-space-x-reverse)));
     }
+  }
+  .gap-y-4 {
+    row-gap: calc(var(--spacing) * 4);
   }
   .self-center {
     align-self: center;
@@ -1240,6 +1251,14 @@
       display: block;
     }
   }
+  .group-focus-within\:border-muted-foreground\/30 {
+    &:is(:where(.group):focus-within *) {
+      border-color: color-mix(in srgb, oklch(0.45 0 0) 30%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        border-color: color-mix(in oklab, var(--color-muted-foreground) 30%, transparent);
+      }
+    }
+  }
   .group-focus-within\:text-muted-foreground {
     &:is(:where(.group):focus-within *) {
       color: var(--color-muted-foreground);
@@ -1365,10 +1384,27 @@
       }
     }
   }
+  .hover\:text-primary {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-primary);
+      }
+    }
+  }
   .hover\:text-primary-foreground {
     &:hover {
       @media (hover: hover) {
         color: var(--color-primary-foreground);
+      }
+    }
+  }
+  .hover\:text-primary\/80 {
+    &:hover {
+      @media (hover: hover) {
+        color: color-mix(in srgb, oklch(0.3176 0.0648 159.21) 80%, transparent);
+        @supports (color: color-mix(in lab, red, red)) {
+          color: color-mix(in oklab, var(--color-primary) 80%, transparent);
+        }
       }
     }
   }
@@ -1457,11 +1493,6 @@
   .sm\:inline-flex {
     @media (width >= 40rem) {
       display: inline-flex;
-    }
-  }
-  .sm\:table-cell {
-    @media (width >= 40rem) {
-      display: table-cell;
     }
   }
   .sm\:h-24 {

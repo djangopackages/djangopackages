@@ -85,7 +85,7 @@
                                 <div class="flex flex-wrap gap-4 items-center text-sm">
                                     <span class="flex gap-1 items-center">
                                         <i class="text-base ph-bold ph-git-commit"></i>
-                                        {% translate "Commits" %}: {{ package.commit_set.count|intcomma }}
+                                        {% translate "Commits" %}: {{ commit_count|intcomma }}
                                     </span>
                                     <span class="flex gap-1 items-center">
                                         <i class="text-base ph-bold ph-eye"></i>
@@ -154,7 +154,7 @@
                                 {% translate "Releases" %}
                             </h3>
                             <span class="text-sm font-normal text-muted-foreground">
-                                <span id="total-releases">{{ package.version_set.count }}</span>
+                                <span id="total-releases">{{ version_count|intcomma }}</span>
                                 {% translate "total releases" %}
                             </span>
                         </div>
@@ -286,57 +286,55 @@
                 {% endif %}
 
                 <!-- Comparison Grids Card -->
-                {% if package.grid_set.exists or request.user.is_authenticated and profile.can_add_grid %}
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="flex justify-between items-center">
-                                <h3 class="flex gap-2 items-center text-lg font-semibold">
-                                    <i class="text-xl ph-bold ph-grid-nine"></i>
-                                    {% translate "Comparison Grids" %}
-                                </h3>
-                                {% if request.user.is_authenticated and profile.can_add_grid %}
-                                    <button
-                                        type="button"
-                                        class="px-2 h-8 text-xs btn-secondary"
-                                        onclick="document.getElementById('grid-search-form').classList.toggle('hidden'); document.getElementById('grid-search-input').focus();"
-                                    >
-                                        <i class="text-base ph-bold ph-plus"></i>
-                                    </button>
-                                {% endif %}
-                            </div>
-                        </div>
-                        <div class="card-content">
-                            <div class="flex flex-wrap gap-2">
-                                {% for grid in package.grid_set.all %}
-                                    <a
-                                        href="{{ grid.get_absolute_url }}"
-                                        class="transition-colors cursor-pointer badge hover:bg-primary hover:text-primary-foreground"
-                                    >{{ grid.title }}</a>
-                                {% empty %}
-                                    <p class="text-sm text-muted-foreground">
-                                        {% translate "No comparison grids have been listed yet." %}
-                                    </p>
-                                {% endfor %}
-                            </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="flex justify-between items-center">
+                            <h3 class="flex gap-2 items-center text-lg font-semibold">
+                                <i class="text-xl ph-bold ph-grid-nine"></i>
+                                {% translate "Comparison Grids" %}
+                            </h3>
                             {% if request.user.is_authenticated and profile.can_add_grid %}
-                                <div id="grid-search-form" class="hidden mt-4">
-                                    <input
-                                        id="grid-search-input"
-                                        type="text"
-                                        name="q"
-                                        class="py-1 px-2 w-full text-sm rounded border bg-background text-foreground"
-                                        placeholder="Search for a grid..."
-                                        hx-get="{% url 'ajax_grid_list' %}"
-                                        hx-trigger="keyup changed delay:500ms"
-                                        hx-target="#grid-search-results"
-                                        hx-vals='{"package_id": "{{ package.id }}", "redirect": "{{ request.path }}"}'
-                                    />
-                                    <div id="grid-search-results" class="mt-2 space-y-2"></div>
-                                </div>
+                                <button
+                                    type="button"
+                                    class="px-2 h-8 text-xs btn-secondary"
+                                    onclick="document.getElementById('grid-search-form').classList.toggle('hidden'); document.getElementById('grid-search-input').focus();"
+                                >
+                                    <i class="text-base ph-bold ph-plus"></i>
+                                </button>
                             {% endif %}
                         </div>
                     </div>
-                {% endif %}
+                    <div class="card-content">
+                        <div class="flex flex-wrap gap-2">
+                            {% for grid in package.grid_set.all %}
+                                <a
+                                    href="{{ grid.get_absolute_url }}"
+                                    class="transition-colors cursor-pointer badge hover:bg-primary hover:text-primary-foreground"
+                                >{{ grid.title }}</a>
+                            {% empty %}
+                                <p class="text-sm text-muted-foreground">
+                                    {% translate "No comparison grids have been listed yet." %}
+                                </p>
+                            {% endfor %}
+                        </div>
+                        {% if request.user.is_authenticated and profile.can_add_grid %}
+                            <div id="grid-search-form" class="hidden mt-4">
+                                <input
+                                    id="grid-search-input"
+                                    type="text"
+                                    name="q"
+                                    class="py-1 px-2 w-full text-sm rounded border bg-background text-foreground"
+                                    placeholder="Search for a grid..."
+                                    hx-get="{% url 'ajax_grid_list' %}"
+                                    hx-trigger="keyup changed delay:500ms"
+                                    hx-target="#grid-search-results"
+                                    hx-vals='{"package_id": "{{ package.id }}", "redirect": "{{ request.path }}"}'
+                                />
+                                <div id="grid-search-results" class="mt-2 space-y-2"></div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
 
                 <!-- Sites using this package Card -->
                 <div class="card">
@@ -358,36 +356,38 @@
                         </div>
                     </div>
                     <div class="card-content">
-                        {% with examples=package.active_examples %} {% if examples %}
-                            <ul class="space-y-2">
-                                {% for example in examples %}
-                                    <li class="flex justify-between items-center text-sm">
-                                        <a
-                                            href="{{ example.pretty_url }}"
-                                            rel="nofollow"
-                                            target="_blank"
-                                            class="flex gap-1 items-center hover:underline text-primary truncate"
-                                        >
-                                            <span class="truncate">{{ example.title }}</span>
-                                            <i class="flex-shrink-0 text-sm ph-bold ph-arrow-square-out"></i>
-                                        </a>
-                                        {% if request.user.is_authenticated %}
+                        {% with examples=package.active_examples %}
+                            {% if examples %}
+                                <ul class="space-y-2">
+                                    {% for example in examples %}
+                                        <li class="flex justify-between items-center text-sm">
                                             <a
-                                                href="{% url 'edit_example' package.slug example.id %}"
-                                                class="px-2 ml-2 h-8 text-xs btn-secondary"
-                                                title="{% translate 'Edit site' %}"
+                                                href="{{ example.pretty_url }}"
+                                                rel="nofollow"
+                                                target="_blank"
+                                                class="flex gap-1 items-center hover:underline text-primary truncate"
                                             >
-                                                <i class="text-base ph-bold ph-pencil-simple"></i>
+                                                <span class="truncate">{{ example.title }}</span>
+                                                <i class="flex-shrink-0 text-sm ph-bold ph-arrow-square-out"></i>
                                             </a>
-                                        {% endif %}
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        {% else %}
-                            <p class="text-sm text-muted-foreground">
-                                {% translate "No sites using this package have been listed yet." %}
-                            </p>
-                        {% endif %} {% endwith %}
+                                            {% if request.user.is_authenticated %}
+                                                <a
+                                                    href="{% url 'edit_example' package.slug example.id %}"
+                                                    class="px-2 ml-2 h-8 text-xs btn-secondary"
+                                                    title="{% translate 'Edit site' %}"
+                                                >
+                                                    <i class="text-base ph-bold ph-pencil-simple"></i>
+                                                </a>
+                                            {% endif %}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p class="text-sm text-muted-foreground">
+                                    {% translate "No sites using this package have been listed yet." %}
+                                </p>
+                            {% endif %}
+                        {% endwith %}
                     </div>
                 </div>
 
@@ -417,6 +417,3 @@
         </div>
     </div>
 {% endblock content %}
-
-{% block extra_js %}
-{% endblock extra_js %}

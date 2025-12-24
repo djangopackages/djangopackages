@@ -25,7 +25,7 @@
 
         <div class="flex items-center space-x-4">
             {% if request.resolver_match.url_name != 'home' %}
-      <!-- Search Bar - Only shown on non-home pages -->
+                <!-- Search Bar - Only shown on non-home pages -->
                 <div class="hidden relative lg:block">
                     <div class="relative group">
                         <i
@@ -53,12 +53,12 @@
                                 ></i>
                             </div>
                             <div
-                                class="hidden items-center py-0.5 px-1.5 space-x-1 text-xs rounded border transition-colors xl:flex text-primary-foreground/60 bg-primary-foreground/10 border-primary-foreground/20"
+                                class="hidden items-center py-0.5 px-1.5 space-x-1 text-xs rounded border transition-colors xl:flex text-primary-foreground/60 bg-primary-foreground/10 border-primary-foreground/20 group-focus-within:text-muted-foreground group-focus-within:border-muted-foreground/30"
                             >
                                 <span>&#8984; /</span>
                             </div>
                         </div>
-          <!-- Suggestions Dropdown -->
+                        <!-- Suggestions Dropdown -->
                         <div
                             id="navbar-suggestions-dropdown"
                             class="hidden overflow-hidden absolute right-0 left-0 top-full z-50 mt-2 rounded-xl border-2 shadow-xl empty:hidden peer-focus:block peer-placeholder-shown:hidden bg-popover/95 backdrop-blur-sm border-border/50 group-focus-within:block"
@@ -81,7 +81,7 @@
                 <a href="{% url 'social:begin' 'github' %}" class="hidden sm:inline-flex btn-secondary">{% translate "Log In" %}</a>
             {% endif %}
 
-      <!-- Mobile menu button -->
+            <!-- Mobile menu button -->
             <button
                 id="mobile-menu-btn"
                 class="p-2 rounded-md transition-colors md:hidden text-primary-foreground hover:bg-primary-foreground/10"
@@ -91,14 +91,14 @@
         </div>
     </div>
 
-  <!-- Mobile menu -->
+    <!-- Mobile menu -->
     <div
         id="mobile-menu"
         class="hidden border-t md:hidden bg-primary border-primary-foreground/10"
     >
         <nav class="container py-4 px-4 mx-auto space-y-3">
             {% if request.resolver_match.url_name != 'home' %}
-      <!-- Mobile Search Bar - Only shown on non-home pages -->
+                <!-- Mobile Search Bar - Only shown on non-home pages -->
                 <div class="relative">
                     <div class="relative group">
                         <i
@@ -126,7 +126,7 @@
                                 ></i>
                             </div>
                         </div>
-          <!-- Suggestions Dropdown -->
+                        <!-- Suggestions Dropdown -->
                         <div
                             id="mobile-navbar-suggestions-dropdown"
                             class="hidden overflow-hidden absolute right-0 left-0 top-full z-50 mt-2 rounded-xl border-2 shadow-xl empty:hidden peer-focus:block peer-placeholder-shown:hidden bg-popover/95 backdrop-blur-sm border-border/50 group-focus-within:block"
