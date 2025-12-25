@@ -143,17 +143,166 @@ body {
  * GridNav: bar color
  */
 
-.rotatingnav-inner {
+.grid-nav {
     background-color: #F8F8F8;
+    border-bottom: 1px solid #dfe7e2;
 }
 
-/**
- * GridNav: left/right scroll arrows
- */
+.grid-nav-inner {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+        "scroll scroll"
+        "prev next";
+    gap: 0.75rem;
+    padding: 1rem 0 1.5rem;
+}
 
-.rotatingnav-control {
-    background-color: #44B78B;
-    text-shadow: 0 1px 2px #8ec5ba;
+.grid-nav-scroll {
+    grid-area: scroll;
+    width: 100%;
+    overflow-x: auto;
+    padding: 0.5rem 0.75rem;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+}
+
+.grid-nav-scroll::-webkit-scrollbar {
+    height: 8px;
+}
+
+.grid-nav-scroll::-webkit-scrollbar-thumb {
+    background-color: rgba(68, 183, 139, 0.6);
+    border-radius: 9999px;
+}
+
+.grid-nav-list {
+    display: flex;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.grid-nav-column {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+}
+
+.grid-nav-column-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.grid-nav-item {
+    margin: 0;
+}
+
+.grid-nav-link {
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.1rem 0;
+    border: none;
+    background: transparent;
+    color: #0C3C26;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.grid-nav-link:hover,
+.grid-nav-link:focus {
+    color: #44B78B;
+    text-decoration: none;
+    border-bottom-color: #44B78B;
+}
+
+.grid-nav-link--more {
+    text-transform: none;
+    letter-spacing: normal;
+    font-weight: 700;
+    border-bottom-style: dashed;
+}
+
+.grid-nav-column--more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.grid-nav-column--more .grid-nav-link {
+    width: auto;
+    padding: 0;
+}
+
+.grid-nav-button {
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #cfe3d9;
+    border-radius: 9999px;
+    color: #0C3C26;
+    display: flex;
+    font-size: 16px;
+    height: 44px;
+    justify-content: center;
+    padding: 0 1.25rem;
+    width: 100%;
+    box-shadow: 0 12px 28px -14px rgba(12, 60, 38, 0.6);
+}
+
+.grid-nav-button--prev {
+    grid-area: prev;
+}
+
+.grid-nav-button--next {
+    grid-area: next;
+}
+
+.grid-nav-button:focus-visible {
+    outline: 3px solid #44B78B;
+    outline-offset: 3px;
+}
+
+@media (min-width: 768px) {
+    .grid-nav-inner {
+        grid-template-columns: auto 1fr auto;
+        grid-template-areas: "prev scroll next";
+        align-items: center;
+        gap: 1.5rem;
+        padding: 1rem 2.5rem;
+    }
+
+    .grid-nav-scroll {
+        overflow: visible;
+        padding: 0;
+        scroll-behavior: auto;
+        scroll-snap-type: none;
+    }
+
+    .grid-nav-list {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(0, 1fr);
+        gap: 2.5rem;
+    }
+
+    .grid-nav-column {
+        flex: 0 0 auto;
+    }
+
+    .grid-nav-button {
+        height: 48px;
+        padding: 0;
+        width: 48px;
+    }
 }
 
 .breadcrumb{
