@@ -1,13 +1,13 @@
 {% load humanize i18n waffle_tags %}
-{% for package in packages %}
+{% for item in search_results %}
     <a
-        href="{% if package.is_grid %}{% url 'grid' package.slug %}{% else %}{% url 'package' package.slug %}{% endif %}"
+        href="{% if item.is_grid %}{% url 'grid' item.slug %}{% else %}{% url 'package' item.slug %}{% endif %}"
         class="block text-left suggestion-item"
         data-index="{{ forloop.counter0 }}"
     >
         <div class="flex gap-3 items-start">
             <div class="flex-shrink-0 mt-1 suggestion-icon">
-                {% if package.is_grid %}
+                {% if item.is_grid %}
                     <i class="text-sm ph-bold ph-squares-four"></i>
                 {% else %}
                     <i class="text-sm ph-bold ph-package"></i>
@@ -16,47 +16,47 @@
             <div class="flex-1 min-w-0">
                 <div class="flex gap-2 justify-between items-center">
                     <span class="font-medium truncate"
-                    >{{ package.title }}</span
+                    >{{ item.title }}</span
                         >
                     </div>
 
-                    {% if package.description %}
+                    {% if item.description %}
                         <p
                             class="mt-0.5 text-xs suggestion-description text-muted-foreground truncate"
                         >
-                            {{ package.description }}
+                            {{ item.description }}
                         </p>
                     {% endif %}
 
                     <div class="flex flex-wrap gap-2 items-center mt-2">
-                        {% if package.is_grid %}
+                        {% if item.is_grid %}
                             <span class="whitespace-nowrap badge suggestion-badge">
                                 {% translate "Grid" %}
                             </span>
                         {% else %}
-                            {% if package.category %}
+                            {% if item.category %}
                                 <span class="whitespace-nowrap badge suggestion-badge"
-                                >{{ package.category.title }}</span
+                                >{{ item.category.title }}</span
                                     >
                             {% endif %}
-                            {% if package.pypi_version %}
+                            {% if item.pypi_version %}
                                 <span
                                     class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge"
                                     data-toggle="tooltip"
                                     title="{% translate 'Latest PyPI Version' %}"
                                 >
                                     <i class="text-xs ph-bold ph-tag"></i>
-                                    {{ package.pypi_version }}
+                                    {{ item.pypi_version }}
                                 </span>
                             {% endif %}
-                            {% if package.last_released %}
+                            {% if item.last_released %}
                                 <span
                                     class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge"
                                     data-toggle="tooltip"
                                     title="{% translate 'Last Released' %}"
                                 >
                                     <i class="text-xs ph-bold ph-calendar-check"></i>
-                                    {{ package.last_released|date }}
+                                    {{ item.last_released|date }}
                                 </span>
                             {% endif %}
                             {% flag "enabled_packages_score_values" %}
@@ -66,7 +66,7 @@
                                     title="{% translate 'Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%).' %}"
                                 >
                                     <i class="text-xs ph-bold ph-chart-bar"></i>
-                                    {{ package.score|intcomma|default:"n/a" }}
+                                    {{ item.score|intcomma|default:"n/a" }}
                                 </span>
                             {% endflag %}
 
@@ -76,7 +76,7 @@
                                 title="{% translate 'Stars' %}"
                             >
                                 <i class="text-xs ph-bold ph-star"></i>
-                                {{ package.repo_watchers|intcomma|default:0 }}
+                                {{ item.repo_watchers|intcomma|default:0 }}
                             </span>
 
                             <span
@@ -85,7 +85,7 @@
                                 title="{% translate 'Forks' %}"
                             >
                                 <i class="text-xs ph-bold ph-git-fork"></i>
-                                {{ package.repo_forks|default:0 }}
+                                {{ item.repo_forks|default:0 }}
                             </span>
                         {% endif %}
                     </div>
@@ -112,7 +112,7 @@
             </div>
         </div>
     {% endwith %}
-{% elif packages and not has_more %}
+{% elif search_results and not has_more %}
     <div
         class="py-3 text-xs text-center border-t text-muted-foreground border-border/40"
     >

@@ -52,7 +52,7 @@ urlpatterns = [
     path("404", error_404_view, name="404"),
     path("500", error_500_view, name="500"),
     path("503", error_503_view, name="503"),
-    re_path(settings.ADMIN_URL_BASE, admin.site.urls),
+    path(settings.ADMIN_URL_BASE, admin.site.urls),
     path("changelog/", include("blog.urls")),
     path("profiles/", include("profiles.urls")),
     path("packages/", include("package.urls")),

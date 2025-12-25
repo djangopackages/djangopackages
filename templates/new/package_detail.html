@@ -83,25 +83,59 @@
                                     </a>
                                 {% endif %}
                                 <div class="flex flex-wrap gap-4 items-center text-sm">
-                                    <span class="flex gap-1 items-center">
-                                        <i class="text-base ph-bold ph-git-commit"></i>
-                                        {% translate "Commits" %}: {{ commit_count|intcomma }}
-                                    </span>
-                                    <span class="flex gap-1 items-center">
-                                        <i class="text-base ph-bold ph-eye"></i>
-                                        {{ package.repo_watchers|intcomma|default:"n/a" }}
-                                    </span>
-                                    <span class="flex gap-1 items-center">
-                                        <i class="text-base ph-bold ph-git-fork"></i>
-                                        {{ package.repo_forks|intcomma|default:"n/a" }}
-                                    </span>
-                                    {% flag "enabled_packages_score_values" %}
-                                        <span class="flex gap-1 items-center" title="{% translate 'Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%).' %}">
-                                            <i class="text-base ph-bold ph-chart-bar"></i>
-                                            {{ package.score|intcomma|default:"n/a" }}
+
+                                    <!-- Commits -->
+                                    <div class="tooltip-wrapper group">
+                                        <span class="flex gap-1 items-center cursor-help">
+                                            <i class="text-base ph-bold ph-git-commit"></i>
+                                            {% translate "Commits" %}: {{ commit_count|intcomma }}
                                         </span>
+
+                                        <div class="tooltip group-hover:opacity-100">
+                                            {% translate "Total commits in the repository" %}
+                                        </div>
+                                    </div>
+
+                                    <!-- Watchers -->
+                                    <div class="tooltip-wrapper group">
+                                        <span class="flex gap-1 items-center cursor-help">
+                                            <i class="text-base ph-bold ph-eye"></i>
+                                            {{ package.repo_watchers|intcomma|default:"n/a" }}
+                                        </span>
+
+                                        <div class="tooltip group-hover:opacity-100">
+                                            {% translate "Number of users watching the repository" %}
+                                        </div>
+                                    </div>
+
+                                    <!-- Forks -->
+                                    <div class="tooltip-wrapper group">
+                                        <span class="flex gap-1 items-center cursor-help">
+                                            <i class="text-base ph-bold ph-git-fork"></i>
+                                            {{ package.repo_forks|intcomma|default:"n/a" }}
+                                        </span>
+
+                                        <div class="tooltip group-hover:opacity-100">
+                                            {% translate "Number of repository forks" %}
+                                        </div>
+                                    </div>
+
+                                    {% flag "enabled_packages_score_values" %}
+                                        <!-- Score -->
+                                        <div class="tooltip-wrapper group">
+                                            <span class="flex gap-1 items-center cursor-help">
+                                                <i class="text-base ph-bold ph-chart-bar"></i>
+                                                {{ package.score|intcomma|default:"n/a" }}
+                                            </span>
+
+                                            <div class="tooltip tooltip-lg group-hover:opacity-100">
+                                                {% translate "Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%)." %}
+                                            </div>
+                                        </div>
                                     {% endflag %}
+
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -110,10 +144,16 @@
                 <!-- Commit Graph Card -->
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="flex gap-2 items-center text-xl font-semibold">
-                            <i class="text-xl ph-bold ph-chart-line"></i>
-                            {% translate "Commit Graph" %}
-                        </h3>
+                        <div class="tooltip-wrapper group">
+                            <h3 class="flex gap-2 items-center text-xl font-semibold">
+                                <i class="text-xl ph-bold ph-chart-line"></i>
+                                {% translate "Commit Graph" %}
+                            </h3>
+
+                            <div class="tooltip group-hover:opacity-100">
+                                {% translate "History of commits in the last 52 weeks" %}
+                            </div>
+                        </div>
                     </div>
                     <div class="card-content">
                         <div class="w-full h-20 sm:h-24">

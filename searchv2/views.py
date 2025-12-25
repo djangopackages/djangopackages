@@ -115,7 +115,7 @@ def search2(request, template_name="searchv2/search.html"):
 class SearchSuggestionsView(ListView):
     model = SearchV2
     template_name = "new/partials/suggestions.html"
-    context_object_name = "packages"
+    context_object_name = "search_results"
     paginate_by = 10
 
     def get_queryset(self):

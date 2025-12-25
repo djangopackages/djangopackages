@@ -76,6 +76,14 @@
                         {{ request.user.username }}
                     </a>
                 {% endif %}
+                {% if request.user.is_staff %}
+                    <a
+                        href="{% url 'admin:index' %}"
+                        class="hidden py-2 px-3 text-sm font-bold rounded-md transition-colors sm:block text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5"
+                    >
+                        {% translate "Admin Dashboard" %}
+                    </a>
+                {% endif %}
                 <a href="{% url 'logout' %}" class="hidden sm:inline-flex btn-secondary">{% translate "Log Out" %}</a>
             {% else %}
                 <a href="{% url 'social:begin' 'github' %}" class="hidden sm:inline-flex btn-secondary">{% translate "Log In" %}</a>
@@ -140,6 +148,9 @@
             {% if request.user.is_authenticated %}
                 {% if request.user.profile.github_account %}
                     <a href="{% url 'profile_detail' request.user.profile.github_account %}" class="block py-2 px-3 text-base font-medium rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5">{{ request.user.username }}</a>
+                {% endif %}
+                {% if request.user.is_staff %}
+                    <a href="{% url 'admin:index' %}" class="block py-2 px-3 text-base font-medium rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5">{% translate "Admin Dashboard" %}</a>
                 {% endif %}
                 <a href="{% url 'logout' %}" class="block py-2 px-3 text-base font-medium rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5">{% translate "Log Out" %}</a>
             {% else %}
