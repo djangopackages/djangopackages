@@ -91,7 +91,7 @@
                                             {% translate "Commits" %}: {{ commit_count|intcomma }}
                                         </span>
 
-                                        <div class="tooltip group-hover:opacity-100">
+                                        <div class="group-hover:opacity-100 tooltip">
                                             {% translate "Total commits in the repository" %}
                                         </div>
                                     </div>
@@ -103,7 +103,7 @@
                                             {{ package.repo_watchers|intcomma|default:"n/a" }}
                                         </span>
 
-                                        <div class="tooltip group-hover:opacity-100">
+                                        <div class="group-hover:opacity-100 tooltip">
                                             {% translate "Number of users watching the repository" %}
                                         </div>
                                     </div>
@@ -115,7 +115,7 @@
                                             {{ package.repo_forks|intcomma|default:"n/a" }}
                                         </span>
 
-                                        <div class="tooltip group-hover:opacity-100">
+                                        <div class="group-hover:opacity-100 tooltip">
                                             {% translate "Number of repository forks" %}
                                         </div>
                                     </div>
@@ -128,7 +128,7 @@
                                                 {{ package.score|intcomma|default:"n/a" }}
                                             </span>
 
-                                            <div class="tooltip tooltip-lg group-hover:opacity-100">
+                                            <div class="group-hover:opacity-100 tooltip tooltip-lg">
                                                 {% translate "Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%)." %}
                                             </div>
                                         </div>
@@ -150,7 +150,7 @@
                                 {% translate "Commit Graph" %}
                             </h3>
 
-                            <div class="tooltip group-hover:opacity-100">
+                            <div class="group-hover:opacity-100 tooltip">
                                 {% translate "History of commits in the last 52 weeks" %}
                             </div>
                         </div>
