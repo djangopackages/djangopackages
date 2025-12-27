@@ -164,3 +164,42 @@ class SearchDescriptionTest(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, '["django-uni-form"]')
+
+
+class TestSearchSuggestionsView(TestCase):
+    def setUp(self):
+        initial_data.load()
+        build_1()
+        self.url = reverse("search_suggestions")
+
+    def test_view_status_code(self):
+        response = self.client.get(self.url, {"q": "test"})
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_template_used(self):
+        response = self.client.get(self.url, {"q": "test"})
+        self.assertTemplateUsed(response, "new/partials/suggestions.html")
+
+    def test_search_results(self):
+        response = self.client.get(self.url, {"q": "testability"})
+        self.assertContains(response, "testability")
+        self.assertTrue(len(response.context["search_results"]) > 0)
+
+    def test_no_results(self):
+        response = self.client.get(self.url, {"q": "nonexistentpackage"})
+        self.assertNotContains(response, "testability")
+        self.assertEqual(len(response.context["search_results"]), 0)
+
+    def test_context_data(self):
+        response = self.client.get(self.url, {"q": "test"})
+        self.assertIn("query", response.context)
+        self.assertIn("total_count", response.context)
+        self.assertIn("shown_count", response.context)
+        self.assertIn("has_more", response.context)
+        self.assertIn("next_page", response.context)
+        self.assertIn("dropdown_id", response.context)
+        self.assertIn("is_load_more", response.context)
+
+        self.assertEqual(response.context["query"], "test")
+        self.assertEqual(response.context["dropdown_id"], "suggestions-dropdown")
+        self.assertFalse(response.context["is_load_more"])

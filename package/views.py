@@ -26,7 +26,7 @@ from package.forms import (
     PackageExampleForm,
     PackageForm,
 )
-from package.models import Category, FlaggedPackage, Package, PackageExample
+from package.models import Category, FlaggedPackage, Package, PackageExample, Version
 from package.repos import get_all_repos
 from package.tables import PackageTable
 from searchv2.rules import calc_package_weight
@@ -639,10 +639,9 @@ class PackageVersionListView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        self.package = get_object_or_404(Package, slug=self.kwargs["slug"])
-        return self.package.version_set.by_version_not_hidden()
+        return Version.objects.by_version_not_hidden(package__slug=self.kwargs["slug"])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["package"] = self.package
+        context["package_slug"] = self.kwargs["slug"]
         return context

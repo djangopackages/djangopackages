@@ -506,3 +506,12 @@ def test_grid_package_list(db, django_assert_num_queries, tp):
         response = tp.client.get(url)
 
     assert response.status_code == 200
+
+
+def test_package_version_list_view(db, django_assert_num_queries, tp, package_cms):
+    url = tp.reverse("package_versions", slug=package_cms.slug)
+    with django_assert_num_queries(3):
+        response = tp.client.get(url)
+
+    assert response.status_code == 200
+    assert "new/partials/releases_table.html" in [t.name for t in response.templates]

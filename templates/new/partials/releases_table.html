@@ -43,7 +43,7 @@
             <div class="inline-flex flex-wrap gap-1 items-center">
                 <button
                     {% if page_obj.has_previous %}
-                        hx-get="{% url 'package_versions' slug=package.slug %}?page={{ page_obj.previous_page_number }}"
+                        hx-get="{% url 'package_versions' slug=package_slug %}?page={{ page_obj.previous_page_number }}"
                         hx-target="#versions-table-container"
                         hx-swap="innerHTML"
                     {% else %}
@@ -63,7 +63,7 @@
                             </button>
                         {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
                             <button
-                                hx-get="{% url 'package_versions' slug=package.slug %}?page={{ i }}"
+                                hx-get="{% url 'package_versions' slug=package_slug %}?page={{ i }}"
                                 hx-target="#versions-table-container"
                                 hx-swap="innerHTML"
                                 class="inline-flex justify-center items-center w-9 h-9 text-sm font-medium whitespace-nowrap rounded-md transition-colors hover:bg-accent hover:text-accent-foreground">
@@ -75,7 +75,7 @@
 
                 <button
                     {% if page_obj.has_next %}
-                        hx-get="{% url 'package_versions' slug=package.slug %}?page={{ page_obj.next_page_number }}"
+                        hx-get="{% url 'package_versions' slug=package_slug %}?page={{ page_obj.next_page_number }}"
                         hx-target="#versions-table-container"
                         hx-swap="innerHTML"
                     {% else %}

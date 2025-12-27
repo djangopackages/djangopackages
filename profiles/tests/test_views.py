@@ -70,37 +70,78 @@ class TestProfile(TestCase):
         self.assertEqual(p.bitbucket_url, "zerg")
         self.assertEqual(p.gitlab_url, "zerg")
 
-    def test_view_with_favorite_packages(self):
+
+class TestProfileContributedPackagesView(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username="testuser", password=STOCK_PASSWORD
+        )
+        self.profile = Profile.objects.create(user=self.user, github_account="testuser")
+        self.url = reverse(
+            "profile_contributed_packages",
+            kwargs={"github_account": self.profile.github_account},
+        )
+
+    def test_view_status_code(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_template_used(self):
+        response = self.client.get(self.url)
+        self.assertTemplateUsed(response, "new/partials/profile_packages_card.html")
+
+    def test_htmx_view_template_used(self):
+        response = self.client.get(
+            self.url, headers={"hx-target": "contributed-packages-table-container"}
+        )
+        self.assertTemplateUsed(response, "new/partials/profile_packages_table.html")
+
+
+class TestProfileFavoritePackagesView(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username="testuser", password=STOCK_PASSWORD
+        )
+        self.profile = Profile.objects.create(user=self.user, github_account="testuser")
+        self.category = Category.objects.create(title="Test", slug="test")
+        self.package = Package.objects.create(
+            title="Test Package", slug="test-package", category=self.category
+        )
+        Favorite.objects.create(favorited_by=self.user, package=self.package)
+        self.url = reverse(
+            "profile_favorite_packages",
+            kwargs={"github_account": self.profile.github_account},
+        )
+
+    def test_view_status_code_owner(self):
+        self.client.login(username="testuser", password=STOCK_PASSWORD)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Test Package")
+
+    def test_view_status_code_other_user_private(self):
+        User.objects.create_user(username="other", password=STOCK_PASSWORD)
+        self.client.login(username="other", password=STOCK_PASSWORD)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 403)
+
+    def test_view_status_code_other_user_public(self):
         self.profile.share_favorites = True
         self.profile.save()
-        package = Package.objects.create(
-            title="Test Favorite", slug="test_favorite", category=self.category
-        )
-        Favorite.objects.create(package=package, favorited_by=self.user)
-        self.assertTrue(
-            self.client.login(username=self.user.username, password=STOCK_PASSWORD)
-        )
-        url = reverse(
-            "profile_detail", kwargs={"github_account": self.profile.github_account}
-        )
-        response = self.client.get(url)
-        self.assertContains(response, "Profile for user")
-        self.assertContains(response, "Favorite packages")
-        self.assertContains(response, "Test Favorite")
+        User.objects.create_user(username="other", password=STOCK_PASSWORD)
+        self.client.login(username="other", password=STOCK_PASSWORD)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Test Package")
 
-    def test_view_without_favorite_packages(self):
-        self.profile.share_favorites = False
-        self.profile.save()
-        package = Package.objects.create(
-            title="Test Favorite 2", slug="test_favorite_2", category=self.category
+    def test_view_template_used(self):
+        self.client.login(username="testuser", password=STOCK_PASSWORD)
+        response = self.client.get(self.url)
+        self.assertTemplateUsed(response, "new/partials/profile_packages_card.html")
+
+    def test_htmx_view_template_used(self):
+        self.client.login(username="testuser", password=STOCK_PASSWORD)
+        response = self.client.get(
+            self.url, headers={"hx-target": "favorite-packages-table-container"}
         )
-        Favorite.objects.create(package=package, favorited_by=self.user)
-        self.assertTrue(
-            self.client.login(username=self.user.username, password=STOCK_PASSWORD)
-        )
-        url = reverse(
-            "profile_detail", kwargs={"github_account": self.profile.github_account}
-        )
-        response = self.client.get(url)
-        self.assertContains(response, "Profile for user")
-        self.assertNotContains(response, "Favorite packages")
+        self.assertTemplateUsed(response, "new/partials/profile_packages_table.html")
