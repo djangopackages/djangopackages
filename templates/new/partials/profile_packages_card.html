@@ -1,15 +1,15 @@
 {% if packages %}
-<div class="card mb-8">
-    <div class="card-header">
-        <h3 class="flex gap-2 items-center text-xl font-semibold">
-            <i class="text-xl ph-bold {{ card_icon }}"></i>
-            {{ card_title }}
-        </h3>
-    </div>
-    <div class="card-content">
-        <div id="{{ target_id }}">
-            {% include "new/partials/profile_packages_table.html" %}
+    <div class="mb-8 card">
+        <div class="card-header">
+            <h3 class="flex gap-2 items-center text-xl font-semibold">
+                <i class="text-xl ph-bold {{ card_icon }}"></i>
+                {{ card_title }}
+            </h3>
+        </div>
+        <div class="card-content">
+            <div id="{{ target_id }}">
+                {% include "new/partials/profile_packages_table.html" %}
+            </div>
         </div>
     </div>
-</div>
 {% endif %}

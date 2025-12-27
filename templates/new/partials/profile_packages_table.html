@@ -1,4 +1,4 @@
-{% load i18n humanize %}
+{% load humanize i18n %}
 
 <div class="overflow-x-auto">
     <table class="w-full min-w-[600px]">
@@ -28,16 +28,16 @@
                     <td class="py-3 text-sm font-medium text-foreground">
                         <a href="{{ package.get_absolute_url }}" class="hover:underline text-primary">{{ package.title }}</a>
                         {% if package.repo_description %}
-                            <p class="text-xs text-muted-foreground line-clamp-1 max-w-md" title="{{ package.repo_description }}">
+                            <p class="max-w-md text-xs text-muted-foreground line-clamp-1" title="{{ package.repo_description }}">
                                 {{ package.repo_description }}
                             </p>
                         {% endif %}
                     </td>
                     <td class="py-3 text-sm text-muted-foreground">
                         {% if package.repo_url %}
-                            <a href="{{ package.repo_url }}" target="_blank" rel="noopener noreferrer" class="hover:underline flex items-center gap-1">
+                            <a href="{{ package.repo_url }}" target="_blank" rel="noopener noreferrer" class="flex gap-1 items-center hover:underline">
                                 {{ package.repo.title }}
-                                <i class="ph-bold ph-arrow-square-out text-xs"></i>
+                                <i class="text-xs ph-bold ph-arrow-square-out"></i>
                             </a>
                         {% else %}
                             {{ package.repo.title }}
@@ -58,7 +58,7 @@
 </div>
 
 {% if is_paginated %}
-    <div class="mt-4 flex justify-center">
+    <div class="flex justify-center mt-4">
         <div class="inline-flex flex-wrap gap-1 items-center">
             <button
                 {% if page_obj.has_previous %}
