@@ -1,0 +1,90 @@
+{% load i18n humanize %}
+
+<div class="overflow-x-auto">
+    <table class="w-full min-w-[600px]">
+        <thead>
+            <tr class="text-left border-b">
+                <th class="pb-3 text-sm font-medium text-muted-foreground">
+                    <i class="mr-1 ph-bold ph-package"></i>
+                    {% translate "Package" %}
+                </th>
+                <th class="pb-3 text-sm font-medium text-muted-foreground">
+                    <i class="mr-1 ph-bold ph-git-branch"></i>
+                    {% translate "Repo" %}
+                </th>
+                <th class="pb-3 text-sm font-medium text-muted-foreground">
+                    <i class="mr-1 ph-bold ph-star"></i>
+                    {% translate "Stars" %}
+                </th>
+                <th class="pb-3 text-sm font-medium text-muted-foreground">
+                    <i class="mr-1 ph-bold ph-git-fork"></i>
+                    {% translate "Forks" %}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for package in packages %}
+                <tr class="border-b transition-colors last:border-0 hover:bg-muted/30">
+                    <td class="py-3 text-sm font-medium text-foreground">
+                        <a href="{{ package.get_absolute_url }}" class="hover:underline text-primary">{{ package.title }}</a>
+                        {% if package.repo_description %}
+                            <p class="text-xs text-muted-foreground line-clamp-1 max-w-md" title="{{ package.repo_description }}">
+                                {{ package.repo_description }}
+                            </p>
+                        {% endif %}
+                    </td>
+                    <td class="py-3 text-sm text-muted-foreground">
+                        {% if package.repo_url %}
+                            <a href="{{ package.repo_url }}" target="_blank" rel="noopener noreferrer" class="hover:underline flex items-center gap-1">
+                                {{ package.repo.title }}
+                                <i class="ph-bold ph-arrow-square-out text-xs"></i>
+                            </a>
+                        {% else %}
+                            {{ package.repo.title }}
+                        {% endif %}
+                    </td>
+                    <td class="py-3 text-sm text-muted-foreground">{{ package.repo_watchers|intcomma|default:"0" }}</td>
+                    <td class="py-3 text-sm text-muted-foreground">{{ package.repo_forks|intcomma|default:"0" }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4" class="py-6 text-sm text-center text-muted-foreground">
+                        {% translate "No packages found." %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if is_paginated %}
+    <div class="mt-4 flex justify-center">
+        <div class="inline-flex flex-wrap gap-1 items-center">
+            <button
+                {% if page_obj.has_previous %}
+                    hx-get="{% url htmx_url github_account=profile.github_account %}?page={{ page_obj.previous_page_number }}"
+                    hx-target="#{{ target_id }}"
+                    hx-swap="innerHTML"
+                {% else %}
+                    disabled
+                {% endif %}
+                class="inline-flex justify-center items-center px-2 h-9 text-sm font-medium whitespace-nowrap rounded-md transition-colors sm:px-3 disabled:opacity-50 disabled:pointer-events-none hover:bg-accent hover:text-accent-foreground">
+                <i class="mr-1 ph-bold ph-caret-left"></i>
+                <span class="hidden sm:inline">{% translate "Previous" %}</span>
+            </button>
+
+            <button
+                {% if page_obj.has_next %}
+                    hx-get="{% url htmx_url github_account=profile.github_account %}?page={{ page_obj.next_page_number }}"
+                    hx-target="#{{ target_id }}"
+                    hx-swap="innerHTML"
+                {% else %}
+                    disabled
+                {% endif %}
+                class="inline-flex justify-center items-center px-2 h-9 text-sm font-medium whitespace-nowrap rounded-md transition-colors sm:px-3 disabled:opacity-50 disabled:pointer-events-none hover:bg-accent hover:text-accent-foreground">
+                <span class="hidden sm:inline">{% translate "Next" %}</span>
+                <i class="ml-1 ph-bold ph-caret-right"></i>
+            </button>
+        </div>
+    </div>
+{% endif %}
