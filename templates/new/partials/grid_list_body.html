@@ -1,0 +1,166 @@
+{% load i18n humanize %}
+
+<div id="grid-list-state" class="hidden">
+    <input type="hidden" name="sort" value="{{ current_sort }}">
+</div>
+
+<!-- Table -->
+<div class="overflow-x-auto w-full">
+    <table class="w-full text-sm text-left">
+        <thead>
+            <tr class="text-left border-b">
+                <th class="pb-3 pr-6 font-medium text-muted-foreground">
+                    <button class="flex items-center gap-1 hover:text-foreground"
+                        hx-get="{% url 'grids' %}?sort={% if current_sort == 'title' %}-title{% elif current_sort == '-title' %}{% else %}title{% endif %}&q={{ search_query }}"
+                        hx-target="#grid-list-container"
+                        hx-push-url="true">
+                        <i class="ph-bold ph-squares-four text-lg"></i>
+                        {% translate "Title" %}
+                        {% if current_sort == 'title' or current_sort == '-title' %}
+                            <i class="ph-bold {% if current_sort == 'title' %}ph-caret-up{% else %}ph-caret-down{% endif %}"></i>
+                        {% else %}
+                            <i class="ph-bold ph-caret-up-down opacity-50"></i>
+                        {% endif %}
+                    </button>
+                </th>
+                <th class="pb-3 font-medium text-muted-foreground hidden md:table-cell">
+                    <button class="flex items-center gap-1 hover:text-foreground"
+                        hx-get="{% url 'grids' %}?sort={% if current_sort == '-gridpackage_count' %}gridpackage_count{% elif current_sort == 'gridpackage_count' %}{% else %}-gridpackage_count{% endif %}&q={{ search_query }}"
+                        hx-target="#grid-list-container"
+                        hx-push-url="true">
+                        <i class="ph-bold ph-package text-lg"></i>
+                        {% translate "Total Packages" %}
+                        {% if current_sort == 'gridpackage_count' or current_sort == '-gridpackage_count' %}
+                            <i class="ph-bold {% if current_sort == 'gridpackage_count' %}ph-caret-up{% else %}ph-caret-down{% endif %}"></i>
+                        {% else %}
+                            <i class="ph-bold ph-caret-up-down opacity-50"></i>
+                        {% endif %}
+                    </button>
+                </th>
+                <th class="pb-3 font-medium text-muted-foreground hidden lg:table-cell">
+                    <button class="flex items-center gap-1 hover:text-foreground"
+                        hx-get="{% url 'grids' %}?sort={% if current_sort == '-active_gridpackage_count' %}active_gridpackage_count{% elif current_sort == 'active_gridpackage_count' %}{% else %}-active_gridpackage_count{% endif %}&q={{ search_query }}"
+                        hx-target="#grid-list-container"
+                        hx-push-url="true">
+                        <i class="ph-bold ph-package text-lg"></i>
+                        {% translate "Active Packages" %}
+                        {% if current_sort == 'active_gridpackage_count' or current_sort == '-active_gridpackage_count' %}
+                            <i class="ph-bold {% if current_sort == 'active_gridpackage_count' %}ph-caret-up{% else %}ph-caret-down{% endif %}"></i>
+                        {% else %}
+                            <i class="ph-bold ph-caret-up-down opacity-50"></i>
+                        {% endif %}
+                    </button>
+                </th>
+                <th class="pb-3 font-medium text-muted-foreground hidden lg:table-cell">
+                    <div class="flex items-center gap-1">
+                        <i class="ph-bold ph-list-checks text-lg"></i>
+                        {% translate "Features" %}
+                    </div>
+                </th>
+                <th class="pb-3 font-medium text-muted-foreground">
+                    <button class="flex items-center gap-1 hover:text-foreground"
+                        hx-get="{% url 'grids' %}?sort={% if current_sort == '-modified' %}modified{% elif current_sort == 'modified' %}{% else %}-modified{% endif %}&q={{ search_query }}"
+                        hx-target="#grid-list-container"
+                        hx-push-url="true">
+                        <i class="ph-bold ph-clock text-lg"></i>
+                        {% translate "Updated" %}
+                        {% if current_sort == 'modified' or current_sort == '-modified' %}
+                            <i class="ph-bold {% if current_sort == 'modified' %}ph-caret-up{% else %}ph-caret-down{% endif %}"></i>
+                        {% else %}
+                            <i class="ph-bold ph-caret-up-down opacity-50"></i>
+                        {% endif %}
+                    </button>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for grid in grids %}
+                <tr class="border-b transition-colors last:border-0 hover:bg-muted/30">
+                    <td class="py-3 pr-6 max-w-[10rem] sm:max-w-[15rem] md:max-w-[20rem]">
+                        <div class="flex flex-col">
+                            <a href="{% url 'grid' grid.slug %}" class="font-semibold hover:underline text-primary text-base truncate block" title="{{ grid.title }}">{{ grid.title }}</a>
+                            <p class="text-muted-foreground text-xs truncate mt-1" title="{{ grid.description|default:"" }}">{{ grid.description|default:"" }}</p>
+
+                            <!-- Mobile Badges -->
+                            <div class="flex flex-wrap gap-2 mt-2 md:hidden">
+                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-muted text-muted-foreground" title="{% translate 'Packages' %}">
+                                    <i class="ph-bold ph-package mr-1"></i> {{ grid.active_gridpackage_count|intcomma }}
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="py-3 font-mono text-sm hidden md:table-cell">
+                        {{ grid.gridpackage_count|intcomma }}
+                    </td>
+                    <td class="py-3 font-mono text-sm hidden lg:table-cell">
+                        {{ grid.active_gridpackage_count|intcomma }}
+                    </td>
+                    <td class="py-3 font-mono text-sm hidden lg:table-cell">
+                        {{ grid.feature_count|intcomma }}
+                    </td>
+                    <td class="py-3 text-sm text-muted-foreground">
+                        {{ grid.modified|date:"M d, Y" }}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4" class="p-8 text-center text-muted-foreground">
+                        {% translate "No grids found." %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Pagination -->
+{% if page_obj.has_other_pages %}
+    <div class="mt-8 flex justify-center">
+        <div class="inline-flex flex-wrap gap-1 items-center">
+            <button
+                {% if page_obj.has_previous %}
+                    hx-get="{% url 'grids' %}?page={{ page_obj.previous_page_number }}&sort={{ current_sort }}&q={{ search_query }}"
+                    hx-target="#grid-list-container"
+                    hx-push-url="true"
+                {% else %}
+                    disabled
+                {% endif %}
+                class="inline-flex justify-center items-center px-2 h-9 text-sm font-medium whitespace-nowrap rounded-md transition-colors sm:px-3 disabled:opacity-50 disabled:pointer-events-none hover:bg-accent hover:text-accent-foreground border border-input bg-background">
+                <i class="mr-1 ph-bold ph-caret-left"></i>
+                <span class="hidden sm:inline">{% translate "Previous" %}</span>
+            </button>
+
+            <div class="inline-flex gap-1 items-center">
+                {% for i in page_obj.paginator.page_range %}
+                    {% if page_obj.number == i %}
+                        <button
+                            class="inline-flex justify-center items-center w-9 h-9 text-sm font-medium whitespace-nowrap rounded-md transition-colors bg-primary text-primary-foreground">
+                            {{ i }}
+                        </button>
+                    {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
+                        <button
+                            hx-get="{% url 'grids' %}?page={{ i }}&sort={{ current_sort }}&q={{ search_query }}"
+                            hx-target="#grid-list-container"
+                            hx-push-url="true"
+                            class="inline-flex justify-center items-center w-9 h-9 text-sm font-medium whitespace-nowrap rounded-md transition-colors hover:bg-accent hover:text-accent-foreground border border-input bg-background">
+                            {{ i }}
+                        </button>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <button
+                {% if page_obj.has_next %}
+                    hx-get="{% url 'grids' %}?page={{ page_obj.next_page_number }}&sort={{ current_sort }}&q={{ search_query }}"
+                    hx-target="#grid-list-container"
+                    hx-push-url="true"
+                {% else %}
+                    disabled
+                {% endif %}
+                class="inline-flex justify-center items-center px-2 h-9 text-sm font-medium whitespace-nowrap rounded-md transition-colors sm:px-3 disabled:opacity-50 disabled:pointer-events-none hover:bg-accent hover:text-accent-foreground border border-input bg-background">
+                <span class="hidden sm:inline">{% translate "Next" %}</span>
+                <i class="ml-1 ph-bold ph-caret-right"></i>
+            </button>
+        </div>
+    </div>
+{% endif %}

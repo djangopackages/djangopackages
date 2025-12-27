@@ -7,7 +7,7 @@ from django.db.models import Count, Max, Q
 from django.http import Http404, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
-from django_tables2 import SingleTableView
+from django.views.generic import ListView
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 
 from grid.forms import (
@@ -15,10 +15,10 @@ from grid.forms import (
     FeatureForm,
     GridForm,
     GridPackageFilterForm,
+    GridFilterForm,
     GridPackageForm,
 )
 from grid.models import Element, Feature, Grid, GridPackage
-from grid.tables import GridTable
 from package.forms import PackageForm
 from package.models import Package
 from package.views import repo_data_for_js
@@ -33,13 +33,14 @@ def build_element_map(elements):
     return element_map
 
 
-class GridListView(SingleTableView):
-    table_class = GridTable
-    template_name = "grid/grids.html"
-    paginate_by = 100
+class GridListView(ListView):
+    model = Grid
+    template_name = "new/grid_list.html"
+    paginate_by = 20
+    context_object_name = "grids"
 
     def get_queryset(self):
-        return (
+        queryset = (
             Grid.objects.filter()
             .annotate(
                 # `distinct=True` parameter is required here for multiple annotations to not yield the wrong results
@@ -57,8 +58,46 @@ class GridListView(SingleTableView):
                 feature_count=Count("feature", distinct=True),
             )
             .filter(gridpackage_count__gt=0)
-            .order_by("-modified", "title")
         )
+
+        self.form = GridFilterForm(self.request.GET)
+
+        self.filter_data = {
+            "q": "",
+            "sort": "-modified",
+        }
+
+        if self.form.is_valid():
+            cleaned = self.form.cleaned_data
+            if cleaned.get("q"):
+                self.filter_data["q"] = cleaned["q"]
+            if cleaned.get("sort"):
+                self.filter_data["sort"] = cleaned["sort"]
+
+        if self.filter_data["q"]:
+            queryset = queryset.filter(
+                Q(title__icontains=self.filter_data["q"])
+                | Q(description__icontains=self.filter_data["q"])
+            )
+
+        return queryset.order_by(self.filter_data["sort"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context.update(
+            {
+                "current_sort": self.filter_data["sort"],
+                "search_query": self.filter_data["q"],
+                "form": self.form,
+            }
+        )
+        return context
+
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.htmx:
+            return render(self.request, "new/partials/grid_list_body.html", context)
+        return super().render_to_response(context, **response_kwargs)
 
 
 @login_required

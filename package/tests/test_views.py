@@ -94,10 +94,10 @@ class FunctionalPackageTest(TestCase):
 
     def test_package_list_view(self):
         url = reverse("packages")
-        with self.assertNumQueries(15):
+        with self.assertNumQueries(14):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "package/package_list.html")
+        self.assertTemplateUsed(response, "new/package_list.html")
         packages = Package.objects.all()
         for p in packages:
             self.assertContains(response, p.title)
@@ -471,7 +471,7 @@ class PackagePermissionTest(TestCase):
             codename="add_package", content_type__app_label="package"
         )
         self.user.user_permissions.add(add_package_perm)
-        with self.assertNumQueries(9):
+        with self.assertNumQueries(10):
             response = self.client.get(self.test_add_url)
         self.assertEqual(response.status_code, 200)
 

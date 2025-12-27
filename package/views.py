@@ -14,7 +14,6 @@ from django.urls import reverse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from django.views.generic.base import TemplateView
 from django.views.generic import DetailView
 from django_q.tasks import async_task
 from django_tables2 import SingleTableView
@@ -25,6 +24,7 @@ from package.forms import (
     FlaggedPackageForm,
     PackageExampleForm,
     PackageForm,
+    PackageFilterForm,
 )
 from package.models import Category, FlaggedPackage, Package, PackageExample, Version
 from package.repos import get_all_repos
@@ -213,36 +213,6 @@ def confirm_delete_example(request, slug, id):
     )
 
     return HttpResponseRedirect(reverse("package", kwargs={"slug": slug}))
-
-
-class PackageListView(TemplateView):
-    template_name = "package/package_list.html"
-
-    def get_context_data(self, **kwargs):
-        categories = []
-        for category in Category.objects.annotate(package_count=Count("package")):
-            package_table = PackageTable(
-                Package.objects.active()
-                .filter(category=category)
-                .select_related()
-                .annotate(usage_count=Count("usage"))
-                .order_by("-pypi_downloads", "-repo_watchers", "title")[:9],
-                prefix=f"{category.slug}_",
-                exclude=("last_released",),
-            )
-            element = {
-                "count": category.package_count,
-                "description": category.description,
-                "slug": category.slug,
-                "table": package_table,
-                "title": category.title,
-                "title_plural": category.title_plural,
-            }
-            categories.append(element)
-
-        context_data = super().get_context_data(**kwargs)
-        context_data["categories"] = categories
-        return context_data
 
 
 class PackageSingleTableMixin(SingleTableView):
@@ -645,3 +615,71 @@ class PackageVersionListView(ListView):
         context = super().get_context_data(**kwargs)
         context["package_slug"] = self.kwargs["slug"]
         return context
+
+
+class PackageListView(ListView):
+    model = Package
+    template_name = "new/package_list.html"
+    paginate_by = 20
+    context_object_name = "packages"
+
+    def get_queryset(self):
+        queryset = (
+            Package.objects.active()
+            .select_related("category")
+            .annotate(usage_count=Count("usage"))
+        )
+
+        self.form = PackageFilterForm(self.request.GET)
+
+        self.filter_data = {
+            "category": "all",
+            "q": "",
+            "sort": "-repo_watchers",
+        }
+
+        if self.form.is_valid():
+            cleaned = self.form.cleaned_data
+            if cleaned.get("category"):
+                self.filter_data["category"] = cleaned["category"]
+            if cleaned.get("q"):
+                self.filter_data["q"] = cleaned["q"]
+            if cleaned.get("sort"):
+                self.filter_data["sort"] = cleaned["sort"]
+
+        if self.filter_data["category"] != "all":
+            queryset = queryset.filter(category__slug=self.filter_data["category"])
+
+        if self.filter_data["q"]:
+            queryset = queryset.filter(
+                Q(title__icontains=self.filter_data["q"])
+                | Q(repo_description__icontains=self.filter_data["q"])
+            )
+
+        return queryset.order_by(self.filter_data["sort"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        categories = (
+            Category.objects.annotate(package_count=Count("package"))
+            .filter(package_count__gt=0)
+            .order_by("-package_count")
+        )
+        total_count = Package.objects.active().count()
+
+        context.update(
+            {
+                "categories": categories,
+                "total_count": total_count,
+                "current_category": self.filter_data["category"],
+                "current_sort": self.filter_data["sort"],
+                "search_query": self.filter_data["q"],
+                "form": self.form,
+            }
+        )
+        return context
+
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.htmx:
+            return render(self.request, "new/partials/package_list_body.html", context)
+        return super().render_to_response(context, **response_kwargs)

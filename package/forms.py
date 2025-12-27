@@ -1,4 +1,6 @@
+from django import forms
 from django.forms import ModelForm, TextInput
+from django.utils.translation import gettext_lazy as _
 
 from package.models import Category, FlaggedPackage, Package, PackageExample
 
@@ -67,3 +69,29 @@ class DocumentationForm(ModelForm):
         fields = [
             "documentation_url",
         ]
+
+
+class PackageFilterForm(forms.Form):
+    SORT_CHOICES = (
+        ("-repo_watchers", _("Stars (Desc)")),
+        ("repo_watchers", _("Stars (Asc)")),
+        ("-repo_forks", _("Forks (Desc)")),
+        ("repo_forks", _("Forks (Asc)")),
+        ("-pypi_downloads", _("Downloads (Desc)")),
+        ("pypi_downloads", _("Downloads (Asc)")),
+        ("-last_fetched", _("Last Updated (Desc)")),
+        ("last_fetched", _("Last Updated (Asc)")),
+        ("title", _("Title (Asc)")),
+        ("-title", _("Title (Desc)")),
+        ("category", _("Category (Asc)")),
+        ("-category", _("Category (Desc)")),
+        ("-usage_count", _("Usage Count (Desc)")),
+        ("usage_count", _("Usage Count (Asc)")),
+    )
+
+    category = forms.CharField(required=False)
+    sort = forms.ChoiceField(
+        choices=SORT_CHOICES, required=False, initial="-repo_watchers"
+    )
+    page = forms.IntegerField(required=False, min_value=1)
+    q = forms.CharField(required=False)

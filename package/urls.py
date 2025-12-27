@@ -4,7 +4,6 @@ from django.db.models import Count
 
 from package.models import Package
 from package.views import (
-    PackageListView,
     PackageOpenGraphDetailView,
     add_example,
     add_package,
@@ -23,6 +22,7 @@ from package.views import (
     usage,
     PackageVersionListView,
     PackageDetailView,
+    PackageListView,
 )
 
 urlpatterns = [
