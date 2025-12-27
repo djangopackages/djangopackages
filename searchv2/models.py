@@ -87,3 +87,7 @@ class SearchV2(BaseModel):
 
     def _self(self):
         return self
+
+    @property
+    def is_grid(self):
+        return self.item_type == "grid"

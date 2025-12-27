@@ -7,14 +7,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.postgres.search import SearchQuery, SearchRank
 from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Exists, OuterRef
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from django.views.generic.base import TemplateView
+from django.views.generic import DetailView
 from django_q.tasks import async_task
 from django_tables2 import SingleTableView
 
@@ -24,8 +24,9 @@ from package.forms import (
     FlaggedPackageForm,
     PackageExampleForm,
     PackageForm,
+    PackageFilterForm,
 )
-from package.models import Category, FlaggedPackage, Package, PackageExample
+from package.models import Category, FlaggedPackage, Package, PackageExample, Version
 from package.repos import get_all_repos
 from package.tables import PackageTable
 from searchv2.rules import calc_package_weight
@@ -39,6 +40,7 @@ from searchv2.rules import ScoreRuleGroup
 from searchv2.rules import UsageCountRule
 from searchv2.rules import WatchersRule
 from favorites.models import Favorite
+from django.views.generic import ListView
 
 
 def repo_data_for_js():
@@ -211,37 +213,6 @@ def confirm_delete_example(request, slug, id):
     )
 
     return HttpResponseRedirect(reverse("package", kwargs={"slug": slug}))
-
-
-class PackageListView(TemplateView):
-    template_name = "package/package_list.html"
-
-    def get_context_data(self, **kwargs):
-        categories = []
-        for category in Category.objects.annotate(package_count=Count("package")):
-            package_table = PackageTable(
-                Package.objects.active()
-                .filter(category=category)
-                .active()
-                .select_related()
-                .annotate(usage_count=Count("usage"))
-                .order_by("-pypi_downloads", "-repo_watchers", "title")[:9],
-                prefix=f"{category.slug}_",
-                exclude=("last_released",),
-            )
-            element = {
-                "count": category.package_count,
-                "description": category.description,
-                "slug": category.slug,
-                "table": package_table,
-                "title": category.title,
-                "title_plural": category.title_plural,
-            }
-            categories.append(element)
-
-        context_data = super().get_context_data(**kwargs)
-        context_data["categories"] = categories
-        return context_data
 
 
 class PackageSingleTableMixin(SingleTableView):
@@ -528,52 +499,58 @@ def package_details_rules(request, slug, template_name="package/package_rules.ht
     )
 
 
-def package_detail(request, slug, template_name="package/package.html"):
-    package = get_object_or_404(
-        Package.objects.select_related("category").prefetch_related("grid_set"),
-        slug=slug,
-    )
-    no_development = package.no_development
-    try:
-        if package.category == Category.objects.get(slug="projects"):
-            # projects get a bye because they are a website
-            pypi_ancient = False
-            pypi_no_release = False
-        else:
-            pypi_ancient = package.pypi_ancient
-            pypi_no_release = package.pypi_ancient is None
-        warnings = no_development or pypi_ancient or pypi_no_release
-    except Category.DoesNotExist:
-        pypi_ancient = False
-        pypi_no_release = False
-        warnings = no_development
-    is_favorited = False
-    if request.user.is_authenticated:
-        is_favorited = Favorite.objects.filter(
-            favorited_by=request.user, package=package
-        ).exists()
-    if request.GET.get("message"):
-        messages.add_message(request, messages.INFO, request.GET.get("message"))
-    return render(
-        request,
-        template_name,
-        dict(
-            package=package,
-            pypi_ancient=pypi_ancient,
-            no_development=no_development,
-            pypi_no_release=pypi_no_release,
-            warnings=warnings,
-            latest_version=package.last_released(),
-            repo=package.repo,
-            is_favorited=is_favorited,
-        ),
-    )
+class PackageDetailView(DetailView):
+    template_name = "new/package_detail.html"
+    model = Package
+    context_object_name = "package"
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
+
+    def get_queryset(self):
+        qs = (
+            super()
+            .get_queryset()
+            .active()
+            .select_related("category")
+            .prefetch_related(
+                "grid_set",
+            )
+            .annotate(
+                _commit_count=Count("commit", distinct=True),
+                _version_count=Count("version", distinct=True),
+            )
+        )
+        if self.request.user.is_authenticated:
+            qs = qs.annotate(
+                _is_favorited=Exists(
+                    Favorite.objects.filter(
+                        favorited_by=self.request.user, package_id=OuterRef("pk")
+                    )
+                )
+            )
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                "is_favorited": getattr(self.object, "_is_favorited", False),
+                "commit_count": getattr(self.object, "_commit_count", 0),
+                "version_count": getattr(self.object, "_version_count", 0),
+            }
+        )
+        return context
 
 
-def package_opengraph_detail(
-    request, slug, template_name="package/package_opengraph.html"
-):
-    return package_detail(request, slug, template_name=template_name)
+class PackageOpenGraphDetailView(DetailView):
+    template_name = "package/package_opengraph.html"
+    model = Package
+    context_object_name = "package"
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
+
+    def get_queryset(self):
+        return super().get_queryset().active()
 
 
 def int_or_0(value):
@@ -624,3 +601,85 @@ def github_webhook(request):
         package.last_fetched = timezone.now()
         package.save()
     return HttpResponse()
+
+
+class PackageVersionListView(ListView):
+    template_name = "new/partials/releases_table.html"
+    context_object_name = "versions"
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Version.objects.by_version_not_hidden(package__slug=self.kwargs["slug"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["package_slug"] = self.kwargs["slug"]
+        return context
+
+
+class PackageListView(ListView):
+    model = Package
+    template_name = "new/package_list.html"
+    paginate_by = 20
+    context_object_name = "packages"
+
+    def get_queryset(self):
+        queryset = (
+            Package.objects.active()
+            .select_related("category")
+            .annotate(usage_count=Count("usage"))
+        )
+
+        self.form = PackageFilterForm(self.request.GET)
+
+        self.filter_data = {
+            "category": "all",
+            "q": "",
+            "sort": "-repo_watchers",
+        }
+
+        if self.form.is_valid():
+            cleaned = self.form.cleaned_data
+            if cleaned.get("category"):
+                self.filter_data["category"] = cleaned["category"]
+            if cleaned.get("q"):
+                self.filter_data["q"] = cleaned["q"]
+            if cleaned.get("sort"):
+                self.filter_data["sort"] = cleaned["sort"]
+
+        if self.filter_data["category"] != "all":
+            queryset = queryset.filter(category__slug=self.filter_data["category"])
+
+        if self.filter_data["q"]:
+            queryset = queryset.filter(
+                Q(title__icontains=self.filter_data["q"])
+                | Q(repo_description__icontains=self.filter_data["q"])
+            )
+
+        return queryset.order_by(self.filter_data["sort"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        categories = (
+            Category.objects.annotate(package_count=Count("package"))
+            .filter(package_count__gt=0)
+            .order_by("-package_count")
+        )
+        total_count = Package.objects.active().count()
+
+        context.update(
+            {
+                "categories": categories,
+                "total_count": total_count,
+                "current_category": self.filter_data["category"],
+                "current_sort": self.filter_data["sort"],
+                "search_query": self.filter_data["q"],
+                "form": self.form,
+            }
+        )
+        return context
+
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.htmx:
+            return render(self.request, "new/partials/package_list_body.html", context)
+        return super().render_to_response(context, **response_kwargs)

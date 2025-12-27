@@ -256,7 +256,11 @@ class Package(BaseModel):
         )
 
     def participant_list(self):
-        return self.participants.split(",")
+        return [
+            participant
+            for p in self.participants.split(",")
+            if (participant := p.strip())
+        ]
 
     def get_usage_count(self):
         return self.usage.count()

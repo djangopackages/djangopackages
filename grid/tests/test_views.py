@@ -21,10 +21,10 @@ class FunctionalGridTest(TestCase):
 
     def test_grid_list_view(self):
         url = reverse("grids")
-        with self.assertNumQueries(8):
+        with self.assertNumQueries(4):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "grid/grids.html")
+        self.assertTemplateUsed(response, "new/grid_list.html")
 
     @override_flag("enabled_packages_score_values", active=True)
     def test_grid_detail_view(self):
@@ -326,7 +326,7 @@ class FunctionalGridTest(TestCase):
 
     def test_ajax_grid_list_view(self):
         url = reverse("ajax_grid_list") + "?q=Testing&package_id=4"
-        with self.assertNumQueries(5):
+        with self.assertNumQueries(3):
             response = self.client.get(url)
         self.assertContains(response, "Testing")
 

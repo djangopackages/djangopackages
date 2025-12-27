@@ -1,27 +1,26 @@
 {% load i18n %}
-<div id="target">
-    <h2>{% if grids.exists %}{% translate "Grids" %}{% else %}{% translate "No grids found" %}{% endif %}</h2>
-    {% if grids.exists %}
-        <p class="clickable">{% translate "Click a grid to add your package to it." %}</p>
+<div id="grid-search-results-content">
+    {% if grids %}
+        <p class="mb-2 text-xs text-muted-foreground">{% translate "Click a grid to add your package to it." %}</p>
+        <div class="space-y-1">
+            {% for grid in grids %}
+                <form method="post" action="{% url 'add_grid_package' grid.slug %}" class="w-full">
+                    {% csrf_token %}
+                    <input type="hidden" name="package" value="{{ request.GET.package_id }}">
+                    <input type="hidden" name="redirect" value="{{ request.GET.redirect }}">
+                    <button
+                        type="submit"
+                        class="flex justify-between items-center py-2 px-3 w-full text-sm text-left rounded transition-colors cursor-pointer group hover:bg-muted"
+                    >
+                        <span class="font-medium">{{ grid.title }}</span>
+                        <i class="ph-bold ph-plus text-muted-foreground group-hover:text-primary"></i>
+                    </button>
+                </form>
+            {% endfor %}
+        </div>
+    {% else %}
+        {% if request.GET.q %}
+            <p class="text-sm text-muted-foreground">{% translate "No grids found" %}</p>
+        {% endif %}
     {% endif %}
-    {% for grid in grids %}
-        <dl class="grid-item" id="grid-{{ grid.id }}">
-            <dt><strong>{{ grid.title }}</strong></dt>
-            <dd class="description">{{ grid.description }}</dd>
-        </dl>
-    {% endfor %}
-    <script type="text/javascript">
-        {% for grid in grids %}
-            $('#grid-{{ grid.id }}').mouseover(function() {
-                $('#grid-{{ grid.id }}').addClass("clickable");
-            });
-            $('#grid-{{ grid.id }}').mouseout(function() {
-                $('#grid-{{ grid.id }}').removeClass("clickable");
-            });
-            $('#grid-{{ grid.id }}').click(function() {
-                $('form#find-a-grid-form').attr('action', "{% url 'add_grid_package' grid.slug %}");
-                $("form#find-a-grid-form").submit();
-            });
-        {% endfor %}
-    </script>
 </div>

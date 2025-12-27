@@ -1,9 +1,6 @@
-from textwrap import dedent
-
 import pytest
 from django.conf import settings
 from django.contrib.auth.models import Permission, User
-from django.contrib.humanize.templatetags.humanize import intcomma
 from django.test import TestCase
 from django.urls import reverse
 from waffle.testutils import override_flag
@@ -97,10 +94,10 @@ class FunctionalPackageTest(TestCase):
 
     def test_package_list_view(self):
         url = reverse("packages")
-        with self.assertNumQueries(15):
+        with self.assertNumQueries(14):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "package/package_list.html")
+        self.assertTemplateUsed(response, "new/package_list.html")
         packages = Package.objects.all()
         for p in packages:
             self.assertContains(response, p.title)
@@ -111,32 +108,10 @@ class FunctionalPackageTest(TestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "package/package.html")
-        package = Package.objects.get(slug="testability")
+        self.assertTemplateUsed(response, "new/package_detail.html")
         self.assertContains(
             response,
-            dedent("""
-                <th
-                    data-testid="repository-statistics-score-header"
-                    scope="col"
-                    aria-label="Score"
-                    data-toggle="tooltip"
-                    data-placement="top"
-                    title="Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%)."
-                >
-                    <span class="glyphicon glyphicon-stats"></span>
-                </th>
-            """),
-            html=True,
-        )
-        self.assertContains(
-            response,
-            dedent(f"""
-                <td data-testid="repository-statistics-score-cell">
-                    {intcomma(package.score)}
-                </td>
-            """),
-            html=True,
+            "Scores (0-100) are based on Repository stars",
         )
 
     @override_flag("enabled_packages_score_values", active=False)
@@ -151,14 +126,10 @@ class FunctionalPackageTest(TestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "package/package.html")
+        self.assertTemplateUsed(response, "new/package_detail.html")
         self.assertNotContains(
             response,
-            'data-testid="repository-statistics-score-header"',
-        )
-        self.assertNotContains(
-            response,
-            'data-testid="repository-statistics-score-cell"',
+            "Scores (0-100) are based on Repository stars",
         )
 
     def test_latest_packages_view(self):
@@ -500,7 +471,7 @@ class PackagePermissionTest(TestCase):
             codename="add_package", content_type__app_label="package"
         )
         self.user.user_permissions.add(add_package_perm)
-        with self.assertNumQueries(9):
+        with self.assertNumQueries(10):
             response = self.client.get(self.test_add_url)
         self.assertEqual(response.status_code, 200)
 
@@ -535,3 +506,12 @@ def test_grid_package_list(db, django_assert_num_queries, tp):
         response = tp.client.get(url)
 
     assert response.status_code == 200
+
+
+def test_package_version_list_view(db, django_assert_num_queries, tp, package_cms):
+    url = tp.reverse("package_versions", slug=package_cms.slug)
+    with django_assert_num_queries(3):
+        response = tp.client.get(url)
+
+    assert response.status_code == 200
+    assert "new/partials/releases_table.html" in [t.name for t in response.templates]

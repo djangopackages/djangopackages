@@ -1,0 +1,121 @@
+{% load humanize i18n waffle_tags %}
+{% for item in search_results %}
+    <a
+        href="{% if item.is_grid %}{% url 'grid' item.slug %}{% else %}{% url 'package' item.slug %}{% endif %}"
+        class="block text-left suggestion-item"
+        data-index="{{ forloop.counter0 }}"
+    >
+        <div class="flex gap-3 items-start">
+            <div class="flex-shrink-0 mt-1 suggestion-icon">
+                {% if item.is_grid %}
+                    <i class="text-sm ph-bold ph-squares-four"></i>
+                {% else %}
+                    <i class="text-sm ph-bold ph-package"></i>
+                {% endif %}
+            </div>
+            <div class="flex-1 min-w-0">
+                <div class="flex gap-2 justify-between items-center">
+                    <span class="font-medium truncate"
+                    >{{ item.title }}</span
+                        >
+                    </div>
+
+                    {% if item.description %}
+                        <p
+                            class="mt-0.5 text-xs suggestion-description text-muted-foreground truncate"
+                        >
+                            {{ item.description }}
+                        </p>
+                    {% endif %}
+
+                    <div class="flex flex-wrap gap-2 items-center mt-2">
+                        {% if item.is_grid %}
+                            <span class="whitespace-nowrap badge suggestion-badge">
+                                {% translate "Grid" %}
+                            </span>
+                        {% else %}
+                            {% if item.category %}
+                                <span class="whitespace-nowrap badge suggestion-badge"
+                                >{{ item.category.title }}</span
+                                    >
+                            {% endif %}
+                            {% if item.pypi_version %}
+                                <span
+                                    class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge"
+                                    data-toggle="tooltip"
+                                    title="{% translate 'Latest PyPI Version' %}"
+                                >
+                                    <i class="text-xs ph-bold ph-tag"></i>
+                                    {{ item.pypi_version }}
+                                </span>
+                            {% endif %}
+                            {% if item.last_released %}
+                                <span
+                                    class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge"
+                                    data-toggle="tooltip"
+                                    title="{% translate 'Last Released' %}"
+                                >
+                                    <i class="text-xs ph-bold ph-calendar-check"></i>
+                                    {{ item.last_released|date }}
+                                </span>
+                            {% endif %}
+                            {% flag "enabled_packages_score_values" %}
+                                <span
+                                    class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge"
+                                    data-toggle="tooltip"
+                                    title="{% translate 'Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%).' %}"
+                                >
+                                    <i class="text-xs ph-bold ph-chart-bar"></i>
+                                    {{ item.score|intcomma|default:"n/a" }}
+                                </span>
+                            {% endflag %}
+
+                            <span
+                                class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge"
+                                data-toggle="tooltip"
+                                title="{% translate 'Stars' %}"
+                            >
+                                <i class="text-xs ph-bold ph-star"></i>
+                                {{ item.repo_watchers|intcomma|default:0 }}
+                            </span>
+
+                            <span
+                                class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge"
+                                data-toggle="tooltip"
+                                title="{% translate 'Forks' %}"
+                            >
+                                <i class="text-xs ph-bold ph-git-fork"></i>
+                                {{ item.repo_forks|default:0 }}
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </a>
+{% endfor %}
+{% if has_more and next_page %}
+    {% with dropdown_slug=dropdown_id|default:'suggestions-dropdown' %}
+        <div
+            id="{{ dropdown_slug }}-load-more-page-{{ next_page }}"
+            class="suggestions-load-more"
+            hx-get="{% url 'search_suggestions' %}?q={{ query|default_if_none:''|urlencode }}&page={{ next_page }}&load_more=1&dropdown_id={{ dropdown_slug|urlencode }}"
+            hx-trigger="intersect once root:#{{ dropdown_slug }}-results threshold:0.95"
+            hx-swap="outerHTML"
+            hx-indicator="#{{ dropdown_slug }}-load-more-spinner-{{ next_page }}"
+        >
+            <div
+                id="{{ dropdown_slug }}-load-more-spinner-{{ next_page }}"
+                class="flex gap-2 justify-center items-center py-3 text-xs text-muted-foreground"
+            >
+                <i class="text-sm animate-spin ph-bold ph-circle-notch"></i>
+                <span>{% translate "Loading more results…" %}</span>
+            </div>
+        </div>
+    {% endwith %}
+{% elif search_results and not has_more %}
+    <div
+        class="py-3 text-xs text-center border-t text-muted-foreground border-border/40"
+    >
+        {% translate "End of results" %}
+    </div>
+{% endif %}
