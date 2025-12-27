@@ -5,24 +5,24 @@
     <div class="container py-8 px-4 mx-auto">
         <div class="mb-8">
             <h1 class="text-3xl font-bold text-foreground">{% translate "Packages" %}</h1>
-            <p class="text-muted-foreground pt-2">{% translate "Browse and search for Django packages." %}</p>
+            <p class="pt-2 text-muted-foreground">{% translate "Browse and search for Django packages." %}</p>
         </div>
 
         <div class="card">
-            <div class="card-content p-6">
+            <div class="p-6 card-content">
                 <!-- Search Input -->
-                <div class="mb-8 relative">
-                    <i class="ph-bold ph-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground text-lg"></i>
+                <div class="relative mb-8">
+                    <i class="absolute left-3.5 top-1/2 text-lg -translate-y-1/2 ph-bold ph-magnifying-glass text-muted-foreground"></i>
                     <input type="text"
-                        name="q"
-                        class="w-full pl-11 pr-4 h-12 border rounded-lg bg-background text-foreground shadow-sm focus:outline-none focus:ring-2 focus:ring-primary transition-shadow"
-                        placeholder="{% translate 'Search packages...' %}"
-                        value="{{ search_query }}"
-                        hx-get="{% url 'packages' %}"
-                        hx-trigger="keyup changed delay:300ms"
-                        hx-target="#package-list-container"
-                        hx-include="#package-list-state input"
-                        hx-push-url="true">
+                           name="q"
+                           class="pr-4 pl-11 w-full h-12 rounded-lg border shadow-sm transition-shadow focus:ring-2 focus:outline-none bg-background text-foreground focus:ring-primary"
+                           placeholder="{% translate 'Search packages...' %}"
+                           value="{{ search_query }}"
+                           hx-get="{% url 'packages' %}"
+                           hx-trigger="keyup changed delay:300ms"
+                           hx-target="#package-list-container"
+                           hx-include="#package-list-state input"
+                           hx-push-url="true">
                 </div>
 
                 <div id="package-categories-container">
@@ -31,12 +31,12 @@
             </div>
         </div>
 
-        <div class="card mt-6">
-            <div class="card-content p-6">
+        <div class="mt-6 card">
+            <div class="p-6 card-content">
                 <div id="package-list-container">
                     {% include "new/partials/package_list_body.html" %}
                 </div>
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}
