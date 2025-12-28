@@ -20,6 +20,7 @@ from django_tables2 import SingleTableView
 
 from grid.models import Grid
 from package.forms import (
+    CategoryPackageFilterForm,
     DocumentationForm,
     FlaggedPackageForm,
     PackageExampleForm,
@@ -234,18 +235,6 @@ class PackageSingleTableMixin(SingleTableView):
             .annotate(usage_count=Count("usage"))
             .order_by("-repo_watchers", "-pypi_downloads", "title")
         )
-
-
-class PackageByCategoryListView(PackageSingleTableMixin):
-    template_name = "package/category.html"
-
-    def package_filters(self):
-        return {"category__slug": self.kwargs["slug"]}
-
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        context_data["category"] = get_object_or_404(Category, slug=self.kwargs["slug"])
-        return context_data
 
 
 class PackageByGridListView(PackageSingleTableMixin):
@@ -675,6 +664,65 @@ class PackageListView(ListView):
                 "current_sort": self.filter_data["sort"],
                 "search_query": self.filter_data["q"],
                 "form": self.form,
+                "list_url": reverse("packages"),
+            }
+        )
+        return context
+
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.htmx:
+            return render(self.request, "new/partials/package_list_body.html", context)
+        return super().render_to_response(context, **response_kwargs)
+
+
+class PackageByCategoryListView(ListView):
+    model = Package
+    template_name = "new/category_package_list.html"
+    paginate_by = 20
+    context_object_name = "packages"
+
+    def get_queryset(self):
+        self.category = get_object_or_404(Category, slug=self.kwargs["slug"])
+
+        queryset = (
+            Package.objects.active()
+            .filter(category=self.category)
+            .select_related("category")
+            .annotate(usage_count=Count("usage"))
+        )
+
+        self.form = CategoryPackageFilterForm(self.request.GET)
+
+        self.filter_data = {
+            "q": "",
+            "sort": "-repo_watchers",
+        }
+
+        if self.form.is_valid():
+            cleaned = self.form.cleaned_data
+            if cleaned.get("q"):
+                self.filter_data["q"] = cleaned["q"]
+            if cleaned.get("sort"):
+                self.filter_data["sort"] = cleaned["sort"]
+
+        if self.filter_data["q"]:
+            queryset = queryset.filter(
+                Q(title__icontains=self.filter_data["q"])
+                | Q(repo_description__icontains=self.filter_data["q"])
+            )
+
+        return queryset.order_by(self.filter_data["sort"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                "category": self.category,
+                "current_category": self.category.slug,
+                "current_sort": self.filter_data["sort"],
+                "search_query": self.filter_data["q"],
+                "form": self.form,
+                "list_url": reverse("category", kwargs={"slug": self.category.slug}),
             }
         )
         return context

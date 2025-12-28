@@ -2,8 +2,7 @@
 {% load i18n page_metadata_tags %}
 
 {% block metadata %}
-    {% translate "Grids" as trans_title %}
-    {% page_metadata page_title=trans_title %}
+    {% page_metadata page_title=category.title %}
 {% endblock metadata %}
 
 {% block content %}
@@ -14,13 +13,15 @@
                 <div class="flex items-center text-sm text-muted-foreground">
                     <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
                     <span class="mx-2">»</span>
-                    <span class="font-medium text-foreground truncate">{% translate "Grids" %}</span>
+                    <a href="{% url 'packages' %}" class="hover:underline">{% translate "Packages" %}</a>
+                    <span class="mx-2">»</span>
+                    <span class="font-medium text-foreground truncate">{{ category.title }}</span>
                 </div>
                 <div class="flex flex-wrap gap-2 items-center w-full sm:w-auto">
-                    {% if request.user.is_authenticated and request.user.profile.can_add_grid %}
-                        <a href="{% url 'add_grid' %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                    {% if request.user.is_authenticated and request.user.profile.can_add_package %}
+                        <a href="{% url 'add_package' %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
                             <i class="mr-1 text-base ph-bold ph-plus"></i>
-                            <span>{% translate "Add Grid" %}</span>
+                            <span>{% translate "Add Package" %}</span>
                         </a>
                     {% endif %}
                 </div>
@@ -30,8 +31,8 @@
 
     <div class="container py-8 px-4 mx-auto">
         <div class="mb-8">
-            <h1 class="text-3xl font-bold text-foreground">{% translate "Grids" %}</h1>
-            <p class="pt-2 text-muted-foreground">{% translate "Browse and search grids" %}</p>
+            <h1 class="text-3xl font-bold text-foreground">{{ category.title }}</h1>
+            <p class="pt-2 text-muted-foreground">{{ category.description }}</p>
         </div>
 
         <div class="card">
@@ -42,12 +43,12 @@
                     <input type="text"
                            name="q"
                            class="pr-4 pl-11 w-full h-12 rounded-lg border shadow-sm transition-shadow focus:ring-2 focus:outline-none bg-background text-foreground focus:ring-primary"
-                           placeholder="{% translate 'Search grids...' %}"
+                           placeholder="{% translate 'Search packages in ' %}{{ category.title }}..."
                            value="{{ search_query }}"
-                           hx-get="{% url 'grids' %}"
+                           hx-get="{% url 'category' category.slug %}"
                            hx-trigger="keyup changed delay:300ms"
-                           hx-target="#grid-list-container"
-                           hx-include="#grid-list-state input"
+                           hx-target="#package-list-container"
+                           hx-include="#package-list-state input"
                            hx-push-url="true">
                 </div>
             </div>
@@ -55,8 +56,8 @@
 
         <div class="mt-6 card">
             <div class="p-6 card-content">
-                <div id="grid-list-container">
-                    {% include "new/partials/grid_list_body.html" %}
+                <div id="package-list-container">
+                    {% include "new/partials/package_list_body.html" %}
                 </div>
             </div>
         </div>

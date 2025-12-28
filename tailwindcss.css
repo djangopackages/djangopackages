@@ -280,4 +280,188 @@
   .tooltip-lg {
     @apply max-w-xs;
   }
+
+  /* Form Group */
+  .django-form-renderer .form-group {
+    @apply mb-7;
+  }
+
+  /* Labels */
+  .django-form-renderer .form-label {
+    @apply block text-base font-semibold text-gray-900 mb-2;
+    letter-spacing: -0.01em;
+  }
+
+  .django-form-renderer .form-label .required {
+    @apply text-red-500 ml-1 text-lg;
+  }
+
+  /* Help Text */
+  .django-form-renderer .form-help {
+    @apply text-sm text-gray-600 mb-3 leading-relaxed;
+  }
+
+  /* Form Errors (Non-field errors) */
+  .django-form-renderer .form-errors {
+    @apply bg-red-50 border-l-4 border-red-500 rounded-r-lg p-4 mb-6 shadow-sm;
+  }
+
+  .django-form-renderer .form-errors p {
+    @apply text-sm text-red-800 font-medium;
+  }
+
+  /* Field Errors */
+  .django-form-renderer .field-error {
+    @apply mt-2;
+  }
+
+  .django-form-renderer .field-error p {
+    @apply text-sm text-red-600 font-medium flex items-start gap-1;
+  }
+
+  .django-form-renderer .field-error p::before {
+    content: "⚠";
+    @apply text-red-500 mt-0.5;
+  }
+
+  /* Text Inputs */
+  .django-form-renderer input[type="text"],
+  .django-form-renderer input[type="email"],
+  .django-form-renderer input[type="url"],
+  .django-form-renderer input[type="password"],
+  .django-form-renderer input[type="number"],
+  .django-form-renderer input[type="tel"],
+  .django-form-renderer input[type="search"],
+  .django-form-renderer input[type="date"],
+  .django-form-renderer input[type="time"],
+  .django-form-renderer input[type="datetime-local"],
+  .django-form-renderer textarea {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-lg text-base text-gray-900;
+    @apply bg-white shadow-sm;
+    @apply transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+    @apply placeholder:text-gray-400;
+  }
+
+  .django-form-renderer input[type="text"]:hover,
+  .django-form-renderer input[type="email"]:hover,
+  .django-form-renderer input[type="url"]:hover,
+  .django-form-renderer input[type="password"]:hover,
+  .django-form-renderer input[type="number"]:hover,
+  .django-form-renderer input[type="tel"]:hover,
+  .django-form-renderer input[type="search"]:hover,
+  .django-form-renderer input[type="date"]:hover,
+  .django-form-renderer input[type="time"]:hover,
+  .django-form-renderer input[type="datetime-local"]:hover,
+  .django-form-renderer textarea:hover {
+    @apply border-gray-400;
+  }
+
+  /* Error State for Inputs */
+  .django-form-renderer .has-error input[type="text"],
+  .django-form-renderer .has-error input[type="email"],
+  .django-form-renderer .has-error input[type="url"],
+  .django-form-renderer .has-error input[type="password"],
+  .django-form-renderer .has-error input[type="number"],
+  .django-form-renderer .has-error input[type="tel"],
+  .django-form-renderer .has-error input[type="search"],
+  .django-form-renderer .has-error input[type="date"],
+  .django-form-renderer .has-error input[type="time"],
+  .django-form-renderer .has-error input[type="datetime-local"],
+  .django-form-renderer .has-error textarea,
+  .django-form-renderer .has-error select {
+    @apply border-red-400 bg-red-50;
+    @apply focus:ring-red-500 focus:border-red-500;
+  }
+
+  /* Textarea */
+  .django-form-renderer textarea {
+    @apply min-h-[120px] resize-y;
+  }
+
+  /* Select Dropdown - Modern improved look */
+  .django-form-renderer select {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-lg text-base text-gray-900;
+    @apply bg-white shadow-sm;
+    @apply transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+    @apply cursor-pointer;
+  }
+
+  .django-form-renderer select:hover {
+    @apply border-gray-400;
+  }
+
+  /* Multiple Select */
+  .django-form-renderer select[multiple] {
+    @apply min-h-[140px] py-2;
+    background-image: none;
+    padding-right: 1rem;
+  }
+
+  .django-form-renderer select[multiple] option {
+    @apply py-2 px-3 rounded-md;
+  }
+
+  .django-form-renderer select[multiple] option:checked {
+    @apply bg-blue-100;
+  }
+
+  /* Checkbox & Radio */
+  .django-form-renderer input[type="checkbox"],
+  .django-form-renderer input[type="radio"] {
+    @apply w-5 h-5 border-2 border-gray-300 rounded;
+    @apply transition-all duration-200 cursor-pointer;
+    @apply focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+  }
+
+  .django-form-renderer input[type="radio"] {
+    @apply rounded-full;
+  }
+
+  .django-form-renderer input[type="checkbox"]:checked,
+  .django-form-renderer input[type="radio"]:checked {
+    @apply bg-blue-600 border-blue-600;
+  }
+
+  .django-form-renderer input[type="checkbox"]:hover,
+  .django-form-renderer input[type="radio"]:hover {
+    @apply border-gray-400;
+  }
+
+  /* File Input */
+  .django-form-renderer input[type="file"] {
+    @apply block w-full text-base text-gray-900;
+    @apply border border-gray-300 rounded-lg;
+    @apply file:mr-4 file:py-3 file:px-5;
+    @apply file:border-0 file:border-r file:border-gray-300;
+    @apply file:text-base file:font-semibold;
+    @apply file:bg-gray-50 file:text-gray-700;
+    @apply file:cursor-pointer;
+    @apply hover:file:bg-gray-100;
+    @apply file:transition-colors file:duration-200;
+  }
+
+  /* Checkbox/Radio Lists */
+  .django-form-renderer ul {
+    @apply list-none p-0 m-0 space-y-3;
+  }
+
+  .django-form-renderer ul li {
+    @apply flex items-center gap-3;
+  }
+
+  .django-form-renderer ul li label {
+    @apply text-base text-gray-700 cursor-pointer select-none;
+    @apply transition-colors duration-200;
+  }
+
+  .django-form-renderer ul li label:hover {
+    @apply text-gray-900;
+  }
+
+  .django-form-renderer ul li input[type="checkbox"],
+  .django-form-renderer ul li input[type="radio"] {
+    @apply flex-shrink-0;
+  }
 }

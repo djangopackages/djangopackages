@@ -3,12 +3,15 @@
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Count, Max, Q
 from django.http import Http404, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
-from django.views.generic import ListView
+from django.views.generic import CreateView, ListView
+from django.views.generic.edit import UpdateView
 from rest_framework.generics import ListAPIView, RetrieveAPIView
+from django.utils.translation import gettext_lazy as _
 
 from grid.forms import (
     ElementForm,
@@ -100,51 +103,39 @@ class GridListView(ListView):
         return super().render_to_response(context, **response_kwargs)
 
 
-@login_required
-def add_grid(request, template_name="grid/update_grid.html"):
-    """Creates a new grid, requires user to be logged in.
-    Works for both GET and POST request methods
+class AddGridView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    form_class = GridForm
+    template_name = "new/add_grid.html"
 
-    Template context:
+    def test_func(self):
+        return self.request.user.profile.can_add_grid
 
-    * ``form`` - an instance of :class:`~app.grid.forms.GridForm`
-    """
+    def get_success_url(self):
+        return reverse("grid", kwargs={"slug": self.object.slug})
 
-    if not request.user.profile.can_add_grid:
-        return HttpResponseForbidden("permission denied")
-
-    new_grid = Grid()
-    form = GridForm(request.POST or None, instance=new_grid)
-
-    if form.is_valid():
-        new_grid = form.save()
-        return HttpResponseRedirect(reverse("grid", kwargs={"slug": new_grid.slug}))
-
-    return render(request, template_name, {"form": form})
+    def form_valid(self, form):
+        messages.add_message(
+            self.request, messages.SUCCESS, _("Grid created successfully")
+        )
+        return super().form_valid(form)
 
 
-@login_required
-def edit_grid(request, slug, template_name="grid/update_grid.html"):
-    """View to modify the grid, handles GET and POST requests.
-    This view requires user to be logged in.
+class EditGridView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Grid
+    form_class = GridForm
+    template_name = "new/add_grid.html"
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
 
-    Template context:
+    def test_func(self):
+        return self.request.user.profile.can_edit_grid
 
-    * ``form`` - instance of :class:`grid.forms.GridForm`
-    """
+    def get_success_url(self):
+        return reverse("grid", kwargs={"slug": self.object.slug})
 
-    if not request.user.profile.can_edit_grid:
-        return HttpResponseForbidden("permission denied")
-
-    grid = get_object_or_404(Grid, slug=slug)
-    form = GridForm(request.POST or None, instance=grid)
-
-    if form.is_valid():
-        grid = form.save()
-        message = "Grid has been edited"
-        messages.add_message(request, messages.INFO, message)
-        return HttpResponseRedirect(reverse("grid", kwargs={"slug": grid.slug}))
-    return render(request, template_name, {"form": form, "grid": grid})
+    def form_valid(self, form):
+        messages.add_message(self.request, messages.SUCCESS, _("Grid has been edited"))
+        return super().form_valid(form)
 
 
 @login_required

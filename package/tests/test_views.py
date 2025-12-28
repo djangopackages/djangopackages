@@ -493,7 +493,7 @@ class PackagePermissionTest(TestCase):
 def test_category_view(db, django_assert_num_queries, tp):
     initial_data.load()
 
-    with django_assert_num_queries(23):
+    with django_assert_num_queries(13):
         response = tp.client.get("/categories/apps/")
     assert "apps" in str(response.content)
 

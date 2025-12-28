@@ -3,9 +3,10 @@
 from django.urls import path, re_path
 
 from grid.views import (
+    AddGridView,
+    EditGridView,
     GridListView,
     add_feature,
-    add_grid,
     add_grid_package,
     add_new_grid_package,
     ajax_grid_list,
@@ -13,7 +14,6 @@ from grid.views import (
     delete_grid_package,
     edit_element,
     edit_feature,
-    edit_grid,
     grid_detail,
     grid_opengraph_detail,
     grid_timesheet,
@@ -24,12 +24,12 @@ from package.views import PackageByGridListView
 urlpatterns = [
     path(
         "add/",
-        view=add_grid,
+        view=AddGridView.as_view(),
         name="add_grid",
     ),
     path(
         "<slug:slug>/edit/",
-        view=edit_grid,
+        view=EditGridView.as_view(),
         name="edit_grid",
     ),
     path(

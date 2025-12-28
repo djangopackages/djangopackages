@@ -71,7 +71,7 @@ class DocumentationForm(ModelForm):
         ]
 
 
-class PackageFilterForm(forms.Form):
+class BasePackageFilterForm(forms.Form):
     SORT_CHOICES = (
         ("-repo_watchers", _("Stars (Desc)")),
         ("repo_watchers", _("Stars (Asc)")),
@@ -89,9 +89,16 @@ class PackageFilterForm(forms.Form):
         ("usage_count", _("Usage Count (Asc)")),
     )
 
-    category = forms.CharField(required=False)
     sort = forms.ChoiceField(
         choices=SORT_CHOICES, required=False, initial="-repo_watchers"
     )
     page = forms.IntegerField(required=False, min_value=1)
     q = forms.CharField(required=False)
+
+
+class PackageFilterForm(BasePackageFilterForm):
+    category = forms.CharField(required=False)
+
+
+class CategoryPackageFilterForm(BasePackageFilterForm):
+    pass

@@ -6,11 +6,13 @@
 {% endblock metadata %}
 
 {% block content %}
-        <!-- Breadcrumb Section -->
+    <!-- Breadcrumb Section -->
     <section class="py-4 bg-primary/10">
         <div class="container px-4 mx-auto">
             <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
                 <div class="flex items-center text-sm text-muted-foreground">
+                    <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
+                    <span class="mx-2">»</span>
                     <a href="{% url 'packages' %}" class="hover:underline">{% translate "Packages" %}</a>
                     <span class="mx-2">»</span>
                     <span class="font-medium text-foreground truncate">{{ package.title }}</span>
@@ -32,7 +34,7 @@
         </div>
     </section>
 
-        <!-- Package Description -->
+    <!-- Package Description -->
     <section class="pt-4 bg-muted/20">
         <div class="container px-4 mx-auto">
             <h1 class="mb-2 text-3xl font-bold text-foreground">{{ package.title }}</h1>
