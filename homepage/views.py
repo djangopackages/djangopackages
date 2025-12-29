@@ -109,7 +109,7 @@ class OpenView(TemplateView):
 
 
 class ReadinessView(TemplateView):
-    template_name = "readiness/index.html"
+    template_name = "new/readiness_index.html"
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -136,7 +136,7 @@ class ReadinessView(TemplateView):
 
 
 class ReadinessDetailView(TemplateView):
-    template_name = "readiness/readiness_detail.html"
+    template_name = "new/readiness_detail.html"
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)

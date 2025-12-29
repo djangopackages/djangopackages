@@ -1,0 +1,87 @@
+{% extends "new/base.html" %}
+{% load humanize i18n page_metadata_tags %}
+
+{% block metadata %}
+    {% translate "Readiness" as trans_title %}
+    {% page_metadata page_title=trans_title %}
+{% endblock metadata %}
+
+{% block content %}
+    <!-- Breadcrumb Section -->
+    <section class="py-4 bg-primary/10">
+        <div class="container px-4 mx-auto">
+            <div class="flex items-center text-sm text-muted-foreground">
+                <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
+                <span class="mx-2">»</span>
+                <a href="{% url 'readiness' %}" class="hover:underline">{% translate "Readiness" %}</a>
+                <span class="mx-2">»</span>
+                <span class="font-medium text-foreground truncate">{{ release.product.title }} {{ release.cycle }}</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mx-auto px-4 py-8">
+        <div class="mb-8">
+            <h1 class="text-4xl font-bold text-foreground mb-4">
+                {{ release.product.title }} {{ release.cycle }} Readiness
+            </h1>
+
+            {% if release.is_eol %}
+                <div class="flex items-center p-4 mb-6 text-sm text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50" role="alert">
+                    <i class="ph-bold ph-warning text-lg mr-3"></i>
+                    <span class="sr-only">Warning</span>
+                    <div>
+                        <span class="font-medium">Warning!</span> {{ release.product.title }} {{ release.cycle }} support expired on {{ release.eol }}.
+                    </div>
+                </div>
+            {% endif %}
+
+            <p class="text-lg text-muted-foreground mb-4">
+                {{ release.product.title }} {{ release.cycle }} support graph for the {{ packages|length }} most popular {{ release.product.title }} packages!
+            </p>
+
+            <div class="card">
+                <div class="p-6 card-content">
+                    <h2 class="text-lg font-semibold text-foreground mb-2">How do you identify {{ release.product.title }} {{ release.cycle }} support?</h2>
+                    <p class="text-muted-foreground">We look for the <code class="bg-muted px-1.5 py-0.5 rounded text-pink-600 font-mono text-sm border">{{ ready_condition }}</code> classifier on the latest release of the project.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-12">
+            <h2 class="text-2xl font-bold text-foreground mb-6">{{ product_slug }} Release {{ cycle }}</h2>
+            <div class="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+                {% for package in packages %}
+                    <div class="card hover:shadow-md transition-shadow
+                                {% if package.is_ready == 'yes' %}bg-green-50 border-green-200
+                                {% elif package.is_ready == 'maybe' %}bg-yellow-50 border-yellow-200
+                                {% else %}bg-card{% endif %}">
+                        <div class="p-3 card-content flex flex-col h-full">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="inline-flex items-center justify-center w-7 h-7 text-xs font-bold rounded-full
+                                            {% if package.is_ready == 'yes' %}bg-green-200 text-green-800
+                                            {% elif package.is_ready == 'maybe' %}bg-yellow-200 text-yellow-800
+                                            {% else %}bg-muted text-muted-foreground{% endif %}">
+                                    #{{ forloop.counter }}
+                                </span>
+                                {% if package.is_ready == 'yes' %}
+                                    <span class="text-green-600 font-bold text-xs">Ready</span>
+                                {% elif package.is_ready == 'maybe' %}
+                                    <span class="text-yellow-600 font-bold text-xs">Maybe</span>
+                                {% endif %}
+                            </div>
+                            <a href="{% url 'package' slug=package.slug %}" class="text-base font-semibold text-foreground hover:text-primary hover:underline mb-0.5 truncate" title="{{ package.title }}">
+                                {{ package.title }}
+                            </a>
+                            <div class="text-xs text-muted-foreground mt-auto">
+                                {{ package.pypi_downloads|intcomma }} downloads
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% include "new/partials/readiness_footer.html" %}
+    </div>
+{% endblock content %}

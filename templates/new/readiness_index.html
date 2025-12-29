@@ -1,0 +1,112 @@
+{% extends "new/base.html" %}
+{% load humanize i18n page_metadata_tags %}
+
+{% block metadata %}
+    {% translate "Readiness" as trans_title %}
+    {% page_metadata page_title=trans_title %}
+{% endblock metadata %}
+
+{% block content %}
+    <!-- Breadcrumb Section -->
+    <section class="py-4 bg-primary/10">
+        <div class="container px-4 mx-auto">
+            <div class="flex items-center text-sm text-muted-foreground">
+                <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
+                <span class="mx-2">»</span>
+                <span class="font-medium text-foreground truncate">{% translate "Readiness" %}</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mx-auto px-4 py-8">
+        <div class="mb-8">
+            <h1 class="text-4xl font-bold text-foreground">{% translate "Readiness" %}</h1>
+            <p class="mt-2 text-lg text-muted-foreground">Check the compatibility of packages with different versions of Django, Python, and Wagtail.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% if django_releases %}
+                <div class="card overflow-hidden">
+                    <div class="bg-muted/50 px-6 py-4 border-b">
+                        <h2 class="text-xl font-semibold text-foreground">{% translate "Django Releases" %}</h2>
+                    </div>
+                    <ul class="divide-y divide-border">
+                        {% for release in django_releases %}
+                            <li>
+                                <a href="{% url 'readiness_detail' product_slug=release.product.slug cycle=release.cycle %}" class="block px-6 py-4 hover:bg-muted/50 transition duration-150 ease-in-out">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-lg font-medium text-primary">{{ release }}</span>
+                                        <div class="flex space-x-2">
+                                            {% if release.lts %}
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">LTS</span>
+                                            {% endif %}
+                                            {% if release.is_eol %}
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">EOL</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            {% if python_releases %}
+                <div class="card overflow-hidden">
+                    <div class="bg-muted/50 px-6 py-4 border-b">
+                        <h2 class="text-xl font-semibold text-foreground">{% translate "Python Releases" %}</h2>
+                    </div>
+                    <ul class="divide-y divide-border">
+                        {% for release in python_releases %}
+                            <li>
+                                <a href="{% url 'readiness_detail' product_slug=release.product.slug cycle=release.cycle %}" class="block px-6 py-4 hover:bg-muted/50 transition duration-150 ease-in-out">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-lg font-medium text-primary">{{ release }}</span>
+                                        <div class="flex space-x-2">
+                                            {% if release.lts %}
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">LTS</span>
+                                            {% endif %}
+                                            {% if release.is_eol %}
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">EOL</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            {% if wagtail_releases %}
+                <div class="card overflow-hidden">
+                    <div class="bg-muted/50 px-6 py-4 border-b">
+                        <h2 class="text-xl font-semibold text-foreground">{% translate "Wagtail Releases" %}</h2>
+                    </div>
+                    <ul class="divide-y divide-border">
+                        {% for release in wagtail_releases %}
+                            <li>
+                                <a href="{% url 'readiness_detail' product_slug=release.product.slug cycle=release.cycle %}" class="block px-6 py-4 hover:bg-muted/50 transition duration-150 ease-in-out">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-lg font-medium text-primary">{{ release }}</span>
+                                        <div class="flex space-x-2">
+                                            {% if release.lts %}
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">LTS</span>
+                                            {% endif %}
+                                            {% if release.is_eol %}
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">EOL</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+
+        {% include "new/partials/readiness_footer.html" %}
+    </div>
+{% endblock content %}
