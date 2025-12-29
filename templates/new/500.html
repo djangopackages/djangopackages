@@ -1,0 +1,35 @@
+{% extends "new/base.html" %}
+{% load i18n page_metadata_tags %}
+
+{% block metadata %}
+    {% translate "Server Error" as trans_title %}
+    {% page_metadata page_title=trans_title %}
+{% endblock metadata %}
+
+{% block content %}
+    <!-- Breadcrumb Section -->
+    <section class="py-4 bg-primary/10">
+        <div class="container px-4 mx-auto">
+            <div class="flex items-center text-sm text-muted-foreground">
+                <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
+                <span class="mx-2">»</span>
+                <span class="font-medium text-foreground truncate">{% translate "500 Server Error" %}</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="container py-8 px-4 mx-auto">
+        <div class="max-w-md mx-auto card">
+            <div class="p-8 text-center card-content">
+                <div class="mb-4 text-primary">
+                    <i class="text-6xl ph-bold ph-warning"></i>
+                </div>
+                <h1 class="mb-2 text-3xl font-bold text-foreground">{% translate "Server Error" %}</h1>
+                <p class="mb-6 text-muted-foreground">{% translate "Something went wrong on our end. Please try again later." %}</p>
+                <a href="{% url 'home' %}" class="btn-primary">
+                    {% translate "Go back home" %}
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

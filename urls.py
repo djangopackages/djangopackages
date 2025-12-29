@@ -16,6 +16,7 @@ from homepage.views import (
     OpenView,
     ReadinessDetailView,
     ReadinessView,
+    error_403_view,
     error_404_view,
     error_500_view,
     error_503_view,
@@ -38,6 +39,11 @@ sitemaps = {
     "blog": BlogSitemap,
 }
 
+handler404 = "homepage.views.error_404_view"
+handler500 = "homepage.views.error_500_view"
+handler403 = "homepage.views.error_403_view"
+handler503 = "homepage.views.error_503_view"
+
 urlpatterns = [
     # url(r'^login/\{\{item\.absolute_url\}\}/', RedirectView.as_view(url="/login/github/")),
     path("auth/", include("social_django.urls", namespace="social")),
@@ -50,6 +56,7 @@ urlpatterns = [
     ),
     path("health/", include("health_check.urls")),
     path("404", error_404_view, name="404"),
+    path("403", error_403_view, name="403"),
     path("500", error_500_view, name="500"),
     path("503", error_503_view, name="503"),
     path(settings.ADMIN_URL_BASE, admin.site.urls),

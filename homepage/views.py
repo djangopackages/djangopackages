@@ -291,15 +291,21 @@ class HomepageView(TemplateView):
         return context
 
 
-def error_404_view(request):
-    response = render(request, "404.html")
+def error_404_view(request, exception=None):
+    response = render(request, "new/404.html")
     response.status_code = 404
+    return response
+
+
+def error_403_view(request, exception=None):
+    response = render(request, "new/403.html")
+    response.status_code = 403
     return response
 
 
 def error_500_view(request):
     try:
-        response = render(request, "500.html")
+        response = render(request, "new/500.html")
     except Exception:
         response = HttpResponse(
             """<html><body><p>If this seems like a bug, would you please do us a favor and <a href="https://github.com/djangopackages/djangopackages/issues">create a ticket?</a></p></body></html>"""
@@ -309,6 +315,6 @@ def error_500_view(request):
 
 
 def error_503_view(request):
-    response = render(request, "503.html")
+    response = render(request, "new/503.html")
     response.status_code = 503
     return response
