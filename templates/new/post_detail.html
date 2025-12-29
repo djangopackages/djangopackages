@@ -1,0 +1,41 @@
+{% extends "new/base.html" %}
+{% load humanize i18n markdown_tags page_metadata_tags %}
+
+{% block metadata %}
+    {% page_metadata page_title=post.title %}
+{% endblock metadata %}
+
+{% block content %}
+    <!-- Breadcrumb Section -->
+    <section class="py-4 bg-primary/10">
+        <div class="container px-4 mx-auto">
+            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
+                <div class="flex items-center text-sm text-muted-foreground">
+                    <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
+                    <span class="mx-2">»</span>
+                    <a href="{% url 'post_list' %}" class="hover:underline">{% translate "Changelog" %}</a>
+                    <span class="mx-2">»</span>
+                    <span class="font-medium text-foreground truncate">{{ post.title }}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container py-8 px-4 mx-auto">
+        <div class="max-w-4xl card">
+            <div class="p-6 card-content md:p-10">
+                <div class="mb-8 border-b border-border pb-6">
+                    <h1 class="text-3xl font-bold text-foreground mb-2">{{ post.title }}</h1>
+                    <div class="flex items-center gap-2 text-muted-foreground">
+                        <i class="ph-bold ph-calendar-blank"></i>
+                        <span>{{ post.published_date|date:"F j, Y" }}</span>
+                    </div>
+                </div>
+
+                <div class="prose prose-lg max-w-none dark:prose-invert text-foreground">
+                    {{ post.content|markdown }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

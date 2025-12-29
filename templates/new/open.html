@@ -1,0 +1,409 @@
+{% extends "new/base.html" %}
+{% load humanize i18n page_metadata_tags %}
+
+{% block metadata %}
+    {% translate "Open" as trans_title %}
+    {% page_metadata page_title=trans_title %}
+{% endblock metadata %}
+
+{% block content %}
+    <!-- Breadcrumb Section -->
+    <section class="py-4 bg-primary/10">
+        <div class="container px-4 mx-auto">
+            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
+                <div class="flex items-center text-sm text-muted-foreground">
+                    <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
+                    <span class="mx-2">»</span>
+                    <span class="font-medium text-foreground truncate">{% translate "Open" %}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container py-8 px-4 mx-auto">
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-foreground">{% translate "Open" %}</h1>
+            <p class="pt-2 text-muted-foreground">{% translate "Statistics about Django Packages." %}</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <!-- Tracking -->
+            <div class="card">
+                <div class="p-6 card-content">
+                    <h2 class="text-xl font-bold text-foreground mb-4">{% translate "Tracking" %}</h2>
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "Users" %}</span>
+                            <span class="font-medium text-foreground">{{ total_users|intcomma }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "Grids" %}</span>
+                            <span class="font-medium text-foreground">{{ total_grids|intcomma }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "Categories" %}</span>
+                            <span class="font-medium text-foreground">{{ total_categories|intcomma }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "Commits" %}</span>
+                            <span class="font-medium text-foreground">{{ total_commits|intcomma }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "Versions" %}</span>
+                            <span class="font-medium text-foreground">{{ total_versions|intcomma }}</span>
+                        </div>
+                    </div>
+
+                    <h2 class="text-xl font-bold text-foreground mt-6 mb-4">{% translate "Repos" %}</h2>
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "GitHub Repos" %}</span>
+                            <span class="font-medium text-foreground">{{ repos_github|intcomma }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "Bitbucket Repos" %}</span>
+                            <span class="font-medium text-foreground">{{ repos_bitbucket|intcomma }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "GitLab Repos" %}</span>
+                            <span class="font-medium text-foreground">{{ repos_gitlab|intcomma }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Packages -->
+            <div class="card">
+                <div class="p-6 card-content">
+                    <h2 class="text-xl font-bold text-foreground mb-4">{% translate "Packages" %}</h2>
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "Packages" %}</span>
+                            <span class="font-medium text-foreground">{{ total_packages|intcomma }}</span>
+                        </div>
+                        {% for key, value in categories.items %}
+                            <div class="flex justify-between">
+                                <span class="text-muted-foreground">{{ key }} {% translate "Packages" %}</span>
+                                <span class="font-medium text-foreground">{{ value|intcomma }}</span>
+                            </div>
+                        {% endfor %}
+                        <div class="flex justify-between border-t pt-2 mt-2 border-border">
+                            <span class="text-muted-foreground">{% translate "Archived Packages" %}</span>
+                            <span class="font-medium text-foreground">{{ archive_packages|intcomma }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "Deprecated Packages" %}</span>
+                            <span class="font-medium text-foreground">{{ deprecated_packages|intcomma }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Django Versions -->
+            <div class="card">
+                <div class="p-6 card-content">
+                    <h2 class="text-xl font-bold text-foreground mb-4">{% translate "Django Versions" %}</h2>
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "Django 6.0 Packages:" %}</span>
+                            <span class="font-medium text-foreground">{{ total_django_6_0|intcomma }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "Django 5.2 Packages:" %}</span>
+                            <span class="font-medium text-foreground">{{ total_django_5_2|intcomma }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "Django 5.1 Packages:" %}</span>
+                            <span class="font-medium text-foreground">{{ total_django_5_1|intcomma }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "Django 5.0 Packages:" %}</span>
+                            <span class="font-medium text-foreground">{{ total_django_5_0|intcomma }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "Django 4.2 Packages:" %}</span>
+                            <span class="font-medium text-foreground">{{ total_django_4_2|intcomma }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "Django 3.2 Packages:" %}</span>
+                            <span class="font-medium text-foreground">{{ total_django_3_2|intcomma }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "Django 2.2 Packages:" %}</span>
+                            <span class="font-medium text-foreground">{{ total_django_2_2|intcomma }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Python Versions -->
+            <div class="card">
+                <div class="p-6 card-content">
+                    <h2 class="text-xl font-bold text-foreground mb-4">{% translate "Python Versions" %}</h2>
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "Python 3 Packages:" %}</span>
+                            <span class="font-medium text-foreground">{{ total_python_3|intcomma }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "Python 3.15 Packages:" %}</span>
+                            <span class="font-medium text-foreground">{{ total_python_3_15|intcomma }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "Python 3.14 Packages:" %}</span>
+                            <span class="font-medium text-foreground">{{ total_python_3_14|intcomma }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "Python 3.13 Packages:" %}</span>
+                            <span class="font-medium text-foreground">{{ total_python_3_13|intcomma }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "Python 3.12 Packages:" %}</span>
+                            <span class="font-medium text-foreground">{{ total_python_3_12|intcomma }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "Python 3.11 Packages:" %}</span>
+                            <span class="font-medium text-foreground">{{ total_python_3_11|intcomma }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "Python 3.10 Packages:" %}</span>
+                            <span class="font-medium text-foreground">{{ total_python_3_10|intcomma }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-8">
+            <h2 class="text-3xl font-bold text-foreground">{% translate "Funding" %}</h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            <div class="card">
+                <div class="p-6 card-content">
+                    <canvas id="chart_funding_2023"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="p-6 card-content">
+                    <canvas id="chart_funding_2022"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="p-6 card-content">
+                    <canvas id="chart_funding_2021"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Top Users -->
+            <div class="card">
+                <div class="p-6 card-content">
+                    <h2 class="text-xl font-bold text-foreground mb-4">{% translate "Users who have contributed over ten packages" %}</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead>
+                                <tr class="border-b border-border">
+                                    <th class="pb-3 font-medium text-muted-foreground">#</th>
+                                    <th class="pb-3 font-medium text-muted-foreground">{% translate "User" %}</th>
+                                    <th class="pb-3 font-medium text-muted-foreground">{% translate "Packages" %}</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-border">
+                                {% for top_user in top_user_list %}
+                                    <tr class="hover:bg-muted/30 transition-colors">
+                                        <td class="py-3 pr-4 text-muted-foreground">{{ forloop.counter }}</td>
+                                        <td class="py-3 pr-4 font-medium text-primary">
+                                            <a href="{% url 'profile_detail' github_account=top_user.username %}" class="hover:underline">{{ top_user }}</a>
+                                        </td>
+                                        <td class="py-3 text-muted-foreground">{{ top_user.num_packages }} {% translate "packages" %}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Grids -->
+            <div class="card">
+                <div class="p-6 card-content">
+                    <h2 class="text-xl font-bold text-foreground mb-4">{% translate "Grids with twenty-five or more packages" %}</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead>
+                                <tr class="border-b border-border">
+                                    <th class="pb-3 font-medium text-muted-foreground">#</th>
+                                    <th class="pb-3 font-medium text-muted-foreground">{% translate "Grid" %}</th>
+                                    <th class="pb-3 font-medium text-muted-foreground">{% translate "Packages" %}</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-border">
+                                {% for grid in top_grid_list %}
+                                    <tr class="hover:bg-muted/30 transition-colors">
+                                        <td class="py-3 pr-4 text-muted-foreground">{{ forloop.counter }}</td>
+                                        <td class="py-3 pr-4 font-medium text-primary">
+                                            <a href="{{ grid.get_absolute_url }}" class="hover:underline">{{ grid }}</a>
+                                        </td>
+                                        <td class="py-3 text-muted-foreground">{{ grid.num_packages }} {% translate "packages" %}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block extra_js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script>
+
+
+        function draw_chart(title, context, costData, incomeData) {
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+            return new Chart(context, {
+                type: 'line',
+                data: {
+                    labels: months, // x-axis labels
+                    datasets: [{
+                        label: 'Costs',
+                        data: costData,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Income',
+                        data: incomeData,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: title
+                    },
+                    scales: {
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Amount ($)'
+                            },
+                            ticks: {
+                                beginAtZero: true,
+                                callback: function(value, index, values) {
+                                    return '$' + value;
+                                }
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+
+        // 2023 data...
+
+        const costsData2023 = [
+            76.01,  // DigitalOcean 2023-01
+            76.01,  // DigitalOcean 2023-02
+            76.01,  // DigitalOcean 2023-03
+            85.16,  // DigitalOcean 2023-04 - migrated slices
+            46.43,  // DigitalOcean 2023-05
+            46.43,  // DigitalOcean 2023-06
+            46.43,  // DigitalOcean 2023-07
+            61.65,  // DigitalOcean 2023-08
+            61.63,  // DigitalOcean 2023-09
+            61.63,  // DigitalOcean 2023-10
+            61.63,  // DigitalOcean 2023-11
+            61.63  // DigitalOcean 2023-12
+        ];
+        const incomeData2023 = [
+            93.07,  // Ethical Ads 2023-01 + 2022-12
+            0,      // Ethical Ads 2023-02
+            80.38,  // Ethical Ads 2023-03
+            0,  // 2023-04
+            0,  // 2023-05
+            0,  // 2023-06
+            0,  // 2023-07
+            25.61,  // Carbon Ads 2023-08
+            25.58,  // Carbon Ads 2023-09
+            22.58,  // Carbon Ads 2023-10
+            16.95,  // Carbon Ads 2023-11
+            0  // 2023-12
+        ];
+        draw_chart('Django Packages 2023', 'chart_funding_2023', costsData2023, incomeData2023);
+
+        // 2022 data...
+
+        const costsData2022 = [
+            0,      // DigitalOcean Credit 2022-01
+            63.24,  // DigitalOcean 2022-02
+            71.08,  // DigitalOcean 2022-03
+            71.08,  // DigitalOcean 2022-04
+            71.08,  // DigitalOcean 2022-05
+            71.08,  // DigitalOcean 2022-06
+            71.08,  // DigitalOcean 2022-07
+            82.30 + 29.97,  // DigitalOcean 2022-08 / Dynadot domain registration
+            82.03,  // DigitalOcean 2022-09
+            76.01,  // DigitalOcean 2022-10
+            76.01,  // DigitalOcean 2022-11
+            76.01   // DigitalOcean 2022-12
+        ];
+        const incomeData2022 = [
+            62.90,  // Ethical Ads 2022-01
+            55.13,  // Ethical Ads 2022-02
+            66.18,  // Ethical Ads 2022-03
+            70.98,  // Ethical Ads 2022-04
+            66.21,  // Ethical Ads 2022-05
+            59.12,  // Ethical Ads 2022-06
+            55.05,  // Ethical Ads 2022-07
+            0,
+            92.23,  // Ethical Ads 2022-08 + 2022-09
+            52.12,  // Ethical Ads 2022-10
+            50.91,  // Ethical Ads 2022-11
+            0
+        ];
+
+        draw_chart('Django Packages 2022', 'chart_funding_2022', costsData2022, incomeData2022);
+
+        // 2021 data...
+
+        const costsData2021 = [
+            53.24,  // DigitalOcean 2021-01
+            53.24,  // DigitalOcean 2021-02
+            53.24,  // DigitalOcean 2021-03
+            53.86,  // DigitalOcean 2021-04
+            56.08,  // DigitalOcean 2021-05
+            56.08,  // DigitalOcean 2021-06
+            56.08,  // DigitalOcean 2021-07
+            61.35,  // DigitalOcean 2021-08
+            71.08,  // DigitalOcean 2021-09
+            71.08,  // DigitalOcean 2021-10
+            71.08,  // DigitalOcean 2021-11
+            71.08   // DigitalOcean 2021-12
+        ];
+        const incomeData2021 = [
+            0,  // 2021-01
+            0,  // 2021-02
+            0,  // 2021-03
+            0,  // 2021-04
+            0,  // 2021-05
+            0,  // 2021-06
+            0,  // 2021-07
+            0,  // 2021-08
+            0,  // 2021-09
+            125.66,  // EthicalAds 2021-10
+            87.46,  // EthicalAds 2021-11
+            78.810  // EthicalAds 2021-12
+        ];
+
+        draw_chart('Django Packages 2021', 'chart_funding_2021', costsData2021, incomeData2021);
+
+    </script>
+{% endblock extra_js %}

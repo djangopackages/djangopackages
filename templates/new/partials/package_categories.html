@@ -1,7 +1,7 @@
 {% load i18n %}
 <div class="flex flex-wrap gap-2">
     <button
-        hx-get="{% url 'packages' %}?category=all&sort={{ current_sort }}&q={{ search_query }}"
+        hx-get="{{ list_url }}?category=all&sort={{ current_sort }}&q={{ search_query }}"
         hx-target="#package-list-container"
         hx-push-url="true"
         class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-full transition-colors border {% if current_category == 'all' %}bg-primary text-primary-foreground border-primary hover:bg-primary/90{% else %}bg-background text-muted-foreground border-border hover:bg-accent hover:text-accent-foreground{% endif %}">
@@ -10,7 +10,7 @@
     </button>
     {% for category in categories %}
         <button
-            hx-get="{% url 'packages' %}?category={{ category.slug }}&sort={{ current_sort }}&q={{ search_query }}"
+            hx-get="{{ list_url }}?category={{ category.slug }}&sort={{ current_sort }}&q={{ search_query }}"
             hx-target="#package-list-container"
             hx-push-url="true"
             class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-full transition-colors border {% if current_category == category.slug %}bg-primary text-primary-foreground border-primary hover:bg-primary/90{% else %}bg-background text-muted-foreground border-border hover:bg-accent hover:text-accent-foreground{% endif %}">

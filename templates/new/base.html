@@ -14,10 +14,12 @@
         <link rel="shortcut icon" href="{% static "img/favicon.png" %}" />
         {% block extra_head %}{% endblock %}
     </head>
-    <body class="min-h-screen bg-background">
+    <body class="flex flex-col min-h-screen bg-background">
         {% include 'new/partials/navbar.html' %}
         {% include 'new/partials/messages.html' %}
-        {% block content %}{% endblock %}
+        <main class="flex-1">
+            {% block content %}{% endblock %}
+        </main>
         {% include 'new/partials/footer.html' %}
 
         <script src="{% static 'js/app.js' %}"></script>

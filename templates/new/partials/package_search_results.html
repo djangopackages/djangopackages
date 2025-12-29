@@ -1,0 +1,60 @@
+{% load i18n humanize waffle_tags %}
+{% if packages %}
+    <div class="max-h-60 overflow-y-auto rounded-md border border-border bg-popover text-popover-foreground shadow-md">
+        {% for package in packages %}
+            <button
+                type="submit"
+                name="package"
+                value="{{ package.id }}"
+                class="w-full text-left suggestion-item hover:bg-accent hover:text-accent-foreground transition-colors p-3 border-b border-border/50 last:border-0 group"
+            >
+                <div class="flex gap-3 items-start">
+                    <div class="flex-shrink-0 mt-1 suggestion-icon text-muted-foreground group-hover:text-accent-foreground transition-colors">
+                        <i class="text-lg ph-bold ph-package"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex gap-2 justify-between items-center">
+                            <span class="font-medium text-foreground group-hover:text-accent-foreground break-words">{{ package.title }}</span>
+                        </div>
+                        {% if package.repo_description %}
+                            <p class="mt-0.5 text-xs text-muted-foreground group-hover:text-accent-foreground/80 line-clamp-2">
+                                {{ package.repo_description }}
+                            </p>
+                        {% endif %}
+                        <div class="flex flex-wrap gap-2 items-center mt-2">
+                            {% if package.category %}
+                                <span class="whitespace-nowrap badge suggestion-badge text-xs text-muted-foreground group-hover:text-accent-foreground/80">
+                                    {{ package.category.title }}
+                                </span>
+                            {% endif %}
+                            {% if package.pypi_version %}
+                                <span class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge text-xs text-muted-foreground group-hover:text-accent-foreground/80" title="{% translate 'Latest PyPI Version' %}">
+                                    <i class="text-xs ph-bold ph-tag"></i>
+                                    {{ package.pypi_version }}
+                                </span>
+                            {% endif %}
+                            {% if package.last_released %}
+                                <span class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge text-xs text-muted-foreground group-hover:text-accent-foreground/80" title="{% translate 'Last Released' %}">
+                                    <i class="text-xs ph-bold ph-calendar-check"></i>
+                                    {{ package.last_released|date }}
+                                </span>
+                            {% endif %}
+                            <span class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge text-xs text-muted-foreground group-hover:text-accent-foreground/80" title="{% translate 'Stars' %}">
+                                <i class="ph-bold ph-star"></i>
+                                {{ package.repo_watchers|intcomma|default:0 }}
+                            </span>
+                            <span class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge text-xs text-muted-foreground group-hover:text-accent-foreground/80" title="{% translate 'Forks' %}">
+                                <i class="text-xs ph-bold ph-git-fork"></i>
+                                {{ package.repo_forks|default:0 }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </button>
+        {% endfor %}
+    </div>
+{% elif request.GET.q %}
+    <div class="p-4 text-center text-muted-foreground bg-popover rounded-md border border-border shadow-md">
+        <p>{% translate "No packages found matching your query." %}</p>
+    </div>
+{% endif %}

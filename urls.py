@@ -66,14 +66,10 @@ urlpatterns = [
     # url(regex=r'^login/$', view=TemplateView.as_view(template_name='pages/login.html'), name='login',),
     path("logout/", LogoutView.as_view(), name="logout"),
     # static pages
-    path("about/", TemplateView.as_view(template_name="pages/faq.html"), name="about"),
-    path(
-        "terms/", TemplateView.as_view(template_name="pages/terms.html"), name="terms"
-    ),
-    path("faq/", TemplateView.as_view(template_name="pages/faq.html"), name="faq"),
-    path(
-        "stack/", TemplateView.as_view(template_name="pages/stack.html"), name="stack"
-    ),
+    path("about/", TemplateView.as_view(template_name="new/faq.html"), name="about"),
+    path("terms/", TemplateView.as_view(template_name="new/terms.html"), name="terms"),
+    path("faq/", TemplateView.as_view(template_name="new/faq.html"), name="faq"),
+    path("stack/", TemplateView.as_view(template_name="new/stack.html"), name="stack"),
     path("open/", OpenView.as_view(), name="open"),
     path("readiness/", ReadinessView.as_view(), name="readiness"),
     path(
@@ -83,13 +79,13 @@ urlpatterns = [
     ),
     path(
         "syndication/",
-        TemplateView.as_view(template_name="pages/syndication.html"),
+        TemplateView.as_view(template_name="new/syndication.html"),
         name="syndication",
     ),
-    path("help/", TemplateView.as_view(template_name="pages/help.html"), name="help"),
+    path("help/", TemplateView.as_view(template_name="new/help.html"), name="help"),
     path(
         "funding/",
-        TemplateView.as_view(template_name="pages/funding.html"),
+        TemplateView.as_view(template_name="new/funding.html"),
         name="funding",
     ),
     path(

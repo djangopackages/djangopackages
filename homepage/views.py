@@ -11,7 +11,7 @@ from products.models import Product, Release
 
 
 class OpenView(TemplateView):
-    template_name = "pages/open.html"
+    template_name = "new/open.html"
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)

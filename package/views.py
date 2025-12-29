@@ -237,19 +237,6 @@ class PackageSingleTableMixin(SingleTableView):
         )
 
 
-class PackageByGridListView(PackageSingleTableMixin):
-    template_name = "package/grid_packages.html"
-    table_class = PackageTable
-
-    def package_filters(self):
-        return {"gridpackage__grid__slug": self.kwargs["slug"]}
-
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        context_data["grid"] = get_object_or_404(Grid, slug=self.kwargs["slug"])
-        return context_data
-
-
 def category(request, slug, template_name="package/category.html"):
     direction = request.GET.get("dir")
     sort = request.GET.get("sort")
@@ -606,36 +593,101 @@ class PackageVersionListView(ListView):
         return context
 
 
-class PackageListView(ListView):
+class BasePackageListView(ListView):
     model = Package
-    template_name = "new/package_list.html"
     paginate_by = 20
     context_object_name = "packages"
+    template_name = None  # must be set by subclass
 
-    def get_queryset(self):
-        queryset = (
+    def get_base_queryset(self):
+        return (
             Package.objects.active()
             .select_related("category")
             .annotate(usage_count=Count("usage"))
         )
 
-        self.form = PackageFilterForm(self.request.GET)
+    def get_filter_form(self):
+        """
+        Return the filter form instance.
+        """
+        raise NotImplementedError
 
-        self.filter_data = {
+    def get_default_filter_data(self):
+        """
+        Default filter_data dict for the view.
+        """
+        raise NotImplementedError
+
+    def apply_filters(self, queryset):
+        """
+        Apply filters to the queryset.
+        """
+        raise NotImplementedError
+
+    def get_list_url(self):
+        raise NotImplementedError
+
+    def get_extra_context(self):
+        return {}
+
+    def get_queryset(self):
+        queryset = self.get_base_queryset()
+
+        self.form = self.get_filter_form()
+        self.filter_data = self.get_default_filter_data()
+
+        if self.form.is_valid():
+            self.update_filter_data(self.form.cleaned_data)
+
+        queryset = self.apply_filters(queryset)
+
+        return queryset.order_by(self.filter_data["sort"])
+
+    def update_filter_data(self, cleaned_data):
+        """
+        Populate filter_data from cleaned_data.
+        """
+        for key in self.filter_data:
+            if cleaned_data.get(key):
+                self.filter_data[key] = cleaned_data[key]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                "current_sort": self.filter_data["sort"],
+                "search_query": self.filter_data.get("q", ""),
+                "form": self.form,
+                "list_url": self.get_list_url(),
+                **self.get_extra_context(),
+            }
+        )
+        return context
+
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.htmx:
+            return render(
+                self.request,
+                "new/partials/package_list_body.html",
+                context,
+            )
+        return super().render_to_response(context, **response_kwargs)
+
+
+class PackageListView(BasePackageListView):
+    template_name = "new/package_list.html"
+
+    def get_filter_form(self):
+        return PackageFilterForm(self.request.GET)
+
+    def get_default_filter_data(self):
+        return {
             "category": "all",
             "q": "",
             "sort": "-repo_watchers",
         }
 
-        if self.form.is_valid():
-            cleaned = self.form.cleaned_data
-            if cleaned.get("category"):
-                self.filter_data["category"] = cleaned["category"]
-            if cleaned.get("q"):
-                self.filter_data["q"] = cleaned["q"]
-            if cleaned.get("sort"):
-                self.filter_data["sort"] = cleaned["sort"]
-
+    def apply_filters(self, queryset):
         if self.filter_data["category"] != "all":
             queryset = queryset.filter(category__slug=self.filter_data["category"])
 
@@ -645,65 +697,86 @@ class PackageListView(ListView):
                 | Q(repo_description__icontains=self.filter_data["q"])
             )
 
-        return queryset.order_by(self.filter_data["sort"])
+        return queryset
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        categories = (
-            Category.objects.annotate(package_count=Count("package"))
-            .filter(package_count__gt=0)
-            .order_by("-package_count")
-        )
-        total_count = Package.objects.active().count()
+    def get_list_url(self):
+        return reverse("packages")
 
-        context.update(
-            {
-                "categories": categories,
-                "total_count": total_count,
-                "current_category": self.filter_data["category"],
-                "current_sort": self.filter_data["sort"],
-                "search_query": self.filter_data["q"],
-                "form": self.form,
-                "list_url": reverse("packages"),
-            }
-        )
-        return context
-
-    def render_to_response(self, context, **response_kwargs):
-        if self.request.htmx:
-            return render(self.request, "new/partials/package_list_body.html", context)
-        return super().render_to_response(context, **response_kwargs)
+    def get_extra_context(self):
+        return {
+            "categories": (
+                Category.objects.annotate(package_count=Count("package"))
+                .filter(package_count__gt=0)
+                .order_by("-package_count")
+            ),
+            "total_count": Package.objects.active().count(),
+            "current_category": self.filter_data["category"],
+        }
 
 
-class PackageByCategoryListView(ListView):
-    model = Package
+class PackageByCategoryListView(BasePackageListView):
     template_name = "new/category_package_list.html"
-    paginate_by = 20
-    context_object_name = "packages"
 
-    def get_queryset(self):
-        self.category = get_object_or_404(Category, slug=self.kwargs["slug"])
+    def dispatch(self, request, *args, **kwargs):
+        self.category = get_object_or_404(Category, slug=kwargs["slug"])
+        return super().dispatch(request, *args, **kwargs)
 
-        queryset = (
-            Package.objects.active()
-            .filter(category=self.category)
-            .select_related("category")
-            .annotate(usage_count=Count("usage"))
-        )
+    def get_base_queryset(self):
+        return super().get_base_queryset().filter(category=self.category)
 
-        self.form = CategoryPackageFilterForm(self.request.GET)
+    def get_filter_form(self):
+        return CategoryPackageFilterForm(self.request.GET)
 
-        self.filter_data = {
+    def get_default_filter_data(self):
+        return {
             "q": "",
             "sort": "-repo_watchers",
         }
 
-        if self.form.is_valid():
-            cleaned = self.form.cleaned_data
-            if cleaned.get("q"):
-                self.filter_data["q"] = cleaned["q"]
-            if cleaned.get("sort"):
-                self.filter_data["sort"] = cleaned["sort"]
+    def apply_filters(self, queryset):
+        if self.filter_data["q"]:
+            queryset = queryset.filter(
+                Q(title__icontains=self.filter_data["q"])
+                | Q(repo_description__icontains=self.filter_data["q"])
+            )
+        return queryset
+
+    def get_list_url(self):
+        return reverse(
+            "category",
+            kwargs={"slug": self.category.slug},
+        )
+
+    def get_extra_context(self):
+        return {
+            "category": self.category,
+            "current_category": self.category.slug,
+        }
+
+
+class PackageByGridListView(BasePackageListView):
+    template_name = "new/grid_package_list.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        self.grid = get_object_or_404(Grid, slug=kwargs["slug"])
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_base_queryset(self):
+        return super().get_base_queryset().filter(gridpackage__grid=self.grid)
+
+    def get_filter_form(self):
+        return PackageFilterForm(self.request.GET)
+
+    def get_default_filter_data(self):
+        return {
+            "category": "all",
+            "q": "",
+            "sort": "-repo_watchers",
+        }
+
+    def apply_filters(self, queryset):
+        if self.filter_data["category"] != "all":
+            queryset = queryset.filter(category__slug=self.filter_data["category"])
 
         if self.filter_data["q"]:
             queryset = queryset.filter(
@@ -711,23 +784,23 @@ class PackageByCategoryListView(ListView):
                 | Q(repo_description__icontains=self.filter_data["q"])
             )
 
-        return queryset.order_by(self.filter_data["sort"])
+        return queryset
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update(
-            {
-                "category": self.category,
-                "current_category": self.category.slug,
-                "current_sort": self.filter_data["sort"],
-                "search_query": self.filter_data["q"],
-                "form": self.form,
-                "list_url": reverse("category", kwargs={"slug": self.category.slug}),
-            }
+    def get_list_url(self):
+        return reverse(
+            "grid_packages",
+            kwargs={"slug": self.grid.slug},
         )
-        return context
 
-    def render_to_response(self, context, **response_kwargs):
-        if self.request.htmx:
-            return render(self.request, "new/partials/package_list_body.html", context)
-        return super().render_to_response(context, **response_kwargs)
+    def get_extra_context(self):
+        return {
+            "grid": self.grid,
+            "categories": (
+                Category.objects.filter(package__gridpackage__grid=self.grid)
+                .annotate(package_count=Count("package"))
+                .filter(package_count__gt=0)
+                .order_by("-package_count")
+            ),
+            "total_count": self.grid.packages.count(),
+            "current_category": self.filter_data["category"],
+        }

@@ -1,0 +1,64 @@
+{% extends "new/base.html" %}
+{% load i18n page_metadata_tags %}
+
+{% block metadata %}
+    {% translate "Terms of Service" as trans_title %}
+    {% page_metadata page_title=trans_title %}
+{% endblock metadata %}
+
+{% block content %}
+    <!-- Breadcrumb Section -->
+    <section class="py-4 bg-primary/10">
+        <div class="container px-4 mx-auto">
+            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
+                <div class="flex items-center text-sm text-muted-foreground">
+                    <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
+                    <span class="mx-2">»</span>
+                    <span class="font-medium text-foreground truncate">{% translate "Terms of Service" %}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container py-8 px-4 mx-auto">
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-foreground">{% translate "Terms of Service" %}</h1>
+        </div>
+
+        <div class="max-w-4xl card">
+            <div class="p-6 card-content md:p-8">
+                <h2 class="mb-6 text-2xl font-bold text-foreground">{% translate "Account Terms" %}</h2>
+
+                <ol class="pl-5 space-y-4 list-decimal text-muted-foreground">
+                    <li>
+                        <p>{% translate "You must be 13 years or older to use this Service." %}</p>
+                    </li>
+
+                    <li>
+                        <p>{% translate "You must be a human. Accounts registered by “bots” or other automated methods are not permitted." %}</p>
+                    </li>
+
+                    <li>
+                        <p>
+                            {% blocktranslate %}
+                            You are responsible for maintaining the security of your account and password. {{ SITE_TITLE }} cannot and will not be liable for any loss or damage from your failure to comply with this security obligation.
+                            {% endblocktranslate %}
+                        </p>
+                    </li>
+
+                    <li>
+                        <p>{% translate "You are responsible for all Content posted and activity that occurs under your account." %}</p>
+                    </li>
+
+                    <li>
+                        <p>{% translate "You may not use the Service for any illegal or unauthorized purpose. You must not, in the use of the Service, violate any laws in your jurisdiction (including but not limited to copyright or trademark laws)." %}</p>
+                    </li>
+
+                    <li>
+                        <p>{% blocktranslate %}Using this service to post content that does not belong in the {{ FRAMEWORK_TITLE }} community will cause your account to be revoked and the Content removed.{% endblocktranslate %}</p>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
