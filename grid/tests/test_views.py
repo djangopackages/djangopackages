@@ -169,10 +169,10 @@ class FunctionalGridTest(TestCase):
 
         # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username="user", password="user"))
-        with self.assertNumQueries(7):
+        with self.assertNumQueries(6):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "grid/update_feature.html")
+        self.assertTemplateUsed(response, "new/add_feature.html")
 
         # Test form post
         response = self.client.post(
@@ -195,7 +195,7 @@ class FunctionalGridTest(TestCase):
         with self.assertNumQueries(7):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "grid/update_feature.html")
+        self.assertTemplateUsed(response, "new/add_feature.html")
 
         # Test form post
         count = Feature.objects.count()
@@ -215,13 +215,13 @@ class FunctionalGridTest(TestCase):
         self.assertTrue(self.client.login(username="user", password="user"))
         url = reverse("delete_feature", kwargs={"id": "1"})
         with self.assertNumQueries(4):
-            self.client.get(url)
+            self.client.post(url)
         self.assertEqual(count, Feature.objects.count())
 
         # Once we log in with the appropriate user, the request should delete
         # the given feature, reducing the count by one.
         self.assertTrue(self.client.login(username="cleaner", password="cleaner"))
-        self.client.get(url)
+        self.client.post(url)
         self.assertEqual(Feature.objects.count(), count - 1)
 
     def test_edit_element_view(self):
@@ -236,7 +236,7 @@ class FunctionalGridTest(TestCase):
         self.assertTrue(self.client.login(username="user", password="user"))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "grid/edit_element.html")
+        self.assertTemplateUsed(response, "new/edit_element.html")
 
         # Test form post
         count = Element.objects.count()
@@ -269,7 +269,7 @@ class FunctionalGridTest(TestCase):
         with self.assertNumQueries(6):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "grid/add_grid_package.html")
+        self.assertTemplateUsed(response, "new/add_grid_package.html")
 
         # Test form post for existing grid package
         response = self.client.post(
@@ -338,13 +338,13 @@ class FunctionalGridTest(TestCase):
         self.assertTrue(self.client.login(username="user", password="user"))
         url = reverse("delete_grid_package", kwargs={"id": "1"})
         with self.assertNumQueries(4):
-            self.client.get(url)
+            self.client.post(url)
         self.assertEqual(count, GridPackage.objects.count())
 
         # Once we log in with the appropriate user, the request should delete
         # the given feature, reducing the count by one.
         self.assertTrue(self.client.login(username="cleaner", password="cleaner"))
-        self.client.get(url)
+        self.client.post(url)
         self.assertEqual(count - 1, GridPackage.objects.count())
 
 
@@ -365,7 +365,7 @@ class RegressionGridTest(TestCase):
         url = reverse("edit_element", kwargs={"feature_id": "1", "package_id": "1"})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "grid/edit_element.html")
+        self.assertTemplateUsed(response, "new/edit_element.html")
 
 
 class GridPermissionTest(TestCase):
@@ -443,14 +443,14 @@ class GridPackagePermissionTest(TestCase):
 
     def test_delete_grid_package_permission_fail(self):
         response = self.client.get(self.test_delete_url)
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 403)
 
     def test_delete_grid_package_permission_success(self):
         delete_grid_perm = Permission.objects.get(
             codename="delete_gridpackage", content_type__app_label="grid"
         )
         self.user.user_permissions.add(delete_grid_perm)
-        response = self.client.get(self.test_delete_url)
+        response = self.client.post(self.test_delete_url)
         self.assertEqual(response.status_code, 302)
 
 
@@ -490,14 +490,14 @@ class GridFeaturePermissionTest(TestCase):
 
     def test_delete_feature_permission_fail(self):
         response = self.client.get(self.test_delete_url)
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 403)
 
     def test_delete_feature_permission_success(self):
         delete_feature = Permission.objects.get(
             codename="delete_feature", content_type__app_label="grid"
         )
         self.user.user_permissions.add(delete_feature)
-        response = self.client.get(self.test_delete_url)
+        response = self.client.post(self.test_delete_url)
         self.assertEqual(response.status_code, 302)
 
 

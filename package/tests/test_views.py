@@ -501,7 +501,7 @@ def test_category_view(db, django_assert_num_queries, tp):
 def test_grid_package_list(db, django_assert_num_queries, tp):
     initial_data.load()
 
-    with django_assert_num_queries(19):
+    with django_assert_num_queries(13):
         url = tp.reverse("grid_packages", slug="testing")
         response = tp.client.get(url)
 
