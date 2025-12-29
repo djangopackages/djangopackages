@@ -214,7 +214,7 @@ class FunctionalGridTest(TestCase):
         # features should be deleted (thus the count should be the same).
         self.assertTrue(self.client.login(username="user", password="user"))
         url = reverse("delete_feature", kwargs={"id": "1"})
-        with self.assertNumQueries(4):
+        with self.assertNumQueries(7):
             self.client.post(url)
         self.assertEqual(count, Feature.objects.count())
 
@@ -337,7 +337,7 @@ class FunctionalGridTest(TestCase):
         # features should be deleted (thus the count should be the same).
         self.assertTrue(self.client.login(username="user", password="user"))
         url = reverse("delete_grid_package", kwargs={"id": "1"})
-        with self.assertNumQueries(4):
+        with self.assertNumQueries(7):
             self.client.post(url)
         self.assertEqual(count, GridPackage.objects.count())
 

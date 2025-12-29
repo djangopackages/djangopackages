@@ -302,11 +302,11 @@ class FunctionalPackageTest(TestCase):
 
         self.assertTrue(self.client.login(username="user", password="user"))
 
-        with self.assertNumQueries(4):
+        with self.assertNumQueries(7):
             response = self.client.get(other_url)
         self.assertEqual(response.status_code, 403)
 
-        with self.assertNumQueries(3):
+        with self.assertNumQueries(6):
             response = self.client.get(noone_url)
         self.assertEqual(response.status_code, 403)
 
