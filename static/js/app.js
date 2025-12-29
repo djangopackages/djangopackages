@@ -313,4 +313,24 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     }
+
+    // ============================================
+    // Add Grid Package Search Dropdown
+    // ============================================
+    const gridSearchContainer = document.getElementById("search-container");
+    const gridSearchTarget = document.getElementById("target");
+
+    if (gridSearchContainer && gridSearchTarget) {
+        document.addEventListener("click", (e) => {
+            if (!gridSearchContainer.contains(e.target)) {
+                gridSearchTarget.innerHTML = "";
+            }
+        });
+
+        gridSearchContainer.addEventListener("focusout", (e) => {
+            if (e.relatedTarget && !gridSearchContainer.contains(e.relatedTarget)) {
+                gridSearchTarget.innerHTML = "";
+            }
+        });
+    }
 });

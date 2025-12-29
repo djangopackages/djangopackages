@@ -84,24 +84,3 @@
         </div>
     </div>
 {% endblock content %}
-
-{% block extra_js %}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const container = document.getElementById('search-container');
-            const target = document.getElementById('target');
-
-            document.addEventListener('click', function(e) {
-                if (container && !container.contains(e.target)) {
-                    target.innerHTML = '';
-                }
-            });
-
-            container.addEventListener('focusout', function(e) {
-                if (e.relatedTarget && !container.contains(e.relatedTarget)) {
-                    target.innerHTML = '';
-                }
-            });
-        });
-    </script>
-{% endblock extra_js %}
