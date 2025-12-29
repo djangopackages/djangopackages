@@ -26,11 +26,11 @@
             <p class="pt-2 text-muted-foreground">{% translate "Statistics about Django Packages." %}</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div class="grid grid-cols-1 gap-6 mb-12 md:grid-cols-2 lg:grid-cols-4">
             <!-- Tracking -->
             <div class="card">
                 <div class="p-6 card-content">
-                    <h2 class="text-xl font-bold text-foreground mb-4">{% translate "Tracking" %}</h2>
+                    <h2 class="mb-4 text-xl font-bold text-foreground">{% translate "Tracking" %}</h2>
                     <div class="space-y-2">
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Users" %}</span>
@@ -54,7 +54,7 @@
                         </div>
                     </div>
 
-                    <h2 class="text-xl font-bold text-foreground mt-6 mb-4">{% translate "Repos" %}</h2>
+                    <h2 class="mt-6 mb-4 text-xl font-bold text-foreground">{% translate "Repos" %}</h2>
                     <div class="space-y-2">
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "GitHub Repos" %}</span>
@@ -75,7 +75,7 @@
             <!-- Packages -->
             <div class="card">
                 <div class="p-6 card-content">
-                    <h2 class="text-xl font-bold text-foreground mb-4">{% translate "Packages" %}</h2>
+                    <h2 class="mb-4 text-xl font-bold text-foreground">{% translate "Packages" %}</h2>
                     <div class="space-y-2">
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Packages" %}</span>
@@ -87,7 +87,7 @@
                                 <span class="font-medium text-foreground">{{ value|intcomma }}</span>
                             </div>
                         {% endfor %}
-                        <div class="flex justify-between border-t pt-2 mt-2 border-border">
+                        <div class="flex justify-between pt-2 mt-2 border-t border-border">
                             <span class="text-muted-foreground">{% translate "Archived Packages" %}</span>
                             <span class="font-medium text-foreground">{{ archive_packages|intcomma }}</span>
                         </div>
@@ -102,7 +102,7 @@
             <!-- Django Versions -->
             <div class="card">
                 <div class="p-6 card-content">
-                    <h2 class="text-xl font-bold text-foreground mb-4">{% translate "Django Versions" %}</h2>
+                    <h2 class="mb-4 text-xl font-bold text-foreground">{% translate "Django Versions" %}</h2>
                     <div class="space-y-2">
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Django 6.0 Packages:" %}</span>
@@ -139,7 +139,7 @@
             <!-- Python Versions -->
             <div class="card">
                 <div class="p-6 card-content">
-                    <h2 class="text-xl font-bold text-foreground mb-4">{% translate "Python Versions" %}</h2>
+                    <h2 class="mb-4 text-xl font-bold text-foreground">{% translate "Python Versions" %}</h2>
                     <div class="space-y-2">
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Python 3 Packages:" %}</span>
@@ -178,7 +178,7 @@
             <h2 class="text-3xl font-bold text-foreground">{% translate "Funding" %}</h2>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        <div class="grid grid-cols-1 gap-8 mb-12 lg:grid-cols-2">
             <div class="card">
                 <div class="p-6 card-content">
                     <canvas id="chart_funding_2023"></canvas>
@@ -196,11 +196,11 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
             <!-- Top Users -->
             <div class="card">
                 <div class="p-6 card-content">
-                    <h2 class="text-xl font-bold text-foreground mb-4">{% translate "Users who have contributed over ten packages" %}</h2>
+                    <h2 class="mb-4 text-xl font-bold text-foreground">{% translate "Users who have contributed over ten packages" %}</h2>
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm text-left">
                             <thead>
@@ -212,7 +212,7 @@
                             </thead>
                             <tbody class="divide-y divide-border">
                                 {% for top_user in top_user_list %}
-                                    <tr class="hover:bg-muted/30 transition-colors">
+                                    <tr class="transition-colors hover:bg-muted/30">
                                         <td class="py-3 pr-4 text-muted-foreground">{{ forloop.counter }}</td>
                                         <td class="py-3 pr-4 font-medium text-primary">
                                             <a href="{% url 'profile_detail' github_account=top_user.username %}" class="hover:underline">{{ top_user }}</a>
@@ -229,7 +229,7 @@
             <!-- Top Grids -->
             <div class="card">
                 <div class="p-6 card-content">
-                    <h2 class="text-xl font-bold text-foreground mb-4">{% translate "Grids with twenty-five or more packages" %}</h2>
+                    <h2 class="mb-4 text-xl font-bold text-foreground">{% translate "Grids with twenty-five or more packages" %}</h2>
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm text-left">
                             <thead>
@@ -241,7 +241,7 @@
                             </thead>
                             <tbody class="divide-y divide-border">
                                 {% for grid in top_grid_list %}
-                                    <tr class="hover:bg-muted/30 transition-colors">
+                                    <tr class="transition-colors hover:bg-muted/30">
                                         <td class="py-3 pr-4 text-muted-foreground">{{ forloop.counter }}</td>
                                         <td class="py-3 pr-4 font-medium text-primary">
                                             <a href="{{ grid.get_absolute_url }}" class="hover:underline">{{ grid }}</a>

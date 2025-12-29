@@ -23,16 +23,16 @@
 
     <div class="container py-8 px-4 mx-auto">
         <div class="max-w-4xl card">
-            <div class="p-6 card-content md:p-10">
-                <div class="mb-8 border-b border-border pb-6">
-                    <h1 class="text-3xl font-bold text-foreground mb-2">{{ post.title }}</h1>
-                    <div class="flex items-center gap-2 text-muted-foreground">
+            <div class="p-6 md:p-10 card-content">
+                <div class="pb-6 mb-8 border-b border-border">
+                    <h1 class="mb-2 text-3xl font-bold text-foreground">{{ post.title }}</h1>
+                    <div class="flex gap-2 items-center text-muted-foreground">
                         <i class="ph-bold ph-calendar-blank"></i>
                         <span>{{ post.published_date|date:"F j, Y" }}</span>
                     </div>
                 </div>
 
-                <div class="prose prose-lg max-w-none dark:prose-invert text-foreground">
+                <div class="max-w-none prose prose-lg text-foreground dark:prose-invert">
                     {{ post.content|markdown }}
                 </div>
             </div>

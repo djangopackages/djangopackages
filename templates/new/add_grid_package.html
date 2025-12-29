@@ -46,19 +46,19 @@
                     {% endif %}
 
                     <div>
-                        <label for="search-field" class="block text-sm font-medium text-foreground mb-2">{% translate "Search Packages" %}</label>
+                        <label for="search-field" class="block mb-2 text-sm font-medium text-foreground">{% translate "Search Packages" %}</label>
                         <div class="relative" id="search-container">
                             <i class="absolute left-3 top-1/2 -translate-y-1/2 ph-bold ph-magnifying-glass text-muted-foreground"></i>
                             <input id="search-field" type="text" name="q"
-                                placeholder="{% translate 'Start typing to search...' %}"
-                                autocomplete="off"
-                                hx-get="{% url 'ajax_package_search' %}"
-                                hx-trigger="keyup changed delay:300ms"
-                                hx-target="#target"
-                                hx-vals='{"grid": "{{ grid.slug }}"}'
-                                onkeydown="if(event.key === 'Enter') event.preventDefault()"
-                                class="!pl-12 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
-                            <div id="target" class="absolute z-50 w-full mt-1"></div>
+                                   placeholder="{% translate 'Start typing to search...' %}"
+                                   autocomplete="off"
+                                   hx-get="{% url 'ajax_package_search' %}"
+                                   hx-trigger="keyup changed delay:300ms"
+                                   hx-target="#target"
+                                   hx-vals='{"grid": "{{ grid.slug }}"}'
+                                   onkeydown="if(event.key === 'Enter') event.preventDefault()"
+                                   class="!pl-12 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                            <div id="target" class="absolute z-50 mt-1 w-full"></div>
                         </div>
                         {% if form.package.errors %}
                             <div class="field-error">
@@ -71,10 +71,10 @@
 
                 </form>
 
-                <div class="mt-8 pt-6 border-t border-border">
+                <div class="pt-6 mt-8 border-t border-border">
                     <h3 class="text-lg font-medium text-foreground">{% translate "What if the Package isn't in the database?" %}</h3>
                     <div class="mt-3">
-                        <a href="{% url 'add_new_grid_package' grid.slug %}" class="btn-secondary inline-flex items-center">
+                        <a href="{% url 'add_new_grid_package' grid.slug %}" class="inline-flex items-center btn-secondary">
                             <i class="mr-2 ph-bold ph-plus"></i>
                             {% translate "Add new package to database" %}
                         </a>
@@ -86,22 +86,22 @@
 {% endblock content %}
 
 {% block extra_js %}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const container = document.getElementById('search-container');
-        const target = document.getElementById('target');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('search-container');
+            const target = document.getElementById('target');
 
-        document.addEventListener('click', function(e) {
-            if (container && !container.contains(e.target)) {
-                target.innerHTML = '';
-            }
-        });
+            document.addEventListener('click', function(e) {
+                if (container && !container.contains(e.target)) {
+                    target.innerHTML = '';
+                }
+            });
 
-        container.addEventListener('focusout', function(e) {
-            if (e.relatedTarget && !container.contains(e.relatedTarget)) {
-                target.innerHTML = '';
-            }
+            container.addEventListener('focusout', function(e) {
+                if (e.relatedTarget && !container.contains(e.relatedTarget)) {
+                    target.innerHTML = '';
+                }
+            });
         });
-    });
-</script>
+    </script>
 {% endblock extra_js %}

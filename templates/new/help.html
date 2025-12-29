@@ -28,38 +28,38 @@
 
         <div class="max-w-3xl card">
             {% url 'home' as home_url %}
-            <div class="p-6 card-content space-y-8">
+            <div class="p-6 space-y-8 card-content">
                 <section>
-                    <h3 class="text-xl font-bold text-foreground mb-3">{% translate "How do I add a package?" %}</h3>
-                    <p class="text-muted-foreground leading-relaxed">
+                    <h3 class="mb-3 text-xl font-bold text-foreground">{% translate "How do I add a package?" %}</h3>
+                    <p class="leading-relaxed text-muted-foreground">
                         {% blocktranslate %}
-                        Go to the <a href="{{ home_url }}" class="font-medium text-primary hover:underline">home page</a> and click on the bright green button that says <strong>Add Package</strong>. Then paste in the URL of your repo.
-                        Django Packages then tries to determine your package's repo name and PyPI information from the URL. Click submit and it will process your request.
+                            Go to the <a href="{{ home_url }}" class="font-medium hover:underline text-primary">home page</a> and click on the bright green button that says <strong>Add Package</strong>. Then paste in the URL of your repo.
+                            Django Packages then tries to determine your package's repo name and PyPI information from the URL. Click submit and it will process your request.
                         {% endblocktranslate %}
                     </p>
                 </section>
 
                 <section>
-                    <h3 class="text-xl font-bold text-foreground mb-3">{% translate "How do I add a grid?" %}</h3>
-                    <p class="text-muted-foreground leading-relaxed">
+                    <h3 class="mb-3 text-xl font-bold text-foreground">{% translate "How do I add a grid?" %}</h3>
+                    <p class="leading-relaxed text-muted-foreground">
                         {% blocktranslate %}
-                        Go to the <a href="{{ home_url }}" class="font-medium text-primary hover:underline">home page</a> and click on the bright green button that says <strong>Add Grid</strong>. Add the mandatory
-                        <strong>title</strong> and <strong>slug</strong>, and an optional <strong>description</strong>.
+                            Go to the <a href="{{ home_url }}" class="font-medium hover:underline text-primary">home page</a> and click on the bright green button that says <strong>Add Grid</strong>. Add the mandatory
+                            <strong>title</strong> and <strong>slug</strong>, and an optional <strong>description</strong>.
                         {% endblocktranslate %}
                     </p>
                 </section>
 
                 <section>
-                    <h3 class="text-xl font-bold text-foreground mb-3">{% translate "Need more help?" %}</h3>
-                    <p class="text-muted-foreground leading-relaxed">
+                    <h3 class="mb-3 text-xl font-bold text-foreground">{% translate "Need more help?" %}</h3>
+                    <p class="leading-relaxed text-muted-foreground">
                         {% blocktranslate %}
-                        Submit an <a href="http://github.com/djangopackages/djangopackages/issues" class="font-medium text-primary hover:underline">issue</a>.
+                            Submit an <a href="http://github.com/djangopackages/djangopackages/issues" class="font-medium hover:underline text-primary">issue</a>.
                         {% endblocktranslate %}
                     </p>
                 </section>
 
                 <section class="pt-4 border-t border-border">
-                    <p class="text-muted-foreground italic">{% translate "We'll be adding more to this section soon!" %}</p>
+                    <p class="italic text-muted-foreground">{% translate "We'll be adding more to this section soon!" %}</p>
                 </section>
             </div>
         </div>
