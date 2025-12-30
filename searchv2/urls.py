@@ -8,11 +8,11 @@ urlpatterns = [
         view=views.BuildSearchView.as_view(),
         name="build_search",
     ),
-    # path(
-    #     "",
-    #     view=views.search2,
-    #     name="search",
-    # ),
+    path(
+        "",
+        view=views.search2,
+        name="search",
+    ),
     # path(
     #     "v3/",
     #     view=views.search3,

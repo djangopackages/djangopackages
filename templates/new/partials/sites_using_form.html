@@ -1,0 +1,21 @@
+{% load i18n %}
+<div class="card-header">
+    <h3 class="flex gap-2 items-center text-lg font-semibold">
+        <i class="text-xl ph-bold ph-globe"></i>
+        {% if action == 'add' %}{% translate "Add Site" %}{% else %}{% translate "Edit Site" %}{% endif %}
+    </h3>
+</div>
+<div class="card-content">
+    <form
+        {% if action == 'add' %}hx-post="{% url 'add_example' package.slug %}"{% else %}hx-post="{% url 'edit_example' package.slug object.id %}"{% endif %}
+        hx-target="#sites-using-card"
+        hx-swap="innerHTML"
+    >
+        {% csrf_token %}
+        {% include "new/partials/form_renderer.html" %}
+        <div class="flex gap-2 justify-end mt-4">
+            <button type="button" class="btn btn-secondary" onclick="const card = document.getElementById('sites-using-card'); card.innerHTML = card.originalContent; htmx.process(card);">{% translate "Cancel" %}</button>
+            <button type="submit" class="btn btn-primary">{% translate "Save" %}</button>
+        </div>
+    </form>
+</div>

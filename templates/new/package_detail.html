@@ -24,10 +24,17 @@
                             <span>{% translate "Edit" %}</span>
                         </a>
                     {% endif %}
-                    <a href="{% url 'flag' package.slug %}" id="flag-btn" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
-                        <i class="mr-1 text-base ph-bold ph-arrow-square-out"></i>
-                        <span id="flag-text">{% translate "Flag" %}</span>
-                    </a>
+                    {% if has_approved_flag %}
+                        <button disabled class="flex-1 flex-shrink-0 text-red-600 bg-red-50 border-red-200 cursor-not-allowed sm:flex-none btn-secondary" title="{% translate 'This package has been flagged.' %}">
+                            <i class="mr-1 text-base ph-bold ph-flag"></i>
+                            <span id="flag-text">{% translate "Flagged" %}</span>
+                        </button>
+                    {% else %}
+                        <a href="{% url 'flag' package.slug %}" id="flag-btn" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                            <i class="mr-1 text-base ph-bold ph-flag"></i>
+                            <span id="flag-text">{% translate "Flag" %}</span>
+                        </a>
+                    {% endif %}
                     {% flag "favorite_feature_flag" %} {% include 'new/partials/favorite_button.html' %} {% endflag %}
                 </div>
             </div>
@@ -43,6 +50,26 @@
             {% endif %}
         </div>
     </section>
+
+    {% if package.is_deprecated or package.date_repo_archived %}
+        <div class="container px-4 pt-6 mx-auto">
+            <div class="flex items-center p-4 text-sm text-yellow-800 bg-yellow-50 rounded-lg border border-yellow-300" role="alert">
+                <i class="mr-3 text-lg ph-bold ph-warning"></i>
+                <span class="sr-only">Warning</span>
+                <div>
+                    <span class="font-medium">{% translate "Warning!" %}</span>
+                    {% if package.is_deprecated %}
+                        {% translate "This project was deprecated" %}
+                        {% if package.deprecates_package %}
+                            {% translate "and replaced by" %} <a href="{{ package.deprecates_package.get_pypi_uri }}" target="_blank" class="font-bold hover:text-yellow-900 hover:underline">{{ package.deprecates_package.pypi_name }}</a>
+                        {% endif %}
+                    {% elif package.date_repo_archived %}
+                        {% translate "This project was archived" %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
 
     <!-- Main Content -->
     <div class="container py-8 px-4 mx-auto">
@@ -229,6 +256,66 @@
                     </div>
                 </div>
 
+                <!-- Flags Card -->
+                {% if request.user.is_superuser %}
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="flex justify-between items-center">
+                                <h3 class="flex gap-2 items-center text-xl font-semibold">
+                                    <i class="text-xl ph-bold ph-flag"></i>
+                                    {% translate "Flags" %}
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="overflow-x-auto px-6 -mx-6 sm:px-0 sm:mx-0">
+                                <div class="inline-block min-w-full align-middle">
+                                    <table class="w-full min-w-[600px]">
+                                        <thead>
+                                            <tr class="text-left border-b">
+                                                <th class="pb-3 text-sm font-medium text-muted-foreground">{% translate "Reason" %}</th>
+                                                <th class="pb-3 w-24 text-sm font-medium text-center text-muted-foreground">{% translate "Approve" %}</th>
+                                                <th class="pb-3 w-24 text-sm font-medium text-center text-muted-foreground">{% translate "Remove" %}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for flag in package.flags.all %}
+                                                {% if not flag.approved_flag %}
+                                                    <tr class="border-b transition-colors last:border-0 hover:bg-muted/30">
+                                                        <td class="py-3 text-sm font-medium text-foreground">
+                                                            {{ flag.reason }}
+                                                        </td>
+                                                        <td class="py-3 text-center">
+                                                            {% if not flag.approved_flag %}
+                                                                <a href="{% url 'flag_approve' flag.id %}" class="text-green-600 hover:text-green-700" title="{% translate 'Approve' %}">
+                                                                    <i class="text-xl ph-bold ph-check"></i>
+                                                                </a>
+                                                            {% endif %}
+                                                        </td>
+                                                        <td class="py-3 text-center">
+                                                            {% if not flag.approved_flag %}
+                                                                <a href="{% url 'flag_remove' flag.id %}" class="text-red-600 hover:text-red-700" title="{% translate 'Remove' %}">
+                                                                    <i class="text-xl ph-bold ph-trash"></i>
+                                                                </a>
+                                                            {% endif %}
+                                                        </td>
+                                                    </tr>
+                                                {% endif %}
+                                            {% empty %}
+                                                <tr>
+                                                    <td colspan="3" class="py-6 text-sm text-center text-muted-foreground">
+                                                        {% translate "No flags found." %}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
                 <!-- Contributors Card -->
                 <div class="card">
                     <div class="card-header">
@@ -254,36 +341,9 @@
             <!-- Sidebar -->
             <div class="order-1 space-y-4 lg:order-2 lg:space-y-6">
                 <!-- Documentation Card -->
-                {% if package.documentation_url %}
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="flex justify-between items-center">
-                                <h3 class="flex gap-2 items-center text-lg font-semibold">
-                                    <i class="text-xl ph-bold ph-book-open"></i>
-                                    {% translate "Documentation" %}
-                                </h3>
-                                {% if request.user.is_authenticated %}
-                                    <a
-                                        href="{% url 'edit_documentation' package.slug %}"
-                                        class="px-2 h-8 text-xs btn-secondary"
-                                        title="{% translate 'Edit documentation' %}"
-                                    >
-                                        <i class="text-base ph-bold ph-pencil-simple"></i>
-                                    </a>
-                                {% endif %}
-                            </div>
-                        </div>
-                        <div class="card-content">
-                            <a
-                                href="{{ package.documentation_url }}"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="flex gap-1 items-center text-sm break-all hover:underline text-primary"
-                            >
-                                <span class="truncate">{{ package.documentation_url }}</span>
-                                <i class="flex-shrink-0 text-sm ph-bold ph-arrow-square-out"></i>
-                            </a>
-                        </div>
+                {% if package.documentation_url or request.user.is_authenticated and request.user.profile.can_edit_package %}
+                    <div id="documentation-card" class="card">
+                        {% include "new/partials/documentation_card.html" %}
                     </div>
                 {% endif %}
 
@@ -385,58 +445,8 @@
                 </div>
 
                 <!-- Sites using this package Card -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="flex justify-between items-center">
-                            <h3 class="flex gap-2 items-center text-lg font-semibold">
-                                <i class="text-xl ph-bold ph-globe"></i>
-                                {% translate "Sites using this package" %}
-                            </h3>
-                            {% if request.user.is_authenticated %}
-                                <a
-                                    href="{% url 'add_example' package.slug %}"
-                                    class="px-2 h-8 text-xs btn-secondary"
-                                    title="{% translate 'Add site' %}"
-                                >
-                                    <i class="text-base ph-bold ph-plus"></i>
-                                </a>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="card-content">
-                        {% with examples=package.active_examples %}
-                            {% if examples %}
-                                <ul class="space-y-2">
-                                    {% for example in examples %}
-                                        <li class="flex justify-between items-center text-sm">
-                                            <a
-                                                href="{{ example.pretty_url }}"
-                                                rel="nofollow"
-                                                target="_blank"
-                                                class="flex gap-1 items-center hover:underline text-primary truncate"
-                                            >
-                                                <span class="truncate">{{ example.title }}</span>
-                                                <i class="flex-shrink-0 text-sm ph-bold ph-arrow-square-out"></i>
-                                            </a>
-                                            {% if request.user.is_authenticated %}
-                                                <a
-                                                    href="{% url 'edit_example' package.slug example.id %}"
-                                                    class="px-2 ml-2 h-8 text-xs btn-secondary"
-                                                    title="{% translate 'Edit site' %}"
-                                                >
-                                                    <i class="text-base ph-bold ph-pencil-simple"></i>
-                                                </a>
-                                            {% endif %}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            {% else %}
-                                <p class="text-sm text-muted-foreground">
-                                    {% translate "No sites using this package have been listed yet." %}
-                                </p>
-                            {% endif %}
-                        {% endwith %}
-                    </div>
+                <div id="sites-using-card" class="card">
+                    {% include "new/partials/sites_using_card.html" %}
                 </div>
 
                 <!-- README Badge Card -->

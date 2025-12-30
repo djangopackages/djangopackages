@@ -22,7 +22,7 @@ from homepage.views import (
     error_503_view,
 )
 from package.sitemaps import PackageSitemap
-from package.views import PackageByCategoryListView, PackagePython3ListView
+from package.views import PackageByCategoryListView
 from profiles.views import LogoutView
 
 admin_header = f"Django Packages v{__version__}"
@@ -69,7 +69,6 @@ urlpatterns = [
         "categories/<slug:slug>/", PackageByCategoryListView.as_view(), name="category"
     ),
     path("categories/", HomepageView.as_view(), name="categories"),
-    path("python3/", PackagePython3ListView.as_view(), name="py3_compat"),
     # url(regex=r'^login/$', view=TemplateView.as_view(template_name='pages/login.html'), name='login',),
     path("logout/", LogoutView.as_view(), name="logout"),
     # static pages

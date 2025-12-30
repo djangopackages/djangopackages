@@ -64,6 +64,14 @@ class PackageExampleModeratorForm(ModelForm):
 
 
 class DocumentationForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["documentation_url"].widget.attrs.update(
+            {
+                "placeholder": "https://example.com/docs",
+            }
+        )
+
     class Meta:
         model = Package
         fields = [

@@ -10,79 +10,6 @@ from package.tests import initial_data
 from profiles.models import Profile
 
 
-def test_python3_list(db, django_assert_num_queries, tp):
-    # TODO: refactor initial_data to be a fixture that's only loaded once
-    initial_data.load()
-
-    assert Package.objects.count() == 4
-
-    url = tp.reverse("py3_compat")
-    with django_assert_num_queries(5):
-        response = tp.client.get(url)
-
-    assert response.status_code == 200
-
-
-def test_python3_list_blank_sort_empty(db, django_assert_num_queries, tp):
-    # TODO: refactor initial_data to be a fixture that's only loaded once
-    initial_data.load()
-
-    assert Package.objects.count() == 4
-
-    url = tp.reverse("py3_compat")
-    with django_assert_num_queries(5):
-        response = tp.client.get(url, data={"dir": ""})
-    assert response.status_code == 200
-
-
-def test_python3_list_blank_sort_asc(db, django_assert_num_queries, tp):
-    # TODO: refactor initial_data to be a fixture that's only loaded once
-    initial_data.load()
-
-    assert Package.objects.count() == 4
-
-    url = tp.reverse("py3_compat")
-    with django_assert_num_queries(5):
-        response = tp.client.get(url, data={"dir": "asc"})
-    assert response.status_code == 200
-
-
-def test_python3_list_blank_sort_desc(db, django_assert_num_queries, tp):
-    # TODO: refactor initial_data to be a fixture that's only loaded once
-    initial_data.load()
-
-    assert Package.objects.count() == 4
-
-    url = tp.reverse("py3_compat")
-    with django_assert_num_queries(5):
-        response = tp.client.get(url, data={"dir": "desc"})
-    assert response.status_code == 200
-
-
-def test_python3_list_blank_sort_by_valid_field(db, django_assert_num_queries, tp):
-    # TODO: refactor initial_data to be a fixture that's only loaded once
-    initial_data.load()
-
-    assert Package.objects.count() == 4
-
-    url = tp.reverse("py3_compat")
-    with django_assert_num_queries(5):
-        response = tp.client.get(url, data={"dir": "desc", "sort": "repo_watchers"})
-    assert response.status_code == 200
-
-
-def test_python3_list_blank_sort_by_bad_field(db, django_assert_num_queries, tp):
-    # TODO: refactor initial_data to be a fixture that's only loaded once
-    initial_data.load()
-
-    assert Package.objects.count() == 4
-
-    url = tp.reverse("py3_compat")
-    with django_assert_num_queries(5):
-        response = tp.client.get(url, data={"dir": "desc", "sort": "doesnotexist"})
-    assert response.status_code == 200
-
-
 class FunctionalPackageTest(TestCase):
     def setUp(self):
         initial_data.load()
@@ -210,7 +137,7 @@ class FunctionalPackageTest(TestCase):
     def test_add_example_view(self):
         PackageExample.objects.all().delete()
         url = reverse("add_example", kwargs={"slug": "testability"})
-        with self.assertNumQueries(0):
+        with self.assertNumQueries(1):
             response = self.client.get(url)
 
         # The response should be a redirect, since the user is not logged in.
@@ -221,10 +148,10 @@ class FunctionalPackageTest(TestCase):
         user = User.objects.get(username="user")
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "package/add_example.html")
+        self.assertTemplateUsed(response, "new/partials/sites_using_form.html")
 
         id_list = list(PackageExample.objects.values_list("id", flat=True))
-        with self.assertNumQueries(4):
+        with self.assertNumQueries(7):
             response = self.client.post(
                 url,
                 {
@@ -232,7 +159,7 @@ class FunctionalPackageTest(TestCase):
                     "url": "https://github.com",
                 },
             )
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(PackageExample.objects.count(), len(id_list) + 1)
 
         recently_added = PackageExample.objects.exclude(id__in=id_list).first()
@@ -240,43 +167,54 @@ class FunctionalPackageTest(TestCase):
 
     def test_edit_example_view(self):
         user = User.objects.get(username="user")
-        e = PackageExample.objects.exclude(created_by=user).first()
-        id = e.pk
+        e = PackageExample.objects.filter(created_by=user).first()
+        other_e = PackageExample.objects.exclude(created_by=user).first()
+
         url = reverse("edit_example", kwargs={"slug": e.package.slug, "id": e.pk})
-        with self.assertNumQueries(0):
-            response = self.client.get(url)
+        other_url = reverse(
+            "edit_example", kwargs={"slug": other_e.package.slug, "id": other_e.pk}
+        )
 
-        # The response should be a redirect, since the user is not logged in.
+        # Test unauthenticated access
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
 
-        # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username="user", password="user"))
-        with self.assertNumQueries(8):
-            response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "package/edit_example.html")
-        self.assertNotContains(response, "example-delete-btn")
 
-        with self.assertNumQueries(5):
-            response = self.client.post(
-                url,
-                {
-                    "title": "TEST TITLE",
-                    "url": "https://github.com",
-                },
-            )
-        self.assertEqual(response.status_code, 302)
-        e = PackageExample.objects.get(pk=id)
+        # Test permission denied for other user's example
+        response = self.client.get(other_url)
+        self.assertEqual(response.status_code, 403)
+
+        # Test successful access for own example
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "new/partials/sites_using_form.html")
+
+        # Test successful update
+        response = self.client.post(
+            url,
+            {
+                "title": "TEST TITLE",
+                "url": "https://github.com",
+            },
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "new/partials/sites_using_card.html")
+        e.refresh_from_db()
         self.assertEqual(e.title, "TEST TITLE")
 
-        deletable_e = PackageExample.objects.filter(created_by=user).first()
-        url = reverse(
-            "edit_example", kwargs={"slug": e.package.slug, "id": deletable_e.pk}
+        # Test superuser update on other's example
+        self.assertTrue(self.client.login(username="admin", password="admin"))
+        response = self.client.post(
+            other_url,
+            {
+                "title": "ADMIN EDIT",
+                "url": "https://github.com",
+            },
         )
-        with self.assertNumQueries(8):
-            response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "example-delete-btn")
+        other_e.refresh_from_db()
+        self.assertEqual(other_e.title, "ADMIN EDIT")
 
     def test_delete_example_view(self):
         user = User.objects.get(username="user")
@@ -296,45 +234,42 @@ class FunctionalPackageTest(TestCase):
             "delete_example", kwargs={"slug": noone_e.package.slug, "id": noone_e.pk}
         )
 
-        with self.assertNumQueries(0):
-            response = self.client.get(url)
+        # Test unauthenticated access
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+        response = self.client.post(url)
         self.assertEqual(response.status_code, 302)
 
         self.assertTrue(self.client.login(username="user", password="user"))
 
-        with self.assertNumQueries(7):
-            response = self.client.get(other_url)
+        # Test permission denied for other user's example
+        response = self.client.get(other_url)
+        self.assertEqual(response.status_code, 403)
+        response = self.client.post(other_url)
         self.assertEqual(response.status_code, 403)
 
-        with self.assertNumQueries(6):
-            response = self.client.get(noone_url)
+        # Test permission denied for example with no creator
+        response = self.client.get(noone_url)
+        self.assertEqual(response.status_code, 403)
+        response = self.client.post(noone_url)
         self.assertEqual(response.status_code, 403)
 
-        with self.assertNumQueries(8):
-            response = self.client.get(url)
+        # Test successful access for own example
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "new/partials/sites_using_card.html")
 
-        confirm_url = reverse(
-            "confirm_delete_example", kwargs={"slug": e.package.slug, "id": e.pk}
-        )
-        confirm_other_url = reverse(
-            "confirm_delete_example",
-            kwargs={"slug": other_e.package.slug, "id": other_e.pk},
-        )
-        confirm_noone_url = reverse(
-            "delete_example", kwargs={"slug": noone_e.package.slug, "id": noone_e.pk}
-        )
+        # Test successful deletion
+        response = self.client.post(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "new/partials/sites_using_card.html")
+        self.assertFalse(PackageExample.objects.filter(pk=e.pk).exists())
 
-        response = self.client.post(confirm_other_url)
-        self.assertEqual(response.status_code, 403)
-        response = self.client.post(confirm_noone_url)
-        self.assertEqual(response.status_code, 403)
-
-        response = self.client.post(confirm_url)
-        self.assertEqual(response.status_code, 302)
-        self.assertRaises(
-            PackageExample.DoesNotExist, PackageExample.objects.get, id=e.id
-        )
+        # Test superuser deletion
+        self.assertTrue(self.client.login(username="admin", password="admin"))
+        response = self.client.post(other_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(PackageExample.objects.filter(pk=other_e.pk).exists())
 
     def test_flag_package_view(self):
         p = Package.objects.get(slug="testability")
@@ -350,7 +285,7 @@ class FunctionalPackageTest(TestCase):
         with self.assertNumQueries(6):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "package/flag_form.html")
+        self.assertTemplateUsed(response, "new/package_flag_form.html")
 
         count = FlaggedPackage.objects.count()
 
@@ -371,15 +306,21 @@ class FunctionalPackageTest(TestCase):
         f = FlaggedPackage.objects.create(
             package=p, reason="This is a test", user=User.objects.get(username="user")
         )
-        url = reverse("flag_approve", kwargs={"slug": f.package.slug})
-        with self.assertNumQueries(7):
+        url = reverse("flag_approve", kwargs={"pk": f.pk})
+        with self.assertNumQueries(0):
             response = self.client.get(url)
 
         # The response should be a redirect, since the user is not logged in.
         self.assertEqual(response.status_code, 302)
 
-        # Once we log in the user, we should get back the appropriate response.
+        # Logged in no-superuser should not be able to access this view
         self.assertTrue(self.client.login(username="user", password="user"))
+        with self.assertNumQueries(5):
+            response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+
+        # Once we log in the super user, we should get back the appropriate response.
+        self.assertTrue(self.client.login(username="admin", password="admin"))
         with self.assertNumQueries(8):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
@@ -392,18 +333,24 @@ class FunctionalPackageTest(TestCase):
         f = FlaggedPackage.objects.create(
             package=p, reason="This is a test", user=User.objects.get(username="user")
         )
-        url = reverse("flag_remove", kwargs={"slug": f.package.slug})
-        with self.assertNumQueries(7):
+        url = reverse("flag_remove", kwargs={"pk": f.pk})
+        with self.assertNumQueries(0):
             response = self.client.get(url)
 
         # The response should be a redirect, since the user is not logged in.
         self.assertEqual(response.status_code, 302)
 
-        # Once we log in the user, we should get back the appropriate response.
+        # Logged in no-superuser should not be able to access this view
         self.assertTrue(self.client.login(username="user", password="user"))
-        with self.assertNumQueries(9):
+        with self.assertNumQueries(5):
             response = self.client.get(url)
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 403)
+
+        # Once we log in the super user, we should get back the appropriate response.
+        self.assertTrue(self.client.login(username="admin", password="admin"))
+        with self.assertNumQueries(8):
+            response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
 
         self.assertRaises(
             FlaggedPackage.DoesNotExist, FlaggedPackage.objects.get, package=p
