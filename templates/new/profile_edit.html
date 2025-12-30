@@ -33,11 +33,11 @@
                 <form method="post" id="profile-form">
                     {% csrf_token %}
 
-                    <div class="mb-6 p-4 bg-primary/5 text-foreground rounded-md border border-primary/20 flex items-center gap-3">
-                        <i class="ph-github-logo text-2xl"></i>
+                    <div class="flex gap-3 items-center p-4 mb-6 rounded-md border bg-primary/5 text-foreground border-primary/20">
+                        <i class="text-2xl ph-github-logo"></i>
                         <div>
                             <span class="text-sm font-medium text-muted-foreground">{% translate "GitHub Account" %}</span>
-                            <p class="font-bold text-lg leading-none">{{ profile.github_account }}</p>
+                            <p class="text-lg font-bold leading-none">{{ profile.github_account }}</p>
                         </div>
                     </div>
 
@@ -45,7 +45,7 @@
                 </form>
 
                 <div class="mt-8">
-                    <h3 class="text-lg font-semibold mb-4">{% translate "Extra Fields" %}</h3>
+                    <h3 class="mb-4 text-lg font-semibold">{% translate "Extra Fields" %}</h3>
                     <div id="extra-fields-container" class="space-y-4">
                         {% for item in extra_fields_data %}
                             {% include "new/partials/extra_field_item.html" with extra_field=item.instance form=item.form %}
@@ -55,19 +55,19 @@
                     <div class="mt-4">
                         <button type="button"
                                 onclick="
-                                    const tmpl = document.getElementById('extra-field-template');
-                                    const container = document.getElementById('extra-fields-container');
-                                    container.appendChild(tmpl.content.cloneNode(true));
-                                    htmx.process(container.lastElementChild);
-                                "
+                                         const tmpl = document.getElementById('extra-field-template');
+                                         const container = document.getElementById('extra-fields-container');
+                                         container.appendChild(tmpl.content.cloneNode(true));
+                                         htmx.process(container.lastElementChild);
+                                        "
                                 class="btn btn-secondary btn-sm">
-                            <i class="ph-plus mr-1"></i>
+                            <i class="mr-1 ph-plus"></i>
                             {% translate "Add Extra Field" %}
                         </button>
                     </div>
                 </div>
 
-                <div class="mt-8 pt-6 border-t">
+                <div class="pt-6 mt-8 border-t">
                     <button type="submit" form="profile-form" class="w-full md:w-auto btn-primary">
                         <i class="mr-1 text-lg ph-bold ph-pencil"></i>
                         {% translate "Save Changes" %}
