@@ -373,7 +373,7 @@
                                     name="q"
                                     class="py-1 px-2 w-full text-sm rounded border bg-background text-foreground"
                                     placeholder="Search for a grid..."
-                                    hx-get="{% url 'ajax_grid_list' %}"
+                                    hx-get="{% url 'ajax_grid_search' %}"
                                     hx-trigger="keyup changed delay:500ms"
                                     hx-target="#grid-search-results"
                                     hx-vals='{"package_id": "{{ package.id }}", "redirect": "{{ request.path }}"}'

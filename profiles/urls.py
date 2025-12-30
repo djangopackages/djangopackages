@@ -3,7 +3,22 @@ from django.urls import path
 from profiles import views
 
 urlpatterns = [
-    path("edit/", view=views.ProfileEditUpdateView.as_view(), name="profile_edit"),
+    path("edit/", view=views.ProfileUpdateView.as_view(), name="profile_edit"),
+    path(
+        "extra-field/add/",
+        views.ProfileExtraFieldCreateView.as_view(),
+        name="profile_add_extra_field",
+    ),
+    path(
+        "extra-field/<int:pk>/edit/",
+        views.ProfileExtraFieldUpdateView.as_view(),
+        name="profile_edit_extra_field",
+    ),
+    path(
+        "extra-field/<int:pk>/delete/",
+        views.ProfileDeleteExtraFieldView.as_view(),
+        name="profile_delete_extra_field",
+    ),
     path(
         "<slug:github_account>/",
         views.ProfileDetailView.as_view(),

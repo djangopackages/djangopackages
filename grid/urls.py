@@ -4,20 +4,20 @@ from django.urls import path, re_path
 
 from grid.views import (
     AddGridView,
+    AjaxGridSearchView,
     EditGridView,
     GridListView,
     AddFeatureView,
     AddGridPackageView,
     AjaxPackageSearchView,
+    GridOpenGraphView,
     add_new_grid_package,
-    ajax_grid_list,
     DeleteFeatureView,
     DeleteGridPackageView,
     EditElementView,
     EditFeatureView,
     grid_detail,
-    grid_opengraph_detail,
-    grid_timesheet,
+    GridTimesheetView,
     grid_detail_landscape,
 )
 from package.views import PackageByGridListView
@@ -74,9 +74,9 @@ urlpatterns = [
         name="ajax_package_search",
     ),
     path(
-        "ajax_grid_list/",
-        view=ajax_grid_list,
-        name="ajax_grid_list",
+        "ajax_grid_search/",
+        view=AjaxGridSearchView.as_view(),
+        name="ajax_grid_search",
     ),
     path(
         "",
@@ -90,7 +90,7 @@ urlpatterns = [
     ),
     path(
         "g/<slug:slug>/opengraph/",
-        view=grid_opengraph_detail,
+        view=GridOpenGraphView.as_view(),
         name="grid_opengraph",
     ),
     path(
@@ -98,7 +98,11 @@ urlpatterns = [
         view=grid_detail_landscape,
         name="grid_landscape",
     ),
-    path("g/<slug:slug>/timesheet/", view=grid_timesheet, name="grid_timesheet"),
+    path(
+        "g/<slug:slug>/timesheet/",
+        view=GridTimesheetView.as_view(),
+        name="grid_timesheet",
+    ),
     path(
         "g/<slug:slug>/packages/",
         view=PackageByGridListView.as_view(),

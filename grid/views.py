@@ -13,9 +13,8 @@ from django.db.models import Count, Max, Q
 from django.http import Http404, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
-from django.views.generic import CreateView, ListView, DeleteView
+from django.views.generic import CreateView, DetailView, ListView, DeleteView
 from django.views.generic.edit import UpdateView
-from rest_framework.generics import ListAPIView, RetrieveAPIView
 from django.utils.translation import gettext_lazy as _
 from django.utils.http import url_has_allowed_host_and_scheme
 
@@ -359,18 +358,48 @@ class AjaxPackageSearchView(ListView):
         if grid_slug:
             qs = qs.exclude(gridpackage__grid__slug=grid_slug)
 
-        return qs.select_related("category").order_by("-repo_watchers")[:10]
+        return qs.select_related("category").order_by("-repo_watchers")[:20]
 
 
-def ajax_grid_list(request, template_name="grid/ajax_grid_list.html"):
-    q = request.GET.get("q", "")
-    grids = []
-    if q:
-        grids = Grid.objects.filter(title__istartswith=q)
-        package_id = request.GET.get("package_id", "")
+class AjaxGridSearchView(ListView):
+    model = Package
+    template_name = "new/partials/grid_search_results.html"
+    context_object_name = "grids"
+
+    def get_queryset(self):
+        q = self.request.GET.get("q", "")
+        package_id = self.request.GET.get("package_id", "")
+
+        if not q:
+            return Grid.objects.none()
+
+        qs = Grid.objects.filter(title__icontains=q)
+
         if package_id:
-            grids = grids.exclude(gridpackage__package__id=package_id)
-    return render(request, template_name, {"grids": grids})
+            qs = qs.exclude(gridpackage__package_id=package_id)
+
+        return qs[:20]
+
+
+class GridOpenGraphView(DetailView):
+    model = Grid
+    template_name = "grid/grid_opengraph.html"
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
+
+
+class GridTimesheetView(DetailView):
+    model = Grid
+    template_name = "new/grid_timesheet.html"
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["grid_packages"] = self.object.grid_packages.order_by(
+            "-package__modified"
+        ).select_related()
+        return context
 
 
 def grid_detail(request, slug, template_name="grid/grid_detail.html"):
@@ -472,30 +501,3 @@ def grid_detail_landscape(
     """
 
     return grid_detail(request, slug, template_name=template_name)
-
-
-def grid_opengraph_detail(request, slug, template_name="grid/grid_opengraph.html"):
-    return grid_detail(request, slug, template_name=template_name)
-
-
-class GridListAPIView(ListAPIView):
-    model = Grid
-    paginate_by = 20
-
-
-class GridDetailAPIView(RetrieveAPIView):
-    model = Grid
-
-
-def grid_timesheet(request, slug, template_name="grid/grid_timesheet.html"):
-    grid = get_object_or_404(Grid, slug=slug)
-    grid_packages = grid.grid_packages.order_by("-package__modified").select_related()
-
-    return render(
-        request,
-        template_name,
-        {
-            "grid": grid,
-            "grid_packages": grid_packages,
-        },
-    )

@@ -1,0 +1,31 @@
+{% load i18n %}
+<div class="extra-field-row flex flex-col md:flex-row gap-4 items-center p-4 border rounded-md bg-muted/20">
+    <div class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+        <div>
+            <span class="block text-sm font-medium mb-1 text-muted-foreground">{% translate "Label" %}</span>
+            <div class="text-sm font-medium">{{ extra_field.label }}</div>
+        </div>
+        <div>
+            <span class="block text-sm font-medium mb-1 text-muted-foreground">{% translate "URL" %}</span>
+            <a href="{{ extra_field.url }}" target="_blank" class="text-sm text-primary hover:underline truncate block">{{ extra_field.url }}</a>
+        </div>
+    </div>
+    <div class="flex-none flex gap-2">
+        <button type="button"
+                onclick="document.getElementById('extra-field-display-{{ extra_field.id }}').classList.add('hidden'); document.getElementById('extra-field-form-{{ extra_field.id }}').classList.remove('hidden');"
+                class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                title="{% translate 'Edit' %}">
+            <i class="ph-bold ph-pencil-simple text-lg"></i>
+        </button>
+        <button type="button"
+                hx-delete="{% url 'profile_delete_extra_field' extra_field.id %}"
+                hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                hx-confirm="{% translate 'Are you sure you want to delete this field?' %}"
+                hx-target="#extra-field-row-{{ extra_field.id }}"
+                hx-swap="outerHTML"
+                class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-red-100 hover:text-red-700 h-10 w-10 text-red-600"
+                title="{% translate 'Delete' %}">
+            <i class="ph-bold ph-trash text-lg"></i>
+        </button>
+    </div>
+</div>

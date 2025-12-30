@@ -12,23 +12,6 @@ class ExtraFieldForm(forms.ModelForm):
             "label",
             "url",
         )
-        widgets = {
-            "label": forms.TextInput(
-                attrs={"placeholder": "Label", "class": "textinput form-control"},
-            ),
-            "url": forms.TextInput(
-                attrs={"placeholder": "URL", "class": "textinput form-control"}
-            ),
-        }
-
-
-ExtraFieldFormSet = forms.inlineformset_factory(
-    Profile,
-    ExtraField,
-    form=ExtraFieldForm,
-    extra=4,
-    max_num=4,
-)
 
 
 class ProfileForm(forms.ModelForm):

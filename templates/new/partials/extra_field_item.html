@@ -1,0 +1,9 @@
+{% load i18n %}
+<div id="extra-field-row-{{ extra_field.id }}" class="extra-field-wrapper mb-4">
+    <div id="extra-field-display-{{ extra_field.id }}" {% if show_form %}class="hidden"{% endif %}>
+        {% include "new/partials/extra_field_display.html" %}
+    </div>
+    <div id="extra-field-form-{{ extra_field.id }}" {% if not show_form %}class="hidden"{% endif %}>
+        {% include "new/partials/extra_field_form.html" %}
+    </div>
+</div>

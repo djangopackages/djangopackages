@@ -1,21 +1,18 @@
 from django.contrib import messages
 from django.contrib.auth import logout
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.signals import user_logged_in
 from django.core.exceptions import MultipleObjectsReturned, PermissionDenied
-from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views.generic import ListView, RedirectView, DetailView
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.utils.translation import gettext_lazy as _
 
 from package.models import Package
-from profiles.forms import ProfileForm, ExtraFieldFormSet
+from profiles.forms import ProfileForm, ExtraFieldForm
 from profiles.models import Profile, ExtraField
-
-# from social_auth.signals import pre_update
-# from social_auth.backends.contrib.github import GithubBackend
 
 
 class ProfileDetailView(DetailView):
@@ -52,42 +49,34 @@ class ProfileDetailView(DetailView):
         return context
 
 
-class ProfileEditUpdateView(LoginRequiredMixin, UpdateView):
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = Profile
     form_class = ProfileForm
-    template_name = "profiles/profile_edit.html"
+    template_name = "new/profile_edit.html"
 
     def get_object(self):
         return self.request.user.profile
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.request.POST:
-            context["extra_fields_formset"] = ExtraFieldFormSet(
-                self.request.POST, instance=self.object
+
+        extra_fields_data = []
+        for field in self.object.extrafield_set.all().order_by("id"):
+            extra_fields_data.append(
+                {"instance": field, "form": ExtraFieldForm(instance=field)}
             )
-        else:
-            context["extra_fields_formset"] = ExtraFieldFormSet(instance=self.object)
+        context["extra_fields_data"] = extra_fields_data
+        context["extra_field_form"] = ExtraFieldForm()
         return context
 
     def form_valid(self, form):
-        context = self.get_context_data()
-        formset = context["extra_fields_formset"]
-        if formset.is_valid():
-            self.object = form.save()
-            formset.instance = self.object
-            formset.save()
-            messages.add_message(self.request, messages.INFO, "Profile Saved")
-            return HttpResponseRedirect(
-                reverse("profile_detail", kwargs={"github_account": self.get_object()})
+        self.object = form.save()
+        messages.add_message(self.request, messages.INFO, "Profile Saved")
+        return HttpResponseRedirect(
+            reverse(
+                "profile_detail", kwargs={"github_account": self.object.github_account}
             )
-        else:
-            messages.add_message(
-                self.request, messages.ERROR, "There are errors in the form"
-            )
-            context["form"] = form
-            context["extra_fields_formset"] = formset
-            return self.render_to_response(context)
+        )
 
 
 def github_user_update(sender, **kwargs):
@@ -162,3 +151,69 @@ class ProfileFavoritePackagesView(ProfilePackageBaseView):
         if not self.profile.share_favorites and self.request.user != self.profile.user:
             raise PermissionDenied
         return Package.objects.filter(favorite__favorited_by=self.profile.user)
+
+
+class ProfileExtraFieldCreateView(LoginRequiredMixin, CreateView):
+    model = ExtraField
+    form_class = ExtraFieldForm
+    template_name = "new/partials/extra_field_form.html"
+
+    def form_valid(self, form):
+        form.instance.profile = self.request.user.profile
+        self.object = form.save()
+        return render(
+            self.request,
+            "new/partials/extra_field_item.html",
+            {"extra_field": self.object, "form": ExtraFieldForm(instance=self.object)},
+        )
+
+    def form_invalid(self, form):
+        return render(self.request, self.template_name, {"form": form})
+
+
+class ProfileExtraFieldUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = ExtraField
+    form_class = ExtraFieldForm
+    template_name = "new/partials/extra_field_form.html"
+    context_object_name = "extra_field"
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, *args, **kwargs)
+
+    def test_func(self):
+        return self.object.profile.user == self.request.user
+
+    def form_valid(self, form):
+        self.object = form.save()
+        return render(
+            self.request,
+            "new/partials/extra_field_item.html",
+            {"extra_field": self.object, "form": ExtraFieldForm(instance=self.object)},
+        )
+
+    def form_invalid(self, form):
+        return render(
+            self.request,
+            "new/partials/extra_field_item.html",
+            {
+                "extra_field": self.object,
+                "form": form,
+                "show_form": True,
+            },
+        )
+
+
+class ProfileDeleteExtraFieldView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = ExtraField
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, *args, **kwargs)
+
+    def test_func(self):
+        return self.object.profile.user == self.request.user
+
+    def delete(self, request, *args, **kwargs):
+        self.object.delete()
+        return HttpResponse("")
