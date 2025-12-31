@@ -27,7 +27,7 @@
     <div class="container py-8 px-4 mx-auto">
         <div class="mb-8">
             <h1 class="text-3xl font-bold text-foreground">
-                {% blocktranslate with grid_title=grid.title %}Add a package to grid '{{ grid_title }}'{% endblocktranslate %}
+                {% blocktranslate with grid_title=grid.title %}Add a new package to the <strong>{{ grid_title }}</strong> grid.{% endblocktranslate %}
             </h1>
             <p class="pt-2 text-muted-foreground">{% translate "Search for an existing package to add to this grid." %}</p>
         </div>
@@ -74,7 +74,7 @@
                 <div class="pt-6 mt-8 border-t border-border">
                     <h3 class="text-lg font-medium text-foreground">{% translate "What if the Package isn't in the database?" %}</h3>
                     <div class="mt-3">
-                        <a href="{% url 'add_new_grid_package' grid.slug %}" class="inline-flex items-center btn-secondary">
+                        <a href="{% url 'add_package' %}?grid_slug={{ grid.slug }}" class="inline-flex items-center btn-secondary">
                             <i class="mr-2 ph-bold ph-plus"></i>
                             {% translate "Add new package to database" %}
                         </a>

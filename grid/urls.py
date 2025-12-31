@@ -11,7 +11,6 @@ from grid.views import (
     AddGridPackageView,
     AjaxPackageSearchView,
     GridOpenGraphView,
-    add_new_grid_package,
     DeleteFeatureView,
     DeleteGridPackageView,
     EditElementView,
@@ -62,11 +61,6 @@ urlpatterns = [
         r"^(?P<grid_slug>[a-z0-9\-\_]+)/package/add/$",
         view=AddGridPackageView.as_view(),
         name="add_grid_package",
-    ),
-    re_path(
-        r"^(?P<grid_slug>[a-z0-9\-\_]+)/package/add/new$",
-        view=add_new_grid_package,
-        name="add_new_grid_package",
     ),
     path(
         "ajax_package_search/",

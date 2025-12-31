@@ -1,31 +1,45 @@
+from functools import cached_property
 import json
+from urllib.parse import urlparse
 
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.cache import cache
+from django.db import transaction
 from django.db.models import Count, Q, Exists, OuterRef
-from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.template.defaultfilters import slugify
 from django.utils.decorators import method_decorator
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView, RedirectView, View
 from django.views.generic.edit import CreateView, UpdateView
 from django_q.tasks import async_task
+from django.utils.translation import gettext_lazy as _
 
-from grid.models import Grid
+from grid.models import Grid, GridPackage
 from package.forms import (
     CategoryPackageFilterForm,
     DocumentationForm,
     FlaggedPackageForm,
     PackageExampleForm,
-    PackageForm,
+    PackageCreateForm,
+    PackageUpdateForm,
+    RepositoryURLForm,
     PackageFilterForm,
 )
-from package.models import Category, FlaggedPackage, Package, PackageExample, Version
+from package.models import (
+    Category,
+    FlaggedPackage,
+    Package,
+    PackageExample,
+    RepoHost,
+    Version,
+)
 from package.repos import get_all_repos
 from searchv2.rules import calc_package_weight
 from searchv2.rules import DeprecatedRule
@@ -46,64 +60,140 @@ def repo_data_for_js():
     return json.dumps(repos)
 
 
-@login_required
-def add_package(request, template_name="package/package_form.html"):
-    if not request.user.profile.can_add_package:
-        return HttpResponseForbidden("permission denied")
+class AddPackageView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Package
+    form_class = PackageCreateForm
+    template_name = "new/add_package.html"
 
-    new_package = Package()
-    form = PackageForm(request.POST or None, instance=new_package)
+    def test_func(self):
+        return self.request.user.profile.can_add_package
 
-    if form.is_valid():
-        new_package = form.save()
-        new_package.created_by = request.user
-        new_package.last_modified_by = request.user
-        new_package.save()
-        # new_package.fetch_metadata()
-        # new_package.fetch_commits()
+    @cached_property
+    def grid(self):
+        grid_slug = self.request.GET.get("grid_slug")
+        if grid_slug:
+            try:
+                return Grid.objects.get(slug=grid_slug)
+            except Grid.DoesNotExist:
+                pass
+        return None
 
-        return HttpResponseRedirect(
-            reverse("package", kwargs={"slug": new_package.slug})
-        )
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if "repo_form" not in context:
+            context["repo_form"] = RepositoryURLForm()
+        context["grid"] = self.grid
+        context["grid_slug"] = self.request.GET.get("grid_slug")
+        return context
 
-    return render(
-        request,
-        template_name,
-        {
-            "form": form,
-            "repo_data": repo_data_for_js(),
-            "action": "add",
-        },
-    )
+    @transaction.atomic
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        self.object.last_modified_by = self.request.user
+        self.object.save()
+
+        if self.grid:
+            GridPackage.objects.create(grid=self.grid, package=self.object)
+
+        if not self.grid:
+            messages.success(self.request, _("Package added successfully"))
+        else:
+            messages.success(
+                self.request,
+                _("Package added successfully to grid: %(grid_title)s")
+                % {"grid_title": self.grid.title},
+            )
+
+        if self.request.htmx:
+            response = HttpResponse()
+            response["HX-Redirect"] = self.get_success_url()
+            return response
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse("package", kwargs={"slug": self.object.slug})
+
+    def form_invalid(self, form):
+        if self.request.htmx:
+            context = {"form": form}
+            context["grid"] = self.grid
+            return render(self.request, "new/partials/package_form.html", context)
+        return super().form_invalid(form)
 
 
-@login_required
-def edit_package(request, slug, template_name="package/package_form.html"):
-    if not request.user.profile.can_edit_package:
-        return HttpResponseForbidden("permission denied")
+class ValidateRepositoryURLView(LoginRequiredMixin, UserPassesTestMixin, View):
+    def test_func(self):
+        return self.request.user.profile.can_add_package
 
-    package = get_object_or_404(Package, slug=slug)
-    form = PackageForm(request.POST or None, instance=package)
+    def post(self, request, *args, **kwargs):
+        form = RepositoryURLForm(request.POST)
+        if form.is_valid():
+            repo_url = form.cleaned_data["repo_url"]
 
-    if form.is_valid():
-        modified_package = form.save()
-        modified_package.last_modified_by = request.user
-        modified_package.save()
-        messages.add_message(request, messages.INFO, "Package updated successfully")
-        return HttpResponseRedirect(
-            reverse("package", kwargs={"slug": modified_package.slug})
-        )
+            # Check if package exists
+            existing_package = Package.objects.filter(repo_url=repo_url).first()
+            if existing_package:
+                return render(
+                    request,
+                    "new/partials/package_exists.html",
+                    {"package": existing_package},
+                )
 
-    return render(
-        request,
-        template_name,
-        {
-            "form": form,
-            "package": package,
-            "repo_data": repo_data_for_js(),
-            "action": "edit",
-        },
-    )
+            # Pre-fill data
+            try:
+                parsed = urlparse(repo_url)
+                path_parts = parsed.path.strip("/").split("/")
+                repo_name = path_parts[-1]
+
+                initial_data = {
+                    "repo_url": repo_url,
+                    "title": repo_name,
+                    "slug": slugify(repo_name),
+                    "pypi_url": repo_name,
+                }
+
+                domain = parsed.netloc
+                initial_data["repo_host"] = RepoHost.from_url(domain)
+
+                package_form = PackageCreateForm(initial=initial_data)
+                context = {"form": package_form}
+                if "grid_slug" in request.GET:
+                    context["grid_slug"] = request.GET["grid_slug"]
+                return render(
+                    request,
+                    "new/partials/package_form.html",
+                    context,
+                )
+            except Exception:
+                pass
+
+        return render(request, "new/partials/repo_url_form.html", {"repo_form": form})
+
+
+class PackageUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Package
+    form_class = PackageUpdateForm
+    template_name = "new/edit_package.html"
+
+    def test_func(self):
+        return self.request.user.profile.can_edit_package
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.last_modified_by = self.request.user
+        self.object.save()
+        messages.success(self.request, _("Package updated successfully"))
+        if self.request.htmx:
+            response = HttpResponse()
+            response["HX-Redirect"] = self.get_success_url()
+            return response
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["action"] = "edit"
+        return context
 
 
 class PackageFlagView(LoginRequiredMixin, CreateView):
@@ -195,7 +285,6 @@ class PackageExampleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVi
     pk_url_kwarg = "id"
 
     def test_func(self):
-        print(self.request.user.id, self.object.created_by_id)
         return (
             self.request.user.id == self.object.created_by_id
             or self.request.user.is_superuser

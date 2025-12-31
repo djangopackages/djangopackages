@@ -5,6 +5,7 @@ from django.test import TestCase
 from django.urls import reverse
 from waffle.testutils import override_flag
 
+from grid.models import Grid, GridPackage
 from package.models import Category, FlaggedPackage, Package, PackageExample
 from package.tests import initial_data
 from profiles.models import Profile
@@ -64,7 +65,7 @@ class FunctionalPackageTest(TestCase):
         with self.assertNumQueries(6):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "package/package_archive.html")
+        self.assertTemplateUsed(response, "new/package_archive.html")
         packages = Package.objects.all()
         for p in packages:
             self.assertContains(response, p.title)
@@ -84,11 +85,11 @@ class FunctionalPackageTest(TestCase):
         self.assertTrue(self.client.login(username="user", password="user"))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "package/package_form.html")
+        self.assertTemplateUsed(response, "new/add_package.html")
         for c in Category.objects.all():
             self.assertContains(response, c.title)
         count = Package.objects.count()
-        with self.assertNumQueries(14):
+        with self.assertNumQueries(15):
             response = self.client.post(
                 url,
                 {
@@ -100,6 +101,35 @@ class FunctionalPackageTest(TestCase):
             )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Package.objects.count(), count + 1)
+
+    def test_add_package_view_with_grid_slug(self):
+        grid = Grid.objects.get(slug="testing")
+        url = reverse("add_package") + f"?grid_slug={grid.slug}"
+
+        # The response should be a redirect, since the user is not logged in.
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+
+        # Once we log in the user, we should get back the appropriate response.
+        self.assertTrue(self.client.login(username="user", password="user"))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["grid"], grid)
+
+        # Test form post
+        with self.assertNumQueries(17):
+            response = self.client.post(
+                url,
+                {
+                    "category": Category.objects.first().pk,
+                    "repo_url": "https://github.com/django/django-grid-test",
+                    "slug": "django-grid-test",
+                    "title": "django-grid-test",
+                },
+            )
+        self.assertEqual(response.status_code, 302)
+        package = Package.objects.get(slug="django-grid-test")
+        self.assertTrue(GridPackage.objects.filter(grid=grid, package=package).exists())
 
     def test_edit_package_view(self):
         p = Package.objects.get(slug="testability")
@@ -114,7 +144,7 @@ class FunctionalPackageTest(TestCase):
         self.assertTrue(self.client.login(username="user", password="user"))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "package/package_form.html")
+        self.assertTemplateUsed(response, "new/edit_package.html")
         self.assertContains(response, p.title)
         self.assertContains(response, p.slug)
 
@@ -399,17 +429,17 @@ class PackagePermissionTest(TestCase):
 
     def test_switch_permissions(self):
         settings.RESTRICT_PACKAGE_EDITORS = False
-        with self.assertNumQueries(7):
+        with self.assertNumQueries(6):
             response = self.client.get(self.test_add_url)
         self.assertEqual(response.status_code, 200)
 
         settings.RESTRICT_PACKAGE_EDITORS = True
-        with self.assertNumQueries(5):
+        with self.assertNumQueries(7):
             response = self.client.get(self.test_add_url)
         self.assertEqual(response.status_code, 403)
 
     def test_add_package_permission_fail(self):
-        with self.assertNumQueries(5):
+        with self.assertNumQueries(7):
             response = self.client.get(self.test_add_url)
         self.assertEqual(response.status_code, 403)
 
@@ -418,12 +448,31 @@ class PackagePermissionTest(TestCase):
             codename="add_package", content_type__app_label="package"
         )
         self.user.user_permissions.add(add_package_perm)
-        with self.assertNumQueries(10):
+        with self.assertNumQueries(8):
             response = self.client.get(self.test_add_url)
         self.assertEqual(response.status_code, 200)
 
+    def test_add_package_with_grid_slug_permission_fail(self):
+        grid = Grid.objects.get(slug="testing")
+        url = self.test_add_url + f"?grid_slug={grid.slug}"
+        with self.assertNumQueries(7):
+            response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+
+    def test_add_package_with_grid_slug_permission_success(self):
+        grid = Grid.objects.get(slug="testing")
+        url = self.test_add_url + f"?grid_slug={grid.slug}"
+        add_package_perm = Permission.objects.get(
+            codename="add_package", content_type__app_label="package"
+        )
+        self.user.user_permissions.add(add_package_perm)
+        with self.assertNumQueries(9):
+            response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["grid"], grid)
+
     def test_edit_package_permission_fail(self):
-        with self.assertNumQueries(5):
+        with self.assertNumQueries(7):
             response = self.client.get(self.test_edit_url)
         self.assertEqual(response.status_code, 403)
 
@@ -435,6 +484,60 @@ class PackagePermissionTest(TestCase):
         with self.assertNumQueries(10):
             response = self.client.get(self.test_edit_url)
         self.assertEqual(response.status_code, 200)
+
+
+class ValidateRepositoryURLViewTest(TestCase):
+    def setUp(self):
+        initial_data.load()
+        for user in User.objects.all():
+            Profile.objects.create(user=user)
+        settings.RESTRICT_PACKAGE_EDITORS = False
+        self.user = User.objects.get(username="user")
+        self.url = reverse("validate_repo_url")
+
+    def test_login_required(self):
+        response = self.client.post(
+            self.url, {"repo_url": "https://github.com/test/test"}
+        )
+        self.assertEqual(response.status_code, 302)
+
+    def test_valid_new_repo(self):
+        self.client.force_login(self.user)
+        repo_url = "https://github.com/new/repo"
+        response = self.client.post(self.url, {"repo_url": repo_url})
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "new/partials/package_form.html")
+        self.assertContains(response, 'value="repo"')
+        self.assertContains(response, f'value="{repo_url}"')
+
+    def test_valid_new_repo_with_grid_slug(self):
+        self.client.force_login(self.user)
+        repo_url = "https://github.com/new/repo-grid"
+        grid_slug = "testing"
+        url = self.url + f"?grid_slug={grid_slug}"
+        response = self.client.post(url, {"repo_url": repo_url})
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "new/partials/package_form.html")
+        self.assertContains(response, f"grid_slug={grid_slug}")
+
+    def test_existing_repo(self):
+        self.client.force_login(self.user)
+        package = Package.objects.first()
+        response = self.client.post(self.url, {"repo_url": package.repo_url})
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "new/partials/package_exists.html")
+        self.assertContains(response, package.title)
+
+    def test_invalid_repo_url(self):
+        self.client.force_login(self.user)
+        response = self.client.post(self.url, {"repo_url": "not-a-url"})
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "new/partials/repo_url_form.html")
+        self.assertFormError(
+            response.context["repo_form"],
+            "repo_url",
+            "Could not extract hostname from URL",
+        )
 
 
 def test_category_view(db, django_assert_num_queries, tp):

@@ -40,6 +40,19 @@ class RepoHost(models.TextChoices):
     CODEBERG = "codeberg", _("Codeberg")
     FORGEJO = "forgejo", _("Forgejo")
 
+    @classmethod
+    def from_url(cls, url: str):
+        url = url.lower()
+        if "github.com" in url:
+            return cls.GITHUB
+        elif "gitlab.com" in url:
+            return cls.GITLAB
+        elif "bitbucket.org" in url:
+            return cls.BITBUCKET
+        elif "codeberg.org" in url:
+            return cls.CODEBERG
+        return cls.FORGEJO
+
 
 class NoPyPiVersionFound(Exception):
     pass

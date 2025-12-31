@@ -10,7 +10,6 @@ from waffle.testutils import override_flag
 
 from grid.models import Element, Feature, Grid, GridPackage
 from grid.tests import data
-from package.models import Package
 
 
 class FunctionalGridTest(TestCase):
@@ -293,37 +292,6 @@ class FunctionalGridTest(TestCase):
         self.assertEqual(GridPackage.objects.count(), count + 1)
         self.assertContains(response, "Another Test")
 
-    def test_add_new_grid_package_view(self):
-        Package.objects.all().delete()
-        url = reverse("add_new_grid_package", kwargs={"grid_slug": "testing"})
-        response = self.client.get(url)
-
-        # The response should be a redirect, since the user is not logged in.
-        self.assertEqual(response.status_code, 302)
-
-        # Once we log in the user, we should get back the appropriate response.
-        self.assertTrue(self.client.login(username="user", password="user"))
-        with self.assertNumQueries(8):
-            response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "package/package_form.html")
-
-        # Test form post
-        count = Package.objects.count()
-        response = self.client.post(
-            url,
-            {
-                "repo_url": "http://www.example.com",
-                "title": "Test package",
-                "slug": "test-package",
-                "pypi_url": "https://pypi.org/project/mogo/0.1.1/",
-                "category": 1,
-            },
-            follow=True,
-        )
-        self.assertEqual(Package.objects.count(), count + 1)
-        self.assertContains(response, "Test package")
-
     def test_ajax_grid_search_view(self):
         url = reverse("ajax_grid_search") + "?q=Testing&package_id=4"
         with self.assertNumQueries(3):
@@ -407,9 +375,6 @@ class GridPackagePermissionTest(TestCase):
         data.load()
         settings.RESTRICT_GRID_EDITORS = True
         self.test_add_url = reverse("add_grid_package", kwargs={"grid_slug": "testing"})
-        self.test_add_new_url = reverse(
-            "add_new_grid_package", kwargs={"grid_slug": "testing"}
-        )
         self.test_delete_url = reverse("delete_grid_package", kwargs={"id": "1"})
         self.login = self.client.login(username="user", password="user")
         self.user = User.objects.get(username="user")
@@ -427,18 +392,6 @@ class GridPackagePermissionTest(TestCase):
         )
         self.user.user_permissions.add(add_grid_perm)
         response = self.client.get(self.test_add_url)
-        self.assertEqual(response.status_code, 200)
-
-    def test_add_new_grid_package_permission_fail(self):
-        response = self.client.get(self.test_add_new_url)
-        self.assertEqual(response.status_code, 403)
-
-    def test_add_new_grid_package_permission_success(self):
-        add_new_grid_perm = Permission.objects.get(
-            codename="add_gridpackage", content_type__app_label="grid"
-        )
-        self.user.user_permissions.add(add_new_grid_perm)
-        response = self.client.get(self.test_add_new_url)
         self.assertEqual(response.status_code, 200)
 
     def test_delete_grid_package_permission_fail(self):

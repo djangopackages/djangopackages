@@ -3,14 +3,13 @@
 from functools import cached_property
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import (
     LoginRequiredMixin,
     UserPassesTestMixin,
     PermissionRequiredMixin,
 )
 from django.db.models import Count, Max, Q
-from django.http import Http404, HttpResponseForbidden, HttpResponseRedirect
+from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views.generic import CreateView, DetailView, ListView, DeleteView
@@ -27,9 +26,7 @@ from grid.forms import (
     GridPackageForm,
 )
 from grid.models import Element, Feature, Grid, GridPackage
-from package.forms import PackageForm
 from package.models import Package
-from package.views import repo_data_for_js
 
 
 def build_element_map(elements):
@@ -147,9 +144,9 @@ class AddFeatureView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = FeatureForm
     template_name = "new/add_feature.html"
 
-    def setup(self, request, *args, **kwargs):
-        super().setup(request, *args, **kwargs)
+    def dispatch(self, request, *args, **kwargs):
         self.grid = get_object_or_404(Grid, slug=self.kwargs["grid_slug"])
+        return super().dispatch(request, *args, **kwargs)
 
     def test_func(self):
         return self.request.user.profile.can_add_grid_feature
@@ -315,30 +312,6 @@ class AddGridPackageView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             f"Package '{package.title}' has been added to the grid '{grid.title}'.",
         )
         return super().form_valid(form)
-
-
-@login_required
-def add_new_grid_package(request, grid_slug, template_name="package/package_form.html"):
-    """Add a package to a grid that isn't yet represented on the site."""
-
-    if not request.user.profile.can_add_grid_package:
-        return HttpResponseForbidden("permission denied")
-
-    grid = get_object_or_404(Grid, slug=grid_slug)
-
-    new_package = Package()
-    form = PackageForm(request.POST or None, instance=new_package)
-
-    if form.is_valid():
-        new_package = form.save()
-        GridPackage.objects.create(grid=grid, package=new_package)
-        return HttpResponseRedirect(reverse("grid", kwargs={"slug": grid_slug}))
-
-    return render(
-        request,
-        template_name,
-        {"form": form, "repo_data": repo_data_for_js(), "action": "add"},
-    )
 
 
 class AjaxPackageSearchView(ListView):

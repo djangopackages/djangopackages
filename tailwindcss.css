@@ -298,7 +298,7 @@
 
   /* Help Text */
   .django-form-renderer .form-help {
-    @apply text-sm text-gray-600 mb-3 leading-relaxed;
+    @apply text-sm text-gray-600 mb-3 mt-3 leading-relaxed;
   }
 
   /* Form Errors (Non-field errors) */
