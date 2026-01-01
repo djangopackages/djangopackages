@@ -6,6 +6,7 @@ from grid.views import (
     AddGridView,
     AjaxGridSearchView,
     EditGridView,
+    GridDetailView,
     GridListView,
     AddFeatureView,
     AddGridPackageView,
@@ -15,9 +16,7 @@ from grid.views import (
     DeleteGridPackageView,
     EditElementView,
     EditFeatureView,
-    grid_detail,
     GridTimesheetView,
-    grid_detail_landscape,
 )
 from package.views import PackageByGridListView
 
@@ -79,18 +78,13 @@ urlpatterns = [
     ),
     path(
         "g/<slug:slug>/",
-        view=grid_detail,
+        view=GridDetailView.as_view(),
         name="grid",
     ),
     path(
         "g/<slug:slug>/opengraph/",
         view=GridOpenGraphView.as_view(),
         name="grid_opengraph",
-    ),
-    path(
-        "g/<slug:slug>/landscape/",
-        view=grid_detail_landscape,
-        name="grid_landscape",
     ),
     path(
         "g/<slug:slug>/timesheet/",

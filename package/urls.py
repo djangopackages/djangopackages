@@ -8,6 +8,7 @@ from package.views import (
     PackageOpenGraphDetailView,
     PackageExampleCreateView,
     AddPackageView,
+    PackageUsageToggleView,
     ValidateRepositoryURLView,
     PackageExampleDeleteView,
     PackageDocumentationUpdateView,
@@ -19,7 +20,6 @@ from package.views import (
     GitHubWebhookView,
     PackageRulesView,
     PackageFetchDataView,
-    usage,
     PackageVersionListView,
     PackageDetailView,
     PackageListView,
@@ -129,7 +129,7 @@ urlpatterns = [
     ),
     re_path(
         r"^usage/(?P<slug>[-\w]+)/(?P<action>add|remove)/$",
-        view=usage,
+        view=PackageUsageToggleView.as_view(),
         name="usage",
     ),
     path(

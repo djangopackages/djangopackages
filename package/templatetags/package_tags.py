@@ -56,3 +56,11 @@ def usage_button(context):
 @stringfilter
 def emojify(value):
     return emoji.emojize(value)
+
+
+@register.filter
+def is_in(value, arg):
+    """Check if a value is in a list/tuple."""
+    if arg is None:
+        return False
+    return value in arg

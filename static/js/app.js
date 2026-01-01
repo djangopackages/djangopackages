@@ -1,5 +1,186 @@
 document.addEventListener("DOMContentLoaded", function () {
     // ============================================
+    // Grid Comparison Table Functions
+    // ============================================
+
+    function abbreviateGridNumbers() {
+        document.querySelectorAll('[data-abbreviate]').forEach(function(el) {
+            if (el.dataset.abbreviated) return;
+            const num = parseInt(el.textContent.replace(/,/g, ''), 10);
+            if (!isNaN(num) && num >= 1000) {
+                el.title = num.toLocaleString();
+                if (num >= 1000000) {
+                    el.textContent = (num / 1000000).toFixed(1) + 'M';
+                } else if (num >= 1000) {
+                    el.textContent = (num / 1000).toFixed(1) + 'K';
+                }
+                el.dataset.abbreviated = 'true';
+            }
+        });
+    }
+
+    // Initialize grid table if present
+    if (document.getElementById('comparison-table')) {
+        abbreviateGridNumbers();
+    }
+
+    // Re-initialize after HTMX swaps
+    document.body.addEventListener('htmx:afterSwap', function(evt) {
+        if (evt.detail.target.id === 'comparison-table') {
+            abbreviateGridNumbers();
+            initMobilePackageNav();
+        }
+    });
+
+    // Mobile package navigation for comparison grid
+    function initMobilePackageNav() {
+        const cardsContainer = document.querySelector('.mobile-pkg-cards');
+        const swipeArea = document.querySelector('.mobile-pkg-swipe-area');
+
+        if (!cardsContainer || !swipeArea) return;
+
+        // Get fresh references to buttons and dots
+        function getButtons() {
+            return document.querySelectorAll('.mobile-pkg-btn');
+        }
+        function getDots() {
+            return document.querySelectorAll('.mobile-pkg-dot');
+        }
+
+        // Store current index on the container element so it persists
+        if (!swipeArea.dataset.currentIndex) {
+            swipeArea.dataset.currentIndex = '0';
+        }
+
+        function getCurrentIndex() {
+            return parseInt(swipeArea.dataset.currentIndex, 10) || 0;
+        }
+
+        function setCurrentIndex(index) {
+            swipeArea.dataset.currentIndex = String(index);
+        }
+
+        function switchToPackage(index) {
+            const buttons = getButtons();
+            const dots = getDots();
+
+            // Clamp index to valid range
+            index = Math.max(0, Math.min(index, buttons.length - 1));
+            setCurrentIndex(index);
+
+            // Update cards position
+            cardsContainer.style.transform = `translateX(-${index * 100}%)`;
+
+            // Update buttons
+            buttons.forEach((btn, i) => {
+                if (i === index) {
+                    btn.classList.add('bg-primary', 'text-primary-foreground', 'border-primary');
+                    btn.classList.remove('bg-card', 'text-foreground', 'border-border', 'hover:border-primary');
+                } else {
+                    btn.classList.remove('bg-primary', 'text-primary-foreground', 'border-primary');
+                    btn.classList.add('bg-card', 'text-foreground', 'border-border', 'hover:border-primary');
+                }
+            });
+
+            // Update dots
+            dots.forEach((dot, i) => {
+                if (i === index) {
+                    dot.classList.add('bg-primary', 'w-4');
+                    dot.classList.remove('bg-muted-foreground/30');
+                } else {
+                    dot.classList.remove('bg-primary', 'w-4');
+                    dot.classList.add('bg-muted-foreground/30');
+                }
+            });
+
+            // Scroll the active button into view
+            buttons[index]?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+
+        // Use event delegation for buttons and dots
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('.mobile-pkg-btn');
+            const dot = e.target.closest('.mobile-pkg-dot');
+
+            if (btn) {
+                e.preventDefault();
+                const index = parseInt(btn.dataset.pkgIndex, 10);
+                switchToPackage(index);
+            } else if (dot) {
+                e.preventDefault();
+                const index = parseInt(dot.dataset.pkgIndex, 10);
+                switchToPackage(index);
+            }
+        });
+
+        // Swipe support - attach to the swipe area wrapper
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let isDragging = false;
+        let swipeDirection = null; // 'horizontal', 'vertical', or null
+
+        function handleTouchStart(e) {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+            isDragging = true;
+            swipeDirection = null;
+        }
+
+        function handleTouchMove(e) {
+            if (!isDragging) return;
+
+            const touchCurrentX = e.touches[0].clientX;
+            const touchCurrentY = e.touches[0].clientY;
+            const diffX = touchCurrentX - touchStartX;
+            const diffY = touchCurrentY - touchStartY;
+
+            // Determine swipe direction once we've moved enough
+            if (swipeDirection === null && (Math.abs(diffX) > 10 || Math.abs(diffY) > 10)) {
+                swipeDirection = Math.abs(diffX) > Math.abs(diffY) ? 'horizontal' : 'vertical';
+            }
+
+            // If horizontal swipe, prevent default to stop page scroll
+            if (swipeDirection === 'horizontal') {
+                e.preventDefault();
+            }
+        }
+
+        function handleTouchEnd(e) {
+            if (!isDragging) return;
+
+            const buttons = getButtons();
+            const touchEndX = e.changedTouches[0].clientX;
+            const diff = touchStartX - touchEndX;
+            const threshold = 50;
+            const currentIndex = getCurrentIndex();
+
+            if (swipeDirection === 'horizontal' && Math.abs(diff) > threshold) {
+                if (diff > 0 && currentIndex < buttons.length - 1) {
+                    // Swipe left - go to next
+                    switchToPackage(currentIndex + 1);
+                } else if (diff < 0 && currentIndex > 0) {
+                    // Swipe right - go to previous
+                    switchToPackage(currentIndex - 1);
+                }
+            }
+
+            isDragging = false;
+            swipeDirection = null;
+        }
+
+        // Only add listeners once - check for flag
+        if (!swipeArea.dataset.swipeInit) {
+            swipeArea.dataset.swipeInit = 'true';
+            swipeArea.addEventListener('touchstart', handleTouchStart, { passive: true });
+            swipeArea.addEventListener('touchmove', handleTouchMove, { passive: false });
+            swipeArea.addEventListener('touchend', handleTouchEnd, { passive: true });
+        }
+    }
+
+    // Initialize mobile nav if present
+    initMobilePackageNav();
+
+    // ============================================
     // Mobile Menu Toggle - Using data attributes
     // ============================================
     const mobileMenuBtn = document.getElementById("mobile-menu-btn");

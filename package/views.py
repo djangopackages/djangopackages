@@ -4,7 +4,6 @@ from urllib.parse import urlparse
 
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.cache import cache
 from django.db import transaction
@@ -339,58 +338,69 @@ class PackageExampleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DetailVi
         )
 
 
-@login_required
-def usage(request, slug, action):
-    success = False
-    package = get_object_or_404(Package, slug=slug)
+class PackageUsageToggleView(LoginRequiredMixin, View):
+    """Toggle a user's usage of a package (add or remove)."""
 
-    # Update the current user's usage of the given package as specified by the
-    # request.
-    if package.usage.filter(username=request.user.username):
-        if action.lower() == "add":
-            # The user is already using the package
-            success = True
-            change = 0
-        else:
-            # If the action was not add and the user has already specified
-            # they are a use the package then remove their usage.
-            package.usage.remove(request.user)
-            success = True
-            change = -1
-    else:
-        if action.lower() == "lower":
-            # The user is not using the package
-            success = True
-            change = 0
-        else:
-            # If the action was not lower and the user is not already using
-            # the package then add their usage.
-            package.usage.add(request.user)
-            success = True
-            change = 1
+    def get_package(self):
+        return get_object_or_404(Package, slug=self.kwargs["slug"])
 
-    # Invalidate the cache of this users's used_packages_list.
-    if change == 1 or change == -1:
-        cache_key = "sitewide_used_packages_list_%s" % request.user.pk
-        cache.delete(cache_key)
+    def _is_using(self, package, user) -> bool:
+        return package.usage.filter(pk=user.pk).exists()
+
+    def _invalidate_caches(self, package, user) -> None:
+        cache.delete(f"sitewide_used_packages_list_{user.pk}")
         package.grid_clear_detail_template_cache()
 
-    # Return an ajax-appropriate response if necessary
-    if request.headers.get("x-requested-with") == "XMLHttpRequest":
-        response = {"success": success}
-        if success:
-            response["change"] = change
+    def get(self, request, slug, action):
+        """Handle GET requests for usage toggle."""
+        return self.toggle_usage(request, action)
 
-        return HttpResponse(json.dumps(response))
+    def post(self, request, slug, action):
+        """Handle POST requests for usage toggle."""
+        return self.toggle_usage(request, action)
 
-    # Intelligently determine the URL to redirect the user to based on the
-    # available information.
-    next = (
-        request.GET.get("next")
-        or request.headers.get("Referer")
-        or reverse("package", kwargs={"slug": package.slug})
-    )
-    return HttpResponseRedirect(next)
+    def toggle_usage(self, request, action):
+        """Core logic to toggle package usage."""
+        package = self.get_package()
+        user = request.user
+        action = action.lower()
+
+        is_currently_using = self._is_using(package, user)
+        did_change = False
+
+        is_using = is_currently_using
+
+        if action == "add":
+            if not is_currently_using:
+                package.usage.add(user)
+                did_change = True
+                is_using = True
+        elif action == "remove":
+            if is_currently_using:
+                package.usage.remove(user)
+                did_change = True
+                is_using = False
+
+        # Invalidate caches only if there was a change
+        if did_change:
+            self._invalidate_caches(package, user)
+
+        # Handle HTMX requests - return updated button partial
+        if self.request.htmx:
+            mobile = bool(request.GET.get("mobile"))
+            return render(
+                request,
+                "new/partials/usage_button.html",
+                {"package": package, "is_using": is_using, "mobile": mobile},
+            )
+
+        # Standard redirect for non-AJAX requests
+        next_url = (
+            request.GET.get("next")
+            or request.headers.get("Referer")
+            or reverse("package", kwargs={"slug": package.slug})
+        )
+        return HttpResponseRedirect(next_url)
 
 
 class PackageRulesView(DetailView):

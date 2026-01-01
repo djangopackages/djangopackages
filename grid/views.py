@@ -8,7 +8,11 @@ from django.contrib.auth.mixins import (
     UserPassesTestMixin,
     PermissionRequiredMixin,
 )
+from datetime import timedelta
+
 from django.db.models import Count, Max, Q
+from django.db.models.query import Prefetch
+from django.utils.timezone import now
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -21,12 +25,13 @@ from grid.forms import (
     ElementForm,
     FeatureForm,
     GridForm,
-    GridPackageFilterForm,
+    GridDetailFilterForm,
     GridFilterForm,
     GridPackageForm,
 )
 from grid.models import Element, Feature, Grid, GridPackage
 from package.models import Package
+from package.models import Commit, Version
 
 
 def build_element_map(elements):
@@ -36,6 +41,198 @@ def build_element_map(elements):
         element_map.setdefault(element.feature_id, {})
         element_map[element.feature_id][element.grid_package_id] = element
     return element_map
+
+
+class GridDetailView(DetailView):
+    model = Grid
+    template_name = "new/grid_detail.html"
+    context_object_name = "grid"
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
+
+    def get_filter_data(self):
+        """Get filter parameters from the form"""
+        self.filter_form = GridDetailFilterForm(self.request.GET)
+        filter_data = {
+            "python3": False,
+            "stable": False,
+            "sort": GridDetailFilterForm.SCORE,
+            "q": "",
+        }
+
+        if self.filter_form.is_valid():
+            cleaned = self.filter_form.cleaned_data
+            filter_data["python3"] = cleaned.get("python3", False)
+            filter_data["stable"] = cleaned.get("stable", False)
+            filter_data["sort"] = cleaned.get("sort") or GridDetailFilterForm.SCORE
+            filter_data["q"] = cleaned.get("q", "")
+
+        return filter_data
+
+    def get_grid_packages(self, grid, filter_data):
+        """Get filtered and sorted grid packages"""
+        cutoff = now() - timedelta(weeks=52)
+        grid_packages = (
+            grid.gridpackage_set.select_related(
+                "package",
+                "package__category",
+            )
+            .prefetch_related(
+                Prefetch(
+                    "package__version_set",
+                    queryset=Version.objects.only(
+                        "package_id",
+                        "number",
+                        "upload_time",
+                        "license",
+                        "licenses",
+                        "development_status",
+                        "supports_python3",
+                    ).order_by("-upload_time"),
+                    to_attr="_prefetched_versions",
+                ),
+                Prefetch(
+                    "package__commit_set",
+                    queryset=Commit.objects.filter(commit_date__gt=cutoff)
+                    .only("package_id", "commit_date")
+                    .order_by("-commit_date"),
+                    to_attr="_prefetched_commits_52w",
+                ),
+                "package__usage",
+            )
+            .filter(package__score__gte=max(0, settings.PACKAGE_SCORE_MIN))
+            .annotate(usage_count=Count("package__usage", distinct=True))
+            .annotate(last_commit_date=Max("package__commit__commit_date"))
+        )
+
+        # Apply search filter
+        if filter_data["q"]:
+            grid_packages = grid_packages.filter(
+                Q(package__title__icontains=filter_data["q"])
+                | Q(package__repo_description__icontains=filter_data["q"])
+            )
+
+        # Apply Python 3 filter
+        if filter_data["python3"]:
+            grid_packages = grid_packages.filter(
+                package__version__supports_python3=True
+            )
+
+        # Apply stable filter
+        if filter_data["stable"]:
+            grid_packages = grid_packages.filter(package__version__development_status=5)
+
+        # Apply sorting
+        sort = filter_data["sort"]
+        if sort == GridDetailFilterForm.COMMIT_DATE:
+            grid_packages = grid_packages.order_by("-last_commit_date")
+        elif sort == GridDetailFilterForm.WATCHERS:
+            grid_packages = grid_packages.order_by("-package__repo_watchers")
+        elif sort == GridDetailFilterForm.FORKS:
+            grid_packages = grid_packages.order_by("-package__repo_forks")
+        elif sort == GridDetailFilterForm.DOWNLOADS:
+            grid_packages = grid_packages.order_by("-package__pypi_downloads")
+        elif sort == GridDetailFilterForm.TITLE:
+            grid_packages = grid_packages.order_by("package__title")
+        else:
+            grid_packages = grid_packages.order_by("-package__score")
+
+        return grid_packages.distinct()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        grid = self.object
+
+        # Get filter data
+        filter_data = self.get_filter_data()
+
+        # Get filtered grid packages
+        grid_packages_qs = self.get_grid_packages(grid, filter_data)
+        grid_packages = list(grid_packages_qs)
+
+        # Get features
+        features = Feature.objects.filter(grid=grid).order_by("pk")
+
+        # Get elements for the grid
+        elements = Element.objects.filter(
+            feature__in=features, grid_package__in=grid_packages
+        ).select_related("feature", "grid_package")
+
+        element_map = build_element_map(elements)
+
+        # Build comparison data structure
+        # Each row represents a feature/attribute
+        # Each column represents a package
+        comparison_rows = self._build_comparison_rows(
+            grid_packages, features, element_map
+        )
+
+        context.update(
+            {
+                "grid_packages": grid_packages,
+                "features": features,
+                "element_map": element_map,
+                "filter_form": self.filter_form,
+                "filter_data": filter_data,
+                "comparison_rows": comparison_rows,
+                "package_count": len(grid_packages),
+            }
+        )
+        return context
+
+    def _build_comparison_rows(self, grid_packages, features, element_map):
+        """Build a structured list of comparison rows for the template"""
+        rows = []
+
+        # Standard package attributes
+        standard_attrs = [
+            ("description", _("Description"), "text"),
+            ("category", _("Category"), "text"),
+            ("usage_count", _("# Using This"), "number"),
+            ("python3", _("Python 3?"), "boolean"),
+            ("development_status", _("Development Status"), "text"),
+            ("last_updated", _("Last Updated"), "date"),
+            ("version", _("Version"), "text"),
+            ("repo", _("Repository"), "link"),
+            ("commits", _("Commits"), "sparkline"),
+            ("stars", _("Stars"), "number"),
+            ("score", _("Score"), "score"),
+            ("forks", _("Forks"), "number"),
+            ("participants", _("Contributors"), "list"),
+            ("documentation", _("Documentation"), "link"),
+            ("license", _("License"), "text"),
+        ]
+
+        for attr_key, attr_label, attr_type in standard_attrs:
+            rows.append(
+                {
+                    "key": attr_key,
+                    "label": attr_label,
+                    "type": attr_type,
+                    "is_feature": False,
+                }
+            )
+
+        # Add custom features
+        for feature in features:
+            rows.append(
+                {
+                    "key": f"feature_{feature.pk}",
+                    "label": feature.title,
+                    "type": "feature",
+                    "is_feature": True,
+                    "feature": feature,
+                }
+            )
+
+        return rows
+
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.htmx:
+            return render(
+                self.request, "new/partials/grid_comparison_table.html", context
+            )
+        return super().render_to_response(context, **response_kwargs)
 
 
 class GridListView(ListView):
@@ -373,104 +570,3 @@ class GridTimesheetView(DetailView):
             "-package__modified"
         ).select_related()
         return context
-
-
-def grid_detail(request, slug, template_name="grid/grid_detail.html"):
-    """displays a grid in detail
-
-    Template context:
-
-    * ``grid`` - the grid object
-    * ``elements`` - elements of the grid
-    * ``features`` - feature set used in the grid
-    * ``grid_packages`` - packages involved in the current grid
-    * ``filter_form`` - form for filtering the grid packages
-    """
-    grid = get_object_or_404(Grid, slug=slug)
-
-    # features = grid.feature_set.select_related(None)
-    features = Feature.objects.filter(grid=grid)
-    grid_packages = grid.grid_packages.select_related(
-        "package", "package__category"
-    ).filter(package__score__gte=max(0, settings.PACKAGE_SCORE_MIN))
-
-    filter_form = GridPackageFilterForm(request.GET)
-
-    if filter_form.is_valid():
-        python3 = filter_form.cleaned_data["python3"]
-        stable = filter_form.cleaned_data["stable"]
-        sort = filter_form.cleaned_data["sort"]
-
-        if python3:
-            grid_packages = grid_packages.filter(
-                package__version__supports_python3=python3
-            )
-
-        if stable:
-            grid_packages = grid_packages.filter(package__version__development_status=5)
-
-        if sort == GridPackageFilterForm.COMMIT_DATE:
-            grid_packages = grid_packages.annotate(
-                last_commit_date=Max("package__commit__commit_date")
-            ).order_by("-last_commit_date")
-        elif sort == GridPackageFilterForm.WATCHERS:
-            grid_packages = grid_packages.order_by("-package__repo_watchers")
-        elif sort == GridPackageFilterForm.FORKS:
-            grid_packages = grid_packages.order_by("-package__repo_forks")
-        elif sort == GridPackageFilterForm.DOWNLOADS:
-            grid_packages = grid_packages.order_by("-package__pypi_downloads")
-        else:
-            grid_packages = grid_packages.order_by("-package__score")
-    else:
-        grid_packages = grid_packages.order_by("-package__score")
-
-    elements = Element.objects.filter(
-        feature__in=features, grid_package__in=grid_packages
-    )
-
-    element_map = build_element_map(elements)
-
-    # These attributes are how we determine what is displayed in the grid
-    default_attributes = [
-        ("repo_description", "Description"),
-        ("category", "Category"),
-        ("pypi_downloads", "Downloads"),
-        ("last_updated", "Last Updated"),
-        ("pypi_version", "Version"),
-        ("repo", "Repo"),
-        ("commits_over_52", "Commits"),
-        ("repo_watchers", "Stars"),
-        ("score", "Score"),
-        ("repo_forks", "Forks"),
-        ("participant_list", "Participants"),
-        ("license_latest", "License"),
-    ]
-
-    return render(
-        request,
-        template_name,
-        {
-            "grid": grid,
-            "features": features,
-            "grid_packages": grid_packages,
-            "attributes": default_attributes,
-            "elements": element_map,
-            "filter_form": filter_form,
-        },
-    )
-
-
-def grid_detail_landscape(
-    request, slug, template_name="grid/grid_detail_landscape.html"
-):
-    """displays a grid in detail
-
-    Template context:
-
-    * ``grid`` - the grid object
-    * ``elements`` - elements of the grid
-    * ``features`` - feature set used in the grid
-    * ``grid_packages`` - packages involved in the current grid
-    """
-
-    return grid_detail(request, slug, template_name=template_name)

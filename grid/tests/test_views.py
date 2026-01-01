@@ -1,9 +1,6 @@
-from textwrap import dedent
-
 import pytest
 from django.conf import settings
 from django.contrib.auth.models import Permission, User
-from django.contrib.humanize.templatetags.humanize import intcomma
 from django.test import TestCase
 from django.urls import reverse
 from waffle.testutils import override_flag
@@ -28,17 +25,10 @@ class FunctionalGridTest(TestCase):
     @override_flag("enabled_packages_score_values", active=True)
     def test_grid_detail_view(self):
         url = reverse("grid", kwargs={"slug": "testing"})
-        with self.assertNumQueries(28):
+        with self.assertNumQueries(18):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "grid/grid_detail.html")
-
-    def test_grid_detail_landscape_view(self):
-        url = reverse("grid_landscape", kwargs={"slug": "testing"})
-        with self.assertNumQueries(24):
-            response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "grid/grid_detail_landscape.html")
+        self.assertTemplateUsed(response, "new/grid_detail.html")
 
     def test_add_grid_view(self):
         Grid.objects.all().delete()
@@ -103,40 +93,9 @@ class FunctionalGridTest(TestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "grid/grid_detail.html")
+        self.assertTemplateUsed(response, "new/grid_detail.html")
 
-        grid = Grid.objects.get(slug="testing")
-
-        self.assertContains(
-            response,
-            dedent(
-                """
-                    <td data-testid="grid-detail-score-header">
-                        Score
-                        <span
-                            class="glyphicon glyphicon-info-sign"
-                            data-toggle="tooltip"
-                            data-placement="top"
-                            title="Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%)."
-                        ></span>
-                    </td>
-                """
-            ),
-            html=True,
-        )
-
-        for package in grid.packages.all():
-            self.assertContains(
-                response,
-                dedent(
-                    f"""
-                        <td data-testid="grid-{package.slug}-detail-score-cell">
-                            {intcomma(package.score)}
-                        </td>
-                    """
-                ),
-                html=True,
-            )
+        self.assertContains(response, "Scores (0-100) are based on Repository stars")
 
     @override_flag("enabled_packages_score_values", active=False)
     @pytest.mark.deprecated(
@@ -150,11 +109,11 @@ class FunctionalGridTest(TestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "grid/grid_detail.html")
+        self.assertTemplateUsed(response, "new/grid_detail.html")
 
         self.assertNotContains(
             response,
-            '<td data-testid="grid-detail-score-header">',
+            "Scores (0-100) are based on Repository stars",
         )
 
     def test_add_feature_view(self):

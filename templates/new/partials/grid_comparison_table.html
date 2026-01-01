@@ -1,0 +1,660 @@
+{% load grid_tags humanize i18n package_tags static waffle_tags %}
+
+{% if grid_packages %}
+<!-- Desktop Table View -->
+    <div class="hidden overflow-hidden md:block card">
+        <div class="overflow-x-auto">
+            <table class="w-full grid-table">
+            <!-- Header Row - Package Names -->
+                <thead>
+                    <tr class="border-b bg-muted/50 border-border">
+                        <th class="sticky left-0 z-10 py-2.5 px-3 text-xs font-semibold tracking-wide text-left uppercase bg-muted/50 text-muted-foreground min-w-[140px]">
+                            {% translate "Package" %}
+                        </th>
+                        {% for grid_package in grid_packages %}
+                            <th class="py-2.5 px-3 text-center border-l border-border/50 min-w-[120px] max-w-[160px]">
+                                <a href="{{ grid_package.package.get_absolute_url }}"
+                                   class="flex flex-col gap-1 items-center transition-colors group hover:text-primary">
+                                    <span class="text-xs font-semibold leading-snug whitespace-normal group-hover:underline text-foreground group-hover:text-primary"
+                                          title="{{ grid_package.package.title }}">
+                                        {{ grid_package.package.title }}
+                                    </span>
+                                </a>
+                            </th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-border/50">
+
+                <!-- Description Row -->
+                    <tr class="transition-colors hover:bg-muted/30">
+                        <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
+                            <div class="flex gap-1.5 items-center">
+                                <i class="ph-bold ph-text-align-left text-primary"></i>
+                                {% translate "Description" %}
+                            </div>
+                        </td>
+                        {% for grid_package in grid_packages %}
+                            <td class="py-2.5 px-3 align-top border-l border-border/30">
+                                <div class="text-xs leading-relaxed whitespace-normal text-muted-foreground" title="{{ grid_package.package.repo_description }}">
+                                    {{ grid_package.package.repo_description|default:"-"|wordwrap:30|linebreaksbr|truncatechars:100 }}
+                                </div>
+                            </td>
+                        {% endfor %}
+                    </tr>
+
+                <!-- Category Row -->
+                    <tr class="transition-colors hover:bg-muted/30">
+                        <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
+                            <div class="flex gap-1.5 items-center">
+                                <i class="ph-bold ph-tag text-primary"></i>
+                                {% translate "Category" %}
+                            </div>
+                        </td>
+                        {% for grid_package in grid_packages %}
+                            <td class="py-2.5 px-3 text-center align-top border-l border-border/30">
+                                {% if grid_package.package.category %}
+                                    <a href="{{ grid_package.package.category.get_absolute_url }}" class="category-tag">
+                                        {{ grid_package.package.category.title }}
+                                    </a>
+                                {% else %}<span class="text-muted-foreground">-</span>{% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+
+                <!-- Usage Row - with HTMX usage button -->
+                    <tr class="transition-colors hover:bg-muted/30">
+                        <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
+                            <div class="flex gap-1.5 items-center">
+                                <i class="ph-bold ph-users text-primary"></i>
+                                {% translate "Using This" %}
+                            </div>
+                        </td>
+                        {% for grid_package in grid_packages %}
+                            <td class="py-2.5 px-3 text-center border-l border-border/30">
+                                <div class="flex justify-center items-center">
+                                    {% with package=grid_package.package is_using=grid_package.package.pk|is_in:used_packages_list %}
+                                        {% include "new/partials/usage_button.html" %}
+                                    {% endwith %}
+                                </div>
+                            </td>
+                        {% endfor %}
+                    </tr>
+
+                <!-- Python 3 Row - Colorful icons -->
+                    <tr class="transition-colors hover:bg-muted/30">
+                        <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
+                            <div class="flex gap-1.5 items-center">
+                                <i class="ph-bold ph-file-py text-primary"></i>
+                                {% translate "Python 3?" %}
+                            </div>
+                        </td>
+                        {% for grid_package in grid_packages %}
+                            <td class="py-2.5 px-3 text-center border-l border-border/30">
+                                {% if grid_package.package.supports_python3 %}
+                                    <span class="inline-flex gap-1 items-center py-0.5 px-2 text-xs font-medium text-emerald-600 rounded-md dark:text-emerald-400 bg-emerald-500/10">
+                                        <i class="text-xs ph-bold ph-check-circle"></i>
+                                        {% translate "Yes" %}
+                                    </span>
+                                {% else %}
+                                    <span class="inline-flex gap-1 items-center py-0.5 px-2 text-xs font-medium text-rose-600 rounded-md dark:text-rose-400 bg-rose-500/10">
+                                        <i class="text-xs ph-bold ph-x-circle"></i>
+                                        {% translate "No" %}
+                                    </span>
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+
+                <!-- Development Status Row -->
+                    <tr>
+                        <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
+                            <div class="flex gap-1.5 items-center">
+                                <i class="ph-bold ph-gear text-primary"></i>
+                                {% translate "Dev Status" %}
+                            </div>
+                        </td>
+                        {% for grid_package in grid_packages %}
+                            <td class="py-2.5 px-3 text-center align-top border-l border-border/30">
+                                {% if grid_package.package.development_status %}
+                                    <span class="inline-flex items-center py-0.5 px-2 text-xs rounded-md bg-muted text-muted-foreground" title="{{ grid_package.package.development_status }}">
+                                        {{ grid_package.package.development_status|truncatechars:16 }}
+                                    </span>
+                                {% else %}<span class="text-muted-foreground">-</span>{% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+
+                <!-- PyPI Version Row -->
+                    <tr class="transition-colors hover:bg-muted/30">
+                        <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
+                            <div class="flex gap-1.5 items-center">
+                                <i class="ph-bold ph-package text-primary"></i>
+                                {% translate "Version (PyPI)" %}
+                            </div>
+                        </td>
+                        {% for grid_package in grid_packages %}
+                            <td class="py-2.5 px-3 text-center border-l border-border/30">
+                                {% if grid_package.package.pypi_version %}
+                                    <a href="{{ grid_package.package.pypi_url }}"
+                                       class="font-mono category-tag"
+                                       target="_blank" rel="noopener">
+                                        {{ grid_package.package.pypi_version|truncatechars:10 }}
+                                    </a>
+                                {% else %}<span class="text-muted-foreground">-</span>{% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+
+                <!-- Stars Row -->
+                    <tr class="transition-colors hover:bg-muted/30">
+                        <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
+                            <div class="flex gap-1.5 items-center">
+                                <i class="ph-bold ph-star text-primary"></i>
+                                {% translate "Stars" %}
+                            </div>
+                        </td>
+                        {% for grid_package in grid_packages %}
+                            <td class="py-2.5 px-3 text-center border-l border-border/30">
+                                <span class="text-xs font-medium text-foreground" data-abbreviate>
+                                    {{ grid_package.package.repo_watchers|default:0|intcomma }}
+                                </span>
+                            </td>
+                        {% endfor %}
+                    </tr>
+
+                <!-- Forks Row -->
+                    <tr class="transition-colors hover:bg-muted/30">
+                        <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
+                            <div class="flex gap-1.5 items-center">
+                                <i class="ph-bold ph-git-fork text-primary"></i>
+                                {% translate "Forks" %}
+                            </div>
+                        </td>
+                        {% for grid_package in grid_packages %}
+                            <td class="py-2.5 px-3 text-center border-l border-border/30">
+                                <span class="text-xs text-muted-foreground" data-abbreviate>
+                                    {{ grid_package.package.repo_forks|default:0|intcomma }}
+                                </span>
+                            </td>
+                        {% endfor %}
+                    </tr>
+
+                <!-- Commits Row with SVG Sparkline from original template -->
+                    <tr class="transition-colors hover:bg-muted/30">
+                        <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
+                            <div class="flex gap-1.5 items-center">
+                                <i class="ph-bold ph-git-commit text-primary"></i>
+                                {% translate "Commits" %}
+                            </div>
+                        </td>
+                        {% for grid_package in grid_packages %}
+                            <td class="py-2.5 px-3 text-center border-l border-border/30">
+                                {% include "package/includes/_commits.html" with value=grid_package.package.commits_over_52 graph_width=70 graph_height=20 %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+
+                <!-- Last Updated Row - Date, Month, Year format -->
+                    <tr class="transition-colors hover:bg-muted/30">
+                        <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
+                            <div class="flex gap-1.5 items-center">
+                                <i class="ph-bold ph-clock text-primary"></i>
+                                {% translate "Updated" %}
+                            </div>
+                        </td>
+                        {% for grid_package in grid_packages %}
+                            <td class="py-2.5 px-3 text-center border-l border-border/30">
+                                {% if grid_package.last_commit_date %}
+                                    <span class="text-xs text-muted-foreground">
+                                        {{ grid_package.last_commit_date|date:"j M Y" }}
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted-foreground">-</span>
+                                {% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+
+                <!-- Score Row with working tooltip -->
+                    {% flag "enabled_packages_score_values" %}
+                        <tr class="transition-colors hover:bg-muted/30">
+                            <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
+                                <div class="flex gap-1.5 items-center">
+                                    <i class="ph-bold ph-trophy text-primary"></i>
+                                    {% translate "Score" %}
+                                    <div class="relative group/tooltip">
+                                        <i class="text-xs ph-bold ph-info text-muted-foreground/50 cursor-help"></i>
+                                        <div class="absolute left-1/2 bottom-full invisible z-50 py-2 px-3 mb-2 max-w-xs text-xs text-white whitespace-normal bg-gray-900 rounded-lg shadow-lg opacity-0 transition-all duration-200 -translate-x-1/2 group-hover/tooltip:visible group-hover/tooltip:opacity-100">
+                                            {% translate "Scores (0-100) are based on Repository stars, with penalties for inactivity (-10% every 3 months) and no Python 3 support (-30%)." %}
+                                            <div class="absolute left-1/2 top-full border-transparent -translate-x-1/2 border-6 border-t-gray-900"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            {% for grid_package in grid_packages %}
+                                <td class="py-2.5 px-3 text-center border-l border-border/30">
+                                    <span class="text-xs font-medium text-foreground">
+                                        {{ grid_package.package.score|default:0 }}
+                                    </span>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endflag %}
+
+                <!-- License Row -->
+                    <tr class="transition-colors hover:bg-muted/30">
+                        <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
+                            <div class="flex gap-1.5 items-center">
+                                <i class="ph-bold ph-scales text-primary"></i>
+                                {% translate "License" %}
+                            </div>
+                        </td>
+                        {% for grid_package in grid_packages %}
+                            <td class="py-2.5 px-3 text-center border-l border-border/30">
+                                {% if grid_package.package.license_latest %}
+                                    <span class="text-xs text-muted-foreground" title="{{ grid_package.package.license_latest }}">
+                                        {{ grid_package.package.license_latest|truncatechars:12 }}
+                                    </span>
+                                {% else %}<span class="text-muted-foreground">-</span>{% endif %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+
+                <!-- Repo Links Row -->
+                    <tr class="transition-colors hover:bg-muted/30">
+                        <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
+                            <div class="flex gap-1.5 items-center">
+                                <i class="ph-bold ph-link text-primary"></i>
+                                {% translate "Links" %}
+                            </div>
+                        </td>
+                        {% for grid_package in grid_packages %}
+                            <td class="py-2.5 px-3 text-center border-l border-border/30">
+                                <div class="flex gap-1 justify-center items-center">
+                                    {% if grid_package.package.repo_url %}
+                                        <a href="{{ grid_package.package.repo_url }}"
+                                           class="p-1.5 rounded-md transition-colors text-muted-foreground hover:bg-muted hover:text-foreground"
+                                           target="_blank" rel="noopener" title="{% translate 'Repository' %}">
+                                            <i class="text-sm ph-bold ph-github-logo"></i>
+                                        </a>
+                                    {% endif %}
+                                    {% if grid_package.package.pypi_url %}
+                                        <a href="{{ grid_package.package.pypi_url }}"
+                                           class="p-1.5 rounded-md transition-colors text-muted-foreground hover:bg-muted hover:text-foreground"
+                                           target="_blank" rel="noopener" title="{% translate 'PyPI' %}">
+                                            <i class="text-sm ph-bold ph-file-py"></i>
+                                        </a>
+                                    {% endif %}
+                                    {% if grid_package.package.documentation_url %}
+                                        <a href="{{ grid_package.package.documentation_url }}"
+                                           class="p-1.5 rounded-md transition-colors text-muted-foreground hover:bg-muted hover:text-foreground"
+                                           target="_blank" rel="noopener" title="{% translate 'Documentation' %}">
+                                            <i class="text-sm ph-bold ph-book-open"></i>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        {% endfor %}
+                    </tr>
+
+                <!-- Custom Features Section Header -->
+                    {% if features %}
+                        <tr class="bg-primary/5">
+                            <td colspan="{{ grid_packages|length|add:1 }}" class="py-2.5 px-3">
+                                <div class="flex gap-2 items-center text-xs font-semibold text-foreground">
+                                    <i class="ph-bold ph-list-checks text-primary"></i>
+                                    {% translate "Feature Comparison" %}
+                                    <span class="ml-1 font-normal text-muted-foreground">
+                                        ({% translate "click cells to edit" %})
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endif %}
+
+                <!-- Custom Features - Multi-line support, clear editable indication -->
+                    {% for feature in features %}
+                        <tr class="transition-colors hover:bg-muted/30">
+                            <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium align-top bg-card text-muted-foreground max-w-[180px]">
+                                <div class="flex gap-1.5 items-start">
+                                    <i class="flex-shrink-0 mt-0.5 ph-bold ph-check-square text-primary"></i>
+                                    <span class="leading-relaxed whitespace-normal break-words" title="{{ feature.title }}">{{ feature.title }}</span>
+                                    {% if perms.grid.change_feature %}
+                                        <a href="{% url 'edit_feature' feature.pk %}"
+                                           class="flex-shrink-0 opacity-40 transition-opacity hover:opacity-100"
+                                           title="{% translate 'Edit feature' %}">
+                                            <i class="text-xs ph-bold ph-pencil-simple"></i>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            {% for grid_package in grid_packages %}
+                                {% with element=element_map|get_item:feature.pk|get_item:grid_package.pk %}
+                                    <td class="px-3 py-2.5 text-center border-l border-border/30 align-top max-w-[140px]
+                                               {% if perms.grid.change_element or perms.grid.add_element %}cursor-pointer hover:bg-primary/5 group{% endif %}"
+                                        {% if perms.grid.change_element or perms.grid.add_element %}
+                                            onclick="window.location.href='{% url 'edit_element' feature_id=feature.pk package_id=grid_package.pk %}'"
+                                            title="{% translate 'Click to edit' %}"
+                                        {% endif %}>
+                                        {% if element %}
+                                            {% if element.text %}
+                                                <span class="block overflow-hidden text-xs leading-relaxed whitespace-normal break-words text-muted-foreground">
+                                                    {{ element.text|style_element|safe|urlize|linebreaksbr }}
+                                                </span>
+                                            {% elif element.value %}
+                                                <span class="inline-flex justify-center items-center w-5 h-5 rounded-full bg-emerald-500/10">
+                                                    <i class="text-xs text-emerald-600 dark:text-emerald-400 ph-bold ph-check"></i>
+                                                </span>
+                                            {% else %}
+                            {# Empty cell with edit icon on hover #}
+                                                <span class="inline-flex justify-center items-center w-5 h-5 transition-colors text-muted-foreground/30 group-hover:text-primary/50">
+                                                    <i class="text-xs opacity-0 transition-opacity group-hover:opacity-100 ph-bold ph-pencil-simple"></i>
+                                                </span>
+                                            {% endif %}
+                                        {% else %}
+                            {# No element - show edit icon on hover for admins #}
+                                            {% if perms.grid.add_element %}
+                                                <span class="inline-flex justify-center items-center w-5 h-5 transition-colors text-muted-foreground/30 group-hover:text-primary">
+                                                    <i class="text-xs opacity-0 transition-opacity group-hover:opacity-100 ph-bold ph-pencil-simple"></i>
+                                                </span>
+                                            {% else %}
+                                                <span class="text-muted-foreground/30">—</span>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                {% endwith %}
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+
+                <!-- Remove from Grid Row (Admin only) -->
+                    {% if perms.grid.delete_gridpackage %}
+                        <tr class="border-t bg-destructive/5 border-destructive/20">
+                            <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-destructive/5 text-destructive">
+                                <div class="flex gap-1.5 items-center">
+                                    <i class="ph-bold ph-trash"></i>
+                                    {% translate "Remove" %}
+                                </div>
+                            </td>
+                            {% for grid_package in grid_packages %}
+                                <td class="py-2.5 px-3 text-center border-l border-destructive/10">
+                                    <a href="{% url 'delete_grid_package' grid_package.pk %}"
+                                       class="inline-flex gap-1 justify-center items-center py-1 px-2 text-xs font-medium rounded-md transition-colors hover:text-white text-destructive bg-destructive/10 hover:bg-destructive"
+                                       title="{% translate 'Remove from grid' %}">
+                                        <i class="text-xs ph-bold ph-x"></i>
+                                    </a>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endif %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+<!-- Mobile Comparison View - Side by side swipeable cards -->
+    <div class="md:hidden">
+    <!-- Mobile Package Selector -->
+        <div class="flex overflow-x-auto gap-2 pb-3 mb-4 scrollbar-hide">
+            {% for grid_package in grid_packages %}
+                <button type="button"
+                        class="mobile-pkg-btn flex-shrink-0 px-3 py-2 text-xs font-medium rounded-lg border transition-all
+                               {% if forloop.first %}bg-primary text-primary-foreground border-primary{% else %}bg-card text-foreground border-border hover:border-primary{% endif %}"
+                        data-pkg-index="{{ forloop.counter0 }}">
+                    {{ grid_package.package.title|truncatechars:12 }}
+                </button>
+            {% endfor %}
+        </div>
+
+    <!-- Mobile Comparison Cards -->
+        <div class="overflow-hidden relative mobile-pkg-swipe-area touch-pan-y">
+            <div class="flex transition-transform duration-300 mobile-pkg-cards" style="touch-action: pan-y pinch-zoom;">
+                {% for grid_package in grid_packages %}
+                    <div class="overflow-hidden flex-shrink-0 w-full mobile-pkg-card card">
+                <!-- Package Header -->
+                        <div class="p-4 bg-primary/10">
+                            <div class="flex gap-3 justify-between items-start">
+                                <div class="flex flex-1 gap-3 items-start min-w-0">
+                                    <a href="{{ grid_package.package.get_absolute_url }}" class="flex-shrink-0">
+                                        <div class="flex justify-center items-center w-10 h-10 rounded-lg bg-primary/20">
+                                            <i class="text-lg ph-bold ph-package text-primary"></i>
+                                        </div>
+                                    </a>
+                                    <div class="flex-1 min-w-0">
+                                        <a href="{{ grid_package.package.get_absolute_url }}" class="block">
+                                            <h3 class="text-sm font-bold leading-tight hover:underline text-foreground">{{ grid_package.package.title }}</h3>
+                                        </a>
+                                        {% if grid_package.package.category %}
+                                            <a href="{{ grid_package.package.category.get_absolute_url }}" class="inline-block mt-1.5 category-tag text-[10px]">
+                                                {{ grid_package.package.category.title }}
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% with package=grid_package.package is_using=grid_package.package.pk|is_in:used_packages_list %}
+                                    <div id="mobile-usage-btn-{{ package.id }}" class="flex flex-shrink-0 gap-1.5 items-center">
+                                        {% if request.user.is_authenticated %}
+                                            {% if is_using %}
+                                                <button type="button"
+                                                        class="inline-flex justify-center items-center w-7 h-7 text-emerald-600 rounded-md border transition-colors hover:border-emerald-500 border-emerald-500/50 bg-emerald-500/10 hover:bg-emerald-500/20"
+                                                        hx-get="{% url 'usage' package.slug 'remove' %}?htmx=1&mobile=1"
+                                                        hx-target="#mobile-usage-btn-{{ package.id }}"
+                                                        hx-swap="outerHTML"
+                                                        title="{% translate 'Remove from usage list' %}">
+                                                    <i class="text-sm ph-bold ph-minus"></i>
+                                                </button>
+                                            {% else %}
+                                                <button type="button"
+                                                        class="inline-flex justify-center items-center w-7 h-7 rounded-md border transition-colors border-border bg-muted/50 text-muted-foreground hover:bg-muted hover:border-muted-foreground/50"
+                                                        hx-get="{% url 'usage' package.slug 'add' %}?htmx=1&mobile=1"
+                                                        hx-target="#mobile-usage-btn-{{ package.id }}"
+                                                        hx-swap="outerHTML"
+                                                        title="{% translate 'Add to usage list' %}">
+                                                    <i class="text-sm ph-bold ph-plus"></i>
+                                                </button>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                {% endwith %}
+                            </div>
+                        </div>
+
+                <!-- Package Stats -->
+                        <div class="p-4">
+                    <!-- Description -->
+                            {% if grid_package.package.repo_description %}
+                                <p class="mb-4 text-sm text-muted-foreground">
+                                    {{ grid_package.package.repo_description }}
+                                </p>
+                            {% endif %}
+
+                    <!-- Stats Grid -->
+                            <div class="grid grid-cols-4 gap-3 mb-4">
+                                <div class="p-2 text-center rounded-lg bg-muted/50">
+                                    <div class="text-lg font-bold text-foreground" data-abbreviate>{{ grid_package.package.repo_watchers|default:0|intcomma }}</div>
+                                    <div class="uppercase text-[10px] text-muted-foreground">{% translate "Stars" %}</div>
+                                </div>
+                                <div class="p-2 text-center rounded-lg bg-muted/50">
+                                    <div class="text-lg font-bold text-foreground" data-abbreviate>{{ grid_package.package.repo_forks|default:0|intcomma }}</div>
+                                    <div class="uppercase text-[10px] text-muted-foreground">{% translate "Forks" %}</div>
+                                </div>
+                                <div class="p-2 text-center rounded-lg bg-muted/50">
+                                    <div class="text-lg font-bold text-foreground">{{ grid_package.usage_count|default:0 }}</div>
+                                    <div class="uppercase text-[10px] text-muted-foreground">{% translate "Usage" %}</div>
+                                </div>
+                                <div class="p-2 text-center rounded-lg bg-muted/50">
+                                    {% if grid_package.package.supports_python3 %}
+                                        <div class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-emerald-500/10">
+                                            <i class="text-emerald-600 dark:text-emerald-400 ph-bold ph-check"></i>
+                                        </div>
+                                    {% else %}
+                                        <div class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-rose-500/10">
+                                            <i class="text-rose-600 dark:text-rose-400 ph-bold ph-x"></i>
+                                        </div>
+                                    {% endif %}
+                                    <div class="uppercase text-[10px] text-muted-foreground">{% translate "Py3" %}</div>
+                                </div>
+                            </div>
+
+                    <!-- Info List -->
+                            <div class="pt-4 space-y-2 text-sm border-t border-border">
+                                {% if grid_package.package.development_status %}
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-muted-foreground">{% translate "Status" %}</span>
+                                        <span class="inline-flex items-center py-0.5 px-2 text-xs rounded-md bg-muted text-muted-foreground" title="{{ grid_package.package.development_status }}">
+                                            {{ grid_package.package.development_status|truncatechars:16 }}
+                                        </span>
+                                    </div>
+                                {% endif %}
+                                {% if grid_package.package.pypi_version %}
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-muted-foreground">{% translate "Version" %}</span>
+                                        <a href="{{ grid_package.package.pypi_url }}" class="font-mono category-tag" target="_blank">
+                                            {{ grid_package.package.pypi_version|truncatechars:10 }}
+                                        </a>
+                                    </div>
+                                {% endif %}
+                                {% if grid_package.last_commit_date %}
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-muted-foreground">{% translate "Updated" %}</span>
+                                        <span class="text-foreground">
+                                            {{ grid_package.last_commit_date|date:"j M Y" }}
+                                        </span>
+                                    </div>
+                                {% endif %}
+                                {% if grid_package.package.license_latest %}
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-muted-foreground">{% translate "License" %}</span>
+                                        <span class="text-xs text-muted-foreground" title="{{ grid_package.package.license_latest }}">{{ grid_package.package.license_latest|truncatechars:12 }}</span>
+                                    </div>
+                                {% endif %}
+                                <div class="flex justify-between items-center">
+                                    <span class="text-muted-foreground">{% translate "Commits" %}</span>
+                                    <div class="flex-shrink-0">
+                                        {% include "package/includes/_commits.html" with value=grid_package.package.commits_over_52 graph_width=60 graph_height=16 %}
+                                    </div>
+                                </div>
+                                {% flag "enabled_packages_score_values" %}
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-muted-foreground">{% translate "Score" %}</span>
+                                        <span class="font-medium text-foreground">
+                                            {{ grid_package.package.score|default:0 }}
+                                        </span>
+                                    </div>
+                                {% endflag %}
+                            </div>
+
+                    <!-- Links -->
+                            <div class="flex gap-2 items-center pt-4 mt-4 border-t border-border">
+                                {% if grid_package.package.repo_url %}
+                                    <a href="{{ grid_package.package.repo_url }}"
+                                       class="flex flex-1 gap-2 justify-center items-center p-2 rounded-lg transition-colors bg-muted text-muted-foreground hover:text-foreground"
+                                       target="_blank" rel="noopener">
+                                        <i class="ph-bold ph-github-logo"></i>
+                                        <span class="text-xs">{% translate "Repo" %}</span>
+                                    </a>
+                                {% endif %}
+                                {% if grid_package.package.pypi_url %}
+                                    <a href="{{ grid_package.package.pypi_url }}"
+                                       class="flex flex-1 gap-2 justify-center items-center p-2 rounded-lg transition-colors bg-muted text-muted-foreground hover:text-foreground"
+                                       target="_blank" rel="noopener">
+                                        <i class="ph-bold ph-file-py"></i>
+                                        <span class="text-xs">{% translate "PyPI" %}</span>
+                                    </a>
+                                {% endif %}
+                                {% if grid_package.package.documentation_url %}
+                                    <a href="{{ grid_package.package.documentation_url }}"
+                                       class="flex flex-1 gap-2 justify-center items-center p-2 rounded-lg transition-colors bg-muted text-muted-foreground hover:text-foreground"
+                                       target="_blank" rel="noopener">
+                                        <i class="ph-bold ph-book-open"></i>
+                                        <span class="text-xs">{% translate "Docs" %}</span>
+                                    </a>
+                                {% endif %}
+                            </div>
+
+                    <!-- Feature Comparison -->
+                            {% if features %}
+                                <div class="pt-4 mt-4 border-t border-border">
+                                    <div class="flex gap-2 items-center mb-3 text-xs font-semibold text-foreground">
+                                        <i class="ph-bold ph-list-checks text-primary"></i>
+                                        {% translate "Features" %}
+                                    </div>
+                                    <div class="space-y-2">
+                                        {% for feature in features %}
+                                            {% with element=element_map|get_item:feature.pk|get_item:grid_package.pk %}
+                                                <div class="flex gap-2 justify-between items-start py-1.5 border-b last:border-0 border-border/50">
+                                                    <span class="text-xs text-muted-foreground" title="{{ feature.title }}">{{ feature.title }}</span>
+                                                    {% if element %}
+                                                        {% if element.text %}
+                                                            <span class="text-xs font-medium text-foreground text-right flex-shrink-0 max-w-[50%]">{{ element.text|style_element|safe|urlize|linebreaksbr }}</span>
+                                                        {% elif element.value %}
+                                                            <span class="inline-flex justify-center items-center w-5 h-5 rounded-full bg-emerald-500/10">
+                                                                <i class="text-xs text-emerald-600 dark:text-emerald-400 ph-bold ph-check"></i>
+                                                            </span>
+                                                        {% else %}
+                                                            <span class="text-muted-foreground/30">—</span>
+                                                        {% endif %}
+                                                    {% else %}
+                                                        <span class="text-muted-foreground/30">—</span>
+                                                    {% endif %}
+                                                </div>
+                                            {% endwith %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                    <!-- Remove from Grid (Admin only) -->
+                            {% if perms.grid.delete_gridpackage %}
+                                <div class="pt-4 mt-4 border-t border-border">
+                                    <a href="{% url 'delete_grid_package' grid_package.pk %}"
+                                       class="flex gap-2 justify-center items-center p-2 rounded-lg transition-colors text-destructive/70 hover:text-destructive hover:bg-destructive/10">
+                                        <i class="ph-bold ph-trash"></i>
+                                        <span class="text-xs">{% translate "Remove from Grid" %}</span>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    <!-- Mobile Navigation Dots -->
+        {% if grid_packages|length > 1 %}
+            <div class="flex gap-2 justify-center mt-4">
+                {% for grid_package in grid_packages %}
+                    <button type="button"
+                            class="mobile-pkg-dot w-2 h-2 rounded-full transition-all {% if forloop.first %}bg-primary w-4{% else %}bg-muted-foreground/30{% endif %}"
+                            data-pkg-index="{{ forloop.counter0 }}"></button>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+{% else %}
+<!-- Empty State -->
+    <div class="p-12 text-center card">
+        <div class="flex justify-center items-center mx-auto mb-4 w-16 h-16 rounded-2xl bg-muted">
+            <i class="text-3xl ph-bold ph-package text-muted-foreground"></i>
+        </div>
+        <h3 class="mb-2 text-lg font-semibold text-foreground">
+            {% translate "No packages found" %}
+        </h3>
+        <p class="mb-4 text-sm text-muted-foreground">
+            {% translate "Try adjusting your search or filter criteria, or add a package to this grid." %}
+        </p>
+        {% if perms.grid.add_gridpackage %}
+            <a href="{% url 'add_grid_package' grid.slug %}"
+               class="inline-flex gap-2 items-center py-2 px-4 font-medium rounded-lg transition-colors bg-primary text-primary-foreground hover:bg-primary/90">
+                <i class="ph-bold ph-plus-circle"></i>
+                {% translate "Add Package" %}
+            </a>
+        {% endif %}
+    </div>
+{% endif %}
+{% block extra_js %}
+    <script type="module" src="{% static 'js/svg-sparkline.js' %}"></script>
+{% endblock extra_js %}
