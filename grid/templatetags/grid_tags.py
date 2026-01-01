@@ -6,7 +6,6 @@ import re
 from django import template
 from django.conf import settings
 from django.template.defaultfilters import escape, truncatewords
-from django.template.loader import render_to_string
 
 register = template.Library()
 
@@ -75,38 +74,6 @@ def hash(h, key):
     Code there, and possible here, should be refactored.
     """
     return h.get(key, {})
-
-
-@register.filter
-def style_attribute(attribute_name, package):
-    mappings = {
-        "title": style_title,
-        "repo_description": style_repo_description,
-        "commits_over_52": style_commits,
-    }
-
-    as_var = template.Variable("package." + attribute_name)
-    try:
-        value = as_var.resolve({"package": package})
-    except template.VariableDoesNotExist:
-        value = ""
-
-    if attribute_name in list(mappings.keys()):
-        return mappings[attribute_name](value)
-
-    return style_default(value)
-
-
-@register.filter
-def style_title(value):
-    value = value[:20]
-    return render_to_string("grid/snippets/_title.html", {"value": value})
-
-
-def style_commits(value):
-    return render_to_string(
-        "package/includes/_commits.html", {"value": value, "graph_width": 45}
-    )
 
 
 @register.filter

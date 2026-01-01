@@ -8,7 +8,6 @@ from django.http import (
 from django.utils.translation import gettext as _
 from django.views.generic import ListView, TemplateView, View
 
-from homepage.views import HomepageView
 from searchv2.builders import build_1
 from searchv2.forms import SearchForm
 from searchv2.models import SearchV2
@@ -51,61 +50,6 @@ def search_function(q: str, max_weight: int = 1):
     return items
 
 
-# def search(request, template_name="searchv2/search.html"):
-#     """
-#     Searches in Grids and Packages
-#     """
-#     q = request.GET.get("q", "")
-
-#     if "/" in q:
-#         lst = q.split("/")
-#         try:
-#             if lst[-1]:
-#                 q = lst[-1]
-#             else:
-#                 q = lst[-2]
-#         except IndexError:
-#             pass
-#     try:
-#         package = Package.objects.get(title=q)
-#         url = reverse("package", args=[package.slug.lower()])
-#         return HttpResponseRedirect(url)
-#     except Package.DoesNotExist:
-#         pass
-#     except Package.MultipleObjectsReturned:
-#         pass
-
-#     try:
-#         package = Package.objects.get(slug=q)
-#         url = reverse("package", args=[package.slug.lower()])
-#         return HttpResponseRedirect(url)
-#     except Package.DoesNotExist:
-#         pass
-#     except Package.MultipleObjectsReturned:
-#         pass
-
-#     form = SearchForm(request.GET or None)
-
-#     return render(
-#         request,
-#         template_name,
-#         {
-#             "items": search_function(q),
-#             "form": form,
-#             "max_weight": SearchV2.objects.all().aggregate(Max("weight"))[
-#                 "weight__max"
-#             ],
-#         },
-#     )
-
-
-def search2(request, template_name="searchv2/search.html"):
-    """
-    Searches in Grids and Packages
-    """
-    return HomepageView.as_view(template_name=template_name)(request)
-
-
 class SearchSuggestionsView(ListView):
     model = SearchV2
     template_name = "new/partials/suggestions.html"
@@ -140,62 +84,6 @@ class SearchSuggestionsView(ListView):
             }
         )
         return context
-
-
-# def search3(request, template_name="search/search.html"):
-#     """
-#     Searches in Grids and Packages
-#     """
-
-#     if q := request.GET.get("q", ""):
-#         query = q
-#     elif q := request.GET.get("term", ""):
-#         query = q
-#     elif q := request.GET.get("search", ""):
-#         query = q
-#     else:
-#         query = ""
-
-#     if "/" in query:
-#         lst = query.split("/")
-#         try:
-#             if lst[-1]:
-#                 query = lst[-1]
-#             else:
-#                 query = lst[-2]
-#         except IndexError:
-#             pass
-
-#     if request.htmx:
-#         template_name = "search/search_partial.html"
-#     else:
-#         template_name = "search/search.html"
-
-#         try:
-#             package = Package.objects.get(title=q)
-#             url = reverse("package", args=[package.slug.lower()])
-#             return HttpResponseRedirect(url)
-#         except (Package.DoesNotExist, Package.MultipleObjectsReturned):
-#             pass
-
-#         try:
-#             package = Package.objects.get(slug=q)
-#             url = reverse("package", args=[package.slug.lower()])
-#             return HttpResponseRedirect(url)
-#         except (Package.DoesNotExist, Package.MultipleObjectsReturned):
-#             pass
-
-#     max_weight = SearchV2.objects.only("weight").aggregate(max_weight=Max("weight"))[
-#         "max_weight"
-#     ]
-
-#     return render(
-#         request,
-#         template_name,
-#         {
-#             "items": search_function(query, max_weight=max_weight or 1)[:20],
-#         },
-#     )
 
 
 class OpenSearchDescription(TemplateView):

@@ -9,16 +9,6 @@ urlpatterns = [
         name="build_search",
     ),
     path(
-        "",
-        view=views.search2,
-        name="search",
-    ),
-    # path(
-    #     "v3/",
-    #     view=views.search3,
-    #     name="search_v3",
-    # ),
-    path(
         "opensearch/description/",
         views.OpenSearchDescription.as_view(
             content_type="application/opensearchdescription+xml"

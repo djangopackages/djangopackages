@@ -2,7 +2,6 @@ import emoji
 from django import template
 from django.template.defaultfilters import stringfilter
 
-from package.context_processors import used_packages_list
 
 register = template.Library()
 
@@ -36,20 +35,6 @@ def participant_url(parser, token):
 @register.filter
 def commits_over_52(package):
     return package.commits_over_52()
-
-
-@register.inclusion_tag("package/templatetags/_usage_button.html", takes_context=True)
-def usage_button(context):
-    response = used_packages_list(context["request"])
-    response["STATIC_URL"] = context["STATIC_URL"]
-    response["package"] = context["package"]
-    if context["package"].pk in response["used_packages_list"]:
-        response["usage_action"] = "remove"
-        response["image"] = "usage_triangle_filled"
-    else:
-        response["usage_action"] = "add"
-        response["image"] = "usage_triangle_hollow"
-    return response
 
 
 @register.filter()

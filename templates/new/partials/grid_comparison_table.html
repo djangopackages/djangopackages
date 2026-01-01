@@ -190,7 +190,7 @@
                         </td>
                         {% for grid_package in grid_packages %}
                             <td class="py-2.5 px-3 text-center border-l border-border/30">
-                                {% include "package/includes/_commits.html" with value=grid_package.package.commits_over_52 graph_width=70 graph_height=20 %}
+                                {% include "new/partials/_commits.html" with value=grid_package.package.commits_over_52 graph_width=70 graph_height=20 %}
                             </td>
                         {% endfor %}
                     </tr>
@@ -533,7 +533,7 @@
                                 <div class="flex justify-between items-center">
                                     <span class="text-muted-foreground">{% translate "Commits" %}</span>
                                     <div class="flex-shrink-0">
-                                        {% include "package/includes/_commits.html" with value=grid_package.package.commits_over_52 graph_width=60 graph_height=16 %}
+                                        {% include "new/partials/_commits.html" with value=grid_package.package.commits_over_52 graph_width=60 graph_height=16 %}
                                     </div>
                                 </div>
                                 {% flag "enabled_packages_score_values" %}
