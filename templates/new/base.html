@@ -1,4 +1,4 @@
-{% load i18n page_metadata_tags static tailwind_cli %}
+{% load i18n page_metadata_tags static tailwind_cli waffle_tags %}
 
 <!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}" {% block angular_header %}ng-app{% endblock %}>
@@ -13,6 +13,10 @@
         <link rel="stylesheet" href="{% static "css/phosphor-icons/bold.min.css" %}" type="text/css" />
         <link rel="shortcut icon" href="{% static "img/favicon.png" %}" />
         {% block extra_head %}{% endblock %}
+
+        {% switch "switch_use_ethical_ads" %}
+            {% include "includes/_ethicalads-js.html" %}
+        {% endswitch %}
     </head>
     <body class="flex flex-col min-h-screen bg-background">
         {% include 'new/partials/navbar.html' %}

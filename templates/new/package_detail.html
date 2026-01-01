@@ -170,6 +170,8 @@
                     </div>
                 </div>
 
+                {% include "includes/_ethicalads-tag.html" with ea_type="text" ea_id="package-detail-inline" ea_outer_class="my-2" ea_inner_class="flex justify-center" %}
+
                 <!-- Commit Graph Card -->
                 <div class="card">
                     <div class="card-header">
@@ -443,6 +445,8 @@
                         {% endif %}
                     </div>
                 </div>
+
+                {% include "includes/_ethicalads-tag.html" with ea_type="image" ea_id="package-detail-sidebar" ea_variant="vertical" ea_outer_class="my-2" ea_inner_class="flex justify-center" %}
 
                 <!-- Sites using this package Card -->
                 <div id="sites-using-card" class="card">

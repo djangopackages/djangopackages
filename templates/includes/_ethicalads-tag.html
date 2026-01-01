@@ -5,10 +5,26 @@ https://ethical-ad-client.readthedocs.io/
 
 PARAMETERS:
 
-    - ea_type - use a text-only ad if this is set to "text". Otherwise use an image
-    - ea_id - set the ID on the DOM. EthicalAds reporting can report on different IDs differently
+    - ea_type - "text" for text-only ads, "image" for image ads (default: image)
+    - ea_id - set the ID on the DOM for placement reporting
+
+OPTIONAL PARAMETERS:
+
+    - ea_outer_class - classes applied to the outer wrapper (margins/padding)
+    - ea_inner_class - classes applied to inner wrapper (width/flex)
+    - ea_variant - "horizontal" (wide) or "vertical" (square/tall) for image ads
+    - ea_theme - "raised" (default), "flat", or "bordered"
 {% endcomment %}
 {% load waffle_tags %}
 {% switch "switch_use_ethical_ads" %}
-    <div class="horizontal" style="min-height: {% if ea_type == 'text' %}80{% else %}180{% endif %}px" data-ea-publisher="djangopackagesorg" {% if ea_id %}id="{{ ea_id }}"{% endif %} data-ea-type="{% if ea_type == 'text' %}text{% else %}image{% endif %}"></div>
+    <div class="ethicalads-slot {{ ea_outer_class|default:'' }}" data-ethicalads-slot hidden>
+        <div class="{{ ea_inner_class|default:'' }}">
+            <div
+                class="{% if ea_type != 'text' and ea_variant == 'horizontal' %}horizontal {% endif %}{{ ea_theme|default:'flat' }}"
+                data-ea-publisher="djangopackagesorg"
+                {% if ea_id %}id="{{ ea_id }}"{% endif %}
+                data-ea-type="{% if ea_type == 'text' %}text{% else %}image{% endif %}"
+            ></div>
+        </div>
+    </div>
 {% endswitch %}

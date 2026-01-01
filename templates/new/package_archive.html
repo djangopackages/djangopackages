@@ -1,6 +1,6 @@
 {% extends "new/base.html" %}
 
-{% load humanize i18n package_tags page_metadata_tags %}
+{% load humanize i18n package_tags page_metadata_tags waffle_tags %}
 
 {% block metadata %}
     {% page_metadata page_title=title %}
@@ -32,6 +32,8 @@
         <div class="mb-8">
             <h1 class="text-3xl font-bold text-foreground">{{ heading }}</h1>
         </div>
+
+        {% include "includes/_ethicalads-tag.html" with ea_type="text" ea_id="archive-list-inline" ea_outer_class="mb-4" ea_inner_class="flex justify-center" %}
 
         <div class="card">
             <div class="p-6 card-content">

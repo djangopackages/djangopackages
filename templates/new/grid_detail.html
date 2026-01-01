@@ -69,12 +69,7 @@
             </div>
         </div>
 
-        <!-- Ethical Ad -->
-        {% if not user.profile.show_no_ads %}
-            <div class="mb-6">
-                <div data-ea-publisher="djangopackages" data-ea-type="image" data-ea-style="stickybox" id="grid-detail-ad"></div>
-            </div>
-        {% endif %}
+        {% include "includes/_ethicalads-tag.html" with ea_type="text" ea_id="grid-detail-top" ea_outer_class="mb-4" ea_inner_class="flex justify-center" %}
 
         <!-- Search & Filter Card -->
         <div class="mb-6 card">
@@ -154,9 +149,11 @@
             {% include "new/partials/grid_comparison_table.html" %}
         </div>
 
+        {% include "includes/_ethicalads-tag.html" with ea_type="text" ea_id="grid-detail-bottom" ea_outer_class="my-4" ea_inner_class="flex justify-center" %}
+
         <!-- Features Being Compared Card -->
         {% if features %}
-            <div class="mt-6 card">
+            <div class="card">
                 <div class="p-6 card-content">
                     <div class="flex justify-between items-center mb-4">
                         <div class="flex gap-2 items-center">

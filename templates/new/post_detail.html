@@ -1,5 +1,5 @@
 {% extends "new/base.html" %}
-{% load humanize i18n markdown_tags page_metadata_tags %}
+{% load humanize i18n markdown_tags page_metadata_tags waffle_tags %}
 
 {% block metadata %}
     {% page_metadata page_title=post.title %}
@@ -37,5 +37,7 @@
                 </div>
             </div>
         </div>
+
+        {% include "includes/_ethicalads-tag.html" with ea_type="text" ea_id="post-detail-bottom" ea_outer_class="mt-4" ea_inner_class="mx-auto max-w-3xl flex justify-center" %}
     </div>
 {% endblock content %}

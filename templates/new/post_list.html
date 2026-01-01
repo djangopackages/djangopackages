@@ -1,5 +1,5 @@
 {% extends "new/base.html" %}
-{% load humanize i18n markdown_tags page_metadata_tags %}
+{% load humanize i18n markdown_tags page_metadata_tags waffle_tags %}
 
 {% block metadata %}
     {% translate "Changelog" as trans_title %}
@@ -25,6 +25,8 @@
             <h1 class="text-3xl font-bold text-foreground">{% translate "Changelog" %}</h1>
             <p class="pt-2 text-muted-foreground">{% translate "Follow Django Packages updates and improvements." %}</p>
         </div>
+
+        {% include "includes/_ethicalads-tag.html" with ea_type="text" ea_id="post-list-inline" ea_outer_class="mb-4" ea_inner_class="flex justify-center" %}
 
         <div class="space-y-6 max-w-5xl">
             {% for post in posts %}

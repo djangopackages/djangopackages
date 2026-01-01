@@ -1,5 +1,5 @@
 {% extends 'new/base.html' %}
-{% load i18n page_metadata_tags %}
+{% load i18n page_metadata_tags waffle_tags %}
 
 {% block metadata %}
     {% translate "Packages" as trans_title %}
@@ -33,6 +33,8 @@
             <h1 class="text-3xl font-bold text-foreground">{% translate "Packages" %}</h1>
             <p class="pt-2 text-muted-foreground">{% translate "Browse and search for Django packages." %}</p>
         </div>
+
+        {% include "includes/_ethicalads-tag.html" with ea_type="text" ea_id="packages-list-inline" ea_outer_class="my-4" ea_inner_class="flex justify-center" %}
 
         <div class="card">
             <div class="p-6 card-content">

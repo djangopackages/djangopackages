@@ -2,14 +2,14 @@
 <div class="card">
     <div class="p-4 card-content">
         {% if package.pypi_version %} {# Layout with version badge on the right #}
-            <div class="flex justify-between items-center mb-2">
+            <div class="flex gap-2 justify-between items-center mb-2 min-w-0">
                 <a
                     href="{{ package.get_absolute_url }}"
-                    class="pr-2 font-medium cursor-pointer hover:underline text-primary truncate"
+                    class="flex-1 pr-2 min-w-0 font-medium cursor-pointer hover:underline text-primary truncate"
                 >
                     {{ package.title }}
                 </a>
-                <span class="flex-shrink-0 badge"> {{ package.pypi_version }} </span>
+                <span class="flex-shrink-0 whitespace-nowrap badge">{{ package.pypi_version }}</span>
             </div>
         {% else %} {# Layout without version badge (simple) #}
             <a

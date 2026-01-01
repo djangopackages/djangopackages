@@ -1,5 +1,5 @@
 {% extends "new/base.html" %}
-{% load i18n package_tags page_metadata_tags profile_tags %}
+{% load i18n package_tags page_metadata_tags profile_tags waffle_tags %}
 
 {% block metadata %}
     {% translate "Profile for " as trans_title %}
@@ -58,6 +58,7 @@
                         {% endif %}
                     </div>
                 </div>
+                {% include "includes/_ethicalads-tag.html" with ea_type="image" ea_id="profile-sidebar" ea_inner_class="flex justify-center" %}
             </div>
 
         <!-- Main Content -->

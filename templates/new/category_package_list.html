@@ -1,5 +1,5 @@
 {% extends 'new/base.html' %}
-{% load i18n page_metadata_tags %}
+{% load i18n page_metadata_tags waffle_tags %}
 
 {% block metadata %}
     {% page_metadata page_title=category.title_plural %}
@@ -34,6 +34,8 @@
             <h1 class="text-3xl font-bold text-foreground">{{ category.title_plural }}</h1>
             <p class="pt-2 text-muted-foreground">{{ category.description }}</p>
         </div>
+
+        {% include "includes/_ethicalads-tag.html" with ea_type="text" ea_id="category-list-inline" ea_outer_class="mb-4" ea_inner_class="flex justify-center" %}
 
         <div class="card">
             <div class="p-6 card-content">

@@ -3,7 +3,7 @@
 
 {% block content %}
 <!-- Hero Section -->
-    <section class="py-12 bg-muted/30">
+    <section class="py-8 bg-muted/30">
         <div class="container px-4 mx-auto text-center">
             <h1 class="mb-6 text-4xl font-bold md:text-5xl text-foreground">{% translate "Django Packages" %}</h1>
             <p class="mx-auto mb-8 max-w-3xl text-xl text-muted-foreground">
@@ -89,6 +89,7 @@
                 <a href="{% url 'add_grid' %}" class="px-8 btn-secondary">{% translate "Add Grid" %}</a>
             </div>
         </div>
+        {% include "includes/_ethicalads-tag.html" with ea_type="text" ea_id="home-categories-bottom" ea_outer_class="mt-6" ea_inner_class="flex justify-center" %}
     </section>
 
 <!-- Categories Section -->
@@ -209,6 +210,7 @@
                     {% endif %}
                 </div>
             </div>
+            {% include "includes/_ethicalads-tag.html" with ea_type="text" ea_id="home-packages-bottom" ea_outer_class="mt-6" ea_inner_class="flex justify-center" %}
         </div>
     </section>
 {% endblock content %}
