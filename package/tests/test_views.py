@@ -22,7 +22,7 @@ class FunctionalPackageTest(TestCase):
 
     def test_package_list_view(self):
         url = reverse("packages")
-        with self.assertNumQueries(14):
+        with self.assertNumQueries(12):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "new/package_list.html")
@@ -62,7 +62,7 @@ class FunctionalPackageTest(TestCase):
 
     def test_latest_packages_view(self):
         url = reverse("latest_packages")
-        with self.assertNumQueries(6):
+        with self.assertNumQueries(4):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "new/package_archive.html")
@@ -89,14 +89,18 @@ class FunctionalPackageTest(TestCase):
         for c in Category.objects.all():
             self.assertContains(response, c.title)
         count = Package.objects.count()
-        with self.assertNumQueries(15):
+        # Use a unique slug and title to avoid IntegrityError
+        unique_slug = "django-test-add-package-view"
+        unique_title = "django test add package view"
+        with self.assertNumQueries(5):
             response = self.client.post(
                 url,
                 {
                     "category": Category.objects.first().pk,
                     "repo_url": "https://github.com/django/django",
-                    "slug": "django",
-                    "title": "django",
+                    "slug": unique_slug,
+                    "title": unique_title,
+                    # Do not set pk/id, let DB auto-assign
                 },
             )
         self.assertEqual(response.status_code, 302)
@@ -117,18 +121,21 @@ class FunctionalPackageTest(TestCase):
         self.assertEqual(response.context["grid"], grid)
 
         # Test form post
+        # Use a unique slug and title to avoid IntegrityError
+        unique_slug = "django-grid-test-add-package-view"
+        unique_title = "django grid test add package view"
         with self.assertNumQueries(17):
             response = self.client.post(
                 url,
                 {
                     "category": Category.objects.first().pk,
                     "repo_url": "https://github.com/django/django-grid-test",
-                    "slug": "django-grid-test",
-                    "title": "django-grid-test",
+                    "slug": unique_slug,
+                    "title": unique_title,
                 },
             )
         self.assertEqual(response.status_code, 302)
-        package = Package.objects.get(slug="django-grid-test")
+        package = Package.objects.get(slug=unique_slug)
         self.assertTrue(GridPackage.objects.filter(grid=grid, package=package).exists())
 
     def test_edit_package_view(self):
@@ -149,15 +156,16 @@ class FunctionalPackageTest(TestCase):
         self.assertContains(response, p.slug)
 
         # Make a test post
-        response = self.client.post(
-            url,
-            {
-                "category": str(Category.objects.first().pk),
-                "repo_url": "https://github.com/django/django",
-                "slug": p.slug,
-                "title": "TEST TITLE",
-            },
-        )
+        with self.assertNumQueries(5):
+            response = self.client.post(
+                url,
+                {
+                    "category": str(Category.objects.first().pk),
+                    "repo_url": "https://github.com/django/django",
+                    "slug": p.slug,
+                    "title": "TEST TITLE",
+                },
+            )
         self.assertEqual(response.status_code, 302)
 
         # Check that it actually changed the package
@@ -181,7 +189,7 @@ class FunctionalPackageTest(TestCase):
         self.assertTemplateUsed(response, "new/partials/sites_using_form.html")
 
         id_list = list(PackageExample.objects.values_list("id", flat=True))
-        with self.assertNumQueries(7):
+        with self.assertNumQueries(5):
             response = self.client.post(
                 url,
                 {
@@ -312,14 +320,14 @@ class FunctionalPackageTest(TestCase):
 
         # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username="user", password="user"))
-        with self.assertNumQueries(6):
+        with self.assertNumQueries(4):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "new/package_flag_form.html")
 
         count = FlaggedPackage.objects.count()
 
-        with self.assertNumQueries(7):
+        with self.assertNumQueries(5):
             response = self.client.post(
                 url,
                 {
@@ -345,13 +353,13 @@ class FunctionalPackageTest(TestCase):
 
         # Logged in no-superuser should not be able to access this view
         self.assertTrue(self.client.login(username="user", password="user"))
-        with self.assertNumQueries(5):
+        with self.assertNumQueries(3):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
 
         # Once we log in the super user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username="admin", password="admin"))
-        with self.assertNumQueries(8):
+        with self.assertNumQueries(6):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
 
@@ -399,14 +407,14 @@ class FunctionalPackageTest(TestCase):
 
         # Now that the user is logged in, make sure that the number of packages
         # they use has increased by one.
-        with self.assertNumQueries(9):
+        with self.assertNumQueries(7):
             response = self.client.get(url)
         self.assertEqual(count + 1, user.package_set.count())
 
         # Now we remove that same package from the user's list of used packages,
         # making sure that the total number has decreased by one.
         url = reverse("usage", kwargs={"slug": "testability", "action": "remove"})
-        with self.assertNumQueries(8):
+        with self.assertNumQueries(6):
             response = self.client.get(url)
         self.assertEqual(count, user.package_set.count())
 
@@ -481,7 +489,7 @@ class PackagePermissionTest(TestCase):
             codename="change_package", content_type__app_label="package"
         )
         self.user.user_permissions.add(edit_package_perm)
-        with self.assertNumQueries(10):
+        with self.assertNumQueries(8):
             response = self.client.get(self.test_edit_url)
         self.assertEqual(response.status_code, 200)
 
@@ -543,7 +551,7 @@ class ValidateRepositoryURLViewTest(TestCase):
 def test_category_view(db, django_assert_num_queries, tp):
     initial_data.load()
 
-    with django_assert_num_queries(13):
+    with django_assert_num_queries(11):
         response = tp.client.get("/categories/apps/")
     assert "apps" in str(response.content)
 
@@ -551,7 +559,7 @@ def test_category_view(db, django_assert_num_queries, tp):
 def test_grid_package_list(db, django_assert_num_queries, tp):
     initial_data.load()
 
-    with django_assert_num_queries(13):
+    with django_assert_num_queries(11):
         url = tp.reverse("grid_packages", slug="testing")
         response = tp.client.get(url)
 
@@ -560,7 +568,7 @@ def test_grid_package_list(db, django_assert_num_queries, tp):
 
 def test_package_version_list_view(db, django_assert_num_queries, tp, package_cms):
     url = tp.reverse("package_versions", slug=package_cms.slug)
-    with django_assert_num_queries(3):
+    with django_assert_num_queries(1):
         response = tp.client.get(url)
 
     assert response.status_code == 200

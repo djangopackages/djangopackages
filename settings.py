@@ -150,7 +150,6 @@ TEMPLATES = [
                 # Your stuff: custom template context processors go here
                 "maintenance_mode.context_processors.maintenance_mode",
                 "package.context_processors.used_packages_list",
-                "grid.context_processors.grid_headers",
                 "core.context_processors.current_path",
                 "profiles.context_processors.lazy_profile",
                 "social_django.context_processors.backends",

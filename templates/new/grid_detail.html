@@ -5,6 +5,7 @@
 {% block title %}{{ grid.title }} | {% translate "Comparison Grid" %}{% endblock %}
 
 {% block content %}
+    {{ perms }}
     <!-- Breadcrumb Section -->
     <section class="py-4 bg-primary/10">
         <div class="container px-4 mx-auto">
@@ -69,7 +70,7 @@
             </div>
         </div>
 
-        {% include "includes/_ethicalads-tag.html" with ea_type="text" ea_id="grid-detail-top" ea_outer_class="mb-4" ea_inner_class="flex justify-center" %}
+        {% include "new/partials/_ethicalads-tag.html" with ea_type="text" ea_id="grid-detail-top" ea_outer_class="mb-4" ea_inner_class="flex justify-center" %}
 
         <!-- Search & Filter Card -->
         <div class="mb-6 card">
@@ -149,7 +150,7 @@
             {% include "new/partials/grid_comparison_table.html" %}
         </div>
 
-        {% include "includes/_ethicalads-tag.html" with ea_type="text" ea_id="grid-detail-bottom" ea_outer_class="my-4" ea_inner_class="flex justify-center" %}
+        {% include "new/partials/_ethicalads-tag.html" with ea_type="text" ea_id="grid-detail-bottom" ea_outer_class="my-4" ea_inner_class="flex justify-center" %}
 
         <!-- Features Being Compared Card -->
         {% if features %}

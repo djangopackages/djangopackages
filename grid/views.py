@@ -553,7 +553,7 @@ class AjaxGridSearchView(ListView):
 
 class GridOpenGraphView(DetailView):
     model = Grid
-    template_name = "grid/grid_opengraph.html"
+    template_name = "new/grid_opengraph.html"
     slug_field = "slug"
     slug_url_kwarg = "slug"
 

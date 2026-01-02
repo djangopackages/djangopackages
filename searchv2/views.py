@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.db.models import F, FloatField, Q
-from django.db.models.functions import Cast, Round
+from django.db.models import FloatField, Q
+from django.db.models.functions import Cast
 from django.http import (
     JsonResponse,
 )
@@ -27,7 +27,7 @@ class BuildSearchView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
         return self.render_to_response(self.get_context_data(results=results))
 
 
-def search_function(q: str, max_weight: int = 1):
+def search_function(q: str):
     """TODO - make generic title searches have lower weight"""
     items = []
     if q:
@@ -39,13 +39,14 @@ def search_function(q: str, max_weight: int = 1):
                 | Q(slug__startswith=q.lower())
                 | Q(slug_no_prefix__startswith=q.lower())
                 | Q(description__icontains=q)
+            ).annotate(
+                weight_as_float=Cast("weight", output_field=FloatField()),
             )
-            .annotate(weight_as_float=Cast("weight", output_field=FloatField()))
-            .annotate(
-                weight_percent=(
-                    Round(F("weight_as_float") / float(max_weight) * 100, precision=2)
-                )
-            )
+            # .annotate(
+            #     weight_percent=(
+            #         Round(F("weight_as_float") / float(max_weight) * 100, precision=2)
+            #     )
+            # )
         )
     return items
 

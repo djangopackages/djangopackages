@@ -501,7 +501,7 @@ class PackageDetailView(DetailView):
 
 
 class PackageOpenGraphDetailView(DetailView):
-    template_name = "package/package_opengraph.html"
+    template_name = "new/package_opengraph.html"
     model = Package
     context_object_name = "package"
     slug_field = "slug"

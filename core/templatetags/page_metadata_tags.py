@@ -6,7 +6,7 @@ from urllib.parse import quote_plus
 register = template.Library()
 
 
-@register.inclusion_tag("includes/page_metadata.html", takes_context=True)
+@register.inclusion_tag("new/partials/page_metadata.html", takes_context=True)
 def page_metadata(
     context,
     page_title: str = None,

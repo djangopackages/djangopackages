@@ -465,9 +465,7 @@
     @apply flex-shrink-0;
   }
 
-  /* ============================================
-     GRID COMPARISON TABLE STYLES
-     ============================================ */
+  /* GRID COMPARISON TABLE STYLES */
 
   /* Compact table styling */
   .grid-table {
@@ -479,14 +477,5 @@
     @apply px-2 py-1.5;
     max-width: 160px;
     min-width: 100px;
-  }
-
-  /* Gradient backgrounds using theme colors */
-  .gradient-header {
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
-  }
-
-  .gradient-subtle {
-    @apply bg-gradient-to-b from-muted/30 to-muted/60;
   }
 }

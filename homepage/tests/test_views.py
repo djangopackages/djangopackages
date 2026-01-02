@@ -42,7 +42,7 @@ from django.urls.exceptions import NoReverseMatch
 
 def test_homepage(db, tp, django_assert_num_queries):
     url = tp.reverse("home")
-    with django_assert_num_queries(9):
+    with django_assert_num_queries(7):
         response = tp.client.get(url)
     assert response.status_code == 200
 
@@ -59,7 +59,7 @@ def test_500_test(db, tp):
 
 def test_readiness(db, tp, django_assert_num_queries, product, release):
     url = tp.reverse("readiness")
-    with django_assert_num_queries(6):
+    with django_assert_num_queries(4):
         response = tp.client.get(url)
     assert response.status_code == 200
 
