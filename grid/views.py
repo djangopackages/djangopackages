@@ -413,8 +413,8 @@ class DeleteGridPackageView(LoginRequiredMixin, PermissionRequiredMixin, DeleteV
         return reverse("grid", kwargs={"slug": self.object.grid.slug})
 
     def delete(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        self.object.grid.clear_detail_template_cache()
+        # self.object = self.get_object()
+        # self.object.grid.clear_detail_template_cache()
         messages.add_message(
             self.request, messages.SUCCESS, _("Package removed from grid successfully")
         )
@@ -479,7 +479,6 @@ class AddGridPackageView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return context
 
     def get_success_url(self):
-        # prefer POST 'redirect' then GET 'next'
         redirect = self.request.POST.get("redirect")
         if redirect and url_has_allowed_host_and_scheme(
             url=redirect,
@@ -501,7 +500,7 @@ class AddGridPackageView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
         form.instance.grid = grid
         # clear cache and inform the user
-        grid.clear_detail_template_cache()
+        # grid.clear_detail_template_cache()
         messages.success(
             self.request,
             f"Package '{package.title}' has been added to the grid '{grid.title}'.",
