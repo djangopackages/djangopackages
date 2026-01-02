@@ -1,7 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.db.models import FloatField, Q
-from django.db.models.functions import Cast
+from django.db.models import Q
 from django.http import (
     JsonResponse,
 )
@@ -39,9 +38,10 @@ def search_function(q: str):
                 | Q(slug__startswith=q.lower())
                 | Q(slug_no_prefix__startswith=q.lower())
                 | Q(description__icontains=q)
-            ).annotate(
-                weight_as_float=Cast("weight", output_field=FloatField()),
             )
+            # .annotate(
+            #     weight_as_float=Cast("weight", output_field=FloatField()),
+            # )
             # .annotate(
             #     weight_percent=(
             #         Round(F("weight_as_float") / float(max_weight) * 100, precision=2)
