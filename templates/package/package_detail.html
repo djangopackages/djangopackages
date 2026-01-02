@@ -73,6 +73,9 @@
 
     <!-- Main Content -->
     <div class="container py-8 px-4 mx-auto">
+
+        {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="package-detail-inline" ea_outer_class="my-2" ea_inner_class="flex justify-center" %}
+
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
             <!-- Main Content Column -->
             <div class="order-2 space-y-6 lg:order-1 lg:col-span-2 lg:space-y-8">
@@ -169,8 +172,6 @@
                         </div>
                     </div>
                 </div>
-
-                {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="package-detail-inline" ea_outer_class="my-2" ea_inner_class="flex justify-center" %}
 
                 <!-- Commit Graph Card -->
                 <div class="card">

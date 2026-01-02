@@ -40,6 +40,8 @@
                 {{ release.product.title }} {{ release.cycle }} support graph for the {{ packages|length }} most popular {{ release.product.title }} packages!
             </p>
 
+            {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="package-detail-inline" ea_outer_class="my-2" ea_inner_class="flex justify-left" %}
+
             <div class="card">
                 <div class="p-6 card-content">
                     <h2 class="mb-2 text-lg font-semibold text-foreground">How do you identify {{ release.product.title }} {{ release.cycle }} support?</h2>

@@ -24,6 +24,8 @@
             <p class="mt-2 text-lg text-muted-foreground">Check the compatibility of packages with different versions of Django, Python, and Wagtail.</p>
         </div>
 
+        {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="package-detail-inline" ea_outer_class="my-2" ea_inner_class="flex justify-center" %}
+
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {% if django_releases %}
                 <div class="overflow-hidden card">
