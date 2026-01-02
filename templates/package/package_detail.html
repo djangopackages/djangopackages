@@ -1,0 +1,481 @@
+{% extends 'base.html' %}
+{% load humanize i18n package_tags page_metadata_tags partials static typogrify_tags waffle_tags %}
+
+{% block metadata %}
+    {% page_metadata page_title=package.title page_description=package.repo_description page_keywords=package.grid_set.all|join:',' og_image_url=package.get_opengraph_image_url %}
+{% endblock metadata %}
+
+{% block content %}
+    <!-- Breadcrumb Section -->
+    <section class="py-4 bg-primary/10">
+        <div class="container px-4 mx-auto">
+            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
+                <div class="flex items-center text-sm text-muted-foreground">
+                    <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
+                    <span class="mx-2">»</span>
+                    <a href="{% url 'packages' %}" class="hover:underline">{% translate "Packages" %}</a>
+                    <span class="mx-2">»</span>
+                    <span class="font-medium text-foreground truncate">{{ package.title }}</span>
+                </div>
+                <div class="flex flex-wrap gap-2 items-center w-full sm:w-auto">
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'edit_package' package.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                            <i class="mr-1 text-base ph-bold ph-pencil-simple"></i>
+                            <span>{% translate "Edit" %}</span>
+                        </a>
+                    {% endif %}
+                    {% if has_approved_flag %}
+                        <button disabled class="flex-1 flex-shrink-0 text-red-600 bg-red-50 border-red-200 cursor-not-allowed sm:flex-none btn-secondary" title="{% translate 'This package has been flagged.' %}">
+                            <i class="mr-1 text-base ph-bold ph-flag"></i>
+                            <span id="flag-text">{% translate "Flagged" %}</span>
+                        </button>
+                    {% else %}
+                        <a href="{% url 'flag' package.slug %}" id="flag-btn" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                            <i class="mr-1 text-base ph-bold ph-flag"></i>
+                            <span id="flag-text">{% translate "Flag" %}</span>
+                        </a>
+                    {% endif %}
+                    {% flag "favorite_feature_flag" %} {% include 'partials/favorite_button.html' %} {% endflag %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Package Description -->
+    <section class="pt-4 bg-muted/20">
+        <div class="container px-4 mx-auto">
+            <h1 class="mb-2 text-3xl font-bold text-foreground">{{ package.title }}</h1>
+            {% if package.repo_description %}
+                <p class="text-lg text-muted-foreground">{{ package.repo_description }}</p>
+            {% endif %}
+        </div>
+    </section>
+
+    {% if package.is_deprecated or package.date_repo_archived %}
+        <div class="container px-4 pt-6 mx-auto">
+            <div class="flex items-center p-4 text-sm text-yellow-800 bg-yellow-50 rounded-lg border border-yellow-300" role="alert">
+                <i class="mr-3 text-lg ph-bold ph-warning"></i>
+                <span class="sr-only">Warning</span>
+                <div>
+                    <span class="font-medium">{% translate "Warning!" %}</span>
+                    {% if package.is_deprecated %}
+                        {% translate "This project was deprecated" %}
+                        {% if package.deprecates_package %}
+                            {% translate "and replaced by" %} <a href="{{ package.deprecates_package.get_pypi_uri }}" target="_blank" class="font-bold hover:text-yellow-900 hover:underline">{{ package.deprecates_package.pypi_name }}</a>
+                        {% endif %}
+                    {% elif package.date_repo_archived %}
+                        {% translate "This project was archived" %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <div class="container py-8 px-4 mx-auto">
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
+            <!-- Main Content Column -->
+            <div class="order-2 space-y-6 lg:order-1 lg:col-span-2 lg:space-y-8">
+                <!-- Repository Activity Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
+                            <h3 class="flex gap-2 items-center text-xl font-semibold">
+                                <i class="text-xl ph-bold ph-git-branch"></i>
+                                {% translate "Repository Activity" %}
+                            </h3>
+                            <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
+                                <span class="text-sm text-muted-foreground">
+                                    {% translate "Last fetched" %}: {{ package.last_fetched|timesince }} ago
+                                </span>
+                                <a
+                                    href="{% url 'fetch_package_data' package.slug %}"
+                                    class="px-3 h-8 text-xs btn-secondary"
+                                >
+                                    <i class="ph-bold ph-download-simple"></i> {% translate "Fetch latest data" %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="space-y-4">
+                            <div class="flex flex-col gap-3 lg:flex-row lg:justify-between lg:items-center">
+                                {% if package.repo_url %}
+                                    <a
+                                        href="{{ package.repo_url }}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="flex gap-1 items-center text-sm break-all hover:underline text-primary"
+                                    >
+                                        <span class="truncate">{{ package.repo_url }}</span>
+                                        <i class="flex-shrink-0 text-sm ph-bold ph-arrow-square-out"></i>
+                                    </a>
+                                {% endif %}
+                                <div class="flex flex-wrap gap-4 items-center text-sm">
+
+                                    <!-- Commits -->
+                                    <div class="tooltip-wrapper group">
+                                        <span class="flex gap-1 items-center cursor-help">
+                                            <i class="text-base ph-bold ph-git-commit"></i>
+                                            {% translate "Commits" %}: {{ commit_count|intcomma }}
+                                        </span>
+
+                                        <div class="group-hover:opacity-100 tooltip">
+                                            {% translate "Total commits in the repository" %}
+                                        </div>
+                                    </div>
+
+                                    <!-- Watchers -->
+                                    <div class="tooltip-wrapper group">
+                                        <span class="flex gap-1 items-center cursor-help">
+                                            <i class="text-base ph-bold ph-eye"></i>
+                                            {{ package.repo_watchers|intcomma|default:"n/a" }}
+                                        </span>
+
+                                        <div class="group-hover:opacity-100 tooltip">
+                                            {% translate "Number of users watching the repository" %}
+                                        </div>
+                                    </div>
+
+                                    <!-- Forks -->
+                                    <div class="tooltip-wrapper group">
+                                        <span class="flex gap-1 items-center cursor-help">
+                                            <i class="text-base ph-bold ph-git-fork"></i>
+                                            {{ package.repo_forks|intcomma|default:"n/a" }}
+                                        </span>
+
+                                        <div class="group-hover:opacity-100 tooltip">
+                                            {% translate "Number of repository forks" %}
+                                        </div>
+                                    </div>
+
+                                    {% flag "enabled_packages_score_values" %}
+                                        <!-- Score -->
+                                        <div class="tooltip-wrapper group">
+                                            <span class="flex gap-1 items-center cursor-help">
+                                                <i class="text-base ph-bold ph-chart-bar"></i>
+                                                {{ package.score|intcomma|default:"n/a" }}
+                                            </span>
+
+                                            <div class="group-hover:opacity-100 tooltip tooltip-lg">
+                                                {% translate "Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%)." %}
+                                            </div>
+                                        </div>
+                                    {% endflag %}
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="package-detail-inline" ea_outer_class="my-2" ea_inner_class="flex justify-center" %}
+
+                <!-- Commit Graph Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="tooltip-wrapper group">
+                            <h3 class="flex gap-2 items-center text-xl font-semibold">
+                                <i class="text-xl ph-bold ph-chart-line"></i>
+                                {% translate "Commit Graph" %}
+                            </h3>
+
+                            <div class="group-hover:opacity-100 tooltip">
+                                {% translate "History of commits in the last 52 weeks" %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="w-full h-20 sm:h-24">
+                            <svg
+                                viewBox="0 0 800 90"
+                                class="w-full h-full"
+                                preserveAspectRatio="xMidYMid meet"
+                                id="commit-svg"
+                                data-commits="{{ package.commits_over_52 }}"
+                            >
+                                <defs>
+                                    <linearGradient id="commitGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" stop-color="oklch(0.3176 0.0648 159.21)" stop-opacity="0.3" />
+                                        <stop offset="100%" stop-color="oklch(0.3176 0.0648 159.21)" stop-opacity="0.1" />
+                                    </linearGradient>
+                                </defs>
+
+                                <!-- Area fill -->
+                                <path id="commit-area" fill="url(#commitGradient)" />
+
+                                <!-- Main line -->
+                                <path
+                                    id="commit-line"
+                                    fill="none"
+                                    stroke="oklch(0.3176 0.0648 159.21)"
+                                    stroke-width="2.5"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                />
+
+                                <!-- Data points will be added via JS -->
+                                <g id="commit-points"></g>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Releases Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="flex justify-between items-center">
+                            <h3 class="flex gap-2 items-center text-xl font-semibold">
+                                <i class="text-xl ph-bold ph-rocket-launch"></i>
+                                {% translate "Releases" %}
+                            </h3>
+                            <span class="text-sm font-normal text-muted-foreground">
+                                <span id="total-releases">{{ version_count|intcomma }}</span>
+                                {% translate "total releases" %}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="overflow-x-auto px-6 -mx-6 sm:px-0 sm:mx-0">
+                            <div class="inline-block min-w-full align-middle">
+                                <div
+                                    id="versions-table-container"
+                                    hx-get="{% url 'package_versions' slug=package.slug %}?page=1"
+                                    hx-trigger="load"
+                                    hx-swap="innerHTML"
+                                >
+                                    <!-- Releases will be loaded via HTMX -->
+                                    <div class="py-8 text-center">
+                                        <i class="text-3xl animate-spin ph-bold ph-circle-notch text-muted-foreground"></i>
+                                        <p class="mt-2 text-sm text-muted-foreground">
+                                            {% translate "Loading releases..." %}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flags Card -->
+                {% if request.user.is_superuser %}
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="flex justify-between items-center">
+                                <h3 class="flex gap-2 items-center text-xl font-semibold">
+                                    <i class="text-xl ph-bold ph-flag"></i>
+                                    {% translate "Flags" %}
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="overflow-x-auto px-6 -mx-6 sm:px-0 sm:mx-0">
+                                <div class="inline-block min-w-full align-middle">
+                                    <table class="w-full min-w-[600px]">
+                                        <thead>
+                                            <tr class="text-left border-b">
+                                                <th class="pb-3 text-sm font-medium text-muted-foreground">{% translate "Reason" %}</th>
+                                                <th class="pb-3 w-24 text-sm font-medium text-center text-muted-foreground">{% translate "Approve" %}</th>
+                                                <th class="pb-3 w-24 text-sm font-medium text-center text-muted-foreground">{% translate "Remove" %}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for flag in package.flags.all %}
+                                                {% if not flag.approved_flag %}
+                                                    <tr class="border-b transition-colors last:border-0 hover:bg-muted/30">
+                                                        <td class="py-3 text-sm font-medium text-foreground">
+                                                            {{ flag.reason }}
+                                                        </td>
+                                                        <td class="py-3 text-center">
+                                                            {% if not flag.approved_flag %}
+                                                                <a href="{% url 'flag_approve' flag.id %}" class="text-green-600 hover:text-green-700" title="{% translate 'Approve' %}">
+                                                                    <i class="text-xl ph-bold ph-check"></i>
+                                                                </a>
+                                                            {% endif %}
+                                                        </td>
+                                                        <td class="py-3 text-center">
+                                                            {% if not flag.approved_flag %}
+                                                                <a href="{% url 'flag_remove' flag.id %}" class="text-red-600 hover:text-red-700" title="{% translate 'Remove' %}">
+                                                                    <i class="text-xl ph-bold ph-trash"></i>
+                                                                </a>
+                                                            {% endif %}
+                                                        </td>
+                                                    </tr>
+                                                {% endif %}
+                                            {% empty %}
+                                                <tr>
+                                                    <td colspan="3" class="py-6 text-sm text-center text-muted-foreground">
+                                                        {% translate "No flags found." %}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- Contributors Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="flex gap-2 items-center text-xl font-semibold">
+                            <i class="text-xl ph-bold ph-users"></i>
+                            {% translate "Contributors" %}
+                        </h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="flex flex-wrap gap-2" id="contributors-container">
+                            {% for participant in package.participant_list %}
+                                <span class="badge"
+                                ><a href="{% participant_url package.repo participant %}">{{ participant }}</a></span
+                                    >
+                            {% empty %}
+                                <p class="text-sm text-muted-foreground">{% translate "No contributors listed." %}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="order-1 space-y-4 lg:order-2 lg:space-y-6">
+                <!-- Documentation Card -->
+                {% if package.documentation_url or request.user.is_authenticated and request.user.profile.can_edit_package %}
+                    <div id="documentation-card" class="card">
+                        {% include "partials/documentation_card.html" %}
+                    </div>
+                {% endif %}
+
+                <!-- PyPI Card -->
+                {% if package.pypi_url %}
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="flex gap-2 items-center text-lg font-semibold">
+                                <i class="text-xl ph-bold ph-file-py"></i>
+                                {% translate "PyPI" %}
+                            </h3>
+                        </div>
+                        <div class="card-content">
+                            <a
+                                href="{{ package.pypi_url }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="text-sm break-all hover:underline text-primary"
+                            >
+                                <span class="truncate">{{ package.pypi_name|default:package.title }}</span>
+                                <i class="flex-shrink-0 text-sm ph-bold ph-arrow-square-out"></i>
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- Repository Card -->
+                {% if package.repo_url %}
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="flex gap-2 items-center text-lg font-semibold">
+                                <i class="text-xl ph-bold ph-git-branch"></i>
+                                {% translate "Repository" %}
+                            </h3>
+                        </div>
+                        <div class="card-content">
+                            <a
+                                href="{{ package.repo_url }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="flex gap-1 items-center text-sm break-all hover:underline text-primary"
+                            >
+                                <span class="truncate">{{ package.repo_url }}</span>
+                                <i class="flex-shrink-0 text-sm ph-bold ph-arrow-square-out"></i>
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- Comparison Grids Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="flex justify-between items-center">
+                            <h3 class="flex gap-2 items-center text-lg font-semibold">
+                                <i class="text-xl ph-bold ph-grid-nine"></i>
+                                {% translate "Comparison Grids" %}
+                            </h3>
+                            {% if request.user.is_authenticated and profile.can_add_grid %}
+                                <button
+                                    type="button"
+                                    class="px-2 h-8 text-xs btn-secondary"
+                                    onclick="document.getElementById('grid-search-form').classList.toggle('hidden'); document.getElementById('grid-search-input').focus();"
+                                >
+                                    <i class="text-base ph-bold ph-plus"></i>
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="flex flex-wrap gap-2">
+                            {% for grid in package.grid_set.all %}
+                                <a
+                                    href="{{ grid.get_absolute_url }}"
+                                    class="transition-colors cursor-pointer badge hover:bg-primary hover:text-primary-foreground"
+                                >{{ grid.title }}</a>
+                            {% empty %}
+                                <p class="text-sm text-muted-foreground">
+                                    {% translate "No comparison grids have been listed yet." %}
+                                </p>
+                            {% endfor %}
+                        </div>
+                        {% if request.user.is_authenticated and profile.can_add_grid %}
+                            <div id="grid-search-form" class="hidden mt-4">
+                                <input
+                                    id="grid-search-input"
+                                    type="text"
+                                    name="q"
+                                    class="py-1 px-2 w-full text-sm rounded border bg-background text-foreground"
+                                    placeholder="Search for a grid..."
+                                    hx-get="{% url 'ajax_grid_search' %}"
+                                    hx-trigger="keyup changed delay:500ms"
+                                    hx-target="#grid-search-results"
+                                    hx-vals='{"package_id": "{{ package.id }}", "redirect": "{{ request.path }}"}'
+                                />
+                                <div id="grid-search-results" class="mt-2 space-y-2"></div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% include "partials/_ethicalads-tag.html" with ea_type="image" ea_id="package-detail-sidebar" ea_variant="vertical" ea_outer_class="my-2" ea_inner_class="flex justify-center" %}
+
+                <!-- Sites using this package Card -->
+                <div id="sites-using-card" class="card">
+                    {% include "partials/sites_using_card.html" %}
+                </div>
+
+                <!-- README Badge Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="flex gap-2 items-center text-lg font-semibold">
+                            <i class="text-xl ph-bold ph-shield"></i>
+                            {% translate "README Badge" %}
+                        </h3>
+                    </div>
+                    <div class="card-content">
+                        <p class="mb-3 text-sm text-muted-foreground">
+                            {% translate "If you're the maintainer of this project, publicize Django Packages by adding the badge to your README!" %}
+                        </p>
+                        <div class="p-3 mb-3 font-mono text-xs break-words rounded bg-muted overflow-wrap-anywhere">
+                            [![Latest on Django Packages](https://img.shields.io/badge/PyPI-{{ package.slug
+                            }}-tags-8c3c26.svg)](https://djangopackages.org{{ package.get_absolute_url }})
+                        </div>
+                        <button id="copy-badge-btn" class="w-full btn-secondary">
+                            <i class="mr-2 text-base ph-bold ph-copy" id="copy-icon"></i>
+                            <span id="copy-text">{% translate "Copy Badge" %}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

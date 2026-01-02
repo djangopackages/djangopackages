@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load i18n page_metadata_tags %}
+
+{% block metadata %}
+    {% translate "Add a package to Grid" as trans_title %}
+    {% page_metadata page_title=trans_title|add:" "|add:grid.title %}
+{% endblock metadata %}
+
+{% block content %}
+    <!-- Breadcrumb Section -->
+    <section class="py-4 bg-primary/10">
+        <div class="container px-4 mx-auto">
+            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
+                <div class="flex items-center text-sm text-muted-foreground">
+                    <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
+                    <span class="mx-2">»</span>
+                    <a href="{% url 'grids' %}" class="hover:underline">{% translate "Grids" %}</a>
+                    <span class="mx-2">»</span>
+                    <a href="{% url 'grid' grid.slug %}" class="hover:underline">{{ grid.title }}</a>
+                    <span class="mx-2">»</span>
+                    <span class="font-medium text-foreground truncate">{% translate "Add Package" %}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container py-8 px-4 mx-auto">
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-foreground">
+                {% blocktranslate with grid_title=grid.title %}Add a package to the "{{ grid_title }}" grid.{% endblocktranslate %}
+            </h1>
+            <p class="pt-2 text-muted-foreground">{% translate "Search for an existing package to add to this grid." %}</p>
+        </div>
+
+        <div class="max-w-3xl card">
+            <div class="p-6 card-content">
+                <form action="{{ request.PATH }}" method="post" id="grid-package-form" class="space-y-6 django-form-renderer">
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <div class="form-errors">
+                            {% for error in form.non_field_errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <div>
+                        <label for="search-field" class="block mb-2 text-sm font-medium text-foreground">{% translate "Search Packages" %}</label>
+                        <div class="relative" id="search-container">
+                            <i class="absolute left-3 top-1/2 -translate-y-1/2 ph-bold ph-magnifying-glass text-muted-foreground"></i>
+                            <input id="search-field" type="text" name="q"
+                                   placeholder="{% translate 'Start typing to search...' %}"
+                                   autocomplete="off"
+                                   hx-get="{% url 'ajax_package_search' %}"
+                                   hx-trigger="keyup changed delay:300ms"
+                                   hx-target="#target"
+                                   hx-vals='{"grid": "{{ grid.slug }}"}'
+                                   onkeydown="if(event.key === 'Enter') event.preventDefault()"
+                                   class="!pl-12 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                            <div id="target" class="absolute z-50 mt-1 w-full"></div>
+                        </div>
+                        {% if form.package.errors %}
+                            <div class="field-error">
+                                {% for error in form.package.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                </form>
+
+                <div class="pt-6 mt-8 border-t border-border">
+                    <h3 class="text-lg font-medium text-foreground">{% translate "What if the Package isn't in the database?" %}</h3>
+                    <div class="mt-3">
+                        <a href="{% url 'add_package' %}?grid_slug={{ grid.slug }}" class="inline-flex items-center btn-secondary">
+                            <i class="mr-2 ph-bold ph-plus"></i>
+                            {% translate "Add new package to database" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

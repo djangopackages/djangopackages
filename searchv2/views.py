@@ -15,7 +15,7 @@ from searchv2.utils import clean_title, remove_prefix
 
 
 class BuildSearchView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
-    template_name = "new/build_search.html"
+    template_name = "searchv2/build_search.html"
 
     def test_func(self):
         return self.request.user.is_superuser
@@ -53,7 +53,7 @@ def search_function(q: str):
 
 class SearchSuggestionsView(ListView):
     model = SearchV2
-    template_name = "new/partials/suggestions.html"
+    template_name = "partials/suggestions.html"
     context_object_name = "search_results"
     paginate_by = 10
 

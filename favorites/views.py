@@ -21,7 +21,7 @@ class FavoritePackage(View):
         Favorite.objects.get_or_create(package=package, favorited_by=request.user)
         return render(
             request,
-            "new/partials/favorite_button.html",
+            "partials/favorite_button.html",
             {"package": package, "is_favorited": True},
         )
 
@@ -41,6 +41,6 @@ class UnFavoritePackage(View):
 
         return render(
             request,
-            "new/partials/favorite_button.html",
+            "partials/favorite_button.html",
             {"package": package, "is_favorited": False},
         )

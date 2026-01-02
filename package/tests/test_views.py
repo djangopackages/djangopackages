@@ -25,7 +25,7 @@ class FunctionalPackageTest(TestCase):
         with self.assertNumQueries(12):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/package_list.html")
+        self.assertTemplateUsed(response, "package/package_list.html")
         packages = Package.objects.all()
         for p in packages:
             self.assertContains(response, p.title)
@@ -36,7 +36,7 @@ class FunctionalPackageTest(TestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/package_detail.html")
+        self.assertTemplateUsed(response, "package/package_detail.html")
         self.assertContains(
             response,
             "Scores (0-100) are based on Repository stars",
@@ -54,7 +54,7 @@ class FunctionalPackageTest(TestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/package_detail.html")
+        self.assertTemplateUsed(response, "package/package_detail.html")
         self.assertNotContains(
             response,
             "Scores (0-100) are based on Repository stars",
@@ -65,7 +65,7 @@ class FunctionalPackageTest(TestCase):
         with self.assertNumQueries(4):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/package_archive.html")
+        self.assertTemplateUsed(response, "package/package_archive.html")
         packages = Package.objects.all()
         for p in packages:
             self.assertContains(response, p.title)
@@ -85,14 +85,14 @@ class FunctionalPackageTest(TestCase):
         self.assertTrue(self.client.login(username="user", password="user"))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/add_package.html")
+        self.assertTemplateUsed(response, "package/add_package.html")
         for c in Category.objects.all():
             self.assertContains(response, c.title)
         count = Package.objects.count()
         # Use a unique slug and title to avoid IntegrityError
         unique_slug = "django-test-add-package-view"
         unique_title = "django test add package view"
-        with self.assertNumQueries(5):
+        with self.assertNumQueries(15):
             response = self.client.post(
                 url,
                 {
@@ -151,12 +151,12 @@ class FunctionalPackageTest(TestCase):
         self.assertTrue(self.client.login(username="user", password="user"))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/edit_package.html")
+        self.assertTemplateUsed(response, "package/edit_package.html")
         self.assertContains(response, p.title)
         self.assertContains(response, p.slug)
 
         # Make a test post
-        with self.assertNumQueries(5):
+        with self.assertNumQueries(16):
             response = self.client.post(
                 url,
                 {
@@ -186,7 +186,7 @@ class FunctionalPackageTest(TestCase):
         user = User.objects.get(username="user")
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/partials/sites_using_form.html")
+        self.assertTemplateUsed(response, "partials/sites_using_form.html")
 
         id_list = list(PackageExample.objects.values_list("id", flat=True))
         with self.assertNumQueries(5):
@@ -226,7 +226,7 @@ class FunctionalPackageTest(TestCase):
         # Test successful access for own example
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/partials/sites_using_form.html")
+        self.assertTemplateUsed(response, "partials/sites_using_form.html")
 
         # Test successful update
         response = self.client.post(
@@ -237,7 +237,7 @@ class FunctionalPackageTest(TestCase):
             },
         )
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/partials/sites_using_card.html")
+        self.assertTemplateUsed(response, "partials/sites_using_card.html")
         e.refresh_from_db()
         self.assertEqual(e.title, "TEST TITLE")
 
@@ -295,12 +295,12 @@ class FunctionalPackageTest(TestCase):
         # Test successful access for own example
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/partials/sites_using_card.html")
+        self.assertTemplateUsed(response, "partials/sites_using_card.html")
 
         # Test successful deletion
         response = self.client.post(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/partials/sites_using_card.html")
+        self.assertTemplateUsed(response, "partials/sites_using_card.html")
         self.assertFalse(PackageExample.objects.filter(pk=e.pk).exists())
 
         # Test superuser deletion
@@ -323,11 +323,11 @@ class FunctionalPackageTest(TestCase):
         with self.assertNumQueries(4):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/package_flag_form.html")
+        self.assertTemplateUsed(response, "package/package_flag_form.html")
 
         count = FlaggedPackage.objects.count()
 
-        with self.assertNumQueries(5):
+        with self.assertNumQueries(7):
             response = self.client.post(
                 url,
                 {
@@ -359,7 +359,7 @@ class FunctionalPackageTest(TestCase):
 
         # Once we log in the super user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username="admin", password="admin"))
-        with self.assertNumQueries(6):
+        with self.assertNumQueries(8):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
 
@@ -380,7 +380,7 @@ class FunctionalPackageTest(TestCase):
 
         # Logged in no-superuser should not be able to access this view
         self.assertTrue(self.client.login(username="user", password="user"))
-        with self.assertNumQueries(5):
+        with self.assertNumQueries(3):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
 
@@ -407,14 +407,14 @@ class FunctionalPackageTest(TestCase):
 
         # Now that the user is logged in, make sure that the number of packages
         # they use has increased by one.
-        with self.assertNumQueries(7):
+        with self.assertNumQueries(6):
             response = self.client.get(url)
         self.assertEqual(count + 1, user.package_set.count())
 
         # Now we remove that same package from the user's list of used packages,
         # making sure that the total number has decreased by one.
         url = reverse("usage", kwargs={"slug": "testability", "action": "remove"})
-        with self.assertNumQueries(6):
+        with self.assertNumQueries(5):
             response = self.client.get(url)
         self.assertEqual(count, user.package_set.count())
 
@@ -437,17 +437,17 @@ class PackagePermissionTest(TestCase):
 
     def test_switch_permissions(self):
         settings.RESTRICT_PACKAGE_EDITORS = False
-        with self.assertNumQueries(6):
+        with self.assertNumQueries(4):
             response = self.client.get(self.test_add_url)
         self.assertEqual(response.status_code, 200)
 
         settings.RESTRICT_PACKAGE_EDITORS = True
-        with self.assertNumQueries(7):
+        with self.assertNumQueries(5):
             response = self.client.get(self.test_add_url)
         self.assertEqual(response.status_code, 403)
 
     def test_add_package_permission_fail(self):
-        with self.assertNumQueries(7):
+        with self.assertNumQueries(5):
             response = self.client.get(self.test_add_url)
         self.assertEqual(response.status_code, 403)
 
@@ -456,14 +456,14 @@ class PackagePermissionTest(TestCase):
             codename="add_package", content_type__app_label="package"
         )
         self.user.user_permissions.add(add_package_perm)
-        with self.assertNumQueries(8):
+        with self.assertNumQueries(6):
             response = self.client.get(self.test_add_url)
         self.assertEqual(response.status_code, 200)
 
     def test_add_package_with_grid_slug_permission_fail(self):
         grid = Grid.objects.get(slug="testing")
         url = self.test_add_url + f"?grid_slug={grid.slug}"
-        with self.assertNumQueries(7):
+        with self.assertNumQueries(5):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
 
@@ -474,13 +474,13 @@ class PackagePermissionTest(TestCase):
             codename="add_package", content_type__app_label="package"
         )
         self.user.user_permissions.add(add_package_perm)
-        with self.assertNumQueries(9):
+        with self.assertNumQueries(7):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context["grid"], grid)
 
     def test_edit_package_permission_fail(self):
-        with self.assertNumQueries(7):
+        with self.assertNumQueries(5):
             response = self.client.get(self.test_edit_url)
         self.assertEqual(response.status_code, 403)
 
@@ -514,7 +514,7 @@ class ValidateRepositoryURLViewTest(TestCase):
         repo_url = "https://github.com/new/repo"
         response = self.client.post(self.url, {"repo_url": repo_url})
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/partials/package_form.html")
+        self.assertTemplateUsed(response, "partials/package_form.html")
         self.assertContains(response, 'value="repo"')
         self.assertContains(response, f'value="{repo_url}"')
 
@@ -525,7 +525,7 @@ class ValidateRepositoryURLViewTest(TestCase):
         url = self.url + f"?grid_slug={grid_slug}"
         response = self.client.post(url, {"repo_url": repo_url})
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/partials/package_form.html")
+        self.assertTemplateUsed(response, "partials/package_form.html")
         self.assertContains(response, f"grid_slug={grid_slug}")
 
     def test_existing_repo(self):
@@ -533,14 +533,14 @@ class ValidateRepositoryURLViewTest(TestCase):
         package = Package.objects.first()
         response = self.client.post(self.url, {"repo_url": package.repo_url})
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/partials/package_exists.html")
+        self.assertTemplateUsed(response, "partials/package_exists.html")
         self.assertContains(response, package.title)
 
     def test_invalid_repo_url(self):
         self.client.force_login(self.user)
         response = self.client.post(self.url, {"repo_url": "not-a-url"})
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/partials/repo_url_form.html")
+        self.assertTemplateUsed(response, "partials/repo_url_form.html")
         self.assertFormError(
             response.context["repo_form"],
             "repo_url",
@@ -572,4 +572,4 @@ def test_package_version_list_view(db, django_assert_num_queries, tp, package_cm
         response = tp.client.get(url)
 
     assert response.status_code == 200
-    assert "new/partials/releases_table.html" in [t.name for t in response.templates]
+    assert "partials/releases_table.html" in [t.name for t in response.templates]

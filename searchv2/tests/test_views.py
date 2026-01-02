@@ -31,6 +31,7 @@ class FunctionalPackageTest(TestCase):
         self.assertTrue(self.client.login(username="admin", password="admin"))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "searchv2/build_search.html")
         self.assertEqual(SearchV2.objects.count(), 0)
 
         response = self.client.post(url)
@@ -83,7 +84,7 @@ class TestSearchSuggestionsView(TestCase):
 
     def test_view_template_used(self):
         response = self.client.get(self.url, {"q": "test"})
-        self.assertTemplateUsed(response, "new/partials/suggestions.html")
+        self.assertTemplateUsed(response, "partials/suggestions.html")
 
     def test_search_results(self):
         response = self.client.get(self.url, {"q": "testability"})

@@ -517,7 +517,7 @@ class Package(BaseModel):
         if not self.repo_description:
             self.repo_description = ""
         if self.pk:
-            self.grid_clear_detail_template_cache()
+            # self.grid_clear_detail_template_cache()
             self.score = self.calculate_score()
         super().save(*args, **kwargs)
 

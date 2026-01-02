@@ -62,7 +62,7 @@ def repo_data_for_js():
 class AddPackageView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Package
     form_class = PackageCreateForm
-    template_name = "new/add_package.html"
+    template_name = "package/add_package.html"
 
     def test_func(self):
         return self.request.user.profile.can_add_package
@@ -117,7 +117,7 @@ class AddPackageView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         if self.request.htmx:
             context = {"form": form}
             context["grid"] = self.grid
-            return render(self.request, "new/partials/package_form.html", context)
+            return render(self.request, "partials/package_form.html", context)
         return super().form_invalid(form)
 
 
@@ -135,7 +135,7 @@ class ValidateRepositoryURLView(LoginRequiredMixin, UserPassesTestMixin, View):
             if existing_package:
                 return render(
                     request,
-                    "new/partials/package_exists.html",
+                    "partials/package_exists.html",
                     {"package": existing_package},
                 )
 
@@ -161,19 +161,19 @@ class ValidateRepositoryURLView(LoginRequiredMixin, UserPassesTestMixin, View):
                     context["grid_slug"] = request.GET["grid_slug"]
                 return render(
                     request,
-                    "new/partials/package_form.html",
+                    "partials/package_form.html",
                     context,
                 )
             except Exception:
                 pass
 
-        return render(request, "new/partials/repo_url_form.html", {"repo_form": form})
+        return render(request, "partials/repo_url_form.html", {"repo_form": form})
 
 
 class PackageUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Package
     form_class = PackageUpdateForm
-    template_name = "new/edit_package.html"
+    template_name = "package/edit_package.html"
 
     def test_func(self):
         return self.request.user.profile.can_edit_package
@@ -198,7 +198,7 @@ class PackageUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class PackageFlagView(LoginRequiredMixin, CreateView):
     model = FlaggedPackage
     form_class = FlaggedPackageForm
-    template_name = "new/package_flag_form.html"
+    template_name = "package/package_flag_form.html"
 
     def dispatch(self, request, *args, **kwargs):
         self.package = get_object_or_404(
@@ -254,7 +254,7 @@ class PackageFlagRemoveView(LoginRequiredMixin, UserPassesTestMixin, View):
 class PackageExampleCreateView(LoginRequiredMixin, CreateView):
     model = PackageExample
     form_class = PackageExampleForm
-    template_name = "new/partials/sites_using_form.html"
+    template_name = "partials/sites_using_form.html"
 
     def dispatch(self, request, *args, **kwargs):
         self.package = get_object_or_404(Package, slug=self.kwargs["slug"])
@@ -272,7 +272,7 @@ class PackageExampleCreateView(LoginRequiredMixin, CreateView):
         self.object = form.save()
         return render(
             self.request,
-            "new/partials/sites_using_card.html",
+            "partials/sites_using_card.html",
             {"package": self.package},
         )
 
@@ -280,7 +280,7 @@ class PackageExampleCreateView(LoginRequiredMixin, CreateView):
 class PackageExampleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = PackageExample
     form_class = PackageExampleForm
-    template_name = "new/partials/sites_using_form.html"
+    template_name = "partials/sites_using_form.html"
     pk_url_kwarg = "id"
 
     def test_func(self):
@@ -303,7 +303,7 @@ class PackageExampleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVi
         self.object = form.save()
         return render(
             self.request,
-            "new/partials/sites_using_card.html",
+            "partials/sites_using_card.html",
             {"package": self.object.package},
         )
 
@@ -311,7 +311,7 @@ class PackageExampleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVi
 class PackageExampleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = PackageExample
     pk_url_kwarg = "id"
-    template_name = "new/partials/sites_using_card.html"
+    template_name = "partials/sites_using_card.html"
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -333,7 +333,7 @@ class PackageExampleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DetailVi
         self.object.delete()
         return render(
             request,
-            "new/partials/sites_using_card.html",
+            "partials/sites_using_card.html",
             {"package": package},
         )
 
@@ -349,7 +349,7 @@ class PackageUsageToggleView(LoginRequiredMixin, View):
 
     def _invalidate_caches(self, package, user) -> None:
         cache.delete(f"sitewide_used_packages_list_{user.pk}")
-        package.grid_clear_detail_template_cache()
+        # package.grid_clear_detail_template_cache()
 
     def get(self, request, slug, action):
         """Handle GET requests for usage toggle."""
@@ -390,7 +390,7 @@ class PackageUsageToggleView(LoginRequiredMixin, View):
             mobile = bool(request.GET.get("mobile"))
             return render(
                 request,
-                "new/partials/usage_button.html",
+                "partials/usage_button.html",
                 {"package": package, "is_using": is_using, "mobile": mobile},
             )
 
@@ -404,7 +404,7 @@ class PackageUsageToggleView(LoginRequiredMixin, View):
 
 
 class PackageRulesView(DetailView):
-    template_name = "new/package_rules.html"
+    template_name = "package/package_rules.html"
     model = Package
     context_object_name = "package"
     slug_field = "slug"
@@ -452,7 +452,7 @@ class PackageRulesView(DetailView):
 
 
 class PackageDetailView(DetailView):
-    template_name = "new/package_detail.html"
+    template_name = "package/package_detail.html"
     model = Package
     context_object_name = "package"
     slug_field = "slug"
@@ -501,7 +501,7 @@ class PackageDetailView(DetailView):
 
 
 class PackageOpenGraphDetailView(DetailView):
-    template_name = "new/package_opengraph.html"
+    template_name = "package/package_opengraph.html"
     model = Package
     context_object_name = "package"
     slug_field = "slug"
@@ -528,7 +528,7 @@ class PackageFetchDataView(LoginRequiredMixin, RedirectView):
 class PackageDocumentationUpdateView(LoginRequiredMixin, UpdateView):
     model = Package
     form_class = DocumentationForm
-    template_name = "new/partials/documentation_form.html"
+    template_name = "partials/documentation_form.html"
     slug_url_kwarg = "slug"
 
     def get_object(self, queryset=None):
@@ -538,7 +538,7 @@ class PackageDocumentationUpdateView(LoginRequiredMixin, UpdateView):
         self.object = form.save()
         return render(
             self.request,
-            "new/partials/documentation_card.html",
+            "partials/documentation_card.html",
             {"package": self.object},
         )
 
@@ -566,7 +566,7 @@ class GitHubWebhookView(View):
 
 
 class PackageVersionListView(ListView):
-    template_name = "new/partials/releases_table.html"
+    template_name = "partials/releases_table.html"
     context_object_name = "versions"
     paginate_by = 10
 
@@ -654,14 +654,14 @@ class BasePackageListView(ListView):
         if self.request.htmx:
             return render(
                 self.request,
-                "new/partials/package_list_body.html",
+                "partials/package_list_body.html",
                 context,
             )
         return super().render_to_response(context, **response_kwargs)
 
 
 class PackageListView(BasePackageListView):
-    template_name = "new/package_list.html"
+    template_name = "package/package_list.html"
 
     def get_filter_form(self):
         return PackageFilterForm(self.request.GET)
@@ -701,7 +701,7 @@ class PackageListView(BasePackageListView):
 
 
 class PackageByCategoryListView(BasePackageListView):
-    template_name = "new/category_package_list.html"
+    template_name = "package/category_package_list.html"
 
     def dispatch(self, request, *args, **kwargs):
         self.category = get_object_or_404(Category, slug=kwargs["slug"])
@@ -741,7 +741,7 @@ class PackageByCategoryListView(BasePackageListView):
 
 
 class PackageByGridListView(BasePackageListView):
-    template_name = "new/grid_package_list.html"
+    template_name = "package/grid_package_list.html"
 
     def dispatch(self, request, *args, **kwargs):
         self.grid = get_object_or_404(Grid, slug=kwargs["slug"])

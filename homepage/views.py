@@ -11,7 +11,7 @@ from products.models import Product, Release
 
 
 class OpenView(TemplateView):
-    template_name = "new/open.html"
+    template_name = "homepage/open.html"
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -109,7 +109,7 @@ class OpenView(TemplateView):
 
 
 class ReadinessView(TemplateView):
-    template_name = "new/readiness_index.html"
+    template_name = "homepage/readiness_index.html"
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -136,7 +136,7 @@ class ReadinessView(TemplateView):
 
 
 class ReadinessDetailView(TemplateView):
-    template_name = "new/readiness_detail.html"
+    template_name = "homepage/readiness_detail.html"
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -211,7 +211,7 @@ class ReadinessDetailView(TemplateView):
 
 
 class HomepageView(TemplateView):
-    template_name = "new/index.html"
+    template_name = "homepage/index.html"
 
     def _get_categories(self):
         if not (categories := cache.get("categories")):
@@ -292,20 +292,20 @@ class HomepageView(TemplateView):
 
 
 def error_404_view(request, exception=None):
-    response = render(request, "new/404.html")
+    response = render(request, "404.html")
     response.status_code = 404
     return response
 
 
 def error_403_view(request, exception=None):
-    response = render(request, "new/403.html")
+    response = render(request, "403.html")
     response.status_code = 403
     return response
 
 
 def error_500_view(request):
     try:
-        response = render(request, "new/500.html")
+        response = render(request, "500.html")
     except Exception:
         response = HttpResponse(
             """<html><body><p>If this seems like a bug, would you please do us a favor and <a href="https://github.com/djangopackages/djangopackages/issues">create a ticket?</a></p></body></html>"""
@@ -315,6 +315,6 @@ def error_500_view(request):
 
 
 def error_503_view(request):
-    response = render(request, "new/503.html")
+    response = render(request, "503.html")
     response.status_code = 503
     return response

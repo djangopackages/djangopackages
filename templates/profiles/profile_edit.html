@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load i18n page_metadata_tags static %}
+
+{% block metadata %}
+    {% translate "Profile for " as trans_title %}
+    {% page_metadata page_title=trans_title|add:profile.user.username %}
+{% endblock metadata %}
+
+{% block content %}
+    <!-- Breadcrumb Section -->
+    <section class="py-4 bg-primary/10">
+        <div class="container px-4 mx-auto">
+            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
+                <div class="flex items-center text-sm text-muted-foreground">
+                    <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
+                    <span class="mx-2">»</span>
+                    <a href="{% url 'profile_detail' profile.github_account %}" class="hover:underline">{% translate "Profile" %}</a>
+                    <span class="mx-2">»</span>
+                    <span class="font-medium text-foreground truncate">{% translate "Edit Profile" %}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container py-8 px-4 mx-auto">
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-foreground">{% translate "Edit Profile" %}</h1>
+            <p class="pt-2 text-muted-foreground">{% translate "Update your profile details." %}</p>
+        </div>
+
+        <div class="max-w-3xl card">
+            <div class="p-6 card-content">
+                <form method="post" id="profile-form">
+                    {% csrf_token %}
+
+                    <div class="flex gap-3 items-center p-4 mb-6 rounded-md border bg-primary/5 text-foreground border-primary/20">
+                        <i class="text-2xl ph-github-logo"></i>
+                        <div>
+                            <span class="text-sm font-medium text-muted-foreground">{% translate "GitHub Account" %}</span>
+                            <p class="text-lg font-bold leading-none">{{ profile.github_account }}</p>
+                        </div>
+                    </div>
+
+                    {% include "partials/form_renderer.html" %}
+                </form>
+
+                <div class="mt-8">
+                    <h3 class="mb-4 text-lg font-semibold">{% translate "Extra Fields" %}</h3>
+                    <div id="extra-fields-container" class="space-y-4">
+                        {% for item in extra_fields_data %}
+                            {% include "partials/extra_field_item.html" with extra_field=item.instance form=item.form %}
+                        {% endfor %}
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="button"
+                                onclick="
+                                         const tmpl = document.getElementById('extra-field-template');
+                                         const container = document.getElementById('extra-fields-container');
+                                         container.appendChild(tmpl.content.cloneNode(true));
+                                         htmx.process(container.lastElementChild);
+                                        "
+                                class="btn btn-secondary btn-sm">
+                            <i class="mr-1 ph-plus"></i>
+                            {% translate "Add Extra Field" %}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="pt-6 mt-8 border-t">
+                    <button type="submit" form="profile-form" class="w-full md:w-auto btn-primary">
+                        <i class="mr-1 text-lg ph-bold ph-pencil"></i>
+                        {% translate "Save Changes" %}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <template id="extra-field-template">
+        {% include "partials/extra_field_form.html" with form=extra_field_form %}
+    </template>
+{% endblock content %}

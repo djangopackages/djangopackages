@@ -20,7 +20,7 @@ class FunctionalGridTest(TestCase):
         with self.assertNumQueries(2):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/grid_list.html")
+        self.assertTemplateUsed(response, "grid/grid_list.html")
 
     @override_flag("enabled_packages_score_values", active=True)
     def test_grid_detail_view(self):
@@ -28,7 +28,7 @@ class FunctionalGridTest(TestCase):
         with self.assertNumQueries(16):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/grid_detail.html")
+        self.assertTemplateUsed(response, "grid/grid_detail.html")
 
     def test_add_grid_view(self):
         Grid.objects.all().delete()
@@ -43,7 +43,7 @@ class FunctionalGridTest(TestCase):
         self.assertTrue(self.client.login(username="user", password="user"))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/add_grid.html")
+        self.assertTemplateUsed(response, "grid/add_grid.html")
 
         # Test form post
         count = Grid.objects.count()
@@ -71,7 +71,7 @@ class FunctionalGridTest(TestCase):
         with self.assertNumQueries(4):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/add_grid.html")
+        self.assertTemplateUsed(response, "grid/add_grid.html")
 
         # Test form post
         count = Grid.objects.count()
@@ -93,7 +93,7 @@ class FunctionalGridTest(TestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/grid_detail.html")
+        self.assertTemplateUsed(response, "grid/grid_detail.html")
 
         self.assertContains(response, "Scores (0-100) are based on Repository stars")
 
@@ -109,7 +109,7 @@ class FunctionalGridTest(TestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/grid_detail.html")
+        self.assertTemplateUsed(response, "grid/grid_detail.html")
 
         self.assertNotContains(
             response,
@@ -130,7 +130,7 @@ class FunctionalGridTest(TestCase):
         with self.assertNumQueries(5):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/add_feature.html")
+        self.assertTemplateUsed(response, "grid/add_feature.html")
 
         # Test form post
         response = self.client.post(
@@ -153,7 +153,7 @@ class FunctionalGridTest(TestCase):
         with self.assertNumQueries(5):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/add_feature.html")
+        self.assertTemplateUsed(response, "grid/add_feature.html")
 
         # Test form post
         count = Feature.objects.count()
@@ -194,7 +194,7 @@ class FunctionalGridTest(TestCase):
         self.assertTrue(self.client.login(username="user", password="user"))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/edit_element.html")
+        self.assertTemplateUsed(response, "grid/edit_element.html")
 
         # Test form post
         count = Element.objects.count()
@@ -227,7 +227,7 @@ class FunctionalGridTest(TestCase):
         with self.assertNumQueries(4):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/add_grid_package.html")
+        self.assertTemplateUsed(response, "grid/add_grid_package.html")
 
         # Test form post for existing grid package
         response = self.client.post(
@@ -292,7 +292,7 @@ class RegressionGridTest(TestCase):
         url = reverse("edit_element", kwargs={"feature_id": "1", "package_id": "1"})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "new/edit_element.html")
+        self.assertTemplateUsed(response, "grid/edit_element.html")
 
 
 class GridPermissionTest(TestCase):

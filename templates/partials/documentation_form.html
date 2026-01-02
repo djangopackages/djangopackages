@@ -1,0 +1,21 @@
+{% load i18n %}
+<div class="card-header">
+    <h3 class="flex gap-2 items-center text-lg font-semibold">
+        <i class="text-xl ph-bold ph-book-open"></i>
+        {% translate "Edit Documentation" %}
+    </h3>
+</div>
+<div class="card-content">
+    <form hx-post="{% url 'edit_documentation' package.slug %}" hx-target="#documentation-card" hx-swap="innerHTML">
+        {% csrf_token %}
+        {% include "partials/form_renderer.html" %}
+        <div class="flex gap-2 justify-end mt-4">
+            <button
+                type="button"
+                class="btn btn-secondary"
+                onclick="const card = document.getElementById('documentation-card'); card.innerHTML = card.originalContent; htmx.process(card);"
+            >{% translate "Cancel" %}</button>
+            <button type="submit" class="btn btn-primary">{% translate "Save" %}</button>
+        </div>
+    </form>
+</div>

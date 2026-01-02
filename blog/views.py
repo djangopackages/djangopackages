@@ -5,7 +5,7 @@ from blog.models import Post
 
 class PostDetail(DetailView):
     model = Post
-    template_name = "new/post_detail.html"
+    template_name = "blog/post_detail.html"
     context_object_name = "post"
 
 
@@ -13,4 +13,4 @@ class PostList(ListView):
     context_object_name = "posts"
     model = Post
     ordering = ["-published_date"]
-    template_name = "new/post_list.html"
+    template_name = "blog/post_list.html"

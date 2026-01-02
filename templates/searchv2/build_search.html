@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load i18n page_metadata_tags %}
+
+{% block metadata %}
+    {% translate "Rebuild Search" as trans_title %}
+    {% page_metadata page_title=trans_title %}
+{% endblock metadata %}
+
+{% block content %}
+    <!-- Breadcrumb Section -->
+    <section class="py-4 bg-primary/10">
+        <div class="container px-4 mx-auto">
+            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
+                <div class="flex items-center text-sm text-muted-foreground">
+                    <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
+                    <span class="mx-2">»</span>
+                    <span class="font-medium text-foreground truncate">{% translate "Rebuild Search" %}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container py-8 px-4 mx-auto">
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-foreground">{% translate "Rebuild Search Results Cache" %}</h1>
+            <p class="pt-2 text-muted-foreground">{% translate "Run this process to rebuild the search index." %}</p>
+        </div>
+
+        <div class="max-w-3xl card">
+            <div class="p-6 card-content">
+                <form method="post">
+                    {% csrf_token %}
+                    <div>
+                        <button type="submit" class="w-full md:w-auto btn-primary">
+                            <i class="mr-1 text-lg ph-bold ph-arrows-clockwise"></i>
+                            {% translate "Build Search" %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

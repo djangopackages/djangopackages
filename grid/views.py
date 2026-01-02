@@ -45,7 +45,7 @@ def build_element_map(elements):
 
 class GridDetailView(DetailView):
     model = Grid
-    template_name = "new/grid_detail.html"
+    template_name = "grid/grid_detail.html"
     context_object_name = "grid"
     slug_field = "slug"
     slug_url_kwarg = "slug"
@@ -229,15 +229,13 @@ class GridDetailView(DetailView):
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.htmx:
-            return render(
-                self.request, "new/partials/grid_comparison_table.html", context
-            )
+            return render(self.request, "partials/grid_comparison_table.html", context)
         return super().render_to_response(context, **response_kwargs)
 
 
 class GridListView(ListView):
     model = Grid
-    template_name = "new/grid_list.html"
+    template_name = "grid/grid_list.html"
     paginate_by = 20
     context_object_name = "grids"
 
@@ -298,13 +296,13 @@ class GridListView(ListView):
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.htmx:
-            return render(self.request, "new/partials/grid_list_body.html", context)
+            return render(self.request, "partials/grid_list_body.html", context)
         return super().render_to_response(context, **response_kwargs)
 
 
 class AddGridView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = GridForm
-    template_name = "new/add_grid.html"
+    template_name = "grid/add_grid.html"
 
     def test_func(self):
         return self.request.user.profile.can_add_grid
@@ -322,7 +320,7 @@ class AddGridView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 class EditGridView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Grid
     form_class = GridForm
-    template_name = "new/add_grid.html"
+    template_name = "grid/add_grid.html"
     slug_field = "slug"
     slug_url_kwarg = "slug"
 
@@ -339,7 +337,7 @@ class EditGridView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 class AddFeatureView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = FeatureForm
-    template_name = "new/add_feature.html"
+    template_name = "grid/add_feature.html"
 
     def dispatch(self, request, *args, **kwargs):
         self.grid = get_object_or_404(Grid, slug=self.kwargs["grid_slug"])
@@ -367,7 +365,7 @@ class AddFeatureView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 class EditFeatureView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Feature
     form_class = FeatureForm
-    template_name = "new/add_feature.html"
+    template_name = "grid/add_feature.html"
     pk_url_kwarg = "id"
 
     def test_func(self):
@@ -385,7 +383,7 @@ class EditFeatureView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 class DeleteFeatureView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Feature
-    template_name = "new/delete_feature.html"
+    template_name = "grid/delete_feature.html"
     pk_url_kwarg = "id"
     permission_required = "grid.delete_feature"
 
@@ -404,7 +402,7 @@ class DeleteFeatureView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView)
 
 class DeleteGridPackageView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = GridPackage
-    template_name = "new/delete_grid_package.html"
+    template_name = "grid/delete_grid_package.html"
     pk_url_kwarg = "id"
     permission_required = "grid.delete_gridpackage"
 
@@ -426,7 +424,7 @@ class DeleteGridPackageView(LoginRequiredMixin, PermissionRequiredMixin, DeleteV
 class EditElementView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Element
     form_class = ElementForm
-    template_name = "new/edit_element.html"
+    template_name = "grid/edit_element.html"
 
     def test_func(self):
         return self.request.user.profile.can_edit_grid_element
@@ -466,7 +464,7 @@ class EditElementView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class AddGridPackageView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = GridPackage
     form_class = GridPackageForm
-    template_name = "new/add_grid_package.html"
+    template_name = "grid/add_grid_package.html"
 
     @cached_property
     def grid(self):
@@ -513,7 +511,7 @@ class AddGridPackageView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
 class AjaxPackageSearchView(ListView):
     model = Package
-    template_name = "new/partials/package_search_results.html"
+    template_name = "partials/package_search_results.html"
     context_object_name = "packages"
 
     def get_queryset(self):
@@ -533,7 +531,7 @@ class AjaxPackageSearchView(ListView):
 
 class AjaxGridSearchView(ListView):
     model = Package
-    template_name = "new/partials/grid_search_results.html"
+    template_name = "partials/grid_search_results.html"
     context_object_name = "grids"
 
     def get_queryset(self):
@@ -553,14 +551,14 @@ class AjaxGridSearchView(ListView):
 
 class GridOpenGraphView(DetailView):
     model = Grid
-    template_name = "new/grid_opengraph.html"
+    template_name = "grid/grid_opengraph.html"
     slug_field = "slug"
     slug_url_kwarg = "slug"
 
 
 class GridTimesheetView(DetailView):
     model = Grid
-    template_name = "new/grid_timesheet.html"
+    template_name = "grid/grid_timesheet.html"
     slug_field = "slug"
     slug_url_kwarg = "slug"
 

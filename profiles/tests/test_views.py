@@ -88,13 +88,13 @@ class TestProfileContributedPackagesView(TestCase):
 
     def test_view_template_used(self):
         response = self.client.get(self.url)
-        self.assertTemplateUsed(response, "new/partials/profile_packages_card.html")
+        self.assertTemplateUsed(response, "partials/profile_packages_card.html")
 
     def test_htmx_view_template_used(self):
         response = self.client.get(
             self.url, headers={"hx-target": "contributed-packages-table-container"}
         )
-        self.assertTemplateUsed(response, "new/partials/profile_packages_table.html")
+        self.assertTemplateUsed(response, "partials/profile_packages_table.html")
 
 
 class TestProfileFavoritePackagesView(TestCase):
@@ -137,11 +137,11 @@ class TestProfileFavoritePackagesView(TestCase):
     def test_view_template_used(self):
         self.client.login(username="testuser", password=STOCK_PASSWORD)
         response = self.client.get(self.url)
-        self.assertTemplateUsed(response, "new/partials/profile_packages_card.html")
+        self.assertTemplateUsed(response, "partials/profile_packages_card.html")
 
     def test_htmx_view_template_used(self):
         self.client.login(username="testuser", password=STOCK_PASSWORD)
         response = self.client.get(
             self.url, headers={"hx-target": "favorite-packages-table-container"}
         )
-        self.assertTemplateUsed(response, "new/partials/profile_packages_table.html")
+        self.assertTemplateUsed(response, "partials/profile_packages_table.html")

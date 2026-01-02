@@ -17,7 +17,7 @@ from profiles.models import Profile, ExtraField
 
 class ProfileDetailView(DetailView):
     model = Profile
-    template_name = "new/profile_detail.html"
+    template_name = "profiles/profile_detail.html"
     slug_url_kwarg = "github_account"
     slug_field = "github_account"
     context_object_name = "local_profile"
@@ -52,7 +52,7 @@ class ProfileDetailView(DetailView):
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = Profile
     form_class = ProfileForm
-    template_name = "new/profile_edit.html"
+    template_name = "profiles/profile_edit.html"
 
     def get_object(self):
         return self.request.user.profile
@@ -110,8 +110,8 @@ class ProfilePackageBaseView(ListView):
 
     def get_template_names(self):
         if self.request.headers.get("HX-Target") == self.target_id:
-            return ["new/partials/profile_packages_table.html"]
-        return ["new/partials/profile_packages_card.html"]
+            return ["partials/profile_packages_table.html"]
+        return ["partials/profile_packages_card.html"]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -156,14 +156,14 @@ class ProfileFavoritePackagesView(ProfilePackageBaseView):
 class ProfileExtraFieldCreateView(LoginRequiredMixin, CreateView):
     model = ExtraField
     form_class = ExtraFieldForm
-    template_name = "new/partials/extra_field_form.html"
+    template_name = "partials/extra_field_form.html"
 
     def form_valid(self, form):
         form.instance.profile = self.request.user.profile
         self.object = form.save()
         return render(
             self.request,
-            "new/partials/extra_field_item.html",
+            "partials/extra_field_item.html",
             {"extra_field": self.object, "form": ExtraFieldForm(instance=self.object)},
         )
 
@@ -174,7 +174,7 @@ class ProfileExtraFieldCreateView(LoginRequiredMixin, CreateView):
 class ProfileExtraFieldUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = ExtraField
     form_class = ExtraFieldForm
-    template_name = "new/partials/extra_field_form.html"
+    template_name = "partials/extra_field_form.html"
     context_object_name = "extra_field"
 
     def dispatch(self, request, *args, **kwargs):
@@ -188,14 +188,14 @@ class ProfileExtraFieldUpdateView(LoginRequiredMixin, UserPassesTestMixin, Updat
         self.object = form.save()
         return render(
             self.request,
-            "new/partials/extra_field_item.html",
+            "partials/extra_field_item.html",
             {"extra_field": self.object, "form": ExtraFieldForm(instance=self.object)},
         )
 
     def form_invalid(self, form):
         return render(
             self.request,
-            "new/partials/extra_field_item.html",
+            "partials/extra_field_item.html",
             {
                 "extra_field": self.object,
                 "form": form,

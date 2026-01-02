@@ -8,7 +8,7 @@ from package.models import Package
 register = template.Library()
 
 
-@register.inclusion_tag("new/partials/grid_of_the_week.html")
+@register.inclusion_tag("partials/grid_of_the_week.html")
 def grid_of_the_week():
     today = timezone.now().date()
 
