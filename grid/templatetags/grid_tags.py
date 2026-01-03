@@ -5,7 +5,7 @@ import re
 
 from django import template
 from django.conf import settings
-from django.template.defaultfilters import escape, truncatewords
+from django.template.defaultfilters import escape
 
 register = template.Library()
 
@@ -74,22 +74,6 @@ def hash(h, key):
     Code there, and possible here, should be refactored.
     """
     return h.get(key, {})
-
-
-@register.filter
-def style_description(value):
-    return style_default(value[:20])
-
-
-@register.filter
-def style_default(value):
-    return value
-
-
-@register.filter
-def style_repo_description(var):
-    truncated_desc = truncatewords(var, 20)
-    return truncated_desc
 
 
 @register.filter
