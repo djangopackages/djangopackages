@@ -10,6 +10,6 @@
   <SyndicationRight>open</SyndicationRight>
   <AdultContent>false</AdultContent>
   <Url type="application/x-suggestions+json" rel="suggestions" template="http://{{ request.get_host }}{% url 'opensearch-suggestions' %}?q={searchTerms}"/>
-  <Url type="text/html" rel="results" method="get" template="http://{{ request.get_host }}{% url 'search' %}?q={searchTerms}"/>
+  <Url type="text/html" rel="results" method="get" template="http://{{ request.get_host }}{% url 'packages' %}?q={searchTerms}"/>
   <Url type="application/opensearchdescription+xml" rel="self" template="http://{{ request.get_host }}{% url 'opensearch-description' %}"/>
 </OpenSearchDescription>

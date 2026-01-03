@@ -3,74 +3,73 @@
 from django.urls import path, re_path
 
 from grid.views import (
+    AddGridView,
+    AjaxGridSearchView,
+    EditGridView,
+    GridDetailView,
     GridListView,
-    add_feature,
-    add_grid,
-    add_grid_package,
-    add_new_grid_package,
-    ajax_grid_list,
-    delete_feature,
-    delete_grid_package,
-    edit_element,
-    edit_feature,
-    edit_grid,
-    grid_detail,
-    grid_opengraph_detail,
-    grid_timesheet,
-    grid_detail_landscape,
+    AddFeatureView,
+    AddGridPackageView,
+    AjaxPackageSearchView,
+    GridOpenGraphView,
+    DeleteFeatureView,
+    DeleteGridPackageView,
+    EditElementView,
+    EditFeatureView,
+    GridTimesheetView,
 )
 from package.views import PackageByGridListView
 
 urlpatterns = [
     path(
         "add/",
-        view=add_grid,
+        view=AddGridView.as_view(),
         name="add_grid",
     ),
     path(
         "<slug:slug>/edit/",
-        view=edit_grid,
+        view=EditGridView.as_view(),
         name="edit_grid",
     ),
     path(
         "element/<int:feature_id>/<int:package_id>/",
-        view=edit_element,
+        view=EditElementView.as_view(),
         name="edit_element",
     ),
     re_path(
         r"^feature/add/(?P<grid_slug>[a-z0-9\-\_]+)/$",
-        view=add_feature,
+        view=AddFeatureView.as_view(),
         name="add_feature",
     ),
     path(
         "feature/<int:id>/",
-        view=edit_feature,
+        view=EditFeatureView.as_view(),
         name="edit_feature",
     ),
     path(
         "feature/<int:id>/delete/",
-        view=delete_feature,
+        view=DeleteFeatureView.as_view(),
         name="delete_feature",
     ),
     path(
         "package/<int:id>/delete/",
-        view=delete_grid_package,
+        view=DeleteGridPackageView.as_view(),
         name="delete_grid_package",
     ),
     re_path(
         r"^(?P<grid_slug>[a-z0-9\-\_]+)/package/add/$",
-        view=add_grid_package,
+        view=AddGridPackageView.as_view(),
         name="add_grid_package",
     ),
-    re_path(
-        r"^(?P<grid_slug>[a-z0-9\-\_]+)/package/add/new$",
-        view=add_new_grid_package,
-        name="add_new_grid_package",
+    path(
+        "ajax_package_search/",
+        view=AjaxPackageSearchView.as_view(),
+        name="ajax_package_search",
     ),
     path(
-        "ajax_grid_list/",
-        view=ajax_grid_list,
-        name="ajax_grid_list",
+        "ajax_grid_search/",
+        view=AjaxGridSearchView.as_view(),
+        name="ajax_grid_search",
     ),
     path(
         "",
@@ -79,20 +78,19 @@ urlpatterns = [
     ),
     path(
         "g/<slug:slug>/",
-        view=grid_detail,
+        view=GridDetailView.as_view(),
         name="grid",
     ),
     path(
         "g/<slug:slug>/opengraph/",
-        view=grid_opengraph_detail,
+        view=GridOpenGraphView.as_view(),
         name="grid_opengraph",
     ),
     path(
-        "g/<slug:slug>/landscape/",
-        view=grid_detail_landscape,
-        name="grid_landscape",
+        "g/<slug:slug>/timesheet/",
+        view=GridTimesheetView.as_view(),
+        name="grid_timesheet",
     ),
-    path("g/<slug:slug>/timesheet/", view=grid_timesheet, name="grid_timesheet"),
     path(
         "g/<slug:slug>/packages/",
         view=PackageByGridListView.as_view(),

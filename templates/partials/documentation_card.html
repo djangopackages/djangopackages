@@ -1,0 +1,31 @@
+{% load i18n %}
+<div class="card-header">
+    <div class="flex justify-between items-center">
+        <h3 class="flex gap-2 items-center text-lg font-semibold">
+            <i class="text-xl ph-bold ph-book-open"></i>
+            {% translate "Documentation" %}
+        </h3>
+        {% if request.user.is_authenticated and request.user.profile.can_edit_package %}
+            <button
+                hx-get="{% url 'edit_documentation' package.slug %}"
+                hx-target="#documentation-card"
+                hx-swap="innerHTML"
+                onclick="document.getElementById('documentation-card').originalContent = document.getElementById('documentation-card').innerHTML"
+                class="px-2 h-8 text-xs btn-secondary"
+                title="{% translate 'Edit documentation' %}"
+            >
+                <i class="text-base ph-bold ph-pencil-simple"></i>
+            </button>
+        {% endif %}
+    </div>
+</div>
+<div class="card-content">
+    {% if package.documentation_url %}
+        <a href="{{ package.documentation_url }}" target="_blank" rel="noopener noreferrer" class="flex gap-1 items-center text-sm break-all hover:underline text-primary">
+            <span class="truncate">{{ package.documentation_url }}</span>
+            <i class="flex-shrink-0 text-sm ph-bold ph-arrow-square-out"></i>
+        </a>
+    {% else %}
+        <p class="text-sm text-muted-foreground">{% translate "No documentation URL provided." %}</p>
+    {% endif %}
+</div>

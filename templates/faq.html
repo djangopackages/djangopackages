@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+{% load i18n page_metadata_tags %}
+
+{% block metadata %}
+    {% translate "Frequently Asked Questions" as trans_title %}
+    {% page_metadata page_title=trans_title %}
+{% endblock metadata %}
+
+{% block content %}
+    <!-- Breadcrumb Section -->
+    <section class="py-4 bg-primary/10">
+        <div class="container px-4 mx-auto">
+            <div class="flex items-center text-sm text-muted-foreground">
+                <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
+                <span class="mx-2">»</span>
+                <span class="font-medium text-foreground truncate">{% translate "FAQ" %}</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="container py-8 px-4 mx-auto">
+        <div class="mb-10 text-center">
+            <h1 class="text-3xl font-bold md:text-4xl text-foreground">{% translate "Frequently Asked Questions" %}</h1>
+            <p class="mt-2 mb-6 text-xl text-muted-foreground">{% translate "Everything you need to know about Django Packages." %}</p>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-2">
+            <!-- Maintainers -->
+            <div class="card">
+                <div class="p-6 card-content">
+                    <div class="flex gap-3 items-start">
+                        <div class="p-2 rounded-lg bg-primary/10 text-primary">
+                            <i class="text-xl ph-bold ph-users"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-2 text-xl font-semibold">{% translate "Who maintains this project?" %}</h3>
+                            <div class="text-muted-foreground">
+                                <p class="mb-4">
+                                    {% blocktranslate %}
+                                        Django Packages is maintained by
+                                        <a href="https://twitter.com/webology" class="font-medium hover:underline text-primary">Jeff Triplett</a>
+                                        and
+                                        <a href="https://github.com/djangopackages/djangopackages/graphs/contributors" class="font-medium hover:underline text-primary">contributors</a>
+                                        just like you.
+                                        Development is sponsored by <a href="https://www.revsys.com/" class="font-medium hover:underline text-primary">REVSYS</a>.
+                                    {% endblocktranslate %}
+                                </p>
+                                <p>
+                                    {% blocktranslate %}
+                                        From 2010 to 2021, the majority of hosting and development was provided by
+                                        <a href="https://www.roygreenfeld.com/collections/two-scoops-press" class="font-medium hover:underline text-primary">Two Scoops Press</a>, an imprint of
+                                        <a href="https://www.roygreenfeld.com/" class="font-medium hover:underline text-primary">Roy Greenfeld</a>.
+                                    {% endblocktranslate %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DSF Role -->
+            <div class="card">
+                <div class="p-6 card-content">
+                    <div class="flex gap-3 items-start">
+                        <div class="p-2 rounded-lg bg-primary/10 text-primary">
+                            <i class="text-xl ph-bold ph-buildings"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-2 text-xl font-semibold">{% translate "What role does the DSF have in this project?" %}</h3>
+                            <div class="text-muted-foreground">
+                                <p>
+                                    {% blocktranslate %}
+                                        Projects listed on Django Packages are third-party packages.
+                                        They are not vetted nor endorsed by the <a href="https://www.djangoproject.com/foundation/" class="font-medium hover:underline text-primary">Django Software Foundation</a>.
+                                        Use them at your own risk.
+                                    {% endblocktranslate %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grids -->
+            <div class="card">
+                <div class="p-6 card-content">
+                    <div class="flex gap-3 items-start">
+                        <div class="p-2 rounded-lg bg-primary/10 text-primary">
+                            <i class="text-xl ph-bold ph-grid-nine"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-2 text-xl font-semibold">{% translate "What are grids?" %}</h3>
+                            <div class="text-muted-foreground">
+                                <p class="mb-4">
+                                    {% blocktranslate %}
+                                        <a href="/grids/" class="font-medium hover:underline text-primary">Grids</a> let you compare {{ FRAMEWORK_TITLE }} packages to each other.
+                                        A grid comes with a number of default items compared, but you can add more features in order to get
+                                        a more specific comparison.
+                                    {% endblocktranslate %}
+                                </p>
+                                <p>
+                                    {% blocktranslate %}
+                                        For now, we are trying out {{ SITE_TITLE }} without the traditional tagging system, because we think
+                                        that grids give us a lot more specificity.
+                                    {% endblocktranslate %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="card">
+                <div class="p-6 card-content">
+                    <div class="flex gap-3 items-start">
+                        <div class="p-2 rounded-lg bg-primary/10 text-primary">
+                            <i class="text-xl ph-bold ph-tag"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-2 text-xl font-semibold">{% translate "What are categories?" %}</h3>
+                            <div class="text-muted-foreground">
+                                <p>
+                                    {% blocktranslate %}
+                                        Categories are broad groups of {{ FRAMEWORK_TITLE }} packages into something more granular than Grids.
+                                        A package can only have one category.
+                                        Changing then requires backend work, and is not done lightly.
+                                        This is intentional, done in order to make searching easier.
+                                    {% endblocktranslate %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Source Control -->
+            <div class="card">
+                <div class="p-6 card-content">
+                    <div class="flex gap-3 items-start">
+                        <div class="p-2 rounded-lg bg-primary/10 text-primary">
+                            <i class="text-xl ph-bold ph-git-branch"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-2 text-xl font-semibold">{% translate "Which source control sites do you support?" %}</h3>
+                            <div class="text-muted-foreground">
+                                <p>{% translate "GitHub, Bitbucket, and GitLab are supported." %}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Syndication -->
+            <div class="card">
+                <div class="p-6 card-content">
+                    <div class="flex gap-3 items-start">
+                        <div class="p-2 rounded-lg bg-primary/10 text-primary">
+                            <i class="text-xl ph-bold ph-rss"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-2 text-xl font-semibold">{% translate "What about RSS & Atom Syndication?" %}</h3>
+                            <div class="text-muted-foreground">
+                                <p>
+                                    {% url 'syndication' as syndication_url %}
+                                    {% blocktranslate %}
+                                        The <a href="{{ syndication_url }}" class="font-medium hover:underline text-primary">Syndication page</a> has more details.
+                                    {% endblocktranslate %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contribute -->
+            <div class="card">
+                <div class="p-6 card-content">
+                    <div class="flex gap-3 items-start">
+                        <div class="p-2 rounded-lg bg-primary/10 text-primary">
+                            <i class="text-xl ph-bold ph-hand-heart"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-2 text-xl font-semibold">{% translate "How can I contribute?" %}</h3>
+                            <div class="text-muted-foreground">
+                                <p>
+                                    {% blocktranslate %}
+                                        This is an open source project, and we appreciate
+                                        <a href="https://docs.djangopackages.org/en/latest/contributing" class="font-medium hover:underline text-primary">all sorts of contributions</a>.
+                                    {% endblocktranslate %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hosting -->
+            <div class="card">
+                <div class="p-6 card-content">
+                    <div class="flex gap-3 items-start">
+                        <div class="p-2 rounded-lg bg-primary/10 text-primary">
+                            <i class="text-xl ph-bold ph-cloud"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-2 text-xl font-semibold">{% translate "Where is Django Package hosted?" %}</h3>
+                            <div class="text-muted-foreground">
+                                <p>
+                                    {% blocktranslate %}
+                                        Django Package is hosted on DigitalOcean.
+                                        If you would like to support us,
+                                        <a href="https://www.digitalocean.com/?refcode=d66a400de67f&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge" class="font-medium hover:underline text-primary">please use our referral link and receive a free $200 credit to get you started.</a>
+                                    {% endblocktranslate %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

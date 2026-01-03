@@ -1,0 +1,37 @@
+{% if messages %}
+    <div id="toast-container" class="flex fixed right-0 left-0 top-24 z-50 flex-col gap-3 px-4 mx-auto w-full max-w-md pointer-events-none md:right-5 md:left-auto md:px-0">
+        {% for message in messages %}
+            <div class="pointer-events-auto flex items-start p-4 rounded-lg shadow-lg border border-opacity-20 bg-white
+                        {% if 'success' in message.tags %}border-green-500{% endif %}
+                        {% if 'warning' in message.tags %}border-yellow-500{% endif %}
+                        {% if 'error' in message.tags %}border-red-500{% endif %}
+                        {% if 'info' in message.tags %}border-blue-500{% endif %}
+                        {% if 'debug' in message.tags %}border-gray-500{% endif %}
+                       " role="alert">
+
+                <div class="flex-shrink-0">
+                    {% if 'success' in message.tags %}
+                        <i class="text-xl text-green-500 ph-bold ph-check-circle"></i>
+                    {% elif 'warning' in message.tags %}
+                        <i class="text-xl text-yellow-500 ph-bold ph-warning"></i>
+                    {% elif 'error' in message.tags %}
+                        <i class="text-xl text-red-500 ph-bold ph-x-circle"></i>
+                    {% else %}
+                        <i class="text-xl text-blue-500 ph-bold ph-info"></i>
+                    {% endif %}
+                </div>
+
+                <div class="flex-1 ml-3">
+                    <p class="text-sm font-medium text-gray-900">
+                        {{ message }}
+                    </p>
+                </div>
+
+                <button type="button" class="inline-flex flex-shrink-0 justify-center items-center ml-3 w-5 h-5 text-gray-400 rounded-md hover:text-gray-500 focus:outline-none" onclick="this.closest('[role=\'alert\']').remove()">
+                    <span class="sr-only">Close</span>
+                    <i class="ph-bold ph-x"></i>
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}

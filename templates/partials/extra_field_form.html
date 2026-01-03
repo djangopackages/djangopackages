@@ -1,0 +1,47 @@
+{% load i18n %}
+<form hx-post="{% if extra_field %}{% url 'profile_edit_extra_field' extra_field.id %}{% else %}{% url 'profile_add_extra_field' %}{% endif %}"
+      hx-target="{% if extra_field %}#extra-field-row-{{ extra_field.id }}{% else %}this{% endif %}"
+      hx-swap="outerHTML"
+      class="flex flex-col gap-4 items-end p-4 rounded-md border md:flex-row md:items-start extra-field-row bg-muted/20">
+    {% csrf_token %}
+    <div class="grid flex-1 grid-cols-1 gap-4 w-full md:grid-cols-2">
+        <div>
+            <label class="block mb-1 text-sm font-medium text-foreground">{% translate "Label" %}</label>
+            <input type="text"
+                   name="label"
+                   value="{{ form.label.value|default:'' }}"
+                   class="flex py-2 px-3 w-full h-10 text-sm rounded-md border focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:opacity-50 disabled:cursor-not-allowed border-input bg-background ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:ring-ring"
+                   placeholder="e.g. X"
+                   required>
+            {% if form.label.errors %}
+                <div class="mt-1 text-xs text-red-500">{{ form.label.errors.0 }}</div>
+            {% endif %}
+        </div>
+        <div>
+            <label class="block mb-1 text-sm font-medium text-foreground">{% translate "URL" %}</label>
+            <input type="url"
+                   name="url"
+                   value="{{ form.url.value|default:'' }}"
+                   class="flex py-2 px-3 w-full h-10 text-sm rounded-md border focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:opacity-50 disabled:cursor-not-allowed border-input bg-background ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:ring-ring"
+                   placeholder="https://..."
+                   required>
+            {% if form.url.errors %}
+                <div class="mt-1 text-xs text-red-500">{{ form.url.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="flex flex-none gap-2 md:mt-6">
+        <button type="submit" class="inline-flex justify-center items-center w-10 h-10 text-sm font-medium rounded-md transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:opacity-50 disabled:pointer-events-none ring-offset-background bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-ring" title="{% translate 'Save' %}">
+            <i class="text-lg ph-bold ph-check"></i>
+        </button>
+        {% if extra_field %}
+            <button type="button" onclick="document.getElementById('extra-field-form-{{ extra_field.id }}').classList.add('hidden'); document.getElementById('extra-field-display-{{ extra_field.id }}').classList.remove('hidden'); this.closest('form').reset();" class="inline-flex justify-center items-center w-10 h-10 text-sm font-medium rounded-md transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:opacity-50 disabled:pointer-events-none ring-offset-background hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring" title="{% translate 'Cancel' %}">
+                <i class="text-lg ph-bold ph-x"></i>
+            </button>
+        {% else %}
+            <button type="button" onclick="this.closest('form').remove()" class="inline-flex justify-center items-center w-10 h-10 text-sm font-medium rounded-md transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:opacity-50 disabled:pointer-events-none ring-offset-background hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring" title="{% translate 'Cancel' %}">
+                <i class="text-lg ph-bold ph-x"></i>
+            </button>
+        {% endif %}
+    </div>
+</form>

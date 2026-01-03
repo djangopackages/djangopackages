@@ -1,0 +1,65 @@
+{% load humanize i18n %}
+<div class="flex flex-col justify-center items-center mx-auto w-full max-w-2xl duration-300 animate-in fade-in zoom-in">
+    <div class="p-3 mb-4 text-yellow-500 rounded-full bg-yellow-500/10">
+        <i class="text-4xl ph-bold ph-warning"></i>
+    </div>
+
+    <h3 class="text-xl font-bold text-foreground">{% translate "Package Already Exists" %}</h3>
+    <p class="mt-2 text-center text-muted-foreground">
+        {% translate "This repository has already been added to Django Packages." %}
+    </p>
+
+    <div class="overflow-hidden mt-8 w-full rounded-lg border shadow-sm bg-card border-border">
+        <div class="p-6">
+            <div class="flex gap-4 justify-between items-start">
+                <div class="flex-1 min-w-0">
+                    <h4 class="text-lg font-bold truncate text-foreground">
+                        <a href="{{ package.get_absolute_url }}" class="hover:underline">
+                            {{ package.title }}
+                        </a>
+                    </h4>
+                    <p class="mt-1 text-sm text-muted-foreground line-clamp-2">
+                        {{ package.repo_description|default:"No description available." }}
+                    </p>
+                </div>
+                {% if package.category %}
+                    <span class="inline-flex items-center py-0.5 px-2.5 text-xs font-medium whitespace-nowrap rounded-full bg-primary/10 text-primary">
+                        {{ package.category.title }}
+                    </span>
+                {% endif %}
+            </div>
+
+            <div class="grid grid-cols-3 gap-4 pt-6 mt-6 border-t border-border">
+                <div class="text-center">
+                    <div class="text-lg font-semibold text-foreground">{{ package.repo_watchers|intcomma }}</div>
+                    <div class="text-xs text-muted-foreground">{% translate "Stars" %}</div>
+                </div>
+                <div class="text-center border-l border-border">
+                    <div class="text-lg font-semibold text-foreground">{{ package.repo_forks|intcomma }}</div>
+                    <div class="text-xs text-muted-foreground">{% translate "Forks" %}</div>
+                </div>
+                <div class="text-center border-l border-border">
+                    <div class="text-lg font-semibold text-foreground">{{ package.pypi_downloads|intcomma }}</div>
+                    <div class="text-xs text-muted-foreground">{% translate "Downloads" %}</div>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-between items-center py-4 px-6 border-t bg-muted/50 border-border">
+            <div class="text-xs text-muted-foreground">
+                {% translate "Last updated:" %} {{ package.last_fetched|naturaltime }}
+            </div>
+            <a href="{{ package.get_absolute_url }}" class="text-sm font-medium hover:underline text-primary">
+                {% translate "View Details" %} &rarr;
+            </a>
+        </div>
+    </div>
+
+    <div class="flex gap-3 mt-8">
+        <button class="btn-secondary" onclick="window.location.reload()">
+            {% translate "Try Another URL" %}
+        </button>
+        <a href="{{ package.get_absolute_url }}" class="btn-primary">
+            {% translate "Go to Package" %}
+        </a>
+    </div>
+</div>

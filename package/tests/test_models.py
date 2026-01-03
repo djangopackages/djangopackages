@@ -2,7 +2,7 @@ import pytest
 from django.contrib.auth.models import User
 from django.test import TestCase
 
-from package.forms import PackageForm
+from package.forms import PackageCreateForm
 from package.models import FlaggedPackage, Package, Version
 from package.repos.forgejo import ForgejoHandler
 from package.tests import data, initial_data
@@ -125,7 +125,7 @@ class PackageTests(TestCase):
             self.assertEqual("UNKNOWN", p.license_latest)
 
     def test_package_form(self):
-        f = PackageForm()
+        f = PackageCreateForm()
         assert 'placeholder="ex: https://github.com/django/django"' in str(f)
 
     def test_package_flag(self):

@@ -12,16 +12,17 @@ from core.apiv1 import apiv1_gone
 from core.sitemaps import StaticViewSitemap
 from grid.sitemaps import GridSitemap
 from homepage.views import (
+    HomepageView,
     OpenView,
     ReadinessDetailView,
     ReadinessView,
+    error_403_view,
     error_404_view,
     error_500_view,
     error_503_view,
-    homepage,
 )
 from package.sitemaps import PackageSitemap
-from package.views import PackageByCategoryListView, PackagePython3ListView
+from package.views import PackageByCategoryListView
 from profiles.views import LogoutView
 
 admin_header = f"Django Packages v{__version__}"
@@ -38,11 +39,16 @@ sitemaps = {
     "blog": BlogSitemap,
 }
 
+handler404 = "homepage.views.error_404_view"
+handler500 = "homepage.views.error_500_view"
+handler403 = "homepage.views.error_403_view"
+handler503 = "homepage.views.error_503_view"
+
 urlpatterns = [
     # url(r'^login/\{\{item\.absolute_url\}\}/', RedirectView.as_view(url="/login/github/")),
     path("auth/", include("social_django.urls", namespace="social")),
     # url('', include('social_auth.urls')),
-    path("", homepage, name="home"),
+    path("", HomepageView.as_view(), name="home"),
     path(
         "robots.txt",
         TemplateView.as_view(content_type="text/plain", template_name="robots.txt"),
@@ -50,9 +56,10 @@ urlpatterns = [
     ),
     path("health/", include("health_check.urls")),
     path("404", error_404_view, name="404"),
+    path("403", error_403_view, name="403"),
     path("500", error_500_view, name="500"),
     path("503", error_503_view, name="503"),
-    re_path(settings.ADMIN_URL_BASE, admin.site.urls),
+    path(settings.ADMIN_URL_BASE, admin.site.urls),
     path("changelog/", include("blog.urls")),
     path("profiles/", include("profiles.urls")),
     path("packages/", include("package.urls")),
@@ -61,19 +68,14 @@ urlpatterns = [
     path(
         "categories/<slug:slug>/", PackageByCategoryListView.as_view(), name="category"
     ),
-    path("categories/", homepage, name="categories"),
-    path("python3/", PackagePython3ListView.as_view(), name="py3_compat"),
+    path("categories/", HomepageView.as_view(), name="categories"),
     # url(regex=r'^login/$', view=TemplateView.as_view(template_name='pages/login.html'), name='login',),
     path("logout/", LogoutView.as_view(), name="logout"),
     # static pages
-    path("about/", TemplateView.as_view(template_name="pages/faq.html"), name="about"),
-    path(
-        "terms/", TemplateView.as_view(template_name="pages/terms.html"), name="terms"
-    ),
-    path("faq/", TemplateView.as_view(template_name="pages/faq.html"), name="faq"),
-    path(
-        "stack/", TemplateView.as_view(template_name="pages/stack.html"), name="stack"
-    ),
+    path("about/", TemplateView.as_view(template_name="faq.html"), name="about"),
+    path("terms/", TemplateView.as_view(template_name="terms.html"), name="terms"),
+    path("faq/", TemplateView.as_view(template_name="faq.html"), name="faq"),
+    path("stack/", TemplateView.as_view(template_name="stack.html"), name="stack"),
     path("open/", OpenView.as_view(), name="open"),
     path("readiness/", ReadinessView.as_view(), name="readiness"),
     path(
@@ -83,13 +85,13 @@ urlpatterns = [
     ),
     path(
         "syndication/",
-        TemplateView.as_view(template_name="pages/syndication.html"),
+        TemplateView.as_view(template_name="syndication.html"),
         name="syndication",
     ),
-    path("help/", TemplateView.as_view(template_name="pages/help.html"), name="help"),
+    path("help/", TemplateView.as_view(template_name="help.html"), name="help"),
     path(
         "funding/",
-        TemplateView.as_view(template_name="pages/funding.html"),
+        TemplateView.as_view(template_name="funding.html"),
         name="funding",
     ),
     path(

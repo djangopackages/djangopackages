@@ -1,0 +1,25 @@
+{% load i18n %}
+
+{% if is_favorited %}
+    <button
+        class="flex-1 flex-shrink-0 sm:flex-none btn-secondary bg-primary/10 text-primary border-primary/20"
+        hx-post="{% url 'remove_favorite' package.id %}"
+        hx-swap="outerHTML"
+        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+    >
+        <i class="mr-1 text-base text-red-500 ph-bold ph-heart"></i>
+        <span class="hidden xs:inline">{% translate "Favorited" %}</span>
+        <span class="xs:hidden">{% translate "Favorited" %}</span>
+    </button>
+{% else %}
+    <button
+        class="flex-1 flex-shrink-0 sm:flex-none btn-secondary"
+        hx-post="{% url 'add_favorite' package.id %}"
+        hx-swap="outerHTML"
+        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+    >
+        <i class="mr-1 text-base ph-bold ph-heart"></i>
+        <span class="hidden xs:inline">{% translate "Add to Favorites" %}</span>
+        <span class="xs:hidden">{% translate "Favorite" %}</span>
+    </button>
+{% endif %}

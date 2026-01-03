@@ -1,0 +1,10 @@
+{% load i18n %}
+<form hx-post="{% url 'validate_repo_url' %}{% if grid %}?grid_slug={{ grid.slug }}{% endif %}" hx-target="#package-form-container" hx-swap="innerHTML">
+    {% csrf_token %}
+    {% include "partials/form_renderer.html" with form=repo_form %}
+    <div class="mt-6">
+        <button type="submit" class="w-full md:w-auto btn-primary">
+            {% translate "Next" %}
+        </button>
+    </div>
+</form>

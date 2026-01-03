@@ -61,11 +61,11 @@ class Grid(BaseModel):
         ).order_by("-usage_count", "package")
         return grid_packages
 
-    def save(self, *args, **kwargs):
-        if self.pk:
-            self.grid_packages  # fire the cache
-            self.clear_detail_template_cache()  # Delete the template fragment cache
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if self.pk:
+    #         self.grid_packages  # fire the cache
+    #         self.clear_detail_template_cache()  # Delete the template fragment cache
+    #     super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse("grid", args=[self.slug])
@@ -111,10 +111,10 @@ class GridPackage(BaseModel):
         verbose_name = "Grid Package"
         verbose_name_plural = "Grid Packages"
 
-    def save(self, *args, **kwargs):
-        self.grid.grid_packages  # fire the cache
-        self.grid.clear_detail_template_cache()
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.grid.grid_packages  # fire the cache
+    #     self.grid.clear_detail_template_cache()
+    #     super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.grid.slug} : {self.package.slug}"
@@ -133,10 +133,10 @@ class Feature(BaseModel):
     title = models.CharField(_("Title"), max_length=100)
     description = models.TextField(_("Description"), blank=True, max_length=1000)
 
-    def save(self, *args, **kwargs):
-        self.grid.grid_packages  # fire the cache
-        self.grid.clear_detail_template_cache()
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.grid.grid_packages  # fire the cache
+    #     self.grid.clear_detail_template_cache()
+    #     super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.grid.slug} : {self.title}"
