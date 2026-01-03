@@ -1,11 +1,8 @@
-bs4
 cloudflare
-crispy-bootstrap3
 croniter
 django-anymail
 django-better-admin-arrayfield
 django-click
-django-crispy-forms<3
 django-debug-toolbar
 django-environ
 django-extensions
@@ -17,20 +14,15 @@ django-q2
 django-reversion
 django-secure
 django-structlog
-django-tables2
 django-tailwind-cli>=4.4.2
 django-waffle
 Django>5.0
 djangorestframework<3.16
 emoji
-emojificate
 feedparser
-django-template-partials
 # github3.py
 github3.py<4.1
 gunicorn
-heroicons[django]
-jinja2
 looseversion
 markdown-it-py[linkify]
 markdownify

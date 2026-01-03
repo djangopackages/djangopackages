@@ -33,13 +33,7 @@ backrefs==5.8 \
 beautifulsoup4==4.12.3 \
     --hash=sha256:74e3d1928edc070d21748185c46e3fb33490f22f52a3addee9aee0f4f7781051 \
     --hash=sha256:b80878c9f40111313e55da8ba20bdba06d8fa3969fc68304167741bbf9e082ed
-    # via
-    #   bs4
-    #   markdownify
-bs4==0.0.2 \
-    --hash=sha256:a48685c58f50fe127722417bae83fe6badf500d54b55f7e39ffe43b798653925 \
-    --hash=sha256:abf8742c0805ef7f662dce4b51cca104cffe52b835238afc169142ab9b3fbccc
-    # via -r requirements.in
+    # via markdownify
 bumpver==2024.1130 \
     --hash=sha256:74f7ebc294b2240f346e99748cc6f238e57b050999d7428db75d76baf2bf1437 \
     --hash=sha256:8e54220aefe7db25148622f45959f7beb6b8513af0b0429b38b9072566665a49
@@ -246,7 +240,6 @@ click==8.1.7 \
     #   click-default-group
     #   django-click
     #   django-typer
-    #   emojificate
     #   mkdocs
     #   mkdocstrings
     #   sqlite-utils
@@ -330,10 +323,6 @@ coverage==7.6.4 \
     --hash=sha256:f8fe4984b431f8621ca53d9380901f62bfb54ff759a1348cd140490ada7b693c \
     --hash=sha256:fe439416eb6380de434886b00c859304338f8b19f6f54811984f3420a2e03858
     # via pytest-cov
-crispy-bootstrap3==2024.1 \
-    --hash=sha256:257555c61ec6cd792e8654822e836794237465442a6e4b47ed31f7464e8c10f4 \
-    --hash=sha256:343c696ae1a854ac0ccad25e9e7d782400783034220a11aa179d1d799acf6161
-    # via -r requirements.in
 croniter==6.0.0 \
     --hash=sha256:2f878c3856f17896979b2a4379ba1f09c83e374931ea15cc835c5dd2eee9b368 \
     --hash=sha256:37c504b313956114a983ece2c2b07790b1f1094fe9d81cc94739214748255577
@@ -408,9 +397,7 @@ django==5.1.13 \
     --hash=sha256:543ff21679f15e80edfc01fe7ea35f8291b6d4ea589433882913626a7c1cf929
     # via
     #   -r requirements.in
-    #   crispy-bootstrap3
     #   django-anymail
-    #   django-crispy-forms
     #   django-debug-toolbar
     #   django-extensions
     #   django-health-check
@@ -420,13 +407,10 @@ django==5.1.13 \
     #   django-reversion
     #   django-secure
     #   django-structlog
-    #   django-tables2
     #   django-tailwind-cli
-    #   django-template-partials
     #   django-typer
     #   django-waffle
     #   djangorestframework
-    #   heroicons
     #   model-bakery
     #   social-auth-app-django
 django-anymail==12.0 \
@@ -441,12 +425,6 @@ django-click==2.4.1 \
     --hash=sha256:5b989ca791689391e6744f8a4dda9bc0aac06670f408c45794d6b83fbe7577ce \
     --hash=sha256:80cfa57af0fae29a3d47f20a74d71aecd1f0bf299549cddb97d98a949e130f01
     # via -r requirements.in
-django-crispy-forms==2.3 \
-    --hash=sha256:2db17ae08527201be1273f0df789e5f92819e23dd28fec69cffba7f3762e1a38 \
-    --hash=sha256:efc4c31e5202bbec6af70d383a35e12fc80ea769d464fb0e7fe21768bb138a20
-    # via
-    #   -r requirements.in
-    #   crispy-bootstrap3
 django-debug-toolbar==5.0.1 \
     --hash=sha256:296f6f18a80710e84fbb8361538ae5ec522a75ebe9ab67db34bcf1026cbeb420 \
     --hash=sha256:7456cc2e951db37dab335686db7803c4a0ecb6736d120705f6668db9548bf49f
@@ -498,17 +476,9 @@ django-structlog==9.0.0 \
     --hash=sha256:0ada1ac0fa4e90a499fc9ce22fc164830304e7219cab12d3b5ef9c2f2967ff5b \
     --hash=sha256:8c32097b3f09b2727b746d6cdf4f50565c62fd040b3a0c98cb731de0b380b854
     # via -r requirements.in
-django-tables2==2.7.5 \
-    --hash=sha256:d9338937797207ffb6f481be2125c5ec3a0bb1858d409c672cc25fc5d654cb22 \
-    --hash=sha256:fb5dcaa09379cf3947598ec7e1bd5f26ed63aafdee3b23963446763bbeac37bf
-    # via -r requirements.in
 django-tailwind-cli==4.4.2 \
     --hash=sha256:8d1d69ae19209b5d6fd66150d916edbced1d154eee55895d807441dbfe282cae \
     --hash=sha256:c3ad962710fc95acf1bb45b1b7747fe549d50ff99228cadc4cf2f28fd8d4e8ce
-    # via -r requirements.in
-django-template-partials==24.4 \
-    --hash=sha256:25b67301470fc274ecc419e5e5fd4686a5020b1c038fd241a70eb087809034b6 \
-    --hash=sha256:ee59d3839385d7f648907c3fa8d5923fcd66cd8090f141fe2a1c338b917984e2
     # via -r requirements.in
 django-test-plus==2.2.4 \
     --hash=sha256:06488209a07dca60dc2bbeaeae5ce340d17344163e0b121709cdac7405c6d9ef \
@@ -533,12 +503,6 @@ dominate==2.9.1 \
 emoji==2.14.1 \
     --hash=sha256:35a8a486c1460addb1499e3bf7929d3889b2e2841a57401903699fef595e942b \
     --hash=sha256:f8c50043d79a2c1410ebfae833ae1868d5941a67a6cd4d18377e2eb0bd79346b
-    # via
-    #   -r requirements.in
-    #   emojificate
-emojificate==0.7.0 \
-    --hash=sha256:78836f3592d6dd8d02cdbdecefe2375fe462f871631c1c756bfacb508c25e579 \
-    --hash=sha256:fad26c7dfb0975d8c31d1e61bfb5a7f47320088d5ba295154548bc2c1978b5d4
     # via -r requirements.in
 faker==37.0.0 \
     --hash=sha256:2598f78b76710a4ed05e197dda5235be409b4c291ba5c9c7514989cfbc7a5144 \
@@ -560,9 +524,6 @@ github3-py==4.0.1 \
     --hash=sha256:30d571076753efc389edc7f9aaef338a4fcb24b54d8968d5f39b1342f45ddd36 \
     --hash=sha256:a89af7de25650612d1da2f0609622bcdeb07ee8a45a1c06b2d16a05e4234e753
     # via -r requirements.in
-grapheme==0.6.0 \
-    --hash=sha256:44c2b9f21bbe77cfb05835fec230bd435954275267fea1858013b102f8603cca
-    # via emojificate
 griffe==1.5.1 \
     --hash=sha256:72964f93e08c553257706d6cd2c42d1c172213feb48b2be386f243380b405d4b \
     --hash=sha256:ad6a7980f8c424c9102160aafa3bcdf799df0e75f7829d75af9ee5aef656f860
@@ -575,10 +536,6 @@ h11==0.14.0 \
     --hash=sha256:8f19fbbe99e72420ff35c00b27a34cb9937e902a8b810e2c88300c6f0a3b699d \
     --hash=sha256:e3fe4ac4b851c468cc8363d500db52c2ead036020723024a109d37346efaa761
     # via httpcore
-heroicons==2.11.0 \
-    --hash=sha256:36fed4e7a2fc134f70fd22597a73012b74904cec19968f85a5bad8ae97fb7cc2 \
-    --hash=sha256:68d8c754076b0c12f7f60157bcc47fb89135ccb4f0f7d3ac53791546132bf92d
-    # via -r requirements.in
 httpcore==1.0.6 \
     --hash=sha256:27b59625743b85577a8c0e10e55b50b5368a4f2cfe8cc7bcfa9cf00829c2682f \
     --hash=sha256:73f6dbd6eb8c21bbf7ef8efad555481853f5f6acdeaff1edb0694289269ee17f
@@ -609,7 +566,6 @@ jinja2==3.1.4 \
     --hash=sha256:4a3aee7acbbe7303aede8e9648d13b8bf88a429282aa6122a993f0ac800cb369 \
     --hash=sha256:bc5dd2abb727a5319567b7a813e6a2e7318c39f4f487cfe6c89c6f9c7d25197d
     # via
-    #   -r requirements.in
     #   mkdocs
     #   mkdocs-material
     #   mkdocstrings
@@ -1340,7 +1296,6 @@ requests==2.32.4 \
     # via
     #   -r requirements.in
     #   django-anymail
-    #   emojificate
     #   github3-py
     #   mkdocs-material
     #   pygithub
