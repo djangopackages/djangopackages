@@ -481,7 +481,7 @@
                                     <div class="uppercase text-[10px] text-muted-foreground">{% translate "Forks" %}</div>
                                 </div>
                                 <div class="p-2 text-center rounded-lg bg-muted/50">
-                                    <div class="text-lg font-bold text-foreground">{{ grid_package.usage_count|default:0 }}</div>
+                                    <div id="mobile-usage-count-{{ grid_package.package.id }}" class="text-lg font-bold text-foreground">{{ grid_package.usage_count|default:0 }}</div>
                                     <div class="uppercase text-[10px] text-muted-foreground">{% translate "Usage" %}</div>
                                 </div>
                                 <div class="p-2 text-center rounded-lg bg-muted/50">

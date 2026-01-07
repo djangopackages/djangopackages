@@ -1,5 +1,8 @@
 {% load i18n %}
 <div id="{% if mobile %}mobile-usage-btn-{{ package.id }}{% else %}usage-btn-{{ package.id }}{% endif %}" class="flex gap-1.5 items-center">
+    {% if mobile %}
+        <div id="mobile-usage-count-{{ package.id }}" hx-swap-oob="true" class="text-lg font-bold text-foreground">{{ package.usage.count|default:0 }}</div>
+    {% endif %}
     {% if not mobile %}
         <span class="text-xs font-medium text-foreground">{{ package.usage.count|default:0 }}</span>
     {% endif %}
