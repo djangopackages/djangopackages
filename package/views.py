@@ -15,7 +15,7 @@ from django.template.defaultfilters import slugify
 from django.utils.decorators import method_decorator
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import DetailView, RedirectView, View
+from django.views.generic import DetailView, ListView, RedirectView, View
 from django.views.generic.edit import CreateView, UpdateView
 from django_q.tasks import async_task
 from django.utils.translation import gettext_lazy as _
@@ -39,7 +39,6 @@ from package.models import (
     RepoHost,
     Version,
 )
-from package.repos import get_all_repos
 from searchv2.rules import calc_package_weight
 from searchv2.rules import DeprecatedRule
 from searchv2.rules import DescriptionRule
@@ -51,12 +50,6 @@ from searchv2.rules import ScoreRuleGroup
 from searchv2.rules import UsageCountRule
 from searchv2.rules import WatchersRule
 from favorites.models import Favorite
-from django.views.generic import ListView
-
-
-def repo_data_for_js():
-    repos = [handler.serialize() for handler in get_all_repos()]
-    return json.dumps(repos)
 
 
 class AddPackageView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
