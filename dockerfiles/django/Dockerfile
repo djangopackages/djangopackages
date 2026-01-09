@@ -24,10 +24,10 @@ COPY pyproject.toml uv.lock ./
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --locked --no-dev
 
-COPY ./dockerfiles/django/entrypoint.sh /entrypoint.sh
+# COPY ./dockerfiles/django/entrypoint.sh /entrypoint.sh
 
-RUN sed -i 's/\r//' /entrypoint.sh \
-    && chmod +x /entrypoint.sh
+# RUN sed -i 's/\r//' /entrypoint.sh \
+#     && chmod +x /entrypoint.sh
 
 COPY . .
 
