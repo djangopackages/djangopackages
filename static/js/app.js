@@ -309,9 +309,11 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     // Setup all search inputs
-    ["search-input", "navbar-search-input", "mobile-navbar-search-input"].forEach((id) => {
+    ["search-input", "navbar-search-input", "mobile-navbar-search-input", "modal-search-input"].forEach((id) => {
         const input = document.getElementById(id);
-        const dropdown = document.getElementById(id.replace("-input", "-dropdown").replace("search", "suggestions"));
+        const dropdown = document.getElementById(
+            id.replace("-input", "-dropdown").replace("modal-search", "modal-suggestions").replace("search", "suggestions")
+        );
         setupSuggestionNav(input, dropdown);
     });
 
@@ -323,10 +325,123 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // ============================================
+    // Navbar Search Modal (Command Palette Style)
+    // ============================================
+    const searchModal = document.getElementById("search-modal");
+    const searchModalPanel = document.getElementById("search-modal-panel");
+    const searchModalBackdrop = searchModal?.querySelector("[data-search-modal-backdrop]");
+    let searchModalLastActive = null;
+
+    const isSearchModalOpen = () => searchModal && searchModal.dataset.open === "true";
+
+    const openSearchModal = () => {
+        if (!searchModal || !searchModalPanel) return;
+        if (isSearchModalOpen()) return;
+
+        searchModalLastActive = document.activeElement;
+        searchModal.dataset.open = "true";
+        searchModal.setAttribute("aria-hidden", "false");
+
+        searchModal.classList.remove("hidden");
+        document.body.classList.add("overflow-hidden");
+
+        // Kick transitions
+        requestAnimationFrame(() => {
+            searchModal.classList.remove("opacity-0");
+            searchModalPanel.classList.remove("opacity-0", "scale-95");
+        });
+
+        // Ensure HTMX has processed the modal's hx-* attributes
+        if (window.htmx && typeof window.htmx.process === "function") {
+            window.htmx.process(searchModal);
+        }
+
+        const input = document.getElementById("modal-search-input");
+        if (input) {
+            // Allow the DOM to paint before focusing
+            setTimeout(() => input.focus(), 0);
+        }
+    };
+
+    const closeSearchModal = () => {
+        if (!searchModal || !searchModalPanel) return;
+        if (!isSearchModalOpen()) return;
+
+        searchModal.dataset.open = "false";
+        searchModal.setAttribute("aria-hidden", "true");
+
+        searchModal.classList.add("opacity-0");
+        searchModalPanel.classList.add("opacity-0", "scale-95");
+
+        // Let transition finish before hiding
+        setTimeout(() => {
+            searchModal.classList.add("hidden");
+            document.body.classList.remove("overflow-hidden");
+
+            const previous = searchModalLastActive;
+            searchModalLastActive = null;
+            if (previous && typeof previous.focus === "function") {
+                previous.focus();
+            }
+        }, 160);
+    };
+
+    if (searchModal) {
+        document.querySelectorAll("[data-open-search-modal]").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                openSearchModal();
+            });
+        });
+
+        // Click outside the dialog closes
+        searchModal.addEventListener("pointerdown", (e) => {
+            if (!isSearchModalOpen()) return;
+            if (!searchModalPanel) return;
+
+            const clickedInsidePanel = searchModalPanel.contains(e.target);
+            if (!clickedInsidePanel) {
+                e.preventDefault();
+                closeSearchModal();
+            }
+        });
+
+        // Basic focus trap inside dialog
+        searchModal.addEventListener("keydown", (e) => {
+            if (!isSearchModalOpen()) return;
+            if (e.key === "Escape") {
+                e.preventDefault();
+                closeSearchModal();
+                return;
+            }
+            if (e.key !== "Tab") return;
+
+            const focusables = searchModalPanel.querySelectorAll(
+                'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+            );
+            if (!focusables.length) return;
+
+            const first = focusables[0];
+            const last = focusables[focusables.length - 1];
+            const active = document.activeElement;
+
+            if (e.shiftKey && active === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && active === last) {
+                e.preventDefault();
+                first.focus();
+            }
+        });
+    }
+
+    // ============================================
     // Search Placeholder Animation
     // ============================================
-    const animatePlaceholder = (input, texts) => {
+    const animatePlaceholder = (input, texts, options = {}) => {
         if (!input) return;
+
+        const { pauseOnFocus = true } = options;
 
         let textIndex = 0;
         let charIndex = 0;
@@ -335,7 +450,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const type = () => {
             // Stop if input is focused
-            if (document.activeElement === input) {
+            if (pauseOnFocus && document.activeElement === input) {
                 setTimeout(type, 1000);
                 return;
             }
@@ -379,6 +494,18 @@ document.addEventListener("DOMContentLoaded", function () {
         ]);
     }
 
+    // Initialize placeholder animation for modal search
+    const modalSearchInput = document.getElementById("modal-search-input");
+    if (modalSearchInput) {
+        animatePlaceholder(modalSearchInput, [
+            "Search Django packages...",
+            'Try "authentication"',
+            'Try "cms"',
+            'Try "api"',
+            'Try "rest"',
+        ], { pauseOnFocus: false });
+    }
+
     // Initialize placeholder animation for navbar search
     const navbarSearchInput = document.getElementById("navbar-search-input");
     if (navbarSearchInput) {
@@ -398,24 +525,33 @@ document.addEventListener("DOMContentLoaded", function () {
         // CMD+/ or CTRL+/ to focus search
         if ((e.metaKey || e.ctrlKey) && e.key === "/") {
             e.preventDefault();
+            if (searchModal) {
+                openSearchModal();
+                return;
+            }
             const searchInput =
                 document.getElementById("search-input") || document.getElementById("navbar-search-input");
-            if (searchInput) {
-                searchInput.focus();
-            }
+            if (searchInput) searchInput.focus();
         }
 
         // Just / to focus search (if not already in input)
         if (e.key === "/" && !["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)) {
             e.preventDefault();
+            if (searchModal) {
+                openSearchModal();
+                return;
+            }
             const searchInput =
                 document.getElementById("search-input") || document.getElementById("navbar-search-input");
-            if (searchInput) {
-                searchInput.focus();
-            }
+            if (searchInput) searchInput.focus();
         }
 
         // Escape to unfocus input
+        if (e.key === "Escape" && searchModal && isSearchModalOpen()) {
+            e.preventDefault();
+            closeSearchModal();
+            return;
+        }
         if (e.key === "Escape" && ["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)) {
             document.activeElement.blur();
         }

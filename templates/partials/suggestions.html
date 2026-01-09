@@ -20,14 +20,14 @@
             <div class="p-1">
                 <div
                     id="{{ dropdown_slug }}-results"
-                    class="overflow-y-auto pr-1 space-y-1 max-h-80 suggestions-results"
+                    class="overflow-y-auto suggestions-results {% if dropdown_slug == 'modal-suggestions-dropdown' %}max-h-[55vh] pr-1 space-y-1{% else %}pr-1 space-y-1 max-h-80{% endif %}"
                 >
                     {% include 'partials/suggestion_items.html' %}
                 </div>
             </div>
             <div
                 id="{{ dropdown_slug }}-summary-wrapper"
-                class="p-3 text-left border-t bg-muted/30 border-border/30"
+                class="p-3 text-left border-t {% if dropdown_slug == 'modal-suggestions-dropdown' %}bg-muted/20 border-border/40{% else %}bg-muted/30 border-border/30{% endif %}"
             >
                 <p class="text-xs text-muted-foreground">
                     {% blocktranslate count counter=total_count %}Showing {{ shown_count }} of {{ counter }} result{% plural %}Showing {{ shown_count }} of {{ counter }} results{% endblocktranslate %} • {% translate "Use" %}

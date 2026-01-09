@@ -24,7 +24,7 @@
                         class="py-4 pr-20 pl-12 w-full h-14 text-lg rounded-lg border-2 transition-colors focus:outline-none peer border-input bg-background text-foreground placeholder:text-muted-foreground focus:border-primary"
                         autocomplete="off"
                         hx-get="{% url 'search_suggestions' %}"
-                        hx-trigger="keyup changed delay:300ms, focus[this.value.trim().length > 0]"
+                        hx-trigger="keyup changed delay:300ms, focus"
                         hx-target="#suggestions-dropdown"
                         hx-vals='{"dropdown_id": "suggestions-dropdown"}'
                         hx-indicator="#search-spinner"
