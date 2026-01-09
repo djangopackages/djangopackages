@@ -1,4 +1,4 @@
-FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS builder
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS release
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONPATH /code
