@@ -7,8 +7,8 @@
             <table class="w-full grid-table">
             <!-- Header Row - Package Names -->
                 <thead>
-                    <tr class="border-b bg-muted/50 border-border">
-                        <th class="sticky left-0 z-10 py-2.5 px-3 text-xs font-semibold tracking-wide text-left uppercase bg-muted/50 text-muted-foreground min-w-[140px]">
+                    <tr class="border-b bg-muted border-border">
+                        <th class="sticky left-0 z-10 py-2.5 px-3 text-xs font-semibold tracking-wide text-left uppercase bg-muted text-muted-foreground min-w-[140px]">
                             {% translate "Package" %}
                         </th>
                         {% for grid_package in grid_packages %}
@@ -371,7 +371,7 @@
                 <!-- Remove from Grid Row (Admin only) -->
                     {% if perms.grid.delete_gridpackage %}
                         <tr class="border-t bg-destructive/5 border-destructive/20">
-                            <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-destructive/5 text-destructive">
+                            <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-destructive">
                                 <div class="flex gap-1.5 items-center">
                                     <i class="ph-bold ph-trash"></i>
                                     {% translate "Remove" %}

@@ -103,9 +103,19 @@
                         {% translate "Admin Dashboard" %}
                     </a>
                 {% endif %}
-                <a href="{% url 'logout' %}" class="hidden sm:inline-flex btn-secondary">{% translate "Log Out" %}</a>
+                <a
+                    href="{% url 'logout' %}"
+                    class="hidden justify-center items-center px-3 h-9 text-sm font-semibold rounded-md border transition-colors sm:inline-flex focus:ring-2 focus:outline-none text-primary-foreground/90 bg-primary-foreground/10 border-primary-foreground/20 hover:text-primary-foreground hover:bg-primary-foreground/15 hover:border-primary-foreground/30 focus:ring-primary-foreground/30"
+                >
+                    {% translate "Log Out" %}
+                </a>
             {% else %}
-                <a href="{% url 'social:begin' 'github' %}" class="hidden sm:inline-flex btn-secondary">{% translate "Log In" %}</a>
+                <a
+                    href="{% url 'social:begin' 'github' %}"
+                    class="hidden justify-center items-center px-3 h-9 text-sm font-semibold rounded-md border transition-colors sm:inline-flex focus:ring-2 focus:outline-none text-primary-foreground/90 bg-primary-foreground/10 border-primary-foreground/20 hover:text-primary-foreground hover:bg-primary-foreground/15 hover:border-primary-foreground/30 focus:ring-primary-foreground/30"
+                >
+                    {% translate "Log In" %}
+                </a>
             {% endif %}
 
             <!-- Mobile menu button -->
