@@ -106,3 +106,4 @@ venv
 collected_static
 .django_tailwind_cli
 static/css/tailwind.css
+.pytest_cache
