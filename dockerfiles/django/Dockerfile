@@ -44,6 +44,8 @@ RUN sed -i 's/\r//' /start.sh \
 
 RUN DATABASE_URL=sqlite://:memory: REDIS_URL= uv run python -m manage tailwind --skip-checks download_cli
 
+RUN DATABASE_URL=sqlite://:memory: SECRET_KEY=build-key REDIS_URL= uv run python -m manage tailwind --skip-checks build
+
 RUN mkdir /data \
     && chown django.django /data
 
