@@ -56,4 +56,4 @@ jobs:
           MAILGUN_SENDER_DOMAIN: 'test-mailgun-sender-domain'
 
         run: |
-          uv run python -m pytest . -s
+          uv run -m pytest . -s

@@ -1,7 +1,7 @@
 #!/bin/sh
-python -m manage migrate --noinput
+uv run -m manage migrate --noinput
 
-python -m manage collectstatic --noinput
+uv run -m manage collectstatic --noinput
 
 # /usr/local/bin/uwsgi \
 #     --chdir /code \

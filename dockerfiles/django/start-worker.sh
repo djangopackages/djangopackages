@@ -1,2 +1,2 @@
 #!/bin/sh
-python -m manage qcluster
+uv run -m manage qcluster
