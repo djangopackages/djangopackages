@@ -26,17 +26,13 @@ jobs:
         with:
           enable-cache: true
 
-      - name: Install bumpver
-        run: uvx bumpver update --no-fetch --verbose
-
       - name: Configure git to push
         run: |
           git config --global user.email "actions@users.noreply.github.com"
           git config --global user.name "Automated Publisher"
 
       - name: Bump Version
-        run: |
-          uv run bumpver update --no-fetch --verbose
+        run: uvx bumpver update --no-fetch --verbose
 
       # - name: Set up Docker Buildx
       #   id: buildx
@@ -59,5 +55,4 @@ jobs:
       #       ghcr.io/${{ github.repository }}:latest
 
       - name: Push Release Build to GitHub
-        run: |
-          git push
+        run: git push --follow-tags

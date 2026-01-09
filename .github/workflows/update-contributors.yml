@@ -28,7 +28,7 @@ jobs:
       run: uv sync --locked --no-dev
 
     - name: Update list
-      run: uv run python scripts/update_contributors.py
+      run: uv run scripts/update_contributors.py
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
