@@ -1,7 +1,5 @@
 #!/bin/sh
 
-# python -m manage tailwind --skip-checks build
+uv run manage.py migrate --noinput
 
-python -m manage migrate --noinput
-
-python -m manage tailwind --skip-checks runserver 0.0.0.0:8000
+uv run manage.py runserver 0.0.0.0:8000

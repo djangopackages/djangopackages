@@ -1,9 +1,11 @@
-FROM python:3.12-slim-bookworm AS base
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONPATH=/code
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONWARNINGS=ignore
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONPATH /code
+ENV PYTHONUNBUFFERED 1
+ENV PYTHONWARNINGS ignore
+ENV UV_LINK_MODE=copy
 
 # Install System dependencies
 RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
@@ -16,35 +18,33 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
        wget \
        build-essential
 
-RUN --mount=type=cache,target=/root/.cache,id=pip \
-    python -m pip install --upgrade pip uv
+WORKDIR /code
 
-# Requirements have to be pulled and installed here, otherwise caching won't work
-COPY requirements.txt /code/requirements.txt
+COPY pyproject.toml uv.lock ./
 
-RUN --mount=type=cache,target=/root/.cache,id=pip \
-    uv pip install --system --requirement /code/requirements.txt
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked --no-dev
 
-COPY . /code
+COPY ./dockerfiles/django/entrypoint.sh /entrypoint.sh
+
+RUN sed -i 's/\r//' /entrypoint.sh \
+    && chmod +x /entrypoint.sh
+
+COPY . .
 
 RUN groupadd -r django \
     && useradd -r -g django django \
     && chown -R django /code
 
-COPY ./dockerfiles/django/start-web.sh /start-web.sh
-COPY ./dockerfiles/django/start-worker.sh /start-worker.sh
+COPY ./dockerfiles/django/start.sh /start.sh
 
-RUN sed -i 's/\r//' /start-web.sh \
-    && chmod +x /start-web.sh \
-    && chown django /start-web.sh
+RUN sed -i 's/\r//' /start.sh \
+    && chmod +x /start.sh \
+    && chown django /start.sh
 
-RUN sed -i 's/\r//' /start-worker.sh \
-    && chmod +x /start-worker.sh \
-    && chown django /start-worker.sh
+RUN DATABASE_URL=sqlite://:memory: REDIS_URL= uv run -m manage tailwind --skip-checks download_cli
 
-WORKDIR /code
-
-RUN DATABASE_URL=sqlite://:memory: REDIS_URL= python -m manage tailwind --skip-checks download_cli
+RUN DATABASE_URL=sqlite://:memory: SECRET_KEY=build-key REDIS_URL= uv run -m manage tailwind --skip-checks build
 
 RUN mkdir /data \
     && chown django.django /data
@@ -55,14 +55,4 @@ RUN mkdir /data/static \
 RUN mkdir /data/media \
     && chown django.django /data/media
 
-# Worker stage
-FROM base AS worker
-
-USER django
-CMD ["/start-worker.sh"]
-
-# Web stage (default)
-FROM base AS web
-
-USER django
-CMD ["/start-web.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
