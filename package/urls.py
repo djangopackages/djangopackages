@@ -1,10 +1,8 @@
 from django.urls import path, re_path
-from django.views.generic.dates import ArchiveIndexView
-from django.db.models import Count
-from django.utils.translation import gettext_lazy as _
 
-from package.models import Package
 from package.views import (
+    LatestPackageListView,
+    MostLikedPackageListView,
     PackageOpenGraphDetailView,
     PackageExampleCreateView,
     AddPackageView,
@@ -33,33 +31,12 @@ urlpatterns = [
     ),
     path(
         "latest/",
-        view=ArchiveIndexView.as_view(
-            queryset=Package.objects.active().select_related("category"),
-            paginate_by=50,
-            date_field="created",
-            extra_context={
-                "title": _("Latest Packages"),
-                "heading": _("Latest 50 packages added"),
-            },
-            template_name="package/package_archive.html",
-        ),
+        LatestPackageListView.as_view(),
         name="latest_packages",
     ),
     path(
         "liked/",
-        view=ArchiveIndexView.as_view(
-            queryset=Package.objects.active()
-            .select_related("category")
-            .annotate(distinct_favs=Count("favorite__favorited_by", distinct=True))
-            .filter(distinct_favs__gt=0),
-            paginate_by=50,
-            date_field="created",
-            extra_context={
-                "title": _("Most Liked Packages"),
-                "heading": _("Most liked 50 packages"),
-            },
-            template_name="package/package_archive.html",
-        ),
+        MostLikedPackageListView.as_view(),
         name="liked_packages",
     ),
     path(

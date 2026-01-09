@@ -783,3 +783,56 @@ class PackageByGridListView(BasePackageListView):
             "total_count": self.grid.packages.count(),
             "current_category": self.filter_data["category"],
         }
+
+
+class MostLikedPackageListView(ListView):
+    template_name = "package/package_archive.html"
+    model = Package
+    paginate_by = 50
+    context_object_name = "packages"
+
+    def get_queryset(self):
+        return (
+            super()
+            .get_queryset()
+            .select_related("category")
+            .annotate(distinct_favs=Count("favorite__favorited_by", distinct=True))
+            .filter(distinct_favs__gt=0)
+            .order_by("-distinct_favs")
+        )
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context.update(
+            {
+                "title": _("Most Liked Packages"),
+                "heading": _("Most liked 50 packages"),
+            }
+        )
+        return context
+
+
+class LatestPackageListView(ListView):
+    template_name = "package/package_archive.html"
+    model = Package
+    paginate_by = 50
+    context_object_name = "packages"
+
+    def get_queryset(self):
+        return (
+            super()
+            .get_queryset()
+            .active()
+            .select_related("category")
+            .order_by("-created")
+        )
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context.update(
+            {
+                "title": _("Latest Packages"),
+                "heading": _("Latest 50 packages added"),
+            }
+        )
+        return context

@@ -51,7 +51,7 @@ class RepoHost(models.TextChoices):
             return cls.BITBUCKET
         elif "codeberg.org" in url:
             return cls.CODEBERG
-        return cls.FORGEJO
+        return cls.AUTO_DETECT
 
 
 class NoPyPiVersionFound(Exception):

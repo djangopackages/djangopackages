@@ -3,8 +3,10 @@ from django.conf import settings
 from django.contrib.auth.models import Permission, User
 from django.test import TestCase
 from django.urls import reverse
+from django.utils import timezone
 from waffle.testutils import override_flag
 
+from favorites.models import Favorite
 from grid.models import Grid, GridPackage
 from package.models import Category, FlaggedPackage, Package, PackageExample
 from package.tests import initial_data
@@ -59,17 +61,6 @@ class FunctionalPackageTest(TestCase):
             response,
             "Scores (0-100) are based on Repository stars",
         )
-
-    def test_latest_packages_view(self):
-        url = reverse("latest_packages")
-        with self.assertNumQueries(4):
-            response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "package/package_archive.html")
-        packages = Package.objects.all()
-        for p in packages:
-            self.assertContains(response, p.title)
-            self.assertContains(response, p.repo_description)
 
     def test_add_package_view(self):
         # this test has side effects, remove Package 3
@@ -417,6 +408,55 @@ class FunctionalPackageTest(TestCase):
         with self.assertNumQueries(5):
             response = self.client.get(url)
         self.assertEqual(count, user.package_set.count())
+
+    def test_most_liked_package_list_view(self):
+        user = User.objects.get(username="user")
+        admin = User.objects.get(username="admin")
+        p1 = Package.objects.get(slug="testability")
+        p2 = Package.objects.get(slug="supertester")
+
+        # Create favorites
+        Favorite.objects.create(package=p1, favorited_by=user)
+        Favorite.objects.create(package=p1, favorited_by=admin)
+        Favorite.objects.create(package=p2, favorited_by=user)
+
+        url = reverse("liked_packages")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "package/package_archive.html")
+        self.assertEqual(response.context["title"], "Most Liked Packages")
+
+        packages = response.context["packages"]
+        # Only packages with > 0 favorites should be shown
+        self.assertEqual(len(packages), 2)
+        # Ordered by most favorites
+        self.assertEqual(packages[0], p1)
+        self.assertEqual(packages[1], p2)
+        self.assertEqual(packages[0].distinct_favs, 2)
+        self.assertEqual(packages[1].distinct_favs, 1)
+
+    def test_latest_package_list_view(self):
+        url = reverse("latest_packages")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "package/package_archive.html")
+        self.assertEqual(response.context["title"], "Latest Packages")
+
+        packages = response.context["packages"]
+        # initial_data loads 4 packages, all active
+        self.assertEqual(len(packages), 4)
+
+        # Test active filter: deprecate one package
+        p = Package.objects.get(slug="testability")
+        p.date_deprecated = timezone.now()
+        p.save()
+
+        response = self.client.get(url)
+        packages = response.context["packages"]
+        self.assertNotIn(p, packages)
+        self.assertEqual(len(packages), 3)
 
 
 class PackagePermissionTest(TestCase):

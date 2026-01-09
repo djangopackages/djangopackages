@@ -17,12 +17,10 @@
                     <span class="font-medium text-foreground truncate">{{ title }}</span>
                 </div>
                 <div class="flex flex-wrap gap-2 items-center w-full sm:w-auto">
-                    {% if request.user.is_authenticated and request.user.profile.can_add_package %}
-                        <a href="{% url 'add_package' %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
-                            <i class="mr-1 text-base ph-bold ph-plus"></i>
-                            <span>{% translate "Add Package" %}</span>
-                        </a>
-                    {% endif %}
+                    <a href="{% url 'add_package' %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                        <i class="mr-1 text-base ph-bold ph-plus"></i>
+                        <span>{% translate "Add Package" %}</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -74,7 +72,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for package in latest %}
+                            {% for package in packages %}
                                 <tr class="border-b transition-colors last:border-0 hover:bg-muted/30">
                                     <td class="py-3 pr-6 max-w-[10rem] sm:max-w-[15rem] md:max-w-[20rem]">
                                         <div class="flex flex-col">
