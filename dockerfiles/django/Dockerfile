@@ -1,5 +1,4 @@
-FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
-
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS builder
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONPATH /code
@@ -36,11 +35,10 @@ RUN groupadd -r django \
     && useradd -r -g django django \
     && chown -R django /code
 
-COPY ./dockerfiles/django/start.sh /start.sh
-
-RUN sed -i 's/\r//' /start.sh \
-    && chmod +x /start.sh \
-    && chown django /start.sh
+COPY ./dockerfiles/django/healthcheck-web.sh /code/healthcheck-web.sh
+COPY ./dockerfiles/django/healthcheck-worker.sh /code/healthcheck-worker.sh
+COPY ./dockerfiles/django/start-web.sh /code/start-web.sh
+COPY ./dockerfiles/django/start-worker.sh /code/start-worker.sh
 
 RUN DATABASE_URL=sqlite://:memory: REDIS_URL= uv run -m manage tailwind --skip-checks download_cli
 
@@ -55,4 +53,22 @@ RUN mkdir /data/static \
 RUN mkdir /data/media \
     && chown django.django /data/media
 
-ENTRYPOINT ["/entrypoint.sh"]
+# ENTRYPOINT ["/entrypoint.sh"]
+
+CMD ["/code/start-web.sh"]
+
+# Worker stage
+FROM release AS worker
+
+HEALTHCHECK --interval=60s --timeout=5s --start-period=10s --retries=3 \
+    CMD ["/code/healthcheck-worker.sh"]
+
+CMD ["/code/start-worker.sh"]
+
+# Web stage (default)
+FROM release AS web
+
+HEALTHCHECK --interval=60s --timeout=10s --start-period=40s --retries=3 \
+    CMD ["/code/healthcheck-web.sh"]
+
+CMD ["/code/start-web.sh"]
