@@ -24,6 +24,10 @@
                             <span>{% translate "Edit" %}</span>
                         </a>
                     {% endif %}
+                    <a href="{% url 'package_rules' package.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                        <i class="mr-1 text-base ph-bold ph-chart-bar"></i>
+                        <span>{% translate "Package Score" %}</span>
+                    </a>
                     {% if has_approved_flag %}
                         <button disabled class="flex-1 flex-shrink-0 text-red-600 bg-red-50 border-red-200 cursor-not-allowed sm:flex-none btn-secondary" title="{% translate 'This package has been flagged.' %}">
                             <i class="mr-1 text-base ph-bold ph-flag"></i>
