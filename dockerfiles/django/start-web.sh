@@ -23,7 +23,7 @@ uv run -m manage collectstatic --noinput
 #     --threads 4 \
 #     --vacuum
 
-/usr/local/bin/gunicorn \
+uv run gunicorn \
     wsgi:application \
     --bind 0.0.0.0:8000 \
     --workers 4 \
