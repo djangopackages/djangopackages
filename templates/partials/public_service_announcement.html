@@ -1,7 +1,10 @@
 {% load humanize i18n %}
 <div class="flex flex-col h-full card">
     <div class="pb-4 text-center card-header">
-        <h2 class="text-xl font-bold">{% translate "Public Service Announcement" %}</h2>
+        <div class="flex gap-2 justify-center items-center">
+            <i class="text-xl text-primary ph-bold ph-megaphone"></i>
+            <h2 class="text-xl font-bold">{% translate "Public Service Announcement" %}</h2>
+        </div>
     </div>
     <div class="flex-1 text-center card-content">
         {% if psa %}
