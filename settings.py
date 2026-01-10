@@ -23,7 +23,7 @@ TEMPLATE_DEBUG = env.bool("TEMPLATE_DEBUG", True)
 TEST_MODE = "pytest" in sys.modules
 
 ########## CACHE
-CACHES = {"default": env.dj_cache_url("CACHE_URL", default="locmem://")}
+CACHES = {"default": env.cache_url("CACHE_URL", default="locmem://")}
 
 
 INTERNAL_IPS = [
