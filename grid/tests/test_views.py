@@ -1,16 +1,12 @@
-from textwrap import dedent
-
 import pytest
 from django.conf import settings
 from django.contrib.auth.models import Permission, User
-from django.contrib.humanize.templatetags.humanize import intcomma
 from django.test import TestCase
 from django.urls import reverse
 from waffle.testutils import override_flag
 
 from grid.models import Element, Feature, Grid, GridPackage
 from grid.tests import data
-from package.models import Package
 
 
 class FunctionalGridTest(TestCase):
@@ -21,25 +17,18 @@ class FunctionalGridTest(TestCase):
 
     def test_grid_list_view(self):
         url = reverse("grids")
-        with self.assertNumQueries(8):
+        with self.assertNumQueries(2):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "grid/grids.html")
+        self.assertTemplateUsed(response, "grid/grid_list.html")
 
     @override_flag("enabled_packages_score_values", active=True)
     def test_grid_detail_view(self):
         url = reverse("grid", kwargs={"slug": "testing"})
-        with self.assertNumQueries(28):
+        with self.assertNumQueries(16):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/grid_detail.html")
-
-    def test_grid_detail_landscape_view(self):
-        url = reverse("grid_landscape", kwargs={"slug": "testing"})
-        with self.assertNumQueries(24):
-            response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "grid/grid_detail_landscape.html")
 
     def test_add_grid_view(self):
         Grid.objects.all().delete()
@@ -54,7 +43,7 @@ class FunctionalGridTest(TestCase):
         self.assertTrue(self.client.login(username="user", password="user"))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "grid/update_grid.html")
+        self.assertTemplateUsed(response, "grid/add_grid.html")
 
         # Test form post
         count = Grid.objects.count()
@@ -79,10 +68,10 @@ class FunctionalGridTest(TestCase):
 
         # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username="user", password="user"))
-        with self.assertNumQueries(6):
+        with self.assertNumQueries(4):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "grid/update_grid.html")
+        self.assertTemplateUsed(response, "grid/add_grid.html")
 
         # Test form post
         count = Grid.objects.count()
@@ -106,38 +95,7 @@ class FunctionalGridTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/grid_detail.html")
 
-        grid = Grid.objects.get(slug="testing")
-
-        self.assertContains(
-            response,
-            dedent(
-                """
-                    <td data-testid="grid-detail-score-header">
-                        Score
-                        <span
-                            class="glyphicon glyphicon-info-sign"
-                            data-toggle="tooltip"
-                            data-placement="top"
-                            title="Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%)."
-                        ></span>
-                    </td>
-                """
-            ),
-            html=True,
-        )
-
-        for package in grid.packages.all():
-            self.assertContains(
-                response,
-                dedent(
-                    f"""
-                        <td data-testid="grid-{package.slug}-detail-score-cell">
-                            {intcomma(package.score)}
-                        </td>
-                    """
-                ),
-                html=True,
-            )
+        self.assertContains(response, "Scores (0-100) are based on Repository stars")
 
     @override_flag("enabled_packages_score_values", active=False)
     @pytest.mark.deprecated(
@@ -155,7 +113,7 @@ class FunctionalGridTest(TestCase):
 
         self.assertNotContains(
             response,
-            '<td data-testid="grid-detail-score-header">',
+            "Scores (0-100) are based on Repository stars",
         )
 
     def test_add_feature_view(self):
@@ -169,10 +127,10 @@ class FunctionalGridTest(TestCase):
 
         # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username="user", password="user"))
-        with self.assertNumQueries(7):
+        with self.assertNumQueries(6):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "grid/update_feature.html")
+        self.assertTemplateUsed(response, "grid/add_feature.html")
 
         # Test form post
         response = self.client.post(
@@ -192,10 +150,10 @@ class FunctionalGridTest(TestCase):
 
         # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username="user", password="user"))
-        with self.assertNumQueries(7):
+        with self.assertNumQueries(5):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "grid/update_feature.html")
+        self.assertTemplateUsed(response, "grid/add_feature.html")
 
         # Test form post
         count = Feature.objects.count()
@@ -214,14 +172,14 @@ class FunctionalGridTest(TestCase):
         # features should be deleted (thus the count should be the same).
         self.assertTrue(self.client.login(username="user", password="user"))
         url = reverse("delete_feature", kwargs={"id": "1"})
-        with self.assertNumQueries(4):
-            self.client.get(url)
+        with self.assertNumQueries(5):
+            self.client.post(url)
         self.assertEqual(count, Feature.objects.count())
 
         # Once we log in with the appropriate user, the request should delete
         # the given feature, reducing the count by one.
         self.assertTrue(self.client.login(username="cleaner", password="cleaner"))
-        self.client.get(url)
+        self.client.post(url)
         self.assertEqual(Feature.objects.count(), count - 1)
 
     def test_edit_element_view(self):
@@ -266,7 +224,7 @@ class FunctionalGridTest(TestCase):
 
         # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username="user", password="user"))
-        with self.assertNumQueries(6):
+        with self.assertNumQueries(4):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/add_grid_package.html")
@@ -293,40 +251,9 @@ class FunctionalGridTest(TestCase):
         self.assertEqual(GridPackage.objects.count(), count + 1)
         self.assertContains(response, "Another Test")
 
-    def test_add_new_grid_package_view(self):
-        Package.objects.all().delete()
-        url = reverse("add_new_grid_package", kwargs={"grid_slug": "testing"})
-        response = self.client.get(url)
-
-        # The response should be a redirect, since the user is not logged in.
-        self.assertEqual(response.status_code, 302)
-
-        # Once we log in the user, we should get back the appropriate response.
-        self.assertTrue(self.client.login(username="user", password="user"))
-        with self.assertNumQueries(8):
-            response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "package/package_form.html")
-
-        # Test form post
-        count = Package.objects.count()
-        response = self.client.post(
-            url,
-            {
-                "repo_url": "http://www.example.com",
-                "title": "Test package",
-                "slug": "test-package",
-                "pypi_url": "https://pypi.org/project/mogo/0.1.1/",
-                "category": 1,
-            },
-            follow=True,
-        )
-        self.assertEqual(Package.objects.count(), count + 1)
-        self.assertContains(response, "Test package")
-
-    def test_ajax_grid_list_view(self):
-        url = reverse("ajax_grid_list") + "?q=Testing&package_id=4"
-        with self.assertNumQueries(5):
+    def test_ajax_grid_search_view(self):
+        url = reverse("ajax_grid_search") + "?q=Testing&package_id=4"
+        with self.assertNumQueries(1):
             response = self.client.get(url)
         self.assertContains(response, "Testing")
 
@@ -337,14 +264,14 @@ class FunctionalGridTest(TestCase):
         # features should be deleted (thus the count should be the same).
         self.assertTrue(self.client.login(username="user", password="user"))
         url = reverse("delete_grid_package", kwargs={"id": "1"})
-        with self.assertNumQueries(4):
-            self.client.get(url)
+        with self.assertNumQueries(5):
+            self.client.post(url)
         self.assertEqual(count, GridPackage.objects.count())
 
         # Once we log in with the appropriate user, the request should delete
         # the given feature, reducing the count by one.
         self.assertTrue(self.client.login(username="cleaner", password="cleaner"))
-        self.client.get(url)
+        self.client.post(url)
         self.assertEqual(count - 1, GridPackage.objects.count())
 
 
@@ -407,9 +334,6 @@ class GridPackagePermissionTest(TestCase):
         data.load()
         settings.RESTRICT_GRID_EDITORS = True
         self.test_add_url = reverse("add_grid_package", kwargs={"grid_slug": "testing"})
-        self.test_add_new_url = reverse(
-            "add_new_grid_package", kwargs={"grid_slug": "testing"}
-        )
         self.test_delete_url = reverse("delete_grid_package", kwargs={"id": "1"})
         self.login = self.client.login(username="user", password="user")
         self.user = User.objects.get(username="user")
@@ -429,28 +353,16 @@ class GridPackagePermissionTest(TestCase):
         response = self.client.get(self.test_add_url)
         self.assertEqual(response.status_code, 200)
 
-    def test_add_new_grid_package_permission_fail(self):
-        response = self.client.get(self.test_add_new_url)
-        self.assertEqual(response.status_code, 403)
-
-    def test_add_new_grid_package_permission_success(self):
-        add_new_grid_perm = Permission.objects.get(
-            codename="add_gridpackage", content_type__app_label="grid"
-        )
-        self.user.user_permissions.add(add_new_grid_perm)
-        response = self.client.get(self.test_add_new_url)
-        self.assertEqual(response.status_code, 200)
-
     def test_delete_grid_package_permission_fail(self):
         response = self.client.get(self.test_delete_url)
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 403)
 
     def test_delete_grid_package_permission_success(self):
         delete_grid_perm = Permission.objects.get(
             codename="delete_gridpackage", content_type__app_label="grid"
         )
         self.user.user_permissions.add(delete_grid_perm)
-        response = self.client.get(self.test_delete_url)
+        response = self.client.post(self.test_delete_url)
         self.assertEqual(response.status_code, 302)
 
 
@@ -490,14 +402,14 @@ class GridFeaturePermissionTest(TestCase):
 
     def test_delete_feature_permission_fail(self):
         response = self.client.get(self.test_delete_url)
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 403)
 
     def test_delete_feature_permission_success(self):
         delete_feature = Permission.objects.get(
             codename="delete_feature", content_type__app_label="grid"
         )
         self.user.user_permissions.add(delete_feature)
-        response = self.client.get(self.test_delete_url)
+        response = self.client.post(self.test_delete_url)
         self.assertEqual(response.status_code, 302)
 
 

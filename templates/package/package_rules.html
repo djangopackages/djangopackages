@@ -1,71 +1,73 @@
 {% extends "base.html" %}
-
-{% load emojificate i18n package_tags page_metadata_tags %}
+{% load i18n package_tags page_metadata_tags %}
 
 {% block metadata %}
-    {% page_metadata page_title=package.title|emojify|emojificate page_description=package.repo_description page_keywords=package.grid_set.all|join:',' og_image_url=package.get_opengraph_image_url %}
+    {% page_metadata page_title=package.title page_description=package.repo_description page_keywords=package.grid_set.all|join:',' og_image_url=package.get_opengraph_image_url %}
 {% endblock metadata %}
 
-{% block breadcrumb %}
-    <div class="breadcrumb">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                    <h2>
-                        <a href="{% url 'packages' %}">{% translate "Packages" %}</a> ›› {{ package.title }}
-                        <div class="pull-right">
-                            <div class="btn btn-default">
-                                <a href="{% url 'edit_package' package.slug %}"><span class="glyphicon glyphicon-pencil"></span></a>
-                            </div>
-                        </div>
-                    </h2>
+{% block content %}
+    <!-- Breadcrumb Section -->
+    <section class="py-4 bg-primary/10">
+        <div class="container px-4 mx-auto">
+            <div class="flex items-center text-sm text-muted-foreground">
+                <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
+                <span class="mx-2">»</span>
+                <a href="{% url 'packages' %}" class="hover:underline">{% translate "Packages" %}</a>
+                <span class="mx-2">»</span>
+                <a href="{{ package.get_absolute_url }}" class="hover:underline">{{ package.title }}</a>
+                <span class="mx-2">»</span>
+                <span class="font-medium text-foreground truncate">{% translate "Rules" %}</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="container py-8 px-4 mx-auto">
+        <div class="mb-10 text-center">
+            <h1 class="text-3xl font-bold md:text-4xl text-foreground">
+                {% translate "Package Score" %}: {{ package_score.total_score }}
+            </h1>
+            <p class="mt-2 mb-6 text-base text-muted-foreground">{{ package_score.message }}</p>
+        </div>
+
+        {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="package-rule-inline" ea_outer_class="mb-4" ea_inner_class="flex justify-center" %}
+
+        <div class="card">
+            <div class="p-6 card-content">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-border">
+                                <th class="py-3 px-4 font-semibold">{% translate "Rule" %}</th>
+                                <th class="py-3 px-4 font-semibold">{% translate "Description" %}</th>
+                                <th class="py-3 px-4 font-semibold">{% translate "Score" %}</th>
+                                <th class="py-3 px-4 font-semibold">{% translate "Max Score" %}</th>
+                                <th class="py-3 px-4 font-semibold">{% translate "More Info" %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for breakdown in package_score.breakdown %}
+                                <tr class="border-b last:border-0 border-border hover:bg-muted/50">
+                                    <td class="py-3 px-4">{{ breakdown.rule }}</td>
+                                    <td class="py-3 px-4">{{ breakdown.description }}</td>
+                                    <td class="py-3 px-4">{{ breakdown.score }}</td>
+                                    <td class="py-3 px-4">{{ breakdown.max_score }}</td>
+                                    <td class="py-3 px-4">
+                                        {% if breakdown.documentation_url %}
+                                            <a href="{{ breakdown.documentation_url }}" class="hover:underline text-primary">{% translate "Details" %}</a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
+
+        <div class="mt-8 card">
+            <div class="p-6 card-content">
+                <pre class="p-4 font-mono text-sm whitespace-pre-wrap break-words rounded bg-muted">package_score:: {{ package_score }}</pre>
+            </div>
+        </div>
     </div>
-{% endblock breadcrumb %}
-
-{% block body %}
-    <div class="row">
-        <div class="col-md-8 main">
-            <h2>package_score:: {{ package_score.total_score }}</h2>
-
-            <p>{{ package_score.message }}</p>
-
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>{% translate "Rule" %}</th>
-                        <th>{% translate "Description" %}</th>
-                        <th>{% translate "Score" %}</th>
-                        <th>{% translate "Max Score" %}</th>
-                        <th>{% translate "More Info" %}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for breakdown in package_score.breakdown %}
-                        <tr>
-                            <td>{{ breakdown.rule }}</td>
-                            <td>{{ breakdown.description }}</td>
-                            <td>{{ breakdown.score }}</td>
-                            <td>{{ breakdown.max_score }}</td>
-                            <td>
-                                <a href="{{ breakdown.documentation_url|default:"" }}">Details</a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-
-            <pre>package_score:: {{ package_score }}</pre>
-
-        </div> <!-- end six column section -->
-
-    </div>
-{% endblock body %}
-
-{% block javascript %}
-    {{ block.super }}
-    <script type="text/javascript" src="{{ STATIC_URL }}js/underscore.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/gh3.js"></script>
-{% endblock javascript %}
+{% endblock content %}

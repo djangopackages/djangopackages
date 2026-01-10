@@ -1,33 +1,44 @@
-import importlib
+from functools import cached_property
 import json
+from urllib.parse import urlparse
 
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.contrib.postgres.search import SearchQuery, SearchRank
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.cache import cache
-from django.core.exceptions import PermissionDenied
-from django.db.models import Count, Q
-from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
+from django.db import transaction
+from django.db.models import Count, Q, Exists, OuterRef
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.template.defaultfilters import slugify
+from django.utils.decorators import method_decorator
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
-from django.views.generic.base import TemplateView
+from django.views.generic import DetailView, ListView, RedirectView, View
+from django.views.generic.edit import CreateView, UpdateView
 from django_q.tasks import async_task
-from django_tables2 import SingleTableView
+from django.utils.translation import gettext_lazy as _
 
-from grid.models import Grid
+from grid.models import Grid, GridPackage
 from package.forms import (
+    CategoryPackageFilterForm,
     DocumentationForm,
     FlaggedPackageForm,
     PackageExampleForm,
-    PackageForm,
+    PackageCreateForm,
+    PackageUpdateForm,
+    RepositoryURLForm,
+    PackageFilterForm,
 )
-from package.models import Category, FlaggedPackage, Package, PackageExample
-from package.repos import get_all_repos
-from package.tables import PackageTable
+from package.models import (
+    Category,
+    FlaggedPackage,
+    Package,
+    PackageExample,
+    RepoHost,
+    Version,
+)
 from searchv2.rules import calc_package_weight
 from searchv2.rules import DeprecatedRule
 from searchv2.rules import DescriptionRule
@@ -41,572 +52,493 @@ from searchv2.rules import WatchersRule
 from favorites.models import Favorite
 
 
-def repo_data_for_js():
-    repos = [handler.serialize() for handler in get_all_repos()]
-    return json.dumps(repos)
+class AddPackageView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Package
+    form_class = PackageCreateForm
+    template_name = "package/add_package.html"
 
+    def test_func(self):
+        return self.request.user.profile.can_add_package
 
-def get_form_class(form_name):
-    bits = form_name.split(".")
-    form_module_name = ".".join(bits[:-1])
-    form_module = importlib.import_module(form_module_name)
-    form_name = bits[-1]
-    return getattr(form_module, form_name)
-
-
-@login_required
-def add_package(request, template_name="package/package_form.html"):
-    if not request.user.profile.can_add_package:
-        return HttpResponseForbidden("permission denied")
-
-    new_package = Package()
-    form = PackageForm(request.POST or None, instance=new_package)
-
-    if form.is_valid():
-        new_package = form.save()
-        new_package.created_by = request.user
-        new_package.last_modified_by = request.user
-        new_package.save()
-        # new_package.fetch_metadata()
-        # new_package.fetch_commits()
-
-        return HttpResponseRedirect(
-            reverse("package", kwargs={"slug": new_package.slug})
-        )
-
-    return render(
-        request,
-        template_name,
-        {
-            "form": form,
-            "repo_data": repo_data_for_js(),
-            "action": "add",
-        },
-    )
-
-
-@login_required
-def edit_package(request, slug, template_name="package/package_form.html"):
-    if not request.user.profile.can_edit_package:
-        return HttpResponseForbidden("permission denied")
-
-    package = get_object_or_404(Package, slug=slug)
-    form = PackageForm(request.POST or None, instance=package)
-
-    if form.is_valid():
-        modified_package = form.save()
-        modified_package.last_modified_by = request.user
-        modified_package.save()
-        messages.add_message(request, messages.INFO, "Package updated successfully")
-        return HttpResponseRedirect(
-            reverse("package", kwargs={"slug": modified_package.slug})
-        )
-
-    return render(
-        request,
-        template_name,
-        {
-            "form": form,
-            "package": package,
-            "repo_data": repo_data_for_js(),
-            "action": "edit",
-        },
-    )
-
-
-@login_required
-def flag_package(request, slug, template_name="package/flag_form.html"):
-    package = get_object_or_404(Package, slug=slug)
-    form = FlaggedPackageForm(request.POST or None)
-
-    if form.is_valid():
-        flagged_package = form.save(commit=False)
-        flagged_package.user = request.user
-        flagged_package.package = package
-        flagged_package.save()
-        messages.add_message(
-            request, messages.INFO, "Flag submission submitted for review"
-        )
-        return HttpResponseRedirect(reverse("package", kwargs={"slug": package.slug}))
-
-    return render(request, template_name, {"form": form})
-
-
-def flag_approve(request, slug):
-    flag = get_object_or_404(FlaggedPackage, package__slug=slug)
-    flag.approve()
-    messages.add_message(request, messages.INFO, "Flag approved")
-    return HttpResponseRedirect(reverse("package", kwargs={"slug": flag.package.slug}))
-
-
-def flag_remove(request, slug):
-    flag = get_object_or_404(FlaggedPackage, package__slug=slug)
-    flag.delete()
-    messages.add_message(request, messages.INFO, "Flag removed")
-    return HttpResponseRedirect(reverse("package", kwargs={"slug": flag.package.slug}))
-
-
-@login_required
-def add_example(request, slug, template_name="package/add_example.html"):
-    package = get_object_or_404(Package, slug=slug)
-    new_package_example = PackageExample()
-    form = PackageExampleForm(request.POST or None, instance=new_package_example)
-
-    if form.is_valid():
-        package_example = PackageExample(
-            package=package,
-            title=request.POST["title"],
-            url=request.POST["url"],
-            created_by=request.user,
-        )
-        package_example.save()
-        return HttpResponseRedirect(
-            reverse("package", kwargs={"slug": package_example.package.slug})
-        )
-
-    return render(request, template_name, {"form": form, "package": package})
-
-
-@login_required
-def edit_example(request, slug, id, template_name="package/edit_example.html"):
-    package_example = get_object_or_404(PackageExample, id=id)
-    form = PackageExampleForm(request.POST or None, instance=package_example)
-
-    if form.is_valid():
-        form.save()
-        return HttpResponseRedirect(
-            reverse("package", kwargs={"slug": package_example.package.slug})
-        )
-
-    return render(
-        request, template_name, {"form": form, "package_example": package_example}
-    )
-
-
-@login_required
-def delete_example(request, slug, id, template_name="package/delete_example.html"):
-    package_example = get_object_or_404(
-        PackageExample, id=id, package__slug__iexact=slug
-    )
-    if package_example.created_by is None and not request.user.is_staff:
-        raise PermissionDenied
-    if package_example.created_by.id != request.user.id and not request.user.is_staff:
-        raise PermissionDenied
-
-    return render(request, template_name, {"package_example": package_example})
-
-
-@login_required
-@require_POST
-def confirm_delete_example(request, slug, id):
-    package_example = get_object_or_404(
-        PackageExample, id=id, package__slug__iexact=slug
-    )
-    if package_example.created_by.id != request.user.id and not request.user.is_staff:
-        raise PermissionDenied
-
-    package_example.delete()
-    messages.add_message(
-        request, messages.INFO, "Package example successfully deleted."
-    )
-
-    return HttpResponseRedirect(reverse("package", kwargs={"slug": slug}))
-
-
-class PackageListView(TemplateView):
-    template_name = "package/package_list.html"
+    @cached_property
+    def grid(self):
+        grid_slug = self.request.GET.get("grid_slug")
+        if grid_slug:
+            try:
+                return Grid.objects.get(slug=grid_slug)
+            except Grid.DoesNotExist:
+                pass
+        return None
 
     def get_context_data(self, **kwargs):
-        categories = []
-        for category in Category.objects.annotate(package_count=Count("package")):
-            package_table = PackageTable(
-                Package.objects.active()
-                .filter(category=category)
-                .active()
-                .select_related()
-                .annotate(usage_count=Count("usage"))
-                .order_by("-pypi_downloads", "-repo_watchers", "title")[:9],
-                prefix=f"{category.slug}_",
-                exclude=("last_released",),
+        context = super().get_context_data(**kwargs)
+        if "repo_form" not in context:
+            context["repo_form"] = RepositoryURLForm()
+        context["grid"] = self.grid
+        context["grid_slug"] = self.request.GET.get("grid_slug")
+        return context
+
+    @transaction.atomic
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        self.object.last_modified_by = self.request.user
+        self.object.save()
+
+        if self.grid:
+            GridPackage.objects.create(grid=self.grid, package=self.object)
+
+        if not self.grid:
+            messages.success(self.request, _("Package added successfully"))
+        else:
+            messages.success(
+                self.request,
+                _("Package added successfully to grid: %(grid_title)s")
+                % {"grid_title": self.grid.title},
             )
-            element = {
-                "count": category.package_count,
-                "description": category.description,
-                "slug": category.slug,
-                "table": package_table,
-                "title": category.title,
-                "title_plural": category.title_plural,
+
+        if self.request.htmx:
+            response = HttpResponse()
+            response["HX-Redirect"] = self.get_success_url()
+            return response
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse("package", kwargs={"slug": self.object.slug})
+
+    def form_invalid(self, form):
+        if self.request.htmx:
+            context = {"form": form}
+            context["grid"] = self.grid
+            return render(self.request, "partials/package_form.html", context)
+        return super().form_invalid(form)
+
+
+class ValidateRepositoryURLView(LoginRequiredMixin, UserPassesTestMixin, View):
+    def test_func(self):
+        return self.request.user.profile.can_add_package
+
+    def post(self, request, *args, **kwargs):
+        form = RepositoryURLForm(request.POST)
+        if form.is_valid():
+            repo_url = form.cleaned_data["repo_url"]
+
+            # Check if package exists
+            existing_package = Package.objects.filter(repo_url=repo_url).first()
+            if existing_package:
+                return render(
+                    request,
+                    "partials/package_exists.html",
+                    {"package": existing_package},
+                )
+
+            # Pre-fill data
+            try:
+                parsed = urlparse(repo_url)
+                path_parts = parsed.path.strip("/").split("/")
+                repo_name = path_parts[-1]
+
+                initial_data = {
+                    "repo_url": repo_url,
+                    "title": repo_name,
+                    "slug": slugify(repo_name),
+                    "pypi_url": repo_name,
+                }
+
+                domain = parsed.netloc
+                initial_data["repo_host"] = RepoHost.from_url(domain)
+
+                package_form = PackageCreateForm(initial=initial_data)
+                context = {"form": package_form}
+                if "grid_slug" in request.GET:
+                    context["grid_slug"] = request.GET["grid_slug"]
+                return render(
+                    request,
+                    "partials/package_form.html",
+                    context,
+                )
+            except Exception:
+                pass
+
+        return render(request, "partials/repo_url_form.html", {"repo_form": form})
+
+
+class PackageUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Package
+    form_class = PackageUpdateForm
+    template_name = "package/edit_package.html"
+
+    def test_func(self):
+        return self.request.user.profile.can_edit_package
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.last_modified_by = self.request.user
+        self.object.save()
+        messages.success(self.request, _("Package updated successfully"))
+        if self.request.htmx:
+            response = HttpResponse()
+            response["HX-Redirect"] = self.get_success_url()
+            return response
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["action"] = "edit"
+        return context
+
+
+class PackageFlagView(LoginRequiredMixin, CreateView):
+    model = FlaggedPackage
+    form_class = FlaggedPackageForm
+    template_name = "package/package_flag_form.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        self.package = get_object_or_404(
+            Package.objects.annotate(
+                _has_approved_flag=Exists(
+                    FlaggedPackage.objects.filter(
+                        package_id=OuterRef("pk"), approved_flag=True
+                    )
+                )
+            ).exclude(_has_approved_flag=True),
+            slug=self.kwargs["slug"],
+        )
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["package"] = self.package
+        return context
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.package = self.package
+        response = super().form_valid(form)
+        messages.info(self.request, "Flag submitted for review")
+        return response
+
+    def get_success_url(self):
+        return reverse("package", kwargs={"slug": self.package.slug})
+
+
+class PackageFlagApproveView(LoginRequiredMixin, UserPassesTestMixin, View):
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def get(self, request, *args, **kwargs):
+        flag = get_object_or_404(FlaggedPackage, pk=self.kwargs.get("pk"))
+        flag.approve()
+        messages.success(request, "Flag approved")
+        return redirect("package", slug=flag.package.slug)
+
+
+class PackageFlagRemoveView(LoginRequiredMixin, UserPassesTestMixin, View):
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def get(self, request, *args, **kwargs):
+        flag = get_object_or_404(FlaggedPackage, pk=self.kwargs.get("pk"))
+        flag.delete()
+        messages.success(request, "Flag removed")
+        return redirect("package", slug=flag.package.slug)
+
+
+class PackageExampleCreateView(LoginRequiredMixin, CreateView):
+    model = PackageExample
+    form_class = PackageExampleForm
+    template_name = "partials/sites_using_form.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        self.package = get_object_or_404(Package, slug=self.kwargs["slug"])
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["package"] = self.package
+        context["action"] = "add"
+        return context
+
+    def form_valid(self, form):
+        form.instance.package = self.package
+        form.instance.created_by = self.request.user
+        self.object = form.save()
+        return render(
+            self.request,
+            "partials/sites_using_card.html",
+            {"package": self.package},
+        )
+
+
+class PackageExampleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = PackageExample
+    form_class = PackageExampleForm
+    template_name = "partials/sites_using_form.html"
+    pk_url_kwarg = "id"
+
+    def test_func(self):
+        return (
+            self.request.user.id == self.object.created_by_id
+            or self.request.user.is_superuser
+        )
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["package"] = self.object.package
+        context["action"] = "edit"
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save()
+        return render(
+            self.request,
+            "partials/sites_using_card.html",
+            {"package": self.object.package},
+        )
+
+
+class PackageExampleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    model = PackageExample
+    pk_url_kwarg = "id"
+    template_name = "partials/sites_using_card.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, *args, **kwargs)
+
+    def test_func(self):
+        return (
+            self.request.user.id == self.object.created_by_id
+            or self.request.user.is_superuser
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["package"] = self.object.package
+        return context
+
+    def post(self, request, *args, **kwargs):
+        package = self.object.package
+        self.object.delete()
+        return render(
+            request,
+            "partials/sites_using_card.html",
+            {"package": package},
+        )
+
+
+class PackageUsageToggleView(LoginRequiredMixin, View):
+    """Toggle a user's usage of a package (add or remove)."""
+
+    def get_package(self):
+        return get_object_or_404(Package, slug=self.kwargs["slug"])
+
+    def _is_using(self, package, user) -> bool:
+        return package.usage.filter(pk=user.pk).exists()
+
+    def _invalidate_caches(self, package, user) -> None:
+        cache.delete(f"sitewide_used_packages_list_{user.pk}")
+        # package.grid_clear_detail_template_cache()
+
+    def get(self, request, slug, action):
+        """Handle GET requests for usage toggle."""
+        return self.toggle_usage(request, action)
+
+    def post(self, request, slug, action):
+        """Handle POST requests for usage toggle."""
+        return self.toggle_usage(request, action)
+
+    def toggle_usage(self, request, action):
+        """Core logic to toggle package usage."""
+        package = self.get_package()
+        user = request.user
+        action = action.lower()
+
+        is_currently_using = self._is_using(package, user)
+        did_change = False
+
+        is_using = is_currently_using
+
+        if action == "add":
+            if not is_currently_using:
+                package.usage.add(user)
+                did_change = True
+                is_using = True
+        elif action == "remove":
+            if is_currently_using:
+                package.usage.remove(user)
+                did_change = True
+                is_using = False
+
+        # Invalidate caches only if there was a change
+        if did_change:
+            self._invalidate_caches(package, user)
+
+        # Handle HTMX requests - return updated button partial
+        if self.request.htmx:
+            mobile = bool(request.GET.get("mobile"))
+            return render(
+                request,
+                "partials/usage_button.html",
+                {"package": package, "is_using": is_using, "mobile": mobile},
+            )
+
+        # Standard redirect for non-AJAX requests
+        next_url = (
+            request.GET.get("next")
+            or request.headers.get("Referer")
+            or reverse("package", kwargs={"slug": package.slug})
+        )
+        return HttpResponseRedirect(next_url)
+
+
+class PackageRulesView(DetailView):
+    template_name = "package/package_rules.html"
+    model = Package
+    context_object_name = "package"
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
+
+    def get_queryset(self):
+        return Package.objects.select_related("category").prefetch_related("grid_set")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        package = self.object
+
+        group = ScoreRuleGroup(
+            name="Activity Rules",
+            description="Rules related to the package's recent activity",
+            max_score=40,
+            documentation_url=f"{settings.DOCS_URL}/rules/groups/activity",
+            rules=[LastUpdatedRule(), RecentReleaseRule()],
+        )
+
+        rules = [
+            DeprecatedRule(),
+            DescriptionRule(),
+            DownloadsRule(),
+            ForkRule(),
+            UsageCountRule(),
+            WatchersRule(),
+            group,
+        ]
+
+        package_score = calc_package_weight(
+            package=package,
+            rules=rules,
+            max_score=100,
+        )
+
+        context.update(
+            dict(
+                package_score=package_score,
+                latest_version=package.last_released(),
+                repo=package.repo,
+            )
+        )
+        return context
+
+
+class PackageDetailView(DetailView):
+    template_name = "package/package_detail.html"
+    model = Package
+    context_object_name = "package"
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
+
+    def get_queryset(self):
+        qs = (
+            super()
+            .get_queryset()
+            .select_related("category", "deprecates_package")
+            .prefetch_related(
+                "grid_set",
+                "flags",
+            )
+            .annotate(
+                _has_approved_flag=Exists(
+                    FlaggedPackage.objects.filter(
+                        package_id=OuterRef("pk"), approved_flag=True
+                    )
+                ),
+                _commit_count=Count("commit", distinct=True),
+                _version_count=Count("version", distinct=True),
+            )
+        )
+        if self.request.user.is_authenticated:
+            qs = qs.annotate(
+                _is_favorited=Exists(
+                    Favorite.objects.filter(
+                        favorited_by=self.request.user, package_id=OuterRef("pk")
+                    )
+                )
+            )
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                "is_favorited": getattr(self.object, "_is_favorited", False),
+                "commit_count": getattr(self.object, "_commit_count", 0),
+                "version_count": getattr(self.object, "_version_count", 0),
+                "has_approved_flag": getattr(self.object, "_has_approved_flag", False),
             }
-            categories.append(element)
-
-        context_data = super().get_context_data(**kwargs)
-        context_data["categories"] = categories
-        return context_data
+        )
+        return context
 
 
-class PackageSingleTableMixin(SingleTableView):
-    table_class = PackageTable
-
-    def package_filters(self):
-        return {}
+class PackageOpenGraphDetailView(DetailView):
+    template_name = "package/package_opengraph.html"
+    model = Package
+    context_object_name = "package"
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
 
     def get_queryset(self):
-        return (
-            Package.objects.filter(**self.package_filters())
-            .select_related(
-                "category",
-                "created_by",
-                "last_modified_by",
-                "deprecated_by",
-                "deprecates_package",
-            )
-            .annotate(usage_count=Count("usage"))
-            .order_by("-repo_watchers", "-pypi_downloads", "title")
+        return super().get_queryset().active()
+
+
+class PackageFetchDataView(LoginRequiredMixin, RedirectView):
+    permanent = False
+    pattern_name = "package"
+
+    def get_redirect_url(self, *args, **kwargs):
+        package = get_object_or_404(
+            Package.objects.only("slug"), slug=self.kwargs.get("slug")
+        )
+        async_task("package.tasks.fetch_package_data_task", package.slug)
+        messages.info(self.request, "Package data is being refreshed")
+        kwargs["slug"] = package.slug
+        return super().get_redirect_url(*args, **kwargs)
+
+
+class PackageDocumentationUpdateView(LoginRequiredMixin, UpdateView):
+    model = Package
+    form_class = DocumentationForm
+    template_name = "partials/documentation_form.html"
+    slug_url_kwarg = "slug"
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Package, slug=self.kwargs.get("slug"))
+
+    def form_valid(self, form):
+        self.object = form.save()
+        return render(
+            self.request,
+            "partials/documentation_card.html",
+            {"package": self.object},
         )
 
 
-class PackageByCategoryListView(PackageSingleTableMixin):
-    template_name = "package/category.html"
-
-    def package_filters(self):
-        return {"category__slug": self.kwargs["slug"]}
-
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        context_data["category"] = get_object_or_404(Category, slug=self.kwargs["slug"])
-        return context_data
-
-
-class PackageByGridListView(PackageSingleTableMixin):
-    template_name = "package/grid_packages.html"
-    table_class = PackageTable
-
-    def package_filters(self):
-        return {"gridpackage__grid__slug": self.kwargs["slug"]}
-
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        context_data["grid"] = get_object_or_404(Grid, slug=self.kwargs["slug"])
-        return context_data
-
-
-def category(request, slug, template_name="package/category.html"):
-    direction = request.GET.get("dir")
-    sort = request.GET.get("sort")
-
-    """
-    These are workarounds primarily search engine spiders trying weird
-    sorting options when they are crawling the website.
-    """
-    _mutable = request.GET._mutable
-    request.GET._mutable = True
-    request.GET = request.GET.copy()
-
-    # workaround for "blank" ?sort=desc bug
-    if direction == "desc" and sort is None:
-        request.GET["dir"] = ""
-        request.GET["sort"] = ""
-
-    elif direction and direction.lower() not in ["", "asc", "desc"]:
-        request.GET["dir"] = ""
-
-    request.GET._mutable = _mutable
-
-    category = get_object_or_404(Category, slug=slug)
-    packages = (
-        category.package_set.select_related(
-            "category",
-            "created_by",
-            "last_modified_by",
-            "deprecated_by",
-            "deprecates_package",
-        )
-        .annotate(usage_count=Count("usage"))
-        .order_by("-repo_watchers", "title")
-    )
-    return render(
-        request,
-        template_name,
-        {
-            "category": category,
-            "packages": packages,
-        },
-    )
-
-
-def ajax_package_list(request, template_name="package/ajax_package_list.html"):
-    q = request.GET.get("q", "")
-    packages = []
-    if q:
-        _dash = f"{settings.PACKAGINATOR_SEARCH_PREFIX}-{q}"
-        _space = f"{settings.PACKAGINATOR_SEARCH_PREFIX} {q}"
-        _underscore = f"{settings.PACKAGINATOR_SEARCH_PREFIX}_{q}"
-        if True:
-            packages = Package.objects.filter(
-                Q(title__istartswith=q)
-                | Q(title__istartswith=_dash)
-                | Q(title__istartswith=_space)
-                | Q(title__istartswith=_underscore)
-            )
-        else:
-            query = (
-                SearchQuery(q)
-                | SearchQuery(_dash)
-                | SearchQuery(f"'{_space}'")
-                | SearchQuery(_underscore)
-            )
-            vector = SearchRank("title")
-            packages = Package.objects.annotate(
-                rank=SearchRank(vector, query)
-            ).order_by("-rank")
-
-    packages_already_added_list = []
-    grid_slug = request.GET.get("grid", "")
-    if packages and grid_slug:
-        # if grids := Grid.objects.annotate(search=SearchVector("grid_slug")).search(
-        #     search=grid_slug
-        # ):
-        if grids := Grid.objects.filter(slug=grid_slug):
-            grid = grids.first()
-            packages_already_added_list = [
-                x["slug"] for x in grid.packages.all().only("slug").values("slug")
-            ]
-            new_packages = tuple(
-                packages.exclude(slug__in=packages_already_added_list)
-            )[:20]
-            number_of_packages = len(new_packages)
-            if number_of_packages < 20:
-                try:
-                    old_packages = packages.filter(
-                        slug__in=packages_already_added_list
-                    )[: 20 - number_of_packages]
-                except AssertionError:
-                    old_packages = None
-
-                if old_packages:
-                    old_packages = tuple(old_packages)
-                    packages = new_packages + old_packages
-            else:
-                packages = new_packages
-
-    return render(
-        request,
-        template_name,
-        {
-            "packages": packages,
-            "packages_already_added_list": packages_already_added_list,
-        },
-    )
-
-
-@login_required
-def usage(request, slug, action):
-    success = False
-    package = get_object_or_404(Package, slug=slug)
-
-    # Update the current user's usage of the given package as specified by the
-    # request.
-    if package.usage.filter(username=request.user.username):
-        if action.lower() == "add":
-            # The user is already using the package
-            success = True
-            change = 0
-        else:
-            # If the action was not add and the user has already specified
-            # they are a use the package then remove their usage.
-            package.usage.remove(request.user)
-            success = True
-            change = -1
-    else:
-        if action.lower() == "lower":
-            # The user is not using the package
-            success = True
-            change = 0
-        else:
-            # If the action was not lower and the user is not already using
-            # the package then add their usage.
-            package.usage.add(request.user)
-            success = True
-            change = 1
-
-    # Invalidate the cache of this users's used_packages_list.
-    if change == 1 or change == -1:
-        cache_key = "sitewide_used_packages_list_%s" % request.user.pk
-        cache.delete(cache_key)
-        package.grid_clear_detail_template_cache()
-
-    # Return an ajax-appropriate response if necessary
-    if request.headers.get("x-requested-with") == "XMLHttpRequest":
-        response = {"success": success}
-        if success:
-            response["change"] = change
-
-        return HttpResponse(json.dumps(response))
-
-    # Intelligently determine the URL to redirect the user to based on the
-    # available information.
-    next = (
-        request.GET.get("next")
-        or request.headers.get("Referer")
-        or reverse("package", kwargs={"slug": package.slug})
-    )
-    return HttpResponseRedirect(next)
-
-
-class PackagePython3ListView(SingleTableView):
-    table_class = PackageTable
-    template_name = "package/python3_list.html"
-
-    def get_queryset(self):
-        return (
-            Package.objects.filter(version__supports_python3=True)
-            .select_related()
-            .annotate(usage_count=Count("usage"))
-            .distinct()
-            .order_by("-pypi_downloads", "-repo_watchers", "title")
-        )
-
-
-def package_details_rules(request, slug, template_name="package/package_rules.html"):
-    package = get_object_or_404(
-        Package.objects.select_related("category").prefetch_related("grid_set"),
-        slug=slug,
-    )
-
-    # rules = [
-    #     DeprecatedRule(),
-    #     DescriptionRule(),
-    #     DownloadsRule(),
-    #     ForkRule(),
-    #     LastUpdatedRule(),
-    #     RecentReleaseRule(),
-    #     UsageCountRule(),
-    #     WatchersRule(),
-    # ]
-
-    group = ScoreRuleGroup(
-        name="Activity Rules",
-        description="Rules related to the package's recent activity",
-        max_score=40,
-        documentation_url=f"{settings.DOCS_URL}/rules/groups/activity",
-        rules=[LastUpdatedRule(), RecentReleaseRule()],
-    )
-
-    rules = [
-        DeprecatedRule(),
-        DescriptionRule(),
-        DownloadsRule(),
-        ForkRule(),
-        # LastUpdatedRule(),  # testing in `ScoreRuleGroup`
-        # RecentReleaseRule(),  # testing in `ScoreRuleGroup`
-        UsageCountRule(),
-        WatchersRule(),
-        group,
-    ]
-
-    package_score = calc_package_weight(
-        package=package,
-        rules=rules,
-        max_score=100,
-    )
-
-    print(json.dumps(package_score, indent=2))
-
-    return render(
-        request,
-        template_name,
-        dict(
-            package=package,
-            package_score=package_score,
-            # pypi_ancient=pypi_ancient,
-            # no_development=no_development,
-            # pypi_no_release=pypi_no_release,
-            # warnings=warnings,
-            latest_version=package.last_released(),
-            repo=package.repo,
-        ),
-    )
-
-
-def package_detail(request, slug, template_name="package/package.html"):
-    package = get_object_or_404(
-        Package.objects.select_related("category").prefetch_related("grid_set"),
-        slug=slug,
-    )
-    no_development = package.no_development
-    try:
-        if package.category == Category.objects.get(slug="projects"):
-            # projects get a bye because they are a website
-            pypi_ancient = False
-            pypi_no_release = False
-        else:
-            pypi_ancient = package.pypi_ancient
-            pypi_no_release = package.pypi_ancient is None
-        warnings = no_development or pypi_ancient or pypi_no_release
-    except Category.DoesNotExist:
-        pypi_ancient = False
-        pypi_no_release = False
-        warnings = no_development
-    is_favorited = False
-    if request.user.is_authenticated:
-        is_favorited = Favorite.objects.filter(
-            favorited_by=request.user, package=package
-        ).exists()
-    if request.GET.get("message"):
-        messages.add_message(request, messages.INFO, request.GET.get("message"))
-    return render(
-        request,
-        template_name,
-        dict(
-            package=package,
-            pypi_ancient=pypi_ancient,
-            no_development=no_development,
-            pypi_no_release=pypi_no_release,
-            warnings=warnings,
-            latest_version=package.last_released(),
-            repo=package.repo,
-            is_favorited=is_favorited,
-        ),
-    )
-
-
-def package_opengraph_detail(
-    request, slug, template_name="package/package_opengraph.html"
-):
-    return package_detail(request, slug, template_name=template_name)
-
-
-def int_or_0(value):
-    try:
-        return int(value)
-    except ValueError:
-        return 0
-
-
-@login_required
-def fetch_package_data(request, slug):
-    package = get_object_or_404(Package.objects.only("slug"), slug=slug)
-    async_task("package.tasks.fetch_package_data_task", package.slug)
-    messages.add_message(request, messages.INFO, "Package data is being refreshed")
-    return HttpResponseRedirect(reverse("package", kwargs={"slug": package.slug}))
-
-
-@login_required
-def edit_documentation(request, slug, template_name="package/documentation_form.html"):
-    package = get_object_or_404(Package, slug=slug)
-    form = DocumentationForm(request.POST or None, instance=package)
-    if form.is_valid():
-        form.save()
-        messages.add_message(
-            request, messages.INFO, "Package documentation updated successfully"
-        )
-        return redirect(package)
-    return render(request, template_name, dict(package=package, form=form))
-
-
-@csrf_exempt
-def github_webhook(request):
-    if request.method == "POST":
+@method_decorator(csrf_exempt, name="dispatch")
+class GitHubWebhookView(View):
+    def post(self, request, *args, **kwargs):
         data = json.loads(request.POST["payload"])
 
         # Webhook Test
@@ -623,4 +555,309 @@ def github_webhook(request):
         package.repo.fetch_commits(package)
         package.last_fetched = timezone.now()
         package.save()
-    return HttpResponse()
+        return HttpResponse()
+
+
+class PackageVersionListView(ListView):
+    template_name = "partials/releases_table.html"
+    context_object_name = "versions"
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Version.objects.by_version_not_hidden(package__slug=self.kwargs["slug"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["package_slug"] = self.kwargs["slug"]
+        return context
+
+
+class BasePackageListView(ListView):
+    model = Package
+    paginate_by = 20
+    context_object_name = "packages"
+    template_name = None  # must be set by subclass
+
+    def get_base_queryset(self):
+        return (
+            Package.objects.active()
+            .select_related("category")
+            .annotate(usage_count=Count("usage"))
+        )
+
+    def get_filter_form(self):
+        """
+        Return the filter form instance.
+        """
+        raise NotImplementedError
+
+    def get_default_filter_data(self):
+        """
+        Default filter_data dict for the view.
+        """
+        raise NotImplementedError
+
+    def apply_filters(self, queryset):
+        """
+        Apply filters to the queryset.
+        """
+        raise NotImplementedError
+
+    def get_list_url(self):
+        raise NotImplementedError
+
+    def get_extra_context(self):
+        return {}
+
+    def get_queryset(self):
+        queryset = self.get_base_queryset()
+
+        self.form = self.get_filter_form()
+        self.filter_data = self.get_default_filter_data()
+
+        if self.form.is_valid():
+            self.update_filter_data(self.form.cleaned_data)
+
+        queryset = self.apply_filters(queryset)
+
+        return queryset.order_by(self.filter_data["sort"])
+
+    def update_filter_data(self, cleaned_data):
+        """
+        Populate filter_data from cleaned_data.
+        """
+        for key in self.filter_data:
+            if cleaned_data.get(key):
+                self.filter_data[key] = cleaned_data[key]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                "current_sort": self.filter_data["sort"],
+                "search_query": self.filter_data.get("q", ""),
+                "form": self.form,
+                "list_url": self.get_list_url(),
+                **self.get_extra_context(),
+            }
+        )
+        return context
+
+    def render_to_response(self, context, **response_kwargs):
+        if self.request.htmx:
+            return render(
+                self.request,
+                "partials/package_list_body.html",
+                context,
+            )
+        return super().render_to_response(context, **response_kwargs)
+
+
+class PackageListView(BasePackageListView):
+    template_name = "package/package_list.html"
+
+    def get_filter_form(self):
+        return PackageFilterForm(self.request.GET)
+
+    def get_default_filter_data(self):
+        return {
+            "category": "all",
+            "q": "",
+            "sort": "-repo_watchers",
+        }
+
+    def apply_filters(self, queryset):
+        if self.filter_data["category"] != "all":
+            queryset = queryset.filter(category__slug=self.filter_data["category"])
+
+        if self.filter_data["q"]:
+            queryset = queryset.filter(
+                Q(title__icontains=self.filter_data["q"])
+                | Q(repo_description__icontains=self.filter_data["q"])
+            )
+
+        return queryset
+
+    def get_list_url(self):
+        return reverse("packages")
+
+    def get_extra_context(self):
+        return {
+            "categories": (
+                Category.objects.annotate(
+                    package_count=Count(
+                        "package",
+                        filter=Q(
+                            package__date_repo_archived__isnull=True,
+                            package__date_deprecated__isnull=True,
+                            package__deprecated_by__isnull=True,
+                            package__deprecates_package__isnull=True,
+                        ),
+                    )
+                )
+                .filter(package_count__gt=0)
+                .order_by("-package_count")
+            ),
+            "total_count": Package.objects.active().count(),
+            "current_category": self.filter_data["category"],
+        }
+
+
+class PackageByCategoryListView(BasePackageListView):
+    template_name = "package/category_package_list.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        self.category = get_object_or_404(Category, slug=kwargs["slug"])
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_base_queryset(self):
+        return super().get_base_queryset().filter(category=self.category)
+
+    def get_filter_form(self):
+        return CategoryPackageFilterForm(self.request.GET)
+
+    def get_default_filter_data(self):
+        return {
+            "q": "",
+            "sort": "-repo_watchers",
+        }
+
+    def apply_filters(self, queryset):
+        if self.filter_data["q"]:
+            queryset = queryset.filter(
+                Q(title__icontains=self.filter_data["q"])
+                | Q(repo_description__icontains=self.filter_data["q"])
+            )
+        return queryset
+
+    def get_list_url(self):
+        return reverse(
+            "category",
+            kwargs={"slug": self.category.slug},
+        )
+
+    def get_extra_context(self):
+        return {
+            "category": self.category,
+            "current_category": self.category.slug,
+        }
+
+
+class PackageByGridListView(BasePackageListView):
+    template_name = "package/grid_package_list.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        self.grid = get_object_or_404(Grid, slug=kwargs["slug"])
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_base_queryset(self):
+        return super().get_base_queryset().filter(gridpackage__grid=self.grid)
+
+    def get_filter_form(self):
+        return PackageFilterForm(self.request.GET)
+
+    def get_default_filter_data(self):
+        return {
+            "category": "all",
+            "q": "",
+            "sort": "-repo_watchers",
+        }
+
+    def apply_filters(self, queryset):
+        if self.filter_data["category"] != "all":
+            queryset = queryset.filter(category__slug=self.filter_data["category"])
+
+        if self.filter_data["q"]:
+            queryset = queryset.filter(
+                Q(title__icontains=self.filter_data["q"])
+                | Q(repo_description__icontains=self.filter_data["q"])
+            )
+
+        return queryset
+
+    def get_list_url(self):
+        return reverse(
+            "grid_packages",
+            kwargs={"slug": self.grid.slug},
+        )
+
+    def get_extra_context(self):
+        return {
+            "grid": self.grid,
+            "categories": (
+                Category.objects.filter(package__gridpackage__grid=self.grid)
+                .annotate(
+                    package_count=Count(
+                        "package",
+                        filter=Q(
+                            package__date_repo_archived__isnull=True,
+                            package__date_deprecated__isnull=True,
+                            package__deprecated_by__isnull=True,
+                            package__deprecates_package__isnull=True,
+                        ),
+                    )
+                )
+                .filter(package_count__gt=0)
+                .order_by("-package_count")
+            ),
+            "total_count": self.grid.packages.filter(
+                date_repo_archived__isnull=True,
+                date_deprecated__isnull=True,
+                deprecated_by__isnull=True,
+                deprecates_package__isnull=True,
+            ).count(),
+            "current_category": self.filter_data["category"],
+        }
+
+
+class MostLikedPackageListView(ListView):
+    template_name = "package/package_archive.html"
+    model = Package
+    paginate_by = 50
+    context_object_name = "packages"
+
+    def get_queryset(self):
+        return (
+            super()
+            .get_queryset()
+            .select_related("category")
+            .annotate(distinct_favs=Count("favorite__favorited_by", distinct=True))
+            .filter(distinct_favs__gt=0)
+            .order_by("-distinct_favs")
+        )
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context.update(
+            {
+                "title": _("Most Liked Packages"),
+                "heading": _("Most liked 50 packages"),
+            }
+        )
+        return context
+
+
+class LatestPackageListView(ListView):
+    template_name = "package/package_archive.html"
+    model = Package
+    paginate_by = 50
+    context_object_name = "packages"
+
+    def get_queryset(self):
+        return (
+            super()
+            .get_queryset()
+            .active()
+            .select_related("category")
+            .order_by("-created")
+        )
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context.update(
+            {
+                "title": _("Latest Packages"),
+                "heading": _("Latest 50 packages added"),
+            }
+        )
+        return context

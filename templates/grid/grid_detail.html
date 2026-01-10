@@ -1,378 +1,209 @@
-{% extends "grid/base.html" %}
+{% extends "base.html" %}
 
-{% load cache crispy_forms_tags emojificate grid_tags humanize i18n package_tags page_metadata_tags waffle_tags %}
+{% load grid_tags humanize i18n package_tags static waffle_tags %}
 
-{% block metadata %}
-    {% page_metadata page_title=grid.title page_description=grid.description page_keywords=grid.packages.all|join:',' og_image_url=grid.get_opengraph_image_url %}
-{% endblock metadata %}
+{% block title %}{{ grid.title }} | {% translate "Comparison Grid" %}{% endblock %}
 
-{% block extra_head %}
-    {{ block.super }}
-    {% include 'includes/_ethicalads-js.html' %}
-{% endblock extra_head %}
-
-{% block body %}
-    <div class="row">
-        <div class="col-md-6">
-            <h2>
-                {{ grid.title|emojify|emojificate }}
-                {% if request.user.is_authenticated and profile.can_edit_grid %}
-                    <a href="{% url 'edit_grid' grid.slug %}">
-                        <span class="glyphicon glyphicon-pencil"></span>
+{% block content %}
+    <!-- Breadcrumb Section -->
+    <section class="py-4 bg-primary/10">
+        <div class="container px-4 mx-auto">
+            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
+                <div class="flex items-center text-sm text-muted-foreground">
+                    <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
+                    <span class="mx-2">»</span>
+                    <a href="{% url 'grids' %}" class="hover:underline">{% translate "Grids" %}</a>
+                    <span class="mx-2">»</span>
+                    <span class="font-medium text-foreground truncate">{{ grid.title }}</span>
+                </div>
+                <div class="flex flex-wrap gap-2 items-center w-full sm:w-auto">
+                    <a href="{% url 'grid_packages' grid.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                        <i class="mr-1 text-base ph-bold ph-package"></i>
+                        <span>{% translate "All Packages" %}</span>
                     </a>
-                {% endif %}
-            </h2>
-            <p>
-                {{ grid.description|emojify|emojificate|safe|urlize|linebreaksbr }}
-            </p>
-        </div>
-        <div class="col-md-6">
-            {% with ea_id="grid-detail" ea_type="text" %}
-                {% include 'includes/_ethicalads-tag.html' %}
-            {% endwith %}
-        </div>
-    </div>
-    {% cache 600 html_grid_detail_outer grid.pk request.GET.urlencode %}
-        <div class="row">
-            <div class="col-lg-12">
-                <h3>{% translate "Filter results" %}</h3>
+                    <a href="{% url 'grid_timesheet' grid.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                        <i class="mr-1 text-base ph-bold ph-calendar-blank"></i>
+                        <span>{% translate "Timesheet" %}</span>
+                    </a>
+                    {% if perms.grid.change_grid %}
+                        <a href="{% url 'edit_grid' grid.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                            <i class="mr-1 text-base ph-bold ph-pencil-simple"></i>
+                            <span>{% translate "Edit Grid" %}</span>
+                        </a>
+                    {% endif %}
+                    {% if perms.grid.add_gridpackage %}
+                        <a href="{% url 'add_grid_package' grid.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                            <i class="mr-1 text-base ph-bold ph-plus-circle"></i>
+                            <span>{% translate "Add Package" %}</span>
+                        </a>
+                    {% endif %}
+                    {% if perms.grid.add_feature %}
+                        <a href="{% url 'add_feature' grid.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                            <i class="mr-1 text-base ph-bold ph-list-plus"></i>
+                            <span>{% translate "Add Feature" %}</span>
+                        </a>
+                    {% endif %}
+                </div>
             </div>
-            <form method="get" action="{{ request.path }}" id="filterForm" class="form-inline">
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    {% crispy filter_form %}
+        </div>
+    </section>
+
+    <div class="container py-8 px-4 mx-auto">
+        <!-- Header Section -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-foreground">{{ grid.title }}</h1>
+            {% if grid.description %}
+                <p class="pt-2 text-muted-foreground">{{ grid.description|linebreaks }}</p>
+            {% endif %}
+            <div class="flex flex-wrap gap-4 items-center mt-4 text-sm text-muted-foreground">
+                <div class="flex gap-2 items-center">
+                    <i class="ph-bold ph-package text-primary"></i>
+                    <span class="font-semibold text-foreground">{{ grid_packages|length }}</span>
+                    <span>{% translate "Packages" %}</span>
                 </div>
-            </form>
+                <div class="flex gap-2 items-center">
+                    <i class="ph-bold ph-list-checks text-primary"></i>
+                    <span class="font-semibold text-foreground">{{ features|length }}</span>
+                    <span>{% translate "Features" %}</span>
+                </div>
+            </div>
         </div>
 
-        <!-- Grid is not inside of a Bootstrap grid row because it needs max width. -->
-        {% if grid_packages|length %}
-            <table class="table table-condensed fixed-header">
-                <thead>
-                    {% include "grid/snippets/grid_row_header.html" %}
-                </thead>
-            </table>
-            <table class="table table-condensed" style="display: block; max-width: fit-content; overflow-x: auto;">
-                <thead>
-                    {% include "grid/snippets/grid_row_header.html" %}
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>{% translate "Description" %}</td>
-                        {% for grid_package in grid_packages %}
-                            <td>
-                                {% with short=grid_package.package.repo_description|truncatewords:20 %}
-                                    {% if grid_package.package.repo_description|length > short|length %}
-                                        {{ short|wordwrap:30|linebreaksbr|slice:"-3" }}<a href="{{ grid_package.package.get_absolute_url }}">...</a>
-                                    {% else %}
-                                        {{ short|wordwrap:30|linebreaksbr }}
-                                    {% endif %}
-                                {% endwith %}
-                            </td>
-                        {% endfor %}
-                    </tr>
-                    <tr>
-                        <td>{% translate "Category" %}</td>
-                        {% for grid_package in grid_packages %}
-                            <td>{{ grid_package.package.category }}</td>
-                        {% endfor %}
-                    </tr>
-                    <tr>
-                        <td>{% translate "# Using This" %}</td>
-                        {% for grid_package in grid_packages %}
-                            <td class="usage-holder">
-                                {% with package=grid_package.package %}
-                                    <span class="usage-count" id="usage-count-{{ package.id }}">{{ grid_package.usage_count|intcomma }}</span>
-                                    {% usage_button %}
-                                {% endwith %}
-                            </td>
-                        {% endfor %}
-                    </tr>
-                    <tr>
-                        <td>{% translate "Python 3?" %}</td>
-                        {% for grid_package in grid_packages %}
-                            <td>{% if grid_package.package.last_released.supports_python3 %}<span class="glyphicon glyphicon-ok"></span>{% else %}<span class="glyphicon glyphicon-remove"></span>{% endif %}</td>
-                        {% endfor %}
-                    </tr>
-                    <tr>
-                        <td>{% translate "Development Status" %}</td>
-                        {% for grid_package in grid_packages %}
-                            <td>
-                                {% with pretty_status=grid_package.package.last_released.pretty_status %}
-                                    {% if pretty_status %}
-                                        {{ pretty_status|default:"n/a" }}
-                                    {% else %}
-                                        n/a
-                                    {% endif %}
-                                {% endwith %}
-                            </td>
-                        {% endfor %}
-                    </tr>
-                    <tr>
-                        <td>{% translate "Last updated" %}</td>
-                        {% for grid_package in grid_packages %}
-                            <td>
-                                {% with last_updated=grid_package.package.last_updated %}
-                                    {% if last_updated %}
-                                        {{ last_updated|date:"DATETIME_FORMAT" }}
-                                    {% endif %}
-                                {% endwith %}
-                            </td>
-                        {% endfor %}
-                    </tr>
-                    <tr>
-                        <td>{% translate "Version" %}</td>
-                        {% for grid_package in grid_packages %}
-                            <td>{{ grid_package.package.pypi_version|default:"n/a" }}</td>
-                        {% endfor %}
+        {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="grid-detail-top" ea_outer_class="mb-4" ea_inner_class="flex justify-center" %}
 
-                    </tr>
-                    <tr>
-                        <td>{% translate "Repo" %}</td>
-                        {% for grid_package in grid_packages %}
-                            <td><a href="{{ grid_package.package.repo_url }}">{{ grid_package.package.repo }}</a></td>
-                        {% endfor %}
-                    </tr>
-                    <tr>
-                        <td>{% translate "Commits" %}</td>
-                        {% for grid_package in grid_packages %}
-                            <td>{% include "package/includes/_commits.html" with value=grid_package.package.commits_over_52 %}</td>
-                        {% endfor %}
-                    </tr>
-                    <tr>
-                        <td>{% translate "Stars" %}</td>
-                        {% for grid_package in grid_packages %}
-                            <td>{{ grid_package.package.repo_watchers|intcomma|default:"n/a" }}</td>
-                        {% endfor %}
-                    </tr>
-                    {% flag "enabled_packages_score_values" %}
-                        <tr>
-                            <td {% if TEST_MODE %}data-testid="grid-detail-score-header"{% endif %}>
-                                {% translate "Score" %}
-                                <span
-                                    class="glyphicon glyphicon-info-sign"
-                                    data-toggle="tooltip"
-                                    data-placement="top"
-                                    title="{% translate 'Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%).' %}"
-                                ></span>
-                            </td>
-                            {% for grid_package in grid_packages %}
-                                <td {% if TEST_MODE %}data-testid="grid-{{ grid_package.package.slug }}-detail-score-cell"{% endif %}>
-                                    {{ grid_package.package.score|intcomma|default:"n/a" }}
-                                </td>
-                            {% endfor %}
-                        </tr>
-                    {% endflag %}
-                    <tr>
-                        <td>{% translate "Repo Forks" %}</td>
-                        {% for grid_package in grid_packages %}
-                            <td>{{ grid_package.package.repo_forks|intcomma|default:"n/a" }}</td>
-                        {% endfor %}
-                    </tr>
-                    <tr>
-                        <td>{% translate "Participants" %}</td>
-                        {% for grid_package in grid_packages %}
-                            <td>
-                                {% for collaborator in grid_package.package.participant_list %}
-                                    {% if forloop.counter <= 10 %}
-                                        <a href="{{ grid_package.package.repo.url }}/{{ collaborator }}">{{ collaborator }}</a>
-                                        {% if not forloop.last %}
-                                            <br />
-                                        {% endif %}
-                                    {% endif %}
-                                    {% if forloop.counter == 11 %}
-                                        <a href="{% url 'package' grid_package.package.slug %}">{% translate "more..." %}</a>
-                                    {% endif %}
-                                {% endfor %}
-                            </td>
-                        {% endfor %}
-                    </tr>
-                    <tr>
-                        <td>{% translate "Documentation" %}</td>
-                        {% for grid_package in grid_packages %}
-                            <td>
-                                {% if grid_package.package.documentation_url.strip and grid_package.package.documentation_url.strip != None %}
-                                    <a href="{{ grid_package.package.documentation_url }}">
-                                        <span class="glyphicon glyphicon-book"></span>
-                                    </a>
-                                {% else %}
-                                    n/a
-                                {% endif %}
-                            </td>
-                        {% endfor %}
-                    </tr>
-
-                    {% for feature in features %}
-                        <tr class="{% cycle 'even' 'odd' %}">
-                            <td>{{ feature.title|emojify|emojificate }}</td>
-                            {% for grid_package in grid_packages %}
-                                {% with element=elements|hash:feature.pk|hash:grid_package.pk %}
-                                    <td class="clickable" id="element-f{{ feature.pk }}-p{{ grid_package.pk }}">{% if element %}{{ element.text|style_element|safe|urlize|linebreaksbr }}{% endif %}<noscript>
-                                        {% if request.user.is_authenticated and profile.can_edit_grid_element %}
-                                            <a class="edit" href="{% url 'edit_element' feature.pk grid_package.pk %}">{% translate "[edit]" %}</a>
-                                        {% endif %}
-                                    </noscript></td>
-                                {% endwith %}
-                            {% endfor %}
-                        </tr>
-                    {% endfor %}
-
-                    <!-- start Delete package from grid buttons -->
-                    {% if perms.grid.delete_gridpackage %}
-                        <tr>
-                            <td>Remove from grid?</td>
-                            {% for grid_package in grid_packages %}
-                                <td class="grid-delete">
-                                    &nbsp;<a href="#" id="package-delete-{{ grid_package.pk }}">
-                                        <span class="glyphicon glyphicon-trash"></span>
-                                    </a>
-                                </td>
-                            {% endfor %}
-                        </tr>
-                    {% endif %}
-                    <!-- end Delete package from grid buttons -->
-
-                </tbody>
-
-            </table>
-            <p><a href="{% url 'grid_packages' grid.slug %}"><span class="glyphicon glyphicon-th-list text-success"></span> {% translate "View all grid packages" %}</a></p>
-        {% else %}
-            {% if request.user.is_authenticated and profile.can_add_grid_package %}
-                <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span>&nbsp;{% translate "Add a package to get a grid view" %}</a></p>
-            {% endif %}
-        {% endif %}
-
-        <div class="row">
-            {% if features and request.user.is_authenticated %}
-                <div class="col-lg-12">
-                    <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% translate "Add package to the grid" %}</a></p>
-
-                    {% if profile.can_add_grid_feature %}
-                        <p><a href="{% url 'add_feature' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% translate "Add new feature to the grid" %}</a></p>
-                    {% endif %}
-
-                    {% if profile.can_edit_grid_element %}
-                        <p><span class="glyphicon glyphicon-info-sign"></span> {% translate "Highlighted cells are editable.  Click highlighted cells to change text." %}</p>
-                    {% endif %}
+        <!-- Search & Filter Card -->
+        <div class="mb-6 card">
+            <div class="p-6 card-content">
+                <div class="flex gap-2 items-center mb-4">
+                    <i class="text-lg ph-bold ph-funnel text-primary"></i>
+                    <h2 class="font-semibold text-foreground">{% translate "Search & Filter" %}</h2>
                 </div>
-            {% endif %}
-            {% if features %}
-                <div class="col-lg-12">
-                    <h3>{% translate "Features currently being evaluated" %}</h3>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>{% translate "Feature" %}</th>
-                                <th>{% translate "Description" %}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+
+                <form method="get"
+                      hx-get="{% url 'grid' grid.slug %}"
+                      hx-target="#comparison-table"
+                      hx-trigger="change delay:300ms, submit"
+                      hx-swap="innerHTML"
+                      hx-indicator="#loading-indicator"
+                      class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+
+                    <!-- Search Input -->
+                    <div class="sm:col-span-2 lg:col-span-1">
+                        <div class="relative">
+                            <i class="absolute left-3 top-1/2 -translate-y-1/2 ph-bold ph-magnifying-glass text-muted-foreground"></i>
+                            <input type="text"
+                                   name="q"
+                                   value="{{ filter_form.q.value|default:'' }}"
+                                   placeholder="{% translate 'Search packages...' %}"
+                                   class="pr-4 pl-10 w-full h-10 rounded-lg border shadow-sm transition-shadow focus:ring-2 focus:outline-none bg-background text-foreground focus:ring-primary"
+                                   hx-get="{% url 'grid' grid.slug %}"
+                                   hx-target="#comparison-table"
+                                   hx-trigger="keyup changed delay:300ms"
+                                   hx-swap="innerHTML"
+                                   hx-indicator="#loading-indicator"
+                                   hx-include="[name='sort'], [name='python3'], [name='stable']">
+                        </div>
+                    </div>
+
+                    <!-- Sort Select -->
+                    <div>
+                        <select name="sort"
+                                class="px-3 w-full h-10 rounded-lg border shadow-sm transition-shadow focus:ring-2 focus:outline-none bg-background text-foreground focus:ring-primary">
+                            {% for value, label in filter_form.sort.field.choices %}
+                                <option value="{{ value }}" {% if filter_form.sort.value == value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Filter Toggles -->
+                    <div class="flex gap-4 items-center">
+                        <label class="flex gap-2 items-center text-sm cursor-pointer">
+                            <input type="checkbox"
+                                   name="python3"
+                                   value="true"
+                                   {% if filter_form.python3.value %}checked{% endif %}
+                                   class="w-4 h-4 rounded border-input text-primary focus:ring-primary">
+                            <span class="text-muted-foreground">{% translate "Python 3" %}</span>
+                        </label>
+                        <label class="flex gap-2 items-center text-sm cursor-pointer">
+                            <input type="checkbox"
+                                   name="stable"
+                                   value="true"
+                                   {% if filter_form.stable.value %}checked{% endif %}
+                                   class="w-4 h-4 rounded border-input text-primary focus:ring-primary">
+                            <span class="text-muted-foreground">{% translate "Stable" %}</span>
+                        </label>
+                    </div>
+
+                    <!-- Loading Indicator -->
+                    <div id="loading-indicator" class="flex gap-2 items-center text-sm htmx-indicator text-primary">
+                        <i class="animate-spin ph-bold ph-spinner"></i>
+                        <span>{% translate "Loading..." %}</span>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <div id="comparison-table">
+            {% include "partials/grid_comparison_table.html" %}
+        </div>
+
+        <!-- Features + (optional) ad block -->
+        {% if features %}
+            <div class="mt-4">
+                {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="grid-detail-bottom" ea_outer_class="mb-3" ea_inner_class="flex justify-center" %}
+
+                <!-- Features Being Compared Card -->
+                <div class="card">
+                    <div class="p-6 card-content">
+                        <div class="flex justify-between items-center mb-4">
+                            <div class="flex gap-2 items-center">
+                                <i class="text-lg ph-bold ph-list-checks text-primary"></i>
+                                <h2 class="font-semibold text-foreground">{% translate "Features Being Compared" %}</h2>
+                            </div>
+                            <span class="py-1 px-2.5 text-xs font-medium rounded-full bg-primary/10 text-primary">
+                                {{ features|length }} {% translate "features" %}
+                            </span>
+                        </div>
+                        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                             {% for feature in features %}
-                                <tr>
-                                    <td>{{ feature.title|emojify|emojificate }}
-                                        {% if request.user.is_authenticated and profile.can_edit_grid_feature %}
-                                            &nbsp;<a href="{% url 'edit_feature' feature.pk %}">
-                                                <span class="glyphicon glyphicon-pencil"></span>
-                                            </a>
-                                            {% if perms.grid.delete_feature %}
-                                                &nbsp;<a href="#" id="feature-delete-{{ feature.pk }}">
-                                                    <span class="glyphicon glyphicon-trash"></span>
-                                                </a>
-                                            {% endif %}
+                                <div class="flex gap-3 items-start p-3 rounded-lg border transition-colors group border-border bg-muted/30 hover:border-primary/50">
+                                    <div class="flex flex-shrink-0 justify-center items-center mt-0.5 w-6 h-6 rounded-md bg-primary/10">
+                                        <i class="text-xs ph-bold ph-check text-primary"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <h3 class="text-sm font-medium text-foreground">
+                                            {{ feature.title }}
+                                        </h3>
+                                        {% if feature.description %}
+                                            <p class="mt-1 text-xs text-muted-foreground">
+                                                {{ feature.description }}
+                                            </p>
                                         {% endif %}
-                                    </td>
-                                    <td>{{ feature.description|wordwrap:80|linebreaksbr|emojify|emojificate }}</td>
-                                </tr>
+                                    </div>
+                                    <div class="flex gap-1 items-center">
+                                        {% if perms.grid.change_feature %}
+                                            <a href="{% url 'edit_feature' feature.pk %}"
+                                               class="p-1 rounded transition-all text-muted-foreground hover:text-primary hover:bg-muted"
+                                               title="{% translate 'Edit feature' %}">
+                                                <i class="text-sm ph-bold ph-pencil-simple"></i>
+                                            </a>
+                                        {% endif %}
+                                        {% if perms.grid.delete_feature %}
+                                            <a href="{% url 'delete_feature' feature.pk %}"
+                                               class="p-1 rounded transition-all text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                                               title="{% translate 'Delete feature' %}">
+                                                <i class="text-sm ph-bold ph-trash"></i>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
                             {% endfor %}
-                        </tbody>
-                    </table>
+                        </div>
+                    </div>
                 </div>
-            {% else %}
-                <div class="col-lg-12">
-                    {% if request.user.is_authenticated and profile.can_add_grid_package %}
-                        <p><a href="{% url 'add_grid_package' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% translate "Add package to the grid" %}</a></p>
-                    {% endif %}
-
-                    {% if request.user.is_authenticated and profile.can_add_grid_feature %}
-                        <p><a href="{% url 'add_feature' grid.slug %}"><span class="glyphicon glyphicon-plus"></span> {% translate "Add new feature to the grid" %}</a></p>
-                    {% endif %}
-                </div>
-            {% endif %}
-        </div>
-    {% endcache %}
-
-{% endblock body %}
-
-{% block extra_body %}
-    <script type="text/javascript">
-        $(function() {
-
-            {% if request.user.is_authenticated %}
-                // Handle element edit redirects
-
-                {% if profile.can_edit_grid_element %}
-                    $("td.clickable").click(function() {
-                        var array = $(this).attr("id").split("-");
-                        var url = "/grids/element/" + array[1].substr(1) + "/" + array[2].substr(1) + "/";
-                        $(location).attr('href', url);
-                    });
-
-                    delete_confirmation = function(e, url) {
-                        // The deletes are placed in here so there is just one place needed
-                        e.preventDefault();
-
-                        if(confirm('{% translate "Are you sure? This cannot be undone!" %}')) {
-                            window.location = url;
-                        }
-                    };
-                {% endif %}
-                // handle feature deletes
-                {% if perms.grid.delete_feature %}
-                    $("a[id|='feature-delete']").click(function(e) {
-                        var array = $(this).attr("id").split("-");
-                        var url = "/grids/feature/" + array[2] + "/delete/";
-                        delete_confirmation(e,url);
-                    });
-                {% endif %}
-
-                {% if perms.grid.delete_gridpackage %}
-                    // handle package deletes
-                    $("a[id|='package-delete']").click(function(e) {
-                        var array = $(this).attr("id").split("-");
-                        var url = "/grids/package/" + array[2] + "/delete/";
-                        delete_confirmation(e,url);
-                    });
-                {% endif %}
-
-            {% endif %}
-
-            // sticky table header
-            $table = $(".table-condensed:not(.fixed-header)");
-            $header = $(".fixed-header tr");
-
-            function resizeFixed() {
-                $originalHeader = $table.find("thead tr");
-                $header.css("width", $originalHeader.outerWidth() + "px");
-                $header.css("height", $originalHeader.outerHeight() + "px");
-                $header.find("th").each(function(index) {
-                    $(this).css("width", $table.find("thead th").eq(index).outerWidth() + "px");
-                });
-            };
-            function scrollFixed() {
-                $win = $(window);
-                var offset = $win.scrollTop(),
-                    tableOffsetTop = $table.offset().top,
-                    tableOffsetBottom = tableOffsetTop + $table.height() - $header.height();
-                var toggle = offset >= tableOffsetTop && offset <= tableOffsetBottom;
-                $header.toggle(toggle);
-                $header.css("margin-left", (toggle) ? -$win.scrollLeft() + "px" : 0);
-            }
-            $(window).resize(resizeFixed);
-            $(window).scroll(scrollFixed);
-            resizeFixed();
-
-            $("#filterForm").on("input", function() {
-                this.submit();
-            });
-        });
-    </script>
-{% endblock extra_body %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock content %}

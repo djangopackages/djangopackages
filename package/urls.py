@@ -1,27 +1,26 @@
 from django.urls import path, re_path
-from django.views.generic.dates import ArchiveIndexView
-from django.db.models import Count
 
-from package.models import Package
 from package.views import (
+    LatestPackageListView,
+    MostLikedPackageListView,
+    PackageOpenGraphDetailView,
+    PackageExampleCreateView,
+    AddPackageView,
+    PackageUsageToggleView,
+    ValidateRepositoryURLView,
+    PackageExampleDeleteView,
+    PackageDocumentationUpdateView,
+    PackageExampleUpdateView,
+    PackageUpdateView,
+    PackageFlagApproveView,
+    PackageFlagView,
+    PackageFlagRemoveView,
+    GitHubWebhookView,
+    PackageRulesView,
+    PackageFetchDataView,
+    PackageVersionListView,
+    PackageDetailView,
     PackageListView,
-    add_example,
-    add_package,
-    ajax_package_list,
-    confirm_delete_example,
-    delete_example,
-    edit_documentation,
-    edit_example,
-    edit_package,
-    flag_approve,
-    flag_package,
-    flag_remove,
-    github_webhook,
-    package_detail,
-    package_details_rules,
-    package_opengraph_detail,
-    fetch_package_data,
-    usage,
 )
 
 urlpatterns = [
@@ -32,103 +31,93 @@ urlpatterns = [
     ),
     path(
         "latest/",
-        view=ArchiveIndexView.as_view(
-            queryset=Package.objects.filter().select_related(),
-            paginate_by=50,
-            date_field="created",
-        ),
+        LatestPackageListView.as_view(),
         name="latest_packages",
     ),
     path(
         "liked/",
-        view=ArchiveIndexView.as_view(
-            queryset=Package.objects.annotate(
-                distinct_favs=Count("favorite__favorited_by", distinct=True)
-            ).filter(distinct_favs__gt=0),
-            paginate_by=50,
-            date_field="created",
-        ),
+        MostLikedPackageListView.as_view(),
         name="liked_packages",
     ),
     path(
         "add/",
-        view=add_package,
+        view=AddPackageView.as_view(),
         name="add_package",
     ),
     path(
+        "add/validate/",
+        view=ValidateRepositoryURLView.as_view(),
+        name="validate_repo_url",
+    ),
+    path(
         "<slug:slug>/edit/",
-        view=edit_package,
+        view=PackageUpdateView.as_view(),
         name="edit_package",
     ),
     path(
         "<slug:slug>/fetch-data/",
-        view=fetch_package_data,
+        view=PackageFetchDataView.as_view(),
         name="fetch_package_data",
     ),
     path(
         "<slug:slug>/example/add/",
-        view=add_example,
+        view=PackageExampleCreateView.as_view(),
         name="add_example",
     ),
     path(
         "<slug:slug>/example/<int:id>/edit/",
-        view=edit_example,
+        view=PackageExampleUpdateView.as_view(),
         name="edit_example",
     ),
     path(
         "<slug:slug>/example/<int:id>/delete/",
-        view=delete_example,
+        view=PackageExampleDeleteView.as_view(),
         name="delete_example",
     ),
     path(
-        "<slug:slug>/example/<int:id>/confirm_delete/",
-        view=confirm_delete_example,
-        name="confirm_delete_example",
-    ),
-    path(
         "<slug:slug>/flag/",
-        view=flag_package,
+        view=PackageFlagView.as_view(),
         name="flag",
     ),
     path(
-        "<slug:slug>/flag/approve/",
-        view=flag_approve,
+        "flag/<int:pk>/approve/",
+        view=PackageFlagApproveView.as_view(),
         name="flag_approve",
     ),
     path(
-        "<slug:slug>/flag/remove/",
-        view=flag_remove,
+        "flag/<int:pk>/remove/",
+        view=PackageFlagRemoveView.as_view(),
         name="flag_remove",
     ),
     path(
         "p/<slug:slug>/opengraph/",
-        view=package_opengraph_detail,
+        view=PackageOpenGraphDetailView.as_view(),
         name="package_opengraph",
     ),
     path(
         "p/<slug:slug>/rules/",
-        view=package_details_rules,
-        name="package",
+        view=PackageRulesView.as_view(),
+        name="package_rules",
     ),
     path(
         "p/<slug:slug>/",
-        view=package_detail,
+        view=PackageDetailView.as_view(),
         name="package",
-    ),
-    path(
-        "ajax_package_list/",
-        view=ajax_package_list,
-        name="ajax_package_list",
     ),
     re_path(
         r"^usage/(?P<slug>[-\w]+)/(?P<action>add|remove)/$",
-        view=usage,
+        view=PackageUsageToggleView.as_view(),
         name="usage",
     ),
     path(
-        "<slug:slug>/document/",
-        view=edit_documentation,
+        "<slug:slug>/documentation/edit/",
+        view=PackageDocumentationUpdateView.as_view(),
         name="edit_documentation",
     ),
-    path("github-webhook/", view=github_webhook, name="github_webhook"),
+    path("github-webhook/", view=GitHubWebhookView.as_view(), name="github_webhook"),
+    path(
+        "<slug:slug>/versions/",
+        view=PackageVersionListView.as_view(),
+        name="package_versions",
+    ),
 ]

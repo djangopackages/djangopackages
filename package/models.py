@@ -40,6 +40,19 @@ class RepoHost(models.TextChoices):
     CODEBERG = "codeberg", _("Codeberg")
     FORGEJO = "forgejo", _("Forgejo")
 
+    @classmethod
+    def from_url(cls, url: str):
+        url = url.lower()
+        if "github.com" in url:
+            return cls.GITHUB
+        elif "gitlab.com" in url:
+            return cls.GITLAB
+        elif "bitbucket.org" in url:
+            return cls.BITBUCKET
+        elif "codeberg.org" in url:
+            return cls.CODEBERG
+        return cls.AUTO_DETECT
+
 
 class NoPyPiVersionFound(Exception):
     pass
@@ -238,6 +251,23 @@ class Package(BaseModel):
 
     @property
     def license_latest(self):
+        prefetched_versions = None
+        if hasattr(self, "_prefetched_versions"):
+            prefetched_versions = getattr(self, "_prefetched_versions")
+
+        # If versions were prefetched (even if empty), use them and do not hit
+        # the DB.
+        if prefetched_versions is not None:
+            if not prefetched_versions:
+                return "UNKNOWN"
+            # Version model orders by -upload_time, so the first non-null upload_time
+            # is the effective "latest".
+            for v in prefetched_versions:
+                if v.upload_time is not None:
+                    return v.license or "UNKNOWN"
+            # If none have upload_time, fall back to best effort.
+            return prefetched_versions[0].license or "UNKNOWN"
+
         try:
             return self.version_set.latest().license
         except Version.DoesNotExist:
@@ -256,7 +286,11 @@ class Package(BaseModel):
         )
 
     def participant_list(self):
-        return self.participants.split(",")
+        return [
+            participant
+            for p in self.participants.split(",")
+            if (participant := p.strip())
+        ]
 
     def get_usage_count(self):
         return self.usage.count()
@@ -266,13 +300,31 @@ class Package(BaseModel):
         value = cache.get(cache_name)
         if value is not None:
             return value
-        commits = self.commit_set.filter(
-            commit_date__gt=now() - timedelta(weeks=52),
-        ).values_list("commit_date", flat=True)
+
+        reference_now = now()
+        cutoff = reference_now - timedelta(weeks=52)
+
+        # Prefer a view-provided prefetch of recent commits.
+        prefetched_recent_commits = getattr(self, "_prefetched_commits_52w", None)
+        if prefetched_recent_commits is None and hasattr(
+            self, "_prefetched_objects_cache"
+        ):
+            prefetched_recent_commits = self._prefetched_objects_cache.get("commit_set")
+
+        if prefetched_recent_commits is not None:
+            commit_dates = [
+                c.commit_date
+                for c in prefetched_recent_commits
+                if c.commit_date > cutoff
+            ]
+        else:
+            commit_dates = self.commit_set.filter(
+                commit_date__gt=cutoff,
+            ).values_list("commit_date", flat=True)
 
         weeks = [0] * 52
-        for cdate in commits:
-            age_weeks = (now() - cdate).days // 7
+        for cdate in commit_dates:
+            age_weeks = (reference_now - cdate).days // 7
             if age_weeks < 52:
                 weeks[age_weeks] += 1
 
@@ -465,7 +517,7 @@ class Package(BaseModel):
         if not self.repo_description:
             self.repo_description = ""
         if self.pk:
-            self.grid_clear_detail_template_cache()
+            # self.grid_clear_detail_template_cache()
             self.score = self.calculate_score()
         super().save(*args, **kwargs)
 
@@ -512,6 +564,9 @@ class Package(BaseModel):
 
     @property
     def last_commit(self):
+        prefetched_commits = getattr(self, "_prefetched_commits_52w", None)
+        if prefetched_commits:
+            return prefetched_commits[0]
         return self.commit_set.latest()
 
     def commits_over_52_listed(self):

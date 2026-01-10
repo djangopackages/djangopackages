@@ -7,3 +7,475 @@
 @variant htmx-request (&.htmx-request, .htmx-request &);
 @variant htmx-swapping (&.htmx-swapping, .htmx-swapping &);
 @variant htmx-added (&.htmx-added, .htmx-added &);
+
+/* ============================================
+   THEME CONFIGURATION
+   ============================================ */
+@theme {
+  /* Color System - Design Tokens */
+  --color-background: oklch(0.98 0 0);
+  --color-foreground: oklch(0.15 0 0);
+
+  --color-card: oklch(1 0 0);
+  --color-card-foreground: oklch(0.15 0 0);
+
+  --color-popover: oklch(1 0 0);
+  --color-popover-foreground: oklch(0.15 0 0);
+
+  --color-primary: oklch(0.3176 0.0648 159.21);
+  --color-primary-foreground: oklch(1 0 0);
+
+  --color-secondary: oklch(0.96 0 0);
+  --color-secondary-foreground: oklch(0.15 0 0);
+
+  --color-muted: oklch(0.94 0 0);
+  --color-muted-foreground: oklch(0.45 0 0);
+
+  --color-accent: oklch(0.5 0.15 162);
+  --color-accent-foreground: oklch(1 0 0);
+
+  --color-destructive: oklch(0.65 0.2 25);
+  --color-destructive-foreground: oklch(1 0 0);
+
+  --color-border: oklch(0.88 0 0);
+  --color-input: oklch(0.88 0 0);
+  --color-ring: oklch(0.5 0.15 162);
+
+  /* Spacing & Border Radius Scale */
+  --radius: 0.625rem;
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) * 1.5);
+  --radius-xl: calc(var(--radius) * 2);
+  --radius-2xl: calc(var(--radius) * 3);
+  --radius-full: 9999px;
+
+  /* Custom Breakpoint */
+  --breakpoint-xs: 475px;
+}
+
+/* ============================================
+   BASE LAYER - Global Styles
+   ============================================ */
+@layer base {
+  body {
+    @apply font-sans antialiased;
+    font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+  }
+}
+
+/* ============================================
+   UTILITIES LAYER - Custom Utility Classes
+   ============================================ */
+@layer utilities {
+  /* Scrollbar Utilities */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  /* Text Utilities */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .overflow-wrap-anywhere {
+    overflow-wrap: anywhere;
+  }
+
+  /* Custom Breakpoint Utilities */
+  @media (min-width: 475px) {
+    .xs\:inline {
+      display: inline;
+    }
+
+    .xs\:hidden {
+      display: none;
+    }
+  }
+
+  /* HTMX Utilities */
+  .htmx-indicator {
+    @apply opacity-0 transition-opacity;
+  }
+
+  .htmx-request .htmx-indicator {
+    @apply opacity-100;
+  }
+
+  .htmx-request.htmx-indicator {
+    @apply opacity-100;
+  }
+
+  /* Empty State Utilities */
+  .empty\:hidden:empty {
+    @apply hidden;
+  }
+}
+
+/* ============================================
+   COMPONENTS LAYER - Reusable Components
+   ============================================ */
+@layer components {
+  /* Layout Components */
+  .container {
+    @apply mx-auto px-4;
+    max-width: 1280px;
+  }
+
+  /* Card System */
+  .card {
+    @apply bg-card text-card-foreground rounded-lg border border-border;
+    @apply shadow-sm hover:shadow-lg transition-all duration-200;
+    @apply cursor-pointer hover:border-primary flex flex-col;
+  }
+
+  .card-header {
+    @apply p-6;
+  }
+
+  .card-content {
+    @apply px-6 pb-6;
+  }
+
+  /* Badge Components */
+  .badge {
+    @apply inline-flex items-center rounded-md px-2 py-1;
+    @apply text-xs font-medium bg-secondary text-secondary-foreground;
+  }
+
+  .category-tag {
+    @apply inline-flex items-center rounded-md px-3 py-1;
+    @apply text-xs font-medium border border-border bg-muted/20;
+    @apply cursor-pointer hover:bg-primary hover:text-primary-foreground;
+    @apply transition-colors whitespace-nowrap;
+  }
+
+  /* Button System */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2;
+    @apply whitespace-nowrap rounded-md text-sm font-medium;
+    @apply transition-all duration-200 h-11 px-8;
+    @apply border border-primary bg-primary text-primary-foreground;
+    @apply hover:bg-primary/90 hover:border-primary/80 hover:shadow-md;
+    @apply active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2;
+    @apply whitespace-nowrap rounded-md text-sm font-medium;
+    @apply transition-all duration-200 h-11 px-8;
+    @apply border border-border bg-background text-foreground;
+    @apply hover:bg-muted hover:border-muted-foreground/20 hover:shadow-md;
+    @apply active:scale-95;
+  }
+
+  /* Suggestion Components */
+  .suggestion-item {
+    @apply flex items-center justify-between p-3 rounded-lg cursor-pointer;
+    @apply border border-transparent transition-all duration-150;
+    @apply hover:bg-accent hover:text-accent-foreground;
+
+    &.selected {
+      @apply bg-accent text-accent-foreground border-accent/20;
+
+      .suggestion-icon {
+        @apply bg-accent-foreground/20 text-accent-foreground;
+      }
+
+      .suggestion-badge {
+        @apply bg-accent-foreground/20 text-accent-foreground;
+      }
+
+      .suggestion-description {
+        @apply !text-accent-foreground/90;
+      }
+    }
+
+    &:hover {
+      .suggestion-icon {
+        @apply bg-accent-foreground/20 text-accent-foreground;
+      }
+
+      .suggestion-badge {
+        @apply bg-accent-foreground/20 text-accent-foreground;
+      }
+
+      .text-muted-foreground {
+        @apply !text-accent-foreground/90;
+      }
+    }
+  }
+
+  .suggestion-icon {
+    @apply w-6 h-6 rounded-md flex items-center justify-center;
+    @apply bg-primary/10 text-primary transition-colors;
+  }
+
+  .suggestion-badge {
+    @apply text-xs bg-muted/50 transition-colors;
+  }
+
+  /* Scroll Button System */
+  .scroll-btn-left {
+    @apply absolute left-0 top-1/2 -translate-y-1/2 z-10;
+    @apply w-8 h-8 flex items-center justify-center rounded-full;
+    @apply bg-background/95 backdrop-blur-sm border border-border;
+    @apply shadow-md hover:shadow-lg;
+    @apply hover:bg-muted hover:border-border;
+    @apply transition-all duration-200 hover:scale-110 active:scale-95;
+
+    & i {
+      @apply text-muted-foreground transition-colors duration-200;
+    }
+
+    &:hover i {
+      @apply !text-foreground;
+    }
+  }
+
+  .scroll-btn-right {
+    @apply absolute right-0 top-1/2 -translate-y-1/2 z-10;
+    @apply w-8 h-8 flex items-center justify-center rounded-full;
+    @apply bg-background/95 backdrop-blur-sm border border-border;
+    @apply shadow-md hover:shadow-lg;
+    @apply hover:bg-muted hover:border-border;
+    @apply transition-all duration-200 hover:scale-110 active:scale-95;
+
+    & i {
+      @apply text-muted-foreground transition-colors duration-200;
+    }
+
+    &:hover i {
+      @apply !text-foreground;
+    }
+  }
+
+  /* Tooltip Component */
+  .tooltip-wrapper {
+    @apply relative inline-block;
+  }
+
+  .tooltip {
+    @apply absolute bottom-full left-1/2 mb-2 w-max
+    -translate-x-1/2 rounded
+    bg-gray-900 px-2 py-1 text-xs text-white
+    opacity-0 pointer-events-none
+    transition-opacity duration-200 z-50;
+  }
+
+  .tooltip-lg {
+    @apply max-w-xs;
+  }
+
+  /* Form Group */
+  .django-form-renderer .form-group {
+    @apply mb-7;
+  }
+
+  /* Labels */
+  .django-form-renderer .form-label {
+    @apply block text-base font-semibold text-gray-900 mb-2;
+    letter-spacing: -0.01em;
+  }
+
+  .django-form-renderer .form-label .required {
+    @apply text-red-500 ml-1 text-lg;
+  }
+
+  /* Help Text */
+  .django-form-renderer .form-help {
+    @apply text-sm text-gray-600 mb-3 mt-3 leading-relaxed;
+  }
+
+  /* Form Errors (Non-field errors) */
+  .django-form-renderer .form-errors {
+    @apply bg-red-50 border-l-4 border-red-500 rounded-r-lg p-4 mb-6 shadow-sm;
+  }
+
+  .django-form-renderer .form-errors p {
+    @apply text-sm text-red-800 font-medium;
+  }
+
+  /* Field Errors */
+  .django-form-renderer .field-error {
+    @apply mt-2;
+  }
+
+  .django-form-renderer .field-error p {
+    @apply text-sm text-red-600 font-medium flex items-start gap-1;
+  }
+
+  .django-form-renderer .field-error p::before {
+    content: "⚠";
+    @apply text-red-500 mt-0.5;
+  }
+
+  /* Text Inputs */
+  .django-form-renderer input[type="text"],
+  .django-form-renderer input[type="email"],
+  .django-form-renderer input[type="url"],
+  .django-form-renderer input[type="password"],
+  .django-form-renderer input[type="number"],
+  .django-form-renderer input[type="tel"],
+  .django-form-renderer input[type="search"],
+  .django-form-renderer input[type="date"],
+  .django-form-renderer input[type="time"],
+  .django-form-renderer input[type="datetime-local"],
+  .django-form-renderer textarea {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-lg text-base text-gray-900;
+    @apply bg-white shadow-sm;
+    @apply transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+    @apply placeholder:text-gray-400;
+  }
+
+  .django-form-renderer input[type="text"]:hover,
+  .django-form-renderer input[type="email"]:hover,
+  .django-form-renderer input[type="url"]:hover,
+  .django-form-renderer input[type="password"]:hover,
+  .django-form-renderer input[type="number"]:hover,
+  .django-form-renderer input[type="tel"]:hover,
+  .django-form-renderer input[type="search"]:hover,
+  .django-form-renderer input[type="date"]:hover,
+  .django-form-renderer input[type="time"]:hover,
+  .django-form-renderer input[type="datetime-local"]:hover,
+  .django-form-renderer textarea:hover {
+    @apply border-gray-400;
+  }
+
+  /* Error State for Inputs */
+  .django-form-renderer .has-error input[type="text"],
+  .django-form-renderer .has-error input[type="email"],
+  .django-form-renderer .has-error input[type="url"],
+  .django-form-renderer .has-error input[type="password"],
+  .django-form-renderer .has-error input[type="number"],
+  .django-form-renderer .has-error input[type="tel"],
+  .django-form-renderer .has-error input[type="search"],
+  .django-form-renderer .has-error input[type="date"],
+  .django-form-renderer .has-error input[type="time"],
+  .django-form-renderer .has-error input[type="datetime-local"],
+  .django-form-renderer .has-error textarea,
+  .django-form-renderer .has-error select {
+    @apply border-red-400 bg-red-50;
+    @apply focus:ring-red-500 focus:border-red-500;
+  }
+
+  /* Textarea */
+  .django-form-renderer textarea {
+    @apply min-h-[120px] resize-y;
+  }
+
+  /* Select Dropdown - Modern improved look */
+  .django-form-renderer select {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-lg text-base text-gray-900;
+    @apply bg-white shadow-sm;
+    @apply transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+    @apply cursor-pointer;
+  }
+
+  .django-form-renderer select:hover {
+    @apply border-gray-400;
+  }
+
+  /* Multiple Select */
+  .django-form-renderer select[multiple] {
+    @apply min-h-[140px] py-2;
+    background-image: none;
+    padding-right: 1rem;
+  }
+
+  .django-form-renderer select[multiple] option {
+    @apply py-2 px-3 rounded-md;
+  }
+
+  .django-form-renderer select[multiple] option:checked {
+    @apply bg-blue-100;
+  }
+
+  /* Checkbox & Radio */
+  .django-form-renderer input[type="checkbox"],
+  .django-form-renderer input[type="radio"] {
+    @apply w-5 h-5 border-2 border-gray-300 rounded;
+    @apply transition-all duration-200 cursor-pointer;
+    @apply focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+  }
+
+  .django-form-renderer input[type="radio"] {
+    @apply rounded-full;
+  }
+
+  .django-form-renderer input[type="checkbox"]:checked,
+  .django-form-renderer input[type="radio"]:checked {
+    @apply bg-blue-600 border-blue-600;
+  }
+
+  .django-form-renderer input[type="checkbox"]:hover,
+  .django-form-renderer input[type="radio"]:hover {
+    @apply border-gray-400;
+  }
+
+  /* File Input */
+  .django-form-renderer input[type="file"] {
+    @apply block w-full text-base text-gray-900;
+    @apply border border-gray-300 rounded-lg;
+    @apply file:mr-4 file:py-3 file:px-5;
+    @apply file:border-0 file:border-r file:border-gray-300;
+    @apply file:text-base file:font-semibold;
+    @apply file:bg-gray-50 file:text-gray-700;
+    @apply file:cursor-pointer;
+    @apply hover:file:bg-gray-100;
+    @apply file:transition-colors file:duration-200;
+  }
+
+  /* Checkbox/Radio Lists */
+  .django-form-renderer ul {
+    @apply list-none p-0 m-0 space-y-3;
+  }
+
+  .django-form-renderer ul li {
+    @apply flex items-center gap-3;
+  }
+
+  .django-form-renderer ul li label {
+    @apply text-base text-gray-700 cursor-pointer select-none;
+    @apply transition-colors duration-200;
+  }
+
+  .django-form-renderer ul li label:hover {
+    @apply text-gray-900;
+  }
+
+  .django-form-renderer ul li input[type="checkbox"],
+  .django-form-renderer ul li input[type="radio"] {
+    @apply flex-shrink-0;
+  }
+
+  /* GRID COMPARISON TABLE STYLES */
+
+  /* Compact table styling */
+  .grid-table {
+    @apply text-xs;
+  }
+
+  .grid-table th,
+  .grid-table td {
+    @apply px-2 py-1.5;
+    max-width: 160px;
+    min-width: 100px;
+  }
+}

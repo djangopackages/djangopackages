@@ -32,6 +32,12 @@ def uniquer(seq, idfun=None):
 
 
 def get_version(package):
+    # Prefer prefetched versions when available to avoid N+1 queries.
+    prefetched = getattr(package, "_prefetched_versions", None)
+
+    if prefetched:
+        return prefetched[0]
+
     versions = package.version_set.exclude(upload_time=None)
     try:
         return versions.latest()
@@ -40,8 +46,16 @@ def get_version(package):
 
 
 def get_pypi_version(package):
+    # Prefer prefetched versions when available to avoid N+1 queries.
+    prefetched = getattr(package, "_prefetched_versions", None)
+
+    if prefetched is not None:
+        numbers = [v.number for v in prefetched]
+    else:
+        numbers = package.version_set.values_list("number", flat=True)
+
     versions = []
-    for v_str in package.version_set.values_list("number", flat=True):
+    for v_str in numbers:
         v = LooseVersion(v_str)
         comparable = True
         for elem in v.version:

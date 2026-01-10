@@ -1,7 +1,13 @@
 """Forms for the :mod:`grid` app"""
 
-from crispy_forms.helper import FormHelper
-from django.forms import BooleanField, ChoiceField, Form, ModelForm
+from django.forms import (
+    BooleanField,
+    ChoiceField,
+    Form,
+    ModelForm,
+    CharField,
+    IntegerField,
+)
 from django.utils.translation import gettext_lazy as _
 
 from grid.models import Element, Feature, Grid, GridPackage
@@ -56,31 +62,45 @@ class GridPackageForm(ModelForm):
         fields = ["package"]
 
 
-class GridPackageFilterForm(Form):
-    """Filter and sort form for the grid package list"""
+class GridDetailFilterForm(Form):
+    """Filter and sort form for grid detail view"""
 
     SCORE = "score"
     COMMIT_DATE = "commit_date"
     WATCHERS = "watchers"
     DOWNLOADS = "downloads"
     FORKS = "forks"
+    TITLE = "title"
 
     SORT_CHOICES = (
         (SCORE, _("Score")),
-        (COMMIT_DATE, _("Last Commit Date")),
-        (WATCHERS, _("Watchers")),
+        (TITLE, _("Name")),
+        (COMMIT_DATE, _("Last Commit")),
+        (WATCHERS, _("Stars")),
         (DOWNLOADS, _("Downloads")),
         (FORKS, _("Forks")),
     )
 
-    python3 = BooleanField(required=False, label=_("Python 3"))
-    stable = BooleanField(required=False)
+    python3 = BooleanField(required=False, label=_("Python 3 Only"))
+    stable = BooleanField(required=False, label=_("Stable Only"))
     sort = ChoiceField(
         choices=SORT_CHOICES, initial=SCORE, required=False, label=_("Sort by")
     )
+    q = CharField(required=False, label=_("Search"))
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.field_template = "bootstrap3/layout/inline_field.html"
-        self.helper.form_class = "form-inline"
+
+class GridFilterForm(Form):
+    SORT_CHOICES = (
+        ("-modified", _("Updated (Desc)")),
+        ("modified", _("Updated (Asc)")),
+        ("-title", _("Title (Desc)")),
+        ("title", _("Title (Asc)")),
+        ("-gridpackage_count", _("Total Packages (Desc)")),
+        ("gridpackage_count", _("Total Packages (Asc)")),
+        ("-active_gridpackage_count", _("Active Packages (Desc)")),
+        ("active_gridpackage_count", _("Active Packages (Asc)")),
+    )
+
+    q = CharField(required=False)
+    sort = ChoiceField(choices=SORT_CHOICES, required=False, initial="-modified")
+    page = IntegerField(required=False, min_value=1)

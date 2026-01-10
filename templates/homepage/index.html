@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+{% load grid_of_the_week_tag i18n static waffle_tags %}
+
+{% block content %}
+<!-- Hero Section -->
+    <section class="py-8 bg-muted/30">
+        <div class="container px-4 mx-auto text-center">
+            <h1 class="mb-6 text-4xl font-bold md:text-5xl text-foreground">{% translate "Django Packages" %}</h1>
+            <p class="mx-auto mb-8 max-w-3xl text-xl text-muted-foreground">
+                {% translate "Django Packages is a directory of reusable apps, sites, tools, and more for your Django projects." %}
+            </p>
+
+        <!-- Search Bar -->
+            <div class="relative mx-auto mb-8 max-w-2xl">
+                <div class="relative group">
+                    <i
+                        class="absolute left-4 top-1/2 text-xl transform -translate-y-1/2 pointer-events-none ph-bold ph-magnifying-glass text-muted-foreground"
+                    ></i>
+                    <input
+                        id="search-input"
+                        type="text"
+                        name="q"
+                        placeholder="{% translate 'Search Django packages...' %}"
+                        class="py-4 pr-20 pl-12 w-full h-14 text-lg rounded-lg border-2 transition-colors focus:outline-none peer border-input bg-background text-foreground placeholder:text-muted-foreground focus:border-primary"
+                        autocomplete="off"
+                        hx-get="{% url 'search_suggestions' %}"
+                        hx-trigger="keyup changed delay:300ms, focus"
+                        hx-target="#suggestions-dropdown"
+                        hx-vals='{"dropdown_id": "suggestions-dropdown"}'
+                        hx-indicator="#search-spinner"
+                    />
+                    <div
+                        class="flex absolute right-4 top-1/2 items-center space-x-2 transform -translate-y-1/2 pointer-events-none"
+                    >
+                        <div id="search-spinner" class="htmx-indicator">
+                            <i class="animate-spin ph-bold ph-circle-notch text-muted-foreground"></i>
+                        </div>
+                        <div
+                            class="hidden items-center py-1 px-2 space-x-1 text-xs rounded border sm:flex text-muted-foreground bg-muted/50 border-border"
+                        >
+                            <span>&#8984; /</span>
+                        </div>
+                    </div>
+                <!-- Suggestions Dropdown -->
+                    <div
+                        id="suggestions-dropdown"
+                        class="hidden overflow-hidden absolute right-0 left-0 top-full z-50 mt-2 rounded-xl border-2 shadow-xl empty:hidden peer-focus:block peer-placeholder-shown:hidden bg-popover/95 backdrop-blur-sm border-border/50 group-focus-within:block"
+                    ></div>
+                </div>
+            </div>
+
+        <!-- Category Tags Below Search -->
+            <div class="relative mt-6 space-y-3">
+            <!-- Left Arrow -->
+                <button id="scroll-left" class="scroll-btn-left">
+                    <i class="ph-bold ph-caret-left text-muted-foreground"></i>
+                </button>
+
+            <!-- Right Arrow -->
+                <button id="scroll-right" class="scroll-btn-right">
+                    <i class="ph-bold ph-caret-right text-muted-foreground"></i>
+                </button>
+
+            <!-- Line 1 -->
+                <div class="mx-8">
+                    <div id="tag-scroll-1" class="flex overflow-x-auto gap-2 scrollbar-hide">
+                        <div class="flex gap-2 py-1 min-w-max">
+                            {% for grid in grids_1 %}
+                                <a href="{{ grid.get_absolute_url }}" class="category-tag">{{ grid.title|upper }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+            <!-- Line 2 -->
+                <div class="mx-8">
+                    <div id="tag-scroll-2" class="flex overflow-x-auto gap-2 scrollbar-hide">
+                        <div class="flex gap-2 py-1 min-w-max">
+                            {% for grid in grids_2 %}
+                                <a href="{{ grid.get_absolute_url }}" class="category-tag">{{ grid.title|upper }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-4 justify-center mt-6 sm:flex-row">
+                <a href="{% url 'add_package' %}" class="px-8 btn-primary">{% translate "Add Package" %}</a>
+                <a href="{% url 'add_grid' %}" class="px-8 btn-secondary">{% translate "Add Grid" %}</a>
+            </div>
+        </div>
+        {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="home-categories-top" ea_outer_class="mt-6" ea_inner_class="flex justify-center" %}
+    </section>
+
+<!-- Categories Section -->
+    <section class="py-8">
+        <div class="container px-4 mx-auto">
+            <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+                {% for category in categories %}
+                    <div class="card group">
+                        <div class="pb-4 text-center card-header">
+                            <div
+                                class="w-16 h-16 rounded-full {% cycle 'bg-blue-50 text-blue-700 border-blue-200' 'bg-green-50 text-green-700 border-green-200' 'bg-purple-50 text-purple-700 border-purple-200' 'bg-orange-50 text-orange-700 border-orange-200' %} flex items-center justify-center mx-auto mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-200"
+                            >
+                                <i
+                                    class="ph-bold {% cycle 'ph-package' 'ph-grid-nine' 'ph-folder' 'ph-archive' %} text-2xl"
+                                ></i>
+                            </div>
+                            <h3 class="text-xl font-semibold transition-colors duration-200 group-hover:text-primary">
+                                {{ category.title_plural }}
+                            </h3>
+                        </div>
+                        <div class="flex flex-col flex-1 text-center card-content">
+                            <p class="flex-1 mb-4 text-sm leading-relaxed text-muted-foreground">
+                                {{ category.description|default:"No description available." }}
+                            </p>
+                            <a href="{% url 'category' category.slug %}" class="mt-auto w-full btn-secondary">
+                                Show {{ category.title_plural }} ({{ category.package_count }})
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    {% switch "switch_use_grid_of_the_week" %}
+        {% grid_of_the_week %}
+    {% endswitch %}
+
+<!-- Package Listings -->
+    <section class="py-8 bg-muted/20">
+        <div class="container px-4 mx-auto">
+            <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            <!-- Latest Packages -->
+                <div>
+                    <h2 class="mb-6 text-xl font-semibold">{% translate "Latest Package Releases" %}</h2>
+                    <div class="space-y-4">
+                        {% for package in latest_python3 %}
+                            {% include 'partials/package_card.html' with package=package %}
+                        {% empty %}
+                            <div class="card">
+                                <div class="p-4 card-content">
+                                    <p class="text-sm text-muted-foreground">
+                                        {% translate "No packages found. Add some packages to get started!" %}
+                                    </p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            <!-- Latest Five Added -->
+                <div>
+                    <h2 class="mb-6 text-xl font-semibold">{% translate "Latest Five Packages Added" %}</h2>
+                    <div class="space-y-4">
+                        {% for package in latest_packages %}
+                            {% include 'partials/package_card.html' with package=package %}
+                        {% empty %}
+                            <div class="card">
+                                <div class="p-4 card-content">
+                                    <p class="text-sm text-muted-foreground">
+                                        {% translate "No packages found. Add some packages to get started!" %}
+                                    </p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% if latest_packages %}
+                        <a href="{% url 'latest_packages' %}" class="mt-6 w-full btn-secondary">{% translate "View More" %}</a>
+                    {% endif %}
+                </div>
+
+            <!-- Random Packages -->
+                <div>
+                    <h2 class="mb-6 text-xl font-semibold">{% translate "Random Five Packages" %}</h2>
+                    <div class="space-y-4">
+                        {% for package in random_packages %}
+                            {% include 'partials/package_card.html' with package=package %}
+                        {% empty %}
+                            <div class="card">
+                                <div class="p-4 card-content">
+                                    <p class="text-sm text-muted-foreground">
+                                        {% translate "No packages found. Add some packages to get started!" %}
+                                    </p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            <!-- Most Liked Packages -->
+                <div>
+                    <h2 class="mb-6 text-xl font-semibold">{% translate "Most Liked Packages" %}</h2>
+                    <div class="space-y-4">
+                        {% for package in most_liked_packages %}
+                            {% include 'partials/package_card.html' with package=package %}
+                        {% empty %}
+                            <div class="card">
+                                <div class="p-4 card-content">
+                                    <p class="text-sm text-muted-foreground">
+                                        {% translate "No packages found." %}
+                                    </p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% if most_liked_packages %}
+                        <a href="{% url 'liked_packages' %}" class="mt-6 w-full btn-secondary">{% translate "View More" %}</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="home-packages-bottom" ea_outer_class="mt-6" ea_inner_class="flex justify-center" %}
+        </div>
+    </section>
+{% endblock content %}

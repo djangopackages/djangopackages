@@ -1,0 +1,94 @@
+{% load i18n %}
+<!-- Footer -->
+<footer class="text-primary-foreground">
+    <div class="pt-8 pb-4" style="background-color: oklch(39.3% 0.095 152.535)">
+        <div class="container px-4 mx-auto text-center">
+            <p class="text-sm">
+                {% translate "Projects listed on Django Packages are third-party packages. They are not vetted nor endorsed by the Django Software Foundation. Use them at your own risk." %}
+            </p>
+        </div>
+    </div>
+    <div class="pt-4 pb-8 bg-primary">
+        <div class="container px-4 mx-auto">
+            <div class="flex flex-wrap gap-6 justify-center text-sm">
+                <a
+                    href="https://github.com/djangopackages/djangopackages"
+                    class="flex gap-2 items-center opacity-90 hover:opacity-100"
+                >
+                    <i class="ph-bold ph-github-logo"></i>
+                    {% translate "Repo" %}
+                </a>
+                <a href="{% url 'faq' %}" class="flex gap-2 items-center opacity-90 hover:opacity-100">
+                    <i class="ph-bold ph-question"></i>
+                    {% translate "FAQ" %}
+                </a>
+                <a href="{% url 'terms' %}" class="flex gap-2 items-center opacity-90 hover:opacity-100">
+                    <i class="ph-bold ph-file-text"></i>
+                    {% translate "Terms" %}
+                </a>
+                <a
+                    href="https://docs.djangopackages.org/en/latest/contributing/"
+                    class="flex gap-2 items-center opacity-90 hover:opacity-100"
+                >
+                    <i class="ph-bold ph-git-pull-request"></i>
+                    {% translate "Contribute" %}
+                </a>
+                <a href="{% url 'apiv4:api-root' %}" class="flex gap-2 items-center opacity-90 hover:opacity-100">
+                    <i class="ph-bold ph-plugs"></i>
+                    {% translate "API" %}
+                </a>
+                <a href="{% url 'syndication' %}" class="flex gap-2 items-center opacity-90 hover:opacity-100">
+                    <i class="ph-bold ph-rss"></i>
+                    {% translate "RSS / Atom" %}
+                </a>
+                <a href="{% url 'post_list' %}" class="flex gap-2 items-center opacity-90 hover:opacity-100">
+                    <i class="ph-bold ph-list-dashes"></i>
+                    {% translate "Changelog" %}
+                </a>
+                <a href="{% url 'funding' %}" class="flex gap-2 items-center opacity-90 hover:opacity-100">
+                    <i class="ph-bold ph-heart"></i>
+                    {% translate "Funding" %}
+                </a>
+                <a href="{% url 'readiness' %}" class="flex gap-2 items-center opacity-90 hover:opacity-100">
+                    <i class="ph-bold ph-file-py"></i>
+                    {% translate "Readiness" %}
+                </a>
+                <a href="https://djangojobboard.com" class="flex gap-2 items-center opacity-90 hover:opacity-100">
+                    <i class="ph-bold ph-briefcase"></i>
+                    {% translate "Django Job Board" %}
+                </a>
+                <a href="https://django-news.com/" class="flex gap-2 items-center opacity-90 hover:opacity-100">
+                    <i class="ph-bold ph-newspaper"></i>
+                    {% translate "Django News Newsletter" %}
+                </a>
+            </div>
+
+            <div class="flex justify-center my-8">
+                <webring-css site="https://djangopackages.org"></webring-css>
+                <script src="https://djangowebring.com/static/webring.js"></script>
+            </div>
+
+            <div class="text-sm text-center opacity-90">
+                <p>
+                    &copy; 2010-{% now "Y" %} <a href="https://github.com/djangopackages/djangopackages/graphs/contributors" class="hover:underline">{% translate "Contributors" %}</a>,
+                    {# Please leave Daniel and Audrey's attribution here #}
+                    {% blocktranslate %}2010-2021 funded by <a href="https://www.feldroy.com/tech" class="hover:underline">Two Scoops Press</a>, an imprint of <a href="https://www.feldroy.com/" class="hover:underline">Feldroy</a>.{% endblocktranslate %}<br>
+                    {% blocktranslate %}Originally developed by <a href="http://daniel.feldroy.com" class="hover:underline">Daniel Roy Greenfeld</a> &amp; <a href="https://audrey.feldroy.com/" class="hover:underline">Audrey Roy Greenfeld</a>.{% endblocktranslate %}
+                    {# end of Daniel and Audrey's attribution #}
+                </p>
+                <p class="mt-2">
+                    {% blocktranslate %}Thank you to our <a href="https://github.com/djangopackages/djangopackages/graphs/contributors" class="hover:underline">maintainers and contributors</a> and to <a href="https://www.revsys.com/" class="hover:underline">REVSYS</a> for sponsoring development.{% endblocktranslate %}
+                </p>
+                <p class="mt-2">
+                    {% blocktranslate %}Special thanks to <a href="https://djangonaut.space" class="hover:underline">Djangonaut Space</a>.{% endblocktranslate %}
+                </p>
+                {% comment %}
+                <p class="mt-2">
+                    {% blocktranslate %}Hosted on DigitalOcean.{% endblocktranslate %}
+                    <a href="https://www.digitalocean.com/?refcode=d66a400de67f&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge" class="hover:underline">{% translate "Please use our free $200 credit referral link to get you started." %}</a>
+                </p>
+                {% endcomment %}
+            </div>
+        </div>
+    </div>
+</footer>

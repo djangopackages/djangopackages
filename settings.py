@@ -147,7 +147,6 @@ TEMPLATES = [
                 # Your stuff: custom template context processors go here
                 "maintenance_mode.context_processors.maintenance_mode",
                 "package.context_processors.used_packages_list",
-                "grid.context_processors.grid_headers",
                 "core.context_processors.current_path",
                 "profiles.context_processors.lazy_profile",
                 "social_django.context_processors.backends",
@@ -192,21 +191,15 @@ PREREQ_APPS = [
     "django.contrib.staticfiles",
     # external
     "maintenance_mode",
-    "crispy_bootstrap3",
-    "crispy_forms",
     "django_better_admin_arrayfield",
     "django_extensions",
     "django_htmx",
-    "django_tables2",
     "django_tailwind_cli",
-    "heroicons",
-    "emojificate",
     "rest_framework",
     "reversion",
     "social_django",
     "waffle",
     "django_q",
-    "template_partials",
     "anymail",
     # health checks
     "health_check",
@@ -261,7 +254,6 @@ else:
     EMAIL_SUBJECT_PREFIX = env("EMAIL_SUBJECT_PREFIX", default="[Django Packages] ")
 
 SERVER_EMAIL = "info@djangopackages.org"
-
 
 EMAIL_SUBJECT_PREFIX = "[Django Packages]"
 
@@ -484,11 +476,6 @@ URL_REGEX_GITHUB = r"(?:http|https|git)://github.com/[^/]*/([^/]*)/{0,1}"
 # from rq import Worker, Queue, Connection
 
 ########### end redis setup
-
-########### crispy_forms setup
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap3"
-CRISPY_TEMPLATE_PACK = "bootstrap3"
-########### end crispy_forms setup
 
 ########### SEKURITY
 ALLOWED_HOSTS = ["*"]

@@ -1,0 +1,51 @@
+{# Load the ethicalads client #}
+<script async src="https://media.ethicalads.io/media/client/ethicalads.min.js"></script>
+
+<script>
+    (function () {
+        function shouldReveal(adDiv) {
+            if (!adDiv) return false;
+			// EthicalAds injects markup into the placement div when an ad loads.
+            return adDiv.childNodes && adDiv.childNodes.length > 0 && adDiv.innerText && adDiv.innerText.trim().length > 0;
+        }
+
+        function reveal(slotEl) {
+            if (!slotEl) return;
+            slotEl.removeAttribute("hidden");
+        }
+
+        function initSlot(slotEl) {
+            var adDiv = slotEl.querySelector("[data-ea-publisher]");
+            if (shouldReveal(adDiv)) {
+                reveal(slotEl);
+                return;
+            }
+
+			// If the EthicalAds script is blocked, this observer will simply never fire,
+			// and the slot stays hidden (no extra whitespace).
+            var obs = new MutationObserver(function () {
+                if (shouldReveal(adDiv)) {
+                    reveal(slotEl);
+                    obs.disconnect();
+                }
+            });
+
+            obs.observe(adDiv, { childList: true, subtree: true, characterData: true });
+
+			// Don’t keep observers around forever on pages where no ad is returned.
+            window.setTimeout(function () {
+                try { obs.disconnect(); } catch (e) {}
+            }, 8000);
+        }
+
+        function initAll() {
+            document.querySelectorAll("[data-ethicalads-slot]").forEach(initSlot);
+        }
+
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", initAll);
+        } else {
+            initAll();
+        }
+    })();
+</script>

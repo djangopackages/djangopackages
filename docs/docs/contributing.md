@@ -108,7 +108,7 @@ Create a Django superuser for yourself, replacing joe with your username/email:
 === "Standard"
 
     ```shell
-    docker compose run django python -m manage createsuperuser --username=joe --email=joe@example.com
+    docker compose run django uv run manage.py createsuperuser --username=joe --email=joe@example.com
     ```
 
 === "Just"
@@ -126,7 +126,7 @@ We use a **Mock** system of creating sample data in our tests and for running a 
 === "Standard"
 
     ```shell
-    docker compose run --rm django python -m manage load_dev_data
+    docker compose run --rm django uv run manage.py load_dev_data
     ```
 
 === "Just"
@@ -143,7 +143,7 @@ Next, we need to rebuild and recalculate our search database.
 === "Standard"
 
     ```shell
-    docker compose run --rm django python -m manage searchv2_build
+    docker compose run --rm django uv run manage.py searchv2_build
     ```
 
 === "Just"
@@ -157,7 +157,7 @@ While the search v2 is our current default search algorithm, we have an experime
 === "Standard"
 
     ```shell
-    docker compose run --rm django python -m manage searchv3_build
+    docker compose run --rm django uv run manage.py searchv3_build
     ```
 
 === "Just"
@@ -355,7 +355,7 @@ git pull git://github.com/<submitter-github-name/djangopackages.git main
 Then we run the tests:
 
 ```shell
-python -m manage test --settings=settings.test
+uv run manage.py test --settings=settings.test
 ```
 
 We finish with a merge and push to GitHub:

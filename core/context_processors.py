@@ -1,9 +1,5 @@
 from django.conf import settings
-from django.core.cache import cache
-from django.db.models import Max
 from django.urls import reverse
-
-from searchv2.models import SearchV2
 
 
 def core_values(request):
@@ -11,17 +7,17 @@ def core_values(request):
     A nice pun. But this is how we stick handy data everywhere.
 
     """
-    if cache.get("max_weight"):
-        max_weight = cache.get("max_weight")
-    else:
-        max_weight = SearchV2.objects.only("weight").aggregate(
-            max_weight=Max("weight")
-        )["max_weight"]
-        cache.set("max_weight", max_weight, timeout=60 * 60)
+    # if cache.get("max_weight"):
+    #     max_weight = cache.get("max_weight")
+    # else:
+    #     max_weight = SearchV2.objects.only("weight").aggregate(
+    #         max_weight=Max("weight")
+    #     )["max_weight"]
+    #     cache.set("max_weight", max_weight, timeout=60 * 60)
 
     data = {
         "FRAMEWORK_TITLE": getattr(settings, "FRAMEWORK_TITLE", "Django"),
-        "MAX_WEIGHT": max_weight,
+        # "MAX_WEIGHT": max_weight,
         "SITE_TITLE": getattr(settings, "SITE_TITLE", "Django Packages"),
     }
     return data

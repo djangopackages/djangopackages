@@ -18,13 +18,11 @@ class FavoritePackage(View):
             messages.error(request, "Package does not exist")
             return HttpResponseClientRedirect("/")
 
-        _, created = Favorite.objects.get_or_create(
-            package=package, favorited_by=request.user
-        )
+        Favorite.objects.get_or_create(package=package, favorited_by=request.user)
         return render(
             request,
-            "package/partials/favorites.html#unfavorite_btn",
-            {"package": package},
+            "partials/favorite_button.html",
+            {"package": package, "is_favorited": True},
         )
 
 
@@ -38,9 +36,11 @@ class UnFavoritePackage(View):
         except Package.DoesNotExist:
             messages.error(request, "Package does not exist")
             return HttpResponseClientRedirect("/")
+
         Favorite.objects.get(package=package, favorited_by=request.user).delete()
+
         return render(
             request,
-            "package/partials/favorites.html#favorite_btn",
-            {"package": package},
+            "partials/favorite_button.html",
+            {"package": package, "is_favorited": False},
         )

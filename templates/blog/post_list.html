@@ -1,32 +1,53 @@
-{% extends "blog/base.html" %}
-
-{% load humanize i18n markdown_tags page_metadata_tags %}
+{% extends "base.html" %}
+{% load humanize i18n markdown_tags page_metadata_tags waffle_tags %}
 
 {% block metadata %}
     {% translate "Changelog" as trans_title %}
     {% page_metadata page_title=trans_title %}
 {% endblock metadata %}
 
-{% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-10">
-                <h1 class="text-6xl font-bold">Changelog</h1>
-                <h2 class="text-5xl">Follow Django Packages updates and improvements.</h2>
+{% block content %}
+    <!-- Breadcrumb Section -->
+    <section class="py-4 bg-primary/10">
+        <div class="container px-4 mx-auto">
+            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
+                <div class="flex items-center text-sm text-muted-foreground">
+                    <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
+                    <span class="mx-2">»</span>
+                    <span class="font-medium text-foreground truncate">{% translate "Changelog" %}</span>
+                </div>
             </div>
         </div>
-        <div class="flex flex-col gap-16 row">
+    </section>
+
+    <div class="container py-8 px-4 mx-auto">
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-foreground">{% translate "Changelog" %}</h1>
+            <p class="pt-2 text-muted-foreground">{% translate "Follow Django Packages updates and improvements." %}</p>
+        </div>
+
+        {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="post-list-inline" ea_outer_class="mb-4" ea_inner_class="flex justify-left" %}
+
+        <div class="space-y-6 max-w-5xl">
             {% for post in posts %}
-                <section class="flex flex-row gap-8">
-                    <div class="flex flex-col gap-4 col-xs-2">
-                        <div class="text-4xl">{{ post.published_date|date:"F j, Y" }}</div>
-                        <div class="text-3xl"><a href="{% url 'post_detail' post.slug %}">{{ post.title }}</a></div>
+                <div class="card">
+                    <div class="p-6 card-content">
+                        <div class="flex flex-col gap-6 md:flex-row">
+                            <div class="flex-shrink-0 md:w-1/3">
+                                <div class="mb-1 text-sm text-muted-foreground">{{ post.published_date|date:"F j, Y" }}</div>
+                                <h2 class="text-xl font-bold text-foreground">
+                                    <a href="{% url 'post_detail' post.slug %}" class="hover:underline hover:text-primary">
+                                        {{ post.title }}
+                                    </a>
+                                </h2>
+                            </div>
+                            <div class="max-w-none md:w-2/3 prose prose-sm text-muted-foreground dark:prose-invert">
+                                {{ post.content|markdown }}
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-xs-8">
-                        {{ post.content|markdown }}
-                    </div>
-                </section>
+                </div>
             {% endfor %}
         </div>
     </div>
-{% endblock body %}
+{% endblock content %}

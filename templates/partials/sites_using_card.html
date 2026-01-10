@@ -1,0 +1,52 @@
+{% load i18n %}
+<div class="card-header">
+    <div class="flex justify-between items-center">
+        <h3 class="flex gap-2 items-center text-lg font-semibold">
+            <i class="text-xl ph-bold ph-globe"></i>
+            {% translate "Sites using this package" %}
+        </h3>
+        {% if request.user.is_authenticated %}
+            <button
+                hx-get="{% url 'add_example' package.slug %}"
+                hx-target="#sites-using-card"
+                hx-swap="innerHTML"
+                onclick="document.getElementById('sites-using-card').originalContent = document.getElementById('sites-using-card').innerHTML"
+                class="px-2 h-8 text-xs btn-secondary"
+                title="{% translate 'Add site' %}"
+            >
+                <i class="text-base ph-bold ph-plus"></i>
+            </button>
+        {% endif %}
+    </div>
+</div>
+<div class="card-content">
+    {% with examples=package.active_examples %}
+        {% if examples %}
+            <ul class="space-y-2">
+                {% for example in examples %}
+                    <li class="flex justify-between items-center text-sm">
+                        <a href="{{ example.pretty_url }}" rel="nofollow" target="_blank" class="flex gap-1 items-center hover:underline text-primary truncate">
+                            <span class="truncate">{{ example.title }}</span>
+                            <i class="flex-shrink-0 text-sm ph-bold ph-arrow-square-out"></i>
+                        </a>
+                        {% if request.user.is_authenticated and request.user == example.created_by or request.user.is_staff %}
+                            <div class="flex gap-1">
+                                <button hx-get="{% url 'edit_example' package.slug example.id %}" hx-target="#sites-using-card" hx-swap="innerHTML" onclick="document.getElementById('sites-using-card').originalContent = document.getElementById('sites-using-card').innerHTML" class="px-2 h-8 text-xs btn-secondary" title="{% translate 'Edit site' %}">
+                                    <i class="text-base ph-bold ph-pencil-simple"></i>
+                                </button>
+                                <form hx-post="{% url 'delete_example' package.slug example.id %}" hx-target="#sites-using-card" hx-swap="innerHTML" hx-confirm="{% translate 'Are you sure you want to delete this site?' %}" class="inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="px-2 h-8 text-xs text-red-500 hover:text-red-700 btn-secondary" title="{% translate 'Delete site' %}"><i class="text-base ph-bold ph-trash"></i></button>
+                                </form>
+                            </div>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-sm text-muted-foreground">
+                {% translate "No sites using this package have been listed yet." %}
+            </p>
+        {% endif %}
+    {% endwith %}
+</div>

@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load i18n page_metadata_tags %}
+
+{% block metadata %}
+    {% translate "Funding" as trans_title %}
+    {% page_metadata page_title=trans_title %}
+{% endblock metadata %}
+
+{% block content %}
+    <!-- Breadcrumb Section -->
+    <section class="py-4 bg-primary/10">
+        <div class="container px-4 mx-auto">
+            <div class="flex items-center text-sm text-muted-foreground">
+                <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
+                <span class="mx-2">»</span>
+                <span class="font-medium text-foreground truncate">{% translate "Funding" %}</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="container py-8 px-4 mx-auto">
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-foreground">{% translate "Funding" %}</h1>
+            <p class="pt-2 text-muted-foreground">{% translate "How we keep the lights on." %}</p>
+        </div>
+
+        <div class="grid gap-6">
+            <!-- Current Funding -->
+            <div class="card">
+                <div class="p-6 card-content">
+                    <h2 class="mb-4 text-2xl font-bold text-foreground">Funding mid-2021 to {% now "Y" %}</h2>
+                    <div class="text-muted-foreground">
+                        <p class="mb-4">
+                            Server costs are paid out of pocket by <a href="https://twitter.com/webology" class="font-medium hover:underline text-primary">Jeff Triplett</a>, but we have a few ways for you to help us pay our bills:
+                        </p>
+                        <ul class="space-y-3">
+                            <li class="flex gap-2 items-start">
+                                <span class="flex-shrink-0">📚</span>
+                                <span>Buy <a href="https://wsvincent.gumroad.com/l/aFiMm?affiliate_id=1013195891" class="font-medium hover:underline text-primary">Django for Beginners (affiliate link)</a>. We make a modest commision off of every sale.</span>
+                            </li>
+                            <li class="flex gap-2 items-start">
+                                <span class="flex-shrink-0">💌</span>
+                                <span>Subscribe to the <a href="https://django-news.com" class="font-medium hover:underline text-primary">Django News Newsletter</a></span>
+                            </li>
+                            <li class="flex gap-2 items-start">
+                                <span class="flex-shrink-0">💼</span>
+                                <span>Check out <a href="https://jobs.django-news.com" class="font-medium hover:underline text-primary">Django News Jobs</a></span>
+                            </li>
+                            <li class="flex gap-2 items-start">
+                                <span class="flex-shrink-0">🚀</span>
+                                <span>Hosted on DigitalOcean. <a href="https://www.digitalocean.com/?refcode=d66a400de67f&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge" class="font-medium hover:underline text-primary">Please use our free $200 credit referral link to get you started.</a></span>
+                            </li>
+                            <li class="flex gap-2 items-start">
+                                <span class="flex-shrink-0">👀</span>
+                                <span>We have a small number of <a href="https://www.ethicalads.io/" class="font-medium hover:underline text-primary">Ethical Ads</a>. If you use an Ad Blocker, please consider allowing ads for our website.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid gap-6 md:grid-cols-2">
+                <!-- Advertising -->
+                <div class="card">
+                    <div class="p-6 card-content">
+                        <h3 class="mb-3 text-xl font-bold text-foreground">Advertising</h3>
+                        <p class="text-muted-foreground">
+                            In August 2022, we added ads by <a href="https://www.ethicalads.io/" class="font-medium hover:underline text-primary">Ethical Ads</a> to offset server and development costs as an experiment.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Sept/Oct 2021 -->
+                <div class="card">
+                    <div class="p-6 card-content">
+                        <h3 class="mb-3 text-xl font-bold text-foreground">September and October 2021</h3>
+                        <p class="text-muted-foreground">
+                            September and October development was sponsored by <a href="https://www.revsys.com/" class="font-medium hover:underline text-primary">REVSYS</a>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Historical -->
+            <div class="card">
+                <div class="p-6 card-content">
+                    <h3 class="mb-3 text-xl font-bold text-foreground">Funding 2010 to mid-2021</h3>
+                    <div class="text-muted-foreground">
+                        <p>
+                            From 2010 to mid-2021 Django Packages was developed and funded by <a href="http://daniel.feldroy.com" class="font-medium hover:underline text-primary">Daniel Roy Greenfeld</a>
+                            &amp; <a href="https://audrey.feldroy.com/" class="font-medium hover:underline text-primary">Audrey Roy Greenfeld</a>.
+                        </p>
+                        <p class="mt-2">
+                            To support their work, please check out <a href="https://www.feldroy.com/collections/two-scoops-press" class="font-medium hover:underline text-primary">Two Scoops Press</a>,
+                            an imprint of <a href="https://www.feldroy.com/" class="font-medium hover:underline text-primary">Feldroy</a>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

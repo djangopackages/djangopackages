@@ -1,0 +1,269 @@
+{% load i18n static waffle_tags %}
+<!-- Header -->
+<header class="sticky top-0 z-40 border-b bg-primary">
+    <div class="container flex justify-between items-center px-4 mx-auto h-16">
+        <div class="flex items-center space-x-6">
+            <a href="{% url 'home' %}" class="flex items-center space-x-2">
+                <img src="{% static 'img/logo_squares.png' %}" class="w-auto h-8" />
+                <span class="text-xl font-bold text-primary-foreground">{{ SITE_TITLE }}</span>
+            </a>
+            <nav class="hidden items-center space-x-4 md:flex">
+                <a
+                    href="{% url 'packages' %}"
+                    class="py-2 px-3 text-sm font-medium rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5"
+                >
+                    {% translate "Packages" %}
+                </a>
+                <a
+                    href="{% url 'grids' %}"
+                    class="py-2 px-3 text-sm font-medium rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5"
+                >
+                    {% translate "Grids" %}
+                </a>
+            </nav>
+        </div>
+
+        <div class="flex items-center space-x-4">
+            {% if request.resolver_match.url_name != 'home' %}
+                {% flag "enabled_navbar_search_modal" %}
+                    <!-- Search Trigger (Modal Style) - Only shown on non-home pages -->
+                    <button
+                        type="button"
+                        data-open-search-modal
+                        class="hidden gap-2 items-center py-2 px-3 h-9 rounded-md border-2 transition-colors lg:inline-flex focus:ring-2 focus:outline-none text-primary-foreground/80 bg-primary-foreground/10 border-primary-foreground/20 hover:text-primary-foreground hover:bg-primary-foreground/15 focus:ring-primary-foreground/30"
+                        aria-haspopup="dialog"
+                        aria-controls="search-modal"
+                    >
+                        <i class="text-base ph-bold ph-magnifying-glass"></i>
+                        <span class="hidden lg:inline">{% translate "Search" %}</span>
+                        <span
+                            class="hidden items-center py-0.5 px-1.5 space-x-1 text-xs rounded border transition-colors xl:flex text-primary-foreground/60 bg-primary-foreground/10 border-primary-foreground/20"
+                        >
+                            <span>&#8984; /</span>
+                        </span>
+                    </button>
+                {% else %}
+                    <!-- Search Bar - Only shown on non-home pages -->
+                    <div class="hidden relative lg:block">
+                        <div class="relative group">
+                            <i
+                                class="absolute left-3 top-1/2 text-base transition-colors transform -translate-y-1/2 ph-bold ph-magnifying-glass text-primary-foreground/60 group-focus-within:text-muted-foreground"
+                            ></i>
+                            <input
+                                id="navbar-search-input"
+                                type="text"
+                                name="q"
+                                placeholder="{% translate 'Search packages...' %}"
+                                class="py-2 pr-12 pl-10 w-80 h-9 rounded-md border-2 transition-colors focus:outline-none peer bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/60 focus:bg-background focus:text-foreground focus:border-primary focus:placeholder:text-muted-foreground"
+                                autocomplete="off"
+                                hx-get="{% url 'search_suggestions' %}"
+                                hx-trigger="keyup changed delay:300ms, focus"
+                                hx-target="#navbar-suggestions-dropdown"
+                                hx-vals='{"dropdown_id": "navbar-suggestions-dropdown"}'
+                                hx-indicator="#navbar-search-spinner"
+                            />
+                            <div
+                                class="flex absolute right-3 top-1/2 items-center space-x-1 transform -translate-y-1/2"
+                            >
+                                <div id="navbar-search-spinner" class="htmx-indicator">
+                                    <i
+                                        class="animate-spin ph-bold ph-circle-notch text-muted-foreground"
+                                    ></i>
+                                </div>
+                                <div
+                                    class="hidden items-center py-0.5 px-1.5 space-x-1 text-xs rounded border transition-colors xl:flex text-primary-foreground/60 bg-primary-foreground/10 border-primary-foreground/20 group-focus-within:text-muted-foreground group-focus-within:border-muted-foreground/30"
+                                >
+                                    <span>&#8984; /</span>
+                                </div>
+                            </div>
+                            <!-- Suggestions Dropdown -->
+                            <div
+                                id="navbar-suggestions-dropdown"
+                                class="hidden overflow-hidden absolute right-0 left-0 top-full z-50 mt-2 rounded-xl border-2 shadow-xl empty:hidden peer-focus:block peer-placeholder-shown:hidden bg-popover/95 backdrop-blur-sm border-border/50 group-focus-within:block"
+                            ></div>
+                        </div>
+                    </div>
+                {% endflag %}
+            {% endif %}
+
+            {% if request.user.is_authenticated %}
+                {% if request.user.profile.github_account %}
+                    <a
+                        href="{% url 'profile_detail' request.user.profile.github_account %}"
+                        class="hidden py-2 px-3 text-sm font-bold rounded-md transition-colors sm:block text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5"
+                    >
+                        {{ request.user.username }}
+                    </a>
+                {% endif %}
+                {% if request.user.is_staff %}
+                    <a
+                        href="{% url 'admin:index' %}"
+                        class="hidden py-2 px-3 text-sm font-bold rounded-md transition-colors sm:block text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5"
+                    >
+                        {% translate "Admin Dashboard" %}
+                    </a>
+                {% endif %}
+                <a
+                    href="{% url 'logout' %}"
+                    class="hidden justify-center items-center px-3 h-9 text-sm font-semibold rounded-md border transition-colors sm:inline-flex focus:ring-2 focus:outline-none text-primary-foreground/90 bg-primary-foreground/10 border-primary-foreground/20 hover:text-primary-foreground hover:bg-primary-foreground/15 hover:border-primary-foreground/30 focus:ring-primary-foreground/30"
+                >
+                    {% translate "Log Out" %}
+                </a>
+            {% else %}
+                <a
+                    href="{% url 'social:begin' 'github' %}"
+                    class="hidden justify-center items-center px-3 h-9 text-sm font-semibold rounded-md border transition-colors sm:inline-flex focus:ring-2 focus:outline-none text-primary-foreground/90 bg-primary-foreground/10 border-primary-foreground/20 hover:text-primary-foreground hover:bg-primary-foreground/15 hover:border-primary-foreground/30 focus:ring-primary-foreground/30"
+                >
+                    {% translate "Log In" %}
+                </a>
+            {% endif %}
+
+            <!-- Mobile menu button -->
+            <button
+                id="mobile-menu-btn"
+                class="p-2 rounded-md transition-colors md:hidden text-primary-foreground hover:bg-primary-foreground/10"
+            >
+                <i class="text-xl ph-bold ph-list" id="menu-icon"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div
+        id="mobile-menu"
+        class="hidden border-t md:hidden bg-primary border-primary-foreground/10"
+    >
+        <nav class="container py-4 px-4 mx-auto space-y-3">
+            {% if request.resolver_match.url_name != 'home' %}
+                {% flag "enabled_navbar_search_modal" %}
+                    <button
+                        type="button"
+                        data-open-search-modal
+                        class="flex gap-2 items-center py-2 px-3 w-full text-left rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
+                        aria-haspopup="dialog"
+                        aria-controls="search-modal"
+                    >
+                        <i class="text-base ph-bold ph-magnifying-glass"></i>
+                        <span>{% translate "Search" %}</span>
+                    </button>
+                {% else %}
+                    <!-- Mobile Search Bar - Only shown on non-home pages -->
+                    <div class="relative">
+                        <div class="relative group">
+                            <i
+                                class="absolute left-3 top-1/2 text-base transition-colors transform -translate-y-1/2 ph-bold ph-magnifying-glass text-primary-foreground/60 group-focus-within:text-muted-foreground"
+                            ></i>
+                            <input
+                                id="mobile-navbar-search-input"
+                                type="text"
+                                name="q"
+                                placeholder="{% translate 'Search packages...' %}"
+                                class="py-2 pr-12 pl-10 w-full h-9 rounded-md border-2 transition-colors focus:outline-none bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/60 focus:bg-background focus:text-foreground focus:border-primary focus:placeholder:text-muted-foreground"
+                                autocomplete="off"
+                                hx-get="{% url 'search_suggestions' %}"
+                                hx-trigger="keyup changed delay:300ms, focus"
+                                hx-target="#mobile-navbar-suggestions-dropdown"
+                                hx-vals='{"dropdown_id": "mobile-navbar-suggestions-dropdown"}'
+                                hx-indicator="#mobile-navbar-search-spinner"
+                            />
+                            <div
+                                class="flex absolute right-3 top-1/2 items-center space-x-1 transform -translate-y-1/2"
+                            >
+                                <div id="mobile-navbar-search-spinner" class="htmx-indicator">
+                                    <i
+                                        class="animate-spin ph-bold ph-circle-notch text-muted-foreground"
+                                    ></i>
+                                </div>
+                            </div>
+                            <!-- Suggestions Dropdown -->
+                            <div
+                                id="mobile-navbar-suggestions-dropdown"
+                                class="hidden overflow-hidden absolute right-0 left-0 top-full z-50 mt-2 rounded-xl border-2 shadow-xl empty:hidden peer-focus:block peer-placeholder-shown:hidden bg-popover/95 backdrop-blur-sm border-border/50 group-focus-within:block"
+                            ></div>
+                        </div>
+                    </div>
+                {% endflag %}
+            {% endif %}
+
+            <a href="{% url 'packages' %}" class="block py-2 px-3 text-base font-medium rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5">{% translate "Packages" %}</a>
+            <a href="{% url 'grids' %}" class="block py-2 px-3 text-base font-medium rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5">{% translate "Grids" %}</a>
+            {% if request.user.is_authenticated %}
+                {% if request.user.profile.github_account %}
+                    <a href="{% url 'profile_detail' request.user.profile.github_account %}" class="block py-2 px-3 text-base font-medium rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5">{{ request.user.username }}</a>
+                {% endif %}
+                {% if request.user.is_staff %}
+                    <a href="{% url 'admin:index' %}" class="block py-2 px-3 text-base font-medium rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5">{% translate "Admin Dashboard" %}</a>
+                {% endif %}
+                <a href="{% url 'logout' %}" class="block py-2 px-3 text-base font-medium rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5">{% translate "Log Out" %}</a>
+            {% else %}
+                <a href="{% url 'social:begin' 'github' %}" class="block py-2 px-3 text-base font-medium rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5">{% translate "Log In" %}</a>
+            {% endif %}
+        </nav>
+    </div>
+
+    {% if request.resolver_match.url_name != 'home' %}
+        {% flag "enabled_navbar_search_modal" %}
+            <!-- Search Modal (Command Palette Style) -->
+            <div
+                id="search-modal"
+                class="hidden fixed inset-0 z-50"
+                aria-hidden="true"
+            >
+                <div
+                    data-search-modal-backdrop
+                    class="absolute inset-0 opacity-0 transition-opacity duration-150 ease-out bg-black/40 backdrop-blur-sm"
+                ></div>
+                <div class="flex relative justify-center items-start px-4 pt-20 pb-6 sm:pt-28">
+                    <div
+                        id="search-modal-panel"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="search-modal-title"
+                        class="w-full max-w-2xl rounded-2xl border shadow-2xl opacity-0 transition duration-150 ease-out scale-95 border-border/50 bg-background"
+                    >
+                        <h2 id="search-modal-title" class="sr-only">{% translate "Search" %}</h2>
+                        <div class="p-3 sm:p-4">
+                            <!-- Search Bar -->
+                            <div class="group">
+                                <div class="relative">
+                                    <i
+                                        class="absolute left-4 top-1/2 text-xl transform -translate-y-1/2 pointer-events-none ph-bold ph-magnifying-glass text-muted-foreground"
+                                    ></i>
+                                    <input
+                                        id="modal-search-input"
+                                        type="text"
+                                        name="q"
+                                        placeholder="{% translate 'Search Django packages...' %}"
+                                        class="py-4 pr-20 pl-12 w-full h-14 text-lg rounded-xl border-2 transition-colors focus:outline-none border-input bg-background text-foreground placeholder:text-muted-foreground focus:border-primary"
+                                        autocomplete="off"
+                                        hx-get="{% url 'search_suggestions' %}"
+                                        hx-trigger="keyup changed delay:300ms, focus"
+                                        hx-target="#modal-suggestions-dropdown"
+                                        hx-vals='{"dropdown_id": "modal-suggestions-dropdown"}'
+                                        hx-indicator="#modal-search-spinner"
+                                    />
+                                    <div
+                                        class="flex absolute right-4 top-1/2 items-center space-x-2 transform -translate-y-1/2 pointer-events-none"
+                                    >
+                                        <div id="modal-search-spinner" class="htmx-indicator">
+                                            <i class="animate-spin ph-bold ph-circle-notch text-muted-foreground"></i>
+                                        </div>
+                                        <kbd class="hidden items-center py-1 px-2 text-xs rounded border sm:inline-flex text-muted-foreground bg-muted/50 border-border">
+                                            Esc
+                                        </kbd>
+                                    </div>
+                                </div>
+
+                                <!-- Suggestions Panel -->
+                                <div
+                                    id="modal-suggestions-dropdown"
+                                    class="hidden overflow-hidden mt-3 rounded-xl border shadow-xl empty:hidden border-border/60 bg-background group-focus-within:block"
+                                ></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endflag %}
+    {% endif %}
+</header>
