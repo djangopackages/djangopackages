@@ -591,7 +591,7 @@ class ValidateRepositoryURLViewTest(TestCase):
 def test_category_view(db, django_assert_num_queries, tp):
     initial_data.load()
 
-    with django_assert_num_queries(13):
+    with django_assert_num_queries(11):
         response = tp.client.get("/categories/apps/")
     assert "apps" in str(response.content)
 
