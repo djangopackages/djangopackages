@@ -103,7 +103,7 @@ jobs:
           git add uv.lock
           # Commit only if there are changes
           if [ -n "$(git status --porcelain)" ]; then
-            git commit -m ":arrow_up: Bump uv.lock"
+            git commit -m ":arrow_up: Bump uv.lock [skip ci]"
           else
             echo "No changes to commit."
           fi
@@ -111,4 +111,4 @@ jobs:
       - name: Push Release Build to GitHub
         run: |
           git push origin main
-          git push origin main:production
+          git push --force-with-lease origin main:production
