@@ -1,3 +1,11 @@
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [
+#     "PyGithub",
+#     "Jinja2",
+# ]
+# ///
+
 import datetime as dt
 import os
 from pathlib import Path

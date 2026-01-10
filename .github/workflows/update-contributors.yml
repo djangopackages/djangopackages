@@ -7,25 +7,18 @@ on:
   # Manual trigger
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
-    - uses: actions/checkout@v4
-
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: 3.12
+    - uses: actions/checkout@v6
 
     - name: Install uv
-      uses: astral-sh/setup-uv@v6
-      with:
-        enable-cache: true
-
-    - name: Install dependencies
-      run: uv sync --locked --no-dev
+      uses: astral-sh/setup-uv@v7
 
     - name: Update list
       run: uv run scripts/update_contributors.py
@@ -33,7 +26,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Commit changes
-      uses: stefanzweifel/git-auto-commit-action@v4.12.0
+      uses: stefanzweifel/git-auto-commit-action@v7
       with:
         commit_message: Update Contributors
         file_pattern: CONTRIBUTORS.md .github/contributors.json

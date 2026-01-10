@@ -111,4 +111,4 @@ jobs:
       - name: Push Release Build to GitHub
         run: |
           git push origin main
-          git push origin main:production --force
+          git push origin main:production

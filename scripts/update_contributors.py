@@ -1,3 +1,11 @@
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [
+#     "PyGithub",
+#     "Jinja2",
+# ]
+# ///
+
 import json
 import os
 from math import ceil
