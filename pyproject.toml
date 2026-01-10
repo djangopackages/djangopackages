@@ -132,9 +132,9 @@ dependencies = [
     "Unidecode",
     "uwsgi",
     "whitenoise",
-
     # Redis support
     "redis",
+    "blessed>=1.25.0",
 ]
 
 [dependency-groups]
