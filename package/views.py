@@ -684,7 +684,17 @@ class PackageListView(BasePackageListView):
     def get_extra_context(self):
         return {
             "categories": (
-                Category.objects.annotate(package_count=Count("package"))
+                Category.objects.annotate(
+                    package_count=Count(
+                        "package",
+                        filter=Q(
+                            package__date_repo_archived__isnull=True,
+                            package__date_deprecated__isnull=True,
+                            package__deprecated_by__isnull=True,
+                            package__deprecates_package__isnull=True,
+                        ),
+                    )
+                )
                 .filter(package_count__gt=0)
                 .order_by("-package_count")
             ),
@@ -776,11 +786,26 @@ class PackageByGridListView(BasePackageListView):
             "grid": self.grid,
             "categories": (
                 Category.objects.filter(package__gridpackage__grid=self.grid)
-                .annotate(package_count=Count("package"))
+                .annotate(
+                    package_count=Count(
+                        "package",
+                        filter=Q(
+                            package__date_repo_archived__isnull=True,
+                            package__date_deprecated__isnull=True,
+                            package__deprecated_by__isnull=True,
+                            package__deprecates_package__isnull=True,
+                        ),
+                    )
+                )
                 .filter(package_count__gt=0)
                 .order_by("-package_count")
             ),
-            "total_count": self.grid.packages.count(),
+            "total_count": self.grid.packages.filter(
+                date_repo_archived__isnull=True,
+                date_deprecated__isnull=True,
+                deprecated_by__isnull=True,
+                deprecates_package__isnull=True,
+            ).count(),
             "current_category": self.filter_data["category"],
         }
 

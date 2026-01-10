@@ -53,9 +53,9 @@
                     <i class="ph-bold ph-file-py"></i>
                     {% translate "Readiness" %}
                 </a>
-                <a href="https://jobs.django-news.com/" class="flex gap-2 items-center opacity-90 hover:opacity-100">
+                <a href="https://djangojobboard.com" class="flex gap-2 items-center opacity-90 hover:opacity-100">
                     <i class="ph-bold ph-briefcase"></i>
-                    {% translate "Django News Jobs" %}
+                    {% translate "Django Job Board" %}
                 </a>
                 <a href="https://django-news.com/" class="flex gap-2 items-center opacity-90 hover:opacity-100">
                     <i class="ph-bold ph-newspaper"></i>
@@ -77,12 +77,17 @@
                     {# end of Daniel and Audrey's attribution #}
                 </p>
                 <p class="mt-2">
-                    {% blocktranslate %}Currently maintained by <a href="https://twitter.com/webology" class="hover:underline">Jeff Triplett</a> and development sponsored by <a href="https://www.revsys.com/" class="hover:underline">REVSYS</a>.{% endblocktranslate %}
+                    {% blocktranslate %}Thank you to our <a href="https://github.com/djangopackages/djangopackages/graphs/contributors" class="hover:underline">maintainers and contributors</a> and to <a href="https://www.revsys.com/" class="hover:underline">REVSYS</a> for sponsoring development.{% endblocktranslate %}
                 </p>
+                <p class="mt-2">
+                    {% blocktranslate %}Special thanks to <a href="https://djangonaut.space" class="hover:underline">Djangonaut Space</a>.{% endblocktranslate %}
+                </p>
+                {% comment %}
                 <p class="mt-2">
                     {% blocktranslate %}Hosted on DigitalOcean.{% endblocktranslate %}
                     <a href="https://www.digitalocean.com/?refcode=d66a400de67f&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge" class="hover:underline">{% translate "Please use our free $200 credit referral link to get you started." %}</a>
                 </p>
+                {% endcomment %}
             </div>
         </div>
     </div>
