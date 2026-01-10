@@ -356,16 +356,16 @@ LOGIN_REDIRECT_URL = "/"
 # ------------------------------------------------------------------------------
 # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
 DATABASES = {"default": env.db("DATABASE_URL")}
-DATABASES["default"] = env.db("DATABASE_URL")
-DATABASES["default"]["DISABLE_SERVER_SIDE_CURSORS"] = True
-DATABASES["default"]["CONN_HEALTH_CHECKS"] = True
-DATABASES["default"]["OPTIONS"] = {
-    "pool": {
-        "min_size": 2,
-        "max_size": 10,
-        "timeout": 10,
-    }
-}
+# DATABASES["default"] = env.db("DATABASE_URL")
+# DATABASES["default"]["DISABLE_SERVER_SIDE_CURSORS"] = True
+# DATABASES["default"]["CONN_HEALTH_CHECKS"] = True
+# DATABASES["default"]["OPTIONS"] = {
+#     "pool": {
+#         "min_size": 2,
+#         "max_size": 10,
+#         "timeout": 10,
+#     }
+# }
 
 ########## END DATABASE CONFIGURATION
 
