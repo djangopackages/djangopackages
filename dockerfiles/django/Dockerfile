@@ -1,4 +1,4 @@
-FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS builder
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS release
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONPATH /code
@@ -24,10 +24,10 @@ COPY pyproject.toml uv.lock ./
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --locked --no-dev
 
-COPY ./dockerfiles/django/entrypoint.sh /entrypoint.sh
+# COPY ./dockerfiles/django/entrypoint.sh /entrypoint.sh
 
-RUN sed -i 's/\r//' /entrypoint.sh \
-    && chmod +x /entrypoint.sh
+# RUN sed -i 's/\r//' /entrypoint.sh \
+#     && chmod +x /entrypoint.sh
 
 COPY . .
 
@@ -40,9 +40,9 @@ COPY ./dockerfiles/django/healthcheck-worker.sh /code/healthcheck-worker.sh
 COPY ./dockerfiles/django/start-web.sh /code/start-web.sh
 COPY ./dockerfiles/django/start-worker.sh /code/start-worker.sh
 
-RUN DATABASE_URL=sqlite://:memory: REDIS_URL= uv run -m manage tailwind --skip-checks download_cli
+RUN DATABASE_URL=sqlite://:memory: uv run -m manage tailwind --skip-checks download_cli
 
-RUN DATABASE_URL=sqlite://:memory: SECRET_KEY=build-key REDIS_URL= uv run -m manage tailwind --skip-checks build
+RUN DATABASE_URL=sqlite://:memory: SECRET_KEY=build-key uv run -m manage tailwind --skip-checks build
 
 RUN mkdir /data \
     && chown django.django /data
@@ -60,7 +60,7 @@ CMD ["/code/start-web.sh"]
 # Worker stage
 FROM release AS worker
 
-HEALTHCHECK --interval=60s --timeout=5s --start-period=10s --retries=3 \
+HEALTHCHECK --interval=60s --timeout=30s --start-period=30s --retries=3 \
     CMD ["/code/healthcheck-worker.sh"]
 
 CMD ["/code/start-worker.sh"]

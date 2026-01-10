@@ -2,12 +2,15 @@ name: CI
 
 on:
   pull_request:
+  push:
+    branches:
+      - main
     paths-ignore:
-      - '.devcontainer/**'
-      - '.github/**'
-      - '.vscode/**'
-      - 'docs/**'
+      - '.github/workflows/**'
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 concurrency:
   group: ${{ github.ref }}
@@ -15,45 +18,97 @@ concurrency:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     name: Tests with Python
 
     services:
       postgres:
         image: postgres:15
         env:
-          POSTGRES_DB: postgres
-          POSTGRES_PASSWORD: postgres
           POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
         ports: ['5432:5432']
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 1
 
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v5
-        with:
-          python-version: 3.12
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v6
+      - name: Enable caching
+        uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
+          python-version: "3.12"
 
       - name: Install dependencies
-        run: uv sync --locked
+        run: |
+          uv sync --all-extras --dev --locked --no-editable --no-install-project
+
+      - name: Collect Static Assets
+        env:
+          DATABASE_URL: 'postgres://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/postgres'
+          SECRET_KEY: 'for-testing'
+        run: |
+          uv run --locked -m manage tailwind --skip-checks download_cli
+          uv run --locked -m manage tailwind --skip-checks build
+          uv run --locked -m manage collectstatic --noinput
 
       - name: Test with pytest
         env:
           DATABASE_URL: 'postgres://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/postgres'
-          DEBUG: false
-          REDIS_URL: 'redis://redis:6379/0'
-          SECRET_KEY: 'this-is-for-testing-only'
+          SECRET_KEY: 'for-testing'
           MAILGUN_API_KEY: 'test-mailgun-api-key'
           MAILGUN_SENDER_DOMAIN: 'test-mailgun-sender-domain'
-
         run: |
-          uv run -m pytest . -s
+          uv run -m pytest
+
+  version-bump:
+    needs: [test]
+    name: Version Bump
+    runs-on: ubuntu-24.04
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Enable caching
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+          python-version: "3.12"
+
+      - name: Set up Python
+        run: uv python install
+
+      - name: Configure git to push
+        run: |
+          git config --global user.email "actions@users.noreply.github.com"
+          git config --global user.name "Automated Publisher"
+
+      - name: Bump Version
+        id: vars
+        run: |
+          uvx bumpver update
+          eval $(uvx --quiet bumpver show --environ)
+          echo "CURRENT_VERSION=$CURRENT_VERSION" >> "$GITHUB_OUTPUT"
+          uv lock
+
+      - name: Commit uv.lock
+        run: |
+          # Stage the uv.lock file
+          git add uv.lock
+          # Commit only if there are changes
+          if [ -n "$(git status --porcelain)" ]; then
+            git commit -m ":arrow_up: Bump uv.lock"
+          else
+            echo "No changes to commit."
+          fi
+
+      - name: Push Release Build to GitHub
+        run: |
+          git push origin main
+          git push origin main:production --force

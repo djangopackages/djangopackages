@@ -1,5 +1,5 @@
 [tool.bumpver]
-current_version = "2026.1.4"
+current_version = "2026.1.15"
 version_pattern = "YYYY.MM.INC1"
 commit_message = ":bookmark: bump version {old_version} -> {new_version}"
 commit = true
@@ -126,6 +126,7 @@ dependencies = [
     "whitenoise",
     # Redis support
     "redis",
+    "blessed>=1.25.0",
 ]
 
 [dependency-groups]
