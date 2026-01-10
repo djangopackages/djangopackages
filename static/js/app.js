@@ -347,7 +347,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Kick transitions
         requestAnimationFrame(() => {
-            searchModal.classList.remove("opacity-0");
+            if (searchModalBackdrop) {
+                searchModalBackdrop.classList.remove("opacity-0");
+            }
             searchModalPanel.classList.remove("opacity-0", "scale-95");
         });
 
@@ -370,7 +372,9 @@ document.addEventListener("DOMContentLoaded", function () {
         searchModal.dataset.open = "false";
         searchModal.setAttribute("aria-hidden", "true");
 
-        searchModal.classList.add("opacity-0");
+        if (searchModalBackdrop) {
+            searchModalBackdrop.classList.add("opacity-0");
+        }
         searchModalPanel.classList.add("opacity-0", "scale-95");
 
         // Let transition finish before hiding
