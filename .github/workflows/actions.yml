@@ -68,7 +68,7 @@ jobs:
     needs: [test]
     name: Version Bump
     runs-on: ubuntu-24.04
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
 
     steps:
       - uses: actions/checkout@v6
