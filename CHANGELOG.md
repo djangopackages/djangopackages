@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-01-09]
+### Changed
+- 🧹 UV Cleanup ([#1476](https://github.com/djangopackages/djangopackages/pull/1476))
+- Added UV support ([#1462](https://github.com/djangopackages/djangopackages/pull/1462))
+- Remove maintenance alert ([#1473](https://github.com/djangopackages/djangopackages/pull/1473))
+
 ## [2025-12-22]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1472](https://github.com/djangopackages/djangopackages/pull/1472))
