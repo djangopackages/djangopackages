@@ -188,6 +188,8 @@
     @apply flex items-center justify-between p-3 rounded-lg cursor-pointer;
     @apply border border-transparent transition-all duration-150;
     @apply hover:bg-accent hover:text-accent-foreground;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    min-height: 44px;
 
     &.selected {
       @apply bg-accent text-accent-foreground border-accent/20;
@@ -205,7 +207,12 @@
       }
     }
 
-    &:hover {
+    &:hover,
+    &:active,
+    &:focus,
+    &:focus-visible {
+      @apply bg-accent text-accent-foreground;
+
       .suggestion-icon {
         @apply bg-accent-foreground/20 text-accent-foreground;
       }
@@ -214,7 +221,8 @@
         @apply bg-accent-foreground/20 text-accent-foreground;
       }
 
-      .text-muted-foreground {
+      .text-muted-foreground,
+      .suggestion-description {
         @apply !text-accent-foreground/90;
       }
     }
