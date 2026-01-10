@@ -258,69 +258,93 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // ============================================
-    // Search Suggestions Keyboard Navigation
+    // Search Suggestions
     // ============================================
+
+    // Click handler
+    document.addEventListener("click", (e) => {
+        const item = e.target.closest("a.suggestion-item");
+        if (item?.href) {
+            window.location.href = item.href;
+        }
+    });
+
+    // Setup keyboard navigation and dropdown visibility for each search input
     const setupSuggestionNav = (input, dropdown) => {
         if (!input || !dropdown) return;
 
-        dropdown.dataset.activeIndex = "-1";
-        input.setAttribute("role", "combobox");
-        input.setAttribute("aria-controls", dropdown.id);
+        let blurTimeout = null;
 
-        const updateSelection = (idx) => {
-            const items = dropdown.querySelectorAll(".suggestion-item");
-            dropdown.dataset.activeIndex = idx;
-            items.forEach((item, i) => {
-                const active = i === idx;
-                item.classList.toggle("selected", active);
-                item.toggleAttribute("aria-selected", active);
-                if (active) item.scrollIntoView({ block: "nearest" });
-            });
-        };
+        const open = () => { dropdown.dataset.open = "true"; };
+        const close = () => { dropdown.dataset.open = "false"; };
 
+        // Keyboard navigation
         input.addEventListener("keydown", (e) => {
-            const items = dropdown.querySelectorAll(".suggestion-item");
+            const items = [...dropdown.querySelectorAll(".suggestion-item")];
             if (!items.length) return;
 
-            const current = Number(dropdown.dataset.activeIndex);
+            const current = items.findIndex(el => el.classList.contains("selected"));
 
             if (e.key === "ArrowDown") {
                 e.preventDefault();
-                const loadMore = dropdown.querySelector(".suggestions-load-more");
-
-                if (current === items.length - 1 && loadMore) {
-                    loadMore.scrollIntoView({ block: "nearest" });
+                if (current < items.length - 1) {
+                    const next = current + 1;
+                    items.forEach((el, i) => el.classList.toggle("selected", i === next));
+                    items[next]?.scrollIntoView({ block: "nearest" });
                 } else {
-                    updateSelection(current < 0 ? 0 : (current + 1) % items.length);
+                    // At the end - scroll load-more into view to trigger pagination
+                    const loadMore = dropdown.querySelector(".suggestions-load-more");
+                    if (loadMore) {
+                        loadMore.scrollIntoView({ block: "nearest" });
+                    } else {
+                        // Wrap to first item
+                        items.forEach((el, i) => el.classList.toggle("selected", i === 0));
+                        items[0]?.scrollIntoView({ block: "nearest" });
+                    }
                 }
             } else if (e.key === "ArrowUp") {
                 e.preventDefault();
-                updateSelection(current <= 0 ? items.length - 1 : current - 1);
-            } else if (e.key === "Enter" && current >= 0) {
+                const prev = current > 0 ? current - 1 : items.length - 1;
+                items.forEach((el, i) => el.classList.toggle("selected", i === prev));
+                items[prev]?.scrollIntoView({ block: "nearest" });
+            } else if (e.key === "Enter" && current >= 0 && items[current]?.href) {
                 e.preventDefault();
-                items[current]?.click();
+                window.location.href = items[current].href;
             } else if (e.key === "Escape") {
-                updateSelection(-1);
+                close();
+                input.blur();
             }
         });
 
-        input.addEventListener("blur", () => setTimeout(() => updateSelection(-1), 150));
-        dropdown.addEventListener("pointermove", () => updateSelection(-1));
+        // Show dropdown when input has value and is focused
+        input.addEventListener("focus", () => { if (input.value.trim()) open(); });
+        input.addEventListener("input", () => { input.value.trim() ? open() : close(); });
+
+        // Delay close on blur to allow clicks on dropdown items to complete
+        input.addEventListener("blur", () => {
+            blurTimeout = setTimeout(close, 200);
+        });
+
+        // Cancel blur-close if user is interacting with dropdown
+        dropdown.addEventListener("mousedown", () => clearTimeout(blurTimeout));
+        dropdown.addEventListener("touchstart", () => clearTimeout(blurTimeout), { passive: true });
     };
 
-    // Setup all search inputs
-    ["search-input", "navbar-search-input", "mobile-navbar-search-input", "modal-search-input"].forEach((id) => {
-        const input = document.getElementById(id);
-        const dropdown = document.getElementById(
-            id.replace("-input", "-dropdown").replace("modal-search", "modal-suggestions").replace("search", "suggestions")
-        );
-        setupSuggestionNav(input, dropdown);
+    // Initialize for all search inputs
+    [
+        ["search-input", "suggestions-dropdown"],
+        ["navbar-search-input", "navbar-suggestions-dropdown"],
+        ["mobile-navbar-search-input", "mobile-navbar-suggestions-dropdown"],
+        ["modal-search-input", "modal-suggestions-dropdown"]
+    ].forEach(([inputId, dropdownId]) => {
+        setupSuggestionNav(document.getElementById(inputId), document.getElementById(dropdownId));
     });
 
-    // Reset on HTMX swap
+    // Open dropdown when HTMX loads results
     document.body.addEventListener("htmx:afterSwap", (e) => {
-        if (e.target.dataset.activeIndex !== undefined) {
-            e.target.dataset.activeIndex = "-1";
+        const dropdown = e.target;
+        if (dropdown?.id?.includes("suggestions-dropdown") && dropdown.querySelector(".suggestion-item")) {
+            dropdown.dataset.open = "true";
         }
     });
 

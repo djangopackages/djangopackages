@@ -79,7 +79,7 @@
                             <!-- Suggestions Dropdown -->
                             <div
                                 id="navbar-suggestions-dropdown"
-                                class="hidden overflow-hidden absolute right-0 left-0 top-full z-50 mt-2 rounded-xl border-2 shadow-xl empty:hidden peer-focus:block peer-placeholder-shown:hidden bg-popover/95 backdrop-blur-sm border-border/50 group-focus-within:block"
+                                class="overflow-hidden absolute right-0 left-0 top-full z-50 mt-2 rounded-xl border-2 shadow-xl bg-popover/95 backdrop-blur-sm border-border/50 hidden empty:hidden data-[open=true]:block"
                             ></div>
                         </div>
                     </div>
@@ -158,7 +158,7 @@
                                 type="text"
                                 name="q"
                                 placeholder="{% translate 'Search packages...' %}"
-                                class="py-2 pr-12 pl-10 w-full h-9 rounded-md border-2 transition-colors focus:outline-none bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/60 focus:bg-background focus:text-foreground focus:border-primary focus:placeholder:text-muted-foreground"
+                                class="py-2 pr-12 pl-10 w-full h-9 rounded-md border-2 transition-colors focus:outline-none peer bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/60 focus:bg-background focus:text-foreground focus:border-primary focus:placeholder:text-muted-foreground"
                                 autocomplete="off"
                                 hx-get="{% url 'search_suggestions' %}"
                                 hx-trigger="keyup changed delay:300ms, focus"
@@ -178,7 +178,7 @@
                             <!-- Suggestions Dropdown -->
                             <div
                                 id="mobile-navbar-suggestions-dropdown"
-                                class="hidden overflow-hidden absolute right-0 left-0 top-full z-50 mt-2 rounded-xl border-2 shadow-xl empty:hidden peer-focus:block peer-placeholder-shown:hidden bg-popover/95 backdrop-blur-sm border-border/50 group-focus-within:block"
+                                class="overflow-hidden absolute right-0 left-0 top-full z-50 mt-2 rounded-xl border-2 shadow-xl bg-popover/95 backdrop-blur-sm border-border/50 hidden empty:hidden data-[open=true]:block"
                             ></div>
                         </div>
                     </div>
@@ -257,7 +257,7 @@
                                 <!-- Suggestions Panel -->
                                 <div
                                     id="modal-suggestions-dropdown"
-                                    class="hidden overflow-hidden mt-3 rounded-xl border shadow-xl empty:hidden border-border/60 bg-background group-focus-within:block"
+                                    class="overflow-hidden mt-3 rounded-xl border shadow-xl border-border/60 bg-background hidden empty:hidden data-[open=true]:block"
                                 ></div>
                             </div>
                         </div>
