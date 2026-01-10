@@ -23,12 +23,7 @@ TEMPLATE_DEBUG = env.bool("TEMPLATE_DEBUG", True)
 TEST_MODE = "pytest" in sys.modules
 
 ########## CACHE
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": env.str("REDIS_URL"),
-    }
-}
+CACHES = {"default": env.dj_cache_url("CACHE_URL", default="locmem://")}
 
 
 INTERNAL_IPS = [
@@ -518,10 +513,10 @@ FORM_RENDERER = "django.forms.renderers.DjangoDivFormRenderer"
 # https://django-q2.readthedocs.io/en/stable/configure.html
 Q_CLUSTER = {
     "name": "djangopackages",
-    "redis": env.str("REDIS_URL"),
+    "orm": "default",
     "timeout": 600,  # this won't work for longer running tasks that might take hours to run
     "retry": 700,
-    "max_attempts": 2,
+    "max_attempts": 1,
     "workers": 4,
 }
 

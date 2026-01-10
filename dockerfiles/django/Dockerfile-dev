@@ -32,6 +32,6 @@ COPY . .
 
 # RUN python -m manage tailwind --skip-checks download_cli
 
-RUN DATABASE_URL=sqlite://:memory: SECRET_KEY=build-key REDIS_URL= uv run manage.py tailwind --skip-checks download_cli
+RUN DATABASE_URL=sqlite://:memory: SECRET_KEY=build-key uv run manage.py tailwind --skip-checks download_cli
 
 # RUN DATABASE_URL=sqlite://:memory: SECRET_KEY=build-key python manage.py collectstatic --noinput --clear

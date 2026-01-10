@@ -40,9 +40,9 @@ COPY ./dockerfiles/django/healthcheck-worker.sh /code/healthcheck-worker.sh
 COPY ./dockerfiles/django/start-web.sh /code/start-web.sh
 COPY ./dockerfiles/django/start-worker.sh /code/start-worker.sh
 
-RUN DATABASE_URL=sqlite://:memory: REDIS_URL= uv run -m manage tailwind --skip-checks download_cli
+RUN DATABASE_URL=sqlite://:memory: uv run -m manage tailwind --skip-checks download_cli
 
-RUN DATABASE_URL=sqlite://:memory: SECRET_KEY=build-key REDIS_URL= uv run -m manage tailwind --skip-checks build
+RUN DATABASE_URL=sqlite://:memory: SECRET_KEY=build-key uv run -m manage tailwind --skip-checks build
 
 RUN mkdir /data \
     && chown django.django /data
