@@ -30,8 +30,8 @@ RUN sed -i 's/\r//' /start-dev.sh \
 
 COPY . .
 
-# RUN python -m manage tailwind --skip-checks download_cli
+# RUN uv run manage.py tailwind --skip-checks download_cli
 
 RUN DATABASE_URL=sqlite://:memory: SECRET_KEY=build-key uv run manage.py tailwind --skip-checks download_cli
 
-# RUN DATABASE_URL=sqlite://:memory: SECRET_KEY=build-key python manage.py collectstatic --noinput --clear
+# RUN DATABASE_URL=sqlite://:memory: SECRET_KEY=build-key uv run manage.py collectstatic --noinput --clear

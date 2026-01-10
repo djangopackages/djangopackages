@@ -146,24 +146,24 @@ bootstrap *ARGS:
 # Create a Django superuser
 [group('django')]
 @createsuperuser USERNAME EMAIL:
-    docker compose run --rm django python manage.py createsuperuser \
+    docker compose run --rm django uv run manage.py createsuperuser \
         --username={{ USERNAME }} \
         --email={{ EMAIL }}
 
 # Collect static files
 [group('django')]
 @collectstatic *ARGS="--no-input":
-    docker compose run --rm django python manage.py collectstatic {{ ARGS }}
+    docker compose run --rm django uv run manage.py collectstatic {{ ARGS }}
 
 # Run Django shell
 [group('django')]
 @shell *ARGS:
-    docker compose run --rm django python manage.py shell {{ ARGS }}
+    docker compose run --rm django uv run manage.py shell {{ ARGS }}
 
 # Run a Django management command
 [group('django')]
 @run ARGS:
-    docker compose run --rm django python manage.py {{ ARGS }}
+    docker compose run --rm django uv run manage.py {{ ARGS }}
 
 # Run scheduled data import tasks
 [group('django')]
@@ -180,7 +180,7 @@ bootstrap *ARGS:
 # Run tests using Django test runner
 [group('testing')]
 @test *ARGS="--no-input":
-    docker compose run --rm django python manage.py test {{ ARGS }}
+    docker compose run --rm django uv run manage.py test {{ ARGS }}
 
 # Run tests with pytest
 [group('testing')]
