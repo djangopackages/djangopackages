@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-01-10]
+### Changed
+- Fix Search Suggestion Taps on Mobile Devices ([#1483](https://github.com/djangopackages/djangopackages/pull/1483))
+- Django Packages New Theme with TailwindCSS ([#1471](https://github.com/djangopackages/djangopackages/pull/1471))
+
 ## [2026-01-09]
 ### Changed
 - 🧹 UV Cleanup ([#1476](https://github.com/djangopackages/djangopackages/pull/1476))
