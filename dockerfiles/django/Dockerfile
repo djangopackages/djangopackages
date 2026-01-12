@@ -31,10 +31,6 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 
 COPY . .
 
-RUN groupadd -r django \
-    && useradd -r -g django django \
-    && chown -R django /code
-
 COPY ./dockerfiles/django/healthcheck-web.sh /code/healthcheck-web.sh
 COPY ./dockerfiles/django/healthcheck-worker.sh /code/healthcheck-worker.sh
 COPY ./dockerfiles/django/start-web.sh /code/start-web.sh
@@ -49,6 +45,10 @@ RUN mkdir /data \
 
 RUN mkdir /data/media \
     && chown django.django /data/media
+
+RUN groupadd -r django \
+    && useradd -r -g django django \
+    && chown -R django /code
 
 # ENTRYPOINT ["/entrypoint.sh"]
 
