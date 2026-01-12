@@ -116,11 +116,15 @@
                         </td>
                         {% for grid_package in grid_packages %}
                             <td class="py-2.5 px-3 text-center align-top border-l border-border/30">
-                                {% if grid_package.package.development_status %}
-                                    <span class="inline-flex items-center py-0.5 px-2 text-xs rounded-md bg-muted text-muted-foreground" title="{{ grid_package.package.development_status }}">
-                                        {{ grid_package.package.development_status|truncatechars:16 }}
-                                    </span>
-                                {% else %}<span class="text-muted-foreground">-</span>{% endif %}
+                                {% with release=grid_package.package.last_released %}
+                                    {% if release %}
+                                        <span title="{{ release.get_development_status_display }}">
+                                            {{ release.development_status|package_dev_status_badge }}
+                                        </span>
+                                    {% else %}
+                                        <span class="text-muted-foreground">-</span>
+                                    {% endif %}
+                                {% endwith %}
                             </td>
                         {% endfor %}
                     </tr>
@@ -500,14 +504,16 @@
 
                     <!-- Info List -->
                             <div class="pt-4 space-y-2 text-sm border-t border-border">
-                                {% if grid_package.package.development_status %}
-                                    <div class="flex justify-between items-center">
-                                        <span class="text-muted-foreground">{% translate "Status" %}</span>
-                                        <span class="inline-flex items-center py-0.5 px-2 text-xs rounded-md bg-muted text-muted-foreground" title="{{ grid_package.package.development_status }}">
-                                            {{ grid_package.package.development_status|truncatechars:16 }}
-                                        </span>
-                                    </div>
-                                {% endif %}
+                                {% with release=grid_package.package.last_released %}
+                                    {% if release %}
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-muted-foreground">{% translate "Status" %}</span>
+                                            <span title="{{ release.get_development_status_display }}">
+                                                {{ release.development_status|package_dev_status_badge }}
+                                            </span>
+                                        </div>
+                                    {% endif %}
+                                {% endwith %}
                                 {% if grid_package.package.pypi_version %}
                                     <div class="flex justify-between items-center">
                                         <span class="text-muted-foreground">{% translate "Version" %}</span>

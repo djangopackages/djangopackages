@@ -297,7 +297,7 @@ We want your submission. But we also want to provide a stable experience for our
 Before you submit a pull request, please run the entire Django Packages test suite via:
 
 ```shell
-docker compose run django pytest
+docker compose run django uv run pytest
 ```
 
 The first thing the core committers will do is run this command. Any pull request that fails this test suite will be **rejected**.

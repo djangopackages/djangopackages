@@ -45,6 +45,10 @@ class PackageStatus(models.IntegerChoices):
     MATURE = 6, "Development Status :: 6 - Mature"
     INACTIVE = 7, "Development Status :: 7 - Inactive"
 
+    @property
+    def pretty_label(self):
+        return self.label.split(" ")[-1] if self.label else "Unknown"
+
 
 def status_choices_switch(status):
     for choice, label in PackageStatus.choices:

@@ -1,4 +1,4 @@
-{% load i18n static %}
+{% load i18n package_tags static %}
 <table class="w-full min-w-[600px]">
     <thead>
         <tr class="text-left border-b">
@@ -15,16 +15,7 @@
                 <td class="py-3 text-sm text-muted-foreground">{{ version.license|default:"-" }}</td>
                 <td class="py-3 text-sm text-muted-foreground">{{ version.upload_time|date:"M d, Y" }}</td>
                 <td class="py-3">
-                    {% if version.hidden %}
-                        <span class="inline-flex items-center py-1 px-2 text-xs font-medium rounded border bg-muted text-muted-foreground border-border">
-                            {{ version.pretty_status }}
-                        </span>
-                    {% else %}
-                        <span class="inline-flex items-center py-1 px-2 text-xs font-medium text-green-700 bg-green-50 rounded border border-green-200">
-                            <i class="mr-1 text-xs ph-bold ph-check-circle"></i>
-                            {{ version.pretty_status }}
-                        </span>
-                    {% endif %}
+                    {{ version.development_status|package_dev_status_badge:version.hidden }}
                 </td>
             </tr>
         {% empty %}
