@@ -47,9 +47,6 @@ RUN DATABASE_URL=sqlite://:memory: SECRET_KEY=build-key uv run -m manage tailwin
 RUN mkdir /data \
     && chown django.django /data
 
-RUN mkdir /data/static \
-    && chown django.django /data/static
-
 RUN mkdir /data/media \
     && chown django.django /data/media
 

@@ -1,5 +1,4 @@
 # Django settings
-import os.path
 import sys
 from pathlib import Path
 
@@ -59,10 +58,7 @@ USE_TZ = False
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-if DEBUG:
-    MEDIA_ROOT = PROJECT_ROOT.joinpath("media")
-else:
-    MEDIA_ROOT = "/data/media"
+MEDIA_ROOT = PROJECT_ROOT / "media" if DEBUG else Path("/data/media")
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
@@ -71,10 +67,7 @@ MEDIA_URL = "/media/"
 
 # Absolute path to the directory that holds static files like app media.
 # Example: "/home/media/media.lawrence.com/apps/"
-if DEBUG:
-    STATIC_ROOT = PROJECT_ROOT.joinpath("collected_static")
-else:
-    STATIC_ROOT = os.path.join(PROJECT_ROOT, "collected_static")
+STATIC_ROOT = PROJECT_ROOT / "collected_static"
 
 # URL that handles the static files like app media.
 # Example: "http://media.lawrence.com"
@@ -84,6 +77,18 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     PROJECT_ROOT.joinpath("static"),
 ]
+
+# WhiteNoise static file storage configuration
+# This enables compression, caching, and proper serving of static files in production
+if not DEBUG:
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        },
+    }
 
 HEALTHCHECK = env.bool("HEALTHCHECK", False)
 PACKAGE_HEALTHCHECK_URL = env.str("PACKAGE_HEALTHCHECK_URL", "")
