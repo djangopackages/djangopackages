@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
+from django.db.models import Q
 from django.db.models.constraints import UniqueConstraint
 from django.urls import reverse
 from django.utils import timezone
@@ -587,6 +588,13 @@ class FlaggedPackage(BaseModel):
     class Meta:
         ordering = ["-created"]
         UniqueConstraint(fields=["package", "user"], name="unique_flagged_package")
+        indexes = [
+            models.Index(
+                fields=["package"],
+                name="flag_approved_pkg_idx",
+                condition=Q(approved_flag=True),
+            ),
+        ]
 
     def __str__(self):
         return f"{self.package.repo_name} - {self.reason}"
