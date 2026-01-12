@@ -89,6 +89,8 @@ if not DEBUG:
             "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
         },
     }
+    # Don't fail if a file is missing from the manifest (e.g., dynamically generated)
+    WHITENOISE_MANIFEST_STRICT = False
 
 HEALTHCHECK = env.bool("HEALTHCHECK", False)
 PACKAGE_HEALTHCHECK_URL = env.str("PACKAGE_HEALTHCHECK_URL", "")
