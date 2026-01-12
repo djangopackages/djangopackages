@@ -22,7 +22,6 @@ TEST_SETTINGS = {
             "LOCATION": "unique-snowflake",
         },
     },
-    "CELERY_TASK_ALWAYS_EAGER": True,
     "EMAIL_BACKEND": "django.core.mail.backends.locmem.EmailBackend",
     "LOGGING_CONFIG": None,
     "PASSWORD_HASHERS": ["django.contrib.auth.hashers.MD5PasswordHasher"],

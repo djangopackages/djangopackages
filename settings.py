@@ -100,14 +100,6 @@ SEARCHV2_HEALTHCHECK_URL = env.str("SEARCHV2_HEALTHCHECK_URL", "")
 # Configure Redis
 REDIS_HOST = env("REDIS_HOST", default="redis")
 
-# Configure Celery
-CELERY_BROKER_URL = f"redis://{REDIS_HOST}:6379"
-CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:6379"
-CELERY_ACCEPT_CONTENT = ["application/json"]
-CELERY_TASK_SERIALIZER = "json"
-CELERY_RESULT_SERIALIZER = "json"
-CELERY_TIMEZONE = "UTC"
-
 
 # Use the default admin media prefix, which is...
 # ADMIN_MEDIA_PREFIX = "/static/admin/"
