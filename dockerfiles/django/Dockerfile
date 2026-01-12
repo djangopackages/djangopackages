@@ -42,15 +42,11 @@ RUN DATABASE_URL=sqlite://:memory: SECRET_KEY=build-key uv run -m manage tailwin
 
 RUN DATABASE_URL=sqlite://:memory: SECRET_KEY=build-key uv run -m manage collectstatic --noinput
 
-RUN mkdir /data \
-    && chown django.django /data
-
-RUN mkdir /data/media \
-    && chown django.django /data/media
-
 RUN groupadd -r django \
     && useradd -r -g django django \
-    && chown -R django /code
+    && mkdir -p /data/media \
+    && chown -R django:django /data \
+    && chown -R django:django /code
 
 # ENTRYPOINT ["/entrypoint.sh"]
 
