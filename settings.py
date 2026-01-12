@@ -79,18 +79,18 @@ STATICFILES_DIRS = [
 ]
 
 # WhiteNoise static file storage configuration
-# This enables compression, caching, and proper serving of static files in production
+# This enables compression and proper serving of static files in production
+# Using CompressedStaticFilesStorage instead of CompressedManifestStaticFilesStorage
+# to avoid post-processing failures with third-party CSS files (e.g., phosphor-icons)
 if not DEBUG:
     STORAGES = {
         "default": {
             "BACKEND": "django.core.files.storage.FileSystemStorage",
         },
         "staticfiles": {
-            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+            "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
         },
     }
-    # Don't fail if a file is missing from the manifest (e.g., dynamically generated)
-    WHITENOISE_MANIFEST_STRICT = False
 
 HEALTHCHECK = env.bool("HEALTHCHECK", False)
 PACKAGE_HEALTHCHECK_URL = env.str("PACKAGE_HEALTHCHECK_URL", "")
