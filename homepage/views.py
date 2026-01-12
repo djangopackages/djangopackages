@@ -252,7 +252,7 @@ class HomepageView(TemplateView):
         random_packages = (
             Package.objects.active()
             .exclude(repo_description__in=[None, ""])
-            .order_by("?")[:5]
+            .order_by("?")
         )
 
         # Latest Django Packages blog post on homepage
@@ -260,21 +260,19 @@ class HomepageView(TemplateView):
             Package.objects.active()
             .select_related("category")
             .annotate(usage_count=Count("usage"))
-            .order_by("-created")[:5]
+            .order_by("-created")
         )
-        latest_python3 = (
+        latest_releases = (
             Package.objects.active()
-            .filter(version__supports_python3=True)
             .exclude(repo_description__in=[None, ""])
             .distinct()
-            .order_by("-version__created")[:5]
+            .order_by("-version__created")
         )
         most_liked_packages = (
-            Package.objects.annotate(
-                distinct_favs=Count("favorite__favorited_by", distinct=True)
-            )
+            Package.objects.active()
+            .annotate(distinct_favs=Count("favorite__favorited_by", distinct=True))
             .filter(distinct_favs__gt=0)
-            .order_by("-distinct_favs")[:5]
+            .order_by("-distinct_favs")
         )
 
         context.update(
@@ -283,7 +281,7 @@ class HomepageView(TemplateView):
                 "grids_1": grids_1,
                 "grids_2": grids_2,
                 "latest_packages": latest_packages,
-                "latest_python3": latest_python3,
+                "latest_releases": latest_releases,
                 "random_packages": random_packages,
                 "most_liked_packages": most_liked_packages,
             }

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load grid_of_the_week_tag i18n static waffle_tags %}
+{% load cache grid_of_the_week_tag i18n static waffle_tags %}
 
 {% block content %}
 <!-- Hero Section -->
@@ -133,82 +133,96 @@
         <div class="container px-4 mx-auto">
             <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             <!-- Latest Packages -->
-                <div>
-                    <h2 class="mb-6 text-xl font-semibold">{% translate "Latest Package Releases" %}</h2>
-                    <div class="space-y-4">
-                        {% for package in latest_python3 %}
-                            {% include 'partials/package_card.html' with package=package %}
-                        {% empty %}
-                            <div class="card">
-                                <div class="p-4 card-content">
-                                    <p class="text-sm text-muted-foreground">
-                                        {% translate "No packages found. Add some packages to get started!" %}
-                                    </p>
-                                </div>
-                            </div>
-                        {% endfor %}
+                {% cache 900 latest_releases_cache %}
+                    <div>
+                        <h2 class="mb-6 text-xl font-semibold">{% translate "Latest Package Releases" %}</h2>
+                        <div class="space-y-4">
+                            {% with latest_releases=latest_releases|slice:":5" %}
+                                {% for package in latest_releases %}
+                                    {% include 'partials/package_card.html' with package=package %}
+                                {% empty %}
+                                    <div class="card">
+                                        <div class="p-4 card-content">
+                                            <p class="text-sm text-muted-foreground">
+                                                {% translate "No packages found. Add some packages to get started!" %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endwith %}
+                        </div>
                     </div>
-                </div>
+                {% endcache %}
 
             <!-- Latest Five Added -->
-                <div>
-                    <h2 class="mb-6 text-xl font-semibold">{% translate "Latest Five Packages Added" %}</h2>
-                    <div class="space-y-4">
-                        {% for package in latest_packages %}
-                            {% include 'partials/package_card.html' with package=package %}
-                        {% empty %}
-                            <div class="card">
-                                <div class="p-4 card-content">
-                                    <p class="text-sm text-muted-foreground">
-                                        {% translate "No packages found. Add some packages to get started!" %}
-                                    </p>
-                                </div>
+                {% cache 900 latest_packages_cache %}
+                    <div>
+                        <h2 class="mb-6 text-xl font-semibold">{% translate "Latest Five Packages Added" %}</h2>
+                        {% with latest_packages=latest_packages|slice:":5" %}
+                            <div class="space-y-4">
+                                {% for package in latest_packages %}
+                                    {% include 'partials/package_card.html' with package=package %}
+                                {% empty %}
+                                    <div class="card">
+                                        <div class="p-4 card-content">
+                                            <p class="text-sm text-muted-foreground">
+                                                {% translate "No packages found. Add some packages to get started!" %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
                             </div>
-                        {% endfor %}
+                            {% if latest_packages %}
+                                <a href="{% url 'latest_packages' %}" class="mt-6 w-full btn-secondary">{% translate "View More" %}</a>
+                            {% endif %}
+                        {% endwith %}
                     </div>
-                    {% if latest_packages %}
-                        <a href="{% url 'latest_packages' %}" class="mt-6 w-full btn-secondary">{% translate "View More" %}</a>
-                    {% endif %}
-                </div>
+                {% endcache %}
 
             <!-- Random Packages -->
                 <div>
                     <h2 class="mb-6 text-xl font-semibold">{% translate "Random Five Packages" %}</h2>
                     <div class="space-y-4">
-                        {% for package in random_packages %}
-                            {% include 'partials/package_card.html' with package=package %}
-                        {% empty %}
-                            <div class="card">
-                                <div class="p-4 card-content">
-                                    <p class="text-sm text-muted-foreground">
-                                        {% translate "No packages found. Add some packages to get started!" %}
-                                    </p>
+                        {% with random_packages=random_packages|slice:":5" %}
+                            {% for package in random_packages %}
+                                {% include 'partials/package_card.html' with package=package %}
+                            {% empty %}
+                                <div class="card">
+                                    <div class="p-4 card-content">
+                                        <p class="text-sm text-muted-foreground">
+                                            {% translate "No packages found. Add some packages to get started!" %}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        {% endfor %}
+                            {% endfor %}
+                        {% endwith %}
                     </div>
                 </div>
 
             <!-- Most Liked Packages -->
-                <div>
-                    <h2 class="mb-6 text-xl font-semibold">{% translate "Most Liked Packages" %}</h2>
-                    <div class="space-y-4">
-                        {% for package in most_liked_packages %}
-                            {% include 'partials/package_card.html' with package=package %}
-                        {% empty %}
-                            <div class="card">
-                                <div class="p-4 card-content">
-                                    <p class="text-sm text-muted-foreground">
-                                        {% translate "No packages found." %}
-                                    </p>
-                                </div>
+                {% cache 900 most_liked_packages_cache %}
+                    <div>
+                        <h2 class="mb-6 text-xl font-semibold">{% translate "Most Liked Packages" %}</h2>
+                        {% with most_liked_packages=most_liked_packages|slice:":5" %}
+                            <div class="space-y-4">
+                                {% for package in most_liked_packages %}
+                                    {% include 'partials/package_card.html' with package=package %}
+                                {% empty %}
+                                    <div class="card">
+                                        <div class="p-4 card-content">
+                                            <p class="text-sm text-muted-foreground">
+                                                {% translate "No packages found." %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
                             </div>
-                        {% endfor %}
+                            {% if most_liked_packages %}
+                                <a href="{% url 'liked_packages' %}" class="mt-6 w-full btn-secondary">{% translate "View More" %}</a>
+                            {% endif %}
+                        {% endwith %}
                     </div>
-                    {% if most_liked_packages %}
-                        <a href="{% url 'liked_packages' %}" class="mt-6 w-full btn-secondary">{% translate "View More" %}</a>
-                    {% endif %}
-                </div>
+                {% endcache %}
             </div>
             {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="home-packages-bottom" ea_outer_class="mt-6" ea_inner_class="flex justify-center" %}
         </div>
