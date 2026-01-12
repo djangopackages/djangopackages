@@ -11,14 +11,6 @@ class Favorite(BaseModel):
     )
     package = models.ForeignKey(Package, on_delete=models.CASCADE)
 
-    class Meta:
-        indexes = [
-            models.Index(
-                fields=["favorited_by", "package"],
-                name="fav_favorited_by_pkg_idx",
-            ),
-        ]
-
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         self.package.favorite_count = F("favorite_count") + 1
