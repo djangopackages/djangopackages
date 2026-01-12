@@ -25,7 +25,7 @@ class FunctionalGridTest(TestCase):
     @override_flag("enabled_packages_score_values", active=True)
     def test_grid_detail_view(self):
         url = reverse("grid", kwargs={"slug": "testing"})
-        with self.assertNumQueries(16):
+        with self.assertNumQueries(8):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/grid_detail.html")
