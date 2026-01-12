@@ -10,7 +10,8 @@ from django.contrib.auth.mixins import (
 )
 from datetime import timedelta
 
-from django.db.models import Count, Max, Q
+from django.db.models import Count, Max, Q, OuterRef, Subquery, IntegerField
+from django.db.models.functions import Coalesce
 from django.db.models.query import Prefetch
 from django.utils.timezone import now
 from django.http import Http404
@@ -72,6 +73,13 @@ class GridDetailView(DetailView):
     def get_grid_packages(self, grid, filter_data):
         """Get filtered and sorted grid packages"""
         cutoff = now() - timedelta(weeks=52)
+        version_subquery = (
+            Version.objects.filter(package_id=OuterRef("package_id"))
+            .exclude(upload_time=None)
+            .order_by("-upload_time")
+            .values("development_status")[:1]
+        )
+
         grid_packages = (
             grid.gridpackage_set.select_related(
                 "package",
@@ -103,6 +111,11 @@ class GridDetailView(DetailView):
             .filter(package__score__gte=max(0, settings.PACKAGE_SCORE_MIN))
             .annotate(usage_count=Count("package__usage", distinct=True))
             .annotate(last_commit_date=Max("package__commit__commit_date"))
+            .annotate(
+                development_status=Coalesce(
+                    Subquery(version_subquery, output_field=IntegerField()), 0
+                )
+            )
         )
 
         # Apply search filter

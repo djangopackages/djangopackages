@@ -7,7 +7,8 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.cache import cache
 from django.db import transaction
-from django.db.models import Count, Q, Exists, OuterRef
+from django.db.models import Count, Q, Exists, OuterRef, Subquery, IntegerField
+from django.db.models.functions import Coalesce
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -33,6 +34,7 @@ from package.forms import (
 )
 from package.models import (
     Category,
+    Commit,
     FlaggedPackage,
     Package,
     PackageExample,
@@ -452,6 +454,21 @@ class PackageDetailView(DetailView):
     slug_url_kwarg = "slug"
 
     def get_queryset(self):
+        commit_count_subquery = (
+            Commit.objects.filter(package_id=OuterRef("pk"))
+            .order_by()
+            .values("package_id")
+            .annotate(c=Count("id"))
+            .values("c")[:1]
+        )
+        version_count_subquery = (
+            Version.objects.filter(package_id=OuterRef("pk"))
+            .order_by()
+            .values("package_id")
+            .annotate(c=Count("id"))
+            .values("c")[:1]
+        )
+
         qs = (
             super()
             .get_queryset()
@@ -466,8 +483,13 @@ class PackageDetailView(DetailView):
                         package_id=OuterRef("pk"), approved_flag=True
                     )
                 ),
-                _commit_count=Count("commit", distinct=True),
-                _version_count=Count("version", distinct=True),
+                # Avoid JOIN+GROUP BY explosion from commit/version fan-out.
+                _commit_count=Coalesce(
+                    Subquery(commit_count_subquery, output_field=IntegerField()), 0
+                ),
+                _version_count=Coalesce(
+                    Subquery(version_count_subquery, output_field=IntegerField()), 0
+                ),
             )
         )
         if self.request.user.is_authenticated:
