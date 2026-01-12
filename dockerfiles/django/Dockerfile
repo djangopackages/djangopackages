@@ -40,6 +40,8 @@ RUN DATABASE_URL=sqlite://:memory: uv run -m manage tailwind --skip-checks downl
 
 RUN DATABASE_URL=sqlite://:memory: SECRET_KEY=build-key uv run -m manage tailwind --skip-checks build
 
+RUN DATABASE_URL=sqlite://:memory: SECRET_KEY=build-key uv run -m manage collectstatic --noinput
+
 RUN mkdir /data \
     && chown django.django /data
 

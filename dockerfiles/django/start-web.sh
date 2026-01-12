@@ -1,8 +1,6 @@
 #!/bin/sh
 uv run -m manage migrate --noinput
 
-uv run -m manage collectstatic --noinput
-
 # /usr/local/bin/uwsgi \
 #     --chdir /code \
 #     --die-on-term \
