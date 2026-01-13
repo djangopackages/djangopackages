@@ -293,9 +293,16 @@ class GridDetailView(DetailView):
         )
         self._populate_derived_package_fields(grid_packages)
 
-        features = self._get_features(grid)
-        elements = self._get_elements(features=features, grid_packages=grid_packages)
-        element_map = build_element_map(elements)
+        # Only show features if grid has 8 or fewer active packages (for performance)
+        show_features = total_package_count <= self.max_packages
+
+        if show_features:
+            features = self._get_features(grid)
+            elements = self._get_elements(features=features, grid_packages=grid_packages)
+            element_map = build_element_map(elements)
+        else:
+            features = []
+            element_map = {}
 
         return {
             "grid_packages": self._serialize_grid_packages(grid_packages),
@@ -303,6 +310,7 @@ class GridDetailView(DetailView):
             "element_map": element_map,
             "total_package_count": total_package_count,
             "has_more_packages": has_more_packages,
+            "show_features": show_features,
         }
 
     def _get_or_build_payload(
@@ -335,6 +343,7 @@ class GridDetailView(DetailView):
                 "filter_data": filter_data,
                 "total_package_count": payload["total_package_count"],
                 "has_more_packages": payload["has_more_packages"],
+                "show_features": payload["show_features"],
                 "max_packages": self.max_packages,
             }
         )
