@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.cache import cache
 from django.db import transaction
-from django.db.models import Count, Q, Exists, OuterRef, Subquery, IntegerField
+from django.db.models import Count, Prefetch, Q, Exists, OuterRef, Subquery, IntegerField
 from django.db.models.functions import Coalesce
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
@@ -604,6 +604,13 @@ class BasePackageListView(ListView):
         return (
             Package.objects.active()
             .select_related("category")
+            .prefetch_related(
+                Prefetch(
+                    "version_set",
+                    queryset=Version.objects.only("package_id", "number"),
+                    to_attr="_prefetched_versions",
+                ),
+            )
             .annotate(usage_count=Count("usage"))
         )
 
