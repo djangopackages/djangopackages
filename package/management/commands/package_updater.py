@@ -29,13 +29,20 @@ def command(limit):
 
     github = github_login(token=settings.GITHUB_TOKEN)
 
-    packages = Package.objects.filter(
-        date_deprecated__isnull=True, last_exception_count__lte=5
-    ).order_by("last_fetched")
+    package_pks = (
+        Package.objects.filter(
+            date_deprecated__isnull=True, last_exception_count__lte=5
+        )
+        .order_by("last_fetched")
+        .values_list("pk", flat=True)
+    )
     if limit:
-        packages = packages[:limit]
+        package_pks = package_pks[:limit]
+    package_pks = list(package_pks)
 
-    for package in packages.iterator():
+    for pk in package_pks:
+        package = Package.objects.get(pk=pk)
+
         # Simple attempt to deal with GitHub rate limiting
         while True:
             if github.ratelimit_remaining < 50:

@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.core.cache import cache
-from django.db.models import Count, Q
+from django.db.models import Count, Prefetch, Q
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
@@ -248,10 +248,18 @@ class HomepageView(TemplateView):
         categories = self._get_categories()
         grids_1, grids_2 = self._get_grid_lists()
 
+        # Prefetch versions to avoid N+1 queries when accessing pypi_version
+        versions_prefetch = Prefetch(
+            "version_set",
+            queryset=Version.objects.only("package_id", "number"),
+            to_attr="_prefetched_versions",
+        )
+
         # Get the random packages
         random_packages = (
             Package.objects.active()
             .exclude(repo_description__in=[None, ""])
+            .prefetch_related(versions_prefetch)
             .order_by("?")
         )
 
@@ -259,17 +267,20 @@ class HomepageView(TemplateView):
         latest_packages = (
             Package.objects.active()
             .select_related("category")
+            .prefetch_related(versions_prefetch)
             .annotate(usage_count=Count("usage"))
             .order_by("-created")
         )
         latest_releases = (
             Package.objects.active()
             .exclude(repo_description__in=[None, ""])
+            .prefetch_related(versions_prefetch)
             .distinct()
             .order_by("-version__created")
         )
         most_liked_packages = (
             Package.objects.active()
+            .prefetch_related(versions_prefetch)
             .annotate(distinct_favs=Count("favorite__favorited_by", distinct=True))
             .filter(distinct_favs__gt=0)
             .order_by("-distinct_favs")
