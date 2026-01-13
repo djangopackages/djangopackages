@@ -586,7 +586,9 @@ class GridTimesheetView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["grid_packages"] = self.object.gridpackage_set.order_by(
-            "-package__modified"
-        ).select_related("package")
+        context["grid_packages"] = (
+            self.object.gridpackage_set.order_by("-package__modified")
+            .select_related("package")
+            .annotate(last_commit_date=Max("package__commit__commit_date"))
+        )
         return context
