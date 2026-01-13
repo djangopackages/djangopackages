@@ -345,7 +345,7 @@ class GridDetailView(DetailView):
                 "filter_data": filter_data,
                 "total_package_count": payload["total_package_count"],
                 "has_more_packages": payload["has_more_packages"],
-                "show_features": payload["show_features"],
+                "show_features": payload.get("show_features", True),
                 "max_packages": self.max_packages,
             }
         )

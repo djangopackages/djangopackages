@@ -595,3 +595,129 @@ class GridDetailQueryCountTest(TestCase):
             response = self.client.get(url, {"sort": "title"})
         self.assertEqual(response.status_code, 200)
         self.assertLessEqual(len(context), 15, "Query count too high with sort filter")
+
+
+class GridShowFeaturesTest(TestCase):
+    """Test that features are shown/hidden based on package count."""
+
+    def setUp(self):
+        cache.clear()
+        self.category = Category.objects.create(
+            slug="test-category",
+            title="Test Category",
+            description="Test category",
+        )
+        self.grid = Grid.objects.create(
+            title="Show Features Test Grid",
+            slug="show-features-test",
+            description="Grid for testing show_features behavior",
+        )
+        # Create features for the grid
+        self.feature = Feature.objects.create(
+            grid=self.grid,
+            title="Test Feature",
+            description="A test feature",
+        )
+
+    def _create_packages(self, count):
+        """Helper to create packages and add them to the grid."""
+        for i in range(count):
+            package = Package.objects.create(
+                title=f"Package {i}",
+                slug=f"package-{i}",
+                category=self.category,
+                repo_url=f"https://github.com/test/package-{i}",
+                score=50,
+            )
+            GridPackage.objects.create(grid=self.grid, package=package)
+
+    @override_flag("enabled_packages_score_values", active=True)
+    def test_show_features_true_when_packages_at_max(self):
+        """Features should be shown when package count equals max_packages (8)."""
+        self._create_packages(8)
+        url = reverse("grid", kwargs={"slug": "show-features-test"})
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context["show_features"])
+        self.assertEqual(response.context["total_package_count"], 8)
+        # Features section should be in the response
+        self.assertContains(response, "Test Feature")
+
+    @override_flag("enabled_packages_score_values", active=True)
+    def test_show_features_true_when_packages_below_max(self):
+        """Features should be shown when package count is below max_packages."""
+        self._create_packages(3)
+        url = reverse("grid", kwargs={"slug": "show-features-test"})
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context["show_features"])
+        self.assertEqual(response.context["total_package_count"], 3)
+        self.assertContains(response, "Test Feature")
+
+    @override_flag("enabled_packages_score_values", active=True)
+    def test_show_features_false_when_packages_exceed_max(self):
+        """Features should be hidden when package count exceeds max_packages (8)."""
+        self._create_packages(9)
+        url = reverse("grid", kwargs={"slug": "show-features-test"})
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.context["show_features"])
+        self.assertEqual(response.context["total_package_count"], 9)
+        # Features section should NOT be in the response
+        self.assertNotContains(response, "Test Feature")
+
+    @override_flag("enabled_packages_score_values", active=True)
+    def test_show_features_false_with_many_packages(self):
+        """Features should be hidden when there are many more packages than max."""
+        self._create_packages(20)
+        url = reverse("grid", kwargs={"slug": "show-features-test"})
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.context["show_features"])
+        self.assertEqual(response.context["total_package_count"], 20)
+        # Should still only display max_packages (8) packages
+        self.assertEqual(len(response.context["grid_packages"]), 8)
+        self.assertTrue(response.context["has_more_packages"])
+
+    @override_flag("enabled_packages_score_values", active=True)
+    def test_cached_payload_without_show_features_key(self):
+        """Test that old cached payloads without show_features key don't cause errors."""
+        from grid.cache import get_grid_detail_payload_cache_key
+        from django.utils.translation import get_language
+
+        self._create_packages(3)
+
+        # Manually create a cached payload WITHOUT the show_features key
+        # (simulating old cached data)
+        cache_key = get_grid_detail_payload_cache_key(
+            grid_id=self.grid.pk,
+            language=get_language(),
+            filter_data={"python3": False, "stable": False, "sort": "", "q": ""},
+            max_packages=8,
+        )
+        old_payload = {
+            "grid_packages": [],
+            "features": [],
+            "element_map": {},
+            "total_package_count": 3,
+            "has_more_packages": False,
+            # NOTE: show_features key is intentionally missing
+        }
+        cache.set(cache_key, old_payload, 3600)
+
+        url = reverse("grid", kwargs={"slug": "show-features-test"})
+
+        # This should NOT raise KeyError
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        # Should default to True when key is missing
+        self.assertTrue(response.context["show_features"])
