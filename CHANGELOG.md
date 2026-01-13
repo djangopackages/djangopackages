@@ -1,5 +1,15 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-01-12]
+### Changed
+- Fix Timesheet Style ([#1489](https://github.com/djangopackages/djangopackages/pull/1489))
+- Significantly Improve Package/Grid Detail Page Query Performance ([#1491](https://github.com/djangopackages/djangopackages/pull/1491))
+- [pre-commit.ci] pre-commit autoupdate ([#1492](https://github.com/djangopackages/djangopackages/pull/1492))
+- Enable database connection pooling ([#1487](https://github.com/djangopackages/djangopackages/pull/1487))
+- :fire: Remove unused Celery settings ([#1486](https://github.com/djangopackages/djangopackages/pull/1486))
+- Add Homepage Template Fragment Caching ([#1485](https://github.com/djangopackages/djangopackages/pull/1485))
+- Add new package development status badge design ([#1484](https://github.com/djangopackages/djangopackages/pull/1484))
+
 ## [2026-01-10]
 ### Changed
 - Fix Search Suggestion Taps on Mobile Devices ([#1483](https://github.com/djangopackages/djangopackages/pull/1483))
