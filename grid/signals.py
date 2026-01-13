@@ -1,7 +1,8 @@
 from django.db import transaction
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
-from django_q.tasks import async_task
+
+from grid.cache import invalidate_grid_cache
 
 
 @receiver(post_save, sender="grid.Grid")
@@ -14,9 +15,7 @@ def on_grid_save(sender, instance, created, **kwargs):
     if not grid_id:
         return
 
-    transaction.on_commit(
-        lambda gid=grid_id: async_task("grid.tasks.invalidate_grid_cache_task", gid)
-    )
+    transaction.on_commit(lambda gid=grid_id: invalidate_grid_cache(gid))
 
 
 @receiver([post_save, post_delete], sender="grid.GridPackage")
@@ -29,9 +28,7 @@ def on_grid_package_change(sender, instance, **kwargs):
     if not grid_id:
         return
 
-    transaction.on_commit(
-        lambda gid=grid_id: async_task("grid.tasks.invalidate_grid_cache_task", gid)
-    )
+    transaction.on_commit(lambda gid=grid_id: invalidate_grid_cache(gid))
 
 
 @receiver([post_save, post_delete], sender="grid.Feature")
@@ -44,9 +41,7 @@ def on_feature_change(sender, instance, **kwargs):
     if not grid_id:
         return
 
-    transaction.on_commit(
-        lambda gid=grid_id: async_task("grid.tasks.invalidate_grid_cache_task", gid)
-    )
+    transaction.on_commit(lambda gid=grid_id: invalidate_grid_cache(gid))
 
 
 @receiver([post_save, post_delete], sender="grid.Element")
@@ -65,6 +60,4 @@ def on_element_change(sender, instance, **kwargs):
     if not grid_id:
         return
 
-    transaction.on_commit(
-        lambda gid=grid_id: async_task("grid.tasks.invalidate_grid_cache_task", gid)
-    )
+    transaction.on_commit(lambda gid=grid_id: invalidate_grid_cache(gid))

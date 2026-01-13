@@ -2,7 +2,8 @@ import django.dispatch
 from django.db import transaction
 from django.db.models.signals import m2m_changed, post_save, pre_delete
 from django.dispatch import receiver
-from django_q.tasks import async_task
+
+from grid.cache import invalidate_cache_for_grids, invalidate_grids_for_package
 
 # Custom signal for fetching package metadata
 signal_fetch_latest_metadata = django.dispatch.Signal()
@@ -18,11 +19,7 @@ def on_package_save(sender, instance, created, **kwargs):
     if not package_id:
         return
 
-    transaction.on_commit(
-        lambda pid=package_id: async_task(
-            "grid.tasks.invalidate_grids_for_package_task", pid
-        )
-    )
+    transaction.on_commit(lambda pid=package_id: invalidate_grids_for_package(pid))
 
 
 @receiver(pre_delete, sender="package.Package")
@@ -45,11 +42,7 @@ def on_package_pre_delete(sender, instance, **kwargs):
     if not grid_ids:
         return
 
-    transaction.on_commit(
-        lambda gids=grid_ids: async_task(
-            "grid.tasks.invalidate_multiple_grids_cache_task", gids
-        )
-    )
+    transaction.on_commit(lambda gids=grid_ids: invalidate_cache_for_grids(gids))
 
 
 @receiver(m2m_changed, sender="package.Package_usage")
@@ -63,8 +56,4 @@ def on_package_usage_changed(sender, instance, action, **kwargs):
         if not package_id:
             return
 
-        transaction.on_commit(
-            lambda pid=package_id: async_task(
-                "grid.tasks.invalidate_grids_for_package_task", pid
-            )
-        )
+        transaction.on_commit(lambda pid=package_id: invalidate_grids_for_package(pid))
