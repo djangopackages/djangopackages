@@ -97,7 +97,7 @@
         <div class="container px-4 mx-auto">
             <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
                 {% for category in categories %}
-                    <div class="card group">
+                    <a href="{% url 'category' category.slug %}" class="card group">
                         <div class="pb-4 text-center card-header">
                             <div
                                 class="w-16 h-16 rounded-full {% cycle 'bg-blue-50 text-blue-700 border-blue-200' 'bg-green-50 text-green-700 border-green-200' 'bg-purple-50 text-purple-700 border-purple-200' 'bg-orange-50 text-orange-700 border-orange-200' %} flex items-center justify-center mx-auto mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-200"
@@ -114,11 +114,11 @@
                             <p class="flex-1 mb-4 text-sm leading-relaxed text-muted-foreground">
                                 {{ category.description|default:"No description available." }}
                             </p>
-                            <a href="{% url 'category' category.slug %}" class="mt-auto w-full btn-secondary">
+                            <span class="mt-auto w-full btn-secondary">
                                 Show {{ category.title_plural }} ({{ category.package_count }})
-                            </a>
+                            </span>
                         </div>
-                    </div>
+                    </a>
                 {% endfor %}
             </div>
         </div>
