@@ -68,7 +68,9 @@ def package_resource(package):
                 "apiv3:category_detail", kwargs={"slug": package.category.slug}
             ),
             "commit_list": package.commit_list,
-            "commits_over_52": package.commits_over_52(),
+            # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
+            # "commits_over_52": package.commits_over_52(),
+            "commits_over_52": "",
             "created_by": created_by,
             "documentation_url": package.documentation_url,
             "grids": [
