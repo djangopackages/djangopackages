@@ -58,7 +58,7 @@
             <div class="flex flex-wrap gap-4 items-center mt-4 text-sm text-muted-foreground">
                 <div class="flex gap-2 items-center">
                     <i class="ph-bold ph-package text-primary"></i>
-                    <span class="font-semibold text-foreground">{{ grid_packages|length }}</span>
+                    <span class="font-semibold text-foreground">{{ total_package_count }}</span>
                     <span>{% translate "Packages" %}</span>
                 </div>
                 <div class="flex gap-2 items-center">
@@ -148,6 +148,26 @@
         <div id="comparison-table">
             {% include "partials/grid_comparison_table.html" %}
         </div>
+
+        {% if has_more_packages %}
+            <!-- More Packages Notice -->
+            <div class="p-4 mt-6 rounded-lg border border-primary/30 bg-primary/5">
+                <div class="flex flex-col gap-3 items-start sm:flex-row sm:justify-between sm:items-center">
+                    <div class="flex gap-3 items-center">
+                        <i class="text-xl ph-bold ph-info text-primary"></i>
+                        <p class="text-sm text-foreground">
+                            {% blocktranslate with shown=max_packages total=total_package_count %}
+                                Showing {{ shown }} of {{ total }} packages in this grid.
+                            {% endblocktranslate %}
+                        </p>
+                    </div>
+                    <a href="{% url 'grid_packages' grid.slug %}" class="btn-primary">
+                        <i class="mr-1 ph-bold ph-package"></i>
+                        {% translate "View All Packages" %}
+                    </a>
+                </div>
+            </div>
+        {% endif %}
 
         <!-- Features + (optional) ad block -->
         {% if features %}

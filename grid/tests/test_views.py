@@ -1,12 +1,18 @@
+from datetime import datetime, timedelta
+
 import pytest
 from django.conf import settings
 from django.contrib.auth.models import Permission, User
+from django.db import connection
 from django.test import TestCase
+from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
+from django.utils import timezone
 from waffle.testutils import override_flag
 
 from grid.models import Element, Feature, Grid, GridPackage
 from grid.tests import data
+from package.models import Category, Commit, Package, Version
 
 
 class FunctionalGridTest(TestCase):
@@ -25,7 +31,7 @@ class FunctionalGridTest(TestCase):
     @override_flag("enabled_packages_score_values", active=True)
     def test_grid_detail_view(self):
         url = reverse("grid", kwargs={"slug": "testing"})
-        with self.assertNumQueries(8):
+        with self.assertNumQueries(9):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/grid_detail.html")
@@ -434,3 +440,145 @@ class GridElementPermissionTest(TestCase):
         self.user.user_permissions.add(edit_element)
         response = self.client.get(self.test_edit_url)
         self.assertEqual(response.status_code, 200)
+
+
+class GridDetailQueryCountTest(TestCase):
+    """Test that grid_detail view has constant query count regardless of package count."""
+
+    @classmethod
+    def setUpTestData(cls):
+        # Use a fixed reference time that matches the frozen time in conftest.py
+        # The conftest freezes time to datetime(2022, 2, 22, 2, 22)
+        reference_time = timezone.make_aware(datetime(2022, 2, 22, 2, 22))
+
+        # Create category
+        cls.category = Category.objects.create(
+            slug="test-apps",
+            title="Test Apps",
+            description="Test category",
+        )
+
+        # Create grid
+        cls.grid = Grid.objects.create(
+            title="Large Grid Test",
+            slug="large-grid-test",
+            description="A grid with many packages for query count testing",
+        )
+
+        # Create 100 packages and add them to the grid
+        cls.packages = []
+        cls.grid_packages = []
+
+        for i in range(100):
+            package = Package.objects.create(
+                title=f"Test Package {i}",
+                slug=f"test-package-{i}",
+                category=cls.category,
+                repo_url=f"https://github.com/test/test-package-{i}",
+                repo_description=f"Description for test package {i}",
+                repo_watchers=i * 10,
+                repo_forks=i * 5,
+                pypi_downloads=i * 100,
+                participants=f"user{i},user{i + 1}",
+                score=50,  # Ensure it passes PACKAGE_SCORE_MIN filter
+            )
+            cls.packages.append(package)
+
+            grid_package = GridPackage.objects.create(
+                grid=cls.grid,
+                package=package,
+            )
+            cls.grid_packages.append(grid_package)
+
+            # Add some commits for each package (within last 52 weeks of frozen time)
+            for j in range(3):
+                Commit.objects.create(
+                    package=package,
+                    commit_date=reference_time - timedelta(days=j * 30),
+                )
+
+            # Add some versions for each package
+            for j in range(2):
+                Version.objects.create(
+                    package=package,
+                    number=f"{j}.0.0",
+                    upload_time=reference_time - timedelta(days=j * 60),
+                    development_status=5 if j == 0 else 3,
+                    supports_python3=True,
+                )
+
+        # Create some features for the grid
+        cls.features = []
+        for i in range(5):
+            feature = Feature.objects.create(
+                grid=cls.grid,
+                title=f"Feature {i}",
+                description=f"Description for feature {i}",
+            )
+            cls.features.append(feature)
+
+        # Create some elements (feature values for packages)
+        for feature in cls.features:
+            for grid_package in cls.grid_packages[
+                :20
+            ]:  # Elements for first 20 packages
+                Element.objects.create(
+                    feature=feature,
+                    grid_package=grid_package,
+                    text="Yes",
+                )
+
+    @override_flag("enabled_packages_score_values", active=True)
+    def test_grid_detail_query_count_with_100_packages(self):
+        """Test that query count is constant (not N+1) with 100 packages."""
+        url = reverse("grid", kwargs={"slug": "large-grid-test"})
+
+        # Capture actual query count
+        with CaptureQueriesContext(connection) as context:
+            response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+
+        # GridDetailView now caps packages at max_packages (8)
+        self.assertEqual(response.context["package_count"], 8)
+        self.assertEqual(response.context["total_package_count"], 100)
+        self.assertTrue(response.context["has_more_packages"])
+
+        query_count = len(context)
+
+        # Assert query count is reasonable (not N+1)
+        # Current baseline is ~10 queries.
+        # If we had N+1 issues, we'd see 100+ queries.
+        self.assertLessEqual(
+            query_count,
+            15,
+            f"Query count ({query_count}) is too high, possible N+1 issue. "
+            f"Queries: {[q['sql'][:100] for q in context]}",
+        )
+
+    @override_flag("enabled_packages_score_values", active=True)
+    def test_grid_detail_query_count_with_filters(self):
+        """Test query count remains constant when filters are applied."""
+        url = reverse("grid", kwargs={"slug": "large-grid-test"})
+
+        # Test with python3 filter
+        with CaptureQueriesContext(connection) as context:
+            response = self.client.get(url, {"python3": "on"})
+        self.assertEqual(response.status_code, 200)
+        self.assertLessEqual(
+            len(context), 15, "Query count too high with python3 filter"
+        )
+
+        # Test with search filter
+        with CaptureQueriesContext(connection) as context:
+            response = self.client.get(url, {"q": "Package 5"})
+        self.assertEqual(response.status_code, 200)
+        self.assertLessEqual(
+            len(context), 15, "Query count too high with search filter"
+        )
+
+        # Test with sort filter
+        with CaptureQueriesContext(connection) as context:
+            response = self.client.get(url, {"sort": "title"})
+        self.assertEqual(response.status_code, 200)
+        self.assertLessEqual(len(context), 15, "Query count too high with sort filter")

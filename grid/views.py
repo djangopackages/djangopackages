@@ -50,6 +50,7 @@ class GridDetailView(DetailView):
     context_object_name = "grid"
     slug_field = "slug"
     slug_url_kwarg = "slug"
+    max_packages = 8
 
     def get_filter_data(self):
         """Get filter parameters from the form"""
@@ -161,7 +162,13 @@ class GridDetailView(DetailView):
 
         # Get filtered grid packages
         grid_packages_qs = self.get_grid_packages(grid, filter_data)
-        grid_packages = list(grid_packages_qs)
+
+        # Get total count before limiting
+        total_package_count = grid_packages_qs.count()
+
+        # Limit to max_packages for display
+        has_more_packages = total_package_count > self.max_packages
+        grid_packages = list(grid_packages_qs[: self.max_packages])
 
         # Get features
         features = Feature.objects.filter(grid=grid).order_by("pk")
@@ -189,6 +196,9 @@ class GridDetailView(DetailView):
                 "filter_data": filter_data,
                 "comparison_rows": comparison_rows,
                 "package_count": len(grid_packages),
+                "total_package_count": total_package_count,
+                "has_more_packages": has_more_packages,
+                "max_packages": self.max_packages,
             }
         )
         return context
