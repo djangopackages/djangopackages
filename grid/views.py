@@ -7,7 +7,6 @@ from django.contrib.auth.mixins import (
     UserPassesTestMixin,
     PermissionRequiredMixin,
 )
-from datetime import timedelta
 
 from django.db.models import (
     Count,
@@ -20,7 +19,6 @@ from django.db.models import (
 )
 from django.db.models.functions import Coalesce
 from django.db.models.query import Prefetch
-from django.utils.timezone import now
 from django.core.cache import cache
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
@@ -43,6 +41,7 @@ from grid.forms import (
 )
 from grid.models import Element, Feature, Grid, GridPackage
 from package.models import Package
+
 # Commit import disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
 from package.models import Version
 
