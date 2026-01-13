@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Prefetch
 from django.shortcuts import get_object_or_404
 from jsonview.decorators import json_view
 
@@ -7,6 +8,22 @@ from package.models import Category, Package
 from profiles.models import Profile
 
 from .resources import category_resource, grid_resource, package_resource, user_resource
+
+
+def get_optimized_package_queryset():
+    """Return a Package queryset optimized to avoid N+1 queries in package_resource()."""
+    return Package.objects.select_related(
+        "created_by__profile",
+        "last_modified_by__profile",
+        "category",
+    ).prefetch_related(
+        Prefetch("gridpackage_set__grid"),
+    )
+
+
+def get_optimized_grid_queryset():
+    """Return a Grid queryset optimized to avoid N+1 queries in grid_resource()."""
+    return Grid.objects.prefetch_related("packages")
 
 
 def GET_int(request, value_name, default):
@@ -39,7 +56,7 @@ def calc_previous(request, limit, offset, count):
 
 @json_view
 def grid_detail(request, slug):
-    grid = get_object_or_404(Grid, slug=slug)
+    grid = get_object_or_404(get_optimized_grid_queryset(), slug=slug)
     return grid_resource(grid)
 
 
@@ -59,14 +76,15 @@ def grid_list(request):
             "total_count": count,
         },
         "objects": [
-            grid_resource(x) for x in Grid.objects.all()[offset : offset + limit]
+            grid_resource(x)
+            for x in get_optimized_grid_queryset()[offset : offset + limit]
         ],
     }
 
 
 @json_view
 def package_detail(request, slug):
-    package = get_object_or_404(Package, slug=slug)
+    package = get_object_or_404(get_optimized_package_queryset(), slug=slug)
     return package_resource(package)
 
 
@@ -95,15 +113,11 @@ def package_list(request):
         "category": None,
     }
 
+    qs = get_optimized_package_queryset()
     if category:
-        data["objects"] = [
-            package_resource(x)
-            for x in Package.objects.filter(category=category)[offset : offset + limit]
-        ]
-    else:
-        data["objects"] = [
-            package_resource(x) for x in Package.objects.all()[offset : offset + limit]
-        ]
+        qs = qs.filter(category=category)
+
+    data["objects"] = [package_resource(x) for x in qs[offset : offset + limit]]
 
     return data
 
@@ -155,7 +169,7 @@ def user_list(request):
         },
         "objects": [
             user_resource(x, list_packages)
-            for x in Profile.objects.all()[offset : offset + limit]
+            for x in Profile.objects.select_related("user")[offset : offset + limit]
         ],
     }
 
@@ -163,15 +177,17 @@ def user_list(request):
 @json_view
 @login_required
 def user_detail(request, github_account):
-    profile = get_object_or_404(Profile, github_account=github_account)
+    profile = get_object_or_404(
+        Profile.objects.select_related("user"), github_account=github_account
+    )
     list_packages = request.GET.get("list_packages", False)
     return user_resource(profile, list_packages)
 
 
 @json_view
 def grid_packages_list(request, slug):
-    grid = get_object_or_404(Grid, slug=slug)
-    packages = Package.objects.filter(grid=grid)
+    grid = get_object_or_404(get_optimized_grid_queryset(), slug=slug)
+    packages = get_optimized_package_queryset().filter(grid=grid)
     count = packages.count()
     limit = GET_int(request, "limit", 20)
     offset = GET_int(request, "offset", 0)

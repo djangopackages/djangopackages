@@ -24,6 +24,8 @@ PASSWORD_HASHERS = ["django.contrib.auth.hashers.MD5PasswordHasher"]
 if "debug_toolbar" in INSTALLED_APPS:  # noqa
     INSTALLED_APPS.remove("debug_toolbar")  # noqa
 
+DEBUG_TOOLBAR_CONFIG = {"IS_RUNNING_TESTS": False}
+
 MIDDLEWARE = [
     middleware
     for middleware in MIDDLEWARE  # noqa
