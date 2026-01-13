@@ -24,13 +24,14 @@ def command(slug, delay):
     else:
         packages = Package.objects.active().exclude(pypi_url="")
 
-    total_packages = packages.count()
+    package_pks = list(packages.values_list("pk", flat=True))
 
-    for package in track(
-        sequence=packages.iterator(),
-        total=total_packages,
+    for pk in track(
+        sequence=package_pks,
+        total=len(package_pks),
         description="Fetching PyPI stats...",
     ):
+        package = Package.objects.get(pk=pk)
         try:
             pypi_slug = package.pypi_url.strip("/").split("/")[-1]
             response = pypistats.recent(pypi_slug, "month", format="json")

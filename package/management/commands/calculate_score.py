@@ -13,7 +13,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         count = 0
         # Business logic is in calculate_score(), which is called by save()
-        for package in Package.objects.filter().iterator():
+        package_pks = list(Package.objects.values_list("pk", flat=True))
+        for pk in package_pks:
+            package = Package.objects.get(pk=pk)
             package.save()
             count += 1
             msg = f"{count}. {package}"

@@ -38,8 +38,10 @@ def command(all, pypi_url):
             .order_by("-pypi_downloads", "last_fetched")
         )
 
-    print(f"{packages.count()} to update")
-    for package in packages.iterator():
+    package_pks = list(packages.values_list("pk", flat=True))
+    print(f"{len(package_pks)} to update")
+    for pk in package_pks:
+        package = Package.objects.get(pk=pk)
         print(f"{package} | {package.last_fetched} | {package.pypi_url}")
         try:
             if package.fetch_pypi_data():
