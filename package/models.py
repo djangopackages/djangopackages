@@ -485,10 +485,6 @@ class Package(BaseModel):
 
         self.save()
 
-    def grid_clear_detail_template_cache(self):
-        for grid in self.grids():
-            grid.clear_detail_template_cache()
-
     def calculate_score(self):
         """
         Scores a penalty of 10% of the stars for each 3 months the package is not updated;
@@ -517,7 +513,6 @@ class Package(BaseModel):
         if not self.repo_description:
             self.repo_description = ""
         if self.pk:
-            # self.grid_clear_detail_template_cache()
             self.score = self.calculate_score()
         super().save(*args, **kwargs)
 

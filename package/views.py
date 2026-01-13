@@ -352,7 +352,6 @@ class PackageUsageToggleView(LoginRequiredMixin, View):
 
     def _invalidate_caches(self, package, user) -> None:
         cache.delete(f"sitewide_used_packages_list_{user.pk}")
-        # package.grid_clear_detail_template_cache()
 
     def get(self, request, slug, action):
         """Handle GET requests for usage toggle."""

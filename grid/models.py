@@ -1,11 +1,8 @@
-from django.core.cache import cache
-from django.core.cache.utils import make_template_fragment_key
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from core.models import BaseModel
-from grid.utils import make_template_fragment_key as grid_make_template_fragment_key
 from package.models import Package
 
 
@@ -61,30 +58,11 @@ class Grid(BaseModel):
         ).order_by("-usage_count", "package")
         return grid_packages
 
-    # def save(self, *args, **kwargs):
-    #     if self.pk:
-    #         self.grid_packages  # fire the cache
-    #         self.clear_detail_template_cache()  # Delete the template fragment cache
-    #     super().save(*args, **kwargs)
-
     def get_absolute_url(self):
         return reverse("grid", args=[self.slug])
 
     def get_opengraph_image_url(self):
         return reverse("grid_opengraph", args=[self.slug])
-
-    def get_detail_template_cache_key(self):
-        return grid_make_template_fragment_key("detail_template_cache", [str(self.pk)])
-
-    def clear_detail_template_cache(self):
-        key = self.get_detail_template_cache_key()
-        cache.delete(key)
-
-        # delete grid template cache
-        template_key = make_template_fragment_key(
-            "html_grid_detail_outer", [str(self.pk)]
-        )
-        cache.delete(template_key)
 
     class Meta:
         ordering = ["title"]
@@ -111,11 +89,6 @@ class GridPackage(BaseModel):
         verbose_name = "Grid Package"
         verbose_name_plural = "Grid Packages"
 
-    # def save(self, *args, **kwargs):
-    #     self.grid.grid_packages  # fire the cache
-    #     self.grid.clear_detail_template_cache()
-    #     super().save(*args, **kwargs)
-
     def __str__(self):
         return f"{self.grid.slug} : {self.package.slug}"
 
@@ -132,11 +105,6 @@ class Feature(BaseModel):
     grid = models.ForeignKey(Grid, on_delete=models.CASCADE)
     title = models.CharField(_("Title"), max_length=100)
     description = models.TextField(_("Description"), blank=True, max_length=1000)
-
-    # def save(self, *args, **kwargs):
-    #     self.grid.grid_packages  # fire the cache
-    #     self.grid.clear_detail_template_cache()
-    #     super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.grid.slug} : {self.title}"
