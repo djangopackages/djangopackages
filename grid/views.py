@@ -12,12 +12,15 @@ from django.db.models import (
     Count,
     Max,
     Q,
-    OuterRef,
-    Subquery,
-    IntegerField,
-    BooleanField,
+    # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
+    # OuterRef,
+    # Subquery,
+    # IntegerField,
+    # BooleanField,
 )
-from django.db.models.functions import Coalesce
+
+# Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
+# from django.db.models.functions import Coalesce
 from django.db.models.query import Prefetch
 from django.core.cache import cache
 from django.http import Http404
@@ -28,7 +31,8 @@ from django.views.generic.edit import UpdateView
 from django.utils.translation import get_language, gettext_lazy as _
 from django.utils.http import url_has_allowed_host_and_scheme
 
-from core.utils import PackageStatus
+# Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
+# from core.utils import PackageStatus
 from grid.cache import GRID_DETAIL_PAYLOAD_TIMEOUT, get_grid_detail_payload_cache_key
 
 from grid.forms import (
@@ -73,16 +77,18 @@ class GridDetailView(DetailView):
         """Get filter parameters from the form"""
         self.filter_form = GridDetailFilterForm(self.request.GET)
         filter_data = {
-            "python3": False,
-            "stable": False,
+            # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
+            # "python3": False,
+            # "stable": False,
             "sort": GridDetailFilterForm.SCORE,
             "q": "",
         }
 
         if self.filter_form.is_valid():
             cleaned = self.filter_form.cleaned_data
-            filter_data["python3"] = cleaned.get("python3", False)
-            filter_data["stable"] = cleaned.get("stable", False)
+            # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
+            # filter_data["python3"] = cleaned.get("python3", False)
+            # filter_data["stable"] = cleaned.get("stable", False)
             filter_data["sort"] = cleaned.get("sort") or GridDetailFilterForm.SCORE
             filter_data["q"] = cleaned.get("q", "")
 
@@ -100,19 +106,20 @@ class GridDetailView(DetailView):
         """Get filtered and sorted grid packages"""
         # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
         # cutoff = now() - timedelta(weeks=52)
-        version_subquery = (
-            Version.objects.filter(package_id=OuterRef("package_id"))
-            .exclude(upload_time=None)
-            .order_by("-upload_time")
-            .values("development_status")[:1]
-        )
+        # version_subquery = (
+        #     Version.objects.filter(package_id=OuterRef("package_id"))
+        #     .exclude(upload_time=None)
+        #     .order_by("-upload_time")
+        #     .values("development_status")[:1]
+        # )
 
-        supports_python3_subquery = (
-            Version.objects.filter(package_id=OuterRef("package_id"))
-            .exclude(upload_time=None)
-            .order_by("-upload_time")
-            .values("supports_python3")[:1]
-        )
+        # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
+        # supports_python3_subquery = (
+        #     Version.objects.filter(package_id=OuterRef("package_id"))
+        #     .exclude(upload_time=None)
+        #     .order_by("-upload_time")
+        #     .values("supports_python3")[:1]
+        # )
 
         grid_packages = (
             grid.gridpackage_set.select_related(
@@ -141,23 +148,26 @@ class GridDetailView(DetailView):
                 #     .order_by("-commit_date"),
                 #     to_attr="_prefetched_commits_52w",
                 # ),
-                "package__usage",
+                # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
+                # "package__usage",
             )
             .filter(package__score__gte=max(0, settings.PACKAGE_SCORE_MIN))
             .annotate(usage_count=Count("package__usage", distinct=True))
-            .annotate(last_commit_date=Max("package__commit__commit_date"))
-            .annotate(
-                development_status=Coalesce(
-                    Subquery(version_subquery, output_field=IntegerField()), 0
-                )
-            )
-            .annotate(
-                supports_python3_latest=Coalesce(
-                    Subquery(supports_python3_subquery, output_field=BooleanField()),
-                    # Python 2 has been EOL for a long time; default to True
-                    True,
-                )
-            )
+            # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
+            # .annotate(last_commit_date=Max("package__commit__commit_date"))
+            # .annotate(
+            #     development_status=Coalesce(
+            #         Subquery(version_subquery, output_field=IntegerField()), 0
+            #     )
+            # )
+            # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
+            # .annotate(
+            #     supports_python3_latest=Coalesce(
+            #         Subquery(supports_python3_subquery, output_field=BooleanField()),
+            #         # Python 2 has been EOL for a long time; default to True
+            #         True,
+            #     )
+            # )
         )
 
         # Apply search filter
@@ -167,21 +177,24 @@ class GridDetailView(DetailView):
                 | Q(package__repo_description__icontains=filter_data["q"])
             )
 
+        # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
         # Apply Python 3 filter
-        if filter_data["python3"]:
-            grid_packages = grid_packages.filter(supports_python3_latest=True)
+        # if filter_data["python3"]:
+        #     grid_packages = grid_packages.filter(supports_python3_latest=True)
 
-        # Apply stable filter
-        if filter_data["stable"]:
-            grid_packages = grid_packages.filter(
-                development_status=PackageStatus.STABLE
-            )
+        # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
+        # Apply stable filter (requires development_status annotation)
+        # if filter_data["stable"]:
+        #     grid_packages = grid_packages.filter(
+        #         development_status=PackageStatus.STABLE
+        #     )
 
         # Apply sorting
         sort = filter_data["sort"]
-        if sort == GridDetailFilterForm.COMMIT_DATE:
-            grid_packages = grid_packages.order_by("-last_commit_date")
-        elif sort == GridDetailFilterForm.WATCHERS:
+        # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
+        # if sort == GridDetailFilterForm.COMMIT_DATE:
+        #     grid_packages = grid_packages.order_by("-last_commit_date")
+        if sort == GridDetailFilterForm.WATCHERS:
             grid_packages = grid_packages.order_by("-package__repo_watchers")
         elif sort == GridDetailFilterForm.FORKS:
             grid_packages = grid_packages.order_by("-package__repo_forks")
@@ -234,8 +247,9 @@ class GridDetailView(DetailView):
                     "id": grid_package.pk,
                     "pk": grid_package.pk,
                     "usage_count": grid_package.usage_count,
-                    "development_status": grid_package.development_status,
-                    "last_commit_date": grid_package.last_commit_date,
+                    # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
+                    # "development_status": grid_package.development_status,
+                    # "last_commit_date": grid_package.last_commit_date,
                     "pypi_version": grid_package.pypi_version,
                     "license_latest": grid_package.license_latest,
                     # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
@@ -293,8 +307,10 @@ class GridDetailView(DetailView):
         )
         self._populate_derived_package_fields(grid_packages)
 
-        # Only show features if grid has 8 or fewer active packages (for performance)
-        show_features = total_package_count <= self.max_packages
+        # TEMPORARILY DISABLED: Features disabled entirely for production stability
+        # See https://github.com/djangopackages/djangopackages/issues/1498
+        # Original: show_features = total_package_count <= self.max_packages
+        show_features = False
 
         if show_features:
             features = self._get_features(grid)

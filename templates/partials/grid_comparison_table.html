@@ -106,6 +106,7 @@
                         {% endfor %}
                     </tr>
 
+                {% comment "Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498" %}
                 <!-- Development Status Row -->
                     <tr>
                         <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
@@ -126,6 +127,7 @@
                             </td>
                         {% endfor %}
                     </tr>
+                {% endcomment %}
 
                 <!-- PyPI Version Row -->
                     <tr class="transition-colors hover:bg-muted/30">
@@ -199,6 +201,7 @@
                     </tr>
                     {% endcomment %}
 
+                    {% comment "Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498" %}
                     <!-- Last Updated Row - Date, Month, Year format -->
                     <tr class="transition-colors hover:bg-muted/30">
                         <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
@@ -219,6 +222,7 @@
                             </td>
                         {% endfor %}
                     </tr>
+                    {% endcomment %}
 
                     <!-- Score Row with working tooltip -->
                     {% flag "enabled_packages_score_values" %}
@@ -500,6 +504,7 @@
 
                     <!-- Info List -->
                             <div class="pt-4 space-y-2 text-sm border-t border-border">
+                                {% comment "Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498" %}
                                 {% if grid_package.development_status is not None %}
                                     <div class="flex justify-between items-center">
                                         <span class="text-muted-foreground">{% translate "Status" %}</span>
@@ -508,6 +513,7 @@
                                         </span>
                                     </div>
                                 {% endif %}
+                                {% endcomment %}
                                 {% if grid_package.pypi_version %}
                                     <div class="flex justify-between items-center">
                                         <span class="text-muted-foreground">{% translate "Version" %}</span>
@@ -516,6 +522,7 @@
                                         </a>
                                     </div>
                                 {% endif %}
+                                {% comment "Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498" %}
                                 {% if grid_package.last_commit_date %}
                                     <div class="flex justify-between items-center">
                                         <span class="text-muted-foreground">{% translate "Updated" %}</span>
@@ -524,6 +531,7 @@
                                         </span>
                                     </div>
                                 {% endif %}
+                                {% endcomment %}
                                 {% if grid_package.license_latest %}
                                     <div class="flex justify-between items-center">
                                         <span class="text-muted-foreground">{% translate "License" %}</span>

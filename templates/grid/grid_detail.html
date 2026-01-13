@@ -103,7 +103,7 @@
                                    hx-trigger="keyup changed delay:300ms"
                                    hx-swap="innerHTML"
                                    hx-indicator="#loading-indicator"
-                                   hx-include="[name='sort'], [name='python3'], [name='stable']">
+                                   hx-include="[name='sort'], [name='stable']">
                         </div>
                     </div>
 
@@ -117,25 +117,8 @@
                         </select>
                     </div>
 
-                    <!-- Filter Toggles -->
-                    <div class="flex gap-4 items-center">
-                        <label class="flex gap-2 items-center text-sm cursor-pointer">
-                            <input type="checkbox"
-                                   name="python3"
-                                   value="true"
-                                   {% if filter_form.python3.value %}checked{% endif %}
-                                   class="w-4 h-4 rounded border-input text-primary focus:ring-primary">
-                            <span class="text-muted-foreground">{% translate "Python 3" %}</span>
-                        </label>
-                        <label class="flex gap-2 items-center text-sm cursor-pointer">
-                            <input type="checkbox"
-                                   name="stable"
-                                   value="true"
-                                   {% if filter_form.stable.value %}checked{% endif %}
-                                   class="w-4 h-4 rounded border-input text-primary focus:ring-primary">
-                            <span class="text-muted-foreground">{% translate "Stable" %}</span>
-                        </label>
-                    </div>
+                    {# Filter Toggles - Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498 #}
+                    {# Python 3 filter and Stable filter disabled #}
 
                     <!-- Loading Indicator -->
                     <div id="loading-indicator" class="flex gap-2 items-center text-sm htmx-indicator text-primary">

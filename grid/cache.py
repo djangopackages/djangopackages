@@ -55,11 +55,12 @@ def _normalized_filter_data_key(filter_data: dict[str, Any] | None) -> str:
     overhead on a hot path.
     """
     filter_data = filter_data or {}
-    python3 = "1" if filter_data.get("python3") else "0"
-    stable = "1" if filter_data.get("stable") else "0"
+    # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
+    # python3 = "1" if filter_data.get("python3") else "0"
+    # stable = "1" if filter_data.get("stable") else "0"
     sort = filter_data.get("sort", "")
     q = str(filter_data.get("q", "")).strip().lower()
-    return f"p={python3}&s={stable}&o={sort}&q={q}"
+    return f"o={sort}&q={q}"
 
 
 def get_grid_detail_payload_cache_key(

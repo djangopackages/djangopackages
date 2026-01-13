@@ -158,7 +158,9 @@ class FunctionalGridTest(TestCase):
             follow=True,
         )
         self.assertEqual(Feature.objects.count(), 1)
-        self.assertContains(response, "TEST TITLE")
+        # Note: Features are hidden in grid_detail for performance (issue #1498)
+        # Just verify the feature was created
+        self.assertTrue(Feature.objects.filter(title="TEST TITLE").exists())
 
     def test_edit_feature_view(self):
         url = reverse("edit_feature", kwargs={"id": "1"})
@@ -182,7 +184,9 @@ class FunctionalGridTest(TestCase):
             follow=True,
         )
         self.assertEqual(Feature.objects.count(), count)
-        self.assertContains(response, "TEST TITLE")
+        # Note: Features are hidden in grid_detail for performance (issue #1498)
+        # Just verify the feature was updated
+        self.assertTrue(Feature.objects.filter(title="TEST TITLE").exists())
 
     def test_delete_feature_view(self):
         count = Feature.objects.count()
@@ -574,13 +578,7 @@ class GridDetailQueryCountTest(TestCase):
         """Test query count remains constant when filters are applied."""
         url = reverse("grid", kwargs={"slug": "large-grid-test"})
 
-        # Test with python3 filter
-        with CaptureQueriesContext(connection) as context:
-            response = self.client.get(url, {"python3": "on"})
-        self.assertEqual(response.status_code, 200)
-        self.assertLessEqual(
-            len(context), 15, "Query count too high with python3 filter"
-        )
+        # Python 3 filter disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
 
         # Test with search filter
         with CaptureQueriesContext(connection) as context:
@@ -598,7 +596,11 @@ class GridDetailQueryCountTest(TestCase):
 
 
 class GridShowFeaturesTest(TestCase):
-    """Test that features are shown/hidden based on package count."""
+    """Test that features are shown/hidden based on package count.
+
+    NOTE: Features are temporarily disabled for all grids for performance.
+    See https://github.com/djangopackages/djangopackages/issues/1498
+    """
 
     def setUp(self):
         cache.clear()
@@ -632,31 +634,30 @@ class GridShowFeaturesTest(TestCase):
             GridPackage.objects.create(grid=self.grid, package=package)
 
     @override_flag("enabled_packages_score_values", active=True)
-    def test_show_features_true_when_packages_at_max(self):
-        """Features should be shown when package count equals max_packages (8)."""
+    def test_show_features_false_when_packages_at_max(self):
+        """Features are disabled for performance - see issue #1498."""
         self._create_packages(8)
         url = reverse("grid", kwargs={"slug": "show-features-test"})
 
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(response.context["show_features"])
+        # Features disabled for performance
+        self.assertFalse(response.context["show_features"])
         self.assertEqual(response.context["total_package_count"], 8)
-        # Features section should be in the response
-        self.assertContains(response, "Test Feature")
 
     @override_flag("enabled_packages_score_values", active=True)
-    def test_show_features_true_when_packages_below_max(self):
-        """Features should be shown when package count is below max_packages."""
+    def test_show_features_false_when_packages_below_max(self):
+        """Features are disabled for performance - see issue #1498."""
         self._create_packages(3)
         url = reverse("grid", kwargs={"slug": "show-features-test"})
 
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(response.context["show_features"])
+        # Features disabled for performance
+        self.assertFalse(response.context["show_features"])
         self.assertEqual(response.context["total_package_count"], 3)
-        self.assertContains(response, "Test Feature")
 
     @override_flag("enabled_packages_score_values", active=True)
     def test_show_features_false_when_packages_exceed_max(self):
@@ -688,36 +689,15 @@ class GridShowFeaturesTest(TestCase):
         self.assertTrue(response.context["has_more_packages"])
 
     @override_flag("enabled_packages_score_values", active=True)
-    def test_cached_payload_without_show_features_key(self):
-        """Test that old cached payloads without show_features key don't cause errors."""
-        from grid.cache import get_grid_detail_payload_cache_key
-        from django.utils.translation import get_language
-
+    def test_grid_detail_view_works_with_packages(self):
+        """Test that grid detail view works with packages."""
         self._create_packages(3)
-
-        # Manually create a cached payload WITHOUT the show_features key
-        # (simulating old cached data)
-        cache_key = get_grid_detail_payload_cache_key(
-            grid_id=self.grid.pk,
-            language=get_language(),
-            filter_data={"python3": False, "stable": False, "sort": "", "q": ""},
-            max_packages=8,
-        )
-        old_payload = {
-            "grid_packages": [],
-            "features": [],
-            "element_map": {},
-            "total_package_count": 3,
-            "has_more_packages": False,
-            # NOTE: show_features key is intentionally missing
-        }
-        cache.set(cache_key, old_payload, 3600)
 
         url = reverse("grid", kwargs={"slug": "show-features-test"})
 
-        # This should NOT raise KeyError
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)
-        # Should default to True when key is missing
-        self.assertTrue(response.context["show_features"])
+        # Features are disabled for performance - see issue #1498
+        self.assertFalse(response.context["show_features"])
+        self.assertEqual(response.context["total_package_count"], 3)

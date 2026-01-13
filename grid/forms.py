@@ -1,7 +1,8 @@
 """Forms for the :mod:`grid` app"""
 
 from django.forms import (
-    BooleanField,
+    # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
+    # BooleanField,
     ChoiceField,
     Form,
     ModelForm,
@@ -66,7 +67,8 @@ class GridDetailFilterForm(Form):
     """Filter and sort form for grid detail view"""
 
     SCORE = "score"
-    COMMIT_DATE = "commit_date"
+    # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
+    # COMMIT_DATE = "commit_date"
     WATCHERS = "watchers"
     DOWNLOADS = "downloads"
     FORKS = "forks"
@@ -75,14 +77,16 @@ class GridDetailFilterForm(Form):
     SORT_CHOICES = (
         (SCORE, _("Score")),
         (TITLE, _("Name")),
-        (COMMIT_DATE, _("Last Commit")),
+        # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
+        # (COMMIT_DATE, _("Last Commit")),
         (WATCHERS, _("Stars")),
         (DOWNLOADS, _("Downloads")),
         (FORKS, _("Forks")),
     )
 
-    python3 = BooleanField(required=False, label=_("Python 3 Only"))
-    stable = BooleanField(required=False, label=_("Stable Only"))
+    # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
+    # python3 = BooleanField(required=False, label=_("Python 3 Only"))
+    # stable = BooleanField(required=False, label=_("Stable Only"))
     sort = ChoiceField(
         choices=SORT_CHOICES, initial=SCORE, required=False, label=_("Sort by")
     )
