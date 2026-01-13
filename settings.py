@@ -26,6 +26,9 @@ TEST_MODE = "pytest" in sys.modules
 # e.g., CACHE_URL=redis://redis:6379/0
 CACHES = {"default": env.cache_url("CACHE_URL", default="locmemcache://")}
 
+# Set REDIS_URL for health_check.contrib.redis
+REDIS_URL = env("CACHE_URL", default=None)
+
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -205,10 +208,13 @@ PREREQ_APPS = [
     "health_check.db",
     "health_check.cache",
     # "health_check.storage",
-    # "health_check.contrib.redis",
 ]
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
+
+# Add Redis health check only when Redis is configured
+if REDIS_URL:
+    INSTALLED_APPS += ["health_check.contrib.redis"]
 
 ANYMAIL = {
     "MAILGUN_API_KEY": env.str("MAILGUN_API_KEY", "mail-gun-api-key"),
@@ -503,7 +509,7 @@ Q_CLUSTER = {
     "timeout": 600,  # this won't work for longer running tasks that might take hours to run
     "retry": 700,
     "max_attempts": 1,
-    "workers": 4,
+    "workers": 2,
 }
 
 if Q_REDIS_URL := env("Q_REDIS_URL", default=None):
