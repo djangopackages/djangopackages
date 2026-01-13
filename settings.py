@@ -500,12 +500,16 @@ FORM_RENDERER = "django.forms.renderers.DjangoDivFormRenderer"
 # https://django-q2.readthedocs.io/en/stable/configure.html
 Q_CLUSTER = {
     "name": "djangopackages",
-    "orm": "default",
     "timeout": 600,  # this won't work for longer running tasks that might take hours to run
     "retry": 700,
     "max_attempts": 1,
     "workers": 4,
 }
+
+if Q_REDIS_URL := env("Q_REDIS_URL", default=None):
+    Q_CLUSTER["redis"] = Q_REDIS_URL
+else:
+    Q_CLUSTER["orm"] = "default"
 
 if DEBUG:
     DOCS_URL = "http://0.0.0.0:4000"
