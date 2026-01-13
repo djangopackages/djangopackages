@@ -1,10 +1,22 @@
 {% load i18n %}
 <div id="{% if mobile %}mobile-usage-btn-{{ package.id }}{% else %}usage-btn-{{ package.id }}{% endif %}" class="flex gap-1.5 items-center">
     {% if mobile %}
-        <div id="mobile-usage-count-{{ package.id }}" hx-swap-oob="true" class="text-lg font-bold text-foreground">{{ package.usage.count|default:0 }}</div>
+        <div id="mobile-usage-count-{{ package.id }}" hx-swap-oob="true" class="text-lg font-bold text-foreground">
+            {% if usage_count is not None and usage_count != "" %}
+                {{ usage_count|default:0 }}
+            {% else %}
+                {{ package.usage.count|default:0 }}
+            {% endif %}
+        </div>
     {% endif %}
     {% if not mobile %}
-        <span class="text-xs font-medium text-foreground">{{ package.usage.count|default:0 }}</span>
+        <span class="text-xs font-medium text-foreground">
+            {% if usage_count is not None and usage_count != "" %}
+                {{ usage_count|default:0 }}
+            {% else %}
+                {{ package.usage.count|default:0 }}
+            {% endif %}
+        </span>
     {% endif %}
     {% if request.user.is_authenticated %}
         {% if is_using %}

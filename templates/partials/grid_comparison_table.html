@@ -73,7 +73,7 @@
                         {% for grid_package in grid_packages %}
                             <td class="py-2.5 px-3 text-center border-l border-border/30">
                                 <div class="flex justify-center items-center">
-                                    {% with package=grid_package.package is_using=grid_package.package.pk|is_in:used_packages_list %}
+                                    {% with package=grid_package.package is_using=grid_package.package.pk|is_in:used_packages_list usage_count=grid_package.usage_count %}
                                         {% include "partials/usage_button.html" %}
                                     {% endwith %}
                                 </div>
@@ -137,11 +137,11 @@
                         </td>
                         {% for grid_package in grid_packages %}
                             <td class="py-2.5 px-3 text-center border-l border-border/30">
-                                {% if grid_package.package.pypi_version %}
+                                {% if grid_package.pypi_version %}
                                     <a href="{{ grid_package.package.pypi_url }}"
                                        class="font-mono category-tag"
                                        target="_blank" rel="noopener">
-                                        {{ grid_package.package.pypi_version|truncatechars:10 }}
+                                        {{ grid_package.pypi_version|truncatechars:10 }}
                                     </a>
                                 {% else %}<span class="text-muted-foreground">-</span>{% endif %}
                             </td>
@@ -192,7 +192,7 @@
                         </td>
                         {% for grid_package in grid_packages %}
                             <td class="py-2.5 px-3 text-center border-l border-border/30">
-                                {% include "partials/_commits.html" with value=grid_package.package.commits_over_52 graph_width=70 graph_height=20 %}
+                                {% include "partials/_commits.html" with value=grid_package.commits_over_52 graph_width=70 graph_height=20 %}
                             </td>
                         {% endfor %}
                     </tr>
@@ -254,9 +254,9 @@
                         </td>
                         {% for grid_package in grid_packages %}
                             <td class="py-2.5 px-3 text-center border-l border-border/30">
-                                {% if grid_package.package.license_latest %}
-                                    <span class="text-xs text-muted-foreground" title="{{ grid_package.package.license_latest }}">
-                                        {{ grid_package.package.license_latest|truncatechars:12 }}
+                                {% if grid_package.license_latest %}
+                                    <span class="text-xs text-muted-foreground" title="{{ grid_package.license_latest }}">
+                                        {{ grid_package.license_latest|truncatechars:12 }}
                                     </span>
                                 {% else %}<span class="text-muted-foreground">-</span>{% endif %}
                             </td>
@@ -510,11 +510,11 @@
                                         </span>
                                     </div>
                                 {% endif %}
-                                {% if grid_package.package.pypi_version %}
+                                {% if grid_package.pypi_version %}
                                     <div class="flex justify-between items-center">
                                         <span class="text-muted-foreground">{% translate "Version" %}</span>
                                         <a href="{{ grid_package.package.pypi_url }}" class="font-mono category-tag" target="_blank">
-                                            {{ grid_package.package.pypi_version|truncatechars:10 }}
+                                            {{ grid_package.pypi_version|truncatechars:10 }}
                                         </a>
                                     </div>
                                 {% endif %}
@@ -526,16 +526,16 @@
                                         </span>
                                     </div>
                                 {% endif %}
-                                {% if grid_package.package.license_latest %}
+                                {% if grid_package.license_latest %}
                                     <div class="flex justify-between items-center">
                                         <span class="text-muted-foreground">{% translate "License" %}</span>
-                                        <span class="text-xs text-muted-foreground" title="{{ grid_package.package.license_latest }}">{{ grid_package.package.license_latest|truncatechars:12 }}</span>
+                                        <span class="text-xs text-muted-foreground" title="{{ grid_package.license_latest }}">{{ grid_package.license_latest|truncatechars:12 }}</span>
                                     </div>
                                 {% endif %}
                                 <div class="flex justify-between items-center">
                                     <span class="text-muted-foreground">{% translate "Commits" %}</span>
                                     <div class="flex-shrink-0">
-                                        {% include "partials/_commits.html" with value=grid_package.package.commits_over_52 graph_width=60 graph_height=16 %}
+                                        {% include "partials/_commits.html" with value=grid_package.commits_over_52 graph_width=60 graph_height=16 %}
                                     </div>
                                 </div>
                                 {% flag "enabled_packages_score_values" %}

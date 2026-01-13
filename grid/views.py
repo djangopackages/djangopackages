@@ -169,6 +169,11 @@ class GridDetailView(DetailView):
         # Limit to max_packages for display
         has_more_packages = total_package_count > self.max_packages
         grid_packages = list(grid_packages_qs[: self.max_packages])
+        for grid_package in grid_packages:
+            package = grid_package.package
+            grid_package.pypi_version = package.pypi_version()
+            grid_package.license_latest = package.license_latest
+            grid_package.commits_over_52 = package.commits_over_52()
 
         # Get features
         features = Feature.objects.filter(grid=grid).order_by("pk")
