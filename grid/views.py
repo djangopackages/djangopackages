@@ -1,6 +1,5 @@
-"""views for the :mod:`grid` app"""
-
 from functools import cached_property
+from typing import Any
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import (
@@ -10,17 +9,29 @@ from django.contrib.auth.mixins import (
 )
 from datetime import timedelta
 
-from django.db.models import Count, Max, Q, OuterRef, Subquery, IntegerField
+from django.db.models import (
+    Count,
+    Max,
+    Q,
+    OuterRef,
+    Subquery,
+    IntegerField,
+    BooleanField,
+)
 from django.db.models.functions import Coalesce
 from django.db.models.query import Prefetch
 from django.utils.timezone import now
+from django.core.cache import cache
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views.generic import CreateView, DetailView, ListView, DeleteView
 from django.views.generic.edit import UpdateView
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import get_language, gettext_lazy as _
 from django.utils.http import url_has_allowed_host_and_scheme
+
+from core.utils import PackageStatus
+from grid.cache import GRID_DETAIL_PAYLOAD_TIMEOUT, get_grid_detail_payload_cache_key
 
 from grid.forms import (
     ElementForm,
@@ -36,11 +47,17 @@ from package.models import Commit, Version
 
 
 def build_element_map(elements):
-    # Horrifying two-level dict due to needing to use hash() function later
-    element_map = {}
+    """Build the two-level mapping used by templates.
+
+    Shape:
+        feature_id -> grid_package_id -> {"text": str}
+    """
+    element_map: dict[int, dict[int, dict[str, Any]]] = {}
     for element in elements:
         element_map.setdefault(element.feature_id, {})
-        element_map[element.feature_id][element.grid_package_id] = element
+        element_map[element.feature_id][element.grid_package_id] = {
+            "text": element.text,
+        }
     return element_map
 
 
@@ -71,7 +88,15 @@ class GridDetailView(DetailView):
 
         return filter_data
 
-    def get_grid_packages(self, grid, filter_data):
+    def _get_payload_cache_key(self, *, grid: Grid, filter_data: dict[str, Any]) -> str:
+        return get_grid_detail_payload_cache_key(
+            grid_id=grid.pk,
+            language=get_language(),
+            filter_data=filter_data,
+            max_packages=self.max_packages,
+        )
+
+    def get_grid_packages(self, grid: Grid, filter_data: dict[str, Any]):
         """Get filtered and sorted grid packages"""
         cutoff = now() - timedelta(weeks=52)
         version_subquery = (
@@ -79,6 +104,13 @@ class GridDetailView(DetailView):
             .exclude(upload_time=None)
             .order_by("-upload_time")
             .values("development_status")[:1]
+        )
+
+        supports_python3_subquery = (
+            Version.objects.filter(package_id=OuterRef("package_id"))
+            .exclude(upload_time=None)
+            .order_by("-upload_time")
+            .values("supports_python3")[:1]
         )
 
         grid_packages = (
@@ -117,6 +149,13 @@ class GridDetailView(DetailView):
                     Subquery(version_subquery, output_field=IntegerField()), 0
                 )
             )
+            .annotate(
+                supports_python3_latest=Coalesce(
+                    Subquery(supports_python3_subquery, output_field=BooleanField()),
+                    # Python 2 has been EOL for a long time; default to True
+                    True,
+                )
+            )
         )
 
         # Apply search filter
@@ -128,13 +167,13 @@ class GridDetailView(DetailView):
 
         # Apply Python 3 filter
         if filter_data["python3"]:
-            grid_packages = grid_packages.filter(
-                package__version__supports_python3=True
-            )
+            grid_packages = grid_packages.filter(supports_python3_latest=True)
 
         # Apply stable filter
         if filter_data["stable"]:
-            grid_packages = grid_packages.filter(package__version__development_status=5)
+            grid_packages = grid_packages.filter(
+                development_status=PackageStatus.STABLE
+            )
 
         # Apply sorting
         sort = filter_data["sort"]
@@ -151,7 +190,128 @@ class GridDetailView(DetailView):
         else:
             grid_packages = grid_packages.order_by("-package__score")
 
-        return grid_packages.distinct()
+        return grid_packages
+
+    def _get_total_package_count(self, grid: Grid) -> int:
+        # Total count is for the whole grid (not filter-dependent)
+        return grid.gridpackage_set.count()
+
+    def _limit_grid_packages(self, grid_packages_qs, total_package_count: int):
+        has_more_packages = total_package_count > self.max_packages
+        grid_packages = list(grid_packages_qs[: self.max_packages])
+        return grid_packages, has_more_packages
+
+    def _populate_derived_package_fields(self, grid_packages) -> None:
+        """Attach a few derived values used by templates.
+
+        These are intentionally computed before serialization so templates can
+        access them directly on `grid_package`.
+        """
+        for grid_package in grid_packages:
+            package = grid_package.package
+            grid_package.pypi_version = package.pypi_version()
+            grid_package.license_latest = package.license_latest
+            grid_package.commits_over_52 = package.commits_over_52()
+
+    def _get_features(self, grid: Grid):
+        return list(Feature.objects.filter(grid=grid).order_by("pk"))
+
+    def _get_elements(self, *, features, grid_packages):
+        return Element.objects.filter(
+            feature__in=features, grid_package__in=grid_packages
+        ).select_related("feature", "grid_package")
+
+    def _serialize_grid_packages(self, grid_packages):
+        payload_grid_packages: list[dict[str, Any]] = []
+        for grid_package in grid_packages:
+            package = grid_package.package
+            category = package.category
+            payload_grid_packages.append(
+                {
+                    "id": grid_package.pk,
+                    "pk": grid_package.pk,
+                    "usage_count": grid_package.usage_count,
+                    "development_status": grid_package.development_status,
+                    "last_commit_date": grid_package.last_commit_date,
+                    "pypi_version": grid_package.pypi_version,
+                    "license_latest": grid_package.license_latest,
+                    "commits_over_52": grid_package.commits_over_52,
+                    "package": {
+                        "id": package.pk,
+                        "pk": package.pk,
+                        "slug": package.slug,
+                        "title": package.title,
+                        "repo_description": package.repo_description,
+                        "repo_url": package.repo_url,
+                        "pypi_url": package.pypi_url,
+                        "documentation_url": package.documentation_url,
+                        "supports_python3": package.supports_python3,
+                        "repo_watchers": package.repo_watchers,
+                        "repo_forks": package.repo_forks,
+                        "pypi_downloads": package.pypi_downloads,
+                        "score": package.score,
+                        "get_absolute_url": package.get_absolute_url(),
+                        "category": (
+                            {
+                                "id": category.pk,
+                                "pk": category.pk,
+                                "title": category.title,
+                                "get_absolute_url": category.get_absolute_url(),
+                            }
+                            if category
+                            else None
+                        ),
+                    },
+                }
+            )
+        return payload_grid_packages
+
+    def _serialize_features(self, features):
+        return [
+            {
+                "id": feature.pk,
+                "pk": feature.pk,
+                "title": feature.title,
+                "description": feature.description,
+            }
+            for feature in features
+        ]
+
+    def _build_payload(
+        self, *, grid: Grid, filter_data: dict[str, Any]
+    ) -> dict[str, Any]:
+        # Compute the expensive payload once per grid/version/filter.
+        grid_packages_qs = self.get_grid_packages(grid, filter_data)
+
+        total_package_count = self._get_total_package_count(grid)
+        grid_packages, has_more_packages = self._limit_grid_packages(
+            grid_packages_qs, total_package_count
+        )
+        self._populate_derived_package_fields(grid_packages)
+
+        features = self._get_features(grid)
+        elements = self._get_elements(features=features, grid_packages=grid_packages)
+        element_map = build_element_map(elements)
+
+        return {
+            "grid_packages": self._serialize_grid_packages(grid_packages),
+            "features": self._serialize_features(features),
+            "element_map": element_map,
+            "total_package_count": total_package_count,
+            "has_more_packages": has_more_packages,
+        }
+
+    def _get_or_build_payload(
+        self, *, grid: Grid, filter_data: dict[str, Any]
+    ) -> dict[str, Any]:
+        cache_key = self._get_payload_cache_key(grid=grid, filter_data=filter_data)
+        payload = cache.get(cache_key)
+
+        if payload is None:
+            payload = self._build_payload(grid=grid, filter_data=filter_data)
+            cache.set(cache_key, payload, GRID_DETAIL_PAYLOAD_TIMEOUT)
+
+        return payload
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -160,100 +320,21 @@ class GridDetailView(DetailView):
         # Get filter data
         filter_data = self.get_filter_data()
 
-        # Get filtered grid packages
-        grid_packages_qs = self.get_grid_packages(grid, filter_data)
-
-        # Get total count before limiting
-        total_package_count = grid_packages_qs.count()
-
-        # Limit to max_packages for display
-        has_more_packages = total_package_count > self.max_packages
-        grid_packages = list(grid_packages_qs[: self.max_packages])
-        for grid_package in grid_packages:
-            package = grid_package.package
-            grid_package.pypi_version = package.pypi_version()
-            grid_package.license_latest = package.license_latest
-            grid_package.commits_over_52 = package.commits_over_52()
-
-        # Get features
-        features = Feature.objects.filter(grid=grid).order_by("pk")
-
-        # Get elements for the grid
-        elements = Element.objects.filter(
-            feature__in=features, grid_package__in=grid_packages
-        ).select_related("feature", "grid_package")
-
-        element_map = build_element_map(elements)
-
-        # Build comparison data structure
-        # Each row represents a feature/attribute
-        # Each column represents a package
-        comparison_rows = self._build_comparison_rows(
-            grid_packages, features, element_map
-        )
+        payload = self._get_or_build_payload(grid=grid, filter_data=filter_data)
 
         context.update(
             {
-                "grid_packages": grid_packages,
-                "features": features,
-                "element_map": element_map,
+                "grid_packages": payload["grid_packages"],
+                "features": payload["features"],
+                "element_map": payload["element_map"],
                 "filter_form": self.filter_form,
                 "filter_data": filter_data,
-                "comparison_rows": comparison_rows,
-                "package_count": len(grid_packages),
-                "total_package_count": total_package_count,
-                "has_more_packages": has_more_packages,
+                "total_package_count": payload["total_package_count"],
+                "has_more_packages": payload["has_more_packages"],
                 "max_packages": self.max_packages,
             }
         )
         return context
-
-    def _build_comparison_rows(self, grid_packages, features, element_map):
-        """Build a structured list of comparison rows for the template"""
-        rows = []
-
-        # Standard package attributes
-        standard_attrs = [
-            ("description", _("Description"), "text"),
-            ("category", _("Category"), "text"),
-            ("usage_count", _("# Using This"), "number"),
-            ("python3", _("Python 3?"), "boolean"),
-            ("development_status", _("Development Status"), "text"),
-            ("last_updated", _("Last Updated"), "date"),
-            ("version", _("Version"), "text"),
-            ("repo", _("Repository"), "link"),
-            ("commits", _("Commits"), "sparkline"),
-            ("stars", _("Stars"), "number"),
-            ("score", _("Score"), "score"),
-            ("forks", _("Forks"), "number"),
-            ("participants", _("Contributors"), "list"),
-            ("documentation", _("Documentation"), "link"),
-            ("license", _("License"), "text"),
-        ]
-
-        for attr_key, attr_label, attr_type in standard_attrs:
-            rows.append(
-                {
-                    "key": attr_key,
-                    "label": attr_label,
-                    "type": attr_type,
-                    "is_feature": False,
-                }
-            )
-
-        # Add custom features
-        for feature in features:
-            rows.append(
-                {
-                    "key": f"feature_{feature.pk}",
-                    "label": feature.title,
-                    "type": "feature",
-                    "is_feature": True,
-                    "feature": feature,
-                }
-            )
-
-        return rows
 
     def render_to_response(self, context, **response_kwargs):
         if self.request.htmx:
@@ -441,8 +522,6 @@ class DeleteGridPackageView(LoginRequiredMixin, PermissionRequiredMixin, DeleteV
         return reverse("grid", kwargs={"slug": self.object.grid.slug})
 
     def delete(self, request, *args, **kwargs):
-        # self.object = self.get_object()
-        # self.object.grid.clear_detail_template_cache()
         messages.add_message(
             self.request, messages.SUCCESS, _("Package removed from grid successfully")
         )
@@ -527,8 +606,6 @@ class AddGridPackageView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             return self.form_invalid(form)
 
         form.instance.grid = grid
-        # clear cache and inform the user
-        # grid.clear_detail_template_cache()
         messages.success(
             self.request,
             f"Package '{package.title}' has been added to the grid '{grid.title}'.",

@@ -148,7 +148,7 @@
                         {% endfor %}
                     </tr>
 
-                <!-- Stars Row -->
+                    <!-- Stars Row -->
                     <tr class="transition-colors hover:bg-muted/30">
                         <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
                             <div class="flex gap-1.5 items-center">
@@ -165,7 +165,7 @@
                         {% endfor %}
                     </tr>
 
-                <!-- Forks Row -->
+                    <!-- Forks Row -->
                     <tr class="transition-colors hover:bg-muted/30">
                         <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
                             <div class="flex gap-1.5 items-center">
@@ -182,7 +182,7 @@
                         {% endfor %}
                     </tr>
 
-                <!-- Commits Row with SVG Sparkline from original template -->
+                    <!-- Commits Row with SVG Sparkline from original template -->
                     <tr class="transition-colors hover:bg-muted/30">
                         <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
                             <div class="flex gap-1.5 items-center">
@@ -197,7 +197,7 @@
                         {% endfor %}
                     </tr>
 
-                <!-- Last Updated Row - Date, Month, Year format -->
+                    <!-- Last Updated Row - Date, Month, Year format -->
                     <tr class="transition-colors hover:bg-muted/30">
                         <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
                             <div class="flex gap-1.5 items-center">
@@ -218,7 +218,7 @@
                         {% endfor %}
                     </tr>
 
-                <!-- Score Row with working tooltip -->
+                    <!-- Score Row with working tooltip -->
                     {% flag "enabled_packages_score_values" %}
                         <tr class="transition-colors hover:bg-muted/30">
                             <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
@@ -244,7 +244,7 @@
                         </tr>
                     {% endflag %}
 
-                <!-- License Row -->
+                    <!-- License Row -->
                     <tr class="transition-colors hover:bg-muted/30">
                         <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
                             <div class="flex gap-1.5 items-center">
@@ -263,7 +263,7 @@
                         {% endfor %}
                     </tr>
 
-                <!-- Repo Links Row -->
+                    <!-- Repo Links Row -->
                     <tr class="transition-colors hover:bg-muted/30">
                         <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
                             <div class="flex gap-1.5 items-center">
@@ -300,7 +300,7 @@
                         {% endfor %}
                     </tr>
 
-                <!-- Custom Features Section Header -->
+                    <!-- Custom Features Section Header -->
                     {% if features %}
                         <tr class="bg-primary/5">
                             <td colspan="{{ grid_packages|length|add:1 }}" class="py-2.5 px-3">
@@ -315,7 +315,7 @@
                         </tr>
                     {% endif %}
 
-                <!-- Custom Features -->
+                    <!-- Custom Features -->
                     {% for feature in features %}
                         <tr class="transition-colors hover:bg-muted/30">
                             <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium align-top bg-card text-muted-foreground max-w-[180px]">
@@ -344,18 +344,14 @@
                                                 <span class="block overflow-hidden text-xs leading-relaxed whitespace-normal break-words text-muted-foreground">
                                                     {{ element.text|style_element|safe|urlize|linebreaksbr }}
                                                 </span>
-                                            {% elif element.value %}
-                                                <span class="inline-flex justify-center items-center w-5 h-5 rounded-full bg-emerald-500/10">
-                                                    <i class="text-xs text-emerald-600 dark:text-emerald-400 ph-bold ph-check"></i>
-                                                </span>
                                             {% else %}
-                            {# Empty cell with edit icon on hover #}
+                                                {# Empty cell with edit icon on hover #}
                                                 <span class="inline-flex justify-center items-center w-5 h-5 transition-colors text-muted-foreground/30 group-hover:text-primary/50">
                                                     <i class="text-xs opacity-0 transition-opacity group-hover:opacity-100 ph-bold ph-pencil-simple"></i>
                                                 </span>
                                             {% endif %}
                                         {% else %}
-                            {# No element - show edit icon on hover for admins #}
+                                            {# No element - show edit icon on hover for admins #}
                                             {% if perms.grid.add_element %}
                                                 <span class="inline-flex justify-center items-center w-5 h-5 transition-colors text-muted-foreground/30 group-hover:text-primary">
                                                     <i class="text-xs opacity-0 transition-opacity group-hover:opacity-100 ph-bold ph-pencil-simple"></i>

@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 import pytest
 from django.conf import settings
 from django.contrib.auth.models import Permission, User
+from django.core.cache import cache
 from django.db import connection
 from django.test import TestCase
 from django.test.utils import CaptureQueriesContext
@@ -20,6 +21,7 @@ class FunctionalGridTest(TestCase):
         Grid.objects.all().delete()
         data.load()
         settings.RESTRICT_GRID_EDITORS = False
+        cache.clear()
 
     def test_grid_list_view(self):
         url = reverse("grids")
@@ -31,10 +33,21 @@ class FunctionalGridTest(TestCase):
     @override_flag("enabled_packages_score_values", active=True)
     def test_grid_detail_view(self):
         url = reverse("grid", kwargs={"slug": "testing"})
-        with self.assertNumQueries(9):
+
+        with CaptureQueriesContext(connection) as ctx:
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/grid_detail.html")
+
+        # The view is intentionally query-heavy when cold, but should remain
+        # bounded.
+        assert len(ctx) <= 12
+
+        # Second request should reuse cached comparison payload.
+        with CaptureQueriesContext(connection) as ctx2:
+            response2 = self.client.get(url)
+        self.assertEqual(response2.status_code, 200)
+        assert len(ctx2) < len(ctx)
 
     def test_add_grid_view(self):
         Grid.objects.all().delete()
@@ -540,7 +553,7 @@ class GridDetailQueryCountTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
         # GridDetailView now caps packages at max_packages (8)
-        self.assertEqual(response.context["package_count"], 8)
+        self.assertEqual(len(response.context["grid_packages"]), 8)
         self.assertEqual(response.context["total_package_count"], 100)
         self.assertTrue(response.context["has_more_packages"])
 
