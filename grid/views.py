@@ -298,7 +298,9 @@ class GridDetailView(DetailView):
 
         if show_features:
             features = self._get_features(grid)
-            elements = self._get_elements(features=features, grid_packages=grid_packages)
+            elements = self._get_elements(
+                features=features, grid_packages=grid_packages
+            )
             element_map = build_element_map(elements)
         else:
             features = []
