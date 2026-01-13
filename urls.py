@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.contrib.sitemaps import views as sitemap_views
 from django.urls import include, path, re_path
 from django.views.decorators.cache import cache_page
-from django.views.generic.base import TemplateView
+from django.views.generic.base import RedirectView, TemplateView
 
 from blog.sitemaps import BlogSitemap
 from core import __version__
@@ -53,6 +53,11 @@ urlpatterns = [
         "robots.txt",
         TemplateView.as_view(content_type="text/plain", template_name="robots.txt"),
         name="robots_txt",
+    ),
+    path(
+        "favicon.ico",
+        RedirectView.as_view(url="/static/img/favicon.png", permanent=True),
+        name="favicon",
     ),
     path("health/", include("health_check.urls")),
     path("404", error_404_view, name="404"),
