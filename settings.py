@@ -353,15 +353,21 @@ LOGIN_REDIRECT_URL = "/"
 # ------------------------------------------------------------------------------
 # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
 DATABASES = {"default": env.db("DATABASE_URL")}
-# DATABASES["default"] = env.db("DATABASE_URL")
 DATABASES["default"]["CONN_HEALTH_CHECKS"] = True
-DATABASES["default"]["OPTIONS"] = {
-    "pool": {
-        "min_size": 4,
-        "max_size": 20,
-        "timeout": 10,
+
+# Connection pooling with psycopg3
+# Requires CONN_MAX_AGE=0 when enabled
+if ENABLE_CONN_POOL := env.bool("ENABLE_CONN_POOL", default=False):
+    DATABASES["default"]["CONN_MAX_AGE"] = 0
+    DATABASES["default"]["OPTIONS"] = {
+        "pool": {
+            "min_size": 4,
+            "max_size": 16,
+            "timeout": 10,
+            "max_lifetime": 1800,
+            "max_idle": 300,
+        }
     }
-}
 
 ########## END DATABASE CONFIGURATION
 
