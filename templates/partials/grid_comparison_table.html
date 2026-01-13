@@ -182,6 +182,7 @@
                         {% endfor %}
                     </tr>
 
+                    {% comment "Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498" %}
                     <!-- Commits Row with SVG Sparkline from original template -->
                     <tr class="transition-colors hover:bg-muted/30">
                         <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
@@ -196,6 +197,7 @@
                             </td>
                         {% endfor %}
                     </tr>
+                    {% endcomment %}
 
                     <!-- Last Updated Row - Date, Month, Year format -->
                     <tr class="transition-colors hover:bg-muted/30">
@@ -528,12 +530,14 @@
                                         <span class="text-xs text-muted-foreground" title="{{ grid_package.license_latest }}">{{ grid_package.license_latest|truncatechars:12 }}</span>
                                     </div>
                                 {% endif %}
+                                {% comment "Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498" %}
                                 <div class="flex justify-between items-center">
                                     <span class="text-muted-foreground">{% translate "Commits" %}</span>
                                     <div class="flex-shrink-0">
                                         {% include "partials/_commits.html" with value=grid_package.commits_over_52 graph_width=60 graph_height=16 %}
                                     </div>
                                 </div>
+                                {% endcomment %}
                                 {% flag "enabled_packages_score_values" %}
                                     <div class="flex justify-between items-center">
                                         <span class="text-muted-foreground">{% translate "Score" %}</span>

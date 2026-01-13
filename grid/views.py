@@ -43,7 +43,8 @@ from grid.forms import (
 )
 from grid.models import Element, Feature, Grid, GridPackage
 from package.models import Package
-from package.models import Commit, Version
+# Commit import disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
+from package.models import Version
 
 
 def build_element_map(elements):
@@ -98,7 +99,8 @@ class GridDetailView(DetailView):
 
     def get_grid_packages(self, grid: Grid, filter_data: dict[str, Any]):
         """Get filtered and sorted grid packages"""
-        cutoff = now() - timedelta(weeks=52)
+        # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
+        # cutoff = now() - timedelta(weeks=52)
         version_subquery = (
             Version.objects.filter(package_id=OuterRef("package_id"))
             .exclude(upload_time=None)
@@ -132,13 +134,14 @@ class GridDetailView(DetailView):
                     ).order_by("-upload_time"),
                     to_attr="_prefetched_versions",
                 ),
-                Prefetch(
-                    "package__commit_set",
-                    queryset=Commit.objects.filter(commit_date__gt=cutoff)
-                    .only("package_id", "commit_date")
-                    .order_by("-commit_date"),
-                    to_attr="_prefetched_commits_52w",
-                ),
+                # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
+                # Prefetch(
+                #     "package__commit_set",
+                #     queryset=Commit.objects.filter(commit_date__gt=cutoff)
+                #     .only("package_id", "commit_date")
+                #     .order_by("-commit_date"),
+                #     to_attr="_prefetched_commits_52w",
+                # ),
                 "package__usage",
             )
             .filter(package__score__gte=max(0, settings.PACKAGE_SCORE_MIN))
@@ -211,7 +214,8 @@ class GridDetailView(DetailView):
             package = grid_package.package
             grid_package.pypi_version = package.pypi_version()
             grid_package.license_latest = package.license_latest
-            grid_package.commits_over_52 = package.commits_over_52()
+            # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
+            # grid_package.commits_over_52 = package.commits_over_52()
 
     def _get_features(self, grid: Grid):
         return list(Feature.objects.filter(grid=grid).order_by("pk"))
@@ -235,7 +239,8 @@ class GridDetailView(DetailView):
                     "last_commit_date": grid_package.last_commit_date,
                     "pypi_version": grid_package.pypi_version,
                     "license_latest": grid_package.license_latest,
-                    "commits_over_52": grid_package.commits_over_52,
+                    # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
+                    # "commits_over_52": grid_package.commits_over_52,
                     "package": {
                         "id": package.pk,
                         "pk": package.pk,

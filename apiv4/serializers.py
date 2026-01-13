@@ -35,7 +35,9 @@ class GridSerializer(serializers.ModelSerializer):
 class PackageSerializer(serializers.HyperlinkedModelSerializer):
     # 'Source' is attached to the model attribute
     participants = serializers.ListField(source="participant_list")
-    commits_over_52 = serializers.ListField(source="commits_over_52_listed")
+    # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
+    # commits_over_52 = serializers.ListField(source="commits_over_52_listed")
+    commits_over_52 = serializers.ListField(default=[])
     grids = serializers.HyperlinkedRelatedField(
         many=True,
         view_name="apiv4:grid-detail",
