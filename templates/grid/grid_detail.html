@@ -1,229 +1,231 @@
 {% extends "base.html" %}
 
-{% load grid_tags humanize i18n package_tags static waffle_tags %}
+{% load cache grid_tags humanize i18n package_tags static waffle_tags %}
 
 {% block title %}{{ grid.title }} | {% translate "Comparison Grid" %}{% endblock %}
 
 {% block content %}
+    {% cache 300 html_grid_detail_outer grid.pk filter_data.q filter_data.sort filter_data.python3 filter_data.stable %}
     <!-- Breadcrumb Section -->
-    <section class="py-4 bg-primary/10">
-        <div class="container px-4 mx-auto">
-            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
-                <div class="flex items-center text-sm text-muted-foreground">
-                    <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
-                    <span class="mx-2">»</span>
-                    <a href="{% url 'grids' %}" class="hover:underline">{% translate "Grids" %}</a>
-                    <span class="mx-2">»</span>
-                    <span class="font-medium text-foreground truncate">{{ grid.title }}</span>
-                </div>
-                <div class="flex flex-wrap gap-2 items-center w-full sm:w-auto">
-                    <a href="{% url 'grid_packages' grid.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
-                        <i class="mr-1 text-base ph-bold ph-package"></i>
-                        <span>{% translate "All Packages" %}</span>
-                    </a>
-                    <a href="{% url 'grid_timesheet' grid.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
-                        <i class="mr-1 text-base ph-bold ph-calendar-blank"></i>
-                        <span>{% translate "Timesheet" %}</span>
-                    </a>
-                    {% if perms.grid.change_grid %}
-                        <a href="{% url 'edit_grid' grid.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
-                            <i class="mr-1 text-base ph-bold ph-pencil-simple"></i>
-                            <span>{% translate "Edit Grid" %}</span>
+        <section class="py-4 bg-primary/10">
+            <div class="container px-4 mx-auto">
+                <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
+                    <div class="flex items-center text-sm text-muted-foreground">
+                        <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
+                        <span class="mx-2">»</span>
+                        <a href="{% url 'grids' %}" class="hover:underline">{% translate "Grids" %}</a>
+                        <span class="mx-2">»</span>
+                        <span class="font-medium text-foreground truncate">{{ grid.title }}</span>
+                    </div>
+                    <div class="flex flex-wrap gap-2 items-center w-full sm:w-auto">
+                        <a href="{% url 'grid_packages' grid.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                            <i class="mr-1 text-base ph-bold ph-package"></i>
+                            <span>{% translate "All Packages" %}</span>
                         </a>
-                    {% endif %}
-                    {% if perms.grid.add_gridpackage %}
-                        <a href="{% url 'add_grid_package' grid.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
-                            <i class="mr-1 text-base ph-bold ph-plus-circle"></i>
-                            <span>{% translate "Add Package" %}</span>
+                        <a href="{% url 'grid_timesheet' grid.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                            <i class="mr-1 text-base ph-bold ph-calendar-blank"></i>
+                            <span>{% translate "Timesheet" %}</span>
                         </a>
-                    {% endif %}
-                    {% if perms.grid.add_feature %}
-                        <a href="{% url 'add_feature' grid.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
-                            <i class="mr-1 text-base ph-bold ph-list-plus"></i>
-                            <span>{% translate "Add Feature" %}</span>
-                        </a>
-                    {% endif %}
+                        {% if perms.grid.change_grid %}
+                            <a href="{% url 'edit_grid' grid.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                                <i class="mr-1 text-base ph-bold ph-pencil-simple"></i>
+                                <span>{% translate "Edit Grid" %}</span>
+                            </a>
+                        {% endif %}
+                        {% if perms.grid.add_gridpackage %}
+                            <a href="{% url 'add_grid_package' grid.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                                <i class="mr-1 text-base ph-bold ph-plus-circle"></i>
+                                <span>{% translate "Add Package" %}</span>
+                            </a>
+                        {% endif %}
+                        {% if perms.grid.add_feature %}
+                            <a href="{% url 'add_feature' grid.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                                <i class="mr-1 text-base ph-bold ph-list-plus"></i>
+                                <span>{% translate "Add Feature" %}</span>
+                            </a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <div class="container py-8 px-4 mx-auto">
+        <div class="container py-8 px-4 mx-auto">
         <!-- Header Section -->
-        <div class="mb-8">
-            <h1 class="text-3xl font-bold text-foreground">{{ grid.title }}</h1>
-            {% if grid.description %}
-                <p class="pt-2 text-muted-foreground">{{ grid.description|linebreaks }}</p>
-            {% endif %}
-            <div class="flex flex-wrap gap-4 items-center mt-4 text-sm text-muted-foreground">
-                <div class="flex gap-2 items-center">
-                    <i class="ph-bold ph-package text-primary"></i>
-                    <span class="font-semibold text-foreground">{{ total_package_count }}</span>
-                    <span>{% translate "Packages" %}</span>
-                </div>
-                <div class="flex gap-2 items-center">
-                    <i class="ph-bold ph-list-checks text-primary"></i>
-                    <span class="font-semibold text-foreground">{{ features|length }}</span>
-                    <span>{% translate "Features" %}</span>
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-foreground">{{ grid.title }}</h1>
+                {% if grid.description %}
+                    <p class="pt-2 text-muted-foreground">{{ grid.description|linebreaks }}</p>
+                {% endif %}
+                <div class="flex flex-wrap gap-4 items-center mt-4 text-sm text-muted-foreground">
+                    <div class="flex gap-2 items-center">
+                        <i class="ph-bold ph-package text-primary"></i>
+                        <span class="font-semibold text-foreground">{{ total_package_count }}</span>
+                        <span>{% translate "Packages" %}</span>
+                    </div>
+                    <div class="flex gap-2 items-center">
+                        <i class="ph-bold ph-list-checks text-primary"></i>
+                        <span class="font-semibold text-foreground">{{ features|length }}</span>
+                        <span>{% translate "Features" %}</span>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="grid-detail-top" ea_outer_class="mb-4" ea_inner_class="flex justify-center" %}
+            {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="grid-detail-top" ea_outer_class="mb-4" ea_inner_class="flex justify-center" %}
 
         <!-- Search & Filter Card -->
-        <div class="mb-6 card">
-            <div class="p-6 card-content">
-                <div class="flex gap-2 items-center mb-4">
-                    <i class="text-lg ph-bold ph-funnel text-primary"></i>
-                    <h2 class="font-semibold text-foreground">{% translate "Search & Filter" %}</h2>
-                </div>
+            <div class="mb-6 card">
+                <div class="p-6 card-content">
+                    <div class="flex gap-2 items-center mb-4">
+                        <i class="text-lg ph-bold ph-funnel text-primary"></i>
+                        <h2 class="font-semibold text-foreground">{% translate "Search & Filter" %}</h2>
+                    </div>
 
-                <form method="get"
-                      hx-get="{% url 'grid' grid.slug %}"
-                      hx-target="#comparison-table"
-                      hx-trigger="change delay:300ms, submit"
-                      hx-swap="innerHTML"
-                      hx-indicator="#loading-indicator"
-                      class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                    <form method="get"
+                          hx-get="{% url 'grid' grid.slug %}"
+                          hx-target="#comparison-table"
+                          hx-trigger="change delay:300ms, submit"
+                          hx-swap="innerHTML"
+                          hx-indicator="#loading-indicator"
+                          class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
 
                     <!-- Search Input -->
-                    <div class="sm:col-span-2 lg:col-span-1">
-                        <div class="relative">
-                            <i class="absolute left-3 top-1/2 -translate-y-1/2 ph-bold ph-magnifying-glass text-muted-foreground"></i>
-                            <input type="text"
-                                   name="q"
-                                   value="{{ filter_form.q.value|default:'' }}"
-                                   placeholder="{% translate 'Search packages...' %}"
-                                   class="pr-4 pl-10 w-full h-10 rounded-lg border shadow-sm transition-shadow focus:ring-2 focus:outline-none bg-background text-foreground focus:ring-primary"
-                                   hx-get="{% url 'grid' grid.slug %}"
-                                   hx-target="#comparison-table"
-                                   hx-trigger="keyup changed delay:300ms"
-                                   hx-swap="innerHTML"
-                                   hx-indicator="#loading-indicator"
-                                   hx-include="[name='sort'], [name='python3'], [name='stable']">
+                        <div class="sm:col-span-2 lg:col-span-1">
+                            <div class="relative">
+                                <i class="absolute left-3 top-1/2 -translate-y-1/2 ph-bold ph-magnifying-glass text-muted-foreground"></i>
+                                <input type="text"
+                                       name="q"
+                                       value="{{ filter_form.q.value|default:'' }}"
+                                       placeholder="{% translate 'Search packages...' %}"
+                                       class="pr-4 pl-10 w-full h-10 rounded-lg border shadow-sm transition-shadow focus:ring-2 focus:outline-none bg-background text-foreground focus:ring-primary"
+                                       hx-get="{% url 'grid' grid.slug %}"
+                                       hx-target="#comparison-table"
+                                       hx-trigger="keyup changed delay:300ms"
+                                       hx-swap="innerHTML"
+                                       hx-indicator="#loading-indicator"
+                                       hx-include="[name='sort'], [name='python3'], [name='stable']">
+                            </div>
                         </div>
-                    </div>
 
                     <!-- Sort Select -->
-                    <div>
-                        <select name="sort"
-                                class="px-3 w-full h-10 rounded-lg border shadow-sm transition-shadow focus:ring-2 focus:outline-none bg-background text-foreground focus:ring-primary">
-                            {% for value, label in filter_form.sort.field.choices %}
-                                <option value="{{ value }}" {% if filter_form.sort.value == value %}selected{% endif %}>{{ label }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
+                        <div>
+                            <select name="sort"
+                                    class="px-3 w-full h-10 rounded-lg border shadow-sm transition-shadow focus:ring-2 focus:outline-none bg-background text-foreground focus:ring-primary">
+                                {% for value, label in filter_form.sort.field.choices %}
+                                    <option value="{{ value }}" {% if filter_form.sort.value == value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
 
                     <!-- Filter Toggles -->
-                    <div class="flex gap-4 items-center">
-                        <label class="flex gap-2 items-center text-sm cursor-pointer">
-                            <input type="checkbox"
-                                   name="python3"
-                                   value="true"
-                                   {% if filter_form.python3.value %}checked{% endif %}
-                                   class="w-4 h-4 rounded border-input text-primary focus:ring-primary">
-                            <span class="text-muted-foreground">{% translate "Python 3" %}</span>
-                        </label>
-                        <label class="flex gap-2 items-center text-sm cursor-pointer">
-                            <input type="checkbox"
-                                   name="stable"
-                                   value="true"
-                                   {% if filter_form.stable.value %}checked{% endif %}
-                                   class="w-4 h-4 rounded border-input text-primary focus:ring-primary">
-                            <span class="text-muted-foreground">{% translate "Stable" %}</span>
-                        </label>
-                    </div>
+                        <div class="flex gap-4 items-center">
+                            <label class="flex gap-2 items-center text-sm cursor-pointer">
+                                <input type="checkbox"
+                                       name="python3"
+                                       value="true"
+                                       {% if filter_form.python3.value %}checked{% endif %}
+                                       class="w-4 h-4 rounded border-input text-primary focus:ring-primary">
+                                <span class="text-muted-foreground">{% translate "Python 3" %}</span>
+                            </label>
+                            <label class="flex gap-2 items-center text-sm cursor-pointer">
+                                <input type="checkbox"
+                                       name="stable"
+                                       value="true"
+                                       {% if filter_form.stable.value %}checked{% endif %}
+                                       class="w-4 h-4 rounded border-input text-primary focus:ring-primary">
+                                <span class="text-muted-foreground">{% translate "Stable" %}</span>
+                            </label>
+                        </div>
 
                     <!-- Loading Indicator -->
-                    <div id="loading-indicator" class="flex gap-2 items-center text-sm htmx-indicator text-primary">
-                        <i class="animate-spin ph-bold ph-spinner"></i>
-                        <span>{% translate "Loading..." %}</span>
-                    </div>
-                </form>
+                        <div id="loading-indicator" class="flex gap-2 items-center text-sm htmx-indicator text-primary">
+                            <i class="animate-spin ph-bold ph-spinner"></i>
+                            <span>{% translate "Loading..." %}</span>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
 
         <!-- Comparison Table -->
-        <div id="comparison-table">
-            {% include "partials/grid_comparison_table.html" %}
-        </div>
-
-        {% if has_more_packages %}
-            <!-- More Packages Notice -->
-            <div class="p-4 mt-6 rounded-lg border border-primary/30 bg-primary/5">
-                <div class="flex flex-col gap-3 items-start sm:flex-row sm:justify-between sm:items-center">
-                    <div class="flex gap-3 items-center">
-                        <i class="text-xl ph-bold ph-info text-primary"></i>
-                        <p class="text-sm text-foreground">
-                            {% blocktranslate with shown=max_packages total=total_package_count %}
-                                Showing {{ shown }} of {{ total }} packages in this grid.
-                            {% endblocktranslate %}
-                        </p>
-                    </div>
-                    <a href="{% url 'grid_packages' grid.slug %}" class="btn-primary">
-                        <i class="mr-1 ph-bold ph-package"></i>
-                        {% translate "View All Packages" %}
-                    </a>
-                </div>
+            <div id="comparison-table">
+                {% include "partials/grid_comparison_table.html" %}
             </div>
-        {% endif %}
+
+            {% if has_more_packages %}
+            <!-- More Packages Notice -->
+                <div class="p-4 mt-6 rounded-lg border border-primary/30 bg-primary/5">
+                    <div class="flex flex-col gap-3 items-start sm:flex-row sm:justify-between sm:items-center">
+                        <div class="flex gap-3 items-center">
+                            <i class="text-xl ph-bold ph-info text-primary"></i>
+                            <p class="text-sm text-foreground">
+                                {% blocktranslate with shown=max_packages total=total_package_count %}
+                                    Showing {{ shown }} of {{ total }} packages in this grid.
+                                {% endblocktranslate %}
+                            </p>
+                        </div>
+                        <a href="{% url 'grid_packages' grid.slug %}" class="btn-primary">
+                            <i class="mr-1 ph-bold ph-package"></i>
+                            {% translate "View All Packages" %}
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
 
         <!-- Features + (optional) ad block -->
-        {% if features %}
-            <div class="mt-4">
-                {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="grid-detail-bottom" ea_outer_class="mb-3" ea_inner_class="flex justify-center" %}
+            {% if features %}
+                <div class="mt-4">
+                    {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="grid-detail-bottom" ea_outer_class="mb-3" ea_inner_class="flex justify-center" %}
 
                 <!-- Features Being Compared Card -->
-                <div class="card">
-                    <div class="p-6 card-content">
-                        <div class="flex justify-between items-center mb-4">
-                            <div class="flex gap-2 items-center">
-                                <i class="text-lg ph-bold ph-list-checks text-primary"></i>
-                                <h2 class="font-semibold text-foreground">{% translate "Features Being Compared" %}</h2>
-                            </div>
-                            <span class="py-1 px-2.5 text-xs font-medium rounded-full bg-primary/10 text-primary">
-                                {{ features|length }} {% translate "features" %}
-                            </span>
-                        </div>
-                        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                            {% for feature in features %}
-                                <div class="flex gap-3 items-start p-3 rounded-lg border transition-colors group border-border bg-muted/30 hover:border-primary/50">
-                                    <div class="flex flex-shrink-0 justify-center items-center mt-0.5 w-6 h-6 rounded-md bg-primary/10">
-                                        <i class="text-xs ph-bold ph-check text-primary"></i>
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <h3 class="text-sm font-medium text-foreground">
-                                            {{ feature.title }}
-                                        </h3>
-                                        {% if feature.description %}
-                                            <p class="mt-1 text-xs text-muted-foreground">
-                                                {{ feature.description }}
-                                            </p>
-                                        {% endif %}
-                                    </div>
-                                    <div class="flex gap-1 items-center">
-                                        {% if perms.grid.change_feature %}
-                                            <a href="{% url 'edit_feature' feature.pk %}"
-                                               class="p-1 rounded transition-all text-muted-foreground hover:text-primary hover:bg-muted"
-                                               title="{% translate 'Edit feature' %}">
-                                                <i class="text-sm ph-bold ph-pencil-simple"></i>
-                                            </a>
-                                        {% endif %}
-                                        {% if perms.grid.delete_feature %}
-                                            <a href="{% url 'delete_feature' feature.pk %}"
-                                               class="p-1 rounded transition-all text-muted-foreground hover:text-destructive hover:bg-destructive/10"
-                                               title="{% translate 'Delete feature' %}">
-                                                <i class="text-sm ph-bold ph-trash"></i>
-                                            </a>
-                                        {% endif %}
-                                    </div>
+                    <div class="card">
+                        <div class="p-6 card-content">
+                            <div class="flex justify-between items-center mb-4">
+                                <div class="flex gap-2 items-center">
+                                    <i class="text-lg ph-bold ph-list-checks text-primary"></i>
+                                    <h2 class="font-semibold text-foreground">{% translate "Features Being Compared" %}</h2>
                                 </div>
-                            {% endfor %}
+                                <span class="py-1 px-2.5 text-xs font-medium rounded-full bg-primary/10 text-primary">
+                                    {{ features|length }} {% translate "features" %}
+                                </span>
+                            </div>
+                            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                                {% for feature in features %}
+                                    <div class="flex gap-3 items-start p-3 rounded-lg border transition-colors group border-border bg-muted/30 hover:border-primary/50">
+                                        <div class="flex flex-shrink-0 justify-center items-center mt-0.5 w-6 h-6 rounded-md bg-primary/10">
+                                            <i class="text-xs ph-bold ph-check text-primary"></i>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <h3 class="text-sm font-medium text-foreground">
+                                                {{ feature.title }}
+                                            </h3>
+                                            {% if feature.description %}
+                                                <p class="mt-1 text-xs text-muted-foreground">
+                                                    {{ feature.description }}
+                                                </p>
+                                            {% endif %}
+                                        </div>
+                                        <div class="flex gap-1 items-center">
+                                            {% if perms.grid.change_feature %}
+                                                <a href="{% url 'edit_feature' feature.pk %}"
+                                                   class="p-1 rounded transition-all text-muted-foreground hover:text-primary hover:bg-muted"
+                                                   title="{% translate 'Edit feature' %}">
+                                                    <i class="text-sm ph-bold ph-pencil-simple"></i>
+                                                </a>
+                                            {% endif %}
+                                            {% if perms.grid.delete_feature %}
+                                                <a href="{% url 'delete_feature' feature.pk %}"
+                                                   class="p-1 rounded transition-all text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                                                   title="{% translate 'Delete feature' %}">
+                                                    <i class="text-sm ph-bold ph-trash"></i>
+                                                </a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        {% endif %}
-    </div>
+            {% endif %}
+        </div>
+    {% endcache %}
 {% endblock content %}

@@ -97,6 +97,7 @@ class AddPackageView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
         if self.grid:
             GridPackage.objects.create(grid=self.grid, package=self.object)
+            self.grid.clear_detail_template_cache()
 
         if not self.grid:
             messages.success(self.request, _("Package added successfully"))

@@ -360,7 +360,9 @@ class EditGridView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def form_valid(self, form):
         messages.add_message(self.request, messages.SUCCESS, _("Grid has been edited"))
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        self.object.clear_detail_template_cache()
+        return response
 
 
 class AddFeatureView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -384,7 +386,9 @@ class AddFeatureView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         messages.add_message(
             self.request, messages.SUCCESS, _("Feature added successfully")
         )
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        self.grid.clear_detail_template_cache()
+        return response
 
     def get_success_url(self):
         return reverse("grid", kwargs={"slug": self.object.grid.slug})
@@ -406,7 +410,9 @@ class EditFeatureView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         messages.add_message(
             self.request, messages.SUCCESS, _("Feature updated successfully")
         )
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        self.object.grid.clear_detail_template_cache()
+        return response
 
 
 class DeleteFeatureView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
@@ -422,10 +428,13 @@ class DeleteFeatureView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView)
         return reverse("grid", kwargs={"slug": self.object.grid.slug})
 
     def delete(self, request, *args, **kwargs):
+        grid = self.get_object().grid
         messages.add_message(
             self.request, messages.SUCCESS, _("Feature deleted successfully")
         )
-        return super().delete(request, *args, **kwargs)
+        response = super().delete(request, *args, **kwargs)
+        grid.clear_detail_template_cache()
+        return response
 
 
 class DeleteGridPackageView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
@@ -443,10 +452,13 @@ class DeleteGridPackageView(LoginRequiredMixin, PermissionRequiredMixin, DeleteV
     def delete(self, request, *args, **kwargs):
         # self.object = self.get_object()
         # self.object.grid.clear_detail_template_cache()
+        grid = self.get_object().grid
         messages.add_message(
             self.request, messages.SUCCESS, _("Package removed from grid successfully")
         )
-        return super().delete(request, *args, **kwargs)
+        response = super().delete(request, *args, **kwargs)
+        grid.clear_detail_template_cache()
+        return response
 
 
 class EditElementView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -486,7 +498,9 @@ class EditElementView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         messages.add_message(
             self.request, messages.SUCCESS, _("Element updated successfully")
         )
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        self.feature.grid.clear_detail_template_cache()
+        return response
 
 
 class AddGridPackageView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -533,7 +547,9 @@ class AddGridPackageView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             self.request,
             f"Package '{package.title}' has been added to the grid '{grid.title}'.",
         )
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        grid.clear_detail_template_cache()
+        return response
 
 
 class AjaxPackageSearchView(ListView):
