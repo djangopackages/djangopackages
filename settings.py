@@ -19,7 +19,7 @@ PROJECT_ROOT = Path(__file__).parent
 
 DEBUG = env.bool("DJANGO_DEBUG", True)
 TEMPLATE_DEBUG = env.bool("TEMPLATE_DEBUG", True)
-TEST_MODE = "pytest" in sys.modules
+TEST_MODE = "pytest" in sys.modules or "test" in sys.argv
 
 ########## CACHE
 # TODO: Add back Redis for caching in production by setting CACHE_URL env var

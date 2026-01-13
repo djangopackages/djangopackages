@@ -179,8 +179,8 @@ bootstrap *ARGS:
 
 # Run tests using Django test runner
 [group('testing')]
-@test *ARGS="--no-input":
-    docker compose run --rm django uv run manage.py test {{ ARGS }}
+@test *ARGS:
+    docker compose run --rm django uv run pytest {{ ARGS }}
 
 # Run tests with pytest
 [group('testing')]
