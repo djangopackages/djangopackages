@@ -1,5 +1,15 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-01-13]
+### Changed
+- :bug: Fix KeyError for show_features in cached grid payloads ([#1503](https://github.com/djangopackages/djangopackages/pull/1503))
+- :bug: Fix favicon.ico 404 error ([#1502](https://github.com/djangopackages/djangopackages/pull/1502))
+- Disable features for grids with more than 8 packages ([#1501](https://github.com/djangopackages/djangopackages/pull/1501))
+- :hammer: Disable commits sparkgraphs for performance ([#1499](https://github.com/djangopackages/djangopackages/pull/1499))
+- Add Cache For GridDetailView ([#1496](https://github.com/djangopackages/djangopackages/pull/1496))
+- :hammer: Fix apiv3 n plus 1 queries ([#1494](https://github.com/djangopackages/djangopackages/pull/1494))
+- :bug: Enable Redis health check only when configured ([#1493](https://github.com/djangopackages/djangopackages/pull/1493))
+
 ## [2026-01-12]
 ### Changed
 - Fix Timesheet Style ([#1489](https://github.com/djangopackages/djangopackages/pull/1489))
