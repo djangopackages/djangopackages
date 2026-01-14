@@ -1,9 +1,7 @@
 import re
-from datetime import timedelta
 from warnings import warn
 
 import requests
-from django.utils.timezone import now
 
 from .base_handler import BaseHandler
 
@@ -45,24 +43,12 @@ class BitbucketHandler(BaseHandler):
                 timestamp = timestamp[0]
             else:
                 timestamp = commit["date"]
-            commit, created = Commit.objects.get_or_create(
+
+            commit, _ = Commit.objects.get_or_create(
                 package=package, commit_date=timestamp
             )
 
-        #  ugly way to get 52 weeks of commits
-        # TODO - make this better
-        commits = package.commit_set.filter(
-            commit_date__gt=now() - timedelta(weeks=52),
-        ).values_list("commit_date", flat=True)
-
-        weeks = [0] * 52
-        for cdate in commits:
-            age_weeks = (now - cdate).days // 7
-            if age_weeks < 52:
-                weeks[age_weeks] += 1
-
-        package.commit_list = ",".join(map(str, reversed(weeks)))
-        package.save()
+        self.refresh_commit_stats(package)
 
     def fetch_metadata(self, package):
         # prep the target name

@@ -15,6 +15,9 @@ class UnsupportedHandler(BaseHandler):
 
     def fetch_commits(self, package):
         package.commit_set.all().delete()
+        package.commits_over_52 = ""
+        package.last_commit_date = None
+        package.save()
 
 
 repo_handler = UnsupportedHandler()

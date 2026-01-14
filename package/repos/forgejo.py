@@ -168,7 +168,7 @@ class ForgejoHandler(BaseHandler):
         if len(collaborators) > 0:
             package.participants = ",".join(set(collaborators))
 
-        package.save()
+        self.refresh_commit_stats(package)
 
         return package
 

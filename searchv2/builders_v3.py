@@ -103,12 +103,12 @@ def index_packages(*, verbose: bool = False):
 
             optional_save = False
             try:
-                obj.last_committed = package.last_updated()
+                obj.last_committed = package.last_updated
                 optional_save = True
             except Commit.DoesNotExist:
                 pass
 
-            last_released = package.last_released()
+            last_released = package.latest_version
             if last_released and last_released.upload_time:
                 obj.last_released = last_released.upload_time
                 optional_save = True

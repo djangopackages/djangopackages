@@ -67,9 +67,9 @@ def package_resource(package):
             "category": reverse(
                 "apiv3:category_detail", kwargs={"slug": package.category.slug}
             ),
-            "commit_list": package.commit_list,
+            "commit_list": package.commits_over_52,
             # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
-            # "commits_over_52": package.commits_over_52(),
+            # "commits_over_52": package.commits_over_52,
             "commits_over_52": "",
             "created_by": created_by,
             "documentation_url": package.documentation_url,
@@ -81,7 +81,7 @@ def package_resource(package):
             "last_modified_by": last_modified_by,
             "participants": package.participants,
             "pypi_url": package.pypi_url,
-            "pypi_version": package.pypi_version(),
+            "pypi_version": package.latest_pypi_version_number,
             "repo_description": package.repo_description,
             "repo_forks": package.repo_forks,
             "repo_url": package.repo_url,

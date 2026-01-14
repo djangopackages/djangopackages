@@ -224,10 +224,10 @@ class GridDetailView(DetailView):
         """
         for grid_package in grid_packages:
             package = grid_package.package
-            grid_package.pypi_version = package.pypi_version()
+            grid_package.pypi_version = package.latest_pypi_version_number
             grid_package.license_latest = package.license_latest
             # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
-            # grid_package.commits_over_52 = package.commits_over_52()
+            # grid_package.commits_over_52 = package.commits_over_52_list
 
     def _get_features(self, grid: Grid):
         return list(Feature.objects.filter(grid=grid).order_by("pk"))

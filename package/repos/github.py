@@ -46,17 +46,17 @@ class GitHubHandler(BaseHandler):
             self.manage_ratelimit()
 
             try:
-                commit_record, created = Commit.objects.get_or_create(
+                _, created = Commit.objects.get_or_create(
                     package=package, commit_date=commit.commit.committer["date"]
                 )
+                # If the commit record already exists, it means we are at the end of the
+                # list we want to import
                 if not created:
                     break
             except Commit.MultipleObjectsReturned:
                 continue
-            # If the commit record already exists, it means we are at the end of the
-            #   list we want to import
 
-        package.save()
+        self.refresh_commit_stats(package)
 
         return package
 

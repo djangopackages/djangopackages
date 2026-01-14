@@ -1,7 +1,10 @@
 import json
+from datetime import date
 from pathlib import Path
 
 from model_bakery import baker
+
+from package.pypi import update_package_from_pypi
 
 
 def pypi_package(
@@ -69,6 +72,7 @@ def test_pypi_documentation_url_valid(db, faker, requests_mock):
         title=package_name,
         pypi_url=package_name,
         documentation_url=documentation_url,
+        last_commit_date=date.today(),
     )
 
     pypi_data = pypi_package(
@@ -85,7 +89,12 @@ def test_pypi_documentation_url_valid(db, faker, requests_mock):
 
 def test_pypi_license_valid(db, faker, requests_mock):
     package_name = "valid-license"
-    package = baker.make("package.Package", title=package_name, pypi_url=package_name)
+    package = baker.make(
+        "package.Package",
+        title=package_name,
+        pypi_url=package_name,
+        last_commit_date=date.today(),
+    )
 
     pypi_data = pypi_package(
         license="BSD License",
@@ -100,7 +109,7 @@ def test_pypi_license_valid(db, faker, requests_mock):
     assert package.pypi_licenses is None
     assert package.license_latest == "UNKNOWN"
 
-    package.fetch_pypi_data()
+    update_package_from_pypi(package)
 
     assert package.pypi_license == "BSD License"
     assert package.pypi_licenses == ["BSD License"]
@@ -109,7 +118,12 @@ def test_pypi_license_valid(db, faker, requests_mock):
 
 def test_pypi_license_valid_with_classifiers(db, faker, requests_mock):
     package_name = "valid-license"
-    package = baker.make("package.Package", title=package_name, pypi_url=package_name)
+    package = baker.make(
+        "package.Package",
+        title=package_name,
+        pypi_url=package_name,
+        last_commit_date=date.today(),
+    )
 
     pypi_data = pypi_package(
         classifiers=["License :: OSI Approved :: BSD License"],
@@ -124,7 +138,7 @@ def test_pypi_license_valid_with_classifiers(db, faker, requests_mock):
     assert package.pypi_licenses is None
     assert package.license_latest == "UNKNOWN"
 
-    package.fetch_pypi_data()
+    update_package_from_pypi(package)
 
     assert package.pypi_license == "BSD License"
     assert package.pypi_licenses == ["BSD License"]
@@ -133,7 +147,12 @@ def test_pypi_license_valid_with_classifiers(db, faker, requests_mock):
 
 def test_pypi_license_too_long(db, faker, requests_mock):
     package_name = "license-too-long"
-    package = baker.make("package.Package", title=package_name, pypi_url=package_name)
+    package = baker.make(
+        "package.Package",
+        title=package_name,
+        pypi_url=package_name,
+        last_commit_date=date.today(),
+    )
 
     pypi_data = pypi_package(
         license=faker.paragraph(nb_sentences=5),
@@ -148,7 +167,7 @@ def test_pypi_license_too_long(db, faker, requests_mock):
     assert package.pypi_licenses is None
     assert package.license_latest == "UNKNOWN"
 
-    package.fetch_pypi_data()
+    update_package_from_pypi(package)
 
     assert package.pypi_license == "Custom"
     assert package.pypi_licenses == ["Custom"]
@@ -157,7 +176,12 @@ def test_pypi_license_too_long(db, faker, requests_mock):
 
 def test_pypi_development_status_alpha(db, faker, requests_mock):
     package_name = "development-status"
-    package = baker.make("package.Package", title=package_name, pypi_url=package_name)
+    package = baker.make(
+        "package.Package",
+        title=package_name,
+        pypi_url=package_name,
+        last_commit_date=date.today(),
+    )
 
     pypi_data = pypi_package(
         classifiers=[
@@ -173,7 +197,7 @@ def test_pypi_development_status_alpha(db, faker, requests_mock):
     assert package.development_status is None
     assert package.version_set.exists() is False
 
-    package.fetch_pypi_data()
+    update_package_from_pypi(package)
 
     assert package.version_set.exists() is True
 
@@ -184,7 +208,12 @@ def test_pypi_development_status_alpha(db, faker, requests_mock):
 
 def test_pypi_development_status_stable(db, faker, requests_mock):
     package_name = "development-status"
-    package = baker.make("package.Package", title=package_name, pypi_url=package_name)
+    package = baker.make(
+        "package.Package",
+        title=package_name,
+        pypi_url=package_name,
+        last_commit_date=date.today(),
+    )
 
     pypi_data = pypi_package(
         classifiers=[
@@ -200,10 +229,10 @@ def test_pypi_development_status_stable(db, faker, requests_mock):
     assert package.development_status is None
     assert package.version_set.exists() is False
 
-    package.fetch_pypi_data()
+    update_package_from_pypi(package)
 
     assert package.version_set.exists() is True
-    assert package.last_released()
+    assert package.latest_version is not None
     assert package.version_set.first().development_status == 5
     assert package.version_set.first().pretty_status == "Production/Stable"
     assert package.development_status == "Production/Stable"
@@ -211,7 +240,12 @@ def test_pypi_development_status_stable(db, faker, requests_mock):
 
 def test_pypi_requires_python(db, faker, requests_mock):
     package_name = "requires-python"
-    package = baker.make("package.Package", title=package_name, pypi_url=package_name)
+    package = baker.make(
+        "package.Package",
+        title=package_name,
+        pypi_url=package_name,
+        last_commit_date=date.today(),
+    )
 
     pypi_data = pypi_package(
         # classifiers=[
@@ -228,7 +262,7 @@ def test_pypi_requires_python(db, faker, requests_mock):
     assert package.pypi_requires_python is None
     assert package.supports_python3 is None
 
-    package.fetch_pypi_data()
+    update_package_from_pypi(package)
 
     assert package.pypi_requires_python == ">=3.8"
     assert package.supports_python3
@@ -236,7 +270,12 @@ def test_pypi_requires_python(db, faker, requests_mock):
 
 def test_pypi_requires_python_two(db, faker, requests_mock):
     package_name = "requires-python-two"
-    package = baker.make("package.Package", title=package_name, pypi_url=package_name)
+    package = baker.make(
+        "package.Package",
+        title=package_name,
+        pypi_url=package_name,
+        last_commit_date=date.today(),
+    )
 
     pypi_data = pypi_package(package_name=package_name, requires_python="<3")
     requests_mock.get(
@@ -247,7 +286,7 @@ def test_pypi_requires_python_two(db, faker, requests_mock):
     assert package.pypi_requires_python is None
     assert package.supports_python3 is None
 
-    package.fetch_pypi_data()
+    update_package_from_pypi(package)
 
     assert package.pypi_requires_python == "<3"
     assert package.supports_python3 is False
@@ -260,6 +299,10 @@ def test_django(db, requests_mock):
     )
 
     package = baker.make("package.Package", title="django", pypi_url="django")
+    package.last_commit_date = date.today()
+    package.save(update_fields=["last_commit_date"])
+    package.last_commit_date = date.today()
+    package.save(update_fields=["last_commit_date"])
     assert package.get_pypi_json_uri() == "https://pypi.org/pypi/django/json"
     assert package.get_pypi_uri() == "https://pypi.org/project/django/"
     assert package.date_deprecated is None
@@ -279,7 +322,7 @@ def test_django(db, requests_mock):
     assert package.supports_python3 is None
     assert package.version_set.count() == 0
 
-    package.fetch_pypi_data()
+    update_package_from_pypi(package)
 
     assert package.date_deprecated is None
     assert package.date_repo_archived is None
@@ -306,7 +349,10 @@ def test_djangorestframework(db, requests_mock):
     )
 
     package = baker.make(
-        "package.Package", title="djangorestframework", pypi_url="djangorestframework"
+        "package.Package",
+        title="djangorestframework",
+        pypi_url="djangorestframework",
+        last_commit_date=date.today(),
     )
     assert (
         package.get_pypi_json_uri() == "https://pypi.org/pypi/djangorestframework/json"
@@ -329,7 +375,7 @@ def test_djangorestframework(db, requests_mock):
     assert package.supports_python3 is None
     assert package.version_set.count() == 0
 
-    package.fetch_pypi_data()
+    update_package_from_pypi(package)
 
     assert package.date_deprecated is None
     assert package.date_repo_archived is None
@@ -356,7 +402,10 @@ def test_django_crispy_forms_data(db, requests_mock):
     )
 
     package = baker.make(
-        "package.Package", title="django-crispy-forms", pypi_url="django-crispy-forms"
+        "package.Package",
+        title="django-crispy-forms",
+        pypi_url="django-crispy-forms",
+        last_commit_date=date.today(),
     )
     assert (
         package.get_pypi_json_uri() == "https://pypi.org/pypi/django-crispy-forms/json"
@@ -379,7 +428,7 @@ def test_django_crispy_forms_data(db, requests_mock):
     assert package.supports_python3 is None
     assert package.version_set.count() == 0
 
-    package.fetch_pypi_data()
+    update_package_from_pypi(package)
 
     assert len(package.pypi_classifiers) == 17
     assert package.date_deprecated is None
@@ -403,7 +452,12 @@ def test_nango_data(db, requests_mock):
         text=Path("package", "tests", "test_data", "pypi-nango.json").read_text(),
     )
 
-    package = baker.make("package.Package", title="nango", pypi_url="nango")
+    package = baker.make(
+        "package.Package",
+        title="nango",
+        pypi_url="nango",
+        last_commit_date=date.today(),
+    )
     assert package.get_pypi_json_uri() == "https://pypi.org/pypi/nango/json"
     assert package.get_pypi_uri() == "https://pypi.org/project/nango/"
     assert package.date_deprecated is None
@@ -423,7 +477,7 @@ def test_nango_data(db, requests_mock):
     assert package.supports_python3 is None
     assert package.version_set.count() == 0
 
-    package.fetch_pypi_data()
+    update_package_from_pypi(package)
 
     assert len(package.pypi_classifiers) == 3
     assert package.date_deprecated is None
@@ -450,7 +504,10 @@ def test_django_minify_html_data(db, requests_mock):
     )
 
     package = baker.make(
-        "package.Package", title="django-minify-html", pypi_url="django-minify-html"
+        "package.Package",
+        title="django-minify-html",
+        pypi_url="django-minify-html",
+        last_commit_date=date.today(),
     )
     assert (
         package.get_pypi_json_uri() == "https://pypi.org/pypi/django-minify-html/json"
@@ -472,7 +529,7 @@ def test_django_minify_html_data(db, requests_mock):
     assert package.supports_python3 is None
     assert package.version_set.count() == 0
 
-    package.fetch_pypi_data()
+    update_package_from_pypi(package)
 
     assert len(package.pypi_classifiers) == 15
     assert package.date_deprecated is None
@@ -496,7 +553,12 @@ def test_pypi_not_found(db, requests_mock):
         text=Path("package", "tests", "test_data", "pypi-django-fett.json").read_text(),
     )
 
-    package = baker.make("package.Package", title="django-fett", pypi_url="django-fett")
+    package = baker.make(
+        "package.Package",
+        title="django-fett",
+        pypi_url="django-fett",
+        last_commit_date=date.today(),
+    )
     assert package.get_pypi_json_uri() == "https://pypi.org/pypi/django-fett/json"
     assert package.get_pypi_uri() == "https://pypi.org/project/django-fett/"
     assert package.date_deprecated is None
@@ -515,7 +577,7 @@ def test_pypi_not_found(db, requests_mock):
     assert package.supports_python3 is None
     assert package.version_set.count() == 0
 
-    package.fetch_pypi_data()
+    update_package_from_pypi(package)
 
     assert package.date_deprecated is None
     assert package.date_repo_archived is None
@@ -538,7 +600,12 @@ def test_wagtail(db, requests_mock):
         text=Path("package", "tests", "test_data", "pypi-wagtail.json").read_text(),
     )
 
-    package = baker.make("package.Package", title="wagtail", pypi_url="wagtail")
+    package = baker.make(
+        "package.Package",
+        title="wagtail",
+        pypi_url="wagtail",
+        last_commit_date=date.today(),
+    )
     assert package.get_pypi_json_uri() == "https://pypi.org/pypi/wagtail/json"
     assert package.get_pypi_uri() == "https://pypi.org/project/wagtail/"
     assert package.date_deprecated is None
@@ -557,7 +624,7 @@ def test_wagtail(db, requests_mock):
     assert package.supports_python3 is None
     assert package.version_set.count() == 0
 
-    package.fetch_pypi_data()
+    update_package_from_pypi(package)
 
     assert package.date_deprecated is None
     assert package.date_repo_archived is None

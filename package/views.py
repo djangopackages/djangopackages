@@ -446,7 +446,7 @@ class PackageRulesView(DetailView):
         context.update(
             dict(
                 package_score=package_score,
-                latest_version=package.last_released(),
+                latest_version=package.latest_version,
                 repo=package.repo,
             )
         )

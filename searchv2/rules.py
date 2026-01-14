@@ -271,7 +271,7 @@ class LastUpdatedRule(ScoreRule):
         or a zero score and an error message if no update data is found or an error occurs.
         """
         try:
-            last_updated = package.last_updated()
+            last_updated = package.last_updated
             now = timezone.now()
 
             if last_updated:
@@ -317,9 +317,9 @@ class RecentReleaseRule(ScoreRule):
         or a zero score and an error message otherwise.
         """
         try:
-            last_released = package.last_released()
+            last_released = package.latest_version
             now = timezone.now()
-            if now - last_released.upload_time < timedelta(365):
+            if last_released and now - last_released.upload_time < timedelta(365):
                 return CheckResult(
                     score=self.max_score,
                     message="Last release is less than a year old.",

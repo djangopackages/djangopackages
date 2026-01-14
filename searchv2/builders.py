@@ -49,14 +49,14 @@ def calc_package_weight(*, package: Package) -> int:
 
         # Is the last release less than a year old?
         try:
-            if last_released := package.last_released():
+            if last_released := package.latest_version:
                 if now - last_released.upload_time < timedelta(365):
                     weight += 20
         except AttributeError:
             ...
 
     # Is there ongoing work or is this forgotten?
-    if last_updated := package.last_updated():
+    if last_updated := package.last_updated:
         if (now - last_updated) < timedelta(90):
             weight += 20
         elif now - last_updated < timedelta(182):
@@ -99,12 +99,12 @@ def index_packages(verbose: bool = False):
 
         optional_save = False
         try:
-            obj.last_committed = package.last_updated()
+            obj.last_committed = package.last_updated
             optional_save = True
         except Commit.DoesNotExist:
             pass
 
-        last_released = package.last_released()
+        last_released = package.latest_version
         if last_released and last_released.upload_time:
             obj.last_released = last_released.upload_time
             optional_save = True

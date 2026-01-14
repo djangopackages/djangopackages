@@ -73,10 +73,8 @@ def test_calc_package_weight(db, faker):
 
     # TODO: package.usage.count()
 
-    # TODO: package.last_updated()
+    # TODO: package.last_updated
     # three deltas for [20, 10, 5]
-
-    # TODO: package.last_released()
 
 
 def test_package_score_after_build(db):

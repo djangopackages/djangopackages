@@ -8,6 +8,7 @@ from rich import print
 
 from core.utils import healthcheck
 from package.models import Package
+from package.pypi import update_package_from_pypi
 
 logger = logging.getLogger(__name__)
 
@@ -44,7 +45,7 @@ def command(all, pypi_url):
         package = Package.objects.get(pk=pk)
         print(f"{package} | {package.last_fetched} | {package.pypi_url}")
         try:
-            if package.fetch_pypi_data():
+            if update_package_from_pypi(package):
                 count_updated += 1
                 package.last_fetched = timezone.now()
                 package.save()

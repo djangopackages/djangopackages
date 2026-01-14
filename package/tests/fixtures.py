@@ -75,6 +75,7 @@ def package(db, category) -> Package:
         repo_url="https://github.com/django/deps",
         slug="deps",
         title="Django Enhancement Proposals",
+        last_commit_date=datetime.date(2022, 2, 20),
     )
 
 
@@ -148,6 +149,7 @@ def package_abandoned(db, category) -> Package:
         repo_forks=1000,
         slug="django-divioadmin",
         repo_description="not maintained anymore.",
+        last_commit_date=datetime.date(2020, 2, 19),
     )
     baker.make(
         Commit,
@@ -172,6 +174,7 @@ def package_abandoned_ten_years(db, category) -> Package:
         repo_forks=1000,
         slug="django-divioadmin2",
         repo_description="not maintained anymore.",
+        last_commit_date=datetime.date(2012, 2, 19),
     )
     baker.make(
         Commit,
