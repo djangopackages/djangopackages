@@ -68,7 +68,9 @@ def calc_package_weight(*, package: Package) -> int:
 
 
 def index_packages(verbose: bool = False):
-    for package in Package.objects.all().iterator():
+    package_ids = list(Package.objects.values_list("id", flat=True))
+    for pk in package_ids:
+        package = Package.objects.get(pk=pk)
         weight = calc_package_weight(package=package)
 
         if verbose:
@@ -138,7 +140,9 @@ def index_groups(verbose: bool = False):
     if verbose:
         print(f"{max_weight=}")
 
-    for grid in Grid.objects.all().iterator():
+    grid_ids = list(Grid.objects.values_list("id", flat=True))
+    for pk in grid_ids:
+        grid = Grid.objects.get(pk=pk)
         weight = calc_grid_weight(grid=grid, max_weight=max_weight)
 
         if verbose:
