@@ -59,7 +59,7 @@ def test_500_test(db, tp):
 
 def test_readiness(db, tp, django_assert_num_queries, product, release):
     url = tp.reverse("readiness")
-    with django_assert_num_queries(4):
+    with django_assert_num_queries(3):
         response = tp.client.get(url)
     assert response.status_code == 200
 
