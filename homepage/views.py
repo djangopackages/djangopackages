@@ -115,20 +115,26 @@ class ReadinessView(TemplateView):
         context_data = super().get_context_data(**kwargs)
 
         # Django Releases
-        django_releases = Release.objects.filter(product__slug="django").order_by(
-            "-release"
+        django_releases = (
+            Release.objects.filter(product__slug="django")
+            .select_related("product")
+            .order_by("-release")
         )
         context_data["django_releases"] = django_releases
 
         # Python Releases
-        python_releases = Release.objects.filter(product__slug="python").order_by(
-            "-release"
+        python_releases = (
+            Release.objects.filter(product__slug="python")
+            .select_related("product")
+            .order_by("-release")
         )
         context_data["python_releases"] = python_releases
 
         # Wagtail Releases
-        wagtail_releases = Release.objects.filter(product__slug="wagtail").order_by(
-            "-release"
+        wagtail_releases = (
+            Release.objects.filter(product__slug="wagtail")
+            .select_related("product")
+            .order_by("-release")
         )
         context_data["wagtail_releases"] = wagtail_releases
 
