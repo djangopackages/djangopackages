@@ -160,7 +160,7 @@ class Package(BaseModel):
     last_exception_count = models.IntegerField(default=0, blank=True, null=True)
 
     commits_over_52 = models.TextField(_("Commit List Over 52 Weeks"), blank=True)
-    last_commit_date = models.DateField(blank=True, null=True)
+    last_commit_date = models.DateTimeField(blank=True, null=True)
     latest_version = models.ForeignKey(
         "Version",
         blank=True,
