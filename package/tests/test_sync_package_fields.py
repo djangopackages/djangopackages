@@ -40,7 +40,7 @@ def test_sync_package_fields_updates_commit_rollups(db, category):
 
     package.refresh_from_db()
 
-    assert package.last_commit_date == datetime.date(2022, 2, 20)
+    assert package.last_commit_date == datetime.datetime(2022, 2, 20, 2, 22)
 
     hist = _parse_histogram(package.commits_over_52)
     assert len(hist) == 52
