@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-01-14]
+### Changed
+- Fix N+1 Query on the Readiness Index Page ([#1508](https://github.com/djangopackages/djangopackages/pull/1508))
+
 ## [2026-01-13]
 ### Changed
 - :bug: Fix KeyError for show_features in cached grid payloads ([#1503](https://github.com/djangopackages/djangopackages/pull/1503))
