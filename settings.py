@@ -526,7 +526,7 @@ else:
 if DEBUG:
     DOCS_URL = "http://0.0.0.0:4000"
 else:
-    DOCS_URL = "https://docs.djangopackages.org"
+    DOCS_URL = "https://docs.djangopackages.org/en/latest"
 
 TAILWIND_CLI_AUTOMATIC_DOWNLOAD = DEBUG
 TAILWIND_CLI_DIST_CSS = "css/tailwind.css"

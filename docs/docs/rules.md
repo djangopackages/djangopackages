@@ -18,6 +18,15 @@
 ### ::: searchv2.rules.WatchersRule
 
 
+### ::: searchv2.rules.FavoritePackageRule
+
+
+### ::: searchv2.rules.DocumentationRule
+
+
+### ::: searchv2.rules.RecentReleaseRule
+
+
 ## Group Rule Logic
 
 ### ::: searchv2.rules.ScoreRuleGroup

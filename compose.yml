@@ -62,7 +62,7 @@ services:
 
   docs:
     <<: *common-settings
-    command: ["sh", "-c", "mkdocs serve -f docs/mkdocs.yml --dev-addr 0.0.0.0:4000"]
+    command: ["uv", "run", "mkdocs", "serve", "-f", "docs/mkdocs.yml", "--dev-addr", "0.0.0.0:4000"]
     entrypoint: ""
     environment:
       FAST_MODE: "true"
