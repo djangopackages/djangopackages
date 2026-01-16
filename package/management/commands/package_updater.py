@@ -3,7 +3,7 @@ import time
 
 import djclick as click
 from django.conf import settings
-from django.db.models import F, Q
+from django.db.models import Q
 from django.utils import timezone
 from github3 import login as github_login
 from github3.exceptions import NotFoundError, UnexpectedResponse
@@ -92,6 +92,7 @@ def command(
             "last_commit_date",
             "last_fetched",
             "score",
+            "last_exception_count",
         )
     )
 
@@ -117,6 +118,7 @@ def command(
 
     started = time.monotonic()
     packages_to_update = []
+    exception_updates = []
     update_fields = [
         "repo_description",
         "repo_forks",
@@ -128,15 +130,42 @@ def command(
         "last_fetched",
         "score",
     ]
+    exception_fields = [
+        "date_deprecated",
+        "last_exception",
+        "last_exception_at",
+        "last_exception_count",
+    ]
 
     def flush_updates() -> None:
-        nonlocal packages_to_update
+        nonlocal packages_to_update, exception_updates
         if not packages_to_update:
+            pass
+        else:
+            # Bulk write avoids per-row saves and reduces DB round-trips.
+            Package.objects.bulk_update(packages_to_update, fields=update_fields)
+            print(f"[green]Flushed {len(packages_to_update)} package(s) to DB.[/green]")
+            packages_to_update = []
+
+        if not exception_updates:
             return
-        # Bulk write avoids per-row saves and reduces DB round-trips.
-        Package.objects.bulk_update(packages_to_update, fields=update_fields)
-        print(f"[green]Flushed {len(packages_to_update)} package(s) to DB.[/green]")
-        packages_to_update = []
+        Package.objects.bulk_update(exception_updates, fields=exception_fields)
+        print(
+            f"[yellow]Flushed {len(exception_updates)} exception update(s) to DB.[/yellow]"
+        )
+        exception_updates = []
+
+    def queue_exception_update(
+        package: Package, *, deprecated: bool, error: Exception
+    ) -> None:
+        package.last_exception = error
+        package.last_exception_at = timezone.now()
+        package.last_exception_count = (package.last_exception_count or 0) + 1
+        if deprecated:
+            package.date_deprecated = timezone.now()
+        exception_updates.append(package)
+        if len(exception_updates) >= chunk_size:
+            flush_updates()
 
     for package in packages.iterator(chunk_size=chunk_size):
         if time_budget is not None:
@@ -184,23 +213,11 @@ def command(
                 # break
             except NotFoundError as e:
                 logger.error(f"Package was not found for {package.title}.")
-
-                Package.objects.filter(pk=package.pk).update(
-                    date_deprecated=timezone.now(),
-                    last_exception=e,
-                    last_exception_at=timezone.now(),
-                    last_exception_count=F("last_exception_count") + 1,
-                )
+                queue_exception_update(package, deprecated=True, error=e)
 
             except UnexpectedResponse as e:
                 logger.error(f"Empty repo found for {package.title}.")
-
-                Package.objects.filter(pk=package.pk).update(
-                    date_deprecated=timezone.now(),
-                    last_exception=e,
-                    last_exception_at=timezone.now(),
-                    last_exception_count=F("last_exception_count") + 1,
-                )
+                queue_exception_update(package, deprecated=True, error=e)
 
             except Exception as e:
                 logger.error(
@@ -210,11 +227,7 @@ def command(
 
         except PackageUpdaterException as e:
             logger.error(f"Unable to update {package.title}", exc_info=True)
-            Package.objects.filter(pk=package.pk).update(
-                last_exception=e,
-                last_exception_at=timezone.now(),
-                last_exception_count=F("last_exception_count") + 1,
-            )
+            queue_exception_update(package, deprecated=False, error=e)
         except RepoRateLimitError:
             print("[yellow]Provider rate limit reached; stopping early.[/yellow]")
             break
