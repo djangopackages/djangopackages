@@ -201,6 +201,7 @@ def command(
                 if not package.repo_description:
                     package.repo_description = ""
                 package.last_fetched = timezone.now()
+                package.score = package.calculate_score()
                 packages_to_update.append(package)
                 print(
                     f"[green]Updated {package.pk} :: {package.title} | score={package.score}[/green]"
