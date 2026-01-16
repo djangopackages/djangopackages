@@ -139,16 +139,18 @@ def command(
 
     def flush_updates() -> None:
         nonlocal packages_to_update, exception_updates
+
         if not packages_to_update:
-            pass
-        else:
-            # Bulk write avoids per-row saves and reduces DB round-trips.
-            Package.objects.bulk_update(packages_to_update, fields=update_fields)
-            print(f"[green]Flushed {len(packages_to_update)} package(s) to DB.[/green]")
-            packages_to_update = []
+            return
+
+        # Bulk write avoids per-row saves and reduces DB round-trips.
+        Package.objects.bulk_update(packages_to_update, fields=update_fields)
+        print(f"[green]Flushed {len(packages_to_update)} package(s) to DB.[/green]")
+        packages_to_update = []
 
         if not exception_updates:
             return
+
         Package.objects.bulk_update(exception_updates, fields=exception_fields)
         print(
             f"[yellow]Flushed {len(exception_updates)} exception update(s) to DB.[/yellow]"
