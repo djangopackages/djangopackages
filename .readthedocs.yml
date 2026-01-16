@@ -7,12 +7,6 @@ version: 2
 
 formats: all
 
-# Set the version of Python and other tools you might need
-build:
-  os: ubuntu-22.04
-  tools:
-    python: "3.12"
-
 mkdocs:
   configuration: docs/mkdocs.yml
 
