@@ -50,7 +50,7 @@ class PackageAdmin(VersionAdmin, DynamicArrayMixin):
         PackageExampleInline,
     ]
     readonly_fields = [
-        "commit_list",
+        "commits_over_52",
         "created_by",
         "last_exception",
         "last_exception_at",
@@ -62,9 +62,10 @@ class PackageAdmin(VersionAdmin, DynamicArrayMixin):
         "repo_watchers",
         "score",
         "supports_python3",
-        "supports_python3",
         "usage",
         "favorite_count",
+        "latest_version",
+        "last_commit_date",
     ]
     fieldsets = (
         (
@@ -80,7 +81,6 @@ class PackageAdmin(VersionAdmin, DynamicArrayMixin):
                     "score",
                     "favorite_count",
                     "date_repo_archived",
-                    "markers",
                     "created_by",
                     "last_modified_by",
                 )
@@ -102,11 +102,11 @@ class PackageAdmin(VersionAdmin, DynamicArrayMixin):
                 "fields": (
                     "pypi_url",
                     "pypi_downloads",
-                    "pypi_info",
                     "pypi_license",
                     "pypi_licenses",
                     "pypi_requires_python",
                     "pypi_classifiers",
+                    "latest_version",
                 ),
             },
         ),
@@ -118,7 +118,8 @@ class PackageAdmin(VersionAdmin, DynamicArrayMixin):
                     "repo_description",
                     "repo_watchers",
                     "repo_forks",
-                    "commit_list",
+                    "last_commit_date",
+                    "commits_over_52",
                     "supports_python3",
                     "participants",
                 ),

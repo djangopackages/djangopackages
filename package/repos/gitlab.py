@@ -3,7 +3,7 @@ from django.utils import timezone
 from gitlab import Gitlab
 from gitlab.exceptions import GitlabGetError
 
-from .base_handler import BaseHandler
+from .base_handler import BaseHandler, RepoRateLimitError
 
 
 class GitLabHandler(BaseHandler):
@@ -24,8 +24,13 @@ class GitLabHandler(BaseHandler):
         path = repo_url.replace(f"{self.url}/", "")
         return self.gitlab.projects.get(path, license=True)
 
-    def fetch_commits(self, package):
-        repo = self._get_repo(package.repo_url)
+    def fetch_commits(self, package, *, save: bool = True):
+        try:
+            repo = self._get_repo(package.repo_url)
+        except GitlabGetError as exc:
+            if getattr(exc, "response_code", None) == 429:
+                raise RepoRateLimitError("gitlab rate limit reached")
+            raise
         if repo is None:
             return package
 
@@ -33,23 +38,26 @@ class GitLabHandler(BaseHandler):
 
         for commit in repo.commits.list(iterator=True):
             try:
-                commit_record, created = Commit.objects.get_or_create(
+                _, created = Commit.objects.get_or_create(
                     package=package,
                     commit_date=commit.committed_date,
                     commit_hash=commit.id,
                 )
+                # If the commit record already exists, it means we are at the end of the
+                # list we want to import
                 if not created:
                     break
             except Commit.MultipleObjectsReturned:
                 continue
-            # If the commit record already exists, it means we are at the end of the
-            #   list we want to import
 
-        package.save()
+        self.refresh_commit_stats(package, save=False)
+
+        if save:
+            package.save()
 
         return package
 
-    def fetch_metadata(self, package):
+    def fetch_metadata(self, package, *, save: bool = True):
         try:
             repo = self._get_repo(package.repo_url)
             if repo is None:
@@ -72,11 +80,14 @@ class GitLabHandler(BaseHandler):
             # if contributors:
             #     package.participants = ",".join(uniquer(contributors))
 
-            package.save()
+            if save:
+                package.save()
 
             return package
 
-        except GitlabGetError:
+        except GitlabGetError as exc:
+            if getattr(exc, "response_code", None) == 429:
+                raise RepoRateLimitError("gitlab rate limit reached")
             raise
 
 
