@@ -116,7 +116,7 @@ class DeprecatedRule(ScoreRule):
     name: str = "Deprecated Rule"
     description: str = "Check if the package is deprecated"
     max_score: int = 20
-    documentation_url: str = f"{settings.DOCS_URL}/rules/deprecated"
+    documentation_url: str = f"{settings.DOCS_URL}/rules/#searchv2.rules.DeprecatedRule"
 
     def check(self, package: Package) -> CheckResult:
         """
@@ -140,7 +140,9 @@ class FavoritePackageRule(ScoreRule):
     name: str = "Favorite Package Rule"
     description: str = "Check if the package is favorite"
     max_score: int = 20
-    documentation_url: str = f"{settings.DOCS_URL}/rules/favorite-package"
+    documentation_url: str = (
+        f"{settings.DOCS_URL}/rules/#searchv2.rules.FavoritePackageRule"
+    )
 
     def check(self, package: Package) -> CheckResult:
         """
@@ -162,7 +164,9 @@ class DescriptionRule(ScoreRule):
     name: str = "Description Rule"
     description: str = "Check if the package has a description"
     max_score: int = 20
-    documentation_url: str = f"{settings.DOCS_URL}/rules/description"
+    documentation_url: str = (
+        f"{settings.DOCS_URL}/rules/#searchv2.rules.DescriptionRule"
+    )
 
     def check(self, package: Package) -> CheckResult:
         """
@@ -186,6 +190,9 @@ class DocumentationRule(ScoreRule):
     name: str = "Documentation Rule"
     description: str = "Check if the package has a documentation URL"
     max_score: int = 20
+    documentation_url: str = (
+        f"{settings.DOCS_URL}/rules/#searchv2.rules.DocumentationRule"
+    )
 
     def check(self, package: Package) -> CheckResult:
         """
@@ -207,7 +214,7 @@ class DownloadsRule(ScoreRule):
     name: str = "Downloads Rule"
     description: str = "Score based on the number of PyPi downloads"
     max_score: int = 20
-    documentation_url: str = f"{settings.DOCS_URL}/rules/downloads"
+    documentation_url: str = f"{settings.DOCS_URL}/rules/#searchv2.rules.DownloadsRule"
 
     def check(self, package: Package) -> CheckResult:
         """
@@ -235,7 +242,7 @@ class ForkRule(ScoreRule):
     name: str = "Fork Rule"
     description: str = "Score based on the number of forks"
     max_score: int = 20
-    documentation_url: str = f"{settings.DOCS_URL}/rules/fork"
+    documentation_url: str = f"{settings.DOCS_URL}/rules/#searchv2.rules.ForkRule"
 
     def check(self, package: Package) -> CheckResult:
         """
@@ -263,6 +270,9 @@ class LastUpdatedRule(ScoreRule):
     name: str = "Last Updated Rule"
     description: str = "Score based on how recently the package was last updated"
     max_score: int = 20
+    documentation_url: str = (
+        f"{settings.DOCS_URL}/rules/#searchv2.rules.LastUpdatedRule"
+    )
 
     def check(self, package: Package) -> CheckResult:
         """
@@ -309,6 +319,9 @@ class RecentReleaseRule(ScoreRule):
     name: str = "Recent Release Rule"
     description: str = "Score if the last release is less than a year old"
     max_score: int = 20
+    documentation_url: str = (
+        f"{settings.DOCS_URL}/rules/#searchv2.rules.RecentReleaseRule"
+    )
 
     def check(self, package: Package) -> CheckResult:
         """
@@ -342,7 +355,7 @@ class UsageCountRule(ScoreRule):
     name: str = "Usage Count Rule"
     description: str = "Score based on the usage count"
     max_score: int = 20
-    documentation_url: str = f"{settings.DOCS_URL}/rules/usage_count"
+    documentation_url: str = f"{settings.DOCS_URL}/rules/#searchv2.rules.UsageCountRule"
 
     def check(self, package: Package) -> CheckResult:
         """
@@ -368,7 +381,7 @@ class WatchersRule(ScoreRule):
     name: str = "Watchers Rule"
     description: str = "Score based on the number of watchers"
     max_score: int = 20
-    documentation_url: str = f"{settings.DOCS_URL}/rules/watchers"
+    documentation_url: str = f"{settings.DOCS_URL}/rules/#searchv2.rules.WatchersRule"
 
     def check(self, package: Package) -> CheckResult:
         """

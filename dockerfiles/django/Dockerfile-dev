@@ -22,7 +22,7 @@ WORKDIR /code
 COPY pyproject.toml uv.lock ./
 
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --locked
+    uv sync --group docs --locked
 
 COPY ./dockerfiles/django/start-dev.sh /start-dev.sh
 RUN sed -i 's/\r//' /start-dev.sh \

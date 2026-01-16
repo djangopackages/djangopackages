@@ -1,6 +1,6 @@
 site_name: Django Packages Documentation
 site_description: A directory of reusable apps, sites, tools, and more for your Django Packages projects.
-site_url: https://docs.djangopackages.org/
+site_url: https://docs.djangopackages.org/en/latest/
 repo_name: djangopackages/djangopackages
 repo_url: https://github.com/djangopackages/djangopackages
 
@@ -51,7 +51,7 @@ nav:
   - faq.md
   - history.md
   - license.md
-  - Rules: rules/rules.md
+  - rules.md
 
 plugins:
   - search
