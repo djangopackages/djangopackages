@@ -1,9 +1,7 @@
 import re
-from datetime import timedelta
 from warnings import warn
 
 import requests
-from django.utils.timezone import now
 
 from .base_handler import BaseHandler
 
@@ -34,7 +32,7 @@ class BitbucketHandler(BaseHandler):
 
         return data.get("values", [])
 
-    def fetch_commits(self, package):
+    def fetch_commits(self, package, *, save: bool = True):
         from package.models import (
             Commit,
         )  # Import placed here to avoid circular dependencies
@@ -45,26 +43,17 @@ class BitbucketHandler(BaseHandler):
                 timestamp = timestamp[0]
             else:
                 timestamp = commit["date"]
-            commit, created = Commit.objects.get_or_create(
+
+            commit, _ = Commit.objects.get_or_create(
                 package=package, commit_date=timestamp
             )
 
-        #  ugly way to get 52 weeks of commits
-        # TODO - make this better
-        commits = package.commit_set.filter(
-            commit_date__gt=now() - timedelta(weeks=52),
-        ).values_list("commit_date", flat=True)
+        self.refresh_commit_stats(package, save=False)
 
-        weeks = [0] * 52
-        for cdate in commits:
-            age_weeks = (now - cdate).days // 7
-            if age_weeks < 52:
-                weeks[age_weeks] += 1
+        if save:
+            package.save()
 
-        package.commit_list = ",".join(map(str, reversed(weeks)))
-        package.save()
-
-    def fetch_metadata(self, package):
+    def fetch_metadata(self, package, *, save: bool = True):
         # prep the target name
         repo_name = package.repo_name()
         target = f"{API_TARGET}/{repo_name}"
@@ -110,6 +99,9 @@ class BitbucketHandler(BaseHandler):
             ]  # the only way known to fetch this from bitbucket!!!
         except IndexError:
             package.participants = ""
+
+        if save:
+            package.save()
 
         return package
 

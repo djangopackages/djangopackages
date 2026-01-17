@@ -1,5 +1,3 @@
-from time import sleep
-
 from django.conf import settings
 from django.utils import timezone
 from github3 import GitHub, login
@@ -7,7 +5,7 @@ from github3.exceptions import NotFoundError
 
 from package.utils import uniquer
 
-from .base_handler import BaseHandler
+from .base_handler import BaseHandler, RepoRateLimitError
 
 
 class GitHubHandler(BaseHandler):
@@ -33,7 +31,7 @@ class GitHubHandler(BaseHandler):
             return None
         return self.github.repository(username, repo_name)
 
-    def fetch_commits(self, package):
+    def fetch_commits(self, package, *, save: bool = True):
         self.manage_ratelimit()
 
         repo = self._get_repo(package)
@@ -46,21 +44,24 @@ class GitHubHandler(BaseHandler):
             self.manage_ratelimit()
 
             try:
-                commit_record, created = Commit.objects.get_or_create(
+                _, created = Commit.objects.get_or_create(
                     package=package, commit_date=commit.commit.committer["date"]
                 )
+                # If the commit record already exists, it means we are at the end of the
+                # list we want to import
                 if not created:
                     break
             except Commit.MultipleObjectsReturned:
                 continue
-            # If the commit record already exists, it means we are at the end of the
-            #   list we want to import
 
-        package.save()
+        self.refresh_commit_stats(package, save=False)
+
+        if save:
+            package.save()
 
         return package
 
-    def fetch_metadata(self, package):
+    def fetch_metadata(self, package, *, save: bool = True):
         self.manage_ratelimit()
 
         try:
@@ -85,7 +86,8 @@ class GitHubHandler(BaseHandler):
             if contributors:
                 package.participants = ",".join(uniquer(contributors))
 
-            package.save()
+            if save:
+                package.save()
 
             return package
 
@@ -93,9 +95,8 @@ class GitHubHandler(BaseHandler):
             raise
 
     def manage_ratelimit(self):
-        while self.github.ratelimit_remaining < 10:
-            print(f"{__file__}::manage_ratelimit::sleep(1)")
-            sleep(1)
+        if self.github.ratelimit_remaining < 10:
+            raise RepoRateLimitError("github rate limit reached")
 
 
 repo_handler = GitHubHandler()

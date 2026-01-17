@@ -1,7 +1,5 @@
-import json
 import math
 from datetime import timedelta
-import requests
 from dateutil import relativedelta
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -17,13 +15,11 @@ from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
 from django_better_admin_arrayfield.models.fields import ArrayField
 from looseversion import LooseVersion
-from packaging.specifiers import SpecifierSet
-from requests.exceptions import HTTPError
-from rich import print
 
 from core.models import BaseModel
-from core.utils import PackageStatus, status_choices_switch
+from core.utils import PackageStatus
 from package.managers import PackageManager
+from package.pypi import update_package_from_pypi
 from package.repos import get_repo_for_repo_url
 from package.signals import signal_fetch_latest_metadata
 from package.utils import get_pypi_version, get_version, normalize_license
@@ -168,6 +164,16 @@ class Package(BaseModel):
     last_exception = models.TextField(blank=True, null=True)
     last_exception_at = models.DateTimeField(blank=True, null=True)
     last_exception_count = models.IntegerField(default=0, blank=True, null=True)
+
+    commits_over_52w = models.JSONField(_("Commit List Over 52 Weeks"), default=list)
+    last_commit_date = models.DateTimeField(blank=True, null=True)
+    latest_version = models.ForeignKey(
+        "Version",
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="latest_version_package",
+    )
 
     objects = PackageManager()
 
@@ -332,158 +338,24 @@ class Package(BaseModel):
         cache.set(cache_name, value)
         return value
 
-    def fetch_pypi_data(self):
-        # Get the releases from pypi
-        if self.pypi_url and len(self.pypi_url.strip()):
-            licenses = []
-            total_downloads = 0
-            pypi_json_uri = self.get_pypi_json_uri()
-            if pypi_json_uri:
-                response = requests.get(pypi_json_uri)
-                try:
-                    response.raise_for_status()
-                except HTTPError as exc:
-                    status_code = exc.response.status_code
-
-                    if status_code not in [404]:
-                        print(f"[red]{self}[/red], {status_code}")
-                        print(response.url)
-                        print(response.content)
-
-                    if settings.DEBUG:
-                        print(
-                            "[red]BOOM! this package probably does not exist on pypi[/red]"
-                        )
-                        print(f"[red]{self}[/red], {response.status_code}")
-                        print(response.url)
-
-                    # If we get a 404, we can stop checking this url...
-                    self.pypi_url = ""
-                    self.save()
-                    return False
-
-                release = json.loads(response.content)
-                info = release["info"]
-                self.pypi_info = info
-
-                version, created = Version.objects.get_or_create(
-                    package=self, number=info["version"]
-                )
-
-                if "classifiers" in info and len(info["classifiers"]):
-                    self.pypi_classifiers = info["classifiers"]
-
-                    for classifier in info["classifiers"]:
-                        if classifier.startswith("Development Status"):
-                            version.development_status = status_choices_switch(
-                                classifier
-                            )
-
-                        elif classifier.startswith("License"):
-                            licenses.append(classifier.split("::")[-1].strip())
-
-                        elif classifier.startswith(
-                            "Programming Language :: Python :: 3"
-                        ):
-                            version.supports_python3 = True
-                            if not self.supports_python3:
-                                self.supports_python3 = True
-
-                if "requires_python" in info and info["requires_python"]:
-                    self.pypi_requires_python = info["requires_python"]
-                    try:
-                        if self.pypi_requires_python and any(
-                            [
-                                True
-                                for ver in [
-                                    "3.12",
-                                    "3.11",
-                                    "3.10",
-                                    "3.9",
-                                    "3.8",
-                                    "3.7",
-                                    "3.6",
-                                    "3.5",
-                                    "3.4",
-                                    "3.3",
-                                    "3.2",
-                                    "3.1",
-                                    "3",
-                                ]
-                                if ver in SpecifierSet(self.pypi_requires_python)
-                            ]
-                        ):
-                            self.supports_python3 = True
-                        else:
-                            self.supports_python3 = False
-                    except Exception as e:
-                        print(e)
-
-                # do we have a license set?
-                if "license" in info and info["license"]:
-                    license = normalize_license(info["license"])
-                    # TODO: revisit this
-                    licenses = [license]
-                    for classifier in info["classifiers"]:
-                        if classifier.startswith("License"):
-                            licenses.append(classifier.split("::")[-1].strip())
-                            break
-
-                if len(licenses):
-                    version.licenses = licenses
-                    version.license = licenses[0]
-
-                    if self.pypi_license != version.license:
-                        self.pypi_license = version.license
-
-                    if self.pypi_licenses != version.licenses:
-                        self.pypi_licenses = version.licenses
-
-                # version stuff
-                try:
-                    url_data = release["urls"][0]
-                    version.downloads = url_data["downloads"]
-                    version.upload_time = url_data["upload_time"]
-                except (IndexError, KeyError):
-                    # Not a real release so we just guess the upload_time.
-                    version.upload_time = version.created
-
-                version.save()
-
-                # Calculate total downloads
-                if self.pypi_downloads is None:
-                    self.pypi_downloads = total_downloads
-
-                # get documents_url from pypi
-                if not self.documentation_url:
-                    if docs_url := info["project_urls"].get("Documentation"):
-                        self.documentation_url = docs_url
-
-                    elif docs_url := info["project_urls"].get("Docs"):
-                        self.documentation_url = docs_url
-
-                    elif docs_url := info["project_urls"].get("docs"):
-                        self.documentation_url = docs_url
-
-                    elif docs_url := info["project_urls"].get("documentation"):
-                        self.documentation_url = docs_url
-
-                return True
-
-        return False
-
-    def fetch_metadata(self, fetch_pypi: bool = True, fetch_repo: bool = True):
+    def fetch_metadata(
+        self,
+        fetch_pypi: bool = True,
+        fetch_repo: bool = True,
+        save: bool = True,
+    ):
         if fetch_pypi:
-            self.fetch_pypi_data()
+            self = update_package_from_pypi(self, save=False)
 
         if fetch_repo:
-            self.repo.fetch_metadata(self)
+            self.repo.fetch_metadata(self, save=False)
 
         signal_fetch_latest_metadata.send(sender=self)
 
         self.last_fetched = timezone.now()
 
-        self.save()
+        if save:
+            self.save()
 
     def calculate_score(self):
         """
@@ -516,8 +388,8 @@ class Package(BaseModel):
             self.score = self.calculate_score()
         super().save(*args, **kwargs)
 
-    def fetch_commits(self):
-        self.repo.fetch_commits(self)
+    def fetch_commits(self, save: bool = True):
+        self.repo.fetch_commits(self, save=save)
 
     def pypi_version(self):
         cache_name = self.cache_namer(self.pypi_version)
@@ -711,6 +583,9 @@ class Version(BaseModel):
 
     def save(self, *args, **kwargs):
         self.license = normalize_license(self.license)
+
+        if not self.upload_time:
+            self.upload_time = self.created
 
         # reset the latest_version cache on the package
         cache_name = self.package.cache_namer(self.package.last_released)

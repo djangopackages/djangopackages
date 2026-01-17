@@ -4,7 +4,7 @@ from urllib.parse import urlparse
 
 import httpx
 
-from .base_handler import BaseHandler
+from .base_handler import BaseHandler, RepoRateLimitError
 
 
 logger = logging.getLogger(__name__)
@@ -41,8 +41,12 @@ class ForgejoClient:
         url = self._build_url(f"/repos/{repository}")
         try:
             response = httpx.get(url)
+            if response.status_code == 429:
+                raise RepoRateLimitError("forgejo rate limit reached")
             response.raise_for_status()
             data = response.json()
+        except RepoRateLimitError:
+            raise
         except (httpx.HTTPError, ValueError) as exc:
             logger.error("Failed to fetch %s: %s", url, exc)
             return None
@@ -70,8 +74,12 @@ class ForgejoClient:
 
             try:
                 response = httpx.get(url, params=params)
+                if response.status_code == 429:
+                    raise RepoRateLimitError("forgejo rate limit reached")
                 response.raise_for_status()
                 commits = response.json()
+            except RepoRateLimitError:
+                raise
             except (httpx.HTTPError, ValueError) as exc:
                 logger.error("Failed to fetch %s with params %s: %s", url, params, exc)
                 break
@@ -137,7 +145,7 @@ class ForgejoHandler(BaseHandler):
 
         return self._client_cache[base_url]
 
-    def fetch_commits(self, package):
+    def fetch_commits(self, package, *, save: bool = True):
         from package.models import Commit
 
         client = self.get_client(package.repo_url)
@@ -168,11 +176,14 @@ class ForgejoHandler(BaseHandler):
         if len(collaborators) > 0:
             package.participants = ",".join(set(collaborators))
 
-        package.save()
+        self.refresh_commit_stats(package, save=False)
+
+        if save:
+            package.save()
 
         return package
 
-    def fetch_metadata(self, package):
+    def fetch_metadata(self, package, *, save: bool = True):
         client = self.get_client(package.repo_url)
         if client is None:
             return package
@@ -190,7 +201,8 @@ class ForgejoHandler(BaseHandler):
         package.repo_watchers = repo.watchers_count
         # TODO: consider adding "stargazers_count"
         # package.stargazers_count = repo.stars_count
-        package.save()
+        if save:
+            package.save()
 
         return package
 
