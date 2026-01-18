@@ -37,6 +37,7 @@ UPDATE_FIELDS = [
     "pypi_licenses",
     "latest_version",
     "supports_python3",
+    "pypi_url",
     # Git fields
     "repo_description",
     "repo_forks",
