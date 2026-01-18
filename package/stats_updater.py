@@ -104,14 +104,10 @@ def _batch_update_versions(package_ids: list[int]) -> int:
     if not package_ids:
         return 0
 
-    # 1. Define the base subquery once to ensure consistency in ordering
-    # Ensure you have a composite index on Version(package, hidden, upload_time)
-    # for this to be truly efficient.
     latest_version_base = Version.objects.filter(
         package_id=OuterRef("pk"), hidden=False
     ).order_by("-upload_time", "-created", "-pk")
 
-    # 2. Execute a single UPDATE query with two sub-selects
     return Package.objects.filter(pk__in=package_ids).update(
         latest_version_id=Subquery(latest_version_base.values("pk")[:1]),
         # Coalesce checks the subquery result; if None, it falls back to Value(True)
