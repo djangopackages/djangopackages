@@ -515,7 +515,7 @@ Q_CLUSTER = {
     "timeout": 600,  # this won't work for longer running tasks that might take hours to run
     "retry": 700,
     "max_attempts": 1,
-    "workers": 2,
+    "workers": 4,
 }
 
 if Q_REDIS_URL := env("Q_REDIS_URL", default=None):
