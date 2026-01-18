@@ -299,10 +299,7 @@ def test_django(db, requests_mock):
     )
 
     package = baker.make("package.Package", title="django", pypi_url="django")
-    package.last_commit_date = date.today()
-    package.save(update_fields=["last_commit_date"])
-    package.last_commit_date = date.today()
-    package.save(update_fields=["last_commit_date"])
+
     assert package.get_pypi_json_uri() == "https://pypi.org/pypi/django/json"
     assert package.get_pypi_uri() == "https://pypi.org/project/django/"
     assert package.date_deprecated is None
