@@ -4,9 +4,7 @@ Base class for objects that interact with third-party code repository services.
 
 import json
 import re
-from datetime import timedelta
 import requests
-from django.utils import timezone
 
 
 class RepoRateLimitError(Exception):
@@ -120,63 +118,3 @@ class BaseHandler:
         if r.status_code != 200:
             r.raise_for_status()
         return json.loads(r.content)
-
-    def refresh_commit_stats(self, package, *, save=True):
-        """Recompute `commits_over_52w` and `last_commit_date` for a package.
-
-        This reads from the Commit table (preferred for consistency) rather than
-        provider responses.
-        """
-
-        from package.models import Commit
-
-        now_dt = timezone.now()
-        cutoff = now_dt - timedelta(weeks=52)
-
-        latest_commit_dt = (
-            Commit.objects.filter(package=package)
-            .order_by("-commit_date")
-            .values_list("commit_date", flat=True)
-            .first()
-        )
-
-        if latest_commit_dt is not None:
-            if timezone.is_aware(now_dt) and timezone.is_naive(latest_commit_dt):
-                latest_commit_dt = timezone.make_aware(
-                    latest_commit_dt, timezone.get_current_timezone()
-                )
-            elif timezone.is_naive(now_dt) and timezone.is_aware(latest_commit_dt):
-                latest_commit_dt = timezone.make_naive(
-                    latest_commit_dt, timezone.get_current_timezone()
-                )
-
-        package.last_commit_date = latest_commit_dt.date() if latest_commit_dt else None
-
-        weeks = [0] * 52
-        recent_commit_dates = (
-            Commit.objects.filter(
-                package=package,
-                commit_date__gte=cutoff,
-            )
-            .values_list("commit_date", flat=True)
-            .iterator()
-        )
-
-        for cdate in recent_commit_dates:
-            if cdate is None:
-                continue
-
-            age_days = (now_dt - cdate).days
-            if age_days < 0:
-                continue
-            age_weeks = age_days // 7
-            if 0 <= age_weeks < 52:
-                weeks[age_weeks] += 1
-
-        # Store as oldest -> newest (52 values).
-        package.commits_over_52w = list(reversed(weeks))
-
-        if save:
-            package.save()
-
-        return package

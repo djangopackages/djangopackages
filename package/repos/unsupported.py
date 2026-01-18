@@ -26,12 +26,5 @@ class UnsupportedHandler(BaseHandler):
             package.save()
         return package
 
-    def refresh_commit_stats(self, package, *, save: bool = True):
-        package.commits_over_52 = []
-        package.last_commit_date = None
-
-        if save:
-            package.save()
-
 
 repo_handler = UnsupportedHandler()

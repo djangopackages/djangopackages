@@ -48,8 +48,6 @@ class BitbucketHandler(BaseHandler):
                 package=package, commit_date=timestamp
             )
 
-        self.refresh_commit_stats(package, save=False)
-
         if save:
             package.save()
 

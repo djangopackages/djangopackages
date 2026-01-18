@@ -7,7 +7,7 @@ from model_bakery import baker
 from package.models import Commit, Package, Version
 
 
-def test_sync_package_fields_updates_commit_rollups(db, category):
+def test_sync_package_fields_updates_commit_stats(db, category):
     package = baker.make(
         Package,
         category=category,

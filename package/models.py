@@ -1,6 +1,4 @@
-import math
 from datetime import timedelta
-from dateutil import relativedelta
 from django.conf import settings
 from django.contrib.auth.models import User
 
@@ -10,7 +8,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models.constraints import UniqueConstraint
 from django.urls import reverse
-from django.utils import timezone
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
 from django_better_admin_arrayfield.models.fields import ArrayField
@@ -19,9 +16,7 @@ from looseversion import LooseVersion
 from core.models import BaseModel
 from core.utils import PackageStatus
 from package.managers import PackageManager
-from package.pypi import update_package_from_pypi
 from package.repos import get_repo_for_repo_url
-from package.signals import signal_fetch_latest_metadata
 from package.utils import get_pypi_version, get_version, normalize_license
 
 repo_url_help_text = settings.PACKAGINATOR_HELP_TEXT["REPO_URL"]
@@ -337,56 +332,6 @@ class Package(BaseModel):
         value = ",".join(map(str, reversed(weeks)))
         cache.set(cache_name, value)
         return value
-
-    def fetch_metadata(
-        self,
-        fetch_pypi: bool = True,
-        fetch_repo: bool = True,
-        save: bool = True,
-    ):
-        if fetch_pypi:
-            self = update_package_from_pypi(self, save=False)
-
-        if fetch_repo:
-            self.repo.fetch_metadata(self, save=False)
-
-        signal_fetch_latest_metadata.send(sender=self)
-
-        self.last_fetched = timezone.now()
-
-        if save:
-            self.save()
-
-    def calculate_score(self):
-        """
-        Scores a penalty of 10% of the stars for each 3 months the package is not updated;
-        + a penalty of -30% of the stars if it does not support python 3.
-        So an abandoned packaged for 2 years would lose 80% of its stars.
-        """
-        delta = relativedelta.relativedelta(now(), self.last_updated())
-        delta_months = (delta.years * 12) + delta.months
-        last_updated_penalty = math.modf(delta_months / 3)[1] * self.repo_watchers / 10
-
-        try:
-            is_python_3 = bool(
-                self.version_set.only("supports_python3").last().supports_python3
-            )
-        except AttributeError:
-            is_python_3 = False
-
-        python_3_penalty = (
-            0 if is_python_3 else min([self.repo_watchers * 30 / 100, 1000])
-        )
-
-        # penalty for docs maybe?
-        return max(-500, self.repo_watchers - last_updated_penalty - python_3_penalty)
-
-    def save(self, *args, **kwargs):
-        if not self.repo_description:
-            self.repo_description = ""
-        if self.pk:
-            self.score = self.calculate_score()
-        super().save(*args, **kwargs)
 
     def fetch_commits(self, save: bool = True):
         self.repo.fetch_commits(self, save=save)

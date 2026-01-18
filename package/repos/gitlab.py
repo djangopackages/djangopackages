@@ -50,8 +50,6 @@ class GitLabHandler(BaseHandler):
             except Commit.MultipleObjectsReturned:
                 continue
 
-        self.refresh_commit_stats(package, save=False)
-
         if save:
             package.save()
 

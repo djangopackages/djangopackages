@@ -50,7 +50,7 @@ class PackageAdmin(VersionAdmin, DynamicArrayMixin):
         PackageExampleInline,
     ]
     readonly_fields = [
-        "commits_over_52",
+        "commits_over_52w",
         "created_by",
         "last_exception",
         "last_exception_at",
@@ -119,7 +119,7 @@ class PackageAdmin(VersionAdmin, DynamicArrayMixin):
                     "repo_watchers",
                     "repo_forks",
                     "last_commit_date",
-                    "commits_over_52",
+                    "commits_over_52w",
                     "supports_python3",
                     "participants",
                 ),
