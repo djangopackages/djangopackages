@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-01-18]
+### Changed
+- Bump gunicorn workers to 6 and django-q workers to 4 ([#1519](https://github.com/djangopackages/djangopackages/pull/1519))
+
 ## [2026-01-16]
 ### Changed
 - ⬆️ Bump django from 5.2.8 to 5.2.9 ([#1516](https://github.com/djangopackages/djangopackages/pull/1516))
