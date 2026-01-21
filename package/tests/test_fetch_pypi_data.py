@@ -10,6 +10,7 @@ def pypi_package(
     classifiers: list[str] | None = [],
     documentation_url: str | None = None,
     license: str | None = None,
+    license_expression: str | None = None,
     package_name: str = "example-package",
     requires_python: str = None,
     version: str | None = "1.0.0",
@@ -28,6 +29,7 @@ def pypi_package(
             "home_page": "",
             "keywords": "",
             "license": license,
+            "license_expression": license_expression,
             "maintainer": "",
             "maintainer_email": "",
             "name": f"{package_name}",
@@ -105,6 +107,53 @@ def test_pypi_license_valid(db, faker, requests_mock):
     assert package.pypi_license == "BSD License"
     assert package.pypi_licenses == ["BSD License"]
     assert package.license_latest == "BSD License"
+
+
+def test_pypi_license_expression_valid(db, faker, requests_mock):
+    package_name = "valid-license-expression"
+    package = baker.make("package.Package", title=package_name, pypi_url=package_name)
+
+    pypi_data = pypi_package(
+        license=None,
+        license_expression="MIT",
+        package_name=package_name,
+    )
+    requests_mock.get(
+        f"https://pypi.org/pypi/{package_name}/json",
+        text=json.dumps(pypi_data),
+    )
+
+    assert package.pypi_license is None
+    assert package.pypi_licenses is None
+    assert package.license_latest == "UNKNOWN"
+
+    package.fetch_pypi_data()
+
+    assert package.pypi_license == "MIT"
+    assert package.pypi_licenses == ["MIT"]
+    assert package.license_latest == "MIT"
+
+
+def test_pypi_license_expression_preferred_over_license(db, faker, requests_mock):
+    package_name = "both-license-fields"
+    package = baker.make("package.Package", title=package_name, pypi_url=package_name)
+
+    pypi_data = pypi_package(
+        license="BSD License",
+        license_expression="MIT",
+        package_name=package_name,
+    )
+    requests_mock.get(
+        f"https://pypi.org/pypi/{package_name}/json",
+        text=json.dumps(pypi_data),
+    )
+
+    assert package.pypi_license is None
+
+    package.fetch_pypi_data()
+
+    assert package.pypi_license == "MIT"
+    assert package.pypi_licenses == ["MIT"]
 
 
 def test_pypi_license_valid_with_classifiers(db, faker, requests_mock):

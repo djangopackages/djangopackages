@@ -420,9 +420,10 @@ class Package(BaseModel):
                         print(e)
 
                 # do we have a license set?
-                if "license" in info and info["license"]:
-                    license = normalize_license(info["license"])
-                    # TODO: revisit this
+                # Prefer "license_expression" (PEP 639) over "license" (legacy)
+                license_value = info.get("license_expression") or info.get("license")
+                if license_value:
+                    license = normalize_license(license_value)
                     licenses = [license]
                     for classifier in info["classifiers"]:
                         if classifier.startswith("License"):
