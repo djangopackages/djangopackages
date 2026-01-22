@@ -6,6 +6,8 @@ from collections import deque
 from dataclasses import dataclass, field
 from typing import Deque
 
+from rich import print
+
 
 @dataclass
 class RateLimiter:
@@ -37,7 +39,11 @@ class RateLimiter:
         if self.min_interval > 0 and self._last_ts:
             elapsed = now - self._last_ts
             if elapsed < self.min_interval:
-                time.sleep(self.min_interval - elapsed)
+                sleep_time = self.min_interval - elapsed
+                print(
+                    f"[dim]RateLimiter: Sleeping {sleep_time:.2f}s (min_interval)[/dim]"
+                )
+                time.sleep(sleep_time)
 
         if self.max_per_minute:
             now = time.monotonic()
@@ -50,6 +56,9 @@ class RateLimiter:
                     raise RuntimeError("rate limit reached")
                 sleep_for = self._window[0] + 60 - now
                 if sleep_for > 0:
+                    print(
+                        f"[yellow]RateLimiter: Sleeping {sleep_for:.2f}s (max_per_minute)[/yellow]"
+                    )
                     time.sleep(sleep_for)
 
         if self.jitter:

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import json
+from functools import cached_property
 import logging
 from dataclasses import dataclass
 from typing import Any, TYPE_CHECKING
@@ -47,53 +47,156 @@ _PY3_PROBE_VERSIONS = [
 
 
 @dataclass(frozen=True)
-class PyPIProject:
+class PyPIPackage:
     raw: Mapping[str, Any]
 
-    @property
+    @cached_property
     def info(self) -> Mapping[str, Any]:
-        try:
-            info = self.raw["info"]
-        except KeyError:
-            return {}
-        return info if isinstance(info, Mapping) else {}
+        if info := self.raw.get("info"):
+            return info
+        return {}
 
-    @property
+    @cached_property
     def urls(self) -> list[Any]:
-        try:
-            urls = self.raw["urls"]
-        except KeyError:
-            return []
-        return urls if isinstance(urls, list) else []
+        if urls := self.raw.get("urls"):
+            return urls
+        return []
 
-    @property
-    def docs_url(self) -> str | None:
-        return self.raw.get("docs_url")
-
-    @property
+    @cached_property
     def name(self) -> str:
         return self.info.get("name")
 
-    @property
+    @cached_property
     def version(self) -> str:
         return self.info.get("version")
 
-    @property
+    @cached_property
     def classifiers(self) -> list[str]:
         classifiers = self.info.get("classifiers")
         if isinstance(classifiers, list):
             return [str(c) for c in classifiers]
         return []
 
-    @property
+    @cached_property
     def requires_python(self) -> str | None:
-        requires_python = self.info.get("requires_python")
-        return str(requires_python) if requires_python else None
+        if requires_python := self.info.get("requires_python"):
+            return requires_python
+        return None
 
-    @property
-    def project_urls(self) -> Mapping[str, Any]:
-        urls = self.info.get("project_urls")
-        return urls if isinstance(urls, Mapping) else {}
+    @cached_property
+    def project_urls(self) -> Mapping[str, str]:
+        if urls := self.info.get("project_urls"):
+            return urls
+        return {}
+
+    @cached_property
+    def docs_url(self) -> str | None:
+        if docs_url := self.info.get("docs_url"):
+            return docs_url
+
+        for key in ("Documentation", "Docs", "docs", "documentation"):
+            if value := self.project_urls.get(key):
+                return value
+        return None
+
+    @cached_property
+    def supports_python3(self) -> bool | None:
+        classifier_says_py3 = any(
+            c.startswith("Programming Language :: Python :: 3")
+            for c in self.classifiers
+        )
+
+        if self.requires_python:
+            try:
+                spec = SpecifierSet(self.requires_python)
+            except InvalidSpecifier:
+                # If requires_python is malformed, fall back to classifier check
+                logger.warning(
+                    "Invalid requires_python specifier: %s. Falling back to classifiers.",
+                    self.requires_python,
+                )
+                return True if classifier_says_py3 else None
+
+            return any(spec.contains(v, prereleases=True) for v in _PY3_PROBE_VERSIONS)
+
+        return True if classifier_says_py3 else None
+
+    @cached_property
+    def version_upload_time(self) -> timezone.datetime | None:
+        if not self.urls:
+            return None
+
+        first_url = self.urls[0]
+        upload_time_str = first_url.get("upload_time")
+        return _parse_upload_time(upload_time_str)
+
+    @cached_property
+    def license_list(self) -> list[str]:
+        """
+        Extract license information from multiple sources.
+
+        Priority order (as per PEP 639):
+        1. license_expression (preferred)
+        2. license field (legacy)
+        3. classifiers
+
+        Returns:
+            List of unique, non-empty license identifiers
+        """
+        licenses = []
+        legacy_license = self.info.get("license")
+        license_expression = self.info.get("license_expression")
+        classifiers = self.classifiers
+
+        # PEP 639 license_expression takes precedence
+        if license_expression:
+            text = normalize_license(license_expression)
+            if text:  # Ensure non-empty after normalization
+                licenses.append(text)
+
+        # Add legacy license field if not already present
+        if not licenses and legacy_license:
+            text = normalize_license(legacy_license)
+            if text and text not in licenses:
+                licenses.append(text)
+
+        # Extract from classifiers
+        for classifier in classifiers:
+            if classifier.startswith("License"):
+                text = classifier.split("::")[-1].strip()
+                if text and text not in licenses:
+                    licenses.append(text)
+
+        return licenses
+
+    @cached_property
+    def development_status(self) -> str | None:
+        """
+        Extract development status from classifiers.
+
+        Returns:
+            Development status choice or None
+        """
+        for classifier in self.classifiers:
+            if classifier.startswith("Development Status"):
+                return status_choices_switch(classifier)
+        return None
+
+
+def _parse_upload_time(value: str | None) -> timezone.datetime | None:
+    """Parse upload time string to timezone-aware datetime."""
+    if not value:
+        return None
+
+    if isinstance(value, str):
+        dt = parse_datetime(value)
+        if dt is None:
+            return None
+        if timezone.is_naive(dt):
+            return timezone.make_aware(dt, timezone.get_current_timezone())
+        return dt
+
+    return None
 
 
 class PyPIClient:
@@ -117,163 +220,19 @@ class PyPIClient:
         )
         self._timeout = timeout
 
-    def get_project_json_url(self, project: str) -> str:
-        project = project.strip().strip("/")
-        return f"https://pypi.org/pypi/{project}/json"
+    def get_package_json_url(self, package_name: str) -> str:
+        package_name = package_name.strip().strip("/")
+        return f"https://pypi.org/pypi/{package_name}/json"
 
-    def fetch_project(self, project: str) -> PyPIProject:
-        url = self.get_project_json_url(project)
+    def fetch_package(self, package_name: str) -> PyPIPackage:
+        url = self.get_package_json_url(package_name)
 
         resp = self._session.get(url, timeout=self._timeout)
         resp.raise_for_status()
 
-        # Prefer requests' JSON decoding, fall back to stdlib in edge cases.
-        try:
-            payload = resp.json()
-        except ValueError:
-            payload = json.loads(resp.content)
+        payload = resp.json()
 
-        if not isinstance(payload, Mapping):
-            raise ValueError("PyPI JSON response is not an object")
-
-        return PyPIProject(raw=payload)
-
-
-def _first_documentation_url(project_urls: Mapping[str, Any]) -> str | None:
-    for key in ("Documentation", "Docs", "docs", "documentation"):
-        value = project_urls.get(key)
-        if value:
-            return str(value)
-    return None
-
-
-def _supports_python3(
-    requires_python: str | None, classifiers: list[str]
-) -> bool | None:
-    """
-    Determine if a package supports Python 3.
-
-    Returns:
-        True if Python 3 is supported
-        False if only Python 2 is supported
-        None if support cannot be determined
-    """
-    classifier_says_py3 = any(
-        c.startswith("Programming Language :: Python :: 3") for c in classifiers
-    )
-
-    if requires_python:
-        try:
-            spec = SpecifierSet(requires_python)
-        except InvalidSpecifier:
-            # If requires_python is malformed, fall back to classifier check
-            logger.warning(
-                "Invalid requires_python specifier: %s. Falling back to classifiers.",
-                requires_python,
-            )
-            return True if classifier_says_py3 else None
-
-        return any(spec.contains(v, prereleases=True) for v in _PY3_PROBE_VERSIONS)
-
-    return True if classifier_says_py3 else None
-
-
-def _parse_upload_time(value: str | None) -> timezone.datetime | None:
-    """Parse upload time string to timezone-aware datetime."""
-    if not value:
-        return None
-
-    if isinstance(value, str):
-        dt = parse_datetime(value)
-        if dt is None:
-            return None
-        if timezone.is_naive(dt):
-            return timezone.make_aware(dt, timezone.get_current_timezone())
-        return dt
-
-    return None
-
-
-def _extract_license_list(
-    info_license: str | None,
-    info_license_expression: str | None,
-    classifiers: list[str],
-) -> list[str]:
-    """
-    Extract license information from multiple sources.
-
-    Priority order (as per PEP 639):
-    1. license_expression (preferred)
-    2. license field (legacy)
-    3. classifiers
-
-    Args:
-        info_license: Legacy license field from package info
-        info_license_expression: PEP 639 license expression from package info
-        classifiers: List of trove classifiers
-
-    Returns:
-        List of unique, non-empty license identifiers
-    """
-    licenses = []
-
-    # PEP 639 license_expression takes precedence
-    if info_license_expression:
-        text = normalize_license(info_license_expression)
-        if text and text.strip():  # Ensure non-empty after normalization
-            licenses.append(text)
-
-    # Add legacy license field if not already present
-    if info_license:
-        text = normalize_license(info_license)
-        if text and text.strip() and text not in licenses:
-            licenses.append(text)
-
-    # Extract from classifiers
-    for classifier in classifiers:
-        if classifier.startswith("License"):
-            text = classifier.split("::")[-1].strip()
-            if text and text not in licenses:
-                licenses.append(text)
-
-    return licenses
-
-
-def _extract_upload_time(urls: list[Any]) -> timezone.datetime | None:
-    """
-    Safely extract upload_time from the first URL entry.
-
-    Args:
-        urls: List of URL entries from PyPI JSON
-
-    Returns:
-        Parsed upload time or None
-    """
-    if not urls:
-        return None
-
-    first_url = urls[0]
-    if not isinstance(first_url, Mapping):
-        return None
-
-    upload_time_str = first_url.get("upload_time")
-    return _parse_upload_time(upload_time_str)
-
-
-def _extract_development_status(classifiers: list[str]) -> str | None:
-    """
-    Extract development status from classifiers.
-
-    Args:
-        classifiers: List of trove classifiers
-
-    Returns:
-        Development status choice or None
-    """
-    for classifier in classifiers:
-        if classifier.startswith("Development Status"):
-            return status_choices_switch(classifier)
-    return None
+        return PyPIPackage(raw=payload)
 
 
 def update_package_from_pypi(
@@ -314,7 +273,7 @@ def update_package_from_pypi(
     client = client or PyPIClient()
 
     try:
-        project = client.fetch_project(pypi_name)
+        pypi_info = client.fetch_package(pypi_name)
     except HTTPError as exc:
         response = exc.response
         status_code = response.status_code if response is not None else None
@@ -325,10 +284,12 @@ def update_package_from_pypi(
 
         if status_code == 404:
             logger.info("Package %s not found on PyPI (404)", pypi_name)
+
             if clear_pypi_url_on_404:
                 package.pypi_url = ""
                 if save:
                     package.save(update_fields=["pypi_url"])
+
             return package
 
         logger.exception("PyPI HTTP error for %s (%s): %s", pypi_name, status_code, exc)
@@ -337,63 +298,53 @@ def update_package_from_pypi(
         logger.exception("PyPI request failed for %s", pypi_name)
         return package
 
-    info = project.info
-    classifiers = project.classifiers
-
     # Update Package fields
-    if classifiers:
-        package.pypi_classifiers = classifiers
+    if pypi_info.classifiers:
+        package.pypi_classifiers = pypi_info.classifiers
 
-    requires_python = project.requires_python
-    if requires_python:
-        package.pypi_requires_python = requires_python
+    if pypi_info.requires_python:
+        package.pypi_requires_python = pypi_info.requires_python
 
-    supports_py3 = _supports_python3(requires_python, classifiers)
-    if supports_py3 is not None:
-        package.supports_python3 = supports_py3
+    if pypi_info.supports_python3 is not None:
+        package.supports_python3 = pypi_info.supports_python3
 
-    if not package.documentation_url:
-        docs_url = project.docs_url or _first_documentation_url(project.project_urls)
-        if docs_url:
-            package.documentation_url = docs_url
+    if pypi_info.docs_url:
+        package.documentation_url = pypi_info.docs_url
 
     # Prepare Version defaults
-    version_number = project.version
     defaults = {}
 
     # Development status
-    dev_status = _extract_development_status(classifiers)
-    if dev_status:
-        defaults["development_status"] = dev_status
+    if pypi_info.development_status:
+        defaults["development_status"] = pypi_info.development_status
 
-    if supports_py3 is True:
+    if package.supports_python3 is True:
         defaults["supports_python3"] = True
 
     # License information
-    licenses = _extract_license_list(
-        info.get("license"), info.get("license_expression"), classifiers
-    )
+    licenses = pypi_info.license_list
 
     if licenses:
-        defaults["licenses"] = licenses
         defaults["license"] = licenses[0]
+        defaults["licenses"] = licenses
 
     # Upload time
-    upload_time = _extract_upload_time(project.urls)
-    if upload_time is not None:
-        defaults["upload_time"] = upload_time
+    if pypi_info.version_upload_time is not None:
+        defaults["upload_time"] = pypi_info.version_upload_time
 
     # Create or update Version
     version_obj, created = Version.objects.update_or_create(
         package=package,
-        number=version_number,
+        number=pypi_info.version,
         defaults=defaults,
     )
 
     if created:
-        logger.info("Created new version %s for package %s", version_number, pypi_name)
+        logger.info(
+            "Created new version %s for package %s", pypi_info.version, pypi_name
+        )
     else:
-        logger.debug("Updated version %s for package %s", version_number, pypi_name)
+        logger.debug("Updated version %s for package %s", pypi_info.version, pypi_name)
 
     # Sync license information back to Package
     if licenses:

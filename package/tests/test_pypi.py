@@ -5,14 +5,14 @@ from requests.exceptions import HTTPError
 from package.models import Package, Version, Category
 from package.pypi import (
     PyPIClient,
-    _supports_python3,
+    PyPIPackage,
     update_package_from_pypi,
     PyPIRateLimitError,
 )
 
 
 class TestPyPIClient:
-    def test_fetch_project_success(self):
+    def test_fetch_package_success(self):
         client = PyPIClient()
         with patch("requests.Session.get") as mock_get:
             mock_response = Mock()
@@ -20,10 +20,11 @@ class TestPyPIClient:
             mock_response.json.return_value = {"info": {"name": "test-pkg"}, "urls": []}
             mock_get.return_value = mock_response
 
-            project = client.fetch_project("test-pkg")
-            assert project.name == "test-pkg"
+            package = client.fetch_package("test-pkg")
+            assert isinstance(package, PyPIPackage)
+            assert package.name == "test-pkg"
 
-    def test_fetch_project_404(self):
+    def test_fetch_package_404(self):
         client = PyPIClient()
         with patch("requests.Session.get") as mock_get:
             mock_response = Mock()
@@ -34,31 +35,84 @@ class TestPyPIClient:
             mock_get.return_value = mock_response
 
             with pytest.raises(HTTPError):
-                client.fetch_project("non-existent")
+                client.fetch_package("non-existent")
 
 
-class TestSupportPython3:
-    def test_classifiers_support(self):
-        classifiers = [
-            "Programming Language :: Python :: 3",
-            "Programming Language :: Python :: 3.10",
-        ]
-        assert _supports_python3(None, classifiers) is True
+class TestPyPIPackage:
+    def test_supports_python3_classifiers(self):
+        raw = {
+            "info": {
+                "classifiers": [
+                    "Programming Language :: Python :: 3",
+                    "Programming Language :: Python :: 3.10",
+                ]
+            }
+        }
+        pkg = PyPIPackage(raw)
+        assert pkg.supports_python3 is True
 
-    def test_requires_python_support(self):
-        assert _supports_python3(">=3.6", []) is True
-        assert _supports_python3(">=3.0", []) is True
+    def test_supports_python3_requires_python(self):
+        raw = {"info": {"requires_python": ">=3.6"}}
+        pkg = PyPIPackage(raw)
+        assert pkg.supports_python3 is True
 
-    def test_requires_python_no_support(self):
-        # Assuming _PY3_PROBE_VERSIONS are 3.x
-        assert _supports_python3("<3.0", []) is False
-        assert _supports_python3("==2.7", []) is False
+        raw = {"info": {"requires_python": ">=3.0"}}
+        pkg = PyPIPackage(raw)
+        assert pkg.supports_python3 is True
 
-    def test_invalid_specifier_fallback(self):
-        # Should fall back to classifiers if specifier is invalid
-        classifiers = ["Programming Language :: Python :: 3"]
-        assert _supports_python3("invalid-specifier", classifiers) is True
-        assert _supports_python3("invalid-specifier", []) is None
+    def test_supports_python3_no_support(self):
+        raw = {"info": {"requires_python": "<3.0"}}
+        pkg = PyPIPackage(raw)
+        assert pkg.supports_python3 is False
+
+        raw = {"info": {"requires_python": "==2.7"}}
+        pkg = PyPIPackage(raw)
+        assert pkg.supports_python3 is False
+
+    def test_supports_python3_invalid_specifier_fallback(self):
+        raw = {
+            "info": {
+                "requires_python": "invalid-specifier",
+                "classifiers": ["Programming Language :: Python :: 3"],
+            }
+        }
+        pkg = PyPIPackage(raw)
+        assert pkg.supports_python3 is True
+
+        raw = {
+            "info": {
+                "requires_python": "invalid-specifier",
+                "classifiers": [],
+            }
+        }
+        pkg = PyPIPackage(raw)
+        assert pkg.supports_python3 is None
+
+    def test_license_list_priority(self):
+        # Test PEP 639 license expression
+        raw = {"info": {"license_expression": "MIT"}}
+        pkg = PyPIPackage(raw)
+        assert pkg.license_list == ["MIT"]
+
+        # Test legacy license field
+        raw = {"info": {"license": "BSD"}}
+        pkg = PyPIPackage(raw)
+        assert pkg.license_list == ["BSD"]
+
+        # Test classifiers
+        raw = {
+            "info": {
+                "classifiers": ["License :: OSI Approved :: Apache Software License"]
+            }
+        }
+        pkg = PyPIPackage(raw)
+        assert pkg.license_list == ["Apache Software License"]
+
+    def test_version_upload_time(self):
+        raw = {"urls": [{"upload_time": "2023-01-01T12:00:00"}]}
+        pkg = PyPIPackage(raw)
+        assert pkg.version_upload_time is not None
+        assert pkg.version_upload_time.year == 2023
 
 
 @pytest.mark.django_db
@@ -96,16 +150,8 @@ class TestUpdatePackageFromPyPI:
         }
 
     def test_update_success(self, package, pypi_data):
-        with patch("package.pypi.PyPIClient.fetch_project") as mock_fetch:
-            mock_fetch.return_value = Mock(
-                info=pypi_data["info"],
-                classifiers=pypi_data["info"]["classifiers"],
-                requires_python=pypi_data["info"]["requires_python"],
-                urls=pypi_data["urls"],
-                docs_url=pypi_data["info"]["docs_url"],
-                version="1.0.0",
-                project_urls={},
-            )
+        with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
+            mock_fetch.return_value = PyPIPackage(pypi_data)
 
             updated_pkg = update_package_from_pypi(package)
 
@@ -116,7 +162,7 @@ class TestUpdatePackageFromPyPI:
             assert Version.objects.filter(package=package, number="1.0.0").exists()
 
     def test_update_404_clears_url(self, package):
-        with patch("package.pypi.PyPIClient.fetch_project") as mock_fetch:
+        with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
             mock_response = Mock()
             mock_response.status_code = 404
             mock_fetch.side_effect = HTTPError(response=mock_response)
@@ -127,7 +173,7 @@ class TestUpdatePackageFromPyPI:
             assert package.pypi_url == ""
 
     def test_update_429_raises_error(self, package):
-        with patch("package.pypi.PyPIClient.fetch_project") as mock_fetch:
+        with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
             mock_response = Mock()
             mock_response.status_code = 429
             mock_fetch.side_effect = HTTPError(response=mock_response)
@@ -139,16 +185,8 @@ class TestUpdatePackageFromPyPI:
         # Test PEP 639 license expression
         pypi_data["info"]["license_expression"] = "Apache-2.0"
 
-        with patch("package.pypi.PyPIClient.fetch_project") as mock_fetch:
-            mock_fetch.return_value = Mock(
-                info=pypi_data["info"],
-                classifiers=[],
-                requires_python=None,
-                urls=[],
-                docs_url=None,
-                version="1.0.0",
-                project_urls={},
-            )
+        with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
+            mock_fetch.return_value = PyPIPackage(pypi_data)
 
             update_package_from_pypi(package)
 
@@ -164,16 +202,9 @@ class TestUpdatePackageFromPyPI:
         assert result == package
 
     def test_create_version_with_upload_time(self, package, pypi_data):
-        with patch("package.pypi.PyPIClient.fetch_project") as mock_fetch:
-            mock_fetch.return_value = Mock(
-                info=pypi_data["info"],
-                classifiers=[],
-                requires_python=None,
-                urls=pypi_data["urls"],
-                docs_url=None,
-                version="2.0.0",
-                project_urls={},
-            )
+        pypi_data["info"]["version"] = "2.0.0"
+        with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
+            mock_fetch.return_value = PyPIPackage(pypi_data)
             update_package_from_pypi(package)
             v = Version.objects.get(package=package, number="2.0.0")
             assert v.upload_time is not None

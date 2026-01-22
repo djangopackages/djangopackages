@@ -516,16 +516,15 @@ def command(
             min_interval=pypi_min_interval,
             max_per_minute=pypi_max_per_minute if pypi_max_per_minute > 0 else None,
             jitter=jitter,
-            stop_on_limit=True,
+            stop_on_limit=False,
         ),
         git_rate_limiter=RateLimiter(
             min_interval=git_min_interval,
             max_per_minute=git_max_per_minute if git_max_per_minute > 0 else None,
             jitter=jitter,
-            stop_on_limit=True,
+            stop_on_limit=False,
         ),
         pypi_client=PyPIClient(
-            user_agent="djangopackages/unified-updater",
             timeout=pypi_timeout,
         ),
         github=github,
@@ -578,6 +577,8 @@ def command(
 
     # Print summary
     print(f"\n[bold green]{ctx.stats.summary()}[/bold green]")
+    elapsed = (time.monotonic() - ctx.started) / 60
+    print(f"[bold green]Completed in {elapsed:.2f} minutes[/bold green]")
 
     # Trigger healthchecks
     if hasattr(settings, "PYPI_HEALTHCHECK_URL") and not skip_pypi:
