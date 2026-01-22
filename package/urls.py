@@ -1,4 +1,5 @@
 from django.urls import path, re_path
+from django.views.decorators.cache import cache_page
 
 from package.views import (
     LatestPackageListView,
@@ -91,7 +92,7 @@ urlpatterns = [
     ),
     path(
         "p/<slug:slug>/opengraph/",
-        view=PackageOpenGraphDetailView.as_view(),
+        view=cache_page(60 * 60 * 24)(PackageOpenGraphDetailView.as_view()),
         name="package_opengraph",
     ),
     path(

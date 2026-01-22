@@ -1,6 +1,7 @@
 """grid url patterns"""
 
 from django.urls import path, re_path
+from django.views.decorators.cache import cache_page
 
 from grid.views import (
     AddGridView,
@@ -83,7 +84,7 @@ urlpatterns = [
     ),
     path(
         "g/<slug:slug>/opengraph/",
-        view=GridOpenGraphView.as_view(),
+        view=cache_page(60 * 60 * 24)(GridOpenGraphView.as_view()),
         name="grid_opengraph",
     ),
     path(
