@@ -88,7 +88,7 @@ class TestPyPIPackage:
         pkg = PyPIPackage(raw)
         assert pkg.supports_python3 is None
 
-    def test_license_list_priority(self):
+    def test_license_list(self):
         # Test PEP 639 license expression
         raw = {"info": {"license_expression": "MIT"}}
         pkg = PyPIPackage(raw)
@@ -108,11 +108,59 @@ class TestPyPIPackage:
         pkg = PyPIPackage(raw)
         assert pkg.license_list == ["Apache Software License"]
 
+    def test_license_list_priority(self):
+        raw = {
+            "info": {
+                # Priority 1 if `license_expression` is not present
+                # else omit this field
+                "license": "BSD",
+                # Priority 1
+                "license_expression": "MIT",
+                # Priority 2
+                "classifiers": [
+                    "License :: OSI Approved :: Apache Software License",
+                    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+                ],
+            }
+        }
+        pkg = PyPIPackage(raw)
+        assert pkg.license_list == [
+            "MIT",
+            "Apache Software License",
+            "GNU General Public License v3 (GPLv3)",
+        ]
+
+    def test_no_license(self):
+        raw = {"info": {"license_expression": ""}}
+        pkg = PyPIPackage(raw)
+        assert pkg.license_list == []
+
     def test_version_upload_time(self):
         raw = {"urls": [{"upload_time": "2023-01-01T12:00:00"}]}
         pkg = PyPIPackage(raw)
         assert pkg.version_upload_time is not None
         assert pkg.version_upload_time.year == 2023
+
+    def test_development_status(self):
+        raw = {
+            "info": {
+                "classifiers": [
+                    "Development Status :: 5 - Production/Stable",
+                    "Programming Language :: Python :: 3",
+                ]
+            }
+        }
+        pkg = PyPIPackage(raw)
+        assert pkg.development_status == 5
+
+    def test_docs_url(self):
+        raw = {"info": {"docs_url": "https://example.com/docs"}}
+        pkg = PyPIPackage(raw)
+        assert pkg.docs_url == "https://example.com/docs"
+
+        raw = {"info": {"project_urls": {"Documentation": "https://example.com/docs"}}}
+        pkg = PyPIPackage(raw)
+        assert pkg.docs_url == "https://example.com/docs"
 
 
 @pytest.mark.django_db
@@ -208,3 +256,90 @@ class TestUpdatePackageFromPyPI:
             update_package_from_pypi(package)
             v = Version.objects.get(package=package, number="2.0.0")
             assert v.upload_time is not None
+
+    def test_update_license_from_legacy(self, package, pypi_data):
+        pypi_data["info"]["license"] = "BSD License"
+        pypi_data["info"]["license_expression"] = None
+        pypi_data["info"]["classifiers"] = []
+
+        with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
+            mock_fetch.return_value = PyPIPackage(pypi_data)
+            update_package_from_pypi(package)
+
+            package.refresh_from_db()
+            assert package.pypi_license == "BSD License"
+            assert package.pypi_licenses == ["BSD License"]
+
+    def test_update_license_from_classifiers(self, package, pypi_data):
+        pypi_data["info"]["license"] = None
+        pypi_data["info"]["license_expression"] = None
+        pypi_data["info"]["classifiers"] = ["License :: OSI Approved :: BSD License"]
+
+        with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
+            mock_fetch.return_value = PyPIPackage(pypi_data)
+            update_package_from_pypi(package)
+
+            package.refresh_from_db()
+            assert package.pypi_license == "BSD License"
+            assert package.pypi_licenses == ["BSD License"]
+
+    def test_update_license_too_long(self, package, pypi_data):
+        long_license = "x" * 50
+        pypi_data["info"]["license"] = long_license
+        pypi_data["info"]["license_expression"] = None
+        pypi_data["info"]["classifiers"] = []
+
+        with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
+            mock_fetch.return_value = PyPIPackage(pypi_data)
+            update_package_from_pypi(package)
+
+            package.refresh_from_db()
+            assert package.pypi_license == "Custom"
+            assert package.pypi_licenses == ["Custom"]
+
+    def test_update_development_status(self, package, pypi_data):
+        pypi_data["info"]["classifiers"] = ["Development Status :: 3 - Alpha"]
+
+        with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
+            mock_fetch.return_value = PyPIPackage(pypi_data)
+            update_package_from_pypi(package)
+
+            version = package.latest_version
+            assert version.development_status == 3
+            assert version.pretty_status == "Alpha"
+            assert package.development_status == "Alpha"
+
+    def test_update_requires_python(self, package, pypi_data):
+        pypi_data["info"]["requires_python"] = ">=3.10"
+        pypi_data["info"]["classifiers"] = []
+
+        with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
+            mock_fetch.return_value = PyPIPackage(pypi_data)
+            update_package_from_pypi(package)
+
+            package.refresh_from_db()
+            assert package.pypi_requires_python == ">=3.10"
+            assert package.supports_python3 is True
+
+    def test_update_requires_python_unsupported(self, package, pypi_data):
+        pypi_data["info"]["requires_python"] = "<3"
+        pypi_data["info"]["classifiers"] = []
+
+        with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
+            mock_fetch.return_value = PyPIPackage(pypi_data)
+            update_package_from_pypi(package)
+
+            package.refresh_from_db()
+            assert package.pypi_requires_python == "<3"
+            assert package.supports_python3 is False
+
+    def test_update_classifiers(self, package, pypi_data):
+        classifiers = ["Framework :: Django", "Programming Language :: Python :: 3"]
+        pypi_data["info"]["classifiers"] = classifiers
+
+        with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
+            mock_fetch.return_value = PyPIPackage(pypi_data)
+            update_package_from_pypi(package)
+
+            package.refresh_from_db()
+            assert package.pypi_classifiers == classifiers
