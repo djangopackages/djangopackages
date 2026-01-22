@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import timedelta
-from typing import Literal
 
 from django.db.models import OuterRef, Subquery, Value, BooleanField, Max, QuerySet
 from django.db.models.functions import Coalesce
@@ -362,45 +361,3 @@ def update_commit_stats_bulk(
         total_count=total_packages,
         skipped_count=total_packages - total_updated,
     )
-
-
-def update_package_stat_fields_bulk(
-    packages_qs: QuerySet,
-    *,
-    batch_size: int = 1000,
-    update_version: bool = True,
-    update_commits: bool = True,
-    progress_callback: callable | None = None,
-) -> dict[Literal["version", "commits"], UpdateResult]:
-    """
-    Update all cached fields for multiple packages efficiently.
-
-    Args:
-        packages_qs: QuerySet of Package objects
-        batch_size: Packages per batch (default: 1000)
-        update_version: Whether to update latest_version
-        update_commits: Whether to update commit statistics
-        progress_callback: Optional callback for progress updates
-
-    Returns:
-        Dict with 'version' and/or 'commits' keys containing UpdateResults
-
-    Example:
-        >>> packages = Package.objects.filter(archived=False)
-        >>> results = update_package_stat_fields_bulk(packages)
-        >>> print(f"Versions: {results['version'].updated_count}")
-        >>> print(f"Commits: {results['commits'].updated_count}")
-    """
-    results = {}
-
-    if update_version:
-        results["version"] = update_latest_version_bulk(
-            packages_qs, batch_size=batch_size, progress_callback=progress_callback
-        )
-
-    if update_commits:
-        results["commits"] = update_commit_stats_bulk(
-            packages_qs, batch_size=batch_size, progress_callback=progress_callback
-        )
-
-    return results
