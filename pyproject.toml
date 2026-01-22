@@ -1,5 +1,5 @@
 [tool.bumpver]
-current_version = "2026.1.51"
+current_version = "2026.1.57"
 version_pattern = "YYYY.MM.INC1"
 commit_message = ":bookmark: bump version {old_version} -> {new_version} [skip ci]"
 commit = true
@@ -150,6 +150,12 @@ dev = [
 ci = [
     # utils
   "bumpver",
+]
+
+docs = [
+  "mkdocs",
+  "mkdocs-material",
+  "mkdocstrings[python]",
 ]
 
 maintenance = [

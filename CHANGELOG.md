@@ -1,5 +1,18 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-01-19]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1521](https://github.com/djangopackages/djangopackages/pull/1521))
+
+## [2026-01-18]
+### Changed
+- Bump gunicorn workers to 6 and django-q workers to 4 ([#1519](https://github.com/djangopackages/djangopackages/pull/1519))
+
+## [2026-01-16]
+### Changed
+- ⬆️ Bump django from 5.2.8 to 5.2.9 ([#1516](https://github.com/djangopackages/djangopackages/pull/1516))
+- Use UV for Docs and Fix 404 Page Styling Issue ([#1512](https://github.com/djangopackages/djangopackages/pull/1512))
+
 ## [2026-01-14]
 ### Changed
 - Fix N+1 Query on the Readiness Index Page ([#1508](https://github.com/djangopackages/djangopackages/pull/1508))

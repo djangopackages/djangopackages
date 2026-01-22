@@ -43,7 +43,7 @@ def command(verbose):
         name="Activity Rules",
         description="Rules related to the package's recent activity",
         max_score=40,
-        documentation_url="https://docs.yoursite.com/rules/groups/activity",
+        documentation_url="https://docs.yoursite.com/rules/#searchv2.rules.ScoreRuleGroup",
         rules=[LastUpdatedRule(), RecentReleaseRule()],
     )
 

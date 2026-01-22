@@ -515,7 +515,7 @@ Q_CLUSTER = {
     "timeout": 600,  # this won't work for longer running tasks that might take hours to run
     "retry": 700,
     "max_attempts": 1,
-    "workers": 2,
+    "workers": 4,
 }
 
 if Q_REDIS_URL := env("Q_REDIS_URL", default=None):
@@ -526,7 +526,7 @@ else:
 if DEBUG:
     DOCS_URL = "http://0.0.0.0:4000"
 else:
-    DOCS_URL = "https://docs.djangopackages.org"
+    DOCS_URL = "https://docs.djangopackages.org/en/latest"
 
 TAILWIND_CLI_AUTOMATIC_DOWNLOAD = DEBUG
 TAILWIND_CLI_DIST_CSS = "css/tailwind.css"
