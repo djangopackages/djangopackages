@@ -7,7 +7,7 @@ from model_bakery import baker
 from package.models import Commit, Package, Version
 
 
-def test_sync_package_fields_updates_commit_stats(db, category):
+def test_sync_package_stat_fields_updates_commit_stats(db, category):
     package = baker.make(
         Package,
         category=category,
@@ -31,7 +31,7 @@ def test_sync_package_fields_updates_commit_stats(db, category):
         commit_date=now_dt - datetime.timedelta(days=370),
     )
 
-    call_command("sync_package_fields", "--no-versions", "--slug", package.slug)
+    call_command("sync_package_stat_fields", "--no-versions", "--slug", package.slug)
 
     package.refresh_from_db()
 
@@ -45,7 +45,7 @@ def test_sync_package_fields_updates_commit_stats(db, category):
     assert sum(package.commits_over_52w) == 2
 
 
-def test_sync_package_fields_updates_latest_version(db, category):
+def test_sync_package_stat_fields_updates_latest_version(db, category):
     package = baker.make(
         Package,
         category=category,
@@ -79,7 +79,7 @@ def test_sync_package_fields_updates_latest_version(db, category):
         upload_time=make_aware(datetime.datetime(2022, 12, 1, 0, 0)),
     )
 
-    call_command("sync_package_fields", "--no-commits", "--slug", package.slug)
+    call_command("sync_package_stat_fields", "--no-commits", "--slug", package.slug)
     package.refresh_from_db()
 
     assert package.latest_version_id == v2.id
