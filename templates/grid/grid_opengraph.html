@@ -2,23 +2,32 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body class="">
-        <div class="static absolute w-[1200px] h-[630px] bg-[#44b78b]">
-            <main class="px-32 pt-12">
-                <div class="text-6xl font-bold text-white">Grid :: {{ grid.title }}</div>
-                <div class="pt-8 text-4xl text-green-100">{{ grid.description }}</div>
+    <body class="font-sans antialiased">
+        <div class="flex relative flex-col justify-between w-[1200px] h-[630px] bg-[oklch(0.98_0_0)]">
+            <div class="w-full h-4 bg-[oklch(0.3176_0.0648_159.21)]"></div>
+            <main class="flex-1 px-24 pt-24">
+                <div class="inline-flex items-center py-2 px-6 mb-8 text-xl font-bold rounded-full border-2 border-[oklch(0.3176_0.0648_159.21)] bg-[oklch(0.3176_0.0648_159.21)]/10 text-[oklch(0.3176_0.0648_159.21)]">
+                    Grid
+                </div>
+                <h1 class="mb-6 text-7xl font-bold tracking-tight leading-tight text-[oklch(0.15_0_0)] line-clamp-2">
+                    {{ grid.title }}
+                </h1>
+                <p class="text-4xl leading-normal text-[oklch(0.45_0_0)] line-clamp-3">
+                    {{ grid.description }}
+                </p>
             </main>
-            <footer class="absolute bottom-0 left-0 w-full">
-                <section class="py-8 px-32">
-                    <div class="text-2xl text-gray-900">https://djangogrids.org{% url "grid" slug=grid.slug %}</div>
-                </section>
-                <section class="flex flex-row py-4 px-32 text-white bg-black">
-                    <span class="flex-none self-center"><img src="https://djangopackages.org/static/img/logo_squares.png" alt="[[Django Packages Logo]]"></span>
-                    <span class="flex-1 self-center pl-4 text-7xl text-white">Django Packages</span>
-                </section>
+            <div class="px-24 pb-10">
+                <div class="text-2xl font-medium text-[oklch(0.45_0_0)]">
+                    https://djangogrids.org{% url "grid" slug=grid.slug %}
+                </div>
+            </div>
+            <footer class="py-8 bg-[oklch(0.3176_0.0648_159.21)]">
+                <div class="flex gap-6 justify-center items-center">
+                    <img src="https://djangopackages.org/static/img/logo_squares.png" alt="Django Packages" class="w-auto h-14 brightness-0 invert">
+                    <span class="text-5xl font-bold leading-none text-white">Django Packages</span>
+                </div>
             </footer>
         </div>
     </body>
