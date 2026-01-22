@@ -454,19 +454,19 @@ def command(
 
     Examples:
         # Update all stale packages (older than 24 hours)
-        python manage.py unified_updater
+        python manage.py package_updater2
 
         # Update all packages regardless of staleness
-        python manage.py unified_updater --all
+        python manage.py package_updater2 --all
 
         # Update a specific package
-        python manage.py unified_updater --pypi-url django
+        python manage.py package_updater2 --pypi-url django
 
         # Run with a 5-minute time budget
-        python manage.py unified_updater --time-budget 300
+        python manage.py package_updater2 --time-budget 300
 
         # Only update Git data and scores (skip PyPI)
-        python manage.py unified_updater --skip-pypi
+        python manage.py package_updater2 --skip-pypi
     """
     if chunk_size <= 0:
         raise click.ClickException("--chunk-size must be > 0")
