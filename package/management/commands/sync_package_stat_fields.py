@@ -105,19 +105,19 @@ def command(
     Examples:
 
         # Update all packages
-        python manage.py backfill_package_fields
+        python manage.py sync_package_stat_fields
 
         # Update specific packages
-        python manage.py backfill_package_fields --package-id 1 --package-id 2
+        python manage.py sync_package_stat_fields --package-id 1 --package-id 2
 
         # Update by slug with custom batch size
-        python manage.py backfill_package_fields --slug django --batch-size 500
+        python manage.py sync_package_stat_fields --slug django --batch-size 500
 
         # Preview changes
-        python manage.py backfill_package_fields --dry-run
+        python manage.py sync_package_stat_fields --dry-run
 
         # Only update commit data
-        python manage.py backfill_package_fields --no-versions
+        python manage.py sync_package_stat_fields --no-versions
     """
     # Validate inputs
     if batch_size <= 0:
