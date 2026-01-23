@@ -490,6 +490,13 @@ Listed in alphabetical order.
     <td>radiac</td>
   </tr>
   <tr>
+    <td>Rust Saiargaliev</td>
+    <td>
+      <a href="https://github.com/amureki">amureki</a>
+    </td>
+    <td>amureki</td>
+  </tr>
+  <tr>
     <td>Ryan Cheley</td>
     <td>
       <a href="https://github.com/ryancheley">ryancheley</a>
