@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-01-22]
+### Changed
+- Redesign Opengraph Image for Package and Grid Detail Pages ([#1523](https://github.com/djangopackages/djangopackages/pull/1523))
+- Fix #1373 -- Add support for PEP 639 license_expression field ([#1522](https://github.com/djangopackages/djangopackages/pull/1522))
+
 ## [2026-01-19]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1521](https://github.com/djangopackages/djangopackages/pull/1521))
