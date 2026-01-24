@@ -429,3 +429,30 @@ class TestProfileExtraFieldViews(ProfileViewsTestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertFalse(ExtraField.objects.filter(pk=extra.pk).exists())
+
+
+class TestProfileOpenGraphDetailView(ProfileViewsTestCase):
+    def test_opengraph_view_renders_image(self):
+        _, profile = self.create_user_with_profile(username="oguser")
+        profile.bitbucket_url = "og-bb"
+        profile.save()
+
+        ExtraField.objects.create(
+            profile=profile, label="Site", url="https://example.com"
+        )
+        ExtraField.objects.create(
+            profile=profile, label="Site2", url="https://example2.com"
+        )
+        ExtraField.objects.create(
+            profile=profile, label="Site3", url="https://example3.com"
+        )
+
+        url = reverse(
+            "profile_opengraph", kwargs={"github_account": profile.github_account}
+        )
+
+        with self.assertNumQueries(2):
+            response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context["opengraph_urls"]), 4)
