@@ -15,6 +15,56 @@ from profiles.forms import ProfileForm, ExtraFieldForm
 from profiles.models import Profile, ExtraField
 
 
+class ProfileOpenGraphDetailView(DetailView):
+    model = Profile
+    template_name = "profiles/profile_opengraph.html"
+    slug_url_kwarg = "github_account"
+    slug_field = "github_account"
+    context_object_name = "local_profile"
+
+    def get_queryset(self):
+        return super().get_queryset().select_related("user")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profile = self.object
+        urls = []
+
+        if profile.github_account:
+            urls.append(
+                {
+                    "icon": "fab fa-github",
+                    "text": f"https://github.com/{profile.github_account}",
+                    "url": f"https://github.com/{profile.github_account}",
+                }
+            )
+        if profile.bitbucket_url:
+            urls.append(
+                {
+                    "icon": "fab fa-bitbucket",
+                    "text": f"https://bitbucket.org/{profile.bitbucket_url}",
+                    "url": f"https://bitbucket.org/{profile.bitbucket_url}",
+                }
+            )
+        if profile.gitlab_url:
+            urls.append(
+                {
+                    "icon": "fab fa-gitlab",
+                    "text": f"https://gitlab.com/{profile.gitlab_url}",
+                    "url": f"https://gitlab.com/{profile.gitlab_url}",
+                }
+            )
+
+        # Allow at most 4 URLs to be shown
+        remaining = 4 - len(urls)
+
+        for field in profile.extrafield_set.all()[:remaining]:
+            urls.append({"icon": "fas fa-link", "text": field.url, "url": field.url})
+
+        context["opengraph_urls"] = urls
+        return context
+
+
 class ProfileDetailView(DetailView):
     model = Profile
     template_name = "profiles/profile_detail.html"

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="font-sans antialiased">
+        <div class="flex relative flex-col justify-between w-[1200px] h-[630px] bg-[oklch(0.98_0_0)]">
+            <div class="w-full h-4 bg-[oklch(0.3176_0.0648_159.21)]"></div>
+            <main class="flex flex-1 justify-between items-center px-24">
+                <div class="flex flex-col max-w-[700px]">
+                    <div class="inline-flex items-center self-start py-2 px-6 mb-8 text-xl font-bold rounded-full border-2 border-[oklch(0.3176_0.0648_159.21)] bg-[oklch(0.3176_0.0648_159.21)]/10 text-[oklch(0.3176_0.0648_159.21)]">
+                        Profile
+                    </div>
+                    <h1 class="mb-2 text-5xl font-bold tracking-tight leading-tight text-[oklch(0.15_0_0)] line-clamp-1">
+                        {% if local_profile.user.get_full_name %}
+                            {{ local_profile.user.get_full_name }}
+                        {% else %}
+                            {{ local_profile.github_account }}
+                        {% endif %}
+                    </h1>
+                    <p class="mb-6 text-3xl text-[oklch(0.45_0_0)]">
+                        @{{ local_profile.github_account }}
+                    </p>
+
+                    <div class="flex flex-col gap-5 mt-4">
+                        {% for link in opengraph_urls %}
+                            <div class="flex gap-4 items-center text-2xl text-[oklch(0.45_0_0)]">
+                                <div class="w-12 text-center">
+                                    <i class="{{ link.icon }}"></i>
+                                </div>
+                                <span class="font-medium truncate max-w-[600px]">{{ link.text }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="flex-shrink-0">
+                    <div class="flex overflow-hidden justify-center items-center w-80 h-80 text-9xl text-green-800 rounded-full border shadow-sm bg-green-800/20 border-green-800/20">
+                        <span class="font-bold">{{ local_profile.github_account|slice:":2"|upper }}</span>
+                    </div>
+                </div>
+            </main>
+            <footer class="py-8 bg-[oklch(0.3176_0.0648_159.21)]">
+                <div class="flex gap-6 justify-center items-center">
+                    <img src="https://djangopackages.org/static/img/logo_squares.png" alt="Django Packages" class="w-auto h-14 brightness-0 invert">
+                    <span class="text-5xl font-bold leading-none text-white">Django Packages</span>
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>
