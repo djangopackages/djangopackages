@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.decorators.cache import cache_page
 
 from profiles import views
 
@@ -33,5 +34,10 @@ urlpatterns = [
         "<slug:github_account>/favorites/",
         views.ProfileFavoritePackagesView.as_view(),
         name="profile_favorite_packages",
+    ),
+    path(
+        "<slug:github_account>/opengraph/",
+        view=cache_page(60 * 60 * 24)(views.ProfileOpenGraphDetailView.as_view()),
+        name="profile_opengraph",
     ),
 ]

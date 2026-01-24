@@ -143,6 +143,9 @@ class Profile(BaseModel):
             return self.user.has_perm("grid.change_element")
         return True
 
+    def get_opengraph_image_url(self):
+        return reverse("profile_opengraph", args=[self.github_account])
+
 
 class ExtraField(BaseModel):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)

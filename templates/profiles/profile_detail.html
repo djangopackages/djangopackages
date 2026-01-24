@@ -3,7 +3,7 @@
 
 {% block metadata %}
     {% translate "Profile for " as trans_title %}
-    {% page_metadata page_title=trans_title|add:profile.github_account %}
+    {% page_metadata page_title=trans_title|add:profile.github_account og_image_url=profile.get_opengraph_image_url %}
 {% endblock metadata %}
 
 {% block content %}
