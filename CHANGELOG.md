@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-01-23]
+### Changed
+- Fix link style in post detail and list templates ([#1524](https://github.com/djangopackages/djangopackages/pull/1524))
+
 ## [2026-01-22]
 ### Changed
 - Redesign Opengraph Image for Package and Grid Detail Pages ([#1523](https://github.com/djangopackages/djangopackages/pull/1523))
