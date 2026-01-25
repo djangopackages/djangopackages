@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-01-24]
+### Changed
+- Add OpenGraph Image for User Profile ([#1525](https://github.com/djangopackages/djangopackages/pull/1525))
+
 ## [2026-01-23]
 ### Changed
 - Fix link style in post detail and list templates ([#1524](https://github.com/djangopackages/djangopackages/pull/1524))
