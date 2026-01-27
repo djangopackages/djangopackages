@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-01-26]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1526](https://github.com/djangopackages/djangopackages/pull/1526))
+
 ## [2026-01-24]
 ### Changed
 - Add OpenGraph Image for User Profile ([#1525](https://github.com/djangopackages/djangopackages/pull/1525))
