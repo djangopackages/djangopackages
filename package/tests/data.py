@@ -40,6 +40,7 @@ def load():
         repo_forks=283,
         slug="django-cms",
         repo_description="An Advanced Django CMS.",
+        last_commit_date=active_package_last_commit,
     )
     commit, created = Commit.objects.get_or_create(
         package_id=6,
@@ -59,6 +60,7 @@ def load():
         repo_forks=1000,
         slug="django-divioadmin",
         repo_description="not maintained anymore.",
+        last_commit_date=abandoned_package_last_commit,
     )
     commit, created = Commit.objects.get_or_create(
         package_id=7,
@@ -78,6 +80,7 @@ def load():
         repo_forks=1000,
         slug="django-divioadmin2",
         repo_description="not maintained anymore.",
+        last_commit_date=abandoned_package_last_commit_10_years,
     )
     commit, created = Commit.objects.get_or_create(
         package_id=8,

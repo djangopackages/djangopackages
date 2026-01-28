@@ -35,11 +35,6 @@ def participant_url(parser, token):
     return ParticipantURLNode(repo, participant)
 
 
-@register.filter
-def commits_over_52(package):
-    return package.commits_over_52()
-
-
 @register.filter()
 @stringfilter
 def emojify(value):

@@ -1,3 +1,4 @@
+from package.scores import update_package_score
 import pytest
 
 
@@ -91,7 +92,8 @@ def test_package_abandoned_score(package_abandoned):
     # abandoned for 2 years = loss 10% for each 3 months = 80% of the stars
     # + a -30% for not supporting python 3
     assert package_abandoned.repo_watchers == 1000
-    assert package_abandoned.calculate_score() == -100
+    update_package_score(package_abandoned, save=True)
+    assert package_abandoned.score == -100
 
 
 def test_package_abandoned_ten_years_score(package_abandoned_ten_years):
@@ -100,7 +102,8 @@ def test_package_abandoned_ten_years_score(package_abandoned_ten_years):
     # abandoned for 2 years = loss 10% for each 3 months = 80% of the stars
     # + a -30% for not supporting python 3
     assert package_abandoned_ten_years.repo_watchers == 1000
-    assert package_abandoned_ten_years.calculate_score() == -500.0
+    update_package_score(package_abandoned_ten_years, save=True)
+    assert package_abandoned_ten_years.score == -500.0
 
 
 def test_package_example(package_example):

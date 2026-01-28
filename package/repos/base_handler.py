@@ -4,8 +4,11 @@ Base class for objects that interact with third-party code repository services.
 
 import json
 import re
-
 import requests
+
+
+class RepoRateLimitError(Exception):
+    pass
 
 
 class BaseHandler:
@@ -32,7 +35,7 @@ class BaseHandler:
         """
         return NotImplemented
 
-    def fetch_metadata(self, package):
+    def fetch_metadata(self, package, *, save: bool = True):
         """Accepts a package.models.Package instance:
 
             return: package.models.Package instance
@@ -47,7 +50,7 @@ class BaseHandler:
         """
         return NotImplemented
 
-    def fetch_commits(self, package):
+    def fetch_commits(self, package, *, save: bool = True):
         """Accepts a package.models.Package instance:"""
         return NotImplemented
 
@@ -110,6 +113,8 @@ class BaseHandler:
         Helpful utility method to do a quick GET for JSON data.
         """
         r = requests.get(target)
+        if r.status_code == 429:
+            raise RepoRateLimitError("repo rate limit reached")
         if r.status_code != 200:
             r.raise_for_status()
         return json.loads(r.content)

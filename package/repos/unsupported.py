@@ -7,14 +7,24 @@ class UnsupportedHandler(BaseHandler):
     url_regex = ""
     url = ""
 
-    def fetch_metadata(self, package):
+    def fetch_metadata(self, package, save=True):
         package.repo_watchers = 0
         package.repo_forks = 0
         package.repo_description = ""
         package.participants = ""
 
-    def fetch_commits(self, package):
+        if save:
+            package.save()
+        return package
+
+    def fetch_commits(self, package, save=True):
         package.commit_set.all().delete()
+        package.commits_over_52 = ""
+        package.last_commit_date = None
+
+        if save:
+            package.save()
+        return package
 
 
 repo_handler = UnsupportedHandler()
