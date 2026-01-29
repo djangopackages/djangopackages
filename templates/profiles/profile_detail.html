@@ -8,10 +8,10 @@
 
 {% block content %}
     <div class="container py-8 px-4 mx-auto">
-        <div class="flex flex-col gap-8 md:flex-row">
+        <div class="flex flex-col gap-8 lg:flex-row">
         <!-- Sidebar -->
-            <div class="space-y-6 w-full md:w-1/4">
-                <div class="flex flex-col items-center md:items-start">
+            <div class="space-y-6 w-full lg:w-1/4">
+                <div class="flex flex-col items-center lg:items-start">
                 <!-- Avatar placeholder -->
                     <div class="flex overflow-hidden justify-center items-center mb-4 w-64 h-64 text-6xl text-green-800 rounded-full border shadow-sm bg-green-800/20 border-green-800/20">
                         <span class="font-bold">{{ local_profile.github_account|slice:":2"|upper }}</span>
@@ -62,7 +62,7 @@
             </div>
 
         <!-- Main Content -->
-            <div class="w-full md:w-3/4">
+            <div class="w-full lg:w-3/4">
 
             <!-- Packages Contributed To -->
                 <div class="mb-8 card"

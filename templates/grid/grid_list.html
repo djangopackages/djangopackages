@@ -10,15 +10,15 @@
     <!-- Breadcrumb Section -->
     <section class="py-4 bg-primary/10">
         <div class="container px-4 mx-auto">
-            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
+            <div class="flex flex-col gap-3 lg:flex-row lg:justify-between lg:items-center">
                 <div class="flex items-center text-sm text-muted-foreground">
                     <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
                     <span class="mx-2">»</span>
                     <span class="font-medium text-foreground truncate">{% translate "Grids" %}</span>
                 </div>
-                <div class="flex flex-wrap gap-2 items-center w-full sm:w-auto">
+                <div class="flex flex-wrap gap-2 items-center w-full lg:w-auto">
                     {% if request.user.is_authenticated and request.user.profile.can_add_grid %}
-                        <a href="{% url 'add_grid' %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                        <a href="{% url 'add_grid' %}" class="flex-1 flex-shrink-0 lg:flex-none btn-secondary">
                             <i class="mr-1 text-base ph-bold ph-plus"></i>
                             <span>{% translate "Add Grid" %}</span>
                         </a>
@@ -49,13 +49,17 @@
                            hx-get="{% url 'grids' %}"
                            hx-trigger="keyup changed delay:300ms"
                            hx-target="#grid-list-container"
+                           hx-indicator="#grid-list-spinner"
                            hx-include="#grid-list-state input"
                            hx-push-url="true">
                 </div>
             </div>
         </div>
 
-        <div class="mt-6 card">
+        <div class="relative mt-6 card">
+            <div id="grid-list-spinner" class="flex absolute inset-0 z-10 justify-center items-center rounded-xl pointer-events-none htmx-indicator bg-background/50 backdrop-blur-[1px]">
+                <i class="text-4xl animate-spin ph-bold ph-circle-notch text-primary"></i>
+            </div>
             <div class="p-6 card-content">
                 <div id="grid-list-container">
                     {% include "partials/grid_list_body.html" %}

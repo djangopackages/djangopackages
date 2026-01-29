@@ -55,9 +55,15 @@
                                    hx-get="{% url 'ajax_package_search' %}"
                                    hx-trigger="keyup changed delay:300ms"
                                    hx-target="#target"
+                                   hx-indicator="#search-spinner"
                                    hx-vals='{"grid": "{{ grid.slug }}"}'
                                    onkeydown="if(event.key === 'Enter') event.preventDefault()"
                                    class="!pl-12 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                            <div class="flex absolute right-3 top-1/2 items-center space-x-1 transform -translate-y-1/2">
+                                <div id="search-spinner" class="htmx-indicator">
+                                    <i class="animate-spin ph-bold ph-circle-notch text-muted-foreground"></i>
+                                </div>
+                            </div>
                             <div id="target" class="absolute z-50 mt-1 w-full"></div>
                         </div>
                         {% if form.package.errors %}

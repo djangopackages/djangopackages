@@ -32,7 +32,7 @@
 
         {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="edit-package-form" ea_outer_class="mb-4" ea_inner_class="flex justify-left" %}
 
-        <div class="max-w-3xl card">
+        <div class="mx-auto max-w-3xl card">
             <div class="p-6 card-content" id="package-form-container">
                 {% include "partials/package_form.html" with action="edit" form_action=request.path %}
             </div>

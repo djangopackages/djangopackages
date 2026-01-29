@@ -320,14 +320,22 @@ document.addEventListener("DOMContentLoaded", function () {
         input.addEventListener("focus", () => { if (input.value.trim()) open(); });
         input.addEventListener("input", () => { input.value.trim() ? open() : close(); });
 
-        // Delay close on blur to allow clicks on dropdown items to complete
-        input.addEventListener("blur", () => {
-            blurTimeout = setTimeout(close, 200);
+        // Close when clicking outside
+        document.addEventListener("click", (e) => {
+            if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+                close();
+            }
         });
 
-        // Cancel blur-close if user is interacting with dropdown
-        dropdown.addEventListener("mousedown", () => clearTimeout(blurTimeout));
-        dropdown.addEventListener("touchstart", () => clearTimeout(blurTimeout), { passive: true });
+        // Close when focusing outside (e.g. tabbing), but ignore body (mobile keyboard close)
+        input.addEventListener("blur", () => {
+            setTimeout(() => {
+                const active = document.activeElement;
+                if (active && active !== document.body && active !== document.documentElement && !input.contains(active) && !dropdown.contains(active)) {
+                    close();
+                }
+            }, 100);
+        });
     };
 
     // Initialize for all search inputs

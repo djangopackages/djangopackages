@@ -9,7 +9,7 @@
     <!-- Breadcrumb Section -->
     <section class="py-4 bg-primary/10">
         <div class="container px-4 mx-auto">
-            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
+            <div class="flex flex-col gap-3 lg:flex-row lg:justify-between lg:items-center">
                 <div class="flex items-center text-sm text-muted-foreground">
                     <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
                     <span class="mx-2">»</span>
@@ -17,24 +17,24 @@
                     <span class="mx-2">»</span>
                     <span class="font-medium text-foreground truncate">{{ package.title }}</span>
                 </div>
-                <div class="flex flex-wrap gap-2 items-center w-full sm:w-auto">
+                <div class="flex flex-wrap gap-2 items-center w-full lg:w-auto">
                     {% if request.user.is_authenticated %}
-                        <a href="{% url 'edit_package' package.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                        <a href="{% url 'edit_package' package.slug %}" class="flex-1 flex-shrink-0 lg:flex-none btn-secondary">
                             <i class="mr-1 text-base ph-bold ph-pencil-simple"></i>
                             <span>{% translate "Edit" %}</span>
                         </a>
                     {% endif %}
-                    <a href="{% url 'package_rules' package.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                    <a href="{% url 'package_rules' package.slug %}" class="flex-1 flex-shrink-0 lg:flex-none btn-secondary">
                         <i class="mr-1 text-base ph-bold ph-chart-bar"></i>
                         <span>{% translate "Package Score" %}</span>
                     </a>
                     {% if has_approved_flag %}
-                        <button disabled class="flex-1 flex-shrink-0 text-red-600 bg-red-50 border-red-200 cursor-not-allowed sm:flex-none btn-secondary" title="{% translate 'This package has been flagged.' %}">
+                        <button disabled class="flex-1 flex-shrink-0 text-red-600 bg-red-50 border-red-200 cursor-not-allowed lg:flex-none btn-secondary" title="{% translate 'This package has been flagged.' %}">
                             <i class="mr-1 text-base ph-bold ph-flag"></i>
                             <span id="flag-text">{% translate "Flagged" %}</span>
                         </button>
                     {% else %}
-                        <a href="{% url 'flag' package.slug %}" id="flag-btn" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                        <a href="{% url 'flag' package.slug %}" id="flag-btn" class="flex-1 flex-shrink-0 lg:flex-none btn-secondary">
                             <i class="mr-1 text-base ph-bold ph-flag"></i>
                             <span id="flag-text">{% translate "Flag" %}</span>
                         </a>
