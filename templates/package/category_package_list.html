@@ -48,7 +48,7 @@
                            placeholder="{% translate 'Search packages in ' %}{{ category.title }}..."
                            value="{{ search_query }}"
                            hx-get="{% url 'category' category.slug %}"
-                           hx-trigger="keyup changed delay:300ms"
+                           hx-trigger="input changed delay:300ms"
                            hx-target="#package-list-container"
                            hx-indicator="#package-list-spinner"
                            hx-include="#package-list-state input"

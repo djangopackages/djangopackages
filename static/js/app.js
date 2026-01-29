@@ -424,15 +424,21 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         // Click outside the dialog closes
-        searchModal.addEventListener("pointerdown", (e) => {
+        searchModal.addEventListener("click", (e) => {
             if (!isSearchModalOpen()) return;
             if (!searchModalPanel) return;
 
             const clickedInsidePanel = searchModalPanel.contains(e.target);
             if (!clickedInsidePanel) {
                 e.preventDefault();
+                e.stopPropagation();
                 closeSearchModal();
             }
+        });
+
+        // Prevent clicks inside the panel from reaching the modal container
+        searchModalPanel.addEventListener("click", (e) => {
+            e.stopPropagation();
         });
 
         // Basic focus trap inside dialog

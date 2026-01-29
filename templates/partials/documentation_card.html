@@ -10,6 +10,7 @@
                 hx-get="{% url 'edit_documentation' package.slug %}"
                 hx-target="#documentation-card"
                 hx-swap="innerHTML"
+                hx-indicator="#documentation-spinner"
                 onclick="document.getElementById('documentation-card').originalContent = document.getElementById('documentation-card').innerHTML"
                 class="px-2 h-8 text-xs btn-secondary"
                 title="{% translate 'Edit documentation' %}"

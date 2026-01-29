@@ -100,7 +100,7 @@
                                    class="pr-4 pl-10 w-full h-10 rounded-lg border shadow-sm transition-shadow focus:ring-2 focus:outline-none bg-background text-foreground focus:ring-primary"
                                    hx-get="{% url 'grid' grid.slug %}"
                                    hx-target="#comparison-table"
-                                   hx-trigger="keyup changed delay:300ms"
+                                   hx-trigger="input changed delay:300ms"
                                    hx-swap="innerHTML"
                                    hx-indicator="#grid-comparison-spinner"
                                    hx-include="[name='sort'], [name='stable']">

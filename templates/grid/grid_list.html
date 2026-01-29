@@ -47,7 +47,7 @@
                            placeholder="{% translate 'Search grids...' %}"
                            value="{{ search_query }}"
                            hx-get="{% url 'grids' %}"
-                           hx-trigger="keyup changed delay:300ms"
+                           hx-trigger="input changed delay:300ms"
                            hx-target="#grid-list-container"
                            hx-indicator="#grid-list-spinner"
                            hx-include="#grid-list-state input"

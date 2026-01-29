@@ -53,7 +53,7 @@
                                    placeholder="{% translate 'Start typing to search...' %}"
                                    autocomplete="off"
                                    hx-get="{% url 'ajax_package_search' %}"
-                                   hx-trigger="keyup changed delay:300ms"
+                                   hx-trigger="input changed delay:300ms"
                                    hx-target="#target"
                                    hx-indicator="#search-spinner"
                                    hx-vals='{"grid": "{{ grid.slug }}"}'

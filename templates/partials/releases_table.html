@@ -37,6 +37,7 @@
                         hx-get="{% url 'package_versions' slug=package_slug %}?page={{ page_obj.previous_page_number }}"
                         hx-target="#versions-table-container"
                         hx-swap="innerHTML"
+                        hx-indicator="#versions-spinner"
                     {% else %}
                         disabled
                     {% endif %}
@@ -57,6 +58,7 @@
                                 hx-get="{% url 'package_versions' slug=package_slug %}?page={{ i }}"
                                 hx-target="#versions-table-container"
                                 hx-swap="innerHTML"
+                                hx-indicator="#versions-spinner"
                                 class="inline-flex justify-center items-center w-9 h-9 text-sm font-medium whitespace-nowrap rounded-md transition-colors hover:bg-accent hover:text-accent-foreground">
                                 {{ i }}
                             </button>
@@ -69,6 +71,7 @@
                         hx-get="{% url 'package_versions' slug=package_slug %}?page={{ page_obj.next_page_number }}"
                         hx-target="#versions-table-container"
                         hx-swap="innerHTML"
+                        hx-indicator="#versions-spinner"
                     {% else %}
                         disabled
                     {% endif %}

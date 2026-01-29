@@ -57,7 +57,7 @@
                                 class="py-2 pr-12 pl-10 w-80 h-9 rounded-md border-2 transition-colors focus:outline-none peer bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/60 focus:bg-background focus:text-foreground focus:border-primary focus:placeholder:text-muted-foreground"
                                 autocomplete="off"
                                 hx-get="{% url 'search_suggestions' %}"
-                                hx-trigger="keyup changed delay:300ms, focus"
+                                hx-trigger="input changed delay:300ms, focus"
                                 hx-target="#navbar-suggestions-dropdown"
                                 hx-vals='{"dropdown_id": "navbar-suggestions-dropdown"}'
                                 hx-indicator="#navbar-search-spinner"
@@ -161,7 +161,7 @@
                                 class="py-2 pr-12 pl-10 w-full h-9 rounded-md border-2 transition-colors focus:outline-none peer bg-primary-foreground/10 border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/60 focus:bg-background focus:text-foreground focus:border-primary focus:placeholder:text-muted-foreground"
                                 autocomplete="off"
                                 hx-get="{% url 'search_suggestions' %}"
-                                hx-trigger="keyup changed delay:300ms, focus"
+                                hx-trigger="input changed delay:300ms, focus"
                                 hx-target="#mobile-navbar-suggestions-dropdown"
                                 hx-vals='{"dropdown_id": "mobile-navbar-suggestions-dropdown"}'
                                 hx-indicator="#mobile-navbar-search-spinner"
@@ -200,70 +200,70 @@
             {% endif %}
         </nav>
     </div>
+</header>
 
-    {% if request.resolver_match.url_name != 'home' %}
-        {% flag "enabled_navbar_search_modal" %}
-            <!-- Search Modal (Command Palette Style) -->
+{% if request.resolver_match.url_name != 'home' %}
+    {% flag "enabled_navbar_search_modal" %}
+        <!-- Search Modal (Command Palette Style) -->
+        <div
+            id="search-modal"
+            class="hidden fixed inset-0 z-50 pointer-events-auto"
+            aria-hidden="true"
+        >
             <div
-                id="search-modal"
-                class="hidden fixed inset-0 z-50"
-                aria-hidden="true"
-            >
+                data-search-modal-backdrop
+                class="absolute inset-0 opacity-0 transition-opacity duration-150 ease-out pointer-events-auto bg-black/40 backdrop-blur-sm"
+            ></div>
+            <div class="flex relative justify-center items-start px-4 pt-8 pb-6 pointer-events-none sm:pt-12">
                 <div
-                    data-search-modal-backdrop
-                    class="absolute inset-0 opacity-0 transition-opacity duration-150 ease-out bg-black/40 backdrop-blur-sm"
-                ></div>
-                <div class="flex relative justify-center items-start px-4 pt-8 pb-6 sm:pt-12">
-                    <div
-                        id="search-modal-panel"
-                        role="dialog"
-                        aria-modal="true"
-                        aria-labelledby="search-modal-title"
-                        class="w-full max-w-2xl rounded-2xl border shadow-2xl opacity-0 transition duration-150 ease-out scale-95 border-border/50 bg-background"
-                    >
-                        <h2 id="search-modal-title" class="sr-only">{% translate "Search" %}</h2>
-                        <div class="p-3 sm:p-4">
-                            <!-- Search Bar -->
-                            <div class="group">
-                                <div class="relative">
-                                    <i
-                                        class="absolute left-4 top-1/2 text-xl transform -translate-y-1/2 pointer-events-none ph-bold ph-magnifying-glass text-muted-foreground"
-                                    ></i>
-                                    <input
-                                        id="modal-search-input"
-                                        type="text"
-                                        name="q"
-                                        placeholder="{% translate 'Search Django packages...' %}"
-                                        class="py-4 pr-20 pl-12 w-full h-14 text-lg rounded-xl border-2 transition-colors focus:outline-none border-input bg-background text-foreground placeholder:text-muted-foreground focus:border-primary"
-                                        autocomplete="off"
-                                        hx-get="{% url 'search_suggestions' %}"
-                                        hx-trigger="keyup changed delay:300ms, focus"
-                                        hx-target="#modal-suggestions-dropdown"
-                                        hx-vals='{"dropdown_id": "modal-suggestions-dropdown"}'
-                                        hx-indicator="#modal-search-spinner"
-                                    />
-                                    <div
-                                        class="flex absolute right-4 top-1/2 items-center space-x-2 transform -translate-y-1/2 pointer-events-none"
-                                    >
-                                        <div id="modal-search-spinner" class="htmx-indicator">
-                                            <i class="animate-spin ph-bold ph-circle-notch text-muted-foreground"></i>
-                                        </div>
-                                        <kbd class="hidden items-center py-1 px-2 text-xs rounded border sm:inline-flex text-muted-foreground bg-muted/50 border-border">
-                                            Esc
-                                        </kbd>
-                                    </div>
-                                </div>
-
-                                <!-- Suggestions Panel -->
+                    id="search-modal-panel"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="search-modal-title"
+                    class="w-full max-w-2xl rounded-2xl border shadow-2xl opacity-0 transition duration-150 ease-out scale-95 pointer-events-auto border-border/50 bg-background"
+                >
+                    <h2 id="search-modal-title" class="sr-only">{% translate "Search" %}</h2>
+                    <div class="p-3 sm:p-4">
+                        <!-- Search Bar -->
+                        <div class="group">
+                            <div class="relative">
+                                <i
+                                    class="absolute left-4 top-1/2 text-xl transform -translate-y-1/2 pointer-events-none ph-bold ph-magnifying-glass text-muted-foreground"
+                                ></i>
+                                <input
+                                    id="modal-search-input"
+                                    type="text"
+                                    name="q"
+                                    placeholder="{% translate 'Search Django packages...' %}"
+                                    class="py-4 pr-20 pl-12 w-full h-14 text-lg rounded-xl border-2 transition-colors focus:outline-none border-input bg-background text-foreground placeholder:text-muted-foreground focus:border-primary"
+                                    autocomplete="off"
+                                    hx-get="{% url 'search_suggestions' %}"
+                                    hx-trigger="input changed delay:300ms, focus"
+                                    hx-target="#modal-suggestions-dropdown"
+                                    hx-vals='{"dropdown_id": "modal-suggestions-dropdown"}'
+                                    hx-indicator="#modal-search-spinner"
+                                />
                                 <div
-                                    id="modal-suggestions-dropdown"
-                                    class="overflow-hidden mt-3 rounded-xl border shadow-xl border-border/60 bg-background hidden empty:hidden data-[open=true]:block"
-                                ></div>
+                                    class="flex absolute right-4 top-1/2 items-center space-x-2 transform -translate-y-1/2 pointer-events-none"
+                                >
+                                    <div id="modal-search-spinner" class="htmx-indicator">
+                                        <i class="animate-spin ph-bold ph-circle-notch text-muted-foreground"></i>
+                                    </div>
+                                    <kbd class="hidden items-center py-1 px-2 text-xs rounded border sm:inline-flex text-muted-foreground bg-muted/50 border-border">
+                                        Esc
+                                    </kbd>
+                                </div>
                             </div>
+
+                            <!-- Suggestions Panel -->
+                            <div
+                                id="modal-suggestions-dropdown"
+                                class="overflow-hidden mt-3 rounded-xl border shadow-xl border-border/60 bg-background hidden empty:hidden data-[open=true]:block"
+                            ></div>
                         </div>
                     </div>
                 </div>
             </div>
-        {% endflag %}
-    {% endif %}
-</header>
+        </div>
+    {% endflag %}
+{% endif %}

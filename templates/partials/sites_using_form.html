@@ -10,6 +10,7 @@
         {% if action == 'add' %}hx-post="{% url 'add_example' package.slug %}"{% else %}hx-post="{% url 'edit_example' package.slug object.id %}"{% endif %}
         hx-target="#sites-using-card"
         hx-swap="innerHTML"
+        hx-indicator="#sites-using-spinner"
     >
         {% csrf_token %}
         {% include "partials/form_renderer.html" %}

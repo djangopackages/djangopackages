@@ -52,7 +52,7 @@
                            placeholder="{% translate 'Search packages in this grid...' %}"
                            value="{{ search_query }}"
                            hx-get="{{ list_url }}"
-                           hx-trigger="keyup changed delay:300ms"
+                           hx-trigger="input changed delay:300ms"
                            hx-target="#package-list-container"
                            hx-indicator="#package-list-spinner"
                            hx-include="#package-list-state input"
