@@ -73,15 +73,8 @@ class TestPackageUpdater2:
             m.side_effect = side_effect
             yield m
 
-    @pytest.fixture
-    def mock_stats(self):
-        with patch(
-            "package.management.commands.package_updater2.update_package_stat_fields"
-        ) as m:
-            yield m
-
     def test_full_update_flow(
-        self, runner, package, mock_pypi_update, mock_repo, mock_score, mock_stats
+        self, runner, package, mock_pypi_update, mock_repo, mock_score
     ):
         # Pre-check
         assert package.pypi_downloads == 0
@@ -106,5 +99,4 @@ class TestPackageUpdater2:
         # Verify calls
         mock_pypi_update.assert_called_once()
         mock_repo.fetch_metadata.assert_called_once()
-        mock_repo.fetch_commits.assert_called_once()
         mock_score.assert_called_once()

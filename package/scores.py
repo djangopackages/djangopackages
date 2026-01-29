@@ -3,10 +3,10 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass
 from datetime import datetime
+from django.utils import timezone
 
 from dateutil import relativedelta
 from django.db.models import QuerySet
-from django.utils.timezone import now
 
 from package.models import Package
 from package.utils import iterate_in_batches
@@ -62,7 +62,7 @@ def _calculate_score(
     """
     # Calculate months since last update
     if last_commit_date:
-        delta = relativedelta.relativedelta(now(), last_commit_date)
+        delta = relativedelta.relativedelta(timezone.now(), last_commit_date)
         delta_months = (delta.years * 12) + delta.months
         last_commit_date_penalty = math.modf(delta_months / 3)[1] * repo_watchers / 10
     else:

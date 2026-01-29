@@ -1,8 +1,10 @@
 from dataclasses import dataclass
 import logging
 from urllib.parse import urlparse
+from datetime import datetime
 
 import httpx
+import requests
 
 from .base_handler import BaseHandler, RepoRateLimitError
 
@@ -18,13 +20,6 @@ class ForgejoMetadata:
     forks_count: int
     stars_count: int
     watchers_count: int
-
-
-@dataclass
-class ForgejoCommit:
-    sha: str
-    created: str
-    user: str | None
 
 
 class ForgejoClient:
@@ -63,46 +58,6 @@ class ForgejoClient:
         except KeyError as exc:
             logger.error("Key error %s for URL %s", exc, url)
             return None
-
-    def fetch_commits(self, repository: str, page_size=50):
-        """Yield commit metadata for a repository."""
-        current_page = 1
-
-        while True:
-            params = {"page": current_page, "limit": page_size}
-            url = self._build_url(f"/repos/{repository}/commits")
-
-            try:
-                response = httpx.get(url, params=params)
-                if response.status_code == 429:
-                    raise RepoRateLimitError("forgejo rate limit reached")
-                response.raise_for_status()
-                commits = response.json()
-            except RepoRateLimitError:
-                raise
-            except (httpx.HTTPError, ValueError) as exc:
-                logger.error("Failed to fetch %s with params %s: %s", url, params, exc)
-                break
-
-            for commit in commits:
-                try:
-                    yield ForgejoCommit(
-                        sha=commit["sha"],
-                        created=commit["created"],
-                        user=commit.get("author", {}).get("login")
-                        if commit.get("author")
-                        else None,
-                    )
-                except KeyError:
-                    logger.error(
-                        "no created timestamp for %s with params %s", url, params
-                    )
-                    break
-
-            if response.headers.get("x-hasmore") == "true":
-                current_page = current_page + 1
-            else:
-                break
 
 
 class ForgejoHandler(BaseHandler):
@@ -145,41 +100,50 @@ class ForgejoHandler(BaseHandler):
 
         return self._client_cache[base_url]
 
-    def fetch_commits(self, package, *, save: bool = True):
-        from package.models import Commit
+    def _fetch_commit_stats(self, package):
+        owner, repo_name = package.repo_name().split("/")
+        base_url = self.get_base_url(package.repo_url)
 
-        client = self.get_client(package.repo_url)
-        if client is None:
-            return package
+        # Fetch the most recent commit
+        commits_url = f"{base_url}/api/v1/repos/{owner}/{repo_name}/commits?limit=1"
+        resp = requests.get(commits_url)
+        resp.raise_for_status()
+        last_commit = resp.json()[0]
+        package.last_commit_date = datetime.fromisoformat(
+            last_commit["commit"]["committer"]["date"].replace("Z", "+00:00")
+        )
 
-        collaborators = package.participants.split(",")
+        # Forgejo provides total count in response header
+        package.commit_count = int(resp.headers.get("X-Total-Count", 0))
 
-        if len(collaborators) == 1 and collaborators[0] == "":
-            collaborators = []
+        # Build a 52-week histogram by fetching commits from the past year (or incrementally)
+        since_date, is_incremental = self._get_commits_update_params(package)
+        since_str = since_date.isoformat()
+        if not since_str.endswith("Z") and "+" not in since_str:
+            since_str += "Z"
 
-        for commit in client.fetch_commits(package.repo_name()):
-            try:
-                _, created = Commit.objects.get_or_create(
-                    package=package,
-                    commit_hash=commit.sha,
-                    commit_date=commit.created,
+        commits_url = f"{base_url}/api/v1/repos/{owner}/{repo_name}/commits?since={since_str}&limit=100"
+        all_commits = []
+        page = 1
+
+        while True:
+            resp = requests.get(f"{commits_url}&page={page}")
+            resp.raise_for_status()
+            commits = resp.json()
+            if not commits:
+                break
+            all_commits.extend(commits)
+            page += 1
+
+        commit_dates = []
+        for commit in all_commits:
+            commit_dates.append(
+                datetime.fromisoformat(
+                    commit["commit"]["committer"]["date"].replace("Z", "+00:00")
                 )
+            )
 
-                if not created:
-                    break
-
-                if commit.user:
-                    collaborators.append(commit.user)
-            except Commit.MultipleObjectsReturned:
-                continue
-
-        if len(collaborators) > 0:
-            package.participants = ",".join(set(collaborators))
-
-        if save:
-            package.save()
-
-        return package
+        self._process_commit_counts(package, commit_dates, is_incremental)
 
     def fetch_metadata(self, package, *, save: bool = True):
         client = self.get_client(package.repo_url)
@@ -197,8 +161,9 @@ class ForgejoHandler(BaseHandler):
         package.repo_description = repo.description
         package.repo_forks = repo.forks_count
         package.repo_watchers = repo.watchers_count
-        # TODO: consider adding "stargazers_count"
-        # package.stargazers_count = repo.stars_count
+
+        self._fetch_commit_stats(package)
+
         if save:
             package.save()
 

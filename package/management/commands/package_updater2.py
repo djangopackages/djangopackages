@@ -19,7 +19,7 @@ from package.models import Package
 from package.pypi import PyPIClient, PyPIRateLimitError, update_package_from_pypi
 from package.repos.base_handler import RepoRateLimitError
 from package.scores import update_package_score
-from package.stats_updater import update_package_stat_fields
+
 
 if TYPE_CHECKING:
     from github3 import GitHub
@@ -46,6 +46,7 @@ UPDATE_FIELDS = [
     "date_repo_archived",
     "commits_over_52w",
     "last_commit_date",
+    "commit_count",
     # Shared/computed fields
     "score",
     "last_fetched",
@@ -291,9 +292,6 @@ def update_git(ctx: UpdateContext, package: Package) -> bool:
     try:
         repo = package.repo
         repo.fetch_metadata(package, save=False)
-        repo.fetch_commits(package, save=False)
-        # Update stats (latest_version, commits, etc.) without saving
-        update_package_stat_fields(package, save=False)
         ctx.stats.git_updated += 1
         print(
             f"[green]  Git: ★{package.repo_watchers} forks:{package.repo_forks}[/green]"

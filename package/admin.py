@@ -66,6 +66,8 @@ class PackageAdmin(VersionAdmin, DynamicArrayMixin):
         "favorite_count",
         "latest_version",
         "last_commit_date",
+        "last_fetched",
+        "commit_count",
     ]
     fieldsets = (
         (
@@ -83,6 +85,7 @@ class PackageAdmin(VersionAdmin, DynamicArrayMixin):
                     "date_repo_archived",
                     "created_by",
                     "last_modified_by",
+                    "last_fetched",
                 )
             },
         ),
@@ -107,6 +110,7 @@ class PackageAdmin(VersionAdmin, DynamicArrayMixin):
                     "pypi_requires_python",
                     "pypi_classifiers",
                     "latest_version",
+                    "supports_python3",
                 ),
             },
         ),
@@ -118,9 +122,9 @@ class PackageAdmin(VersionAdmin, DynamicArrayMixin):
                     "repo_description",
                     "repo_watchers",
                     "repo_forks",
+                    "commit_count",
                     "last_commit_date",
                     "commits_over_52w",
-                    "supports_python3",
                     "participants",
                 ),
             },

@@ -159,6 +159,7 @@ class Package(BaseModel):
     last_exception = models.TextField(blank=True, null=True)
     last_exception_at = models.DateTimeField(blank=True, null=True)
     last_exception_count = models.IntegerField(default=0, blank=True, null=True)
+    commit_count = models.IntegerField(_("Commit Count"), default=0)
 
     commits_over_52w = models.JSONField(_("Commit List Over 52 Weeks"), default=list)
     last_commit_date = models.DateTimeField(blank=True, null=True)
@@ -232,6 +233,10 @@ class Package(BaseModel):
         last_commit = cache.get(cache_name)
         if last_commit is not None:
             return last_commit
+
+        if self.last_commit_date:
+            return self.last_commit_date
+
         try:
             last_commit = self.commit_set.latest("commit_date").commit_date
             if last_commit:
@@ -302,6 +307,9 @@ class Package(BaseModel):
         if value is not None:
             return value
 
+        if self.commits_over_52w:
+            return ",".join(map(str, self.commits_over_52w))
+
         reference_now = now()
         cutoff = reference_now - timedelta(weeks=52)
 
@@ -332,9 +340,6 @@ class Package(BaseModel):
         value = ",".join(map(str, reversed(weeks)))
         cache.set(cache_name, value)
         return value
-
-    def fetch_commits(self, save: bool = True):
-        self.repo.fetch_commits(self, save=save)
 
     def pypi_version(self):
         cache_name = self.cache_namer(self.pypi_version)
