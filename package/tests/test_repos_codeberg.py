@@ -79,7 +79,7 @@ def test_repos_codeberg_archived(package_codeberg):
     handler = CodebergHandler()
     handler.client = MockClient()
     handler.client.meta.archived = True
-    handler.client.meta.archived_at = "2024-12-20T14:20"
+    handler.client.meta.archived_at = "2024-12-20T14:20:00Z"
 
     assert package_codeberg.date_repo_archived is None
 
