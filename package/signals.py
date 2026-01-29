@@ -1,12 +1,8 @@
-import django.dispatch
 from django.db import transaction
 from django.db.models.signals import m2m_changed, post_save, pre_delete
 from django.dispatch import receiver
 
 from grid.cache import invalidate_cache_for_grids, invalidate_grids_for_package
-
-# Custom signal for fetching package metadata
-signal_fetch_latest_metadata = django.dispatch.Signal()
 
 
 @receiver(post_save, sender="package.Package")

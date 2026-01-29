@@ -50,7 +50,7 @@ def test_calc_package_weight(db, faker):
     package.documentation_url = None
     assert calc_package_weight(package=package) == 60
 
-    package.repo_description = None
+    package.repo_description = ""
     assert calc_package_weight(package=package) == 40
 
     package.repo_watchers = 0

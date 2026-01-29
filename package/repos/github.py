@@ -1,5 +1,5 @@
-from time import sleep
-
+import re
+from datetime import datetime
 from django.conf import settings
 from django.utils import timezone
 from github3 import GitHub, login
@@ -7,7 +7,7 @@ from github3.exceptions import NotFoundError
 
 from package.utils import uniquer
 
-from .base_handler import BaseHandler
+from .base_handler import BaseHandler, RepoRateLimitError
 
 
 class GitHubHandler(BaseHandler):
@@ -33,34 +33,34 @@ class GitHubHandler(BaseHandler):
             return None
         return self.github.repository(username, repo_name)
 
-    def fetch_commits(self, package):
-        self.manage_ratelimit()
+    def _fetch_commit_stats(self, package, repo):
+        # Fetch the most recent commit to get the last commit date
+        # and use the Link header to get the total commit count
+        commits = repo.commits(per_page=1)
+        last_commit = next(commits, None)
 
-        repo = self._get_repo(package)
-        if repo is None:
-            return package
+        if last_commit:
+            package.last_commit_date = datetime.fromisoformat(
+                last_commit.commit.committer["date"].replace("Z", "+00:00")
+            )
 
-        from package.models import Commit  # Added here to avoid circular imports
+        # Parse the Link header to determine total commit count
+        total_commits = 0
+        if commits.last_response:
+            link_header = commits.last_response.headers.get("Link")
+            if link_header and 'rel="last"' in link_header:
+                match = re.search(r"page=(\d+)>; rel=\"last\"", link_header)
+                if match:
+                    total_commits = int(match.group(1))
+        package.commit_count = total_commits
 
-        for commit in repo.commits():
-            self.manage_ratelimit()
+        # Fetch weekly participation statistics
+        # GitHub provides a pre-computed 52-week histogram
+        stats = repo.weekly_commit_count()
+        if stats and "all" in stats:
+            package.commits_over_52w = stats["all"]
 
-            try:
-                commit_record, created = Commit.objects.get_or_create(
-                    package=package, commit_date=commit.commit.committer["date"]
-                )
-                if not created:
-                    break
-            except Commit.MultipleObjectsReturned:
-                continue
-            # If the commit record already exists, it means we are at the end of the
-            #   list we want to import
-
-        package.save()
-
-        return package
-
-    def fetch_metadata(self, package):
+    def fetch_metadata(self, package, *, save: bool = True):
         self.manage_ratelimit()
 
         try:
@@ -72,10 +72,9 @@ class GitHubHandler(BaseHandler):
                 if not package.date_repo_archived:
                     package.date_repo_archived = timezone.now()
 
-            package.repo_description = repo.description
+            package.repo_description = repo.description or ""
             package.repo_forks = repo.forks_count
             package.repo_watchers = repo.watchers_count
-            # repo.stargazers_count
 
             contributors = []
             for contributor in repo.contributors():
@@ -85,7 +84,10 @@ class GitHubHandler(BaseHandler):
             if contributors:
                 package.participants = ",".join(uniquer(contributors))
 
-            package.save()
+            self._fetch_commit_stats(package, repo)
+
+            if save:
+                package.save()
 
             return package
 
@@ -93,9 +95,8 @@ class GitHubHandler(BaseHandler):
             raise
 
     def manage_ratelimit(self):
-        while self.github.ratelimit_remaining < 10:
-            print(f"{__file__}::manage_ratelimit::sleep(1)")
-            sleep(1)
+        if self.github.ratelimit_remaining and self.github.ratelimit_remaining < 10:
+            raise RepoRateLimitError("github rate limit reached")
 
 
 repo_handler = GitHubHandler()

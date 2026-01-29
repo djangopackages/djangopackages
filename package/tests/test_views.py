@@ -147,7 +147,7 @@ class FunctionalPackageTest(TestCase):
         self.assertContains(response, p.slug)
 
         # Make a test post
-        with self.assertNumQueries(16):
+        with self.assertNumQueries(14):
             response = self.client.post(
                 url,
                 {

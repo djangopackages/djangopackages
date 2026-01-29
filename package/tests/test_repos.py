@@ -15,7 +15,6 @@ def test_base_handler_not_implemented(package):
     assert handler.slug_regex == NotImplemented
     assert handler.__str__() == NotImplemented
     assert handler.fetch_metadata(package) == NotImplemented
-    assert handler.fetch_commits(package) == NotImplemented
 
 
 def test_base_handler_is_other():

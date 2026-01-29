@@ -1,15 +1,11 @@
-import re
-from datetime import timedelta
+from datetime import datetime
 from warnings import warn
 
 import requests
-from django.utils.timezone import now
 
 from .base_handler import BaseHandler
 
 API_TARGET = "https://api.bitbucket.org/2.0/repositories"
-
-descendants_re = re.compile(r"Forks/Queues \((?P<descendants>\d+)\)", re.IGNORECASE)
 
 
 class BitbucketHandler(BaseHandler):
@@ -19,53 +15,61 @@ class BitbucketHandler(BaseHandler):
     repo_regex = r"https://bitbucket.org/[\w\-\_]+/([\w\-\_]+)/{0,1}"
     slug_regex = r"https://bitbucket.org/[\w\-\_]+/([\w\-\_]+)/{0,1}"
 
-    def _get_bitbucket_commits(self, package):
-        repo_name = package.repo_name()
-        if repo_name.endswith("/"):
-            repo_name = repo_name[:-1]
-        # not sure if the limit parameter does anything in api 2.0
-        target = f"{API_TARGET}/{repo_name}/commits/?limit=50"
-        try:
-            data = self.get_json(target)
-        except requests.exceptions.HTTPError:
-            return []
-        if data is None:
-            return []  # todo: log this?
+    def _fetch_commit_stats(self, package):
+        workspace, repo_slug = package.repo_name().split("/")
+        base_url = f"https://api.bitbucket.org/2.0/repositories/{workspace}/{repo_slug}"
 
-        return data.get("values", [])
+        # Fetch the most recent commit
+        commits_url = f"{base_url}/commits?pagelen=1"
+        resp = requests.get(commits_url)
+        resp.raise_for_status()
+        data = resp.json()
 
-    def fetch_commits(self, package):
-        from package.models import (
-            Commit,
-        )  # Import placed here to avoid circular dependencies
+        if not data.get("values"):
+            return package
 
-        for commit in self._get_bitbucket_commits(package):
-            timestamp = commit["date"].split("+")
-            if len(timestamp) > 1:
-                timestamp = timestamp[0]
-            else:
-                timestamp = commit["date"]
-            commit, created = Commit.objects.get_or_create(
-                package=package, commit_date=timestamp
+        last_commit = data["values"][0]
+        package.last_commit_date = datetime.fromisoformat(
+            last_commit["date"].replace("Z", "+00:00")
+        )
+
+        # Calculate total commits by paginating through all commits
+        # TODO: Optimize this either by not showing total commits for Bitbucket
+        # showing approximate count.
+        # Alternatively, fetch all commits for the first time and store commit sha
+        # then afterwards only fetch commits since last known sha to update count.
+        total_commits = 0
+        next_url = f"{base_url}/commits?pagelen=100"
+        while next_url:
+            resp = requests.get(next_url)
+            resp.raise_for_status()
+            page_data = resp.json()
+            total_commits += len(page_data.get("values", []))
+            next_url = page_data.get("next")
+        package.commit_count = total_commits
+
+        # Build a 52-week histogram (incremental)
+        since_date, is_incremental = self._get_commits_update_params(package)
+        since_str = since_date.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+        next_url = f"{base_url}/commits?since={since_str}&pagelen=100"
+        all_commits = []
+        while next_url:
+            resp = requests.get(next_url)
+            resp.raise_for_status()
+            data = resp.json()
+            all_commits.extend(data.get("values", []))
+            next_url = data.get("next")
+
+        commit_dates = []
+        for commit in all_commits:
+            commit_dates.append(
+                datetime.fromisoformat(commit["date"].replace("Z", "+00:00"))
             )
 
-        #  ugly way to get 52 weeks of commits
-        # TODO - make this better
-        commits = package.commit_set.filter(
-            commit_date__gt=now() - timedelta(weeks=52),
-        ).values_list("commit_date", flat=True)
+        self._process_commit_counts(package, commit_dates, is_incremental)
 
-        weeks = [0] * 52
-        for cdate in commits:
-            age_weeks = (now - cdate).days // 7
-            if age_weeks < 52:
-                weeks[age_weeks] += 1
-
-        package.commit_list = ",".join(map(str, reversed(weeks)))
-        package.save()
-
-    def fetch_metadata(self, package):
-        # prep the target name
+    def fetch_metadata(self, package, *, save: bool = True):
         repo_name = package.repo_name()
         target = f"{API_TARGET}/{repo_name}"
         if not target.endswith("/"):
@@ -77,39 +81,26 @@ class BitbucketHandler(BaseHandler):
             return package
 
         if data is None:
-            # TODO - log this better
-            message = "%s had a JSONDecodeError during bitbucket.repo.pull" % (
-                package.title
-            )
-            warn(message)
+            warn(f"{package.title} had a JSONDecodeError during bitbucket.repo.pull")
             return package
 
-        # description
         package.repo_description = data.get("description", "")
 
-        # get the forks of a repo
-        url = f"{target}forks/"
         try:
-            data = self.get_json(url)
-        except requests.exceptions.HTTPError:
-            return package
-        package.repo_forks = len(data["values"])
+            package.repo_forks = len(self.get_json(f"{target}forks/")["values"])
+            package.repo_watchers = len(self.get_json(f"{target}watchers/")["values"])
+        except (requests.exceptions.HTTPError, ValueError, KeyError):
+            pass  # Let's not fail the whole thing if we can't get forks/watchers
 
-        # get the followers of a repo
-        url = f"{target}watchers/"
         try:
-            data = self.get_json(url)
-        except requests.exceptions.HTTPError:
-            return package
-        package.repo_watchers = len(data.get("values", []))
-
-        # Getting participants
-        try:
-            package.participants = package.repo_url.split("/")[
-                3
-            ]  # the only way known to fetch this from bitbucket!!!
+            package.participants = package.repo_url.split("/")[3]
         except IndexError:
             package.participants = ""
+
+        self._fetch_commit_stats(package)
+
+        if save:
+            package.save()
 
         return package
 

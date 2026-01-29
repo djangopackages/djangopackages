@@ -148,6 +148,7 @@ def package_abandoned(db, category) -> Package:
         repo_forks=1000,
         slug="django-divioadmin",
         repo_description="not maintained anymore.",
+        last_commit_date=make_aware(datetime.datetime(2020, 2, 19, 0, 0)),
     )
     baker.make(
         Commit,
@@ -172,6 +173,7 @@ def package_abandoned_ten_years(db, category) -> Package:
         repo_forks=1000,
         slug="django-divioadmin2",
         repo_description="not maintained anymore.",
+        last_commit_date=make_aware(datetime.datetime(2012, 2, 19, 0, 0)),
     )
     baker.make(
         Commit,
