@@ -53,6 +53,7 @@ def process_version_batch(packages: list[Package], dry_run: bool) -> tuple[int, 
     """
     latest_versions = (
         Version.objects.filter(package__in=packages, hidden=False)
+        .exclude(upload_time=None)
         .order_by("package_id", "-upload_time")
         .distinct("package_id")
         .values("package_id", "pk", "supports_python3")
