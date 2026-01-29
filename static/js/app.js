@@ -273,8 +273,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const setupSuggestionNav = (input, dropdown) => {
         if (!input || !dropdown) return;
 
-        let blurTimeout = null;
-
         const open = () => { dropdown.dataset.open = "true"; };
         const close = () => { dropdown.dataset.open = "false"; };
 
@@ -296,7 +294,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     const loadMore = dropdown.querySelector(".suggestions-load-more");
                     if (loadMore) {
                         loadMore.scrollIntoView({ block: "nearest" });
-                    } else {
+                    }
+                    else {
                         // Wrap to first item
                         items.forEach((el, i) => el.classList.toggle("selected", i === 0));
                         items[0]?.scrollIntoView({ block: "nearest" });
@@ -312,8 +311,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 window.location.href = items[current].href;
             } else if (e.key === "Escape") {
                 close();
-                input.blur();
             }
+        });
+
+        // Prevent blur when interacting with dropdown
+        dropdown.addEventListener("mousedown", (e) => {
+            e.preventDefault();
         });
 
         // Show dropdown when input has value and is focused
@@ -322,19 +325,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Close when clicking outside
         document.addEventListener("click", (e) => {
-            if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+            if (dropdown.dataset.open === "true" && !input.contains(e.target) && !dropdown.contains(e.target)) {
                 close();
             }
-        });
-
-        // Close when focusing outside (e.g. tabbing), but ignore body (mobile keyboard close)
-        input.addEventListener("blur", () => {
-            setTimeout(() => {
-                const active = document.activeElement;
-                if (active && active !== document.body && active !== document.documentElement && !input.contains(active) && !dropdown.contains(active)) {
-                    close();
-                }
-            }, 100);
         });
     };
 
