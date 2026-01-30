@@ -48,3 +48,17 @@ class PackageFormTest(TestCase):
         form = PackageCreateForm(data=form_data)
         self.assertTrue(form.is_valid(), form.errors)
         self.assertEqual(form.cleaned_data["pypi_url"], "")
+
+    def test_clean_pypi_url_with_http_prefix(self):
+        form_data = {
+            "title": "Test Package 3",
+            "slug": "test-package-3",
+            "repo_url": "https://github.com/test/test3",
+            "category": self.category.pk,
+            "pypi_url": "http-package-name",
+        }
+        form = PackageCreateForm(data=form_data)
+        self.assertTrue(form.is_valid(), form.errors)
+        self.assertEqual(
+            form.cleaned_data["pypi_url"], "https://pypi.org/project/http-package-name/"
+        )
