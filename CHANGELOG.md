@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-01-29]
+### Changed
+- [Part 1] Move Frequently Used Stats to Package Model and Refactor PyPI Fetch Functionality ([#1513](https://github.com/djangopackages/djangopackages/pull/1513))
+- Exclude versions with null upload_time in process_version_batch ([#1528](https://github.com/djangopackages/djangopackages/pull/1528))
+
 ## [2026-01-26]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1526](https://github.com/djangopackages/djangopackages/pull/1526))
