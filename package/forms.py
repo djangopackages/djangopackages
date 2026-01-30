@@ -84,6 +84,12 @@ class BasePackageForm(ModelForm):
             "category",
         ]
 
+    def clean_pypi_url(self):
+        pypi_url = self.cleaned_data.get("pypi_url")
+        if pypi_url and not pypi_url.startswith("http"):
+            pypi_url = f"https://pypi.org/project/{pypi_url}/"
+        return pypi_url
+
 
 class PackageCreateForm(BasePackageForm):
     def __init__(self, *args, **kwargs):
