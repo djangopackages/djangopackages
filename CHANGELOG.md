@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-01-30]
+### Changed
+- Add `pypi_url` validation to PackageForm and corresponding tests ([#1529](https://github.com/djangopackages/djangopackages/pull/1529))
+
 ## [2026-01-29]
 ### Changed
 - [Part 1] Move Frequently Used Stats to Package Model and Refactor PyPI Fetch Functionality ([#1513](https://github.com/djangopackages/djangopackages/pull/1513))
