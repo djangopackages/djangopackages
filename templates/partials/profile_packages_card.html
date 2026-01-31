@@ -1,5 +1,8 @@
 {% if packages %}
-    <div class="mb-8 card">
+    <div class="relative mb-8 card">
+        <div id="{{ target_id }}-spinner" class="flex absolute inset-0 z-10 justify-center items-center rounded-xl pointer-events-none htmx-indicator bg-background/50 backdrop-blur-[1px]">
+            <i class="text-4xl animate-spin ph-bold ph-circle-notch text-primary"></i>
+        </div>
         <div class="card-header">
             <h3 class="flex gap-2 items-center text-xl font-semibold">
                 <i class="text-xl ph-bold {{ card_icon }}"></i>

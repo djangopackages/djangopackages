@@ -24,7 +24,7 @@
                         class="py-4 pr-20 pl-12 w-full h-14 text-lg rounded-lg border-2 transition-colors focus:outline-none peer border-input bg-background text-foreground placeholder:text-muted-foreground focus:border-primary"
                         autocomplete="off"
                         hx-get="{% url 'search_suggestions' %}"
-                        hx-trigger="keyup changed delay:300ms, focus"
+                        hx-trigger="input changed delay:300ms, focus"
                         hx-target="#suggestions-dropdown"
                         hx-vals='{"dropdown_id": "suggestions-dropdown"}'
                         hx-indicator="#search-spinner"
@@ -95,7 +95,7 @@
 <!-- Categories Section -->
     <section class="py-8">
         <div class="container px-4 mx-auto">
-            <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {% for category in categories %}
                     <a href="{% url 'category' category.slug %}" class="card group">
                         <div class="pb-4 text-center card-header">
@@ -131,7 +131,7 @@
 <!-- Package Listings -->
     <section class="py-8 bg-muted/20">
         <div class="container px-4 mx-auto">
-            <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             <!-- Latest Packages -->
                 {% cache 900 latest_releases_cache %}
                     <div>

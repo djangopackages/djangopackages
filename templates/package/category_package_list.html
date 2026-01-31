@@ -48,15 +48,19 @@
                            placeholder="{% translate 'Search packages in ' %}{{ category.title }}..."
                            value="{{ search_query }}"
                            hx-get="{% url 'category' category.slug %}"
-                           hx-trigger="keyup changed delay:300ms"
+                           hx-trigger="input changed delay:300ms"
                            hx-target="#package-list-container"
+                           hx-indicator="#package-list-spinner"
                            hx-include="#package-list-state input"
                            hx-push-url="true">
                 </div>
             </div>
         </div>
 
-        <div class="mt-6 card">
+        <div class="relative mt-6 card">
+            <div id="package-list-spinner" class="flex absolute inset-0 z-10 justify-center items-center rounded-xl pointer-events-none htmx-indicator bg-background/50 backdrop-blur-[1px]">
+                <i class="text-4xl animate-spin ph-bold ph-circle-notch text-primary"></i>
+            </div>
             <div class="p-6 card-content">
                 <div id="package-list-container">
                     {% include "partials/package_list_body.html" %}

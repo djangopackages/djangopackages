@@ -1,5 +1,5 @@
 {% load i18n %}
-<form method="post" action="{% if form_action %}{{ form_action }}{% else %}{% url 'add_package' %}{% if grid %}?grid_slug={{ grid.slug }}{% elif grid_slug %}?grid_slug={{ grid_slug }}{% endif %}{% endif %}" hx-post="{% if form_action %}{{ form_action }}{% else %}{% url 'add_package' %}{% if grid %}?grid_slug={{ grid.slug }}{% elif grid_slug %}?grid_slug={{ grid_slug }}{% endif %}{% endif %}" hx-target="#package-form-container" hx-swap="innerHTML">
+<form method="post" action="{% if form_action %}{{ form_action }}{% else %}{% url 'add_package' %}{% if grid_slug %}?grid_slug={{ grid_slug }}{% endif %}{% endif %}">
     {% csrf_token %}
     {% include "partials/form_renderer.html" %}
     <div class="flex gap-3 mt-6">
@@ -13,9 +13,9 @@
             {% endif %}
         </button>
         {% if action != "edit" %}
-            <button type="button" class="btn-secondary" onclick="window.location.reload()">
+            <a href="{% url 'add_package' %}{% if grid_slug %}?grid_slug={{ grid_slug }}{% endif %}" class="btn-secondary">
                 {% translate "Try Another URL" %}
-            </button>
+            </a>
         {% endif %}
     </div>
 </form>
