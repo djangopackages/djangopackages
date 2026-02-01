@@ -4,7 +4,7 @@ from datetime import timedelta
 from django.contrib.auth.models import User
 from django.utils.timezone import make_aware, now
 
-from package.models import Category, Commit, Package, Version
+from package.models import Category, Package, Version
 
 abandoned_package_last_commit = make_aware(
     datetime.datetime(now().year - 2, now().month, now().day, 0, 0)
@@ -42,11 +42,6 @@ def load():
         repo_description="An Advanced Django CMS.",
         last_commit_date=active_package_last_commit,
     )
-    commit, created = Commit.objects.get_or_create(
-        package_id=6,
-        commit_date=active_package_last_commit,
-        commit_hash="12341234123412341234123412341234",
-    )
 
     package, created = Package.objects.get_or_create(
         pk=7,
@@ -62,11 +57,6 @@ def load():
         repo_description="not maintained anymore.",
         last_commit_date=abandoned_package_last_commit,
     )
-    commit, created = Commit.objects.get_or_create(
-        package_id=7,
-        commit_date=abandoned_package_last_commit,
-        commit_hash="2b54b0ae95ef805c07ca3c0b9c5184466b65c55b",
-    )
 
     package, created = Package.objects.get_or_create(
         pk=8,
@@ -81,11 +71,6 @@ def load():
         slug="django-divioadmin2",
         repo_description="not maintained anymore.",
         last_commit_date=abandoned_package_last_commit_10_years,
-    )
-    commit, created = Commit.objects.get_or_create(
-        package_id=8,
-        commit_date=abandoned_package_last_commit_10_years,
-        commit_hash="2b54b0ae95ef805c07ca3c0b9c5184466b65c66c",
     )
 
     user, created = User.objects.get_or_create(

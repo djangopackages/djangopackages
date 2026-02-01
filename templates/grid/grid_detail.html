@@ -21,12 +21,10 @@
                         <i class="mr-1 text-base ph-bold ph-package"></i>
                         <span>{% translate "All Packages" %}</span>
                     </a>
-                    {% comment "Disabled for performance - timesheet view has no package limit" %}
                     <a href="{% url 'grid_timesheet' grid.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
                         <i class="mr-1 text-base ph-bold ph-calendar-blank"></i>
                         <span>{% translate "Timesheet" %}</span>
                     </a>
-                    {% endcomment %}
                     {% if perms.grid.change_grid %}
                         <a href="{% url 'edit_grid' grid.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
                             <i class="mr-1 text-base ph-bold ph-pencil-simple"></i>
@@ -117,8 +115,16 @@
                         </select>
                     </div>
 
-                    {# Filter Toggles - Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498 #}
-                    {# Python 3 filter and Stable filter disabled #}
+                    <div class="flex gap-4 items-center">
+                        <label class="flex gap-2 items-center text-sm cursor-pointer">
+                            <input type="checkbox"
+                                   name="stable"
+                                   value="true"
+                                   {% if filter_form.stable.value %}checked{% endif %}
+                                   class="w-4 h-4 rounded border-input text-primary focus:ring-primary">
+                            <span class="text-muted-foreground">{% translate "Stable" %}</span>
+                        </label>
+                    </div>
 
                     <!-- Loading Indicator -->
                     <div id="loading-indicator" class="flex gap-2 items-center text-sm htmx-indicator text-primary">

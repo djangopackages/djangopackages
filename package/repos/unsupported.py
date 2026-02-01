@@ -13,18 +13,16 @@ class UnsupportedHandler(BaseHandler):
         package.repo_description = ""
         package.participants = ""
 
+        self._fetch_commit_stats(package, None)
+
         if save:
             package.save()
         return package
 
-    def fetch_commits(self, package, save=True):
-        package.commit_set.all().delete()
-        package.commits_over_52 = ""
+    def _fetch_commit_stats(self, package, repo):
+        package.commits_over_52w = []
         package.last_commit_date = None
-
-        if save:
-            package.save()
-        return package
+        package.commit_count = 0
 
 
 repo_handler = UnsupportedHandler()

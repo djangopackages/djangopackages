@@ -71,13 +71,6 @@ def test_calc_package_weight(db, faker):
     package.pypi_downloads = 100
     assert calc_package_weight(package=package) == 0
 
-    # TODO: package.usage.count()
-
-    # TODO: package.last_updated()
-    # three deltas for [20, 10, 5]
-
-    # TODO: package.last_released()
-
 
 def test_package_score_after_build(db):
     package = baker.make("package.Package", score=600)

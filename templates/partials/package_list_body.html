@@ -122,11 +122,20 @@
                                     <span class="inline-flex items-center py-0.5 px-2 text-xs font-medium rounded sm:hidden bg-secondary text-secondary-foreground">
                                         {{ package.category.title }}
                                     </span>
+                                {% else %}
+                                    <span class="inline-flex items-center py-0.5 px-2 text-xs font-medium rounded md:hidden bg-muted text-muted-foreground" title="{% translate 'Latest PyPI Version' %}">
+                                        -
+                                    </span>
                                 {% endif %}
-
-                                <span class="inline-flex items-center py-0.5 px-2 text-xs font-medium rounded md:hidden bg-muted text-muted-foreground" title="{% translate 'Latest PyPI Version' %}">
-                                    <i class="mr-1 ph-bold ph-hash"></i> {{ package.pypi_version|default:"-" }}
-                                </span>
+                                {% if package.latest_version_number %}
+                                    <span class="inline-flex items-center py-0.5 px-2 text-xs font-medium rounded md:hidden bg-muted text-muted-foreground" title="{% translate 'Latest PyPI Version' %}">
+                                        <i class="mr-1 ph-bold ph-hash"></i> {{ package.latest_version_number|default:"-" }}
+                                    </span>
+                                {% else %}
+                                    <span class="inline-flex items-center py-0.5 px-2 text-xs font-medium rounded md:hidden bg-muted text-muted-foreground" title="{% translate 'Latest PyPI Version' %}">
+                                        -
+                                    </span>
+                                {% endif %}
 
                                 <span class="inline-flex items-center py-0.5 px-2 text-xs font-medium rounded lg:hidden bg-muted text-muted-foreground" title="{% translate 'Usage Count' %}">
                                     <i class="mr-1 ph-bold ph-users"></i> {{ package.usage_count|intcomma }}
@@ -143,11 +152,22 @@
                             <span class="inline-flex items-center py-0.5 px-2.5 text-xs font-medium rounded-full bg-secondary text-secondary-foreground hover:bg-secondary/80">
                                 {{ package.category.title }}
                             </span>
+                        {% else %}
+                            <span class="inline-flex items-center py-0.5 px-2.5 text-xs font-medium rounded-full bg-muted text-muted-foreground">
+                                -
+                            </span>
                         {% endif %}
+
                     </td>
-                    <td class="hidden py-3 font-mono text-sm md:table-cell">
-                        {{ package.pypi_version|default:"-" }}
-                    </td>
+                    {% if package.latest_version_number %}
+                        <td class="hidden py-3 font-mono text-sm md:table-cell">
+                            {{ package.latest_version_number|default:"-" }}
+                        </td>
+                    {% else %}
+                        <td class="hidden py-3 font-mono text-sm md:table-cell">
+                            -
+                        </td>
+                    {% endif %}
                     <td class="hidden py-3 font-mono text-sm lg:table-cell">
                         {{ package.usage_count|intcomma }}
                     </td>

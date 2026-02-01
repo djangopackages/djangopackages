@@ -80,9 +80,13 @@ class PackageTests(TestCase):
         package.pypi_url = "https://pypi.python.org/pypi/django-la-facebook/"
         self.assertEqual(package.pypi_name, "django-la-facebook")
 
-    def test_license_latest(self):
+    def test_pypi_license(self):
         for p in Package.objects.all():
-            self.assertEqual("UNKNOWN", p.license_latest)
+            self.assertIsNone(p.pypi_license)
+
+    def test_pypi_license_display(self):
+        for p in Package.objects.all():
+            self.assertEqual(p.pypi_license_display, "UNKNOWN")
 
     def test_package_form(self):
         f = PackageCreateForm()

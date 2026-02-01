@@ -89,7 +89,7 @@ def load():
     gridpackage2, created = GridPackage.objects.get_or_create(
         pk=2,
         package=package1,
-        grid=grid1,
+        grid=grid2,
     )
     gridpackage3, created = GridPackage.objects.get_or_create(
         pk=3,

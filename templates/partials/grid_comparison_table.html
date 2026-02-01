@@ -1,6 +1,6 @@
 {% load grid_tags humanize i18n package_tags static waffle_tags %}
 
-{% if grid_packages %}
+{% if packages %}
 <!-- Desktop Table View -->
     <div class="hidden overflow-hidden md:block card">
         <div class="overflow-x-auto">
@@ -11,13 +11,13 @@
                         <th class="sticky left-0 z-10 py-2.5 px-3 text-xs font-semibold tracking-wide text-left uppercase bg-muted text-muted-foreground min-w-[140px]">
                             {% translate "Package" %}
                         </th>
-                        {% for grid_package in grid_packages %}
+                        {% for package in packages %}
                             <th class="py-2.5 px-3 text-center border-l border-border/50 min-w-[120px] max-w-[160px]">
-                                <a href="{{ grid_package.package.get_absolute_url }}"
+                                <a href="{{ package.get_absolute_url }}"
                                    class="flex flex-col gap-1 items-center transition-colors group hover:text-primary">
                                     <span class="text-xs font-semibold leading-snug whitespace-normal group-hover:underline text-foreground group-hover:text-primary"
-                                          title="{{ grid_package.package.title }}">
-                                        {{ grid_package.package.title }}
+                                          title="{{ package.title }}">
+                                        {{ package.title }}
                                     </span>
                                 </a>
                             </th>
@@ -34,10 +34,10 @@
                                 {% translate "Description" %}
                             </div>
                         </td>
-                        {% for grid_package in grid_packages %}
+                        {% for package in packages %}
                             <td class="py-2.5 px-3 align-top border-l border-border/30">
-                                <div class="text-xs leading-relaxed whitespace-normal text-muted-foreground" title="{{ grid_package.package.repo_description }}">
-                                    {{ grid_package.package.repo_description|default:"-"|wordwrap:30|linebreaksbr|truncatechars:100 }}
+                                <div class="text-xs leading-relaxed whitespace-normal text-muted-foreground" title="{{ package.repo_description }}">
+                                    {{ package.repo_description|default:"-"|wordwrap:30|linebreaksbr|truncatechars:100 }}
                                 </div>
                             </td>
                         {% endfor %}
@@ -51,11 +51,11 @@
                                 {% translate "Category" %}
                             </div>
                         </td>
-                        {% for grid_package in grid_packages %}
+                        {% for package in packages %}
                             <td class="py-2.5 px-3 text-center align-top border-l border-border/30">
-                                {% if grid_package.package.category %}
-                                    <a href="{{ grid_package.package.category.get_absolute_url }}" class="category-tag">
-                                        {{ grid_package.package.category.title }}
+                                {% if package.category %}
+                                    <a href="{{ package.category.get_absolute_url }}" class="category-tag">
+                                        {{ package.category.title }}
                                     </a>
                                 {% else %}<span class="text-muted-foreground">-</span>{% endif %}
                             </td>
@@ -70,10 +70,10 @@
                                 {% translate "Using This" %}
                             </div>
                         </td>
-                        {% for grid_package in grid_packages %}
+                        {% for package in packages %}
                             <td class="py-2.5 px-3 text-center border-l border-border/30">
                                 <div class="flex justify-center items-center">
-                                    {% with package=grid_package.package is_using=grid_package.package.pk|is_in:used_packages_list usage_count=grid_package.usage_count %}
+                                    {% with is_using=package.id|is_in:used_packages_list usage_count=package.usage_count %}
                                         {% include "partials/usage_button.html" %}
                                     {% endwith %}
                                 </div>
@@ -89,9 +89,9 @@
                                 {% translate "Python 3?" %}
                             </div>
                         </td>
-                        {% for grid_package in grid_packages %}
+                        {% for package in packages %}
                             <td class="py-2.5 px-3 text-center border-l border-border/30">
-                                {% if grid_package.package.supports_python3 %}
+                                {% if package.supports_python3 %}
                                     <span class="inline-flex gap-1 items-center py-0.5 px-2 text-xs font-medium text-emerald-600 rounded-md dark:text-emerald-400 bg-emerald-500/10">
                                         <i class="text-xs ph-bold ph-check-circle"></i>
                                         {% translate "Yes" %}
@@ -106,8 +106,7 @@
                         {% endfor %}
                     </tr>
 
-                {% comment "Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498" %}
-                <!-- Development Status Row -->
+                    <!-- Development Status Row -->
                     <tr>
                         <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
                             <div class="flex gap-1.5 items-center">
@@ -115,11 +114,11 @@
                                 {% translate "Dev Status" %}
                             </div>
                         </td>
-                        {% for grid_package in grid_packages %}
+                        {% for package in packages %}
                             <td class="py-2.5 px-3 text-center align-top border-l border-border/30">
-                                {% if grid_package.development_status is not None %}
+                                {% if package.development_status is not None %}
                                     <span>
-                                        {{ grid_package.development_status|package_dev_status_badge }}
+                                        {{ package.development_status|package_dev_status_badge }}
                                     </span>
                                 {% else %}
                                     <span class="text-muted-foreground">-</span>
@@ -127,9 +126,8 @@
                             </td>
                         {% endfor %}
                     </tr>
-                {% endcomment %}
 
-                <!-- PyPI Version Row -->
+                    <!-- PyPI Version Row -->
                     <tr class="transition-colors hover:bg-muted/30">
                         <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
                             <div class="flex gap-1.5 items-center">
@@ -137,15 +135,17 @@
                                 {% translate "Version (PyPI)" %}
                             </div>
                         </td>
-                        {% for grid_package in grid_packages %}
+                        {% for package in packages %}
                             <td class="py-2.5 px-3 text-center border-l border-border/30">
-                                {% if grid_package.pypi_version %}
-                                    <a href="{{ grid_package.package.pypi_url }}"
+                                {% if package.latest_version_number %}
+                                    <a href="{{ package.pypi_url }}"
                                        class="font-mono category-tag"
                                        target="_blank" rel="noopener">
-                                        {{ grid_package.pypi_version|truncatechars:10 }}
+                                        {{ package.latest_version_number|truncatechars:10 }}
                                     </a>
-                                {% else %}<span class="text-muted-foreground">-</span>{% endif %}
+                                {% else %}
+                                    <span class="text-muted-foreground">-</span>
+                                {% endif %}
                             </td>
                         {% endfor %}
                     </tr>
@@ -158,10 +158,10 @@
                                 {% translate "Stars" %}
                             </div>
                         </td>
-                        {% for grid_package in grid_packages %}
+                        {% for package in packages %}
                             <td class="py-2.5 px-3 text-center border-l border-border/30">
                                 <span class="text-xs font-medium text-foreground" data-abbreviate>
-                                    {{ grid_package.package.repo_watchers|default:0|intcomma }}
+                                    {{ package.repo_watchers|default:0|intcomma }}
                                 </span>
                             </td>
                         {% endfor %}
@@ -175,16 +175,14 @@
                                 {% translate "Forks" %}
                             </div>
                         </td>
-                        {% for grid_package in grid_packages %}
+                        {% for package in packages %}
                             <td class="py-2.5 px-3 text-center border-l border-border/30">
                                 <span class="text-xs text-muted-foreground" data-abbreviate>
-                                    {{ grid_package.package.repo_forks|default:0|intcomma }}
+                                    {{ package.repo_forks|default:0|intcomma }}
                                 </span>
                             </td>
                         {% endfor %}
                     </tr>
-
-                    {% comment "Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498" %}
                     <!-- Commits Row with SVG Sparkline from original template -->
                     <tr class="transition-colors hover:bg-muted/30">
                         <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
@@ -193,15 +191,12 @@
                                 {% translate "Commits" %}
                             </div>
                         </td>
-                        {% for grid_package in grid_packages %}
+                        {% for package in packages %}
                             <td class="py-2.5 px-3 text-center border-l border-border/30">
-                                {% include "partials/_commits.html" with value=grid_package.commits_over_52 graph_width=70 graph_height=20 %}
+                                {% include "partials/_commits.html" with value=package.commits_over_52w_str graph_width=70 graph_height=20 %}
                             </td>
                         {% endfor %}
                     </tr>
-                    {% endcomment %}
-
-                    {% comment "Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498" %}
                     <!-- Last Updated Row - Date, Month, Year format -->
                     <tr class="transition-colors hover:bg-muted/30">
                         <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
@@ -210,11 +205,11 @@
                                 {% translate "Updated" %}
                             </div>
                         </td>
-                        {% for grid_package in grid_packages %}
+                        {% for package in packages %}
                             <td class="py-2.5 px-3 text-center border-l border-border/30">
-                                {% if grid_package.last_commit_date %}
+                                {% if package.last_commit_date %}
                                     <span class="text-xs text-muted-foreground">
-                                        {{ grid_package.last_commit_date|date:"j M Y" }}
+                                        {{ package.last_commit_date|date:"j M Y" }}
                                     </span>
                                 {% else %}
                                     <span class="text-muted-foreground">-</span>
@@ -222,7 +217,6 @@
                             </td>
                         {% endfor %}
                     </tr>
-                    {% endcomment %}
 
                     <!-- Score Row with working tooltip -->
                     {% flag "enabled_packages_score_values" %}
@@ -240,10 +234,10 @@
                                     </div>
                                 </div>
                             </td>
-                            {% for grid_package in grid_packages %}
+                            {% for package in packages %}
                                 <td class="py-2.5 px-3 text-center border-l border-border/30">
                                     <span class="text-xs font-medium text-foreground">
-                                        {{ grid_package.package.score|default:0 }}
+                                        {{ package.score|default:0 }}
                                     </span>
                                 </td>
                             {% endfor %}
@@ -258,11 +252,11 @@
                                 {% translate "License" %}
                             </div>
                         </td>
-                        {% for grid_package in grid_packages %}
+                        {% for package in packages %}
                             <td class="py-2.5 px-3 text-center border-l border-border/30">
-                                {% if grid_package.license_latest %}
-                                    <span class="text-xs text-muted-foreground" title="{{ grid_package.license_latest }}">
-                                        {{ grid_package.license_latest|truncatechars:12 }}
+                                {% if package.pypi_license_display %}
+                                    <span class="text-xs text-muted-foreground" title="{{ package.pypi_license_display }}">
+                                        {{ package.pypi_license_display|truncatechars:12 }}
                                     </span>
                                 {% else %}<span class="text-muted-foreground">-</span>{% endif %}
                             </td>
@@ -277,25 +271,25 @@
                                 {% translate "Links" %}
                             </div>
                         </td>
-                        {% for grid_package in grid_packages %}
+                        {% for package in packages %}
                             <td class="py-2.5 px-3 text-center border-l border-border/30">
                                 <div class="flex gap-1 justify-center items-center">
-                                    {% if grid_package.package.repo_url %}
-                                        <a href="{{ grid_package.package.repo_url }}"
+                                    {% if package.repo_url %}
+                                        <a href="{{ package.repo_url }}"
                                            class="p-1.5 rounded-md transition-colors text-muted-foreground hover:bg-muted hover:text-foreground"
                                            target="_blank" rel="noopener" title="{% translate 'Repository' %}">
                                             <i class="text-sm ph-bold ph-github-logo"></i>
                                         </a>
                                     {% endif %}
-                                    {% if grid_package.package.pypi_url %}
-                                        <a href="{{ grid_package.package.pypi_url }}"
+                                    {% if package.pypi_url %}
+                                        <a href="{{ package.pypi_url }}"
                                            class="p-1.5 rounded-md transition-colors text-muted-foreground hover:bg-muted hover:text-foreground"
                                            target="_blank" rel="noopener" title="{% translate 'PyPI' %}">
                                             <i class="text-sm ph-bold ph-file-py"></i>
                                         </a>
                                     {% endif %}
-                                    {% if grid_package.package.documentation_url %}
-                                        <a href="{{ grid_package.package.documentation_url }}"
+                                    {% if package.documentation_url %}
+                                        <a href="{{ package.documentation_url }}"
                                            class="p-1.5 rounded-md transition-colors text-muted-foreground hover:bg-muted hover:text-foreground"
                                            target="_blank" rel="noopener" title="{% translate 'Documentation' %}">
                                             <i class="text-sm ph-bold ph-book-open"></i>
@@ -309,7 +303,7 @@
                     {% if show_features and features %}
                     <!-- Custom Features Section Header -->
                         <tr class="bg-primary/5">
-                            <td colspan="{{ grid_packages|length|add:1 }}" class="py-2.5 px-3">
+                            <td colspan="{{ packages|length|add:1 }}" class="py-2.5 px-3">
                                 <div class="flex gap-2 items-center text-xs font-semibold text-foreground">
                                     <i class="ph-bold ph-list-checks text-primary"></i>
                                     {% translate "Feature Comparison" %}
@@ -328,7 +322,7 @@
                                         <i class="flex-shrink-0 mt-0.5 ph-bold ph-check-square text-primary"></i>
                                         <span class="leading-relaxed whitespace-normal break-words" title="{{ feature.title }}">{{ feature.title }}</span>
                                         {% if perms.grid.change_feature %}
-                                            <a href="{% url 'edit_feature' feature.pk %}"
+                                            <a href="{% url 'edit_feature' feature.id %}"
                                                class="flex-shrink-0 opacity-40 transition-opacity hover:opacity-100"
                                                title="{% translate 'Edit feature' %}">
                                                 <i class="text-xs ph-bold ph-pencil-simple"></i>
@@ -336,12 +330,12 @@
                                         {% endif %}
                                     </div>
                                 </td>
-                                {% for grid_package in grid_packages %}
-                                    {% with element=element_map|get_item:feature.pk|get_item:grid_package.pk %}
+                                {% for package in packages %}
+                                    {% with element=element_map|get_item:feature.id|get_item:package.id %}
                                         <td class="px-3 py-2.5 text-center border-l border-border/30 align-top max-w-[140px]
                                                    {% if perms.grid.change_element or perms.grid.add_element %}cursor-pointer hover:bg-primary/5 group{% endif %}"
                                             {% if perms.grid.change_element or perms.grid.add_element %}
-                                                onclick="window.location.href='{% url 'edit_element' feature_id=feature.pk package_id=grid_package.pk %}'"
+                                                onclick="window.location.href='{% url 'edit_element' grid_slug=grid.slug feature_id=feature.id package_id=package.id %}'"
                                                 title="{% translate 'Click to edit' %}"
                                             {% endif %}>
                                             {% if element %}
@@ -381,9 +375,9 @@
                                     {% translate "Remove" %}
                                 </div>
                             </td>
-                            {% for grid_package in grid_packages %}
+                            {% for package in packages %}
                                 <td class="py-2.5 px-3 text-center border-l border-destructive/10">
-                                    <a href="{% url 'delete_grid_package' grid_package.pk %}"
+                                    <a href="{% url 'delete_grid_package' grid_slug=grid.slug package_id=package.id %}"
                                        class="inline-flex gap-1 justify-center items-center py-1 px-2 text-xs font-medium rounded-md transition-colors hover:text-white text-destructive bg-destructive/10 hover:bg-destructive"
                                        title="{% translate 'Remove from grid' %}">
                                         <i class="text-xs ph-bold ph-x"></i>
@@ -402,12 +396,12 @@
     <div class="md:hidden">
     <!-- Mobile Package Selector -->
         <div class="flex overflow-x-auto gap-2 pb-3 mb-4 scrollbar-hide">
-            {% for grid_package in grid_packages %}
+            {% for package in packages %}
                 <button type="button"
                         class="mobile-pkg-btn flex-shrink-0 px-3 py-2 text-xs font-medium rounded-lg border transition-all
                                {% if forloop.first %}bg-primary text-primary-foreground border-primary{% else %}bg-card text-foreground border-border hover:border-primary{% endif %}"
                         data-pkg-index="{{ forloop.counter0 }}">
-                    {{ grid_package.package.title|truncatechars:12 }}
+                    {{ package.title|truncatechars:12 }}
                 </button>
             {% endfor %}
         </div>
@@ -415,29 +409,29 @@
     <!-- Mobile Comparison Cards -->
         <div class="overflow-hidden relative mobile-pkg-swipe-area touch-pan-y">
             <div class="flex transition-transform duration-300 mobile-pkg-cards" style="touch-action: pan-y pinch-zoom;">
-                {% for grid_package in grid_packages %}
+                {% for package in packages %}
                     <div class="overflow-hidden flex-shrink-0 w-full mobile-pkg-card card">
                 <!-- Package Header -->
                         <div class="p-4 bg-primary/10">
                             <div class="flex gap-3 justify-between items-start">
                                 <div class="flex flex-1 gap-3 items-start min-w-0">
-                                    <a href="{{ grid_package.package.get_absolute_url }}" class="flex-shrink-0">
+                                    <a href="{{ package.get_absolute_url }}" class="flex-shrink-0">
                                         <div class="flex justify-center items-center w-10 h-10 rounded-lg bg-primary/20">
                                             <i class="text-lg ph-bold ph-package text-primary"></i>
                                         </div>
                                     </a>
                                     <div class="flex-1 min-w-0">
-                                        <a href="{{ grid_package.package.get_absolute_url }}" class="block">
-                                            <h3 class="text-sm font-bold leading-tight hover:underline text-foreground">{{ grid_package.package.title }}</h3>
+                                        <a href="{{ package.get_absolute_url }}" class="block">
+                                            <h3 class="text-sm font-bold leading-tight hover:underline text-foreground">{{ package.title }}</h3>
                                         </a>
-                                        {% if grid_package.package.category %}
-                                            <a href="{{ grid_package.package.category.get_absolute_url }}" class="inline-block mt-1.5 category-tag text-[10px]">
-                                                {{ grid_package.package.category.title }}
+                                        {% if package.category %}
+                                            <a href="{{ package.category.get_absolute_url }}" class="inline-block mt-1.5 category-tag text-[10px]">
+                                                {{ package.category.title }}
                                             </a>
                                         {% endif %}
                                     </div>
                                 </div>
-                                {% with package=grid_package.package is_using=grid_package.package.pk|is_in:used_packages_list %}
+                                {% with is_using=package.id|is_in:used_packages_list %}
                                     <div id="mobile-usage-btn-{{ package.id }}" class="flex flex-shrink-0 gap-1.5 items-center">
                                         {% if request.user.is_authenticated %}
                                             {% if is_using %}
@@ -468,28 +462,28 @@
                 <!-- Package Stats -->
                         <div class="p-4">
                     <!-- Description -->
-                            {% if grid_package.package.repo_description %}
+                            {% if package.repo_description %}
                                 <p class="mb-4 text-sm text-muted-foreground">
-                                    {{ grid_package.package.repo_description }}
+                                    {{ package.repo_description }}
                                 </p>
                             {% endif %}
 
                     <!-- Stats Grid -->
                             <div class="grid grid-cols-4 gap-3 mb-4">
                                 <div class="p-2 text-center rounded-lg bg-muted/50">
-                                    <div class="text-lg font-bold text-foreground" data-abbreviate>{{ grid_package.package.repo_watchers|default:0|intcomma }}</div>
+                                    <div class="text-lg font-bold text-foreground" data-abbreviate>{{ package.repo_watchers|default:0|intcomma }}</div>
                                     <div class="uppercase text-[10px] text-muted-foreground">{% translate "Stars" %}</div>
                                 </div>
                                 <div class="p-2 text-center rounded-lg bg-muted/50">
-                                    <div class="text-lg font-bold text-foreground" data-abbreviate>{{ grid_package.package.repo_forks|default:0|intcomma }}</div>
+                                    <div class="text-lg font-bold text-foreground" data-abbreviate>{{ package.repo_forks|default:0|intcomma }}</div>
                                     <div class="uppercase text-[10px] text-muted-foreground">{% translate "Forks" %}</div>
                                 </div>
                                 <div class="p-2 text-center rounded-lg bg-muted/50">
-                                    <div id="mobile-usage-count-{{ grid_package.package.id }}" class="text-lg font-bold text-foreground">{{ grid_package.usage_count|default:0 }}</div>
+                                    <div id="mobile-usage-count-{{ package.id }}" class="text-lg font-bold text-foreground">{{ package.usage_count|default:0 }}</div>
                                     <div class="uppercase text-[10px] text-muted-foreground">{% translate "Usage" %}</div>
                                 </div>
                                 <div class="p-2 text-center rounded-lg bg-muted/50">
-                                    {% if grid_package.package.supports_python3 %}
+                                    {% if package.supports_python3 %}
                                         <div class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-emerald-500/10">
                                             <i class="text-emerald-600 dark:text-emerald-400 ph-bold ph-check"></i>
                                         </div>
@@ -502,55 +496,49 @@
                                 </div>
                             </div>
 
-                    <!-- Info List -->
+                            <!-- Info List -->
                             <div class="pt-4 space-y-2 text-sm border-t border-border">
-                                {% comment "Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498" %}
-                                {% if grid_package.development_status is not None %}
+                                {% if package.development_status is not None %}
                                     <div class="flex justify-between items-center">
                                         <span class="text-muted-foreground">{% translate "Status" %}</span>
                                         <span>
-                                            {{ grid_package.development_status|package_dev_status_badge }}
+                                            {{ package.development_status|package_dev_status_badge }}
                                         </span>
                                     </div>
                                 {% endif %}
-                                {% endcomment %}
-                                {% if grid_package.pypi_version %}
+                                {% if package.latest_version_number %}
                                     <div class="flex justify-between items-center">
                                         <span class="text-muted-foreground">{% translate "Version" %}</span>
-                                        <a href="{{ grid_package.package.pypi_url }}" class="font-mono category-tag" target="_blank">
-                                            {{ grid_package.pypi_version|truncatechars:10 }}
+                                        <a href="{{ package.pypi_url }}" class="font-mono category-tag" target="_blank">
+                                            {{ package.latest_version_number|truncatechars:10 }}
                                         </a>
                                     </div>
                                 {% endif %}
-                                {% comment "Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498" %}
-                                {% if grid_package.last_commit_date %}
+                                {% if package.last_commit_date %}
                                     <div class="flex justify-between items-center">
                                         <span class="text-muted-foreground">{% translate "Updated" %}</span>
                                         <span class="text-foreground">
-                                            {{ grid_package.last_commit_date|date:"j M Y" }}
+                                            {{ package.last_commit_date|date:"j M Y" }}
                                         </span>
                                     </div>
                                 {% endif %}
-                                {% endcomment %}
-                                {% if grid_package.license_latest %}
+                                {% if package.pypi_license_display %}
                                     <div class="flex justify-between items-center">
                                         <span class="text-muted-foreground">{% translate "License" %}</span>
-                                        <span class="text-xs text-muted-foreground" title="{{ grid_package.license_latest }}">{{ grid_package.license_latest|truncatechars:12 }}</span>
+                                        <span class="text-xs text-muted-foreground" title="{{ package.pypi_license_display }}">{{ package.pypi_license_display|truncatechars:12 }}</span>
                                     </div>
                                 {% endif %}
-                                {% comment "Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498" %}
                                 <div class="flex justify-between items-center">
                                     <span class="text-muted-foreground">{% translate "Commits" %}</span>
                                     <div class="flex-shrink-0">
-                                        {% include "partials/_commits.html" with value=grid_package.commits_over_52 graph_width=60 graph_height=16 %}
+                                        {% include "partials/_commits.html" with value=package.commits_over_52w_str graph_width=60 graph_height=16 %}
                                     </div>
                                 </div>
-                                {% endcomment %}
                                 {% flag "enabled_packages_score_values" %}
                                     <div class="flex justify-between items-center">
                                         <span class="text-muted-foreground">{% translate "Score" %}</span>
                                         <span class="font-medium text-foreground">
-                                            {{ grid_package.package.score|default:0 }}
+                                            {{ package.score|default:0 }}
                                         </span>
                                     </div>
                                 {% endflag %}
@@ -558,24 +546,24 @@
 
                     <!-- Links -->
                             <div class="flex gap-2 items-center pt-4 mt-4 border-t border-border">
-                                {% if grid_package.package.repo_url %}
-                                    <a href="{{ grid_package.package.repo_url }}"
+                                {% if package.repo_url %}
+                                    <a href="{{ package.repo_url }}"
                                        class="flex flex-1 gap-2 justify-center items-center p-2 rounded-lg transition-colors bg-muted text-muted-foreground hover:text-foreground"
                                        target="_blank" rel="noopener">
                                         <i class="ph-bold ph-github-logo"></i>
                                         <span class="text-xs">{% translate "Repo" %}</span>
                                     </a>
                                 {% endif %}
-                                {% if grid_package.package.pypi_url %}
-                                    <a href="{{ grid_package.package.pypi_url }}"
+                                {% if package.pypi_url %}
+                                    <a href="{{ package.pypi_url }}"
                                        class="flex flex-1 gap-2 justify-center items-center p-2 rounded-lg transition-colors bg-muted text-muted-foreground hover:text-foreground"
                                        target="_blank" rel="noopener">
                                         <i class="ph-bold ph-file-py"></i>
                                         <span class="text-xs">{% translate "PyPI" %}</span>
                                     </a>
                                 {% endif %}
-                                {% if grid_package.package.documentation_url %}
-                                    <a href="{{ grid_package.package.documentation_url }}"
+                                {% if package.documentation_url %}
+                                    <a href="{{ package.documentation_url }}"
                                        class="flex flex-1 gap-2 justify-center items-center p-2 rounded-lg transition-colors bg-muted text-muted-foreground hover:text-foreground"
                                        target="_blank" rel="noopener">
                                         <i class="ph-bold ph-book-open"></i>
@@ -593,7 +581,7 @@
                                     </div>
                                     <div class="space-y-2">
                                         {% for feature in features %}
-                                            {% with element=element_map|get_item:feature.pk|get_item:grid_package.pk %}
+                                            {% with element=element_map|get_item:feature.id|get_item:package.id %}
                                                 <div class="flex gap-2 justify-between items-start py-1.5 border-b last:border-0 border-border/50">
                                                     <span class="text-xs text-muted-foreground" title="{{ feature.title }}">{{ feature.title }}</span>
                                                     {% if element %}
@@ -619,7 +607,7 @@
                     <!-- Remove from Grid (Admin only) -->
                             {% if perms.grid.delete_gridpackage %}
                                 <div class="pt-4 mt-4 border-t border-border">
-                                    <a href="{% url 'delete_grid_package' grid_package.pk %}"
+                                    <a href="{% url 'delete_grid_package' grid_slug=grid.slug package_id=package.id %}"
                                        class="flex gap-2 justify-center items-center p-2 rounded-lg transition-colors text-destructive/70 hover:text-destructive hover:bg-destructive/10">
                                         <i class="ph-bold ph-trash"></i>
                                         <span class="text-xs">{% translate "Remove from Grid" %}</span>
@@ -633,9 +621,9 @@
         </div>
 
     <!-- Mobile Navigation Dots -->
-        {% if grid_packages|length > 1 %}
+        {% if packages|length > 1 %}
             <div class="flex gap-2 justify-center mt-4">
-                {% for grid_package in grid_packages %}
+                {% for package in packages %}
                     <button type="button"
                             class="mobile-pkg-dot w-2 h-2 rounded-full transition-all {% if forloop.first %}bg-primary w-4{% else %}bg-muted-foreground/30{% endif %}"
                             data-pkg-index="{{ forloop.counter0 }}"></button>

@@ -1,6 +1,6 @@
 """grid url patterns"""
 
-from django.urls import path, re_path
+from django.urls import path
 from django.views.decorators.cache import cache_page
 
 from grid.views import (
@@ -33,12 +33,12 @@ urlpatterns = [
         name="edit_grid",
     ),
     path(
-        "element/<int:feature_id>/<int:package_id>/",
+        "element/<slug:grid_slug>/<int:package_id>/<int:feature_id>/",
         view=EditElementView.as_view(),
         name="edit_element",
     ),
-    re_path(
-        r"^feature/add/(?P<grid_slug>[a-z0-9\-\_]+)/$",
+    path(
+        "feature/add/<slug:grid_slug>/",
         view=AddFeatureView.as_view(),
         name="add_feature",
     ),
@@ -53,12 +53,12 @@ urlpatterns = [
         name="delete_feature",
     ),
     path(
-        "package/<int:id>/delete/",
+        "package/<slug:grid_slug>/<int:package_id>/delete/",
         view=DeleteGridPackageView.as_view(),
         name="delete_grid_package",
     ),
-    re_path(
-        r"^(?P<grid_slug>[a-z0-9\-\_]+)/package/add/$",
+    path(
+        "<slug:grid_slug>/package/add/",
         view=AddGridPackageView.as_view(),
         name="add_grid_package",
     ),

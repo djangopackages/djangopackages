@@ -10,18 +10,9 @@ from django.contrib.auth.mixins import (
 
 from django.db.models import (
     Count,
-    Max,
     Q,
-    # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
-    # OuterRef,
-    # Subquery,
-    # IntegerField,
-    # BooleanField,
 )
 
-# Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
-# from django.db.models.functions import Coalesce
-from django.db.models.query import Prefetch
 from django.core.cache import cache
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
@@ -31,8 +22,7 @@ from django.views.generic.edit import UpdateView
 from django.utils.translation import get_language, gettext_lazy as _
 from django.utils.http import url_has_allowed_host_and_scheme
 
-# Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
-# from core.utils import PackageStatus
+from core.utils import PackageStatus
 from grid.cache import GRID_DETAIL_PAYLOAD_TIMEOUT, get_grid_detail_payload_cache_key
 
 from grid.forms import (
@@ -46,20 +36,17 @@ from grid.forms import (
 from grid.models import Element, Feature, Grid, GridPackage
 from package.models import Package
 
-# Commit import disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
-from package.models import Version
-
 
 def build_element_map(elements):
     """Build the two-level mapping used by templates.
 
     Shape:
-        feature_id -> grid_package_id -> {"text": str}
+        feature_id -> package_id -> {"text": str}
     """
     element_map: dict[int, dict[int, dict[str, Any]]] = {}
     for element in elements:
         element_map.setdefault(element.feature_id, {})
-        element_map[element.feature_id][element.grid_package_id] = {
+        element_map[element.feature_id][element.grid_package.package_id] = {
             "text": element.text,
         }
     return element_map
@@ -77,18 +64,14 @@ class GridDetailView(DetailView):
         """Get filter parameters from the form"""
         self.filter_form = GridDetailFilterForm(self.request.GET)
         filter_data = {
-            # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
-            # "python3": False,
-            # "stable": False,
+            "stable": False,
             "sort": GridDetailFilterForm.SCORE,
             "q": "",
         }
 
         if self.filter_form.is_valid():
             cleaned = self.filter_form.cleaned_data
-            # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
-            # filter_data["python3"] = cleaned.get("python3", False)
-            # filter_data["stable"] = cleaned.get("stable", False)
+            filter_data["stable"] = cleaned.get("stable", False)
             filter_data["sort"] = cleaned.get("sort") or GridDetailFilterForm.SCORE
             filter_data["q"] = cleaned.get("q", "")
 
@@ -102,187 +85,107 @@ class GridDetailView(DetailView):
             max_packages=self.max_packages,
         )
 
-    def get_grid_packages(self, grid: Grid, filter_data: dict[str, Any]):
-        """Get filtered and sorted grid packages"""
-        # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
-        # cutoff = now() - timedelta(weeks=52)
-        # version_subquery = (
-        #     Version.objects.filter(package_id=OuterRef("package_id"))
-        #     .exclude(upload_time=None)
-        #     .order_by("-upload_time")
-        #     .values("development_status")[:1]
-        # )
-
-        # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
-        # supports_python3_subquery = (
-        #     Version.objects.filter(package_id=OuterRef("package_id"))
-        #     .exclude(upload_time=None)
-        #     .order_by("-upload_time")
-        #     .values("supports_python3")[:1]
-        # )
-
-        grid_packages = (
-            grid.gridpackage_set.select_related(
-                "package",
-                "package__category",
+    def get_packages(self, grid: Grid, filter_data: dict[str, Any]):
+        """Get filtered and sorted packages"""
+        packages = (
+            Package.objects.active()
+            .filter(gridpackage__grid=grid)
+            .select_related(
+                "category",
+                "latest_version",
             )
-            .prefetch_related(
-                Prefetch(
-                    "package__version_set",
-                    queryset=Version.objects.only(
-                        "package_id",
-                        "number",
-                        "upload_time",
-                        "license",
-                        "licenses",
-                        "development_status",
-                        "supports_python3",
-                    ).order_by("-upload_time"),
-                    to_attr="_prefetched_versions",
-                ),
-                # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
-                # Prefetch(
-                #     "package__commit_set",
-                #     queryset=Commit.objects.filter(commit_date__gt=cutoff)
-                #     .only("package_id", "commit_date")
-                #     .order_by("-commit_date"),
-                #     to_attr="_prefetched_commits_52w",
-                # ),
-                # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
-                # "package__usage",
+            .filter(score__gte=max(0, settings.PACKAGE_SCORE_MIN))
+            .annotate(
+                usage_count=Count("usage", distinct=True),
             )
-            .filter(package__score__gte=max(0, settings.PACKAGE_SCORE_MIN))
-            .annotate(usage_count=Count("package__usage", distinct=True))
-            # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
-            # .annotate(last_commit_date=Max("package__commit__commit_date"))
-            # .annotate(
-            #     development_status=Coalesce(
-            #         Subquery(version_subquery, output_field=IntegerField()), 0
-            #     )
-            # )
-            # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
-            # .annotate(
-            #     supports_python3_latest=Coalesce(
-            #         Subquery(supports_python3_subquery, output_field=BooleanField()),
-            #         # Python 2 has been EOL for a long time; default to True
-            #         True,
-            #     )
-            # )
         )
 
         # Apply search filter
         if filter_data["q"]:
-            grid_packages = grid_packages.filter(
-                Q(package__title__icontains=filter_data["q"])
-                | Q(package__repo_description__icontains=filter_data["q"])
+            packages = packages.filter(
+                Q(title__icontains=filter_data["q"])
+                | Q(repo_description__icontains=filter_data["q"])
             )
 
-        # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
-        # Apply Python 3 filter
-        # if filter_data["python3"]:
-        #     grid_packages = grid_packages.filter(supports_python3_latest=True)
-
-        # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
         # Apply stable filter (requires development_status annotation)
-        # if filter_data["stable"]:
-        #     grid_packages = grid_packages.filter(
-        #         development_status=PackageStatus.STABLE
-        #     )
+        if filter_data["stable"]:
+            packages = packages.filter(
+                latest_version__development_status=PackageStatus.STABLE
+            )
 
         # Apply sorting
         sort = filter_data["sort"]
-        # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
-        # if sort == GridDetailFilterForm.COMMIT_DATE:
-        #     grid_packages = grid_packages.order_by("-last_commit_date")
+        if sort == GridDetailFilterForm.COMMIT_DATE:
+            packages = packages.order_by("-last_commit_date")
         if sort == GridDetailFilterForm.WATCHERS:
-            grid_packages = grid_packages.order_by("-package__repo_watchers")
+            packages = packages.order_by("-repo_watchers")
         elif sort == GridDetailFilterForm.FORKS:
-            grid_packages = grid_packages.order_by("-package__repo_forks")
+            packages = packages.order_by("-repo_forks")
         elif sort == GridDetailFilterForm.DOWNLOADS:
-            grid_packages = grid_packages.order_by("-package__pypi_downloads")
+            packages = packages.order_by("-pypi_downloads")
         elif sort == GridDetailFilterForm.TITLE:
-            grid_packages = grid_packages.order_by("package__title")
+            packages = packages.order_by("title")
         else:
-            grid_packages = grid_packages.order_by("-package__score")
+            packages = packages.order_by("-score")
 
-        return grid_packages
+        return packages
 
     def _get_total_package_count(self, grid: Grid) -> int:
         # Total count is for the whole grid (not filter-dependent)
-        return grid.gridpackage_set.count()
+        return Package.objects.active().filter(gridpackage__grid=grid).count()
 
-    def _limit_grid_packages(self, grid_packages_qs, total_package_count: int):
+    def _limit_packages(self, packages_qs, total_package_count: int):
         has_more_packages = total_package_count > self.max_packages
-        grid_packages = list(grid_packages_qs[: self.max_packages])
-        return grid_packages, has_more_packages
-
-    def _populate_derived_package_fields(self, grid_packages) -> None:
-        """Attach a few derived values used by templates.
-
-        These are intentionally computed before serialization so templates can
-        access them directly on `grid_package`.
-        """
-        for grid_package in grid_packages:
-            package = grid_package.package
-            grid_package.pypi_version = package.pypi_version()
-            grid_package.license_latest = package.license_latest
-            # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
-            # grid_package.commits_over_52 = package.commits_over_52()
+        packages = list(packages_qs[: self.max_packages])
+        return packages, has_more_packages
 
     def _get_features(self, grid: Grid):
         return list(Feature.objects.filter(grid=grid).order_by("pk"))
 
-    def _get_elements(self, *, features, grid_packages):
+    def _get_elements(self, *, features, packages):
         return Element.objects.filter(
-            feature__in=features, grid_package__in=grid_packages
+            feature__in=features, grid_package__package__in=packages
         ).select_related("feature", "grid_package")
 
-    def _serialize_grid_packages(self, grid_packages):
-        payload_grid_packages: list[dict[str, Any]] = []
-        for grid_package in grid_packages:
-            package = grid_package.package
+    def _serialize_packages(self, packages):
+        payload_packages: list[dict[str, Any]] = []
+        for package in packages:
             category = package.category
-            payload_grid_packages.append(
+            payload_packages.append(
                 {
-                    "id": grid_package.pk,
-                    "pk": grid_package.pk,
-                    "usage_count": grid_package.usage_count,
-                    # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
-                    # "development_status": grid_package.development_status,
-                    # "last_commit_date": grid_package.last_commit_date,
-                    "pypi_version": grid_package.pypi_version,
-                    "license_latest": grid_package.license_latest,
-                    # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
-                    # "commits_over_52": grid_package.commits_over_52,
-                    "package": {
-                        "id": package.pk,
-                        "pk": package.pk,
-                        "slug": package.slug,
-                        "title": package.title,
-                        "repo_description": package.repo_description,
-                        "repo_url": package.repo_url,
-                        "pypi_url": package.pypi_url,
-                        "documentation_url": package.documentation_url,
-                        "supports_python3": package.supports_python3,
-                        "repo_watchers": package.repo_watchers,
-                        "repo_forks": package.repo_forks,
-                        "pypi_downloads": package.pypi_downloads,
-                        "score": package.score,
-                        "get_absolute_url": package.get_absolute_url(),
-                        "category": (
-                            {
-                                "id": category.pk,
-                                "pk": category.pk,
-                                "title": category.title,
-                                "get_absolute_url": category.get_absolute_url(),
-                            }
-                            if category
-                            else None
-                        ),
-                    },
+                    "id": package.pk,
+                    "pk": package.pk,
+                    "slug": package.slug,
+                    "title": package.title,
+                    "repo_description": package.repo_description,
+                    "repo_url": package.repo_url,
+                    "pypi_url": package.pypi_url,
+                    "documentation_url": package.documentation_url,
+                    "supports_python3": package.supports_python3,
+                    "repo_watchers": package.repo_watchers,
+                    "repo_forks": package.repo_forks,
+                    "pypi_downloads": package.pypi_downloads,
+                    "score": package.score,
+                    "get_absolute_url": package.get_absolute_url(),
+                    "category": (
+                        {
+                            "id": category.pk,
+                            "pk": category.pk,
+                            "title": category.title,
+                            "get_absolute_url": category.get_absolute_url(),
+                        }
+                        if category
+                        else None
+                    ),
+                    "usage_count": package.usage_count,
+                    "development_status": package.development_status,
+                    "last_commit_date": package.last_commit_date,
+                    "latest_version": package.latest_version,
+                    "pypi_license_display": package.pypi_license_display,
+                    "commits_over_52w_str": package.commits_over_52w_str,
                 }
             )
-        return payload_grid_packages
+        return payload_packages
 
     def _serialize_features(self, features):
         return [
@@ -299,13 +202,12 @@ class GridDetailView(DetailView):
         self, *, grid: Grid, filter_data: dict[str, Any]
     ) -> dict[str, Any]:
         # Compute the expensive payload once per grid/version/filter.
-        grid_packages_qs = self.get_grid_packages(grid, filter_data)
+        packages_qs = self.get_packages(grid, filter_data)
 
         total_package_count = self._get_total_package_count(grid)
-        grid_packages, has_more_packages = self._limit_grid_packages(
-            grid_packages_qs, total_package_count
+        packages, has_more_packages = self._limit_packages(
+            packages_qs, total_package_count
         )
-        self._populate_derived_package_fields(grid_packages)
 
         # TEMPORARILY DISABLED: Features disabled entirely for production stability
         # See https://github.com/djangopackages/djangopackages/issues/1498
@@ -314,16 +216,14 @@ class GridDetailView(DetailView):
 
         if show_features:
             features = self._get_features(grid)
-            elements = self._get_elements(
-                features=features, grid_packages=grid_packages
-            )
+            elements = self._get_elements(features=features, packages=packages)
             element_map = build_element_map(elements)
         else:
             features = []
             element_map = {}
 
         return {
-            "grid_packages": self._serialize_grid_packages(grid_packages),
+            "packages": self._serialize_packages(packages),
             "features": self._serialize_features(features),
             "element_map": element_map,
             "total_package_count": total_package_count,
@@ -335,8 +235,8 @@ class GridDetailView(DetailView):
         self, *, grid: Grid, filter_data: dict[str, Any]
     ) -> dict[str, Any]:
         cache_key = self._get_payload_cache_key(grid=grid, filter_data=filter_data)
-        payload = cache.get(cache_key)
-
+        # payload = cache.get(cache_key)
+        payload = None
         if payload is None:
             payload = self._build_payload(grid=grid, filter_data=filter_data)
             cache.set(cache_key, payload, GRID_DETAIL_PAYLOAD_TIMEOUT)
@@ -354,7 +254,7 @@ class GridDetailView(DetailView):
 
         context.update(
             {
-                "grid_packages": payload["grid_packages"],
+                "packages": payload["packages"],
                 "features": payload["features"],
                 "element_map": payload["element_map"],
                 "filter_form": self.filter_form,
@@ -543,8 +443,14 @@ class DeleteFeatureView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView)
 class DeleteGridPackageView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = GridPackage
     template_name = "grid/delete_grid_package.html"
-    pk_url_kwarg = "id"
     permission_required = "grid.delete_gridpackage"
+
+    def get_object(self, queryset=None):
+        grid_slug = self.kwargs.get("grid_slug")
+        package_id = self.kwargs.get("package_id")
+        return get_object_or_404(
+            GridPackage, grid__slug=grid_slug, package_id=package_id
+        )
 
     def get_queryset(self):
         return super().get_queryset().select_related("grid")
@@ -570,9 +476,12 @@ class EditElementView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_object(self, queryset=None):
         feature_id = self.kwargs.get("feature_id")
         package_id = self.kwargs.get("package_id")
+        grid_slug = self.kwargs.get("grid_slug")
 
         self.feature = get_object_or_404(Feature, pk=feature_id)
-        self.grid_package = get_object_or_404(GridPackage, pk=package_id)
+        self.grid_package = get_object_or_404(
+            GridPackage, grid__slug=grid_slug, package_id=package_id
+        )
 
         if self.feature.grid_id != self.grid_package.grid_id:
             raise Http404
@@ -661,7 +570,9 @@ class AjaxPackageSearchView(ListView):
         if grid_slug:
             qs = qs.exclude(gridpackage__grid__slug=grid_slug)
 
-        return qs.select_related("category").order_by("-repo_watchers")[:20]
+        return qs.select_related("category", "latest_version").order_by(
+            "-repo_watchers"
+        )[:20]
 
 
 class AjaxGridSearchView(ListView):
@@ -699,9 +610,7 @@ class GridTimesheetView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["grid_packages"] = (
-            self.object.gridpackage_set.order_by("-package__modified")
-            .select_related("package")
-            .annotate(last_commit_date=Max("package__commit__commit_date"))
-        )
+        context["grid_packages"] = self.object.gridpackage_set.order_by(
+            "-package__modified"
+        ).select_related("package")
         return context

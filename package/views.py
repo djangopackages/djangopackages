@@ -9,7 +9,6 @@ from django.core.cache import cache
 from django.db import transaction
 from django.db.models import (
     Count,
-    Prefetch,
     Q,
     Exists,
     OuterRef,
@@ -42,7 +41,6 @@ from package.forms import (
 )
 from package.models import (
     Category,
-    Commit,
     FlaggedPackage,
     Package,
     PackageExample,
@@ -413,7 +411,9 @@ class PackageRulesView(DetailView):
     slug_url_kwarg = "slug"
 
     def get_queryset(self):
-        return Package.objects.select_related("category").prefetch_related("grid_set")
+        return Package.objects.select_related(
+            "category", "latest_version"
+        ).prefetch_related("grid_set")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -446,7 +446,7 @@ class PackageRulesView(DetailView):
         context.update(
             dict(
                 package_score=package_score,
-                latest_version=package.last_released(),
+                latest_version=package.latest_version,
                 repo=package.repo,
             )
         )
@@ -461,13 +461,6 @@ class PackageDetailView(DetailView):
     slug_url_kwarg = "slug"
 
     def get_queryset(self):
-        commit_count_subquery = (
-            Commit.objects.filter(package_id=OuterRef("pk"))
-            .order_by()
-            .values("package_id")
-            .annotate(c=Count("id"))
-            .values("c")[:1]
-        )
         version_count_subquery = (
             Version.objects.filter(package_id=OuterRef("pk"))
             .order_by()
@@ -479,7 +472,7 @@ class PackageDetailView(DetailView):
         qs = (
             super()
             .get_queryset()
-            .select_related("category", "deprecates_package")
+            .select_related("category", "deprecates_package", "latest_version")
             .prefetch_related(
                 "grid_set",
                 "flags",
@@ -490,10 +483,7 @@ class PackageDetailView(DetailView):
                         package_id=OuterRef("pk"), approved_flag=True
                     )
                 ),
-                # Avoid JOIN+GROUP BY explosion from commit/version fan-out.
-                _commit_count=Coalesce(
-                    Subquery(commit_count_subquery, output_field=IntegerField()), 0
-                ),
+                # Avoid JOIN+GROUP BY explosion from version fan-out.
                 _version_count=Coalesce(
                     Subquery(version_count_subquery, output_field=IntegerField()), 0
                 ),
@@ -514,7 +504,7 @@ class PackageDetailView(DetailView):
         context.update(
             {
                 "is_favorited": getattr(self.object, "_is_favorited", False),
-                "commit_count": getattr(self.object, "_commit_count", 0),
+                "commit_count": self.object.commit_count,
                 "version_count": getattr(self.object, "_version_count", 0),
                 "has_approved_flag": getattr(self.object, "_has_approved_flag", False),
             }
@@ -581,7 +571,7 @@ class GitHubWebhookView(View):
             return HttpResponse("Service Test pass")
 
         package = get_object_or_404(Package, repo_url=repo_url)
-        package.repo.fetch_commits(package)
+        package.repo.fetch_metadata(package)
         package.last_fetched = timezone.now()
         package.save()
         return HttpResponse()
@@ -610,14 +600,7 @@ class BasePackageListView(ListView):
     def get_base_queryset(self):
         return (
             Package.objects.active()
-            .select_related("category")
-            .prefetch_related(
-                Prefetch(
-                    "version_set",
-                    queryset=Version.objects.only("package_id", "number"),
-                    to_attr="_prefetched_versions",
-                ),
-            )
+            .select_related("category", "latest_version")
             .annotate(usage_count=Count("usage"))
         )
 
