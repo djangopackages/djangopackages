@@ -183,6 +183,7 @@ class GridDetailView(DetailView):
                     "latest_version": package.latest_version,
                     "pypi_license_display": package.pypi_license_display,
                     "commits_over_52w_str": package.commits_over_52w_str,
+                    "latest_version_number": package.latest_version_number,
                 }
             )
         return payload_packages
@@ -235,8 +236,8 @@ class GridDetailView(DetailView):
         self, *, grid: Grid, filter_data: dict[str, Any]
     ) -> dict[str, Any]:
         cache_key = self._get_payload_cache_key(grid=grid, filter_data=filter_data)
-        # payload = cache.get(cache_key)
-        payload = None
+        payload = cache.get(cache_key)
+
         if payload is None:
             payload = self._build_payload(grid=grid, filter_data=filter_data)
             cache.set(cache_key, payload, GRID_DETAIL_PAYLOAD_TIMEOUT)
