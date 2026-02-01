@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-01-31]
+### Changed
+- Fix N+1 Query in APIv4 GridViewSet ([#1530](https://github.com/djangopackages/djangopackages/pull/1530))
+
 ## [2026-01-30]
 ### Changed
 - Add `pypi_url` validation to PackageForm and corresponding tests ([#1529](https://github.com/djangopackages/djangopackages/pull/1529))
