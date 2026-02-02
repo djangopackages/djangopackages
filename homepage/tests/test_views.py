@@ -73,3 +73,13 @@ def test_readiness_detail(db, tp, django_assert_num_queries, product, release):
     with django_assert_num_queries(0):
         response = tp.client.get(url)
     assert response.status_code == 200
+
+
+@pytest.mark.xfail(raises=NoReverseMatch)
+def test_readiness_detail_with_invalid_cycle(tp, release):
+    url = tp.reverse(
+        "readiness_detail",
+        kwargs={"product_slug": str(release.product.slug), "cycle": "invalid-cycle"},
+    )
+    response = tp.client.get(url)
+    assert response.status_code == 404
