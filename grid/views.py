@@ -124,7 +124,7 @@ class GridDetailView(DetailView):
                 | Q(repo_description__icontains=filter_data["q"])
             )
 
-        # Apply stable filter (requires development_status annotation)
+        # Apply stable filter
         if filter_data["stable"]:
             packages = packages.filter(
                 latest_version__development_status=PackageStatus.STABLE
