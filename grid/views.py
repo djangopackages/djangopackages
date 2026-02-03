@@ -2,6 +2,7 @@ from functools import cached_property
 from typing import Any
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import (
     LoginRequiredMixin,
     UserPassesTestMixin,
@@ -9,11 +10,16 @@ from django.contrib.auth.mixins import (
 )
 
 from django.db.models import (
+    F,
     Count,
     Q,
+    IntegerField,
+    OuterRef,
+    Subquery,
 )
 
 from django.core.cache import cache
+from django.db.models.functions import Coalesce
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -35,6 +41,8 @@ from grid.forms import (
 )
 from grid.models import Element, Feature, Grid, GridPackage
 from package.models import Package
+
+User = get_user_model()
 
 
 def build_element_map(elements):
@@ -87,16 +95,25 @@ class GridDetailView(DetailView):
 
     def get_packages(self, grid: Grid, filter_data: dict[str, Any]):
         """Get filtered and sorted packages"""
+        usage_count_subquery = (
+            User.objects.filter(package__id=OuterRef("pk"))
+            .values("package__id")
+            .annotate(c=Count("id"))
+            .values("c")[:1]
+        )
         packages = (
             Package.objects.active()
-            .filter(gridpackage__grid=grid)
+            .filter(
+                gridpackage__grid=grid, score__gte=max(0, settings.PACKAGE_SCORE_MIN)
+            )
             .select_related(
                 "category",
                 "latest_version",
             )
-            .filter(score__gte=max(0, settings.PACKAGE_SCORE_MIN))
             .annotate(
-                usage_count=Count("usage", distinct=True),
+                usage_count=Coalesce(
+                    Subquery(usage_count_subquery, output_field=IntegerField()), 0
+                )
             )
         )
 
@@ -114,19 +131,24 @@ class GridDetailView(DetailView):
             )
 
         # Apply sorting
-        sort = filter_data["sort"]
-        if sort == GridDetailFilterForm.COMMIT_DATE:
-            packages = packages.order_by("-last_commit_date")
-        if sort == GridDetailFilterForm.WATCHERS:
-            packages = packages.order_by("-repo_watchers")
-        elif sort == GridDetailFilterForm.FORKS:
-            packages = packages.order_by("-repo_forks")
-        elif sort == GridDetailFilterForm.DOWNLOADS:
-            packages = packages.order_by("-pypi_downloads")
-        elif sort == GridDetailFilterForm.TITLE:
-            packages = packages.order_by("title")
-        else:
-            packages = packages.order_by("-score")
+        match filter_data["sort"]:
+            case GridDetailFilterForm.COMMIT_DATE:
+                # we want the packages with null last_commit_date to appear last
+                # by default, nulls are sorted first in descending order
+                packages = packages.order_by(
+                    F("last_commit_date").desc(nulls_last=True)
+                )
+            case GridDetailFilterForm.WATCHERS:
+                packages = packages.order_by("-repo_watchers")
+            case GridDetailFilterForm.FORKS:
+                packages = packages.order_by("-repo_forks")
+            case GridDetailFilterForm.DOWNLOADS:
+                packages = packages.order_by("-pypi_downloads")
+            case GridDetailFilterForm.TITLE:
+                packages = packages.order_by("title")
+            case _:
+                # By default we display results by score
+                packages = packages.order_by("-score")
 
         return packages
 

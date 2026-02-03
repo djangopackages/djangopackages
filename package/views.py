@@ -4,6 +4,7 @@ from urllib.parse import urlparse
 
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.cache import cache
 from django.db import transaction
@@ -58,6 +59,9 @@ from searchv2.rules import ScoreRuleGroup
 from searchv2.rules import UsageCountRule
 from searchv2.rules import WatchersRule
 from favorites.models import Favorite
+
+
+User = get_user_model()
 
 
 class AddPackageView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -598,10 +602,20 @@ class BasePackageListView(ListView):
     template_name = None  # must be set by subclass
 
     def get_base_queryset(self):
+        usage_count_subquery = (
+            User.objects.filter(package__id=OuterRef("pk"))
+            .values("package__id")
+            .annotate(c=Count("id"))
+            .values("c")[:1]
+        )
         return (
             Package.objects.active()
             .select_related("category", "latest_version")
-            .annotate(usage_count=Count("usage"))
+            .annotate(
+                usage_count=Coalesce(
+                    Subquery(usage_count_subquery, output_field=IntegerField()), 0
+                )
+            )
         )
 
     def get_filter_form(self):
