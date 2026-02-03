@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-02-02]
+### Changed
+- Refactor ReadinessDetailView to Handle NotFound Errors Properly ([#1531](https://github.com/djangopackages/djangopackages/pull/1531))
+
 ## [2026-01-31]
 ### Changed
 - Fix N+1 Query in APIv4 GridViewSet ([#1530](https://github.com/djangopackages/djangopackages/pull/1530))
