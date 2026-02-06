@@ -5,7 +5,7 @@ from django.utils import timezone
 from rich import print
 
 from grid.models import Grid
-from package.models import Commit, Package
+from package.models import Package
 from searchv2.models import SearchV2
 from searchv2.rules import calc_package_weight
 from searchv2.rules import DeprecatedRule
@@ -70,7 +70,11 @@ def index_packages(*, verbose: bool = False):
 
     package_ids = list(Package.objects.values_list("id", flat=True))
     for pk in package_ids:
-        package = Package.objects.get(pk=pk)
+        package = (
+            Package.objects.filter(pk=pk)
+            .select_related("category", "latest_version")
+            .first()
+        )
         try:
             package_score = calc_package_weight(
                 package=package, rules=rules, max_score=100
@@ -102,13 +106,11 @@ def index_packages(*, verbose: bool = False):
             )
 
             optional_save = False
-            try:
-                obj.last_committed = package.last_updated()
+            if package.last_commit_date:
+                obj.last_committed = package.last_commit_date
                 optional_save = True
-            except Commit.DoesNotExist:
-                pass
 
-            last_released = package.last_released()
+            last_released = package.latest_version
             if last_released and last_released.upload_time:
                 obj.last_released = last_released.upload_time
                 optional_save = True

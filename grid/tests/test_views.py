@@ -13,7 +13,7 @@ from waffle.testutils import override_flag
 
 from grid.models import Element, Feature, Grid, GridPackage
 from grid.tests import data
-from package.models import Category, Commit, Package, Version
+from package.models import Category, Package, Version
 
 
 class FunctionalGridTest(TestCase):
@@ -206,7 +206,10 @@ class FunctionalGridTest(TestCase):
         self.assertEqual(Feature.objects.count(), count - 1)
 
     def test_edit_element_view(self):
-        url = reverse("edit_element", kwargs={"feature_id": "1", "package_id": "1"})
+        url = reverse(
+            "edit_element",
+            kwargs={"grid_slug": "testing", "feature_id": "1", "package_id": "1"},
+        )
         with self.assertNumQueries(0):
             response = self.client.get(url)
 
@@ -231,7 +234,10 @@ class FunctionalGridTest(TestCase):
         self.assertEqual(Element.objects.count(), count)
 
         # Confirm 404 if grid IDs differ
-        url = reverse("edit_element", kwargs={"feature_id": "1", "package_id": "4"})
+        url = reverse(
+            "edit_element",
+            kwargs={"grid_slug": "testing", "feature_id": "1", "package_id": "4"},
+        )
         response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
 
@@ -286,7 +292,9 @@ class FunctionalGridTest(TestCase):
         # Since this user doesn't have the appropriate permissions, none of the
         # features should be deleted (thus the count should be the same).
         self.assertTrue(self.client.login(username="user", password="user"))
-        url = reverse("delete_grid_package", kwargs={"id": "1"})
+        url = reverse(
+            "delete_grid_package", kwargs={"grid_slug": "testing", "package_id": "1"}
+        )
         with self.assertNumQueries(5):
             self.client.post(url)
         self.assertEqual(count, GridPackage.objects.count())
@@ -312,7 +320,10 @@ class RegressionGridTest(TestCase):
         # Log in the test user and attempt to edit the element.
         self.assertTrue(self.client.login(username="user", password="user"))
 
-        url = reverse("edit_element", kwargs={"feature_id": "1", "package_id": "1"})
+        url = reverse(
+            "edit_element",
+            kwargs={"grid_slug": "testing", "feature_id": "1", "package_id": "1"},
+        )
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/edit_element.html")
@@ -357,7 +368,9 @@ class GridPackagePermissionTest(TestCase):
         data.load()
         settings.RESTRICT_GRID_EDITORS = True
         self.test_add_url = reverse("add_grid_package", kwargs={"grid_slug": "testing"})
-        self.test_delete_url = reverse("delete_grid_package", kwargs={"id": "1"})
+        self.test_delete_url = reverse(
+            "delete_grid_package", kwargs={"grid_slug": "testing", "package_id": "1"}
+        )
         self.login = self.client.login(username="user", password="user")
         self.user = User.objects.get(username="user")
 
@@ -441,7 +454,8 @@ class GridElementPermissionTest(TestCase):
         data.load()
         settings.RESTRICT_GRID_EDITORS = True
         self.test_edit_url = reverse(
-            "edit_element", kwargs={"feature_id": "1", "package_id": "1"}
+            "edit_element",
+            kwargs={"grid_slug": "testing", "feature_id": "1", "package_id": "1"},
         )
         self.login = self.client.login(username="user", password="user")
         self.user = User.objects.get(username="user")
@@ -498,6 +512,7 @@ class GridDetailQueryCountTest(TestCase):
                 pypi_downloads=i * 100,
                 participants=f"user{i},user{i + 1}",
                 score=50,  # Ensure it passes PACKAGE_SCORE_MIN filter
+                last_commit_date=reference_time - timedelta(days=30),
             )
             cls.packages.append(package)
 
@@ -506,13 +521,6 @@ class GridDetailQueryCountTest(TestCase):
                 package=package,
             )
             cls.grid_packages.append(grid_package)
-
-            # Add some commits for each package (within last 52 weeks of frozen time)
-            for j in range(3):
-                Commit.objects.create(
-                    package=package,
-                    commit_date=reference_time - timedelta(days=j * 30),
-                )
 
             # Add some versions for each package
             for j in range(2):
@@ -557,7 +565,7 @@ class GridDetailQueryCountTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
         # GridDetailView now caps packages at max_packages (8)
-        self.assertEqual(len(response.context["grid_packages"]), 8)
+        self.assertEqual(len(response.context["packages"]), 8)
         self.assertEqual(response.context["total_package_count"], 100)
         self.assertTrue(response.context["has_more_packages"])
 
@@ -577,8 +585,6 @@ class GridDetailQueryCountTest(TestCase):
     def test_grid_detail_query_count_with_filters(self):
         """Test query count remains constant when filters are applied."""
         url = reverse("grid", kwargs={"slug": "large-grid-test"})
-
-        # Python 3 filter disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
 
         # Test with search filter
         with CaptureQueriesContext(connection) as context:
@@ -685,7 +691,7 @@ class GridShowFeaturesTest(TestCase):
         self.assertFalse(response.context["show_features"])
         self.assertEqual(response.context["total_package_count"], 20)
         # Should still only display max_packages (8) packages
-        self.assertEqual(len(response.context["grid_packages"]), 8)
+        self.assertEqual(len(response.context["packages"]), 8)
         self.assertTrue(response.context["has_more_packages"])
 
     @override_flag("enabled_packages_score_values", active=True)

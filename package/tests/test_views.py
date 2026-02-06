@@ -24,7 +24,7 @@ class FunctionalPackageTest(TestCase):
 
     def test_package_list_view(self):
         url = reverse("packages")
-        with self.assertNumQueries(5):
+        with self.assertNumQueries(4):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "package/package_list.html")
@@ -591,7 +591,7 @@ class ValidateRepositoryURLViewTest(TestCase):
 def test_category_view(db, django_assert_num_queries, tp):
     initial_data.load()
 
-    with django_assert_num_queries(4):
+    with django_assert_num_queries(3):
         response = tp.client.get("/categories/apps/")
     assert "apps" in str(response.content)
 
@@ -599,7 +599,7 @@ def test_category_view(db, django_assert_num_queries, tp):
 def test_grid_package_list(db, django_assert_num_queries, tp):
     initial_data.load()
 
-    with django_assert_num_queries(6):
+    with django_assert_num_queries(5):
         url = tp.reverse("grid_packages", slug="testing")
         response = tp.client.get(url)
 

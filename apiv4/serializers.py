@@ -35,9 +35,6 @@ class GridSerializer(serializers.ModelSerializer):
 class PackageSerializer(serializers.HyperlinkedModelSerializer):
     # 'Source' is attached to the model attribute
     participants = serializers.ListField(source="participant_list")
-    # Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498
-    # commits_over_52 = serializers.ListField(source="commits_over_52_listed")
-    commits_over_52 = serializers.ListField(default=[])
     grids = serializers.HyperlinkedRelatedField(
         many=True,
         view_name="apiv4:grid-detail",
@@ -47,6 +44,12 @@ class PackageSerializer(serializers.HyperlinkedModelSerializer):
     category = serializers.HyperlinkedRelatedField(
         view_name="apiv4:category-detail", read_only=True
     )
+    # These methods were removed from the model
+    # So, we added them here as fields
+    # to avoid changing API structure
+    last_updated = serializers.DateTimeField(source="last_commit_date")
+    pypi_version = serializers.CharField(source="latest_version_number")
+    commits_over_52 = serializers.ListField(default=[], source="commits_over_52w")
 
     class Meta:
         model = Package

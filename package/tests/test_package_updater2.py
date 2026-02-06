@@ -94,7 +94,7 @@ class TestPackageUpdater2:
         assert package.repo_watchers == 150
         assert package.score == 99
         assert package.latest_version is not None
-        assert package.latest_version.number == "1.0.0"
+        assert package.latest_version_number == "1.0.0"
 
         # Verify calls
         mock_pypi_update.assert_called_once()

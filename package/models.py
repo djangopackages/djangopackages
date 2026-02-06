@@ -1,10 +1,8 @@
 from datetime import timedelta
+from functools import cached_property
 from django.conf import settings
 from django.contrib.auth.models import User
 
-# from django.contrib.postgres.fields import ArrayField
-from django.core.cache import cache
-from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models.constraints import UniqueConstraint
 from django.urls import reverse
@@ -17,7 +15,7 @@ from core.models import BaseModel
 from core.utils import PackageStatus
 from package.managers import PackageManager
 from package.repos import get_repo_for_repo_url
-from package.utils import get_pypi_version, get_version, normalize_license
+from package.utils import normalize_license
 
 repo_url_help_text = settings.PACKAGINATOR_HELP_TEXT["REPO_URL"]
 pypi_url_help_text = settings.PACKAGINATOR_HELP_TEXT["PYPI_URL"]
@@ -138,7 +136,6 @@ class Package(BaseModel):
         _("Documentation URL"), blank=True, null=True, default=""
     )
 
-    commit_list = models.TextField(_("Commit List"), blank=True)
     score = models.IntegerField(_("Score"), default=0)
 
     date_deprecated = models.DateTimeField(blank=True, null=True)
@@ -228,25 +225,6 @@ class Package(BaseModel):
 
         return name
 
-    def last_updated(self):
-        cache_name = self.cache_namer(self.last_updated)
-        last_commit = cache.get(cache_name)
-        if last_commit is not None:
-            return last_commit
-
-        if self.last_commit_date:
-            return self.last_commit_date
-
-        try:
-            last_commit = self.commit_set.latest("commit_date").commit_date
-            if last_commit:
-                cache.set(cache_name, last_commit)
-                return last_commit
-        except ObjectDoesNotExist:
-            last_commit = None
-
-        return last_commit
-
     @property
     def repo(self):
         return get_repo_for_repo_url(self.repo_url, self.repo_host or None)
@@ -254,30 +232,6 @@ class Package(BaseModel):
     @property
     def active_examples(self):
         return self.packageexample_set.filter(active=True)
-
-    @property
-    def license_latest(self):
-        prefetched_versions = None
-        if hasattr(self, "_prefetched_versions"):
-            prefetched_versions = getattr(self, "_prefetched_versions")
-
-        # If versions were prefetched (even if empty), use them and do not hit
-        # the DB.
-        if prefetched_versions is not None:
-            if not prefetched_versions:
-                return "UNKNOWN"
-            # Version model orders by -upload_time, so the first non-null upload_time
-            # is the effective "latest".
-            for v in prefetched_versions:
-                if v.upload_time is not None:
-                    return v.license or "UNKNOWN"
-            # If none have upload_time, fall back to best effort.
-            return prefetched_versions[0].license or "UNKNOWN"
-
-        try:
-            return self.version_set.latest().license
-        except Version.DoesNotExist:
-            return "UNKNOWN"
 
     def grids(self):
         return (x.grid for x in self.gridpackage_set.all())
@@ -301,93 +255,40 @@ class Package(BaseModel):
     def get_usage_count(self):
         return self.usage.count()
 
-    def commits_over_52(self):
-        cache_name = self.cache_namer(self.commits_over_52)
-        value = cache.get(cache_name)
-        if value is not None:
-            return value
-
+    @cached_property
+    def commits_over_52w_str(self):
         if self.commits_over_52w:
             return ",".join(map(str, self.commits_over_52w))
-
-        reference_now = now()
-        cutoff = reference_now - timedelta(weeks=52)
-
-        # Prefer a view-provided prefetch of recent commits.
-        prefetched_recent_commits = getattr(self, "_prefetched_commits_52w", None)
-        if prefetched_recent_commits is None and hasattr(
-            self, "_prefetched_objects_cache"
-        ):
-            prefetched_recent_commits = self._prefetched_objects_cache.get("commit_set")
-
-        if prefetched_recent_commits is not None:
-            commit_dates = [
-                c.commit_date
-                for c in prefetched_recent_commits
-                if c.commit_date > cutoff
-            ]
-        else:
-            commit_dates = self.commit_set.filter(
-                commit_date__gt=cutoff,
-            ).values_list("commit_date", flat=True)
-
-        weeks = [0] * 52
-        for cdate in commit_dates:
-            age_weeks = (reference_now - cdate).days // 7
-            if age_weeks < 52:
-                weeks[age_weeks] += 1
-
-        value = ",".join(map(str, reversed(weeks)))
-        cache.set(cache_name, value)
-        return value
-
-    def pypi_version(self):
-        cache_name = self.cache_namer(self.pypi_version)
-        version = cache.get(cache_name)
-        if version is not None:
-            return version
-        version = get_pypi_version(self)
-        cache.set(cache_name, version)
-        return version
-
-    def last_released(self):
-        cache_name = self.cache_namer(self.last_released)
-        version = cache.get(cache_name)
-        if version is not None:
-            return version
-        version = get_version(self)
-        cache.set(cache_name, version)
-        return version
+        return ""
 
     @property
     def development_status(self):
-        """Gets data needed in API v2 calls"""
-        if release := self.last_released():
-            return release.pretty_status
+        if version := self.latest_version:
+            return version.development_status
+        return None
+
+    @property
+    def latest_version_number(self):
+        if version := self.latest_version:
+            return version.number
         return None
 
     @property
     def pypi_ancient(self):
-        if release := self.last_released():
-            return release.upload_time < now() - timedelta(365)
+        if version := self.latest_version:
+            return version.upload_time < now() - timedelta(365)
         return None
 
     @property
     def no_development(self):
-        commit_date = self.last_updated()
-        if commit_date is not None:
+        commit_date = self.last_commit_date
+        if commit_date:
             return commit_date < now() - timedelta(365)
         return None
 
     @property
-    def last_commit(self):
-        prefetched_commits = getattr(self, "_prefetched_commits_52w", None)
-        if prefetched_commits:
-            return prefetched_commits[0]
-        return self.commit_set.latest()
-
-    def commits_over_52_listed(self):
-        return [int(x) for x in self.commits_over_52().split(",")]
+    def pypi_license_display(self):
+        return self.pypi_license or "UNKNOWN"
 
 
 class FlaggedPackage(BaseModel):
@@ -453,14 +354,6 @@ class Commit(BaseModel):
 
     def __str__(self):
         return f"Commit for '{self.package.title}' on {self.commit_date}"
-
-    def save(self, *args, **kwargs):
-        # reset the last_updated and commits_over_52 caches on the package
-        package = self.package
-        cache.delete(package.cache_namer(self.package.last_updated))
-        cache.delete(package.cache_namer(package.commits_over_52))
-        self.package.last_updated()
-        super().save(*args, **kwargs)
 
 
 class VersionManager(models.Manager):
@@ -536,16 +429,6 @@ class Version(BaseModel):
 
         if not self.upload_time:
             self.upload_time = self.created
-
-        # reset the latest_version cache on the package
-        cache_name = self.package.cache_namer(self.package.last_released)
-        cache.delete(cache_name)
-        get_version(self.package)
-
-        # reset the pypi_version cache on the package
-        cache_name = self.package.cache_namer(self.package.pypi_version)
-        cache.delete(cache_name)
-        get_pypi_version(self.package)
 
         super().save(*args, **kwargs)
 

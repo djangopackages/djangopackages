@@ -27,17 +27,17 @@
                                     {{ package.category.title }}
                                 </span>
                             {% endif %}
-                            {% if package.pypi_version %}
+                            {% if package.latest_version %}
                                 <span class="flex gap-1 items-center text-xs whitespace-nowrap badge suggestion-badge text-muted-foreground group-hover:text-accent-foreground/80" title="{% translate 'Latest PyPI Version' %}">
                                     <i class="text-xs ph-bold ph-tag"></i>
-                                    {{ package.pypi_version }}
+                                    {{ package.latest_version_number }}
                                 </span>
-                            {% endif %}
-                            {% if package.last_released %}
-                                <span class="flex gap-1 items-center text-xs whitespace-nowrap badge suggestion-badge text-muted-foreground group-hover:text-accent-foreground/80" title="{% translate 'Last Released' %}">
-                                    <i class="text-xs ph-bold ph-calendar-check"></i>
-                                    {{ package.last_released|date }}
-                                </span>
+                                {% if package.latest_version.upload_time %}
+                                    <span class="flex gap-1 items-center text-xs whitespace-nowrap badge suggestion-badge text-muted-foreground group-hover:text-accent-foreground/80" title="{% translate 'Last Released' %}">
+                                        <i class="text-xs ph-bold ph-calendar-check"></i>
+                                        {{ package.latest_version.upload_time|date }}
+                                    </span>
+                                {% endif %}
                             {% endif %}
                             <span class="flex gap-1 items-center text-xs whitespace-nowrap badge suggestion-badge text-muted-foreground group-hover:text-accent-foreground/80" title="{% translate 'Stars' %}">
                                 <i class="ph-bold ph-star"></i>

@@ -206,7 +206,7 @@ class TestUpdatePackageFromPyPI:
             assert updated_pkg.pypi_name == "test-package"
             assert updated_pkg.supports_python3 is True
             assert updated_pkg.documentation_url == "https://docs.example.com"
-            assert updated_pkg.latest_version.number == "1.0.0"
+            assert updated_pkg.latest_version_number == "1.0.0"
             assert Version.objects.filter(package=package, number="1.0.0").exists()
 
     def test_update_404_clears_url(self, package):
@@ -307,7 +307,7 @@ class TestUpdatePackageFromPyPI:
             version = package.latest_version
             assert version.development_status == 3
             assert version.pretty_status == "Alpha"
-            assert package.development_status == "Alpha"
+            assert package.development_status == 3
 
     def test_update_requires_python(self, package, pypi_data):
         pypi_data["info"]["requires_python"] = ">=3.10"

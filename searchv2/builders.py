@@ -3,7 +3,7 @@ from datetime import timedelta
 from django.utils import timezone
 
 from grid.models import Grid
-from package.models import Commit, Package
+from package.models import Package
 from searchv2.models import SearchV2
 from searchv2.utils import clean_title, remove_prefix
 
@@ -49,14 +49,14 @@ def calc_package_weight(*, package: Package) -> int:
 
         # Is the last release less than a year old?
         try:
-            if last_released := package.last_released():
+            if last_released := package.latest_version:
                 if now - last_released.upload_time < timedelta(365):
                     weight += 20
         except AttributeError:
             ...
 
     # Is there ongoing work or is this forgotten?
-    if last_updated := package.last_updated():
+    if last_updated := package.last_commit_date:
         if (now - last_updated) < timedelta(90):
             weight += 20
         elif now - last_updated < timedelta(182):
@@ -70,7 +70,11 @@ def calc_package_weight(*, package: Package) -> int:
 def index_packages(verbose: bool = False):
     package_ids = list(Package.objects.values_list("id", flat=True))
     for pk in package_ids:
-        package = Package.objects.get(pk=pk)
+        package = (
+            Package.objects.filter(pk=pk)
+            .select_related("category", "latest_version")
+            .first()
+        )
         weight = calc_package_weight(package=package)
 
         if verbose:
@@ -98,13 +102,11 @@ def index_packages(verbose: bool = False):
         )
 
         optional_save = False
-        try:
-            obj.last_committed = package.last_updated()
+        if package.last_commit_date:
+            obj.last_committed = package.last_commit_date
             optional_save = True
-        except Commit.DoesNotExist:
-            pass
 
-        last_released = package.last_released()
+        last_released = package.latest_version
         if last_released and last_released.upload_time:
             obj.last_released = last_released.upload_time
             optional_save = True

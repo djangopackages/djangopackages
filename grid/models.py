@@ -88,6 +88,11 @@ class GridPackage(BaseModel):
     class Meta:
         verbose_name = "Grid Package"
         verbose_name_plural = "Grid Packages"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["grid", "package"], name="unique_grid_package"
+            )
+        ]
 
     def __str__(self):
         return f"{self.grid.slug} : {self.package.slug}"
