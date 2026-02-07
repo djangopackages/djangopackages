@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-02-06]
+### Changed
+- ⬆️ Bump django from 5.2.9 to 5.2.11 ([#1533](https://github.com/djangopackages/djangopackages/pull/1533))
+
 ## [2026-02-02]
 ### Changed
 - Refactor ReadinessDetailView to Handle NotFound Errors Properly ([#1531](https://github.com/djangopackages/djangopackages/pull/1531))
