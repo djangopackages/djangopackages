@@ -6,7 +6,7 @@
     </h3>
 </div>
 <div class="card-content">
-    <form hx-post="{% url 'edit_documentation' package.slug %}" hx-target="#documentation-card" hx-swap="innerHTML">
+    <form hx-post="{% url 'edit_documentation' package.slug %}" hx-target="#documentation-card" hx-swap="innerHTML" hx-indicator="#documentation-spinner">
         {% csrf_token %}
         {% include "partials/form_renderer.html" %}
         <div class="flex gap-2 justify-end mt-4">
