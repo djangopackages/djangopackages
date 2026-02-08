@@ -263,65 +263,61 @@
                     </div>
                 </div>
 
-                <!-- Flags Card -->
-                {% if request.user.is_superuser %}
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="flex justify-between items-center">
-                                <h3 class="flex gap-2 items-center text-xl font-semibold">
-                                    <i class="text-xl ph-bold ph-flag"></i>
-                                    {% translate "Flags" %}
-                                </h3>
+                {% with package_flags=package.flags.all %}
+                    <!-- Flags Card -->
+                    {% if request.user.is_superuser and package_flags and not has_approved_flag %}
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="flex justify-between items-center">
+                                    <h3 class="flex gap-2 items-center text-xl font-semibold">
+                                        <i class="text-xl ph-bold ph-flag"></i>
+                                        {% translate "Flags" %}
+                                    </h3>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card-content">
-                            <div class="overflow-x-auto px-6 -mx-6 sm:px-0 sm:mx-0">
-                                <div class="inline-block min-w-full align-middle">
-                                    <table class="w-full min-w-[600px]">
-                                        <thead>
-                                            <tr class="text-left border-b">
-                                                <th class="pb-3 text-sm font-medium text-muted-foreground">{% translate "Reason" %}</th>
-                                                <th class="pb-3 w-24 text-sm font-medium text-center text-muted-foreground">{% translate "Approve" %}</th>
-                                                <th class="pb-3 w-24 text-sm font-medium text-center text-muted-foreground">{% translate "Remove" %}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for flag in package.flags.all %}
-                                                {% if not flag.approved_flag %}
-                                                    <tr class="border-b transition-colors last:border-0 hover:bg-muted/30">
-                                                        <td class="py-3 text-sm font-medium text-foreground">
-                                                            {{ flag.reason }}
-                                                        </td>
-                                                        <td class="py-3 text-center">
-                                                            {% if not flag.approved_flag %}
-                                                                <a href="{% url 'flag_approve' flag.id %}" class="text-green-600 hover:text-green-700" title="{% translate 'Approve' %}">
-                                                                    <i class="text-xl ph-bold ph-check"></i>
-                                                                </a>
-                                                            {% endif %}
-                                                        </td>
-                                                        <td class="py-3 text-center">
-                                                            {% if not flag.approved_flag %}
-                                                                <a href="{% url 'flag_remove' flag.id %}" class="text-red-600 hover:text-red-700" title="{% translate 'Remove' %}">
-                                                                    <i class="text-xl ph-bold ph-trash"></i>
-                                                                </a>
-                                                            {% endif %}
-                                                        </td>
-                                                    </tr>
-                                                {% endif %}
-                                            {% empty %}
-                                                <tr>
-                                                    <td colspan="3" class="py-6 text-sm text-center text-muted-foreground">
-                                                        {% translate "No flags found." %}
-                                                    </td>
+                            <div class="card-content">
+                                <div class="overflow-x-auto px-6 -mx-6 sm:px-0 sm:mx-0">
+                                    <div class="inline-block min-w-full align-middle">
+                                        <table class="w-full sm:min-w-[600px]">
+                                            <thead>
+                                                <tr class="text-left border-b">
+                                                    <th class="pb-3 text-sm font-medium text-muted-foreground">{% translate "Reason" %}</th>
+                                                    <th class="pb-3 w-16 text-sm font-medium text-center sm:w-24 text-muted-foreground">{% translate "Approve" %}</th>
+                                                    <th class="pb-3 w-16 text-sm font-medium text-center sm:w-24 text-muted-foreground">{% translate "Remove" %}</th>
                                                 </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                {% for flag in package_flags %}
+                                                    {% if not flag.approved_flag %}
+                                                        <tr class="border-b transition-colors last:border-0 hover:bg-muted/30">
+                                                            <td class="py-3 pr-2 text-sm font-medium text-foreground">
+                                                                {{ flag.reason }}
+                                                            </td>
+                                                            <td class="py-3 text-center">
+                                                                {% if not flag.approved_flag %}
+                                                                    <a href="{% url 'flag_approve' flag.id %}" class="text-green-600 hover:text-green-700" title="{% translate 'Approve' %}">
+                                                                        <i class="text-xl ph-bold ph-check"></i>
+                                                                    </a>
+                                                                {% endif %}
+                                                            </td>
+                                                            <td class="py-3 text-center">
+                                                                {% if not flag.approved_flag %}
+                                                                    <a href="{% url 'flag_remove' flag.id %}" class="text-red-600 hover:text-red-700" title="{% translate 'Remove' %}">
+                                                                        <i class="text-xl ph-bold ph-trash"></i>
+                                                                    </a>
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                {% endif %}
+                    {% endif %}
+                {% endwith %}
 
                 <!-- Contributors Card -->
                 <div class="card">

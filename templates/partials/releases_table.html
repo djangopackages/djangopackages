@@ -1,5 +1,35 @@
 {% load i18n package_tags static %}
-<table class="w-full min-w-[600px]">
+
+<!-- Mobile Card Layout -->
+<div class="space-y-4 sm:hidden">
+    {% for version in versions %}
+        <div class="p-4 rounded-lg border border-border bg-card">
+            <div class="flex gap-3 justify-between items-start mb-4">
+                <div class="flex-1 min-w-0">
+                    <div class="text-sm font-semibold break-all text-foreground">{{ version.number }}</div>
+                </div>
+                <div class="flex-shrink-0">
+                    {{ version.development_status|package_dev_status_badge:version.hidden }}
+                </div>
+            </div>
+            <div class="flex flex-wrap gap-4 items-center pt-4 text-xs border-t text-muted-foreground border-border/50">
+                <span class="flex gap-1 items-center" title="{% translate 'License' %}">
+                    <i class="ph-bold ph-certificate"></i> {{ version.license|default:"-" }}
+                </span>
+                <span class="flex gap-1 items-center" title="{% translate 'Released' %}">
+                    <i class="ph-bold ph-calendar"></i> {{ version.upload_time|date:"M d, Y" }}
+                </span>
+            </div>
+        </div>
+    {% empty %}
+        <div class="py-6 text-sm text-center text-muted-foreground">
+            {% translate "No versions found." %}
+        </div>
+    {% endfor %}
+</div>
+
+<!-- Desktop Table Layout -->
+<table class="hidden w-full sm:table sm:min-w-[600px]">
     <thead>
         <tr class="text-left border-b">
             <th class="pb-3 text-sm font-medium text-muted-foreground">{% translate "Version" %}</th>
