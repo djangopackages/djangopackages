@@ -1,7 +1,7 @@
 {% load humanize i18n psa_tag waffle_tags %}
 <section class="py-8">
     <div class="container px-4 mx-auto">
-        <div class="grid gap-6 md:grid-cols-3">
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             <div class="flex flex-col h-full card">
                 <div class="flex gap-2 justify-center items-center pb-4 text-center card-header">
                     <i class="text-xl text-primary ph-bold ph-star"></i>
@@ -133,7 +133,9 @@
                 </div>
             </div>
             {% switch "switch_use_psa" %}
-                {% psa %}
+                <div class="h-full md:col-span-2 lg:col-span-1">
+                    {% psa %}
+                </div>
             {% endswitch %}
         </div>
     </div>

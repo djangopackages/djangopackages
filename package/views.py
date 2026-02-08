@@ -109,21 +109,10 @@ class AddPackageView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
                 % {"grid_title": self.grid.title},
             )
 
-        if self.request.htmx:
-            response = HttpResponse()
-            response["HX-Redirect"] = self.get_success_url()
-            return response
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         return reverse("package", kwargs={"slug": self.object.slug})
-
-    def form_invalid(self, form):
-        if self.request.htmx:
-            context = {"form": form}
-            context["grid"] = self.grid
-            return render(self.request, "partials/package_form.html", context)
-        return super().form_invalid(form)
 
 
 class ValidateRepositoryURLView(LoginRequiredMixin, UserPassesTestMixin, View):
@@ -188,10 +177,6 @@ class PackageUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         self.object.last_modified_by = self.request.user
         self.object.save()
         messages.success(self.request, _("Package updated successfully"))
-        if self.request.htmx:
-            response = HttpResponse()
-            response["HX-Redirect"] = self.get_success_url()
-            return response
         return HttpResponseRedirect(self.get_success_url())
 
     def get_context_data(self, **kwargs):

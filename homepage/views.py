@@ -4,6 +4,7 @@ from django.db.models import Count, Q
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
+from reversion.admin import get_object_or_404
 
 from grid.models import Grid
 from package.models import Category, Package, Version
@@ -142,43 +143,45 @@ class ReadinessView(TemplateView):
 
 class ReadinessDetailView(TemplateView):
     template_name = "homepage/readiness_detail.html"
+    package_limit = 120
+
+    def _get_product(self):
+        product_slug = self.kwargs.get("product_slug")
+        return get_object_or_404(Product, slug=product_slug)
+
+    def _get_release(self, product):
+        cycle = self.kwargs.get("cycle")
+        return get_object_or_404(Release, product=product, cycle=cycle)
+
+    def _get_product_classifiers_and_ready_condition(self, product, release):
+        match product.slug:
+            case "django":
+                pypi_classifier = ["Framework :: Django"]
+                ready_condition = f"Framework :: Django :: {release.cycle}"
+
+            case "python":
+                pypi_classifier = [
+                    "Programming Language :: Python",
+                    "Programming Language :: Python :: 3",
+                ]
+                ready_condition = f"Programming Language :: Python :: {release.cycle}"
+            case "wagtail":
+                pypi_classifier = ["Framework :: Wagtail"]
+                ready_condition = f"Framework :: Wagtail :: {release.cycle}"
+            case _:
+                pypi_classifier = ["None Pizza :: Left Beef"]
+                ready_condition = "None Pizza"
+        return pypi_classifier, ready_condition
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
 
-        limit = 120
-        context_data["limit"] = limit
+        product = self._get_product()
+        release = self._get_release(product)
 
-        product_slug = self.kwargs.get("product_slug")
-        product = Product.objects.get(slug=product_slug)
-        context_data["product"] = product
-
-        cycle = self.kwargs.get("cycle")
-        context_data["cycle"] = cycle
-
-        release = Release.objects.get(product=product, cycle=cycle)
-        context_data["release"] = release
-
-        if product_slug == "django":
-            pypi_classifier = ["Framework :: Django"]
-            ready_condition = f"Framework :: Django :: {cycle}"
-
-        elif product_slug == "python":
-            pypi_classifier = [
-                "Programming Language :: Python",
-                "Programming Language :: Python :: 3",
-            ]
-            ready_condition = f"Programming Language :: Python :: {cycle}"
-
-        elif product_slug == "wagtail":
-            pypi_classifier = ["Framework :: Wagtail"]
-            ready_condition = f"Framework :: Wagtail :: {cycle}"
-
-        else:
-            pypi_classifier = ["None Pizza :: Left Beef"]
-            ready_condition = "None Pizza"
-
-        context_data["ready_condition"] = ready_condition
+        pypi_classifier, ready_condition = (
+            self._get_product_classifiers_and_ready_condition(product, release)
+        )
 
         packages = (
             Package.objects.only(
@@ -188,7 +191,7 @@ class ReadinessDetailView(TemplateView):
             .exclude(
                 Q(title="django") | Q(slug="django")
             )  # TODO: might be worth re-addressing...
-            .order_by("-repo_watchers", "-pypi_downloads")[:limit]
+            .order_by("-repo_watchers", "-pypi_downloads")[: self.package_limit]
         )
 
         packages = [package.__dict__ for package in packages]
@@ -208,9 +211,17 @@ class ReadinessDetailView(TemplateView):
             else:
                 package["is_ready"] = "maybe"
 
-        context_data["cycle"] = cycle
-        context_data["packages"] = packages
-        context_data["product_slug"] = product_slug.title()
+        context_data.update(
+            {
+                "limit": self.package_limit,
+                "product": product,
+                "release": release,
+                "ready_condition": ready_condition,
+                "cycle": release.cycle,
+                "packages": packages,
+                "product_slug": product.slug.title(),
+            }
+        )
 
         return context_data
 

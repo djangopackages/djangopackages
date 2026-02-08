@@ -1,5 +1,21 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-02-06]
+### Changed
+- ⬆️ Bump django from 5.2.9 to 5.2.11 ([#1533](https://github.com/djangopackages/djangopackages/pull/1533))
+
+## [2026-02-02]
+### Changed
+- Refactor ReadinessDetailView to Handle NotFound Errors Properly ([#1531](https://github.com/djangopackages/djangopackages/pull/1531))
+
+## [2026-01-31]
+### Changed
+- Fix N+1 Query in APIv4 GridViewSet ([#1530](https://github.com/djangopackages/djangopackages/pull/1530))
+
+## [2026-01-30]
+### Changed
+- Add `pypi_url` validation to PackageForm and corresponding tests ([#1529](https://github.com/djangopackages/djangopackages/pull/1529))
+
 ## [2026-01-29]
 ### Changed
 - [Part 1] Move Frequently Used Stats to Package Model and Refactor PyPI Fetch Functionality ([#1513](https://github.com/djangopackages/djangopackages/pull/1513))

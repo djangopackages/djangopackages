@@ -8,7 +8,7 @@
     <!-- Breadcrumb Section -->
     <section class="py-4 bg-primary/10">
         <div class="container px-4 mx-auto">
-            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
+            <div class="flex flex-col gap-3 lg:flex-row lg:justify-between lg:items-center">
                 <div class="flex items-center text-sm text-muted-foreground">
                     <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
                     <span class="mx-2">»</span>
@@ -16,29 +16,29 @@
                     <span class="mx-2">»</span>
                     <span class="font-medium text-foreground truncate">{{ grid.title }}</span>
                 </div>
-                <div class="flex flex-wrap gap-2 items-center w-full sm:w-auto">
-                    <a href="{% url 'grid_packages' grid.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                <div class="flex flex-wrap gap-2 items-center w-full lg:w-auto">
+                    <a href="{% url 'grid_packages' grid.slug %}" class="flex-1 flex-shrink-0 lg:flex-none btn-secondary">
                         <i class="mr-1 text-base ph-bold ph-package"></i>
                         <span>{% translate "All Packages" %}</span>
                     </a>
-                    <a href="{% url 'grid_timesheet' grid.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                    <a href="{% url 'grid_timesheet' grid.slug %}" class="flex-1 flex-shrink-0 lg:flex-none btn-secondary">
                         <i class="mr-1 text-base ph-bold ph-calendar-blank"></i>
                         <span>{% translate "Timesheet" %}</span>
                     </a>
                     {% if perms.grid.change_grid %}
-                        <a href="{% url 'edit_grid' grid.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                        <a href="{% url 'edit_grid' grid.slug %}" class="flex-1 flex-shrink-0 lg:flex-none btn-secondary">
                             <i class="mr-1 text-base ph-bold ph-pencil-simple"></i>
                             <span>{% translate "Edit Grid" %}</span>
                         </a>
                     {% endif %}
                     {% if perms.grid.add_gridpackage %}
-                        <a href="{% url 'add_grid_package' grid.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                        <a href="{% url 'add_grid_package' grid.slug %}" class="flex-1 flex-shrink-0 lg:flex-none btn-secondary">
                             <i class="mr-1 text-base ph-bold ph-plus-circle"></i>
                             <span>{% translate "Add Package" %}</span>
                         </a>
                     {% endif %}
                     {% if perms.grid.add_feature %}
-                        <a href="{% url 'add_feature' grid.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                        <a href="{% url 'add_feature' grid.slug %}" class="flex-1 flex-shrink-0 lg:flex-none btn-secondary">
                             <i class="mr-1 text-base ph-bold ph-list-plus"></i>
                             <span>{% translate "Add Feature" %}</span>
                         </a>
@@ -84,11 +84,11 @@
                       hx-target="#comparison-table"
                       hx-trigger="change delay:300ms, submit"
                       hx-swap="innerHTML"
-                      hx-indicator="#loading-indicator"
-                      class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                      hx-indicator="#grid-comparison-spinner"
+                      class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
 
                     <!-- Search Input -->
-                    <div class="sm:col-span-2 lg:col-span-1">
+                    <div class="md:col-span-2 lg:col-span-1">
                         <div class="relative">
                             <i class="absolute left-3 top-1/2 -translate-y-1/2 ph-bold ph-magnifying-glass text-muted-foreground"></i>
                             <input type="text"
@@ -98,9 +98,9 @@
                                    class="pr-4 pl-10 w-full h-10 rounded-lg border shadow-sm transition-shadow focus:ring-2 focus:outline-none bg-background text-foreground focus:ring-primary"
                                    hx-get="{% url 'grid' grid.slug %}"
                                    hx-target="#comparison-table"
-                                   hx-trigger="keyup changed delay:300ms"
+                                   hx-trigger="input changed delay:300ms"
                                    hx-swap="innerHTML"
-                                   hx-indicator="#loading-indicator"
+                                   hx-indicator="#grid-comparison-spinner"
                                    hx-include="[name='sort'], [name='stable']">
                         </div>
                     </div>
@@ -126,18 +126,18 @@
                         </label>
                     </div>
 
-                    <!-- Loading Indicator -->
-                    <div id="loading-indicator" class="flex gap-2 items-center text-sm htmx-indicator text-primary">
-                        <i class="animate-spin ph-bold ph-spinner"></i>
-                        <span>{% translate "Loading..." %}</span>
-                    </div>
                 </form>
             </div>
         </div>
 
         <!-- Comparison Table -->
-        <div id="comparison-table">
-            {% include "partials/grid_comparison_table.html" %}
+        <div class="relative">
+            <div id="grid-comparison-spinner" class="flex absolute inset-0 z-10 justify-center items-center rounded-xl pointer-events-none htmx-indicator bg-background/50 backdrop-blur-[1px]">
+                <i class="text-5xl animate-spin ph-bold ph-circle-notch text-primary"></i>
+            </div>
+            <div id="comparison-table">
+                {% include "partials/grid_comparison_table.html" %}
+            </div>
         </div>
 
         {% if has_more_packages %}
@@ -177,7 +177,7 @@
                                 {{ features|length }} {% translate "features" %}
                             </span>
                         </div>
-                        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                        <div class="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
                             {% for feature in features %}
                                 <div class="flex gap-3 items-start p-3 rounded-lg border transition-colors group border-border bg-muted/30 hover:border-primary/50">
                                     <div class="flex flex-shrink-0 justify-center items-center mt-0.5 w-6 h-6 rounded-md bg-primary/10">

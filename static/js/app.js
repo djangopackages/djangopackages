@@ -273,8 +273,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const setupSuggestionNav = (input, dropdown) => {
         if (!input || !dropdown) return;
 
-        let blurTimeout = null;
-
         const open = () => { dropdown.dataset.open = "true"; };
         const close = () => { dropdown.dataset.open = "false"; };
 
@@ -296,7 +294,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     const loadMore = dropdown.querySelector(".suggestions-load-more");
                     if (loadMore) {
                         loadMore.scrollIntoView({ block: "nearest" });
-                    } else {
+                    }
+                    else {
                         // Wrap to first item
                         items.forEach((el, i) => el.classList.toggle("selected", i === 0));
                         items[0]?.scrollIntoView({ block: "nearest" });
@@ -312,22 +311,24 @@ document.addEventListener("DOMContentLoaded", function () {
                 window.location.href = items[current].href;
             } else if (e.key === "Escape") {
                 close();
-                input.blur();
             }
+        });
+
+        // Prevent blur when interacting with dropdown
+        dropdown.addEventListener("mousedown", (e) => {
+            e.preventDefault();
         });
 
         // Show dropdown when input has value and is focused
         input.addEventListener("focus", () => { if (input.value.trim()) open(); });
         input.addEventListener("input", () => { input.value.trim() ? open() : close(); });
 
-        // Delay close on blur to allow clicks on dropdown items to complete
-        input.addEventListener("blur", () => {
-            blurTimeout = setTimeout(close, 200);
+        // Close when clicking outside
+        document.addEventListener("click", (e) => {
+            if (dropdown.dataset.open === "true" && !input.contains(e.target) && !dropdown.contains(e.target)) {
+                close();
+            }
         });
-
-        // Cancel blur-close if user is interacting with dropdown
-        dropdown.addEventListener("mousedown", () => clearTimeout(blurTimeout));
-        dropdown.addEventListener("touchstart", () => clearTimeout(blurTimeout), { passive: true });
     };
 
     // Initialize for all search inputs
@@ -423,15 +424,21 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         // Click outside the dialog closes
-        searchModal.addEventListener("pointerdown", (e) => {
+        searchModal.addEventListener("click", (e) => {
             if (!isSearchModalOpen()) return;
             if (!searchModalPanel) return;
 
             const clickedInsidePanel = searchModalPanel.contains(e.target);
             if (!clickedInsidePanel) {
                 e.preventDefault();
+                e.stopPropagation();
                 closeSearchModal();
             }
+        });
+
+        // Prevent clicks inside the panel from reaching the modal container
+        searchModalPanel.addEventListener("click", (e) => {
+            e.stopPropagation();
         });
 
         // Basic focus trap inside dialog
