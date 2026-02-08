@@ -9,7 +9,7 @@
     <!-- Breadcrumb Section -->
     <section class="py-4 bg-primary/10">
         <div class="container px-4 mx-auto">
-            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
+            <div class="flex flex-col gap-3 lg:flex-row lg:justify-between lg:items-center">
                 <div class="flex items-center text-sm text-muted-foreground">
                     <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
                     <span class="mx-2">»</span>
@@ -17,24 +17,24 @@
                     <span class="mx-2">»</span>
                     <span class="font-medium text-foreground truncate">{{ package.title }}</span>
                 </div>
-                <div class="flex flex-wrap gap-2 items-center w-full sm:w-auto">
+                <div class="flex flex-wrap gap-2 items-center w-full lg:w-auto">
                     {% if request.user.is_authenticated %}
-                        <a href="{% url 'edit_package' package.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                        <a href="{% url 'edit_package' package.slug %}" class="flex-1 flex-shrink-0 lg:flex-none btn-secondary">
                             <i class="mr-1 text-base ph-bold ph-pencil-simple"></i>
                             <span>{% translate "Edit" %}</span>
                         </a>
                     {% endif %}
-                    <a href="{% url 'package_rules' package.slug %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                    <a href="{% url 'package_rules' package.slug %}" class="flex-1 flex-shrink-0 lg:flex-none btn-secondary">
                         <i class="mr-1 text-base ph-bold ph-chart-bar"></i>
                         <span>{% translate "Package Score" %}</span>
                     </a>
                     {% if has_approved_flag %}
-                        <button disabled class="flex-1 flex-shrink-0 text-red-600 bg-red-50 border-red-200 cursor-not-allowed sm:flex-none btn-secondary" title="{% translate 'This package has been flagged.' %}">
+                        <button disabled class="flex-1 flex-shrink-0 text-red-600 bg-red-50 border-red-200 cursor-not-allowed lg:flex-none btn-secondary" title="{% translate 'This package has been flagged.' %}">
                             <i class="mr-1 text-base ph-bold ph-flag"></i>
                             <span id="flag-text">{% translate "Flagged" %}</span>
                         </button>
                     {% else %}
-                        <a href="{% url 'flag' package.slug %}" id="flag-btn" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
+                        <a href="{% url 'flag' package.slug %}" id="flag-btn" class="flex-1 flex-shrink-0 lg:flex-none btn-secondary">
                             <i class="mr-1 text-base ph-bold ph-flag"></i>
                             <span id="flag-text">{% translate "Flag" %}</span>
                         </a>
@@ -230,7 +230,10 @@
                 {% endcomment %}
 
                 <!-- Releases Card -->
-                <div class="card">
+                <div class="relative card">
+                    <div id="versions-spinner" class="flex absolute inset-0 z-10 justify-center items-center rounded-xl pointer-events-none htmx-indicator bg-background/50 backdrop-blur-[1px]">
+                        <i class="text-4xl animate-spin ph-bold ph-circle-notch text-primary"></i>
+                    </div>
                     <div class="card-header">
                         <div class="flex justify-between items-center">
                             <h3 class="flex gap-2 items-center text-xl font-semibold">
@@ -251,79 +254,70 @@
                                     hx-get="{% url 'package_versions' slug=package.slug %}?page=1"
                                     hx-trigger="load"
                                     hx-swap="innerHTML"
+                                    hx-indicator="#versions-spinner"
                                 >
                                     <!-- Releases will be loaded via HTMX -->
-                                    <div class="py-8 text-center">
-                                        <i class="text-3xl animate-spin ph-bold ph-circle-notch text-muted-foreground"></i>
-                                        <p class="mt-2 text-sm text-muted-foreground">
-                                            {% translate "Loading releases..." %}
-                                        </p>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Flags Card -->
-                {% if request.user.is_superuser %}
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="flex justify-between items-center">
-                                <h3 class="flex gap-2 items-center text-xl font-semibold">
-                                    <i class="text-xl ph-bold ph-flag"></i>
-                                    {% translate "Flags" %}
-                                </h3>
+                {% with package_flags=package.flags.all %}
+                    <!-- Flags Card -->
+                    {% if request.user.is_superuser and package_flags and not has_approved_flag %}
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="flex justify-between items-center">
+                                    <h3 class="flex gap-2 items-center text-xl font-semibold">
+                                        <i class="text-xl ph-bold ph-flag"></i>
+                                        {% translate "Flags" %}
+                                    </h3>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card-content">
-                            <div class="overflow-x-auto px-6 -mx-6 sm:px-0 sm:mx-0">
-                                <div class="inline-block min-w-full align-middle">
-                                    <table class="w-full min-w-[600px]">
-                                        <thead>
-                                            <tr class="text-left border-b">
-                                                <th class="pb-3 text-sm font-medium text-muted-foreground">{% translate "Reason" %}</th>
-                                                <th class="pb-3 w-24 text-sm font-medium text-center text-muted-foreground">{% translate "Approve" %}</th>
-                                                <th class="pb-3 w-24 text-sm font-medium text-center text-muted-foreground">{% translate "Remove" %}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for flag in package.flags.all %}
-                                                {% if not flag.approved_flag %}
-                                                    <tr class="border-b transition-colors last:border-0 hover:bg-muted/30">
-                                                        <td class="py-3 text-sm font-medium text-foreground">
-                                                            {{ flag.reason }}
-                                                        </td>
-                                                        <td class="py-3 text-center">
-                                                            {% if not flag.approved_flag %}
-                                                                <a href="{% url 'flag_approve' flag.id %}" class="text-green-600 hover:text-green-700" title="{% translate 'Approve' %}">
-                                                                    <i class="text-xl ph-bold ph-check"></i>
-                                                                </a>
-                                                            {% endif %}
-                                                        </td>
-                                                        <td class="py-3 text-center">
-                                                            {% if not flag.approved_flag %}
-                                                                <a href="{% url 'flag_remove' flag.id %}" class="text-red-600 hover:text-red-700" title="{% translate 'Remove' %}">
-                                                                    <i class="text-xl ph-bold ph-trash"></i>
-                                                                </a>
-                                                            {% endif %}
-                                                        </td>
-                                                    </tr>
-                                                {% endif %}
-                                            {% empty %}
-                                                <tr>
-                                                    <td colspan="3" class="py-6 text-sm text-center text-muted-foreground">
-                                                        {% translate "No flags found." %}
-                                                    </td>
+                            <div class="card-content">
+                                <div class="overflow-x-auto px-6 -mx-6 sm:px-0 sm:mx-0">
+                                    <div class="inline-block min-w-full align-middle">
+                                        <table class="w-full sm:min-w-[600px]">
+                                            <thead>
+                                                <tr class="text-left border-b">
+                                                    <th class="pb-3 text-sm font-medium text-muted-foreground">{% translate "Reason" %}</th>
+                                                    <th class="pb-3 w-16 text-sm font-medium text-center sm:w-24 text-muted-foreground">{% translate "Approve" %}</th>
+                                                    <th class="pb-3 w-16 text-sm font-medium text-center sm:w-24 text-muted-foreground">{% translate "Remove" %}</th>
                                                 </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                {% for flag in package_flags %}
+                                                    {% if not flag.approved_flag %}
+                                                        <tr class="border-b transition-colors last:border-0 hover:bg-muted/30">
+                                                            <td class="py-3 pr-2 text-sm font-medium text-foreground">
+                                                                {{ flag.reason }}
+                                                            </td>
+                                                            <td class="py-3 text-center">
+                                                                {% if not flag.approved_flag %}
+                                                                    <a href="{% url 'flag_approve' flag.id %}" class="text-green-600 hover:text-green-700" title="{% translate 'Approve' %}">
+                                                                        <i class="text-xl ph-bold ph-check"></i>
+                                                                    </a>
+                                                                {% endif %}
+                                                            </td>
+                                                            <td class="py-3 text-center">
+                                                                {% if not flag.approved_flag %}
+                                                                    <a href="{% url 'flag_remove' flag.id %}" class="text-red-600 hover:text-red-700" title="{% translate 'Remove' %}">
+                                                                        <i class="text-xl ph-bold ph-trash"></i>
+                                                                    </a>
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                {% endif %}
+                    {% endif %}
+                {% endwith %}
 
                 <!-- Contributors Card -->
                 <div class="card">
@@ -351,8 +345,13 @@
             <div class="order-1 space-y-4 lg:order-2 lg:space-y-6">
                 <!-- Documentation Card -->
                 {% if package.documentation_url or request.user.is_authenticated and request.user.profile.can_edit_package %}
-                    <div id="documentation-card" class="card">
-                        {% include "partials/documentation_card.html" %}
+                    <div id="documentation-card-container" class="relative card">
+                        <div id="documentation-spinner" class="flex absolute inset-0 z-10 justify-center items-center rounded-xl pointer-events-none htmx-indicator bg-background/50 backdrop-blur-[1px]">
+                            <i class="text-4xl animate-spin ph-bold ph-circle-notch text-primary"></i>
+                        </div>
+                        <div id="documentation-card">
+                            {% include "partials/documentation_card.html" %}
+                        </div>
                     </div>
                 {% endif %}
 
@@ -436,17 +435,23 @@
                         </div>
                         {% if request.user.is_authenticated and profile.can_add_grid %}
                             <div id="grid-search-form" class="hidden mt-4">
-                                <input
-                                    id="grid-search-input"
-                                    type="text"
-                                    name="q"
-                                    class="py-1 px-2 w-full text-sm rounded border bg-background text-foreground"
-                                    placeholder="Search for a grid..."
-                                    hx-get="{% url 'ajax_grid_search' %}"
-                                    hx-trigger="keyup changed delay:500ms"
-                                    hx-target="#grid-search-results"
-                                    hx-vals='{"package_id": "{{ package.id }}", "redirect": "{{ request.path }}"}'
-                                />
+                                <div class="relative">
+                                    <input
+                                        id="grid-search-input"
+                                        type="text"
+                                        name="q"
+                                        class="py-1 px-2 pr-8 w-full text-sm rounded border bg-background text-foreground"
+                                        placeholder="Search for a grid..."
+                                        hx-get="{% url 'ajax_grid_search' %}"
+                                        hx-trigger="input changed delay:500ms"
+                                        hx-target="#grid-search-results"
+                                        hx-vals='{"package_id": "{{ package.id }}", "redirect": "{{ request.path }}"}'
+                                        hx-indicator="#grid-search-spinner"
+                                    />
+                                    <div id="grid-search-spinner" class="flex absolute right-2 top-1/2 items-center transform -translate-y-1/2 htmx-indicator">
+                                        <i class="animate-spin ph-bold ph-circle-notch text-muted-foreground"></i>
+                                    </div>
+                                </div>
                                 <div id="grid-search-results" class="mt-2 space-y-2"></div>
                             </div>
                         {% endif %}
@@ -456,8 +461,13 @@
                 {% include "partials/_ethicalads-tag.html" with ea_type="image" ea_id="package-detail-sidebar" ea_variant="vertical" ea_outer_class="my-2" ea_inner_class="flex justify-center" %}
 
                 <!-- Sites using this package Card -->
-                <div id="sites-using-card" class="card">
-                    {% include "partials/sites_using_card.html" %}
+                <div id="sites-using-card-container" class="relative card">
+                    <div id="sites-using-spinner" class="flex absolute inset-0 z-10 justify-center items-center rounded-xl pointer-events-none htmx-indicator bg-background/50 backdrop-blur-[1px]">
+                        <i class="text-4xl animate-spin ph-bold ph-circle-notch text-primary"></i>
+                    </div>
+                    <div id="sites-using-card">
+                        {% include "partials/sites_using_card.html" %}
+                    </div>
                 </div>
 
                 <!-- README Badge Card -->

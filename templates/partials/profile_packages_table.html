@@ -1,6 +1,6 @@
 {% load humanize i18n %}
 
-<div class="overflow-x-auto">
+<div class="hidden overflow-x-auto md:block">
     <table class="w-full min-w-[600px]">
         <thead>
             <tr class="text-left border-b">
@@ -57,6 +57,40 @@
     </table>
 </div>
 
+<!-- Mobile Card View -->
+<div class="space-y-4 md:hidden">
+    {% for package in packages %}
+        <div class="p-4 rounded-lg border border-border bg-card">
+            <div class="mb-4">
+                <a href="{{ package.get_absolute_url }}" class="text-sm font-semibold hover:underline text-primary">{{ package.title }}</a>
+                {% if package.repo_description %}
+                    <p class="mt-1 text-xs text-muted-foreground line-clamp-2">
+                        {{ package.repo_description }}
+                    </p>
+                {% endif %}
+            </div>
+            <div class="flex gap-4 items-center pt-4 text-xs border-t text-muted-foreground border-border/50">
+                <span class="flex gap-1 items-center" title="{% translate 'Stars' %}">
+                    <i class="ph-bold ph-star"></i> {{ package.repo_watchers|intcomma|default:"0" }}
+                </span>
+                <span class="flex gap-1 items-center" title="{% translate 'Forks' %}">
+                    <i class="ph-bold ph-git-fork"></i> {{ package.repo_forks|intcomma|default:"0" }}
+                </span>
+                {% if package.repo_url %}
+                    <a href="{{ package.repo_url }}" target="_blank" rel="noopener noreferrer" class="flex gap-1 items-center ml-auto hover:text-foreground">
+                        <span>Repo</span>
+                        <i class="ph-bold ph-arrow-square-out"></i>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    {% empty %}
+        <div class="py-6 text-sm text-center text-muted-foreground">
+            {% translate "No packages found." %}
+        </div>
+    {% endfor %}
+</div>
+
 {% if is_paginated %}
     <div class="flex justify-center mt-4">
         <div class="inline-flex flex-wrap gap-1 items-center">
@@ -65,6 +99,7 @@
                     hx-get="{% url htmx_url github_account=profile.github_account %}?page={{ page_obj.previous_page_number }}"
                     hx-target="#{{ target_id }}"
                     hx-swap="innerHTML"
+                    hx-indicator="#{{ target_id }}-spinner"
                 {% else %}
                     disabled
                 {% endif %}
@@ -78,6 +113,7 @@
                     hx-get="{% url htmx_url github_account=profile.github_account %}?page={{ page_obj.next_page_number }}"
                     hx-target="#{{ target_id }}"
                     hx-swap="innerHTML"
+                    hx-indicator="#{{ target_id }}-spinner"
                 {% else %}
                     disabled
                 {% endif %}
