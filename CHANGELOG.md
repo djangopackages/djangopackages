@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-02-08]
+### Changed
+- Improve Tablet UI and Add Loading Spinners for HTMX Requests ([#1527](https://github.com/djangopackages/djangopackages/pull/1527))
+
 ## [2026-02-06]
 ### Changed
 - ⬆️ Bump django from 5.2.9 to 5.2.11 ([#1533](https://github.com/djangopackages/djangopackages/pull/1533))
