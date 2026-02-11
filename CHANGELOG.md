@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-02-10]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1535](https://github.com/djangopackages/djangopackages/pull/1535))
+
 ## [2026-02-08]
 ### Changed
 - Improve Tablet UI and Add Loading Spinners for HTMX Requests ([#1527](https://github.com/djangopackages/djangopackages/pull/1527))
