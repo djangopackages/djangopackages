@@ -1,13 +1,13 @@
 from django.contrib.auth.models import User
 from django.core.cache import cache
-from django.db.models import Count, Prefetch, Q
+from django.db.models import Count, Q
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from reversion.admin import get_object_or_404
 
 from grid.models import Grid
-from package.models import Category, Commit, Package, Version
+from package.models import Category, Package, Version
 from products.models import Product, Release
 
 
@@ -99,7 +99,6 @@ class OpenView(TemplateView):
                 "top_grid_list": top_grid_list[0:100],
                 "top_user_list": top_user_list[0:100],
                 "total_categories": Category.objects.count(),
-                "total_commits": Commit.objects.count(),
                 "total_grids": Grid.objects.count(),
                 "total_users": User.objects.count(),
                 "total_versions": Version.objects.count(),
@@ -265,39 +264,31 @@ class HomepageView(TemplateView):
         categories = self._get_categories()
         grids_1, grids_2 = self._get_grid_lists()
 
-        # Prefetch versions to avoid N+1 queries when accessing pypi_version
-        versions_prefetch = Prefetch(
-            "version_set",
-            queryset=Version.objects.only("package_id", "number"),
-            to_attr="_prefetched_versions",
-        )
-
         # Get the random packages
         random_packages = (
             Package.objects.active()
             .exclude(repo_description__in=[None, ""])
-            .prefetch_related(versions_prefetch)
+            .select_related("latest_version")
             .order_by("?")
         )
 
         # Latest Django Packages blog post on homepage
         latest_packages = (
             Package.objects.active()
-            .select_related("category")
-            .prefetch_related(versions_prefetch)
+            .select_related("category", "latest_version")
             .annotate(usage_count=Count("usage"))
             .order_by("-created")
         )
         latest_releases = (
             Package.objects.active()
             .exclude(repo_description__in=[None, ""])
-            .prefetch_related(versions_prefetch)
-            .distinct()
-            .order_by("-version__created")
+            .exclude(latest_version__isnull=True)
+            .select_related("latest_version")
+            .order_by("-latest_version__upload_time")
         )
         most_liked_packages = (
             Package.objects.active()
-            .prefetch_related(versions_prefetch)
+            .select_related("latest_version")
             .annotate(distinct_favs=Count("favorite__favorited_by", distinct=True))
             .filter(distinct_favs__gt=0)
             .order_by("-distinct_favs")

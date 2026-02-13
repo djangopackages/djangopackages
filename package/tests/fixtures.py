@@ -4,7 +4,7 @@ import pytest
 from django.utils.timezone import make_aware
 from model_bakery import baker
 
-from package.models import Category, Commit, Package, PackageExample, Version
+from package.models import Category, Package, PackageExample, Version
 
 
 @pytest.fixture(autouse=True)
@@ -16,11 +16,6 @@ def set_time(time_machine):
 @pytest.fixture()
 def category(db) -> Category:
     return baker.make(Category)
-
-
-@pytest.fixture()
-def commit(db, package) -> Commit:
-    return baker.make(Commit, package=package)
 
 
 @pytest.fixture()
@@ -75,6 +70,7 @@ def package(db, category) -> Package:
         repo_url="https://github.com/django/deps",
         slug="deps",
         title="Django Enhancement Proposals",
+        last_commit_date=make_aware(datetime.datetime(2022, 2, 20, 2, 22)),
     )
 
 
@@ -150,12 +146,6 @@ def package_abandoned(db, category) -> Package:
         repo_description="not maintained anymore.",
         last_commit_date=make_aware(datetime.datetime(2020, 2, 19, 0, 0)),
     )
-    baker.make(
-        Commit,
-        package=package,
-        commit_date=make_aware(datetime.datetime(2020, 2, 19, 0, 0)),
-        commit_hash="2b54b0ae95ef805c07ca3c0b9c5184466b65c55b",
-    )
     return package
 
 
@@ -174,12 +164,6 @@ def package_abandoned_ten_years(db, category) -> Package:
         slug="django-divioadmin2",
         repo_description="not maintained anymore.",
         last_commit_date=make_aware(datetime.datetime(2012, 2, 19, 0, 0)),
-    )
-    baker.make(
-        Commit,
-        package=package,
-        commit_date=make_aware(datetime.datetime(2012, 2, 19, 0, 0)),
-        commit_hash="2b54b0ae95ef805c07ca3c0b9c5184466b65c66c",
     )
     return package
 

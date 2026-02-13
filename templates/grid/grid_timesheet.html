@@ -64,7 +64,7 @@
         new Timesheet('timesheet', {{ current_year|add:"-5" }}, {{ current_year }}, [
             {% for grid_package in grid_packages %}
                 {% with package=grid_package.package %}
-                    ['{{ package.created|date:"m/Y" }}', '{{ grid_package.last_commit_date|date:"m/Y" }}', '{{ package.slug }}', ''],
+                    ['{{ package.created|date:"m/Y" }}', '{{ package.last_commit_date|date:"m/Y" }}', '{{ package.slug }}', ''],
                 {% endwith %}
             {% endfor %}
         ]);

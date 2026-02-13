@@ -177,7 +177,6 @@
                     </div>
                 </div>
 
-                {% comment "Disabled for performance - see https://github.com/djangopackages/djangopackages/issues/1498" %}
                 <!-- Commit Graph Card -->
                 <div class="card">
                     <div class="card-header">
@@ -199,7 +198,7 @@
                                 class="w-full h-full"
                                 preserveAspectRatio="xMidYMid meet"
                                 id="commit-svg"
-                                data-commits="{{ package.commits_over_52 }}"
+                                data-commits="{{ package.commits_over_52w_str }}"
                             >
                                 <defs>
                                     <linearGradient id="commitGradient" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -227,7 +226,6 @@
                         </div>
                     </div>
                 </div>
-                {% endcomment %}
 
                 <!-- Releases Card -->
                 <div class="relative card">
