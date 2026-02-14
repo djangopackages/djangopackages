@@ -142,9 +142,9 @@ dev = [
     "pytest-mock",
     "time-machine",
 
-    # pre-commit - please note all linters and autoformatters are in our
+    # prek - please note all linters and autoformatters are in our
     # .pre-commit-config.yaml file
-    "pre-commit",
+    "prek",
 ]
 
 ci = [

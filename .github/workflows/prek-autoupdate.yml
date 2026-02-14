@@ -1,0 +1,35 @@
+name: Run Prek auto-update
+
+on:
+  schedule:
+    - cron: "0 3 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  autoupdate:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install prek
+        uses: j178/prek-action@v1.0.1
+        with:
+          install-only: true
+
+      - name: Run prek auto-update
+        run: prek auto-update
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "[prek]: auto-update hooks"
+          title: "[prek]: auto-update hooks"
+          body: |
+            Automated weekly `prek auto-update` run.
+          branch: chore/prek-autoupdate
+          delete-branch: true
