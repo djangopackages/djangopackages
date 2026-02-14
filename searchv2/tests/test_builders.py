@@ -72,6 +72,26 @@ def test_calc_package_weight(db, faker):
     assert calc_package_weight(package=package) == 0
 
 
+def test_calc_package_weight_handles_null_latest_version_upload_time(db):
+    category = baker.make("package.Category")
+    package = baker.make(
+        "package.Package",
+        category=category,
+        documentation_url="https://example.com/docs",
+        repo_description="Some package",
+        repo_forks=0,
+        repo_watchers=0,
+        pypi_downloads=0,
+        last_commit_date=None,
+    )
+    version = baker.make("package.Version", package=package, upload_time=None)
+    package.latest_version = version
+    package.save(update_fields=["latest_version"])
+
+    weight = calc_package_weight(package=package)
+    assert weight == 40
+
+
 def test_package_score_after_build(db):
     package = baker.make("package.Package", score=600)
     build_1()

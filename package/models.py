@@ -275,7 +275,7 @@ class Package(BaseModel):
 
     @property
     def pypi_ancient(self):
-        if version := self.latest_version:
+        if (version := self.latest_version) and version.upload_time:
             return version.upload_time < now() - timedelta(365)
         return None
 

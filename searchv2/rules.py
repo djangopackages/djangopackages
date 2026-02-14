@@ -329,22 +329,20 @@ class RecentReleaseRule(ScoreRule):
         Returns a full score and a success message if the last release is recent,
         or a zero score and an error message otherwise.
         """
-        try:
-            last_released = package.latest_version
-            now = timezone.now()
-            if now - last_released.upload_time < timedelta(365):
-                return CheckResult(
-                    score=self.max_score,
-                    message="Last release is less than a year old.",
-                )
-            else:
-                return CheckResult(
-                    score=0, message="Last release is more than a year old."
-                )
-        except AttributeError:
+        last_released = package.latest_version
+        if not last_released or not last_released.upload_time:
             return CheckResult(
                 score=0, message="No release data found for the package."
             )
+
+        now = timezone.now()
+        if now - last_released.upload_time < timedelta(365):
+            return CheckResult(
+                score=self.max_score,
+                message="Last release is less than a year old.",
+            )
+
+        return CheckResult(score=0, message="Last release is more than a year old.")
 
 
 class UsageCountRule(ScoreRule):

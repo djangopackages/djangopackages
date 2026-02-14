@@ -1,5 +1,6 @@
 from package.scores import update_package_score
 import pytest
+from model_bakery import baker
 
 
 def test_category(category):
@@ -107,3 +108,12 @@ def test_package_example(package_example):
 
     # check that pacages are not active by default
     assert package_example.active is None
+
+
+def test_package_pypi_ancient_none_when_upload_time_missing(category):
+    package = baker.make("package.Package", category=category)
+    version = baker.make("package.Version", package=package, upload_time=None)
+    package.latest_version = version
+    package.save(update_fields=["latest_version"])
+
+    assert package.pypi_ancient is None
