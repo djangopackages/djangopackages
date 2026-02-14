@@ -200,12 +200,10 @@ bootstrap *ARGS:
 # Linting and Code Quality
 # --------------------------------------------------
 
-# Run all pre-commit linting and code quality checks
+# Run all prek linting and code quality checks
 [group('linting')]
 @lint *ARGS:
-    uv tool run \
-        --with pre-commit-uv \
-        pre-commit run --all-files {{ ARGS }}
+    uvx prek run --all-files {{ ARGS }}
 
 # Check for performance anti-patterns
 [group('linting')]
