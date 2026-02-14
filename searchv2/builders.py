@@ -48,12 +48,12 @@ def calc_package_weight(*, package: Package) -> int:
             weight += min(usage_count, 20)
 
         # Is the last release less than a year old?
-        try:
-            if last_released := package.latest_version:
-                if now - last_released.upload_time < timedelta(365):
-                    weight += 20
-        except AttributeError:
-            ...
+        if (
+            (last_released := package.latest_version)
+            and last_released.upload_time
+            and now - last_released.upload_time < timedelta(365)
+        ):
+            weight += 20
 
     # Is there ongoing work or is this forgotten?
     if last_updated := package.last_commit_date:
