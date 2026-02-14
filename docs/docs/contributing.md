@@ -168,31 +168,31 @@ While the search v2 is our current default search algorithm, we have an experime
 
 #### Formatters, Linters, and other miscellanea
 
-[Pre-commit] is a tool which helps to organize our linters and auto-formatters. Pre-commit runs before our code gets committed automatically or we may run it by hand. Pre-commit runs automatically for every pull request on GitHub too.
+[Prek] is a tool which helps to organize our linters and auto-formatters. Prek runs before our code gets committed automatically or we may run it by hand. Prek runs automatically for every pull request on GitHub too.
 
-To install the pre-commit hooks:
+To install prek:
 
 ```shell
-pip install pre-commit
-pre-commit install
+pip install prek
+prek install
 ```
 
-To run all pre-commit rules by hand:
+To run all prek rules by hand:
 
 ```shell
-pre-commit run --all-files
+prek run --all-files
 ```
 
-To run a pre-commit rule by hand:
+To run a prek rule by hand:
 
 ```shell
-pre-commit run ruff
+prek run ruff
 ```
 
 [compose]: https://docs.docker.com/compose/install/
 [docker]: https://docs.docker.com/install/
 [just]: https://github.com/casey/just
-[pre-commit]: https://github.com/pre-commit/pre-commit
+[prek]: https://github.com/j178/prek
 
 ## Issues!
 
