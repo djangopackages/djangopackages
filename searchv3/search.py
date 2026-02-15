@@ -117,23 +117,16 @@ class SearchV3QuerySet(models.QuerySet):
         config = get_search_config()
 
         # build `tsquery` objects
-        fts_query = SearchQuery(q, search_type="websearch", config=config)
+        combined_query = SearchQuery(q, search_type="websearch", config=config)
 
         # Prefix query for single-token typeahead (e.g. "djan" → "djan:*").
-        prefix_query = None
         if q_len >= 3 and _PREFIX_RE.match(q):
-            prefix_query = SearchQuery(f"{q}:*", search_type="raw", config=config)
+            combined_query |= SearchQuery(f"{q}:*", search_type="raw", config=config)
 
         # FTS rank
         # `SearchRank` uses the pre-computed, GIN-indexed `search_vector`
         # column — no per-row re-tokenisation happens at query time.
-        rank_expr = SearchRank(F("search_vector"), fts_query)
-        if prefix_query is not None:
-            # Take the better of the two ranks so a prefix hit is never
-            # penalised relative to a full websearch hit.
-            rank_expr = Greatest(
-                rank_expr, SearchRank(F("search_vector"), prefix_query)
-            )
+        rank_expr = SearchRank(F("search_vector"), combined_query)
 
         # weight boost
         if use_weight_boost:
@@ -143,10 +136,8 @@ class SearchV3QuerySet(models.QuerySet):
             boost_expr = Value(0.0, output_field=FloatField())
 
         # Single annotation pass: rank + boost → relevance.
-        qs = self.annotate(
-            rank=rank_expr,
-            relevance=rank_expr + boost_expr,
-        )
+        qs = self.annotate(rank=rank_expr)
+        qs = qs.annotate(relevance=F("rank") + boost_expr)
 
         # trigram similarity
         if use_fuzzy and q_len >= 3:
@@ -168,9 +159,7 @@ class SearchV3QuerySet(models.QuerySet):
         qs = qs.annotate(similarity=similarity_expr)
 
         # combine filter conditions with OR
-        conditions = Q(search_vector=fts_query)
-        if prefix_query is not None:
-            conditions |= Q(search_vector=prefix_query)
+        conditions = Q(search_vector=combined_query)
         if trigram_filter is not None:
             conditions |= trigram_filter
 
