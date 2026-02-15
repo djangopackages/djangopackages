@@ -1,12 +1,10 @@
 import emoji
-from django.core.exceptions import ImproperlyConfigured
-from django.urls import NoReverseMatch
-from rest_framework import relations, serializers
-from rest_framework.reverse import reverse
+from rest_framework import serializers
 
 from grid.models import Grid
 from package.models import Category, Package
 from searchv2.models import SearchV2
+from searchv3.models import SearchV3
 
 
 class GridSerializer(serializers.ModelSerializer):
@@ -75,65 +73,9 @@ class PackageSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
-class SearchV2Hyperlink(serializers.HyperlinkedRelatedField):
-    view_name = "package-detail"
-
-    def get_url(self, obj, view_name, request, format):
-        url_kwargs = {"organization_slug": obj.organization.slug, "customer_pk": obj.pk}
-        return reverse(view_name, url_kwargs, request=request, format=format)
-
-    def get_object(self, view_name, view_args, view_kwargs):
-        lookup_kwargs = {
-            "organization__slug": view_kwargs["organization_slug"],
-            "pk": view_kwargs["customer_pk"],
-        }
-        return self.get_queryset().get(**lookup_kwargs)
-
-
-class HyperlinkFeld(serializers.HyperlinkedRelatedField):
-    lookup_field = "pk"
-
-    def get_url(self, obj, view_name):
-        """
-        Given an object, return the URL that hyperlinks to the object.
-        May raise a `NoReverseMatch` if the `view_name` and `lookup_field`
-        attributes are not configured to correctly match the URL conf.
-        """
-        # Unsaved objects will not yet have a valid URL.
-        if hasattr(obj, "pk") and obj.pk is None:
-            return None
-        kwargs = {"pk": 1}
-        return reverse(view_name, kwargs=kwargs)
-
-    def to_representation(self, value):
-        self.view_name = f"apiv4:{value.item_type}-detail"
-
-        try:
-            url = self.get_url(value, self.view_name)
-        except NoReverseMatch:
-            msg = (
-                "Could not resolve URL for hyperlinked relationship using "
-                'view name "%s". You may have failed to include the related '
-                "model in your API, or incorrectly configured the "
-                "`lookup_field` attribute on this field."
-            )
-            if value in ("", None):
-                value_string = {"": "the empty string", None: "None"}[value]
-                msg += (
-                    " WARNING: The value of the field on the model instance "
-                    "was %s, which may be why it didn't match any "
-                    "entries in your URL conf." % value_string
-                )
-            raise ImproperlyConfigured(msg % self.view_name)
-
-        if url is None:
-            return None
-
-        return relations.Hyperlink(url, str(value))
-
-
+# TODO(searchv3): Remove this SearchV2 serializer after searchv3 is stable
+# and searchv2 is fully retired.
 class SearchV2Serializer(serializers.ModelSerializer):
-    # resource_uri = HyperlinkFeld(source='_self')
     description = serializers.SerializerMethodField()
     title = serializers.SerializerMethodField()
 
@@ -163,3 +105,33 @@ class CategorySerializer(serializers.ModelSerializer):
             "modified",
         ]
         model = Category
+
+
+class SearchV3Serializer(serializers.ModelSerializer):
+    """Backward-compatible serializer for SearchV3 results."""
+
+    description = serializers.SerializerMethodField()
+    title = serializers.SerializerMethodField()
+    # Compatibility fields (SearchV3 does not store these; return equivalents).
+    title_no_prefix = serializers.SerializerMethodField()
+    slug_no_prefix = serializers.SerializerMethodField()
+    clean_title = serializers.SerializerMethodField()
+
+    class Meta:
+        model = SearchV3
+        exclude = ["id", "search_vector"]
+
+    def get_description(self, obj):
+        return emoji.emojize(obj.description)
+
+    def get_title(self, obj):
+        return emoji.emojize(obj.title)
+
+    def get_title_no_prefix(self, obj):
+        return obj.title
+
+    def get_slug_no_prefix(self, obj):
+        return obj.slug
+
+    def get_clean_title(self, obj):
+        return obj.title

@@ -1,0 +1,28 @@
+from django.urls import path
+
+from searchv3 import views
+
+urlpatterns = [
+    path(
+        "build/",
+        view=views.BuildSearchView.as_view(),
+        name="build_search",
+    ),
+    path(
+        "opensearch/description/",
+        views.OpenSearchDescription.as_view(
+            content_type="application/opensearchdescription+xml"
+        ),
+        name="opensearch-description",
+    ),
+    path(
+        "opensearch/suggestions/",
+        views.OpenSearchSuggestions.as_view(),
+        name="opensearch-suggestions",
+    ),
+    path(
+        "suggestions/",
+        view=views.SearchSuggestionsView.as_view(),
+        name="search_suggestions",
+    ),
+]
