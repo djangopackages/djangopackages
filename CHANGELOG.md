@@ -1,5 +1,12 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-02-14]
+### Changed
+- Migrate to Prek and Use GitHub Actions for Auto-Update ([#1540](https://github.com/djangopackages/djangopackages/pull/1540))
+- ⬆️ Bump j178/prek-action from 1.0.1 to 1.0.6 in /.github/workflows ([#1541](https://github.com/djangopackages/djangopackages/pull/1541))
+- Fix upload time handling in Package model and related rules ([#1539](https://github.com/djangopackages/djangopackages/pull/1539))
+- Fix Grid App Admin Search ([#1538](https://github.com/djangopackages/djangopackages/pull/1538))
+
 ## [2026-02-13]
 ### Changed
 - [Part 2] Use new Package model fields to improve performance ([#1532](https://github.com/djangopackages/djangopackages/pull/1532))
