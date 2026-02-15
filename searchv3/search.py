@@ -11,7 +11,7 @@ from django.contrib.postgres.search import (
 )
 from django.db import models
 from django.db.models import F, FloatField, Q, TextField, Value
-from django.db.models.functions import Coalesce, Greatest
+from django.db.models.functions import Cast, Coalesce, Greatest
 
 # Pre-compiled regex for detecting single-token alphanumeric inputs that are
 # safe to use as a PostgreSQL `tsquery` prefix (`term:*`).
@@ -97,8 +97,8 @@ class SearchV3QuerySet(models.QuerySet):
             use_fuzzy: Override the `SEARCHV3_USE_FUZZY` setting.
 
         Returns:
-            A `QuerySet` annotated with `rank`, `relevance`, and
-            `similarity` fields, filtered to matching rows.
+            A `QuerySet` annotated with `relevance` and `similarity` fields,
+            filtered to matching rows, with `search_vector` deferred.
         """
         # normalize input
         q = (q or "").strip()
@@ -107,6 +107,7 @@ class SearchV3QuerySet(models.QuerySet):
             return self.none()
 
         q_len = len(q)
+        q_lower = q.lower()
 
         # resolve settings
         if use_weight_boost is None:
@@ -116,41 +117,44 @@ class SearchV3QuerySet(models.QuerySet):
 
         config = get_search_config()
 
-        # build `tsquery` objects
+        # Use standard websearch query which handles quoted phrases,
+        # minus-exclusions, and implicit AND between terms out of the box.
         combined_query = SearchQuery(q, search_type="websearch", config=config)
 
         # Prefix query for single-token typeahead (e.g. "djan" → "djan:*").
-        if q_len >= 3 and _PREFIX_RE.match(q):
+        # Restricted to short inputs (< 6 chars) where the token is likely
+        # incomplete; for full words the websearch form already covers stems.
+        if q_len >= 3 and q_len < 6 and _PREFIX_RE.match(q):
             combined_query |= SearchQuery(f"{q}:*", search_type="raw", config=config)
 
-        # FTS rank
-        # `SearchRank` uses the pre-computed, GIN-indexed `search_vector`
-        # column — no per-row re-tokenisation happens at query time.
+        # ts_rank against the stored, GIN-indexed column — PostgreSQL reads
+        # the pre-computed tsvector rather than re-tokenising every row.
         rank_expr = SearchRank(F("search_vector"), combined_query)
 
-        # weight boost
+        # Add weight boost to the rank so high-weight items surface higher in results.
         if use_weight_boost:
             boost_factor = float(getattr(settings, "SEARCHV3_WEIGHT_BOOST", 0.02))
-            boost_expr = F("weight") * Value(boost_factor, output_field=FloatField())
+            relevance_expr = rank_expr + (
+                Cast(F("weight"), output_field=FloatField())
+                * Value(boost_factor, output_field=FloatField())
+            )
         else:
-            boost_expr = Value(0.0, output_field=FloatField())
+            relevance_expr = rank_expr
 
-        # Single annotation pass: rank + boost → relevance.
-        qs = self.annotate(rank=rank_expr)
-        qs = qs.annotate(relevance=F("rank") + boost_expr)
+        qs = self.annotate(relevance=relevance_expr)
 
-        # trigram similarity
+        # Trigram similarity for typo tolerance and partial-word matching.
         if use_fuzzy and q_len >= 3:
-            q_lower = q.lower()
             trigram_threshold = float(
                 getattr(settings, "SEARCHV3_TRIGRAM_THRESHOLD", 0.2)
             )
+            # Use the greatest similarity between title and slug so typos in either field can surface results.
             similarity_expr = Greatest(
-                TrigramSimilarity("title", q),
+                TrigramSimilarity("title", q_lower),
                 TrigramSimilarity("slug", q_lower),
             )
             trigram_filter = (
-                Q(title__trigram_similar=q) | Q(slug__trigram_similar=q_lower)
+                Q(title__trigram_similar=q_lower) | Q(slug__trigram_similar=q_lower)
             ) & Q(similarity__gte=trigram_threshold)
         else:
             similarity_expr = Value(0.0, output_field=FloatField())
@@ -158,9 +162,18 @@ class SearchV3QuerySet(models.QuerySet):
 
         qs = qs.annotate(similarity=similarity_expr)
 
-        # combine filter conditions with OR
+        # A row qualifies if it satisfies either the FTS condition or the
+        # trigram condition, so results still surface for typos and partial
+        # inputs that wouldn't produce a tsquery lexeme at all.
         conditions = Q(search_vector=combined_query)
         if trigram_filter is not None:
             conditions |= trigram_filter
 
-        return qs.filter(conditions).order_by("-relevance", "-similarity", "title")
+        # We never read search_vector in Python — the @@ operator and ts_rank
+        # consume it entirely inside the database — so there's no point
+        # pulling it.
+        return (
+            qs.defer("search_vector")
+            .filter(conditions)
+            .order_by("-relevance", "-similarity", "title")
+        )
