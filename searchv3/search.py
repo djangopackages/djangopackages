@@ -10,8 +10,8 @@ from django.contrib.postgres.search import (
     TrigramSimilarity,
 )
 from django.db import models
-from django.db.models import F, FloatField, Q, TextField, Value
-from django.db.models.functions import Cast, Coalesce, Greatest
+from django.db.models import F, FloatField, Q, Value
+from django.db.models.functions import Cast, Greatest
 
 # Pre-compiled regex for detecting single-token alphanumeric inputs that are
 # safe to use as a PostgreSQL `tsquery` prefix (`term:*`).
@@ -37,26 +37,13 @@ def build_search_vector(*, config: str | None = None) -> SearchVector:
     concatenation.
     """
     cfg = config or get_search_config()
-    out = TextField()
 
     return (
-        SearchVector(
-            Coalesce("title", Value(""), output_field=out), weight="A", config=cfg
-        )
-        + SearchVector(
-            Coalesce("slug", Value(""), output_field=out), weight="B", config=cfg
-        )
-        + SearchVector(
-            Coalesce("description", Value(""), output_field=out), weight="C", config=cfg
-        )
-        + SearchVector(
-            Coalesce("category", Value(""), output_field=out), weight="D", config=cfg
-        )
-        + SearchVector(
-            Coalesce("participants", Value(""), output_field=out),
-            weight="D",
-            config=cfg,
-        )
+        SearchVector("title", weight="A", config=cfg)
+        + SearchVector("slug", weight="B", config=cfg)
+        + SearchVector("description", weight="C", config=cfg)
+        + SearchVector("category", weight="D", config=cfg)
+        + SearchVector("participants", weight="D", config=cfg)
     )
 
 
