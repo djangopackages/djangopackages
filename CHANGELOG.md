@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-02-15]
+### Changed
+- ⬆️ Bump sqlparse from 0.5.3 to 0.5.4 ([#1537](https://github.com/djangopackages/djangopackages/pull/1537))
+
 ## [2026-02-14]
 ### Changed
 - Migrate to Prek and Use GitHub Actions for Auto-Update ([#1540](https://github.com/djangopackages/djangopackages/pull/1540))
