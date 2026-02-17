@@ -2,6 +2,7 @@ from django.test import TestCase, override_settings
 from model_bakery import baker
 
 from searchv3.models import ItemType, SearchV3
+from searchv3.search import PostgreSQLSearchConfig
 
 
 class _SearchTestMixin:
@@ -18,6 +19,41 @@ class _SearchTestMixin:
         defaults.update(kwargs)
         obj = baker.make(SearchV3, title=title, slug=slug, **defaults)
         return obj
+
+
+class PostgreSQLSearchConfigTest(TestCase):
+    """Enum behavior for search config resolution from settings."""
+
+    def test_default_returns_english(self):
+        self.assertEqual(
+            PostgreSQLSearchConfig.default(), PostgreSQLSearchConfig.ENGLISH
+        )
+
+    @override_settings(SEARCHV3_SEARCH_CONFIG=None)
+    def test_from_settings_none_uses_default(self):
+        self.assertEqual(
+            PostgreSQLSearchConfig.from_settings(), PostgreSQLSearchConfig.ENGLISH
+        )
+
+    @override_settings(SEARCHV3_SEARCH_CONFIG="english")
+    def test_from_settings_valid_english(self):
+        self.assertEqual(
+            PostgreSQLSearchConfig.from_settings(), PostgreSQLSearchConfig.ENGLISH
+        )
+
+    @override_settings(SEARCHV3_SEARCH_CONFIG="simple")
+    def test_from_settings_valid_simple(self):
+        self.assertEqual(
+            PostgreSQLSearchConfig.from_settings(), PostgreSQLSearchConfig.SIMPLE
+        )
+
+    @override_settings(SEARCHV3_SEARCH_CONFIG="invalid-config")
+    def test_from_settings_invalid_raises_value_error_with_valid_options(self):
+        with self.assertRaisesMessage(
+            ValueError,
+            "Invalid SEARCHV3_SEARCH_CONFIG 'invalid-config'. Valid options are: ['english', 'simple']",
+        ):
+            PostgreSQLSearchConfig.from_settings()
 
 
 class EmptyQueryTest(_SearchTestMixin, TestCase):
