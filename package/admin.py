@@ -4,7 +4,6 @@ from reversion.admin import VersionAdmin
 
 from package.models import (
     Category,
-    Commit,
     FlaggedPackage,
     Package,
     PackageExample,
@@ -15,12 +14,6 @@ from package.models import (
 class PackageExampleInline(admin.TabularInline):
     model = PackageExample
     raw_id_fields = ["created_by"]
-
-
-@admin.register(Commit)
-class CommitAdmin(admin.ModelAdmin):
-    list_display = ["__str__", "commit_date"]
-    raw_id_fields = ["package"]
 
 
 @admin.register(Package)

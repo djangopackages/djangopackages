@@ -337,25 +337,6 @@ class PackageExample(BaseModel):
         return "http://" + self.url
 
 
-class Commit(BaseModel):
-    package = models.ForeignKey(Package, on_delete=models.CASCADE)
-    commit_date = models.DateTimeField(_("Commit Date"))
-    commit_hash = models.CharField(
-        _("Commit Hash"),
-        help_text="Example: Git sha or SVN commit id",
-        max_length=150,
-        blank=True,
-        default="",
-    )
-
-    class Meta:
-        ordering = ["-commit_date"]
-        get_latest_by = "commit_date"
-
-    def __str__(self):
-        return f"Commit for '{self.package.title}' on {self.commit_date}"
-
-
 class VersionManager(models.Manager):
     def by_version(self, visible=False, *args, **kwargs):
         qs = self.get_queryset().filter(*args, **kwargs)
