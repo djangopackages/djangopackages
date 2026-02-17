@@ -27,12 +27,12 @@ def test_package_retrieve_slug_get(client, package):
     assert response.status_code == status.HTTP_200_OK
 
 
-# SearchV2ViewSet Tests
+# SearchV3ViewSet Tests
 
 
 @pytest.mark.django_db
-def test_searchv2_list_get(client):
-    url = reverse("apiv4:searchv2-list")
+def test_searchv3_list_get(client):
+    url = reverse("apiv4:search-list")
     response = client.get(url)
     assert response.status_code == status.HTTP_200_OK
 

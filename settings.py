@@ -119,6 +119,9 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
     "waffle.middleware.WaffleMiddleware",
+    # TODO(searchv3): Remove migration middleware after searchv3 is stable and
+    # searchv2 is fully removed.
+    "searchv3.middleware.SearchVersionMiddleware",
     "django_structlog.middlewares.RequestMiddleware",
     "maintenance_mode.middleware.MaintenanceModeMiddleware",
 ]
@@ -177,7 +180,10 @@ PROJECT_APPS = [
     "package",
     "products",
     "profiles",
+    # TODO(searchv3): Remove searchv2 from installed apps after
+    # searchv3 is stable and searchv2 is fully removed.
     "searchv2",
+    "searchv3",
 ]
 
 PREREQ_APPS = [
@@ -185,6 +191,7 @@ PREREQ_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
+    "django.contrib.postgres",
     "django.contrib.sessions",
     "django.contrib.sitemaps",
     "django.contrib.sites",
@@ -532,3 +539,15 @@ TAILWIND_CLI_AUTOMATIC_DOWNLOAD = DEBUG
 TAILWIND_CLI_DIST_CSS = "css/tailwind.css"
 TAILWIND_CLI_SRC_CSS = "tailwindcss.css"
 TAILWIND_CLI_VERSION = "4.1.14"
+
+# searchv3 — PostgreSQL full-text search settings
+# PostgreSQL text search configuration (dictionary/stemming language).
+SEARCHV3_SEARCH_CONFIG = "english"
+# When enabled, adds a small weight boost to ranking.
+SEARCHV3_USE_WEIGHT_BOOST = True
+# Size of that ranking boost (higher value = stronger influence).
+SEARCHV3_WEIGHT_BOOST = 0.02
+# Enables typo-tolerant matching via trigram similarity.
+SEARCHV3_USE_FUZZY = True
+# Minimum trigram similarity required for fuzzy matches (0 to 1).
+SEARCHV3_TRIGRAM_THRESHOLD = 0.2
