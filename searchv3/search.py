@@ -32,9 +32,6 @@ def build_search_vector(*, config: str | None = None) -> SearchVector:
     * **B** — `slug`
     * **C** — `description`
     * **D** — `category`, `participants`  (lowest relevance)
-
-    All fields are coalesced to `""` so `NULL` values don't break the
-    concatenation.
     """
     cfg = config or get_search_config()
 
