@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import enum
 import re
 
 from django.conf import settings
@@ -18,12 +19,35 @@ from django.db.models.functions import Cast, Greatest
 _PREFIX_RE = re.compile(r"\A[A-Za-z0-9_-]+\Z")
 
 
-def get_search_config() -> str:
-    """Return the PostgreSQL text-search configuration name."""
-    return getattr(settings, "SEARCHV3_SEARCH_CONFIG", "english")
+class PostgreSQLSearchConfig(enum.StrEnum):
+    ENGLISH = "english"
+    SIMPLE = "simple"
+
+    @classmethod
+    def default(cls) -> PostgreSQLSearchConfig:
+        """Return the default search config"""
+        return cls.ENGLISH
+
+    @classmethod
+    def from_settings(cls) -> PostgreSQLSearchConfig:
+        """Return the search config specified in Django settings, or the default."""
+        config_name = getattr(settings, "SEARCHV3_SEARCH_CONFIG", None)
+
+        if config_name is None:
+            return cls.default()
+
+        try:
+            return cls(config_name)
+        except ValueError:
+            # If settings contains an invalid value, raise an error with valid options listed
+            # instead of silently falling back to the default and potentially causing confusion.
+            raise ValueError(
+                f"Invalid SEARCHV3_SEARCH_CONFIG '{config_name}'. "
+                f"Valid options are: {[c.value for c in cls]}"
+            )
 
 
-def build_search_vector(*, config: str | None = None) -> SearchVector:
+def build_search_vector() -> SearchVector:
     """Build the weighted `SearchVector` expression used for indexing.
 
     Weight assignments:
@@ -33,14 +57,14 @@ def build_search_vector(*, config: str | None = None) -> SearchVector:
     * **C** — `description`
     * **D** — `category`, `participants`  (lowest relevance)
     """
-    cfg = config or get_search_config()
+    config = PostgreSQLSearchConfig.from_settings()
 
     return (
-        SearchVector("title", weight="A", config=cfg)
-        + SearchVector("slug", weight="B", config=cfg)
-        + SearchVector("description", weight="C", config=cfg)
-        + SearchVector("category", weight="D", config=cfg)
-        + SearchVector("participants", weight="D", config=cfg)
+        SearchVector("title", weight="A", config=config)
+        + SearchVector("slug", weight="B", config=config)
+        + SearchVector("description", weight="C", config=config)
+        + SearchVector("category", weight="D", config=config)
+        + SearchVector("participants", weight="D", config=config)
     )
 
 
@@ -99,7 +123,7 @@ class SearchV3QuerySet(models.QuerySet):
         if use_fuzzy is None:
             use_fuzzy = getattr(settings, "SEARCHV3_USE_FUZZY", True)
 
-        config = get_search_config()
+        config = PostgreSQLSearchConfig.from_settings()
 
         # Use standard websearch query which handles quoted phrases,
         # minus-exclusions, and implicit AND between terms out of the box.
