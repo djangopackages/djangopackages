@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-02-17]
+### Changed
+- Implement full-text search with PostgreSQL ([#1542](https://github.com/djangopackages/djangopackages/pull/1542))
+- [Part 3] Remove Commit Model ([#1543](https://github.com/djangopackages/djangopackages/pull/1543))
+
 ## [2026-02-15]
 ### Changed
 - ⬆️ Bump sqlparse from 0.5.3 to 0.5.4 ([#1537](https://github.com/djangopackages/djangopackages/pull/1537))
