@@ -1,5 +1,6 @@
 from functools import cached_property
 from typing import Any
+from collections.abc import Iterable
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model
@@ -15,12 +16,13 @@ from django.db.models import (
     Q,
     IntegerField,
     OuterRef,
+    QuerySet,
     Subquery,
 )
 
 from django.core.cache import cache
 from django.db.models.functions import Coalesce
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views.generic import CreateView, DetailView, ListView, DeleteView
@@ -45,7 +47,9 @@ from package.models import Package
 User = get_user_model()
 
 
-def build_element_map(elements):
+def build_element_map(
+    elements: list[tuple[int, int, str]],
+) -> dict[int, dict[int, dict[str, str]]]:
     """Build the two-level mapping used by templates.
 
     Args:
@@ -54,7 +58,7 @@ def build_element_map(elements):
     Returns:
         dict of {feature_id: {package_id: {"text": str}}}
     """
-    element_map: dict[int, dict[int, dict[str, Any]]] = {}
+    element_map: dict[int, dict[int, dict[str, str]]] = {}
     for feature_id, package_id, text in elements:
         element_map.setdefault(feature_id, {})[package_id] = {"text": text}
     return element_map
@@ -68,7 +72,7 @@ class GridDetailView(DetailView):
     slug_url_kwarg = "slug"
     max_packages = 10
 
-    def get_filter_data(self):
+    def get_filter_data(self) -> dict[str, Any]:
         """Get filter parameters from the form"""
         self.filter_form = GridDetailFilterForm(self.request.GET)
         filter_data = {
@@ -94,7 +98,9 @@ class GridDetailView(DetailView):
             show_features=settings.DISPLAY_GRID_FEATURES,
         )
 
-    def get_packages(self, grid: Grid, filter_data: dict[str, Any]):
+    def get_packages(
+        self, grid: Grid, filter_data: dict[str, Any]
+    ) -> QuerySet[Package]:
         """Get filtered and sorted packages"""
         usage_count_subquery = (
             User.objects.filter(package__id=OuterRef("pk"))
@@ -157,39 +163,40 @@ class GridDetailView(DetailView):
         # Total count is for the whole grid (not filter-dependent)
         return Package.objects.active().filter(gridpackage__grid=grid).count()
 
-    def _limit_packages(self, packages_qs, total_package_count: int):
+    def _limit_packages(
+        self, packages_qs: QuerySet[Package], total_package_count: int
+    ) -> tuple[list[Package], bool]:
         has_more_packages = total_package_count > self.max_packages
         packages = list(packages_qs[: self.max_packages])
         return packages, has_more_packages
 
-    def _get_features(self, grid: Grid):
-        return list(
+    def _get_features(self, grid: Grid) -> Iterable[tuple[int, str, str]]:
+        return (
             Feature.objects.filter(grid=grid)
             .order_by("pk")
-            .values("id", "title", "description")
+            .values_list("id", "title", "description")
         )
 
     def _get_elements(
         self, *, feature_ids: list[int], grid: Grid, package_ids: list[int]
-    ):
+    ) -> Iterable[tuple[int, int, str]]:
         """Fetch element data for the given features and packages.
 
-        Returns a list of (feature_id, package_id, text) tuples.
-        The database handles the GridPackage→Package lookup via
-        grid_package__package_id.
+        Args:
+            feature_ids: List of feature IDs to fetch elements for.
+            grid: The grid to which the features and packages belong.
+            package_ids: List of package IDs to fetch elements for.
+
+        Returns:
+            Iterable of tuples (feature_id, package_id, text) for the matching elements.
         """
-        if not feature_ids or not package_ids:
-            return []
+        return Element.objects.filter(
+            feature_id__in=feature_ids,
+            grid_package__grid=grid,
+            grid_package__package_id__in=package_ids,
+        ).values_list("feature_id", "grid_package__package_id", "text")
 
-        return list(
-            Element.objects.filter(
-                feature_id__in=feature_ids,
-                grid_package__grid=grid,
-                grid_package__package_id__in=package_ids,
-            ).values_list("feature_id", "grid_package__package_id", "text")
-        )
-
-    def _serialize_packages(self, packages):
+    def _serialize_packages(self, packages: list[Package]) -> list[dict[str, Any]]:
         payload_packages: list[dict[str, Any]] = []
         for package in packages:
             category = package.category
@@ -230,15 +237,17 @@ class GridDetailView(DetailView):
             )
         return payload_packages
 
-    def _serialize_features(self, features):
+    def _serialize_features(
+        self, features: list[tuple[int, str, str]]
+    ) -> list[dict[str, Any]]:
         return [
             {
-                "id": feature["id"],
-                "pk": feature["id"],
-                "title": feature["title"],
-                "description": feature["description"],
+                "id": feature_id,
+                "pk": feature_id,
+                "title": title,
+                "description": description,
             }
-            for feature in features
+            for feature_id, title, description in features
         ]
 
     def _build_payload(
@@ -256,7 +265,7 @@ class GridDetailView(DetailView):
 
         if show_features and (features := self._get_features(grid)):
             package_ids = [package.pk for package in packages]
-            feature_ids = [feature["id"] for feature in features]
+            feature_ids = [feature_id for feature_id, _, _ in features]
             elements = self._get_elements(
                 feature_ids=feature_ids,
                 grid=grid,
@@ -288,7 +297,7 @@ class GridDetailView(DetailView):
 
         return payload
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         grid = self.object
 
@@ -312,7 +321,9 @@ class GridDetailView(DetailView):
         )
         return context
 
-    def render_to_response(self, context, **response_kwargs):
+    def render_to_response(
+        self, context: dict[str, Any], **response_kwargs: Any
+    ) -> HttpResponse:
         if self.request.htmx:
             return render(self.request, "partials/grid_comparison_table.html", context)
         return super().render_to_response(context, **response_kwargs)
