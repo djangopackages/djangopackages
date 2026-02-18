@@ -48,15 +48,15 @@ User = get_user_model()
 def build_element_map(elements):
     """Build the two-level mapping used by templates.
 
-    Shape:
-        feature_id -> package_id -> {"text": str}
+    Args:
+        elements: List of (feature_id, package_id, text) tuples.
+
+    Returns:
+        dict of {feature_id: {package_id: {"text": str}}}
     """
     element_map: dict[int, dict[int, dict[str, Any]]] = {}
-    for element in elements:
-        element_map.setdefault(element.feature_id, {})
-        element_map[element.feature_id][element.grid_package.package_id] = {
-            "text": element.text,
-        }
+    for feature_id, package_id, text in elements:
+        element_map.setdefault(feature_id, {})[package_id] = {"text": text}
     return element_map
 
 
@@ -66,7 +66,7 @@ class GridDetailView(DetailView):
     context_object_name = "grid"
     slug_field = "slug"
     slug_url_kwarg = "slug"
-    max_packages = 8
+    max_packages = 10
 
     def get_filter_data(self):
         """Get filter parameters from the form"""
@@ -91,6 +91,7 @@ class GridDetailView(DetailView):
             language=get_language(),
             filter_data=filter_data,
             max_packages=self.max_packages,
+            show_features=settings.DISPLAY_GRID_FEATURES,
         )
 
     def get_packages(self, grid: Grid, filter_data: dict[str, Any]):
@@ -162,12 +163,31 @@ class GridDetailView(DetailView):
         return packages, has_more_packages
 
     def _get_features(self, grid: Grid):
-        return list(Feature.objects.filter(grid=grid).order_by("pk"))
+        return list(
+            Feature.objects.filter(grid=grid)
+            .order_by("pk")
+            .values("id", "title", "description")
+        )
 
-    def _get_elements(self, *, features, packages):
-        return Element.objects.filter(
-            feature__in=features, grid_package__package__in=packages
-        ).select_related("feature", "grid_package")
+    def _get_elements(
+        self, *, feature_ids: list[int], grid: Grid, package_ids: list[int]
+    ):
+        """Fetch element data for the given features and packages.
+
+        Returns a list of (feature_id, package_id, text) tuples.
+        The database handles the GridPackage→Package lookup via
+        grid_package__package_id.
+        """
+        if not feature_ids or not package_ids:
+            return []
+
+        return list(
+            Element.objects.filter(
+                feature_id__in=feature_ids,
+                grid_package__grid=grid,
+                grid_package__package_id__in=package_ids,
+            ).values_list("feature_id", "grid_package__package_id", "text")
+        )
 
     def _serialize_packages(self, packages):
         payload_packages: list[dict[str, Any]] = []
@@ -213,10 +233,10 @@ class GridDetailView(DetailView):
     def _serialize_features(self, features):
         return [
             {
-                "id": feature.pk,
-                "pk": feature.pk,
-                "title": feature.title,
-                "description": feature.description,
+                "id": feature["id"],
+                "pk": feature["id"],
+                "title": feature["title"],
+                "description": feature["description"],
             }
             for feature in features
         ]
@@ -232,14 +252,16 @@ class GridDetailView(DetailView):
             packages_qs, total_package_count
         )
 
-        # TEMPORARILY DISABLED: Features disabled entirely for production stability
-        # See https://github.com/djangopackages/djangopackages/issues/1498
-        # Original: show_features = total_package_count <= self.max_packages
-        show_features = False
+        show_features = settings.DISPLAY_GRID_FEATURES
 
-        if show_features:
-            features = self._get_features(grid)
-            elements = self._get_elements(features=features, packages=packages)
+        if show_features and (features := self._get_features(grid)):
+            package_ids = [package.pk for package in packages]
+            feature_ids = [feature["id"] for feature in features]
+            elements = self._get_elements(
+                feature_ids=feature_ids,
+                grid=grid,
+                package_ids=package_ids,
+            )
             element_map = build_element_map(elements)
         else:
             features = []

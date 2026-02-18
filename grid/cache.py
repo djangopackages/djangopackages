@@ -66,7 +66,8 @@ def get_grid_detail_payload_cache_key(
     grid_id: int,
     language: str = "",
     filter_data: dict[str, Any] | None = None,
-    max_packages: int = 8,
+    max_packages: int = 10,
+    show_features: bool = True,
 ) -> str:
     """Cache key for the heavy "comparison payload" within the grid detail view.
 
@@ -76,13 +77,15 @@ def get_grid_detail_payload_cache_key(
     - active language
     - normalized filter_data (hashed)
     - max_packages (affects slicing)
+    - show_features (whether grid features are displayed)
     """
     version = get_grid_detail_cache_version(grid_id)
     lang = language or ""
+    feat = "1" if show_features else "0"
     normalized = _normalized_filter_data_key(filter_data)
     digest = hashlib.blake2s(normalized.encode("utf-8"), digest_size=8).hexdigest()
     return (
-        f"grid.detail.payload:{grid_id}:{version}:{lang}:{int(max_packages)}:{digest}"
+        f"grid.detail.payload:{grid_id}:{version}:{lang}:{max_packages}:{feat}:{digest}"
     )
 
 
