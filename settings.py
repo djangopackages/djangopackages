@@ -551,3 +551,5 @@ SEARCHV3_WEIGHT_BOOST = 0.02
 SEARCHV3_USE_FUZZY = True
 # Minimum trigram similarity required for fuzzy matches (0 to 1).
 SEARCHV3_TRIGRAM_THRESHOLD = 0.2
+
+DISPLAY_GRID_FEATURES = env.bool("DISPLAY_GRID_FEATURES", default=True)

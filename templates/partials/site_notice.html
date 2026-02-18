@@ -1,15 +1,16 @@
+{# Site-wide notice banner - uncomment when needed #}
+{% comment %}
 {% load i18n %}
-{# Site-wide notice banner - can be removed when stability improvements are complete #}
-{# See https://github.com/djangopackages/djangopackages/issues/1498 #}
 <div class="border-b bg-amber-500/10 border-amber-500/20">
     <div class="container py-2 px-4 mx-auto">
         <div class="flex gap-2 justify-center items-center text-sm text-gray-900 dark:text-gray-900">
             <i class="flex-shrink-0 ph-bold ph-warning"></i>
             <span>
                 {% blocktranslate %}
-                    We've temporarily disabled some Grid features while we work on stability improvements. Thanks for your patience!
+                    -- SITE-WIDE NOTICE GOES HERE --
                 {% endblocktranslate %}
             </span>
         </div>
     </div>
 </div>
+{% endcomment %}

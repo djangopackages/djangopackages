@@ -35,7 +35,7 @@
                             </div>
                         </td>
                         {% for package in packages %}
-                            <td class="py-2.5 px-3 align-top border-l border-border/30">
+                            <td class="py-2.5 px-3 text-center align-top border-l border-border/30">
                                 <div class="text-xs leading-relaxed whitespace-normal text-muted-foreground" title="{{ package.repo_description }}">
                                     {{ package.repo_description|default:"-"|wordwrap:30|linebreaksbr|truncatechars:100 }}
                                 </div>
@@ -303,7 +303,7 @@
                     {% if show_features and features %}
                     <!-- Custom Features Section Header -->
                         <tr class="bg-primary/5">
-                            <td colspan="{{ packages|length|add:1 }}" class="py-2.5 px-3">
+                            <td class="sticky left-0 z-10 py-2.5 px-3 whitespace-nowrap bg-primary/5">
                                 <div class="flex gap-2 items-center text-xs font-semibold text-foreground">
                                     <i class="ph-bold ph-list-checks text-primary"></i>
                                     {% translate "Feature Comparison" %}
@@ -312,6 +312,7 @@
                                     </span>
                                 </div>
                             </td>
+                            <td colspan="{{ packages|length }}" class="py-2.5 px-3"></td>
                         </tr>
 
                     <!-- Custom Features -->
@@ -338,27 +339,24 @@
                                                 onclick="window.location.href='{% url 'edit_element' grid_slug=grid.slug feature_id=feature.id package_id=package.id %}'"
                                                 title="{% translate 'Click to edit' %}"
                                             {% endif %}>
-                                            {% if element %}
-                                                {% if element.text %}
-                                                    <span class="block overflow-hidden text-xs leading-relaxed whitespace-normal break-words text-muted-foreground">
-                                                        {{ element.text|style_element|safe|urlize|linebreaksbr }}
-                                                    </span>
-                                                {% else %}
-                                                    {# Empty cell with edit icon on hover #}
-                                                    <span class="inline-flex justify-center items-center w-5 h-5 transition-colors text-muted-foreground/30 group-hover:text-primary/50">
-                                                        <i class="text-xs opacity-0 transition-opacity group-hover:opacity-100 ph-bold ph-pencil-simple"></i>
+                                            <div class="relative min-h-5">
+                                                {% if perms.grid.change_element or perms.grid.add_element %}
+                                                    <span class="inline-flex absolute top-0 right-0 justify-center items-center w-5 h-5 opacity-40 text-muted-foreground">
+                                                        <i class="text-xs ph-bold ph-pencil-simple"></i>
                                                     </span>
                                                 {% endif %}
-                                            {% else %}
-                                                {# No element - show edit icon on hover for admins #}
-                                                {% if perms.grid.add_element %}
-                                                    <span class="inline-flex justify-center items-center w-5 h-5 transition-colors text-muted-foreground/30 group-hover:text-primary">
-                                                        <i class="text-xs opacity-0 transition-opacity group-hover:opacity-100 ph-bold ph-pencil-simple"></i>
-                                                    </span>
+                                                {% if element %}
+                                                    {% if element.text %}
+                                                        <span class="block overflow-hidden px-5 text-xs leading-relaxed text-center whitespace-normal break-words text-muted-foreground">
+                                                            {{ element.text|style_element|safe|urlize|linebreaksbr }}
+                                                        </span>
+                                                    {% else %}
+                                                        <span class="text-muted-foreground/30">—</span>
+                                                    {% endif %}
                                                 {% else %}
                                                     <span class="text-muted-foreground/30">—</span>
                                                 {% endif %}
-                                            {% endif %}
+                                            </div>
                                         </td>
                                     {% endwith %}
                                 {% endfor %}
@@ -380,7 +378,7 @@
                                     <a href="{% url 'delete_grid_package' grid_slug=grid.slug package_id=package.id %}"
                                        class="inline-flex gap-1 justify-center items-center py-1 px-2 text-xs font-medium rounded-md transition-colors hover:text-white text-destructive bg-destructive/10 hover:bg-destructive"
                                        title="{% translate 'Remove from grid' %}">
-                                        <i class="text-xs ph-bold ph-x"></i>
+                                        <i class="text-xs ph-bold ph-trash"></i>
                                     </a>
                                 </td>
                             {% endfor %}
@@ -436,21 +434,23 @@
                                         {% if request.user.is_authenticated %}
                                             {% if is_using %}
                                                 <button type="button"
-                                                        class="inline-flex justify-center items-center w-7 h-7 text-emerald-600 rounded-md border transition-colors hover:border-emerald-500 border-emerald-500/50 bg-emerald-500/10 hover:bg-emerald-500/20"
+                                                        class="inline-flex gap-1 justify-center items-center py-1 px-2 font-medium text-emerald-700 rounded-full border transition-colors dark:text-emerald-400 hover:border-emerald-500 text-[11px] border-emerald-500/50 bg-emerald-500/10 hover:bg-emerald-500/20"
                                                         hx-get="{% url 'usage' package.slug 'remove' %}?htmx=1&mobile=1"
                                                         hx-target="#mobile-usage-btn-{{ package.id }}"
                                                         hx-swap="outerHTML"
                                                         title="{% translate 'Remove from usage list' %}">
-                                                    <i class="text-sm ph-bold ph-minus"></i>
+                                                    <i class="text-xs ph-bold ph-check"></i>
+                                                    <span>{% translate "Using" %}</span>
                                                 </button>
                                             {% else %}
                                                 <button type="button"
-                                                        class="inline-flex justify-center items-center w-7 h-7 rounded-md border transition-colors border-border bg-muted/50 text-muted-foreground hover:bg-muted hover:border-muted-foreground/50"
+                                                        class="inline-flex gap-1 justify-center items-center py-1 px-2 font-medium rounded-full border transition-colors text-[11px] border-border bg-muted/50 text-muted-foreground hover:bg-muted hover:border-muted-foreground/50"
                                                         hx-get="{% url 'usage' package.slug 'add' %}?htmx=1&mobile=1"
                                                         hx-target="#mobile-usage-btn-{{ package.id }}"
                                                         hx-swap="outerHTML"
                                                         title="{% translate 'Add to usage list' %}">
-                                                    <i class="text-sm ph-bold ph-plus"></i>
+                                                    <i class="text-xs ph-bold ph-plus"></i>
+                                                    <span>{% translate "Use" %}</span>
                                                 </button>
                                             {% endif %}
                                         {% endif %}
@@ -578,25 +578,36 @@
                                     <div class="flex gap-2 items-center mb-3 text-xs font-semibold text-foreground">
                                         <i class="ph-bold ph-list-checks text-primary"></i>
                                         {% translate "Features" %}
+                                        {% if perms.grid.change_element or perms.grid.add_element %}
+                                            <span class="ml-1 font-normal text-muted-foreground">
+                                                ({% translate "tap rows to edit" %})
+                                            </span>
+                                        {% endif %}
                                     </div>
                                     <div class="space-y-2">
                                         {% for feature in features %}
                                             {% with element=element_map|get_item:feature.id|get_item:package.id %}
-                                                <div class="flex gap-2 justify-between items-start py-1.5 border-b last:border-0 border-border/50">
+                                                <div class="flex gap-2 justify-between items-start py-1.5 border-b last:border-0 border-border/50 {% if perms.grid.change_element or perms.grid.add_element %}cursor-pointer hover:bg-primary/5 rounded-sm{% endif %}"
+                                                     {% if perms.grid.change_element or perms.grid.add_element %}
+                                                         onclick="window.location.href='{% url 'edit_element' grid_slug=grid.slug feature_id=feature.id package_id=package.id %}'"
+                                                         title="{% translate 'Tap to edit' %}"
+                                                     {% endif %}>
                                                     <span class="text-xs text-muted-foreground" title="{{ feature.title }}">{{ feature.title }}</span>
-                                                    {% if element %}
-                                                        {% if element.text %}
-                                                            <span class="text-xs font-medium text-foreground text-right flex-shrink-0 max-w-[50%]">{{ element.text|style_element|safe|urlize|linebreaksbr }}</span>
-                                                        {% elif element.value %}
-                                                            <span class="inline-flex justify-center items-center w-5 h-5 rounded-full bg-emerald-500/10">
-                                                                <i class="text-xs text-emerald-600 dark:text-emerald-400 ph-bold ph-check"></i>
-                                                            </span>
+                                                    <div class="flex items-start flex-shrink-0 max-w-[55%]">
+                                                        {% if element %}
+                                                            {% if element.text %}
+                                                                <span class="text-xs text-right text-foreground">{{ element.text|style_element|safe|urlize|linebreaksbr }}</span>
+                                                            {% elif element.value %}
+                                                                <span class="inline-flex justify-center items-center w-5 h-5 rounded-full bg-emerald-500/10">
+                                                                    <i class="text-xs text-emerald-600 dark:text-emerald-400 ph-bold ph-check"></i>
+                                                                </span>
+                                                            {% else %}
+                                                                <span class="text-muted-foreground/30">—</span>
+                                                            {% endif %}
                                                         {% else %}
                                                             <span class="text-muted-foreground/30">—</span>
                                                         {% endif %}
-                                                    {% else %}
-                                                        <span class="text-muted-foreground/30">—</span>
-                                                    {% endif %}
+                                                    </div>
                                                 </div>
                                             {% endwith %}
                                         {% endfor %}
