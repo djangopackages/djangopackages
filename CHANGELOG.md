@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-02-18]
+### Changed
+- Bring Back Grid Features ([#1544](https://github.com/djangopackages/djangopackages/pull/1544))
+
 ## [2026-02-17]
 ### Changed
 - Implement full-text search with PostgreSQL ([#1542](https://github.com/djangopackages/djangopackages/pull/1542))
