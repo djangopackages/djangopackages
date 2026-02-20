@@ -74,6 +74,7 @@
    UTILITIES LAYER - Custom Utility Classes
    ============================================ */
 @layer utilities {
+
   /* Scrollbar Utilities */
   .scrollbar-hide {
     -ms-overflow-style: none;
@@ -130,6 +131,7 @@
    COMPONENTS LAYER - Reusable Components
    ============================================ */
 @layer components {
+
   /* Layout Components */
   .container {
     @apply mx-auto px-4;
@@ -278,11 +280,9 @@
   }
 
   .tooltip {
-    @apply absolute bottom-full left-1/2 mb-2 w-max
-    -translate-x-1/2 rounded
-    bg-gray-900 px-2 py-1 text-xs text-white
-    opacity-0 pointer-events-none
-    transition-opacity duration-200 z-50;
+    @apply absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50;
+    @apply w-max rounded bg-gray-900 px-2 py-1;
+    @apply text-xs text-white opacity-0 pointer-events-none transition-opacity duration-200;
   }
 
   .tooltip-lg {
@@ -485,5 +485,91 @@
     @apply px-2 py-1.5;
     max-width: 160px;
     min-width: 100px;
+  }
+
+  /* Banner styles
+   * Base rules define shape/weight; per-type blocks below apply the color palette.
+   * All inline elements (a, strong, b, em, code, mark) follow the same hue as
+   * the banner type — links at -800/hover -950, emphasis at -900, tinted surfaces
+   * using the -100/-200 fill.
+   */
+  #site-banner a {
+    @apply font-bold underline underline-offset-2 transition-colors;
+  }
+
+  #site-banner p strong,
+  #site-banner p b {
+    @apply font-bold;
+  }
+
+  #site-banner p em {
+    @apply italic;
+  }
+
+  /* inline code — e.g. promo codes, package names */
+  #site-banner p code {
+    @apply font-mono text-[0.85em] rounded px-1 py-0.5;
+  }
+
+  /* highlighted / callout text */
+  #site-banner p mark {
+    @apply rounded px-0.5 bg-transparent;
+  }
+
+  /* ── Per-type color palette ── */
+
+  /* warning / amber */
+  #site-banner.border-amber-200 a {
+    @apply text-amber-800 hover:text-amber-950;
+  }
+  #site-banner.border-amber-200 p mark {
+    @apply bg-amber-200 text-amber-900;
+  }
+  #site-banner.border-amber-200 p code {
+    @apply bg-amber-100 text-amber-800;
+  }
+
+  /* sponsored / violet */
+  #site-banner.border-violet-200 a {
+    @apply text-violet-800 hover:text-violet-950;
+  }
+  #site-banner.border-violet-200 p mark {
+    @apply bg-violet-200 text-violet-900;
+  }
+  #site-banner.border-violet-200 p code {
+    @apply bg-violet-100 text-violet-800;
+  }
+
+  /* notice / sky */
+  #site-banner.border-sky-200 a {
+    @apply text-sky-800 hover:text-sky-950;
+  }
+  #site-banner.border-sky-200 p mark {
+    @apply bg-sky-200 text-sky-900;
+  }
+  #site-banner.border-sky-200 p code {
+    @apply bg-sky-100 text-sky-800;
+  }
+
+  /* success / emerald */
+  #site-banner.border-emerald-200 a {
+    @apply text-emerald-800 hover:text-emerald-950;
+  }
+  #site-banner.border-emerald-200 p mark {
+    @apply bg-emerald-200 text-emerald-900;
+  }
+  #site-banner.border-emerald-200 p code {
+    @apply bg-emerald-100 text-emerald-800;
+  }
+
+  /* critical / red */
+  #site-banner.border-red-200 a {
+    @apply text-red-800 hover:text-red-950;
+  }
+  #site-banner.border-red-200 p mark {
+    @apply bg-red-200 text-red-900;
+  }
+  #site-banner.border-red-200 p code {
+    @apply bg-red-100 text-red-800;
   }
 }
