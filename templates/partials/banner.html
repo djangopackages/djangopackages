@@ -1,0 +1,52 @@
+{% if active_banner %}
+    <div
+        id="site-banner"
+        data-banner-id="{{ active_banner.pk }}"
+        role="alert"
+        class="border-b {% if active_banner.banner_type == 'sponsored' %} bg-violet-50 border-violet-200 {% elif active_banner.banner_type == 'notice' %} bg-sky-50 border-sky-200 {% elif active_banner.banner_type == 'success' %} bg-emerald-50 border-emerald-200 {% elif active_banner.banner_type == 'warning' %} bg-amber-50 border-amber-200 {% elif active_banner.banner_type == 'critical' %} bg-red-50 border-red-200 {% endif %}"
+    >
+        <div class="container flex gap-3 items-center py-3 px-4 mx-auto">
+            <div class="flex-1 min-w-0">
+                <p
+                    class="text-sm font-medium text-foreground/90 leading-loose {% if active_banner.alignment == 'center' %} text-center {% elif active_banner.alignment == 'right' %} text-right {% endif %}"
+                >
+                    {% if active_banner.banner_type == 'sponsored' %}
+                        <span
+                            class="inline-flex gap-1 items-center py-0.5 px-2 mr-2 font-semibold tracking-wide text-violet-700 uppercase align-middle bg-violet-100 rounded-full border border-violet-200 text-[11px]"
+                        >
+                            <i class="text-[10px] ph-bold ph-megaphone"></i>
+                            Sponsored
+                        </span>
+                    {% else %}
+                        <i
+                            class="inline align-middle mr-1 text-base ph-bold {{ active_banner.display_icon }}
+                                   {% if active_banner.banner_type == 'notice' %}
+                                       text-sky-600
+                                   {% elif active_banner.banner_type == 'success' %}
+                                       text-emerald-600
+                                   {% elif active_banner.banner_type == 'warning' %}
+                                       text-amber-600
+                                   {% elif active_banner.banner_type == 'critical' %}
+                                       text-red-600
+                                   {% endif %}
+                                  "
+                        ></i>
+                    {% endif %} {{ active_banner.content|safe }}
+                </p>
+            </div>
+        {# Dismiss button: right corner #} {% if active_banner.is_dismissible %}
+                <button
+                    type="button"
+                    hx-post="{% url 'banners:dismiss' active_banner.pk %}"
+                    hx-target="#site-banner"
+                    hx-swap="outerHTML"
+                    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                    class="inline-flex flex-shrink-0 justify-center items-center w-6 h-6 rounded-md transition-colors text-muted-foreground hover:text-foreground hover:bg-foreground/5"
+                    aria-label="Dismiss banner"
+                >
+                    <i class="text-sm ph-bold ph-x"></i>
+                </button>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}

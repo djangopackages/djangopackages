@@ -451,7 +451,7 @@ class TestProfileOpenGraphDetailView(ProfileViewsTestCase):
             "profile_opengraph", kwargs={"github_account": profile.github_account}
         )
 
-        with self.assertNumQueries(2):
+        with self.assertNumQueries(3):
             response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)

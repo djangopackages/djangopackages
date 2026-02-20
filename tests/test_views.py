@@ -25,7 +25,7 @@ def test_help(db, tp):
 def test_open(db, tp, django_assert_num_queries):
     url = tp.reverse("open")
 
-    with django_assert_num_queries(9):
+    with django_assert_num_queries(10):
         response = tp.client.get(url)
     assert response.status_code == 200
 

@@ -70,6 +70,7 @@ urlpatterns = [
     path("packages/", include("package.urls")),
     path("grids/", include("grid.urls")),
     path("feeds/", include("feeds.urls")),
+    path("banners/", include("banners.urls", namespace="banners")),
     path(
         "categories/<slug:slug>/", PackageByCategoryListView.as_view(), name="category"
     ),
