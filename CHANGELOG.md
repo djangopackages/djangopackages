@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-02-20]
+### Changed
+- Add Banners App ([#1546](https://github.com/djangopackages/djangopackages/pull/1546))
+
 ## [2026-02-18]
 ### Changed
 - Bring Back Grid Features ([#1544](https://github.com/djangopackages/djangopackages/pull/1544))
