@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-02-23]
+### Changed
+- [prek]: auto-update hooks ([#1547](https://github.com/djangopackages/djangopackages/pull/1547))
+
 ## [2026-02-20]
 ### Changed
 - Add Banners App ([#1546](https://github.com/djangopackages/djangopackages/pull/1546))
