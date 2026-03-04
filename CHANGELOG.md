@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-03-03]
+### Changed
+- Swap Digital Ocean affiliate links to Hetzner ([#1551](https://github.com/djangopackages/djangopackages/pull/1551))
+
 ## [2026-03-02]
 ### Changed
 - [prek]: auto-update hooks ([#1549](https://github.com/djangopackages/djangopackages/pull/1549))
