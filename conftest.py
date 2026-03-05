@@ -26,7 +26,7 @@ TEST_SETTINGS = {
     "LOGGING_CONFIG": None,
     "PASSWORD_HASHERS": ["django.contrib.auth.hashers.MD5PasswordHasher"],
     # Note:
-    # By setting the Waffle cache to a LocMemCache isntead of DummyCache,
+    # By setting the Waffle cache to a LocMemCache instead of DummyCache,
     # we can avoid the overhead of hitting the database for each waffle
     # query for FLags, Switches, and Samples, which is increasing the number
     # of queries made in testing mode by at least 5.
