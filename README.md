@@ -44,7 +44,7 @@ If you are running into conflicting port issues, we have an override file which 
 ```shell
 docker compose build
 docker compose up
-````
+```
 
 To run tests, run:
 
