@@ -1,7 +1,7 @@
 {% if messages %}
-    <div id="toast-container" class="flex fixed right-0 left-0 top-24 z-50 flex-col gap-3 px-4 mx-auto w-full max-w-md pointer-events-none md:right-5 md:left-auto md:px-0">
+    <div id="toast-container">
         {% for message in messages %}
-            <div class="pointer-events-auto flex items-start p-4 rounded-lg shadow-lg border border-opacity-20 bg-white
+            <div class="pointer-events-auto flex items-start p-4 rounded-lg shadow-lg border border-opacity-20 bg-white overflow-hidden
                         {% if 'success' in message.tags %}border-green-500{% endif %}
                         {% if 'warning' in message.tags %}border-yellow-500{% endif %}
                         {% if 'error' in message.tags %}border-red-500{% endif %}
@@ -21,8 +21,8 @@
                     {% endif %}
                 </div>
 
-                <div class="flex-1 ml-3">
-                    <p class="text-sm font-medium text-gray-900">
+                <div class="flex-1 ml-3 min-w-0">
+                    <p class="text-sm font-medium text-gray-900 break-words">
                         {{ message }}
                     </p>
                 </div>
