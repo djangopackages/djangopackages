@@ -58,7 +58,7 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
-          paths: [../searchv2]
+          paths: [../searchv3]
           options:
             # More options are located at https://mkdocstrings.github.io/python/usage/configuration/general/
             # General

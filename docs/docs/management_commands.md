@@ -119,10 +119,10 @@ Warning: This can take a long, long time.
 docker compose run django uv run manage.py read_grid_stats
 ```
 
-## searchv2_build
+## build_search_v3
 
-This command rebuilds and recalculates our search database.
+Builds the SearchV3 index for package and grid search results.
 
 ```shell
-docker compose run django uv run manage.py searchv2_build
+docker compose run django uv run manage.py build_search_v3
 ```

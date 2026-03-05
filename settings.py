@@ -98,7 +98,7 @@ if not DEBUG:
 HEALTHCHECK = env.bool("HEALTHCHECK", False)
 PACKAGE_HEALTHCHECK_URL = env.str("PACKAGE_HEALTHCHECK_URL", "")
 PYPI_HEALTHCHECK_URL = env.str("PYPI_HEALTHCHECK_URL", "")
-SEARCHV2_HEALTHCHECK_URL = env.str("SEARCHV2_HEALTHCHECK_URL", "")
+SEARCHV3_HEALTHCHECK_URL = env.str("SEARCHV3_HEALTHCHECK_URL", "")
 
 # Configure Redis
 REDIS_HOST = env("REDIS_HOST", default="redis")
@@ -119,9 +119,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
     "waffle.middleware.WaffleMiddleware",
-    # TODO(searchv3): Remove migration middleware after searchv3 is stable and
-    # searchv2 is fully removed.
-    "searchv3.middleware.SearchVersionMiddleware",
     "django_structlog.middlewares.RequestMiddleware",
     "maintenance_mode.middleware.MaintenanceModeMiddleware",
 ]
@@ -180,10 +177,9 @@ PROJECT_APPS = [
     "package",
     "products",
     "profiles",
-    # TODO(searchv3): Remove searchv2 from installed apps after
-    # searchv3 is stable and searchv2 is fully removed.
-    "searchv2",
     "searchv3",
+    # Keep installed temporarily until searchv2 migrations run successfully.
+    "searchv2",
 ]
 
 PREREQ_APPS = [

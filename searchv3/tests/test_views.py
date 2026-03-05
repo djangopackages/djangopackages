@@ -2,7 +2,6 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
 from model_bakery import baker
-from waffle.testutils import override_flag
 
 from package.tests import initial_data
 from profiles.models import Profile
@@ -10,9 +9,6 @@ from searchv3.builders import build_search_index
 from searchv3.models import ItemType, SearchV3
 
 
-# TODO(searchv3): Remove class-level waffle overrides after searchv3 is the
-# only search implementation and searchv2 is removed.
-@override_flag("use_searchv3", active=True)
 class BuildSearchViewTest(TestCase):
     def setUp(self):
         initial_data.load()
@@ -47,7 +43,6 @@ class BuildSearchViewTest(TestCase):
         self.assertEqual(SearchV3.objects.count(), 6)
 
 
-@override_flag("use_searchv3", active=True)
 class SearchSuggestionsViewTest(TestCase):
     def setUp(self):
         initial_data.load()
@@ -102,7 +97,6 @@ class SearchSuggestionsViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-@override_flag("use_searchv3", active=True)
 class OpenSearchDescriptionTest(TestCase):
     def test_status_code(self):
         url = reverse("opensearch-description")
@@ -123,7 +117,6 @@ class OpenSearchDescriptionTest(TestCase):
         )
 
 
-@override_flag("use_searchv3", active=True)
 class OpenSearchSuggestionsTest(TestCase):
     def test_returns_json(self):
         baker.make(

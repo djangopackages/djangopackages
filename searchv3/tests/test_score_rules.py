@@ -3,11 +3,12 @@ from django.utils import timezone
 from model_bakery import baker
 
 from searchv3.builders import calc_grid_weight
-from searchv2.rules import (
+from searchv3.rules import (
     DeprecatedRule,
     DescriptionRule,
     DownloadsRule,
     ForkRule,
+    RecentReleaseRule,
     WatchersRule,
     calc_package_weight,
 )
@@ -88,3 +89,33 @@ class CalcGridWeightTest(TestCase):
         grid = baker.make("grid.Grid", is_locked=True, header=True)
         grid.packages.add(baker.make("package.Package"))
         self.assertEqual(calc_grid_weight(grid=grid, max_weight=60), 50)
+
+
+class RecentReleaseRuleTest(TestCase):
+    def test_handles_null_upload_time(self):
+        category = baker.make("package.Category")
+        package = baker.make("package.Package", category=category)
+        version = baker.make("package.Version", package=package, upload_time=None)
+        package.latest_version = version
+        package.save(update_fields=["latest_version"])
+
+        result = RecentReleaseRule().check(package=package)
+
+        self.assertEqual(result.score, 0)
+        self.assertEqual(result.message, "No release data found for the package.")
+
+    def test_scores_recent_release(self):
+        category = baker.make("package.Category")
+        package = baker.make("package.Package", category=category)
+        version = baker.make(
+            "package.Version",
+            package=package,
+            upload_time=timezone.now() - timezone.timedelta(days=30),
+        )
+        package.latest_version = version
+        package.save(update_fields=["latest_version"])
+
+        result = RecentReleaseRule().check(package=package)
+
+        self.assertEqual(result.score, RecentReleaseRule().max_score)
+        self.assertEqual(result.message, "Last release is less than a year old.")

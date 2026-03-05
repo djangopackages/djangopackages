@@ -7,7 +7,7 @@ from rich import print
 
 from grid.models import Grid
 from package.models import Package
-from searchv2.rules import (
+from searchv3.rules import (
     DeprecatedRule,
     DescriptionRule,
     DownloadsRule,

@@ -113,9 +113,7 @@ urlpatterns = [
         name="sitemaps",
     ),
     path("maintenance-mode/", include("maintenance_mode.urls")),
-    # TODO(searchv3): Point this directly to searchv3.urls after searchv3 is
-    # stable and searchv2 is removed.
-    path("search/", include("searchv2.urls")),
+    path("search/", include("searchv3.urls")),
     path("favorites/", include("favorites.urls")),
     # apiv3
     path("api/v3/", include("apiv3.urls", namespace="apiv3")),
