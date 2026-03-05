@@ -1,11 +1,11 @@
-<!-- Package Card - Used in listings -->
-<div class="card">
-    <div class="p-4 card-content">
+<!-- Package Card -->
+<div class="overflow-hidden min-w-0 card">
+    <div class="p-4 min-w-0 card-content">
         {% if package.latest_version_number %} {# Layout with version badge on the right #}
-            <div class="flex gap-2 justify-between items-center mb-2 min-w-0">
+            <div class="flex gap-2 justify-between items-start mb-2 min-w-0">
                 <a
                     href="{{ package.get_absolute_url }}"
-                    class="flex-1 pr-2 min-w-0 font-medium cursor-pointer hover:underline text-primary truncate"
+                    class="block overflow-hidden flex-1 pr-2 min-w-0 max-w-full font-medium cursor-pointer hover:underline text-primary truncate"
                 >
                     {{ package.title }}
                 </a>
@@ -14,13 +14,13 @@
         {% else %} {# Layout without version badge (simple) #}
             <a
                 href="{{ package.get_absolute_url }}"
-                class="block mb-2 font-medium cursor-pointer hover:underline text-primary truncate"
+                class="block overflow-hidden mb-2 min-w-0 max-w-full font-medium cursor-pointer hover:underline text-primary truncate"
             >
                 {{ package.title }}
             </a>
         {% endif %}
         {% if package.repo_description %}
-            <p class="text-sm text-muted-foreground line-clamp-2">
+            <p class="text-sm text-muted-foreground line-clamp-2 overflow-wrap-anywhere">
                 {{ package.repo_description }}
             </p>
         {% endif %}

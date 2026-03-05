@@ -143,6 +143,7 @@
     @apply bg-card text-card-foreground rounded-lg border border-border;
     @apply shadow-sm hover:shadow-lg transition-all duration-200;
     @apply cursor-pointer hover:border-primary flex flex-col;
+    @apply min-w-0 overflow-hidden;
   }
 
   .card-header {
@@ -522,9 +523,11 @@
   #site-banner.border-amber-200 a {
     @apply text-amber-800 hover:text-amber-950;
   }
+
   #site-banner.border-amber-200 p mark {
     @apply bg-amber-200 text-amber-900;
   }
+
   #site-banner.border-amber-200 p code {
     @apply bg-amber-100 text-amber-800;
   }
@@ -533,9 +536,11 @@
   #site-banner.border-violet-200 a {
     @apply text-violet-800 hover:text-violet-950;
   }
+
   #site-banner.border-violet-200 p mark {
     @apply bg-violet-200 text-violet-900;
   }
+
   #site-banner.border-violet-200 p code {
     @apply bg-violet-100 text-violet-800;
   }
@@ -544,9 +549,11 @@
   #site-banner.border-sky-200 a {
     @apply text-sky-800 hover:text-sky-950;
   }
+
   #site-banner.border-sky-200 p mark {
     @apply bg-sky-200 text-sky-900;
   }
+
   #site-banner.border-sky-200 p code {
     @apply bg-sky-100 text-sky-800;
   }
@@ -555,9 +562,11 @@
   #site-banner.border-emerald-200 a {
     @apply text-emerald-800 hover:text-emerald-950;
   }
+
   #site-banner.border-emerald-200 p mark {
     @apply bg-emerald-200 text-emerald-900;
   }
+
   #site-banner.border-emerald-200 p code {
     @apply bg-emerald-100 text-emerald-800;
   }
@@ -566,10 +575,19 @@
   #site-banner.border-red-200 a {
     @apply text-red-800 hover:text-red-950;
   }
+
   #site-banner.border-red-200 p mark {
     @apply bg-red-200 text-red-900;
   }
+
   #site-banner.border-red-200 p code {
     @apply bg-red-100 text-red-800;
+  }
+
+  /* Toast Notification Container */
+  #toast-container {
+    @apply fixed top-24 left-0 z-50 flex flex-col gap-3 px-4 pointer-events-none;
+    width: 100vw;
+    max-width: 100vw;
   }
 }
