@@ -1,9 +1,9 @@
 from __future__ import annotations
 
+import logging
 from abc import ABC, abstractmethod
 
 from django.db.models import Count, Exists, OuterRef, QuerySet
-from rich import print
 
 from grid.models import Grid
 from package.models import Package
@@ -20,6 +20,8 @@ from searchv2.rules import (
 )
 
 from searchv3.models import ItemType, SearchV3
+
+logger = logging.getLogger(__name__)
 
 
 class SearchIndexBuilder(ABC):
@@ -61,9 +63,9 @@ class SearchIndexBuilder(ABC):
                 defaults["weight"] = weight
                 payload_by_slug[instance.slug] = defaults
                 if verbose:
-                    print(f"{instance.pk=}::{weight=}")
+                    logger.info(f"Indexed {instance.pk=} with {weight=}")
             except Exception as e:
-                print(f"[red]{e=}[/red]")
+                logger.error(f"Error indexing instance: {e=}")
 
         if not payload_by_slug:
             return 0

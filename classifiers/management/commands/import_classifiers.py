@@ -1,8 +1,11 @@
+import logging
+
 import djclick as click
-from rich import print
 from trove_classifiers import classifiers as trove_classifiers
 
 from classifiers.models import Classifier
+
+logger = logging.getLogger(__name__)
 
 ALLOW_LIST = [
     "Development Status",
@@ -18,10 +21,10 @@ ALLOW_LIST = [
 @click.command()
 def command():
     """Updates our database against PyPI's trove classifiers"""
-    print("[yellow]import_classifiers[/yellow]")
+    logger.info("Importing classifiers")
 
     for trove_classifier in sorted(trove_classifiers):
-        print(f"{trove_classifier=}")
+        logger.debug(f"{trove_classifier=}")
 
         active = any(
             [allow for allow in ALLOW_LIST if trove_classifier.startswith(allow)]

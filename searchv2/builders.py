@@ -1,3 +1,4 @@
+import logging
 from datetime import timedelta
 
 from django.utils import timezone
@@ -6,6 +7,8 @@ from grid.models import Grid
 from package.models import Package
 from searchv2.models import SearchV2
 from searchv2.utils import clean_title, remove_prefix
+
+logger = logging.getLogger(__name__)
 
 
 def build_1(*, verbose: bool = False):
@@ -78,7 +81,7 @@ def index_packages(verbose: bool = False):
         weight = calc_package_weight(package=package)
 
         if verbose:
-            print(f"{package.pk=}::{weight=}")
+            logger.info(f"Indexed package {package.pk=} with {weight=}")
 
         obj, created = SearchV2.objects.update_or_create(
             item_type="package",
@@ -140,7 +143,7 @@ def index_groups(verbose: bool = False):
     max_weight = SearchV2.objects.only("weight").order_by("-weight").first().weight
 
     if verbose:
-        print(f"{max_weight=}")
+        logger.info(f"Max weight: {max_weight=}")
 
     grid_ids = list(Grid.objects.values_list("id", flat=True))
     for pk in grid_ids:
@@ -148,7 +151,7 @@ def index_groups(verbose: bool = False):
         weight = calc_grid_weight(grid=grid, max_weight=max_weight)
 
         if verbose:
-            print(f"{grid.pk=}::{weight=}")
+            logger.info(f"Indexed grid {grid.pk=} with {weight=}")
 
         obj, created = SearchV2.objects.update_or_create(
             item_type="grid",

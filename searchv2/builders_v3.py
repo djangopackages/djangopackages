@@ -1,8 +1,8 @@
 import json
+import logging
 
 from datetime import timedelta
 from django.utils import timezone
-from rich import print
 
 from grid.models import Grid
 from package.models import Package
@@ -18,6 +18,8 @@ from searchv2.rules import UsageCountRule
 from searchv2.rules import WatchersRule
 from searchv2.utils import clean_title
 from searchv2.utils import remove_prefix
+
+logger = logging.getLogger(__name__)
 
 
 def build_1(*, verbose: bool = False):
@@ -82,8 +84,8 @@ def index_packages(*, verbose: bool = False):
             weight = package_score["total_score"]
 
             if verbose:
-                print(f"{package.pk=}::{weight=}")
-                print(json.dumps(package_score, indent=2))
+                logger.info(f"Indexed package {package.pk=} with {weight=}")
+                logger.debug(json.dumps(package_score, indent=2))
 
             obj, created = SearchV2.objects.update_or_create(
                 item_type="package",
@@ -119,7 +121,7 @@ def index_packages(*, verbose: bool = False):
                 obj.save()
 
         except Exception as e:
-            print(f"[red]{e=}[/red]")
+            logger.error(f"Error indexing package: {e=}")
 
 
 def calc_grid_weight(
@@ -151,7 +153,7 @@ def index_groups(verbose: bool = False):
         max_weight = 0
 
     if verbose:
-        print(f"{max_weight=}")
+        logger.info(f"Max weight: {max_weight=}")
 
     grid_ids = list(Grid.objects.values_list("id", flat=True))
     for pk in grid_ids:
@@ -160,7 +162,7 @@ def index_groups(verbose: bool = False):
             weight = calc_grid_weight(grid=grid, max_weight=max_weight)
 
             if verbose:
-                print(f"{grid.pk=}::{weight=}")
+                logger.info(f"Indexed grid {grid.pk=} with {weight=}")
 
             obj, created = SearchV2.objects.update_or_create(
                 item_type="grid",
@@ -176,4 +178,4 @@ def index_groups(verbose: bool = False):
                 },
             )
         except Exception as e:
-            print(f"[red]{e=}[/red]")
+            logger.error(f"Error indexing grid: {e=}")

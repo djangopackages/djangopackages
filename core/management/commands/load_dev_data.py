@@ -1,16 +1,18 @@
+import logging
 from importlib import import_module
-from sys import stdout
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.utils.module_loading import module_has_submodule
+
+logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
     help = "Create sample data for local development"
 
     def handle(self, *args, **options):
-        print("Commencing dev data import", file=stdout)
+        logger.info("Commencing dev data import")
 
         for app in settings.INSTALLED_APPS:
             mod = import_module(app)
