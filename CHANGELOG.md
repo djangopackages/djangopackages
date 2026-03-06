@@ -1,5 +1,12 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-03-05]
+### Changed
+- ⬆️ Bump cryptography from 46.0.3 to 46.0.5 ([#1536](https://github.com/djangopackages/djangopackages/pull/1536))
+- docs: fix typo in conftest.py and markdown code fence in README ([#1553](https://github.com/djangopackages/djangopackages/pull/1553))
+- Improve Package Card and Message Mobile UI ([#1554](https://github.com/djangopackages/djangopackages/pull/1554))
+- ⬆️ Bump django from 5.2.11 to 5.2.12 ([#1552](https://github.com/djangopackages/djangopackages/pull/1552))
+
 ## [2026-03-03]
 ### Changed
 - Swap Digital Ocean affiliate links to Hetzner ([#1551](https://github.com/djangopackages/djangopackages/pull/1551))

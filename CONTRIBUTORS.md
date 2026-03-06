@@ -133,6 +133,13 @@ Listed in alphabetical order.
     <td></td>
   </tr>
   <tr>
+    <td>Divyanshu Mishra</td>
+    <td>
+      <a href="https://github.com/divyanshu-iitian">divyanshu-iitian</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
     <td>Dougal Matthews</td>
     <td>
       <a href="https://github.com/d0ugal">d0ugal</a>
