@@ -48,16 +48,16 @@ from package.models import (
     RepoHost,
     Version,
 )
-from searchv2.rules import calc_package_weight
-from searchv2.rules import DeprecatedRule
-from searchv2.rules import DescriptionRule
-from searchv2.rules import DownloadsRule
-from searchv2.rules import ForkRule
-from searchv2.rules import LastUpdatedRule
-from searchv2.rules import RecentReleaseRule
-from searchv2.rules import ScoreRuleGroup
-from searchv2.rules import UsageCountRule
-from searchv2.rules import WatchersRule
+from searchv3.rules import calc_package_weight
+from searchv3.rules import DeprecatedRule
+from searchv3.rules import DescriptionRule
+from searchv3.rules import DownloadsRule
+from searchv3.rules import ForkRule
+from searchv3.rules import LastUpdatedRule
+from searchv3.rules import RecentReleaseRule
+from searchv3.rules import ScoreRuleGroup
+from searchv3.rules import UsageCountRule
+from searchv3.rules import WatchersRule
 from favorites.models import Favorite
 
 
@@ -412,7 +412,7 @@ class PackageRulesView(DetailView):
             name="Activity Rules",
             description="Rules related to the package's recent activity",
             max_score=40,
-            documentation_url=f"{settings.DOCS_URL}/rules/#searchv2.rules.ScoreRuleGroup",
+            documentation_url=f"{settings.DOCS_URL}/rules/#searchv3.rules.ScoreRuleGroup",
             rules=[LastUpdatedRule(), RecentReleaseRule()],
         )
 

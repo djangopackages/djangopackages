@@ -3,7 +3,6 @@ from rest_framework import serializers
 
 from grid.models import Grid
 from package.models import Category, Package
-from searchv2.models import SearchV2
 from searchv3.models import SearchV3
 
 
@@ -73,25 +72,6 @@ class PackageSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
-# TODO(searchv3): Remove this SearchV2 serializer after searchv3 is stable
-# and searchv2 is fully retired.
-class SearchV2Serializer(serializers.ModelSerializer):
-    description = serializers.SerializerMethodField()
-    title = serializers.SerializerMethodField()
-
-    class Meta:
-        model = SearchV2
-        exclude = [
-            "id",
-        ]
-
-    def get_description(self, obj):
-        return emoji.emojize(obj.description)
-
-    def get_title(self, obj):
-        return emoji.emojize(obj.title)
-
-
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         fields = [
@@ -116,6 +96,7 @@ class SearchV3Serializer(serializers.ModelSerializer):
     title_no_prefix = serializers.SerializerMethodField()
     slug_no_prefix = serializers.SerializerMethodField()
     clean_title = serializers.SerializerMethodField()
+    absolute_url = serializers.CharField(source="get_absolute_url")
 
     class Meta:
         model = SearchV3

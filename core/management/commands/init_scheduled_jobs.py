@@ -20,7 +20,7 @@ class Command(BaseCommand):
         try:
             schedule(
                 "django.core.management.call_command",
-                "searchv3_build",
+                "build_search_v3",
                 name=searchv3_build_tasks_name,
                 schedule_type=Schedule.CRON,
                 cron="12 23 * * *",

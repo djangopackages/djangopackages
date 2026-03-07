@@ -143,27 +143,13 @@ Next, we need to rebuild and recalculate our search database.
 === "Standard"
 
     ```shell
-    docker compose run --rm django uv run manage.py searchv2_build
+    docker compose run --rm django uv run manage.py build_search_v3
     ```
 
 === "Just"
 
     ```shell
-    just run searchv2_build
-    ```
-
-While the search v2 is our current default search algorithm, we have an experimental v3 that we are testing. To rebuild and recalculate our search database using the v3 engine, we run:
-
-=== "Standard"
-
-    ```shell
-    docker compose run --rm django uv run manage.py searchv3_build
-    ```
-
-=== "Just"
-
-    ```shell
-    just run searchv3_build
+    just run build_search_v3
     ```
 
 #### Formatters, Linters, and other miscellanea
