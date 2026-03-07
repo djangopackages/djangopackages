@@ -96,6 +96,7 @@ class SearchV3Serializer(serializers.ModelSerializer):
     title_no_prefix = serializers.SerializerMethodField()
     slug_no_prefix = serializers.SerializerMethodField()
     clean_title = serializers.SerializerMethodField()
+    absolute_url = serializers.CharField(source="get_absolute_url")
 
     class Meta:
         model = SearchV3
