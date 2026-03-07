@@ -116,6 +116,8 @@ class SearchV3Serializer(serializers.ModelSerializer):
     title_no_prefix = serializers.SerializerMethodField()
     slug_no_prefix = serializers.SerializerMethodField()
     clean_title = serializers.SerializerMethodField()
+    # SearchV2 stored absolute_url as a model field; SearchV3 computes it.
+    absolute_url = serializers.SerializerMethodField()
 
     class Meta:
         model = SearchV3
@@ -135,3 +137,6 @@ class SearchV3Serializer(serializers.ModelSerializer):
 
     def get_clean_title(self, obj):
         return obj.title
+
+    def get_absolute_url(self, obj):
+        return str(obj.get_absolute_url())
