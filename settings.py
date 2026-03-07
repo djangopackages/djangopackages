@@ -178,8 +178,6 @@ PROJECT_APPS = [
     "products",
     "profiles",
     "searchv3",
-    # Keep installed temporarily until searchv2 migrations run successfully.
-    "searchv2",
 ]
 
 PREREQ_APPS = [
