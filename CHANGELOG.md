@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-03-07]
+### Changed
+- [Part 1] Migrate from `searchv2` to `searchv3` ([#1555](https://github.com/djangopackages/djangopackages/pull/1555))
+
 ## [2026-03-05]
 ### Changed
 - ⬆️ Bump cryptography from 46.0.3 to 46.0.5 ([#1536](https://github.com/djangopackages/djangopackages/pull/1536))
