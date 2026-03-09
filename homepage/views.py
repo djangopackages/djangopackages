@@ -74,19 +74,12 @@ class OpenView(TemplateView):
         )
         context_data.update(all_package_aggregations)
 
-        category_lookup = dict(
-            Category.objects.values_list("slug", "title")
-        )
-        category_counts = Package.objects.active().aggregate(
+        context_data["categories"] = Package.objects.active().aggregate(
             **{
                 slug: Count("pk", filter=Q(category__slug=slug))
-                for slug in category_lookup
+                for slug in Category.objects.values_list("slug", flat=True)
             }
         )
-        context_data["categories"] = {
-            category_lookup[slug]: count
-            for slug, count in category_counts.items()
-        }
 
         pypi_packages = Package.objects.active().exclude(
             Q(pypi_url="") | Q(pypi_url__isnull=True)
