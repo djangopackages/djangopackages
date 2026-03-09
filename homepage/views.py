@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.core.cache import cache
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Sum
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
@@ -77,8 +77,16 @@ class OpenView(TemplateView):
         context_data["categories"] = Package.objects.active().aggregate(
             **{
                 title: Count("pk", filter=Q(category_id=pk))
-                for pk, title in Category.objects.values_list("pk", "slug")
+                for pk, title in Category.objects.values_list("pk", "title")
             }
+        )
+
+        pypi_packages = Package.objects.active().exclude(
+            Q(pypi_url="") | Q(pypi_url__isnull=True)
+        )
+        context_data["pypi_stats"] = pypi_packages.aggregate(
+            total_pypi_packages=Count("pk"),
+            total_pypi_downloads=Sum("pypi_downloads"),
         )
 
         top_grid_list = (
