@@ -65,6 +65,18 @@
                             <span class="font-medium text-foreground">{{ repos_gitlab|intcomma }}</span>
                         </div>
                     </div>
+
+                    <h2 class="mt-6 mb-4 text-xl font-bold text-foreground">{% translate "PyPI" %}</h2>
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "Packages on PyPI" %}</span>
+                            <span class="font-medium text-foreground">{{ pypi_stats.total_pypi_packages|intcomma }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "Total Downloads" %}</span>
+                            <span class="font-medium text-foreground">{{ pypi_stats.total_pypi_downloads|intcomma }}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -79,7 +91,7 @@
                         </div>
                         {% for key, value in categories.items %}
                             <div class="flex justify-between">
-                                <span class="text-muted-foreground">{{ key }} {% translate "Packages" %}</span>
+                                <span class="text-muted-foreground">{{ key }}</span>
                                 <span class="font-medium text-foreground">{{ value|intcomma }}</span>
                             </div>
                         {% endfor %}
