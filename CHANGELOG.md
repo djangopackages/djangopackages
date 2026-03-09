@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-03-08]
+### Changed
+- [Part 2] Remove `searchv2` Django app ([#1557](https://github.com/djangopackages/djangopackages/pull/1557))
+
 ## [2026-03-07]
 ### Changed
 - [Part 1] Migrate from `searchv2` to `searchv3` ([#1555](https://github.com/djangopackages/djangopackages/pull/1555))
