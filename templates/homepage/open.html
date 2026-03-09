@@ -91,7 +91,7 @@
                         </div>
                         {% for key, value in categories.items %}
                             <div class="flex justify-between">
-                                <span class="text-muted-foreground">{{ key }}</span>
+                                <span class="text-muted-foreground">{{ key|title }}</span>
                                 <span class="font-medium text-foreground">{{ value|intcomma }}</span>
                             </div>
                         {% endfor %}

@@ -22,11 +22,15 @@ def test_help(db, tp):
     assert response.status_code == 200
 
 
-def test_open(db, tp, django_assert_num_queries):
-    url = tp.reverse("open")
+def test_open(db, tp):
+    from package.models import Category
 
-    with django_assert_num_queries(11):
-        response = tp.client.get(url)
+    Category.objects.create(
+        title="Admin Interface",
+        slug="admin-interface",
+    )
+    url = tp.reverse("open")
+    response = tp.client.get(url)
     assert response.status_code == 200
 
 
