@@ -80,6 +80,11 @@ urlpatterns = [
     # static pages
     path("about/", TemplateView.as_view(template_name="faq.html"), name="about"),
     path("terms/", TemplateView.as_view(template_name="terms.html"), name="terms"),
+    path(
+        "acceptable-use/",
+        TemplateView.as_view(template_name="acceptable_use.html"),
+        name="acceptable_use",
+    ),
     path("faq/", TemplateView.as_view(template_name="faq.html"), name="faq"),
     path("stack/", TemplateView.as_view(template_name="stack.html"), name="stack"),
     path("open/", OpenView.as_view(), name="open"),

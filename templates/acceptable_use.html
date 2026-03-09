@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load i18n page_metadata_tags %}
+
+{% block metadata %}
+    {% translate "Acceptable Use Policy" as trans_title %}
+    {% page_metadata page_title=trans_title %}
+{% endblock metadata %}
+
+{% block content %}
+    <!-- Breadcrumb Section -->
+    <section class="py-4 bg-primary/10">
+        <div class="container px-4 mx-auto">
+            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
+                <div class="flex items-center text-sm text-muted-foreground">
+                    <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
+                    <span class="mx-2">&raquo;</span>
+                    <span class="font-medium text-foreground truncate">{% translate "Acceptable Use Policy" %}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container py-8 px-4 mx-auto">
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-foreground">{% translate "Acceptable Use Policy" %}</h1>
+        </div>
+
+        <div class="max-w-4xl space-y-8">
+            <!-- Short Version -->
+            <div class="card">
+                <div class="p-6 md:p-8 card-content">
+                    <p class="text-muted-foreground">
+                        {% blocktranslate %}
+                            {{ SITE_TITLE }} is a resource for the Django community. We ask that all users be respectful community members. This Acceptable Use Policy outlines what we consider prohibited content and conduct on our platform.
+                        {% endblocktranslate %}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Data and Scraping -->
+            <div class="card">
+                <div class="p-6 md:p-8 card-content">
+                    <h2 class="mb-6 text-2xl font-bold text-foreground">{% translate "Data Collection and Scraping" %}</h2>
+                    <ul class="pl-5 space-y-4 list-disc text-muted-foreground">
+                        <li>
+                            <p>{% blocktranslate %}You may not use information from {{ SITE_TITLE }} (whether scraped, collected through our API, or obtained otherwise) for spamming purposes, including for the purposes of sending unsolicited emails to users or selling personal information, such as to recruiters, headhunters, and job boards.{% endblocktranslate %}</p>
+                        </li>
+                        <li>
+                            <p>{% translate "You may not overload our servers through excessive automated requests. Please be considerate with API usage and use reasonable rate limiting." %}</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Prohibited Content -->
+            <div class="card">
+                <div class="p-6 md:p-8 card-content">
+                    <h2 class="mb-6 text-2xl font-bold text-foreground">{% translate "Prohibited Content" %}</h2>
+                    <ul class="pl-5 space-y-4 list-disc text-muted-foreground">
+                        <li>
+                            <p>{% translate "Content that is unlawful or promotes unlawful activities." %}</p>
+                        </li>
+                        <li>
+                            <p>{% translate "Content that is sexually obscene or exploitative." %}</p>
+                        </li>
+                        <li>
+                            <p>{% translate "Content that is libelous, defamatory, or fraudulent." %}</p>
+                        </li>
+                        <li>
+                            <p>{% translate "Content that infringes any proprietary right of any party, including patents, trademarks, trade secrets, copyrights, or other intellectual property." %}</p>
+                        </li>
+                        <li>
+                            <p>{% translate "Spam, including package or grid submissions intended to promote unrelated products or services." %}</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Prohibited Conduct -->
+            <div class="card">
+                <div class="p-6 md:p-8 card-content">
+                    <h2 class="mb-6 text-2xl font-bold text-foreground">{% translate "Prohibited Conduct" %}</h2>
+                    <ul class="pl-5 space-y-4 list-disc text-muted-foreground">
+                        <li>
+                            <p>{% translate "Harassment, bullying, or abuse of any kind directed at any individual or group." %}</p>
+                        </li>
+                        <li>
+                            <p>{% translate "Impersonation of another person or entity, or misrepresentation of your affiliation with a person or entity." %}</p>
+                        </li>
+                        <li>
+                            <p>{% translate "Creating fake accounts or coordinated inauthentic activity." %}</p>
+                        </li>
+                        <li>
+                            <p>{% translate "Phishing or attempting to collect sensitive information from other users." %}</p>
+                        </li>
+                        <li>
+                            <p>{% translate "Disrupting other users' experiences on the platform, including vandalizing grids, packages, or other shared content." %}</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Enforcement -->
+            <div class="card">
+                <div class="p-6 md:p-8 card-content">
+                    <h2 class="mb-6 text-2xl font-bold text-foreground">{% translate "Enforcement" %}</h2>
+                    <p class="text-muted-foreground">
+                        {% blocktranslate %}{{ SITE_TITLE }} retains full discretion to take action in response to a violation of these policies, including account suspension, account termination, or removal of content.{% endblocktranslate %}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Attribution -->
+            <div class="card">
+                <div class="p-6 md:p-8 card-content">
+                    <p class="text-sm text-muted-foreground">
+                        {% translate "This policy is adapted from PyPI's Acceptable Use Policy, which itself adapts GitHub's Acceptable Use Policies, and is licensed under the Creative Commons Attribution 4.0 International license." %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
