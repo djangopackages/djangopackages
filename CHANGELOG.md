@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-03-09]
+### Changed
+- [prek]: auto-update hooks ([#1560](https://github.com/djangopackages/djangopackages/pull/1560))
+- Add Acceptable Use Policy page ([#1558](https://github.com/djangopackages/djangopackages/pull/1558))
+- Improve /open/ page with title-cased categories and PyPI stats ([#1559](https://github.com/djangopackages/djangopackages/pull/1559))
+
 ## [2026-03-08]
 ### Changed
 - [Part 2] Remove `searchv2` Django app ([#1557](https://github.com/djangopackages/djangopackages/pull/1557))
