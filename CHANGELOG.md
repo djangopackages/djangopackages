@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-03-16]
+### Changed
+- [prek]: auto-update hooks ([#1565](https://github.com/djangopackages/djangopackages/pull/1565))
+
 ## [2026-03-12]
 ### Changed
 - Fix displayed package count in grid detail page ([#1562](https://github.com/djangopackages/djangopackages/pull/1562))
