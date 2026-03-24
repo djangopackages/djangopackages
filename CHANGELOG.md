@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-03-23]
+### Changed
+- [prek]: auto-update hooks ([#1567](https://github.com/djangopackages/djangopackages/pull/1567))
+
 ## [2026-03-21]
 ### Changed
 - ⬆️ Bump pyjwt from 2.10.1 to 2.12.0 ([#1564](https://github.com/djangopackages/djangopackages/pull/1564))
