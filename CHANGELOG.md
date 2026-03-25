@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-03-24]
+### Changed
+- Reduce Sentry tracing sample rates to stay within span budget ([#1568](https://github.com/djangopackages/djangopackages/pull/1568))
+
 ## [2026-03-23]
 ### Changed
 - [prek]: auto-update hooks ([#1567](https://github.com/djangopackages/djangopackages/pull/1567))
