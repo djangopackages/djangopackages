@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n page_metadata_tags %}
+{% load i18n page_metadata_tags static %}
 
 {% block metadata %}
     {% translate "Tools and Services" as trans_title %}
@@ -60,6 +60,24 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sponsors -->
+            <div class="card">
+                <div class="p-6 card-content">
+                    <h2 class="mb-4 text-2xl font-bold text-foreground">{% translate "Sponsors" %}</h2>
+                    <p class="mb-6 text-muted-foreground">{% translate "We are grateful to the following sponsors for supporting Django Packages." %}</p>
+
+                    <div class="flex flex-wrap gap-8 items-center">
+                        <a href="https://sentry.io" class="transition-opacity hover:opacity-80" target="_blank" rel="noopener noreferrer">
+                            <picture>
+                                <source srcset="{% static 'sentry-wordmark-light-400x119.svg' %}" media="(prefers-color-scheme: dark)">
+                                <img src="{% static 'sentry-wordmark-dark-400x119.svg' %}" alt="Sentry" class="h-10">
+                            </picture>
+                            <span class="block mt-1 text-xs text-muted-foreground">{% translate "Application monitoring sponsored by Sentry" %}</span>
+                        </a>
                     </div>
                 </div>
             </div>
