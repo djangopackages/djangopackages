@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-03-25]
+### Changed
+- Add Sentry sponsor logo to Tools and Services page ([#1569](https://github.com/djangopackages/djangopackages/pull/1569))
+
 ## [2026-03-24]
 ### Changed
 - Reduce Sentry tracing sample rates to stay within span budget ([#1568](https://github.com/djangopackages/djangopackages/pull/1568))
