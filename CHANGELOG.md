@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-03-26]
+### Changed
+- ⬆️ Bump requests from 2.32.5 to 2.33.0 ([#1570](https://github.com/djangopackages/djangopackages/pull/1570))
+
 ## [2026-03-25]
 ### Changed
 - Add Sentry sponsor logo to Tools and Services page ([#1569](https://github.com/djangopackages/djangopackages/pull/1569))
