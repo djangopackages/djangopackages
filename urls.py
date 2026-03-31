@@ -5,6 +5,7 @@ from django.contrib.sitemaps import views as sitemap_views
 from django.urls import include, path, re_path
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import RedirectView, TemplateView
+from health_check.views import HealthCheckView
 
 from blog.sitemaps import BlogSitemap
 from core import __version__
@@ -59,7 +60,16 @@ urlpatterns = [
         RedirectView.as_view(url="/static/img/favicon.png", permanent=True),
         name="favicon",
     ),
-    path("health/", include("health_check.urls")),
+    path(
+        "health/",
+        HealthCheckView.as_view(
+            checks=[
+                "health_check.Cache",
+                "health_check.Database",
+                "health_check.contrib.redis.Redis",
+            ]
+        ),
+    ),
     path("404", error_404_view, name="404"),
     path("403", error_403_view, name="403"),
     path("500", error_500_view, name="500"),

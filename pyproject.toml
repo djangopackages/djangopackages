@@ -92,7 +92,7 @@ dependencies = [
     "django-tailwind-cli>=4.4.2",
     "django-waffle",
     "Django>5.0",
-    "djangorestframework<3.16",
+    "djangorestframework<3.18",
     "emoji",
     "feedparser",
     # github3.py
@@ -116,7 +116,7 @@ dependencies = [
     "requests-mock",
     "rich",
     "sentry-sdk",
-    "social-auth-app-django==5.4.3",
+    "social-auth-app-django==5.7.0",
     "social-auth-core",
     "sqlite-utils",
     "structlog",

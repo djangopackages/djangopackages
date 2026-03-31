@@ -26,7 +26,6 @@ TEST_MODE = "pytest" in sys.modules or "test" in sys.argv
 # e.g., CACHE_URL=redis://redis:6379/0
 CACHES = {"default": env.cache_url("CACHE_URL", default="locmemcache://")}
 
-# Set REDIS_URL for health_check.contrib.redis
 REDIS_URL = env("CACHE_URL", default=None)
 
 
@@ -206,16 +205,9 @@ PREREQ_APPS = [
     "anymail",
     # health checks
     "health_check",
-    "health_check.db",
-    "health_check.cache",
-    # "health_check.storage",
 ]
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
-
-# Add Redis health check only when Redis is configured
-if REDIS_URL:
-    INSTALLED_APPS += ["health_check.contrib.redis"]
 
 ANYMAIL = {
     "MAILGUN_API_KEY": env.str("MAILGUN_API_KEY", "mail-gun-api-key"),
@@ -501,7 +493,6 @@ MAINTENANCE_MODE_STATE_BACKEND = "maintenance_mode.backends.DefaultStorageBacken
 
 # if True admin site will not be affected by the maintenance-mode page
 MAINTENANCE_MODE_IGNORE_ADMIN_SITE = True
-FORM_RENDERER = "django.forms.renderers.DjangoDivFormRenderer"
 
 # django-q2 settings
 # https://django-q2.readthedocs.io/en/stable/configure.html
