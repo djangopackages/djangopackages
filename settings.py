@@ -493,7 +493,6 @@ MAINTENANCE_MODE_STATE_BACKEND = "maintenance_mode.backends.DefaultStorageBacken
 
 # if True admin site will not be affected by the maintenance-mode page
 MAINTENANCE_MODE_IGNORE_ADMIN_SITE = True
-FORM_RENDERER = "django.forms.renderers.DjangoDivFormRenderer"
 
 # django-q2 settings
 # https://django-q2.readthedocs.io/en/stable/configure.html
