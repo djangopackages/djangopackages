@@ -5,6 +5,11 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 7
+      exclude:
+        - "certifi"
+        - "django"
     groups:
       all-dependencies:
         patterns:
