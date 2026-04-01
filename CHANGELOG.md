@@ -1,5 +1,12 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-03-31]
+### Changed
+- ⬆️ Bump the all-dependencies group with 40 updates ([#1581](https://github.com/djangopackages/djangopackages/pull/1581))
+- Fix RTD build: upgrade mkdocs-material and pymdown-extensions ([#1580](https://github.com/djangopackages/djangopackages/pull/1580))
+- ⬆️ Bump pygments from 2.19.2 to 2.20.0 ([#1573](https://github.com/djangopackages/djangopackages/pull/1573))
+- ⬆️ Bump cryptography from 46.0.5 to 46.0.6 ([#1571](https://github.com/djangopackages/djangopackages/pull/1571))
+
 ## [2026-03-30]
 ### Changed
 - [prek]: auto-update hooks ([#1572](https://github.com/djangopackages/djangopackages/pull/1572))
