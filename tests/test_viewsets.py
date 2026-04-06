@@ -1,29 +1,73 @@
 import pytest
 from django.urls import reverse
+from model_bakery import baker
 from rest_framework import status
+
+from grid.models import GridPackage
+from package.models import Package, Version
 
 # PackageViewSet Tests
 
 
 @pytest.mark.django_db
-def test_package_list_get(client, package):
+def test_package_list_get(client, category, django_assert_num_queries):
+    packages = [
+        baker.make(
+            Package,
+            category=category,
+            repo_url=f"https://github.com/django/test-pkg-{i}",
+        )
+        for i in range(5)
+    ]
+    for pkg in packages:
+        pkg.latest_version = baker.make(Version, package=pkg)
+        pkg.save(update_fields=["latest_version"])
+        baker.make(GridPackage, package=pkg, _quantity=3)
+
     url = reverse("apiv4:package-list")
-    response = client.get(url)
-    assert len(response.data["results"]) == 1
+
+    with django_assert_num_queries(4):
+        response = client.get(url)
+
+    assert response.status_code == status.HTTP_200_OK
+    assert len(response.data["results"]) == 5
+
+
+@pytest.mark.django_db
+def test_package_retrieve_pk_get(client, category, django_assert_num_queries):
+    pkg = baker.make(
+        Package,
+        category=category,
+        repo_url="https://github.com/django/test-detail-pkg",
+    )
+    pkg.latest_version = baker.make(Version, package=pkg)
+    pkg.save(update_fields=["latest_version"])
+    baker.make(GridPackage, package=pkg, _quantity=5)
+
+    url = reverse("apiv4:package-detail", kwargs={"pk_or_slug": pkg.pk})
+
+    with django_assert_num_queries(3):
+        response = client.get(url)
+
     assert response.status_code == status.HTTP_200_OK
 
 
 @pytest.mark.django_db
-def test_package_retrieve_pk_get(client, package):
-    url = reverse("apiv4:package-detail", kwargs={"pk_or_slug": package.pk})
-    response = client.get(url)
-    assert response.status_code == status.HTTP_200_OK
+def test_package_retrieve_slug_get(client, category, django_assert_num_queries):
+    pkg = baker.make(
+        Package,
+        category=category,
+        repo_url="https://github.com/django/test-slug-pkg",
+    )
+    pkg.latest_version = baker.make(Version, package=pkg)
+    pkg.save(update_fields=["latest_version"])
+    baker.make(GridPackage, package=pkg, _quantity=5)
 
+    url = reverse("apiv4:package-detail", kwargs={"pk_or_slug": pkg.slug})
 
-@pytest.mark.django_db
-def test_package_retrieve_slug_get(client, package):
-    url = reverse("apiv4:package-detail", kwargs={"pk_or_slug": package.slug})
-    response = client.get(url)
+    with django_assert_num_queries(3):
+        response = client.get(url)
+
     assert response.status_code == status.HTTP_200_OK
 
 
