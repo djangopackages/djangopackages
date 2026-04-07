@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-04-06]
+### Changed
+- Remove N+1 Query From `PackageViewSet` ([#1582](https://github.com/djangopackages/djangopackages/pull/1582))
+- [prek]: auto-update hooks ([#1583](https://github.com/djangopackages/djangopackages/pull/1583))
+
 ## [2026-03-31]
 ### Changed
 - ⬆️ Bump the all-dependencies group with 40 updates ([#1581](https://github.com/djangopackages/djangopackages/pull/1581))
