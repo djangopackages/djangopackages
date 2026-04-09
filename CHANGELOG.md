@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-04-08]
+### Changed
+- ⬆️ Bump the all-dependencies group with 2 updates ([#1584](https://github.com/djangopackages/djangopackages/pull/1584))
+
 ## [2026-04-06]
 ### Changed
 - Remove N+1 Query From `PackageViewSet` ([#1582](https://github.com/djangopackages/djangopackages/pull/1582))
