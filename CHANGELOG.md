@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-04-09]
+### Changed
+- ⬆️ Bump cryptography from 46.0.6 to 46.0.7 ([#1585](https://github.com/djangopackages/djangopackages/pull/1585))
+
 ## [2026-04-08]
 ### Changed
 - ⬆️ Bump the all-dependencies group with 2 updates ([#1584](https://github.com/djangopackages/djangopackages/pull/1584))
