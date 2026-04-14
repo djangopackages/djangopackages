@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-04-13]
+### Changed
+- [prek]: auto-update hooks ([#1586](https://github.com/djangopackages/djangopackages/pull/1586))
+
 ## [2026-04-09]
 ### Changed
 - ⬆️ Bump cryptography from 46.0.6 to 46.0.7 ([#1585](https://github.com/djangopackages/djangopackages/pull/1585))
