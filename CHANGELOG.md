@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-04-14]
+### Changed
+- ⬆️ Bump pytest from 9.0.2 to 9.0.3 ([#1587](https://github.com/djangopackages/djangopackages/pull/1587))
+
 ## [2026-04-13]
 ### Changed
 - [prek]: auto-update hooks ([#1586](https://github.com/djangopackages/djangopackages/pull/1586))
