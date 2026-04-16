@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-04-15]
+### Changed
+- ⬆️ Bump the all-dependencies group with 2 updates ([#1588](https://github.com/djangopackages/djangopackages/pull/1588))
+
 ## [2026-04-14]
 ### Changed
 - ⬆️ Bump pytest from 9.0.2 to 9.0.3 ([#1587](https://github.com/djangopackages/djangopackages/pull/1587))
