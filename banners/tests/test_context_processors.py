@@ -11,7 +11,7 @@ from banners.models import Banner
 
 @pytest.mark.django_db
 class TestBannerContextProcessor:
-    def test_active_banner_in_context(self):
+    def test_active_banners_in_context(self):
         banner = baker.make(
             Banner,
             title="Active Banner",
@@ -20,12 +20,30 @@ class TestBannerContextProcessor:
         )
         request = RequestFactory().get("/")
         context = active_banner(request)
-        assert context["active_banner"] == banner
+        assert banner in context["active_banners"]
 
-    def test_no_active_banner_in_context(self):
+    def test_multiple_active_banners_in_context(self):
+        banner1 = baker.make(
+            Banner,
+            title="Banner 1",
+            start_date=timezone.now() - datetime.timedelta(hours=2),
+            end_date=None,
+        )
+        banner2 = baker.make(
+            Banner,
+            title="Banner 2",
+            start_date=timezone.now() - datetime.timedelta(hours=1),
+            end_date=None,
+        )
         request = RequestFactory().get("/")
         context = active_banner(request)
-        assert context["active_banner"] is None
+        assert banner1 in context["active_banners"]
+        assert banner2 in context["active_banners"]
+
+    def test_no_active_banners_in_context(self):
+        request = RequestFactory().get("/")
+        context = active_banner(request)
+        assert context["active_banners"] == []
 
     def test_expired_banner_not_in_context(self):
         now = timezone.now()
@@ -37,7 +55,7 @@ class TestBannerContextProcessor:
         )
         request = RequestFactory().get("/")
         context = active_banner(request)
-        assert context["active_banner"] is None
+        assert context["active_banners"] == []
 
     def test_dismissed_banner_excluded_from_context(self):
         """A banner dismissed in the session should not appear in context."""
@@ -50,4 +68,24 @@ class TestBannerContextProcessor:
         request = RequestFactory().get("/")
         request.session = {f"dismissed_banner_{banner.pk}": True}
         context = active_banner(request)
-        assert context["active_banner"] is None
+        assert banner not in context["active_banners"]
+
+    def test_only_dismissed_banner_excluded_when_multiple_active(self):
+        """Only the dismissed banner is filtered out; others still show."""
+        kept = baker.make(
+            Banner,
+            title="Kept Banner",
+            start_date=timezone.now() - datetime.timedelta(hours=2),
+            end_date=None,
+        )
+        dismissed = baker.make(
+            Banner,
+            title="Dismissed Banner",
+            start_date=timezone.now() - datetime.timedelta(hours=1),
+            end_date=None,
+        )
+        request = RequestFactory().get("/")
+        request.session = {f"dismissed_banner_{dismissed.pk}": True}
+        context = active_banner(request)
+        assert kept in context["active_banners"]
+        assert dismissed not in context["active_banners"]
