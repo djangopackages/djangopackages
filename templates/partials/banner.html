@@ -8,7 +8,7 @@
         <div class="container flex gap-3 items-center py-3 px-4 mx-auto">
             <div class="flex-1 min-w-0">
                 <p
-                    class="text-sm font-medium text-foreground/90 leading-loose {% if banner.alignment == 'center' %} text-center {% elif banner.alignment == 'right' %} text-right {% endif %}"
+                    class="text-sm font-medium text-foreground/90 leading-loose [&_a]:underline [&_a]:underline-offset-2 [&_a]:hover:opacity-75 {% if banner.alignment == 'center' %} text-center {% elif banner.alignment == 'right' %} text-right {% endif %}"
                 >
                     {% if banner.banner_type == 'sponsored' %}
                         <span
