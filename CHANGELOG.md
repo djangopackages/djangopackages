@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-04-22]
+### Changed
+- Support multiple simultaneous site banners ([#1591](https://github.com/djangopackages/djangopackages/pull/1591))
+
 ## [2026-04-20]
 ### Changed
 - [prek]: auto-update hooks ([#1589](https://github.com/djangopackages/djangopackages/pull/1589))
