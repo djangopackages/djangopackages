@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-04-23]
+### Changed
+- ⬆️ Bump the all-dependencies group with 8 updates ([#1590](https://github.com/djangopackages/djangopackages/pull/1590))
+
 ## [2026-04-22]
 ### Changed
 - Support multiple simultaneous site banners ([#1591](https://github.com/djangopackages/djangopackages/pull/1591))
