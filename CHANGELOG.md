@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-04-24]
+### Changed
+- Fix RTD build: switch to uv run via build.commands ([#1594](https://github.com/djangopackages/djangopackages/pull/1594))
+- :arrow_up: Bump j178/prek-action from v1.0.6 to v2 ([#1593](https://github.com/djangopackages/djangopackages/pull/1593))
+- Replace manual `uv` bootstrap with Read the Docs native `uv` support ([#1592](https://github.com/djangopackages/djangopackages/pull/1592))
+
 ## [2026-04-23]
 ### Changed
 - ⬆️ Bump the all-dependencies group with 8 updates ([#1590](https://github.com/djangopackages/djangopackages/pull/1590))
