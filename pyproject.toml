@@ -116,7 +116,7 @@ dependencies = [
     "requests-mock",
     "rich",
     "sentry-sdk",
-    "social-auth-app-django==5.7.0",
+    "social-auth-app-django==5.8.0",
     "social-auth-core",
     "sqlite-utils",
     "structlog",
