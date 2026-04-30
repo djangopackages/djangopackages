@@ -7,20 +7,17 @@ version: 2
 
 formats: all
 
-# Set the version of Python and other tools you might need
-build:
-  os: ubuntu-24.04
-  tools:
-    python: "3.14"
-
 mkdocs:
   configuration: docs/mkdocs.yml
 
-# Optionally declare the Python requirements required to build your docs
+build:
+  os: ubuntu-24.04
+  tools:
+    python: "3.12"
+
 python:
   install:
-    - requirements: docs/requirements.txt
-    # - method: uv
-    #   command: sync
-    #   groups:
-    #     - docs
+    - method: uv
+      command: sync
+      groups:
+        - docs
