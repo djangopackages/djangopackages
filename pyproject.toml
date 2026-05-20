@@ -89,7 +89,7 @@ dependencies = [
     "django-reversion",
     "django-secure",
     "django-structlog",
-    "django-tailwind-cli>=4.6.0",
+    "django-tailwind-cli>=4.6.1",
     "django-waffle",
     "Django>5.0",
     "djangorestframework<3.18",
@@ -116,7 +116,7 @@ dependencies = [
     "requests-mock",
     "rich",
     "sentry-sdk",
-    "social-auth-app-django==5.8.0",
+    "social-auth-app-django==5.9.0",
     "social-auth-core",
     "sqlite-utils",
     "structlog",
@@ -126,7 +126,7 @@ dependencies = [
     "whitenoise",
     # Redis support
     "redis",
-    "blessed>=1.25.0",
+    "blessed>=1.39.0",
 ]
 
 [dependency-groups]
