@@ -1,5 +1,12 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-05-21]
+### Changed
+- ⬆️ Bump pip from 26.0.1 to 26.1 ([#1601](https://github.com/djangopackages/djangopackages/pull/1601))
+- ⬆️ Bump urllib3 from 2.5.0 to 2.7.0 ([#1602](https://github.com/djangopackages/djangopackages/pull/1602))
+- ⬆️ Bump pymdown-extensions from 10.21.2 to 10.21.3 ([#1605](https://github.com/djangopackages/djangopackages/pull/1605))
+- ⬆️ Bump idna from 3.11 to 3.15 ([#1606](https://github.com/djangopackages/djangopackages/pull/1606))
+
 ## [2026-05-18]
 ### Changed
 - [prek]: auto-update hooks ([#1604](https://github.com/djangopackages/djangopackages/pull/1604))
