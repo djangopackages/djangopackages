@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-06-22]
+### Changed
+- [prek]: auto-update hooks ([#1619](https://github.com/djangopackages/djangopackages/pull/1619))
+
 ## [2026-06-15]
 ### Changed
 - [prek]: auto-update hooks ([#1614](https://github.com/djangopackages/djangopackages/pull/1614))
