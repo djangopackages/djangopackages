@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-06-27]
+### Changed
+- ⬆️ Bump the all-dependencies group across 1 directory with 18 updates ([#1621](https://github.com/djangopackages/djangopackages/pull/1621))
+- ⬆️ Bump cryptography from 46.0.7 to 48.0.1 ([#1617](https://github.com/djangopackages/djangopackages/pull/1617))
+- ⬆️ Bump pyjwt from 2.12.1 to 2.13.0 ([#1616](https://github.com/djangopackages/djangopackages/pull/1616))
+
 ## [2026-06-22]
 ### Changed
 - [prek]: auto-update hooks ([#1619](https://github.com/djangopackages/djangopackages/pull/1619))
