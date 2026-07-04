@@ -1,5 +1,9 @@
+import threading
+from concurrent.futures import ThreadPoolExecutor
+
 import pytest
 from unittest.mock import Mock, patch
+from django.db import connection
 from requests.exceptions import HTTPError
 
 from package.models import Package, Version, Category
@@ -209,14 +213,46 @@ class TestUpdatePackageFromPyPI:
             assert updated_pkg.latest_version_number == "1.0.0"
             assert Version.objects.filter(package=package, number="1.0.0").exists()
 
-    def test_update_reuses_existing_version(self, package, pypi_data):
+    @pytest.mark.django_db(transaction=True)
+    def test_concurrent_updates_create_single_version(self, package, pypi_data):
+        """
+        Two workers updating the same package at once must not duplicate
+        the Version row.
+        """
+        barrier = threading.Barrier(2)
+        original_save = Version.save
+
+        def save_with_barrier(version, *args, **kwargs):
+            if version._state.adding:
+                barrier.wait(timeout=5)
+            return original_save(version, *args, **kwargs)
+
+        def update_package(package_id):
+            try:
+                worker_package = Package.objects.get(id=package_id)
+                return update_package_from_pypi(worker_package)
+            finally:
+                connection.close()
+
         with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
             mock_fetch.return_value = PyPIPackage(pypi_data)
 
-            update_package_from_pypi(package)
-            update_package_from_pypi(package)
+            with patch.object(Version, "save", save_with_barrier):
+                with ThreadPoolExecutor(max_workers=2) as executor:
+                    futures = [
+                        executor.submit(update_package, package.id) for _ in range(2)
+                    ]
+                    for future in futures:
+                        future.result(timeout=10)
 
-            assert Version.objects.filter(package=package, number="1.0.0").count() == 1
+        versions = list(Version.objects.filter(package=package, number="1.0.0"))
+        assert len(versions) == 1
+
+        version = versions[0]
+        package.refresh_from_db()
+
+        assert package.latest_version_id == version.id
+        assert package.supports_python3 is True
 
     def test_update_404_clears_url(self, package):
         with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
