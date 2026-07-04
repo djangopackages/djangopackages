@@ -209,6 +209,15 @@ class TestUpdatePackageFromPyPI:
             assert updated_pkg.latest_version_number == "1.0.0"
             assert Version.objects.filter(package=package, number="1.0.0").exists()
 
+    def test_update_reuses_existing_version(self, package, pypi_data):
+        with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
+            mock_fetch.return_value = PyPIPackage(pypi_data)
+
+            update_package_from_pypi(package)
+            update_package_from_pypi(package)
+
+            assert Version.objects.filter(package=package, number="1.0.0").count() == 1
+
     def test_update_404_clears_url(self, package):
         with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
             mock_response = Mock()

@@ -396,6 +396,11 @@ class Version(BaseModel):
     class Meta:
         get_latest_by = "upload_time"
         ordering = ["-upload_time"]
+        constraints = [
+            UniqueConstraint(
+                fields=["package", "number"], name="unique_version_package_number"
+            )
+        ]
 
     @property
     def pretty_license(self):

@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from package.scores import update_package_score
 import pytest
 from model_bakery import baker
@@ -108,6 +109,32 @@ def test_package_example(package_example):
 
     # check that pacages are not active by default
     assert package_example.active is None
+
+
+def test_version_number_unique_per_package(package):
+    baker.make("package.Version", package=package, number="1.0.0")
+
+    with pytest.raises(IntegrityError):
+        baker.make("package.Version", package=package, number="1.0.0")
+
+
+def test_version_number_can_repeat_across_packages(category):
+    first_package = baker.make(
+        "package.Package",
+        category=category,
+        repo_url="https://github.com/django/first-package",
+    )
+    second_package = baker.make(
+        "package.Package",
+        category=category,
+        repo_url="https://github.com/django/second-package",
+    )
+
+    baker.make("package.Version", package=first_package, number="1.0.0")
+    baker.make("package.Version", package=second_package, number="1.0.0")
+
+    assert first_package.version_set.count() == 1
+    assert second_package.version_set.count() == 1
 
 
 def test_package_pypi_ancient_none_when_upload_time_missing(category):
