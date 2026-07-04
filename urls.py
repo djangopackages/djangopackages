@@ -6,6 +6,7 @@ from django.urls import include, path, re_path
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import RedirectView, TemplateView
 from health_check.views import HealthCheckView
+from redis.asyncio import Redis as RedisClient
 
 from blog.sitemaps import BlogSitemap
 from core import __version__
@@ -45,6 +46,19 @@ handler500 = "homepage.views.error_500_view"
 handler403 = "homepage.views.error_403_view"
 handler503 = "homepage.views.error_503_view"
 
+health_checks = [
+    "health_check.Cache",
+    "health_check.Database",
+]
+
+if settings.REDIS_URL:
+    health_checks.append(
+        (
+            "health_check.contrib.redis.Redis",
+            {"client_factory": lambda: RedisClient.from_url(settings.REDIS_URL)},
+        )
+    )
+
 urlpatterns = [
     # url(r'^login/\{\{item\.absolute_url\}\}/', RedirectView.as_view(url="/login/github/")),
     path("auth/", include("social_django.urls", namespace="social")),
@@ -62,13 +76,7 @@ urlpatterns = [
     ),
     path(
         "health/",
-        HealthCheckView.as_view(
-            checks=[
-                "health_check.Cache",
-                "health_check.Database",
-                "health_check.contrib.redis.Redis",
-            ]
-        ),
+        HealthCheckView.as_view(checks=health_checks),
     ),
     path("404", error_404_view, name="404"),
     path("403", error_403_view, name="403"),
