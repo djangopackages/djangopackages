@@ -1,33 +1,27 @@
 {% if messages %}
     <div id="toast-container">
         {% for message in messages %}
-            <div class="pointer-events-auto flex items-start p-4 rounded-lg shadow-lg border border-opacity-20 bg-white overflow-hidden
-                        {% if 'success' in message.tags %}border-green-500{% endif %}
-                        {% if 'warning' in message.tags %}border-yellow-500{% endif %}
-                        {% if 'error' in message.tags %}border-red-500{% endif %}
-                        {% if 'info' in message.tags %}border-blue-500{% endif %}
-                        {% if 'debug' in message.tags %}border-gray-500{% endif %}
-                       " role="alert">
+            <div class="border-opacity-20 {% if 'success' in message.tags %}border-green-500{% endif %} 'warning' %}border-yellow-500{% 'error' %}border-red-500{% 'info' %}border-blue-500{% 'debug' %}border-gray-500{% pointer-events-auto flex items-start overflow-hidden rounded-lg border bg-white p-4 shadow-lg" role="alert">
 
                 <div class="flex-shrink-0">
                     {% if 'success' in message.tags %}
-                        <i class="text-xl text-green-500 ph-bold ph-check-circle"></i>
+                        <i class="ph-bold ph-check-circle text-xl text-green-500"></i>
                     {% elif 'warning' in message.tags %}
-                        <i class="text-xl text-yellow-500 ph-bold ph-warning"></i>
+                        <i class="ph-bold ph-warning text-xl text-yellow-500"></i>
                     {% elif 'error' in message.tags %}
-                        <i class="text-xl text-red-500 ph-bold ph-x-circle"></i>
+                        <i class="ph-bold ph-x-circle text-xl text-red-500"></i>
                     {% else %}
-                        <i class="text-xl text-blue-500 ph-bold ph-info"></i>
+                        <i class="ph-bold ph-info text-xl text-blue-500"></i>
                     {% endif %}
                 </div>
 
-                <div class="flex-1 ml-3 min-w-0">
-                    <p class="text-sm font-medium text-gray-900 break-words">
+                <div class="ml-3 min-w-0 flex-1">
+                    <p class="text-sm font-medium break-words text-gray-900">
                         {{ message }}
                     </p>
                 </div>
 
-                <button type="button" class="inline-flex flex-shrink-0 justify-center items-center ml-3 w-5 h-5 text-gray-400 rounded-md hover:text-gray-500 focus:outline-none" onclick="this.closest('[role=\'alert\']').remove()">
+                <button type="button" class="ml-3 inline-flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-md text-gray-400 hover:text-gray-500 focus:outline-none" onclick="this.closest('[role=\'alert\']').remove()">
                     <span class="sr-only">Close</span>
                     <i class="ph-bold ph-x"></i>
                 </button>

@@ -7,35 +7,35 @@
 
 {% block content %}
     <!-- Breadcrumb Section -->
-    <section class="py-4 bg-primary/10">
-        <div class="container px-4 mx-auto">
-            <div class="flex flex-col gap-3 lg:flex-row lg:justify-between lg:items-center">
-                <div class="flex items-center text-sm text-muted-foreground">
+    <section class="bg-primary/10 py-4">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                <div class="text-muted-foreground flex items-center text-sm">
                     <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
                     <span class="mx-2">»</span>
                     <a href="{% url 'packages' %}" class="hover:underline">{% translate "Packages" %}</a>
                     <span class="mx-2">»</span>
-                    <span class="font-medium text-foreground truncate">{{ package.title }}</span>
+                    <span class="text-foreground truncate font-medium">{{ package.title }}</span>
                 </div>
-                <div class="flex flex-wrap gap-2 items-center w-full lg:w-auto">
+                <div class="flex w-full flex-wrap items-center gap-2 lg:w-auto">
                     {% if request.user.is_authenticated %}
-                        <a href="{% url 'edit_package' package.slug %}" class="flex-1 flex-shrink-0 lg:flex-none btn-secondary">
-                            <i class="mr-1 text-base ph-bold ph-pencil-simple"></i>
+                        <a href="{% url 'edit_package' package.slug %}" class="btn-secondary flex-1 flex-shrink-0 lg:flex-none">
+                            <i class="ph-bold ph-pencil-simple mr-1 text-base"></i>
                             <span>{% translate "Edit" %}</span>
                         </a>
                     {% endif %}
-                    <a href="{% url 'package_rules' package.slug %}" class="flex-1 flex-shrink-0 lg:flex-none btn-secondary">
-                        <i class="mr-1 text-base ph-bold ph-chart-bar"></i>
+                    <a href="{% url 'package_rules' package.slug %}" class="btn-secondary flex-1 flex-shrink-0 lg:flex-none">
+                        <i class="ph-bold ph-chart-bar mr-1 text-base"></i>
                         <span>{% translate "Package Score" %}</span>
                     </a>
                     {% if has_approved_flag %}
-                        <button disabled class="flex-1 flex-shrink-0 text-red-600 bg-red-50 border-red-200 cursor-not-allowed lg:flex-none btn-secondary" title="{% translate 'This package has been flagged.' %}">
-                            <i class="mr-1 text-base ph-bold ph-flag"></i>
+                        <button disabled class="btn-secondary flex-1 flex-shrink-0 cursor-not-allowed border-red-200 bg-red-50 text-red-600 lg:flex-none" title="{% translate 'This package has been flagged.' %}">
+                            <i class="ph-bold ph-flag mr-1 text-base"></i>
                             <span id="flag-text">{% translate "Flagged" %}</span>
                         </button>
                     {% else %}
-                        <a href="{% url 'flag' package.slug %}" id="flag-btn" class="flex-1 flex-shrink-0 lg:flex-none btn-secondary">
-                            <i class="mr-1 text-base ph-bold ph-flag"></i>
+                        <a href="{% url 'flag' package.slug %}" id="flag-btn" class="btn-secondary flex-1 flex-shrink-0 lg:flex-none">
+                            <i class="ph-bold ph-flag mr-1 text-base"></i>
                             <span id="flag-text">{% translate "Flag" %}</span>
                         </a>
                     {% endif %}
@@ -46,19 +46,19 @@
     </section>
 
     <!-- Package Description -->
-    <section class="pt-4 bg-muted/20">
-        <div class="container px-4 mx-auto">
-            <h1 class="mb-2 text-3xl font-bold text-foreground">{{ package.title }}</h1>
+    <section class="bg-muted/20 pt-4">
+        <div class="container mx-auto px-4">
+            <h1 class="text-foreground mb-2 text-3xl font-bold">{{ package.title }}</h1>
             {% if package.repo_description %}
-                <p class="text-lg text-muted-foreground">{{ package.repo_description }}</p>
+                <p class="text-muted-foreground text-lg">{{ package.repo_description }}</p>
             {% endif %}
         </div>
     </section>
 
     {% if package.is_deprecated or package.date_repo_archived %}
-        <div class="container px-4 pt-6 mx-auto">
-            <div class="flex items-center p-4 text-sm text-yellow-800 bg-yellow-50 rounded-lg border border-yellow-300" role="alert">
-                <i class="mr-3 text-lg ph-bold ph-warning"></i>
+        <div class="container mx-auto px-4 pt-6">
+            <div class="flex items-center rounded-lg border border-yellow-300 bg-yellow-50 p-4 text-sm text-yellow-800" role="alert">
+                <i class="ph-bold ph-warning mr-3 text-lg"></i>
                 <span class="sr-only">Warning</span>
                 <div>
                     <span class="font-medium">{% translate "Warning!" %}</span>
@@ -76,7 +76,7 @@
     {% endif %}
 
     <!-- Main Content -->
-    <div class="container py-8 px-4 mx-auto">
+    <div class="container mx-auto px-4 py-8">
 
         {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="package-detail-inline" ea_outer_class="my-2" ea_inner_class="flex justify-left" %}
 
@@ -86,18 +86,18 @@
                 <!-- Repository Activity Card -->
                 <div class="card">
                     <div class="card-header">
-                        <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
-                            <h3 class="flex gap-2 items-center text-xl font-semibold">
-                                <i class="text-xl ph-bold ph-git-branch"></i>
+                        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                            <h3 class="flex items-center gap-2 text-xl font-semibold">
+                                <i class="ph-bold ph-git-branch text-xl"></i>
                                 {% translate "Repository Activity" %}
                             </h3>
                             <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
-                                <span class="text-sm text-muted-foreground">
+                                <span class="text-muted-foreground text-sm">
                                     {% translate "Last fetched" %}: {{ package.last_fetched|timesince }} ago
                                 </span>
                                 <a
                                     href="{% url 'fetch_package_data' package.slug %}"
-                                    class="px-3 h-8 text-xs btn-secondary"
+                                    class="btn-secondary h-8 px-3 text-xs"
                                 >
                                     <i class="ph-bold ph-download-simple"></i> {% translate "Fetch latest data" %}
                                 </a>
@@ -106,52 +106,52 @@
                     </div>
                     <div class="card-content">
                         <div class="space-y-4">
-                            <div class="flex flex-col gap-3 lg:flex-row lg:justify-between lg:items-center">
+                            <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                                 {% if package.repo_url %}
                                     <a
                                         href="{{ package.repo_url }}"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        class="flex gap-1 items-center text-sm break-all hover:underline text-primary"
+                                        class="text-primary flex items-center gap-1 text-sm break-all hover:underline"
                                     >
                                         <span class="truncate">{{ package.repo_url }}</span>
-                                        <i class="flex-shrink-0 text-sm ph-bold ph-arrow-square-out"></i>
+                                        <i class="ph-bold ph-arrow-square-out flex-shrink-0 text-sm"></i>
                                     </a>
                                 {% endif %}
-                                <div class="flex flex-wrap gap-4 items-center text-sm">
+                                <div class="flex flex-wrap items-center gap-4 text-sm">
 
                                     <!-- Commits -->
                                     <div class="tooltip-wrapper group">
-                                        <span class="flex gap-1 items-center cursor-help">
-                                            <i class="text-base ph-bold ph-git-commit"></i>
+                                        <span class="flex cursor-help items-center gap-1">
+                                            <i class="ph-bold ph-git-commit text-base"></i>
                                             {% translate "Commits" %}: {{ commit_count|intcomma }}
                                         </span>
 
-                                        <div class="group-hover:opacity-100 tooltip">
+                                        <div class="tooltip group-hover:opacity-100">
                                             {% translate "Total commits in the repository" %}
                                         </div>
                                     </div>
 
                                     <!-- Watchers -->
                                     <div class="tooltip-wrapper group">
-                                        <span class="flex gap-1 items-center cursor-help">
-                                            <i class="text-base ph-bold ph-eye"></i>
+                                        <span class="flex cursor-help items-center gap-1">
+                                            <i class="ph-bold ph-eye text-base"></i>
                                             {{ package.repo_watchers|intcomma|default:"n/a" }}
                                         </span>
 
-                                        <div class="group-hover:opacity-100 tooltip">
+                                        <div class="tooltip group-hover:opacity-100">
                                             {% translate "Number of users watching the repository" %}
                                         </div>
                                     </div>
 
                                     <!-- Forks -->
                                     <div class="tooltip-wrapper group">
-                                        <span class="flex gap-1 items-center cursor-help">
-                                            <i class="text-base ph-bold ph-git-fork"></i>
+                                        <span class="flex cursor-help items-center gap-1">
+                                            <i class="ph-bold ph-git-fork text-base"></i>
                                             {{ package.repo_forks|intcomma|default:"n/a" }}
                                         </span>
 
-                                        <div class="group-hover:opacity-100 tooltip">
+                                        <div class="tooltip group-hover:opacity-100">
                                             {% translate "Number of repository forks" %}
                                         </div>
                                     </div>
@@ -159,12 +159,12 @@
                                     {% flag "enabled_packages_score_values" %}
                                         <!-- Score -->
                                         <div class="tooltip-wrapper group">
-                                            <span class="flex gap-1 items-center cursor-help">
-                                                <i class="text-base ph-bold ph-chart-bar"></i>
+                                            <span class="flex cursor-help items-center gap-1">
+                                                <i class="ph-bold ph-chart-bar text-base"></i>
                                                 {{ package.score|intcomma|default:"n/a" }}
                                             </span>
 
-                                            <div class="group-hover:opacity-100 tooltip tooltip-lg">
+                                            <div class="tooltip tooltip-lg group-hover:opacity-100">
                                                 {% translate "Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%)." %}
                                             </div>
                                         </div>
@@ -181,21 +181,21 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="tooltip-wrapper group">
-                            <h3 class="flex gap-2 items-center text-xl font-semibold">
-                                <i class="text-xl ph-bold ph-chart-line"></i>
+                            <h3 class="flex items-center gap-2 text-xl font-semibold">
+                                <i class="ph-bold ph-chart-line text-xl"></i>
                                 {% translate "Commit Graph" %}
                             </h3>
 
-                            <div class="group-hover:opacity-100 tooltip">
+                            <div class="tooltip group-hover:opacity-100">
                                 {% translate "History of commits in the last 52 weeks" %}
                             </div>
                         </div>
                     </div>
                     <div class="card-content">
-                        <div class="w-full h-20 sm:h-24">
+                        <div class="h-20 w-full sm:h-24">
                             <svg
                                 viewBox="0 0 800 90"
-                                class="w-full h-full"
+                                class="h-full w-full"
                                 preserveAspectRatio="xMidYMid meet"
                                 id="commit-svg"
                                 data-commits="{{ package.commits_over_52w_str }}"
@@ -228,24 +228,24 @@
                 </div>
 
                 <!-- Releases Card -->
-                <div class="relative card">
-                    <div id="versions-spinner" class="flex absolute inset-0 z-10 justify-center items-center rounded-xl pointer-events-none htmx-indicator bg-background/50 backdrop-blur-[1px]">
-                        <i class="text-4xl animate-spin ph-bold ph-circle-notch text-primary"></i>
+                <div class="card relative">
+                    <div id="versions-spinner" class="htmx-indicator bg-background/50 pointer-events-none absolute inset-0 z-10 flex items-center justify-center rounded-xl backdrop-blur-[1px]">
+                        <i class="ph-bold ph-circle-notch text-primary animate-spin text-4xl"></i>
                     </div>
                     <div class="card-header">
-                        <div class="flex justify-between items-center">
-                            <h3 class="flex gap-2 items-center text-xl font-semibold">
-                                <i class="text-xl ph-bold ph-rocket-launch"></i>
+                        <div class="flex items-center justify-between">
+                            <h3 class="flex items-center gap-2 text-xl font-semibold">
+                                <i class="ph-bold ph-rocket-launch text-xl"></i>
                                 {% translate "Releases" %}
                             </h3>
-                            <span class="text-sm font-normal text-muted-foreground">
+                            <span class="text-muted-foreground text-sm font-normal">
                                 <span id="total-releases">{{ version_count|intcomma }}</span>
                                 {% translate "total releases" %}
                             </span>
                         </div>
                     </div>
                     <div class="card-content">
-                        <div class="overflow-x-auto px-6 -mx-6 sm:px-0 sm:mx-0">
+                        <div class="-mx-6 overflow-x-auto px-6 sm:mx-0 sm:px-0">
                             <div class="inline-block min-w-full align-middle">
                                 <div
                                     id="versions-table-container"
@@ -266,42 +266,42 @@
                     {% if request.user.is_superuser and package_flags and not has_approved_flag %}
                         <div class="card">
                             <div class="card-header">
-                                <div class="flex justify-between items-center">
-                                    <h3 class="flex gap-2 items-center text-xl font-semibold">
-                                        <i class="text-xl ph-bold ph-flag"></i>
+                                <div class="flex items-center justify-between">
+                                    <h3 class="flex items-center gap-2 text-xl font-semibold">
+                                        <i class="ph-bold ph-flag text-xl"></i>
                                         {% translate "Flags" %}
                                     </h3>
                                 </div>
                             </div>
                             <div class="card-content">
-                                <div class="overflow-x-auto px-6 -mx-6 sm:px-0 sm:mx-0">
+                                <div class="-mx-6 overflow-x-auto px-6 sm:mx-0 sm:px-0">
                                     <div class="inline-block min-w-full align-middle">
                                         <table class="w-full sm:min-w-[600px]">
                                             <thead>
-                                                <tr class="text-left border-b">
-                                                    <th class="pb-3 text-sm font-medium text-muted-foreground">{% translate "Reason" %}</th>
-                                                    <th class="pb-3 w-16 text-sm font-medium text-center sm:w-24 text-muted-foreground">{% translate "Approve" %}</th>
-                                                    <th class="pb-3 w-16 text-sm font-medium text-center sm:w-24 text-muted-foreground">{% translate "Remove" %}</th>
+                                                <tr class="border-b text-left">
+                                                    <th class="text-muted-foreground pb-3 text-sm font-medium">{% translate "Reason" %}</th>
+                                                    <th class="text-muted-foreground w-16 pb-3 text-center text-sm font-medium sm:w-24">{% translate "Approve" %}</th>
+                                                    <th class="text-muted-foreground w-16 pb-3 text-center text-sm font-medium sm:w-24">{% translate "Remove" %}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {% for flag in package_flags %}
                                                     {% if not flag.approved_flag %}
-                                                        <tr class="border-b transition-colors last:border-0 hover:bg-muted/30">
-                                                            <td class="py-3 pr-2 text-sm font-medium text-foreground">
+                                                        <tr class="hover:bg-muted/30 border-b transition-colors last:border-0">
+                                                            <td class="text-foreground py-3 pr-2 text-sm font-medium">
                                                                 {{ flag.reason }}
                                                             </td>
                                                             <td class="py-3 text-center">
                                                                 {% if not flag.approved_flag %}
                                                                     <a href="{% url 'flag_approve' flag.id %}" class="text-green-600 hover:text-green-700" title="{% translate 'Approve' %}">
-                                                                        <i class="text-xl ph-bold ph-check"></i>
+                                                                        <i class="ph-bold ph-check text-xl"></i>
                                                                     </a>
                                                                 {% endif %}
                                                             </td>
                                                             <td class="py-3 text-center">
                                                                 {% if not flag.approved_flag %}
                                                                     <a href="{% url 'flag_remove' flag.id %}" class="text-red-600 hover:text-red-700" title="{% translate 'Remove' %}">
-                                                                        <i class="text-xl ph-bold ph-trash"></i>
+                                                                        <i class="ph-bold ph-trash text-xl"></i>
                                                                     </a>
                                                                 {% endif %}
                                                             </td>
@@ -320,8 +320,8 @@
                 <!-- Contributors Card -->
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="flex gap-2 items-center text-xl font-semibold">
-                            <i class="text-xl ph-bold ph-users"></i>
+                        <h3 class="flex items-center gap-2 text-xl font-semibold">
+                            <i class="ph-bold ph-users text-xl"></i>
                             {% translate "Contributors" %}
                         </h3>
                     </div>
@@ -332,7 +332,7 @@
                                 ><a href="{% participant_url package.repo participant %}">{{ participant }}</a></span
                                     >
                             {% empty %}
-                                <p class="text-sm text-muted-foreground">{% translate "No contributors listed." %}</p>
+                                <p class="text-muted-foreground text-sm">{% translate "No contributors listed." %}</p>
                             {% endfor %}
                         </div>
                     </div>
@@ -343,9 +343,9 @@
             <div class="order-1 space-y-4 lg:order-2 lg:space-y-6">
                 <!-- Documentation Card -->
                 {% if package.documentation_url or request.user.is_authenticated and request.user.profile.can_edit_package %}
-                    <div id="documentation-card-container" class="relative card">
-                        <div id="documentation-spinner" class="flex absolute inset-0 z-10 justify-center items-center rounded-xl pointer-events-none htmx-indicator bg-background/50 backdrop-blur-[1px]">
-                            <i class="text-4xl animate-spin ph-bold ph-circle-notch text-primary"></i>
+                    <div id="documentation-card-container" class="card relative">
+                        <div id="documentation-spinner" class="htmx-indicator bg-background/50 pointer-events-none absolute inset-0 z-10 flex items-center justify-center rounded-xl backdrop-blur-[1px]">
+                            <i class="ph-bold ph-circle-notch text-primary animate-spin text-4xl"></i>
                         </div>
                         <div id="documentation-card">
                             {% include "partials/documentation_card.html" %}
@@ -357,8 +357,8 @@
                 {% if package.pypi_url %}
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="flex gap-2 items-center text-lg font-semibold">
-                                <i class="text-xl ph-bold ph-file-py"></i>
+                            <h3 class="flex items-center gap-2 text-lg font-semibold">
+                                <i class="ph-bold ph-file-py text-xl"></i>
                                 {% translate "PyPI" %}
                             </h3>
                         </div>
@@ -367,10 +367,10 @@
                                 href="{{ package.pypi_url }}"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class="text-sm break-all hover:underline text-primary"
+                                class="text-primary text-sm break-all hover:underline"
                             >
                                 <span class="truncate">{{ package.pypi_name|default:package.title }}</span>
-                                <i class="flex-shrink-0 text-sm ph-bold ph-arrow-square-out"></i>
+                                <i class="ph-bold ph-arrow-square-out flex-shrink-0 text-sm"></i>
                             </a>
                         </div>
                     </div>
@@ -380,8 +380,8 @@
                 {% if package.repo_url %}
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="flex gap-2 items-center text-lg font-semibold">
-                                <i class="text-xl ph-bold ph-git-branch"></i>
+                            <h3 class="flex items-center gap-2 text-lg font-semibold">
+                                <i class="ph-bold ph-git-branch text-xl"></i>
                                 {% translate "Repository" %}
                             </h3>
                         </div>
@@ -390,10 +390,10 @@
                                 href="{{ package.repo_url }}"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class="flex gap-1 items-center text-sm break-all hover:underline text-primary"
+                                class="text-primary flex items-center gap-1 text-sm break-all hover:underline"
                             >
                                 <span class="truncate">{{ package.repo_url }}</span>
-                                <i class="flex-shrink-0 text-sm ph-bold ph-arrow-square-out"></i>
+                                <i class="ph-bold ph-arrow-square-out flex-shrink-0 text-sm"></i>
                             </a>
                         </div>
                     </div>
@@ -402,18 +402,18 @@
                 <!-- Comparison Grids Card -->
                 <div class="card">
                     <div class="card-header">
-                        <div class="flex justify-between items-center">
-                            <h3 class="flex gap-2 items-center text-lg font-semibold">
-                                <i class="text-xl ph-bold ph-grid-nine"></i>
+                        <div class="flex items-center justify-between">
+                            <h3 class="flex items-center gap-2 text-lg font-semibold">
+                                <i class="ph-bold ph-grid-nine text-xl"></i>
                                 {% translate "Comparison Grids" %}
                             </h3>
                             {% if request.user.is_authenticated and profile.can_add_grid %}
                                 <button
                                     type="button"
-                                    class="px-2 h-8 text-xs btn-secondary"
+                                    class="btn-secondary h-8 px-2 text-xs"
                                     onclick="document.getElementById('grid-search-form').classList.toggle('hidden'); document.getElementById('grid-search-input').focus();"
                                 >
-                                    <i class="text-base ph-bold ph-plus"></i>
+                                    <i class="ph-bold ph-plus text-base"></i>
                                 </button>
                             {% endif %}
                         </div>
@@ -423,22 +423,22 @@
                             {% for grid in package.grid_set.all %}
                                 <a
                                     href="{{ grid.get_absolute_url }}"
-                                    class="transition-colors cursor-pointer badge hover:bg-primary hover:text-primary-foreground"
+                                    class="badge hover:bg-primary hover:text-primary-foreground cursor-pointer transition-colors"
                                 >{{ grid.title }}</a>
                             {% empty %}
-                                <p class="text-sm text-muted-foreground">
+                                <p class="text-muted-foreground text-sm">
                                     {% translate "No comparison grids have been listed yet." %}
                                 </p>
                             {% endfor %}
                         </div>
                         {% if request.user.is_authenticated and profile.can_add_grid %}
-                            <div id="grid-search-form" class="hidden mt-4">
+                            <div id="grid-search-form" class="mt-4 hidden">
                                 <div class="relative">
                                     <input
                                         id="grid-search-input"
                                         type="text"
                                         name="q"
-                                        class="py-1 px-2 pr-8 w-full text-sm rounded border bg-background text-foreground"
+                                        class="bg-background text-foreground w-full rounded border px-2 py-1 pr-8 text-sm"
                                         placeholder="Search for a grid..."
                                         hx-get="{% url 'ajax_grid_search' %}"
                                         hx-trigger="input changed delay:500ms"
@@ -446,8 +446,8 @@
                                         hx-vals='{"package_id": "{{ package.id }}", "redirect": "{{ request.path }}"}'
                                         hx-indicator="#grid-search-spinner"
                                     />
-                                    <div id="grid-search-spinner" class="flex absolute right-2 top-1/2 items-center transform -translate-y-1/2 htmx-indicator">
-                                        <i class="animate-spin ph-bold ph-circle-notch text-muted-foreground"></i>
+                                    <div id="grid-search-spinner" class="htmx-indicator absolute top-1/2 right-2 flex -translate-y-1/2 transform items-center">
+                                        <i class="ph-bold ph-circle-notch text-muted-foreground animate-spin"></i>
                                     </div>
                                 </div>
                                 <div id="grid-search-results" class="mt-2 space-y-2"></div>
@@ -459,9 +459,9 @@
                 {% include "partials/_ethicalads-tag.html" with ea_type="image" ea_id="package-detail-sidebar" ea_variant="vertical" ea_outer_class="my-2" ea_inner_class="flex justify-center" %}
 
                 <!-- Sites using this package Card -->
-                <div id="sites-using-card-container" class="relative card">
-                    <div id="sites-using-spinner" class="flex absolute inset-0 z-10 justify-center items-center rounded-xl pointer-events-none htmx-indicator bg-background/50 backdrop-blur-[1px]">
-                        <i class="text-4xl animate-spin ph-bold ph-circle-notch text-primary"></i>
+                <div id="sites-using-card-container" class="card relative">
+                    <div id="sites-using-spinner" class="htmx-indicator bg-background/50 pointer-events-none absolute inset-0 z-10 flex items-center justify-center rounded-xl backdrop-blur-[1px]">
+                        <i class="ph-bold ph-circle-notch text-primary animate-spin text-4xl"></i>
                     </div>
                     <div id="sites-using-card">
                         {% include "partials/sites_using_card.html" %}
@@ -471,21 +471,21 @@
                 <!-- README Badge Card -->
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="flex gap-2 items-center text-lg font-semibold">
-                            <i class="text-xl ph-bold ph-shield"></i>
+                        <h3 class="flex items-center gap-2 text-lg font-semibold">
+                            <i class="ph-bold ph-shield text-xl"></i>
                             {% translate "README Badge" %}
                         </h3>
                     </div>
                     <div class="card-content">
-                        <p class="mb-3 text-sm text-muted-foreground">
+                        <p class="text-muted-foreground mb-3 text-sm">
                             {% translate "If you're the maintainer of this project, publicize Django Packages by adding the badge to your README!" %}
                         </p>
-                        <div class="p-3 mb-3 font-mono text-xs break-words rounded bg-muted overflow-wrap-anywhere">
+                        <div class="bg-muted overflow-wrap-anywhere mb-3 rounded p-3 font-mono text-xs break-words">
                             [![Latest on Django Packages](https://img.shields.io/badge/PyPI-{{ package.slug
                             }}-tags-8c3c26.svg)](https://djangopackages.org{{ package.get_absolute_url }})
                         </div>
-                        <button id="copy-badge-btn" class="w-full btn-secondary">
-                            <i class="mr-2 text-base ph-bold ph-copy" id="copy-icon"></i>
+                        <button id="copy-badge-btn" class="btn-secondary w-full">
+                            <i class="ph-bold ph-copy mr-2 text-base" id="copy-icon"></i>
                             <span id="copy-text">{% translate "Copy Badge" %}</span>
                         </button>
                     </div>

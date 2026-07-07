@@ -8,17 +8,17 @@
 
 {% block content %}
     <!-- Breadcrumb Section -->
-    <section class="py-4 bg-primary/10">
-        <div class="container px-4 mx-auto">
-            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
-                <div class="flex items-center text-sm text-muted-foreground">
+    <section class="bg-primary/10 py-4">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div class="text-muted-foreground flex items-center text-sm">
                     <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
                     <span class="mx-2">»</span>
-                    <span class="font-medium text-foreground truncate">{{ title }}</span>
+                    <span class="text-foreground truncate font-medium">{{ title }}</span>
                 </div>
-                <div class="flex flex-wrap gap-2 items-center w-full sm:w-auto">
-                    <a href="{% url 'add_package' %}" class="flex-1 flex-shrink-0 sm:flex-none btn-secondary">
-                        <i class="mr-1 text-base ph-bold ph-plus"></i>
+                <div class="flex w-full flex-wrap items-center gap-2 sm:w-auto">
+                    <a href="{% url 'add_package' %}" class="btn-secondary flex-1 flex-shrink-0 sm:flex-none">
+                        <i class="ph-bold ph-plus mr-1 text-base"></i>
                         <span>{% translate "Add Package" %}</span>
                     </a>
                 </div>
@@ -26,46 +26,46 @@
         </div>
     </section>
 
-    <div class="container py-8 px-4 mx-auto">
+    <div class="container mx-auto px-4 py-8">
         <div class="mb-8">
-            <h1 class="text-3xl font-bold text-foreground">{{ heading }}</h1>
+            <h1 class="text-foreground text-3xl font-bold">{{ heading }}</h1>
         </div>
 
         {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="archive-list-inline" ea_outer_class="mb-4" ea_inner_class="flex justify-center" %}
 
         <div class="card">
-            <div class="p-6 card-content">
-                <div class="overflow-x-auto w-full">
-                    <table class="w-full text-sm text-left">
+            <div class="card-content p-6">
+                <div class="w-full overflow-x-auto">
+                    <table class="w-full text-left text-sm">
                         <thead>
-                            <tr class="text-left border-b">
-                                <th class="pr-6 pb-3 font-medium text-muted-foreground">
-                                    <div class="flex gap-1 items-center">
-                                        <i class="text-lg ph-bold ph-package"></i>
+                            <tr class="border-b text-left">
+                                <th class="text-muted-foreground pr-6 pb-3 font-medium">
+                                    <div class="flex items-center gap-1">
+                                        <i class="ph-bold ph-package text-lg"></i>
                                         {% translate "Title" %}
                                     </div>
                                 </th>
-                                <th class="hidden pb-3 font-medium sm:table-cell text-muted-foreground">
-                                    <div class="flex gap-1 items-center">
-                                        <i class="text-lg ph-bold ph-tag"></i>
+                                <th class="text-muted-foreground hidden pb-3 font-medium sm:table-cell">
+                                    <div class="flex items-center gap-1">
+                                        <i class="ph-bold ph-tag text-lg"></i>
                                         {% translate "Category" %}
                                     </div>
                                 </th>
-                                <th class="pb-3 font-medium text-muted-foreground">
-                                    <div class="flex gap-1 items-center">
-                                        <i class="text-lg ph-bold ph-star"></i>
+                                <th class="text-muted-foreground pb-3 font-medium">
+                                    <div class="flex items-center gap-1">
+                                        <i class="ph-bold ph-star text-lg"></i>
                                         <span class="sm:inline">{% translate "Stars" %}</span>
                                     </div>
                                 </th>
-                                <th class="pb-3 font-medium text-muted-foreground">
-                                    <div class="flex gap-1 items-center">
-                                        <i class="text-lg ph-bold ph-git-fork"></i>
+                                <th class="text-muted-foreground pb-3 font-medium">
+                                    <div class="flex items-center gap-1">
+                                        <i class="ph-bold ph-git-fork text-lg"></i>
                                         <span class="sm:inline">{% translate "Forks" %}</span>
                                     </div>
                                 </th>
-                                <th class="hidden pb-3 font-medium lg:table-cell text-muted-foreground">
-                                    <div class="flex gap-1 items-center">
-                                        <i class="text-lg ph-bold ph-clock"></i>
+                                <th class="text-muted-foreground hidden pb-3 font-medium lg:table-cell">
+                                    <div class="flex items-center gap-1">
+                                        <i class="ph-bold ph-clock text-lg"></i>
                                         {% translate "Updated" %}
                                     </div>
                                 </th>
@@ -73,29 +73,29 @@
                         </thead>
                         <tbody>
                             {% for package in packages %}
-                                <tr class="border-b transition-colors last:border-0 hover:bg-muted/30">
-                                    <td class="py-3 pr-6 max-w-[10rem] sm:max-w-[15rem] md:max-w-[20rem]">
+                                <tr class="hover:bg-muted/30 border-b transition-colors last:border-0">
+                                    <td class="max-w-[10rem] py-3 pr-6 sm:max-w-[15rem] md:max-w-[20rem]">
                                         <div class="flex flex-col">
-                                            <a href="{% url 'package' package.slug %}" class="block text-base font-semibold hover:underline text-primary truncate" title="{{ package.title }}">{{ package.title }}</a>
-                                            <p class="mt-1 text-xs text-muted-foreground truncate" title="{{ package.repo_description|default:"" }}">{{ package.repo_description|default:"" }}</p>
+                                            <a href="{% url 'package' package.slug %}" class="text-primary block truncate text-base font-semibold hover:underline" title="{{ package.title }}">{{ package.title }}</a>
+                                            <p class="text-muted-foreground mt-1 truncate text-xs" title="{{ package.repo_description|default:"" }}">{{ package.repo_description|default:"" }}</p>
 
                                                 <!-- Mobile/Tablet Badges -->
-                                            <div class="flex flex-wrap gap-2 mt-2">
+                                            <div class="mt-2 flex flex-wrap gap-2">
                                                 {% if package.category %}
-                                                    <span class="inline-flex items-center py-0.5 px-2 text-xs font-medium rounded sm:hidden bg-secondary text-secondary-foreground">
+                                                    <span class="bg-secondary text-secondary-foreground inline-flex items-center rounded px-2 py-0.5 text-xs font-medium sm:hidden">
                                                         {{ package.category.title }}
                                                     </span>
                                                 {% endif %}
 
-                                                <span class="inline-flex items-center py-0.5 px-2 text-xs font-medium rounded lg:hidden bg-muted text-muted-foreground" title="{% translate 'Last Updated' %}">
-                                                    <i class="mr-1 ph-bold ph-clock"></i> {{ package.last_fetched|date:"M d, Y"|default:"-" }}
+                                                <span class="bg-muted text-muted-foreground inline-flex items-center rounded px-2 py-0.5 text-xs font-medium lg:hidden" title="{% translate 'Last Updated' %}">
+                                                    <i class="ph-bold ph-clock mr-1"></i> {{ package.last_fetched|date:"M d, Y"|default:"-" }}
                                                 </span>
                                             </div>
                                         </div>
                                     </td>
                                     <td class="hidden py-3 sm:table-cell">
                                         {% if package.category %}
-                                            <span class="inline-flex items-center py-0.5 px-2.5 text-xs font-medium rounded-full bg-secondary text-secondary-foreground hover:bg-secondary/80">
+                                            <span class="bg-secondary text-secondary-foreground hover:bg-secondary/80 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium">
                                                 {{ package.category.title }}
                                             </span>
                                         {% endif %}
@@ -106,7 +106,7 @@
                                     <td class="py-3 font-mono text-sm">
                                         {{ package.repo_forks|intcomma|default:"-" }}
                                     </td>
-                                    <td class="hidden py-3 text-sm lg:table-cell text-muted-foreground">
+                                    <td class="text-muted-foreground hidden py-3 text-sm lg:table-cell">
                                         {{ package.last_fetched|date:"M d, Y"|default:"-" }}
                                     </td>
                                 </tr>

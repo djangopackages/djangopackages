@@ -1,20 +1,20 @@
 {% load humanize i18n %}
-<div class="flex flex-col h-full card">
-    <div class="flex gap-2 justify-center items-center pb-4 text-center card-header">
-        <i class="flex-shrink-0 text-xl text-primary ph-bold ph-megaphone"></i>
+<div class="card flex h-full flex-col">
+    <div class="card-header flex items-center justify-center gap-2 pb-4 text-center">
+        <i class="text-primary ph-bold ph-megaphone flex-shrink-0 text-xl"></i>
         <h2 class="text-xl font-bold">{% translate "Public Service Announcement" %}</h2>
     </div>
-    <div class="flex-1 text-center card-content">
+    <div class="card-content flex-1 text-center">
         {% if psa %}
             <div class="text-muted-foreground">{{ psa.body_text|safe }}</div>
-            <p class="mt-4 text-xs text-muted-foreground">
+            <p class="text-muted-foreground mt-4 text-xs">
                 {% translate "Posted" %} {{ psa.created|naturaltime }}
             </p>
         {% else %}
             <p class="text-muted-foreground">
                 There are currently no announcements.
-                To request a PSA, please post at <a href="https://fosstodon.org/@djangopackages" class="transition-colors text-primary hover:text-primary/80">@djangopackages</a>
-                or open a <a href="https://github.com/djangopackages/djangopackages/discussions" class="transition-colors text-primary hover:text-primary/80">GitHub Discussion</a>.
+                To request a PSA, please post at <a href="https://fosstodon.org/@djangopackages" class="text-primary hover:text-primary/80 transition-colors">@djangopackages</a>
+                or open a <a href="https://github.com/djangopackages/djangopackages/discussions" class="text-primary hover:text-primary/80 transition-colors">GitHub Discussion</a>.
             </p>
         {% endif %}
     </div>

@@ -7,53 +7,53 @@
 
 {% block content %}
     <!-- Breadcrumb Section -->
-    <section class="py-4 bg-primary/10">
-        <div class="container px-4 mx-auto">
-            <div class="flex items-center text-sm text-muted-foreground">
+    <section class="bg-primary/10 py-4">
+        <div class="container mx-auto px-4">
+            <div class="text-muted-foreground flex items-center text-sm">
                 <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
                 <span class="mx-2">»</span>
                 <a href="{% url 'packages' %}" class="hover:underline">{% translate "Packages" %}</a>
                 <span class="mx-2">»</span>
                 <a href="{{ package.get_absolute_url }}" class="hover:underline">{{ package.title }}</a>
                 <span class="mx-2">»</span>
-                <span class="font-medium text-foreground truncate">{% translate "Rules" %}</span>
+                <span class="text-foreground truncate font-medium">{% translate "Rules" %}</span>
             </div>
         </div>
     </section>
 
-    <div class="container py-8 px-4 mx-auto">
+    <div class="container mx-auto px-4 py-8">
         <div class="mb-10 text-center">
-            <h1 class="text-3xl font-bold md:text-4xl text-foreground">
+            <h1 class="text-foreground text-3xl font-bold md:text-4xl">
                 {% translate "Package Score" %}: {{ package_score.total_score }}
             </h1>
-            <p class="mt-2 mb-6 text-base text-muted-foreground">{{ package_score.message }}</p>
+            <p class="text-muted-foreground mt-2 mb-6 text-base">{{ package_score.message }}</p>
         </div>
 
         {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="package-rule-inline" ea_outer_class="mb-4" ea_inner_class="flex justify-center" %}
 
         <div class="card">
-            <div class="p-6 card-content">
+            <div class="card-content p-6">
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
+                    <table class="w-full border-collapse text-left">
                         <thead>
-                            <tr class="border-b border-border">
-                                <th class="py-3 px-4 font-semibold">{% translate "Rule" %}</th>
-                                <th class="py-3 px-4 font-semibold">{% translate "Description" %}</th>
-                                <th class="py-3 px-4 font-semibold">{% translate "Score" %}</th>
-                                <th class="py-3 px-4 font-semibold">{% translate "Max Score" %}</th>
-                                <th class="py-3 px-4 font-semibold">{% translate "More Info" %}</th>
+                            <tr class="border-border border-b">
+                                <th class="px-4 py-3 font-semibold">{% translate "Rule" %}</th>
+                                <th class="px-4 py-3 font-semibold">{% translate "Description" %}</th>
+                                <th class="px-4 py-3 font-semibold">{% translate "Score" %}</th>
+                                <th class="px-4 py-3 font-semibold">{% translate "Max Score" %}</th>
+                                <th class="px-4 py-3 font-semibold">{% translate "More Info" %}</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for breakdown in package_score.breakdown %}
-                                <tr class="border-b last:border-0 border-border hover:bg-muted/50">
-                                    <td class="py-3 px-4">{{ breakdown.rule }}</td>
-                                    <td class="py-3 px-4">{{ breakdown.description }}</td>
-                                    <td class="py-3 px-4">{{ breakdown.score }}</td>
-                                    <td class="py-3 px-4">{{ breakdown.max_score }}</td>
-                                    <td class="py-3 px-4">
+                                <tr class="border-border hover:bg-muted/50 border-b last:border-0">
+                                    <td class="px-4 py-3">{{ breakdown.rule }}</td>
+                                    <td class="px-4 py-3">{{ breakdown.description }}</td>
+                                    <td class="px-4 py-3">{{ breakdown.score }}</td>
+                                    <td class="px-4 py-3">{{ breakdown.max_score }}</td>
+                                    <td class="px-4 py-3">
                                         {% if breakdown.documentation_url %}
-                                            <a href="{{ breakdown.documentation_url }}" class="hover:underline text-primary">{% translate "Details" %}</a>
+                                            <a href="{{ breakdown.documentation_url }}" class="text-primary hover:underline">{% translate "Details" %}</a>
                                         {% endif %}
                                     </td>
                                 </tr>
@@ -64,9 +64,9 @@
             </div>
         </div>
 
-        <div class="mt-8 card">
-            <div class="p-6 card-content">
-                <pre class="p-4 font-mono text-sm whitespace-pre-wrap break-words rounded bg-muted">package_score:: {{ package_score }}</pre>
+        <div class="card mt-8">
+            <div class="card-content p-6">
+                <pre class="bg-muted rounded p-4 font-mono text-sm break-words whitespace-pre-wrap">package_score:: {{ package_score }}</pre>
             </div>
         </div>
     </div>

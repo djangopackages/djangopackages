@@ -3,51 +3,41 @@
         id="site-banner-{{ banner.pk }}"
         data-banner-id="{{ banner.pk }}"
         role="alert"
-        class="border-b {% if banner.banner_type == 'sponsored' %} bg-violet-50 border-violet-200 {% elif banner.banner_type == 'notice' %} bg-sky-50 border-sky-200 {% elif banner.banner_type == 'success' %} bg-emerald-50 border-emerald-200 {% elif banner.banner_type == 'warning' %} bg-amber-50 border-amber-200 {% elif banner.banner_type == 'critical' %} bg-red-50 border-red-200 {% endif %}"
-    >
-        <div class="container flex gap-3 items-center py-3 px-4 mx-auto">
-            <div class="flex-1 min-w-0">
-                <p
-                    class="text-sm font-medium text-foreground/90 leading-loose [&_a]:underline [&_a]:underline-offset-2 [&_a]:hover:opacity-75 {% if banner.alignment == 'center' %} text-center {% elif banner.alignment == 'right' %} text-right {% endif %}"
-                >
-                    {% if banner.banner_type == 'sponsored' %}
-                        <span
-                            class="inline-flex gap-1 items-center py-0.5 px-2 mr-2 font-semibold tracking-wide text-violet-700 uppercase align-middle bg-violet-100 rounded-full border border-violet-200 text-[11px]"
-                        >
-                            <i class="text-[10px] ph-bold ph-megaphone"></i>
-                            Sponsored
-                        </span>
-                    {% else %}
-                        <i
-                            class="inline align-middle mr-1 text-base ph-bold {{ banner.display_icon }}
-                                   {% if banner.banner_type == 'notice' %}
-                                       text-sky-600
-                                   {% elif banner.banner_type == 'success' %}
-                                       text-emerald-600
-                                   {% elif banner.banner_type == 'warning' %}
-                                       text-amber-600
-                                   {% elif banner.banner_type == 'critical' %}
-                                       text-red-600
-                                   {% endif %}
-                                  "
-                        ></i>
-                    {% endif %} {{ banner.content|safe }}
-                </p>
-            </div>
+        class="{% if banner.banner_type == 'sponsored' %} elif 'notice' 'success' 'warning' 'critical' endif border-b border-amber-200 border-emerald-200 border-red-200 border-sky-200 border-violet-200 bg-amber-50 bg-emerald-50 bg-red-50 bg-sky-50 bg-violet-50"
+            >
+                <div class="container mx-auto flex items-center gap-3 px-4 py-3">
+                    <div class="min-w-0 flex-1">
+                        <p
+                            class="text-foreground/90 {% if banner.alignment == 'center' %} elif 'right' endif text-center text-right text-sm leading-loose font-medium [&_a]:underline [&_a]:underline-offset-2 [&_a]:hover:opacity-75"
+                                >
+                                    {% if banner.banner_type == 'sponsored' %}
+                                        <span
+                                            class="mr-2 inline-flex items-center gap-1 rounded-full border border-violet-200 bg-violet-100 px-2 py-0.5 align-middle text-[11px] font-semibold tracking-wide text-violet-700 uppercase"
+                                        >
+                                            <i class="ph-bold ph-megaphone text-[10px]"></i>
+                                            Sponsored
+                                        </span>
+                                    {% else %}
+                                        <i
+                                            class="ph-bold {{ banner.display_icon }} {% if banner.banner_type == 'notice' %} elif 'success' 'warning' 'critical' endif mr-1 inline align-middle text-base text-amber-600 text-emerald-600 text-red-600 text-sky-600"
+                                                ></i>
+                                            {% endif %} {{ banner.content|safe }}
+                                        </p>
+                                        </div>
             {# Dismiss button: right corner #}
-            {% if banner.is_dismissible %}
-                <button
-                    type="button"
-                    hx-post="{% url 'banners:dismiss' banner.pk %}"
-                    hx-target="#site-banner-{{ banner.pk }}"
-                    hx-swap="outerHTML"
-                    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-                    class="inline-flex flex-shrink-0 justify-center items-center w-6 h-6 rounded-md transition-colors text-muted-foreground hover:text-foreground hover:bg-foreground/5"
-                    aria-label="Dismiss banner"
-                >
-                    <i class="text-sm ph-bold ph-x"></i>
-                </button>
-            {% endif %}
-        </div>
-    </div>
-{% endfor %}
+                                        {% if banner.is_dismissible %}
+                                            <button
+                                                type="button"
+                                                hx-post="{% url 'banners:dismiss' banner.pk %}"
+                                                hx-target="#site-banner-{{ banner.pk }}"
+                                                hx-swap="outerHTML"
+                                                hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                                                class="text-muted-foreground hover:text-foreground hover:bg-foreground/5 inline-flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-md transition-colors"
+                                                aria-label="Dismiss banner"
+                                            >
+                                                <i class="ph-bold ph-x text-sm"></i>
+                                            </button>
+                                        {% endif %}
+                                        </div>
+                                        </div>
+                                    {% endfor %}

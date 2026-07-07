@@ -8,28 +8,28 @@
 
 {% block content %}
     <!-- Breadcrumb Section -->
-    <section class="py-4 bg-primary/10">
-        <div class="container px-4 mx-auto">
-            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
-                <div class="flex items-center text-sm text-muted-foreground">
+    <section class="bg-primary/10 py-4">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div class="text-muted-foreground flex items-center text-sm">
                     <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
                     <span class="mx-2">»</span>
-                    <span class="font-medium text-foreground truncate">{% translate "Terms of Service" %}</span>
+                    <span class="text-foreground truncate font-medium">{% translate "Terms of Service" %}</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="container py-8 px-4 mx-auto">
+    <div class="container mx-auto px-4 py-8">
         <div class="mb-8">
-            <h1 class="text-3xl font-bold text-foreground">{% translate "Terms of Service" %}</h1>
+            <h1 class="text-foreground text-3xl font-bold">{% translate "Terms of Service" %}</h1>
         </div>
 
-        <div class="max-w-4xl card">
-            <div class="p-6 md:p-8 card-content">
-                <h2 class="mb-6 text-2xl font-bold text-foreground">{% translate "Account Terms" %}</h2>
+        <div class="card max-w-4xl">
+            <div class="card-content p-6 md:p-8">
+                <h2 class="text-foreground mb-6 text-2xl font-bold">{% translate "Account Terms" %}</h2>
 
-                <ol class="pl-5 space-y-4 list-decimal text-muted-foreground">
+                <ol class="text-muted-foreground list-decimal space-y-4 pl-5">
                     <li>
                         <p>{% translate "You must be 13 years or older to use this Service." %}</p>
                     </li>

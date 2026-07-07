@@ -8,37 +8,37 @@
 
 {% block content %}
     <!-- Breadcrumb Section -->
-    <section class="py-4 bg-primary/10">
-        <div class="container px-4 mx-auto">
-            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
-                <div class="flex items-center text-sm text-muted-foreground">
+    <section class="bg-primary/10 py-4">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div class="text-muted-foreground flex items-center text-sm">
                     <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
                     <span class="mx-2">»</span>
                     <a href="{% url 'packages' %}" class="hover:underline">{% translate "Packages" %}</a>
                     <span class="mx-2">»</span>
                     <a href="{{ package.get_absolute_url }}" class="hover:underline">{{ package.title }}</a>
                     <span class="mx-2">»</span>
-                    <span class="font-medium text-foreground truncate">{% translate "Flag" %}</span>
+                    <span class="text-foreground truncate font-medium">{% translate "Flag" %}</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="container py-8 px-4 mx-auto">
+    <div class="container mx-auto px-4 py-8">
         <div class="mb-8">
-            <h1 class="text-3xl font-bold text-foreground">{% translate "Flag Package" %}</h1>
-            <p class="pt-2 text-muted-foreground">{% translate "Flag this package for moderation." %}</p>
+            <h1 class="text-foreground text-3xl font-bold">{% translate "Flag Package" %}</h1>
+            <p class="text-muted-foreground pt-2">{% translate "Flag this package for moderation." %}</p>
         </div>
 
-        <div class="max-w-3xl card">
-            <div class="p-6 card-content">
+        <div class="card max-w-3xl">
+            <div class="card-content p-6">
                 <form method="post">
                     {% csrf_token %}
                     {% include "partials/form_renderer.html" %}
 
                     <div class="mt-6">
-                        <button type="submit" class="w-full md:w-auto btn-primary">
-                            <i class="mr-1 text-lg ph-bold ph-flag"></i>
+                        <button type="submit" class="btn-primary w-full md:w-auto">
+                            <i class="ph-bold ph-flag mr-1 text-lg"></i>
                             {% translate "Flag Package" %}
                         </button>
                     </div>

@@ -1,7 +1,7 @@
 {% load i18n %}
 <div id="grid-search-results-content">
     {% if grids %}
-        <p class="mb-2 text-xs text-muted-foreground">{% translate "Click a grid to add your package to it." %}</p>
+        <p class="text-muted-foreground mb-2 text-xs">{% translate "Click a grid to add your package to it." %}</p>
         <div class="space-y-1">
             {% for grid in grids %}
                 <form method="post" action="{% url 'add_grid_package' grid.slug %}" class="w-full">
@@ -10,7 +10,7 @@
                     <input type="hidden" name="redirect" value="{{ request.GET.redirect }}">
                     <button
                         type="submit"
-                        class="flex justify-between items-center py-2 px-3 w-full text-sm text-left rounded transition-colors cursor-pointer group hover:bg-muted"
+                        class="group hover:bg-muted flex w-full cursor-pointer items-center justify-between rounded px-3 py-2 text-left text-sm transition-colors"
                     >
                         <span class="font-medium">{{ grid.title }}</span>
                         <i class="ph-bold ph-plus text-muted-foreground group-hover:text-primary"></i>
@@ -20,7 +20,7 @@
         </div>
     {% else %}
         {% if request.GET.q %}
-            <p class="text-sm text-muted-foreground">{% translate "No grids found" %}</p>
+            <p class="text-muted-foreground text-sm">{% translate "No grids found" %}</p>
         {% endif %}
     {% endif %}
 </div>

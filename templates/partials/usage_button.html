@@ -1,7 +1,7 @@
 {% load i18n %}
-<div id="{% if mobile %}mobile-usage-btn-{{ package.id }}{% else %}usage-btn-{{ package.id }}{% endif %}" class="flex gap-1.5 items-center">
+<div id="{% if mobile %}mobile-usage-btn-{{ package.id }}{% else %}usage-btn-{{ package.id }}{% endif %}" class="flex items-center gap-1.5">
     {% if mobile %}
-        <div id="mobile-usage-count-{{ package.id }}" hx-swap-oob="true" class="text-lg font-bold text-foreground">
+        <div id="mobile-usage-count-{{ package.id }}" hx-swap-oob="true" class="text-foreground text-lg font-bold">
             {% if usage_count is not None and usage_count != "" %}
                 {{ usage_count|default:0 }}
             {% else %}
@@ -10,7 +10,7 @@
         </div>
     {% endif %}
     {% if not mobile %}
-        <span class="text-xs font-medium text-foreground">
+        <span class="text-foreground text-xs font-medium">
             {% if usage_count is not None and usage_count != "" %}
                 {{ usage_count|default:0 }}
             {% else %}
@@ -21,30 +21,30 @@
     {% if request.user.is_authenticated %}
         {% if is_using %}
             <button type="button"
-                    class="inline-flex items-center justify-center {% if mobile %}gap-1 py-1 px-2 text-[11px] font-medium rounded-full dark:text-emerald-400 text-emerald-700{% else %}w-5 h-5 rounded{% endif %} border border-emerald-500/50 bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20 hover:border-emerald-500 transition-colors"
+                    class="{% if mobile %}gap-1 text-emerald-700{% else %}w-5 rounded{% endif %} inline-flex h-5 items-center justify-center rounded-full border border-emerald-500/50 bg-emerald-500/10 px-2 py-1 text-[11px] font-medium text-emerald-600 transition-colors hover:border-emerald-500 hover:bg-emerald-500/20 dark:text-emerald-400"
                     hx-get="{% url 'usage' package.slug 'remove' %}?htmx=1{% if mobile %}&mobile=1{% endif %}"
                     hx-target="#{% if mobile %}mobile-usage-btn-{{ package.id }}{% else %}usage-btn-{{ package.id }}{% endif %}"
                     hx-swap="outerHTML"
                     title="{% if mobile %}{% translate 'Remove from usage list' %}{% else %}{% translate 'Remove from your usage list' %}{% endif %}">
                 {% if mobile %}
-                    <i class="text-xs ph-bold ph-check"></i>
+                    <i class="ph-bold ph-check text-xs"></i>
                     <span>{% translate "Using" %}</span>
                 {% else %}
-                    <i class="text-xs ph-bold ph-minus"></i>
+                    <i class="ph-bold ph-minus text-xs"></i>
                 {% endif %}
             </button>
         {% else %}
             <button type="button"
-                    class="inline-flex items-center justify-center {% if mobile %}gap-1 py-1 px-2 text-[11px] font-medium rounded-full{% else %}w-5 h-5 rounded{% endif %} border border-border bg-muted/50 text-muted-foreground hover:bg-muted hover:border-muted-foreground/50 transition-colors"
+                    class="{% if mobile %}gap-1 rounded-full{% else %}w-5 rounded{% endif %} border-border bg-muted/50 text-muted-foreground hover:bg-muted hover:border-muted-foreground/50 inline-flex h-5 items-center justify-center border px-2 py-1 text-[11px] font-medium transition-colors"
                     hx-get="{% url 'usage' package.slug 'add' %}?htmx=1{% if mobile %}&mobile=1{% endif %}"
                     hx-target="#{% if mobile %}mobile-usage-btn-{{ package.id }}{% else %}usage-btn-{{ package.id }}{% endif %}"
                     hx-swap="outerHTML"
                     title="{% if mobile %}{% translate 'Add to usage list' %}{% else %}{% translate 'Add to your usage list' %}{% endif %}">
                 {% if mobile %}
-                    <i class="text-xs ph-bold ph-plus"></i>
+                    <i class="ph-bold ph-plus text-xs"></i>
                     <span>{% translate "Use" %}</span>
                 {% else %}
-                    <i class="text-xs ph-bold ph-plus"></i>
+                    <i class="ph-bold ph-plus text-xs"></i>
                 {% endif %}
             </button>
         {% endif %}

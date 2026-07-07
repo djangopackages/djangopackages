@@ -2,13 +2,13 @@
 <form method="post" action="{% if form_action %}{{ form_action }}{% else %}{% url 'add_package' %}{% if grid_slug %}?grid_slug={{ grid_slug }}{% endif %}{% endif %}">
     {% csrf_token %}
     {% include "partials/form_renderer.html" %}
-    <div class="flex gap-3 mt-6">
-        <button type="submit" class="w-full md:w-auto btn-primary">
+    <div class="mt-6 flex gap-3">
+        <button type="submit" class="btn-primary w-full md:w-auto">
             {% if action == "edit" %}
-                <i class="mr-1 text-lg ph-bold ph-floppy-disk"></i>
+                <i class="ph-bold ph-floppy-disk mr-1 text-lg"></i>
                 {% translate "Save" %}
             {% else %}
-                <i class="mr-1 text-lg ph-bold ph-plus"></i>
+                <i class="ph-bold ph-plus mr-1 text-lg"></i>
                 {% translate "Create Package" %}
             {% endif %}
         </button>

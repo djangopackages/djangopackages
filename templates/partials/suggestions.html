@@ -5,14 +5,14 @@
         {% include 'partials/suggestion_items.html' %}
         <div
             id="{{ dropdown_slug }}-summary-wrapper"
-            class="p-3 text-left border-t bg-muted/30 border-border/30"
+            class="bg-muted/30 border-border/30 border-t p-3 text-left"
             hx-swap-oob="outerHTML"
         >
-            <p class="text-xs text-muted-foreground">
+            <p class="text-muted-foreground text-xs">
                 {% blocktranslate count counter=total_count %}Showing {{ shown_count }} of {{ counter }} result{% plural %}Showing {{ shown_count }} of {{ counter }} results{% endblocktranslate %} • {% translate "Use" %}
-                <kbd class="py-0.5 px-1.5 text-xs rounded border bg-muted">↑</kbd>
-                <kbd class="py-0.5 px-1.5 text-xs rounded border bg-muted">↓</kbd> {% translate "to navigate," %}
-                <kbd class="py-0.5 px-1.5 text-xs rounded border bg-muted">Enter</kbd> {% translate "to select" %}
+                <kbd class="bg-muted rounded border px-1.5 py-0.5 text-xs">↑</kbd>
+                <kbd class="bg-muted rounded border px-1.5 py-0.5 text-xs">↓</kbd> {% translate "to navigate," %}
+                <kbd class="bg-muted rounded border px-1.5 py-0.5 text-xs">Enter</kbd> {% translate "to select" %}
             </p>
         </div>
     {% else %}
@@ -20,32 +20,32 @@
             <div class="p-1">
                 <div
                     id="{{ dropdown_slug }}-results"
-                    class="overflow-y-auto suggestions-results {% if dropdown_slug == 'modal-suggestions-dropdown' %}max-h-[55vh] pr-1 space-y-1{% else %}pr-1 space-y-1 max-h-80{% endif %}"
-                >
-                    {% include 'partials/suggestion_items.html' %}
-                </div>
-            </div>
-            <div
-                id="{{ dropdown_slug }}-summary-wrapper"
-                class="p-3 text-left border-t {% if dropdown_slug == 'modal-suggestions-dropdown' %}bg-muted/20 border-border/40{% else %}bg-muted/30 border-border/30{% endif %}"
-            >
-                <p class="text-xs text-muted-foreground">
-                    {% blocktranslate count counter=total_count %}Showing {{ shown_count }} of {{ counter }} result{% plural %}Showing {{ shown_count }} of {{ counter }} results{% endblocktranslate %} • {% translate "Use" %}
-                    <kbd class="py-0.5 px-1.5 text-xs rounded border bg-muted">↑</kbd>
-                    <kbd class="py-0.5 px-1.5 text-xs rounded border bg-muted">↓</kbd> {% translate "to navigate," %}
-                    <kbd class="py-0.5 px-1.5 text-xs rounded border bg-muted">Enter</kbd> {% translate "to select" %}
-                </p>
-            </div>
-        {% elif request.GET.q %}
-            <div class="p-6">
-                <i
-                    class="block mb-3 text-4xl ph-bold ph-magnifying-glass text-muted-foreground"
-                ></i>
-                <p class="mb-1 text-sm font-medium text-foreground">{% translate "No packages found" %}</p>
-                <p class="text-xs text-muted-foreground">
-                    {% translate "Try searching with different keywords" %}
-                </p>
-            </div>
+                    class="suggestions-results {% if dropdown_slug == 'modal-suggestions-dropdown' %}max-h-[55vh] else %}pr-1 endif %} max-h-80{% space-y-1 space-y-1{% overflow-y-auto pr-1"
+                        >
+                            {% include 'partials/suggestion_items.html' %}
+                        </div>
+                        </div>
+                        <div
+                            id="{{ dropdown_slug }}-summary-wrapper"
+                            class="{% if dropdown_slug == 'modal-suggestions-dropdown' %}bg-muted/20 border-border/40{% else %}bg-muted/30 border-border/30{% endif %} border-t p-3 text-left"
+                        >
+                            <p class="text-muted-foreground text-xs">
+                                {% blocktranslate count counter=total_count %}Showing {{ shown_count }} of {{ counter }} result{% plural %}Showing {{ shown_count }} of {{ counter }} results{% endblocktranslate %} • {% translate "Use" %}
+                                <kbd class="bg-muted rounded border px-1.5 py-0.5 text-xs">↑</kbd>
+                                <kbd class="bg-muted rounded border px-1.5 py-0.5 text-xs">↓</kbd> {% translate "to navigate," %}
+                                <kbd class="bg-muted rounded border px-1.5 py-0.5 text-xs">Enter</kbd> {% translate "to select" %}
+                            </p>
+                        </div>
+                    {% elif request.GET.q %}
+                        <div class="p-6">
+                            <i
+                                class="ph-bold ph-magnifying-glass text-muted-foreground mb-3 block text-4xl"
+                            ></i>
+                            <p class="text-foreground mb-1 text-sm font-medium">{% translate "No packages found" %}</p>
+                            <p class="text-muted-foreground text-xs">
+                                {% translate "Try searching with different keywords" %}
+                            </p>
+                        </div>
+                    {% endif %}
         {% endif %}
-    {% endif %}
-{% endwith %}
+    {% endwith %}

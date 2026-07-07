@@ -1,50 +1,50 @@
 {% load humanize i18n waffle_tags %}
 {% if packages %}
-    <div class="overflow-y-auto max-h-60 rounded-md border shadow-md border-border bg-popover text-popover-foreground">
+    <div class="border-border bg-popover text-popover-foreground max-h-60 overflow-y-auto rounded-md border shadow-md">
         {% for package in packages %}
             <button
                 type="submit"
                 name="package"
                 value="{{ package.id }}"
-                class="p-3 w-full text-left border-b transition-colors last:border-0 suggestion-item border-border/50 group hover:bg-accent hover:text-accent-foreground"
+                class="suggestion-item border-border/50 group hover:bg-accent hover:text-accent-foreground w-full border-b p-3 text-left transition-colors last:border-0"
             >
-                <div class="flex gap-3 items-start">
-                    <div class="flex-shrink-0 mt-1 transition-colors suggestion-icon text-muted-foreground group-hover:text-accent-foreground">
-                        <i class="text-lg ph-bold ph-package"></i>
+                <div class="flex items-start gap-3">
+                    <div class="suggestion-icon text-muted-foreground group-hover:text-accent-foreground mt-1 flex-shrink-0 transition-colors">
+                        <i class="ph-bold ph-package text-lg"></i>
                     </div>
-                    <div class="flex-1 min-w-0">
-                        <div class="flex gap-2 justify-between items-center">
-                            <span class="font-medium break-words text-foreground group-hover:text-accent-foreground">{{ package.title }}</span>
+                    <div class="min-w-0 flex-1">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="text-foreground group-hover:text-accent-foreground font-medium break-words">{{ package.title }}</span>
                         </div>
                         {% if package.repo_description %}
-                            <p class="mt-0.5 text-xs text-muted-foreground line-clamp-2 group-hover:text-accent-foreground/80">
+                            <p class="text-muted-foreground line-clamp-2 group-hover:text-accent-foreground/80 mt-0.5 text-xs">
                                 {{ package.repo_description }}
                             </p>
                         {% endif %}
-                        <div class="flex flex-wrap gap-2 items-center mt-2">
+                        <div class="mt-2 flex flex-wrap items-center gap-2">
                             {% if package.category %}
-                                <span class="text-xs whitespace-nowrap badge suggestion-badge text-muted-foreground group-hover:text-accent-foreground/80">
+                                <span class="badge suggestion-badge text-muted-foreground group-hover:text-accent-foreground/80 text-xs whitespace-nowrap">
                                     {{ package.category.title }}
                                 </span>
                             {% endif %}
                             {% if package.latest_version %}
-                                <span class="flex gap-1 items-center text-xs whitespace-nowrap badge suggestion-badge text-muted-foreground group-hover:text-accent-foreground/80" title="{% translate 'Latest PyPI Version' %}">
-                                    <i class="text-xs ph-bold ph-tag"></i>
+                                <span class="badge suggestion-badge text-muted-foreground group-hover:text-accent-foreground/80 flex items-center gap-1 text-xs whitespace-nowrap" title="{% translate 'Latest PyPI Version' %}">
+                                    <i class="ph-bold ph-tag text-xs"></i>
                                     {{ package.latest_version_number }}
                                 </span>
                                 {% if package.latest_version.upload_time %}
-                                    <span class="flex gap-1 items-center text-xs whitespace-nowrap badge suggestion-badge text-muted-foreground group-hover:text-accent-foreground/80" title="{% translate 'Last Released' %}">
-                                        <i class="text-xs ph-bold ph-calendar-check"></i>
+                                    <span class="badge suggestion-badge text-muted-foreground group-hover:text-accent-foreground/80 flex items-center gap-1 text-xs whitespace-nowrap" title="{% translate 'Last Released' %}">
+                                        <i class="ph-bold ph-calendar-check text-xs"></i>
                                         {{ package.latest_version.upload_time|date }}
                                     </span>
                                 {% endif %}
                             {% endif %}
-                            <span class="flex gap-1 items-center text-xs whitespace-nowrap badge suggestion-badge text-muted-foreground group-hover:text-accent-foreground/80" title="{% translate 'Stars' %}">
+                            <span class="badge suggestion-badge text-muted-foreground group-hover:text-accent-foreground/80 flex items-center gap-1 text-xs whitespace-nowrap" title="{% translate 'Stars' %}">
                                 <i class="ph-bold ph-star"></i>
                                 {{ package.repo_watchers|intcomma|default:0 }}
                             </span>
-                            <span class="flex gap-1 items-center text-xs whitespace-nowrap badge suggestion-badge text-muted-foreground group-hover:text-accent-foreground/80" title="{% translate 'Forks' %}">
-                                <i class="text-xs ph-bold ph-git-fork"></i>
+                            <span class="badge suggestion-badge text-muted-foreground group-hover:text-accent-foreground/80 flex items-center gap-1 text-xs whitespace-nowrap" title="{% translate 'Forks' %}">
+                                <i class="ph-bold ph-git-fork text-xs"></i>
                                 {{ package.repo_forks|default:0 }}
                             </span>
                         </div>
@@ -54,7 +54,7 @@
         {% endfor %}
     </div>
 {% elif request.GET.q %}
-    <div class="p-4 text-center rounded-md border shadow-md text-muted-foreground bg-popover border-border">
+    <div class="text-muted-foreground bg-popover border-border rounded-md border p-4 text-center shadow-md">
         <p>{% translate "No packages found matching your query." %}</p>
     </div>
 {% endif %}

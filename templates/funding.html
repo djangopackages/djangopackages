@@ -8,51 +8,51 @@
 
 {% block content %}
     <!-- Breadcrumb Section -->
-    <section class="py-4 bg-primary/10">
-        <div class="container px-4 mx-auto">
-            <div class="flex items-center text-sm text-muted-foreground">
+    <section class="bg-primary/10 py-4">
+        <div class="container mx-auto px-4">
+            <div class="text-muted-foreground flex items-center text-sm">
                 <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
                 <span class="mx-2">»</span>
-                <span class="font-medium text-foreground truncate">{% translate "Funding" %}</span>
+                <span class="text-foreground truncate font-medium">{% translate "Funding" %}</span>
             </div>
         </div>
     </section>
 
-    <div class="container py-8 px-4 mx-auto">
+    <div class="container mx-auto px-4 py-8">
         <div class="mb-8">
-            <h1 class="text-3xl font-bold text-foreground">{% translate "Funding" %}</h1>
-            <p class="pt-2 text-muted-foreground">{% translate "How we keep the lights on." %}</p>
+            <h1 class="text-foreground text-3xl font-bold">{% translate "Funding" %}</h1>
+            <p class="text-muted-foreground pt-2">{% translate "How we keep the lights on." %}</p>
         </div>
 
         <div class="grid gap-6">
             <!-- Current Funding -->
             <div class="card">
-                <div class="p-6 card-content">
-                    <h2 class="mb-4 text-2xl font-bold text-foreground">Funding mid-2021 to {% now "Y" %}</h2>
+                <div class="card-content p-6">
+                    <h2 class="text-foreground mb-4 text-2xl font-bold">Funding mid-2021 to {% now "Y" %}</h2>
                     <div class="text-muted-foreground">
                         <p class="mb-4">
-                            Server costs are paid out of pocket by <a href="https://twitter.com/webology" class="font-medium hover:underline text-primary">Jeff Triplett</a>, but we have a few ways for you to help us pay our bills:
+                            Server costs are paid out of pocket by <a href="https://twitter.com/webology" class="text-primary font-medium hover:underline">Jeff Triplett</a>, but we have a few ways for you to help us pay our bills:
                         </p>
                         <ul class="space-y-3">
-                            <li class="flex gap-2 items-start">
+                            <li class="flex items-start gap-2">
                                 <span class="flex-shrink-0">📚</span>
-                                <span>Buy <a href="https://wsvincent.gumroad.com/l/aFiMm?affiliate_id=1013195891" class="font-medium hover:underline text-primary">Django for Beginners (affiliate link)</a>. We make a modest commision off of every sale.</span>
+                                <span>Buy <a href="https://wsvincent.gumroad.com/l/aFiMm?affiliate_id=1013195891" class="text-primary font-medium hover:underline">Django for Beginners (affiliate link)</a>. We make a modest commision off of every sale.</span>
                             </li>
-                            <li class="flex gap-2 items-start">
+                            <li class="flex items-start gap-2">
                                 <span class="flex-shrink-0">💌</span>
-                                <span>Subscribe to the <a href="https://django-news.com" class="font-medium hover:underline text-primary">Django News Newsletter</a></span>
+                                <span>Subscribe to the <a href="https://django-news.com" class="text-primary font-medium hover:underline">Django News Newsletter</a></span>
                             </li>
-                            <li class="flex gap-2 items-start">
+                            <li class="flex items-start gap-2">
                                 <span class="flex-shrink-0">💼</span>
-                                <span>Check out <a href="https://jobs.django-news.com" class="font-medium hover:underline text-primary">Django News Jobs</a></span>
+                                <span>Check out <a href="https://jobs.django-news.com" class="text-primary font-medium hover:underline">Django News Jobs</a></span>
                             </li>
-                            <li class="flex gap-2 items-start">
+                            <li class="flex items-start gap-2">
                                 <span class="flex-shrink-0">🚀</span>
-                                <span>Hosted on Hetzner. <a href="https://hetzner.cloud/?ref=R4fnKzKtBqFn" class="font-medium hover:underline text-primary">Please use our referral link to receive a free $20 credit to get you started.</a></span>
+                                <span>Hosted on Hetzner. <a href="https://hetzner.cloud/?ref=R4fnKzKtBqFn" class="text-primary font-medium hover:underline">Please use our referral link to receive a free $20 credit to get you started.</a></span>
                             </li>
-                            <li class="flex gap-2 items-start">
+                            <li class="flex items-start gap-2">
                                 <span class="flex-shrink-0">👀</span>
-                                <span>We have a small number of <a href="https://www.ethicalads.io/" class="font-medium hover:underline text-primary">Ethical Ads</a>. If you use an Ad Blocker, please consider allowing ads for our website.</span>
+                                <span>We have a small number of <a href="https://www.ethicalads.io/" class="text-primary font-medium hover:underline">Ethical Ads</a>. If you use an Ad Blocker, please consider allowing ads for our website.</span>
                             </li>
                         </ul>
                     </div>
@@ -62,20 +62,20 @@
             <div class="grid gap-6 md:grid-cols-2">
                 <!-- Advertising -->
                 <div class="card">
-                    <div class="p-6 card-content">
-                        <h3 class="mb-3 text-xl font-bold text-foreground">Advertising</h3>
+                    <div class="card-content p-6">
+                        <h3 class="text-foreground mb-3 text-xl font-bold">Advertising</h3>
                         <p class="text-muted-foreground">
-                            In August 2022, we added ads by <a href="https://www.ethicalads.io/" class="font-medium hover:underline text-primary">Ethical Ads</a> to offset server and development costs as an experiment.
+                            In August 2022, we added ads by <a href="https://www.ethicalads.io/" class="text-primary font-medium hover:underline">Ethical Ads</a> to offset server and development costs as an experiment.
                         </p>
                     </div>
                 </div>
 
                 <!-- Sept/Oct 2021 -->
                 <div class="card">
-                    <div class="p-6 card-content">
-                        <h3 class="mb-3 text-xl font-bold text-foreground">September and October 2021</h3>
+                    <div class="card-content p-6">
+                        <h3 class="text-foreground mb-3 text-xl font-bold">September and October 2021</h3>
                         <p class="text-muted-foreground">
-                            September and October development was sponsored by <a href="https://www.revsys.com/" class="font-medium hover:underline text-primary">REVSYS</a>.
+                            September and October development was sponsored by <a href="https://www.revsys.com/" class="text-primary font-medium hover:underline">REVSYS</a>.
                         </p>
                     </div>
                 </div>
@@ -83,16 +83,16 @@
 
             <!-- Historical -->
             <div class="card">
-                <div class="p-6 card-content">
-                    <h3 class="mb-3 text-xl font-bold text-foreground">Funding 2010 to mid-2021</h3>
+                <div class="card-content p-6">
+                    <h3 class="text-foreground mb-3 text-xl font-bold">Funding 2010 to mid-2021</h3>
                     <div class="text-muted-foreground">
                         <p>
-                            From 2010 to mid-2021 Django Packages was developed and funded by <a href="http://daniel.feldroy.com" class="font-medium hover:underline text-primary">Daniel Roy Greenfeld</a>
-                            &amp; <a href="https://audrey.feldroy.com/" class="font-medium hover:underline text-primary">Audrey Roy Greenfeld</a>.
+                            From 2010 to mid-2021 Django Packages was developed and funded by <a href="http://daniel.feldroy.com" class="text-primary font-medium hover:underline">Daniel Roy Greenfeld</a>
+                            &amp; <a href="https://audrey.feldroy.com/" class="text-primary font-medium hover:underline">Audrey Roy Greenfeld</a>.
                         </p>
                         <p class="mt-2">
-                            To support their work, please check out <a href="https://www.feldroy.com/collections/two-scoops-press" class="font-medium hover:underline text-primary">Two Scoops Press</a>,
-                            an imprint of <a href="https://www.feldroy.com/" class="font-medium hover:underline text-primary">Feldroy</a>.
+                            To support their work, please check out <a href="https://www.feldroy.com/collections/two-scoops-press" class="text-primary font-medium hover:underline">Two Scoops Press</a>,
+                            an imprint of <a href="https://www.feldroy.com/" class="text-primary font-medium hover:underline">Feldroy</a>.
                         </p>
                     </div>
                 </div>

@@ -6,28 +6,28 @@
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body class="font-sans antialiased">
-        <div class="flex relative flex-col justify-between w-[1200px] h-[630px] bg-[oklch(0.98_0_0)]">
-            <div class="w-full h-4 bg-[oklch(0.3176_0.0648_159.21)]"></div>
+        <div class="relative flex h-[630px] w-[1200px] flex-col justify-between bg-[oklch(0.98_0_0)]">
+            <div class="h-4 w-full bg-[oklch(0.3176_0.0648_159.21)]"></div>
             <main class="flex-1 px-24 pt-24">
-                <div class="inline-flex items-center py-2 px-6 mb-8 text-xl font-bold rounded-full border-2 border-[oklch(0.3176_0.0648_159.21)] bg-[oklch(0.3176_0.0648_159.21)]/10 text-[oklch(0.3176_0.0648_159.21)]">
+                <div class="mb-8 inline-flex items-center rounded-full border-2 border-[oklch(0.3176_0.0648_159.21)] bg-[oklch(0.3176_0.0648_159.21)]/10 px-6 py-2 text-xl text-[oklch(0.3176_0.0648_159.21)] font-bold">
                     Package
                 </div>
-                <h1 class="mb-6 text-7xl font-bold tracking-tight leading-tight text-[oklch(0.15_0_0)] line-clamp-2">
+                <h1 class="line-clamp-2 mb-6 text-7xl text-[oklch(0.15_0_0)] leading-tight font-bold tracking-tight">
                     {{ package.title }}
                 </h1>
-                <p class="text-4xl leading-normal text-[oklch(0.45_0_0)] line-clamp-3">
+                <p class="line-clamp-3 text-4xl text-[oklch(0.45_0_0)] leading-normal">
                     {{ package.repo_description }}
                 </p>
             </main>
             <div class="px-24 pb-10">
-                <div class="text-2xl font-medium text-[oklch(0.45_0_0)]">
+                <div class="text-2xl text-[oklch(0.45_0_0)] font-medium">
                     https://djangopackages.org{% url "package" slug=package.slug %}
                 </div>
             </div>
-            <footer class="py-8 bg-[oklch(0.3176_0.0648_159.21)]">
-                <div class="flex gap-6 justify-center items-center">
-                    <img src="https://djangopackages.org/static/img/logo_squares.png" alt="Django Packages" class="w-auto h-14 brightness-0 invert">
-                    <span class="text-5xl font-bold leading-none text-white">Django Packages</span>
+            <footer class="bg-[oklch(0.3176_0.0648_159.21)] py-8">
+                <div class="flex items-center justify-center gap-6">
+                    <img src="https://djangopackages.org/static/img/logo_squares.png" alt="Django Packages" class="h-14 w-auto brightness-0 invert">
+                    <span class="text-5xl leading-none font-bold text-white">Django Packages</span>
                 </div>
             </footer>
         </div>

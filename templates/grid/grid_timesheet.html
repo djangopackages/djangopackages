@@ -27,28 +27,28 @@
 
 {% block content %}
     <!-- Breadcrumb Section -->
-    <section class="py-4 bg-primary/10">
-        <div class="container px-4 mx-auto">
-            <div class="flex items-center text-sm text-muted-foreground">
+    <section class="bg-primary/10 py-4">
+        <div class="container mx-auto px-4">
+            <div class="text-muted-foreground flex items-center text-sm">
                 <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
                 <span class="mx-2">»</span>
                 <a href="{% url 'grids' %}" class="hover:underline">{% translate "Grids" %}</a>
                 <span class="mx-2">»</span>
                 <a href="{% url 'grid' grid.slug %}" class="hover:underline">{{ grid.title }}</a>
                 <span class="mx-2">»</span>
-                <span class="font-medium text-foreground truncate">{% translate "Timesheet" %}</span>
+                <span class="text-foreground truncate font-medium">{% translate "Timesheet" %}</span>
             </div>
         </div>
     </section>
 
-    <div class="container py-8 px-4 mx-auto">
+    <div class="container mx-auto px-4 py-8">
         <div class="mb-10 text-center">
-            <h1 class="text-3xl font-bold md:text-4xl text-foreground">{% translate "Grid Time Table" %}</h1>
-            <p class="mt-2 mb-6 text-xl text-muted-foreground">{% translate "Timesheet for " %}{{ grid.title }}</p>
+            <h1 class="text-foreground text-3xl font-bold md:text-4xl">{% translate "Grid Time Table" %}</h1>
+            <p class="text-muted-foreground mt-2 mb-6 text-xl">{% translate "Timesheet for " %}{{ grid.title }}</p>
         </div>
 
         <div class="card">
-            <div class="p-6 card-content">
+            <div class="card-content p-6">
                 <div class="timesheet-scroll">
                     <div id="timesheet"></div>
                 </div>

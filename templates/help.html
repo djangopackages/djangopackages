@@ -8,58 +8,58 @@
 
 {% block content %}
     <!-- Breadcrumb Section -->
-    <section class="py-4 bg-primary/10">
-        <div class="container px-4 mx-auto">
-            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
-                <div class="flex items-center text-sm text-muted-foreground">
+    <section class="bg-primary/10 py-4">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div class="text-muted-foreground flex items-center text-sm">
                     <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
                     <span class="mx-2">»</span>
-                    <span class="font-medium text-foreground truncate">{% translate "Help" %}</span>
+                    <span class="text-foreground truncate font-medium">{% translate "Help" %}</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="container py-8 px-4 mx-auto">
+    <div class="container mx-auto px-4 py-8">
         <div class="mb-8">
-            <h1 class="text-3xl font-bold text-foreground">{% translate "Help" %}</h1>
-            <p class="pt-2 text-muted-foreground">{% translate "Guides and resources to help you use Django Packages." %}</p>
+            <h1 class="text-foreground text-3xl font-bold">{% translate "Help" %}</h1>
+            <p class="text-muted-foreground pt-2">{% translate "Guides and resources to help you use Django Packages." %}</p>
         </div>
 
-        <div class="max-w-3xl card">
+        <div class="card max-w-3xl">
             {% url 'home' as home_url %}
-            <div class="p-6 space-y-8 card-content">
+            <div class="card-content space-y-8 p-6">
                 <section>
-                    <h3 class="mb-3 text-xl font-bold text-foreground">{% translate "How do I add a package?" %}</h3>
-                    <p class="leading-relaxed text-muted-foreground">
+                    <h3 class="text-foreground mb-3 text-xl font-bold">{% translate "How do I add a package?" %}</h3>
+                    <p class="text-muted-foreground leading-relaxed">
                         {% blocktranslate %}
-                            Go to the <a href="{{ home_url }}" class="font-medium hover:underline text-primary">home page</a> and click on the bright green button that says <strong>Add Package</strong>. Then paste in the URL of your repo.
+                            Go to the <a href="{{ home_url }}" class="text-primary font-medium hover:underline">home page</a> and click on the bright green button that says <strong>Add Package</strong>. Then paste in the URL of your repo.
                             Django Packages then tries to determine your package's repo name and PyPI information from the URL. Click submit and it will process your request.
                         {% endblocktranslate %}
                     </p>
                 </section>
 
                 <section>
-                    <h3 class="mb-3 text-xl font-bold text-foreground">{% translate "How do I add a grid?" %}</h3>
-                    <p class="leading-relaxed text-muted-foreground">
+                    <h3 class="text-foreground mb-3 text-xl font-bold">{% translate "How do I add a grid?" %}</h3>
+                    <p class="text-muted-foreground leading-relaxed">
                         {% blocktranslate %}
-                            Go to the <a href="{{ home_url }}" class="font-medium hover:underline text-primary">home page</a> and click on the bright green button that says <strong>Add Grid</strong>. Add the mandatory
+                            Go to the <a href="{{ home_url }}" class="text-primary font-medium hover:underline">home page</a> and click on the bright green button that says <strong>Add Grid</strong>. Add the mandatory
                             <strong>title</strong> and <strong>slug</strong>, and an optional <strong>description</strong>.
                         {% endblocktranslate %}
                     </p>
                 </section>
 
                 <section>
-                    <h3 class="mb-3 text-xl font-bold text-foreground">{% translate "Need more help?" %}</h3>
-                    <p class="leading-relaxed text-muted-foreground">
+                    <h3 class="text-foreground mb-3 text-xl font-bold">{% translate "Need more help?" %}</h3>
+                    <p class="text-muted-foreground leading-relaxed">
                         {% blocktranslate %}
-                            Submit an <a href="http://github.com/djangopackages/djangopackages/issues" class="font-medium hover:underline text-primary">issue</a>.
+                            Submit an <a href="http://github.com/djangopackages/djangopackages/issues" class="text-primary font-medium hover:underline">issue</a>.
                         {% endblocktranslate %}
                     </p>
                 </section>
 
-                <section class="pt-4 border-t border-border">
-                    <p class="italic text-muted-foreground">{% translate "We'll be adding more to this section soon!" %}</p>
+                <section class="border-border border-t pt-4">
+                    <p class="text-muted-foreground italic">{% translate "We'll be adding more to this section soon!" %}</p>
                 </section>
             </div>
         </div>

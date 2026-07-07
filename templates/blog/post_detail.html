@@ -7,32 +7,32 @@
 
 {% block content %}
     <!-- Breadcrumb Section -->
-    <section class="py-4 bg-primary/10">
-        <div class="container px-4 mx-auto">
-            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
-                <div class="flex items-center text-sm text-muted-foreground">
+    <section class="bg-primary/10 py-4">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div class="text-muted-foreground flex items-center text-sm">
                     <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
                     <span class="mx-2">»</span>
                     <a href="{% url 'post_list' %}" class="hover:underline">{% translate "Changelog" %}</a>
                     <span class="mx-2">»</span>
-                    <span class="font-medium text-foreground truncate">{{ post.title }}</span>
+                    <span class="text-foreground truncate font-medium">{{ post.title }}</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="container py-8 px-4 mx-auto">
-        <div class="max-w-4xl card">
-            <div class="p-6 md:p-10 card-content">
-                <div class="pb-6 mb-8 border-b border-border">
-                    <h1 class="mb-2 text-3xl font-bold text-foreground">{{ post.title }}</h1>
-                    <div class="flex gap-2 items-center text-muted-foreground">
+    <div class="container mx-auto px-4 py-8">
+        <div class="card max-w-4xl">
+            <div class="card-content p-6 md:p-10">
+                <div class="border-border mb-8 border-b pb-6">
+                    <h1 class="text-foreground mb-2 text-3xl font-bold">{{ post.title }}</h1>
+                    <div class="text-muted-foreground flex items-center gap-2">
                         <i class="ph-bold ph-calendar-blank"></i>
                         <span>{{ post.published_date|date:"F j, Y" }}</span>
                     </div>
                 </div>
 
-                <div class="max-w-none prose prose-lg text-muted-foreground">
+                <div class="text-muted-foreground max-w-none prose prose-lg">
                     {{ post.content|markdown }}
                 </div>
             </div>

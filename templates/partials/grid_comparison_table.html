@@ -2,20 +2,20 @@
 
 {% if packages %}
 <!-- Desktop Table View -->
-    <div class="hidden overflow-hidden md:block card">
+    <div class="card hidden overflow-hidden md:block">
         <div class="overflow-x-auto">
-            <table class="w-full grid-table">
+            <table class="grid-table w-full">
             <!-- Header Row - Package Names -->
                 <thead>
-                    <tr class="border-b bg-muted border-border">
-                        <th class="sticky left-0 z-10 py-2.5 px-3 text-xs font-semibold tracking-wide text-left uppercase bg-muted text-muted-foreground min-w-[140px]">
+                    <tr class="bg-muted border-border border-b">
+                        <th class="bg-muted text-muted-foreground sticky left-0 z-10 min-w-[140px] px-3 py-2.5 text-left text-xs font-semibold tracking-wide uppercase">
                             {% translate "Package" %}
                         </th>
                         {% for package in packages %}
-                            <th class="py-2.5 px-3 text-center border-l border-border/50 min-w-[120px] max-w-[160px]">
+                            <th class="border-border/50 max-w-[160px] min-w-[120px] border-l px-3 py-2.5 text-center">
                                 <a href="{{ package.get_absolute_url }}"
-                                   class="flex flex-col gap-1 items-center transition-colors group hover:text-primary">
-                                    <span class="text-xs font-semibold leading-snug whitespace-normal group-hover:underline text-foreground group-hover:text-primary"
+                                   class="group hover:text-primary flex flex-col items-center gap-1 transition-colors">
+                                    <span class="text-foreground group-hover:text-primary text-xs leading-snug font-semibold whitespace-normal group-hover:underline"
                                           title="{{ package.title }}">
                                         {{ package.title }}
                                     </span>
@@ -24,19 +24,19 @@
                         {% endfor %}
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-border/50">
+                <tbody class="divide-border/50 divide-y">
 
                 <!-- Description Row -->
-                    <tr class="transition-colors hover:bg-muted/30">
-                        <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
-                            <div class="flex gap-1.5 items-center">
+                    <tr class="hover:bg-muted/30 transition-colors">
+                        <td class="bg-card text-muted-foreground sticky left-0 z-10 px-3 py-2.5 text-xs font-medium">
+                            <div class="flex items-center gap-1.5">
                                 <i class="ph-bold ph-text-align-left text-primary"></i>
                                 {% translate "Description" %}
                             </div>
                         </td>
                         {% for package in packages %}
-                            <td class="py-2.5 px-3 text-center align-top border-l border-border/30">
-                                <div class="text-xs leading-relaxed whitespace-normal text-muted-foreground" title="{{ package.repo_description }}">
+                            <td class="border-border/30 border-l px-3 py-2.5 text-center align-top">
+                                <div class="text-muted-foreground text-xs leading-relaxed whitespace-normal" title="{{ package.repo_description }}">
                                     {{ package.repo_description|default:"-"|wordwrap:30|linebreaksbr|truncatechars:100 }}
                                 </div>
                             </td>
@@ -44,15 +44,15 @@
                     </tr>
 
                 <!-- Category Row -->
-                    <tr class="transition-colors hover:bg-muted/30">
-                        <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
-                            <div class="flex gap-1.5 items-center">
+                    <tr class="hover:bg-muted/30 transition-colors">
+                        <td class="bg-card text-muted-foreground sticky left-0 z-10 px-3 py-2.5 text-xs font-medium">
+                            <div class="flex items-center gap-1.5">
                                 <i class="ph-bold ph-tag text-primary"></i>
                                 {% translate "Category" %}
                             </div>
                         </td>
                         {% for package in packages %}
-                            <td class="py-2.5 px-3 text-center align-top border-l border-border/30">
+                            <td class="border-border/30 border-l px-3 py-2.5 text-center align-top">
                                 {% if package.category %}
                                     <a href="{{ package.category.get_absolute_url }}" class="category-tag">
                                         {{ package.category.title }}
@@ -63,16 +63,16 @@
                     </tr>
 
                 <!-- Usage Row - with HTMX usage button -->
-                    <tr class="transition-colors hover:bg-muted/30">
-                        <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
-                            <div class="flex gap-1.5 items-center">
+                    <tr class="hover:bg-muted/30 transition-colors">
+                        <td class="bg-card text-muted-foreground sticky left-0 z-10 px-3 py-2.5 text-xs font-medium">
+                            <div class="flex items-center gap-1.5">
                                 <i class="ph-bold ph-users text-primary"></i>
                                 {% translate "Using This" %}
                             </div>
                         </td>
                         {% for package in packages %}
-                            <td class="py-2.5 px-3 text-center border-l border-border/30">
-                                <div class="flex justify-center items-center">
+                            <td class="border-border/30 border-l px-3 py-2.5 text-center">
+                                <div class="flex items-center justify-center">
                                     {% with is_using=package.id|is_in:used_packages_list usage_count=package.usage_count %}
                                         {% include "partials/usage_button.html" %}
                                     {% endwith %}
@@ -82,23 +82,23 @@
                     </tr>
 
                 <!-- Python 3 Row -->
-                    <tr class="transition-colors hover:bg-muted/30">
-                        <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
-                            <div class="flex gap-1.5 items-center">
+                    <tr class="hover:bg-muted/30 transition-colors">
+                        <td class="bg-card text-muted-foreground sticky left-0 z-10 px-3 py-2.5 text-xs font-medium">
+                            <div class="flex items-center gap-1.5">
                                 <i class="ph-bold ph-file-py text-primary"></i>
                                 {% translate "Python 3?" %}
                             </div>
                         </td>
                         {% for package in packages %}
-                            <td class="py-2.5 px-3 text-center border-l border-border/30">
+                            <td class="border-border/30 border-l px-3 py-2.5 text-center">
                                 {% if package.supports_python3 %}
-                                    <span class="inline-flex gap-1 items-center py-0.5 px-2 text-xs font-medium text-emerald-600 rounded-md dark:text-emerald-400 bg-emerald-500/10">
-                                        <i class="text-xs ph-bold ph-check-circle"></i>
+                                    <span class="inline-flex items-center gap-1 rounded-md bg-emerald-500/10 px-2 py-0.5 text-xs font-medium text-emerald-600 dark:text-emerald-400">
+                                        <i class="ph-bold ph-check-circle text-xs"></i>
                                         {% translate "Yes" %}
                                     </span>
                                 {% else %}
-                                    <span class="inline-flex gap-1 items-center py-0.5 px-2 text-xs font-medium text-rose-600 rounded-md dark:text-rose-400 bg-rose-500/10">
-                                        <i class="text-xs ph-bold ph-x-circle"></i>
+                                    <span class="inline-flex items-center gap-1 rounded-md bg-rose-500/10 px-2 py-0.5 text-xs font-medium text-rose-600 dark:text-rose-400">
+                                        <i class="ph-bold ph-x-circle text-xs"></i>
                                         {% translate "No" %}
                                     </span>
                                 {% endif %}
@@ -108,14 +108,14 @@
 
                     <!-- Development Status Row -->
                     <tr>
-                        <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
-                            <div class="flex gap-1.5 items-center">
+                        <td class="bg-card text-muted-foreground sticky left-0 z-10 px-3 py-2.5 text-xs font-medium">
+                            <div class="flex items-center gap-1.5">
                                 <i class="ph-bold ph-gear text-primary"></i>
                                 {% translate "Dev Status" %}
                             </div>
                         </td>
                         {% for package in packages %}
-                            <td class="py-2.5 px-3 text-center align-top border-l border-border/30">
+                            <td class="border-border/30 border-l px-3 py-2.5 text-center align-top">
                                 {% if package.development_status is not None %}
                                     <span>
                                         {{ package.development_status|package_dev_status_badge }}
@@ -128,18 +128,18 @@
                     </tr>
 
                     <!-- PyPI Version Row -->
-                    <tr class="transition-colors hover:bg-muted/30">
-                        <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
-                            <div class="flex gap-1.5 items-center">
+                    <tr class="hover:bg-muted/30 transition-colors">
+                        <td class="bg-card text-muted-foreground sticky left-0 z-10 px-3 py-2.5 text-xs font-medium">
+                            <div class="flex items-center gap-1.5">
                                 <i class="ph-bold ph-package text-primary"></i>
                                 {% translate "Version (PyPI)" %}
                             </div>
                         </td>
                         {% for package in packages %}
-                            <td class="py-2.5 px-3 text-center border-l border-border/30">
+                            <td class="border-border/30 border-l px-3 py-2.5 text-center">
                                 {% if package.latest_version_number %}
                                     <a href="{{ package.pypi_url }}"
-                                       class="font-mono category-tag"
+                                       class="category-tag font-mono"
                                        target="_blank" rel="noopener">
                                         {{ package.latest_version_number|truncatechars:10 }}
                                     </a>
@@ -151,16 +151,16 @@
                     </tr>
 
                     <!-- Stars Row -->
-                    <tr class="transition-colors hover:bg-muted/30">
-                        <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
-                            <div class="flex gap-1.5 items-center">
+                    <tr class="hover:bg-muted/30 transition-colors">
+                        <td class="bg-card text-muted-foreground sticky left-0 z-10 px-3 py-2.5 text-xs font-medium">
+                            <div class="flex items-center gap-1.5">
                                 <i class="ph-bold ph-star text-primary"></i>
                                 {% translate "Stars" %}
                             </div>
                         </td>
                         {% for package in packages %}
-                            <td class="py-2.5 px-3 text-center border-l border-border/30">
-                                <span class="text-xs font-medium text-foreground" data-abbreviate>
+                            <td class="border-border/30 border-l px-3 py-2.5 text-center">
+                                <span class="text-foreground text-xs font-medium" data-abbreviate>
                                     {{ package.repo_watchers|default:0|intcomma }}
                                 </span>
                             </td>
@@ -168,47 +168,47 @@
                     </tr>
 
                     <!-- Forks Row -->
-                    <tr class="transition-colors hover:bg-muted/30">
-                        <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
-                            <div class="flex gap-1.5 items-center">
+                    <tr class="hover:bg-muted/30 transition-colors">
+                        <td class="bg-card text-muted-foreground sticky left-0 z-10 px-3 py-2.5 text-xs font-medium">
+                            <div class="flex items-center gap-1.5">
                                 <i class="ph-bold ph-git-fork text-primary"></i>
                                 {% translate "Forks" %}
                             </div>
                         </td>
                         {% for package in packages %}
-                            <td class="py-2.5 px-3 text-center border-l border-border/30">
-                                <span class="text-xs text-muted-foreground" data-abbreviate>
+                            <td class="border-border/30 border-l px-3 py-2.5 text-center">
+                                <span class="text-muted-foreground text-xs" data-abbreviate>
                                     {{ package.repo_forks|default:0|intcomma }}
                                 </span>
                             </td>
                         {% endfor %}
                     </tr>
                     <!-- Commits Row with SVG Sparkline from original template -->
-                    <tr class="transition-colors hover:bg-muted/30">
-                        <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
-                            <div class="flex gap-1.5 items-center">
+                    <tr class="hover:bg-muted/30 transition-colors">
+                        <td class="bg-card text-muted-foreground sticky left-0 z-10 px-3 py-2.5 text-xs font-medium">
+                            <div class="flex items-center gap-1.5">
                                 <i class="ph-bold ph-git-commit text-primary"></i>
                                 {% translate "Commits" %}
                             </div>
                         </td>
                         {% for package in packages %}
-                            <td class="py-2.5 px-3 text-center border-l border-border/30">
+                            <td class="border-border/30 border-l px-3 py-2.5 text-center">
                                 {% include "partials/_commits.html" with value=package.commits_over_52w_str graph_width=70 graph_height=20 %}
                             </td>
                         {% endfor %}
                     </tr>
                     <!-- Last Updated Row - Date, Month, Year format -->
-                    <tr class="transition-colors hover:bg-muted/30">
-                        <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
-                            <div class="flex gap-1.5 items-center">
+                    <tr class="hover:bg-muted/30 transition-colors">
+                        <td class="bg-card text-muted-foreground sticky left-0 z-10 px-3 py-2.5 text-xs font-medium">
+                            <div class="flex items-center gap-1.5">
                                 <i class="ph-bold ph-clock text-primary"></i>
                                 {% translate "Updated" %}
                             </div>
                         </td>
                         {% for package in packages %}
-                            <td class="py-2.5 px-3 text-center border-l border-border/30">
+                            <td class="border-border/30 border-l px-3 py-2.5 text-center">
                                 {% if package.last_commit_date %}
-                                    <span class="text-xs text-muted-foreground">
+                                    <span class="text-muted-foreground text-xs">
                                         {{ package.last_commit_date|date:"j M Y" }}
                                     </span>
                                 {% else %}
@@ -220,23 +220,23 @@
 
                     <!-- Score Row with working tooltip -->
                     {% flag "enabled_packages_score_values" %}
-                        <tr class="transition-colors hover:bg-muted/30">
-                            <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
-                                <div class="flex gap-1.5 items-center">
+                        <tr class="hover:bg-muted/30 transition-colors">
+                            <td class="bg-card text-muted-foreground sticky left-0 z-10 px-3 py-2.5 text-xs font-medium">
+                                <div class="flex items-center gap-1.5">
                                     <i class="ph-bold ph-trophy text-primary"></i>
                                     {% translate "Score" %}
-                                    <div class="relative group/tooltip">
-                                        <i class="text-xs ph-bold ph-info text-muted-foreground/50 cursor-help"></i>
-                                        <div class="absolute left-1/2 bottom-full invisible z-50 py-2 px-3 mb-2 max-w-xs text-xs text-white whitespace-normal bg-gray-900 rounded-lg shadow-lg opacity-0 transition-all duration-200 -translate-x-1/2 group-hover/tooltip:visible group-hover/tooltip:opacity-100">
+                                    <div class="group/tooltip relative">
+                                        <i class="ph-bold ph-info text-muted-foreground/50 cursor-help text-xs"></i>
+                                        <div class="invisible absolute bottom-full left-1/2 z-50 mb-2 max-w-xs -translate-x-1/2 rounded-lg bg-gray-900 px-3 py-2 text-xs whitespace-normal text-white opacity-0 shadow-lg transition-all duration-200 group-hover/tooltip:visible group-hover/tooltip:opacity-100">
                                             {% translate "Scores (0-100) are based on Repository stars, with penalties for inactivity (-10% every 3 months) and no Python 3 support (-30%)." %}
-                                            <div class="absolute left-1/2 top-full border-transparent -translate-x-1/2 border-6 border-t-gray-900"></div>
+                                            <div class="absolute top-full left-1/2 -translate-x-1/2 border-6 border-transparent border-t-gray-900"></div>
                                         </div>
                                     </div>
                                 </div>
                             </td>
                             {% for package in packages %}
-                                <td class="py-2.5 px-3 text-center border-l border-border/30">
-                                    <span class="text-xs font-medium text-foreground">
+                                <td class="border-border/30 border-l px-3 py-2.5 text-center">
+                                    <span class="text-foreground text-xs font-medium">
                                         {{ package.score|default:0 }}
                                     </span>
                                 </td>
@@ -245,17 +245,17 @@
                     {% endflag %}
 
                     <!-- License Row -->
-                    <tr class="transition-colors hover:bg-muted/30">
-                        <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
-                            <div class="flex gap-1.5 items-center">
+                    <tr class="hover:bg-muted/30 transition-colors">
+                        <td class="bg-card text-muted-foreground sticky left-0 z-10 px-3 py-2.5 text-xs font-medium">
+                            <div class="flex items-center gap-1.5">
                                 <i class="ph-bold ph-scales text-primary"></i>
                                 {% translate "License" %}
                             </div>
                         </td>
                         {% for package in packages %}
-                            <td class="py-2.5 px-3 text-center border-l border-border/30">
+                            <td class="border-border/30 border-l px-3 py-2.5 text-center">
                                 {% if package.pypi_license_display %}
-                                    <span class="text-xs text-muted-foreground" title="{{ package.pypi_license_display }}">
+                                    <span class="text-muted-foreground text-xs" title="{{ package.pypi_license_display }}">
                                         {{ package.pypi_license_display|truncatechars:12 }}
                                     </span>
                                 {% else %}<span class="text-muted-foreground">-</span>{% endif %}
@@ -264,35 +264,35 @@
                     </tr>
 
                     <!-- Repo Links Row -->
-                    <tr class="transition-colors hover:bg-muted/30">
-                        <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-muted-foreground">
-                            <div class="flex gap-1.5 items-center">
+                    <tr class="hover:bg-muted/30 transition-colors">
+                        <td class="bg-card text-muted-foreground sticky left-0 z-10 px-3 py-2.5 text-xs font-medium">
+                            <div class="flex items-center gap-1.5">
                                 <i class="ph-bold ph-link text-primary"></i>
                                 {% translate "Links" %}
                             </div>
                         </td>
                         {% for package in packages %}
-                            <td class="py-2.5 px-3 text-center border-l border-border/30">
-                                <div class="flex gap-1 justify-center items-center">
+                            <td class="border-border/30 border-l px-3 py-2.5 text-center">
+                                <div class="flex items-center justify-center gap-1">
                                     {% if package.repo_url %}
                                         <a href="{{ package.repo_url }}"
-                                           class="p-1.5 rounded-md transition-colors text-muted-foreground hover:bg-muted hover:text-foreground"
+                                           class="text-muted-foreground hover:bg-muted hover:text-foreground rounded-md p-1.5 transition-colors"
                                            target="_blank" rel="noopener" title="{% translate 'Repository' %}">
-                                            <i class="text-sm ph-bold ph-github-logo"></i>
+                                            <i class="ph-bold ph-github-logo text-sm"></i>
                                         </a>
                                     {% endif %}
                                     {% if package.pypi_url %}
                                         <a href="{{ package.pypi_url }}"
-                                           class="p-1.5 rounded-md transition-colors text-muted-foreground hover:bg-muted hover:text-foreground"
+                                           class="text-muted-foreground hover:bg-muted hover:text-foreground rounded-md p-1.5 transition-colors"
                                            target="_blank" rel="noopener" title="{% translate 'PyPI' %}">
-                                            <i class="text-sm ph-bold ph-file-py"></i>
+                                            <i class="ph-bold ph-file-py text-sm"></i>
                                         </a>
                                     {% endif %}
                                     {% if package.documentation_url %}
                                         <a href="{{ package.documentation_url }}"
-                                           class="p-1.5 rounded-md transition-colors text-muted-foreground hover:bg-muted hover:text-foreground"
+                                           class="text-muted-foreground hover:bg-muted hover:text-foreground rounded-md p-1.5 transition-colors"
                                            target="_blank" rel="noopener" title="{% translate 'Documentation' %}">
-                                            <i class="text-sm ph-bold ph-book-open"></i>
+                                            <i class="ph-bold ph-book-open text-sm"></i>
                                         </a>
                                     {% endif %}
                                 </div>
@@ -303,51 +303,50 @@
                     {% if show_features and features %}
                     <!-- Custom Features Section Header -->
                         <tr class="bg-primary/5">
-                            <td class="sticky left-0 z-10 py-2.5 px-3 whitespace-nowrap bg-primary/5">
-                                <div class="flex gap-2 items-center text-xs font-semibold text-foreground">
+                            <td class="bg-primary/5 sticky left-0 z-10 px-3 py-2.5 whitespace-nowrap">
+                                <div class="text-foreground flex items-center gap-2 text-xs font-semibold">
                                     <i class="ph-bold ph-list-checks text-primary"></i>
                                     {% translate "Feature Comparison" %}
-                                    <span class="ml-1 font-normal text-muted-foreground">
+                                    <span class="text-muted-foreground ml-1 font-normal">
                                         ({% translate "click cells to edit" %})
                                     </span>
                                 </div>
                             </td>
-                            <td colspan="{{ packages|length }}" class="py-2.5 px-3"></td>
+                            <td colspan="{{ packages|length }}" class="px-3 py-2.5"></td>
                         </tr>
 
                     <!-- Custom Features -->
                         {% for feature in features %}
-                            <tr class="transition-colors hover:bg-muted/30">
-                                <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium align-top bg-card text-muted-foreground max-w-[180px]">
-                                    <div class="flex gap-1.5 items-start">
-                                        <i class="flex-shrink-0 mt-0.5 ph-bold ph-check-square text-primary"></i>
-                                        <span class="leading-relaxed whitespace-normal break-words" title="{{ feature.title }}">{{ feature.title }}</span>
+                            <tr class="hover:bg-muted/30 transition-colors">
+                                <td class="bg-card text-muted-foreground sticky left-0 z-10 max-w-[180px] px-3 py-2.5 align-top text-xs font-medium">
+                                    <div class="flex items-start gap-1.5">
+                                        <i class="ph-bold ph-check-square text-primary mt-0.5 flex-shrink-0"></i>
+                                        <span class="leading-relaxed break-words whitespace-normal" title="{{ feature.title }}">{{ feature.title }}</span>
                                         {% if perms.grid.change_feature %}
                                             <a href="{% url 'edit_feature' feature.id %}"
                                                class="flex-shrink-0 opacity-40 transition-opacity hover:opacity-100"
                                                title="{% translate 'Edit feature' %}">
-                                                <i class="text-xs ph-bold ph-pencil-simple"></i>
+                                                <i class="ph-bold ph-pencil-simple text-xs"></i>
                                             </a>
                                         {% endif %}
                                     </div>
                                 </td>
                                 {% for package in packages %}
                                     {% with element=element_map|get_item:feature.id|get_item:package.id %}
-                                        <td class="px-3 py-2.5 text-center border-l border-border/30 align-top max-w-[140px]
-                                                   {% if perms.grid.change_element or perms.grid.add_element %}cursor-pointer hover:bg-primary/5 group{% endif %}"
+                                        <td class="border-border/30 {% if perms.grid.change_element or perms.grid.add_element %}cursor-pointer hover:bg-primary/5 group{% endif %} max-w-[140px] border-l px-3 py-2.5 text-center align-top"
                                             {% if perms.grid.change_element or perms.grid.add_element %}
                                                 onclick="window.location.href='{% url 'edit_element' grid_slug=grid.slug feature_id=feature.id package_id=package.id %}'"
                                                 title="{% translate 'Click to edit' %}"
                                             {% endif %}>
                                             <div class="relative min-h-5">
                                                 {% if perms.grid.change_element or perms.grid.add_element %}
-                                                    <span class="inline-flex absolute top-0 right-0 justify-center items-center w-5 h-5 opacity-40 text-muted-foreground">
-                                                        <i class="text-xs ph-bold ph-pencil-simple"></i>
+                                                    <span class="text-muted-foreground absolute top-0 right-0 inline-flex h-5 w-5 items-center justify-center opacity-40">
+                                                        <i class="ph-bold ph-pencil-simple text-xs"></i>
                                                     </span>
                                                 {% endif %}
                                                 {% if element %}
                                                     {% if element.text %}
-                                                        <span class="block overflow-hidden px-5 text-xs leading-relaxed text-center whitespace-normal break-words text-muted-foreground">
+                                                        <span class="text-muted-foreground block overflow-hidden px-5 text-center text-xs leading-relaxed break-words whitespace-normal">
                                                             {{ element.text|style_element|safe|urlize|linebreaksbr }}
                                                         </span>
                                                     {% else %}
@@ -366,19 +365,19 @@
 
                 <!-- Remove from Grid Row (Admin only) -->
                     {% if perms.grid.delete_gridpackage %}
-                        <tr class="border-t bg-destructive/5 border-destructive/20">
-                            <td class="sticky left-0 z-10 py-2.5 px-3 text-xs font-medium bg-card text-destructive">
-                                <div class="flex gap-1.5 items-center">
+                        <tr class="bg-destructive/5 border-destructive/20 border-t">
+                            <td class="bg-card text-destructive sticky left-0 z-10 px-3 py-2.5 text-xs font-medium">
+                                <div class="flex items-center gap-1.5">
                                     <i class="ph-bold ph-trash"></i>
                                     {% translate "Remove" %}
                                 </div>
                             </td>
                             {% for package in packages %}
-                                <td class="py-2.5 px-3 text-center border-l border-destructive/10">
+                                <td class="border-destructive/10 border-l px-3 py-2.5 text-center">
                                     <a href="{% url 'delete_grid_package' grid_slug=grid.slug package_id=package.id %}"
-                                       class="inline-flex gap-1 justify-center items-center py-1 px-2 text-xs font-medium rounded-md transition-colors hover:text-white text-destructive bg-destructive/10 hover:bg-destructive"
+                                       class="text-destructive bg-destructive/10 hover:bg-destructive inline-flex items-center justify-center gap-1 rounded-md px-2 py-1 text-xs font-medium transition-colors hover:text-white"
                                        title="{% translate 'Remove from grid' %}">
-                                        <i class="text-xs ph-bold ph-trash"></i>
+                                        <i class="ph-bold ph-trash text-xs"></i>
                                     </a>
                                 </td>
                             {% endfor %}
@@ -393,11 +392,10 @@
 <!-- Mobile Comparison View - Side by side swipeable cards -->
     <div class="md:hidden">
     <!-- Mobile Package Selector -->
-        <div class="flex overflow-x-auto gap-2 pb-3 mb-4 scrollbar-hide">
+        <div class="scrollbar-hide mb-4 flex gap-2 overflow-x-auto pb-3">
             {% for package in packages %}
                 <button type="button"
-                        class="mobile-pkg-btn flex-shrink-0 px-3 py-2 text-xs font-medium rounded-lg border transition-all
-                               {% if forloop.first %}bg-primary text-primary-foreground border-primary{% else %}bg-card text-foreground border-border hover:border-primary{% endif %}"
+                        class="mobile-pkg-btn {% if forloop.first %}bg-primary text-primary-foreground border-primary{% else %}bg-card text-foreground border-border hover:border-primary{% endif %} flex-shrink-0 rounded-lg border px-3 py-2 text-xs font-medium transition-all"
                         data-pkg-index="{{ forloop.counter0 }}">
                     {{ package.title|truncatechars:12 }}
                 </button>
@@ -405,51 +403,51 @@
         </div>
 
     <!-- Mobile Comparison Cards -->
-        <div class="overflow-hidden relative mobile-pkg-swipe-area touch-pan-y">
-            <div class="flex transition-transform duration-300 mobile-pkg-cards" style="touch-action: pan-y pinch-zoom;">
+        <div class="mobile-pkg-swipe-area relative touch-pan-y overflow-hidden">
+            <div class="mobile-pkg-cards flex transition-transform duration-300" style="touch-action: pan-y pinch-zoom;">
                 {% for package in packages %}
-                    <div class="overflow-hidden flex-shrink-0 w-full mobile-pkg-card card">
+                    <div class="mobile-pkg-card card w-full flex-shrink-0 overflow-hidden">
                 <!-- Package Header -->
-                        <div class="p-4 bg-primary/10">
-                            <div class="flex gap-3 justify-between items-start">
-                                <div class="flex flex-1 gap-3 items-start min-w-0">
+                        <div class="bg-primary/10 p-4">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="flex min-w-0 flex-1 items-start gap-3">
                                     <a href="{{ package.get_absolute_url }}" class="flex-shrink-0">
-                                        <div class="flex justify-center items-center w-10 h-10 rounded-lg bg-primary/20">
-                                            <i class="text-lg ph-bold ph-package text-primary"></i>
+                                        <div class="bg-primary/20 flex h-10 w-10 items-center justify-center rounded-lg">
+                                            <i class="ph-bold ph-package text-primary text-lg"></i>
                                         </div>
                                     </a>
-                                    <div class="flex-1 min-w-0">
+                                    <div class="min-w-0 flex-1">
                                         <a href="{{ package.get_absolute_url }}" class="block">
-                                            <h3 class="text-sm font-bold leading-tight hover:underline text-foreground">{{ package.title }}</h3>
+                                            <h3 class="text-foreground text-sm leading-tight font-bold hover:underline">{{ package.title }}</h3>
                                         </a>
                                         {% if package.category %}
-                                            <a href="{{ package.category.get_absolute_url }}" class="inline-block mt-1.5 category-tag text-[10px]">
+                                            <a href="{{ package.category.get_absolute_url }}" class="category-tag mt-1.5 inline-block text-[10px]">
                                                 {{ package.category.title }}
                                             </a>
                                         {% endif %}
                                     </div>
                                 </div>
                                 {% with is_using=package.id|is_in:used_packages_list %}
-                                    <div id="mobile-usage-btn-{{ package.id }}" class="flex flex-shrink-0 gap-1.5 items-center">
+                                    <div id="mobile-usage-btn-{{ package.id }}" class="flex flex-shrink-0 items-center gap-1.5">
                                         {% if request.user.is_authenticated %}
                                             {% if is_using %}
                                                 <button type="button"
-                                                        class="inline-flex gap-1 justify-center items-center py-1 px-2 font-medium text-emerald-700 rounded-full border transition-colors dark:text-emerald-400 hover:border-emerald-500 text-[11px] border-emerald-500/50 bg-emerald-500/10 hover:bg-emerald-500/20"
+                                                        class="inline-flex items-center justify-center gap-1 rounded-full border border-emerald-500/50 bg-emerald-500/10 px-2 py-1 text-[11px] font-medium text-emerald-700 transition-colors hover:border-emerald-500 hover:bg-emerald-500/20 dark:text-emerald-400"
                                                         hx-get="{% url 'usage' package.slug 'remove' %}?htmx=1&mobile=1"
                                                         hx-target="#mobile-usage-btn-{{ package.id }}"
                                                         hx-swap="outerHTML"
                                                         title="{% translate 'Remove from usage list' %}">
-                                                    <i class="text-xs ph-bold ph-check"></i>
+                                                    <i class="ph-bold ph-check text-xs"></i>
                                                     <span>{% translate "Using" %}</span>
                                                 </button>
                                             {% else %}
                                                 <button type="button"
-                                                        class="inline-flex gap-1 justify-center items-center py-1 px-2 font-medium rounded-full border transition-colors text-[11px] border-border bg-muted/50 text-muted-foreground hover:bg-muted hover:border-muted-foreground/50"
+                                                        class="border-border bg-muted/50 text-muted-foreground hover:bg-muted hover:border-muted-foreground/50 inline-flex items-center justify-center gap-1 rounded-full border px-2 py-1 text-[11px] font-medium transition-colors"
                                                         hx-get="{% url 'usage' package.slug 'add' %}?htmx=1&mobile=1"
                                                         hx-target="#mobile-usage-btn-{{ package.id }}"
                                                         hx-swap="outerHTML"
                                                         title="{% translate 'Add to usage list' %}">
-                                                    <i class="text-xs ph-bold ph-plus"></i>
+                                                    <i class="ph-bold ph-plus text-xs"></i>
                                                     <span>{% translate "Use" %}</span>
                                                 </button>
                                             {% endif %}
@@ -463,43 +461,43 @@
                         <div class="p-4">
                     <!-- Description -->
                             {% if package.repo_description %}
-                                <p class="mb-4 text-sm text-muted-foreground">
+                                <p class="text-muted-foreground mb-4 text-sm">
                                     {{ package.repo_description }}
                                 </p>
                             {% endif %}
 
                     <!-- Stats Grid -->
-                            <div class="grid grid-cols-4 gap-3 mb-4">
-                                <div class="p-2 text-center rounded-lg bg-muted/50">
-                                    <div class="text-lg font-bold text-foreground" data-abbreviate>{{ package.repo_watchers|default:0|intcomma }}</div>
-                                    <div class="uppercase text-[10px] text-muted-foreground">{% translate "Stars" %}</div>
+                            <div class="mb-4 grid grid-cols-4 gap-3">
+                                <div class="bg-muted/50 rounded-lg p-2 text-center">
+                                    <div class="text-foreground text-lg font-bold" data-abbreviate>{{ package.repo_watchers|default:0|intcomma }}</div>
+                                    <div class="text-muted-foreground text-[10px] uppercase">{% translate "Stars" %}</div>
                                 </div>
-                                <div class="p-2 text-center rounded-lg bg-muted/50">
-                                    <div class="text-lg font-bold text-foreground" data-abbreviate>{{ package.repo_forks|default:0|intcomma }}</div>
-                                    <div class="uppercase text-[10px] text-muted-foreground">{% translate "Forks" %}</div>
+                                <div class="bg-muted/50 rounded-lg p-2 text-center">
+                                    <div class="text-foreground text-lg font-bold" data-abbreviate>{{ package.repo_forks|default:0|intcomma }}</div>
+                                    <div class="text-muted-foreground text-[10px] uppercase">{% translate "Forks" %}</div>
                                 </div>
-                                <div class="p-2 text-center rounded-lg bg-muted/50">
-                                    <div id="mobile-usage-count-{{ package.id }}" class="text-lg font-bold text-foreground">{{ package.usage_count|default:0 }}</div>
-                                    <div class="uppercase text-[10px] text-muted-foreground">{% translate "Usage" %}</div>
+                                <div class="bg-muted/50 rounded-lg p-2 text-center">
+                                    <div id="mobile-usage-count-{{ package.id }}" class="text-foreground text-lg font-bold">{{ package.usage_count|default:0 }}</div>
+                                    <div class="text-muted-foreground text-[10px] uppercase">{% translate "Usage" %}</div>
                                 </div>
-                                <div class="p-2 text-center rounded-lg bg-muted/50">
+                                <div class="bg-muted/50 rounded-lg p-2 text-center">
                                     {% if package.supports_python3 %}
-                                        <div class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-emerald-500/10">
-                                            <i class="text-emerald-600 dark:text-emerald-400 ph-bold ph-check"></i>
+                                        <div class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500/10">
+                                            <i class="ph-bold ph-check text-emerald-600 dark:text-emerald-400"></i>
                                         </div>
                                     {% else %}
-                                        <div class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-rose-500/10">
-                                            <i class="text-rose-600 dark:text-rose-400 ph-bold ph-x"></i>
+                                        <div class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-rose-500/10">
+                                            <i class="ph-bold ph-x text-rose-600 dark:text-rose-400"></i>
                                         </div>
                                     {% endif %}
-                                    <div class="uppercase text-[10px] text-muted-foreground">{% translate "Py3" %}</div>
+                                    <div class="text-muted-foreground text-[10px] uppercase">{% translate "Py3" %}</div>
                                 </div>
                             </div>
 
                             <!-- Info List -->
-                            <div class="pt-4 space-y-2 text-sm border-t border-border">
+                            <div class="border-border space-y-2 border-t pt-4 text-sm">
                                 {% if package.development_status is not None %}
-                                    <div class="flex justify-between items-center">
+                                    <div class="flex items-center justify-between">
                                         <span class="text-muted-foreground">{% translate "Status" %}</span>
                                         <span>
                                             {{ package.development_status|package_dev_status_badge }}
@@ -507,15 +505,15 @@
                                     </div>
                                 {% endif %}
                                 {% if package.latest_version_number %}
-                                    <div class="flex justify-between items-center">
+                                    <div class="flex items-center justify-between">
                                         <span class="text-muted-foreground">{% translate "Version" %}</span>
-                                        <a href="{{ package.pypi_url }}" class="font-mono category-tag" target="_blank">
+                                        <a href="{{ package.pypi_url }}" class="category-tag font-mono" target="_blank">
                                             {{ package.latest_version_number|truncatechars:10 }}
                                         </a>
                                     </div>
                                 {% endif %}
                                 {% if package.last_commit_date %}
-                                    <div class="flex justify-between items-center">
+                                    <div class="flex items-center justify-between">
                                         <span class="text-muted-foreground">{% translate "Updated" %}</span>
                                         <span class="text-foreground">
                                             {{ package.last_commit_date|date:"j M Y" }}
@@ -523,21 +521,21 @@
                                     </div>
                                 {% endif %}
                                 {% if package.pypi_license_display %}
-                                    <div class="flex justify-between items-center">
+                                    <div class="flex items-center justify-between">
                                         <span class="text-muted-foreground">{% translate "License" %}</span>
-                                        <span class="text-xs text-muted-foreground" title="{{ package.pypi_license_display }}">{{ package.pypi_license_display|truncatechars:12 }}</span>
+                                        <span class="text-muted-foreground text-xs" title="{{ package.pypi_license_display }}">{{ package.pypi_license_display|truncatechars:12 }}</span>
                                     </div>
                                 {% endif %}
-                                <div class="flex justify-between items-center">
+                                <div class="flex items-center justify-between">
                                     <span class="text-muted-foreground">{% translate "Commits" %}</span>
                                     <div class="flex-shrink-0">
                                         {% include "partials/_commits.html" with value=package.commits_over_52w_str graph_width=60 graph_height=16 %}
                                     </div>
                                 </div>
                                 {% flag "enabled_packages_score_values" %}
-                                    <div class="flex justify-between items-center">
+                                    <div class="flex items-center justify-between">
                                         <span class="text-muted-foreground">{% translate "Score" %}</span>
-                                        <span class="font-medium text-foreground">
+                                        <span class="text-foreground font-medium">
                                             {{ package.score|default:0 }}
                                         </span>
                                     </div>
@@ -545,10 +543,10 @@
                             </div>
 
                     <!-- Links -->
-                            <div class="flex gap-2 items-center pt-4 mt-4 border-t border-border">
+                            <div class="border-border mt-4 flex items-center gap-2 border-t pt-4">
                                 {% if package.repo_url %}
                                     <a href="{{ package.repo_url }}"
-                                       class="flex flex-1 gap-2 justify-center items-center p-2 rounded-lg transition-colors bg-muted text-muted-foreground hover:text-foreground"
+                                       class="bg-muted text-muted-foreground hover:text-foreground flex flex-1 items-center justify-center gap-2 rounded-lg p-2 transition-colors"
                                        target="_blank" rel="noopener">
                                         <i class="ph-bold ph-github-logo"></i>
                                         <span class="text-xs">{% translate "Repo" %}</span>
@@ -556,7 +554,7 @@
                                 {% endif %}
                                 {% if package.pypi_url %}
                                     <a href="{{ package.pypi_url }}"
-                                       class="flex flex-1 gap-2 justify-center items-center p-2 rounded-lg transition-colors bg-muted text-muted-foreground hover:text-foreground"
+                                       class="bg-muted text-muted-foreground hover:text-foreground flex flex-1 items-center justify-center gap-2 rounded-lg p-2 transition-colors"
                                        target="_blank" rel="noopener">
                                         <i class="ph-bold ph-file-py"></i>
                                         <span class="text-xs">{% translate "PyPI" %}</span>
@@ -564,7 +562,7 @@
                                 {% endif %}
                                 {% if package.documentation_url %}
                                     <a href="{{ package.documentation_url }}"
-                                       class="flex flex-1 gap-2 justify-center items-center p-2 rounded-lg transition-colors bg-muted text-muted-foreground hover:text-foreground"
+                                       class="bg-muted text-muted-foreground hover:text-foreground flex flex-1 items-center justify-center gap-2 rounded-lg p-2 transition-colors"
                                        target="_blank" rel="noopener">
                                         <i class="ph-bold ph-book-open"></i>
                                         <span class="text-xs">{% translate "Docs" %}</span>
@@ -574,12 +572,12 @@
 
                     <!-- Feature Comparison -->
                             {% if show_features and features %}
-                                <div class="pt-4 mt-4 border-t border-border">
-                                    <div class="flex gap-2 items-center mb-3 text-xs font-semibold text-foreground">
+                                <div class="border-border mt-4 border-t pt-4">
+                                    <div class="text-foreground mb-3 flex items-center gap-2 text-xs font-semibold">
                                         <i class="ph-bold ph-list-checks text-primary"></i>
                                         {% translate "Features" %}
                                         {% if perms.grid.change_element or perms.grid.add_element %}
-                                            <span class="ml-1 font-normal text-muted-foreground">
+                                            <span class="text-muted-foreground ml-1 font-normal">
                                                 ({% translate "tap rows to edit" %})
                                             </span>
                                         {% endif %}
@@ -587,19 +585,19 @@
                                     <div class="space-y-2">
                                         {% for feature in features %}
                                             {% with element=element_map|get_item:feature.id|get_item:package.id %}
-                                                <div class="flex gap-2 justify-between items-start py-1.5 border-b last:border-0 border-border/50 {% if perms.grid.change_element or perms.grid.add_element %}cursor-pointer hover:bg-primary/5 rounded-sm{% endif %}"
+                                                <div class="border-border/50 {% if perms.grid.change_element or perms.grid.add_element %}cursor-pointer hover:bg-primary/5 rounded-sm{% endif %} flex items-start justify-between gap-2 border-b py-1.5 last:border-0"
                                                      {% if perms.grid.change_element or perms.grid.add_element %}
                                                          onclick="window.location.href='{% url 'edit_element' grid_slug=grid.slug feature_id=feature.id package_id=package.id %}'"
                                                          title="{% translate 'Tap to edit' %}"
                                                      {% endif %}>
-                                                    <span class="text-xs text-muted-foreground" title="{{ feature.title }}">{{ feature.title }}</span>
-                                                    <div class="flex items-start flex-shrink-0 max-w-[55%]">
+                                                    <span class="text-muted-foreground text-xs" title="{{ feature.title }}">{{ feature.title }}</span>
+                                                    <div class="flex max-w-[55%] flex-shrink-0 items-start">
                                                         {% if element %}
                                                             {% if element.text %}
-                                                                <span class="text-xs text-right text-foreground">{{ element.text|style_element|safe|urlize|linebreaksbr }}</span>
+                                                                <span class="text-foreground text-right text-xs">{{ element.text|style_element|safe|urlize|linebreaksbr }}</span>
                                                             {% elif element.value %}
-                                                                <span class="inline-flex justify-center items-center w-5 h-5 rounded-full bg-emerald-500/10">
-                                                                    <i class="text-xs text-emerald-600 dark:text-emerald-400 ph-bold ph-check"></i>
+                                                                <span class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/10">
+                                                                    <i class="ph-bold ph-check text-xs text-emerald-600 dark:text-emerald-400"></i>
                                                                 </span>
                                                             {% else %}
                                                                 <span class="text-muted-foreground/30">—</span>
@@ -617,9 +615,9 @@
 
                     <!-- Remove from Grid (Admin only) -->
                             {% if perms.grid.delete_gridpackage %}
-                                <div class="pt-4 mt-4 border-t border-border">
+                                <div class="border-border mt-4 border-t pt-4">
                                     <a href="{% url 'delete_grid_package' grid_slug=grid.slug package_id=package.id %}"
-                                       class="flex gap-2 justify-center items-center p-2 rounded-lg transition-colors text-destructive/70 hover:text-destructive hover:bg-destructive/10">
+                                       class="text-destructive/70 hover:text-destructive hover:bg-destructive/10 flex items-center justify-center gap-2 rounded-lg p-2 transition-colors">
                                         <i class="ph-bold ph-trash"></i>
                                         <span class="text-xs">{% translate "Remove from Grid" %}</span>
                                     </a>
@@ -633,10 +631,10 @@
 
     <!-- Mobile Navigation Dots -->
         {% if packages|length > 1 %}
-            <div class="flex gap-2 justify-center mt-4">
+            <div class="mt-4 flex justify-center gap-2">
                 {% for package in packages %}
                     <button type="button"
-                            class="mobile-pkg-dot w-2 h-2 rounded-full transition-all {% if forloop.first %}bg-primary w-4{% else %}bg-muted-foreground/30{% endif %}"
+                            class="mobile-pkg-dot {% if forloop.first %}bg-primary else %}bg-muted-foreground/30{% endif %} h-2 w-2 w-4{% rounded-full transition-all"
                             data-pkg-index="{{ forloop.counter0 }}"></button>
                 {% endfor %}
             </div>
@@ -645,19 +643,19 @@
 
 {% else %}
 <!-- Empty State -->
-    <div class="p-12 text-center card">
-        <div class="flex justify-center items-center mx-auto mb-4 w-16 h-16 rounded-2xl bg-muted">
-            <i class="text-3xl ph-bold ph-package text-muted-foreground"></i>
+    <div class="card p-12 text-center">
+        <div class="bg-muted mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl">
+            <i class="ph-bold ph-package text-muted-foreground text-3xl"></i>
         </div>
-        <h3 class="mb-2 text-lg font-semibold text-foreground">
+        <h3 class="text-foreground mb-2 text-lg font-semibold">
             {% translate "No packages found" %}
         </h3>
-        <p class="mb-4 text-sm text-muted-foreground">
+        <p class="text-muted-foreground mb-4 text-sm">
             {% translate "Try adjusting your search or filter criteria, or add a package to this grid." %}
         </p>
         {% if perms.grid.add_gridpackage %}
             <a href="{% url 'add_grid_package' grid.slug %}"
-               class="inline-flex gap-2 items-center py-2 px-4 font-medium rounded-lg transition-colors bg-primary text-primary-foreground hover:bg-primary/90">
+               class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-lg px-4 py-2 font-medium transition-colors">
                 <i class="ph-bold ph-plus-circle"></i>
                 {% translate "Add Package" %}
             </a>

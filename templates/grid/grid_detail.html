@@ -6,40 +6,40 @@
 
 {% block content %}
     <!-- Breadcrumb Section -->
-    <section class="py-4 bg-primary/10">
-        <div class="container px-4 mx-auto">
-            <div class="flex flex-col gap-3 lg:flex-row lg:justify-between lg:items-center">
-                <div class="flex items-center text-sm text-muted-foreground">
+    <section class="bg-primary/10 py-4">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                <div class="text-muted-foreground flex items-center text-sm">
                     <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
                     <span class="mx-2">»</span>
                     <a href="{% url 'grids' %}" class="hover:underline">{% translate "Grids" %}</a>
                     <span class="mx-2">»</span>
-                    <span class="font-medium text-foreground truncate">{{ grid.title }}</span>
+                    <span class="text-foreground truncate font-medium">{{ grid.title }}</span>
                 </div>
-                <div class="flex flex-wrap gap-2 items-center w-full lg:w-auto">
-                    <a href="{% url 'grid_packages' grid.slug %}" class="flex-1 flex-shrink-0 lg:flex-none btn-secondary">
-                        <i class="mr-1 text-base ph-bold ph-package"></i>
+                <div class="flex w-full flex-wrap items-center gap-2 lg:w-auto">
+                    <a href="{% url 'grid_packages' grid.slug %}" class="btn-secondary flex-1 flex-shrink-0 lg:flex-none">
+                        <i class="ph-bold ph-package mr-1 text-base"></i>
                         <span>{% translate "All Packages" %}</span>
                     </a>
-                    <a href="{% url 'grid_timesheet' grid.slug %}" class="flex-1 flex-shrink-0 lg:flex-none btn-secondary">
-                        <i class="mr-1 text-base ph-bold ph-calendar-blank"></i>
+                    <a href="{% url 'grid_timesheet' grid.slug %}" class="btn-secondary flex-1 flex-shrink-0 lg:flex-none">
+                        <i class="ph-bold ph-calendar-blank mr-1 text-base"></i>
                         <span>{% translate "Timesheet" %}</span>
                     </a>
                     {% if perms.grid.change_grid %}
-                        <a href="{% url 'edit_grid' grid.slug %}" class="flex-1 flex-shrink-0 lg:flex-none btn-secondary">
-                            <i class="mr-1 text-base ph-bold ph-pencil-simple"></i>
+                        <a href="{% url 'edit_grid' grid.slug %}" class="btn-secondary flex-1 flex-shrink-0 lg:flex-none">
+                            <i class="ph-bold ph-pencil-simple mr-1 text-base"></i>
                             <span>{% translate "Edit Grid" %}</span>
                         </a>
                     {% endif %}
                     {% if perms.grid.add_gridpackage %}
-                        <a href="{% url 'add_grid_package' grid.slug %}" class="flex-1 flex-shrink-0 lg:flex-none btn-secondary">
-                            <i class="mr-1 text-base ph-bold ph-plus-circle"></i>
+                        <a href="{% url 'add_grid_package' grid.slug %}" class="btn-secondary flex-1 flex-shrink-0 lg:flex-none">
+                            <i class="ph-bold ph-plus-circle mr-1 text-base"></i>
                             <span>{% translate "Add Package" %}</span>
                         </a>
                     {% endif %}
                     {% if perms.grid.add_feature %}
-                        <a href="{% url 'add_feature' grid.slug %}" class="flex-1 flex-shrink-0 lg:flex-none btn-secondary">
-                            <i class="mr-1 text-base ph-bold ph-list-plus"></i>
+                        <a href="{% url 'add_feature' grid.slug %}" class="btn-secondary flex-1 flex-shrink-0 lg:flex-none">
+                            <i class="ph-bold ph-list-plus mr-1 text-base"></i>
                             <span>{% translate "Add Feature" %}</span>
                         </a>
                     {% endif %}
@@ -48,22 +48,22 @@
         </div>
     </section>
 
-    <div class="container py-8 px-4 mx-auto">
+    <div class="container mx-auto px-4 py-8">
         <!-- Header Section -->
         <div class="mb-8">
-            <h1 class="text-3xl font-bold text-foreground">{{ grid.title }}</h1>
+            <h1 class="text-foreground text-3xl font-bold">{{ grid.title }}</h1>
             {% if grid.description %}
-                <p class="pt-2 text-muted-foreground">{{ grid.description|linebreaks }}</p>
+                <p class="text-muted-foreground pt-2">{{ grid.description|linebreaks }}</p>
             {% endif %}
-            <div class="flex flex-wrap gap-4 items-center mt-4 text-sm text-muted-foreground">
-                <div class="flex gap-2 items-center">
+            <div class="text-muted-foreground mt-4 flex flex-wrap items-center gap-4 text-sm">
+                <div class="flex items-center gap-2">
                     <i class="ph-bold ph-package text-primary"></i>
-                    <span class="font-semibold text-foreground">{{ total_package_count }}</span>
+                    <span class="text-foreground font-semibold">{{ total_package_count }}</span>
                     <span>{% translate "Packages" %}</span>
                 </div>
-                <div class="flex gap-2 items-center">
+                <div class="flex items-center gap-2">
                     <i class="ph-bold ph-list-checks text-primary"></i>
-                    <span class="font-semibold text-foreground">{{ features|length }}</span>
+                    <span class="text-foreground font-semibold">{{ features|length }}</span>
                     <span>{% translate "Features" %}</span>
                 </div>
             </div>
@@ -72,11 +72,11 @@
         {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="grid-detail-top" ea_outer_class="mb-4" ea_inner_class="flex justify-center" %}
 
         <!-- Search & Filter Card -->
-        <div class="mb-6 card">
-            <div class="p-6 card-content">
-                <div class="flex gap-2 items-center mb-4">
-                    <i class="text-lg ph-bold ph-funnel text-primary"></i>
-                    <h2 class="font-semibold text-foreground">{% translate "Search & Filter" %}</h2>
+        <div class="card mb-6">
+            <div class="card-content p-6">
+                <div class="mb-4 flex items-center gap-2">
+                    <i class="ph-bold ph-funnel text-primary text-lg"></i>
+                    <h2 class="text-foreground font-semibold">{% translate "Search & Filter" %}</h2>
                 </div>
 
                 <form method="get"
@@ -90,12 +90,12 @@
                     <!-- Search Input -->
                     <div class="md:col-span-2 lg:col-span-1">
                         <div class="relative">
-                            <i class="absolute left-3 top-1/2 -translate-y-1/2 ph-bold ph-magnifying-glass text-muted-foreground"></i>
+                            <i class="ph-bold ph-magnifying-glass text-muted-foreground absolute top-1/2 left-3 -translate-y-1/2"></i>
                             <input type="text"
                                    name="q"
                                    value="{{ filter_form.q.value|default:'' }}"
                                    placeholder="{% translate 'Search packages...' %}"
-                                   class="pr-4 pl-10 w-full h-10 rounded-lg border shadow-sm transition-shadow focus:ring-2 focus:outline-none bg-background text-foreground focus:ring-primary"
+                                   class="bg-background text-foreground focus:ring-primary h-10 w-full rounded-lg border pr-4 pl-10 shadow-sm transition-shadow focus:ring-2 focus:outline-none"
                                    hx-get="{% url 'grid' grid.slug %}"
                                    hx-target="#comparison-table"
                                    hx-trigger="input changed delay:300ms"
@@ -108,20 +108,20 @@
                     <!-- Sort Select -->
                     <div>
                         <select name="sort"
-                                class="px-3 w-full h-10 rounded-lg border shadow-sm transition-shadow focus:ring-2 focus:outline-none bg-background text-foreground focus:ring-primary">
+                                class="bg-background text-foreground focus:ring-primary h-10 w-full rounded-lg border px-3 shadow-sm transition-shadow focus:ring-2 focus:outline-none">
                             {% for value, label in filter_form.sort.field.choices %}
                                 <option value="{{ value }}" {% if filter_form.sort.value == value %}selected{% endif %}>{{ label }}</option>
                             {% endfor %}
                         </select>
                     </div>
 
-                    <div class="flex gap-4 items-center">
-                        <label class="flex gap-2 items-center text-sm cursor-pointer">
+                    <div class="flex items-center gap-4">
+                        <label class="flex cursor-pointer items-center gap-2 text-sm">
                             <input type="checkbox"
                                    name="stable"
                                    value="true"
                                    {% if filter_form.stable.value %}checked{% endif %}
-                                   class="w-4 h-4 rounded border-input text-primary focus:ring-primary">
+                                   class="border-input text-primary focus:ring-primary h-4 w-4 rounded">
                             <span class="text-muted-foreground">{% translate "Stable" %}</span>
                         </label>
                     </div>
@@ -132,8 +132,8 @@
 
         <!-- Comparison Table -->
         <div class="relative">
-            <div id="grid-comparison-spinner" class="flex absolute inset-0 z-10 justify-center items-center rounded-xl pointer-events-none htmx-indicator bg-background/50 backdrop-blur-[1px]">
-                <i class="text-5xl animate-spin ph-bold ph-circle-notch text-primary"></i>
+            <div id="grid-comparison-spinner" class="htmx-indicator bg-background/50 pointer-events-none absolute inset-0 z-10 flex items-center justify-center rounded-xl backdrop-blur-[1px]">
+                <i class="ph-bold ph-circle-notch text-primary animate-spin text-5xl"></i>
             </div>
             <div id="comparison-table">
                 {% include "partials/grid_comparison_table.html" %}
@@ -142,18 +142,18 @@
 
         {% if has_more_packages %}
             <!-- More Packages Notice -->
-            <div class="p-4 mt-6 rounded-lg border border-primary/30 bg-primary/5">
-                <div class="flex flex-col gap-3 items-start sm:flex-row sm:justify-between sm:items-center">
-                    <div class="flex gap-3 items-center">
-                        <i class="text-xl ph-bold ph-info text-primary"></i>
-                        <p class="text-sm text-foreground">
+            <div class="border-primary/30 bg-primary/5 mt-6 rounded-lg border p-4">
+                <div class="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div class="flex items-center gap-3">
+                        <i class="ph-bold ph-info text-primary text-xl"></i>
+                        <p class="text-foreground text-sm">
                             {% blocktranslate with shown=packages|length total=total_package_count %}
                                 Showing {{ shown }} of {{ total }} packages in this grid.
                             {% endblocktranslate %}
                         </p>
                     </div>
                     <a href="{% url 'grid_packages' grid.slug %}" class="btn-primary">
-                        <i class="mr-1 ph-bold ph-package"></i>
+                        <i class="ph-bold ph-package mr-1"></i>
                         {% translate "View All Packages" %}
                     </a>
                 </div>
@@ -167,45 +167,45 @@
 
                 <!-- Features Being Compared Card -->
                 <div class="card">
-                    <div class="p-6 card-content">
-                        <div class="flex justify-between items-center mb-4">
-                            <div class="flex gap-2 items-center">
-                                <i class="text-lg ph-bold ph-list-checks text-primary"></i>
-                                <h2 class="font-semibold text-foreground">{% translate "Features Being Compared" %}</h2>
+                    <div class="card-content p-6">
+                        <div class="mb-4 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <i class="ph-bold ph-list-checks text-primary text-lg"></i>
+                                <h2 class="text-foreground font-semibold">{% translate "Features Being Compared" %}</h2>
                             </div>
-                            <span class="py-1 px-2.5 text-xs font-medium rounded-full bg-primary/10 text-primary">
+                            <span class="bg-primary/10 text-primary rounded-full px-2.5 py-1 text-xs font-medium">
                                 {{ features|length }} {% translate "features" %}
                             </span>
                         </div>
                         <div class="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
                             {% for feature in features %}
-                                <div class="flex gap-3 items-start p-3 rounded-lg border transition-colors group border-border bg-muted/30 hover:border-primary/50">
-                                    <div class="flex flex-shrink-0 justify-center items-center mt-0.5 w-6 h-6 rounded-md bg-primary/10">
-                                        <i class="text-xs ph-bold ph-check text-primary"></i>
+                                <div class="group border-border bg-muted/30 hover:border-primary/50 flex items-start gap-3 rounded-lg border p-3 transition-colors">
+                                    <div class="bg-primary/10 mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-md">
+                                        <i class="ph-bold ph-check text-primary text-xs"></i>
                                     </div>
-                                    <div class="flex-1 min-w-0">
-                                        <h3 class="text-sm font-medium text-foreground">
+                                    <div class="min-w-0 flex-1">
+                                        <h3 class="text-foreground text-sm font-medium">
                                             {{ feature.title }}
                                         </h3>
                                         {% if feature.description %}
-                                            <p class="mt-1 text-xs text-muted-foreground">
+                                            <p class="text-muted-foreground mt-1 text-xs">
                                                 {{ feature.description }}
                                             </p>
                                         {% endif %}
                                     </div>
-                                    <div class="flex gap-1 items-center">
+                                    <div class="flex items-center gap-1">
                                         {% if perms.grid.change_feature %}
                                             <a href="{% url 'edit_feature' feature.pk %}"
-                                               class="p-1 rounded transition-all text-muted-foreground hover:text-primary hover:bg-muted"
+                                               class="text-muted-foreground hover:text-primary hover:bg-muted rounded p-1 transition-all"
                                                title="{% translate 'Edit feature' %}">
-                                                <i class="text-sm ph-bold ph-pencil-simple"></i>
+                                                <i class="ph-bold ph-pencil-simple text-sm"></i>
                                             </a>
                                         {% endif %}
                                         {% if perms.grid.delete_feature %}
                                             <a href="{% url 'delete_feature' feature.pk %}"
-                                               class="p-1 rounded transition-all text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                                               class="text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded p-1 transition-all"
                                                title="{% translate 'Delete feature' %}">
-                                                <i class="text-sm ph-bold ph-trash"></i>
+                                                <i class="ph-bold ph-trash text-sm"></i>
                                             </a>
                                         {% endif %}
                                     </div>

@@ -64,9 +64,9 @@ repos:
     hooks:
       - id: rustywind
         additional_dependencies:
-          - rustywind@latest
+          - rustywind@0.25.0
         args: [--write]
-        entry: npx rustywind
+        entry: rustywind
         files: ^templates/.*\.html$
         language: node
         name: rustywind

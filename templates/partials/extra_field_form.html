@@ -2,15 +2,15 @@
 <form hx-post="{% if extra_field %}{% url 'profile_edit_extra_field' extra_field.id %}{% else %}{% url 'profile_add_extra_field' %}{% endif %}"
       hx-target="{% if extra_field %}#extra-field-row-{{ extra_field.id }}{% else %}this{% endif %}"
       hx-swap="outerHTML"
-      class="flex flex-col gap-4 items-end p-4 rounded-md border md:flex-row md:items-start extra-field-row bg-muted/20">
+      class="extra-field-row bg-muted/20 flex flex-col items-end gap-4 rounded-md border p-4 md:flex-row md:items-start">
     {% csrf_token %}
-    <div class="grid flex-1 grid-cols-1 gap-4 w-full md:grid-cols-2">
+    <div class="grid w-full flex-1 grid-cols-1 gap-4 md:grid-cols-2">
         <div>
-            <label class="block mb-1 text-sm font-medium text-foreground">{% translate "Label" %}</label>
+            <label class="text-foreground mb-1 block text-sm font-medium">{% translate "Label" %}</label>
             <input type="text"
                    name="label"
                    value="{{ form.label.value|default:'' }}"
-                   class="flex py-2 px-3 w-full h-10 text-sm rounded-md border focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:opacity-50 disabled:cursor-not-allowed border-input bg-background ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:ring-ring"
+                   class="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex h-10 w-full rounded-md border px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                    placeholder="e.g. X"
                    required>
             {% if form.label.errors %}
@@ -18,11 +18,11 @@
             {% endif %}
         </div>
         <div>
-            <label class="block mb-1 text-sm font-medium text-foreground">{% translate "URL" %}</label>
+            <label class="text-foreground mb-1 block text-sm font-medium">{% translate "URL" %}</label>
             <input type="url"
                    name="url"
                    value="{{ form.url.value|default:'' }}"
-                   class="flex py-2 px-3 w-full h-10 text-sm rounded-md border focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:opacity-50 disabled:cursor-not-allowed border-input bg-background ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:ring-ring"
+                   class="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex h-10 w-full rounded-md border px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                    placeholder="https://..."
                    required>
             {% if form.url.errors %}
@@ -31,16 +31,16 @@
         </div>
     </div>
     <div class="flex flex-none gap-2 md:mt-6">
-        <button type="submit" class="inline-flex justify-center items-center w-10 h-10 text-sm font-medium rounded-md transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:opacity-50 disabled:pointer-events-none ring-offset-background bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-ring" title="{% translate 'Save' %}">
-            <i class="text-lg ph-bold ph-check"></i>
+        <button type="submit" class="ring-offset-background bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-ring inline-flex h-10 w-10 items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50" title="{% translate 'Save' %}">
+            <i class="ph-bold ph-check text-lg"></i>
         </button>
         {% if extra_field %}
-            <button type="button" onclick="document.getElementById('extra-field-form-{{ extra_field.id }}').classList.add('hidden'); document.getElementById('extra-field-display-{{ extra_field.id }}').classList.remove('hidden'); this.closest('form').reset();" class="inline-flex justify-center items-center w-10 h-10 text-sm font-medium rounded-md transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:opacity-50 disabled:pointer-events-none ring-offset-background hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring" title="{% translate 'Cancel' %}">
-                <i class="text-lg ph-bold ph-x"></i>
+            <button type="button" onclick="document.getElementById('extra-field-form-{{ extra_field.id }}').classList.add('hidden'); document.getElementById('extra-field-display-{{ extra_field.id }}').classList.remove('hidden'); this.closest('form').reset();" class="ring-offset-background hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring inline-flex h-10 w-10 items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50" title="{% translate 'Cancel' %}">
+                <i class="ph-bold ph-x text-lg"></i>
             </button>
         {% else %}
-            <button type="button" onclick="this.closest('form').remove()" class="inline-flex justify-center items-center w-10 h-10 text-sm font-medium rounded-md transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:opacity-50 disabled:pointer-events-none ring-offset-background hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring" title="{% translate 'Cancel' %}">
-                <i class="text-lg ph-bold ph-x"></i>
+            <button type="button" onclick="this.closest('form').remove()" class="ring-offset-background hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring inline-flex h-10 w-10 items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50" title="{% translate 'Cancel' %}">
+                <i class="ph-bold ph-x text-lg"></i>
             </button>
         {% endif %}
     </div>

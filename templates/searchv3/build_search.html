@@ -8,31 +8,31 @@
 
 {% block content %}
     <!-- Breadcrumb Section -->
-    <section class="py-4 bg-primary/10">
-        <div class="container px-4 mx-auto">
-            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
-                <div class="flex items-center text-sm text-muted-foreground">
+    <section class="bg-primary/10 py-4">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div class="text-muted-foreground flex items-center text-sm">
                     <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
                     <span class="mx-2">»</span>
-                    <span class="font-medium text-foreground truncate">{% translate "Rebuild Search" %}</span>
+                    <span class="text-foreground truncate font-medium">{% translate "Rebuild Search" %}</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="container py-8 px-4 mx-auto">
+    <div class="container mx-auto px-4 py-8">
         <div class="mb-8">
-            <h1 class="text-3xl font-bold text-foreground">{% translate "Rebuild Search Results Cache" %} (v3)</h1>
-            <p class="pt-2 text-muted-foreground">{% translate "Run this process to rebuild the search index." %}</p>
+            <h1 class="text-foreground text-3xl font-bold">{% translate "Rebuild Search Results Cache" %} (v3)</h1>
+            <p class="text-muted-foreground pt-2">{% translate "Run this process to rebuild the search index." %}</p>
         </div>
 
-        <div class="max-w-3xl card">
-            <div class="p-6 card-content">
+        <div class="card max-w-3xl">
+            <div class="card-content p-6">
                 <form method="post">
                     {% csrf_token %}
                     <div>
-                        <button type="submit" class="w-full md:w-auto btn-primary">
-                            <i class="mr-1 text-lg ph-bold ph-arrows-clockwise"></i>
+                        <button type="submit" class="btn-primary w-full md:w-auto">
+                            <i class="ph-bold ph-arrows-clockwise mr-1 text-lg"></i>
                             {% translate "Build Search" %}
                         </button>
                     </div>

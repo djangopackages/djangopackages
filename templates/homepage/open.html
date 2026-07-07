@@ -8,73 +8,73 @@
 
 {% block content %}
     <!-- Breadcrumb Section -->
-    <section class="py-4 bg-primary/10">
-        <div class="container px-4 mx-auto">
-            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
-                <div class="flex items-center text-sm text-muted-foreground">
+    <section class="bg-primary/10 py-4">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div class="text-muted-foreground flex items-center text-sm">
                     <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
                     <span class="mx-2">»</span>
-                    <span class="font-medium text-foreground truncate">{% translate "Open" %}</span>
+                    <span class="text-foreground truncate font-medium">{% translate "Open" %}</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="container py-8 px-4 mx-auto">
+    <div class="container mx-auto px-4 py-8">
         <div class="mb-8">
-            <h1 class="text-3xl font-bold text-foreground">{% translate "Open" %}</h1>
-            <p class="pt-2 text-muted-foreground">{% translate "Statistics about Django Packages." %}</p>
+            <h1 class="text-foreground text-3xl font-bold">{% translate "Open" %}</h1>
+            <p class="text-muted-foreground pt-2">{% translate "Statistics about Django Packages." %}</p>
         </div>
 
-        <div class="grid grid-cols-1 gap-6 mb-12 md:grid-cols-2 lg:grid-cols-4">
+        <div class="mb-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
             <!-- Tracking -->
             <div class="card">
-                <div class="p-6 card-content">
-                    <h2 class="mb-4 text-xl font-bold text-foreground">{% translate "Tracking" %}</h2>
+                <div class="card-content p-6">
+                    <h2 class="text-foreground mb-4 text-xl font-bold">{% translate "Tracking" %}</h2>
                     <div class="space-y-2">
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Users" %}</span>
-                            <span class="font-medium text-foreground">{{ total_users|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ total_users|intcomma }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Grids" %}</span>
-                            <span class="font-medium text-foreground">{{ total_grids|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ total_grids|intcomma }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Categories" %}</span>
-                            <span class="font-medium text-foreground">{{ total_categories|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ total_categories|intcomma }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Versions" %}</span>
-                            <span class="font-medium text-foreground">{{ total_versions|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ total_versions|intcomma }}</span>
                         </div>
                     </div>
 
-                    <h2 class="mt-6 mb-4 text-xl font-bold text-foreground">{% translate "Repos" %}</h2>
+                    <h2 class="text-foreground mt-6 mb-4 text-xl font-bold">{% translate "Repos" %}</h2>
                     <div class="space-y-2">
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "GitHub Repos" %}</span>
-                            <span class="font-medium text-foreground">{{ repos_github|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ repos_github|intcomma }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Bitbucket Repos" %}</span>
-                            <span class="font-medium text-foreground">{{ repos_bitbucket|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ repos_bitbucket|intcomma }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "GitLab Repos" %}</span>
-                            <span class="font-medium text-foreground">{{ repos_gitlab|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ repos_gitlab|intcomma }}</span>
                         </div>
                     </div>
 
-                    <h2 class="mt-6 mb-4 text-xl font-bold text-foreground">{% translate "PyPI" %}</h2>
+                    <h2 class="text-foreground mt-6 mb-4 text-xl font-bold">{% translate "PyPI" %}</h2>
                     <div class="space-y-2">
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Packages on PyPI" %}</span>
-                            <span class="font-medium text-foreground">{{ pypi_stats.total_pypi_packages|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ pypi_stats.total_pypi_packages|intcomma }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Total Downloads" %}</span>
-                            <span class="font-medium text-foreground">{{ pypi_stats.total_pypi_downloads|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ pypi_stats.total_pypi_downloads|intcomma }}</span>
                         </div>
                     </div>
                 </div>
@@ -82,26 +82,26 @@
 
             <!-- Packages -->
             <div class="card">
-                <div class="p-6 card-content">
-                    <h2 class="mb-4 text-xl font-bold text-foreground">{% translate "Packages" %}</h2>
+                <div class="card-content p-6">
+                    <h2 class="text-foreground mb-4 text-xl font-bold">{% translate "Packages" %}</h2>
                     <div class="space-y-2">
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Packages" %}</span>
-                            <span class="font-medium text-foreground">{{ total_packages|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ total_packages|intcomma }}</span>
                         </div>
                         {% for key, value in categories.items %}
                             <div class="flex justify-between">
                                 <span class="text-muted-foreground">{{ key|title }}</span>
-                                <span class="font-medium text-foreground">{{ value|intcomma }}</span>
+                                <span class="text-foreground font-medium">{{ value|intcomma }}</span>
                             </div>
                         {% endfor %}
-                        <div class="flex justify-between pt-2 mt-2 border-t border-border">
+                        <div class="border-border mt-2 flex justify-between border-t pt-2">
                             <span class="text-muted-foreground">{% translate "Archived Packages" %}</span>
-                            <span class="font-medium text-foreground">{{ archive_packages|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ archive_packages|intcomma }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Deprecated Packages" %}</span>
-                            <span class="font-medium text-foreground">{{ deprecated_packages|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ deprecated_packages|intcomma }}</span>
                         </div>
                     </div>
                 </div>
@@ -109,36 +109,36 @@
 
             <!-- Django Versions -->
             <div class="card">
-                <div class="p-6 card-content">
-                    <h2 class="mb-4 text-xl font-bold text-foreground">{% translate "Django Versions" %}</h2>
+                <div class="card-content p-6">
+                    <h2 class="text-foreground mb-4 text-xl font-bold">{% translate "Django Versions" %}</h2>
                     <div class="space-y-2">
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Django 6.0 Packages:" %}</span>
-                            <span class="font-medium text-foreground">{{ total_django_6_0|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ total_django_6_0|intcomma }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Django 5.2 Packages:" %}</span>
-                            <span class="font-medium text-foreground">{{ total_django_5_2|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ total_django_5_2|intcomma }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Django 5.1 Packages:" %}</span>
-                            <span class="font-medium text-foreground">{{ total_django_5_1|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ total_django_5_1|intcomma }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Django 5.0 Packages:" %}</span>
-                            <span class="font-medium text-foreground">{{ total_django_5_0|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ total_django_5_0|intcomma }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Django 4.2 Packages:" %}</span>
-                            <span class="font-medium text-foreground">{{ total_django_4_2|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ total_django_4_2|intcomma }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Django 3.2 Packages:" %}</span>
-                            <span class="font-medium text-foreground">{{ total_django_3_2|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ total_django_3_2|intcomma }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Django 2.2 Packages:" %}</span>
-                            <span class="font-medium text-foreground">{{ total_django_2_2|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ total_django_2_2|intcomma }}</span>
                         </div>
                     </div>
                 </div>
@@ -146,36 +146,36 @@
 
             <!-- Python Versions -->
             <div class="card">
-                <div class="p-6 card-content">
-                    <h2 class="mb-4 text-xl font-bold text-foreground">{% translate "Python Versions" %}</h2>
+                <div class="card-content p-6">
+                    <h2 class="text-foreground mb-4 text-xl font-bold">{% translate "Python Versions" %}</h2>
                     <div class="space-y-2">
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Python 3 Packages:" %}</span>
-                            <span class="font-medium text-foreground">{{ total_python_3|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ total_python_3|intcomma }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Python 3.15 Packages:" %}</span>
-                            <span class="font-medium text-foreground">{{ total_python_3_15|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ total_python_3_15|intcomma }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Python 3.14 Packages:" %}</span>
-                            <span class="font-medium text-foreground">{{ total_python_3_14|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ total_python_3_14|intcomma }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Python 3.13 Packages:" %}</span>
-                            <span class="font-medium text-foreground">{{ total_python_3_13|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ total_python_3_13|intcomma }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Python 3.12 Packages:" %}</span>
-                            <span class="font-medium text-foreground">{{ total_python_3_12|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ total_python_3_12|intcomma }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Python 3.11 Packages:" %}</span>
-                            <span class="font-medium text-foreground">{{ total_python_3_11|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ total_python_3_11|intcomma }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Python 3.10 Packages:" %}</span>
-                            <span class="font-medium text-foreground">{{ total_python_3_10|intcomma }}</span>
+                            <span class="text-foreground font-medium">{{ total_python_3_10|intcomma }}</span>
                         </div>
                     </div>
                 </div>
@@ -183,22 +183,22 @@
         </div>
 
         <div class="mb-8">
-            <h2 class="text-3xl font-bold text-foreground">{% translate "Funding" %}</h2>
+            <h2 class="text-foreground text-3xl font-bold">{% translate "Funding" %}</h2>
         </div>
 
-        <div class="grid grid-cols-1 gap-8 mb-12 lg:grid-cols-2">
+        <div class="mb-12 grid grid-cols-1 gap-8 lg:grid-cols-2">
             <div class="card">
-                <div class="p-6 card-content">
+                <div class="card-content p-6">
                     <canvas id="chart_funding_2023"></canvas>
                 </div>
             </div>
             <div class="card">
-                <div class="p-6 card-content">
+                <div class="card-content p-6">
                     <canvas id="chart_funding_2022"></canvas>
                 </div>
             </div>
             <div class="card">
-                <div class="p-6 card-content">
+                <div class="card-content p-6">
                     <canvas id="chart_funding_2021"></canvas>
                 </div>
             </div>
@@ -207,25 +207,25 @@
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
             <!-- Top Users -->
             <div class="card">
-                <div class="p-6 card-content">
-                    <h2 class="mb-4 text-xl font-bold text-foreground">{% translate "Users who have contributed over ten packages" %}</h2>
+                <div class="card-content p-6">
+                    <h2 class="text-foreground mb-4 text-xl font-bold">{% translate "Users who have contributed over ten packages" %}</h2>
                     <div class="overflow-x-auto">
-                        <table class="w-full text-sm text-left">
+                        <table class="w-full text-left text-sm">
                             <thead>
-                                <tr class="border-b border-border">
-                                    <th class="pb-3 font-medium text-muted-foreground">#</th>
-                                    <th class="pb-3 font-medium text-muted-foreground">{% translate "User" %}</th>
-                                    <th class="pb-3 font-medium text-muted-foreground">{% translate "Packages" %}</th>
+                                <tr class="border-border border-b">
+                                    <th class="text-muted-foreground pb-3 font-medium">#</th>
+                                    <th class="text-muted-foreground pb-3 font-medium">{% translate "User" %}</th>
+                                    <th class="text-muted-foreground pb-3 font-medium">{% translate "Packages" %}</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-border">
+                            <tbody class="divide-border divide-y">
                                 {% for top_user in top_user_list %}
-                                    <tr class="transition-colors hover:bg-muted/30">
-                                        <td class="py-3 pr-4 text-muted-foreground">{{ forloop.counter }}</td>
-                                        <td class="py-3 pr-4 font-medium text-primary">
+                                    <tr class="hover:bg-muted/30 transition-colors">
+                                        <td class="text-muted-foreground py-3 pr-4">{{ forloop.counter }}</td>
+                                        <td class="text-primary py-3 pr-4 font-medium">
                                             <a href="{% url 'profile_detail' github_account=top_user.username %}" class="hover:underline">{{ top_user }}</a>
                                         </td>
-                                        <td class="py-3 text-muted-foreground">{{ top_user.num_packages }} {% translate "packages" %}</td>
+                                        <td class="text-muted-foreground py-3">{{ top_user.num_packages }} {% translate "packages" %}</td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
@@ -236,25 +236,25 @@
 
             <!-- Top Grids -->
             <div class="card">
-                <div class="p-6 card-content">
-                    <h2 class="mb-4 text-xl font-bold text-foreground">{% translate "Grids with twenty-five or more packages" %}</h2>
+                <div class="card-content p-6">
+                    <h2 class="text-foreground mb-4 text-xl font-bold">{% translate "Grids with twenty-five or more packages" %}</h2>
                     <div class="overflow-x-auto">
-                        <table class="w-full text-sm text-left">
+                        <table class="w-full text-left text-sm">
                             <thead>
-                                <tr class="border-b border-border">
-                                    <th class="pb-3 font-medium text-muted-foreground">#</th>
-                                    <th class="pb-3 font-medium text-muted-foreground">{% translate "Grid" %}</th>
-                                    <th class="pb-3 font-medium text-muted-foreground">{% translate "Packages" %}</th>
+                                <tr class="border-border border-b">
+                                    <th class="text-muted-foreground pb-3 font-medium">#</th>
+                                    <th class="text-muted-foreground pb-3 font-medium">{% translate "Grid" %}</th>
+                                    <th class="text-muted-foreground pb-3 font-medium">{% translate "Packages" %}</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-border">
+                            <tbody class="divide-border divide-y">
                                 {% for grid in top_grid_list %}
-                                    <tr class="transition-colors hover:bg-muted/30">
-                                        <td class="py-3 pr-4 text-muted-foreground">{{ forloop.counter }}</td>
-                                        <td class="py-3 pr-4 font-medium text-primary">
+                                    <tr class="hover:bg-muted/30 transition-colors">
+                                        <td class="text-muted-foreground py-3 pr-4">{{ forloop.counter }}</td>
+                                        <td class="text-primary py-3 pr-4 font-medium">
                                             <a href="{{ grid.get_absolute_url }}" class="hover:underline">{{ grid }}</a>
                                         </td>
-                                        <td class="py-3 text-muted-foreground">{{ grid.num_packages }} {% translate "packages" %}</td>
+                                        <td class="text-muted-foreground py-3">{{ grid.num_packages }} {% translate "packages" %}</td>
                                     </tr>
                                 {% endfor %}
                             </tbody>

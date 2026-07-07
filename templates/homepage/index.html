@@ -3,25 +3,25 @@
 
 {% block content %}
 <!-- Hero Section -->
-    <section class="py-8 bg-muted/30">
-        <div class="container px-4 mx-auto text-center">
-            <h1 class="mb-6 text-4xl font-bold md:text-5xl text-foreground">{% translate "Django Packages" %}</h1>
-            <p class="mx-auto mb-8 max-w-3xl text-xl text-muted-foreground">
+    <section class="bg-muted/30 py-8">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-foreground mb-6 text-4xl font-bold md:text-5xl">{% translate "Django Packages" %}</h1>
+            <p class="text-muted-foreground mx-auto mb-8 max-w-3xl text-xl">
                 {% translate "Django Packages is a directory of reusable apps, sites, tools, and more for your Django projects." %}
             </p>
 
         <!-- Search Bar -->
             <div class="relative mx-auto mb-8 max-w-2xl">
-                <div class="relative group">
+                <div class="group relative">
                     <i
-                        class="absolute left-4 top-1/2 text-xl transform -translate-y-1/2 pointer-events-none ph-bold ph-magnifying-glass text-muted-foreground"
+                        class="ph-bold ph-magnifying-glass text-muted-foreground pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 transform text-xl"
                     ></i>
                     <input
                         id="search-input"
                         type="text"
                         name="q"
                         placeholder="{% translate 'Search Django packages...' %}"
-                        class="py-4 pr-20 pl-12 w-full h-14 text-lg rounded-lg border-2 transition-colors focus:outline-none peer border-input bg-background text-foreground placeholder:text-muted-foreground focus:border-primary"
+                        class="peer border-input bg-background text-foreground placeholder:text-muted-foreground focus:border-primary h-14 w-full rounded-lg border-2 py-4 pr-20 pl-12 text-lg transition-colors focus:outline-none"
                         autocomplete="off"
                         hx-get="{% url 'search_suggestions' %}"
                         hx-trigger="input changed delay:300ms, focus"
@@ -30,13 +30,13 @@
                         hx-indicator="#search-spinner"
                     />
                     <div
-                        class="flex absolute right-4 top-1/2 items-center space-x-2 transform -translate-y-1/2 pointer-events-none"
+                        class="pointer-events-none absolute top-1/2 right-4 flex -translate-y-1/2 transform items-center space-x-2"
                     >
                         <div id="search-spinner" class="htmx-indicator">
-                            <i class="animate-spin ph-bold ph-circle-notch text-muted-foreground"></i>
+                            <i class="ph-bold ph-circle-notch text-muted-foreground animate-spin"></i>
                         </div>
                         <div
-                            class="hidden items-center py-1 px-2 space-x-1 text-xs rounded border sm:flex text-muted-foreground bg-muted/50 border-border"
+                            class="text-muted-foreground bg-muted/50 border-border hidden items-center space-x-1 rounded border px-2 py-1 text-xs sm:flex"
                         >
                             <span>&#8984; /</span>
                         </div>
@@ -44,7 +44,7 @@
                 <!-- Suggestions Dropdown -->
                     <div
                         id="suggestions-dropdown"
-                        class="overflow-hidden absolute right-0 left-0 top-full z-50 mt-2 rounded-xl border-2 shadow-xl bg-popover/95 backdrop-blur-sm border-border/50 hidden empty:hidden data-[open=true]:block"
+                        class="bg-popover/95 border-border/50 absolute top-full right-0 left-0 z-50 mt-2 hidden overflow-hidden rounded-xl border-2 shadow-xl backdrop-blur-sm empty:hidden data-[open=true]:block"
                     ></div>
                 </div>
             </div>
@@ -63,8 +63,8 @@
 
             <!-- Line 1 -->
                 <div class="mx-8">
-                    <div id="tag-scroll-1" class="flex overflow-x-auto gap-2 scrollbar-hide">
-                        <div class="flex gap-2 py-1 min-w-max">
+                    <div id="tag-scroll-1" class="scrollbar-hide flex gap-2 overflow-x-auto">
+                        <div class="flex min-w-max gap-2 py-1">
                             {% for grid in grids_1 %}
                                 <a href="{{ grid.get_absolute_url }}" class="category-tag">{{ grid.title|upper }}</a>
                             {% endfor %}
@@ -74,8 +74,8 @@
 
             <!-- Line 2 -->
                 <div class="mx-8">
-                    <div id="tag-scroll-2" class="flex overflow-x-auto gap-2 scrollbar-hide">
-                        <div class="flex gap-2 py-1 min-w-max">
+                    <div id="tag-scroll-2" class="scrollbar-hide flex gap-2 overflow-x-auto">
+                        <div class="flex min-w-max gap-2 py-1">
                             {% for grid in grids_2 %}
                                 <a href="{{ grid.get_absolute_url }}" class="category-tag">{{ grid.title|upper }}</a>
                             {% endfor %}
@@ -84,9 +84,9 @@
                 </div>
             </div>
 
-            <div class="flex flex-col gap-4 justify-center mt-6 sm:flex-row">
-                <a href="{% url 'add_package' %}" class="px-8 btn-primary">{% translate "Add Package" %}</a>
-                <a href="{% url 'add_grid' %}" class="px-8 btn-secondary">{% translate "Add Grid" %}</a>
+            <div class="mt-6 flex flex-col justify-center gap-4 sm:flex-row">
+                <a href="{% url 'add_package' %}" class="btn-primary px-8">{% translate "Add Package" %}</a>
+                <a href="{% url 'add_grid' %}" class="btn-secondary px-8">{% translate "Add Grid" %}</a>
             </div>
         </div>
         {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="home-categories-top" ea_outer_class="mt-6" ea_inner_class="flex justify-center" %}
@@ -94,27 +94,27 @@
 
 <!-- Categories Section -->
     <section class="py-8">
-        <div class="container px-4 mx-auto">
+        <div class="container mx-auto px-4">
             <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {% for category in categories %}
                     <a href="{% url 'category' category.slug %}" class="card group">
-                        <div class="pb-4 text-center card-header">
+                        <div class="card-header pb-4 text-center">
                             <div
-                                class="w-16 h-16 rounded-full {% cycle 'bg-blue-50 text-blue-700 border-blue-200' 'bg-green-50 text-green-700 border-green-200' 'bg-purple-50 text-purple-700 border-purple-200' 'bg-orange-50 text-orange-700 border-orange-200' %} flex items-center justify-center mx-auto mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-200"
+                                class="{% cycle 'bg-blue-50 border-blue-200' 'bg-green-50 border-green-200' 'bg-purple-50 border-purple-200' 'bg-orange-50 border-orange-200' %} group-hover:bg-primary group-hover:text-primary-foreground mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full text-blue-700 text-green-700 text-orange-700 text-purple-700 transition-colors duration-200"
                             >
                                 <i
                                     class="ph-bold {% cycle 'ph-package' 'ph-grid-nine' 'ph-folder' 'ph-archive' %} text-2xl"
                                 ></i>
                             </div>
-                            <h3 class="text-xl font-semibold transition-colors duration-200 group-hover:text-primary">
+                            <h3 class="group-hover:text-primary text-xl font-semibold transition-colors duration-200">
                                 {{ category.title_plural }}
                             </h3>
                         </div>
-                        <div class="flex flex-col flex-1 text-center card-content">
-                            <p class="flex-1 mb-4 text-sm leading-relaxed text-muted-foreground">
+                        <div class="card-content flex flex-1 flex-col text-center">
+                            <p class="text-muted-foreground mb-4 flex-1 text-sm leading-relaxed">
                                 {{ category.description|default:"No description available." }}
                             </p>
-                            <span class="mt-auto w-full btn-secondary">
+                            <span class="btn-secondary mt-auto w-full">
                                 Show {{ category.title_plural }} ({{ category.package_count }})
                             </span>
                         </div>
@@ -129,8 +129,8 @@
     {% endswitch %}
 
 <!-- Package Listings -->
-    <section class="py-8 bg-muted/20">
-        <div class="container px-4 mx-auto">
+    <section class="bg-muted/20 py-8">
+        <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             <!-- Latest Packages -->
                 {% cache 900 latest_releases_cache %}
@@ -142,8 +142,8 @@
                                     {% include 'partials/package_card.html' with package=package %}
                                 {% empty %}
                                     <div class="card">
-                                        <div class="p-4 card-content">
-                                            <p class="text-sm text-muted-foreground">
+                                        <div class="card-content p-4">
+                                            <p class="text-muted-foreground text-sm">
                                                 {% translate "No packages found. Add some packages to get started!" %}
                                             </p>
                                         </div>
@@ -164,8 +164,8 @@
                                     {% include 'partials/package_card.html' with package=package %}
                                 {% empty %}
                                     <div class="card">
-                                        <div class="p-4 card-content">
-                                            <p class="text-sm text-muted-foreground">
+                                        <div class="card-content p-4">
+                                            <p class="text-muted-foreground text-sm">
                                                 {% translate "No packages found. Add some packages to get started!" %}
                                             </p>
                                         </div>
@@ -173,7 +173,7 @@
                                 {% endfor %}
                             </div>
                             {% if latest_packages %}
-                                <a href="{% url 'latest_packages' %}" class="mt-6 w-full btn-secondary">{% translate "View More" %}</a>
+                                <a href="{% url 'latest_packages' %}" class="btn-secondary mt-6 w-full">{% translate "View More" %}</a>
                             {% endif %}
                         {% endwith %}
                     </div>
@@ -188,8 +188,8 @@
                                 {% include 'partials/package_card.html' with package=package %}
                             {% empty %}
                                 <div class="card">
-                                    <div class="p-4 card-content">
-                                        <p class="text-sm text-muted-foreground">
+                                    <div class="card-content p-4">
+                                        <p class="text-muted-foreground text-sm">
                                             {% translate "No packages found. Add some packages to get started!" %}
                                         </p>
                                     </div>
@@ -209,8 +209,8 @@
                                     {% include 'partials/package_card.html' with package=package %}
                                 {% empty %}
                                     <div class="card">
-                                        <div class="p-4 card-content">
-                                            <p class="text-sm text-muted-foreground">
+                                        <div class="card-content p-4">
+                                            <p class="text-muted-foreground text-sm">
                                                 {% translate "No packages found." %}
                                             </p>
                                         </div>
@@ -218,7 +218,7 @@
                                 {% endfor %}
                             </div>
                             {% if most_liked_packages %}
-                                <a href="{% url 'liked_packages' %}" class="mt-6 w-full btn-secondary">{% translate "View More" %}</a>
+                                <a href="{% url 'liked_packages' %}" class="btn-secondary mt-6 w-full">{% translate "View More" %}</a>
                             {% endif %}
                         {% endwith %}
                     </div>

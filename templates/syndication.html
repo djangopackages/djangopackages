@@ -8,44 +8,44 @@
 
 {% block content %}
     <!-- Breadcrumb Section -->
-    <section class="py-4 bg-primary/10">
-        <div class="container px-4 mx-auto">
-            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
-                <div class="flex items-center text-sm text-muted-foreground">
+    <section class="bg-primary/10 py-4">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div class="text-muted-foreground flex items-center text-sm">
                     <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
                     <span class="mx-2">»</span>
-                    <span class="font-medium text-foreground truncate">{% translate "Syndication" %}</span>
+                    <span class="text-foreground truncate font-medium">{% translate "Syndication" %}</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="container py-8 px-4 mx-auto">
+    <div class="container mx-auto px-4 py-8">
         <div class="mb-8">
-            <h1 class="text-3xl font-bold text-foreground">{% translate "Syndication (RSS & Atom)" %}</h1>
-            <p class="pt-2 text-muted-foreground">
+            <h1 class="text-foreground text-3xl font-bold">{% translate "Syndication (RSS & Atom)" %}</h1>
+            <p class="text-muted-foreground pt-2">
                 {% blocktranslate %}
                     {{ SITE_TITLE }} provides the following feeds for finding out the latest news about the site.
                 {% endblocktranslate %}
             </p>
         </div>
 
-        <div class="max-w-3xl card">
-            <div class="p-6 card-content">
+        <div class="card max-w-3xl">
+            <div class="card-content p-6">
                 <ul class="space-y-4">
-                    <li class="flex gap-3 items-center">
-                        <div class="p-2 rounded-lg bg-primary/10 text-primary">
-                            <i class="text-xl ph-bold ph-rss"></i>
+                    <li class="flex items-center gap-3">
+                        <div class="bg-primary/10 text-primary rounded-lg p-2">
+                            <i class="ph-bold ph-rss text-xl"></i>
                         </div>
-                        <a href="/feeds/packages/latest/rss/" class="text-lg font-medium hover:underline text-primary">
+                        <a href="/feeds/packages/latest/rss/" class="text-primary text-lg font-medium hover:underline">
                             {% translate "Latest 15 packages (RSS 2.0)" %}
                         </a>
                     </li>
-                    <li class="flex gap-3 items-center">
-                        <div class="p-2 rounded-lg bg-primary/10 text-primary">
-                            <i class="text-xl ph-bold ph-rss"></i>
+                    <li class="flex items-center gap-3">
+                        <div class="bg-primary/10 text-primary rounded-lg p-2">
+                            <i class="ph-bold ph-rss text-xl"></i>
                         </div>
-                        <a href="/feeds/packages/latest/atom/" class="text-lg font-medium hover:underline text-primary">
+                        <a href="/feeds/packages/latest/atom/" class="text-primary text-lg font-medium hover:underline">
                             {% translate "Latest 15 packages (Atom)" %}
                         </a>
                     </li>

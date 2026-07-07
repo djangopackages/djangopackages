@@ -3,7 +3,7 @@
     {% csrf_token %}
     {% include "partials/form_renderer.html" with form=repo_form %}
     <div class="mt-6">
-        <button type="submit" class="w-full md:w-auto btn-primary">
+        <button type="submit" class="btn-primary w-full md:w-auto">
             {% translate "Next" %}
         </button>
     </div>

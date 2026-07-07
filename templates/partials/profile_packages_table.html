@@ -3,52 +3,52 @@
 <div class="hidden overflow-x-auto md:block">
     <table class="w-full min-w-[600px]">
         <thead>
-            <tr class="text-left border-b">
-                <th class="pb-3 text-sm font-medium text-muted-foreground">
-                    <i class="mr-1 ph-bold ph-package"></i>
+            <tr class="border-b text-left">
+                <th class="text-muted-foreground pb-3 text-sm font-medium">
+                    <i class="ph-bold ph-package mr-1"></i>
                     {% translate "Package" %}
                 </th>
-                <th class="pb-3 text-sm font-medium text-muted-foreground">
-                    <i class="mr-1 ph-bold ph-git-branch"></i>
+                <th class="text-muted-foreground pb-3 text-sm font-medium">
+                    <i class="ph-bold ph-git-branch mr-1"></i>
                     {% translate "Repo" %}
                 </th>
-                <th class="pb-3 text-sm font-medium text-muted-foreground">
-                    <i class="mr-1 ph-bold ph-star"></i>
+                <th class="text-muted-foreground pb-3 text-sm font-medium">
+                    <i class="ph-bold ph-star mr-1"></i>
                     {% translate "Stars" %}
                 </th>
-                <th class="pb-3 text-sm font-medium text-muted-foreground">
-                    <i class="mr-1 ph-bold ph-git-fork"></i>
+                <th class="text-muted-foreground pb-3 text-sm font-medium">
+                    <i class="ph-bold ph-git-fork mr-1"></i>
                     {% translate "Forks" %}
                 </th>
             </tr>
         </thead>
         <tbody>
             {% for package in packages %}
-                <tr class="border-b transition-colors last:border-0 hover:bg-muted/30">
-                    <td class="py-3 text-sm font-medium text-foreground">
-                        <a href="{{ package.get_absolute_url }}" class="hover:underline text-primary">{{ package.title }}</a>
+                <tr class="hover:bg-muted/30 border-b transition-colors last:border-0">
+                    <td class="text-foreground py-3 text-sm font-medium">
+                        <a href="{{ package.get_absolute_url }}" class="text-primary hover:underline">{{ package.title }}</a>
                         {% if package.repo_description %}
-                            <p class="max-w-md text-xs text-muted-foreground line-clamp-1" title="{{ package.repo_description }}">
+                            <p class="text-muted-foreground line-clamp-1 max-w-md text-xs" title="{{ package.repo_description }}">
                                 {{ package.repo_description }}
                             </p>
                         {% endif %}
                     </td>
-                    <td class="py-3 text-sm text-muted-foreground">
+                    <td class="text-muted-foreground py-3 text-sm">
                         {% if package.repo_url %}
-                            <a href="{{ package.repo_url }}" target="_blank" rel="noopener noreferrer" class="flex gap-1 items-center hover:underline">
+                            <a href="{{ package.repo_url }}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1 hover:underline">
                                 {{ package.repo.title }}
-                                <i class="text-xs ph-bold ph-arrow-square-out"></i>
+                                <i class="ph-bold ph-arrow-square-out text-xs"></i>
                             </a>
                         {% else %}
                             {{ package.repo.title }}
                         {% endif %}
                     </td>
-                    <td class="py-3 text-sm text-muted-foreground">{{ package.repo_watchers|intcomma|default:"0" }}</td>
-                    <td class="py-3 text-sm text-muted-foreground">{{ package.repo_forks|intcomma|default:"0" }}</td>
+                    <td class="text-muted-foreground py-3 text-sm">{{ package.repo_watchers|intcomma|default:"0" }}</td>
+                    <td class="text-muted-foreground py-3 text-sm">{{ package.repo_forks|intcomma|default:"0" }}</td>
                 </tr>
             {% empty %}
                 <tr>
-                    <td colspan="4" class="py-6 text-sm text-center text-muted-foreground">
+                    <td colspan="4" class="text-muted-foreground py-6 text-center text-sm">
                         {% translate "No packages found." %}
                     </td>
                 </tr>
@@ -60,24 +60,24 @@
 <!-- Mobile Card View -->
 <div class="space-y-4 md:hidden">
     {% for package in packages %}
-        <div class="p-4 rounded-lg border border-border bg-card">
+        <div class="border-border bg-card rounded-lg border p-4">
             <div class="mb-4">
-                <a href="{{ package.get_absolute_url }}" class="text-sm font-semibold hover:underline text-primary">{{ package.title }}</a>
+                <a href="{{ package.get_absolute_url }}" class="text-primary text-sm font-semibold hover:underline">{{ package.title }}</a>
                 {% if package.repo_description %}
-                    <p class="mt-1 text-xs text-muted-foreground line-clamp-2">
+                    <p class="text-muted-foreground line-clamp-2 mt-1 text-xs">
                         {{ package.repo_description }}
                     </p>
                 {% endif %}
             </div>
-            <div class="flex gap-4 items-center pt-4 text-xs border-t text-muted-foreground border-border/50">
-                <span class="flex gap-1 items-center" title="{% translate 'Stars' %}">
+            <div class="text-muted-foreground border-border/50 flex items-center gap-4 border-t pt-4 text-xs">
+                <span class="flex items-center gap-1" title="{% translate 'Stars' %}">
                     <i class="ph-bold ph-star"></i> {{ package.repo_watchers|intcomma|default:"0" }}
                 </span>
-                <span class="flex gap-1 items-center" title="{% translate 'Forks' %}">
+                <span class="flex items-center gap-1" title="{% translate 'Forks' %}">
                     <i class="ph-bold ph-git-fork"></i> {{ package.repo_forks|intcomma|default:"0" }}
                 </span>
                 {% if package.repo_url %}
-                    <a href="{{ package.repo_url }}" target="_blank" rel="noopener noreferrer" class="flex gap-1 items-center ml-auto hover:text-foreground">
+                    <a href="{{ package.repo_url }}" target="_blank" rel="noopener noreferrer" class="hover:text-foreground ml-auto flex items-center gap-1">
                         <span>Repo</span>
                         <i class="ph-bold ph-arrow-square-out"></i>
                     </a>
@@ -85,15 +85,15 @@
             </div>
         </div>
     {% empty %}
-        <div class="py-6 text-sm text-center text-muted-foreground">
+        <div class="text-muted-foreground py-6 text-center text-sm">
             {% translate "No packages found." %}
         </div>
     {% endfor %}
 </div>
 
 {% if is_paginated %}
-    <div class="flex justify-center mt-4">
-        <div class="inline-flex flex-wrap gap-1 items-center">
+    <div class="mt-4 flex justify-center">
+        <div class="inline-flex flex-wrap items-center gap-1">
             <button
                 {% if page_obj.has_previous %}
                     hx-get="{% url htmx_url github_account=profile.github_account %}?page={{ page_obj.previous_page_number }}"
@@ -103,8 +103,8 @@
                 {% else %}
                     disabled
                 {% endif %}
-                class="inline-flex justify-center items-center px-2 h-9 text-sm font-medium whitespace-nowrap rounded-md transition-colors sm:px-3 disabled:opacity-50 disabled:pointer-events-none hover:bg-accent hover:text-accent-foreground">
-                <i class="mr-1 ph-bold ph-caret-left"></i>
+                class="hover:bg-accent hover:text-accent-foreground inline-flex h-9 items-center justify-center rounded-md px-2 text-sm font-medium whitespace-nowrap transition-colors disabled:pointer-events-none disabled:opacity-50 sm:px-3">
+                <i class="ph-bold ph-caret-left mr-1"></i>
                 <span class="hidden sm:inline">{% translate "Previous" %}</span>
             </button>
 
@@ -117,9 +117,9 @@
                 {% else %}
                     disabled
                 {% endif %}
-                class="inline-flex justify-center items-center px-2 h-9 text-sm font-medium whitespace-nowrap rounded-md transition-colors sm:px-3 disabled:opacity-50 disabled:pointer-events-none hover:bg-accent hover:text-accent-foreground">
+                class="hover:bg-accent hover:text-accent-foreground inline-flex h-9 items-center justify-center rounded-md px-2 text-sm font-medium whitespace-nowrap transition-colors disabled:pointer-events-none disabled:opacity-50 sm:px-3">
                 <span class="hidden sm:inline">{% translate "Next" %}</span>
-                <i class="ml-1 ph-bold ph-caret-right"></i>
+                <i class="ph-bold ph-caret-right ml-1"></i>
             </button>
         </div>
     </div>

@@ -3,26 +3,26 @@
 <!-- Mobile Card Layout -->
 <div class="space-y-4 sm:hidden">
     {% for version in versions %}
-        <div class="p-4 rounded-lg border border-border bg-card">
-            <div class="flex gap-3 justify-between items-start mb-4">
-                <div class="flex-1 min-w-0">
-                    <div class="text-sm font-semibold break-all text-foreground">{{ version.number }}</div>
+        <div class="border-border bg-card rounded-lg border p-4">
+            <div class="mb-4 flex items-start justify-between gap-3">
+                <div class="min-w-0 flex-1">
+                    <div class="text-foreground text-sm font-semibold break-all">{{ version.number }}</div>
                 </div>
                 <div class="flex-shrink-0">
                     {{ version.development_status|package_dev_status_badge:version.hidden }}
                 </div>
             </div>
-            <div class="flex flex-wrap gap-4 items-center pt-4 text-xs border-t text-muted-foreground border-border/50">
-                <span class="flex gap-1 items-center" title="{% translate 'License' %}">
+            <div class="text-muted-foreground border-border/50 flex flex-wrap items-center gap-4 border-t pt-4 text-xs">
+                <span class="flex items-center gap-1" title="{% translate 'License' %}">
                     <i class="ph-bold ph-certificate"></i> {{ version.license|default:"-" }}
                 </span>
-                <span class="flex gap-1 items-center" title="{% translate 'Released' %}">
+                <span class="flex items-center gap-1" title="{% translate 'Released' %}">
                     <i class="ph-bold ph-calendar"></i> {{ version.upload_time|date:"M d, Y" }}
                 </span>
             </div>
         </div>
     {% empty %}
-        <div class="py-6 text-sm text-center text-muted-foreground">
+        <div class="text-muted-foreground py-6 text-center text-sm">
             {% translate "No versions found." %}
         </div>
     {% endfor %}
@@ -31,26 +31,26 @@
 <!-- Desktop Table Layout -->
 <table class="hidden w-full sm:table sm:min-w-[600px]">
     <thead>
-        <tr class="text-left border-b">
-            <th class="pb-3 text-sm font-medium text-muted-foreground">{% translate "Version" %}</th>
-            <th class="pb-3 text-sm font-medium text-muted-foreground">{% translate "License" %}</th>
-            <th class="pb-3 text-sm font-medium text-muted-foreground">{% translate "Released" %}</th>
-            <th class="pb-3 text-sm font-medium text-muted-foreground">{% translate "Status" %}</th>
+        <tr class="border-b text-left">
+            <th class="text-muted-foreground pb-3 text-sm font-medium">{% translate "Version" %}</th>
+            <th class="text-muted-foreground pb-3 text-sm font-medium">{% translate "License" %}</th>
+            <th class="text-muted-foreground pb-3 text-sm font-medium">{% translate "Released" %}</th>
+            <th class="text-muted-foreground pb-3 text-sm font-medium">{% translate "Status" %}</th>
         </tr>
     </thead>
     <tbody>
         {% for version in versions %}
-            <tr class="border-b transition-colors last:border-0 hover:bg-muted/30">
-                <td class="py-3 text-sm font-medium text-foreground">{{ version.number }}</td>
-                <td class="py-3 text-sm text-muted-foreground">{{ version.license|default:"-" }}</td>
-                <td class="py-3 text-sm text-muted-foreground">{{ version.upload_time|date:"M d, Y" }}</td>
+            <tr class="hover:bg-muted/30 border-b transition-colors last:border-0">
+                <td class="text-foreground py-3 text-sm font-medium">{{ version.number }}</td>
+                <td class="text-muted-foreground py-3 text-sm">{{ version.license|default:"-" }}</td>
+                <td class="text-muted-foreground py-3 text-sm">{{ version.upload_time|date:"M d, Y" }}</td>
                 <td class="py-3">
                     {{ version.development_status|package_dev_status_badge:version.hidden }}
                 </td>
             </tr>
         {% empty %}
             <tr>
-                <td colspan="4" class="py-6 text-sm text-center text-muted-foreground">
+                <td colspan="4" class="text-muted-foreground py-6 text-center text-sm">
                     {% translate "No versions found." %}
                 </td>
             </tr>
@@ -61,7 +61,7 @@
 {% if is_paginated %}
     <div class="mt-6">
         <div class="flex justify-center">
-            <div class="inline-flex flex-wrap gap-1 items-center">
+            <div class="inline-flex flex-wrap items-center gap-1">
                 <button
                     {% if page_obj.has_previous %}
                         hx-get="{% url 'package_versions' slug=package_slug %}?page={{ page_obj.previous_page_number }}"
@@ -71,16 +71,16 @@
                     {% else %}
                         disabled
                     {% endif %}
-                    class="inline-flex justify-center items-center px-2 h-9 text-sm font-medium whitespace-nowrap rounded-md transition-colors sm:px-3 disabled:opacity-50 disabled:pointer-events-none hover:bg-accent hover:text-accent-foreground">
-                    <i class="mr-1 ph-bold ph-caret-left"></i>
+                    class="hover:bg-accent hover:text-accent-foreground inline-flex h-9 items-center justify-center rounded-md px-2 text-sm font-medium whitespace-nowrap transition-colors disabled:pointer-events-none disabled:opacity-50 sm:px-3">
+                    <i class="ph-bold ph-caret-left mr-1"></i>
                     <span class="hidden sm:inline">{% translate "Previous" %}</span>
                 </button>
 
-                <div class="inline-flex gap-1 items-center">
+                <div class="inline-flex items-center gap-1">
                     {% for i in paginator.page_range %}
                         {% if page_obj.number == i %}
                             <button
-                                class="inline-flex justify-center items-center w-9 h-9 text-sm font-medium whitespace-nowrap rounded-md transition-colors bg-primary text-primary-foreground">
+                                class="bg-primary text-primary-foreground inline-flex h-9 w-9 items-center justify-center rounded-md text-sm font-medium whitespace-nowrap transition-colors">
                                 {{ i }}
                             </button>
                         {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
@@ -89,7 +89,7 @@
                                 hx-target="#versions-table-container"
                                 hx-swap="innerHTML"
                                 hx-indicator="#versions-spinner"
-                                class="inline-flex justify-center items-center w-9 h-9 text-sm font-medium whitespace-nowrap rounded-md transition-colors hover:bg-accent hover:text-accent-foreground">
+                                class="hover:bg-accent hover:text-accent-foreground inline-flex h-9 w-9 items-center justify-center rounded-md text-sm font-medium whitespace-nowrap transition-colors">
                                 {{ i }}
                             </button>
                         {% endif %}
@@ -105,9 +105,9 @@
                     {% else %}
                         disabled
                     {% endif %}
-                    class="inline-flex justify-center items-center px-2 h-9 text-sm font-medium whitespace-nowrap rounded-md transition-colors sm:px-3 disabled:opacity-50 disabled:pointer-events-none hover:bg-accent hover:text-accent-foreground">
+                    class="hover:bg-accent hover:text-accent-foreground inline-flex h-9 items-center justify-center rounded-md px-2 text-sm font-medium whitespace-nowrap transition-colors disabled:pointer-events-none disabled:opacity-50 sm:px-3">
                     <span class="hidden sm:inline">{% translate "Next" %}</span>
-                    <i class="ml-1 ph-bold ph-caret-right"></i>
+                    <i class="ph-bold ph-caret-right ml-1"></i>
                 </button>
             </div>
         </div>

@@ -8,36 +8,36 @@
 
 {% block content %}
     <!-- Breadcrumb Section -->
-    <section class="py-4 bg-primary/10">
-        <div class="container px-4 mx-auto">
-            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
-                <div class="flex items-center text-sm text-muted-foreground">
+    <section class="bg-primary/10 py-4">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div class="text-muted-foreground flex items-center text-sm">
                     <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
                     <span class="mx-2">»</span>
                     <a href="{% url 'packages' %}" class="hover:underline">{% translate "Packages" %}</a>
                     <span class="mx-2">»</span>
-                    <span class="font-medium text-foreground truncate">{% translate "Add Package" %}</span>
+                    <span class="text-foreground truncate font-medium">{% translate "Add Package" %}</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="container py-8 px-4 mx-auto">
+    <div class="container mx-auto px-4 py-8">
         <div class="mb-8">
-            <h1 class="text-3xl font-bold text-foreground">{% translate "Add Package" %}</h1>
+            <h1 class="text-foreground text-3xl font-bold">{% translate "Add Package" %}</h1>
             {% if grid %}
-                <p class="pt-2 text-muted-foreground">
+                <p class="text-muted-foreground pt-2">
                     {% blocktranslate with grid_title=grid.title %}Add a new package to the <strong>{{ grid_title }}</strong> grid.{% endblocktranslate %}
                 </p>
             {% else %}
-                <p class="pt-2 text-muted-foreground">{% translate "Add a new package to the directory." %}</p>
+                <p class="text-muted-foreground pt-2">{% translate "Add a new package to the directory." %}</p>
             {% endif %}
         </div>
 
         {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="add-package-form" ea_outer_class="mb-4" ea_inner_class="flex justify-left" %}
 
-        <div class="max-w-3xl card">
-            <div class="p-6 card-content" id="package-form-container">
+        <div class="card max-w-3xl">
+            <div class="card-content p-6" id="package-form-container">
                 {% if form.is_bound %}
                     {% include "partials/package_form.html" %}
                 {% else %}

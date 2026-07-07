@@ -8,29 +8,29 @@
 
 {% block content %}
     <!-- Breadcrumb Section -->
-    <section class="py-4 bg-primary/10">
-        <div class="container px-4 mx-auto">
-            <div class="flex items-center text-sm text-muted-foreground">
+    <section class="bg-primary/10 py-4">
+        <div class="container mx-auto px-4">
+            <div class="text-muted-foreground flex items-center text-sm">
                 <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
                 <span class="mx-2">»</span>
-                <span class="font-medium text-foreground truncate">{% translate "FAQ" %}</span>
+                <span class="text-foreground truncate font-medium">{% translate "FAQ" %}</span>
             </div>
         </div>
     </section>
 
-    <div class="container py-8 px-4 mx-auto">
+    <div class="container mx-auto px-4 py-8">
         <div class="mb-10 text-center">
-            <h1 class="text-3xl font-bold md:text-4xl text-foreground">{% translate "Frequently Asked Questions" %}</h1>
-            <p class="mt-2 mb-6 text-xl text-muted-foreground">{% translate "Everything you need to know about Django Packages." %}</p>
+            <h1 class="text-foreground text-3xl font-bold md:text-4xl">{% translate "Frequently Asked Questions" %}</h1>
+            <p class="text-muted-foreground mt-2 mb-6 text-xl">{% translate "Everything you need to know about Django Packages." %}</p>
         </div>
 
         <div class="grid gap-6 md:grid-cols-2">
             <!-- Maintainers -->
             <div class="card">
-                <div class="p-6 card-content">
-                    <div class="flex gap-3 items-start">
-                        <div class="p-2 rounded-lg bg-primary/10 text-primary">
-                            <i class="text-xl ph-bold ph-users"></i>
+                <div class="card-content p-6">
+                    <div class="flex items-start gap-3">
+                        <div class="bg-primary/10 text-primary rounded-lg p-2">
+                            <i class="ph-bold ph-users text-xl"></i>
                         </div>
                         <div>
                             <h3 class="mb-2 text-xl font-semibold">{% translate "Who maintains this project?" %}</h3>
@@ -38,21 +38,21 @@
                                 <p class="mb-4">
                                     {% blocktranslate %}
                                         Django Packages is maintained by
-                                        <a href="https://github.com/jefftriplett" class="font-medium hover:underline text-primary">Jeff Triplett</a>,
-                                        <a href="https://github.com/saadmk11" class="font-medium hover:underline text-primary">Maksudul Haque</a>,
-                                        <a href="https://github.com/ryancheley" class="font-medium hover:underline text-primary">Ryan Cheley</a>,
-                                        <a href="https://djangonaut.space" class="font-medium hover:underline text-primary">Djangonaut Space</a>,
+                                        <a href="https://github.com/jefftriplett" class="text-primary font-medium hover:underline">Jeff Triplett</a>,
+                                        <a href="https://github.com/saadmk11" class="text-primary font-medium hover:underline">Maksudul Haque</a>,
+                                        <a href="https://github.com/ryancheley" class="text-primary font-medium hover:underline">Ryan Cheley</a>,
+                                        <a href="https://djangonaut.space" class="text-primary font-medium hover:underline">Djangonaut Space</a>,
                                         and
-                                        <a href="https://github.com/djangopackages/djangopackages/graphs/contributors" class="font-medium hover:underline text-primary">contributors</a>
+                                        <a href="https://github.com/djangopackages/djangopackages/graphs/contributors" class="text-primary font-medium hover:underline">contributors</a>
                                         just like you.
-                                        Development is sponsored by <a href="https://www.revsys.com/" class="font-medium hover:underline text-primary">REVSYS</a>.
+                                        Development is sponsored by <a href="https://www.revsys.com/" class="text-primary font-medium hover:underline">REVSYS</a>.
                                     {% endblocktranslate %}
                                 </p>
                                 <p>
                                     {% blocktranslate %}
                                         From 2010 to 2021, the majority of hosting and development was provided by
-                                        <a href="https://www.roygreenfeld.com/collections/two-scoops-press" class="font-medium hover:underline text-primary">Two Scoops Press</a>, an imprint of
-                                        <a href="https://www.roygreenfeld.com/" class="font-medium hover:underline text-primary">Roy Greenfeld</a>.
+                                        <a href="https://www.roygreenfeld.com/collections/two-scoops-press" class="text-primary font-medium hover:underline">Two Scoops Press</a>, an imprint of
+                                        <a href="https://www.roygreenfeld.com/" class="text-primary font-medium hover:underline">Roy Greenfeld</a>.
                                     {% endblocktranslate %}
                                 </p>
                             </div>
@@ -63,10 +63,10 @@
 
             <!-- DSF Role -->
             <div class="card">
-                <div class="p-6 card-content">
-                    <div class="flex gap-3 items-start">
-                        <div class="p-2 rounded-lg bg-primary/10 text-primary">
-                            <i class="text-xl ph-bold ph-buildings"></i>
+                <div class="card-content p-6">
+                    <div class="flex items-start gap-3">
+                        <div class="bg-primary/10 text-primary rounded-lg p-2">
+                            <i class="ph-bold ph-buildings text-xl"></i>
                         </div>
                         <div>
                             <h3 class="mb-2 text-xl font-semibold">{% translate "What role does the DSF have in this project?" %}</h3>
@@ -74,7 +74,7 @@
                                 <p>
                                     {% blocktranslate %}
                                         Projects listed on Django Packages are third-party packages.
-                                        They are not vetted nor endorsed by the <a href="https://www.djangoproject.com/foundation/" class="font-medium hover:underline text-primary">Django Software Foundation</a>.
+                                        They are not vetted nor endorsed by the <a href="https://www.djangoproject.com/foundation/" class="text-primary font-medium hover:underline">Django Software Foundation</a>.
                                         Use them at your own risk.
                                     {% endblocktranslate %}
                                 </p>
@@ -86,17 +86,17 @@
 
             <!-- Grids -->
             <div class="card">
-                <div class="p-6 card-content">
-                    <div class="flex gap-3 items-start">
-                        <div class="p-2 rounded-lg bg-primary/10 text-primary">
-                            <i class="text-xl ph-bold ph-grid-nine"></i>
+                <div class="card-content p-6">
+                    <div class="flex items-start gap-3">
+                        <div class="bg-primary/10 text-primary rounded-lg p-2">
+                            <i class="ph-bold ph-grid-nine text-xl"></i>
                         </div>
                         <div>
                             <h3 class="mb-2 text-xl font-semibold">{% translate "What are grids?" %}</h3>
                             <div class="text-muted-foreground">
                                 <p class="mb-4">
                                     {% blocktranslate %}
-                                        <a href="/grids/" class="font-medium hover:underline text-primary">Grids</a> let you compare {{ FRAMEWORK_TITLE }} packages to each other.
+                                        <a href="/grids/" class="text-primary font-medium hover:underline">Grids</a> let you compare {{ FRAMEWORK_TITLE }} packages to each other.
                                         A grid comes with a number of default items compared, but you can add more features in order to get
                                         a more specific comparison.
                                     {% endblocktranslate %}
@@ -115,10 +115,10 @@
 
             <!-- Categories -->
             <div class="card">
-                <div class="p-6 card-content">
-                    <div class="flex gap-3 items-start">
-                        <div class="p-2 rounded-lg bg-primary/10 text-primary">
-                            <i class="text-xl ph-bold ph-tag"></i>
+                <div class="card-content p-6">
+                    <div class="flex items-start gap-3">
+                        <div class="bg-primary/10 text-primary rounded-lg p-2">
+                            <i class="ph-bold ph-tag text-xl"></i>
                         </div>
                         <div>
                             <h3 class="mb-2 text-xl font-semibold">{% translate "What are categories?" %}</h3>
@@ -139,10 +139,10 @@
 
             <!-- Source Control -->
             <div class="card">
-                <div class="p-6 card-content">
-                    <div class="flex gap-3 items-start">
-                        <div class="p-2 rounded-lg bg-primary/10 text-primary">
-                            <i class="text-xl ph-bold ph-git-branch"></i>
+                <div class="card-content p-6">
+                    <div class="flex items-start gap-3">
+                        <div class="bg-primary/10 text-primary rounded-lg p-2">
+                            <i class="ph-bold ph-git-branch text-xl"></i>
                         </div>
                         <div>
                             <h3 class="mb-2 text-xl font-semibold">{% translate "Which source control sites do you support?" %}</h3>
@@ -156,10 +156,10 @@
 
             <!-- Syndication -->
             <div class="card">
-                <div class="p-6 card-content">
-                    <div class="flex gap-3 items-start">
-                        <div class="p-2 rounded-lg bg-primary/10 text-primary">
-                            <i class="text-xl ph-bold ph-rss"></i>
+                <div class="card-content p-6">
+                    <div class="flex items-start gap-3">
+                        <div class="bg-primary/10 text-primary rounded-lg p-2">
+                            <i class="ph-bold ph-rss text-xl"></i>
                         </div>
                         <div>
                             <h3 class="mb-2 text-xl font-semibold">{% translate "What about RSS & Atom Syndication?" %}</h3>
@@ -167,7 +167,7 @@
                                 <p>
                                     {% url 'syndication' as syndication_url %}
                                     {% blocktranslate %}
-                                        The <a href="{{ syndication_url }}" class="font-medium hover:underline text-primary">Syndication page</a> has more details.
+                                        The <a href="{{ syndication_url }}" class="text-primary font-medium hover:underline">Syndication page</a> has more details.
                                     {% endblocktranslate %}
                                 </p>
                             </div>
@@ -178,10 +178,10 @@
 
             <!-- Contribute -->
             <div class="card">
-                <div class="p-6 card-content">
-                    <div class="flex gap-3 items-start">
-                        <div class="p-2 rounded-lg bg-primary/10 text-primary">
-                            <i class="text-xl ph-bold ph-hand-heart"></i>
+                <div class="card-content p-6">
+                    <div class="flex items-start gap-3">
+                        <div class="bg-primary/10 text-primary rounded-lg p-2">
+                            <i class="ph-bold ph-hand-heart text-xl"></i>
                         </div>
                         <div>
                             <h3 class="mb-2 text-xl font-semibold">{% translate "How can I contribute?" %}</h3>
@@ -189,7 +189,7 @@
                                 <p>
                                     {% blocktranslate %}
                                         This is an open source project, and we appreciate
-                                        <a href="https://docs.djangopackages.org/en/latest/contributing" class="font-medium hover:underline text-primary">all sorts of contributions</a>.
+                                        <a href="https://docs.djangopackages.org/en/latest/contributing" class="text-primary font-medium hover:underline">all sorts of contributions</a>.
                                     {% endblocktranslate %}
                                 </p>
                             </div>
@@ -200,10 +200,10 @@
 
             <!-- Hosting -->
             <div class="card">
-                <div class="p-6 card-content">
-                    <div class="flex gap-3 items-start">
-                        <div class="p-2 rounded-lg bg-primary/10 text-primary">
-                            <i class="text-xl ph-bold ph-cloud"></i>
+                <div class="card-content p-6">
+                    <div class="flex items-start gap-3">
+                        <div class="bg-primary/10 text-primary rounded-lg p-2">
+                            <i class="ph-bold ph-cloud text-xl"></i>
                         </div>
                         <div>
                             <h3 class="mb-2 text-xl font-semibold">{% translate "Where is Django Package hosted?" %}</h3>
@@ -212,7 +212,7 @@
                                     {% blocktranslate %}
                                         Django Packages is hosted on Hetzner.
                                         If you would like to support us,
-                                        <a href="https://hetzner.cloud/?ref=R4fnKzKtBqFn" class="font-medium hover:underline text-primary">please use our referral link to receive a free $20 credit to get you started.</a>
+                                        <a href="https://hetzner.cloud/?ref=R4fnKzKtBqFn" class="text-primary font-medium hover:underline">please use our referral link to receive a free $20 credit to get you started.</a>
                                     {% endblocktranslate %}
                                 </p>
                             </div>

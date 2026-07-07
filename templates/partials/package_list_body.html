@@ -12,97 +12,97 @@
 {% endif %}
 
 <!-- Table -->
-<div class="overflow-x-auto w-full">
-    <table class="w-full text-sm text-left">
+<div class="w-full overflow-x-auto">
+    <table class="w-full text-left text-sm">
         <thead>
-            <tr class="text-left border-b">
-                <th class="pr-6 pb-3 font-medium text-muted-foreground">
-                    <button class="flex gap-1 items-center hover:text-foreground"
+            <tr class="border-b text-left">
+                <th class="text-muted-foreground pr-6 pb-3 font-medium">
+                    <button class="hover:text-foreground flex items-center gap-1"
                             hx-get="{{ list_url }}?category={{ current_category }}&sort={% if current_sort == 'title' %}-title{% elif current_sort == '-title' %}{% else %}title{% endif %}&q={{ search_query }}"
                             hx-target="#package-list-container"
                             hx-push-url="true" hx-indicator="#package-list-spinner">
-                        <i class="text-lg ph-bold ph-package"></i>
+                        <i class="ph-bold ph-package text-lg"></i>
                         {% translate "Title" %}
                         {% if current_sort == 'title' or current_sort == '-title' %}
                             <i class="ph-bold {% if current_sort == 'title' %}ph-caret-up{% else %}ph-caret-down{% endif %}"></i>
                         {% else %}
-                            <i class="opacity-50 ph-bold ph-caret-up-down"></i>
+                            <i class="ph-bold ph-caret-up-down opacity-50"></i>
                         {% endif %}
                     </button>
                 </th>
-                <th class="hidden pb-3 font-medium sm:table-cell text-muted-foreground">
-                    <button class="flex gap-1 items-center hover:text-foreground"
+                <th class="text-muted-foreground hidden pb-3 font-medium sm:table-cell">
+                    <button class="hover:text-foreground flex items-center gap-1"
                             hx-get="{{ list_url }}?category={{ current_category }}&sort={% if current_sort == 'category' %}-category{% elif current_sort == '-category' %}{% else %}category{% endif %}&q={{ search_query }}"
                             hx-target="#package-list-container"
                             hx-push-url="true" hx-indicator="#package-list-spinner">
-                        <i class="text-lg ph-bold ph-tag"></i>
+                        <i class="ph-bold ph-tag text-lg"></i>
                         {% translate "Category" %}
                         {% if current_sort == 'category' or current_sort == '-category' %}
                             <i class="ph-bold {% if current_sort == 'category' %}ph-caret-up{% else %}ph-caret-down{% endif %}"></i>
                         {% else %}
-                            <i class="opacity-50 ph-bold ph-caret-up-down"></i>
+                            <i class="ph-bold ph-caret-up-down opacity-50"></i>
                         {% endif %}
                     </button>
                 </th>
-                <th class="hidden pb-3 font-medium md:table-cell text-muted-foreground">
-                    <div class="flex gap-1 items-center">
-                        <i class="text-lg ph-bold ph-hash"></i>
+                <th class="text-muted-foreground hidden pb-3 font-medium md:table-cell">
+                    <div class="flex items-center gap-1">
+                        <i class="ph-bold ph-hash text-lg"></i>
                         {% translate "Version" %}
                     </div>
                 </th>
-                <th class="hidden pb-3 font-medium lg:table-cell text-muted-foreground">
-                    <button class="flex gap-1 items-center hover:text-foreground"
+                <th class="text-muted-foreground hidden pb-3 font-medium lg:table-cell">
+                    <button class="hover:text-foreground flex items-center gap-1"
                             hx-get="{{ list_url }}?category={{ current_category }}&sort={% if current_sort == '-usage_count' %}usage_count{% elif current_sort == 'usage_count' %}{% else %}-usage_count{% endif %}&q={{ search_query }}"
                             hx-target="#package-list-container"
                             hx-push-url="true" hx-indicator="#package-list-spinner">
-                        <i class="text-lg ph-bold ph-users"></i>
+                        <i class="ph-bold ph-users text-lg"></i>
                         {% translate "Usage" %}
                         {% if current_sort == 'usage_count' or current_sort == '-usage_count' %}
                             <i class="ph-bold {% if current_sort == 'usage_count' %}ph-caret-up{% else %}ph-caret-down{% endif %}"></i>
                         {% else %}
-                            <i class="opacity-50 ph-bold ph-caret-up-down"></i>
+                            <i class="ph-bold ph-caret-up-down opacity-50"></i>
                         {% endif %}
                     </button>
                 </th>
-                <th class="pb-3 font-medium text-muted-foreground">
-                    <button class="flex gap-1 items-center hover:text-foreground"
+                <th class="text-muted-foreground pb-3 font-medium">
+                    <button class="hover:text-foreground flex items-center gap-1"
                             hx-get="{{ list_url }}?category={{ current_category }}&sort={% if current_sort == '-repo_watchers' %}repo_watchers{% elif current_sort == 'repo_watchers' %}{% else %}-repo_watchers{% endif %}&q={{ search_query }}"
                             hx-target="#package-list-container"
                             hx-push-url="true" hx-indicator="#package-list-spinner">
-                        <i class="text-lg ph-bold ph-star"></i>
+                        <i class="ph-bold ph-star text-lg"></i>
                         <span class="sm:inline">{% translate "Stars" %}</span>
                         {% if current_sort == 'repo_watchers' or current_sort == '-repo_watchers' %}
                             <i class="ph-bold {% if current_sort == 'repo_watchers' %}ph-caret-up{% else %}ph-caret-down{% endif %}"></i>
                         {% else %}
-                            <i class="opacity-50 ph-bold ph-caret-up-down"></i>
+                            <i class="ph-bold ph-caret-up-down opacity-50"></i>
                         {% endif %}
                     </button>
                 </th>
-                <th class="pb-3 font-medium text-muted-foreground">
-                    <button class="flex gap-1 items-center hover:text-foreground"
+                <th class="text-muted-foreground pb-3 font-medium">
+                    <button class="hover:text-foreground flex items-center gap-1"
                             hx-get="{{ list_url }}?category={{ current_category }}&sort={% if current_sort == '-repo_forks' %}repo_forks{% elif current_sort == 'repo_forks' %}{% else %}-repo_forks{% endif %}&q={{ search_query }}"
                             hx-target="#package-list-container"
                             hx-push-url="true" hx-indicator="#package-list-spinner">
-                        <i class="text-lg ph-bold ph-git-fork"></i>
+                        <i class="ph-bold ph-git-fork text-lg"></i>
                         <span class="sm:inline">{% translate "Forks" %}</span>
                         {% if current_sort == 'repo_forks' or current_sort == '-repo_forks' %}
                             <i class="ph-bold {% if current_sort == 'repo_forks' %}ph-caret-up{% else %}ph-caret-down{% endif %}"></i>
                         {% else %}
-                            <i class="opacity-50 ph-bold ph-caret-up-down"></i>
+                            <i class="ph-bold ph-caret-up-down opacity-50"></i>
                         {% endif %}
                     </button>
                 </th>
-                <th class="hidden pb-3 font-medium lg:table-cell text-muted-foreground">
-                    <button class="flex gap-1 items-center hover:text-foreground"
+                <th class="text-muted-foreground hidden pb-3 font-medium lg:table-cell">
+                    <button class="hover:text-foreground flex items-center gap-1"
                             hx-get="{{ list_url }}?category={{ current_category }}&sort={% if current_sort == '-last_fetched' %}last_fetched{% elif current_sort == 'last_fetched' %}{% else %}-last_fetched{% endif %}&q={{ search_query }}"
                             hx-target="#package-list-container"
                             hx-push-url="true" hx-indicator="#package-list-spinner">
-                        <i class="text-lg ph-bold ph-clock"></i>
+                        <i class="ph-bold ph-clock text-lg"></i>
                         {% translate "Updated" %}
                         {% if current_sort == 'last_fetched' or current_sort == '-last_fetched' %}
                             <i class="ph-bold {% if current_sort == 'last_fetched' %}ph-caret-up{% else %}ph-caret-down{% endif %}"></i>
                         {% else %}
-                            <i class="opacity-50 ph-bold ph-caret-up-down"></i>
+                            <i class="ph-bold ph-caret-up-down opacity-50"></i>
                         {% endif %}
                     </button>
                 </th>
@@ -110,50 +110,50 @@
         </thead>
         <tbody>
             {% for package in packages %}
-                <tr class="border-b transition-colors last:border-0 hover:bg-muted/30">
-                    <td class="py-3 pr-6 max-w-[10rem] sm:max-w-[15rem] md:max-w-[20rem]">
+                <tr class="hover:bg-muted/30 border-b transition-colors last:border-0">
+                    <td class="max-w-[10rem] py-3 pr-6 sm:max-w-[15rem] md:max-w-[20rem]">
                         <div class="flex flex-col">
-                            <a href="{% url 'package' package.slug %}" class="block text-base font-semibold hover:underline text-primary truncate" title="{{ package.title }}">{{ package.title }}</a>
-                            <p class="mt-1 text-xs text-muted-foreground truncate" title="{{ package.repo_description|default:"" }}">{{ package.repo_description|default:"" }}</p>
+                            <a href="{% url 'package' package.slug %}" class="text-primary block truncate text-base font-semibold hover:underline" title="{{ package.title }}">{{ package.title }}</a>
+                            <p class="text-muted-foreground mt-1 truncate text-xs" title="{{ package.repo_description|default:"" }}">{{ package.repo_description|default:"" }}</p>
 
                                 <!-- Mobile/Tablet Badges -->
-                            <div class="flex flex-wrap gap-2 mt-2">
+                            <div class="mt-2 flex flex-wrap gap-2">
                                 {% if package.category %}
-                                    <span class="inline-flex items-center py-0.5 px-2 text-xs font-medium rounded sm:hidden bg-secondary text-secondary-foreground">
+                                    <span class="bg-secondary text-secondary-foreground inline-flex items-center rounded px-2 py-0.5 text-xs font-medium sm:hidden">
                                         {{ package.category.title }}
                                     </span>
                                 {% else %}
-                                    <span class="inline-flex items-center py-0.5 px-2 text-xs font-medium rounded md:hidden bg-muted text-muted-foreground" title="{% translate 'Latest PyPI Version' %}">
+                                    <span class="bg-muted text-muted-foreground inline-flex items-center rounded px-2 py-0.5 text-xs font-medium md:hidden" title="{% translate 'Latest PyPI Version' %}">
                                         -
                                     </span>
                                 {% endif %}
                                 {% if package.latest_version_number %}
-                                    <span class="inline-flex items-center py-0.5 px-2 text-xs font-medium rounded md:hidden bg-muted text-muted-foreground" title="{% translate 'Latest PyPI Version' %}">
-                                        <i class="mr-1 ph-bold ph-hash"></i> {{ package.latest_version_number|default:"-" }}
+                                    <span class="bg-muted text-muted-foreground inline-flex items-center rounded px-2 py-0.5 text-xs font-medium md:hidden" title="{% translate 'Latest PyPI Version' %}">
+                                        <i class="ph-bold ph-hash mr-1"></i> {{ package.latest_version_number|default:"-" }}
                                     </span>
                                 {% else %}
-                                    <span class="inline-flex items-center py-0.5 px-2 text-xs font-medium rounded md:hidden bg-muted text-muted-foreground" title="{% translate 'Latest PyPI Version' %}">
+                                    <span class="bg-muted text-muted-foreground inline-flex items-center rounded px-2 py-0.5 text-xs font-medium md:hidden" title="{% translate 'Latest PyPI Version' %}">
                                         -
                                     </span>
                                 {% endif %}
 
-                                <span class="inline-flex items-center py-0.5 px-2 text-xs font-medium rounded lg:hidden bg-muted text-muted-foreground" title="{% translate 'Usage Count' %}">
-                                    <i class="mr-1 ph-bold ph-users"></i> {{ package.usage_count|intcomma }}
+                                <span class="bg-muted text-muted-foreground inline-flex items-center rounded px-2 py-0.5 text-xs font-medium lg:hidden" title="{% translate 'Usage Count' %}">
+                                    <i class="ph-bold ph-users mr-1"></i> {{ package.usage_count|intcomma }}
                                 </span>
 
-                                <span class="inline-flex items-center py-0.5 px-2 text-xs font-medium rounded lg:hidden bg-muted text-muted-foreground" title="{% translate 'Last Updated' %}">
-                                    <i class="mr-1 ph-bold ph-clock"></i> {{ package.last_fetched|date:"M d, Y"|default:"-" }}
+                                <span class="bg-muted text-muted-foreground inline-flex items-center rounded px-2 py-0.5 text-xs font-medium lg:hidden" title="{% translate 'Last Updated' %}">
+                                    <i class="ph-bold ph-clock mr-1"></i> {{ package.last_fetched|date:"M d, Y"|default:"-" }}
                                 </span>
                             </div>
                         </div>
                     </td>
                     <td class="hidden py-3 sm:table-cell">
                         {% if package.category %}
-                            <span class="inline-flex items-center py-0.5 px-2.5 text-xs font-medium rounded-full bg-secondary text-secondary-foreground hover:bg-secondary/80">
+                            <span class="bg-secondary text-secondary-foreground hover:bg-secondary/80 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium">
                                 {{ package.category.title }}
                             </span>
                         {% else %}
-                            <span class="inline-flex items-center py-0.5 px-2.5 text-xs font-medium rounded-full bg-muted text-muted-foreground">
+                            <span class="bg-muted text-muted-foreground inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium">
                                 -
                             </span>
                         {% endif %}
@@ -177,13 +177,13 @@
                     <td class="py-3 font-mono text-sm">
                         {{ package.repo_forks|intcomma|default:"-" }}
                     </td>
-                    <td class="hidden py-3 text-sm lg:table-cell text-muted-foreground">
+                    <td class="text-muted-foreground hidden py-3 text-sm lg:table-cell">
                         {{ package.last_fetched|date:"M d, Y"|default:"-" }}
                     </td>
                 </tr>
             {% empty %}
                 <tr>
-                    <td colspan="7" class="p-8 text-center text-muted-foreground">
+                    <td colspan="7" class="text-muted-foreground p-8 text-center">
                         {% translate "No packages found." %}
                     </td>
                 </tr>
@@ -194,8 +194,8 @@
 
 <!-- Pagination -->
 {% if page_obj.has_other_pages %}
-    <div class="flex justify-center mt-8">
-        <div class="inline-flex flex-wrap gap-1 items-center">
+    <div class="mt-8 flex justify-center">
+        <div class="inline-flex flex-wrap items-center gap-1">
             <button
                 {% if page_obj.has_previous %}
                     hx-get="{{ list_url }}?page={{ page_obj.previous_page_number }}&category={{ current_category }}&sort={{ current_sort }}&q={{ search_query }}"
@@ -204,16 +204,16 @@
                 {% else %}
                     disabled
                 {% endif %}
-                class="inline-flex justify-center items-center px-2 h-9 text-sm font-medium whitespace-nowrap rounded-md border transition-colors sm:px-3 disabled:opacity-50 disabled:pointer-events-none border-input bg-background hover:bg-accent hover:text-accent-foreground">
-                <i class="mr-1 ph-bold ph-caret-left"></i>
+                class="border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-9 items-center justify-center rounded-md border px-2 text-sm font-medium whitespace-nowrap transition-colors disabled:pointer-events-none disabled:opacity-50 sm:px-3">
+                <i class="ph-bold ph-caret-left mr-1"></i>
                 <span class="hidden sm:inline">{% translate "Previous" %}</span>
             </button>
 
-            <div class="inline-flex gap-1 items-center">
+            <div class="inline-flex items-center gap-1">
                 {% for i in page_obj.paginator.page_range %}
                     {% if page_obj.number == i %}
                         <button
-                            class="inline-flex justify-center items-center w-9 h-9 text-sm font-medium whitespace-nowrap rounded-md transition-colors bg-primary text-primary-foreground">
+                            class="bg-primary text-primary-foreground inline-flex h-9 w-9 items-center justify-center rounded-md text-sm font-medium whitespace-nowrap transition-colors">
                             {{ i }}
                         </button>
                     {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
@@ -221,7 +221,7 @@
                             hx-get="{{ list_url }}?page={{ i }}&category={{ current_category }}&sort={{ current_sort }}&q={{ search_query }}"
                             hx-target="#package-list-container"
                             hx-push-url="true" hx-indicator="#package-list-spinner"
-                            class="inline-flex justify-center items-center w-9 h-9 text-sm font-medium whitespace-nowrap rounded-md border transition-colors border-input bg-background hover:bg-accent hover:text-accent-foreground">
+                            class="border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-9 w-9 items-center justify-center rounded-md border text-sm font-medium whitespace-nowrap transition-colors">
                             {{ i }}
                         </button>
                     {% endif %}
@@ -236,9 +236,9 @@
                 {% else %}
                     disabled
                 {% endif %}
-                class="inline-flex justify-center items-center px-2 h-9 text-sm font-medium whitespace-nowrap rounded-md border transition-colors sm:px-3 disabled:opacity-50 disabled:pointer-events-none border-input bg-background hover:bg-accent hover:text-accent-foreground">
+                class="border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-9 items-center justify-center rounded-md border px-2 text-sm font-medium whitespace-nowrap transition-colors disabled:pointer-events-none disabled:opacity-50 sm:px-3">
                 <span class="hidden sm:inline">{% translate "Next" %}</span>
-                <i class="ml-1 ph-bold ph-caret-right"></i>
+                <i class="ph-bold ph-caret-right ml-1"></i>
             </button>
         </div>
     </div>

@@ -8,18 +8,18 @@
 
 {% block content %}
     <!-- Breadcrumb Section -->
-    <section class="py-4 bg-primary/10">
-        <div class="container px-4 mx-auto">
-            <div class="flex flex-col gap-3 lg:flex-row lg:justify-between lg:items-center">
-                <div class="flex items-center text-sm text-muted-foreground">
+    <section class="bg-primary/10 py-4">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                <div class="text-muted-foreground flex items-center text-sm">
                     <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
                     <span class="mx-2">»</span>
-                    <span class="font-medium text-foreground truncate">{% translate "Grids" %}</span>
+                    <span class="text-foreground truncate font-medium">{% translate "Grids" %}</span>
                 </div>
-                <div class="flex flex-wrap gap-2 items-center w-full lg:w-auto">
+                <div class="flex w-full flex-wrap items-center gap-2 lg:w-auto">
                     {% if request.user.is_authenticated and request.user.profile.can_add_grid %}
-                        <a href="{% url 'add_grid' %}" class="flex-1 flex-shrink-0 lg:flex-none btn-secondary">
-                            <i class="mr-1 text-base ph-bold ph-plus"></i>
+                        <a href="{% url 'add_grid' %}" class="btn-secondary flex-1 flex-shrink-0 lg:flex-none">
+                            <i class="ph-bold ph-plus mr-1 text-base"></i>
                             <span>{% translate "Add Grid" %}</span>
                         </a>
                     {% endif %}
@@ -28,22 +28,22 @@
         </div>
     </section>
 
-    <div class="container py-8 px-4 mx-auto">
+    <div class="container mx-auto px-4 py-8">
         <div class="mb-8">
-            <h1 class="text-3xl font-bold text-foreground">{% translate "Grids" %}</h1>
-            <p class="pt-2 text-muted-foreground">{% translate "Browse and search grids" %}</p>
+            <h1 class="text-foreground text-3xl font-bold">{% translate "Grids" %}</h1>
+            <p class="text-muted-foreground pt-2">{% translate "Browse and search grids" %}</p>
         </div>
 
         {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="grids-list-inline" ea_outer_class="my-4" ea_inner_class="flex justify-center" %}
 
         <div class="card">
-            <div class="p-6 card-content">
+            <div class="card-content p-6">
                 <!-- Search Input -->
                 <div class="relative">
-                    <i class="absolute left-3.5 top-1/2 text-lg -translate-y-1/2 ph-bold ph-magnifying-glass text-muted-foreground"></i>
+                    <i class="ph-bold ph-magnifying-glass text-muted-foreground absolute top-1/2 left-3.5 -translate-y-1/2 text-lg"></i>
                     <input type="text"
                            name="q"
-                           class="pr-4 pl-11 w-full h-12 rounded-lg border shadow-sm transition-shadow focus:ring-2 focus:outline-none bg-background text-foreground focus:ring-primary"
+                           class="bg-background text-foreground focus:ring-primary h-12 w-full rounded-lg border pr-4 pl-11 shadow-sm transition-shadow focus:ring-2 focus:outline-none"
                            placeholder="{% translate 'Search grids...' %}"
                            value="{{ search_query }}"
                            hx-get="{% url 'grids' %}"
@@ -56,11 +56,11 @@
             </div>
         </div>
 
-        <div class="relative mt-6 card">
-            <div id="grid-list-spinner" class="flex absolute inset-0 z-10 justify-center items-center rounded-xl pointer-events-none htmx-indicator bg-background/50 backdrop-blur-[1px]">
-                <i class="text-4xl animate-spin ph-bold ph-circle-notch text-primary"></i>
+        <div class="card relative mt-6">
+            <div id="grid-list-spinner" class="htmx-indicator bg-background/50 pointer-events-none absolute inset-0 z-10 flex items-center justify-center rounded-xl backdrop-blur-[1px]">
+                <i class="ph-bold ph-circle-notch text-primary animate-spin text-4xl"></i>
             </div>
-            <div class="p-6 card-content">
+            <div class="card-content p-6">
                 <div id="grid-list-container">
                     {% include "partials/grid_list_body.html" %}
                 </div>

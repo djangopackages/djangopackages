@@ -8,30 +8,30 @@
 
 {% block content %}
     <!-- Breadcrumb Section -->
-    <section class="py-4 bg-primary/10">
-        <div class="container px-4 mx-auto">
-            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
-                <div class="flex items-center text-sm text-muted-foreground">
+    <section class="bg-primary/10 py-4">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div class="text-muted-foreground flex items-center text-sm">
                     <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
                     <span class="mx-2">»</span>
                     <a href="{% url 'grids' %}" class="hover:underline">{% translate "Grids" %}</a>
                     <span class="mx-2">»</span>
                     <a href="{% url 'grid' object.grid.slug %}" class="hover:underline">{{ object.grid.title }}</a>
                     <span class="mx-2">»</span>
-                    <span class="font-medium text-foreground truncate">{% translate "Delete Feature" %}</span>
+                    <span class="text-foreground truncate font-medium">{% translate "Delete Feature" %}</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="container py-8 px-4 mx-auto">
+    <div class="container mx-auto px-4 py-8">
         <div class="mb-8">
-            <h1 class="text-3xl font-bold text-foreground">{% translate "Delete Feature" %}</h1>
-            <p class="pt-2 text-muted-foreground">{% translate "Are you sure you want to delete this feature?" %}</p>
+            <h1 class="text-foreground text-3xl font-bold">{% translate "Delete Feature" %}</h1>
+            <p class="text-muted-foreground pt-2">{% translate "Are you sure you want to delete this feature?" %}</p>
         </div>
 
-        <div class="max-w-3xl card">
-            <div class="p-6 card-content">
+        <div class="card max-w-3xl">
+            <div class="card-content p-6">
                 <form method="post">
                     {% csrf_token %}
                     <div class="mb-6">

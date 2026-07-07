@@ -5,7 +5,7 @@
         hx-target="#package-list-container"
         hx-push-url="true"
         hx-indicator="#package-list-spinner"
-        class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-full transition-colors border {% if current_category == 'all' %}bg-primary text-primary-foreground border-primary hover:bg-primary/90{% else %}bg-background text-muted-foreground border-border hover:bg-accent hover:text-accent-foreground{% endif %}">
+        class="{% if current_category == 'all' %}bg-primary text-primary-foreground border-primary hover:bg-primary/90{% else %}bg-background text-muted-foreground border-border hover:bg-accent hover:text-accent-foreground{% endif %} inline-flex items-center rounded-full border px-4 py-2 text-sm font-medium transition-colors">
         {% translate "All" %}
         <span class="ml-2 text-xs opacity-70">({{ total_count }})</span>
     </button>
@@ -15,7 +15,7 @@
             hx-target="#package-list-container"
             hx-push-url="true"
             hx-indicator="#package-list-spinner"
-            class="inline-flex items-center px-4 py-2 text-sm font-medium rounded-full transition-colors border {% if current_category == category.slug %}bg-primary text-primary-foreground border-primary hover:bg-primary/90{% else %}bg-background text-muted-foreground border-border hover:bg-accent hover:text-accent-foreground{% endif %}">
+            class="{% if current_category == category.slug %}bg-primary text-primary-foreground border-primary hover:bg-primary/90{% else %}bg-background text-muted-foreground border-border hover:bg-accent hover:text-accent-foreground{% endif %} inline-flex items-center rounded-full border px-4 py-2 text-sm font-medium transition-colors">
             {{ category.title }}
             <span class="ml-2 text-xs opacity-70">({{ category.package_count }})</span>
         </button>

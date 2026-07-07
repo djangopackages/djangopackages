@@ -2,89 +2,89 @@
 {% for item in search_results %}
     <a
         href="{% if item.is_grid %}{% url 'grid' item.slug %}{% else %}{% url 'package' item.slug %}{% endif %}"
-        class="block text-left suggestion-item"
+        class="suggestion-item block text-left"
         data-index="{{ forloop.counter0 }}"
     >
-        <div class="flex gap-3 items-start">
-            <div class="flex-shrink-0 mt-1 suggestion-icon">
+        <div class="flex items-start gap-3">
+            <div class="suggestion-icon mt-1 flex-shrink-0">
                 {% if item.is_grid %}
-                    <i class="text-sm ph-bold ph-squares-four"></i>
+                    <i class="ph-bold ph-squares-four text-sm"></i>
                 {% else %}
-                    <i class="text-sm ph-bold ph-package"></i>
+                    <i class="ph-bold ph-package text-sm"></i>
                 {% endif %}
             </div>
-            <div class="flex-1 min-w-0">
-                <div class="flex gap-2 justify-between items-center">
-                    <span class="font-medium truncate"
+            <div class="min-w-0 flex-1">
+                <div class="flex items-center justify-between gap-2">
+                    <span class="truncate font-medium"
                     >{{ item.title }}</span
                         >
                     </div>
 
                     {% if item.description %}
                         <p
-                            class="mt-0.5 text-xs suggestion-description text-muted-foreground truncate"
+                            class="suggestion-description text-muted-foreground mt-0.5 truncate text-xs"
                         >
                             {{ item.description }}
                         </p>
                     {% endif %}
 
-                    <div class="flex flex-wrap gap-2 items-center mt-2">
+                    <div class="mt-2 flex flex-wrap items-center gap-2">
                         {% if item.is_grid %}
-                            <span class="whitespace-nowrap badge suggestion-badge">
+                            <span class="badge suggestion-badge whitespace-nowrap">
                                 {% translate "Grid" %}
                             </span>
                         {% else %}
                             {% if item.category %}
-                                <span class="whitespace-nowrap badge suggestion-badge"
+                                <span class="badge suggestion-badge whitespace-nowrap"
                                 >{{ item.category.title }}</span
                                     >
                             {% endif %}
                             {% if item.pypi_version %}
                                 <span
-                                    class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge"
+                                    class="badge suggestion-badge flex items-center gap-1 whitespace-nowrap"
                                     data-toggle="tooltip"
                                     title="{% translate 'Latest PyPI Version' %}"
                                 >
-                                    <i class="text-xs ph-bold ph-tag"></i>
+                                    <i class="ph-bold ph-tag text-xs"></i>
                                     {{ item.pypi_version }}
                                 </span>
                             {% endif %}
                             {% if item.last_released %}
                                 <span
-                                    class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge"
+                                    class="badge suggestion-badge flex items-center gap-1 whitespace-nowrap"
                                     data-toggle="tooltip"
                                     title="{% translate 'Last Released' %}"
                                 >
-                                    <i class="text-xs ph-bold ph-calendar-check"></i>
+                                    <i class="ph-bold ph-calendar-check text-xs"></i>
                                     {{ item.last_released|date }}
                                 </span>
                             {% endif %}
                             {% flag "enabled_packages_score_values" %}
                                 <span
-                                    class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge"
+                                    class="badge suggestion-badge flex items-center gap-1 whitespace-nowrap"
                                     data-toggle="tooltip"
                                     title="{% translate 'Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%).' %}"
                                 >
-                                    <i class="text-xs ph-bold ph-chart-bar"></i>
+                                    <i class="ph-bold ph-chart-bar text-xs"></i>
                                     {{ item.score|intcomma|default:"n/a" }}
                                 </span>
                             {% endflag %}
 
                             <span
-                                class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge"
+                                class="badge suggestion-badge flex items-center gap-1 whitespace-nowrap"
                                 data-toggle="tooltip"
                                 title="{% translate 'Stars' %}"
                             >
-                                <i class="text-xs ph-bold ph-star"></i>
+                                <i class="ph-bold ph-star text-xs"></i>
                                 {{ item.repo_watchers|intcomma|default:0 }}
                             </span>
 
                             <span
-                                class="flex gap-1 items-center whitespace-nowrap badge suggestion-badge"
+                                class="badge suggestion-badge flex items-center gap-1 whitespace-nowrap"
                                 data-toggle="tooltip"
                                 title="{% translate 'Forks' %}"
                             >
-                                <i class="text-xs ph-bold ph-git-fork"></i>
+                                <i class="ph-bold ph-git-fork text-xs"></i>
                                 {{ item.repo_forks|default:0 }}
                             </span>
                         {% endif %}
@@ -105,16 +105,16 @@
         >
             <div
                 id="{{ dropdown_slug }}-load-more-spinner-{{ next_page }}"
-                class="flex gap-2 justify-center items-center py-3 text-xs text-muted-foreground"
+                class="text-muted-foreground flex items-center justify-center gap-2 py-3 text-xs"
             >
-                <i class="text-sm animate-spin ph-bold ph-circle-notch"></i>
+                <i class="ph-bold ph-circle-notch animate-spin text-sm"></i>
                 <span>{% translate "Loading more results…" %}</span>
             </div>
         </div>
     {% endwith %}
 {% elif search_results and not has_more %}
     <div
-        class="py-3 text-xs text-center border-t text-muted-foreground border-border/40"
+        class="text-muted-foreground border-border/40 border-t py-3 text-center text-xs"
     >
         {% translate "End of results" %}
     </div>

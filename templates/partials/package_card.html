@@ -1,26 +1,26 @@
 <!-- Package Card -->
-<div class="overflow-hidden min-w-0 card">
-    <div class="p-4 min-w-0 card-content">
+<div class="card min-w-0 overflow-hidden">
+    <div class="card-content min-w-0 p-4">
         {% if package.latest_version_number %} {# Layout with version badge on the right #}
-            <div class="flex gap-2 justify-between items-start mb-2 min-w-0">
+            <div class="mb-2 flex min-w-0 items-start justify-between gap-2">
                 <a
                     href="{{ package.get_absolute_url }}"
-                    class="block overflow-hidden flex-1 pr-2 min-w-0 max-w-full font-medium cursor-pointer hover:underline text-primary truncate"
+                    class="text-primary block max-w-full min-w-0 flex-1 cursor-pointer truncate overflow-hidden pr-2 font-medium hover:underline"
                 >
                     {{ package.title }}
                 </a>
-                <span class="flex-shrink-0 whitespace-nowrap badge">{{ package.latest_version_number }}</span>
+                <span class="badge flex-shrink-0 whitespace-nowrap">{{ package.latest_version_number }}</span>
             </div>
         {% else %} {# Layout without version badge (simple) #}
             <a
                 href="{{ package.get_absolute_url }}"
-                class="block overflow-hidden mb-2 min-w-0 max-w-full font-medium cursor-pointer hover:underline text-primary truncate"
+                class="text-primary mb-2 block max-w-full min-w-0 cursor-pointer truncate overflow-hidden font-medium hover:underline"
             >
                 {{ package.title }}
             </a>
         {% endif %}
         {% if package.repo_description %}
-            <p class="text-sm text-muted-foreground line-clamp-2 overflow-wrap-anywhere">
+            <p class="text-muted-foreground line-clamp-2 overflow-wrap-anywhere text-sm">
                 {{ package.repo_description }}
             </p>
         {% endif %}

@@ -1,11 +1,11 @@
 {% if packages %}
-    <div class="relative mb-8 card">
-        <div id="{{ target_id }}-spinner" class="flex absolute inset-0 z-10 justify-center items-center rounded-xl pointer-events-none htmx-indicator bg-background/50 backdrop-blur-[1px]">
-            <i class="text-4xl animate-spin ph-bold ph-circle-notch text-primary"></i>
+    <div class="card relative mb-8">
+        <div id="{{ target_id }}-spinner" class="htmx-indicator bg-background/50 pointer-events-none absolute inset-0 z-10 flex items-center justify-center rounded-xl backdrop-blur-[1px]">
+            <i class="ph-bold ph-circle-notch text-primary animate-spin text-4xl"></i>
         </div>
         <div class="card-header">
-            <h3 class="flex gap-2 items-center text-xl font-semibold">
-                <i class="text-xl ph-bold {{ card_icon }}"></i>
+            <h3 class="flex items-center gap-2 text-xl font-semibold">
+                <i class="ph-bold {{ card_icon }} text-xl"></i>
                 {{ card_title }}
             </h3>
         </div>

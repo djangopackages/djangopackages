@@ -8,42 +8,42 @@
 
 {% block content %}
     <!-- Breadcrumb Section -->
-    <section class="py-4 bg-primary/10">
-        <div class="container px-4 mx-auto">
-            <div class="flex items-center text-sm text-muted-foreground">
+    <section class="bg-primary/10 py-4">
+        <div class="container mx-auto px-4">
+            <div class="text-muted-foreground flex items-center text-sm">
                 <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
                 <span class="mx-2">»</span>
-                <span class="font-medium text-foreground truncate">{% translate "Readiness" %}</span>
+                <span class="text-foreground truncate font-medium">{% translate "Readiness" %}</span>
             </div>
         </div>
     </section>
 
-    <div class="container py-8 px-4 mx-auto">
+    <div class="container mx-auto px-4 py-8">
         <div class="mb-8">
-            <h1 class="text-4xl font-bold text-foreground">{% translate "Readiness" %}</h1>
-            <p class="mt-2 text-lg text-muted-foreground">Check the compatibility of packages with different versions of Django, Python, and Wagtail.</p>
+            <h1 class="text-foreground text-4xl font-bold">{% translate "Readiness" %}</h1>
+            <p class="text-muted-foreground mt-2 text-lg">Check the compatibility of packages with different versions of Django, Python, and Wagtail.</p>
         </div>
 
         {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="readiness-index-inline" ea_outer_class="my-2" ea_inner_class="flex justify-center" %}
 
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {% if django_releases %}
-                <div class="overflow-hidden card">
-                    <div class="py-4 px-6 border-b bg-muted/50">
-                        <h2 class="text-xl font-semibold text-foreground">{% translate "Django Releases" %}</h2>
+                <div class="card overflow-hidden">
+                    <div class="bg-muted/50 border-b px-6 py-4">
+                        <h2 class="text-foreground text-xl font-semibold">{% translate "Django Releases" %}</h2>
                     </div>
-                    <ul class="divide-y divide-border">
+                    <ul class="divide-border divide-y">
                         {% for release in django_releases %}
                             <li>
-                                <a href="{% url 'readiness_detail' product_slug=release.product.slug cycle=release.cycle %}" class="block py-4 px-6 transition duration-150 ease-in-out hover:bg-muted/50">
-                                    <div class="flex justify-between items-center">
-                                        <span class="text-lg font-medium text-primary">{{ release }}</span>
+                                <a href="{% url 'readiness_detail' product_slug=release.product.slug cycle=release.cycle %}" class="hover:bg-muted/50 block px-6 py-4 transition duration-150 ease-in-out">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-primary text-lg font-medium">{{ release }}</span>
                                         <div class="flex space-x-2">
                                             {% if release.lts %}
-                                                <span class="inline-flex items-center py-0.5 px-2.5 text-xs font-medium text-blue-800 bg-blue-100 rounded-full">LTS</span>
+                                                <span class="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">LTS</span>
                                             {% endif %}
                                             {% if release.is_eol %}
-                                                <span class="inline-flex items-center py-0.5 px-2.5 text-xs font-medium text-red-800 bg-red-100 rounded-full">EOL</span>
+                                                <span class="inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800">EOL</span>
                                             {% endif %}
                                         </div>
                                     </div>
@@ -55,22 +55,22 @@
             {% endif %}
 
             {% if python_releases %}
-                <div class="overflow-hidden card">
-                    <div class="py-4 px-6 border-b bg-muted/50">
-                        <h2 class="text-xl font-semibold text-foreground">{% translate "Python Releases" %}</h2>
+                <div class="card overflow-hidden">
+                    <div class="bg-muted/50 border-b px-6 py-4">
+                        <h2 class="text-foreground text-xl font-semibold">{% translate "Python Releases" %}</h2>
                     </div>
-                    <ul class="divide-y divide-border">
+                    <ul class="divide-border divide-y">
                         {% for release in python_releases %}
                             <li>
-                                <a href="{% url 'readiness_detail' product_slug=release.product.slug cycle=release.cycle %}" class="block py-4 px-6 transition duration-150 ease-in-out hover:bg-muted/50">
-                                    <div class="flex justify-between items-center">
-                                        <span class="text-lg font-medium text-primary">{{ release }}</span>
+                                <a href="{% url 'readiness_detail' product_slug=release.product.slug cycle=release.cycle %}" class="hover:bg-muted/50 block px-6 py-4 transition duration-150 ease-in-out">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-primary text-lg font-medium">{{ release }}</span>
                                         <div class="flex space-x-2">
                                             {% if release.lts %}
-                                                <span class="inline-flex items-center py-0.5 px-2.5 text-xs font-medium text-blue-800 bg-blue-100 rounded-full">LTS</span>
+                                                <span class="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">LTS</span>
                                             {% endif %}
                                             {% if release.is_eol %}
-                                                <span class="inline-flex items-center py-0.5 px-2.5 text-xs font-medium text-red-800 bg-red-100 rounded-full">EOL</span>
+                                                <span class="inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800">EOL</span>
                                             {% endif %}
                                         </div>
                                     </div>
@@ -82,22 +82,22 @@
             {% endif %}
 
             {% if wagtail_releases %}
-                <div class="overflow-hidden card">
-                    <div class="py-4 px-6 border-b bg-muted/50">
-                        <h2 class="text-xl font-semibold text-foreground">{% translate "Wagtail Releases" %}</h2>
+                <div class="card overflow-hidden">
+                    <div class="bg-muted/50 border-b px-6 py-4">
+                        <h2 class="text-foreground text-xl font-semibold">{% translate "Wagtail Releases" %}</h2>
                     </div>
-                    <ul class="divide-y divide-border">
+                    <ul class="divide-border divide-y">
                         {% for release in wagtail_releases %}
                             <li>
-                                <a href="{% url 'readiness_detail' product_slug=release.product.slug cycle=release.cycle %}" class="block py-4 px-6 transition duration-150 ease-in-out hover:bg-muted/50">
-                                    <div class="flex justify-between items-center">
-                                        <span class="text-lg font-medium text-primary">{{ release }}</span>
+                                <a href="{% url 'readiness_detail' product_slug=release.product.slug cycle=release.cycle %}" class="hover:bg-muted/50 block px-6 py-4 transition duration-150 ease-in-out">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-primary text-lg font-medium">{{ release }}</span>
                                         <div class="flex space-x-2">
                                             {% if release.lts %}
-                                                <span class="inline-flex items-center py-0.5 px-2.5 text-xs font-medium text-blue-800 bg-blue-100 rounded-full">LTS</span>
+                                                <span class="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">LTS</span>
                                             {% endif %}
                                             {% if release.is_eol %}
-                                                <span class="inline-flex items-center py-0.5 px-2.5 text-xs font-medium text-red-800 bg-red-100 rounded-full">EOL</span>
+                                                <span class="inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800">EOL</span>
                                             {% endif %}
                                         </div>
                                     </div>

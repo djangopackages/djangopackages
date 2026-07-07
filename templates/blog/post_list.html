@@ -8,40 +8,40 @@
 
 {% block content %}
     <!-- Breadcrumb Section -->
-    <section class="py-4 bg-primary/10">
-        <div class="container px-4 mx-auto">
-            <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
-                <div class="flex items-center text-sm text-muted-foreground">
+    <section class="bg-primary/10 py-4">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div class="text-muted-foreground flex items-center text-sm">
                     <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
                     <span class="mx-2">»</span>
-                    <span class="font-medium text-foreground truncate">{% translate "Changelog" %}</span>
+                    <span class="text-foreground truncate font-medium">{% translate "Changelog" %}</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="container py-8 px-4 mx-auto">
+    <div class="container mx-auto px-4 py-8">
         <div class="mb-8">
-            <h1 class="text-3xl font-bold text-foreground">{% translate "Changelog" %}</h1>
-            <p class="pt-2 text-muted-foreground">{% translate "Follow Django Packages updates and improvements." %}</p>
+            <h1 class="text-foreground text-3xl font-bold">{% translate "Changelog" %}</h1>
+            <p class="text-muted-foreground pt-2">{% translate "Follow Django Packages updates and improvements." %}</p>
         </div>
 
         {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="post-list-inline" ea_outer_class="mb-4" ea_inner_class="flex justify-left" %}
 
-        <div class="space-y-6 max-w-5xl">
+        <div class="max-w-5xl space-y-6">
             {% for post in posts %}
                 <div class="card">
-                    <div class="p-6 card-content">
+                    <div class="card-content p-6">
                         <div class="flex flex-col gap-6 md:flex-row">
                             <div class="flex-shrink-0 md:w-1/3">
-                                <div class="mb-1 text-sm text-muted-foreground">{{ post.published_date|date:"F j, Y" }}</div>
-                                <h2 class="text-xl font-bold text-foreground">
-                                    <a href="{% url 'post_detail' post.slug %}" class="hover:underline hover:text-primary">
+                                <div class="text-muted-foreground mb-1 text-sm">{{ post.published_date|date:"F j, Y" }}</div>
+                                <h2 class="text-foreground text-xl font-bold">
+                                    <a href="{% url 'post_detail' post.slug %}" class="hover:text-primary hover:underline">
                                         {{ post.title }}
                                     </a>
                                 </h2>
                             </div>
-                            <div class="max-w-none md:w-2/3 prose prose-sm text-muted-foreground">
+                            <div class="text-muted-foreground max-w-none prose prose-sm md:w-2/3">
                                 {{ post.content|markdown }}
                             </div>
                         </div>

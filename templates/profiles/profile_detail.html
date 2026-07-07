@@ -7,13 +7,13 @@
 {% endblock metadata %}
 
 {% block content %}
-    <div class="container py-8 px-4 mx-auto">
+    <div class="container mx-auto px-4 py-8">
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-4">
         <!-- Sidebar -->
             <div class="space-y-6 lg:col-span-1">
                 <div class="flex flex-col items-center lg:items-start">
                 <!-- Avatar placeholder -->
-                    <div class="flex overflow-hidden justify-center items-center mb-4 w-64 h-64 text-6xl text-green-800 rounded-full border shadow-sm bg-green-800/20 border-green-800/20">
+                    <div class="mb-4 flex h-64 w-64 items-center justify-center overflow-hidden rounded-full border border-green-800/20 bg-green-800/20 text-6xl text-green-800 shadow-sm">
                         <span class="font-bold">{{ local_profile.github_account|slice:":2"|upper }}</span>
                     </div>
 
@@ -21,37 +21,37 @@
                     <p class="text-xl font-light text-gray-500">{{ local_profile.github_account }}</p>
 
                     {% if request.user == user %}
-                        <a href="{% url 'profile_edit' %}" class="mt-4 w-full btn-secondary">
+                        <a href="{% url 'profile_edit' %}" class="btn-secondary mt-4 w-full">
                             {% translate "Edit profile" %}
                         </a>
                     {% endif %}
 
-                    <div class="mt-6 space-y-3 w-full text-sm text-gray-600">
+                    <div class="mt-6 w-full space-y-3 text-sm text-gray-600">
                         {% if local_profile.github_account %}
-                            <div class="flex items-center group">
-                                <i class="mr-2 text-lg text-gray-500 group-hover:text-gray-900 ph-bold ph-github-logo"></i>
+                            <div class="group flex items-center">
+                                <i class="ph-bold ph-github-logo mr-2 text-lg text-gray-500 group-hover:text-gray-900"></i>
                                 <a href="https://github.com/{{ local_profile.github_account }}" target="_blank" class="text-gray-500 group-hover:text-gray-900 hover:underline">@{{ local_profile.github_account }}</a>
                             </div>
                         {% endif %}
 
                         {% if local_profile.bitbucket_url %}
-                            <div class="flex items-center group">
-                                <i class="mr-2 text-lg text-gray-500 group-hover:text-gray-900 ph-bold ph-git-branch"></i>
+                            <div class="group flex items-center">
+                                <i class="ph-bold ph-git-branch mr-2 text-lg text-gray-500 group-hover:text-gray-900"></i>
                                 <a href="https://bitbucket.org/{{ local_profile.bitbucket_url }}" target="_blank" class="text-gray-500 group-hover:text-gray-900 hover:underline">{{ local_profile.bitbucket_url }}</a>
                             </div>
                         {% endif %}
 
                         {% if local_profile.gitlab_url %}
-                            <div class="flex items-center group">
-                                <i class="mr-2 text-lg text-gray-500 group-hover:text-gray-900 ph-bold ph-gitlab-logo"></i>
+                            <div class="group flex items-center">
+                                <i class="ph-bold ph-gitlab-logo mr-2 text-lg text-gray-500 group-hover:text-gray-900"></i>
                                 <a href="https://gitlab.com/{{ local_profile.gitlab_url }}" target="_blank" class="text-gray-500 group-hover:text-gray-900 hover:underline">{{ local_profile.gitlab_url }}</a>
                             </div>
                         {% endif %}
 
                         {% if extra_fields %}
                             {% for field in extra_fields %}
-                                <div class="flex items-center group">
-                                    <i class="mr-2 text-lg text-gray-500 group-hover:text-gray-900 ph-bold ph-link"></i>
+                                <div class="group flex items-center">
+                                    <i class="ph-bold ph-link mr-2 text-lg text-gray-500 group-hover:text-gray-900"></i>
                                     <a href="{{ field.url }}" target="_blank" class="text-gray-500 group-hover:text-gray-900 hover:underline" title="{{ field.label }}">{{ field.url|truncatechars:30 }}</a>
                                 </div>
                             {% endfor %}
@@ -65,21 +65,21 @@
             <div class="lg:col-span-3">
 
             <!-- Packages Contributed To -->
-                <div class="mb-8 card"
+                <div class="card mb-8"
                      hx-get="{% url 'profile_contributed_packages' github_account=profile.github_account %}?page=1"
                      hx-trigger="load"
                      hx-swap="outerHTML"
                 >
                     <div class="card-header">
-                        <h3 class="flex gap-2 items-center text-xl font-semibold">
-                            <i class="text-xl ph-bold ph-package"></i>
+                        <h3 class="flex items-center gap-2 text-xl font-semibold">
+                            <i class="ph-bold ph-package text-xl"></i>
                             {% translate "Packages Contributed To" %}
                         </h3>
                     </div>
                     <div class="card-content">
                         <div class="py-8 text-center">
-                            <i class="text-3xl animate-spin ph-bold ph-circle-notch text-muted-foreground"></i>
-                            <p class="mt-2 text-sm text-muted-foreground">
+                            <i class="ph-bold ph-circle-notch text-muted-foreground animate-spin text-3xl"></i>
+                            <p class="text-muted-foreground mt-2 text-sm">
                                 {% translate "Loading packages..." %}
                             </p>
                         </div>
@@ -88,21 +88,21 @@
 
                 {% if profile.share_favorites or self_profile %}
                 <!-- Favorite Packages -->
-                    <div class="mb-8 card"
+                    <div class="card mb-8"
                          hx-get="{% url 'profile_favorite_packages' github_account=profile.github_account %}?page=1"
                          hx-trigger="load"
                          hx-swap="outerHTML"
                     >
                         <div class="card-header">
-                            <h3 class="flex gap-2 items-center text-xl font-semibold">
-                                <i class="text-xl ph-bold ph-heart"></i>
+                            <h3 class="flex items-center gap-2 text-xl font-semibold">
+                                <i class="ph-bold ph-heart text-xl"></i>
                                 {% translate "Favorite Packages" %}
                             </h3>
                         </div>
                         <div class="card-content">
                             <div class="py-8 text-center">
-                                <i class="text-3xl animate-spin ph-bold ph-circle-notch text-muted-foreground"></i>
-                                <p class="mt-2 text-sm text-muted-foreground">
+                                <i class="ph-bold ph-circle-notch text-muted-foreground animate-spin text-3xl"></i>
+                                <p class="text-muted-foreground mt-2 text-sm">
                                     {% translate "Loading favorites..." %}
                                 </p>
                             </div>
