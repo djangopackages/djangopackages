@@ -68,6 +68,20 @@ repos:
         args: [--write]
         entry: rustywind
         files: ^templates/.*\.html$
+        # rustywind cannot sort Tailwind classes that contain Django template
+        # tags ({% if %}/{% elif %}/{% cycle %} inside class="..."); it mangles
+        # the tags and corrupts the template. Exclude those templates.
+        exclude: |
+          (?x)^templates/(
+            homepage/index\.html|
+            homepage/readiness_detail\.html|
+            partials/_ethicalads-tag\.html|
+            partials/banner\.html|
+            partials/form_renderer\.html|
+            partials/grid_comparison_table\.html|
+            partials/messages\.html|
+            partials/suggestions\.html
+          )$
         language: node
         name: rustywind
         pass_filenames: true
