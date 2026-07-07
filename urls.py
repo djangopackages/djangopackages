@@ -93,7 +93,11 @@ urlpatterns = [
         "categories/<slug:slug>/", PackageByCategoryListView.as_view(), name="category"
     ),
     path("categories/", HomepageView.as_view(), name="categories"),
-    # url(regex=r'^login/$', view=TemplateView.as_view(template_name='pages/login.html'), name='login',),
+    path(
+        "login/",
+        TemplateView.as_view(template_name="login.html"),
+        name="login",
+    ),
     path("logout/", LogoutView.as_view(), name="logout"),
     # static pages
     path("about/", TemplateView.as_view(template_name="faq.html"), name="about"),

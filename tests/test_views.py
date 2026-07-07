@@ -22,6 +22,29 @@ def test_help(db, tp):
     assert response.status_code == 200
 
 
+def test_login(db, tp):
+    url = tp.reverse("login")
+    response = tp.client.get(url)
+    assert response.status_code == 200
+    assert b'<form method="post" action="/auth/login/github/">' in response.content
+
+
+def test_login_carries_next_as_hidden_input(db, tp):
+    url = tp.reverse("login")
+    response = tp.client.get(url, {"next": "/profiles/edit/"})
+    assert response.status_code == 200
+    assert (
+        b'<input type="hidden" name="next" value="/profiles/edit/">' in response.content
+    )
+
+
+def test_login_required_view_redirects_to_login(db, tp):
+    url = tp.reverse("profile_edit")
+    response = tp.client.get(url)
+    assert response.status_code == 302
+    assert response["Location"] == "/login/?next=/profiles/edit/"
+
+
 def test_open(db, tp):
     from package.models import Category
 

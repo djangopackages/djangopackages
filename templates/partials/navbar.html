@@ -110,12 +110,15 @@
                     {% translate "Log Out" %}
                 </a>
             {% else %}
-                <a
-                    href="{% url 'social:begin' 'github' %}"
-                    class="hidden justify-center items-center px-3 h-9 text-sm font-semibold rounded-md border transition-colors lg:inline-flex focus:ring-2 focus:outline-none text-primary-foreground/90 bg-primary-foreground/10 border-primary-foreground/20 hover:text-primary-foreground hover:bg-primary-foreground/15 hover:border-primary-foreground/30 focus:ring-primary-foreground/30"
-                >
-                    {% translate "Log In" %}
-                </a>
+                <form method="post" action="{% url 'social:begin' 'github' %}" class="hidden lg:block">
+                    {% csrf_token %}
+                    <button
+                        type="submit"
+                        class="inline-flex justify-center items-center px-3 h-9 text-sm font-semibold rounded-md border transition-colors focus:ring-2 focus:outline-none text-primary-foreground/90 bg-primary-foreground/10 border-primary-foreground/20 hover:text-primary-foreground hover:bg-primary-foreground/15 hover:border-primary-foreground/30 focus:ring-primary-foreground/30"
+                    >
+                        {% translate "Log In" %}
+                    </button>
+                </form>
             {% endif %}
 
             <!-- Mobile menu button -->
@@ -196,7 +199,10 @@
                 {% endif %}
                 <a href="{% url 'logout' %}" class="block py-2 px-3 text-base font-medium rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5">{% translate "Log Out" %}</a>
             {% else %}
-                <a href="{% url 'social:begin' 'github' %}" class="block py-2 px-3 text-base font-medium rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5">{% translate "Log In" %}</a>
+                <form method="post" action="{% url 'social:begin' 'github' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="block py-2 px-3 w-full text-base font-medium text-left rounded-md transition-colors text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/5">{% translate "Log In" %}</button>
+                </form>
             {% endif %}
         </nav>
     </div>
