@@ -11,3 +11,5 @@ jobs:
         steps:
             - uses: actions/checkout@v6.0.1
             - uses: j178/prek-action@v2
+              with:
+                  prek-version: 0.4.8

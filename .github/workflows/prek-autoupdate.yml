@@ -20,6 +20,7 @@ jobs:
         uses: j178/prek-action@v2
         with:
           install-only: true
+          prek-version: 0.4.8
 
       - name: Run prek auto-update
         run: prek auto-update
