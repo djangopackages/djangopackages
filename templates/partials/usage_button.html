@@ -21,7 +21,7 @@
     {% if request.user.is_authenticated %}
         {% if is_using %}
             <button type="button"
-                    class="{% if mobile %}gap-1 text-emerald-700{% else %}w-5 rounded{% endif %} inline-flex h-5 items-center justify-center rounded-full border border-emerald-500/50 bg-emerald-500/10 px-2 py-1 text-[11px] font-medium text-emerald-600 transition-colors hover:border-emerald-500 hover:bg-emerald-500/20 dark:text-emerald-400"
+                    class="{% if mobile %}gap-1 text-emerald-700{% else %}w-5 rounded{% endif %} inline-flex h-5 items-center justify-center rounded-full border border-emerald-500/50 bg-emerald-500/10 px-2 py-1 text-[11px] font-medium text-emerald-700 transition-colors hover:border-emerald-500 hover:bg-emerald-500/20 dark:text-emerald-400"
                     hx-get="{% url 'usage' package.slug 'remove' %}?htmx=1{% if mobile %}&mobile=1{% endif %}"
                     hx-target="#{% if mobile %}mobile-usage-btn-{{ package.id }}{% else %}usage-btn-{{ package.id }}{% endif %}"
                     hx-swap="outerHTML"

@@ -6,9 +6,19 @@
         <meta charset="UTF-8" />
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="theme-color" content="#0b3c26" />
         {% block metadata %}{% page_metadata %}{% endblock %}
         <link rel="search" type="application/opensearchdescription+xml" href="{% url 'opensearch-description' %}" title="Django Packages">
 
+        {# Apply the saved theme before first paint to avoid a flash of the wrong theme. #}
+        {# localStorage.theme is "light", "dark", or absent (= follow the OS preference). #}
+        <script>
+            document.documentElement.classList.toggle(
+                "dark",
+                localStorage.theme === "dark" ||
+                (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches),
+            );
+        </script>
         {% tailwind_css %}
         <link rel="stylesheet" href="{% static "css/phosphor-icons/bold.min.css" %}" type="text/css" />
         <link rel="shortcut icon" href="{% static "img/favicon.png" %}" />

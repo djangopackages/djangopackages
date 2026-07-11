@@ -27,7 +27,7 @@
             </h1>
 
             {% if release.is_eol %}
-                <div class="flex items-center p-4 mb-6 text-sm text-yellow-800 bg-yellow-50 rounded-lg border border-yellow-300" role="alert">
+                <div class="flex items-center p-4 mb-6 text-sm text-yellow-800 bg-yellow-50 rounded-lg border border-yellow-300 dark:text-yellow-200 dark:bg-yellow-500/10 dark:border-yellow-500/30" role="alert">
                     <i class="mr-3 text-lg ph-bold ph-warning"></i>
                     <span class="sr-only">Warning</span>
                     <div>
@@ -45,7 +45,7 @@
             <div class="card">
                 <div class="p-6 card-content">
                     <h2 class="mb-2 text-lg font-semibold text-foreground">How do you identify {{ release.product.title }} {{ release.cycle }} support?</h2>
-                    <p class="text-muted-foreground">We look for the <code class="py-0.5 px-1.5 font-mono text-sm text-pink-600 rounded border bg-muted">{{ ready_condition }}</code> classifier on the latest release of the project.</p>
+                    <p class="text-muted-foreground">We look for the <code class="py-0.5 px-1.5 font-mono text-sm text-pink-700 dark:text-pink-300 rounded border bg-muted">{{ ready_condition }}</code> classifier on the latest release of the project.</p>
                 </div>
             </div>
         </div>
@@ -55,21 +55,21 @@
             <div class="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
                 {% for package in packages %}
                     <div class="card hover:shadow-md transition-shadow
-                                {% if package.is_ready == 'yes' %}bg-green-50 border-green-200
-                                {% elif package.is_ready == 'maybe' %}bg-yellow-50 border-yellow-200
+                                {% if package.is_ready == 'yes' %}bg-green-50 border-green-200 dark:bg-green-500/10 dark:border-green-500/25
+                                {% elif package.is_ready == 'maybe' %}bg-yellow-50 border-yellow-200 dark:bg-yellow-500/10 dark:border-yellow-500/25
                                 {% else %}bg-card{% endif %}">
                         <div class="flex flex-col p-3 h-full card-content">
                             <div class="flex justify-between items-center mb-1.5">
                                 <span class="inline-flex items-center justify-center w-7 h-7 text-xs font-bold rounded-full
-                                             {% if package.is_ready == 'yes' %}bg-green-200 text-green-800
-                                             {% elif package.is_ready == 'maybe' %}bg-yellow-200 text-yellow-800
+                                             {% if package.is_ready == 'yes' %}bg-green-200 text-green-800 dark:bg-green-500/20 dark:text-green-300
+                                             {% elif package.is_ready == 'maybe' %}bg-yellow-200 text-yellow-800 dark:bg-yellow-500/20 dark:text-yellow-300
                                              {% else %}bg-muted text-muted-foreground{% endif %}">
                                     #{{ forloop.counter }}
                                 </span>
                                 {% if package.is_ready == 'yes' %}
-                                    <span class="text-xs font-bold text-green-600">Ready</span>
+                                    <span class="text-xs font-bold text-green-700 dark:text-green-400">Ready</span>
                                 {% elif package.is_ready == 'maybe' %}
-                                    <span class="text-xs font-bold text-yellow-600">Maybe</span>
+                                    <span class="text-xs font-bold text-yellow-700 dark:text-yellow-300">Maybe</span>
                                 {% endif %}
                             </div>
                             <a href="{% url 'package' slug=package.slug %}" class="mb-0.5 text-base font-semibold hover:underline text-foreground truncate hover:text-primary" title="{{ package.title }}">

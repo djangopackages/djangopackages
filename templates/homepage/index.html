@@ -3,7 +3,7 @@
 
 {% block content %}
 <!-- Hero Section -->
-    <section class="py-8 bg-muted/30">
+    <section class="hero-glow py-8 bg-muted/30">
         <div class="container px-4 mx-auto text-center">
             <h1 class="mb-6 text-4xl font-bold md:text-5xl text-foreground">{% translate "Django Packages" %}</h1>
             <p class="mx-auto mb-8 max-w-3xl text-xl text-muted-foreground">
@@ -44,7 +44,7 @@
                 <!-- Suggestions Dropdown -->
                     <div
                         id="suggestions-dropdown"
-                        class="overflow-hidden absolute right-0 left-0 top-full z-50 mt-2 rounded-xl border-2 shadow-xl bg-popover/95 backdrop-blur-sm border-border/50 hidden empty:hidden data-[open=true]:block"
+                        class="overflow-hidden absolute right-0 left-0 top-full z-50 mt-2 rounded-xl border-2 shadow-xl bg-popover/95 backdrop-blur-sm border-border/50 dark:border-border dark:shadow-black/60 dark:inset-shadow-[0_1px_0_0_oklch(1_0_0/0.08)] hidden empty:hidden data-[open=true]:block"
                     ></div>
                 </div>
             </div>
@@ -100,7 +100,7 @@
                     <a href="{% url 'category' category.slug %}" class="card group">
                         <div class="pb-4 text-center card-header">
                             <div
-                                class="w-16 h-16 rounded-full {% cycle 'bg-blue-50 text-blue-700 border-blue-200' 'bg-green-50 text-green-700 border-green-200' 'bg-purple-50 text-purple-700 border-purple-200' 'bg-orange-50 text-orange-700 border-orange-200' %} flex items-center justify-center mx-auto mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-200"
+                                class="w-16 h-16 rounded-full {% cycle 'bg-blue-50 text-blue-700 dark:bg-blue-500/15 dark:text-blue-300' 'bg-green-50 text-green-700 dark:bg-green-500/15 dark:text-green-300' 'bg-purple-50 text-purple-700 dark:bg-purple-500/15 dark:text-purple-300' 'bg-orange-50 text-orange-700 dark:bg-orange-500/15 dark:text-orange-300' %} flex items-center justify-center mx-auto mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-200"
                             >
                                 <i
                                     class="ph-bold {% cycle 'ph-package' 'ph-grid-nine' 'ph-folder' 'ph-archive' %} text-2xl"

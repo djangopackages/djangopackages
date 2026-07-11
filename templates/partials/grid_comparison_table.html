@@ -92,12 +92,12 @@
                         {% for package in packages %}
                             <td class="py-2.5 px-3 text-center border-l border-border/30">
                                 {% if package.supports_python3 %}
-                                    <span class="inline-flex gap-1 items-center py-0.5 px-2 text-xs font-medium text-emerald-600 rounded-md dark:text-emerald-400 bg-emerald-500/10">
+                                    <span class="inline-flex gap-1 items-center py-0.5 px-2 text-xs font-medium text-emerald-700 rounded-md dark:text-emerald-400 bg-emerald-500/10">
                                         <i class="text-xs ph-bold ph-check-circle"></i>
                                         {% translate "Yes" %}
                                     </span>
                                 {% else %}
-                                    <span class="inline-flex gap-1 items-center py-0.5 px-2 text-xs font-medium text-rose-600 rounded-md dark:text-rose-400 bg-rose-500/10">
+                                    <span class="inline-flex gap-1 items-center py-0.5 px-2 text-xs font-medium text-rose-700 rounded-md dark:text-rose-400 bg-rose-500/10">
                                         <i class="text-xs ph-bold ph-x-circle"></i>
                                         {% translate "No" %}
                                     </span>
@@ -227,9 +227,9 @@
                                     {% translate "Score" %}
                                     <div class="relative group/tooltip">
                                         <i class="text-xs ph-bold ph-info text-muted-foreground/50 cursor-help"></i>
-                                        <div class="absolute left-1/2 bottom-full invisible z-50 py-2 px-3 mb-2 max-w-xs text-xs text-white whitespace-normal bg-gray-900 rounded-lg shadow-lg opacity-0 transition-all duration-200 -translate-x-1/2 group-hover/tooltip:visible group-hover/tooltip:opacity-100">
+                                        <div class="absolute left-1/2 bottom-full invisible z-50 py-2 px-3 mb-2 max-w-xs text-xs text-white whitespace-normal bg-gray-900 rounded-lg shadow-lg opacity-0 transition-all duration-200 -translate-x-1/2 dark:bg-gray-100 dark:text-gray-900 group-hover/tooltip:visible group-hover/tooltip:opacity-100">
                                             {% translate "Scores (0-100) are based on Repository stars, with penalties for inactivity (-10% every 3 months) and no Python 3 support (-30%)." %}
-                                            <div class="absolute left-1/2 top-full border-transparent -translate-x-1/2 border-6 border-t-gray-900"></div>
+                                            <div class="absolute left-1/2 top-full border-transparent -translate-x-1/2 border-6 border-t-gray-900 dark:border-t-gray-100"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -376,7 +376,7 @@
                             {% for package in packages %}
                                 <td class="py-2.5 px-3 text-center border-l border-destructive/10">
                                     <a href="{% url 'delete_grid_package' grid_slug=grid.slug package_id=package.id %}"
-                                       class="inline-flex gap-1 justify-center items-center py-1 px-2 text-xs font-medium rounded-md transition-colors hover:text-white text-destructive bg-destructive/10 hover:bg-destructive"
+                                       class="inline-flex gap-1 justify-center items-center py-1 px-2 text-xs font-medium rounded-md transition-colors hover:text-destructive-foreground text-destructive bg-destructive/10 hover:bg-destructive"
                                        title="{% translate 'Remove from grid' %}">
                                         <i class="text-xs ph-bold ph-trash"></i>
                                     </a>

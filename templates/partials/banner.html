@@ -3,7 +3,7 @@
         id="site-banner-{{ banner.pk }}"
         data-banner-id="{{ banner.pk }}"
         role="alert"
-        class="border-b {% if banner.banner_type == 'sponsored' %} bg-violet-50 border-violet-200 {% elif banner.banner_type == 'notice' %} bg-sky-50 border-sky-200 {% elif banner.banner_type == 'success' %} bg-emerald-50 border-emerald-200 {% elif banner.banner_type == 'warning' %} bg-amber-50 border-amber-200 {% elif banner.banner_type == 'critical' %} bg-red-50 border-red-200 {% endif %}"
+        class="border-b {% if banner.banner_type == 'sponsored' %} bg-violet-50 border-violet-200 dark:bg-violet-500/10 dark:border-violet-500/25 {% elif banner.banner_type == 'notice' %} bg-sky-50 border-sky-200 dark:bg-sky-500/10 dark:border-sky-500/25 {% elif banner.banner_type == 'success' %} bg-emerald-50 border-emerald-200 dark:bg-emerald-500/10 dark:border-emerald-500/25 {% elif banner.banner_type == 'warning' %} bg-amber-50 border-amber-200 dark:bg-amber-500/10 dark:border-amber-500/25 {% elif banner.banner_type == 'critical' %} bg-red-50 border-red-200 dark:bg-red-500/10 dark:border-red-500/25 {% endif %}"
     >
         <div class="container flex gap-3 items-center py-3 px-4 mx-auto">
             <div class="flex-1 min-w-0">
@@ -12,7 +12,7 @@
                 >
                     {% if banner.banner_type == 'sponsored' %}
                         <span
-                            class="inline-flex gap-1 items-center py-0.5 px-2 mr-2 font-semibold tracking-wide text-violet-700 uppercase align-middle bg-violet-100 rounded-full border border-violet-200 text-[11px]"
+                            class="inline-flex gap-1 items-center py-0.5 px-2 mr-2 font-semibold tracking-wide text-violet-700 uppercase align-middle bg-violet-100 rounded-full border border-violet-200 dark:text-violet-300 dark:bg-violet-400/15 dark:border-violet-400/30 text-[11px]"
                         >
                             <i class="text-[10px] ph-bold ph-megaphone"></i>
                             Sponsored
@@ -21,13 +21,13 @@
                         <i
                             class="inline align-middle mr-1 text-base ph-bold {{ banner.display_icon }}
                                    {% if banner.banner_type == 'notice' %}
-                                       text-sky-600
+                                       text-sky-600 dark:text-sky-400
                                    {% elif banner.banner_type == 'success' %}
-                                       text-emerald-600
+                                       text-emerald-600 dark:text-emerald-400
                                    {% elif banner.banner_type == 'warning' %}
-                                       text-amber-600
+                                       text-amber-600 dark:text-amber-400
                                    {% elif banner.banner_type == 'critical' %}
-                                       text-red-600
+                                       text-red-600 dark:text-red-400
                                    {% endif %}
                                   "
                         ></i>

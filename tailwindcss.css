@@ -8,6 +8,8 @@
 @variant htmx-swapping (&.htmx-swapping, .htmx-swapping &);
 @variant htmx-added (&.htmx-added, .htmx-added &);
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ============================================
    THEME CONFIGURATION
    ============================================ */
@@ -34,12 +36,18 @@
   --color-accent: oklch(0.5 0.15 162);
   --color-accent-foreground: oklch(1 0 0);
 
-  --color-destructive: oklch(0.65 0.2 25);
+  --color-destructive: oklch(0.555 0.215 27);
   --color-destructive-foreground: oklch(1 0 0);
 
   --color-border: oklch(0.88 0 0);
   --color-input: oklch(0.88 0 0);
   --color-ring: oklch(0.5 0.15 162);
+
+  /* Brand chrome (navbar, footer): stays the same pine green in both light
+     and dark mode, unlike `primary`, which lightens in dark mode so it can
+     be used for text and accents on dark surfaces. */
+  --color-brand: oklch(0.3176 0.0648 159.21);
+  --color-brand-foreground: oklch(1 0 0);
 
   /* Spacing & Border Radius Scale */
   --radius: 0.625rem;
@@ -58,6 +66,59 @@
    BASE LAYER - Global Styles
    ============================================ */
 @layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  .dark {
+    color-scheme: dark;
+
+    --color-background: oklch(0.145 0.008 160);
+    --color-foreground: oklch(0.96 0.005 160);
+
+    --color-card: oklch(0.19 0.009 160);
+    --color-card-foreground: oklch(0.96 0.005 160);
+
+    --color-popover: oklch(0.215 0.01 160);
+    --color-popover-foreground: oklch(0.96 0.005 160);
+
+    --color-primary: oklch(0.77 0.115 162);
+    --color-primary-foreground: oklch(0.17 0.032 159);
+
+    --color-secondary: oklch(0.25 0.01 160);
+    --color-secondary-foreground: oklch(0.96 0.005 160);
+
+    --color-muted: oklch(0.23 0.01 160);
+    --color-muted-foreground: oklch(0.72 0.015 160);
+
+    --color-accent: oklch(0.29 0.045 160);
+    --color-accent-foreground: oklch(0.97 0.005 160);
+
+    --color-destructive: oklch(0.7 0.19 25);
+    --color-destructive-foreground: oklch(0.16 0.02 25);
+
+    --color-border: oklch(0.31 0.012 160);
+    --color-input: oklch(0.38 0.012 160);
+    --color-ring: oklch(0.77 0.115 162);
+  }
+
+  .dark ::selection {
+    background-color: color-mix(in oklab, var(--color-primary) 35%, transparent);
+    color: var(--color-foreground);
+  }
+
+  /* Tailwind v4 defaults bare border utilities (e.g. `border-b` with no color)
+     to currentColor, which renders as a bright line on dark surfaces once
+     color-scheme is dark. Default them to the theme border token instead, so
+     borders follow the active theme (Tailwind v4 upgrade-guide pattern). */
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-border, currentColor);
+  }
+
   body {
     @apply font-sans antialiased;
     font-family:
@@ -138,10 +199,32 @@
     max-width: 1280px;
   }
 
+  /* Homepage hero: a soft brand glow radiating from the top edge
+     (background-image, so it layers over the section's bg-muted/30 color).
+     Each mode needs its own light source: in light mode the vivid accent
+     green reads as a fresh tint, while in dark mode the light sage primary
+     glows against the near-black background. */
+  .hero-glow {
+    background-image: radial-gradient(
+      60% 60% at 50% 0%,
+      color-mix(in oklab, var(--color-accent) 12%, transparent),
+      transparent 70%
+    );
+
+    @variant dark {
+      background-image: radial-gradient(
+        60% 60% at 50% 0%,
+        color-mix(in oklab, var(--color-primary) 9%, transparent),
+        transparent 70%
+      );
+    }
+  }
+
   /* Card System */
   .card {
     @apply bg-card text-card-foreground rounded-lg border border-border;
     @apply shadow-sm hover:shadow-lg transition-all duration-200;
+    @apply dark:inset-shadow-[0_1px_0_0_oklch(1_0_0/0.06)];
     @apply cursor-pointer hover:border-primary flex flex-col;
     @apply min-w-0 overflow-hidden;
   }
@@ -174,6 +257,7 @@
     @apply transition-all duration-200 h-11 px-8;
     @apply border border-primary bg-primary text-primary-foreground;
     @apply hover:bg-primary/90 hover:border-primary/80 hover:shadow-md;
+    @apply dark:hover:shadow-lg dark:hover:shadow-primary/25;
     @apply active:scale-95;
   }
 
@@ -183,6 +267,7 @@
     @apply transition-all duration-200 h-11 px-8;
     @apply border border-border bg-background text-foreground;
     @apply hover:bg-muted hover:border-muted-foreground/20 hover:shadow-md;
+    @apply dark:bg-secondary dark:hover:bg-accent dark:hover:border-muted-foreground/40;
     @apply active:scale-95;
   }
 
@@ -196,6 +281,7 @@
 
     &.selected {
       @apply bg-accent text-accent-foreground border-accent/20;
+      @apply dark:ring-1 dark:ring-primary/40;
 
       .suggestion-icon {
         @apply bg-accent-foreground/20 text-accent-foreground;
@@ -282,8 +368,8 @@
 
   .tooltip {
     @apply absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50;
-    @apply w-max rounded bg-gray-900 px-2 py-1;
-    @apply text-xs text-white opacity-0 pointer-events-none transition-opacity duration-200;
+    @apply w-max rounded bg-gray-900 px-2 py-1 dark:bg-gray-100;
+    @apply text-xs text-white opacity-0 pointer-events-none transition-opacity duration-200 dark:text-gray-900;
   }
 
   .tooltip-lg {
@@ -297,26 +383,27 @@
 
   /* Labels */
   .django-form-renderer .form-label {
-    @apply block text-base font-semibold text-gray-900 mb-2;
+    @apply block text-base font-semibold text-gray-900 mb-2 dark:text-foreground;
     letter-spacing: -0.01em;
   }
 
   .django-form-renderer .form-label .required {
-    @apply text-red-500 ml-1 text-lg;
+    @apply text-red-500 ml-1 text-lg dark:text-red-400;
   }
 
   /* Help Text */
   .django-form-renderer .form-help {
-    @apply text-sm text-gray-600 mb-3 mt-3 leading-relaxed;
+    @apply text-sm text-gray-600 mb-3 mt-3 leading-relaxed dark:text-muted-foreground;
   }
 
   /* Form Errors (Non-field errors) */
   .django-form-renderer .form-errors {
     @apply bg-red-50 border-l-4 border-red-500 rounded-r-lg p-4 mb-6 shadow-sm;
+    @apply dark:bg-red-500/10 dark:border-red-400;
   }
 
   .django-form-renderer .form-errors p {
-    @apply text-sm text-red-800 font-medium;
+    @apply text-sm text-red-800 font-medium dark:text-red-200;
   }
 
   /* Field Errors */
@@ -325,12 +412,12 @@
   }
 
   .django-form-renderer .field-error p {
-    @apply text-sm text-red-600 font-medium flex items-start gap-1;
+    @apply text-sm text-red-600 font-medium flex items-start gap-1 dark:text-red-400;
   }
 
   .django-form-renderer .field-error p::before {
     content: "⚠";
-    @apply text-red-500 mt-0.5;
+    @apply text-red-500 mt-0.5 dark:text-red-400;
   }
 
   /* Text Inputs */
@@ -347,9 +434,10 @@
   .django-form-renderer textarea {
     @apply w-full px-4 py-3 border border-gray-300 rounded-lg text-base text-gray-900;
     @apply bg-white shadow-sm;
+    @apply dark:border-input dark:bg-background dark:text-foreground;
     @apply transition-all duration-200;
     @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
-    @apply placeholder:text-gray-400;
+    @apply placeholder:text-gray-500 dark:placeholder:text-muted-foreground;
   }
 
   .django-form-renderer input[type="text"]:hover,
@@ -363,7 +451,7 @@
   .django-form-renderer input[type="time"]:hover,
   .django-form-renderer input[type="datetime-local"]:hover,
   .django-form-renderer textarea:hover {
-    @apply border-gray-400;
+    @apply border-gray-400 dark:border-gray-500;
   }
 
   /* Error State for Inputs */
@@ -380,6 +468,7 @@
   .django-form-renderer .has-error textarea,
   .django-form-renderer .has-error select {
     @apply border-red-400 bg-red-50;
+    @apply dark:border-red-400/60 dark:bg-red-500/10;
     @apply focus:ring-red-500 focus:border-red-500;
   }
 
@@ -392,13 +481,14 @@
   .django-form-renderer select {
     @apply w-full px-4 py-3 border border-gray-300 rounded-lg text-base text-gray-900;
     @apply bg-white shadow-sm;
+    @apply dark:border-input dark:bg-background dark:text-foreground;
     @apply transition-all duration-200;
     @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
     @apply cursor-pointer;
   }
 
   .django-form-renderer select:hover {
-    @apply border-gray-400;
+    @apply border-gray-400 dark:border-gray-500;
   }
 
   /* Multiple Select */
@@ -413,15 +503,15 @@
   }
 
   .django-form-renderer select[multiple] option:checked {
-    @apply bg-blue-100;
+    @apply bg-blue-100 dark:bg-blue-500/25;
   }
 
   /* Checkbox & Radio */
   .django-form-renderer input[type="checkbox"],
   .django-form-renderer input[type="radio"] {
-    @apply w-5 h-5 border-2 border-gray-300 rounded;
+    @apply w-5 h-5 border-2 border-gray-300 rounded dark:border-gray-600;
     @apply transition-all duration-200 cursor-pointer;
-    @apply focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+    @apply focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-background;
   }
 
   .django-form-renderer input[type="radio"] {
@@ -435,19 +525,19 @@
 
   .django-form-renderer input[type="checkbox"]:hover,
   .django-form-renderer input[type="radio"]:hover {
-    @apply border-gray-400;
+    @apply border-gray-400 dark:border-gray-500;
   }
 
   /* File Input */
   .django-form-renderer input[type="file"] {
-    @apply block w-full text-base text-gray-900;
-    @apply border border-gray-300 rounded-lg;
+    @apply block w-full text-base text-gray-900 dark:text-foreground;
+    @apply border border-gray-300 rounded-lg dark:border-input;
     @apply file:mr-4 file:py-3 file:px-5;
-    @apply file:border-0 file:border-r file:border-gray-300;
+    @apply file:border-0 file:border-r file:border-gray-300 dark:file:border-input;
     @apply file:text-base file:font-semibold;
-    @apply file:bg-gray-50 file:text-gray-700;
+    @apply file:bg-gray-50 file:text-gray-700 dark:file:bg-muted dark:file:text-foreground;
     @apply file:cursor-pointer;
-    @apply hover:file:bg-gray-100;
+    @apply hover:file:bg-gray-100 dark:hover:file:bg-secondary;
     @apply file:transition-colors file:duration-200;
   }
 
@@ -461,12 +551,12 @@
   }
 
   .django-form-renderer ul li label {
-    @apply text-base text-gray-700 cursor-pointer select-none;
+    @apply text-base text-gray-700 cursor-pointer select-none dark:text-gray-300;
     @apply transition-colors duration-200;
   }
 
   .django-form-renderer ul li label:hover {
-    @apply text-gray-900;
+    @apply text-gray-900 dark:text-gray-100;
   }
 
   .django-form-renderer ul li input[type="checkbox"],
@@ -492,7 +582,10 @@
    * Base rules define shape/weight; per-type blocks below apply the color palette.
    * All inline elements (a, strong, b, em, code, mark) follow the same hue as
    * the banner type — links at -800/hover -950, emphasis at -900, tinted surfaces
-   * using the -100/-200 fill.
+   * using the -100/-200 fill. In dark mode links move to -300/hover -100 and
+   * surfaces to translucent -400 fills (the banner background itself is set in
+   * partials/banner.html). The selectors key off the light border-*-200
+   * classes, which stay in the class list in both modes.
    */
   #site-banner a {
     @apply font-bold underline underline-offset-2 transition-colors;
@@ -521,67 +614,67 @@
 
   /* warning / amber */
   #site-banner.border-amber-200 a {
-    @apply text-amber-800 hover:text-amber-950;
+    @apply text-amber-800 hover:text-amber-950 dark:text-amber-300 dark:hover:text-amber-100;
   }
 
   #site-banner.border-amber-200 p mark {
-    @apply bg-amber-200 text-amber-900;
+    @apply bg-amber-200 text-amber-900 dark:bg-amber-400/20 dark:text-amber-100;
   }
 
   #site-banner.border-amber-200 p code {
-    @apply bg-amber-100 text-amber-800;
+    @apply bg-amber-100 text-amber-800 dark:bg-amber-400/15 dark:text-amber-200;
   }
 
   /* sponsored / violet */
   #site-banner.border-violet-200 a {
-    @apply text-violet-800 hover:text-violet-950;
+    @apply text-violet-800 hover:text-violet-950 dark:text-violet-300 dark:hover:text-violet-100;
   }
 
   #site-banner.border-violet-200 p mark {
-    @apply bg-violet-200 text-violet-900;
+    @apply bg-violet-200 text-violet-900 dark:bg-violet-400/20 dark:text-violet-100;
   }
 
   #site-banner.border-violet-200 p code {
-    @apply bg-violet-100 text-violet-800;
+    @apply bg-violet-100 text-violet-800 dark:bg-violet-400/15 dark:text-violet-200;
   }
 
   /* notice / sky */
   #site-banner.border-sky-200 a {
-    @apply text-sky-800 hover:text-sky-950;
+    @apply text-sky-800 hover:text-sky-950 dark:text-sky-300 dark:hover:text-sky-100;
   }
 
   #site-banner.border-sky-200 p mark {
-    @apply bg-sky-200 text-sky-900;
+    @apply bg-sky-200 text-sky-900 dark:bg-sky-400/20 dark:text-sky-100;
   }
 
   #site-banner.border-sky-200 p code {
-    @apply bg-sky-100 text-sky-800;
+    @apply bg-sky-100 text-sky-800 dark:bg-sky-400/15 dark:text-sky-200;
   }
 
   /* success / emerald */
   #site-banner.border-emerald-200 a {
-    @apply text-emerald-800 hover:text-emerald-950;
+    @apply text-emerald-800 hover:text-emerald-950 dark:text-emerald-300 dark:hover:text-emerald-100;
   }
 
   #site-banner.border-emerald-200 p mark {
-    @apply bg-emerald-200 text-emerald-900;
+    @apply bg-emerald-200 text-emerald-900 dark:bg-emerald-400/20 dark:text-emerald-100;
   }
 
   #site-banner.border-emerald-200 p code {
-    @apply bg-emerald-100 text-emerald-800;
+    @apply bg-emerald-100 text-emerald-800 dark:bg-emerald-400/15 dark:text-emerald-200;
   }
 
   /* critical / red */
   #site-banner.border-red-200 a {
-    @apply text-red-800 hover:text-red-950;
+    @apply text-red-800 hover:text-red-950 dark:text-red-300 dark:hover:text-red-100;
   }
 
   #site-banner.border-red-200 p mark {
-    @apply bg-red-200 text-red-900;
+    @apply bg-red-200 text-red-900 dark:bg-red-400/20 dark:text-red-100;
   }
 
   #site-banner.border-red-200 p code {
-    @apply bg-red-100 text-red-800;
+    @apply bg-red-100 text-red-800 dark:bg-red-400/15 dark:text-red-200;
   }
 
   /* Toast Notification Container */

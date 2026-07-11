@@ -13,12 +13,12 @@
             <div class="space-y-6 lg:col-span-1">
                 <div class="flex flex-col items-center lg:items-start">
                 <!-- Avatar placeholder -->
-                    <div class="mb-4 flex h-64 w-64 items-center justify-center overflow-hidden rounded-full border border-green-800/20 bg-green-800/20 text-6xl text-green-800 shadow-sm">
+                    <div class="mb-4 flex h-64 w-64 items-center justify-center overflow-hidden rounded-full border border-green-800/20 bg-green-800/20 text-6xl text-green-800 shadow-sm dark:border-green-400/25 dark:bg-green-400/15 dark:text-green-300">
                         <span class="font-bold">{{ local_profile.github_account|slice:":2"|upper }}</span>
                     </div>
 
-                    <h1 class="text-2xl font-bold text-gray-900">{{ user.get_full_name|default:profile.github_account }}</h1>
-                    <p class="text-xl font-light text-gray-500">{{ local_profile.github_account }}</p>
+                    <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ user.get_full_name|default:profile.github_account }}</h1>
+                    <p class="text-xl font-light text-gray-500 dark:text-gray-400">{{ local_profile.github_account }}</p>
 
                     {% if request.user == user %}
                         <a href="{% url 'profile_edit' %}" class="btn-secondary mt-4 w-full">
@@ -26,33 +26,33 @@
                         </a>
                     {% endif %}
 
-                    <div class="mt-6 w-full space-y-3 text-sm text-gray-600">
+                    <div class="mt-6 w-full space-y-3 text-sm text-gray-600 dark:text-gray-300">
                         {% if local_profile.github_account %}
                             <div class="group flex items-center">
-                                <i class="ph-bold ph-github-logo mr-2 text-lg text-gray-500 group-hover:text-gray-900"></i>
-                                <a href="https://github.com/{{ local_profile.github_account }}" target="_blank" class="text-gray-500 group-hover:text-gray-900 hover:underline">@{{ local_profile.github_account }}</a>
+                                <i class="ph-bold ph-github-logo mr-2 text-lg text-gray-500 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-gray-100"></i>
+                                <a href="https://github.com/{{ local_profile.github_account }}" target="_blank" class="text-gray-500 group-hover:text-gray-900 hover:underline dark:text-gray-400 dark:group-hover:text-gray-100">@{{ local_profile.github_account }}</a>
                             </div>
                         {% endif %}
 
                         {% if local_profile.bitbucket_url %}
                             <div class="group flex items-center">
-                                <i class="ph-bold ph-git-branch mr-2 text-lg text-gray-500 group-hover:text-gray-900"></i>
-                                <a href="https://bitbucket.org/{{ local_profile.bitbucket_url }}" target="_blank" class="text-gray-500 group-hover:text-gray-900 hover:underline">{{ local_profile.bitbucket_url }}</a>
+                                <i class="ph-bold ph-git-branch mr-2 text-lg text-gray-500 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-gray-100"></i>
+                                <a href="https://bitbucket.org/{{ local_profile.bitbucket_url }}" target="_blank" class="text-gray-500 group-hover:text-gray-900 hover:underline dark:text-gray-400 dark:group-hover:text-gray-100">{{ local_profile.bitbucket_url }}</a>
                             </div>
                         {% endif %}
 
                         {% if local_profile.gitlab_url %}
                             <div class="group flex items-center">
-                                <i class="ph-bold ph-gitlab-logo mr-2 text-lg text-gray-500 group-hover:text-gray-900"></i>
-                                <a href="https://gitlab.com/{{ local_profile.gitlab_url }}" target="_blank" class="text-gray-500 group-hover:text-gray-900 hover:underline">{{ local_profile.gitlab_url }}</a>
+                                <i class="ph-bold ph-gitlab-logo mr-2 text-lg text-gray-500 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-gray-100"></i>
+                                <a href="https://gitlab.com/{{ local_profile.gitlab_url }}" target="_blank" class="text-gray-500 group-hover:text-gray-900 hover:underline dark:text-gray-400 dark:group-hover:text-gray-100">{{ local_profile.gitlab_url }}</a>
                             </div>
                         {% endif %}
 
                         {% if extra_fields %}
                             {% for field in extra_fields %}
                                 <div class="group flex items-center">
-                                    <i class="ph-bold ph-link mr-2 text-lg text-gray-500 group-hover:text-gray-900"></i>
-                                    <a href="{{ field.url }}" target="_blank" class="text-gray-500 group-hover:text-gray-900 hover:underline" title="{{ field.label }}">{{ field.url|truncatechars:30 }}</a>
+                                    <i class="ph-bold ph-link mr-2 text-lg text-gray-500 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-gray-100"></i>
+                                    <a href="{{ field.url }}" target="_blank" class="text-gray-500 group-hover:text-gray-900 hover:underline dark:text-gray-400 dark:group-hover:text-gray-100" title="{{ field.label }}">{{ field.url|truncatechars:30 }}</a>
                                 </div>
                             {% endfor %}
                         {% endif %}

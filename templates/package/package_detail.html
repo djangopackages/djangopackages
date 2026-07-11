@@ -29,7 +29,7 @@
                         <span>{% translate "Package Score" %}</span>
                     </a>
                     {% if has_approved_flag %}
-                        <button disabled class="btn-secondary flex-1 flex-shrink-0 cursor-not-allowed border-red-200 bg-red-50 text-red-600 lg:flex-none" title="{% translate 'This package has been flagged.' %}">
+                        <button disabled class="btn-secondary flex-1 flex-shrink-0 cursor-not-allowed border-red-200 bg-red-50 text-red-700 lg:flex-none dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-300" title="{% translate 'This package has been flagged.' %}">
                             <i class="ph-bold ph-flag mr-1 text-base"></i>
                             <span id="flag-text">{% translate "Flagged" %}</span>
                         </button>
@@ -57,7 +57,7 @@
 
     {% if package.is_deprecated or package.date_repo_archived %}
         <div class="container mx-auto px-4 pt-6">
-            <div class="flex items-center rounded-lg border border-yellow-300 bg-yellow-50 p-4 text-sm text-yellow-800" role="alert">
+            <div class="flex items-center rounded-lg border border-yellow-300 bg-yellow-50 p-4 text-sm text-yellow-800 dark:border-yellow-500/30 dark:bg-yellow-500/10 dark:text-yellow-200" role="alert">
                 <i class="ph-bold ph-warning mr-3 text-lg"></i>
                 <span class="sr-only">Warning</span>
                 <div>
@@ -65,7 +65,7 @@
                     {% if package.is_deprecated %}
                         {% translate "This project was deprecated" %}
                         {% if package.deprecates_package %}
-                            {% translate "and replaced by" %} <a href="{{ package.deprecates_package.get_pypi_uri }}" target="_blank" class="font-bold hover:text-yellow-900 hover:underline">{{ package.deprecates_package.pypi_name }}</a>
+                            {% translate "and replaced by" %} <a href="{{ package.deprecates_package.get_pypi_uri }}" target="_blank" class="font-bold hover:text-yellow-900 hover:underline dark:hover:text-yellow-100">{{ package.deprecates_package.pypi_name }}</a>
                         {% endif %}
                     {% elif package.date_repo_archived %}
                         {% translate "This project was archived" %}
@@ -195,15 +195,15 @@
                         <div class="h-20 w-full sm:h-24">
                             <svg
                                 viewBox="0 0 800 90"
-                                class="h-full w-full"
+                                class="text-primary h-full w-full"
                                 preserveAspectRatio="xMidYMid meet"
                                 id="commit-svg"
                                 data-commits="{{ package.commits_over_52w_str }}"
                             >
                                 <defs>
                                     <linearGradient id="commitGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                        <stop offset="0%" stop-color="oklch(0.3176 0.0648 159.21)" stop-opacity="0.3" />
-                                        <stop offset="100%" stop-color="oklch(0.3176 0.0648 159.21)" stop-opacity="0.1" />
+                                        <stop offset="0%" stop-color="currentColor" stop-opacity="0.3" />
+                                        <stop offset="100%" stop-color="currentColor" stop-opacity="0.1" />
                                     </linearGradient>
                                 </defs>
 
@@ -214,7 +214,7 @@
                                 <path
                                     id="commit-line"
                                     fill="none"
-                                    stroke="oklch(0.3176 0.0648 159.21)"
+                                    stroke="currentColor"
                                     stroke-width="2.5"
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
@@ -293,14 +293,14 @@
                                                             </td>
                                                             <td class="py-3 text-center">
                                                                 {% if not flag.approved_flag %}
-                                                                    <a href="{% url 'flag_approve' flag.id %}" class="text-green-600 hover:text-green-700" title="{% translate 'Approve' %}">
+                                                                    <a href="{% url 'flag_approve' flag.id %}" class="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300" title="{% translate 'Approve' %}">
                                                                         <i class="ph-bold ph-check text-xl"></i>
                                                                     </a>
                                                                 {% endif %}
                                                             </td>
                                                             <td class="py-3 text-center">
                                                                 {% if not flag.approved_flag %}
-                                                                    <a href="{% url 'flag_remove' flag.id %}" class="text-red-600 hover:text-red-700" title="{% translate 'Remove' %}">
+                                                                    <a href="{% url 'flag_remove' flag.id %}" class="text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300" title="{% translate 'Remove' %}">
                                                                         <i class="ph-bold ph-trash text-xl"></i>
                                                                     </a>
                                                                 {% endif %}

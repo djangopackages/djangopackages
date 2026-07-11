@@ -1,7 +1,7 @@
 {% if messages %}
     <div id="toast-container">
         {% for message in messages %}
-            <div class="pointer-events-auto flex items-start p-4 rounded-lg shadow-lg border border-opacity-20 bg-white overflow-hidden
+            <div class="pointer-events-auto flex items-start p-4 rounded-lg shadow-lg border border-opacity-20 bg-white dark:bg-card overflow-hidden
                         {% if 'success' in message.tags %}border-green-500{% endif %}
                         {% if 'warning' in message.tags %}border-yellow-500{% endif %}
                         {% if 'error' in message.tags %}border-red-500{% endif %}
@@ -22,12 +22,12 @@
                 </div>
 
                 <div class="flex-1 ml-3 min-w-0">
-                    <p class="text-sm font-medium text-gray-900 break-words">
+                    <p class="text-sm font-medium text-gray-900 dark:text-gray-100 break-words">
                         {{ message }}
                     </p>
                 </div>
 
-                <button type="button" class="inline-flex flex-shrink-0 justify-center items-center ml-3 w-5 h-5 text-gray-400 rounded-md hover:text-gray-500 focus:outline-none" onclick="this.closest('[role=\'alert\']').remove()">
+                <button type="button" class="inline-flex flex-shrink-0 justify-center items-center ml-3 w-5 h-5 text-gray-500 rounded-md hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 focus:outline-none" onclick="this.closest('[role=\'alert\']').remove()">
                     <span class="sr-only">Close</span>
                     <i class="ph-bold ph-x"></i>
                 </button>

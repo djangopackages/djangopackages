@@ -88,29 +88,39 @@ def package_dev_status_badge(status, muted=False):
             "bg-muted text-muted-foreground border-border",
             "ph-question",
         ),
-        PackageStatus.PLANNING: ("bg-sky-50 text-sky-700 border-sky-200", "ph-compass"),
+        PackageStatus.PLANNING: (
+            "bg-sky-50 text-sky-700 border-sky-200 "
+            "dark:bg-sky-500/10 dark:text-sky-300 dark:border-sky-500/25",
+            "ph-compass",
+        ),
         PackageStatus.PRE_ALPHA: (
-            "bg-orange-50 text-orange-800 border-orange-200",
+            "bg-orange-50 text-orange-800 border-orange-200 "
+            "dark:bg-orange-500/10 dark:text-orange-300 dark:border-orange-500/25",
             "ph-flask",
         ),
         PackageStatus.ALPHA: (
-            "bg-yellow-50 text-yellow-800 border-yellow-200",
+            "bg-yellow-50 text-yellow-800 border-yellow-200 "
+            "dark:bg-yellow-500/10 dark:text-yellow-300 dark:border-yellow-500/25",
             "ph-flask",
         ),
         PackageStatus.BETA: (
-            "bg-indigo-50 text-indigo-700 border-indigo-200",
+            "bg-indigo-50 text-indigo-700 border-indigo-200 "
+            "dark:bg-indigo-500/10 dark:text-indigo-300 dark:border-indigo-500/25",
             "ph-test-tube",
         ),
         PackageStatus.STABLE: (
-            "bg-green-50 text-green-700 border-green-200",
+            "bg-green-50 text-green-700 border-green-200 "
+            "dark:bg-green-500/10 dark:text-green-300 dark:border-green-500/25",
             "ph-check-circle",
         ),
         PackageStatus.MATURE: (
-            "bg-emerald-50 text-emerald-700 border-emerald-200",
+            "bg-emerald-50 text-emerald-700 border-emerald-200 "
+            "dark:bg-emerald-500/10 dark:text-emerald-300 dark:border-emerald-500/25",
             "ph-seal-check",
         ),
         PackageStatus.INACTIVE: (
-            "bg-rose-50 text-rose-700 border-rose-200",
+            "bg-rose-50 text-rose-700 border-rose-200 "
+            "dark:bg-rose-500/10 dark:text-rose-300 dark:border-rose-500/25",
             "ph-archive",
         ),
     }

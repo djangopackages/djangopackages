@@ -1,5 +1,84 @@
 document.addEventListener("DOMContentLoaded", function () {
     // ============================================
+    // Theme Toggle (light → dark → system)
+    // ============================================
+    // The saved theme lives in localStorage.theme ("light", "dark", or absent
+    // for "system"); an inline script in base.html applies it before first
+    // paint. This section owns everything after that: the toggle buttons,
+    // reacting to OS theme changes while in system mode, and re-theming
+    // EthicalAds placements.
+    const systemDarkQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+    const getTheme = () =>
+        localStorage.theme === "light" || localStorage.theme === "dark" ? localStorage.theme : "system";
+
+    const applyTheme = (theme) => {
+        const isDark = theme === "dark" || (theme === "system" && systemDarkQuery.matches);
+
+        // Flip atomically: without this, every element with transition-*
+        // fades to its new colors over ~200ms in a visible ripple. Disable
+        // transitions, apply the theme, force a style recalc, then re-enable.
+        const freeze = document.createElement("style");
+        freeze.textContent = "*, *::before, *::after { transition: none !important; }";
+        document.head.appendChild(freeze);
+
+        document.documentElement.classList.toggle("dark", isDark);
+
+        // EthicalAds styles its placements from a `dark` class on the
+        // [data-ea-publisher] element itself, not from an ancestor class.
+        document.querySelectorAll("[data-ea-publisher]").forEach((ad) => {
+            ad.classList.toggle("dark", isDark);
+        });
+
+        const icons = { light: "ph-sun", dark: "ph-moon", system: "ph-circle-half" };
+        document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
+            button.title = `Theme: ${theme}`;
+            button.setAttribute("aria-label", `Change theme (current: ${theme})`);
+            button.querySelector("i").className = `ph-bold ${icons[theme]} text-xl`;
+        });
+
+        window.getComputedStyle(document.documentElement).opacity;
+        window.setTimeout(() => freeze.remove(), 0);
+    };
+
+    document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
+        button.addEventListener("click", () => {
+            const order = ["light", "dark", "system"];
+            const next = order[(order.indexOf(getTheme()) + 1) % order.length];
+            if (next === "system") {
+                localStorage.removeItem("theme");
+            } else {
+                localStorage.theme = next;
+            }
+            applyTheme(next);
+        });
+    });
+
+    systemDarkQuery.addEventListener("change", () => {
+        if (getTheme() === "system") {
+            applyTheme("system");
+        }
+    });
+
+    // Keep other open tabs in sync when the theme is changed in one of them.
+    window.addEventListener("storage", (event) => {
+        if (event.key === "theme" || event.key === null) {
+            applyTheme(getTheme());
+        }
+    });
+
+    // Print with the light theme: browsers skip background colors when
+    // printing, so dark-mode text would come out light-on-white.
+    window.addEventListener("beforeprint", () => {
+        document.documentElement.classList.remove("dark");
+    });
+    window.addEventListener("afterprint", () => {
+        applyTheme(getTheme());
+    });
+
+    applyTheme(getTheme());
+
+    // ============================================
     // Grid Comparison Table Functions
     // ============================================
 
