@@ -1,220 +1,222 @@
 {% load i18n static waffle_tags %}
 <!-- Header -->
-<header class="bg-brand sticky top-0 z-40 border-b">
-    <div class="container mx-auto flex h-16 items-center justify-between px-4">
-        <div class="flex items-center space-x-6">
-            <a href="{% url 'home' %}" class="flex items-center space-x-2">
-                <img src="{% static 'img/logo_squares.png' %}" class="h-8 w-auto" />
-                <span class="text-brand-foreground text-xl font-bold">{{ SITE_TITLE }}</span>
-            </a>
-            <nav class="hidden items-center space-x-4 lg:flex">
-                <a
-                    href="{% url 'packages' %}"
-                    class="text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-foreground/5 rounded-md px-3 py-2 text-sm font-medium transition-colors"
-                >
-                    {% translate "Packages" %}
+<header class="sticky top-0 z-40 px-3 pt-3 sm:px-4">
+    <div class="bg-brand dark:bg-brand/75 container rounded-md border border-white/15 px-4 shadow-lg inset-shadow-[0_1px_0_0_oklch(1_0_0/0.10)] shadow-black/10 backdrop-blur-xl backdrop-saturate-150 sm:px-6 dark:shadow-black/40">
+        <div class="flex h-14 items-center justify-between">
+            <div class="flex items-center gap-6">
+                <a href="{% url 'home' %}" class="flex items-center gap-2">
+                    <img src="{% static 'img/logo_squares.png' %}" class="h-6 w-auto sm:h-7" alt="Django Packages" />
+                    <span class="text-brand-foreground text-base font-bold whitespace-nowrap sm:text-lg">{{ SITE_TITLE }}</span>
                 </a>
-                <a
-                    href="{% url 'grids' %}"
-                    class="text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-foreground/5 rounded-md px-3 py-2 text-sm font-medium transition-colors"
-                >
-                    {% translate "Grids" %}
-                </a>
-            </nav>
-        </div>
-
-        <div class="flex items-center space-x-4">
-            {% if request.resolver_match.url_name != 'home' %}
-                {% flag "enabled_navbar_search_modal" %}
-                    <!-- Search Trigger (Modal Style) - Only shown on non-home pages -->
-                    <button
-                        type="button"
-                        data-open-search-modal
-                        class="text-brand-foreground/80 bg-brand-foreground/10 border-brand-foreground/20 hover:text-brand-foreground hover:bg-brand-foreground/15 focus:ring-brand-foreground/30 inline-flex h-9 items-center gap-2 rounded-md border-2 px-3 py-2 transition-colors focus:ring-2 focus:outline-none"
-                        aria-haspopup="dialog"
-                        aria-controls="search-modal"
+                <nav class="hidden items-center gap-4 lg:flex">
+                    <a
+                        href="{% url 'packages' %}"
+                        class="text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-foreground/5 rounded-md px-3 py-2 text-sm font-medium transition-colors"
                     >
-                        <i class="ph-bold ph-magnifying-glass text-base"></i>
-                        <span class="hidden lg:inline">{% translate "Search" %}</span>
-                        <span
-                            class="text-brand-foreground/80 bg-brand-foreground/10 border-brand-foreground/20 hidden items-center space-x-1 rounded border px-1.5 py-0.5 text-xs transition-colors xl:flex"
+                        {% translate "Packages" %}
+                    </a>
+                    <a
+                        href="{% url 'grids' %}"
+                        class="text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-foreground/5 rounded-md px-3 py-2 text-sm font-medium transition-colors"
+                    >
+                        {% translate "Grids" %}
+                    </a>
+                </nav>
+            </div>
+
+            <div class="flex items-center gap-1 sm:gap-4">
+                {% if request.resolver_match.url_name != 'home' %}
+                    {% flag "enabled_navbar_search_modal" %}
+                    <!-- Search Trigger (Modal Style) - Only shown on non-home pages -->
+                        <button
+                            type="button"
+                            data-open-search-modal
+                            class="text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-foreground/10 focus:ring-brand-foreground/30 lg:border-brand-foreground/20 lg:bg-brand-foreground/10 lg:hover:bg-brand-foreground/15 inline-flex h-9 w-9 items-center justify-center rounded-md transition-colors focus:ring-2 focus:outline-none lg:w-auto lg:gap-2 lg:border-2 lg:px-3"
+                            aria-haspopup="dialog"
+                            aria-controls="search-modal"
                         >
-                            <span>&#8984; /</span>
-                        </span>
-                    </button>
-                {% else %}
-                    <!-- Search Bar - Only shown on non-home pages -->
-                    <div class="relative hidden md:block">
-                        <div class="group relative">
-                            <i
-                                class="ph-bold ph-magnifying-glass text-brand-foreground/60 group-focus-within:text-muted-foreground absolute top-1/2 left-3 -translate-y-1/2 transform text-base transition-colors"
-                            ></i>
-                            <input
-                                id="navbar-search-input"
-                                type="text"
-                                name="q"
-                                placeholder="{% translate 'Search packages...' %}"
-                                class="peer bg-brand-foreground/10 border-brand-foreground/20 text-brand-foreground placeholder:text-brand-foreground/60 focus:bg-background focus:text-foreground focus:border-primary focus:placeholder:text-muted-foreground h-9 w-80 rounded-md border-2 py-2 pr-12 pl-10 transition-colors focus:outline-none"
-                                autocomplete="off"
-                                hx-get="{% url 'search_suggestions' %}"
-                                hx-trigger="input changed delay:300ms, focus"
-                                hx-target="#navbar-suggestions-dropdown"
-                                hx-vals='{"dropdown_id": "navbar-suggestions-dropdown"}'
-                                hx-indicator="#navbar-search-spinner"
-                            />
-                            <div
-                                class="absolute top-1/2 right-3 flex -translate-y-1/2 transform items-center space-x-1"
+                            <i class="ph-bold ph-magnifying-glass text-base"></i>
+                            <span class="hidden lg:inline">{% translate "Search" %}</span>
+                            <span
+                                class="text-brand-foreground/80 border-brand-foreground/20 hidden items-center space-x-1 rounded border bg-black/20 px-1.5 py-0.5 text-xs transition-colors xl:flex"
                             >
-                                <div id="navbar-search-spinner" class="htmx-indicator">
-                                    <i
-                                        class="ph-bold ph-circle-notch text-muted-foreground animate-spin"
-                                    ></i>
-                                </div>
+                                <span>&#8984; /</span>
+                            </span>
+                        </button>
+                    {% else %}
+                    <!-- Search Bar - Only shown on non-home pages -->
+                        <div class="relative hidden md:block">
+                            <div class="group relative">
+                                <i
+                                    class="ph-bold ph-magnifying-glass text-brand-foreground/60 group-focus-within:text-muted-foreground absolute top-1/2 left-3 -translate-y-1/2 transform text-base transition-colors"
+                                ></i>
+                                <input
+                                    id="navbar-search-input"
+                                    type="text"
+                                    name="q"
+                                    placeholder="{% translate 'Search packages...' %}"
+                                    class="peer bg-brand-foreground/10 border-brand-foreground/20 text-brand-foreground placeholder:text-brand-foreground/60 focus:bg-background focus:text-foreground focus:border-primary focus:placeholder:text-muted-foreground h-9 w-80 rounded-md border-2 py-2 pr-12 pl-10 transition-colors focus:outline-none"
+                                    autocomplete="off"
+                                    hx-get="{% url 'search_suggestions' %}"
+                                    hx-trigger="input changed delay:300ms, focus"
+                                    hx-target="#navbar-suggestions-dropdown"
+                                    hx-vals='{"dropdown_id": "navbar-suggestions-dropdown"}'
+                                    hx-indicator="#navbar-search-spinner"
+                                />
                                 <div
-                                    class="text-brand-foreground/80 bg-brand-foreground/10 border-brand-foreground/20 group-focus-within:text-muted-foreground group-focus-within:border-muted-foreground/30 hidden items-center space-x-1 rounded border px-1.5 py-0.5 text-xs transition-colors xl:flex"
+                                    class="absolute top-1/2 right-3 flex -translate-y-1/2 transform items-center space-x-1"
                                 >
-                                    <span>&#8984; /</span>
+                                    <div id="navbar-search-spinner" class="htmx-indicator">
+                                        <i
+                                            class="ph-bold ph-circle-notch text-muted-foreground animate-spin"
+                                        ></i>
+                                    </div>
+                                    <div
+                                        class="text-brand-foreground/80 border-brand-foreground/20 group-focus-within:text-muted-foreground group-focus-within:border-muted-foreground/30 hidden items-center space-x-1 rounded border bg-black/20 px-1.5 py-0.5 text-xs transition-colors xl:flex"
+                                    >
+                                        <span>&#8984; /</span>
+                                    </div>
                                 </div>
-                            </div>
                             <!-- Suggestions Dropdown -->
-                            <div
-                                id="navbar-suggestions-dropdown"
-                                class="bg-popover/95 border-border/50 dark:border-border absolute top-full right-0 left-0 z-50 mt-2 hidden overflow-hidden rounded-xl border-2 shadow-xl backdrop-blur-sm empty:hidden data-[open=true]:block dark:inset-shadow-[0_1px_0_0_oklch(1_0_0/0.08)] dark:shadow-black/60"
-                            ></div>
+                                <div
+                                    id="navbar-suggestions-dropdown"
+                                    class="bg-popover/95 border-border/50 dark:border-border absolute top-full right-0 left-0 z-50 mt-2 hidden overflow-hidden rounded-xl border-2 shadow-xl backdrop-blur-sm empty:hidden data-[open=true]:block dark:inset-shadow-[0_1px_0_0_oklch(1_0_0/0.08)] dark:shadow-black/60"
+                                ></div>
+                            </div>
                         </div>
-                    </div>
-                {% endflag %}
-            {% endif %}
+                    {% endflag %}
+                {% endif %}
 
             <!-- Theme toggle: cycles light → dark → system; app.js keeps the icon in sync -->
-            <button
-                type="button"
-                data-theme-toggle
-                class="text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-foreground/10 focus:ring-brand-foreground/30 inline-flex h-9 w-9 items-center justify-center rounded-md transition-colors focus:ring-2 focus:outline-none"
-                aria-label="{% translate 'Change theme' %}"
-            >
-                <i class="ph-bold ph-circle-half text-xl" aria-hidden="true"></i>
-            </button>
-
-            {% if request.user.is_authenticated %}
-                {% if request.user.profile.github_account %}
-                    <a
-                        href="{% url 'profile_detail' request.user.profile.github_account %}"
-                        class="text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-foreground/5 hidden rounded-md px-3 py-2 text-sm font-bold transition-colors lg:block"
-                    >
-                        {{ request.user.username }}
-                    </a>
-                {% endif %}
-                {% if request.user.is_staff %}
-                    <a
-                        href="{% url 'admin:index' %}"
-                        class="text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-foreground/5 hidden rounded-md px-3 py-2 text-sm font-bold transition-colors lg:block"
-                    >
-                        {% translate "Admin Dashboard" %}
-                    </a>
-                {% endif %}
-                <a
-                    href="{% url 'logout' %}"
-                    class="text-brand-foreground/90 bg-brand-foreground/10 border-brand-foreground/20 hover:text-brand-foreground hover:bg-brand-foreground/15 hover:border-brand-foreground/30 focus:ring-brand-foreground/30 hidden h-9 items-center justify-center rounded-md border px-3 text-sm font-semibold transition-colors focus:ring-2 focus:outline-none lg:inline-flex"
+                <button
+                    type="button"
+                    data-theme-toggle
+                    class="text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-foreground/10 focus:ring-brand-foreground/30 inline-flex h-9 w-9 items-center justify-center rounded-md transition-colors focus:ring-2 focus:outline-none"
+                    aria-label="{% translate 'Change theme' %}"
                 >
-                    {% translate "Log Out" %}
-                </a>
-            {% else %}
-                <form method="post" action="{% url 'social:begin' 'github' %}" class="hidden lg:block">
-                    {% csrf_token %}
-                    <button
-                        type="submit"
-                        class="text-brand-foreground/90 bg-brand-foreground/10 border-brand-foreground/20 hover:text-brand-foreground hover:bg-brand-foreground/15 hover:border-brand-foreground/30 focus:ring-brand-foreground/30 inline-flex h-9 items-center justify-center rounded-md border px-3 text-sm font-semibold transition-colors focus:ring-2 focus:outline-none"
+                    <i class="ph-bold ph-circle-half text-xl" aria-hidden="true"></i>
+                </button>
+
+                {% if request.user.is_authenticated %}
+                    {% if request.user.profile.github_account %}
+                        <a
+                            href="{% url 'profile_detail' request.user.profile.github_account %}"
+                            class="text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-foreground/5 hidden rounded-md px-3 py-2 text-sm font-bold transition-colors lg:block"
+                        >
+                            {{ request.user.username }}
+                        </a>
+                    {% endif %}
+                    {% if request.user.is_staff %}
+                        <a
+                            href="{% url 'admin:index' %}"
+                            class="text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-foreground/5 hidden rounded-md px-3 py-2 text-sm font-bold transition-colors lg:block"
+                        >
+                            {% translate "Admin Dashboard" %}
+                        </a>
+                    {% endif %}
+                    <a
+                        href="{% url 'logout' %}"
+                        class="text-brand-foreground/90 bg-brand-foreground/10 border-brand-foreground/20 hover:text-brand-foreground hover:bg-brand-foreground/15 hover:border-brand-foreground/30 focus:ring-brand-foreground/30 hidden h-9 items-center justify-center rounded-md border px-3 text-sm font-semibold transition-colors focus:ring-2 focus:outline-none lg:inline-flex"
                     >
-                        {% translate "Log In" %}
-                    </button>
-                </form>
-            {% endif %}
+                        {% translate "Log Out" %}
+                    </a>
+                {% else %}
+                    <form method="post" action="{% url 'social:begin' 'github' %}" class="hidden lg:block">
+                        {% csrf_token %}
+                        <button
+                            type="submit"
+                            class="text-brand-foreground/90 bg-brand-foreground/10 border-brand-foreground/20 hover:text-brand-foreground hover:bg-brand-foreground/15 hover:border-brand-foreground/30 focus:ring-brand-foreground/30 inline-flex h-9 items-center justify-center rounded-md border px-3 text-sm font-semibold transition-colors focus:ring-2 focus:outline-none"
+                        >
+                            {% translate "Log In" %}
+                        </button>
+                    </form>
+                {% endif %}
 
             <!-- Mobile menu button -->
-            <button
-                id="mobile-menu-btn"
-                class="text-brand-foreground hover:bg-brand-foreground/10 rounded-md p-2 transition-colors lg:hidden"
-            >
-                <i class="ph-bold ph-list text-xl" id="menu-icon"></i>
-            </button>
+                <button
+                    id="mobile-menu-btn"
+                    class="text-brand-foreground hover:bg-brand-foreground/10 rounded-md p-2 transition-colors lg:hidden"
+                >
+                    <i class="ph-bold ph-list text-xl" id="menu-icon"></i>
+                </button>
+            </div>
         </div>
-    </div>
 
     <!-- Mobile menu -->
-    <div
-        id="mobile-menu"
-        class="bg-brand border-brand-foreground/10 hidden border-t lg:hidden"
-    >
-        <nav class="container mx-auto space-y-3 px-4 py-4">
-            {% if request.resolver_match.url_name != 'home' %}
-                {% flag "enabled_navbar_search_modal" %}
-                    <button
-                        type="button"
-                        data-open-search-modal
-                        class="text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-foreground/10 hidden w-full items-center gap-2 rounded-md px-3 py-2 text-left transition-colors"
-                        aria-haspopup="dialog"
-                        aria-controls="search-modal"
-                    >
-                        <i class="ph-bold ph-magnifying-glass text-base"></i>
-                        <span>{% translate "Search" %}</span>
-                    </button>
-                {% else %}
+        <div
+            id="mobile-menu"
+            class="hidden border-t border-white/10 lg:hidden"
+        >
+            <nav class="space-y-3 py-4">
+                {% if request.resolver_match.url_name != 'home' %}
+                    {% flag "enabled_navbar_search_modal" %}
+                        <button
+                            type="button"
+                            data-open-search-modal
+                            class="text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-foreground/10 hidden w-full items-center gap-2 rounded-md px-3 py-2 text-left transition-colors"
+                            aria-haspopup="dialog"
+                            aria-controls="search-modal"
+                        >
+                            <i class="ph-bold ph-magnifying-glass text-base"></i>
+                            <span>{% translate "Search" %}</span>
+                        </button>
+                    {% else %}
                     <!-- Mobile Search Bar - Only shown on non-home pages -->
-                    <div class="relative md:hidden">
-                        <div class="group relative">
-                            <i
-                                class="ph-bold ph-magnifying-glass text-brand-foreground/60 group-focus-within:text-muted-foreground absolute top-1/2 left-3 -translate-y-1/2 transform text-base transition-colors"
-                            ></i>
-                            <input
-                                id="mobile-navbar-search-input"
-                                type="text"
-                                name="q"
-                                placeholder="{% translate 'Search packages...' %}"
-                                class="peer bg-brand-foreground/10 border-brand-foreground/20 text-brand-foreground placeholder:text-brand-foreground/60 focus:bg-background focus:text-foreground focus:border-primary focus:placeholder:text-muted-foreground h-9 w-full rounded-md border-2 py-2 pr-12 pl-10 transition-colors focus:outline-none"
-                                autocomplete="off"
-                                hx-get="{% url 'search_suggestions' %}"
-                                hx-trigger="input changed delay:300ms, focus"
-                                hx-target="#mobile-navbar-suggestions-dropdown"
-                                hx-vals='{"dropdown_id": "mobile-navbar-suggestions-dropdown"}'
-                                hx-indicator="#mobile-navbar-search-spinner"
-                            />
-                            <div
-                                class="absolute top-1/2 right-3 flex -translate-y-1/2 transform items-center space-x-1"
-                            >
-                                <div id="mobile-navbar-search-spinner" class="htmx-indicator">
-                                    <i
-                                        class="ph-bold ph-circle-notch text-muted-foreground animate-spin"
-                                    ></i>
+                        <div class="relative md:hidden">
+                            <div class="group relative">
+                                <i
+                                    class="ph-bold ph-magnifying-glass text-brand-foreground/60 group-focus-within:text-muted-foreground absolute top-1/2 left-3 -translate-y-1/2 transform text-base transition-colors"
+                                ></i>
+                                <input
+                                    id="mobile-navbar-search-input"
+                                    type="text"
+                                    name="q"
+                                    placeholder="{% translate 'Search packages...' %}"
+                                    class="peer bg-brand-foreground/10 border-brand-foreground/20 text-brand-foreground placeholder:text-brand-foreground/60 focus:bg-background focus:text-foreground focus:border-primary focus:placeholder:text-muted-foreground h-9 w-full rounded-md border-2 py-2 pr-12 pl-10 transition-colors focus:outline-none"
+                                    autocomplete="off"
+                                    hx-get="{% url 'search_suggestions' %}"
+                                    hx-trigger="input changed delay:300ms, focus"
+                                    hx-target="#mobile-navbar-suggestions-dropdown"
+                                    hx-vals='{"dropdown_id": "mobile-navbar-suggestions-dropdown"}'
+                                    hx-indicator="#mobile-navbar-search-spinner"
+                                />
+                                <div
+                                    class="absolute top-1/2 right-3 flex -translate-y-1/2 transform items-center space-x-1"
+                                >
+                                    <div id="mobile-navbar-search-spinner" class="htmx-indicator">
+                                        <i
+                                            class="ph-bold ph-circle-notch text-muted-foreground animate-spin"
+                                        ></i>
+                                    </div>
                                 </div>
-                            </div>
                             <!-- Suggestions Dropdown -->
-                            <div
-                                id="mobile-navbar-suggestions-dropdown"
-                                class="bg-popover/95 border-border/50 dark:border-border absolute top-full right-0 left-0 z-50 mt-2 hidden overflow-hidden rounded-xl border-2 shadow-xl backdrop-blur-sm empty:hidden data-[open=true]:block dark:inset-shadow-[0_1px_0_0_oklch(1_0_0/0.08)] dark:shadow-black/60"
-                            ></div>
+                                <div
+                                    id="mobile-navbar-suggestions-dropdown"
+                                    class="bg-popover/95 border-border/50 dark:border-border absolute top-full right-0 left-0 z-50 mt-2 hidden overflow-hidden rounded-xl border-2 shadow-xl backdrop-blur-sm empty:hidden data-[open=true]:block dark:inset-shadow-[0_1px_0_0_oklch(1_0_0/0.08)] dark:shadow-black/60"
+                                ></div>
+                            </div>
                         </div>
-                    </div>
-                {% endflag %}
-            {% endif %}
+                    {% endflag %}
+                {% endif %}
 
-            <a href="{% url 'packages' %}" class="text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-foreground/5 block rounded-md px-3 py-2 text-base font-medium transition-colors">{% translate "Packages" %}</a>
-            <a href="{% url 'grids' %}" class="text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-foreground/5 block rounded-md px-3 py-2 text-base font-medium transition-colors">{% translate "Grids" %}</a>
-            {% if request.user.is_authenticated %}
-                {% if request.user.profile.github_account %}
-                    <a href="{% url 'profile_detail' request.user.profile.github_account %}" class="text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-foreground/5 block rounded-md px-3 py-2 text-base font-medium transition-colors">{{ request.user.username }}</a>
+                <a href="{% url 'packages' %}" class="text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-foreground/5 block rounded-md px-3 py-2 text-base font-medium transition-colors">{% translate "Packages" %}</a>
+                <a href="{% url 'grids' %}" class="text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-foreground/5 block rounded-md px-3 py-2 text-base font-medium transition-colors">{% translate "Grids" %}</a>
+                {% if request.user.is_authenticated %}
+                    {% if request.user.profile.github_account %}
+                        <a href="{% url 'profile_detail' request.user.profile.github_account %}" class="text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-foreground/5 block rounded-md px-3 py-2 text-base font-medium transition-colors">{{ request.user.username }}</a>
+                    {% endif %}
+                    {% if request.user.is_staff %}
+                        <a href="{% url 'admin:index' %}" class="text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-foreground/5 block rounded-md px-3 py-2 text-base font-medium transition-colors">{% translate "Admin Dashboard" %}</a>
+                    {% endif %}
+                    <a href="{% url 'logout' %}" class="text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-foreground/5 block rounded-md px-3 py-2 text-base font-medium transition-colors">{% translate "Log Out" %}</a>
+                {% else %}
+                    <form method="post" action="{% url 'social:begin' 'github' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-foreground/5 block w-full rounded-md px-3 py-2 text-left text-base font-medium transition-colors">{% translate "Log In" %}</button>
+                    </form>
                 {% endif %}
-                {% if request.user.is_staff %}
-                    <a href="{% url 'admin:index' %}" class="text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-foreground/5 block rounded-md px-3 py-2 text-base font-medium transition-colors">{% translate "Admin Dashboard" %}</a>
-                {% endif %}
-                <a href="{% url 'logout' %}" class="text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-foreground/5 block rounded-md px-3 py-2 text-base font-medium transition-colors">{% translate "Log Out" %}</a>
-            {% else %}
-                <form method="post" action="{% url 'social:begin' 'github' %}">
-                    {% csrf_token %}
-                    <button type="submit" class="text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-foreground/5 block w-full rounded-md px-3 py-2 text-left text-base font-medium transition-colors">{% translate "Log In" %}</button>
-                </form>
-            {% endif %}
-        </nav>
+            </nav>
+        </div>
     </div>
 </header>
 

@@ -45,8 +45,10 @@
 
   /* Brand chrome (navbar, footer): stays the same pine green in both light
      and dark mode, unlike `primary`, which lightens in dark mode so it can
-     be used for text and accents on dark surfaces. */
-  --color-brand: oklch(0.3176 0.0648 159.21);
+     be used for text and accents on dark surfaces. Chroma sits at the sRGB
+     gamut edge for maximum richness; all white-on-brand pairings stay over
+     4.5:1 (white/80 nav links: 7.6:1). */
+  --color-brand: oklch(0.35 0.08 159);
   --color-brand-foreground: oklch(1 0 0);
 
   /* Spacing & Border Radius Scale */
@@ -186,6 +188,16 @@
   .empty\:hidden:empty {
     @apply hidden;
   }
+
+  main > .bg-primary\/10:first-child {
+    margin-top: -4.25rem;
+    padding-top: calc(4.25rem + 1rem);
+  }
+
+  main > .hero-glow:first-child {
+    margin-top: -4.25rem;
+    padding-top: calc(4.25rem + 2rem);
+  }
 }
 
 /* ============================================
@@ -198,6 +210,7 @@
     @apply mx-auto px-4;
     max-width: 1280px;
   }
+
 
   /* Homepage hero: a soft brand glow radiating from the top edge
      (background-image, so it layers over the section's bg-muted/30 color).

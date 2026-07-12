@@ -30,6 +30,13 @@ document.addEventListener("DOMContentLoaded", function () {
             ad.classList.toggle("dark", isDark);
         });
 
+        // The navbar floats over the page, so mobile browser chrome should
+        // match the page background (hex values of --color-background).
+        const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+        if (themeColorMeta) {
+            themeColorMeta.content = isDark ? "#070b09" : "#f8f8f8";
+        }
+
         const icons = { light: "ph-sun", dark: "ph-moon", system: "ph-circle-half" };
         document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
             button.title = `Theme: ${theme}`;

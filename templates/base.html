@@ -6,7 +6,7 @@
         <meta charset="UTF-8" />
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="theme-color" content="#0b3c26" />
+        <meta name="theme-color" content="#f8f8f8" />
         {% block metadata %}{% page_metadata %}{% endblock %}
         <link rel="search" type="application/opensearchdescription+xml" href="{% url 'opensearch-description' %}" title="Django Packages">
 
@@ -29,8 +29,8 @@
         {% endswitch %}
     </head>
     <body class="bg-background flex min-h-screen flex-col">
-        {% include 'partials/navbar.html' %}
         {% include 'partials/banner.html' %}
+        {% include 'partials/navbar.html' %}
         {% include 'partials/messages.html' %}
         <main class="flex-1">
             {% block content %}{% endblock %}
