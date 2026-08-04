@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-08-03]
+### Changed
+- [prek]: auto-update hooks ([#1642](https://github.com/djangopackages/djangopackages/pull/1642))
+
 ## [2026-08-01]
 ### Changed
 - ⬆️ Bump pymdown-extensions from 10.21.3 to 11.0 ([#1640](https://github.com/djangopackages/djangopackages/pull/1640))
