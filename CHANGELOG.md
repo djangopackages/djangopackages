@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-08-05]
+### Changed
+- ⬆️ Bump the all-dependencies group with 10 updates ([#1644](https://github.com/djangopackages/djangopackages/pull/1644))
+- ⬆️ Bump cryptography from 48.0.1 to 50.0.0 ([#1643](https://github.com/djangopackages/djangopackages/pull/1643))
+
 ## [2026-08-03]
 ### Changed
 - [prek]: auto-update hooks ([#1642](https://github.com/djangopackages/djangopackages/pull/1642))
