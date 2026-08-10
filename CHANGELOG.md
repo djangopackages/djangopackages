@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-08-09]
+### Changed
+- ⬆️ Bump pymdown-extensions from 11.0 to 11.0.1 ([#1645](https://github.com/djangopackages/djangopackages/pull/1645))
+
 ## [2026-08-05]
 ### Changed
 - ⬆️ Bump the all-dependencies group with 10 updates ([#1644](https://github.com/djangopackages/djangopackages/pull/1644))
