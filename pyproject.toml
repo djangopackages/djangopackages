@@ -92,7 +92,7 @@ dependencies = [
     "django-tailwind-cli>=4.6.2",
     "django-waffle",
     "Django>5.0",
-    "djangorestframework<3.18",
+    "djangorestframework<3.19",
     "emoji",
     "feedparser",
     # github3.py
@@ -126,7 +126,7 @@ dependencies = [
     "whitenoise",
     # Redis support
     "redis",
-    "blessed>=1.47.0",
+    "blessed>=1.48.0",
 ]
 
 [dependency-groups]
