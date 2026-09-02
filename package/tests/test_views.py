@@ -44,6 +44,15 @@ class FunctionalPackageTest(TestCase):
             "Scores (0-100) are based on Repository stars",
         )
 
+    def test_package_detail_renders_readme_badge(self):
+        url = reverse("package", kwargs={"slug": "testability"})
+        response = self.client.get(url)
+
+        self.assertContains(
+            response,
+            "[![Latest on Django Packages](https://img.shields.io/badge/PyPI-testability-tags-8c3c26.svg)](https://djangopackages.org/packages/p/testability/)",
+        )
+
     @override_flag("enabled_packages_score_values", active=False)
     @pytest.mark.deprecated(
         """
