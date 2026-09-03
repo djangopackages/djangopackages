@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-09-02]
+### Changed
+- fix raw template variable in README badge code ([#1655](https://github.com/djangopackages/djangopackages/pull/1655))
+
 ## [2026-08-31]
 ### Changed
 - ⬆️ Bump the all-dependencies group across 1 directory with 16 updates ([#1653](https://github.com/djangopackages/djangopackages/pull/1653))
