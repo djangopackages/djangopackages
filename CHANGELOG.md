@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-09-07]
+### Changed
+- [prek]: auto-update hooks ([#1658](https://github.com/djangopackages/djangopackages/pull/1658))
+
 ## [2026-09-05]
 ### Changed
 - ⬆️ Bump pip from 26.1.2 to 26.2 ([#1656](https://github.com/djangopackages/djangopackages/pull/1656))
