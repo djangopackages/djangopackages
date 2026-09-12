@@ -1,0 +1,58 @@
+name: Django Probe
+
+on:
+  schedule:
+    # Runs weekly on Sunday.
+    - cron: "37 14 * * 0"
+  workflow_dispatch:
+
+permissions: {}
+
+# The steps below are inlined rather than calling
+# tim-schilling/django-probe/.github/workflows/django-probe-submit-uv.yml.
+# That reusable workflow declares `permissions: {}` at the workflow level and
+# grants none to its jobs, so actions/checkout cannot clone a private repo and
+# fails with "repository not found". A caller cannot raise a called workflow's
+# permissions, so the only fix on our side is to own the steps.
+#
+# django-probe reports on the environment the project runs in, so it has to run
+# with the project's dependencies installed: `uv run --with django-probe` gives
+# it the project env plus the tool, without adding it to pyproject.toml.
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d  # v10.0.1
+        with:
+          enable-cache: false
+          python-version: "3.12"
+
+      - name: Print the payload that submit would send
+        run: uv run --with django-probe django-probe scan .
+
+  submit:
+    needs: scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d  # v10.0.1
+        with:
+          enable-cache: false
+          python-version: "3.12"
+
+      - name: Submit the payload
+        env:
+          DJANGO_PROBE_TOKEN: ${{ secrets.DJANGO_PROBE_TOKEN }}
+        run: uv run --with django-probe django-probe submit .
