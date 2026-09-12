@@ -10,7 +10,7 @@ permissions: {}
 
 jobs:
   django-probe:
-    uses: tim-schilling/django-probe/.github/workflows/[email protected]
+    uses: tim-schilling/django-probe/.github/workflows/django-probe-submit-uv.yml@main
     with:
       path: "."
       python-version: "3.12"
