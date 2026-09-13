@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-09-12]
+### Changed
+- Simplify Django Probe workflow to use the reusable workflow ([#1661](https://github.com/djangopackages/djangopackages/pull/1661))
+- Add Django Probe workflow ([#1660](https://github.com/djangopackages/djangopackages/pull/1660))
+- ⬆️ Bump the all-dependencies group with 7 updates ([#1659](https://github.com/djangopackages/djangopackages/pull/1659))
+
 ## [2026-09-07]
 ### Changed
 - [prek]: auto-update hooks ([#1658](https://github.com/djangopackages/djangopackages/pull/1658))
