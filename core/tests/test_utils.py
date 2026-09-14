@@ -17,11 +17,15 @@ def test_oc_slugify():
         assert utils.oc_slugify(l[0]) == l[1]
 
 
-@pytest.mark.httpx2(assert_all_mocked=False)
+@pytest.mark.httpx2_mock(assert_all_requests_were_expected=False)
 def test_get_pypi_url_success(httpx2_mock):
-    httpx2_mock.get("https://pypi.org/project/django/").respond(status_code=200)
-    httpx2_mock.get("https://pypi.org/project/django-uni-form/").respond(
-        status_code=200
+    httpx2_mock.add_response(
+        url="https://pypi.org/project/django/",
+        status_code=200,
+    )
+    httpx2_mock.add_response(
+        url="https://pypi.org/project/django-uni-form/",
+        status_code=200,
     )
 
     lst = (
@@ -32,10 +36,12 @@ def test_get_pypi_url_success(httpx2_mock):
         assert utils.get_pypi_url(l[0].lower()) == l[1].lower()
 
 
-@pytest.mark.httpx2(assert_all_called=False, assert_all_mocked=False)
+@pytest.mark.httpx2_mock(assert_all_requests_were_expected=False)
 def test_get_pypi_url_fail(httpx2_mock):
-    httpx2_mock.get(re.compile(r"https://pypi\.org/project/.*")).respond(
-        status_code=404
+    httpx2_mock.add_response(
+        url=re.compile(r"https://pypi\.org/project/.*"),
+        status_code=404,
+        is_reusable=True,
     )
 
     lst = ("ColdFusion is not here", "php is not here")

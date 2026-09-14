@@ -7,7 +7,8 @@ from products.models import Product
 
 def test_product_import(db, httpx2_mock):
     PRODUCTS = ["django", "python", "wagtail"]
-    httpx2_mock.get("https://endoflife.date/api/all.json").respond(
+    httpx2_mock.add_response(
+        url="https://endoflife.date/api/all.json",
         status_code=200,
         text=json.dumps(PRODUCTS),
     )
