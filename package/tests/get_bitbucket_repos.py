@@ -16,7 +16,7 @@ to hit the APIs so fast.
 import json
 import time
 
-import httpx
+import httpx2
 
 DJPACK_API_URL = "https://djangopackages.org/api/v3/packages/"
 DJPACK_API_URL_BASE = "https://djangopackages.org"
@@ -25,7 +25,7 @@ DJPACK_API_URL_BASE = "https://djangopackages.org"
 def bitbucket_urls():
     next_url = DJPACK_API_URL
     while next_url:
-        response = httpx.get(next_url)
+        response = httpx2.get(next_url)
         parsed = json.loads(response.content)
         next_path = parsed["meta"]["next"]
         next_url = f"{DJPACK_API_URL_BASE}{next_path}" if next_path else None
@@ -38,7 +38,7 @@ def bitbucket_urls():
 def non404urls(urls):
     for url in urls:
         url = url.strip()
-        response = httpx.get(url)
+        response = httpx2.get(url)
         # if response.status_code == 200:
         #     print(url)
         if response.status_code != 404:
@@ -55,7 +55,7 @@ def bitbucket_repos_with_forks(urls, include_unforked=False):
             continue
         _, _, _, user, repo, *_ = urlparts
         api_url = f"https://api.bitbucket.org/2.0/repositories/{user}/{repo}/forks/"
-        response = httpx.get(api_url)
+        response = httpx2.get(api_url)
         if response.status_code != 200:
             continue
         parsed = json.loads(response.content)

@@ -1,5 +1,5 @@
 import djclick as click
-import httpx
+import httpx2
 from rich import print
 
 from package.models import Package
@@ -42,7 +42,7 @@ def command(limit):
         )
         for package in packages:
             try:
-                response = httpx.get(package.repo_url, timeout=1.0)
+                response = httpx2.get(package.repo_url, timeout=1.0)
                 history = response.history
                 if len(history):
                     new_packages = Package.objects.exclude(pk=package.pk).filter(

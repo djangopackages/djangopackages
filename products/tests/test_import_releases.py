@@ -118,9 +118,8 @@ def eol_release_data():
     ]
 
 
-def test_release_import(db, httpx_mock, eol_release_data):
-    httpx_mock.add_response(
-        url="https://endoflife.date/api/django.json",
+def test_release_import(db, httpx2_mock, eol_release_data):
+    httpx2_mock.get("https://endoflife.date/api/django.json").respond(
         status_code=200,
         text=json.dumps(eol_release_data),
     )

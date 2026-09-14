@@ -1,3 +1,5 @@
+import re
+
 import pytest
 
 from core import utils
@@ -15,11 +17,11 @@ def test_oc_slugify():
         assert utils.oc_slugify(l[0]) == l[1]
 
 
-@pytest.mark.httpx_mock(assert_all_requests_were_expected=False)
-def test_get_pypi_url_success(httpx_mock):
-    httpx_mock.add_response(url="https://pypi.org/project/django/", status_code=200)
-    httpx_mock.add_response(
-        url="https://pypi.org/project/django-uni-form/", status_code=200
+@pytest.mark.httpx2(assert_all_mocked=False)
+def test_get_pypi_url_success(httpx2_mock):
+    httpx2_mock.get("https://pypi.org/project/django/").respond(status_code=200)
+    httpx2_mock.get("https://pypi.org/project/django-uni-form/").respond(
+        status_code=200
     )
 
     lst = (
@@ -30,13 +32,10 @@ def test_get_pypi_url_success(httpx_mock):
         assert utils.get_pypi_url(l[0].lower()) == l[1].lower()
 
 
-@pytest.mark.httpx_mock(assert_all_requests_were_expected=False)
-def test_get_pypi_url_fail(httpx_mock):
-    httpx_mock.add_response(
-        url="https://pypi.org/project/coldfusion-is-not-here/", status_code=404
-    )
-    httpx_mock.add_response(
-        url="https://pypi.org/project/php-is-not-here/", status_code=404
+@pytest.mark.httpx2(assert_all_called=False, assert_all_mocked=False)
+def test_get_pypi_url_fail(httpx2_mock):
+    httpx2_mock.get(re.compile(r"https://pypi\.org/project/.*")).respond(
+        status_code=404
     )
 
     lst = ("ColdFusion is not here", "php is not here")

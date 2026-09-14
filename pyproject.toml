@@ -94,7 +94,7 @@ dependencies = [
     "Django>5.0",
     "djangorestframework<3.19",
     "emoji",
-    "httpx",
+    "httpx2",
     "feedparser",
     # github3.py
     "github3.py<4.1",
@@ -138,7 +138,7 @@ dev = [
     "pytest",
     "pytest-cov",
     "pytest-django",
-    "pytest-httpx",
+    "pytest-httpx2",
     "pytest-mock",
     "time-machine",
 

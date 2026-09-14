@@ -1,5 +1,5 @@
 import djclick as click
-import httpx
+import httpx2
 from rich import print
 
 from package.models import PackageExample
@@ -36,9 +36,9 @@ def command(limit):
             url = f"https://{url}"
 
         try:
-            response = httpx.head(url, timeout=2, verify=False)
+            response = httpx2.head(url, timeout=2, verify=False)
             response.raise_for_status()
-        except httpx.HTTPError:
+        except httpx2.HTTPError:
             print(f"[red]marking {example.url} as inactive[/red]")
             PackageExample.objects.filter(url=example.url).update(active=False)
 

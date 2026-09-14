@@ -6,7 +6,7 @@ import json
 import re
 from datetime import timedelta
 
-import httpx
+import httpx2
 from django.utils import timezone
 
 
@@ -116,7 +116,7 @@ class BaseHandler:
         """
         Helpful utility method to do a quick GET for JSON data.
         """
-        r = httpx.get(target)
+        r = httpx2.get(target)
         if r.status_code == 429:
             raise RepoRateLimitError("repo rate limit reached")
         if r.status_code != 200:

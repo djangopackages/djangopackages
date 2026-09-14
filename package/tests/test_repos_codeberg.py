@@ -34,8 +34,8 @@ def test_repos_codeberg(package_codeberg):
 
     assert package_codeberg.commit_count == 0
 
-    # Mock httpx.get for _fetch_commit_stats
-    with patch("package.repos.forgejo.httpx.get") as mock_get:
+    # Mock httpx2.get for _fetch_commit_stats
+    with patch("package.repos.forgejo.httpx2.get") as mock_get:
         # Mock response for single commit (latest)
         mock_resp_latest = Mock()
         mock_resp_latest.json.return_value = [
@@ -83,8 +83,8 @@ def test_repos_codeberg_archived(package_codeberg):
 
     assert package_codeberg.date_repo_archived is None
 
-    # We need to mock httpx here too because fetch_metadata calls _fetch_commit_stats
-    with patch("package.repos.forgejo.httpx.get") as mock_get:
+    # We need to mock httpx2 here too because fetch_metadata calls _fetch_commit_stats
+    with patch("package.repos.forgejo.httpx2.get") as mock_get:
         # Latest commit response
         mock_resp_latest = Mock()
         mock_resp_latest.json.return_value = [

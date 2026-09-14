@@ -3,7 +3,7 @@ import logging
 from urllib.parse import urlparse
 from datetime import datetime
 
-import httpx
+import httpx2
 
 from .base_handler import BaseHandler, RepoRateLimitError
 
@@ -34,14 +34,14 @@ class ForgejoClient:
     def fetch_repository(self, repository: str) -> ForgejoMetadata | None:
         url = self._build_url(f"/repos/{repository}")
         try:
-            response = httpx.get(url)
+            response = httpx2.get(url)
             if response.status_code == 429:
                 raise RepoRateLimitError("forgejo rate limit reached")
             response.raise_for_status()
             data = response.json()
         except RepoRateLimitError:
             raise
-        except (httpx.HTTPError, ValueError) as exc:
+        except (httpx2.HTTPError, ValueError) as exc:
             logger.error("Failed to fetch %s: %s", url, exc)
             return None
 
@@ -105,7 +105,7 @@ class ForgejoHandler(BaseHandler):
 
         # Fetch the most recent commit
         commits_url = f"{base_url}/api/v1/repos/{owner}/{repo_name}/commits?limit=1"
-        resp = httpx.get(commits_url)
+        resp = httpx2.get(commits_url)
         resp.raise_for_status()
         last_commit = resp.json()[0]
         package.last_commit_date = datetime.fromisoformat(
@@ -126,7 +126,7 @@ class ForgejoHandler(BaseHandler):
         page = 1
 
         while True:
-            resp = httpx.get(f"{commits_url}&page={page}")
+            resp = httpx2.get(f"{commits_url}&page={page}")
             resp.raise_for_status()
             commits = resp.json()
             if not commits:

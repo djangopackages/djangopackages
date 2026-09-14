@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from typing import Any, TYPE_CHECKING
 from collections.abc import Mapping
 
-import httpx
+import httpx2
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime
 from packaging.specifiers import InvalidSpecifier, SpecifierSet
@@ -210,7 +210,7 @@ class PyPIClient:
         user_agent: str = "djangopackages/py-pypi-client",
         timeout: float | tuple[float, float] = 10.0,
     ):
-        self._session = httpx.Client(
+        self._session = httpx2.Client(
             timeout=timeout,
             headers={
                 "Accept": "application/json",
@@ -273,7 +273,7 @@ def update_package_from_pypi(
 
     try:
         pypi_info = client.fetch_package(pypi_name)
-    except httpx.HTTPStatusError as exc:
+    except httpx2.HTTPStatusError as exc:
         response = exc.response
         status_code = response.status_code if response is not None else None
 
@@ -293,7 +293,7 @@ def update_package_from_pypi(
 
         logger.exception("PyPI HTTP error for %s (%s): %s", pypi_name, status_code, exc)
         return package
-    except httpx.RequestError:
+    except httpx2.RequestError:
         logger.exception("PyPI request failed for %s", pypi_name)
         return package
 

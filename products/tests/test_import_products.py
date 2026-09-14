@@ -5,10 +5,9 @@ from django.core.management import call_command
 from products.models import Product
 
 
-def test_product_import(db, httpx_mock):
+def test_product_import(db, httpx2_mock):
     PRODUCTS = ["django", "python", "wagtail"]
-    httpx_mock.add_response(
-        url="https://endoflife.date/api/all.json",
+    httpx2_mock.get("https://endoflife.date/api/all.json").respond(
         status_code=200,
         text=json.dumps(PRODUCTS),
     )

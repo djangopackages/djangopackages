@@ -3,7 +3,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 import pytest
 from unittest.mock import Mock, patch
-import httpx
+import httpx2
 from django.db import connection
 
 from package.models import Package, Version, Category
@@ -18,7 +18,7 @@ from package.pypi import (
 class TestPyPIClient:
     def test_fetch_package_success(self):
         client = PyPIClient()
-        with patch("package.pypi.httpx.Client.get") as mock_get:
+        with patch("package.pypi.httpx2.Client.get") as mock_get:
             mock_response = Mock()
             mock_response.status_code = 200
             mock_response.json.return_value = {"info": {"name": "test-pkg"}, "urls": []}
@@ -30,17 +30,17 @@ class TestPyPIClient:
 
     def test_fetch_package_404(self):
         client = PyPIClient()
-        with patch("package.pypi.httpx.Client.get") as mock_get:
+        with patch("package.pypi.httpx2.Client.get") as mock_get:
             mock_response = Mock()
             mock_response.status_code = 404
-            mock_response.raise_for_status.side_effect = httpx.HTTPStatusError(
+            mock_response.raise_for_status.side_effect = httpx2.HTTPStatusError(
                 "404",
                 request=Mock(),
                 response=mock_response,
             )
             mock_get.return_value = mock_response
 
-            with pytest.raises(httpx.HTTPStatusError):
+            with pytest.raises(httpx2.HTTPStatusError):
                 client.fetch_package("non-existent")
 
 
@@ -260,7 +260,7 @@ class TestUpdatePackageFromPyPI:
         with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
             mock_response = Mock()
             mock_response.status_code = 404
-            mock_fetch.side_effect = httpx.HTTPStatusError(
+            mock_fetch.side_effect = httpx2.HTTPStatusError(
                 "404",
                 request=Mock(),
                 response=mock_response,
@@ -275,7 +275,7 @@ class TestUpdatePackageFromPyPI:
         with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
             mock_response = Mock()
             mock_response.status_code = 429
-            mock_fetch.side_effect = httpx.HTTPStatusError(
+            mock_fetch.side_effect = httpx2.HTTPStatusError(
                 "429",
                 request=Mock(),
                 response=mock_response,
