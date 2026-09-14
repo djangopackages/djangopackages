@@ -1,5 +1,5 @@
 import djclick as click
-import requests
+import httpx2
 from django.template.defaultfilters import slugify
 from rich import print
 
@@ -14,7 +14,7 @@ def command():
     print("[yellow]import_products[/yellow]")
 
     url = "https://endoflife.date/api/all.json"
-    response = requests.get(url)
+    response = httpx2.get(url)
     response.raise_for_status()
     products = response.json()
     for product in products:

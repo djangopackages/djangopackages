@@ -726,6 +726,7 @@ dependencies = [
     { name = "feedparser" },
     { name = "github3-py" },
     { name = "gunicorn" },
+    { name = "httpx2" },
     { name = "looseversion" },
     { name = "markdown-it-py", extra = ["linkify"] },
     { name = "markdownify" },
@@ -741,8 +742,6 @@ dependencies = [
     { name = "python-gitlab" },
     { name = "pytz" },
     { name = "redis" },
-    { name = "requests" },
-    { name = "requests-mock" },
     { name = "rich" },
     { name = "sentry-sdk" },
     { name = "social-auth-app-django" },
@@ -763,6 +762,7 @@ dev = [
     { name = "dirty-equals" },
     { name = "django-test-plus" },
     { name = "faker" },
+    { name = "httpx2-pytest" },
     { name = "model-bakery" },
     { name = "prek" },
     { name = "pytest" },
@@ -808,6 +808,7 @@ requires-dist = [
     { name = "feedparser" },
     { name = "github3-py", specifier = "<4.1" },
     { name = "gunicorn" },
+    { name = "httpx2" },
     { name = "looseversion" },
     { name = "markdown-it-py", extras = ["linkify"] },
     { name = "markdownify" },
@@ -823,8 +824,6 @@ requires-dist = [
     { name = "python-gitlab" },
     { name = "pytz" },
     { name = "redis" },
-    { name = "requests" },
-    { name = "requests-mock" },
     { name = "rich" },
     { name = "sentry-sdk" },
     { name = "social-auth-app-django", specifier = "==6.0.1" },
@@ -843,6 +842,7 @@ dev = [
     { name = "dirty-equals" },
     { name = "django-test-plus" },
     { name = "faker" },
+    { name = "httpx2-pytest" },
     { name = "model-bakery" },
     { name = "prek" },
     { name = "pytest" },
@@ -1046,6 +1046,19 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/cd/c4/0e5636363151a2a1795e0a77617168b9ca438e1748ec05fc9b5687f93d64/httpx2_jsfetch-1.0.tar.gz", hash = "sha256:70a0e3eabfef7cce5ad9c629f7d01ca05e418f586646f4ddf14782e4c1454c60", size = 6872, upload-time = "2026-08-07T00:13:07.492Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/9b/43/832f631d32e4f1211caa2ba368317739fe71f0b8530e4c9d15dc454bac2a/httpx2_jsfetch-1.0-py3-none-any.whl", hash = "sha256:cb916b707601e69a07721aabc8f3f6659be3a6893bc1ff5c6f9e02241df2da32", size = 6382, upload-time = "2026-08-07T00:13:06.567Z" },
+]
+
+[[package]]
+name = "httpx2-pytest"
+version = "2.0.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "httpx2" },
+    { name = "pytest" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/fe/2e/66762cb820f4857a8038181ee4deb679905dbd5a1447a7e82993e1c5ddc0/httpx2_pytest-2.0.0.tar.gz", hash = "sha256:0f7e3777be96016bb070c12a64f99e0f1d9437b5b374c7ca331bc95a398cd946", size = 60492, upload-time = "2026-09-04T09:09:57.791Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/42/77/f100314adb8bc833bd224616e269c8a5feb196b0baa9f7d634d2f36c4e1e/httpx2_pytest-2.0.0-py3-none-any.whl", hash = "sha256:b8a63711bc40edc163c22268800d50e21c4266bb9571240bcd0cbfaf69c33cf6", size = 21304, upload-time = "2026-09-04T09:09:56.392Z" },
 ]
 
 [[package]]
@@ -2130,18 +2143,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/ac/c3/e2a2b89f2d3e2179abd6d00ebd70bff6273f37fb3e0cc209f48b39d00cbf/requests-2.34.2.tar.gz", hash = "sha256:f288924cae4e29463698d6d60bc6a4da69c89185ad1e0bcc4104f584e960b9ed", size = 142856, upload-time = "2026-05-14T19:25:27.735Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/a0/f4/c67b0b3f1b9245e8d266f0f112c500d50e5b4e83cb6f3b71b6528104182a/requests-2.34.2-py3-none-any.whl", hash = "sha256:2a0d60c172f83ac6ab31e4554906c0f3b3588d37b5cb939b1c061f4907e278e0", size = 73075, upload-time = "2026-05-14T19:25:26.443Z" },
-]
-
-[[package]]
-name = "requests-mock"
-version = "1.12.1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "requests" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/92/32/587625f91f9a0a3d84688bf9cfc4b2480a7e8ec327cefd0ff2ac891fd2cf/requests-mock-1.12.1.tar.gz", hash = "sha256:e9e12e333b525156e82a3c852f22016b9158220d2f47454de9cae8a77d371401", size = 60901, upload-time = "2024-03-29T03:54:29.446Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/97/ec/889fbc557727da0c34a33850950310240f2040f3b1955175fdb2b36a8910/requests_mock-1.12.1-py2.py3-none-any.whl", hash = "sha256:b1e37054004cdd5e56c84454cc7df12b25f90f382159087f4b6915aaeef39563", size = 27695, upload-time = "2024-03-29T03:54:27.64Z" },
 ]
 
 [[package]]

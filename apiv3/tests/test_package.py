@@ -1,9 +1,9 @@
 import json
+from urllib.parse import urlencode
 
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
-from requests.compat import urlencode
 
 from grid.models import Grid, GridPackage
 from package.models import Category, Package
