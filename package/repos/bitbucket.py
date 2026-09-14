@@ -1,7 +1,7 @@
 from datetime import datetime
 from warnings import warn
 
-import requests
+import httpx
 
 from .base_handler import BaseHandler
 
@@ -21,7 +21,7 @@ class BitbucketHandler(BaseHandler):
 
         # Fetch the most recent commit
         commits_url = f"{base_url}/commits?pagelen=1"
-        resp = requests.get(commits_url)
+        resp = httpx.get(commits_url)
         resp.raise_for_status()
         data = resp.json()
 
@@ -41,7 +41,7 @@ class BitbucketHandler(BaseHandler):
         total_commits = 0
         next_url = f"{base_url}/commits?pagelen=100"
         while next_url:
-            resp = requests.get(next_url)
+            resp = httpx.get(next_url)
             resp.raise_for_status()
             page_data = resp.json()
             total_commits += len(page_data.get("values", []))
@@ -55,7 +55,7 @@ class BitbucketHandler(BaseHandler):
         next_url = f"{base_url}/commits?since={since_str}&pagelen=100"
         all_commits = []
         while next_url:
-            resp = requests.get(next_url)
+            resp = httpx.get(next_url)
             resp.raise_for_status()
             data = resp.json()
             all_commits.extend(data.get("values", []))
@@ -77,7 +77,7 @@ class BitbucketHandler(BaseHandler):
 
         try:
             data = self.get_json(target)
-        except requests.exceptions.HTTPError:
+        except httpx.HTTPStatusError:
             return package
 
         if data is None:
@@ -89,7 +89,7 @@ class BitbucketHandler(BaseHandler):
         try:
             package.repo_forks = len(self.get_json(f"{target}forks/")["values"])
             package.repo_watchers = len(self.get_json(f"{target}watchers/")["values"])
-        except (requests.exceptions.HTTPError, ValueError, KeyError):
+        except (httpx.HTTPStatusError, ValueError, KeyError):
             pass  # Let's not fail the whole thing if we can't get forks/watchers
 
         try:

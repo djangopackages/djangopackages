@@ -726,6 +726,7 @@ dependencies = [
     { name = "feedparser" },
     { name = "github3-py" },
     { name = "gunicorn" },
+    { name = "httpx" },
     { name = "looseversion" },
     { name = "markdown-it-py", extra = ["linkify"] },
     { name = "markdownify" },
@@ -741,8 +742,6 @@ dependencies = [
     { name = "python-gitlab" },
     { name = "pytz" },
     { name = "redis" },
-    { name = "requests" },
-    { name = "requests-mock" },
     { name = "rich" },
     { name = "sentry-sdk" },
     { name = "social-auth-app-django" },
@@ -768,6 +767,7 @@ dev = [
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "pytest-django" },
+    { name = "pytest-httpx" },
     { name = "pytest-mock" },
     { name = "time-machine" },
 ]
@@ -808,6 +808,7 @@ requires-dist = [
     { name = "feedparser" },
     { name = "github3-py", specifier = "<4.1" },
     { name = "gunicorn" },
+    { name = "httpx" },
     { name = "looseversion" },
     { name = "markdown-it-py", extras = ["linkify"] },
     { name = "markdownify" },
@@ -823,8 +824,6 @@ requires-dist = [
     { name = "python-gitlab" },
     { name = "pytz" },
     { name = "redis" },
-    { name = "requests" },
-    { name = "requests-mock" },
     { name = "rich" },
     { name = "sentry-sdk" },
     { name = "social-auth-app-django", specifier = "==6.0.1" },
@@ -848,6 +847,7 @@ dev = [
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "pytest-django" },
+    { name = "pytest-httpx" },
     { name = "pytest-mock" },
     { name = "time-machine" },
 ]
@@ -1963,6 +1963,19 @@ wheels = [
 ]
 
 [[package]]
+name = "pytest-httpx"
+version = "0.36.2"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "httpx" },
+    { name = "pytest" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/4e/42/f53c58570e80d503ade9dd42ce57f2915d14bcbe25f6308138143950d1d6/pytest_httpx-0.36.2.tar.gz", hash = "sha256:05a56527484f7f4e8c856419ea379b8dc359c36801c4992fdb330f294c690356", size = 57683, upload-time = "2026-04-09T13:57:19.837Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/1e/55/1fa65f8e4fceb19dd6daa867c162ad845d547f6058cd92b4b02384a44777/pytest_httpx-0.36.2-py3-none-any.whl", hash = "sha256:d42ebd5679442dc7bfb0c48e0767b6562e9bc4534d805127b0084171886a5e22", size = 20315, upload-time = "2026-04-09T13:57:18.587Z" },
+]
+
+[[package]]
 name = "pytest-mock"
 version = "3.15.1"
 source = { registry = "https://pypi.org/simple" }
@@ -2130,18 +2143,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/ac/c3/e2a2b89f2d3e2179abd6d00ebd70bff6273f37fb3e0cc209f48b39d00cbf/requests-2.34.2.tar.gz", hash = "sha256:f288924cae4e29463698d6d60bc6a4da69c89185ad1e0bcc4104f584e960b9ed", size = 142856, upload-time = "2026-05-14T19:25:27.735Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/a0/f4/c67b0b3f1b9245e8d266f0f112c500d50e5b4e83cb6f3b71b6528104182a/requests-2.34.2-py3-none-any.whl", hash = "sha256:2a0d60c172f83ac6ab31e4554906c0f3b3588d37b5cb939b1c061f4907e278e0", size = 73075, upload-time = "2026-05-14T19:25:26.443Z" },
-]
-
-[[package]]
-name = "requests-mock"
-version = "1.12.1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "requests" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/92/32/587625f91f9a0a3d84688bf9cfc4b2480a7e8ec327cefd0ff2ac891fd2cf/requests-mock-1.12.1.tar.gz", hash = "sha256:e9e12e333b525156e82a3c852f22016b9158220d2f47454de9cae8a77d371401", size = 60901, upload-time = "2024-03-29T03:54:29.446Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/97/ec/889fbc557727da0c34a33850950310240f2040f3b1955175fdb2b36a8910/requests_mock-1.12.1-py2.py3-none-any.whl", hash = "sha256:b1e37054004cdd5e56c84454cc7df12b25f90f382159087f4b6915aaeef39563", size = 27695, upload-time = "2024-03-29T03:54:27.64Z" },
 ]
 
 [[package]]

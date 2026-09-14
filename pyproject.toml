@@ -94,6 +94,7 @@ dependencies = [
     "Django>5.0",
     "djangorestframework<3.19",
     "emoji",
+    "httpx",
     "feedparser",
     # github3.py
     "github3.py<4.1",
@@ -112,8 +113,6 @@ dependencies = [
     "python-dateutil",
     "python-gitlab",
     "pytz",
-    "requests",
-    "requests-mock",
     "rich",
     "sentry-sdk",
     "social-auth-app-django==6.0.1",
@@ -139,6 +138,7 @@ dev = [
     "pytest",
     "pytest-cov",
     "pytest-django",
+    "pytest-httpx",
     "pytest-mock",
     "time-machine",
 

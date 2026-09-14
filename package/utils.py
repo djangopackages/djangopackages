@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
+from urllib.parse import quote
 
-from requests.compat import quote
 from trove_classifiers import classifiers
 
 if TYPE_CHECKING:

@@ -3,8 +3,8 @@ from concurrent.futures import ThreadPoolExecutor
 
 import pytest
 from unittest.mock import Mock, patch
+import httpx
 from django.db import connection
-from requests.exceptions import HTTPError
 
 from package.models import Package, Version, Category
 from package.pypi import (
@@ -18,7 +18,7 @@ from package.pypi import (
 class TestPyPIClient:
     def test_fetch_package_success(self):
         client = PyPIClient()
-        with patch("requests.Session.get") as mock_get:
+        with patch("package.pypi.httpx.Client.get") as mock_get:
             mock_response = Mock()
             mock_response.status_code = 200
             mock_response.json.return_value = {"info": {"name": "test-pkg"}, "urls": []}
@@ -30,15 +30,17 @@ class TestPyPIClient:
 
     def test_fetch_package_404(self):
         client = PyPIClient()
-        with patch("requests.Session.get") as mock_get:
+        with patch("package.pypi.httpx.Client.get") as mock_get:
             mock_response = Mock()
             mock_response.status_code = 404
-            mock_response.raise_for_status.side_effect = HTTPError(
-                response=mock_response
+            mock_response.raise_for_status.side_effect = httpx.HTTPStatusError(
+                "404",
+                request=Mock(),
+                response=mock_response,
             )
             mock_get.return_value = mock_response
 
-            with pytest.raises(HTTPError):
+            with pytest.raises(httpx.HTTPStatusError):
                 client.fetch_package("non-existent")
 
 
@@ -258,7 +260,11 @@ class TestUpdatePackageFromPyPI:
         with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
             mock_response = Mock()
             mock_response.status_code = 404
-            mock_fetch.side_effect = HTTPError(response=mock_response)
+            mock_fetch.side_effect = httpx.HTTPStatusError(
+                "404",
+                request=Mock(),
+                response=mock_response,
+            )
 
             update_package_from_pypi(package, clear_pypi_url_on_404=True)
 
@@ -269,7 +275,11 @@ class TestUpdatePackageFromPyPI:
         with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
             mock_response = Mock()
             mock_response.status_code = 429
-            mock_fetch.side_effect = HTTPError(response=mock_response)
+            mock_fetch.side_effect = httpx.HTTPStatusError(
+                "429",
+                request=Mock(),
+                response=mock_response,
+            )
 
             with pytest.raises(PyPIRateLimitError):
                 update_package_from_pypi(package)

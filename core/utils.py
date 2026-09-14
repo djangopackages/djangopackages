@@ -1,6 +1,6 @@
 import re
 
-import requests
+import httpx
 from django.conf import settings
 from django.core.cache import cache
 from django.db import models
@@ -28,11 +28,12 @@ def get_pypi_url(title: str, timeout: float = 1.0):
     ]:
         value = f"https://pypi.org/project/{value}/"
         try:
-            r = requests.get(value, timeout=timeout)
+            r = httpx.get(value, timeout=timeout)
             r.raise_for_status()
             return value
-        except (requests.exceptions.HTTPError, requests.exceptions.Timeout):
-            return None
+        except (httpx.HTTPStatusError, httpx.TimeoutException):
+            continue
+    return None
 
 
 class PackageStatus(models.IntegerChoices):
@@ -81,8 +82,10 @@ def healthcheck(url: str, timeout: float = 1.0):
     if settings.HEALTHCHECK:
         for i in range(0, 4):
             try:
-                r = requests.get(url=url, timeout=timeout)
+                r = httpx.get(url=url, timeout=timeout)
                 r.raise_for_status()
                 return True
-            except (requests.exceptions.HTTPError, requests.exceptions.Timeout):
-                return None
+            except (httpx.HTTPStatusError, httpx.TimeoutException):
+                continue
+        return None
+    return None

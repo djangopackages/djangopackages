@@ -4,7 +4,6 @@ from urllib.parse import urlparse
 from datetime import datetime
 
 import httpx
-import requests
 
 from .base_handler import BaseHandler, RepoRateLimitError
 
@@ -106,7 +105,7 @@ class ForgejoHandler(BaseHandler):
 
         # Fetch the most recent commit
         commits_url = f"{base_url}/api/v1/repos/{owner}/{repo_name}/commits?limit=1"
-        resp = requests.get(commits_url)
+        resp = httpx.get(commits_url)
         resp.raise_for_status()
         last_commit = resp.json()[0]
         package.last_commit_date = datetime.fromisoformat(
@@ -127,7 +126,7 @@ class ForgejoHandler(BaseHandler):
         page = 1
 
         while True:
-            resp = requests.get(f"{commits_url}&page={page}")
+            resp = httpx.get(f"{commits_url}&page={page}")
             resp.raise_for_status()
             commits = resp.json()
             if not commits:

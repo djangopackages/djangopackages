@@ -1,6 +1,5 @@
 import djclick as click
-import requests
-from requests.exceptions import ConnectionError, HTTPError, ReadTimeout, SSLError
+import httpx
 from rich import print
 
 from package.models import PackageExample
@@ -37,9 +36,9 @@ def command(limit):
             url = f"https://{url}"
 
         try:
-            response = requests.head(url, timeout=2, verify=False)
+            response = httpx.head(url, timeout=2, verify=False)
             response.raise_for_status()
-        except (ConnectionError, HTTPError, ReadTimeout, SSLError):
+        except httpx.HTTPError:
             print(f"[red]marking {example.url} as inactive[/red]")
             PackageExample.objects.filter(url=example.url).update(active=False)
 
