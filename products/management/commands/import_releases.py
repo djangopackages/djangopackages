@@ -1,5 +1,5 @@
 import djclick as click
-import requests
+import httpx2
 from dirty_equals import IsDate, IsTrueLike
 from rich import print
 
@@ -14,7 +14,7 @@ def command():
     products = Product.objects.filter(active=True).order_by("slug")
     for product in products:
         url = f"https://endoflife.date/api/{product.slug}.json"
-        response = requests.get(url)
+        response = httpx2.get(url)
         release_list = response.json()
         for release_data in release_list:
             print(f"{product} == {release_data}")

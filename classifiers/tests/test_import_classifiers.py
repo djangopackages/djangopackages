@@ -3,7 +3,7 @@ from django.core.management import call_command
 from classifiers.models import Classifier
 
 
-def test_product_import(db, requests_mock):
+def test_product_import(db):
     classifier_count = Classifier.objects.count()
     assert classifier_count == 0
 

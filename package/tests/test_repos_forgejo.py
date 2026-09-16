@@ -23,7 +23,7 @@ def test_forgejo_handler_updates_package(package_forgejo):
 
     assert package_forgejo.commit_count == 0
 
-    with patch("package.repos.forgejo.requests.get") as mock_get:
+    with patch("package.repos.forgejo.httpx2.get") as mock_get:
         # Mock responses
         mock_resp_latest = Mock()
         mock_resp_latest.json.return_value = [
