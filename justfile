@@ -180,17 +180,17 @@ bootstrap *ARGS:
 # Run tests using Django test runner
 [group('testing')]
 @test *ARGS:
-    docker compose run --rm django uv run pytest {{ ARGS }}
+    docker compose run --rm -e DJANGO_SETTINGS_MODULE=tests.settings django uv run pytest {{ ARGS }}
 
 # Run tests with pytest
 [group('testing')]
 @pytest *ARGS:
-    docker compose run --rm django uv run pytest {{ ARGS }}
+    docker compose run --rm -e DJANGO_SETTINGS_MODULE=tests.settings django uv run pytest {{ ARGS }}
 
 # Run tests with pytest and generate coverage reports
 [group('testing')]
 @coverage *ARGS:
-    docker compose run --rm django uv run pytest \
+    docker compose run --rm -e DJANGO_SETTINGS_MODULE=tests.settings django uv run pytest \
         {{ ARGS }} \
         --cov-report html \
         --cov-report term:skip-covered \

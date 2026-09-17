@@ -18,3 +18,14 @@ def test_health_endpoint(db, tp):
         "Database(alias='default')": "OK",
         "Redis(db=0, host='localhost', port=6379)": "OK",
     }
+
+
+@override_settings(CACHES=LOCMEM_CACHES, REDIS_URL=None)
+def test_health_endpoint_without_redis(db, tp):
+    response = tp.client.get("/health/", headers={"accept": "application/json"})
+
+    assert response.status_code == 200
+    assert response.json() == {
+        "Cache(alias='default')": "OK",
+        "Database(alias='default')": "OK",
+    }
