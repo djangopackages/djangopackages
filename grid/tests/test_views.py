@@ -106,6 +106,46 @@ class FunctionalGridTest(TestCase):
         self.assertEqual(Grid.objects.count(), count)
         self.assertContains(response, "TEST TITLE")
 
+    def test_edit_grid_view_slug_locked_for_regular_users(self):
+        url = reverse("edit_grid", kwargs={"slug": "testing"})
+        self.assertTrue(self.client.login(username="user", password="user"))
+
+        response = self.client.get(url)
+        self.assertTrue(response.context["form"].fields["slug"].disabled)
+
+        response = self.client.post(
+            url,
+            {
+                "title": "TEST TITLE",
+                "slug": "spam-slug",
+                "description": "Just a test description",
+            },
+            follow=True,
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(Grid.objects.filter(slug="testing").exists())
+        self.assertFalse(Grid.objects.filter(slug="spam-slug").exists())
+
+    def test_edit_grid_view_slug_editable_for_superusers(self):
+        url = reverse("edit_grid", kwargs={"slug": "testing"})
+        self.assertTrue(self.client.login(username="admin", password="admin"))
+
+        response = self.client.get(url)
+        self.assertFalse(response.context["form"].fields["slug"].disabled)
+
+        response = self.client.post(
+            url,
+            {
+                "title": "TEST TITLE",
+                "slug": "New-Slug",
+                "description": "Just a test description",
+            },
+            follow=True,
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(Grid.objects.filter(slug="new-slug").exists())
+        self.assertFalse(Grid.objects.filter(slug="testing").exists())
+
     @override_flag("enabled_packages_score_values", active=True)
     def test_grid_detail_view_with_score(self):
         url = reverse("grid", kwargs={"slug": "testing"})
