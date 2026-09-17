@@ -23,7 +23,7 @@ def get_optimized_package_queryset():
 
 def get_optimized_grid_queryset():
     """Return a Grid queryset optimized to avoid N+1 queries in grid_resource()."""
-    return Grid.objects.prefetch_related("packages")
+    return Grid.objects.approved().prefetch_related("packages")
 
 
 def GET_int(request, value_name, default):
@@ -62,7 +62,7 @@ def grid_detail(request, slug):
 
 @json_view
 def grid_list(request):
-    count = Grid.objects.count()
+    count = Grid.objects.approved().count()
     limit = GET_int(request, "limit", 20)
     offset = GET_int(request, "offset", 0)
 

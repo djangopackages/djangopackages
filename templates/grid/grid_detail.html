@@ -25,19 +25,19 @@
                         <i class="ph-bold ph-calendar-blank mr-1 text-base"></i>
                         <span>{% translate "Timesheet" %}</span>
                     </a>
-                    {% if perms.grid.change_grid %}
+                    {% if perms.grid.change_grid or can_edit_pending_grid %}
                         <a href="{% url 'edit_grid' grid.slug %}" class="btn-secondary flex-1 flex-shrink-0 lg:flex-none">
                             <i class="ph-bold ph-pencil-simple mr-1 text-base"></i>
                             <span>{% translate "Edit Grid" %}</span>
                         </a>
                     {% endif %}
-                    {% if perms.grid.add_gridpackage %}
+                    {% if perms.grid.add_gridpackage or can_edit_pending_grid %}
                         <a href="{% url 'add_grid_package' grid.slug %}" class="btn-secondary flex-1 flex-shrink-0 lg:flex-none">
                             <i class="ph-bold ph-plus-circle mr-1 text-base"></i>
                             <span>{% translate "Add Package" %}</span>
                         </a>
                     {% endif %}
-                    {% if perms.grid.add_feature %}
+                    {% if perms.grid.add_feature or can_edit_pending_grid %}
                         <a href="{% url 'add_feature' grid.slug %}" class="btn-secondary flex-1 flex-shrink-0 lg:flex-none">
                             <i class="ph-bold ph-list-plus mr-1 text-base"></i>
                             <span>{% translate "Add Feature" %}</span>
@@ -49,6 +49,15 @@
     </section>
 
     <div class="container mx-auto px-4 py-8">
+        {% if not grid.is_approved %}
+            <div class="card border-primary mb-6">
+                <div class="card-content flex items-center gap-3 p-4 text-sm">
+                    <i class="ph-bold ph-hourglass-medium text-primary text-xl"></i>
+                    <p>{% translate "This grid is waiting for review. Only you and the site admins can see it until it's approved." %}</p>
+                </div>
+            </div>
+        {% endif %}
+
         <!-- Header Section -->
         <div class="mb-8">
             <h1 class="text-foreground text-3xl font-bold">{{ grid.title }}</h1>

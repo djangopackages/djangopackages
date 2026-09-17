@@ -1,7 +1,7 @@
 import pytest
 from django.conf import settings
 from django.contrib.auth.models import Permission, User
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
 from waffle.testutils import override_flag
@@ -108,6 +108,11 @@ class FunctionalPackageTest(TestCase):
 
     def test_add_package_view_with_grid_slug(self):
         grid = Grid.objects.get(slug="testing")
+        User.objects.get(username="user").user_permissions.add(
+            Permission.objects.get(
+                codename="add_gridpackage", content_type__app_label="grid"
+            )
+        )
         url = reverse("add_package") + f"?grid_slug={grid.slug}"
 
         # The response should be a redirect, since the user is not logged in.
@@ -124,7 +129,7 @@ class FunctionalPackageTest(TestCase):
         # Use a unique slug and title to avoid IntegrityError
         unique_slug = "django-grid-test-add-package-view"
         unique_title = "django grid test add package view"
-        with self.assertNumQueries(17):
+        with self.assertNumQueries(19):
             response = self.client.post(
                 url,
                 {
@@ -523,10 +528,28 @@ class PackagePermissionTest(TestCase):
             codename="add_package", content_type__app_label="package"
         )
         self.user.user_permissions.add(add_package_perm)
+        self.user.user_permissions.add(
+            Permission.objects.get(
+                codename="add_gridpackage", content_type__app_label="grid"
+            )
+        )
         with self.assertNumQueries(8):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context["grid"], grid)
+
+    def test_add_package_with_grid_slug_requires_grid_permission(self):
+        grid = Grid.objects.get(slug="testing")
+        url = self.test_add_url + f"?grid_slug={grid.slug}"
+        self.user.user_permissions.add(
+            Permission.objects.get(
+                codename="add_package", content_type__app_label="package"
+            )
+        )
+        with override_settings(RESTRICT_GRID_EDITORS=True):
+            response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(response.context["grid"])
 
     def test_edit_package_permission_fail(self):
         with self.assertNumQueries(6):

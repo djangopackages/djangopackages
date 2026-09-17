@@ -47,7 +47,7 @@ class PackageViewSet(MultiLookupFieldMixin, viewsets.ReadOnlyModelViewSet):
 
 
 class GridViewSet(MultiLookupFieldMixin, viewsets.ReadOnlyModelViewSet):
-    queryset = Grid.objects.all().prefetch_related("packages").order_by("-id")
+    queryset = Grid.objects.approved().prefetch_related("packages").order_by("-id")
     serializer_class = GridSerializer
     paginate_by = 20
 

@@ -1,9 +1,23 @@
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from core.models import BaseModel
 from package.models import Package
+
+
+class GridQuerySet(models.QuerySet):
+    def approved(self):
+        return self.filter(is_approved=True)
+
+    def visible_to(self, user):
+        """Approved grids, plus pending grids the user created or can review."""
+        if user.is_authenticated and (user.is_superuser or user.is_staff):
+            return self.all()
+        if user.is_authenticated:
+            return self.filter(models.Q(is_approved=True) | models.Q(created_by=user))
+        return self.approved()
 
 
 class Grid(BaseModel):
@@ -15,6 +29,9 @@ class Grid(BaseModel):
       with line breaks and urlized links
     * :attr:`~grid.models.Grid.is_locked` - boolean field accessible
       to moderators
+    * :attr:`~grid.models.Grid.is_approved` - grids created by new accounts
+      stay hidden until an admin approves them
+    * :attr:`~grid.models.Grid.created_by` - user who created the grid
     * :attr:`~grid.models.Grid.packages` - many-to-many relation
       with :class:~`grid.models.GridPackage` objects
     """
@@ -32,12 +49,26 @@ class Grid(BaseModel):
     is_locked = models.BooleanField(
         _("Is Locked"), default=False, help_text="Moderators can lock grid access"
     )
+    is_approved = models.BooleanField(
+        _("Is Approved"),
+        default=True,
+        help_text="Grids created by new accounts stay hidden until approved",
+    )
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        null=True,
+        related_name="created_grids",
+        on_delete=models.SET_NULL,
+    )
     packages = models.ManyToManyField(Package, through="GridPackage")
     header = models.BooleanField(
         _("Header tab?"),
         default=False,
         help_text="If checked then displayed on homepage header",
     )
+
+    objects = GridQuerySet.as_manager()
 
     def elements(self):
         elements = []

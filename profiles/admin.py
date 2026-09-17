@@ -18,6 +18,7 @@ def user_email(obj):
 class ProfileAdmin(VersionAdmin):
     search_fields = ("user__username", "github_account", "user__email", "email")
     list_display = ("github_account", "email", username, user_email)
+    list_filter = ("is_trusted_override",)
     raw_id_fields = ["user"]
 
 

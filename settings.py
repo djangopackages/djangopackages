@@ -273,6 +273,11 @@ if DEBUG:
 else:
     RESTRICT_GRID_EDITORS = False
 
+# New accounts can't edit grids, and the grids they create wait for review,
+# until both the Django Packages and GitHub accounts are at least this old
+NEW_ACCOUNT_REVIEW_DAYS = env.int("NEW_ACCOUNT_REVIEW_DAYS", default=7)
+NEW_GITHUB_ACCOUNT_REVIEW_DAYS = env.int("NEW_GITHUB_ACCOUNT_REVIEW_DAYS", default=90)
+
 # Sentry Configuration
 
 if SENTRY_DSN := env("DJANGO_SENTRY_DSN", default=None):
@@ -326,7 +331,7 @@ def SOCIAL_AUTH_DEFAULT_USERNAME(u):
     return slugify(u)
 
 
-SOCIAL_AUTH_GITHUB_EXTRA_DATA = []
+SOCIAL_AUTH_GITHUB_EXTRA_DATA = ["created_at"]
 SOCIAL_AUTH_CHANGE_SIGNAL_ONLY = True
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
 SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ["username", "first_name", "email"]

@@ -90,7 +90,7 @@ class OpenView(TemplateView):
         )
 
         top_grid_list = (
-            Grid.objects.all()
+            Grid.objects.approved()
             .annotate(num_packages=Count("packages"))
             .filter(num_packages__gte=25)
             .order_by("-num_packages")[0:100]
@@ -107,7 +107,7 @@ class OpenView(TemplateView):
                 "top_grid_list": top_grid_list[0:100],
                 "top_user_list": top_user_list[0:100],
                 "total_categories": Category.objects.count(),
-                "total_grids": Grid.objects.count(),
+                "total_grids": Grid.objects.approved().count(),
                 "total_users": User.objects.count(),
                 "total_versions": Version.objects.count(),
             }
@@ -253,7 +253,8 @@ class HomepageView(TemplateView):
     def _get_grid_lists(self):
         if not (grids := cache.get("grid_list")):
             grids = list(
-                Grid.objects.filter(header=True)
+                Grid.objects.approved()
+                .filter(header=True)
                 .only("pk", "slug", "description", "title")
                 .annotate(gridpackage_count=Count("gridpackage"))
                 .filter(gridpackage_count__gt=2)
@@ -323,7 +324,8 @@ def error_404_view(request, exception=None):
 
 
 def error_403_view(request, exception=None):
-    response = render(request, "403.html")
+    context = {"exception_message": str(exception) if exception else ""}
+    response = render(request, "403.html", context)
     response.status_code = 403
     return response
 

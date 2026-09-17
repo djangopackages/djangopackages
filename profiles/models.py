@@ -1,7 +1,12 @@
 from django.conf import settings
 from django.contrib.auth.models import User
+from datetime import timedelta
+from functools import cached_property
+
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
+from django.utils.dateparse import parse_datetime
 from django.utils.translation import gettext_lazy as _
 
 from core.models import BaseModel
@@ -28,6 +33,11 @@ class Profile(BaseModel):
     )
     email = models.EmailField(_("Email"), null=True, blank=True)
     share_favorites = models.BooleanField(_("Share Favorites"), default=False)
+    is_trusted_override = models.BooleanField(
+        _("Trusted"),
+        default=False,
+        help_text=_("Skip the new-account review period for this user"),
+    )
 
     def __str__(self):
         if not self.github_account:
@@ -74,6 +84,43 @@ class Profile(BaseModel):
     def get_absolute_url(self):
         return reverse("profile_detail", args=[self.github_account])
 
+    @cached_property
+    def github_created_at(self):
+        """When the linked GitHub account was created, if we've stored it."""
+        social = self.user.social_auth.filter(provider="github").first()
+        if social and (created_at := social.extra_data.get("created_at")):
+            return parse_datetime(created_at)
+        return None
+
+    @cached_property
+    def is_trusted(self):
+        """Whether this account is past the new-account review period.
+
+        Both the Django Packages account and the GitHub account must be old
+        enough. Accounts with no stored GitHub creation date are judged on
+        their Django Packages account alone.
+        """
+        if self.user.is_superuser or self.user.is_staff or self.is_trusted_override:
+            return True
+
+        now = timezone.now()
+        if now - self.user.date_joined < timedelta(
+            days=settings.NEW_ACCOUNT_REVIEW_DAYS
+        ):
+            return False
+
+        github_created_at = self.github_created_at
+        if github_created_at and now - github_created_at < timedelta(
+            days=settings.NEW_GITHUB_ACCOUNT_REVIEW_DAYS
+        ):
+            return False
+
+        return True
+
+    def can_edit_pending_grid(self, grid):
+        """New accounts may keep editing a grid they created until it's reviewed."""
+        return not grid.is_approved and grid.created_by_id == self.user_id
+
     # define permission properties as properties so we can access in templates
 
     @property
@@ -96,7 +143,7 @@ class Profile(BaseModel):
     def can_edit_grid(self):
         if getattr(settings, "RESTRICT_GRID_EDITORS", False):
             return self.user.has_perm("grid.change_grid")
-        return True
+        return self.is_trusted
 
     @property
     def can_add_grid(self):
@@ -109,13 +156,13 @@ class Profile(BaseModel):
     def can_add_grid_feature(self):
         if getattr(settings, "RESTRICT_GRID_EDITORS", False):
             return self.user.has_perm("grid.add_feature")
-        return True
+        return self.is_trusted
 
     @property
     def can_edit_grid_feature(self):
         if getattr(settings, "RESTRICT_GRID_EDITORS", False):
             return self.user.has_perm("grid.change_feature")
-        return True
+        return self.is_trusted
 
     @property
     def can_delete_grid_feature(self):
@@ -128,7 +175,7 @@ class Profile(BaseModel):
     def can_add_grid_package(self):
         if getattr(settings, "RESTRICT_GRID_EDITORS", False):
             return self.user.has_perm("grid.add_gridpackage")
-        return True
+        return self.is_trusted
 
     @property
     def can_delete_grid_package(self):
@@ -141,7 +188,7 @@ class Profile(BaseModel):
     def can_edit_grid_element(self):
         if getattr(settings, "RESTRICT_GRID_EDITORS", False):
             return self.user.has_perm("grid.change_element")
-        return True
+        return self.is_trusted
 
     def get_opengraph_image_url(self):
         return reverse("profile_opengraph", args=[self.github_account])

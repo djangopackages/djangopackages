@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 def get_grids(*, domain: str, limit: int) -> list[dict]:
     links = []
-    grids = Grid.objects.all().order_by("slug")
+    grids = Grid.objects.approved().order_by("slug")
 
     if limit:
         grids = grids[0:limit]
