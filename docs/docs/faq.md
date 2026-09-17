@@ -21,6 +21,32 @@ Read the page on [contributions].
 - Go the Home page, <https://www.djangopackages.org/>
 - Click the appropriate button, where a package is a program and a grid is a category.
 
+### Why can't I edit a grid, or why is my new grid not listed?
+
+To cut down on spam, new accounts go through a short review period before they can change grids.
+
+Your account is **trusted** when both of these are true:
+
+- Your Django Packages account is at least **7 days** old.
+- The GitHub account you log in with is at least **90 days** old.
+
+Until then:
+
+- **You can still add and edit packages.**
+- **You can create new grids, but an admin reviews them before anyone else can see them.** A pending grid is left out of the grid list, search, the homepage, the sitemap, and the API. You can still open it, and it shows a "waiting for review" notice.
+- **You can keep editing your own pending grids.** That includes changing the title and description, adding packages, and adding features.
+- **You can't edit grids you didn't create.** If you try, you'll see a page explaining the waiting period.
+
+Once your account is trusted, the grids you create are listed right away and you can edit any grid.
+
+#### For site admins
+
+- **Adjusting the waiting periods:** set the `NEW_ACCOUNT_REVIEW_DAYS` (default `7`) and `NEW_GITHUB_ACCOUNT_REVIEW_DAYS` (default `90`) environment variables.
+- **Where the GitHub date comes from:** we save the GitHub account's creation date (`created_at`) each time someone logs in. Accounts with no saved date are judged on their Django Packages account age alone.
+- **Accounts that skip the review:** staff, superusers, and profiles with **Trusted** checked in the Profile admin.
+- **Approving pending grids:** in the Grid admin, filter by **Is Approved**, then use the **Approve selected grids** action.
+- **When `RESTRICT_GRID_EDITORS` is on:** grid edits are controlled by Django permissions instead of trust. The one exception is that a new account can still edit its own pending grids.
+
 ### What browsers does Django Packages support?
 
 We do formal tests on Chrome, Safari and Firefox.
