@@ -434,6 +434,13 @@ Listed in alphabetical order.
     <td>mikefiedler</td>
   </tr>
   <tr>
+    <td>Mounir</td>
+    <td>
+      <a href="https://github.com/mounirmesselmeni">mounirmesselmeni</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
     <td>Nikita Shupeyko</td>
     <td>
       <a href="https://github.com/webyneter">webyneter</a>
