@@ -423,6 +423,16 @@ class EditGridView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         return self.request.user.profile.can_edit_grid
 
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        # Only superusers may change an existing grid's slug (see #1455)
+        if not self.request.user.is_superuser:
+            form.fields["slug"].disabled = True
+            form.fields["slug"].help_text = _(
+                "The slug can't be changed once a grid is created."
+            )
+        return form
+
     def get_success_url(self):
         return reverse("grid", kwargs={"slug": self.object.slug})
 
