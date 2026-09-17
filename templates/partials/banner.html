@@ -5,16 +5,16 @@
         role="alert"
         class="border-b {% if banner.banner_type == 'sponsored' %} bg-violet-50 border-violet-200 dark:bg-violet-500/10 dark:border-violet-500/25 {% elif banner.banner_type == 'notice' %} bg-sky-50 border-sky-200 dark:bg-sky-500/10 dark:border-sky-500/25 {% elif banner.banner_type == 'success' %} bg-emerald-50 border-emerald-200 dark:bg-emerald-500/10 dark:border-emerald-500/25 {% elif banner.banner_type == 'warning' %} bg-amber-50 border-amber-200 dark:bg-amber-500/10 dark:border-amber-500/25 {% elif banner.banner_type == 'critical' %} bg-red-50 border-red-200 dark:bg-red-500/10 dark:border-red-500/25 {% endif %}"
     >
-        <div class="container flex gap-3 items-center py-3 px-4 mx-auto">
-            <div class="flex-1 min-w-0">
+        <div class="container mx-auto flex items-center gap-3 px-4 py-3">
+            <div class="min-w-0 flex-1">
                 <p
                     class="text-sm font-medium text-foreground/90 leading-loose [&_a]:underline [&_a]:underline-offset-2 [&_a]:hover:opacity-75 {% if banner.alignment == 'center' %} text-center {% elif banner.alignment == 'right' %} text-right {% endif %}"
                 >
                     {% if banner.banner_type == 'sponsored' %}
                         <span
-                            class="inline-flex gap-1 items-center py-0.5 px-2 mr-2 font-semibold tracking-wide text-violet-700 uppercase align-middle bg-violet-100 rounded-full border border-violet-200 dark:text-violet-300 dark:bg-violet-400/15 dark:border-violet-400/30 text-[11px]"
+                            class="mr-2 inline-flex items-center gap-1 rounded-full border border-violet-200 bg-violet-100 px-2 py-0.5 align-middle text-[11px] font-semibold tracking-wide text-violet-700 uppercase dark:border-violet-400/30 dark:bg-violet-400/15 dark:text-violet-300"
                         >
-                            <i class="text-[10px] ph-bold ph-megaphone"></i>
+                            <i class="ph-bold ph-megaphone text-[10px]"></i>
                             Sponsored
                         </span>
                     {% else %}
@@ -42,10 +42,10 @@
                     hx-target="#site-banner-{{ banner.pk }}"
                     hx-swap="outerHTML"
                     hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-                    class="inline-flex flex-shrink-0 justify-center items-center w-6 h-6 rounded-md transition-colors text-muted-foreground hover:text-foreground hover:bg-foreground/5"
+                    class="text-muted-foreground hover:text-foreground hover:bg-foreground/5 inline-flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-md transition-colors"
                     aria-label="Dismiss banner"
                 >
-                    <i class="text-sm ph-bold ph-x"></i>
+                    <i class="ph-bold ph-x text-sm"></i>
                 </button>
             {% endif %}
         </div>
