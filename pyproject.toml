@@ -121,7 +121,6 @@ dependencies = [
     "structlog",
     "trove-classifiers",
     "Unidecode",
-    "uwsgi",
     "whitenoise",
     # Redis support
     "redis",
