@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-09-16]
+### Changed
+- Migrate from requests to httpx2 ([#1662](https://github.com/djangopackages/djangopackages/pull/1662))
+
 ## [2026-09-14]
 ### Changed
 - [prek]: auto-update hooks ([#1663](https://github.com/djangopackages/djangopackages/pull/1663))
