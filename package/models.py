@@ -234,7 +234,7 @@ class Package(BaseModel):
         return self.packageexample_set.filter(active=True)
 
     def grids(self):
-        return (x.grid for x in self.gridpackage_set.all())
+        return (x.grid for x in self.gridpackage_set.all() if x.grid.is_approved)
 
     def repo_name(self):
         return self.repo.extract_repo_name(self.repo_url)

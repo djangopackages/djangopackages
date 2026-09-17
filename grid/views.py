@@ -64,6 +64,20 @@ def build_element_map(
     return element_map
 
 
+class NewAccountReviewMixin:
+    """Explain why a new account can't make grid changes yet."""
+
+    def get_permission_denied_message(self):
+        user = self.request.user
+        if user.is_authenticated and not user.profile.is_trusted:
+            return _(
+                "New accounts can edit grids after a short waiting period. "
+                "You can still create new grids, which are reviewed before "
+                "they're listed."
+            )
+        return super().get_permission_denied_message()
+
+
 class GridDetailView(DetailView):
     model = Grid
     template_name = "grid/grid_detail.html"
@@ -71,6 +85,9 @@ class GridDetailView(DetailView):
     slug_field = "slug"
     slug_url_kwarg = "slug"
     max_packages = 10
+
+    def get_queryset(self):
+        return Grid.objects.visible_to(self.request.user)
 
     def get_filter_data(self) -> dict[str, Any]:
         """Get filter parameters from the form"""
@@ -317,6 +334,10 @@ class GridDetailView(DetailView):
                 "has_more_packages": payload["has_more_packages"],
                 "show_features": payload.get("show_features", True),
                 "max_packages": self.max_packages,
+                "can_edit_pending_grid": (
+                    self.request.user.is_authenticated
+                    and self.request.user.profile.can_edit_pending_grid(grid)
+                ),
             }
         )
         return context
@@ -337,7 +358,7 @@ class GridListView(ListView):
 
     def get_queryset(self):
         queryset = (
-            Grid.objects.filter()
+            Grid.objects.approved()
             .annotate(
                 # `distinct=True` parameter is required here for multiple annotations to not yield the wrong results
                 # See: https://docs.djangoproject.com/en/4.2/topics/db/aggregation/#combining-multiple-aggregations
@@ -407,21 +428,34 @@ class AddGridView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return reverse("grid", kwargs={"slug": self.object.slug})
 
     def form_valid(self, form):
-        messages.add_message(
-            self.request, messages.SUCCESS, _("Grid created successfully")
-        )
+        form.instance.created_by = self.request.user
+        form.instance.is_approved = self.request.user.profile.is_trusted
+        if form.instance.is_approved:
+            message = _("Grid created successfully")
+        else:
+            message = _(
+                "Grid created. Grids from new accounts are reviewed before "
+                "they're listed publicly."
+            )
+        messages.add_message(self.request, messages.SUCCESS, message)
         return super().form_valid(form)
 
 
-class EditGridView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class EditGridView(
+    NewAccountReviewMixin, LoginRequiredMixin, UserPassesTestMixin, UpdateView
+):
     model = Grid
     form_class = GridForm
     template_name = "grid/add_grid.html"
     slug_field = "slug"
     slug_url_kwarg = "slug"
 
+    def get_queryset(self):
+        return Grid.objects.visible_to(self.request.user)
+
     def test_func(self):
-        return self.request.user.profile.can_edit_grid
+        profile = self.request.user.profile
+        return profile.can_edit_grid or profile.can_edit_pending_grid(self.get_object())
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
@@ -441,7 +475,9 @@ class EditGridView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return super().form_valid(form)
 
 
-class AddFeatureView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class AddFeatureView(
+    NewAccountReviewMixin, LoginRequiredMixin, UserPassesTestMixin, CreateView
+):
     form_class = FeatureForm
     template_name = "grid/add_feature.html"
 
@@ -450,7 +486,8 @@ class AddFeatureView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return super().dispatch(request, *args, **kwargs)
 
     def test_func(self):
-        return self.request.user.profile.can_add_grid_feature
+        profile = self.request.user.profile
+        return profile.can_add_grid_feature or profile.can_edit_pending_grid(self.grid)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -468,14 +505,19 @@ class AddFeatureView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return reverse("grid", kwargs={"slug": self.object.grid.slug})
 
 
-class EditFeatureView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class EditFeatureView(
+    NewAccountReviewMixin, LoginRequiredMixin, UserPassesTestMixin, UpdateView
+):
     model = Feature
     form_class = FeatureForm
     template_name = "grid/add_feature.html"
     pk_url_kwarg = "id"
 
     def test_func(self):
-        return self.request.user.profile.can_edit_grid_feature
+        profile = self.request.user.profile
+        return profile.can_edit_grid_feature or profile.can_edit_pending_grid(
+            self.get_object().grid
+        )
 
     def get_success_url(self):
         return reverse("grid", kwargs={"slug": self.object.grid.slug})
@@ -531,13 +573,19 @@ class DeleteGridPackageView(LoginRequiredMixin, PermissionRequiredMixin, DeleteV
         return super().delete(request, *args, **kwargs)
 
 
-class EditElementView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class EditElementView(
+    NewAccountReviewMixin, LoginRequiredMixin, UserPassesTestMixin, UpdateView
+):
     model = Element
     form_class = ElementForm
     template_name = "grid/edit_element.html"
 
     def test_func(self):
-        return self.request.user.profile.can_edit_grid_element
+        profile = self.request.user.profile
+        if profile.can_edit_grid_element:
+            return True
+        grid = get_object_or_404(Grid, slug=self.kwargs.get("grid_slug"))
+        return profile.can_edit_pending_grid(grid)
 
     def get_object(self, queryset=None):
         feature_id = self.kwargs.get("feature_id")
@@ -574,7 +622,9 @@ class EditElementView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return super().form_valid(form)
 
 
-class AddGridPackageView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class AddGridPackageView(
+    NewAccountReviewMixin, LoginRequiredMixin, UserPassesTestMixin, CreateView
+):
     model = GridPackage
     form_class = GridPackageForm
     template_name = "grid/add_grid_package.html"
@@ -584,7 +634,10 @@ class AddGridPackageView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return get_object_or_404(Grid, slug=self.kwargs["grid_slug"])
 
     def test_func(self):
-        return bool(self.request.user.profile.can_add_grid_package)
+        profile = self.request.user.profile
+        return bool(profile.can_add_grid_package) or profile.can_edit_pending_grid(
+            self.grid
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -653,7 +706,7 @@ class AjaxGridSearchView(ListView):
         if not q:
             return Grid.objects.none()
 
-        qs = Grid.objects.filter(title__icontains=q)
+        qs = Grid.objects.approved().filter(title__icontains=q)
 
         if package_id:
             qs = qs.exclude(gridpackage__package_id=package_id)
@@ -667,12 +720,18 @@ class GridOpenGraphView(DetailView):
     slug_field = "slug"
     slug_url_kwarg = "slug"
 
+    def get_queryset(self):
+        return Grid.objects.approved()
+
 
 class GridTimesheetView(DetailView):
     model = Grid
     template_name = "grid/grid_timesheet.html"
     slug_field = "slug"
     slug_url_kwarg = "slug"
+
+    def get_queryset(self):
+        return Grid.objects.visible_to(self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

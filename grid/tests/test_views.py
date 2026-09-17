@@ -14,6 +14,7 @@ from waffle.testutils import override_flag
 from grid.models import Element, Feature, Grid, GridPackage
 from grid.tests import data
 from package.models import Category, Package, Version
+from profiles.models import Profile
 
 
 class FunctionalGridTest(TestCase):
@@ -87,7 +88,7 @@ class FunctionalGridTest(TestCase):
 
         # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username="user", password="user"))
-        with self.assertNumQueries(5):
+        with self.assertNumQueries(6):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/add_grid.html")
@@ -186,7 +187,7 @@ class FunctionalGridTest(TestCase):
 
         # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username="user", password="user"))
-        with self.assertNumQueries(7):
+        with self.assertNumQueries(8):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/add_feature.html")
@@ -209,7 +210,7 @@ class FunctionalGridTest(TestCase):
 
         # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username="user", password="user"))
-        with self.assertNumQueries(6):
+        with self.assertNumQueries(7):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/add_feature.html")
@@ -289,7 +290,7 @@ class FunctionalGridTest(TestCase):
 
         # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username="user", password="user"))
-        with self.assertNumQueries(5):
+        with self.assertNumQueries(6):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/add_grid_package.html")
@@ -739,3 +740,100 @@ class GridShowFeaturesTest(TestCase):
         self.assertFalse(response.context["show_features"])
         self.assertEqual(response.context["total_package_count"], 3)
         self.assertNotContains(response, "Test Feature")
+
+
+@override_settings(RESTRICT_GRID_EDITORS=False)
+class NewAccountGridReviewTest(TestCase):
+    def setUp(self):
+        data.load()
+        cache.clear()
+        self.new_user = User.objects.create_user(
+            pk=100, username="newbie", password="newbie"
+        )
+        Profile.objects.create(user=self.new_user)
+
+    def create_pending_grid(self):
+        self.assertTrue(self.client.login(username="newbie", password="newbie"))
+        self.client.post(
+            reverse("add_grid"),
+            {"title": "Pending Grid", "slug": "pending-grid", "description": ""},
+        )
+        return Grid.objects.get(slug="pending-grid")
+
+    def test_new_account_grid_waits_for_review(self):
+        grid = self.create_pending_grid()
+        self.assertFalse(grid.is_approved)
+        self.assertEqual(grid.created_by, self.new_user)
+
+        # The creator can see and keep editing their pending grid
+        response = self.client.get(reverse("grid", kwargs={"slug": grid.slug}))
+        self.assertContains(response, "This grid is waiting for review")
+        response = self.client.get(reverse("edit_grid", kwargs={"slug": grid.slug}))
+        self.assertEqual(response.status_code, 200)
+        response = self.client.get(
+            reverse("add_grid_package", kwargs={"grid_slug": grid.slug})
+        )
+        self.assertEqual(response.status_code, 200)
+        response = self.client.get(
+            reverse("add_feature", kwargs={"grid_slug": grid.slug})
+        )
+        self.assertEqual(response.status_code, 200)
+
+        # Other users can't see it
+        self.client.logout()
+        response = self.client.get(reverse("grid", kwargs={"slug": grid.slug}))
+        self.assertEqual(response.status_code, 404)
+        self.assertTrue(self.client.login(username="user", password="user"))
+        response = self.client.get(reverse("grid", kwargs={"slug": grid.slug}))
+        self.assertEqual(response.status_code, 404)
+
+        # Staff can
+        self.assertTrue(self.client.login(username="admin", password="admin"))
+        response = self.client.get(reverse("grid", kwargs={"slug": grid.slug}))
+        self.assertEqual(response.status_code, 200)
+
+    def test_pending_grids_are_hidden_from_listings(self):
+        grid = self.create_pending_grid()
+        GridPackage.objects.create(grid=grid, package=Package.objects.first())
+
+        self.assertNotIn(grid, Grid.objects.approved())
+        response = self.client.get(reverse("grids"))
+        self.assertNotContains(response, "Pending Grid")
+        response = self.client.get("/api/v4/grids/")
+        self.assertNotContains(response, "pending-grid")
+
+    def test_trusted_account_grid_is_approved(self):
+        self.assertTrue(self.client.login(username="user", password="user"))
+        self.client.post(
+            reverse("add_grid"),
+            {"title": "Trusted Grid", "slug": "trusted-grid", "description": ""},
+        )
+        grid = Grid.objects.get(slug="trusted-grid")
+        self.assertTrue(grid.is_approved)
+
+    def test_new_account_cannot_edit_approved_grid(self):
+        self.assertTrue(self.client.login(username="newbie", password="newbie"))
+        urls = [
+            reverse("edit_grid", kwargs={"slug": "testing"}),
+            reverse("add_feature", kwargs={"grid_slug": "testing"}),
+            reverse("add_grid_package", kwargs={"grid_slug": "testing"}),
+            reverse("edit_feature", kwargs={"id": "1"}),
+            reverse(
+                "edit_element",
+                kwargs={"grid_slug": "testing", "feature_id": "1", "package_id": "1"},
+            ),
+        ]
+        for url in urls:
+            with self.subTest(url=url):
+                response = self.client.get(url)
+                self.assertEqual(response.status_code, 403)
+                self.assertContains(
+                    response, "New accounts can edit grids", status_code=403
+                )
+
+    def test_trusted_override_allows_edits(self):
+        self.new_user.profile.is_trusted_override = True
+        self.new_user.profile.save()
+        self.assertTrue(self.client.login(username="newbie", password="newbie"))
+        response = self.client.get(reverse("edit_grid", kwargs={"slug": "testing"}))
+        self.assertEqual(response.status_code, 200)

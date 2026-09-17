@@ -20,7 +20,7 @@ def grid_of_the_week():
         .first()
     )
     gotw = (
-        Grid.objects.all()
+        Grid.objects.approved()
         .annotate(package_count=Count("gridpackage"), feature_count=Count("feature"))
         .filter(gotw__start_date__lte=today, gotw__end_date__gte=today)
         .order_by("-gotw__start_date", "-gotw__end_date")

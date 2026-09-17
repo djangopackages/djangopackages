@@ -176,9 +176,9 @@ class GridIndexBuilder(SearchIndexBuilder):
         self._max_weight = max_weight
 
     def get_queryset(self):
-        return Grid.objects.annotate(
+        return Grid.objects.approved().annotate(
             package_count=Count("packages", distinct=True)
-        ).all()
+        )
 
     def calc_weight(self, grid: Grid) -> int:
         return calc_grid_weight(grid=grid, max_weight=self._max_weight)
@@ -207,7 +207,7 @@ def build_search_index(*, verbose: bool = False):
         .delete()
     )
 
-    grid_exists = Grid.objects.filter(slug=OuterRef("slug"))
+    grid_exists = Grid.objects.approved().filter(slug=OuterRef("slug"))
     (
         SearchV3.objects.filter(item_type=ItemType.GRID)
         .annotate(source_exists=Exists(grid_exists))

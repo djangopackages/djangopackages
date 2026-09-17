@@ -7,7 +7,7 @@ class GridSitemap(Sitemap):
     priority = 1.0
 
     def items(self):
-        return Grid.objects.all()
+        return Grid.objects.approved()
 
     def lastmod(self, obj):
         return obj.modified

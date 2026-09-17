@@ -13,6 +13,7 @@ from django.db.models import (
     Q,
     Exists,
     OuterRef,
+    Prefetch,
     Subquery,
     IntegerField,
 )
@@ -75,11 +76,16 @@ class AddPackageView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     @cached_property
     def grid(self):
         grid_slug = self.request.GET.get("grid_slug")
-        if grid_slug:
-            try:
-                return Grid.objects.get(slug=grid_slug)
-            except Grid.DoesNotExist:
-                pass
+        if not grid_slug:
+            return None
+        try:
+            grid = Grid.objects.visible_to(self.request.user).get(slug=grid_slug)
+        except Grid.DoesNotExist:
+            return None
+        # Only attach the new package if the user may add packages to this grid
+        profile = self.request.user.profile
+        if profile.can_add_grid_package or profile.can_edit_pending_grid(grid):
+            return grid
         return None
 
     def get_context_data(self, **kwargs):
@@ -402,7 +408,9 @@ class PackageRulesView(DetailView):
     def get_queryset(self):
         return Package.objects.select_related(
             "category", "latest_version"
-        ).prefetch_related("grid_set")
+        ).prefetch_related(
+            Prefetch("grid_set", queryset=Grid.objects.approved()),
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -463,7 +471,7 @@ class PackageDetailView(DetailView):
             .get_queryset()
             .select_related("category", "deprecates_package", "latest_version")
             .prefetch_related(
-                "grid_set",
+                Prefetch("grid_set", queryset=Grid.objects.approved()),
                 "flags",
             )
             .annotate(
@@ -765,7 +773,9 @@ class PackageByGridListView(BasePackageListView):
     template_name = "package/grid_package_list.html"
 
     def dispatch(self, request, *args, **kwargs):
-        self.grid = get_object_or_404(Grid, slug=kwargs["slug"])
+        self.grid = get_object_or_404(
+            Grid.objects.visible_to(request.user), slug=kwargs["slug"]
+        )
         return super().dispatch(request, *args, **kwargs)
 
     def get_base_queryset(self):

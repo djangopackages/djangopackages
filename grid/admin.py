@@ -14,12 +14,26 @@ class GridAdmin(VersionAdmin):
     inlines = [
         GridPackageInline,
     ]
-    list_display = ["title", "header", "is_locked", "created"]
+    actions = ["approve_grids"]
+    list_display = [
+        "title",
+        "header",
+        "is_locked",
+        "is_approved",
+        "created_by",
+        "created",
+    ]
     list_display_links = ["title"]
     list_editable = ["header"]
-    list_filter = ["header", "is_locked"]
-    raw_id_fields = ["packages"]
+    list_filter = ["is_approved", "header", "is_locked"]
+    list_select_related = ["created_by"]
+    raw_id_fields = ["packages", "created_by"]
     search_fields = ["title", "slug"]
+
+    @admin.action(description="Approve selected grids")
+    def approve_grids(self, request, queryset):
+        updated = queryset.update(is_approved=True)
+        self.message_user(request, f"Approved {updated} grid(s).")
 
 
 @admin.register(Element)
