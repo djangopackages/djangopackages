@@ -1,5 +1,15 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-09-17]
+### Changed
+- ⬆️ Bump soupsieve from 2.8.4 to 2.9 ([#1673](https://github.com/djangopackages/djangopackages/pull/1673))
+- Bump rustywind to 0.28.0 and drop the template exclude list ([#1672](https://github.com/djangopackages/djangopackages/pull/1672))
+- Only show the Django Webring on the homepage ([#1671](https://github.com/djangopackages/djangopackages/pull/1671))
+- ⬆️ Bump the all-dependencies group across 1 directory with 8 updates ([#1664](https://github.com/djangopackages/djangopackages/pull/1664))
+- Review grids from new accounts before listing them ([#1669](https://github.com/djangopackages/djangopackages/pull/1669))
+- Remove unused uwsgi and fix the flaky health check test ([#1670](https://github.com/djangopackages/djangopackages/pull/1670))
+- Only allow superusers to change an existing grid&#39;s slug ([#1668](https://github.com/djangopackages/djangopackages/pull/1668))
+
 ## [2026-09-16]
 ### Changed
 - Migrate from requests to httpx2 ([#1662](https://github.com/djangopackages/djangopackages/pull/1662))
