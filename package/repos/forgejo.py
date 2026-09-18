@@ -5,6 +5,8 @@ from datetime import datetime
 
 import httpx2
 
+from package.utils import maybe_set_documentation_url
+
 from .base_handler import BaseHandler, RepoRateLimitError
 
 
@@ -19,6 +21,7 @@ class ForgejoMetadata:
     forks_count: int
     stars_count: int
     watchers_count: int
+    website: str = ""
 
 
 class ForgejoClient:
@@ -53,6 +56,7 @@ class ForgejoClient:
                 forks_count=data.get("forks_count", 0),
                 stars_count=data.get("stars_count", 0),
                 watchers_count=data.get("watchers_count", 0),
+                website=data.get("website") or "",
             )
         except KeyError as exc:
             logger.error("Key error %s for URL %s", exc, url)
@@ -160,6 +164,7 @@ class ForgejoHandler(BaseHandler):
         package.repo_description = repo.description
         package.repo_forks = repo.forks_count
         package.repo_watchers = repo.watchers_count
+        maybe_set_documentation_url(package, repo.website)
 
         self._fetch_commit_stats(package)
 

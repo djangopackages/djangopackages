@@ -12,7 +12,7 @@ from django.utils.dateparse import parse_datetime
 from packaging.specifiers import InvalidSpecifier, SpecifierSet
 
 from core.utils import status_choices_switch
-from package.utils import normalize_license
+from package.utils import maybe_set_documentation_url, normalize_license
 
 logger = logging.getLogger(__name__)
 
@@ -88,15 +88,27 @@ class PyPIPackage:
             return urls
         return {}
 
+    def _first_project_url(self, *labels: str) -> str | None:
+        lookup: dict[str, str] = {}
+        for key, value in self.project_urls.items():
+            if not key or not value:
+                continue
+            lookup.setdefault(str(key).strip().lower(), value)
+        for label in labels:
+            if value := lookup.get(label.lower()):
+                return value
+        return None
+
     @cached_property
     def docs_url(self) -> str | None:
         if docs_url := self.info.get("docs_url"):
             return docs_url
 
-        for key in ("Documentation", "Docs", "docs", "documentation"):
-            if value := self.project_urls.get(key):
-                return value
-        return None
+        return self._first_project_url("documentation", "docs")
+
+    @cached_property
+    def homepage_url(self) -> str | None:
+        return self._first_project_url("homepage", "home")
 
     @cached_property
     def supports_python3(self) -> bool | None:
@@ -307,8 +319,11 @@ def update_package_from_pypi(
     if pypi_info.supports_python3 is not None:
         package.supports_python3 = pypi_info.supports_python3
 
-    if pypi_info.docs_url:
-        package.documentation_url = pypi_info.docs_url
+    if not package.documentation_url:
+        if pypi_info.docs_url:
+            package.documentation_url = pypi_info.docs_url
+        else:
+            maybe_set_documentation_url(package, pypi_info.homepage_url)
 
     # Prepare Version defaults
     defaults = {}
