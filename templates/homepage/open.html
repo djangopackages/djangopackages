@@ -113,6 +113,10 @@
                     <h2 class="text-foreground mb-4 text-xl font-bold">{% translate "Django Versions" %}</h2>
                     <div class="space-y-2">
                         <div class="flex justify-between">
+                            <span class="text-muted-foreground">{% translate "Django 6.1 Packages:" %}</span>
+                            <span class="text-foreground font-medium">{{ total_django_6_1|intcomma }}</span>
+                        </div>
+                        <div class="flex justify-between">
                             <span class="text-muted-foreground">{% translate "Django 6.0 Packages:" %}</span>
                             <span class="text-foreground font-medium">{{ total_django_6_0|intcomma }}</span>
                         </div>
