@@ -27,6 +27,7 @@ class OpenView(TemplateView):
             "total_django_5_2": "Framework :: Django :: 5.2",
             "total_django_6_0": "Framework :: Django :: 6.0",
             "total_django_6_1": "Framework :: Django :: 6.1",
+            "total_django_6_2": "Framework :: Django :: 6.2",
             "total_python_2_7": "Programming Language :: Python :: 2.7",
             "total_python_3": "Programming Language :: Python :: 3",
             "total_python_3_6": "Programming Language :: Python :: 3.6",
