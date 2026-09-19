@@ -17,10 +17,8 @@ class OpenView(TemplateView):
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         classifiers = {
-            "total_django_2_2": "Framework :: Django :: 2.2",
             "total_django_3_0": "Framework :: Django :: 3.0",
             "total_django_3_1": "Framework :: Django :: 3.1",
-            "total_django_3_2": "Framework :: Django :: 3.2",
             "total_django_4_0": "Framework :: Django :: 4.0",
             "total_django_4_1": "Framework :: Django :: 4.1",
             "total_django_4_2": "Framework :: Django :: 4.2",
