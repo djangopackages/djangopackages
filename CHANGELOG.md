@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-09-19]
+### Changed
+- ⬆️ Bump anyio from 4.11.0 to 4.14.2 ([#1674](https://github.com/djangopackages/djangopackages/pull/1674))
+- Add Django 6.1 to the Open page stats ([#1676](https://github.com/djangopackages/djangopackages/pull/1676))
+
 ## [2026-09-17]
 ### Changed
 - ⬆️ Bump soupsieve from 2.8.4 to 2.9 ([#1673](https://github.com/djangopackages/djangopackages/pull/1673))
