@@ -319,11 +319,10 @@ def update_package_from_pypi(
     if pypi_info.supports_python3 is not None:
         package.supports_python3 = pypi_info.supports_python3
 
-    if not package.documentation_url:
-        if pypi_info.docs_url:
-            package.documentation_url = pypi_info.docs_url
-        else:
-            maybe_set_documentation_url(package, pypi_info.homepage_url)
+    if pypi_info.docs_url:
+        package.documentation_url = pypi_info.docs_url
+    else:
+        maybe_set_documentation_url(package, pypi_info.homepage_url)
 
     # Prepare Version defaults
     defaults = {}

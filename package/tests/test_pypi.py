@@ -425,9 +425,26 @@ class TestUpdatePackageFromPyPI:
             package.refresh_from_db()
             assert package.pypi_classifiers == classifiers
 
-    def test_does_not_overwrite_existing_documentation_url(self, package, pypi_data):
+    def test_pypi_docs_url_overwrites_existing_documentation_url(
+        self, package, pypi_data
+    ):
         package.documentation_url = "https://manual.example.com"
         package.save()
+
+        with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
+            mock_fetch.return_value = PyPIPackage(pypi_data)
+            update_package_from_pypi(package)
+
+        package.refresh_from_db()
+        assert package.documentation_url == "https://docs.example.com"
+
+    def test_homepage_does_not_overwrite_existing_documentation_url(
+        self, package, pypi_data
+    ):
+        package.documentation_url = "https://manual.example.com"
+        package.save()
+        pypi_data["info"]["docs_url"] = None
+        pypi_data["info"]["project_urls"] = {"Homepage": "https://djangoprobe.org"}
 
         with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
             mock_fetch.return_value = PyPIPackage(pypi_data)
