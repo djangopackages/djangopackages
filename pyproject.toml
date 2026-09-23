@@ -124,7 +124,7 @@ dependencies = [
     "whitenoise",
     # Redis support
     "redis",
-    "blessed>=1.49.0",
+    "blessed>=1.50.0",
 ]
 
 [dependency-groups]
