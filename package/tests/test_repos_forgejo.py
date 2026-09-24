@@ -11,6 +11,7 @@ class MockForgejoClient:
         forks_count=7,
         stars_count=42,
         watchers_count=3,
+        website="https://forgejo.example.com",
     )
 
     def fetch_repository(self, repository: str) -> ForgejoMetadata | None:
@@ -21,6 +22,8 @@ def test_forgejo_handler_updates_package(package_forgejo):
     handler = ForgejoHandler()
     handler.client = MockForgejoClient()
 
+    package_forgejo.documentation_url = ""
+    package_forgejo.save()
     assert package_forgejo.commit_count == 0
 
     with patch("package.repos.forgejo.httpx2.get") as mock_get:
@@ -49,6 +52,7 @@ def test_forgejo_handler_updates_package(package_forgejo):
     assert package.repo_description == handler.client.meta.description
     assert package.repo_watchers == handler.client.meta.watchers_count
     assert package.repo_forks == handler.client.meta.forks_count
+    assert package.documentation_url == handler.client.meta.website
     assert package.commit_count == 2
     assert len(package.commits_over_52w) == 52
 
@@ -57,3 +61,26 @@ def test_forgejo_extract_repo_name_strips_git_suffix():
     handler = ForgejoHandler()
     repo_url = "https://git.example.com/example/forgejo-repo.git"
     assert handler.extract_repo_name(repo_url) == "example/forgejo-repo"
+
+
+def test_forgejo_does_not_overwrite_existing_documentation_url(package_forgejo):
+    package_forgejo.documentation_url = "https://manual.example.com"
+    package_forgejo.save()
+
+    handler = ForgejoHandler()
+    handler.client = MockForgejoClient()
+
+    with patch("package.repos.forgejo.httpx2.get") as mock_get:
+        mock_resp_latest = Mock()
+        mock_resp_latest.json.return_value = [
+            {"commit": {"committer": {"date": "2025-01-01T00:00:00Z"}}}
+        ]
+        mock_resp_latest.headers = {"X-Total-Count": "0"}
+        mock_resp_empty = Mock()
+        mock_resp_empty.json.return_value = []
+        mock_get.side_effect = [mock_resp_latest, mock_resp_empty]
+
+        handler.fetch_metadata(package_forgejo)
+
+    package = Package.objects.get(id=package_forgejo.id)
+    assert package.documentation_url == "https://manual.example.com"

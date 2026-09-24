@@ -22,6 +22,7 @@ class MockClient(ForgejoClient):
         forks_count=20,
         stars_count=100,
         watchers_count=5,
+        website="https://codeberg.example.com",
     )
 
     def fetch_repository(self, repository: str) -> ForgejoMetadata | None:

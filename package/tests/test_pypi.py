@@ -168,6 +168,32 @@ class TestPyPIPackage:
         pkg = PyPIPackage(raw)
         assert pkg.docs_url == "https://example.com/docs"
 
+        raw = {"info": {"project_urls": {"DOCS": "https://example.com/docs"}}}
+        pkg = PyPIPackage(raw)
+        assert pkg.docs_url == "https://example.com/docs"
+
+    def test_homepage_url_is_case_insensitive(self):
+        raw = {"info": {"project_urls": {"Homepage": "https://djangoprobe.org"}}}
+        pkg = PyPIPackage(raw)
+        assert pkg.homepage_url == "https://djangoprobe.org"
+
+        raw = {"info": {"project_urls": {"HOME": "https://djangoprobe.org"}}}
+        pkg = PyPIPackage(raw)
+        assert pkg.homepage_url == "https://djangoprobe.org"
+
+    def test_docs_url_preferred_over_homepage(self):
+        raw = {
+            "info": {
+                "project_urls": {
+                    "Homepage": "https://example.com",
+                    "Docs": "https://docs.example.com",
+                }
+            }
+        }
+        pkg = PyPIPackage(raw)
+        assert pkg.docs_url == "https://docs.example.com"
+        assert pkg.homepage_url == "https://example.com"
+
 
 @pytest.mark.django_db
 class TestUpdatePackageFromPyPI:
@@ -398,3 +424,70 @@ class TestUpdatePackageFromPyPI:
 
             package.refresh_from_db()
             assert package.pypi_classifiers == classifiers
+
+    def test_pypi_docs_url_overwrites_existing_documentation_url(
+        self, package, pypi_data
+    ):
+        package.documentation_url = "https://manual.example.com"
+        package.save()
+
+        with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
+            mock_fetch.return_value = PyPIPackage(pypi_data)
+            update_package_from_pypi(package)
+
+        package.refresh_from_db()
+        assert package.documentation_url == "https://docs.example.com"
+
+    def test_homepage_does_not_overwrite_existing_documentation_url(
+        self, package, pypi_data
+    ):
+        package.documentation_url = "https://manual.example.com"
+        package.save()
+        pypi_data["info"]["docs_url"] = None
+        pypi_data["info"]["project_urls"] = {"Homepage": "https://djangoprobe.org"}
+
+        with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
+            mock_fetch.return_value = PyPIPackage(pypi_data)
+            update_package_from_pypi(package)
+
+        package.refresh_from_db()
+        assert package.documentation_url == "https://manual.example.com"
+
+    def test_falls_back_to_project_urls_homepage(self, package, pypi_data):
+        pypi_data["info"]["docs_url"] = None
+        pypi_data["info"]["project_urls"] = {"Homepage": "https://djangoprobe.org"}
+
+        with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
+            mock_fetch.return_value = PyPIPackage(pypi_data)
+            update_package_from_pypi(package)
+
+        package.refresh_from_db()
+        assert package.documentation_url == "https://djangoprobe.org"
+
+    def test_skips_homepage_that_points_at_repo(self, package, pypi_data):
+        package.repo_url = "https://github.com/tim-schilling/django-probe"
+        package.save()
+        pypi_data["info"]["docs_url"] = None
+        pypi_data["info"]["project_urls"] = {
+            "Homepage": "https://github.com/tim-schilling/django-probe/"
+        }
+
+        with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
+            mock_fetch.return_value = PyPIPackage(pypi_data)
+            update_package_from_pypi(package)
+
+        package.refresh_from_db()
+        assert package.documentation_url in {"", None}
+
+    def test_skips_homepage_that_points_at_pypi(self, package, pypi_data):
+        pypi_data["info"]["docs_url"] = None
+        pypi_data["info"]["project_urls"] = {
+            "Homepage": "https://pypi.org/project/test-package/"
+        }
+
+        with patch("package.pypi.PyPIClient.fetch_package") as mock_fetch:
+            mock_fetch.return_value = PyPIPackage(pypi_data)
+            update_package_from_pypi(package)
+
+        package.refresh_from_db()
+        assert package.documentation_url in {"", None}
