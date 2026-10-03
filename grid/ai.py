@@ -295,3 +295,56 @@ def describe_element(grid, package, feature, text: str) -> str:
             examples,
         ]
     )
+
+
+class PackageOnlyVerdict(BaseModel):
+    """What a package looks like when there is no grid to judge it against.
+
+    `belongs_in_grid` has no meaning off a grid, and it was never earning its
+    keep anyway: across real runs it came back between 0.04 and 0.84 and never
+    cleared the bar. `description_is_usable` takes its place, because an
+    untriaged package is usually untriaged for want of a description, and that
+    is a different fix from a judgement call.
+    """
+
+    installation_type: INSTALLATION_TYPES = Field(
+        description=(
+            "How the package is installed and used. "
+            "apps: a small component added to INSTALLED_APPS. "
+            "frameworks: a large effort combining many modules or apps. "
+            "projects: an individual deployed site or product. "
+            "starter-projects: a pre-built project template or scaffold. "
+            "other: anything not installed as an app, framework, or project, "
+            "such as a standalone tool or library."
+        )
+    )
+    description_is_usable: Annotated[
+        bool,
+        BoolCriteria(
+            true=(
+                "The description says what the package does, in enough detail "
+                "to tell how it is installed and used."
+            ),
+            false=(
+                "The description is missing, a placeholder, only the package "
+                "name restated, or so vague that how it is used cannot be "
+                "told from it."
+            ),
+        ),
+    ]
+
+
+def describe_package(package) -> str:
+    """Build the text for a package with no grid behind it."""
+    return "\n".join(
+        [
+            "A Python package listed on Django Packages, a directory of "
+            "Django packages. It is on no comparison grid.",
+            "",
+            f"Package: {package.title}",
+            f"Currently filed under: {package.category.title}",
+            f"Description: {truncate(package.repo_description) or '(none)'}",
+            f"Repository: {package.repo_url or '(none)'}",
+            f"PyPI: {package.pypi_url or '(none)'}",
+        ]
+    )

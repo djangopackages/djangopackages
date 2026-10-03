@@ -10,7 +10,13 @@ import pytest
 from django.core.management import call_command
 from model_bakery import baker
 
-from grid.ai import ElementVerdict, GridVerdict, PackageVerdict, Quality
+from grid.ai import (
+    ElementVerdict,
+    GridVerdict,
+    PackageOnlyVerdict,
+    PackageVerdict,
+    Quality,
+)
 from grid.models import Element, Feature, Grid, GridPackage
 from package.models import Category, Package
 
@@ -500,3 +506,130 @@ def test_category_sweep_writes_nothing(package_in_other):
 
     package_in_other.refresh_from_db()
     assert package_in_other.category.slug == "other"
+
+
+@pytest.fixture()
+def off_grid(db, other_category):
+    """On no grid, which is what makes it invisible to the grid commands."""
+    return baker.make(
+        Package,
+        slug="django-lonely",
+        title="django-lonely",
+        category=other_category,
+        repo_description="Adds a middleware for request timing.",
+        repo_url="https://github.com/example/django-lonely",
+    )
+
+
+@pytest.mark.django_db
+def test_packages_on_a_grid_are_skipped(off_grid, grid, capsys):
+    verdict = PackageOnlyVerdict(installation_type="apps", description_is_usable=True)
+    confidence = {"installation_type": 0.97, "description_is_usable": 0.95}
+
+    with patch(
+        "grid.management.commands.evaluate_packages.build_agent",
+        return_value=stub_agent(fake_result(verdict, confidence)),
+    ):
+        call_command("evaluate_packages", "--limit", "0")
+
+    out = capsys.readouterr().out
+    assert "django-lonely" in out
+    assert "django-vite" not in out
+
+
+@pytest.mark.django_db
+def test_confident_move_is_grouped_by_destination(off_grid, capsys):
+    verdict = PackageOnlyVerdict(installation_type="apps", description_is_usable=True)
+    confidence = {"installation_type": 0.97, "description_is_usable": 0.95}
+
+    with patch(
+        "grid.management.commands.evaluate_packages.build_agent",
+        return_value=stub_agent(fake_result(verdict, confidence)),
+    ):
+        call_command("evaluate_packages", "--limit", "0")
+
+    out = capsys.readouterr().out
+    assert "moves: 1" in out
+    assert "-> apps (1)" in out
+    assert "django-lonely (from other)" in out
+
+
+@pytest.mark.django_db
+def test_thin_description_is_reported_separately(off_grid, capsys):
+    """A package with nothing to go on needs a description, not a move."""
+    off_grid.repo_description = "django-lonely"
+    off_grid.save()
+
+    verdict = PackageOnlyVerdict(installation_type="other", description_is_usable=False)
+    confidence = {"installation_type": 0.60, "description_is_usable": 0.96}
+
+    with patch(
+        "grid.management.commands.evaluate_packages.build_agent",
+        return_value=stub_agent(fake_result(verdict, confidence)),
+    ):
+        call_command("evaluate_packages", "--limit", "0")
+
+    out = capsys.readouterr().out
+    assert "needs a description: 1" in out
+    assert "moves: 0" in out
+    assert "Fix the description before classifying" in out
+
+
+@pytest.mark.django_db
+def test_unsure_type_is_not_a_move(off_grid, capsys):
+    verdict = PackageOnlyVerdict(installation_type="apps", description_is_usable=True)
+    confidence = {"installation_type": 0.40, "description_is_usable": 0.95}
+
+    with patch(
+        "grid.management.commands.evaluate_packages.build_agent",
+        return_value=stub_agent(fake_result(verdict, confidence)),
+    ):
+        call_command("evaluate_packages", "--limit", "0")
+
+    out = capsys.readouterr().out
+    assert "moves: 0" in out
+    assert "unsure: 1" in out
+
+
+@pytest.mark.django_db
+def test_category_filter_applies(off_grid, category, capsys):
+    baker.make(Package, slug="django-filed-right", category=category)
+
+    verdict = PackageOnlyVerdict(installation_type="apps", description_is_usable=True)
+    agent = stub_agent(
+        fake_result(verdict, {"installation_type": 0.97, "description_is_usable": 0.95})
+    )
+
+    with patch(
+        "grid.management.commands.evaluate_packages.build_agent",
+        return_value=agent,
+    ):
+        call_command("evaluate_packages", "--limit", "0", "--category", "other")
+
+    assert agent.run_sync.call_count == 1
+    out = capsys.readouterr().out
+    assert "django-filed-right" not in out
+
+
+@pytest.mark.django_db
+def test_unknown_category_is_rejected_off_grid(off_grid):
+    with pytest.raises(SystemExit):
+        call_command("evaluate_packages", "--category", "nope")
+
+
+@pytest.mark.django_db
+def test_off_grid_review_writes_nothing(off_grid):
+    verdict = PackageOnlyVerdict(
+        installation_type="frameworks", description_is_usable=False
+    )
+    confidence = {"installation_type": 0.99, "description_is_usable": 0.99}
+
+    with patch(
+        "grid.management.commands.evaluate_packages.build_agent",
+        return_value=stub_agent(fake_result(verdict, confidence)),
+    ):
+        call_command("evaluate_packages", "--limit", "0")
+
+    off_grid.refresh_from_db()
+    assert off_grid.category.slug == "other"
+    assert off_grid.repo_description == "Adds a middleware for request timing."
