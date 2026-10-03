@@ -5,12 +5,15 @@ from rich.table import Table
 
 from grid.ai import (
     GRID_CRITERIA,
+    GRID_REMOVAL,
     MIN_CONFIDENCE,
     GridVerdict,
     Quality,
     build_agent,
     confidence_of,
     describe_grid,
+    format_answer,
+    is_confident,
 )
 from grid.models import Feature, Grid
 
@@ -66,11 +69,18 @@ def command(limit, slug, min_packages, min_confidence):
 
     Three rubrics per grid: whether the packages share one focused topic,
     whether the title and description are specific, and whether there is
-    enough there to work as a comparison.
+    enough there to work as a comparison. Jev is also asked whether a field
+    of competing packages exists for the topic at all, which is the removal
+    question editing cannot fix.
+
+    A grid with fewer than two packages is listed for removal on the count
+    alone, without waiting for the model to agree.
 
     Answers below the confidence bar are dimmed and do not count toward the
     verdict, so a grid is only called out when Jev is actually sure. A grid
-    needs work when a criterion comes back WEAK or UNUSABLE confidently.
+    needs work when a criterion comes back WEAK or UNUSABLE confidently, and
+    is listed for removal when it is empty or Jev confidently says there is
+    no field of packages behind the topic.
 
     Nothing is written to the database. Reviews five grids unless told
     otherwise, since each grid costs one API call.
@@ -115,14 +125,25 @@ def command(limit, slug, min_packages, min_confidence):
             and Quality(getattr(verdict, field)) <= NEEDS_WORK_AT_OR_BELOW
         ]
 
+    def removal_reason(package_count, verdict, confidence):
+        """Empty is a fact we can see; the rest needs a confident answer."""
+        if package_count < 2:
+            return f"only {package_count} package(s)"
+        if not verdict.topic_is_worth_a_grid and is_confident(
+            confidence, GRID_REMOVAL, min_confidence
+        ):
+            return "no field of packages for this topic"
+        return None
+
     def sort_key(row):
-        _, _, verdict, confidence = row
+        _, package_count, verdict, confidence = row
         counted = [
             Quality(getattr(verdict, field))
             for field in GRID_CRITERIA
             if confidence.get(field, 0.0) >= min_confidence
         ]
         return (
+            removal_reason(package_count, verdict, confidence) is None,
             -len(failings(verdict, confidence)),
             sum(counted) if counted else 99,
         )
@@ -135,23 +156,32 @@ def command(limit, slug, min_packages, min_confidence):
     table.add_column("Topic")
     table.add_column("Title/desc")
     table.add_column("Comparable")
+    table.add_column("Remove?")
     table.add_column("Verdict")
 
     needs_work = []
+    removals = []
 
     for grid, package_count, verdict, confidence in results:
         bad = failings(verdict, confidence)
         counted = sum(
             1 for field in GRID_CRITERIA if confidence.get(field, 0.0) >= min_confidence
         )
+        remove = removal_reason(package_count, verdict, confidence)
 
-        if bad:
-            needs_work.append((grid, bad))
+        if remove:
+            removals.append((grid, remove))
+            summary = "[red]remove[/red]"
+        elif bad:
             summary = f"[red]needs work[/red] ({len(bad)})"
         elif counted:
             summary = "ok"
         else:
             summary = "[dim]unsure[/dim]"
+
+        # A grid slated for deletion does not also need a better description.
+        if bad and not remove:
+            needs_work.append((grid, bad))
 
         table.add_row(
             grid.slug,
@@ -159,6 +189,12 @@ def command(limit, slug, min_packages, min_confidence):
             cell(verdict, confidence, "topic_coherence", min_confidence),
             cell(verdict, confidence, "title_and_description", min_confidence),
             cell(verdict, confidence, "useful_as_comparison", min_confidence),
+            format_answer(
+                "no" if verdict.topic_is_worth_a_grid else "yes",
+                confidence,
+                GRID_REMOVAL,
+                min_confidence,
+            ),
             summary,
         )
 
@@ -166,8 +202,15 @@ def command(limit, slug, min_packages, min_confidence):
     console.print(table)
     console.print(
         f"\nreviewed {len(results)} | needs work: {len(needs_work)} "
-        f"| confidence bar: {min_confidence}"
+        f"| would remove: {len(removals)} | confidence bar: {min_confidence}"
     )
 
-    for grid, bad in needs_work:
-        console.print(f"  {grid.slug}: " + ", ".join(bad))
+    if removals:
+        console.print("\n[bold]Grids to delete:[/bold]")
+        for grid, reason in removals:
+            console.print(f"  {grid.slug}: {reason}")
+
+    if needs_work:
+        console.print("\n[bold]Grids to fix:[/bold]")
+        for grid, bad in needs_work:
+            console.print(f"  {grid.slug}: " + ", ".join(bad))

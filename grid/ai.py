@@ -52,6 +52,11 @@ class Quality(IntEnum):
 
 GRID_CRITERIA = ("topic_coherence", "title_and_description", "useful_as_comparison")
 
+# Asked alongside the rubrics, and reported on its own: a grid can score
+# badly and still be worth fixing rather than deleting. Removal needs this
+# answered no, or the grid to be empty, which the command checks itself.
+GRID_REMOVAL = "topic_is_worth_a_grid"
+
 
 class GridVerdict(BaseModel):
     """How good a comparison grid is.
@@ -59,8 +64,16 @@ class GridVerdict(BaseModel):
     Deliberately three rubrics and no overall "is it good" boolean. That
     question was tried and Jev answered it at 0.12 and 0.78 confidence on
     grids it scored 3/3 and 0/3 on, because it restates the rubrics without
-    saying what to measure. The recommendation is computed from whichever
+    saying what to measure. The quality call is computed from whichever
     rubrics clear the confidence bar instead.
+
+    `topic_is_worth_a_grid` asks the one removal question Jev can see an
+    answer to: whether a field of competing packages exists for the topic.
+    Asking "should this be deleted" outright was tried and came back at 0.10
+    to 0.80 across every grid, never clearing the bar, because it bundles
+    emptiness, duplication, and topic into one boolean. Emptiness is a count
+    the command already has, duplication needs the other grids, and only the
+    topic question is left for the model.
     """
 
     topic_coherence: Quality = Field(
@@ -82,6 +95,20 @@ class GridVerdict(BaseModel):
             "features, for this to work as a side-by-side comparison."
         )
     )
+    topic_is_worth_a_grid: Annotated[
+        bool,
+        BoolCriteria(
+            true=(
+                "Several Django packages compete to solve the topic named in "
+                "the title, so a developer could arrive wanting to pick one."
+            ),
+            false=(
+                "The title names something with no field of competing Django "
+                "packages behind it: a single package, a one-off, or a topic "
+                "nobody shops around for."
+            ),
+        ),
+    ]
 
 
 class PackageVerdict(BaseModel):
@@ -174,3 +201,97 @@ def format_answer(
     if value < threshold:
         return f"[dim]{answer} ({value:.2f}, unsure)[/dim]"
     return f"{answer} ({value:.2f})"
+
+
+SUPPORT_LEVELS = Literal[
+    "supported",
+    "partial",
+    "not_supported",
+    "unknown",
+    "not_applicable",
+]
+
+# Cell text that the grid templates already render as an icon. These are
+# answered locally so an obvious "yes" does not cost an API call.
+LEGEND_YES = {"check", "yes", "good", "y", "true", "+", "++", "+++"}
+LEGEND_NO = {"bad", "negative", "evil", "sucks", "no", "n", "false", "-", "--", "---"}
+
+# Shown to Jev so it scores against real cells rather than an abstract idea of
+# what a grid cell looks like. Picked from the shapes that actually turn up:
+# a legend token, a version gate, a hedge, a pointer, and a non-answer.
+ELEMENT_EXAMPLES = [
+    ("yes", "supported"),
+    ("Yes, since 2.0", "supported"),
+    ("Only for Postgres", "partial"),
+    ("Partial: read-only", "partial"),
+    ("no", "not_supported"),
+    ("Dropped in 4.0", "not_supported"),
+    ("?", "unknown"),
+    ("TODO", "unknown"),
+    ("n/a for this package", "not_applicable"),
+]
+
+
+class ElementVerdict(BaseModel):
+    """What one grid cell actually says about one package.
+
+    The cells are free text with no convention beyond a loose icon legend, so
+    this reads them back as one of five levels. `is_placeholder` is separate
+    because "?" and "TODO" are unknown *and* worth deleting, while a genuine
+    "nobody has checked" unknown is not.
+    """
+
+    support: SUPPORT_LEVELS = Field(
+        description=(
+            "What the cell says about whether this package has this feature. "
+            "supported: it has it. "
+            "partial: it has it with a caveat, a condition, or only in part. "
+            "not_supported: it does not have it, or dropped it. "
+            "unknown: the cell does not answer the question either way. "
+            "not_applicable: the feature does not make sense for this package."
+        )
+    )
+    is_placeholder: Annotated[
+        bool,
+        BoolCriteria(
+            true=(
+                "The text is filler rather than an answer: empty, '?', 'TODO', "
+                "a repeat of the feature title, or otherwise says nothing."
+            ),
+            false="The text makes a claim a reader could act on.",
+        ),
+    ]
+
+
+def legend_support(text: str | None) -> str | None:
+    """Map the documented icon tokens without asking Jev. None means ask."""
+    token = " ".join((text or "").split()).strip().lower().rstrip(".")
+    if not token:
+        return "unknown"
+    if token in LEGEND_YES:
+        return "supported"
+    if token in LEGEND_NO:
+        return "not_supported"
+    return None
+
+
+def describe_element(grid, package, feature, text: str) -> str:
+    examples = "\n".join(
+        f"- {sample!r} -> {label}" for sample, label in ELEMENT_EXAMPLES
+    )
+    return "\n".join(
+        [
+            "A cell from a Django package comparison grid. It records whether "
+            "one package has one feature.",
+            "",
+            f"Comparison grid: {grid.title}",
+            f"Package: {package.title}",
+            f"Feature: {feature.title}",
+            f"Feature description: {truncate(feature.description) or '(none)'}",
+            "",
+            f"Cell text: {truncate(text) or '(empty)'}",
+            "",
+            "How cells of this kind have been read before:",
+            examples,
+        ]
+    )
