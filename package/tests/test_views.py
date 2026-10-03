@@ -1,5 +1,4 @@
 import pytest
-from django.conf import settings
 from django.contrib.auth.models import Permission, User
 from django.test import TestCase, override_settings
 from django.urls import reverse
@@ -13,14 +12,13 @@ from package.tests import initial_data
 from profiles.models import Profile
 
 
+@override_settings(RESTRICT_PACKAGE_EDITORS=False, RESTRICT_GRID_EDITORS=True)
 class FunctionalPackageTest(TestCase):
     def setUp(self):
         initial_data.load()
         for user in User.objects.all():
             profile = Profile.objects.create(user=user)
             profile.save()
-        settings.RESTRICT_PACKAGE_EDITORS = False
-        settings.RESTRICT_GRID_EDITORS = True
 
     def test_package_list_view(self):
         url = reverse("packages")
@@ -473,6 +471,7 @@ class FunctionalPackageTest(TestCase):
         self.assertEqual(len(packages), 3)
 
 
+@override_settings(RESTRICT_PACKAGE_EDITORS=True)
 class PackagePermissionTest(TestCase):
     def setUp(self):
         initial_data.load()
@@ -480,7 +479,6 @@ class PackagePermissionTest(TestCase):
             profile = Profile.objects.create(user=user)
             profile.save()
 
-        settings.RESTRICT_PACKAGE_EDITORS = True
         self.test_add_url = reverse("add_package")
         self.test_edit_url = reverse("edit_package", kwargs={"slug": "testability"})
         self.login = self.client.login(username="user", password="user")
@@ -490,15 +488,15 @@ class PackagePermissionTest(TestCase):
         self.assertTrue(self.login)
 
     def test_switch_permissions(self):
-        settings.RESTRICT_PACKAGE_EDITORS = False
-        with self.assertNumQueries(5):
-            response = self.client.get(self.test_add_url)
-        self.assertEqual(response.status_code, 200)
+        with override_settings(RESTRICT_PACKAGE_EDITORS=False):
+            with self.assertNumQueries(5):
+                response = self.client.get(self.test_add_url)
+            self.assertEqual(response.status_code, 200)
 
-        settings.RESTRICT_PACKAGE_EDITORS = True
-        with self.assertNumQueries(6):
-            response = self.client.get(self.test_add_url)
-        self.assertEqual(response.status_code, 403)
+        with override_settings(RESTRICT_PACKAGE_EDITORS=True):
+            with self.assertNumQueries(6):
+                response = self.client.get(self.test_add_url)
+            self.assertEqual(response.status_code, 403)
 
     def test_add_package_permission_fail(self):
         with self.assertNumQueries(6):
@@ -566,12 +564,12 @@ class PackagePermissionTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
+@override_settings(RESTRICT_PACKAGE_EDITORS=False)
 class ValidateRepositoryURLViewTest(TestCase):
     def setUp(self):
         initial_data.load()
         for user in User.objects.all():
             Profile.objects.create(user=user)
-        settings.RESTRICT_PACKAGE_EDITORS = False
         self.user = User.objects.get(username="user")
         self.url = reverse("validate_repo_url")
 

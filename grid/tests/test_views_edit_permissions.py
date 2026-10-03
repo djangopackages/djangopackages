@@ -1,8 +1,9 @@
 """The grid detail page must offer the controls its views actually allow.
 
-Named to sort after test_views.py: FunctionalGridTest.setUp mutates
-settings.RESTRICT_GRID_EDITORS globally instead of using override_settings,
-which makes its assertNumQueries counts depend on test order.
+This file was named to sort after test_views.py, back when
+FunctionalGridTest.setUp mutated settings.RESTRICT_GRID_EDITORS globally and
+its assertNumQueries counts depended on test order. #1690 replaced that with
+override_settings, so the name no longer matters and can be shortened.
 
 See #1687: the templates used to gate on Django model permissions while the
 views gate on Profile.can_*, so trusted users never saw the buttons.
