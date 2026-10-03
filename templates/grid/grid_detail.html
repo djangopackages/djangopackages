@@ -25,19 +25,19 @@
                         <i class="ph-bold ph-calendar-blank mr-1 text-base"></i>
                         <span>{% translate "Timesheet" %}</span>
                     </a>
-                    {% if perms.grid.change_grid or can_edit_pending_grid %}
+                    {% if can_edit_grid %}
                         <a href="{% url 'edit_grid' grid.slug %}" class="btn-secondary flex-1 flex-shrink-0 lg:flex-none">
                             <i class="ph-bold ph-pencil-simple mr-1 text-base"></i>
                             <span>{% translate "Edit Grid" %}</span>
                         </a>
                     {% endif %}
-                    {% if perms.grid.add_gridpackage or can_edit_pending_grid %}
+                    {% if can_add_grid_package %}
                         <a href="{% url 'add_grid_package' grid.slug %}" class="btn-secondary flex-1 flex-shrink-0 lg:flex-none">
                             <i class="ph-bold ph-plus-circle mr-1 text-base"></i>
                             <span>{% translate "Add Package" %}</span>
                         </a>
                     {% endif %}
-                    {% if perms.grid.add_feature or can_edit_pending_grid %}
+                    {% if can_add_grid_feature %}
                         <a href="{% url 'add_feature' grid.slug %}" class="btn-secondary flex-1 flex-shrink-0 lg:flex-none">
                             <i class="ph-bold ph-list-plus mr-1 text-base"></i>
                             <span>{% translate "Add Feature" %}</span>
@@ -203,7 +203,7 @@
                                         {% endif %}
                                     </div>
                                     <div class="flex items-center gap-1">
-                                        {% if perms.grid.change_feature %}
+                                        {% if can_edit_grid_feature %}
                                             <a href="{% url 'edit_feature' feature.pk %}"
                                                class="text-muted-foreground hover:text-primary hover:bg-muted rounded p-1 transition-all"
                                                title="{% translate 'Edit feature' %}">

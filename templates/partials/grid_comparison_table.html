@@ -322,7 +322,7 @@
                                     <div class="flex items-start gap-1.5">
                                         <i class="ph-bold ph-check-square text-primary mt-0.5 flex-shrink-0"></i>
                                         <span class="leading-relaxed break-words whitespace-normal" title="{{ feature.title }}">{{ feature.title }}</span>
-                                        {% if perms.grid.change_feature %}
+                                        {% if can_edit_grid_feature %}
                                             <a href="{% url 'edit_feature' feature.id %}"
                                                class="flex-shrink-0 opacity-40 transition-opacity hover:opacity-100"
                                                title="{% translate 'Edit feature' %}">
@@ -334,13 +334,13 @@
                                 {% for package in packages %}
                                     {% with element=element_map|get_item:feature.id|get_item:package.id %}
                                         <td class="px-3 py-2.5 text-center border-l border-border/30 align-top max-w-[140px]
-                                                   {% if perms.grid.change_element or perms.grid.add_element %}cursor-pointer hover:bg-primary/5 group{% endif %}"
-                                            {% if perms.grid.change_element or perms.grid.add_element %}
+                                                   {% if can_edit_grid_element %}cursor-pointer hover:bg-primary/5 group{% endif %}"
+                                            {% if can_edit_grid_element %}
                                                 onclick="window.location.href='{% url 'edit_element' grid_slug=grid.slug feature_id=feature.id package_id=package.id %}'"
                                                 title="{% translate 'Click to edit' %}"
                                             {% endif %}>
                                             <div class="relative min-h-5">
-                                                {% if perms.grid.change_element or perms.grid.add_element %}
+                                                {% if can_edit_grid_element %}
                                                     <span class="text-muted-foreground absolute top-0 right-0 inline-flex h-5 w-5 items-center justify-center opacity-40">
                                                         <i class="ph-bold ph-pencil-simple text-xs"></i>
                                                     </span>
@@ -578,7 +578,7 @@
                                     <div class="text-foreground mb-3 flex items-center gap-2 text-xs font-semibold">
                                         <i class="ph-bold ph-list-checks text-primary"></i>
                                         {% translate "Features" %}
-                                        {% if perms.grid.change_element or perms.grid.add_element %}
+                                        {% if can_edit_grid_element %}
                                             <span class="text-muted-foreground ml-1 font-normal">
                                                 ({% translate "tap rows to edit" %})
                                             </span>
@@ -587,8 +587,8 @@
                                     <div class="space-y-2">
                                         {% for feature in features %}
                                             {% with element=element_map|get_item:feature.id|get_item:package.id %}
-                                                <div class="flex gap-2 justify-between items-start py-1.5 border-b last:border-0 border-border/50 {% if perms.grid.change_element or perms.grid.add_element %}cursor-pointer hover:bg-primary/5 rounded-sm{% endif %}"
-                                                     {% if perms.grid.change_element or perms.grid.add_element %}
+                                                <div class="flex gap-2 justify-between items-start py-1.5 border-b last:border-0 border-border/50 {% if can_edit_grid_element %}cursor-pointer hover:bg-primary/5 rounded-sm{% endif %}"
+                                                     {% if can_edit_grid_element %}
                                                          onclick="window.location.href='{% url 'edit_element' grid_slug=grid.slug feature_id=feature.id package_id=package.id %}'"
                                                          title="{% translate 'Tap to edit' %}"
                                                      {% endif %}>
@@ -655,7 +655,7 @@
         <p class="text-muted-foreground mb-4 text-sm">
             {% translate "Try adjusting your search or filter criteria, or add a package to this grid." %}
         </p>
-        {% if perms.grid.add_gridpackage %}
+        {% if can_add_grid_package %}
             <a href="{% url 'add_grid_package' grid.slug %}"
                class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-lg px-4 py-2 font-medium transition-colors">
                 <i class="ph-bold ph-plus-circle"></i>
