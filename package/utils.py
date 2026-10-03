@@ -49,8 +49,11 @@ def usable_homepage_url(url: str | None, *, repo_url: str | None = None) -> str 
     if parsed.netloc.lower() in _PYPI_NETLOCS:
         return None
 
-    if repo_url and _normalized_url_key(candidate) == _normalized_url_key(repo_url):
-        return None
+    if repo_url:
+        repo_key = _normalized_url_key(repo_url)
+        candidate_key = _normalized_url_key(candidate)
+        if candidate_key == repo_key or candidate_key.startswith(f"{repo_key}/"):
+            return None
 
     return candidate
 
@@ -65,6 +68,10 @@ def maybe_set_documentation_url(package: Package, url: str | None) -> bool:
 
     usable = usable_homepage_url(url, repo_url=package.repo_url)
     if not usable:
+        return False
+
+    max_length = package._meta.get_field("documentation_url").max_length
+    if max_length and len(usable) > max_length:
         return False
 
     package.documentation_url = usable

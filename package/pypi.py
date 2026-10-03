@@ -101,10 +101,12 @@ class PyPIPackage:
 
     @cached_property
     def docs_url(self) -> str | None:
-        if docs_url := self.info.get("docs_url"):
+        # project_urls is maintained by the author; info.docs_url is the legacy
+        # pythonhosted field and is often years out of date.
+        if docs_url := self._first_project_url("documentation", "docs"):
             return docs_url
 
-        return self._first_project_url("documentation", "docs")
+        return self.info.get("docs_url")
 
     @cached_property
     def homepage_url(self) -> str | None:

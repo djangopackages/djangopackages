@@ -172,6 +172,20 @@ class TestPyPIPackage:
         pkg = PyPIPackage(raw)
         assert pkg.docs_url == "https://example.com/docs"
 
+    def test_project_urls_docs_preferred_over_legacy_docs_url(self):
+        # celery carries both: the legacy pythonhosted field, which is frozen on
+        # 3.1-era docs, and the Documentation link its maintainers keep current.
+        raw = {
+            "info": {
+                "docs_url": "https://pythonhosted.org/celery/",
+                "project_urls": {
+                    "Documentation": "https://docs.celeryq.dev/en/stable/"
+                },
+            }
+        }
+        pkg = PyPIPackage(raw)
+        assert pkg.docs_url == "https://docs.celeryq.dev/en/stable/"
+
     def test_homepage_url_is_case_insensitive(self):
         raw = {"info": {"project_urls": {"Homepage": "https://djangoprobe.org"}}}
         pkg = PyPIPackage(raw)
