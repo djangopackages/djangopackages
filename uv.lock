@@ -611,6 +611,27 @@ wheels = [
 ]
 
 [[package]]
+name = "django-prodserver"
+version = "3.0.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/e9/67/732369cba62af180f224f20bf7ec02e95ad596b4e32d88eb6a8d2c67f312/django_prodserver-3.0.0.tar.gz", hash = "sha256:5e23ccd7338c26f2da203172b8ad2905ed4f2ae6b8f63b0e26c415dc5f9b2cfa", size = 36158, upload-time = "2026-05-13T09:01:30.332Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/57/c2/141a7c3a067571f1c759925e8fb630f5fe3ad63814b5de5f703fcdaa7fdd/django_prodserver-3.0.0-py3-none-any.whl", hash = "sha256:00a8173b58c639d24733c397ff49153c6bde32f375834254f82b20651be21ed8", size = 33227, upload-time = "2026-05-13T09:01:28.624Z" },
+]
+
+[package.optional-dependencies]
+django-q2 = [
+    { name = "django-picklefield" },
+    { name = "django-q2" },
+]
+gunicorn = [
+    { name = "gunicorn" },
+]
+
+[[package]]
 name = "django-q2"
 version = "1.11.1"
 source = { registry = "https://pypi.org/simple" }
@@ -714,6 +735,7 @@ dependencies = [
     { name = "django-htmx" },
     { name = "django-jsonview" },
     { name = "django-maintenance-mode" },
+    { name = "django-prodserver", extra = ["django-q2", "gunicorn"] },
     { name = "django-q2" },
     { name = "django-reversion" },
     { name = "django-secure" },
@@ -795,6 +817,7 @@ requires-dist = [
     { name = "django-htmx" },
     { name = "django-jsonview" },
     { name = "django-maintenance-mode" },
+    { name = "django-prodserver", extras = ["django-q2", "gunicorn"], specifier = ">=3.0.0" },
     { name = "django-q2" },
     { name = "django-reversion" },
     { name = "django-secure" },
