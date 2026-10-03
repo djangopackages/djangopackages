@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 import djclick as click
 from rich.console import Console
 from rich.table import Table
@@ -12,17 +14,26 @@ from grid.ai import (
     is_confident,
 )
 from grid.models import Grid, GridPackage
+from package.models import Category
 
 console = Console()
 
 
-def grid_packages(limit, slug):
+def grid_packages(limit, slug, category):
     rows = GridPackage.objects.select_related(
         "grid", "package", "package__category"
-    ).order_by("grid__slug", "package__slug")
+    ).order_by("package__slug", "grid__slug")
 
     if slug:
         rows = rows.filter(grid__slug=slug)
+    if category:
+        rows = rows.filter(package__category__slug=category)
+
+    if category:
+        # Sweeping a category asks about packages, not placements, and the
+        # installation type does not change with the grid. One row per
+        # package, so a package on six grids costs one call rather than six.
+        rows = dedupe_by_package(rows)
 
     if limit:
         rows = rows[:limit]
@@ -30,11 +41,27 @@ def grid_packages(limit, slug):
     return rows
 
 
+def dedupe_by_package(rows):
+    seen = set()
+    kept = []
+    for row in rows:
+        if row.package_id in seen:
+            continue
+        seen.add(row.package_id)
+        kept.append(row)
+    return kept
+
+
 @click.command()
 @click.option(
     "--limit", default=10, type=int, help="Packages to review. 0 means all of them."
 )
 @click.option("--slug", default=None, help="Only review one grid, by slug.")
+@click.option(
+    "--category",
+    default=None,
+    help="Only packages filed under this installation type, e.g. 'other'.",
+)
 @click.option("--only-problems", is_flag=True, help="Print only the flagged rows.")
 @click.option(
     "--min-confidence",
@@ -42,14 +69,18 @@ def grid_packages(limit, slug):
     type=float,
     help=f"Bar for acting on a verdict. Default {MIN_CONFIDENCE}.",
 )
-def command(limit, slug, only_problems, min_confidence):
+def command(limit, slug, category, only_problems, min_confidence):
     """
     Ask Jev whether each package belongs in the grid it is listed on.
 
     Also asks which installation type the package looks like (apps,
     frameworks, other, projects, starter-projects) and reports it when that
-    disagrees with the category it is filed under. Useful against the ~815
-    packages sitting in "Other".
+    disagrees with the category it is filed under.
+
+    Pass --category other to sweep the ~815 packages sitting in "Other".
+    A category sweep reviews each package once rather than once per grid it
+    appears on, and the report ends with the moves grouped by destination,
+    ready to work through.
 
     Only answers at or above the confidence bar are flagged. Anything below
     it is listed as unsure instead, so a hesitant answer never reads as a
@@ -62,8 +93,14 @@ def command(limit, slug, only_problems, min_confidence):
         console.print(f"[red]No grid with slug {slug!r}.[/red]")
         raise SystemExit(1)
 
-    rows = grid_packages(limit, slug)
-    total = rows.count() if hasattr(rows, "count") else len(rows)
+    if category and not Category.objects.filter(slug=category).exists():
+        known = ", ".join(Category.objects.values_list("slug", flat=True))
+        console.print(f"[red]No category {category!r}. Try one of: {known}.[/red]")
+        raise SystemExit(1)
+
+    rows = grid_packages(limit, slug, category)
+    # A category sweep hands back a list, so len, not .count().
+    total = len(rows) if isinstance(rows, list) else rows.count()
 
     if not total:
         console.print("[yellow]No grid packages matched.[/yellow]")
@@ -93,8 +130,8 @@ def command(limit, slug, only_problems, min_confidence):
         return
 
     table = Table(title="Package placement", show_lines=False)
-    table.add_column("Grid")
     table.add_column("Package")
+    table.add_column("Grid")
     table.add_column("Belongs?")
     table.add_column("Filed as")
     table.add_column("Jev says")
@@ -134,8 +171,8 @@ def command(limit, slug, only_problems, min_confidence):
         )
 
         table.add_row(
-            row.grid.slug,
             row.package.slug,
+            row.grid.slug,
             belongs,
             current,
             says,
@@ -154,12 +191,17 @@ def command(limit, slug, only_problems, min_confidence):
     if flagged_removals:
         console.print("\n[bold]Jev would remove these from their grid:[/bold]")
         for row in flagged_removals:
-            console.print(f"  {row.grid.slug} <- {row.package.slug}")
+            console.print(f"  {row.package.slug} -> out of {row.grid.slug}")
 
     if flagged_categories:
-        console.print("\n[bold]Category disagreements:[/bold]")
+        console.print("\n[bold]Moves to make, by destination:[/bold]")
+        by_destination = defaultdict(list)
         for row, suggested in flagged_categories:
-            console.print(
-                f"  {row.package.slug}: filed as "
-                f"{row.package.category.slug}, Jev says {suggested}"
-            )
+            by_destination[suggested].append(row)
+
+        for destination, moving in sorted(by_destination.items()):
+            console.print(f"\n  -> {destination} ({len(moving)})")
+            for row in moving:
+                console.print(
+                    f"     {row.package.slug} (from {row.package.category.slug})"
+                )

@@ -408,3 +408,95 @@ def test_a_one_package_grid_is_removed_without_asking(db, category, capsys):
     out = capsys.readouterr().out
     assert "would remove: 1" in out
     assert "only 1 package(s)" in out
+
+
+@pytest.fixture()
+def other_category(db):
+    return baker.make(Category, slug="other", title="Other", title_plural="Other")
+
+
+@pytest.fixture()
+def package_in_other(db, other_category, grid):
+    """One package filed under Other, listed on two grids."""
+    package = baker.make(
+        Package,
+        slug="django-extensions",
+        title="django-extensions",
+        category=other_category,
+        repo_url="https://github.com/example/django-extensions",
+    )
+    second = baker.make(Grid, slug="shells", title="Shells", is_approved=True)
+    baker.make(GridPackage, grid=grid, package=package)
+    baker.make(GridPackage, grid=second, package=package)
+    return package
+
+
+@pytest.mark.django_db
+def test_category_sweep_skips_other_categories(package_in_other, capsys):
+    verdict = PackageVerdict(belongs_in_grid=True, installation_type="apps")
+    confidence = {"belongs_in_grid": 0.95, "installation_type": 0.97}
+
+    with patch(
+        "grid.management.commands.evaluate_grid_packages.build_agent",
+        return_value=stub_agent(fake_result(verdict, confidence)),
+    ):
+        call_command("evaluate_grid_packages", "--limit", "0", "--category", "other")
+
+    out = capsys.readouterr().out
+    assert "django-extensions" in out
+    assert "django-vite" not in out
+
+
+@pytest.mark.django_db
+def test_category_sweep_asks_once_per_package(package_in_other, capsys):
+    """The package sits on two grids, but its installation type is one answer."""
+    verdict = PackageVerdict(belongs_in_grid=True, installation_type="apps")
+    agent = stub_agent(
+        fake_result(verdict, {"belongs_in_grid": 0.95, "installation_type": 0.97})
+    )
+
+    with patch(
+        "grid.management.commands.evaluate_grid_packages.build_agent",
+        return_value=agent,
+    ):
+        call_command("evaluate_grid_packages", "--limit", "0", "--category", "other")
+
+    assert agent.run_sync.call_count == 1
+
+
+@pytest.mark.django_db
+def test_category_sweep_groups_moves_by_destination(package_in_other, capsys):
+    verdict = PackageVerdict(belongs_in_grid=True, installation_type="apps")
+    confidence = {"belongs_in_grid": 0.95, "installation_type": 0.97}
+
+    with patch(
+        "grid.management.commands.evaluate_grid_packages.build_agent",
+        return_value=stub_agent(fake_result(verdict, confidence)),
+    ):
+        call_command("evaluate_grid_packages", "--limit", "0", "--category", "other")
+
+    out = capsys.readouterr().out
+    assert "Moves to make, by destination" in out
+    assert "-> apps (1)" in out
+    assert "django-extensions (from other)" in out
+
+
+@pytest.mark.django_db
+def test_unknown_category_is_rejected(package_in_other):
+    with pytest.raises(SystemExit):
+        call_command("evaluate_grid_packages", "--category", "nope")
+
+
+@pytest.mark.django_db
+def test_category_sweep_writes_nothing(package_in_other):
+    verdict = PackageVerdict(belongs_in_grid=False, installation_type="frameworks")
+    confidence = {"belongs_in_grid": 0.99, "installation_type": 0.99}
+
+    with patch(
+        "grid.management.commands.evaluate_grid_packages.build_agent",
+        return_value=stub_agent(fake_result(verdict, confidence)),
+    ):
+        call_command("evaluate_grid_packages", "--limit", "0", "--category", "other")
+
+    package_in_other.refresh_from_db()
+    assert package_in_other.category.slug == "other"
