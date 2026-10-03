@@ -1,9 +1,8 @@
 from datetime import datetime, timedelta
 
 import pytest
-from django.conf import settings
 from django.contrib.auth.models import Permission, User
-from django.core.cache import cache
+from django.core.cache import cache, caches
 from django.db import connection
 from django.test import TestCase, override_settings
 from django.test.utils import CaptureQueriesContext
@@ -17,16 +16,22 @@ from package.models import Category, Package, Version
 from profiles.models import Profile
 
 
+@override_settings(RESTRICT_GRID_EDITORS=False)
 class FunctionalGridTest(TestCase):
     def setUp(self):
         Grid.objects.all().delete()
         data.load()
-        settings.RESTRICT_GRID_EDITORS = False
-        cache.clear()
+        # Clear every cache, not just the default one. Waffle reads flags and
+        # switches through its own session-scoped LocMemCache (see
+        # WAFFLE_CACHE_NAME in conftest.py), so a flag another test already
+        # looked up would be served from memory here and the assertNumQueries
+        # counts below would depend on test order.
+        for cache_backend in caches.all(initialized_only=False):
+            cache_backend.clear()
 
     def test_grid_list_view(self):
         url = reverse("grids")
-        with self.assertNumQueries(3):
+        with self.assertNumQueries(5):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/grid_list.html")
@@ -88,7 +93,7 @@ class FunctionalGridTest(TestCase):
 
         # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username="user", password="user"))
-        with self.assertNumQueries(6):
+        with self.assertNumQueries(8):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/add_grid.html")
@@ -210,7 +215,7 @@ class FunctionalGridTest(TestCase):
 
         # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username="user", password="user"))
-        with self.assertNumQueries(7):
+        with self.assertNumQueries(9):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/add_feature.html")
@@ -232,7 +237,7 @@ class FunctionalGridTest(TestCase):
         # features should be deleted (thus the count should be the same).
         self.assertTrue(self.client.login(username="user", password="user"))
         url = reverse("delete_feature", kwargs={"id": "1"})
-        with self.assertNumQueries(6):
+        with self.assertNumQueries(8):
             self.client.post(url)
         self.assertEqual(count, Feature.objects.count())
 
@@ -290,7 +295,7 @@ class FunctionalGridTest(TestCase):
 
         # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username="user", password="user"))
-        with self.assertNumQueries(6):
+        with self.assertNumQueries(8):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/add_grid_package.html")
@@ -332,7 +337,7 @@ class FunctionalGridTest(TestCase):
         url = reverse(
             "delete_grid_package", kwargs={"grid_slug": "testing", "package_id": "1"}
         )
-        with self.assertNumQueries(6):
+        with self.assertNumQueries(8):
             self.client.post(url)
         self.assertEqual(count, GridPackage.objects.count())
 
@@ -343,10 +348,10 @@ class FunctionalGridTest(TestCase):
         self.assertEqual(count - 1, GridPackage.objects.count())
 
 
+@override_settings(RESTRICT_GRID_EDITORS=False)
 class RegressionGridTest(TestCase):
     def setUp(self):
         data.load()
-        settings.RESTRICT_GRID_EDITORS = False
 
     def test_edit_element_view_for_nonexistent_elements(self):
         """Make sure that attempts to edit nonexistent elements succeed."""
@@ -366,10 +371,10 @@ class RegressionGridTest(TestCase):
         self.assertTemplateUsed(response, "grid/edit_element.html")
 
 
+@override_settings(RESTRICT_GRID_EDITORS=True)
 class GridPermissionTest(TestCase):
     def setUp(self):
         data.load()
-        settings.RESTRICT_GRID_EDITORS = True
         self.test_add_url = reverse("add_grid")
         self.test_edit_url = reverse("edit_grid", kwargs={"slug": "testing"})
         self.login = self.client.login(username="user", password="user")
@@ -400,10 +405,10 @@ class GridPermissionTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
+@override_settings(RESTRICT_GRID_EDITORS=True)
 class GridPackagePermissionTest(TestCase):
     def setUp(self):
         data.load()
-        settings.RESTRICT_GRID_EDITORS = True
         self.test_add_url = reverse("add_grid_package", kwargs={"grid_slug": "testing"})
         self.test_delete_url = reverse(
             "delete_grid_package", kwargs={"grid_slug": "testing", "package_id": "1"}
@@ -439,10 +444,10 @@ class GridPackagePermissionTest(TestCase):
         self.assertEqual(response.status_code, 302)
 
 
+@override_settings(RESTRICT_GRID_EDITORS=True)
 class GridFeaturePermissionTest(TestCase):
     def setUp(self):
         data.load()
-        settings.RESTRICT_GRID_EDITORS = True
         self.test_add_url = reverse("add_feature", kwargs={"grid_slug": "testing"})
         self.test_edit_url = reverse("edit_feature", kwargs={"id": "1"})
         self.test_delete_url = reverse("delete_feature", kwargs={"id": "1"})
@@ -486,10 +491,10 @@ class GridFeaturePermissionTest(TestCase):
         self.assertEqual(response.status_code, 302)
 
 
+@override_settings(RESTRICT_GRID_EDITORS=True)
 class GridElementPermissionTest(TestCase):
     def setUp(self):
         data.load()
-        settings.RESTRICT_GRID_EDITORS = True
         self.test_edit_url = reverse(
             "edit_element",
             kwargs={"grid_slug": "testing", "feature_id": "1", "package_id": "1"},
