@@ -24,7 +24,7 @@ services:
 
   django-q:
     <<: *common-settings
-    command: ["uv", "run", "python", "-m", "manage", "qcluster"]
+    command: ["uv", "run", "python", "-m", "manage", "worker", "worker"]
     init: true
 
   tailwind:
