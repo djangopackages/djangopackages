@@ -334,13 +334,41 @@ class GridDetailView(DetailView):
                 "has_more_packages": payload["has_more_packages"],
                 "show_features": payload.get("show_features", True),
                 "max_packages": self.max_packages,
-                "can_edit_pending_grid": (
-                    self.request.user.is_authenticated
-                    and self.request.user.profile.can_edit_pending_grid(grid)
-                ),
+                **self._edit_permissions(grid),
             }
         )
         return context
+
+    def _edit_permissions(self, grid: Grid) -> dict[str, bool]:
+        """Mirror the checks the grid edit views enforce.
+
+        The views gate on Profile.can_* rather than Django model permissions,
+        so the templates have to ask the same question or they hide controls
+        from users who are allowed to use them (see #1687).
+        """
+        user = self.request.user
+
+        if not user.is_authenticated:
+            return {
+                "can_edit_pending_grid": False,
+                "can_edit_grid": False,
+                "can_add_grid_package": False,
+                "can_add_grid_feature": False,
+                "can_edit_grid_feature": False,
+                "can_edit_grid_element": False,
+            }
+
+        profile = user.profile
+        pending = profile.can_edit_pending_grid(grid)
+
+        return {
+            "can_edit_pending_grid": pending,
+            "can_edit_grid": bool(profile.can_edit_grid) or pending,
+            "can_add_grid_package": bool(profile.can_add_grid_package) or pending,
+            "can_add_grid_feature": bool(profile.can_add_grid_feature) or pending,
+            "can_edit_grid_feature": bool(profile.can_edit_grid_feature) or pending,
+            "can_edit_grid_element": bool(profile.can_edit_grid_element) or pending,
+        }
 
     def render_to_response(
         self, context: dict[str, Any], **response_kwargs: Any
