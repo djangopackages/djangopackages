@@ -6,8 +6,11 @@ would be slow, costly, and non-deterministic.
 
 from unittest.mock import Mock, patch
 
+import click
+
 import pytest
 from django.core.management import call_command
+from django.test import override_settings
 from model_bakery import baker
 
 from grid.ai import (
@@ -633,3 +636,432 @@ def test_off_grid_review_writes_nothing(off_grid):
     off_grid.refresh_from_db()
     assert off_grid.category.slug == "other"
     assert off_grid.repo_description == "Adds a middleware for request timing."
+
+
+@pytest.mark.django_db
+def test_confident_mismatch_is_marked_in_the_table(package_in_other, capsys):
+    """The row a reader should act on has to stand out from the rest."""
+    verdict = PackageVerdict(belongs_in_grid=True, installation_type="apps")
+    confidence = {"belongs_in_grid": 0.95, "installation_type": 0.97}
+
+    with patch(
+        "grid.management.commands.evaluate_grid_packages.build_agent",
+        return_value=stub_agent(fake_result(verdict, confidence)),
+    ):
+        call_command("evaluate_grid_packages", "--limit", "0", "--category", "other")
+
+    out = capsys.readouterr().out
+    assert "-> apps (0.97)" in out
+
+
+@pytest.mark.django_db
+def test_unsure_mismatch_is_not_marked(package_in_other, capsys):
+    verdict = PackageVerdict(belongs_in_grid=True, installation_type="apps")
+    confidence = {"belongs_in_grid": 0.95, "installation_type": 0.40}
+
+    with patch(
+        "grid.management.commands.evaluate_grid_packages.build_agent",
+        return_value=stub_agent(fake_result(verdict, confidence)),
+    ):
+        call_command("evaluate_grid_packages", "--limit", "0", "--category", "other")
+
+    out = capsys.readouterr().out
+    assert "->" not in out
+
+
+@pytest.mark.django_db
+def test_agreement_is_not_marked(package_in_other, capsys):
+    verdict = PackageVerdict(belongs_in_grid=True, installation_type="other")
+    confidence = {"belongs_in_grid": 0.95, "installation_type": 0.99}
+
+    with patch(
+        "grid.management.commands.evaluate_grid_packages.build_agent",
+        return_value=stub_agent(fake_result(verdict, confidence)),
+    ):
+        call_command("evaluate_grid_packages", "--limit", "0", "--category", "other")
+
+    out = capsys.readouterr().out
+    assert "->" not in out
+
+
+@pytest.mark.django_db
+def test_off_grid_mismatch_is_marked_too(off_grid, capsys):
+    verdict = PackageOnlyVerdict(installation_type="apps", description_is_usable=True)
+    confidence = {"installation_type": 0.97, "description_is_usable": 0.95}
+
+    with patch(
+        "grid.management.commands.evaluate_packages.build_agent",
+        return_value=stub_agent(fake_result(verdict, confidence)),
+    ):
+        call_command("evaluate_packages", "--limit", "0")
+
+    out = capsys.readouterr().out
+    assert "-> apps (0.97)" in out
+
+
+@pytest.mark.django_db
+def test_sweep_summary_drops_the_grid_columns(package_in_other, capsys):
+    """Belongs-in-grid is neither shown nor counted during a category sweep."""
+    verdict = PackageVerdict(belongs_in_grid=False, installation_type="apps")
+    confidence = {"belongs_in_grid": 0.10, "installation_type": 0.97}
+
+    with patch(
+        "grid.management.commands.evaluate_grid_packages.build_agent",
+        return_value=stub_agent(fake_result(verdict, confidence)),
+    ):
+        call_command("evaluate_grid_packages", "--limit", "0", "--category", "other")
+
+    out = capsys.readouterr().out
+    assert "would remove from grid" not in out
+    assert "Belongs?" not in out
+    assert "unsure: 0" in out
+
+
+# --- the apply flags, which are the only thing here that writes -------------
+
+
+@pytest.mark.django_db
+def test_review_alone_never_refiles(package_in_other, capsys):
+    """Without a flag, a confident move is a suggestion and nothing more."""
+    verdict = PackageVerdict(belongs_in_grid=True, installation_type="apps")
+    confidence = {"belongs_in_grid": 0.95, "installation_type": 0.97}
+
+    with patch(
+        "grid.management.commands.evaluate_grid_packages.build_agent",
+        return_value=stub_agent(fake_result(verdict, confidence)),
+    ):
+        call_command("evaluate_grid_packages", "--limit", "0", "--category", "other")
+
+    package_in_other.refresh_from_db()
+    assert package_in_other.category.slug == "other"
+
+
+@pytest.mark.django_db
+def test_apply_moves_refiles_an_approved_package(package_in_other, capsys):
+    verdict = PackageVerdict(belongs_in_grid=True, installation_type="apps")
+    confidence = {"belongs_in_grid": 0.95, "installation_type": 0.97}
+
+    with (
+        patch(
+            "grid.management.commands.evaluate_grid_packages.build_agent",
+            return_value=stub_agent(fake_result(verdict, confidence)),
+        ),
+        patch("grid.ai.click.prompt", return_value="y"),
+    ):
+        call_command(
+            "evaluate_grid_packages",
+            "--limit",
+            "0",
+            "--category",
+            "other",
+            "--apply-moves",
+        )
+
+    package_in_other.refresh_from_db()
+    assert package_in_other.category.slug == "apps"
+    assert "1 package(s) refiled" in capsys.readouterr().out
+
+
+@pytest.mark.django_db
+def test_declining_a_move_leaves_it_alone(package_in_other, capsys):
+    verdict = PackageVerdict(belongs_in_grid=True, installation_type="apps")
+    confidence = {"belongs_in_grid": 0.95, "installation_type": 0.97}
+
+    with (
+        patch(
+            "grid.management.commands.evaluate_grid_packages.build_agent",
+            return_value=stub_agent(fake_result(verdict, confidence)),
+        ),
+        patch("grid.ai.click.prompt", return_value="n"),
+    ):
+        call_command(
+            "evaluate_grid_packages",
+            "--limit",
+            "0",
+            "--category",
+            "other",
+            "--apply-moves",
+        )
+
+    package_in_other.refresh_from_db()
+    assert package_in_other.category.slug == "other"
+    assert "0 package(s) refiled" in capsys.readouterr().out
+
+
+@pytest.mark.django_db
+def test_quitting_stops_before_the_rest(db, category, other_category, capsys):
+    """q leaves every later finding untouched, not just the current one."""
+    grid = baker.make(Grid, slug="tools", title="Tools", is_approved=True)
+    for slug in ("aaa-pkg", "bbb-pkg"):
+        package = baker.make(
+            Package,
+            slug=slug,
+            title=slug,
+            category=other_category,
+            repo_url=f"https://github.com/example/{slug}",
+        )
+        baker.make(GridPackage, grid=grid, package=package)
+
+    verdict = PackageVerdict(belongs_in_grid=True, installation_type="apps")
+    confidence = {"belongs_in_grid": 0.95, "installation_type": 0.97}
+
+    with (
+        patch(
+            "grid.management.commands.evaluate_grid_packages.build_agent",
+            return_value=stub_agent(fake_result(verdict, confidence)),
+        ),
+        patch("grid.ai.click.prompt", return_value="q"),
+    ):
+        call_command(
+            "evaluate_grid_packages",
+            "--limit",
+            "0",
+            "--category",
+            "other",
+            "--apply-moves",
+        )
+
+    assert Package.objects.filter(category=other_category).count() == 2
+
+
+@pytest.mark.django_db
+def test_yes_skips_the_prompt(package_in_other, capsys):
+    verdict = PackageVerdict(belongs_in_grid=True, installation_type="apps")
+    confidence = {"belongs_in_grid": 0.95, "installation_type": 0.97}
+
+    with (
+        patch(
+            "grid.management.commands.evaluate_grid_packages.build_agent",
+            return_value=stub_agent(fake_result(verdict, confidence)),
+        ),
+        patch("grid.ai.click.prompt", side_effect=AssertionError("should not ask")),
+    ):
+        call_command(
+            "evaluate_grid_packages",
+            "--limit",
+            "0",
+            "--category",
+            "other",
+            "--apply-moves",
+            "--yes",
+        )
+
+    package_in_other.refresh_from_db()
+    assert package_in_other.category.slug == "apps"
+
+
+@pytest.mark.django_db
+def test_apply_removals_drops_the_row_not_the_package(grid, capsys):
+    verdict = PackageVerdict(belongs_in_grid=False, installation_type="apps")
+    confidence = {"belongs_in_grid": 0.95, "installation_type": 0.97}
+
+    with (
+        patch(
+            "grid.management.commands.evaluate_grid_packages.build_agent",
+            return_value=stub_agent(fake_result(verdict, confidence)),
+        ),
+        patch("grid.ai.click.prompt", return_value="y"),
+    ):
+        call_command("evaluate_grid_packages", "--limit", "1", "--apply-removals")
+
+    assert GridPackage.objects.filter(grid=grid).count() == 1
+    assert Package.objects.filter(slug="django-vite").exists()
+
+
+@pytest.mark.django_db
+def test_removals_need_a_grid_not_a_sweep(package_in_other):
+    """A sweep deduped the grids away, so there is no row to remove from."""
+    with pytest.raises(SystemExit):
+        call_command(
+            "evaluate_grid_packages", "--category", "other", "--apply-removals"
+        )
+
+
+@pytest.mark.django_db
+def test_off_grid_apply_moves_refiles(off_grid, category, capsys):
+    verdict = PackageOnlyVerdict(installation_type="apps", description_is_usable=True)
+    confidence = {"installation_type": 0.97, "description_is_usable": 0.95}
+
+    with (
+        patch(
+            "grid.management.commands.evaluate_packages.build_agent",
+            return_value=stub_agent(fake_result(verdict, confidence)),
+        ),
+        patch("grid.ai.click.prompt", return_value="y"),
+    ):
+        call_command("evaluate_packages", "--limit", "0", "--apply-moves")
+
+    off_grid.refresh_from_db()
+    assert off_grid.category.slug == "apps"
+
+
+@pytest.mark.django_db
+def test_off_grid_thin_description_is_never_offered(off_grid, category, capsys):
+    """Nothing to judge it on means nothing to approve."""
+    verdict = PackageOnlyVerdict(installation_type="apps", description_is_usable=False)
+    confidence = {"installation_type": 0.97, "description_is_usable": 0.96}
+
+    with (
+        patch(
+            "grid.management.commands.evaluate_packages.build_agent",
+            return_value=stub_agent(fake_result(verdict, confidence)),
+        ),
+        patch("grid.ai.click.prompt", side_effect=AssertionError("should not ask")),
+    ):
+        call_command("evaluate_packages", "--limit", "0", "--apply-moves")
+
+    off_grid.refresh_from_db()
+    assert off_grid.category.slug == "other"
+    assert "Nothing to apply" in capsys.readouterr().out
+
+
+# --- evaluate_grids apply flags --------------------------------------------
+
+
+@pytest.fixture()
+def doomed_grid(db, category):
+    """One package, so it is listed for removal on the count alone."""
+    g = baker.make(Grid, slug="webdesign", title="Webdesign", is_approved=True)
+    package = baker.make(
+        Package,
+        slug="django-webdesign",
+        category=category,
+        repo_url="https://github.com/example/django-webdesign",
+    )
+    gp = baker.make(GridPackage, grid=g, package=package)
+    feature = baker.make(Feature, grid=g, title="Responsive")
+    baker.make(Element, grid_package=gp, feature=feature, text="yes")
+    return g
+
+
+def keep_it_verdict():
+    verdict = GridVerdict(
+        topic_coherence=Quality.STRONG,
+        title_and_description=Quality.STRONG,
+        useful_as_comparison=Quality.STRONG,
+        topic_is_worth_a_grid=True,
+    )
+    confidence = {
+        "topic_coherence": 0.99,
+        "title_and_description": 0.99,
+        "useful_as_comparison": 0.99,
+        "topic_is_worth_a_grid": 0.99,
+    }
+    return fake_result(verdict, confidence)
+
+
+@pytest.mark.django_db
+def test_grid_review_alone_writes_nothing(doomed_grid, capsys):
+    with patch(
+        "grid.management.commands.evaluate_grids.build_agent",
+        return_value=stub_agent(keep_it_verdict()),
+    ):
+        call_command("evaluate_grids", "--slug", "webdesign")
+
+    doomed_grid.refresh_from_db()
+    assert doomed_grid.is_approved
+    assert Grid.objects.filter(slug="webdesign").exists()
+
+
+@pytest.mark.django_db
+def test_unapprove_hides_the_grid_and_keeps_its_contents(doomed_grid, capsys):
+    with (
+        patch(
+            "grid.management.commands.evaluate_grids.build_agent",
+            return_value=stub_agent(keep_it_verdict()),
+        ),
+        patch("grid.ai.click.prompt", return_value="y"),
+    ):
+        call_command("evaluate_grids", "--slug", "webdesign", "--apply-unapprove")
+
+    doomed_grid.refresh_from_db()
+    assert not doomed_grid.is_approved
+    assert Feature.objects.filter(grid=doomed_grid).count() == 1
+    assert Element.objects.count() == 1
+    assert "1 grid(s) hidden" in capsys.readouterr().out
+
+
+@pytest.mark.django_db
+def test_declining_leaves_the_grid_visible(doomed_grid, capsys):
+    with (
+        patch(
+            "grid.management.commands.evaluate_grids.build_agent",
+            return_value=stub_agent(keep_it_verdict()),
+        ),
+        patch("grid.ai.click.prompt", return_value="n"),
+    ):
+        call_command("evaluate_grids", "--slug", "webdesign", "--apply-unapprove")
+
+    doomed_grid.refresh_from_db()
+    assert doomed_grid.is_approved
+
+
+@pytest.mark.django_db
+def test_delete_takes_the_features_and_cells(doomed_grid, capsys):
+    with (
+        patch(
+            "grid.management.commands.evaluate_grids.build_agent",
+            return_value=stub_agent(keep_it_verdict()),
+        ),
+        patch("grid.ai.click.prompt", return_value="y"),
+    ):
+        call_command("evaluate_grids", "--slug", "webdesign", "--apply-delete")
+
+    assert not Grid.objects.filter(slug="webdesign").exists()
+    assert Feature.objects.count() == 0
+    assert Element.objects.count() == 0
+    # The package is listed elsewhere and must survive its grid.
+    assert Package.objects.filter(slug="django-webdesign").exists()
+
+
+@pytest.mark.django_db
+def test_delete_refuses_yes(doomed_grid):
+    """An irreversible bulk delete has to be looked at one grid at a time."""
+    with pytest.raises(SystemExit):
+        call_command("evaluate_grids", "--slug", "webdesign", "--apply-delete", "--yes")
+
+    assert Grid.objects.filter(slug="webdesign").exists()
+
+
+@pytest.mark.django_db
+def test_the_two_apply_flags_are_exclusive(doomed_grid):
+    with pytest.raises(SystemExit):
+        call_command(
+            "evaluate_grids",
+            "--slug",
+            "webdesign",
+            "--apply-unapprove",
+            "--apply-delete",
+        )
+
+
+@pytest.mark.django_db
+def test_an_already_hidden_grid_is_skipped(doomed_grid, capsys):
+    doomed_grid.is_approved = False
+    doomed_grid.save()
+
+    with (
+        patch(
+            "grid.management.commands.evaluate_grids.build_agent",
+            return_value=stub_agent(keep_it_verdict()),
+        ),
+        patch("grid.ai.click.prompt", side_effect=AssertionError("should not ask")),
+    ):
+        call_command("evaluate_grids", "--slug", "webdesign", "--apply-unapprove")
+
+    out = capsys.readouterr().out
+    assert "1 already hidden, skipped" in out
+    assert "0 grid(s) hidden" in out
+
+
+@pytest.mark.django_db
+def test_a_missing_api_key_says_so(grid):
+    """The failure a new contributor hits first should name the fix."""
+    from grid.ai import build_agent, GridVerdict as _GridVerdict
+
+    with override_settings(TYPESAFE_API_KEY=""):
+        with pytest.raises(click.ClickException) as caught:
+            build_agent(_GridVerdict)
+
+    assert "TYPESAFE_API_KEY" in str(caught.value)
+    assert ".env.local" in str(caught.value)

@@ -7,11 +7,13 @@ from rich.table import Table
 from grid.ai import (
     MIN_CONFIDENCE,
     PackageVerdict,
+    approve_each,
     build_agent,
     confidence_of,
     describe_package_in_grid,
     format_answer,
     is_confident,
+    truncate,
 )
 from grid.models import Grid, GridPackage
 from package.models import Category
@@ -69,7 +71,32 @@ def dedupe_by_package(rows):
     type=float,
     help=f"Bar for acting on a verdict. Default {MIN_CONFIDENCE}.",
 )
-def command(limit, slug, category, only_problems, min_confidence):
+@click.option(
+    "--apply-moves",
+    is_flag=True,
+    help="Offer to refile each confidently miscategorised package. Writes.",
+)
+@click.option(
+    "--apply-removals",
+    is_flag=True,
+    help="Offer to drop each package Jev says is off-topic for its grid. Writes.",
+)
+@click.option(
+    "--yes",
+    "assume_yes",
+    is_flag=True,
+    help="Answer yes to every prompt. Only means anything with an --apply flag.",
+)
+def command(
+    limit,
+    slug,
+    category,
+    only_problems,
+    min_confidence,
+    apply_moves,
+    apply_removals,
+    assume_yes,
+):
     """
     Ask Jev whether each package belongs in the grid it is listed on.
 
@@ -86,8 +113,13 @@ def command(limit, slug, category, only_problems, min_confidence):
     it is listed as unsure instead, so a hesitant answer never reads as a
     recommendation.
 
-    Nothing is written to the database. Reviews ten rows unless told
-    otherwise, since each row costs one API call.
+    Read-only by default. --apply-moves offers to refile each miscategorised
+    package and --apply-removals offers to drop each off-topic one from its
+    grid, both one at a time, showing the package's own description so the
+    recommendation can be judged on something other than the label. Each
+    prompt takes y, n, or q to stop. --yes answers them all.
+
+    Reviews ten rows unless told otherwise, since each row costs one API call.
     """
     if slug and not Grid.objects.filter(slug=slug).exists():
         console.print(f"[red]No grid with slug {slug!r}.[/red]")
@@ -97,6 +129,17 @@ def command(limit, slug, category, only_problems, min_confidence):
         known = ", ".join(Category.objects.values_list("slug", flat=True))
         console.print(f"[red]No category {category!r}. Try one of: {known}.[/red]")
         raise SystemExit(1)
+
+    if apply_removals and category:
+        console.print(
+            "[red]--apply-removals needs a grid to remove from, and a "
+            "category sweep reviews each package once across all of them. "
+            "Use --slug, or drop --category.[/red]"
+        )
+        raise SystemExit(1)
+
+    if assume_yes and not (apply_moves or apply_removals):
+        console.print("[yellow]--yes does nothing without an --apply flag.[/yellow]")
 
     rows = grid_packages(limit, slug, category)
     # A category sweep hands back a list, so len, not .count().
@@ -129,12 +172,20 @@ def command(limit, slug, category, only_problems, min_confidence):
         console.print("[red]Nothing reviewed.[/red]")
         return
 
+    # A category sweep already dropped the duplicate rows, so the grid shown
+    # would be an arbitrary one of several, and "belongs in it" comes back
+    # unsure almost every time. Both columns are dropped to leave room for the
+    # one being swept for.
+    sweeping = bool(category)
+
     table = Table(title="Package placement", show_lines=False)
     table.add_column("Package")
-    table.add_column("Grid")
-    table.add_column("Belongs?")
+    if not sweeping:
+        table.add_column("Grid")
+        table.add_column("Belongs?")
     table.add_column("Filed as")
-    table.add_column("Jev says")
+    # Wide enough that the arrow stays on the same line as the type it points to.
+    table.add_column("Jev says", min_width=24)
 
     flagged_removals = []
     flagged_categories = []
@@ -151,7 +202,12 @@ def command(limit, slug, category, only_problems, min_confidence):
             flagged_removals.append(row)
         if sure_on_type and disagrees:
             flagged_categories.append((row, verdict.installation_type))
-        if not sure_on_grid or (disagrees and not sure_on_type):
+        # While sweeping, "belongs in this grid" is not being reported, so it
+        # should not be what makes a row unsure either.
+        if sweeping:
+            if not sure_on_type:
+                unsure.append(row)
+        elif not sure_on_grid or (disagrees and not sure_on_type):
             unsure.append(row)
 
         a_problem = (sure_on_grid and not verdict.belongs_in_grid) or (
@@ -170,30 +226,41 @@ def command(limit, slug, category, only_problems, min_confidence):
             verdict.installation_type, confidence, "installation_type", min_confidence
         )
 
-        table.add_row(
-            row.package.slug,
-            row.grid.slug,
-            belongs,
-            current,
-            says,
-        )
+        # A confident mismatch is the whole point of the table, so it gets an
+        # arrow and the colour, and the category it is leaving goes dim.
+        filed_as = current
+        if sure_on_type and disagrees:
+            filed_as = f"[dim]{current}[/dim]"
+            says = f"[bold yellow]-> {says}[/bold yellow]"
+
+        cells = [row.package.slug]
+        if not sweeping:
+            cells += [row.grid.slug, belongs]
+        cells += [filed_as, says]
+
+        table.add_row(*cells)
 
     console.print()
     console.print(table)
 
-    console.print(
-        f"\nreviewed {len(reviewed)} at >={min_confidence} | "
-        f"would remove from grid: {len(flagged_removals)} | "
-        f"category disagreement: {len(flagged_categories)} | "
-        f"unsure: {len(unsure)}"
-    )
+    summary = [f"reviewed {len(reviewed)} at >={min_confidence}"]
+    if not sweeping:
+        summary.append(f"would remove from grid: {len(flagged_removals)}")
+    summary.append(f"category disagreement: {len(flagged_categories)}")
+    summary.append(f"unsure: {len(unsure)}")
 
-    if flagged_removals:
+    console.print("\n" + " | ".join(summary))
+
+    if flagged_removals and apply_removals:
+        apply_grid_removals(flagged_removals, assume_yes)
+    elif flagged_removals:
         console.print("\n[bold]Jev would remove these from their grid:[/bold]")
         for row in flagged_removals:
             console.print(f"  {row.package.slug} -> out of {row.grid.slug}")
 
-    if flagged_categories:
+    if flagged_categories and apply_moves:
+        apply_category_moves(flagged_categories, assume_yes)
+    elif flagged_categories:
         console.print("\n[bold]Moves to make, by destination:[/bold]")
         by_destination = defaultdict(list)
         for row, suggested in flagged_categories:
@@ -205,3 +272,57 @@ def command(limit, slug, category, only_problems, min_confidence):
                 console.print(
                     f"     {row.package.slug} (from {row.package.category.slug})"
                 )
+
+
+def apply_category_moves(flagged, assume_yes):
+    """Refile the approved packages. Nothing moves without a yes."""
+    console.print("\n[bold]Refiling packages[/bold]")
+
+    def describe(finding):
+        row, suggested = finding
+        package = row.package
+        return [
+            f"\n  [bold]{package.slug}[/bold]: "
+            f"{package.category.slug} -> [bold yellow]{suggested}[/bold yellow]",
+            f"  {truncate(package.repo_description, 160) or '(no description)'}",
+            f"  {package.repo_url or '(no repo)'}",
+        ]
+
+    moved = 0
+    destinations = {}
+
+    for row, suggested in approve_each(console, flagged, assume_yes, describe):
+        if suggested not in destinations:
+            destinations[suggested] = Category.objects.get(slug=suggested)
+
+        package = row.package
+        package.category = destinations[suggested]
+        package.save(update_fields=["category"])
+        moved += 1
+
+    console.print(f"\n[bold]{moved} package(s) refiled.[/bold]")
+
+
+def apply_grid_removals(flagged, assume_yes):
+    """Drop the approved packages from their grid. The package itself stays."""
+    console.print("\n[bold]Removing packages from grids[/bold]")
+
+    def describe(row):
+        return [
+            f"\n  [bold]{row.package.slug}[/bold] out of "
+            f"[bold yellow]{row.grid.slug}[/bold yellow]",
+            f"  grid: {truncate(row.grid.description, 120) or '(no description)'}",
+            f"  package: "
+            f"{truncate(row.package.repo_description, 160) or '(no description)'}",
+        ]
+
+    removed = 0
+
+    for row in approve_each(console, flagged, assume_yes, describe):
+        GridPackage.objects.filter(pk=row.pk).delete()
+        removed += 1
+
+    console.print(
+        f"\n[bold]{removed} package(s) removed from their grid.[/bold] "
+        "The packages themselves are untouched."
+    )

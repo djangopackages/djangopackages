@@ -11,6 +11,9 @@ from __future__ import annotations
 from enum import IntEnum
 from typing import Annotated, Literal
 
+import click
+from django.conf import settings
+
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, BoolCriteria
 
@@ -178,6 +181,15 @@ def describe_package_in_grid(grid, package) -> str:
 
 
 def build_agent(output_type):
+    """The key is read from the environment by the provider. Checking the
+    setting here only buys a readable message instead of a provider error.
+    """
+    if not settings.TYPESAFE_API_KEY:
+        raise click.ClickException(
+            "TYPESAFE_API_KEY is not set, so there is nothing to ask. "
+            "Add it to .env.local. See docs/docs/management_commands.md."
+        )
+
     return Agent(MODEL, output_type=output_type)
 
 
@@ -348,3 +360,34 @@ def describe_package(package) -> str:
             f"PyPI: {package.pypi_url or '(none)'}",
         ]
     )
+
+
+def approve_each(console, items, assume_yes, describe):
+    """Walk findings one at a time, yielding the ones approved for writing.
+
+    Nothing is written without a yes. `describe` returns the lines shown
+    before each prompt, so the reader can judge the recommendation on the
+    package's own description rather than on the label alone. Answering q
+    stops the walk and leaves the rest untouched.
+    """
+    for item in items:
+        for line in describe(item):
+            console.print(line)
+
+        if assume_yes:
+            console.print("  [dim]applying (--yes)[/dim]")
+            yield item
+            continue
+
+        answer = click.prompt(
+            "  apply? [y]es / [n]o / [q]uit",
+            default="n",
+            show_default=False,
+            type=click.Choice(["y", "n", "q"], case_sensitive=False),
+        ).lower()
+
+        if answer == "q":
+            console.print("  [dim]stopping, the rest are untouched[/dim]")
+            return
+        if answer == "y":
+            yield item

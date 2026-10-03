@@ -9,13 +9,15 @@ from grid.ai import (
     MIN_CONFIDENCE,
     GridVerdict,
     Quality,
+    approve_each,
     build_agent,
     confidence_of,
     describe_grid,
     format_answer,
     is_confident,
+    truncate,
 )
-from grid.models import Feature, Grid
+from grid.models import Element, Feature, Grid
 
 console = Console()
 
@@ -63,7 +65,32 @@ def cell(verdict, confidence, field, threshold):
     type=float,
     help=f"Bar for counting a verdict. Default {MIN_CONFIDENCE}.",
 )
-def command(limit, slug, min_packages, min_confidence):
+@click.option(
+    "--apply-unapprove",
+    is_flag=True,
+    help="Offer to hide each grid listed for removal. Reversible. Writes.",
+)
+@click.option(
+    "--apply-delete",
+    is_flag=True,
+    help="Offer to delete each grid listed for removal, and its features and "
+    "cells with it. Not reversible, and never takes --yes.",
+)
+@click.option(
+    "--yes",
+    "assume_yes",
+    is_flag=True,
+    help="Answer yes to every prompt. Refused with --apply-delete.",
+)
+def command(
+    limit,
+    slug,
+    min_packages,
+    min_confidence,
+    apply_unapprove,
+    apply_delete,
+    assume_yes,
+):
     """
     Score every comparison grid with Jev and print a report, worst first.
 
@@ -82,9 +109,34 @@ def command(limit, slug, min_packages, min_confidence):
     is listed for removal when it is empty or Jev confidently says there is
     no field of packages behind the topic.
 
-    Nothing is written to the database. Reviews five grids unless told
-    otherwise, since each grid costs one API call.
+    Read-only by default. Two ways to act on the removal list, one at a
+    time, each showing the grid's own title, description, and contents:
+
+    --apply-unapprove hides the grid by clearing is_approved. The grid, its
+    features, and its cells all survive, and switching it back is one click
+    in the admin. This is the one to reach for.
+
+    --apply-delete deletes the grid outright, taking its features and its
+    cells with it. The prompt shows how much goes, and the flag does not
+    accept --yes, because the whole point of it is that someone looked.
+
+    Reviews five grids unless told otherwise, since each costs one API call.
     """
+    if apply_unapprove and apply_delete:
+        console.print("[red]Pick one of --apply-unapprove and --apply-delete.[/red]")
+        raise SystemExit(1)
+
+    if apply_delete and assume_yes:
+        console.print(
+            "[red]--yes is not accepted with --apply-delete. Deleting a grid "
+            "takes its features and cells with it, so each one is confirmed "
+            "on its own.[/red]"
+        )
+        raise SystemExit(1)
+
+    if assume_yes and not apply_unapprove:
+        console.print("[yellow]--yes does nothing without an --apply flag.[/yellow]")
+
     grids = grid_rows(limit, slug, min_packages)
     total = grids.count() if hasattr(grids, "count") else len(grids)
 
@@ -205,8 +257,12 @@ def command(limit, slug, min_packages, min_confidence):
         f"| would remove: {len(removals)} | confidence bar: {min_confidence}"
     )
 
-    if removals:
-        console.print("\n[bold]Grids to delete:[/bold]")
+    if removals and apply_unapprove:
+        apply_unapproval(removals, assume_yes)
+    elif removals and apply_delete:
+        apply_deletion(removals)
+    elif removals:
+        console.print("\n[bold]Grids to remove:[/bold]")
         for grid, reason in removals:
             console.print(f"  {grid.slug}: {reason}")
 
@@ -214,3 +270,79 @@ def command(limit, slug, min_packages, min_confidence):
         console.print("\n[bold]Grids to fix:[/bold]")
         for grid, bad in needs_work:
             console.print(f"  {grid.slug}: " + ", ".join(bad))
+
+
+def contents_of(grid):
+    """What a grid is carrying, so a prompt can say what goes with it."""
+    return {
+        "packages": grid.packages.count(),
+        "features": Feature.objects.filter(grid=grid).count(),
+        "cells": Element.objects.filter(feature__grid=grid).count(),
+    }
+
+
+def describe_for_prompt(finding, verb):
+    grid, reason = finding
+    counts = contents_of(grid)
+    return [
+        f"\n  [bold]{grid.slug}[/bold]: {verb} ([yellow]{reason}[/yellow])",
+        f"  {grid.title}",
+        f"  {truncate(grid.description, 160) or '(no description)'}",
+        f"  {counts['packages']} package(s), {counts['features']} feature(s), "
+        f"{counts['cells']} cell(s)",
+    ]
+
+
+def apply_unapproval(removals, assume_yes):
+    """Hide the approved grids. Everything they hold survives."""
+    console.print("\n[bold]Hiding grids[/bold]")
+
+    pending = [(grid, reason) for grid, reason in removals if grid.is_approved]
+    already = len(removals) - len(pending)
+
+    if already:
+        console.print(f"  [dim]{already} already hidden, skipped[/dim]")
+
+    hidden = 0
+
+    for grid, _ in approve_each(
+        console,
+        pending,
+        assume_yes,
+        lambda finding: describe_for_prompt(finding, "hide"),
+    ):
+        grid.is_approved = False
+        grid.save(update_fields=["is_approved"])
+        hidden += 1
+
+    console.print(
+        f"\n[bold]{hidden} grid(s) hidden.[/bold] "
+        "Their packages, features, and cells are untouched."
+    )
+
+
+def apply_deletion(removals):
+    """Delete the grids outright. Features and cells go with them."""
+    console.print("\n[bold]Deleting grids[/bold]")
+    console.print("  [red]This cannot be undone.[/red]")
+
+    deleted = 0
+    lost = {"features": 0, "cells": 0}
+
+    for grid, _ in approve_each(
+        console,
+        removals,
+        False,
+        lambda finding: describe_for_prompt(finding, "[red]DELETE[/red]"),
+    ):
+        counts = contents_of(grid)
+        lost["features"] += counts["features"]
+        lost["cells"] += counts["cells"]
+        grid.delete()
+        deleted += 1
+
+    console.print(
+        f"\n[bold]{deleted} grid(s) deleted[/bold], taking "
+        f"{lost['features']} feature(s) and {lost['cells']} cell(s) with them. "
+        "The packages themselves are untouched."
+    )

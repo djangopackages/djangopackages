@@ -11,6 +11,7 @@ from rich.table import Table
 from grid.ai import (
     MIN_CONFIDENCE,
     PackageOnlyVerdict,
+    approve_each,
     build_agent,
     confidence_of,
     describe_package,
@@ -57,7 +58,18 @@ def off_grid_packages(limit, category):
     type=float,
     help=f"Bar for acting on a verdict. Default {MIN_CONFIDENCE}.",
 )
-def command(limit, category, only_problems, min_confidence):
+@click.option(
+    "--apply-moves",
+    is_flag=True,
+    help="Offer to refile each confidently miscategorised package. Writes.",
+)
+@click.option(
+    "--yes",
+    "assume_yes",
+    is_flag=True,
+    help="Answer yes to every prompt. Only means anything with --apply-moves.",
+)
+def command(limit, category, only_problems, min_confidence, apply_moves, assume_yes):
     """
     Review the packages that are on no comparison grid.
 
@@ -71,9 +83,19 @@ def command(limit, category, only_problems, min_confidence):
     nothing to go on" needs a different fix from "this is filed wrong".
 
     Answers below the confidence bar are reported as unsure rather than
-    counted. Nothing is written to the database. Reviews ten packages unless
-    told otherwise, since each one costs an API call.
+    counted.
+
+    Read-only by default. --apply-moves offers to refile each miscategorised
+    package one at a time, showing its description so the recommendation can
+    be judged on something other than the label. Each prompt takes y, n, or q
+    to stop, and --yes answers them all. Packages that need a description
+    first are never offered, since there is nothing to judge them on.
+
+    Reviews ten packages unless told otherwise, since each costs an API call.
     """
+    if assume_yes and not apply_moves:
+        console.print("[yellow]--yes does nothing without --apply-moves.[/yellow]")
+
     if category and not Category.objects.filter(slug=category).exists():
         known = ", ".join(Category.objects.values_list("slug", flat=True))
         console.print(f"[red]No category {category!r}. Try one of: {known}.[/red]")
@@ -107,7 +129,7 @@ def command(limit, category, only_problems, min_confidence):
     table = Table(title="Off-grid packages")
     table.add_column("Package")
     table.add_column("Filed as")
-    table.add_column("Jev says")
+    table.add_column("Jev says", min_width=24)
     table.add_column("Description")
 
     moves = []
@@ -136,15 +158,20 @@ def command(limit, category, only_problems, min_confidence):
         if only_problems and not a_problem:
             continue
 
+        says = format_answer(
+            verdict.installation_type, confidence, "installation_type", min_confidence
+        )
+
+        # Same marker as evaluate_grid_packages, so the two tables read alike.
+        filed_as = current
+        if sure_on_type and disagrees:
+            filed_as = f"[dim]{current}[/dim]"
+            says = f"[bold yellow]-> {says}[/bold yellow]"
+
         table.add_row(
             package.slug,
-            current,
-            format_answer(
-                verdict.installation_type,
-                confidence,
-                "installation_type",
-                min_confidence,
-            ),
+            filed_as,
+            says,
             format_answer(
                 "usable" if verdict.description_is_usable else "too thin",
                 confidence,
@@ -161,7 +188,22 @@ def command(limit, category, only_problems, min_confidence):
         f"| unsure: {len(unsure)}"
     )
 
-    if moves:
+    # Judging a move means reading the description, so a package whose
+    # description is the problem is reported, never offered.
+    approvable = [
+        (package, suggested)
+        for package, suggested in moves
+        if package not in needs_description
+    ]
+
+    if approvable and apply_moves:
+        apply_category_moves(approvable, assume_yes)
+    elif moves and apply_moves:
+        console.print(
+            "\n[yellow]Nothing to apply. Every move found is on a package "
+            "whose description needs fixing first.[/yellow]"
+        )
+    elif moves:
         console.print("\n[bold]Moves to make, by destination:[/bold]")
         by_destination = defaultdict(list)
         for package, suggested in moves:
@@ -178,3 +220,30 @@ def command(limit, category, only_problems, min_confidence):
             console.print(
                 f"  {package.slug}: {truncate(package.repo_description, 60) or '(none)'}"
             )
+
+
+def apply_category_moves(moves, assume_yes):
+    """Refile the approved packages. Nothing moves without a yes."""
+    console.print("\n[bold]Refiling packages[/bold]")
+
+    def describe(finding):
+        package, suggested = finding
+        return [
+            f"\n  [bold]{package.slug}[/bold]: "
+            f"{package.category.slug} -> [bold yellow]{suggested}[/bold yellow]",
+            f"  {truncate(package.repo_description, 160) or '(no description)'}",
+            f"  {package.repo_url or '(no repo)'}",
+        ]
+
+    moved = 0
+    destinations = {}
+
+    for package, suggested in approve_each(console, moves, assume_yes, describe):
+        if suggested not in destinations:
+            destinations[suggested] = Category.objects.get(slug=suggested)
+
+        package.category = destinations[suggested]
+        package.save(update_fields=["category"])
+        moved += 1
+
+    console.print(f"\n[bold]{moved} package(s) refiled.[/bold]")
