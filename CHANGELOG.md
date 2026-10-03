@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-09-28]
+### Changed
+- [pre-commit.ci] pre-commit autoupdate ([#1681](https://github.com/djangopackages/djangopackages/pull/1681))
+
 ## [2026-09-23]
 ### Changed
 - ⬆️ Bump the all-dependencies group with 6 updates ([#1678](https://github.com/djangopackages/djangopackages/pull/1678))
