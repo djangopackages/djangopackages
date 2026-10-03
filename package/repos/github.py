@@ -5,7 +5,7 @@ from django.utils import timezone
 from github3 import GitHub, login
 from github3.exceptions import NotFoundError
 
-from package.utils import uniquer
+from package.utils import maybe_set_documentation_url, uniquer
 
 from .base_handler import BaseHandler, RepoRateLimitError
 
@@ -75,6 +75,7 @@ class GitHubHandler(BaseHandler):
             package.repo_description = repo.description or ""
             package.repo_forks = repo.forks_count
             package.repo_watchers = repo.watchers_count
+            maybe_set_documentation_url(package, getattr(repo, "homepage", None))
 
             contributors = []
             for contributor in repo.contributors():

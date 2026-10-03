@@ -133,7 +133,7 @@ class Package(BaseModel):
     )
     last_fetched = models.DateTimeField(blank=True, null=True, default=now)
     documentation_url = models.URLField(
-        _("Documentation URL"), blank=True, null=True, default=""
+        _("Documentation URL"), blank=True, null=True, default="", max_length=500
     )
 
     score = models.IntegerField(_("Score"), default=0)
