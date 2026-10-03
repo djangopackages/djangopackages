@@ -202,6 +202,7 @@ PREREQ_APPS = [
     "social_django",
     "waffle",
     "django_q",
+    "django_prodserver",
     "anymail",
     # health checks
     "health_check",
@@ -498,6 +499,23 @@ MAINTENANCE_MODE_STATE_BACKEND = "maintenance_mode.backends.DefaultStorageBacken
 
 # if True admin site will not be affected by the maintenance-mode page
 MAINTENANCE_MODE_IGNORE_ADMIN_SITE = True
+
+# django-prodserver settings
+# https://django-prodserver.readthedocs.io
+PRODUCTION_PROCESSES = {
+    "web": {
+        "BACKEND": "django_prodserver.backends.servers.gunicorn.GunicornServer",
+        "ARGS": {
+            "bind": "0.0.0.0:8000",
+            "workers": "6",
+            "threads": "4",
+        },
+    },
+    "worker": {
+        "BACKEND": "django_prodserver.backends.workers.django_q2.DjangoQ2Worker",
+        "ARGS": {},
+    },
+}
 
 # django-q2 settings
 # https://django-q2.readthedocs.io/en/stable/configure.html
