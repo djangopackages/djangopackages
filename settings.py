@@ -515,6 +515,15 @@ PRODUCTION_PROCESSES = {
         "BACKEND": "django_prodserver.backends.workers.django_q2.DjangoQ2Worker",
         "ARGS": {},
     },
+    # Local development: one worker with gunicorn's reloader.
+    "dev": {
+        "BACKEND": "django_prodserver.backends.servers.gunicorn.GunicornServer",
+        "ARGS": {
+            "bind": "0.0.0.0:8000",
+            "workers": "1",
+            "reload": None,
+        },
+    },
 }
 
 # django-q2 settings
