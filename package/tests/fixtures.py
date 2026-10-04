@@ -5,6 +5,7 @@ from django.utils.timezone import make_aware
 from model_bakery import baker
 
 from package.models import Category, Package, PackageExample, Version
+from package.tests import initial_data
 
 
 @pytest.fixture(autouse=True)
@@ -275,3 +276,9 @@ def package_cms(db, category) -> Package:
     )
 
     return package
+
+
+@pytest.fixture()
+def initial_test_data(db):
+    """The shared package fixture set, with the database-assigned pks."""
+    return initial_data.load()

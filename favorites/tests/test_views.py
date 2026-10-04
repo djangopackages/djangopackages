@@ -9,11 +9,11 @@ from favorites.models import Favorite
 
 class FavoriteViewTest(TestCase):
     def setUp(self):
-        initial_data.load()
+        self.data = initial_data.load()
         for user in User.objects.all():
             profile = Profile.objects.create(user=user)
             profile.save()
-        self.package_id = 1
+        self.package_id = self.data.package1.pk
         self.user = User.objects.get(username="user")
         self.login = self.client.login(username="user", password="user")
 

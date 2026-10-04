@@ -2,6 +2,7 @@ import pytest
 from model_bakery import baker
 
 from grid.models import Element, Feature, Grid, GridPackage
+from grid.tests import data
 
 
 @pytest.fixture()
@@ -22,3 +23,9 @@ def feature(db) -> Feature:
 @pytest.fixture()
 def element(db) -> Element:
     return baker.make(Element)
+
+
+@pytest.fixture()
+def grid_test_data(db):
+    """The shared grid fixture set, with the database-assigned pks."""
+    return data.load()

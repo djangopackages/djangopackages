@@ -1,20 +1,19 @@
+from types import SimpleNamespace
+
 from django.contrib.auth.models import Group, Permission, User
 
-from core.tests import datautil
 from grid.models import Element, Feature, Grid, GridPackage
 from package.models import Category, Package, PackageExample
 
 
 def load():
     category, created = Category.objects.get_or_create(
-        pk=1,
         slug="apps",
         title="App",
         description="Small components used to build projects.",
     )
 
     package1, created = Package.objects.get_or_create(
-        pk=1,
         category=category,
         repo_watchers=0,
         title="Testability",
@@ -27,7 +26,6 @@ def load():
         repo_description="Increase your testing ability with this steroid free supplement.",
     )
     package2, created = Package.objects.get_or_create(
-        pk=2,
         category=category,
         repo_watchers=0,
         title="Supertester",
@@ -40,7 +38,6 @@ def load():
         repo_description="Test everything under the sun with one command!",
     )
     package3, created = Package.objects.get_or_create(
-        pk=3,
         category=category,
         repo_watchers=0,
         title="Serious Testing",
@@ -53,7 +50,6 @@ def load():
         repo_description="Make testing as painless as waxing your legs.",
     )
     package4, created = Package.objects.get_or_create(
-        pk=4,
         category=category,
         repo_watchers=0,
         title="Another Test",
@@ -67,14 +63,12 @@ def load():
     )
 
     grid1, created = Grid.objects.get_or_create(
-        pk=1,
         description="A grid for testing.",
         title="Testing",
         is_locked=False,
         slug="testing",
     )
     grid2, created = Grid.objects.get_or_create(
-        pk=2,
         description="Another grid for testing.",
         title="Another Testing",
         is_locked=False,
@@ -82,53 +76,44 @@ def load():
     )
 
     gridpackage1, created = GridPackage.objects.get_or_create(
-        pk=1,
         package=package1,
         grid=grid1,
     )
     gridpackage2, created = GridPackage.objects.get_or_create(
-        pk=2,
         package=package1,
         grid=grid2,
     )
     gridpackage3, created = GridPackage.objects.get_or_create(
-        pk=3,
         package=package3,
         grid=grid1,
     )
     gridpackage4, created = GridPackage.objects.get_or_create(
-        pk=4,
         package=package3,
         grid=grid2,
     )
     gridpackage5, created = GridPackage.objects.get_or_create(
-        pk=5,
         package=package2,
         grid=grid1,
     )
 
     feature1, created = Feature.objects.get_or_create(
-        pk=1,
         title="Has tests?",
         grid=grid1,
         description="Does this package come with tests?",
     )
     feature2, created = Feature.objects.get_or_create(
-        pk=2,
         title="Coolness?",
         grid=grid1,
         description="Is this package cool?",
     )
 
     element, created = Element.objects.get_or_create(
-        pk=1,
         text="Yes",
         feature=feature1,
         grid_package=gridpackage1,
     )
 
     group1, created = Group.objects.get_or_create(
-        pk=1,
         name="Moderators",
         # permissions=[[u'delete_gridpackage', u'grid', u'gridpackage'], [u'delete_feature', u'grid', u'feature']],
     )
@@ -142,7 +127,6 @@ def load():
 
     # password is 'user'
     user1, created = User.objects.get_or_create(
-        pk=1,
         username="user",
         first_name="",
         last_name="",
@@ -157,7 +141,6 @@ def load():
     user1.save()
 
     user2, created = User.objects.get_or_create(
-        pk=2,
         username="cleaner",
         first_name="",
         last_name="",
@@ -175,7 +158,6 @@ def load():
     user2.save()
 
     user3, created = User.objects.get_or_create(
-        pk=3,
         username="staff",
         first_name="",
         last_name="",
@@ -192,7 +174,6 @@ def load():
 
     # password is 'admin'
     user4, created = User.objects.get_or_create(
-        pk=4,
         username="admin",
         first_name="",
         last_name="",
@@ -208,7 +189,6 @@ def load():
     user4.save()
 
     packageexample, created = PackageExample.objects.get_or_create(
-        pk=1,
         package=package1,
         url="http://www.example.com/",
         active=True,
@@ -216,7 +196,6 @@ def load():
     )
 
     packageexample2, created = PackageExample.objects.get_or_create(
-        pk=2,
         package=package1,
         url="http://my.example.com/",
         active=True,
@@ -225,7 +204,6 @@ def load():
     )
 
     packageexample3, created = PackageExample.objects.get_or_create(
-        pk=3,
         package=package1,
         url="http://other.example.com/",
         active=True,
@@ -233,15 +211,28 @@ def load():
         created_by=user2,
     )
 
-    datautil.reset_sequences(
-        Grid,
-        Group,
-        User,
-        Permission,
-        Category,
-        PackageExample,
-        Package,
-        Element,
-        Feature,
-        GridPackage,
+    return SimpleNamespace(
+        category=category,
+        package1=package1,
+        package2=package2,
+        package3=package3,
+        package4=package4,
+        grid1=grid1,
+        grid2=grid2,
+        gridpackage1=gridpackage1,
+        gridpackage2=gridpackage2,
+        gridpackage3=gridpackage3,
+        gridpackage4=gridpackage4,
+        gridpackage5=gridpackage5,
+        feature1=feature1,
+        feature2=feature2,
+        element=element,
+        group1=group1,
+        user1=user1,
+        user2=user2,
+        user3=user3,
+        user4=user4,
+        packageexample=packageexample,
+        packageexample2=packageexample2,
+        packageexample3=packageexample3,
     )

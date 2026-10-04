@@ -15,7 +15,7 @@ from profiles.models import Profile
 @override_settings(RESTRICT_PACKAGE_EDITORS=False, RESTRICT_GRID_EDITORS=True)
 class FunctionalPackageTest(TestCase):
     def setUp(self):
-        initial_data.load()
+        self.data = initial_data.load()
         for user in User.objects.all():
             profile = Profile.objects.create(user=user)
             profile.save()
@@ -70,8 +70,8 @@ class FunctionalPackageTest(TestCase):
         )
 
     def test_add_package_view(self):
-        # this test has side effects, remove Package 3
-        Package.objects.filter(pk=3).delete()
+        # this test has side effects, remove one of the fixture packages
+        self.data.package3.delete()
         url = reverse("add_package")
         with self.assertNumQueries(0):
             response = self.client.get(url)
@@ -474,7 +474,7 @@ class FunctionalPackageTest(TestCase):
 @override_settings(RESTRICT_PACKAGE_EDITORS=True)
 class PackagePermissionTest(TestCase):
     def setUp(self):
-        initial_data.load()
+        self.data = initial_data.load()
         for user in User.objects.all():
             profile = Profile.objects.create(user=user)
             profile.save()
@@ -567,7 +567,7 @@ class PackagePermissionTest(TestCase):
 @override_settings(RESTRICT_PACKAGE_EDITORS=False)
 class ValidateRepositoryURLViewTest(TestCase):
     def setUp(self):
-        initial_data.load()
+        self.data = initial_data.load()
         for user in User.objects.all():
             Profile.objects.create(user=user)
         self.user = User.objects.get(username="user")
@@ -618,17 +618,13 @@ class ValidateRepositoryURLViewTest(TestCase):
         )
 
 
-def test_category_view(db, django_assert_num_queries, tp):
-    initial_data.load()
-
+def test_category_view(django_assert_num_queries, tp, initial_test_data):
     with django_assert_num_queries(4):
         response = tp.client.get("/categories/apps/")
     assert "apps" in str(response.content)
 
 
-def test_grid_package_list(db, django_assert_num_queries, tp):
-    initial_data.load()
-
+def test_grid_package_list(django_assert_num_queries, tp, initial_test_data):
     with django_assert_num_queries(6):
         url = tp.reverse("grid_packages", slug="testing")
         response = tp.client.get(url)

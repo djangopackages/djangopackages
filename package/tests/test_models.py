@@ -2,39 +2,33 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 
 from package.forms import PackageCreateForm
-from package.models import FlaggedPackage, Package, Version
+from package.models import FlaggedPackage, Package
 from package.repos.forgejo import ForgejoHandler
-from package.tests import data, initial_data
+from package.tests import initial_data
 
 
-class VersionTests(TestCase):
-    def setUp(self):
-        data.load()
+def test_version_order(package_cms):
+    versions = package_cms.version_set.by_version()
+    expected_values = [
+        "2.0.0",
+        "2.0.1",
+        "2.0.2",
+        "2.1.0",
+        # "2.1.0.beta3",
+        # "2.1.0.rc1",
+        # "2.1.0.rc2",
+        # "2.1.0.rc3",
+        "2.1.1",
+        "2.1.2",
+        "2.1.3",
+    ]
+    assert [v.number for v in versions] == expected_values
 
-    def test_version_order(self):
-        p = Package.objects.get(slug="django-cms")
-        versions = p.version_set.by_version()
-        expected_values = [
-            "2.0.0",
-            "2.0.1",
-            "2.0.2",
-            "2.1.0",
-            # "2.1.0.beta3",
-            # "2.1.0.rc1",
-            # "2.1.0.rc2",
-            # "2.1.0.rc3",
-            "2.1.1",
-            "2.1.2",
-            "2.1.3",
-        ]
-        returned_values = [v.number for v in versions]
-        self.assertEqual(returned_values, expected_values)
 
-    def test_version_license_length(self):
-        v = Version.objects.all()[0]
-        v.license = "x" * 50
-        v.save()
-        self.assertEqual(v.license, "Custom")
+def test_version_license_length(version):
+    version.license = "x" * 50
+    version.save()
+    assert version.license == "Custom"
 
 
 class PackageTests(TestCase):

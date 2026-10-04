@@ -20,7 +20,7 @@ from profiles.models import Profile
 class FunctionalGridTest(TestCase):
     def setUp(self):
         Grid.objects.all().delete()
-        data.load()
+        self.data = data.load()
         # Clear every cache, not just the default one. Waffle reads flags and
         # switches through its own session-scoped LocMemCache (see
         # WAFFLE_CACHE_NAME in conftest.py), so a flag another test already
@@ -207,7 +207,7 @@ class FunctionalGridTest(TestCase):
         self.assertTrue(Feature.objects.filter(title="TEST TITLE").exists())
 
     def test_edit_feature_view(self):
-        url = reverse("edit_feature", kwargs={"id": "1"})
+        url = reverse("edit_feature", kwargs={"id": self.data.feature1.pk})
         response = self.client.get(url)
 
         # The response should be a redirect, since the user is not logged in.
@@ -236,7 +236,7 @@ class FunctionalGridTest(TestCase):
         # Since this user doesn't have the appropriate permissions, none of the
         # features should be deleted (thus the count should be the same).
         self.assertTrue(self.client.login(username="user", password="user"))
-        url = reverse("delete_feature", kwargs={"id": "1"})
+        url = reverse("delete_feature", kwargs={"id": self.data.feature1.pk})
         with self.assertNumQueries(8):
             self.client.post(url)
         self.assertEqual(count, Feature.objects.count())
@@ -248,9 +248,15 @@ class FunctionalGridTest(TestCase):
         self.assertEqual(Feature.objects.count(), count - 1)
 
     def test_edit_element_view(self):
+        feature = Feature.objects.get(grid__slug="testing", title="Has tests?")
+        package = Package.objects.get(slug="testability")
         url = reverse(
             "edit_element",
-            kwargs={"grid_slug": "testing", "feature_id": "1", "package_id": "1"},
+            kwargs={
+                "grid_slug": "testing",
+                "feature_id": feature.pk,
+                "package_id": package.pk,
+            },
         )
         with self.assertNumQueries(0):
             response = self.client.get(url)
@@ -275,18 +281,25 @@ class FunctionalGridTest(TestCase):
         )
         self.assertEqual(Element.objects.count(), count)
 
-        # Confirm 404 if grid IDs differ
+        # Confirm 404 for a package that is not on this grid
+        unlisted_package = Package.objects.get(slug="another-test")
         url = reverse(
             "edit_element",
-            kwargs={"grid_slug": "testing", "feature_id": "1", "package_id": "4"},
+            kwargs={
+                "grid_slug": "testing",
+                "feature_id": feature.pk,
+                "package_id": unlisted_package.pk,
+            },
         )
         response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
 
     def test_add_grid_package_view(self):
-        # this test has side effects. Remove GridPackage 1 and 3
-        GridPackage.objects.get(pk=1).delete()
-        GridPackage.objects.get(pk=3).delete()
+        # this test has side effects. Remove two of the grid's packages
+        GridPackage.objects.filter(
+            grid__slug="testing",
+            package__slug__in=["testability", "serious-testing"],
+        ).delete()
         url = reverse("add_grid_package", kwargs={"grid_slug": "testing"})
         response = self.client.get(url)
 
@@ -304,7 +317,7 @@ class FunctionalGridTest(TestCase):
         response = self.client.post(
             url,
             {
-                "package": 2,
+                "package": self.data.package2.pk,
             },
         )
         self.assertContains(
@@ -315,7 +328,7 @@ class FunctionalGridTest(TestCase):
         response = self.client.post(
             url,
             {
-                "package": 4,
+                "package": Package.objects.get(slug="another-test").pk,
             },
             follow=True,
         )
@@ -323,7 +336,8 @@ class FunctionalGridTest(TestCase):
         self.assertContains(response, "Another Test")
 
     def test_ajax_grid_search_view(self):
-        url = reverse("ajax_grid_search") + "?q=Testing&package_id=4"
+        package = Package.objects.get(slug="another-test")
+        url = reverse("ajax_grid_search") + f"?q=Testing&package_id={package.pk}"
         with self.assertNumQueries(2):
             response = self.client.get(url)
         self.assertContains(response, "Testing")
@@ -335,7 +349,8 @@ class FunctionalGridTest(TestCase):
         # features should be deleted (thus the count should be the same).
         self.assertTrue(self.client.login(username="user", password="user"))
         url = reverse(
-            "delete_grid_package", kwargs={"grid_slug": "testing", "package_id": "1"}
+            "delete_grid_package",
+            kwargs={"grid_slug": "testing", "package_id": self.data.package1.pk},
         )
         with self.assertNumQueries(8):
             self.client.post(url)
@@ -351,20 +366,23 @@ class FunctionalGridTest(TestCase):
 @override_settings(RESTRICT_GRID_EDITORS=False)
 class RegressionGridTest(TestCase):
     def setUp(self):
-        data.load()
+        self.data = data.load()
 
     def test_edit_element_view_for_nonexistent_elements(self):
         """Make sure that attempts to edit nonexistent elements succeed."""
         # Delete the element for the specified feature and package.
-        element, created = Element.objects.get_or_create(feature=1, grid_package=1)
-        element.delete()
+        self.data.element.delete()
 
         # Log in the test user and attempt to edit the element.
         self.assertTrue(self.client.login(username="user", password="user"))
 
         url = reverse(
             "edit_element",
-            kwargs={"grid_slug": "testing", "feature_id": "1", "package_id": "1"},
+            kwargs={
+                "grid_slug": "testing",
+                "feature_id": self.data.feature1.pk,
+                "package_id": self.data.package1.pk,
+            },
         )
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -374,7 +392,7 @@ class RegressionGridTest(TestCase):
 @override_settings(RESTRICT_GRID_EDITORS=True)
 class GridPermissionTest(TestCase):
     def setUp(self):
-        data.load()
+        self.data = data.load()
         self.test_add_url = reverse("add_grid")
         self.test_edit_url = reverse("edit_grid", kwargs={"slug": "testing"})
         self.login = self.client.login(username="user", password="user")
@@ -408,10 +426,11 @@ class GridPermissionTest(TestCase):
 @override_settings(RESTRICT_GRID_EDITORS=True)
 class GridPackagePermissionTest(TestCase):
     def setUp(self):
-        data.load()
+        self.data = data.load()
         self.test_add_url = reverse("add_grid_package", kwargs={"grid_slug": "testing"})
         self.test_delete_url = reverse(
-            "delete_grid_package", kwargs={"grid_slug": "testing", "package_id": "1"}
+            "delete_grid_package",
+            kwargs={"grid_slug": "testing", "package_id": self.data.package1.pk},
         )
         self.login = self.client.login(username="user", password="user")
         self.user = User.objects.get(username="user")
@@ -447,10 +466,14 @@ class GridPackagePermissionTest(TestCase):
 @override_settings(RESTRICT_GRID_EDITORS=True)
 class GridFeaturePermissionTest(TestCase):
     def setUp(self):
-        data.load()
+        self.data = data.load()
         self.test_add_url = reverse("add_feature", kwargs={"grid_slug": "testing"})
-        self.test_edit_url = reverse("edit_feature", kwargs={"id": "1"})
-        self.test_delete_url = reverse("delete_feature", kwargs={"id": "1"})
+        self.test_edit_url = reverse(
+            "edit_feature", kwargs={"id": self.data.feature1.pk}
+        )
+        self.test_delete_url = reverse(
+            "delete_feature", kwargs={"id": self.data.feature1.pk}
+        )
         self.login = self.client.login(username="user", password="user")
         self.user = User.objects.get(username="user")
 
@@ -494,10 +517,14 @@ class GridFeaturePermissionTest(TestCase):
 @override_settings(RESTRICT_GRID_EDITORS=True)
 class GridElementPermissionTest(TestCase):
     def setUp(self):
-        data.load()
+        self.data = data.load()
         self.test_edit_url = reverse(
             "edit_element",
-            kwargs={"grid_slug": "testing", "feature_id": "1", "package_id": "1"},
+            kwargs={
+                "grid_slug": "testing",
+                "feature_id": self.data.feature1.pk,
+                "package_id": self.data.package1.pk,
+            },
         )
         self.login = self.client.login(username="user", password="user")
         self.user = User.objects.get(username="user")
@@ -750,11 +777,9 @@ class GridShowFeaturesTest(TestCase):
 @override_settings(RESTRICT_GRID_EDITORS=False)
 class NewAccountGridReviewTest(TestCase):
     def setUp(self):
-        data.load()
+        self.data = data.load()
         cache.clear()
-        self.new_user = User.objects.create_user(
-            pk=100, username="newbie", password="newbie"
-        )
+        self.new_user = User.objects.create_user(username="newbie", password="newbie")
         Profile.objects.create(user=self.new_user)
 
     def create_pending_grid(self):
@@ -822,10 +847,14 @@ class NewAccountGridReviewTest(TestCase):
             reverse("edit_grid", kwargs={"slug": "testing"}),
             reverse("add_feature", kwargs={"grid_slug": "testing"}),
             reverse("add_grid_package", kwargs={"grid_slug": "testing"}),
-            reverse("edit_feature", kwargs={"id": "1"}),
+            reverse("edit_feature", kwargs={"id": self.data.feature1.pk}),
             reverse(
                 "edit_element",
-                kwargs={"grid_slug": "testing", "feature_id": "1", "package_id": "1"},
+                kwargs={
+                    "grid_slug": "testing",
+                    "feature_id": self.data.feature1.pk,
+                    "package_id": self.data.package1.pk,
+                },
             ),
         ]
         for url in urls:

@@ -17,7 +17,6 @@ active_package_last_commit = now() - timedelta(minutes=30)
 
 def load():
     category, created = Category.objects.get_or_create(
-        pk=2,
         description="Large efforts that combine many python modules or apps. Examples include Django, Pinax, and Satchmo. Most CMS falls into this category.",
         show_pypi=True,
         title_plural="Frameworks",
@@ -26,7 +25,6 @@ def load():
     )
 
     package, created = Package.objects.get_or_create(
-        pk=6,
         category=category,
         title="Django CMS",
         created_by=None,
@@ -44,7 +42,6 @@ def load():
     )
 
     package, created = Package.objects.get_or_create(
-        pk=7,
         category=category,
         title="Abandoned Package",
         created_by=None,
@@ -59,7 +56,6 @@ def load():
     )
 
     package, created = Package.objects.get_or_create(
-        pk=8,
         category=category,
         title="Abandoned Package 10 years",
         created_by=None,
@@ -74,7 +70,6 @@ def load():
     )
 
     user, created = User.objects.get_or_create(
-        pk=129,
         username="unbracketed",
         first_name="",
         last_name="",
@@ -90,7 +85,6 @@ def load():
     )
 
     user, created = User.objects.get_or_create(
-        pk=50,
         username="ojii",
         first_name="",
         last_name="",
@@ -105,7 +99,6 @@ def load():
         date_joined="2010-08-18 03:35:23",
     )
     user, created = User.objects.get_or_create(
-        pk=43,
         username="vvarp",
         first_name="",
         last_name="",
@@ -120,7 +113,6 @@ def load():
         date_joined="2010-08-17 18:43:12",
     )
     user, created = User.objects.get_or_create(
-        pk=183,
         username="onjin",
         first_name="",
         last_name="",
@@ -135,7 +127,6 @@ def load():
         date_joined="2010-09-07 02:23:11",
     )
     user, created = User.objects.get_or_create(
-        pk=87,
         username="jezdez",
         first_name="",
         last_name="",
@@ -150,7 +141,6 @@ def load():
         date_joined="2010-08-21 04:14:03",
     )
     user, created = User.objects.get_or_create(
-        pk=204,
         username="flmendes",
         first_name="",
         last_name="",
@@ -165,7 +155,6 @@ def load():
         date_joined="2010-09-08 22:49:34",
     )
     user, created = User.objects.get_or_create(
-        pk=1,
         username="audreyr",
         first_name="",
         last_name="",
@@ -180,7 +169,6 @@ def load():
         date_joined="2010-08-15 22:15:50",
     )
     user, created = User.objects.get_or_create(
-        pk=231,
         username="digi604",
         first_name="",
         last_name="",
@@ -195,7 +183,6 @@ def load():
         date_joined="2010-09-12 07:32:42",
     )
     user, created = User.objects.get_or_create(
-        pk=233,
         username="mikl",
         first_name="",
         last_name="",
@@ -210,7 +197,6 @@ def load():
         date_joined="2010-09-12 08:56:36",
     )
     user, created = User.objects.get_or_create(
-        pk=239,
         username="arthurk",
         first_name="",
         last_name="",
@@ -225,7 +211,6 @@ def load():
         date_joined="2010-09-12 19:12:55",
     )
     user, created = User.objects.get_or_create(
-        pk=241,
         username="juacompe",
         first_name="",
         last_name="",
@@ -240,7 +225,6 @@ def load():
         date_joined="2010-09-13 03:10:39",
     )
     user, created = User.objects.get_or_create(
-        pk=248,
         username="kocakafa",
         first_name="",
         last_name="",
@@ -255,7 +239,6 @@ def load():
         date_joined="2010-09-13 10:08:40",
     )
     user, created = User.objects.get_or_create(
-        pk=252,
         username="dmoisset",
         first_name="",
         last_name="",
@@ -270,7 +253,6 @@ def load():
         date_joined="2010-09-13 13:53:32",
     )
     user, created = User.objects.get_or_create(
-        pk=262,
         username="eged",
         first_name="",
         last_name="",
@@ -285,7 +267,6 @@ def load():
         date_joined="2010-09-14 06:50:44",
     )
     user, created = User.objects.get_or_create(
-        pk=263,
         username="rtpm",
         first_name="",
         last_name="",
@@ -300,7 +281,6 @@ def load():
         date_joined="2010-09-14 07:47:29",
     )
     user, created = User.objects.get_or_create(
-        pk=268,
         username="flynnguy",
         first_name="",
         last_name="",
@@ -315,7 +295,6 @@ def load():
         date_joined="2010-09-14 09:20:08",
     )
     user, created = User.objects.get_or_create(
-        pk=282,
         username="mcosta",
         first_name="",
         last_name="",
@@ -330,7 +309,6 @@ def load():
         date_joined="2010-09-14 18:41:02",
     )
     user, created = User.objects.get_or_create(
-        pk=284,
         username="chromano",
         first_name="",
         last_name="",
@@ -345,7 +323,6 @@ def load():
         date_joined="2010-09-14 19:30:41",
     )
     user, created = User.objects.get_or_create(
-        pk=298,
         username="robedwards",
         first_name="",
         last_name="",
@@ -360,7 +337,6 @@ def load():
         date_joined="2010-09-15 07:42:18",
     )
     user, created = User.objects.get_or_create(
-        pk=32,
         username="markusgattol",
         first_name="",
         last_name="",
@@ -375,7 +351,6 @@ def load():
         date_joined="2010-08-17 14:05:10",
     )
     user, created = User.objects.get_or_create(
-        pk=338,
         username="iamsk",
         first_name="",
         last_name="",
@@ -390,7 +365,6 @@ def load():
         date_joined="2010-09-17 04:14:36",
     )
     user, created = User.objects.get_or_create(
-        pk=342,
         username="kiello",
         first_name="",
         last_name="",
@@ -405,7 +379,6 @@ def load():
         date_joined="2010-09-17 05:39:00",
     )
     user, created = User.objects.get_or_create(
-        pk=344,
         username="nimnull",
         first_name="",
         last_name="",
@@ -420,7 +393,6 @@ def load():
         date_joined="2010-09-17 07:31:45",
     )
     user, created = User.objects.get_or_create(
-        pk=345,
         username="dblkey",
         first_name="",
         last_name="",
@@ -435,7 +407,6 @@ def load():
         date_joined="2010-09-17 08:16:44",
     )
     user, created = User.objects.get_or_create(
-        pk=348,
         username="netpastor",
         first_name="",
         last_name="",
@@ -450,7 +421,6 @@ def load():
         date_joined="2010-09-17 10:17:26",
     )
     user, created = User.objects.get_or_create(
-        pk=355,
         username="limpbrains",
         first_name="",
         last_name="",
@@ -465,7 +435,6 @@ def load():
         date_joined="2010-09-17 17:43:45",
     )
     user, created = User.objects.get_or_create(
-        pk=388,
         username="mrbox",
         first_name="",
         last_name="",
@@ -480,7 +449,6 @@ def load():
         date_joined="2010-09-21 09:20:54",
     )
     user, created = User.objects.get_or_create(
-        pk=401,
         username="archatas",
         first_name="",
         last_name="",
@@ -495,7 +463,6 @@ def load():
         date_joined="2010-09-21 23:45:16",
     )
     user, created = User.objects.get_or_create(
-        pk=295,
         username="mat",
         first_name="",
         last_name="",
@@ -510,7 +477,6 @@ def load():
         date_joined="2010-09-15 07:08:21",
     )
     user, created = User.objects.get_or_create(
-        pk=36,
         username="joshourisman",
         first_name="",
         last_name="",
@@ -525,7 +491,6 @@ def load():
         date_joined="2010-08-17 14:53:18",
     )
     user, created = User.objects.get_or_create(
-        pk=444,
         username="piquadrat",
         first_name="",
         last_name="",
@@ -540,7 +505,6 @@ def load():
         date_joined="2010-09-28 04:49:14",
     )
     user, created = User.objects.get_or_create(
-        pk=422,
         username="evotech",
         first_name="",
         last_name="",
@@ -555,7 +519,6 @@ def load():
         date_joined="2010-09-24 05:41:49",
     )
     user, created = User.objects.get_or_create(
-        pk=449,
         username="partizan",
         first_name="",
         last_name="",
@@ -570,7 +533,6 @@ def load():
         date_joined="2010-09-28 13:03:59",
     )
     user, created = User.objects.get_or_create(
-        pk=157,
         username="feuervogel",
         first_name="",
         last_name="",
@@ -585,7 +547,6 @@ def load():
         date_joined="2010-08-31 13:47:05",
     )
     user, created = User.objects.get_or_create(
-        pk=457,
         username="LukaszDziedzia",
         first_name="",
         last_name="",
@@ -600,7 +561,6 @@ def load():
         date_joined="2010-09-29 07:43:26",
     )
     user, created = User.objects.get_or_create(
-        pk=462,
         username="emencia",
         first_name="",
         last_name="",
@@ -615,7 +575,6 @@ def load():
         date_joined="2010-09-29 12:00:32",
     )
     user, created = User.objects.get_or_create(
-        pk=271,
         username="zenweasel",
         first_name="",
         last_name="",
@@ -630,7 +589,6 @@ def load():
         date_joined="2010-09-14 11:35:25",
     )
     user, created = User.objects.get_or_create(
-        pk=143,
         username="spookylukey",
         first_name="",
         last_name="",
@@ -645,7 +603,6 @@ def load():
         date_joined="2010-08-30 08:33:49",
     )
     user, created = User.objects.get_or_create(
-        pk=433,
         username="avoine",
         first_name="",
         last_name="",
@@ -660,7 +617,6 @@ def load():
         date_joined="2010-09-26 16:31:53",
     )
     user, created = User.objects.get_or_create(
-        pk=554,
         username="ethan",
         first_name="",
         last_name="",
@@ -675,7 +631,6 @@ def load():
         date_joined="2010-10-20 18:23:30",
     )
     user, created = User.objects.get_or_create(
-        pk=448,
         username="chem",
         first_name="",
         last_name="",
@@ -690,7 +645,6 @@ def load():
         date_joined="2010-09-28 11:36:56",
     )
     user, created = User.objects.get_or_create(
-        pk=470,
         username="wires",
         first_name="",
         last_name="",
@@ -705,7 +659,6 @@ def load():
         date_joined="2010-09-30 10:20:20",
     )
     user, created = User.objects.get_or_create(
-        pk=562,
         username="rasca",
         first_name="",
         last_name="",
@@ -720,7 +673,6 @@ def load():
         date_joined="2010-10-24 12:24:08",
     )
     user, created = User.objects.get_or_create(
-        pk=86,
         username="justhamade",
         first_name="",
         last_name="",
@@ -735,7 +687,6 @@ def load():
         date_joined="2010-08-21 00:11:33",
     )
     user, created = User.objects.get_or_create(
-        pk=73,
         username="slav0nic",
         first_name="",
         last_name="",
@@ -750,7 +701,6 @@ def load():
         date_joined="2010-08-19 06:24:12",
     )
     user, created = User.objects.get_or_create(
-        pk=504,
         username="Fantomas42",
         first_name="",
         last_name="",
@@ -765,7 +715,6 @@ def load():
         date_joined="2010-10-07 09:26:41",
     )
     user, created = User.objects.get_or_create(
-        pk=610,
         username="globalnamespace",
         first_name="",
         last_name="",
@@ -780,7 +729,6 @@ def load():
         date_joined="2010-11-04 13:37:57",
     )
     user, created = User.objects.get_or_create(
-        pk=621,
         username="btubbs",
         first_name="",
         last_name="",
@@ -795,7 +743,6 @@ def load():
         date_joined="2010-11-06 19:36:22",
     )
     user, created = User.objects.get_or_create(
-        pk=651,
         username="HounD",
         first_name="",
         last_name="",
@@ -810,7 +757,6 @@ def load():
         date_joined="2010-11-13 00:45:44",
     )
     user, created = User.objects.get_or_create(
-        pk=663,
         username="encinas",
         first_name="",
         last_name="",
@@ -825,7 +771,6 @@ def load():
         date_joined="2010-11-15 10:05:27",
     )
     user, created = User.objects.get_or_create(
-        pk=688,
         username="nasp",
         first_name="",
         last_name="",
@@ -840,7 +785,6 @@ def load():
         date_joined="2010-11-20 22:27:37",
     )
     user, created = User.objects.get_or_create(
-        pk=661,
         username="ralphleyga",
         first_name="",
         last_name="",
@@ -855,7 +799,6 @@ def load():
         date_joined="2010-11-15 08:46:31",
     )
     user, created = User.objects.get_or_create(
-        pk=766,
         username="xigit",
         first_name="",
         last_name="",
@@ -870,7 +813,6 @@ def load():
         date_joined="2010-12-06 04:26:04",
     )
     user, created = User.objects.get_or_create(
-        pk=770,
         username="espenhogbakk",
         first_name="",
         last_name="",
@@ -885,7 +827,6 @@ def load():
         date_joined="2010-12-06 06:12:27",
     )
     user, created = User.objects.get_or_create(
-        pk=773,
         username="petko",
         first_name="",
         last_name="",
@@ -900,7 +841,6 @@ def load():
         date_joined="2010-12-06 07:01:57",
     )
     user, created = User.objects.get_or_create(
-        pk=799,
         username="eallik",
         first_name="",
         last_name="",
@@ -915,7 +855,6 @@ def load():
         date_joined="2010-12-06 12:47:55",
     )
     user, created = User.objects.get_or_create(
-        pk=821,
         username="digitaldreamer",
         first_name="",
         last_name="",
@@ -930,7 +869,6 @@ def load():
         date_joined="2010-12-09 23:37:03",
     )
     user, created = User.objects.get_or_create(
-        pk=834,
         username="andrey_shipilov",
         first_name="",
         last_name="",
@@ -945,7 +883,6 @@ def load():
         date_joined="2010-12-13 06:54:28",
     )
     user, created = User.objects.get_or_create(
-        pk=847,
         username="john",
         first_name="",
         last_name="",
@@ -960,7 +897,6 @@ def load():
         date_joined="2010-12-15 23:01:23",
     )
     user, created = User.objects.get_or_create(
-        pk=848,
         username="tmilovan",
         first_name="",
         last_name="",
@@ -975,7 +911,6 @@ def load():
         date_joined="2010-12-16 13:02:12",
     )
     user, created = User.objects.get_or_create(
-        pk=850,
         username="silvergeko",
         first_name="",
         last_name="",
@@ -990,7 +925,6 @@ def load():
         date_joined="2010-12-17 15:21:25",
     )
     user, created = User.objects.get_or_create(
-        pk=322,
         username="tino",
         first_name="",
         last_name="",
@@ -1005,7 +939,6 @@ def load():
         date_joined="2010-09-16 16:27:02",
     )
     user, created = User.objects.get_or_create(
-        pk=883,
         username="mariocesar",
         first_name="",
         last_name="",
@@ -1020,7 +953,6 @@ def load():
         date_joined="2010-12-29 08:35:49",
     )
     user, created = User.objects.get_or_create(
-        pk=823,
         username="qrilka",
         first_name="",
         last_name="",
@@ -1035,7 +967,6 @@ def load():
         date_joined="2010-12-10 05:15:35",
     )
     user, created = User.objects.get_or_create(
-        pk=958,
         username="dmpeters63",
         first_name="",
         last_name="",
@@ -1050,7 +981,6 @@ def load():
         date_joined="2011-01-28 03:04:11",
     )
     user, created = User.objects.get_or_create(
-        pk=387,
         username="oversize",
         first_name="",
         last_name="",
@@ -1065,7 +995,6 @@ def load():
         date_joined="2010-09-21 05:44:08",
     )
     user, created = User.objects.get_or_create(
-        pk=361,
         username="moskrc",
         first_name="",
         last_name="",
@@ -1080,7 +1009,6 @@ def load():
         date_joined="2010-09-18 15:53:47",
     )
     user, created = User.objects.get_or_create(
-        pk=123,
         username="stefanfoulis",
         first_name="",
         last_name="",
@@ -1095,7 +1023,6 @@ def load():
         date_joined="2010-08-28 13:54:39",
     )
     user, created = User.objects.get_or_create(
-        pk=1026,
         username="gmh04",
         first_name="",
         last_name="",
@@ -1110,7 +1037,6 @@ def load():
         date_joined="2011-02-16 16:05:47",
     )
     user, created = User.objects.get_or_create(
-        pk=516,
         username="azizmb",
         first_name="",
         last_name="",
@@ -1125,7 +1051,6 @@ def load():
         date_joined="2010-10-09 13:54:45",
     )
     user, created = User.objects.get_or_create(
-        pk=715,
         username="mwalling",
         first_name="",
         last_name="",
@@ -1140,7 +1065,6 @@ def load():
         date_joined="2010-11-28 13:36:12",
     )
     user, created = User.objects.get_or_create(
-        pk=1105,
         username="evilkarlothian",
         first_name="",
         last_name="",
@@ -1155,10 +1079,9 @@ def load():
         date_joined="2011-03-14 18:52:34",
     )
 
-    cms_package = Package.objects.get(pk=6)
+    cms_package = Package.objects.get(slug="django-cms")
 
     version, created = Version.objects.get_or_create(
-        pk=9,
         license="BSD License",
         downloads=13644,
         package=cms_package,
@@ -1167,7 +1090,6 @@ def load():
         supports_python3=True,
     )
     version, created = Version.objects.get_or_create(
-        pk=10,
         license="BSD License",
         downloads=4326,
         package=cms_package,
@@ -1175,7 +1097,6 @@ def load():
         hidden=False,
     )
     version, created = Version.objects.get_or_create(
-        pk=11,
         license="BSD License",
         downloads=212,
         package=cms_package,
@@ -1183,7 +1104,6 @@ def load():
         hidden=False,
     )
     version, created = Version.objects.get_or_create(
-        pk=12,
         license="BSD License",
         downloads=1062,
         package=cms_package,
@@ -1191,7 +1111,6 @@ def load():
         hidden=False,
     )
     version, created = Version.objects.get_or_create(
-        pk=1870,
         license="BSD License",
         downloads=299,
         package=cms_package,
@@ -1199,7 +1118,6 @@ def load():
         hidden=False,
     )
     version, created = Version.objects.get_or_create(
-        pk=1913,
         license="BSD License",
         downloads=726,
         package=cms_package,
@@ -1207,7 +1125,6 @@ def load():
         hidden=False,
     )
     version, created = Version.objects.get_or_create(
-        pk=1977,
         license="BSD License",
         downloads=850,
         package=cms_package,
@@ -1215,7 +1132,6 @@ def load():
         hidden=False,
     )
     version, created = Version.objects.get_or_create(
-        pk=2041,
         license="BSD License",
         downloads=1613,
         package=cms_package,
@@ -1223,7 +1139,6 @@ def load():
         hidden=False,
     )
     version, created = Version.objects.get_or_create(
-        pk=2177,
         license="BSD License",
         downloads=906,
         package=cms_package,
@@ -1231,7 +1146,6 @@ def load():
         hidden=False,
     )
     version, created = Version.objects.get_or_create(
-        pk=2252,
         license="BSD License",
         downloads=715,
         package=cms_package,
@@ -1239,7 +1153,6 @@ def load():
         hidden=False,
     )
     version, created = Version.objects.get_or_create(
-        pk=2278,
         license="BSD License",
         downloads=1904,
         package=cms_package,
