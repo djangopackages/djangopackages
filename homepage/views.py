@@ -321,7 +321,7 @@ class HomepageView(TemplateView):
                     "pk", "slug", "description", "title", "title_plural"
                 )
                 .annotate(package_count=Count("package"))
-                .order_by("-package_count")[:4]
+                .order_by("-package_count")
             )
             # cache dict for 5 minutes...
             cache.set("categories", categories, timeout=60 * 5)
