@@ -52,18 +52,12 @@
 
                     <h2 class="text-foreground mt-6 mb-4 text-xl font-bold">{% translate "Repos" %}</h2>
                     <div class="space-y-2">
-                        <div class="flex justify-between">
-                            <span class="text-muted-foreground">{% translate "GitHub Repos" %}</span>
-                            <span class="text-foreground font-medium">{{ repos_github|intcomma }}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-muted-foreground">{% translate "Bitbucket Repos" %}</span>
-                            <span class="text-foreground font-medium">{{ repos_bitbucket|intcomma }}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-muted-foreground">{% translate "GitLab Repos" %}</span>
-                            <span class="text-foreground font-medium">{{ repos_gitlab|intcomma }}</span>
-                        </div>
+                        {% for host in repo_hosts.rows %}
+                            <div class="flex justify-between">
+                                <span class="text-muted-foreground">{{ host.label }}</span>
+                                <span class="text-foreground font-medium">{{ host.count|intcomma }}</span>
+                            </div>
+                        {% endfor %}
                     </div>
 
                     <h2 class="text-foreground mt-6 mb-4 text-xl font-bold">{% translate "PyPI" %}</h2>
@@ -183,6 +177,57 @@
         </div>
 
         <div class="mb-8">
+            <h2 class="text-foreground text-3xl font-bold">{% translate "Repository hosts" %}</h2>
+            <p class="text-muted-foreground mt-2">
+                {% blocktranslate with total=repo_hosts.total|intcomma %}Where the {{ total }} active packages are hosted.{% endblocktranslate %}
+            </p>
+        </div>
+
+        <div class="mb-12 grid grid-cols-1 gap-8 lg:grid-cols-2">
+            <div class="card">
+                <div class="card-content p-6">
+                    <canvas id="chart_repo_hosts"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content p-6">
+                    {% comment %}
+                        The same numbers as the chart, in a form a screen reader
+                        and a copy-paste can both deal with. A canvas is neither.
+                    {% endcomment %}
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead>
+                                <tr class="border-border border-b">
+                                    <th class="text-muted-foreground py-2 font-medium">{% translate "Host" %}</th>
+                                    <th class="text-muted-foreground py-2 text-right font-medium">{% translate "Packages" %}</th>
+                                    <th class="text-muted-foreground py-2 text-right font-medium">{% translate "Share" %}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for host in repo_hosts.rows %}
+                                    <tr class="border-border border-b">
+                                        <td class="py-2">
+                                            <span class="mr-2 inline-block h-3 w-3 rounded-full align-middle"
+                                                  style="background-color: {{ host.color }}"></span>
+                                            {{ host.label }}
+                                        </td>
+                                        <td class="py-2 text-right">{{ host.count|intcomma }}</td>
+                                        <td class="py-2 text-right">{{ host.percent }}%</td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td class="text-muted-foreground py-2" colspan="3">{% translate "No packages yet." %}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-8">
             <h2 class="text-foreground text-3xl font-bold">{% translate "Funding" %}</h2>
         </div>
 
@@ -267,8 +312,50 @@
 {% endblock content %}
 
 {% block extra_js %}
+    {{ repo_hosts.rows|json_script:"repo-hosts-data" }}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     <script>
+
+        function draw_repo_host_chart(context, rows) {
+            if (!rows.length) {
+                return null;
+            }
+
+            return new Chart(context, {
+                type: 'doughnut',
+                data: {
+                    labels: rows.map(row => row.label),
+                    datasets: [{
+                        data: rows.map(row => row.percent),
+                        backgroundColor: rows.map(row => row.color),
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Packages by repository host'
+                    },
+                    legend: {
+                        position: 'bottom'
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function (item, data) {
+                                const row = rows[item.index];
+                                return row.label + ': ' + row.percent + '% (' + row.count + ')';
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        draw_repo_host_chart(
+            'chart_repo_hosts',
+            JSON.parse(document.getElementById('repo-hosts-data').textContent)
+        );
+
 
 
         function draw_chart(title, context, costData, incomeData) {

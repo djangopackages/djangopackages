@@ -3,12 +3,98 @@ from django.core.cache import cache
 from django.db.models import Count, Q, Sum
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.utils.translation import gettext
 from django.views.generic import TemplateView
 from reversion.admin import get_object_or_404
 
 from grid.models import Grid
-from package.models import Category, Package, Version
+from package.models import Category, Package, RepoHost, Version
 from products.models import Product, Release
+
+
+# The domain that identifies each host, matching RepoHost.from_url. Forgejo
+# is self-hosted on any domain, so it can only ever be counted from a
+# repo_host someone set by hand.
+REPO_HOST_DOMAINS = {
+    RepoHost.GITHUB: "github.com",
+    RepoHost.GITLAB: "gitlab.com",
+    RepoHost.BITBUCKET: "bitbucket.org",
+    RepoHost.CODEBERG: "codeberg.org",
+    RepoHost.FORGEJO: None,
+}
+
+# Enough to tell six slices apart, and readable on both themes.
+REPO_HOST_COLORS = {
+    RepoHost.GITHUB: "#24292f",
+    RepoHost.GITLAB: "#fc6d26",
+    RepoHost.BITBUCKET: "#0052cc",
+    RepoHost.CODEBERG: "#2185d0",
+    RepoHost.FORGEJO: "#d97706",
+    "other": "#94a3b8",
+}
+
+
+def repo_host_query(host):
+    """Count a host from repo_host when it is set, and from the URL when not.
+
+    repo_host defaults to AUTO_DETECT and is empty for nearly every package,
+    so the URL is what does the work. Honouring the field first means an
+    admin can correct a package the URL cannot place, a self-hosted Forgejo
+    being the case it exists for.
+    """
+    chosen = Q(repo_host=host)
+    domain = REPO_HOST_DOMAINS.get(host)
+
+    if domain is None:
+        return chosen
+
+    return chosen | Q(repo_host=RepoHost.AUTO_DETECT, repo_url__icontains=domain)
+
+
+def repo_host_breakdown():
+    """Active packages per repository host, largest first, with percentages.
+
+    Anything the URL cannot place lands in "Other", which is where a
+    self-hosted forge shows up until someone sets its repo_host.
+    """
+    # Labels are forced to str because this goes through json_script.
+    hosts = list(REPO_HOST_DOMAINS)
+
+    counts = Package.objects.active().aggregate(
+        total=Count("pk"),
+        **{host.value: Count("pk", filter=repo_host_query(host)) for host in hosts},
+    )
+
+    total = counts.pop("total")
+
+    rows = [
+        {
+            "slug": host.value,
+            "label": str(host.label),
+            "count": counts[host.value],
+            "color": REPO_HOST_COLORS[host],
+        }
+        for host in hosts
+    ]
+
+    placed = sum(row["count"] for row in rows)
+    rows.append(
+        {
+            "slug": "other",
+            "label": gettext("Other"),
+            "count": total - placed,
+            "color": REPO_HOST_COLORS["other"],
+        }
+    )
+
+    for row in rows:
+        row["percent"] = round(row["count"] / total * 100, 1) if total else 0.0
+
+    # Empty hosts would be a slice of nothing and a row saying 0.0%.
+    rows = [row for row in rows if row["count"]]
+    rows.sort(key=lambda row: -row["count"])
+
+    return {"rows": rows, "total": total}
 
 
 class OpenView(TemplateView):
@@ -41,18 +127,7 @@ class OpenView(TemplateView):
             "total_python_3_14": "Programming Language :: Python :: 3.14",
             "total_python_3_15": "Programming Language :: Python :: 3.15",
         }
-        vcs_providers = {
-            "repos_bitbucket": "bitbucket.org",
-            "repos_github": "github.com",
-            "repos_gitlab": "gitlab.com",
-        }
-
         active_package_aggregations = Package.objects.active().aggregate(
-            # Total package count for each VCS provider
-            **{
-                key: Count("pk", filter=Q(repo_url__contains=value))
-                for key, value in vcs_providers.items()
-            },
             # Total package count for each classifier
             **{
                 key: Count("pk", filter=Q(pypi_classifiers__contains=[value]))
@@ -60,6 +135,8 @@ class OpenView(TemplateView):
             },
         )
         context_data.update(active_package_aggregations)
+
+        context_data["repo_hosts"] = repo_host_breakdown()
 
         all_package_aggregations = Package.objects.aggregate(
             # Total package Count
