@@ -46,6 +46,9 @@ htmlcov
 docs/_build
 docs/_static
 
+# Zensical
+docs/site
+
 # Launchpad
 lp-cache
 _data

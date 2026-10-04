@@ -5,10 +5,10 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Python: MkDocs",
+      "name": "Python: Zensical",
       "type": "python",
       "request": "launch",
-      "module": "mkdocs",
+      "module": "zensical",
       "args": [
         "serve",
         "-f",

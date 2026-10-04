@@ -155,9 +155,10 @@ ci = [
 ]
 
 docs = [
-  "mkdocs",
-  "mkdocs-material",
-  "mkdocstrings[python]",
+  "zensical",
+  # 2.0.3 switched from griffe to griffelib; older releases install a second
+  # top-level `griffe` package that collides with the one pydantic-ai pulls in.
+  "mkdocstrings-python>=2.0.3",
 ]
 
 maintenance = [
