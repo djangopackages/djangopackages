@@ -16,6 +16,7 @@ from grid.ai import (
     truncate,
 )
 from grid.models import Element, Grid
+from package.models import Package
 
 console = Console()
 
@@ -23,12 +24,15 @@ console = Console()
 EMPTY_ANSWERS = {"unknown"}
 
 
-def elements(limit, slug, feature):
+def elements(limit, slug, feature, include_archived):
     rows = Element.objects.select_related(
         "grid_package__grid", "grid_package__package", "feature"
     ).order_by(
         "grid_package__grid__slug", "feature__title", "grid_package__package__slug"
     )
+
+    if not include_archived:
+        rows = rows.filter(grid_package__package__in=Package.objects.active())
 
     if slug:
         rows = rows.filter(grid_package__grid__slug=slug)
@@ -51,6 +55,11 @@ def elements(limit, slug, feature):
     help="Send even the obvious legend cells to Jev instead of mapping locally.",
 )
 @click.option(
+    "--include-archived",
+    is_flag=True,
+    help="Read cells for archived and deprecated packages too. Skipped by default.",
+)
+@click.option(
     "--only-problems", is_flag=True, help="Print only placeholders and unknowns."
 )
 @click.option(
@@ -59,7 +68,9 @@ def elements(limit, slug, feature):
     type=float,
     help=f"Bar for counting a verdict. Default {MIN_CONFIDENCE}.",
 )
-def command(limit, slug, feature, all_cells, only_problems, min_confidence):
+def command(
+    limit, slug, feature, all_cells, include_archived, only_problems, min_confidence
+):
     """
     Read each grid cell back as one of five support levels.
 
@@ -67,6 +78,9 @@ def command(limit, slug, feature, all_cells, only_problems, min_confidence):
     the same answer shows up as "yes", "+", "Yes, since 2.0", and a sentence.
     This classifies each one as supported, partial, not_supported, unknown, or
     not_applicable, and flags the cells that are filler rather than an answer.
+
+    Cells for archived and deprecated packages are skipped. Reading a dead
+    package's row buys nothing. --include-archived puts them back.
 
     Cells that are already a legend token ("yes", "no", "+", "-") are mapped
     locally and cost nothing. Pass --all-cells to send those to Jev too.
@@ -79,7 +93,7 @@ def command(limit, slug, feature, all_cells, only_problems, min_confidence):
         console.print(f"[red]No grid with slug {slug!r}.[/red]")
         raise SystemExit(1)
 
-    rows = elements(limit, slug, feature)
+    rows = elements(limit, slug, feature, include_archived)
     total = rows.count() if hasattr(rows, "count") else len(rows)
 
     if not total:

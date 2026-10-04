@@ -42,6 +42,8 @@ docker compose run django uv run manage.py cleanup_github_projects [--limit=<num
 
 ## evaluate_grid_elements
 
+Archived and deprecated packages are skipped by every one of these commands. Reviewing a dead package buys nothing, and in production 939 of the 5,836 packages are archived or deprecated, including 83 of the 680 still sitting in "Other". Pass `--include-archived` to put them back.
+
 Reads each grid cell back as one of five support levels: `supported`, `partial`, `not_supported`, `unknown`, or `not_applicable`. The cells are free text with no convention beyond a loose icon legend, so the same answer turns up as "yes", "+", "Yes, since 2.0", and a sentence.
 
 Cells that are already a legend token ("yes", "no", "+", "-") are mapped locally and cost nothing.
@@ -54,6 +56,7 @@ Read-only. Requires `TYPESAFE_API_KEY`, and each cell sent to the model costs on
 - `--slug`: `str`. Only read one grid.
 - `--feature`: `str`. Only features whose title matches this text.
 - `--all-cells`: flag. Send the legend cells to the model too, instead of mapping them locally.
+- `--include-archived`: flag. Read cells for archived and deprecated packages too. Skipped by default.
 - `--only-problems`: flag. Print only the placeholders and unknowns.
 - `--min-confidence`: `float`. Bar for counting a verdict. Default `0.85`.
 
@@ -74,6 +77,7 @@ Read-only unless an `--apply` flag is passed. Requires `TYPESAFE_API_KEY`, and e
 - `--limit`: `int`. Packages to review. `0` means all. Default `10`.
 - `--slug`: `str`. Only review one grid.
 - `--category`: `str`. Only packages filed under this installation type, e.g. `other`.
+- `--include-archived`: flag. Review archived and deprecated packages too. Skipped by default.
 - `--only-problems`: flag. Print only the flagged rows.
 - `--min-confidence`: `float`. Bar for acting on a verdict. Default `0.85`.
 - `--apply-moves`: flag. **Writes.** Offer to refile each miscategorised package, one at a time.
@@ -124,6 +128,7 @@ Read-only unless `--apply-moves` is passed. Requires `TYPESAFE_API_KEY`, and eac
 
 - `--limit`: `int`. Packages to review. `0` means all. Default `10`.
 - `--category`: `str`. Only packages filed under this installation type, e.g. `other`.
+- `--include-archived`: flag. Review archived and deprecated packages too. Skipped by default.
 - `--only-problems`: flag. Print only the moves and the packages missing a description.
 - `--min-confidence`: `float`. Bar for acting on a verdict. Default `0.85`.
 - `--apply-moves`: flag. **Writes.** Offer to refile each miscategorised package, one at a time.
