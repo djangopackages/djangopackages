@@ -14,7 +14,7 @@ Our `compose.yml` configuration contains the following services for local develo
 - `tailwind` watches and compiles Tailwind CSS during development.
 - `utility` runs various commands including cron jobs to keep our `django*` services from blocking when we run one-off commands.
 - `redis` provides caching.
-- `docs` (profile: docs) runs our mkdocs server for documentation development.
+- `docs` (profile: docs) runs our Zensical server for documentation development.
 
 ## Clear our Media Cache
 

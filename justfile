@@ -258,14 +258,13 @@ bootstrap *ARGS:
 @docs-up *ARGS="--detach":
     docker compose --profile=docs up {{ ARGS }}
 
-# Update documentation dependencies
+# Build the documentation to docs/site
 [group('docs')]
-@docs-update *ARGS:
-    uv --quiet pip compile \
-        {{ ARGS }} \
-        docs/requirements.in \
-        --generate-hashes \
-        --output-file docs/requirements.txt
+@docs-build *ARGS:
+    uv run --group docs \
+        zensical build \
+        -f docs/mkdocs.yml \
+        {{ ARGS }}
 
 # --------------------------------------------------
 # Production
