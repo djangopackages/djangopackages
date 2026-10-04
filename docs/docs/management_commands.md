@@ -206,6 +206,33 @@ docker compose run django uv run manage.py pypi_updater
 ```
 Warning: This can take a long, long time.
 
+## recategorize_from_grids
+
+Refiles packages into the category the grids they are already on imply.
+
+A grid is a topic somebody curated by hand, so a package sitting on `Cookiecutters` has already been told what it is and the category field just never caught up. This reads that off the grid rather than asking Jev, so unlike `evaluate_packages` it costs nothing and needs no API key.
+
+The grid-to-category map lives in the command. Only grids where packages filed under `other` were the majority or near-majority of the members are in it, since those are the ones where the category is clearly what's wrong.
+
+A package whose grids point at two different categories is reported and never moved. That is a judgement call, not a backfill.
+
+Read-only unless `--apply` is passed.
+
+**Optional arguments**:
+
+- `--from`: `str`. Comma-separated categories to move packages out of. Default `other`.
+- `--to`: `str`. Only propose moves into this category. Default is all of them.
+- `--limit`: `int`. Stop after this many. `0` means all. Default `0`.
+- `--apply`: flag. **Writes.** Offer each move, one at a time.
+- `--yes`: flag. Answer yes to every prompt. Only means anything alongside `--apply`.
+
+```shell
+docker compose run django uv run manage.py recategorize_from_grids
+docker compose run django uv run manage.py recategorize_from_grids --to developer-tools --apply
+```
+
+Review the `developer-tools` half rather than running it with `--yes`. The `Linters`, `Template Linters` and `Testing tools` grids are tight, but `Developer Tools` is a broad grid and a few of its members are ordinary apps.
+
 ## read_grid_stats
 
 ```shell

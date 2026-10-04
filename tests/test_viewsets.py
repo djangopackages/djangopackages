@@ -4,7 +4,7 @@ from model_bakery import baker
 from rest_framework import status
 
 from grid.models import GridPackage
-from package.models import Package, Version
+from package.models import Category, Package, Version
 
 # PackageViewSet Tests
 
@@ -113,7 +113,10 @@ def test_grid_retrieve_slug_get(client, grid):
 def test_category_list_get(client, category):
     url = reverse("apiv4:category-list")
     response = client.get(url)
-    assert len(response.data["results"]) == 1
+    # Counted against the database rather than a literal, since migrations
+    # ship categories of their own.
+    assert len(response.data["results"]) == Category.objects.count()
+    assert category.slug in {row["slug"] for row in response.data["results"]}
     assert response.status_code == status.HTTP_200_OK
 
 
