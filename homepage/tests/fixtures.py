@@ -8,14 +8,12 @@ from package.models import Category, Package, PackageExample
 def homepage_data(django_db_blocker):
     with django_db_blocker.unblock():
         category, created = Category.objects.get_or_create(
-            pk=1,
             slug="apps",
             title="App",
             description="Small components used to build projects.",
         )
 
         package1, created = Package.objects.get_or_create(
-            pk=1,
             category=category,
             repo_watchers=0,
             title="Testability",
@@ -28,7 +26,6 @@ def homepage_data(django_db_blocker):
             repo_description="Increase your testing ability with this steroid free supplement.",
         )
         package2, created = Package.objects.get_or_create(
-            pk=2,
             category=category,
             repo_watchers=0,
             title="Supertester",
@@ -41,7 +38,6 @@ def homepage_data(django_db_blocker):
             repo_description="Test everything under the sun with one command!",
         )
         package3, created = Package.objects.get_or_create(
-            pk=3,
             category=category,
             repo_watchers=0,
             title="Serious Testing",
@@ -54,7 +50,6 @@ def homepage_data(django_db_blocker):
             repo_description="Make testing as painless as frozen yogurt.",
         )
         package4, created = Package.objects.get_or_create(
-            pk=4,
             category=category,
             repo_watchers=0,
             title="Another Test",
@@ -68,14 +63,12 @@ def homepage_data(django_db_blocker):
         )
 
         grid1, created = Grid.objects.get_or_create(
-            pk=1,
             description="A grid for testing.",
             title="Testing",
             is_locked=False,
             slug="testing",
         )
         grid2, created = Grid.objects.get_or_create(
-            pk=2,
             description="Another grid for testing.",
             title="Another Testing",
             is_locked=False,
@@ -83,53 +76,44 @@ def homepage_data(django_db_blocker):
         )
 
         gridpackage1, created = GridPackage.objects.get_or_create(
-            pk=1,
             package=package1,
             grid=grid1,
         )
         gridpackage2, created = GridPackage.objects.get_or_create(
-            pk=2,
             package=package1,
             grid=grid1,
         )
         gridpackage3, created = GridPackage.objects.get_or_create(
-            pk=3,
             package=package3,
             grid=grid1,
         )
         gridpackage4, created = GridPackage.objects.get_or_create(
-            pk=4,
             package=package3,
             grid=grid2,
         )
         gridpackage5, created = GridPackage.objects.get_or_create(
-            pk=5,
             package=package2,
             grid=grid1,
         )
 
         feature1, created = Feature.objects.get_or_create(
-            pk=1,
             title="Has tests?",
             grid=grid1,
             description="Does this package come with tests?",
         )
         feature2, created = Feature.objects.get_or_create(
-            pk=2,
             title="Coolness?",
             grid=grid1,
             description="Is this package cool?",
         )
 
         element, created = Element.objects.get_or_create(
-            pk=1,
             text="Yes",
             feature=feature1,
             grid_package=gridpackage1,
         )
 
         group1, created = Group.objects.get_or_create(
-            pk=1,
             name="Moderators",
             # permissions=[[u'delete_gridpackage', u'grid', u'gridpackage'], [u'delete_feature', u'grid', u'feature']],
         )
@@ -142,7 +126,6 @@ def homepage_data(django_db_blocker):
         )
 
         user1, created = User.objects.get_or_create(
-            pk=1,
             username="user",
             first_name="",
             last_name="",
@@ -157,7 +140,6 @@ def homepage_data(django_db_blocker):
         user1.save()
 
         user2, created = User.objects.get_or_create(
-            pk=2,
             username="cleaner",
             first_name="",
             last_name="",
@@ -174,7 +156,6 @@ def homepage_data(django_db_blocker):
         user2.save()
 
         user3, created = User.objects.get_or_create(
-            pk=3,
             username="staff",
             first_name="",
             last_name="",
@@ -189,7 +170,6 @@ def homepage_data(django_db_blocker):
         user3.save()
 
         user4, created = User.objects.get_or_create(
-            pk=4,
             username="admin",
             first_name="",
             last_name="",
@@ -204,7 +184,6 @@ def homepage_data(django_db_blocker):
         user4.save()
 
         packageexample, created = PackageExample.objects.get_or_create(
-            pk=1,
             package=package1,
             url="http://www.example.com/",
             active=True,

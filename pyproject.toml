@@ -141,6 +141,7 @@ dev = [
     "pytest-django",
     "httpx2-pytest",
     "pytest-mock",
+    "pytest-randomly",
     "time-machine",
 
     # prek - please note all linters and autoformatters are in our
