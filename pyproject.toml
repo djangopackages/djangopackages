@@ -87,6 +87,7 @@ dependencies = [
     "django-maintenance-mode",
     "django-prodserver[django-q2,gunicorn]>=3.0.0",
     "django-q2",
+    "pydantic-ai-slim[typesafe]",
     "django-reversion",
     "django-secure",
     "django-structlog",
