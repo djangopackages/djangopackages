@@ -98,6 +98,13 @@ Listed in alphabetical order.
     <td></td>
   </tr>
   <tr>
+    <td>Charles Anjah</td>
+    <td>
+      <a href="https://github.com/cmanjah">cmanjah</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
     <td>daheats</td>
     <td>
       <a href="https://github.com/daheats">daheats</a>
