@@ -1,5 +1,16 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-10-03]
+### Changed
+- Use override_settings in tests instead of mutating settings (#1690) ([#1691](https://github.com/djangopackages/djangopackages/pull/1691))
+- Start web and worker processes with django-prodserver ([#1689](https://github.com/djangopackages/djangopackages/pull/1689))
+- Show grid edit controls to users the views actually allow ([#1688](https://github.com/djangopackages/djangopackages/pull/1688))
+- Use repo homepage as a fallback for documentation_url ([#1675](https://github.com/djangopackages/djangopackages/pull/1675))
+- ⬆️ Bump the all-dependencies group with 9 updates ([#1682](https://github.com/djangopackages/djangopackages/pull/1682))
+- ⬆️ Bump oauthlib from 3.3.1 to 4.0.0 ([#1685](https://github.com/djangopackages/djangopackages/pull/1685))
+- ⬆️ Bump pyjwt from 2.13.0 to 2.15.0 ([#1683](https://github.com/djangopackages/djangopackages/pull/1683))
+- ⬆️ Bump urllib3 from 2.7.0 to 2.8.0 ([#1684](https://github.com/djangopackages/djangopackages/pull/1684))
+
 ## [2026-09-28]
 ### Changed
 - [pre-commit.ci] pre-commit autoupdate ([#1681](https://github.com/djangopackages/djangopackages/pull/1681))
