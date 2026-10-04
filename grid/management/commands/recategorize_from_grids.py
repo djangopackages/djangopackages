@@ -105,9 +105,7 @@ def proposals(from_slugs, only_to=None):
     default=None,
     help="Only propose moves into this category. Default is all of them.",
 )
-@click.option(
-    "--limit", default=0, type=int, help="Stop after this many. 0 means all."
-)
+@click.option("--limit", default=0, type=int, help="Stop after this many. 0 means all.")
 @click.option("--apply", "apply_moves", is_flag=True, help="Offer each move. Writes.")
 @click.option(
     "--yes",
