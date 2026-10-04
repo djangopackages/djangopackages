@@ -84,8 +84,10 @@ class FunctionalPackageTest(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "package/add_package.html")
-        for c in Category.objects.all():
-            self.assertContains(response, c.title)
+        # The categories were asserted here, but the page has no category
+        # list: it is the first step of the form and asks only for a repo
+        # URL. The loop matched "App" against "Django Apps" in the keywords
+        # meta tag, so it passed on any fixture and failed on a new category.
         count = Package.objects.count()
         # Use a unique slug and title to avoid IntegrityError
         unique_slug = "django-test-add-package-view"

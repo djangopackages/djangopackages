@@ -30,6 +30,7 @@ MAX_DESCRIPTION_CHARS = 300
 
 INSTALLATION_TYPES = Literal[
     "apps",
+    "developer-tools",
     "frameworks",
     "other",
     "projects",
@@ -131,8 +132,9 @@ class PackageVerdict(BaseModel):
             "frameworks: a large effort combining many modules or apps. "
             "projects: an individual deployed site or product. "
             "starter-projects: a pre-built project template or scaffold. "
-            "other: anything not installed as an app, framework, or project, "
-            "such as a standalone tool or library."
+            "developer-tools: run against a project rather than installed "
+            "into it, such as a linter, formatter, test helper or profiler. "
+            "other: anything that fits none of the above."
         )
     )
 
@@ -326,8 +328,9 @@ class PackageOnlyVerdict(BaseModel):
             "frameworks: a large effort combining many modules or apps. "
             "projects: an individual deployed site or product. "
             "starter-projects: a pre-built project template or scaffold. "
-            "other: anything not installed as an app, framework, or project, "
-            "such as a standalone tool or library."
+            "developer-tools: run against a project rather than installed "
+            "into it, such as a linter, formatter, test helper or profiler. "
+            "other: anything that fits none of the above."
         )
     )
     description_is_usable: Annotated[
