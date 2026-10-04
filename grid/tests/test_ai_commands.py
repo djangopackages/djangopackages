@@ -11,6 +11,7 @@ import click
 import pytest
 from django.core.management import call_command
 from django.test import override_settings
+from django.utils import timezone
 from model_bakery import baker
 
 from grid.ai import (
@@ -1065,3 +1066,128 @@ def test_a_missing_api_key_says_so(grid):
 
     assert "TYPESAFE_API_KEY" in str(caught.value)
     assert ".env.local" in str(caught.value)
+
+
+# --- archived and deprecated packages are skipped --------------------------
+
+
+@pytest.fixture()
+def archived(db, other_category, grid):
+    """On a grid, filed under Other, and dead upstream."""
+    package = baker.make(
+        Package,
+        slug="django-abandoned",
+        title="django-abandoned",
+        category=other_category,
+        repo_url="https://github.com/example/django-abandoned",
+        date_repo_archived=timezone.now(),
+    )
+    baker.make(GridPackage, grid=grid, package=package)
+    return package
+
+
+def apps_verdict():
+    return fake_result(
+        PackageVerdict(belongs_in_grid=True, installation_type="apps"),
+        {"belongs_in_grid": 0.95, "installation_type": 0.97},
+    )
+
+
+@pytest.mark.django_db
+def test_archived_packages_are_skipped_on_grids(archived, capsys):
+    with patch(
+        "grid.management.commands.evaluate_grid_packages.build_agent",
+        return_value=stub_agent(apps_verdict()),
+    ):
+        call_command("evaluate_grid_packages", "--limit", "0", "--category", "other")
+
+    assert "django-abandoned" not in capsys.readouterr().out
+
+
+@pytest.mark.django_db
+def test_include_archived_puts_them_back(archived, capsys):
+    with patch(
+        "grid.management.commands.evaluate_grid_packages.build_agent",
+        return_value=stub_agent(apps_verdict()),
+    ):
+        call_command(
+            "evaluate_grid_packages",
+            "--limit",
+            "0",
+            "--category",
+            "other",
+            "--include-archived",
+        )
+
+    assert "django-abandoned" in capsys.readouterr().out
+
+
+@pytest.mark.django_db
+def test_a_deprecated_package_is_skipped_too(db, other_category, grid, capsys):
+    """active() covers both, so deprecated rides along with archived."""
+    package = baker.make(
+        Package,
+        slug="django-superseded",
+        title="django-superseded",
+        category=other_category,
+        repo_url="https://github.com/example/django-superseded",
+        date_deprecated=timezone.now(),
+    )
+    baker.make(GridPackage, grid=grid, package=package)
+
+    with patch(
+        "grid.management.commands.evaluate_grid_packages.build_agent",
+        return_value=stub_agent(apps_verdict()),
+    ):
+        call_command("evaluate_grid_packages", "--limit", "0", "--category", "other")
+
+    assert "django-superseded" not in capsys.readouterr().out
+
+
+@pytest.mark.django_db
+def test_archived_off_grid_packages_are_skipped(db, other_category, category, capsys):
+    baker.make(
+        Package,
+        slug="django-dead",
+        title="django-dead",
+        category=other_category,
+        repo_url="https://github.com/example/django-dead",
+        date_repo_archived=timezone.now(),
+    )
+
+    verdict = PackageOnlyVerdict(installation_type="apps", description_is_usable=True)
+    with patch(
+        "grid.management.commands.evaluate_packages.build_agent",
+        return_value=stub_agent(
+            fake_result(
+                verdict, {"installation_type": 0.97, "description_is_usable": 0.95}
+            )
+        ),
+    ):
+        call_command("evaluate_packages", "--limit", "0")
+
+    assert "django-dead" not in capsys.readouterr().out
+
+
+@pytest.mark.django_db
+def test_cells_for_archived_packages_are_skipped(db, other_category, grid, capsys):
+    package = baker.make(
+        Package,
+        slug="django-gone",
+        category=other_category,
+        repo_url="https://github.com/example/django-gone",
+        date_repo_archived=timezone.now(),
+    )
+    gp = baker.make(GridPackage, grid=grid, package=package)
+    feature = baker.make(Feature, grid=grid, title="Async support")
+    baker.make(Element, grid_package=gp, feature=feature, text="Only for Postgres")
+
+    agent = stub_agent(fake_result(None, {}))
+    with patch(
+        "grid.management.commands.evaluate_grid_elements.build_agent",
+        return_value=agent,
+    ):
+        call_command("evaluate_grid_elements", "--limit", "0")
+
+    agent.run_sync.assert_not_called()
+    assert "No grid cells matched" in capsys.readouterr().out

@@ -24,9 +24,11 @@ from package.models import Category, Package
 console = Console()
 
 
-def off_grid_packages(limit, category):
+def off_grid_packages(limit, category, include_archived):
+    packages = Package.objects if include_archived else Package.objects.active()
+
     packages = (
-        Package.objects.select_related("category")
+        packages.select_related("category")
         .filter(gridpackage__isnull=True)
         .order_by("slug")
     )
@@ -46,6 +48,11 @@ def off_grid_packages(limit, category):
     "--category",
     default=None,
     help="Only packages filed under this installation type, e.g. 'other'.",
+)
+@click.option(
+    "--include-archived",
+    is_flag=True,
+    help="Review archived and deprecated packages too. They are skipped by default.",
 )
 @click.option(
     "--only-problems",
@@ -69,7 +76,15 @@ def off_grid_packages(limit, category):
     is_flag=True,
     help="Answer yes to every prompt. Only means anything with --apply-moves.",
 )
-def command(limit, category, only_problems, min_confidence, apply_moves, assume_yes):
+def command(
+    limit,
+    category,
+    include_archived,
+    only_problems,
+    min_confidence,
+    apply_moves,
+    assume_yes,
+):
     """
     Review the packages that are on no comparison grid.
 
@@ -84,6 +99,9 @@ def command(limit, category, only_problems, min_confidence, apply_moves, assume_
 
     Answers below the confidence bar are reported as unsure rather than
     counted.
+
+    Archived and deprecated packages are skipped, since refiling a dead
+    package buys nothing. --include-archived puts them back.
 
     Read-only by default. --apply-moves offers to refile each miscategorised
     package one at a time, showing its description so the recommendation can
@@ -101,7 +119,7 @@ def command(limit, category, only_problems, min_confidence, apply_moves, assume_
         console.print(f"[red]No category {category!r}. Try one of: {known}.[/red]")
         raise SystemExit(1)
 
-    packages = off_grid_packages(limit, category)
+    packages = off_grid_packages(limit, category, include_archived)
     total = packages.count()
 
     if not total:

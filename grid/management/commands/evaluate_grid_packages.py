@@ -16,15 +16,18 @@ from grid.ai import (
     truncate,
 )
 from grid.models import Grid, GridPackage
-from package.models import Category
+from package.models import Category, Package
 
 console = Console()
 
 
-def grid_packages(limit, slug, category):
+def grid_packages(limit, slug, category, include_archived):
     rows = GridPackage.objects.select_related(
         "grid", "package", "package__category"
     ).order_by("package__slug", "grid__slug")
+
+    if not include_archived:
+        rows = rows.filter(package__in=Package.objects.active())
 
     if slug:
         rows = rows.filter(grid__slug=slug)
@@ -66,6 +69,11 @@ def dedupe_by_package(rows):
 )
 @click.option("--only-problems", is_flag=True, help="Print only the flagged rows.")
 @click.option(
+    "--include-archived",
+    is_flag=True,
+    help="Review archived and deprecated packages too. They are skipped by default.",
+)
+@click.option(
     "--min-confidence",
     default=MIN_CONFIDENCE,
     type=float,
@@ -91,6 +99,7 @@ def command(
     limit,
     slug,
     category,
+    include_archived,
     only_problems,
     min_confidence,
     apply_moves,
@@ -101,10 +110,14 @@ def command(
     Ask Jev whether each package belongs in the grid it is listed on.
 
     Also asks which installation type the package looks like (apps,
-    frameworks, other, projects, starter-projects) and reports it when that
-    disagrees with the category it is filed under.
+    developer-tools, frameworks, other, projects, starter-projects) and
+    reports it when that disagrees with the category it is filed under.
 
-    Pass --category other to sweep the ~815 packages sitting in "Other".
+    Archived and deprecated packages are skipped. Refiling a dead package
+    buys nothing, and in production 939 of the 5,836 packages are archived
+    or deprecated. --include-archived puts them back.
+
+    Pass --category other to sweep the ~680 packages sitting in "Other".
     A category sweep reviews each package once rather than once per grid it
     appears on, and the report ends with the moves grouped by destination,
     ready to work through.
@@ -141,7 +154,7 @@ def command(
     if assume_yes and not (apply_moves or apply_removals):
         console.print("[yellow]--yes does nothing without an --apply flag.[/yellow]")
 
-    rows = grid_packages(limit, slug, category)
+    rows = grid_packages(limit, slug, category, include_archived)
     # A category sweep hands back a list, so len, not .count().
     total = len(rows) if isinstance(rows, list) else rows.count()
 
