@@ -871,3 +871,119 @@ class NewAccountGridReviewTest(TestCase):
         self.assertTrue(self.client.login(username="newbie", password="newbie"))
         response = self.client.get(reverse("edit_grid", kwargs={"slug": "testing"}))
         self.assertEqual(response.status_code, 200)
+
+
+@override_settings(PACKAGE_SCORE_MIN=0)
+class GridHiddenPackageCountTest(TestCase):
+    """What the page says when the score cutoff, not the cap, is what hides things.
+
+    The comparison drops anything scoring below the cutoff, which happens long
+    before the ten-package cap is reached. has_more_packages used to compare the
+    total against the cap, so a grid holding only low scorers showed nothing,
+    said nothing, and offered no way through to them. See #965.
+    """
+
+    def setUp(self):
+        for cache_backend in caches.all(initialized_only=False):
+            cache_backend.clear()
+        self.category = Category.objects.create(
+            slug="hidden-count-category", title="Hidden Count Category"
+        )
+        self.grid = Grid.objects.create(
+            title="Hidden Count Grid",
+            slug="hidden-count",
+            description="Grid for testing hidden package counts",
+        )
+
+    def _add(self, count, score, prefix):
+        for i in range(count):
+            package = Package.objects.create(
+                title=f"{prefix} {i}",
+                slug=f"{prefix}-{i}",
+                category=self.category,
+                repo_url=f"https://github.com/test/{prefix}-{i}",
+                score=score,
+            )
+            GridPackage.objects.create(grid=self.grid, package=package)
+
+    def get(self, **params):
+        return self.client.get(reverse("grid", kwargs={"slug": "hidden-count"}), params)
+
+    def test_low_scorers_are_counted_even_though_the_cap_is_never_reached(self):
+        self._add(2, 50, "good")
+        self._add(5, -10, "weak")
+
+        response = self.get()
+
+        self.assertEqual(response.context["total_package_count"], 7)
+        self.assertEqual(len(response.context["packages"]), 2)
+        self.assertTrue(response.context["has_more_packages"])
+        self.assertContains(response, "Showing 2 of 7 packages")
+
+    def test_a_grid_of_only_low_scorers_explains_itself(self):
+        self._add(7, -10, "weak")
+
+        response = self.get()
+
+        self.assertEqual(response.context["total_package_count"], 7)
+        self.assertEqual(len(response.context["packages"]), 0)
+        self.assertContains(response, "Nothing to compare yet")
+        self.assertContains(response, "score too low")
+        # Inviting someone to add a package to a grid that already holds seven
+        # was the actively wrong part.
+        self.assertNotContains(response, "No packages found")
+
+    def test_that_grid_still_links_through_to_the_full_list(self):
+        self._add(7, -10, "weak")
+
+        response = self.get()
+
+        self.assertContains(
+            response, reverse("grid_packages", kwargs={"slug": "hidden-count"})
+        )
+
+    def test_a_genuinely_empty_grid_still_asks_for_packages(self):
+        response = self.get()
+
+        self.assertEqual(response.context["total_package_count"], 0)
+        self.assertContains(response, "No packages found")
+        self.assertNotContains(response, "Nothing to compare yet")
+
+    def test_nothing_hidden_means_no_notice(self):
+        self._add(3, 50, "good")
+
+        response = self.get()
+
+        self.assertFalse(response.context["has_more_packages"])
+        self.assertNotContains(response, "packages in this grid")
+
+    def test_the_readers_own_search_is_not_blamed_on_the_score(self):
+        self._add(4, 50, "good")
+
+        # Titles are "good 0" through "good 3", and the search reads titles.
+        response = self.get(q="good 1")
+
+        self.assertTrue(response.context["is_filtered"])
+        self.assertEqual(len(response.context["packages"]), 1)
+        self.assertContains(response, "match your filters")
+        self.assertNotContains(response, "score too low to compare well.")
+
+    def test_a_search_matching_nothing_keeps_the_filter_wording(self):
+        self._add(4, 50, "good")
+
+        response = self.get(q="nothing-matches-this")
+
+        self.assertTrue(response.context["is_filtered"])
+        self.assertContains(response, "No packages found")
+        self.assertNotContains(response, "Nothing to compare yet")
+
+    def test_the_cap_still_applies_on_top_of_the_cutoff(self):
+        self._add(12, 50, "good")
+        self._add(3, -10, "weak")
+
+        response = self.get()
+
+        self.assertEqual(response.context["total_package_count"], 15)
+        self.assertEqual(len(response.context["packages"]), 10)
+        self.assertTrue(response.context["has_more_packages"])
+        self.assertContains(response, "Showing 10 of 15 packages")

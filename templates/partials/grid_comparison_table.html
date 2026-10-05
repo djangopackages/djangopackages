@@ -649,18 +649,37 @@
         <div class="bg-muted mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl">
             <i class="ph-bold ph-package text-muted-foreground text-3xl"></i>
         </div>
-        <h3 class="text-foreground mb-2 text-lg font-semibold">
-            {% translate "No packages found" %}
-        </h3>
-        <p class="text-muted-foreground mb-4 text-sm">
-            {% translate "Try adjusting your search or filter criteria, or add a package to this grid." %}
-        </p>
-        {% if can_add_grid_package %}
-            <a href="{% url 'add_grid_package' grid.slug %}"
-               class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-lg px-4 py-2 font-medium transition-colors">
-                <i class="ph-bold ph-plus-circle"></i>
-                {% translate "Add Package" %}
+        {% comment %}
+            A grid can hold packages and still compare none of them, because the
+            comparison drops anything scoring below the cutoff. Telling that
+            reader there is nothing here, and inviting them to add a package,
+            is wrong twice over. See #965.
+        {% endcomment %}
+        {% if total_package_count and not is_filtered %}
+            <h3 class="text-foreground mb-2 text-lg font-semibold">
+                {% blocktranslate count counter=total_package_count %}Nothing to compare yet{% plural %}Nothing to compare yet{% endblocktranslate %}
+            </h3>
+            <p class="text-muted-foreground mb-4 text-sm">
+                {% blocktranslate count counter=total_package_count %}This grid holds {{ counter }} package, but it scores too low to compare well. You can still see it in the full list.{% plural %}This grid holds {{ counter }} packages, but they score too low to compare well. You can still see them in the full list.{% endblocktranslate %}
+            </p>
+            <a href="{% url 'grid_packages' grid.slug %}" class="btn-primary">
+                <i class="ph-bold ph-package mr-1"></i>
+                {% translate "View All Packages" %}
             </a>
+        {% else %}
+            <h3 class="text-foreground mb-2 text-lg font-semibold">
+                {% translate "No packages found" %}
+            </h3>
+            <p class="text-muted-foreground mb-4 text-sm">
+                {% translate "Try adjusting your search or filter criteria, or add a package to this grid." %}
+            </p>
+            {% if can_add_grid_package %}
+                <a href="{% url 'add_grid_package' grid.slug %}"
+                   class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center gap-2 rounded-lg px-4 py-2 font-medium transition-colors">
+                    <i class="ph-bold ph-plus-circle"></i>
+                    {% translate "Add Package" %}
+                </a>
+            {% endif %}
         {% endif %}
     </div>
 {% endif %}

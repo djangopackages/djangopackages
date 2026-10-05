@@ -183,8 +183,13 @@ class GridDetailView(DetailView):
     def _limit_packages(
         self, packages_qs: QuerySet[Package], total_package_count: int
     ) -> tuple[list[Package], bool]:
-        has_more_packages = total_package_count > self.max_packages
         packages = list(packages_qs[: self.max_packages])
+        # Two things keep a package off this page: the score cutoff in
+        # get_packages, and this cap. Comparing the total against the cap only
+        # caught the second, so a grid holding 7 packages that all score below
+        # the cutoff showed nothing and said nothing. Compare against what is
+        # actually on the page instead.
+        has_more_packages = len(packages) < total_package_count
         return packages, has_more_packages
 
     def _get_features(self, grid: Grid) -> Iterable[tuple[int, str, str]]:
@@ -299,6 +304,11 @@ class GridDetailView(DetailView):
             "element_map": element_map,
             "total_package_count": total_package_count,
             "has_more_packages": has_more_packages,
+            # Whether the reader narrowed this themselves. "Showing 2 of 12"
+            # reads as us hiding ten, which is the wrong story when they are
+            # the one who typed a search.
+            "is_filtered": bool(filter_data.get("q"))
+            or bool(filter_data.get("stable")),
             "show_features": show_features,
         }
 
@@ -332,6 +342,7 @@ class GridDetailView(DetailView):
                 "filter_data": filter_data,
                 "total_package_count": payload["total_package_count"],
                 "has_more_packages": payload["has_more_packages"],
+                "is_filtered": payload.get("is_filtered", False),
                 "show_features": payload.get("show_features", True),
                 "max_packages": self.max_packages,
                 **self._edit_permissions(grid),

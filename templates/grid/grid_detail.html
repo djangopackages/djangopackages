@@ -149,16 +149,27 @@
             </div>
         </div>
 
-        {% if has_more_packages %}
+        {% comment %}
+            Only when the table has something in it. When it is empty the empty
+            state already explains the cutoff and links to the full list, and
+            showing both put two "View All Packages" buttons on the page.
+        {% endcomment %}
+        {% if has_more_packages and packages %}
             <!-- More Packages Notice -->
             <div class="border-primary/30 bg-primary/5 mt-6 rounded-lg border p-4">
                 <div class="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div class="flex items-center gap-3">
                         <i class="ph-bold ph-info text-primary text-xl"></i>
                         <p class="text-foreground text-sm">
-                            {% blocktranslate with shown=packages|length total=total_package_count %}
-                                Showing {{ shown }} of {{ total }} packages in this grid.
-                            {% endblocktranslate %}
+                            {% if is_filtered %}
+                                {% blocktranslate with shown=packages|length total=total_package_count %}
+                                    Showing {{ shown }} of {{ total }} packages in this grid that match your filters.
+                                {% endblocktranslate %}
+                            {% else %}
+                                {% blocktranslate with shown=packages|length total=total_package_count %}
+                                    Showing {{ shown }} of {{ total }} packages in this grid. The rest score too low to compare well.
+                                {% endblocktranslate %}
+                            {% endif %}
                         </p>
                     </div>
                     <a href="{% url 'grid_packages' grid.slug %}" class="btn-primary">
