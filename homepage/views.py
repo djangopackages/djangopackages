@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.core.cache import cache
-from django.db.models import Count, Q, Sum
+from django.db.models import BooleanField, Count, ExpressionWrapper, Q, Sum
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils.translation import gettext
@@ -321,7 +321,15 @@ class HomepageView(TemplateView):
                     "pk", "slug", "description", "title", "title_plural"
                 )
                 .annotate(package_count=Count("package"))
-                .order_by("-package_count")
+                # "Other" is the one nobody is looking for, so it goes last
+                # however big it gets, rather than sitting second because it
+                # is the catch-all.
+                .annotate(
+                    is_catch_all=ExpressionWrapper(
+                        Q(slug="other"), output_field=BooleanField()
+                    )
+                )
+                .order_by("is_catch_all", "-package_count")
             )
             # cache dict for 5 minutes...
             cache.set("categories", categories, timeout=60 * 5)
