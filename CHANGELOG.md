@@ -1,5 +1,15 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-10-04]
+### Changed
+- Show every category on the homepage, not the top four ([#1699](https://github.com/djangopackages/djangopackages/pull/1699))
+- Skip archived packages in the review commands ([#1698](https://github.com/djangopackages/djangopackages/pull/1698))
+- Refile 134 packages out of &#34;Other&#34; using the grids they are on ([#1697](https://github.com/djangopackages/djangopackages/pull/1697))
+- Build the docs with Zensical instead of Material for MkDocs ([#1695](https://github.com/djangopackages/djangopackages/pull/1695))
+- Make tests pass in any order ([#1694](https://github.com/djangopackages/djangopackages/pull/1694))
+- Add Jev-backed grid and package review commands ([#1692](https://github.com/djangopackages/djangopackages/pull/1692))
+- Chart where packages are hosted on /open/ ([#1693](https://github.com/djangopackages/djangopackages/pull/1693))
+
 ## [2026-10-03]
 ### Changed
 - Use override_settings in tests instead of mutating settings (#1690) ([#1691](https://github.com/djangopackages/djangopackages/pull/1691))
