@@ -22,7 +22,7 @@ class FunctionalPackageTest(TestCase):
 
     def test_package_list_view(self):
         url = reverse("packages")
-        with self.assertNumQueries(5):
+        with self.assertNumQueries(7):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "package/package_list.html")
@@ -325,7 +325,7 @@ class FunctionalPackageTest(TestCase):
 
         # Once we log in the user, we should get back the appropriate response.
         self.assertTrue(self.client.login(username="user", password="user"))
-        with self.assertNumQueries(5):
+        with self.assertNumQueries(7):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "package/package_flag_form.html")
@@ -358,7 +358,7 @@ class FunctionalPackageTest(TestCase):
 
         # Logged in no-superuser should not be able to access this view
         self.assertTrue(self.client.login(username="user", password="user"))
-        with self.assertNumQueries(4):
+        with self.assertNumQueries(6):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
 
@@ -385,7 +385,7 @@ class FunctionalPackageTest(TestCase):
 
         # Logged in no-superuser should not be able to access this view
         self.assertTrue(self.client.login(username="user", password="user"))
-        with self.assertNumQueries(4):
+        with self.assertNumQueries(6):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
 
@@ -491,7 +491,7 @@ class PackagePermissionTest(TestCase):
 
     def test_switch_permissions(self):
         with override_settings(RESTRICT_PACKAGE_EDITORS=False):
-            with self.assertNumQueries(5):
+            with self.assertNumQueries(7):
                 response = self.client.get(self.test_add_url)
             self.assertEqual(response.status_code, 200)
 
@@ -501,7 +501,7 @@ class PackagePermissionTest(TestCase):
             self.assertEqual(response.status_code, 403)
 
     def test_add_package_permission_fail(self):
-        with self.assertNumQueries(6):
+        with self.assertNumQueries(8):
             response = self.client.get(self.test_add_url)
         self.assertEqual(response.status_code, 403)
 
@@ -510,14 +510,14 @@ class PackagePermissionTest(TestCase):
             codename="add_package", content_type__app_label="package"
         )
         self.user.user_permissions.add(add_package_perm)
-        with self.assertNumQueries(7):
+        with self.assertNumQueries(9):
             response = self.client.get(self.test_add_url)
         self.assertEqual(response.status_code, 200)
 
     def test_add_package_with_grid_slug_permission_fail(self):
         grid = Grid.objects.get(slug="testing")
         url = self.test_add_url + f"?grid_slug={grid.slug}"
-        with self.assertNumQueries(6):
+        with self.assertNumQueries(8):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
 
@@ -533,7 +533,7 @@ class PackagePermissionTest(TestCase):
                 codename="add_gridpackage", content_type__app_label="grid"
             )
         )
-        with self.assertNumQueries(8):
+        with self.assertNumQueries(10):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context["grid"], grid)
@@ -552,7 +552,7 @@ class PackagePermissionTest(TestCase):
         self.assertIsNone(response.context["grid"])
 
     def test_edit_package_permission_fail(self):
-        with self.assertNumQueries(6):
+        with self.assertNumQueries(8):
             response = self.client.get(self.test_edit_url)
         self.assertEqual(response.status_code, 403)
 
@@ -561,7 +561,7 @@ class PackagePermissionTest(TestCase):
             codename="change_package", content_type__app_label="package"
         )
         self.user.user_permissions.add(edit_package_perm)
-        with self.assertNumQueries(9):
+        with self.assertNumQueries(11):
             response = self.client.get(self.test_edit_url)
         self.assertEqual(response.status_code, 200)
 
@@ -621,13 +621,13 @@ class ValidateRepositoryURLViewTest(TestCase):
 
 
 def test_category_view(django_assert_num_queries, tp, initial_test_data):
-    with django_assert_num_queries(4):
+    with django_assert_num_queries(6):
         response = tp.client.get("/categories/apps/")
     assert "apps" in str(response.content)
 
 
 def test_grid_package_list(django_assert_num_queries, tp, initial_test_data):
-    with django_assert_num_queries(6):
+    with django_assert_num_queries(8):
         url = tp.reverse("grid_packages", slug="testing")
         response = tp.client.get(url)
 

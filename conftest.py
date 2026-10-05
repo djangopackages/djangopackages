@@ -2,6 +2,8 @@ import datetime
 import logging
 
 import pytest
+from django.conf import settings
+from django.core.cache import caches
 from django.test.utils import override_settings
 
 pytest_plugins = [
@@ -47,6 +49,24 @@ def django_db_setup(django_db_setup, django_db_blocker):
     """
     with django_db_blocker.unblock():
         yield
+
+
+@pytest.fixture(autouse=True)
+def cold_waffle_cache():
+    """Start every test with the waffle cache empty.
+
+    WAFFLE_CACHE_NAME above is a LocMemCache, and it lives for the whole
+    session, so whichever test read a flag first paid its queries and every
+    test after it got them free. That made assertNumQueries depend on
+    pytest-randomly's seed: the same test wanted 8 queries in one run and 7
+    in the next, and CI went red on main often enough to block a deploy.
+
+    Clearing it here means every test loads its own flags, so the counts
+    below are the ones a request actually makes on a cold cache and they do
+    not move with the order.
+    """
+    caches[settings.WAFFLE_CACHE_NAME].clear()
+    yield
 
 
 @pytest.fixture(autouse=True)
