@@ -189,3 +189,42 @@ def test_every_destination_in_the_map_is_a_real_category(db):
     """
     known = set(Category.objects.values_list("slug", flat=True))
     assert set(GRID_CATEGORY_MAP.values()) <= known
+
+
+@pytest.mark.django_db
+def test_the_deployment_grids_map_to_deployment(categories):
+    make_package("gunicorn", categories["other"], ["webserver"])
+    make_package("fabric-deploy-django", categories["other"], ["deployment"])
+    make_package("djangorecipe", categories["other"], ["buildout"])
+
+    moves, conflicts = proposals(["other"])
+
+    assert conflicts == []
+    assert {destination for _, destination, _ in moves} == {"deployment"}
+    assert len(moves) == 3
+
+
+@pytest.mark.django_db
+def test_a_buildout_template_on_a_template_grid_is_a_conflict(categories):
+    """Some buildout entries really are project templates, so they are not
+    ours to decide. django-buildout-template sits on both grids.
+    """
+    make_package(
+        "django-buildout-template", categories["other"], ["buildout", "cookiecutters"]
+    )
+
+    moves, conflicts = proposals(["other"])
+
+    assert moves == []
+    assert conflicts[0][1] == ["deployment", "starter-projects"]
+
+
+@pytest.mark.django_db
+def test_category_slugs_are_unique():
+    """0029 and 0030 lean on get_or_create, which only holds if the database
+    refuses a second row. Running migrate twice at once produced one.
+    """
+    from django.db import IntegrityError, transaction
+
+    with pytest.raises(IntegrityError), transaction.atomic():
+        Category.objects.create(slug="deployment", title="Deployment again")

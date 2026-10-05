@@ -236,7 +236,7 @@ docker compose run django uv run manage.py recategorize_from_grids
 docker compose run django uv run manage.py recategorize_from_grids --to developer-tools --apply
 ```
 
-Review the `developer-tools` half rather than running it with `--yes`. The `Linters`, `Template Linters` and `Testing tools` grids are tight, but `Developer Tools` is a broad grid and a few of its members are ordinary apps.
+Review the `developer-tools` half rather than running it with `--yes`. The `Linters`, `Template Linters` and `Testing tools` grids are tight, but `Developer Tools` is a broad grid and a few of its members are ordinary apps. The `starter-projects` and `deployment` halves are safe to run straight through.
 
 ## read_grid_stats
 

@@ -33,8 +33,9 @@ console = Console()
 #   developer-tools    39/134  testing            32/78   linters      9/9
 #   template-linters    5/5    documentation       4/5    test_clients 3/5
 #
-# Deployment (26/49), Webserver and Buildout were measured and left out of
-# this pass deliberately, to see how the first two land first.
+# Deployment was held back from that first pass to see how the other two
+# landed. Measured again after they did: deployment 23/49, buildout 7/7,
+# webserver 5/9, out of the 680 left in "Other".
 GRID_CATEGORY_MAP = {
     "bootstraps": "starter-projects",
     "cookiecutters": "starter-projects",
@@ -45,6 +46,9 @@ GRID_CATEGORY_MAP = {
     "template-linters": "developer-tools",
     "test_clients": "developer-tools",
     "testing": "developer-tools",
+    "buildout": "deployment",
+    "deployment": "deployment",
+    "webserver": "deployment",
 }
 
 

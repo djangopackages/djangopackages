@@ -30,6 +30,7 @@ MAX_DESCRIPTION_CHARS = 300
 
 INSTALLATION_TYPES = Literal[
     "apps",
+    "deployment",
     "developer-tools",
     "frameworks",
     "other",
@@ -134,6 +135,9 @@ class PackageVerdict(BaseModel):
             "starter-projects: a pre-built project template or scaffold. "
             "developer-tools: run against a project rather than installed "
             "into it, such as a linter, formatter, test helper or profiler. "
+            "deployment: gets a project onto a server and keeps it running, "
+            "such as a deploy script, a WSGI or ASGI server, or a build "
+            "recipe. "
             "other: anything that fits none of the above."
         )
     )
@@ -330,6 +334,9 @@ class PackageOnlyVerdict(BaseModel):
             "starter-projects: a pre-built project template or scaffold. "
             "developer-tools: run against a project rather than installed "
             "into it, such as a linter, formatter, test helper or profiler. "
+            "deployment: gets a project onto a server and keeps it running, "
+            "such as a deploy script, a WSGI or ASGI server, or a build "
+            "recipe. "
             "other: anything that fits none of the above."
         )
     )

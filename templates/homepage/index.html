@@ -95,15 +95,15 @@
 <!-- Categories Section -->
     <section class="py-8">
         <div class="container mx-auto px-4">
-            <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+            <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
                 {% for category in categories %}
                     <a href="{% url 'category' category.slug %}" class="card group">
                         <div class="card-header pb-4 text-center">
                             <div
-                                class="w-16 h-16 rounded-full {% cycle 'bg-blue-50 text-blue-700 dark:bg-blue-500/15 dark:text-blue-300' 'bg-green-50 text-green-700 dark:bg-green-500/15 dark:text-green-300' 'bg-purple-50 text-purple-700 dark:bg-purple-500/15 dark:text-purple-300' 'bg-orange-50 text-orange-700 dark:bg-orange-500/15 dark:text-orange-300' 'bg-rose-50 text-rose-700 dark:bg-rose-500/15 dark:text-rose-300' 'bg-teal-50 text-teal-700 dark:bg-teal-500/15 dark:text-teal-300' %} flex items-center justify-center mx-auto mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-200"
+                                class="w-16 h-16 rounded-full {% cycle 'bg-blue-50 text-blue-700 dark:bg-blue-500/15 dark:text-blue-300' 'bg-green-50 text-green-700 dark:bg-green-500/15 dark:text-green-300' 'bg-purple-50 text-purple-700 dark:bg-purple-500/15 dark:text-purple-300' 'bg-orange-50 text-orange-700 dark:bg-orange-500/15 dark:text-orange-300' 'bg-rose-50 text-rose-700 dark:bg-rose-500/15 dark:text-rose-300' 'bg-teal-50 text-teal-700 dark:bg-teal-500/15 dark:text-teal-300' 'bg-amber-50 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300' %} flex items-center justify-center mx-auto mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-200"
                             >
                                 <i
-                                    class="ph-bold {% cycle 'ph-package' 'ph-grid-nine' 'ph-folder' 'ph-archive' 'ph-rocket-launch' 'ph-wrench' %} text-2xl"
+                                    class="ph-bold {% cycle 'ph-package' 'ph-grid-nine' 'ph-folder' 'ph-archive' 'ph-rocket-launch' 'ph-wrench' 'ph-cloud-arrow-up' %} text-2xl"
                                 ></i>
                             </div>
                             <h3 class="group-hover:text-primary text-xl font-semibold transition-colors duration-200">
