@@ -49,7 +49,7 @@ class NoPyPiVersionFound(Exception):
 
 class Category(BaseModel):
     title = models.CharField(_("Title"), max_length=50)
-    slug = models.SlugField(_("slug"))
+    slug = models.SlugField(_("slug"), unique=True)
     description = models.TextField(_("description"), blank=True)
     title_plural = models.CharField(_("Title Plural"), max_length=50, blank=True)
     show_pypi = models.BooleanField(_("Show pypi stats & version"), default=True)
