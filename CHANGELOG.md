@@ -1,5 +1,12 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-10-05]
+### Changed
+- [prek]: auto-update hooks ([#1703](https://github.com/djangopackages/djangopackages/pull/1703))
+- Say when a grid is hiding packages instead of showing nothing ([#1700](https://github.com/djangopackages/djangopackages/pull/1700))
+- Clear the waffle cache between tests so query counts stop moving ([#1702](https://github.com/djangopackages/djangopackages/pull/1702))
+- Add a Deployment category and move 34 packages into it ([#1701](https://github.com/djangopackages/djangopackages/pull/1701))
+
 ## [2026-10-04]
 ### Changed
 - Show every category on the homepage, not the top four ([#1699](https://github.com/djangopackages/djangopackages/pull/1699))
