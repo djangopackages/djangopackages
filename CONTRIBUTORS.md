@@ -448,6 +448,13 @@ Listed in alphabetical order.
     <td></td>
   </tr>
   <tr>
+    <td>Nandika Gupta</td>
+    <td>
+      <a href="https://github.com/Nandika-Gupta">Nandika-Gupta</a>
+    </td>
+    <td>nandikagupta2</td>
+  </tr>
+  <tr>
     <td>Nikita Shupeyko</td>
     <td>
       <a href="https://github.com/webyneter">webyneter</a>

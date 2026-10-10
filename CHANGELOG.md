@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-10-07]
+### Changed
+- Show the docs logo under Zensical&#39;s modern variant ([#1704](https://github.com/djangopackages/djangopackages/pull/1704))
+
 ## [2026-10-05]
 ### Changed
 - [prek]: auto-update hooks ([#1703](https://github.com/djangopackages/djangopackages/pull/1703))
