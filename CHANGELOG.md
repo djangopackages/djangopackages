@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-10-10]
+### Changed
+- ⬆️ Bump the all-dependencies group with 8 updates ([#1705](https://github.com/djangopackages/djangopackages/pull/1705))
+
 ## [2026-10-07]
 ### Changed
 - Show the docs logo under Zensical&#39;s modern variant ([#1704](https://github.com/djangopackages/djangopackages/pull/1704))
