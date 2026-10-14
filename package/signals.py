@@ -28,7 +28,8 @@ def on_package_pre_delete(sender, instance, **kwargs):
     """
     from grid.models import GridPackage
 
-    grid_ids = [*GridPackage.objects.filter(package_id=instance.pk).values_list(
+    grid_ids = [
+        *GridPackage.objects.filter(package_id=instance.pk).values_list(
             "grid_id", flat=True
         )
     ]
