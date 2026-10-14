@@ -137,7 +137,16 @@ bootstrap *ARGS:
 # Drop into a bash shell in the Django container
 [group('docker')]
 @console:
-    docker compose run --rm django /bin/bash
+    #!/usr/bin/env bash
+    # Attach to the running container when there is one, so the shell sees the
+    # same process the app is serving from. `compose ps` lists only the service
+    # container, never the one-off `run` ones, so a leftover from an earlier
+    # console does not get mistaken for a live service.
+    if [ -n "$(docker compose ps --quiet django)" ]; then
+        exec docker compose exec django /bin/bash
+    else
+        exec docker compose run --rm django /bin/bash
+    fi
 
 # --------------------------------------------------
 # Django Management
