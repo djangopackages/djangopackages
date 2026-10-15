@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load i18n page_metadata_tags %}
+
+{% block metadata %}
+    {% page_metadata page_title=query %}
+{% endblock metadata %}
+
+{% block content %}
+    <section class="bg-primary/10 py-4">
+        <div class="container mx-auto px-4">
+            <div class="text-muted-foreground flex items-center text-sm">
+                <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
+                <span class="mx-2">»</span>
+                <span class="text-foreground font-medium">{% translate "Search results" %}</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mx-auto px-4 py-8">
+        <div class="mb-8">
+            <h1 class="text-foreground text-3xl font-bold">
+                {% translate "Search results" %}
+            </h1>
+            <p class="text-muted-foreground pt-2">
+                {% blocktranslate with query=query %}Results for "{{ query }}"{% endblocktranslate %}
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="card-content p-6">
+                {% if search_results %}
+                    <div class="divide-y divide-border">
+                        {% for item in search_results %}
+                            <a
+                                href="{{ item.get_absolute_url }}"
+                                class="block rounded-lg p-4 transition-colors hover:bg-primary/5"
+                            >
+                                <div class="flex items-start gap-3">
+                                    <div class="text-muted-foreground mt-1 flex-shrink-0">
+                                        {% if item.is_grid %}
+                                            <i class="ph-bold ph-squares-four"></i>
+                                        {% else %}
+                                            <i class="ph-bold ph-package"></i>
+                                        {% endif %}
+                                    </div>
+                                    <div class="min-w-0 flex-1">
+                                        <h2 class="text-foreground font-medium">
+                                            {{ item.title }}
+                                        </h2>
+                                        {% if item.description %}
+                                            <p class="text-muted-foreground mt-1 text-sm">
+                                                {{ item.description }}
+                                            </p>
+                                        {% endif %}
+                                        <span class="badge mt-2">
+                                            {% if item.is_grid %}
+                                                {% translate "Grid" %}
+                                            {% else %}
+                                                {% translate "Package" %}
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+
+                    {% if is_paginated %}
+                        <nav class="mt-6 flex items-center justify-between gap-4" aria-label="{% translate 'Pagination' %}">
+                            {% if page_obj.has_previous %}
+                                <a class="btn-secondary" href="?q={{ query|urlencode }}&page={{ page_obj.previous_page_number }}">
+                                    {% translate "Previous" %}
+                                </a>
+                            {% else %}
+                                <span></span>
+                            {% endif %}
+
+                            <span class="text-muted-foreground text-sm">
+                                {% blocktranslate with page=page_obj.number pages=paginator.num_pages %}
+                                    Page {{ page }} of {{ pages }}
+                                {% endblocktranslate %}
+                            </span>
+
+                            {% if page_obj.has_next %}
+                                <a class="btn-secondary" href="?q={{ query|urlencode }}&page={{ page_obj.next_page_number }}">
+                                    {% translate "Next" %}
+                                </a>
+                            {% else %}
+                                <span></span>
+                            {% endif %}
+                        </nav>
+                    {% endif %}
+                {% else %}
+                    <p class="text-muted-foreground py-8 text-center">
+                        {% blocktranslate with query=query %}No results found for "{{ query }}". Try another search.{% endblocktranslate %}
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
