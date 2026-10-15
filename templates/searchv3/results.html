@@ -29,11 +29,11 @@
         <div class="card">
             <div class="card-content p-6">
                 {% if search_results %}
-                    <div class="divide-y divide-border">
+                    <div class="divide-border divide-y">
                         {% for item in search_results %}
                             <a
                                 href="{{ item.get_absolute_url }}"
-                                class="block rounded-lg p-4 transition-colors hover:bg-primary/5"
+                                class="hover:bg-primary/5 block rounded-lg p-4 transition-colors"
                             >
                                 <div class="flex items-start gap-3">
                                     <div class="text-muted-foreground mt-1 flex-shrink-0">

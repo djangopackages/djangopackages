@@ -57,6 +57,7 @@ class SearchSuggestionsView(ListView):
         )
         return context
 
+
 class SearchResultsView(ListView):
     model = SearchV3
     template_name = "searchv3/results.html"
@@ -74,6 +75,7 @@ class SearchResultsView(ListView):
         context = super().get_context_data(**kwargs)
         context["query"] = self.request.GET.get("q", "").strip()
         return context
+
 
 class OpenSearchDescription(TemplateView):
     template_name = "search_description.xml"

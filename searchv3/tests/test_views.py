@@ -96,6 +96,7 @@ class SearchSuggestionsViewTest(TestCase):
         response = self.client.get(self.url, {"q": ""})
         self.assertEqual(response.status_code, 200)
 
+
 class SearchResultsViewTest(TestCase):
     def setUp(self):
         initial_data.load()
@@ -121,6 +122,7 @@ class SearchResultsViewTest(TestCase):
     def test_query_is_preserved(self):
         response = self.client.get(self.url, {"q": "testability"})
         self.assertEqual(response.context["query"], "testability")
+
 
 class OpenSearchDescriptionTest(TestCase):
     def test_status_code(self):
