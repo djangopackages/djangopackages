@@ -372,10 +372,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Open the selected suggestion
                     e.preventDefault();
                     window.location.href = items[current].href;
-                } else if (input.value.trim()) {
-                    // Open the full results page
+                } else if (input.value.trim() && input.dataset.resultsUrl) {
+                    // Open the full results page (URL provided by the template via data-results-url)
                     e.preventDefault();
-                    window.location.href = `/search/results/?q=${encodeURIComponent(input.value.trim())}`;
+                    window.location.href = `${input.dataset.resultsUrl}?q=${encodeURIComponent(input.value.trim())}`;
                 }
                 return;
             }
