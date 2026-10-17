@@ -365,9 +365,27 @@ document.addEventListener("DOMContentLoaded", function () {
         // Keyboard navigation
         input.addEventListener("keydown", (e) => {
             const items = [...dropdown.querySelectorAll(".suggestion-item")];
-            if (!items.length) return;
-
             const current = items.findIndex(el => el.classList.contains("selected"));
+
+            if (e.key === "Enter") {
+                if (current >= 0 && items[current]?.href) {
+                    // Open the selected suggestion
+                    e.preventDefault();
+                    window.location.href = items[current].href;
+                } else if (input.value.trim()) {
+                    // Open the full results page
+                    e.preventDefault();
+                    window.location.href = `/search/results/?q=${encodeURIComponent(input.value.trim())}`;
+                }
+                return;
+            }
+
+            if (e.key === "Escape") {
+                close();
+                return;
+            }
+
+            if (!items.length) return;
 
             if (e.key === "ArrowDown") {
                 e.preventDefault();
@@ -392,11 +410,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 const prev = current > 0 ? current - 1 : items.length - 1;
                 items.forEach((el, i) => el.classList.toggle("selected", i === prev));
                 items[prev]?.scrollIntoView({ block: "nearest" });
-            } else if (e.key === "Enter" && current >= 0 && items[current]?.href) {
-                e.preventDefault();
-                window.location.href = items[current].href;
-            } else if (e.key === "Escape") {
-                close();
             }
         });
 
