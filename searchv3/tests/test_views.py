@@ -97,6 +97,33 @@ class SearchSuggestionsViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
+class SearchResultsViewTest(TestCase):
+    def setUp(self):
+        initial_data.load()
+        build_search_index()
+        self.url = reverse("search_results")
+
+    def test_status_code(self):
+        response = self.client.get(self.url, {"q": "testability"})
+        self.assertEqual(response.status_code, 200)
+
+    def test_template_used(self):
+        response = self.client.get(self.url, {"q": "testability"})
+        self.assertTemplateUsed(response, "searchv3/results.html")
+
+    def test_returns_results_for_matching_query(self):
+        response = self.client.get(self.url, {"q": "testability"})
+        self.assertTrue(response.context["search_results"].exists())
+
+    def test_no_results_for_nonexistent_query(self):
+        response = self.client.get(self.url, {"q": "zzzzznonexistent"})
+        self.assertFalse(response.context["search_results"].exists())
+
+    def test_query_is_preserved(self):
+        response = self.client.get(self.url, {"q": "testability"})
+        self.assertEqual(response.context["query"], "testability")
+
+
 class OpenSearchDescriptionTest(TestCase):
     def test_status_code(self):
         url = reverse("opensearch-description")

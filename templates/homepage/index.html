@@ -23,6 +23,7 @@
                         placeholder="{% translate 'Search Django packages...' %}"
                         class="peer border-input bg-background text-foreground placeholder:text-muted-foreground focus:border-primary h-14 w-full rounded-lg border-2 py-4 pr-20 pl-12 text-lg transition-colors focus:outline-none"
                         autocomplete="off"
+                        data-results-url="{% url 'search_results' %}"
                         hx-get="{% url 'search_suggestions' %}"
                         hx-trigger="input changed delay:300ms, focus"
                         hx-target="#suggestions-dropdown"
