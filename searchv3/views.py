@@ -58,6 +58,25 @@ class SearchSuggestionsView(ListView):
         return context
 
 
+class SearchResultsView(ListView):
+    model = SearchV3
+    template_name = "searchv3/results.html"
+    context_object_name = "search_results"
+    paginate_by = 20
+
+    def get_queryset(self):
+        self.form = SearchForm(self.request.GET)
+        if self.form.is_valid():
+            q = self.form.cleaned_data["q"]
+            return SearchV3.objects.search(q)
+        return SearchV3.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["query"] = self.request.GET.get("q", "").strip()
+        return context
+
+
 class OpenSearchDescription(TemplateView):
     template_name = "search_description.xml"
 
