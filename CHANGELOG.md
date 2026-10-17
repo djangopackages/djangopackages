@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-10-14]
+### Changed
+- [prek]: auto-update hooks ([#1706](https://github.com/djangopackages/djangopackages/pull/1706))
+
 ## [2026-10-10]
 ### Changed
 - ⬆️ Bump the all-dependencies group with 8 updates ([#1705](https://github.com/djangopackages/djangopackages/pull/1705))
