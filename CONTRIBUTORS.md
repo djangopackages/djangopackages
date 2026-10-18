@@ -518,6 +518,13 @@ Listed in alphabetical order.
     <td>radiac</td>
   </tr>
   <tr>
+    <td>Riddhi Gupta</td>
+    <td>
+      <a href="https://github.com/riddhigupta1110">riddhigupta1110</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
     <td>Rust Saiargaliev</td>
     <td>
       <a href="https://github.com/amureki">amureki</a>
