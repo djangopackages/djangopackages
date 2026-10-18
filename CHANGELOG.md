@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-10-17]
+### Changed
+- ⬆️ Bump the all-dependencies group with 11 updates ([#1708](https://github.com/djangopackages/djangopackages/pull/1708))
+- feat(search): add dedicated search results page ([#1709](https://github.com/djangopackages/djangopackages/pull/1709))
+
 ## [2026-10-14]
 ### Changed
 - [prek]: auto-update hooks ([#1706](https://github.com/djangopackages/djangopackages/pull/1706))
