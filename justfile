@@ -279,7 +279,37 @@ bootstrap *ARGS:
 # Production
 # --------------------------------------------------
 
-# Purge Cloudflare cache
+# Purge the Cloudflare cache
 [group('production')]
-@purge_cache:
-    docker compose run --rm django cli4 --delete purge_everything=true /zones/:djangopackages.org/purge_cache
+purge_cache zone="djangopackages.org":
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    # Needs a token with Zone.Cache Purge on the zone.
+    token="${CLOUDFLARE_API_TOKEN:-}"
+    if [ -z "$token" ] && [ -f .env.local ]; then
+        token=$(sed -n 's/^CLOUDFLARE_API_TOKEN=//p' .env.local | tr -d '"'"'"'"' | head -1)
+    fi
+    if [ -z "$token" ]; then
+        echo "CLOUDFLARE_API_TOKEN is not set, and .env.local does not have one." >&2
+        exit 1
+    fi
+
+    api() {
+        curl -sS --fail-with-body \
+            -H "Authorization: Bearer $token" \
+            -H "Content-Type: application/json" "$@"
+    }
+
+    # The API purges by zone id, so look it up from the name first.
+    zone_id=$(api "https://api.cloudflare.com/client/v4/zones?name={{ zone }}" \
+        | python3 -c 'import json, sys; r = json.load(sys.stdin).get("result") or [""]; print(r[0]["id"] if r[0] else "")')
+
+    if [ -z "$zone_id" ]; then
+        echo "No zone named {{ zone }}. Check what the token can see." >&2
+        exit 1
+    fi
+
+    api -X POST "https://api.cloudflare.com/client/v4/zones/$zone_id/purge_cache" \
+        --data '{"purge_everything": true}' \
+        | python3 -c 'import json, sys; d = json.load(sys.stdin); print("Purged {{ zone }}" if d.get("success") else "Failed: " + json.dumps(d.get("errors"))); sys.exit(0 if d.get("success") else 1)'
