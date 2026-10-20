@@ -4,24 +4,30 @@
     The card nearly every page uses: a kind badge, a heading, a blurb and the
     page's own URL. Takes card_kind, card_title, card_description and
     card_path from the view.
+
+    It is one flex column so the URL is always the last thing in the flow
+    and cannot be painted over by a heading or blurb that runs long. The
+    blurb takes whatever vertical space is left and clips there, which is
+    why it is the only part allowed to grow.
+
+    The worst case the sizes below are chosen for is a heading that wraps to
+    two lines above a two line blurb. Anything larger clips mid-sentence.
 {% endcomment %}
 
 {% block card_body %}
-    <main class="min-h-0 flex-1 px-24 pt-20">
+    <div class="flex min-h-0 flex-1 flex-col px-24 pt-12 pb-10">
         {% if card_kind %}
-            <div class="mb-8 inline-flex items-center rounded-full border-2 border-[oklch(0.3176_0.0648_159.21)] bg-[oklch(0.3176_0.0648_159.21)]/10 px-6 py-2 text-xl text-[oklch(0.3176_0.0648_159.21)] font-bold">
+            <div class="mb-6 inline-flex shrink-0 items-center self-start rounded-full border-2 border-[oklch(0.3176_0.0648_159.21)] bg-[oklch(0.3176_0.0648_159.21)]/10 px-6 py-2 text-xl text-[oklch(0.3176_0.0648_159.21)] font-bold">
                 {{ card_kind }}
             </div>
         {% endif %}
-        <h1 class="line-clamp-2 mb-6 text-7xl text-[oklch(0.15_0_0)] leading-tight font-bold tracking-tight">
+        <h1 class="line-clamp-2 mb-5 shrink-0 text-6xl text-[oklch(0.15_0_0)] leading-tight font-bold tracking-tight">
             {{ card_title }}
         </h1>
-        <p class="line-clamp-3 text-4xl text-[oklch(0.45_0_0)] leading-normal">
+        <p class="line-clamp-2 min-h-0 flex-1 overflow-hidden text-3xl text-[oklch(0.45_0_0)] leading-normal">
             {{ card_description }}
         </p>
-    </main>
-    <div class="px-24 pb-10">
-        <div class="text-2xl text-[oklch(0.45_0_0)] font-medium">
+        <div class="mt-6 shrink-0 text-2xl text-[oklch(0.45_0_0)] font-medium">
             https://djangopackages.org{{ card_path }}
         </div>
     </div>

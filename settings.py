@@ -298,6 +298,14 @@ LOCAL_INSTALLED_APPS = []
 FRAMEWORK_TITLE = env("FRAMEWORK_TITLE", default="Django")
 SITE_TITLE = env("SITE_TITLE", default="Django Packages")
 
+# Bump this to force every social card to be re-rendered.
+#
+# The screenshot service caches by the URL it is asked to fetch and nothing
+# else, so this rides along on that URL as a query string. Without it a bad
+# render sticks around: when the card routes were first deployed, the
+# renderer had already cached our 404 page against several of them.
+OG_IMAGE_VERSION = env("OG_IMAGE_VERSION", default="2")
+
 PACKAGE_SCORE_MIN = env.int("PACKAGE_SCORE_MIN", default=-500)
 
 if LOCAL_INSTALLED_APPS:

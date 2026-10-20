@@ -1,7 +1,10 @@
+from html import unescape
+
 from django.db import models
 from django.urls import reverse
 from django.utils.html import strip_tags
 from django.utils.text import Truncator, slugify
+from markdown_it import MarkdownIt
 
 from blog.managers import PostManager
 from core.models import BaseModel
@@ -44,10 +47,13 @@ class Post(BaseModel):
 
     @property
     def summary(self):
-        """The opening of the post, for a card or a meta description.
+        """The opening of the post, as plain text for a card or a meta tag.
 
-        Posts are written in Markdown, so this is a rough strip rather than
-        a render. It only ever has to survive being truncated.
+        Posts are Markdown, so it has to be rendered before the tags come
+        off. Stripping the raw source instead leaves the syntax behind, and
+        "**djangopackages.org**" ends up on the social card with its
+        asterisks showing.
         """
-        text = " ".join(strip_tags(self.content).split())
-        return Truncator(text).chars(180)
+        html = MarkdownIt("gfm-like", {"linkify": True}).render(self.content)
+        text = " ".join(unescape(strip_tags(html)).split())
+        return Truncator(text).chars(130)
