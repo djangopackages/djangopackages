@@ -12,7 +12,7 @@ class StaticViewSitemap(Sitemap):
             "about",
             "terms",
             "faq",
-            "stack",
+            "colophon",
             "open",
             "help",
             "funding",
