@@ -1,4 +1,6 @@
 from datetime import datetime
+from urllib.parse import urlparse
+
 from django.conf import settings
 from django.utils import timezone
 from gitlab import Gitlab
@@ -13,19 +15,51 @@ class GitLabHandler(BaseHandler):
     url = "https://gitlab.com"
     repo_regex = r"(?:http|https|git)://gitlab.com/[^/]*/([^/]*)"
     slug_regex = repo_regex
-    gitlab: Gitlab
 
     def __init__(self):
-        if settings.GITLAB_TOKEN:
-            self.gitlab = Gitlab(self.url, private_token=settings.GITLAB_TOKEN)
-        else:
-            self.gitlab = Gitlab(self.url)
+        self.client = None
+        self._client_cache: dict[str, Gitlab] = {}
+
+    def get_base_url(self, repo_url: str) -> str:
+        """The instance a repo URL points at, falling back to gitlab.com."""
+        parsed = urlparse(repo_url or "")
+        if not parsed.scheme or not parsed.netloc:
+            return self.url
+        return f"{parsed.scheme}://{parsed.netloc}"
+
+    def get_client(self, repo_url: str) -> Gitlab:
+        """One client per instance, built on first use.
+
+        GITLAB_TOKEN is a gitlab.com credential, so it is only ever sent
+        there. A self-hosted instance gets an anonymous client, which is
+        enough for the public projects we index.
+        """
+        if self.client is not None:
+            return self.client
+
+        base_url = self.get_base_url(repo_url)
+
+        if base_url not in self._client_cache:
+            token = settings.GITLAB_TOKEN if base_url == self.url else None
+            self._client_cache[base_url] = Gitlab(base_url, private_token=token)
+
+        return self._client_cache[base_url]
+
+    def extract_repo_name(self, repo_url):
+        """Everything after the host, since GitLab groups can nest."""
+        parsed = urlparse(repo_url or "")
+        path = parsed.path.strip("/")
+        if path.endswith(".git"):
+            path = path[:-4]
+        return path
 
     def _get_repo(self, repo_url):
-        path = repo_url.replace(f"{self.url}/", "")
-        return self.gitlab.projects.get(path, license=True)
+        client = self.get_client(repo_url)
+        return client.projects.get(self.extract_repo_name(repo_url), license=True)
 
     def _fetch_commit_stats(self, package, repo):
+        client = self.get_client(package.repo_url)
+
         # Fetch the most recent commit
         commits = repo.commits.list(per_page=1)
         if commits:
@@ -37,7 +71,7 @@ class GitLabHandler(BaseHandler):
         # Get total commit count from the default branch sequence endpoint
         # Use gitlab http_get to utilize session/auth
         path = f"/projects/{repo.id}/repository/commits/{repo.default_branch}/sequence"
-        project_data = self.gitlab.http_get(path)
+        project_data = client.http_get(path)
 
         package.commit_count = project_data["count"]
 
