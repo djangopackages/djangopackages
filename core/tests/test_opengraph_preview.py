@@ -99,7 +99,9 @@ def test_a_local_host_explains_why_there_is_no_image(client, staff_user, package
 def test_a_public_host_shows_the_rendered_image(client, staff_user, package):
     client.force_login(staff_user)
 
-    response = client.get(reverse("opengraph_preview"), SERVER_NAME="djangopackages.org")
+    response = client.get(
+        reverse("opengraph_preview"), SERVER_NAME="djangopackages.org"
+    )
     content = response.content.decode()
 
     assert '<img src="https://v1.screenshot.11ty.dev/' in content
