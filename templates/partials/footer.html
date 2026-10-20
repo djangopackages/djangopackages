@@ -1,41 +1,27 @@
 {% load i18n %}
 <!-- Footer -->
 <footer class="text-brand-foreground">
-    <div class="pt-8 pb-4" style="background-color: oklch(39.3% 0.095 152.535)">
+    <div class="py-6" style="background-color: oklch(39.3% 0.095 152.535)">
         <div class="container mx-auto px-4 text-center">
             <p class="text-sm">
                 {% translate "Projects listed on Django Packages are third-party packages. They are not vetted nor endorsed by the Django Software Foundation. Use them at your own risk." %}
             </p>
         </div>
     </div>
-    <div class="bg-brand pt-4 pb-8">
+    <div class="bg-brand py-10">
         <div class="container mx-auto px-4">
-            <div class="flex flex-wrap justify-center gap-6 text-sm">
-                <a
-                    href="https://github.com/djangopackages/djangopackages"
-                    class="flex items-center gap-2 opacity-90 hover:opacity-100"
-                >
-                    <i class="ph-bold ph-github-logo"></i>
-                    {% translate "Repo" %}
-                </a>
+            {% comment %}
+                Ordered by who wants them: using the site first, then the
+                project behind it, then the legal pages last.
+            {% endcomment %}
+            <div class="flex flex-wrap justify-center gap-x-6 gap-y-3 text-sm">
                 <a href="{% url 'faq' %}" class="flex items-center gap-2 opacity-90 hover:opacity-100">
                     <i class="ph-bold ph-question"></i>
                     {% translate "FAQ" %}
                 </a>
-                <a href="{% url 'terms' %}" class="flex items-center gap-2 opacity-90 hover:opacity-100">
-                    <i class="ph-bold ph-file-text"></i>
-                    {% translate "Terms" %}
-                </a>
-                <a href="{% url 'acceptable_use' %}" class="flex items-center gap-2 opacity-90 hover:opacity-100">
-                    <i class="ph-bold ph-shield-check"></i>
-                    {% translate "Acceptable Use" %}
-                </a>
-                <a
-                    href="https://docs.djangopackages.org/en/latest/contributing/"
-                    class="flex items-center gap-2 opacity-90 hover:opacity-100"
-                >
-                    <i class="ph-bold ph-git-pull-request"></i>
-                    {% translate "Contribute" %}
+                <a href="{% url 'readiness' %}" class="flex items-center gap-2 opacity-90 hover:opacity-100">
+                    <i class="ph-bold ph-file-py"></i>
+                    {% translate "Readiness" %}
                 </a>
                 <a href="{% url 'apiv4:api-root' %}" class="flex items-center gap-2 opacity-90 hover:opacity-100">
                     <i class="ph-bold ph-plugs"></i>
@@ -49,18 +35,44 @@
                     <i class="ph-bold ph-list-dashes"></i>
                     {% translate "Changelog" %}
                 </a>
+                <a
+                    href="https://github.com/djangopackages/djangopackages"
+                    class="flex items-center gap-2 opacity-90 hover:opacity-100"
+                >
+                    <i class="ph-bold ph-github-logo"></i>
+                    {% translate "Repo" %}
+                </a>
+                <a
+                    href="https://docs.djangopackages.org/en/latest/contributing/"
+                    class="flex items-center gap-2 opacity-90 hover:opacity-100"
+                >
+                    <i class="ph-bold ph-git-pull-request"></i>
+                    {% translate "Contribute" %}
+                </a>
                 <a href="{% url 'funding' %}" class="flex items-center gap-2 opacity-90 hover:opacity-100">
                     <i class="ph-bold ph-heart"></i>
                     {% translate "Funding" %}
-                </a>
-                <a href="{% url 'readiness' %}" class="flex items-center gap-2 opacity-90 hover:opacity-100">
-                    <i class="ph-bold ph-file-py"></i>
-                    {% translate "Readiness" %}
                 </a>
                 <a href="{% url 'colophon' %}" class="flex items-center gap-2 opacity-90 hover:opacity-100">
                     <i class="ph-bold ph-stack"></i>
                     {% translate "Colophon" %}
                 </a>
+                <a href="{% url 'terms' %}" class="flex items-center gap-2 opacity-90 hover:opacity-100">
+                    <i class="ph-bold ph-file-text"></i>
+                    {% translate "Terms" %}
+                </a>
+                <a href="{% url 'acceptable_use' %}" class="flex items-center gap-2 opacity-90 hover:opacity-100">
+                    <i class="ph-bold ph-shield-check"></i>
+                    {% translate "Acceptable Use" %}
+                </a>
+            </div>
+
+            {% comment %}
+                Community links the project points at rather than owns. Kept
+                on their own row because the row above is already full, and
+                this one is going to grow.
+            {% endcomment %}
+            <div class="mt-4 flex flex-wrap justify-center gap-x-6 gap-y-3 text-sm">
                 <a href="https://djangojobboard.com" class="flex items-center gap-2 opacity-90 hover:opacity-100">
                     <i class="ph-bold ph-briefcase"></i>
                     {% translate "Django Job Board" %}
@@ -71,7 +83,7 @@
                 </a>
             </div>
 
-            <div class="text-center text-sm opacity-90">
+            <div class="mt-4 space-y-3 text-center text-sm leading-relaxed opacity-90">
                 <p>
                     &copy; 2010-{% now "Y" %} <a href="https://github.com/djangopackages/djangopackages/graphs/contributors" class="hover:underline">{% translate "Contributors" %}</a>,
                     {# Please leave Daniel and Audrey's attribution here #}
@@ -79,15 +91,8 @@
                     {% blocktranslate %}Originally developed by <a href="http://daniel.feldroy.com" class="hover:underline">Daniel Roy Greenfeld</a> &amp; <a href="https://audrey.feldroy.com/" class="hover:underline">Audrey Roy Greenfeld</a>.{% endblocktranslate %}
                     {# end of Daniel and Audrey's attribution #}
                 </p>
-                <p class="mt-2">
+                <p>
                     {% blocktranslate %}Thank you to our <a href="https://github.com/djangopackages/djangopackages/graphs/contributors" class="hover:underline">maintainers and contributors</a> and to <a href="https://www.revsys.com/" class="hover:underline">REVSYS</a> for sponsoring development.{% endblocktranslate %}
-                </p>
-                <p class="mt-2">
-                    {% blocktranslate %}Special thanks to <a href="https://djangonaut.space" class="hover:underline">Djangonaut Space</a>.{% endblocktranslate %}
-                </p>
-                <p class="mt-2">
-                    {% blocktranslate %}Hosted on Hetzner.{% endblocktranslate %}
-                    <a href="https://hetzner.cloud/?ref=R4fnKzKtBqFn" class="hover:underline">{% translate "Please use our referral link to receive a free $20 credit to get you started." %}</a>
                 </p>
             </div>
         </div>
