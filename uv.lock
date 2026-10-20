@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.12"
 
 [[package]]
@@ -231,23 +231,6 @@ wheels = [
 ]
 
 [[package]]
-name = "cloudflare"
-version = "5.9.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "anyio" },
-    { name = "distro" },
-    { name = "httpx" },
-    { name = "pydantic" },
-    { name = "sniffio" },
-    { name = "typing-extensions" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/4b/52/5e736d63637e79c2381045250dbb6154a1fb4da8f3fd47518bff406c24d2/cloudflare-5.9.0.tar.gz", hash = "sha256:1c9b9e243602c754e03636204272422dc45776f3babdc67f8341ca4d559d49e8", size = 3664424, upload-time = "2026-10-03T02:55:24.989Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/13/d4/6d3ed77313ce1fbcf209c4aca50407c338114e71d864cbc49b1cd686b966/cloudflare-5.9.0-py3-none-any.whl", hash = "sha256:70f0c966c26802837fe7ebe95a7b4a14c723159e742bc49d34642b21a2dc11b5", size = 7707263, upload-time = "2026-10-03T02:55:22.596Z" },
-]
-
-[[package]]
 name = "colorama"
 version = "0.4.6"
 source = { registry = "https://pypi.org/simple" }
@@ -429,15 +412,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/30/1d/c5913ac9d6615515a00f4bdc71356d302437cb74ff2e9aaccd3c14493b78/dirty_equals-0.11.tar.gz", hash = "sha256:f4ac74ee88f2d11e2fa0f65eb30ee4f07105c5f86f4dc92b09eb1138775027c3", size = 128067, upload-time = "2025-11-17T01:51:24.451Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/bb/8d/dbff05239043271dbeace563a7686212a3dd517864a35623fe4d4a64ca19/dirty_equals-0.11-py3-none-any.whl", hash = "sha256:b1d7093273fc2f9be12f443a8ead954ef6daaf6746fd42ef3a5616433ee85286", size = 28051, upload-time = "2025-11-17T01:51:22.849Z" },
-]
-
-[[package]]
-name = "distro"
-version = "1.9.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/fc/f8/98eea607f65de6527f8a2e8885fc8015d3e6f5775df186e443e0964a11c3/distro-1.9.0.tar.gz", hash = "sha256:2fa77c6fd8940f116ee1d6b94a2f90b13b5ea8d019b98bc8bafdcabcdd9bdbed", size = 60722, upload-time = "2023-12-24T09:54:32.31Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/12/b3/231ffd4ab1fc9d679809f356cebee130ac7daa00d6d6f3206dd4fd137e9e/distro-1.9.0-py3-none-any.whl", hash = "sha256:7bffd925d65168f85027d8da9af6bddab658135b840670a223589bc0c8ef02b2", size = 20277, upload-time = "2023-12-24T09:54:30.421Z" },
 ]
 
 [[package]]
@@ -708,7 +682,6 @@ version = "2025.10.10"
 source = { virtual = "." }
 dependencies = [
     { name = "blessed" },
-    { name = "cloudflare" },
     { name = "croniter" },
     { name = "django" },
     { name = "django-anymail" },
@@ -791,7 +764,6 @@ maintenance = [
 [package.metadata]
 requires-dist = [
     { name = "blessed", specifier = ">=1.50.0" },
-    { name = "cloudflare" },
     { name = "croniter" },
     { name = "django", specifier = ">5.0" },
     { name = "django-anymail" },
@@ -1000,19 +972,6 @@ wheels = [
 ]
 
 [[package]]
-name = "httpcore"
-version = "1.0.9"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "certifi" },
-    { name = "h11" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/06/94/82699a10bca87a5556c9c59b5963f2d039dbd239f25bc2a63907a05a14cb/httpcore-1.0.9.tar.gz", hash = "sha256:6e34463af53fd2ab5d807f399a9b45ea31c3dfa2276f15a2c3f00afff6e176e8", size = 85484, upload-time = "2025-04-24T22:06:22.219Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/7e/f5/f66802a942d491edb555dd61e3a9961140fd64c90bce1eafd741609d334d/httpcore-1.0.9-py3-none-any.whl", hash = "sha256:2d400746a40668fc9dec9810239072b40b4484b640a8c38fd654a024c7a1bf55", size = 78784, upload-time = "2025-04-24T22:06:20.566Z" },
-]
-
-[[package]]
 name = "httpcore2"
 version = "2.13.1"
 source = { registry = "https://pypi.org/simple" }
@@ -1023,21 +982,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/cb/f3/1db7aa2bc2524062192bb0e0323969492d1883152a232fe36eea65f4e35c/httpcore2-2.13.1.tar.gz", hash = "sha256:e0aa977abe17e69a3b820a24542a6fa88702676d83880b8d194dcd18408e5103", size = 68071, upload-time = "2026-09-23T07:47:22.372Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/09/ba/a4568248771ce81957bfb7cc600264a40fbcda092391ee1c415c50be4bea/httpcore2-2.13.1-py3-none-any.whl", hash = "sha256:e1e05d4f25f7d7d496bfb96748f6f4b67657b03da069b3a68c36069f3db73d0a", size = 83423, upload-time = "2026-09-23T07:47:19.365Z" },
-]
-
-[[package]]
-name = "httpx"
-version = "0.28.1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "anyio" },
-    { name = "certifi" },
-    { name = "httpcore" },
-    { name = "idna" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/b1/df/48c586a5fe32a0f01324ee087459e112ebb7224f646c0b5023f5e79e9956/httpx-0.28.1.tar.gz", hash = "sha256:75e98c5f16b0f35b567856f597f06ff2270a374470a5c2392242528e3e3e42fc", size = 141406, upload-time = "2024-12-06T15:37:23.222Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/2a/39/e50c7c3a983047577ee07d2a9e53faf5a69493943ec3f6a384bdc792deb2/httpx-0.28.1-py3-none-any.whl", hash = "sha256:d909fcccc110f8c7faf814ca82a9a4d816bc5a6dbfea25d6591d6985b8ba59ad", size = 73517, upload-time = "2024-12-06T15:37:21.509Z" },
 ]
 
 [[package]]
