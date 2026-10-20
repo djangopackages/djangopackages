@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% load i18n page_metadata_tags %}
+
+{% block metadata %}
+    {% page_metadata page_title="OpenGraph preview" %}
+    <meta name="robots" content="noindex, nofollow">
+{% endblock metadata %}
+
+{% block content %}
+    <div class="mx-auto max-w-5xl px-4 py-8">
+        <h1 class="text-foreground text-3xl font-bold">{% translate "OpenGraph preview" %}</h1>
+        <p class="text-muted-foreground mt-2">
+            {% blocktranslate %}
+                Every social card we render, one of each type, as the image a
+                crawler actually gets. Shown at half size; the real thing is
+                1200x630. Staff only, unlisted, and noindex.
+            {% endblocktranslate %}
+        </p>
+
+        {% for card in cards %}
+            <section class="mt-10">
+                <h2 class="text-foreground text-xl font-bold">{{ card.label }}</h2>
+
+                {% if card.obj %}
+                    {% if host_is_reachable %}
+                        <a href="{{ card.proxy_url }}">
+                            <img src="{{ card.proxy_url }}"
+                                 alt="{{ card.label }} card"
+                                 width="600"
+                                 height="315"
+                                 loading="lazy"
+                                 class="border-border mt-3 rounded border">
+                        </a>
+                    {% else %}
+                        <p class="text-muted-foreground mt-3 text-sm">
+                            {% blocktranslate %}
+                                The renderer fetches cards over the public internet, so it
+                                cannot reach this host. Open the card HTML below instead.
+                            {% endblocktranslate %}
+                        </p>
+                    {% endif %}
+
+                    <dl class="mt-3 space-y-1 text-sm">
+                        <div class="flex gap-2">
+                            <dt class="text-muted-foreground w-28 shrink-0">{% translate "Card" %}</dt>
+                            <dd><a href="{{ card.card_path }}" class="text-primary hover:underline">{{ card.card_path }}</a></dd>
+                        </div>
+                        <div class="flex gap-2">
+                            <dt class="text-muted-foreground w-28 shrink-0">{% translate "Page" %}</dt>
+                            <dd><a href="{{ card.page_url }}" class="text-primary hover:underline">{{ card.page_url }}</a></dd>
+                        </div>
+                        <div class="flex gap-2">
+                            <dt class="text-muted-foreground w-28 shrink-0">{% translate "Rendered" %}</dt>
+                            <dd class="break-all">
+                                <a href="{{ card.proxy_url }}" class="text-primary hover:underline">{{ card.proxy_url }}</a>
+                            </dd>
+                        </div>
+                    </dl>
+                {% else %}
+                    <p class="text-muted-foreground mt-3 text-sm">
+                        {% blocktranslate with label=card.label %}
+                            No {{ label }} in the database to preview.
+                        {% endblocktranslate %}
+                    </p>
+                {% endif %}
+            </section>
+        {% endfor %}
+
+        <section class="mt-12">
+            <h2 class="text-foreground text-xl font-bold">{% translate "Fallback card" %}</h2>
+            <p class="text-muted-foreground mt-2 text-sm">
+                {% blocktranslate %}
+                    Anything without its own card gets this static image.
+                {% endblocktranslate %}
+            </p>
+            <img src="{{ fallback_url }}"
+                 alt="{% translate 'Default Django Packages social card' %}"
+                 width="600"
+                 class="border-border mt-3 rounded border">
+
+            <h3 class="text-foreground mt-6 font-bold">{% translate "Public pages that could use their own card" %}</h3>
+            <ul class="mt-2 space-y-1 text-sm">
+                {% for name, url, note in fallback_pages %}
+                    <li>
+                        <a href="{{ url }}" class="text-primary hover:underline">{{ name }}</a>
+                        <span class="text-muted-foreground">{{ note }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
+{% endblock content %}
