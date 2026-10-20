@@ -10,7 +10,7 @@ from blog.sitemaps import BlogSitemap
 from core import __version__
 from core.apiv1 import apiv1_gone
 from core.sitemaps import StaticViewSitemap
-from core.views import HealthCheckView
+from core.views import HealthCheckView, OpenGraphPreviewView
 from grid.sitemaps import GridSitemap
 from homepage.views import (
     HomepageView,
@@ -134,6 +134,13 @@ urlpatterns = [
         cache_page(SITEMAPS_CACHE_TTL)(sitemap_views.sitemap),
         {"sitemaps": sitemaps},
         name="sitemaps",
+    ),
+    # Unlisted, staff-only gallery of every social card. Kept out of the
+    # sitemap and noindex; see #1468.
+    path(
+        "opengraph/preview/",
+        OpenGraphPreviewView.as_view(),
+        name="opengraph_preview",
     ),
     path("maintenance-mode/", include("maintenance_mode.urls")),
     path("search/", include("searchv3.urls")),
