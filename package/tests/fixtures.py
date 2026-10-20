@@ -127,6 +127,19 @@ def package_forgejo(db, category) -> Package:
 
 
 @pytest.fixture()
+def package_gitlab_selfhosted(db, category) -> Package:
+    """A GitLab repo that is not on gitlab.com, so repo_host has to say so."""
+    return baker.make(
+        Package,
+        category=category,
+        repo_url="https://gitlab.example.com/levit/django-fsm-dynamic",
+        slug="django-fsm-dynamic",
+        title="django-fsm-dynamic",
+        repo_host="gitlab",
+    )
+
+
+@pytest.fixture()
 def version(db, package) -> Version:
     return baker.make(Version, package=package)
 
