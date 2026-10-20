@@ -3,8 +3,7 @@
 
 {% block metadata %}
     {% translate " Grid Packages" as trans_title %}
-    {% page_metadata page_title=grid.title|add:trans_title %}
-    {% page_metadata page_title=grid.title page_description=grid.description og_image_url=grid.get_opengraph_image_url %}
+    {% page_metadata page_title=grid.title|add:trans_title page_description=grid.description og_image_url=grid.get_opengraph_image_url %}
 {% endblock metadata %}
 
 {% block content %}
