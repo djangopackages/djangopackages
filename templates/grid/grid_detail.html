@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 
-{% load grid_tags humanize i18n package_tags static waffle_tags %}
+{% load grid_tags humanize i18n package_tags page_metadata_tags static waffle_tags %}
 
 {% block title %}{{ grid.title }} | {% translate "Comparison Grid" %}{% endblock %}
+
+{% block metadata %}
+    {% page_metadata page_title=grid.title page_description=grid.description og_image_url=grid.get_opengraph_image_url %}
+{% endblock metadata %}
 
 {% block content %}
     <!-- Breadcrumb Section -->
