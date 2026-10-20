@@ -41,7 +41,10 @@ def test_grid_detail_is_not_the_generic_card(grid, client):
 def test_grid_detail_uses_the_grid_title(grid, client):
     response = client.get(reverse("grid", kwargs={"slug": grid.slug}))
 
-    assert f'<meta property="og:title" content="Django Packages : {grid.title}"'.encode() in response.content
+    assert (
+        f'<meta property="og:title" content="Django Packages : {grid.title}"'.encode()
+        in response.content
+    )
 
 
 @pytest.mark.django_db
@@ -69,4 +72,6 @@ def test_the_card_does_not_advertise_a_dead_domain(grid, client):
 
     assert response.status_code == 200
     assert b"djangogrids.org" not in response.content
-    assert f'https://djangopackages.org/grids/g/{grid.slug}/'.encode() in response.content
+    assert (
+        f"https://djangopackages.org/grids/g/{grid.slug}/".encode() in response.content
+    )
