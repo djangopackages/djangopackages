@@ -33,8 +33,14 @@ def page_metadata(
         if og_image_url is None:
             og_image_url = f"{base_url}{settings.STATIC_URL}img/open_graph.png"
         else:
-            url = f"{quote_plus(base_url + og_image_url)}"
-            og_image_url = f"https://v1.screenshot.11ty.dev/{url}/opengraph/_20230219/"
+            # OG_IMAGE_VERSION goes on the card's own URL rather than the
+            # renderer's, because the renderer keys its cache on the URL it
+            # fetches. The trailing segment of its URL reads like a cache
+            # buster but is ignored: changing it returns a byte identical
+            # image, so it is not one.
+            card_url = f"{base_url}{og_image_url}?v={settings.OG_IMAGE_VERSION}"
+            url = quote_plus(card_url)
+            og_image_url = f"https://v1.screenshot.11ty.dev/{url}/opengraph/"
 
         return {
             "base_url": base_url,

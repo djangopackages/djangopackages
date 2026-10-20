@@ -149,3 +149,35 @@ class TestSharedChrome:
         """djangogrids.org has no DNS record at all."""
         for name in ("home_opengraph", "packages_opengraph", "grids_opengraph"):
             assert b"djangogrids.org" not in client.get(reverse(name)).content
+
+
+class TestCardFitsTheFrame:
+    """A card is a fixed 1200x630 image, so nothing may spill out of it."""
+
+    def test_the_url_is_in_the_flow_not_floating_over_it(self, client):
+        """The URL used to be a sibling of the body and got painted on."""
+        content = client.get(reverse("home_opengraph")).content.decode()
+
+        body = content.index("flex min-h-0 flex-1 flex-col")
+        url = content.index("https://djangopackages.org{{".replace("{{", ""))
+
+        assert body < url
+
+    def test_only_the_blurb_may_grow(self, client):
+        content = client.get(reverse("home_opengraph")).content.decode()
+
+        assert "line-clamp-2 min-h-0 flex-1 overflow-hidden" in content
+
+    def test_a_long_heading_and_blurb_still_clamp(self, client):
+        category = baker.make(
+            "package.Category",
+            slug="long",
+            title="x",
+            title_plural="A category title long enough to wrap twice",
+            description="A description " * 40,
+        )
+
+        content = client.get(category.get_opengraph_image_url()).content.decode()
+
+        assert "line-clamp-2 mb-5 shrink-0" in content  # heading
+        assert "line-clamp-2 min-h-0 flex-1" in content  # blurb
