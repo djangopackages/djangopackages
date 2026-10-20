@@ -35,7 +35,6 @@ from package.forms import (
     CategoryPackageFilterForm,
     DocumentationForm,
     FlaggedPackageForm,
-    PackageExampleForm,
     PackageCreateForm,
     PackageUpdateForm,
     RepositoryURLForm,
@@ -45,7 +44,6 @@ from package.models import (
     Category,
     FlaggedPackage,
     Package,
-    PackageExample,
     RepoHost,
     Version,
 )
@@ -245,93 +243,6 @@ class PackageFlagRemoveView(LoginRequiredMixin, UserPassesTestMixin, View):
         flag.delete()
         messages.success(request, "Flag removed")
         return redirect("package", slug=flag.package.slug)
-
-
-class PackageExampleCreateView(LoginRequiredMixin, CreateView):
-    model = PackageExample
-    form_class = PackageExampleForm
-    template_name = "partials/sites_using_form.html"
-
-    def dispatch(self, request, *args, **kwargs):
-        self.package = get_object_or_404(Package, slug=self.kwargs["slug"])
-        return super().dispatch(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["package"] = self.package
-        context["action"] = "add"
-        return context
-
-    def form_valid(self, form):
-        form.instance.package = self.package
-        form.instance.created_by = self.request.user
-        self.object = form.save()
-        return render(
-            self.request,
-            "partials/sites_using_card.html",
-            {"package": self.package},
-        )
-
-
-class PackageExampleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = PackageExample
-    form_class = PackageExampleForm
-    template_name = "partials/sites_using_form.html"
-    pk_url_kwarg = "id"
-
-    def test_func(self):
-        return (
-            self.request.user.id == self.object.created_by_id
-            or self.request.user.is_superuser
-        )
-
-    def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["package"] = self.object.package
-        context["action"] = "edit"
-        return context
-
-    def form_valid(self, form):
-        self.object = form.save()
-        return render(
-            self.request,
-            "partials/sites_using_card.html",
-            {"package": self.object.package},
-        )
-
-
-class PackageExampleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
-    model = PackageExample
-    pk_url_kwarg = "id"
-    template_name = "partials/sites_using_card.html"
-
-    def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
-
-    def test_func(self):
-        return (
-            self.request.user.id == self.object.created_by_id
-            or self.request.user.is_superuser
-        )
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["package"] = self.object.package
-        return context
-
-    def post(self, request, *args, **kwargs):
-        package = self.object.package
-        self.object.delete()
-        return render(
-            request,
-            "partials/sites_using_card.html",
-            {"package": package},
-        )
 
 
 class PackageUsageToggleView(LoginRequiredMixin, View):
