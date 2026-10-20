@@ -3,7 +3,8 @@
 
 {% block metadata %}
     {% translate "Readiness" as trans_title %}
-    {% page_metadata page_title=trans_title %}
+    {% url 'readiness_opengraph' as card_url %}
+    {% page_metadata page_title=trans_title og_image_url=card_url %}
 {% endblock metadata %}
 
 {% block content %}

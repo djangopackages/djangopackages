@@ -1,0 +1,31 @@
+{% comment %}
+    The chrome every social card shares: the 1200x630 frame, the rule along
+    the top and the branded footer. A card fills in the blocks.
+
+    These are rendered by a screenshot service rather than a browser, so
+    everything is absolute URLs and a CDN stylesheet. Keep it self-contained.
+{% endcomment %}<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        {% block card_head %}{% endblock %}
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="font-sans antialiased">
+        {% comment %}
+            overflow-hidden plus min-h-0 on the body keeps the footer pinned
+            when a heading runs to two lines. Without it the content grows
+            past 630px and pushes the footer off the card.
+        {% endcomment %}
+        <div class="relative flex h-[630px] w-[1200px] flex-col justify-between overflow-hidden bg-[oklch(0.98_0_0)]">
+            <div class="h-4 w-full bg-[oklch(0.3176_0.0648_159.21)]"></div>
+            {% block card_body %}{% endblock %}
+            <footer class="bg-[oklch(0.3176_0.0648_159.21)] py-8">
+                <div class="flex items-center justify-center gap-6">
+                    <img src="https://djangopackages.org/static/img/logo_squares.png" alt="Django Packages" class="h-14 w-auto brightness-0 invert">
+                    <span class="text-5xl leading-none font-bold text-white">Django Packages</span>
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>

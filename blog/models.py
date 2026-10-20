@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
-from django.utils.text import slugify
+from django.utils.html import strip_tags
+from django.utils.text import Truncator, slugify
 
 from blog.managers import PostManager
 from core.models import BaseModel
@@ -37,3 +38,16 @@ class Post(BaseModel):
 
     def get_absolute_url(self):
         return reverse("post_detail", args=[self.slug])
+
+    def get_opengraph_image_url(self):
+        return reverse("post_opengraph", args=[self.slug])
+
+    @property
+    def summary(self):
+        """The opening of the post, for a card or a meta description.
+
+        Posts are written in Markdown, so this is a rough strip rather than
+        a render. It only ever has to survive being truncated.
+        """
+        text = " ".join(strip_tags(self.content).split())
+        return Truncator(text).chars(180)

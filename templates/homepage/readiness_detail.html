@@ -2,8 +2,9 @@
 {% load humanize i18n page_metadata_tags %}
 
 {% block metadata %}
-    {% translate "Readiness" as trans_title %}
-    {% page_metadata page_title=trans_title %}
+    {% blocktranslate asvar trans_title %}{{ product_slug }} {{ cycle }} readiness{% endblocktranslate %}
+    {% url 'readiness_detail_opengraph' product_slug=product.slug cycle=cycle as card_url %}
+    {% page_metadata page_title=trans_title og_image_url=card_url %}
 {% endblock metadata %}
 
 {% block content %}

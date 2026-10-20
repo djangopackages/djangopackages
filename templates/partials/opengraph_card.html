@@ -1,0 +1,28 @@
+{% extends "partials/opengraph_base.html" %}
+
+{% comment %}
+    The card nearly every page uses: a kind badge, a heading, a blurb and the
+    page's own URL. Takes card_kind, card_title, card_description and
+    card_path from the view.
+{% endcomment %}
+
+{% block card_body %}
+    <main class="min-h-0 flex-1 px-24 pt-20">
+        {% if card_kind %}
+            <div class="mb-8 inline-flex items-center rounded-full border-2 border-[oklch(0.3176_0.0648_159.21)] bg-[oklch(0.3176_0.0648_159.21)]/10 px-6 py-2 text-xl text-[oklch(0.3176_0.0648_159.21)] font-bold">
+                {{ card_kind }}
+            </div>
+        {% endif %}
+        <h1 class="line-clamp-2 mb-6 text-7xl text-[oklch(0.15_0_0)] leading-tight font-bold tracking-tight">
+            {{ card_title }}
+        </h1>
+        <p class="line-clamp-3 text-4xl text-[oklch(0.45_0_0)] leading-normal">
+            {{ card_description }}
+        </p>
+    </main>
+    <div class="px-24 pb-10">
+        <div class="text-2xl text-[oklch(0.45_0_0)] font-medium">
+            https://djangopackages.org{{ card_path }}
+        </div>
+    </div>
+{% endblock card_body %}

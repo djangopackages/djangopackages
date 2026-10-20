@@ -800,3 +800,20 @@ class LatestPackageListView(ListView):
             }
         )
         return context
+
+
+class CategoryOpenGraphView(DetailView):
+    model = Category
+    template_name = "partials/opengraph_card.html"
+    context_object_name = "category"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category = self.object
+        context.update(
+            card_kind="Category",
+            card_title=category.title_plural or category.title,
+            card_description=category.description,
+            card_path=category.get_absolute_url(),
+        )
+        return context
