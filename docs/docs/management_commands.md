@@ -237,3 +237,34 @@ Builds the SearchV3 index for package and grid search results.
 ```shell
 docker compose run django uv run manage.py build_search_v3
 ```
+## sync_package_repos
+
+Clones or updates local git checkouts of the packages we index, so their
+source can be scanned. Checkouts live under `PACKAGE_REPO_ROOT` (`/repos` in
+the container, bind mounted to `./repos` on the host), one directory per
+package slug, and are refreshed in place rather than re-cloned.
+
+Clones are shallow by default, since only the working tree is read. Packages
+whose `repo_url` is not on a host we can clone from are skipped and counted.
+Git is run with prompting disabled, so a private or deleted repo fails
+immediately instead of blocking on a credential prompt.
+
+```shell
+docker compose run django uv run manage.py sync_package_repos [--slug=<slug>] [--limit=<number>] [--depth=<n>] [--missing-only] [--dry-run]
+```
+
+## scan_package_repos
+
+Counts which Django APIs the checked out packages actually use, by parsing
+their source rather than reading their metadata. Reads only what
+`sync_package_repos` has already fetched and never touches the network.
+
+The counting comes from `django-probe`, which follows import aliasing, so
+`from django.db import models` followed by `models.CharField` resolves to
+`django.db.models.CharField` rather than being matched as text. A name in a
+string or comment is not counted. `--package` takes any top-level import
+name, so this is not limited to Django.
+
+```shell
+docker compose run django uv run manage.py scan_package_repos [--slug=<slug>] [--limit=<number>] [--package=<import-name>] [--top=<n>] [--totals-only]
+```

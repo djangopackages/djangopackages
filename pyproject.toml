@@ -14,7 +14,9 @@ tag = true
 [tool.pytest.ini_options]
 addopts = "--durations=1"
 DJANGO_SETTINGS_MODULE = "tests.settings"
-norecursedirs = ".git config node_modules scss sponsors static templates"
+# "repos" holds git checkouts of other people's packages; their tests are
+# not ours to collect.
+norecursedirs = ".git config node_modules repos scss sponsors static templates"
 python_files = "test_*.py"
 
 [tool.ruff]
@@ -49,6 +51,7 @@ exclude = [
     "dist",
     "migrations",
     "node_modules",
+    "repos",
     "static",
     "venv",
 ]
@@ -84,6 +87,7 @@ dependencies = [
     "django-jsonview",
     "django-maintenance-mode",
     "django-prodserver[django-q2,gunicorn]>=3.0.0",
+    "django-probe",
     "django-q2",
     "pydantic-ai-slim[typesafe]",
     "django-reversion",

@@ -13,6 +13,10 @@ x-common-settings: &common-settings
     - .:/code
     - djpkg_static_dev:/data/static
     - djpkg_media_dev:/data/media
+    # Git checkouts of the packages we index. A bind mount rather than a
+    # named volume so the clones are visible on the host, where they can be
+    # inspected or deleted without going through Docker.
+    - ./repos:/repos
 
 services:
   django:

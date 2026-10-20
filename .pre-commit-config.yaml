@@ -7,6 +7,7 @@ exclude: |
         .github/contributors.json|
         .vscode/launch.json|
         CONTRIBUTORS.md|
+        repos/.*|
         static/.*
     )$
 

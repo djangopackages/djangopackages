@@ -556,6 +556,18 @@ wheels = [
 ]
 
 [[package]]
+name = "django-probe"
+version = "0.4.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "packaging" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/80/52/301d6eaf3ca4adf1dcd6939c7addabcf421e323adf00ad72278f474bea27/django_probe-0.4.1.tar.gz", hash = "sha256:07ad2232a43af3ff058b18a934f66a876e1f9f37b061016b98790f33fd90d728", size = 25742, upload-time = "2026-10-13T12:52:58.784Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/27/47/df0c3eb9c200b7ea46487a59c60567e3abbff3dbe6f2fc2cc1f45d0a8135/django_probe-0.4.1-py3-none-any.whl", hash = "sha256:e93c38fb8147f66819a59e20303d7f33a93e48b421eb0670136a906bf9bce314", size = 42965, upload-time = "2026-10-13T12:52:57.59Z" },
+]
+
+[[package]]
 name = "django-prodserver"
 version = "3.0.0"
 source = { registry = "https://pypi.org/simple" }
@@ -678,6 +690,7 @@ dependencies = [
     { name = "django-htmx" },
     { name = "django-jsonview" },
     { name = "django-maintenance-mode" },
+    { name = "django-probe" },
     { name = "django-prodserver", extra = ["django-q2", "gunicorn"] },
     { name = "django-q2" },
     { name = "django-reversion" },
@@ -759,6 +772,7 @@ requires-dist = [
     { name = "django-htmx" },
     { name = "django-jsonview" },
     { name = "django-maintenance-mode" },
+    { name = "django-probe" },
     { name = "django-prodserver", extras = ["django-q2", "gunicorn"], specifier = ">=3.0.0" },
     { name = "django-q2" },
     { name = "django-reversion" },
