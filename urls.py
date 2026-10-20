@@ -94,7 +94,17 @@ urlpatterns = [
         name="acceptable_use",
     ),
     path("faq/", TemplateView.as_view(template_name="faq.html"), name="faq"),
-    path("stack/", TemplateView.as_view(template_name="stack.html"), name="stack"),
+    path(
+        "colophon/",
+        TemplateView.as_view(template_name="colophon.html"),
+        name="colophon",
+    ),
+    # /stack/ was the old name for this page.
+    path(
+        "stack/",
+        RedirectView.as_view(pattern_name="colophon", permanent=True),
+        name="stack",
+    ),
     path("open/", OpenView.as_view(), name="open"),
     path("readiness/", ReadinessView.as_view(), name="readiness"),
     path(

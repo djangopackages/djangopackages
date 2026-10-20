@@ -2,7 +2,7 @@
 {% load i18n page_metadata_tags static %}
 
 {% block metadata %}
-    {% translate "Tools and Services" as trans_title %}
+    {% translate "Colophon" as trans_title %}
     {% page_metadata page_title=trans_title %}
 {% endblock metadata %}
 
@@ -14,7 +14,7 @@
                 <div class="text-muted-foreground flex items-center text-sm">
                     <a href="{% url 'home' %}" class="hover:underline">{% translate "Home" %}</a>
                     <span class="mx-2">»</span>
-                    <span class="text-foreground truncate font-medium">{% translate "Tools and Services" %}</span>
+                    <span class="text-foreground truncate font-medium">{% translate "Colophon" %}</span>
                 </div>
             </div>
         </div>
@@ -22,7 +22,7 @@
 
     <div class="container mx-auto px-4 py-8">
         <div class="mb-8">
-            <h1 class="text-foreground text-3xl font-bold">{% translate "Tools and Services" %}</h1>
+            <h1 class="text-foreground text-3xl font-bold">{% translate "Colophon" %}</h1>
             <p class="text-muted-foreground pt-2">{% translate "The technology stack that powers Django Packages." %}</p>
         </div>
 
@@ -44,18 +44,30 @@
                             <tbody class="divide-border divide-y">
                                 <tr class="hover:bg-muted/30 transition-colors">
                                     <td class="text-foreground py-3 pr-4 font-medium">Django</td>
-                                    <td class="text-muted-foreground py-3">Web Server</td>
+                                    <td class="text-muted-foreground py-3">Web Framework</td>
                                 </tr>
                                 <tr class="hover:bg-muted/30 transition-colors">
-                                    <td class="text-foreground py-3 pr-4 font-medium">Django-Q</td>
+                                    <td class="text-foreground py-3 pr-4 font-medium">Gunicorn</td>
+                                    <td class="text-muted-foreground py-3">Application Server</td>
+                                </tr>
+                                <tr class="hover:bg-muted/30 transition-colors">
+                                    <td class="text-foreground py-3 pr-4 font-medium">Django-Q2</td>
                                     <td class="text-muted-foreground py-3">Worker Service</td>
+                                </tr>
+                                <tr class="hover:bg-muted/30 transition-colors">
+                                    <td class="text-foreground py-3 pr-4 font-medium">PostgreSQL</td>
+                                    <td class="text-muted-foreground py-3">Database</td>
                                 </tr>
                                 <tr class="hover:bg-muted/30 transition-colors">
                                     <td class="text-foreground py-3 pr-4 font-medium">Redis</td>
                                     <td class="text-muted-foreground py-3">Caching</td>
                                 </tr>
                                 <tr class="hover:bg-muted/30 transition-colors">
-                                    <td class="text-foreground py-3 pr-4 font-medium">Caddy</td>
+                                    <td class="text-foreground py-3 pr-4 font-medium">WhiteNoise</td>
+                                    <td class="text-muted-foreground py-3">Static Files</td>
+                                </tr>
+                                <tr class="hover:bg-muted/30 transition-colors">
+                                    <td class="text-foreground py-3 pr-4 font-medium">Traefik</td>
                                     <td class="text-muted-foreground py-3">Reverse Proxy</td>
                                 </tr>
                             </tbody>
@@ -98,12 +110,16 @@
                             </thead>
                             <tbody class="divide-border divide-y">
                                 <tr class="hover:bg-muted/30 transition-colors">
-                                    <td class="text-foreground py-3 pr-4 font-medium">DigitalOcean Droplet</td>
+                                    <td class="text-foreground py-3 pr-4 font-medium">Hetzner</td>
                                     <td class="text-muted-foreground py-3">Cloud Hosting</td>
                                 </tr>
                                 <tr class="hover:bg-muted/30 transition-colors">
-                                    <td class="text-foreground py-3 pr-4 font-medium">DigitalOcean PostgreSQL</td>
-                                    <td class="text-muted-foreground py-3">Managed Database</td>
+                                    <td class="text-foreground py-3 pr-4 font-medium">Coolify</td>
+                                    <td class="text-muted-foreground py-3">Deployment and Server Management</td>
+                                </tr>
+                                <tr class="hover:bg-muted/30 transition-colors">
+                                    <td class="text-foreground py-3 pr-4 font-medium">Tailscale</td>
+                                    <td class="text-muted-foreground py-3">Private Networking</td>
                                 </tr>
                                 <tr class="hover:bg-muted/30 transition-colors">
                                     <td class="text-foreground py-3 pr-4 font-medium">Cloudflare</td>
@@ -126,7 +142,7 @@
                                     <td class="text-muted-foreground py-3">Issue Tracker</td>
                                 </tr>
                                 <tr class="hover:bg-muted/30 transition-colors">
-                                    <td class="text-foreground py-3 pr-4 font-medium">Mailgun</td>
+                                    <td class="text-foreground py-3 pr-4 font-medium">ForwardEmail.net</td>
                                     <td class="text-muted-foreground py-3">Email Service</td>
                                 </tr>
                                 <tr class="hover:bg-muted/30 transition-colors">

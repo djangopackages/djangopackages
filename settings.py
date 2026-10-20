@@ -241,8 +241,6 @@ ROOT_URLCONF = "urls"
 
 SECRET_KEY = env("SECRET_KEY", default="CHANGEME")
 
-URCHIN_ID = ""
-
 DEFAULT_FROM_EMAIL = "Django Packages <djangopackages-noreply@djangopackages.org>"
 
 if DEBUG:
