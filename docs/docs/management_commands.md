@@ -18,20 +18,6 @@ Calculates the new star score for all Package objects.
 docker compose run django uv run manage.py calculate_score
 ```
 
-## check_package_examples
-
-Prints out stats about `PackageExample` objects, like the count of active and inactive objects.
-
-For active `PackageExample`s, checks that the URL is valid. If it isn't, the `PackageExample` is marked inactive.
-
-**Optional arguments**:
-
-- `limit`: `int`. Optional. Useful if you want to spot check the `PackageExample` table for bad URLs.
-
-```shell
-docker compose run django uv run manage.py check_package_examples
-```
-
 ## cleanup_github_projects
 
 Migrates legacy (http) GitHub packages to https. Migrates existing packages that have moved on GitHub, so their data stays up-to-date.

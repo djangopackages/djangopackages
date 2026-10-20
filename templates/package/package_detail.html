@@ -458,16 +458,6 @@
 
                 {% include "partials/_ethicalads-tag.html" with ea_type="image" ea_id="package-detail-sidebar" ea_variant="vertical" ea_outer_class="my-2" ea_inner_class="flex justify-center" %}
 
-                <!-- Sites using this package Card -->
-                <div id="sites-using-card-container" class="card relative">
-                    <div id="sites-using-spinner" class="htmx-indicator bg-background/50 pointer-events-none absolute inset-0 z-10 flex items-center justify-center rounded-xl backdrop-blur-[1px]">
-                        <i class="ph-bold ph-circle-notch text-primary animate-spin text-4xl"></i>
-                    </div>
-                    <div id="sites-using-card">
-                        {% include "partials/sites_using_card.html" %}
-                    </div>
-                </div>
-
                 <!-- README Badge Card -->
                 <div class="card">
                     <div class="card-header">

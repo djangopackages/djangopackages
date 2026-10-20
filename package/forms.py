@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm, TextInput
 from django.utils.translation import gettext_lazy as _
 
-from package.models import Category, FlaggedPackage, Package, PackageExample
+from package.models import Category, FlaggedPackage, Package
 from package.repos.repo_url_normelizer import normalize_repo_url
 
 
@@ -107,12 +107,6 @@ class FlaggedPackageForm(ModelForm):
     class Meta:
         model = FlaggedPackage
         fields = ["reason"]
-
-
-class PackageExampleForm(ModelForm):
-    class Meta:
-        model = PackageExample
-        fields = ["title", "url"]
 
 
 class DocumentationForm(ModelForm):
