@@ -2,7 +2,7 @@
 {% load i18n page_metadata_tags waffle_tags %}
 
 {% block metadata %}
-    {% page_metadata page_title=category.title_plural %}
+    {% page_metadata page_title=category.title_plural page_description=category.description og_image_url=category.get_opengraph_image_url %}
 {% endblock metadata %}
 
 {% block content %}

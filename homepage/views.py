@@ -2,10 +2,10 @@ from django.contrib.auth.models import User
 from django.core.cache import cache
 from django.db.models import BooleanField, Count, ExpressionWrapper, Q, Sum
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
 from django.utils.translation import gettext
 from django.views.generic import TemplateView
-from reversion.admin import get_object_or_404
 
 from grid.models import Grid
 from package.models import Category, Package, RepoHost, Version
@@ -430,3 +430,27 @@ def error_503_view(request):
     response = render(request, "503.html")
     response.status_code = 503
     return response
+
+
+class ReadinessDetailOpenGraphView(TemplateView):
+    """The card for one product release's readiness page."""
+
+    template_name = "partials/opengraph_card.html"
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        product = get_object_or_404(Product, slug=self.kwargs["product_slug"])
+        release = get_object_or_404(
+            Release, product=product, cycle=self.kwargs["cycle"]
+        )
+
+        context_data.update(
+            card_kind="Readiness",
+            card_title=f"{product.title} {release.cycle} readiness",
+            card_description=(
+                f"Which packages have declared support for "
+                f"{product.title} {release.cycle}, and which have not."
+            ),
+            card_path=reverse("readiness_detail", args=[product.slug, release.cycle]),
+        )
+        return context_data

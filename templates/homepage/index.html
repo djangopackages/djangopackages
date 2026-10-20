@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
-{% load cache grid_of_the_week_tag i18n static waffle_tags %}
+{% load cache grid_of_the_week_tag i18n page_metadata_tags static waffle_tags %}
+
+{% block metadata %}
+    {% translate "Reusable apps, sites and tools for Django" as trans_title %}
+    {% url 'home_opengraph' as card_url %}
+    {% page_metadata page_title=trans_title og_image_url=card_url %}
+{% endblock metadata %}
 
 {% block content %}
 <!-- Hero Section -->

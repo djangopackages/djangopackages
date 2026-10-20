@@ -64,6 +64,9 @@ class Category(BaseModel):
     def get_absolute_url(self):
         return reverse("category", args=[self.slug])
 
+    def get_opengraph_image_url(self):
+        return reverse("category_opengraph", args=[self.slug])
+
 
 class Package(BaseModel):
     title = models.CharField(_("Title"), max_length=100)

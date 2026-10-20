@@ -10,10 +10,11 @@ from blog.sitemaps import BlogSitemap
 from core import __version__
 from core.apiv1 import apiv1_gone
 from core.sitemaps import StaticViewSitemap
-from core.views import HealthCheckView, OpenGraphPreviewView
+from core.views import HealthCheckView, OpenGraphCardView, OpenGraphPreviewView
 from grid.sitemaps import GridSitemap
 from homepage.views import (
     HomepageView,
+    ReadinessDetailOpenGraphView,
     OpenView,
     ReadinessDetailView,
     ReadinessView,
@@ -23,7 +24,7 @@ from homepage.views import (
     error_503_view,
 )
 from package.sitemaps import PackageSitemap
-from package.views import PackageByCategoryListView
+from package.views import CategoryOpenGraphView, PackageByCategoryListView
 from profiles.views import LogoutView
 
 admin_header = f"Django Packages v{__version__}"
@@ -134,6 +135,91 @@ urlpatterns = [
         cache_page(SITEMAPS_CACHE_TTL)(sitemap_views.sitemap),
         {"sitemaps": sitemaps},
         name="sitemaps",
+    ),
+    # Social cards for the pages that have no model behind them. The card
+    # for an object lives with that object's app instead.
+    path(
+        "opengraph/",
+        cache_page(60 * 60 * 24)(
+            OpenGraphCardView.as_view(
+                card_kind="",
+                card_title="Reusable apps, sites and tools for Django",
+                card_description=(
+                    "Compare Django packages side by side, with stats pulled "
+                    "from PyPI and the repositories they live in."
+                ),
+                url_name="home",
+            )
+        ),
+        name="home_opengraph",
+    ),
+    path(
+        "packages/opengraph/",
+        cache_page(60 * 60 * 24)(
+            OpenGraphCardView.as_view(
+                card_kind="Packages",
+                card_title="Django packages",
+                card_description=(
+                    "Every package we track, with downloads, stars and release history."
+                ),
+                url_name="packages",
+            )
+        ),
+        name="packages_opengraph",
+    ),
+    path(
+        "grids/opengraph/",
+        cache_page(60 * 60 * 24)(
+            OpenGraphCardView.as_view(
+                card_kind="Grids",
+                card_title="Comparison grids",
+                card_description=(
+                    "Side by side feature comparisons of packages that do the same job."
+                ),
+                url_name="grids",
+            )
+        ),
+        name="grids_opengraph",
+    ),
+    path(
+        "open/opengraph/",
+        cache_page(60 * 60 * 24)(
+            OpenGraphCardView.as_view(
+                card_kind="Open",
+                card_title="Django Packages in the open",
+                card_description=(
+                    "How many packages support which versions of Django and "
+                    "Python, and how the site itself is doing."
+                ),
+                url_name="open",
+            )
+        ),
+        name="open_opengraph",
+    ),
+    path(
+        "readiness/opengraph/",
+        cache_page(60 * 60 * 24)(
+            OpenGraphCardView.as_view(
+                card_kind="Readiness",
+                card_title="Django and Python readiness",
+                card_description=(
+                    "Which packages have declared support for each release "
+                    "of Django, Python and Wagtail."
+                ),
+                url_name="readiness",
+            )
+        ),
+        name="readiness_opengraph",
+    ),
+    path(
+        "readiness/<slug:product_slug>/<str:cycle>/opengraph/",
+        cache_page(60 * 60 * 24)(ReadinessDetailOpenGraphView.as_view()),
+        name="readiness_detail_opengraph",
+    ),
+    path(
+        "categories/<slug:slug>/opengraph/",
+        cache_page(60 * 60 * 24)(CategoryOpenGraphView.as_view()),
+        name="category_opengraph",
     ),
     # Unlisted, staff-only gallery of every social card. Kept out of the
     # sitemap and noindex; see #1468.

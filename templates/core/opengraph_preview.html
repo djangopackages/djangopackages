@@ -22,7 +22,7 @@
             <section class="mt-10">
                 <h2 class="text-foreground text-xl font-bold">{{ card.label }}</h2>
 
-                {% if card.obj %}
+                {% if card.card_path %}
                     {% if host_is_reachable %}
                         <a href="{{ card.proxy_url }}">
                             <img src="{{ card.proxy_url }}"
@@ -71,7 +71,9 @@
             <h2 class="text-foreground text-xl font-bold">{% translate "Fallback card" %}</h2>
             <p class="text-muted-foreground mt-2 text-sm">
                 {% blocktranslate %}
-                    Anything without its own card gets this static image.
+                    Anything without its own card gets this static image. Every
+                    public page has its own card now, so what is left is the
+                    pages where the fallback is the right answer.
                 {% endblocktranslate %}
             </p>
             <img src="{{ fallback_url }}"
@@ -79,7 +81,7 @@
                  width="600"
                  class="border-border mt-3 rounded border">
 
-            <h3 class="text-foreground mt-6 font-bold">{% translate "Public pages that could use their own card" %}</h3>
+            <h3 class="text-foreground mt-6 font-bold">{% translate "Pages that use it on purpose" %}</h3>
             <ul class="mt-2 space-y-1 text-sm">
                 {% for name, url, note in fallback_pages %}
                     <li>

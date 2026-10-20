@@ -2,7 +2,7 @@
 {% load humanize i18n markdown_tags page_metadata_tags waffle_tags %}
 
 {% block metadata %}
-    {% page_metadata page_title=post.title %}
+    {% page_metadata page_title=post.title page_description=post.summary og_image_url=post.get_opengraph_image_url %}
 {% endblock metadata %}
 
 {% block content %}
