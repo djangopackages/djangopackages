@@ -80,8 +80,6 @@ def command(
     )
     if slugs:
         queryset = queryset.filter(slug__in=slugs)
-    if limit:
-        queryset = queryset[:limit]
 
     root = settings.PACKAGE_REPO_ROOT
     if not dry_run:
@@ -90,7 +88,14 @@ def command(
     cloned = updated = skipped = failed = too_big = 0
     reclaimed = 0
 
-    for package in queryset:
+    # The limit counts packages we actually fetched, not rows we looked
+    # at. Slicing the queryset instead would take the same highest
+    # scoring rows every run, so --missing-only would skip all of them
+    # and never reach anything new.
+    for package in queryset.iterator():
+        if limit and cloned + updated + failed >= limit:
+            break
+
         if not is_cloneable(package.repo_url):
             skipped += 1
             continue
