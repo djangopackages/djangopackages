@@ -409,3 +409,57 @@ class TestPruning:
         call_command("prune_package_probes", "--dry-run")
 
         assert PackageProbe.objects.count() == 1
+
+
+class TestTheLimitCountsWork:
+    """--limit counts what we fetched, not what we looked at."""
+
+    def _packages(self, how_many, **kwargs):
+        return [
+            baker.make(
+                "package.Package",
+                slug=f"pkg-{i}",
+                repo_url=f"https://github.com/x/pkg-{i}",
+                pypi_url=f"https://pypi.org/project/pkg-{i}/",
+                score=100 - i,
+                **kwargs,
+            )
+            for i in range(how_many)
+        ]
+
+    def test_missing_only_reaches_past_the_packages_already_cloned(self, repo_root):
+        """The bug: slicing took the same top rows and skipped them all."""
+        self._packages(5)
+        # the two highest scoring already have checkouts
+        for slug in ["pkg-0", "pkg-1"]:
+            (repo_root / slug / ".git").mkdir(parents=True)
+
+        MOD = "probes.management.commands.sync_package_repos"
+        with (
+            patch(f"{MOD}.sync_checkout") as sync,
+            patch(f"{MOD}.checkout_size", return_value=1024),
+        ):
+            sync.side_effect = lambda package, **kw: (
+                repo_root / package.slug,
+                "cloned",
+            )
+            call_command("sync_package_repos", "--missing-only", "--limit", "2")
+
+        cloned = sorted(call.args[0].slug for call in sync.call_args_list)
+        assert cloned == ["pkg-2", "pkg-3"]
+
+    def test_the_limit_still_stops_at_the_limit(self, repo_root):
+        self._packages(10)
+
+        MOD = "probes.management.commands.sync_package_repos"
+        with (
+            patch(f"{MOD}.sync_checkout") as sync,
+            patch(f"{MOD}.checkout_size", return_value=1024),
+        ):
+            sync.side_effect = lambda package, **kw: (
+                repo_root / package.slug,
+                "cloned",
+            )
+            call_command("sync_package_repos", "--limit", "3")
+
+        assert sync.call_count == 3
