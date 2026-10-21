@@ -140,14 +140,15 @@ class Package(BaseModel):
     )
 
     probe = models.BooleanField(
-        _("Probe source"),
+        _("Can probe source"),
         blank=True,
         null=True,
         default=None,
         help_text=_(
-            "Whether to keep a git checkout of this package and scan its "
-            "source. Null means nobody has looked yet, which is where "
-            "check_package_sources starts."
+            "Whether we are able to keep a git checkout of this package: "
+            "the repo answers and the project is on PyPI. Decided by "
+            "check_package_sources, not by hand. Null means nobody has "
+            "looked yet, which is where that command starts."
         ),
     )
     probe_checked_at = models.DateTimeField(
@@ -155,6 +156,33 @@ class Package(BaseModel):
     )
     probe_note = models.CharField(
         _("why probing is off"), max_length=200, blank=True, default=""
+    )
+    probe_wanted = models.BooleanField(
+        _("Want to probe source"),
+        blank=True,
+        null=True,
+        default=None,
+        help_text=_(
+            "Whether we want a checkout, which is a separate question "
+            "from whether we can have one. Set this by hand, or by a "
+            "rule such as a size cap, to skip a repo we could clone but "
+            "would rather not: a 1.2GB monorepo costs more disk than its "
+            "imports are worth. Null means nobody has objected, which "
+            "reads as yes, so nothing has to be approved one at a time."
+        ),
+    )
+    probe_wanted_note = models.CharField(
+        _("why we do not want it"), max_length=200, blank=True, default=""
+    )
+    probe_bytes = models.BigIntegerField(
+        _("checkout size in bytes"),
+        blank=True,
+        null=True,
+        help_text=_(
+            "How much disk the checkout took when it was last synced. "
+            "Recorded so the size cap has something to read and so disk "
+            "can be accounted for without walking the filesystem."
+        ),
     )
 
     score = models.IntegerField(_("Score"), default=0)
