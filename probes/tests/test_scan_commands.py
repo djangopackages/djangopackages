@@ -222,3 +222,190 @@ class TestWhichPackagesAreSynced:
         call_command("sync_package_repos", "--dry-run")
 
         assert "brand-new" in capsys.readouterr().out
+
+
+class TestTheFrameworkItself:
+    def test_django_is_never_checked_out(self, repo_root):
+        """Its source defines the symbols we count rather than using them."""
+        baker.make(
+            "package.Package",
+            slug="django",
+            repo_url="https://github.com/django/django",
+            pypi_url="https://pypi.org/project/Django/",
+            score=100,
+        )
+
+        with patch("probes.checkouts.subprocess.run") as run:
+            call_command("sync_package_repos")
+
+        run.assert_not_called()
+
+    def test_a_package_merely_named_after_it_is_kept(self, repo_root):
+        baker.make(
+            "package.Package",
+            slug="django-extensions",
+            repo_url="https://github.com/django-extensions/django-extensions",
+            pypi_url="https://pypi.org/project/django-extensions/",
+            score=10,
+        )
+
+        from probes.checkouts import scannable_packages
+
+        assert scannable_packages().count() == 1
+
+
+class TestTheSizeCap:
+    """A cap on checkouts we could clone but would rather not keep."""
+
+    def _package(self, slug="big"):
+        return baker.make(
+            "package.Package",
+            slug=slug,
+            repo_url=f"https://github.com/x/{slug}",
+            pypi_url=f"https://pypi.org/project/{slug}/",
+            score=1,
+        )
+
+    def test_an_oversized_checkout_is_discarded_and_marked_unwanted(self, repo_root):
+        package = self._package()
+
+        with (
+            patch(
+                "probes.management.commands.sync_package_repos.sync_checkout"
+            ) as sync,
+            patch(
+                "probes.management.commands.sync_package_repos.checkout_size",
+                return_value=600 * 1024 * 1024,
+            ),
+            patch(
+                "probes.management.commands.sync_package_repos.discard_checkout"
+            ) as discard,
+        ):
+            sync.return_value = (repo_root / "big", "cloned")
+            call_command("sync_package_repos", "--max-mb", "500")
+
+        package.refresh_from_db()
+        assert package.probe_wanted is False
+        assert "600MB" in package.probe_wanted_note
+        assert package.probe_bytes == 600 * 1024 * 1024
+        discard.assert_called_once()
+
+    def test_it_is_then_left_alone_on_later_runs(self, repo_root):
+        package = self._package()
+        package.probe_wanted = False
+        package.save()
+
+        with patch("probes.checkouts.subprocess.run") as run:
+            call_command("sync_package_repos")
+
+        run.assert_not_called()
+
+    def test_a_checkout_under_the_cap_is_kept_and_measured(self, repo_root):
+        package = self._package(slug="small")
+
+        with (
+            patch(
+                "probes.management.commands.sync_package_repos.sync_checkout"
+            ) as sync,
+            patch(
+                "probes.management.commands.sync_package_repos.checkout_size",
+                return_value=5 * 1024 * 1024,
+            ),
+            patch(
+                "probes.management.commands.sync_package_repos.discard_checkout"
+            ) as discard,
+        ):
+            sync.return_value = (repo_root / "small", "cloned")
+            call_command("sync_package_repos", "--max-mb", "500")
+
+        package.refresh_from_db()
+        assert package.probe_wanted is None
+        assert package.probe_bytes == 5 * 1024 * 1024
+        discard.assert_not_called()
+
+    def test_size_is_recorded_even_with_no_cap(self, repo_root):
+        package = self._package(slug="plain")
+
+        with (
+            patch(
+                "probes.management.commands.sync_package_repos.sync_checkout"
+            ) as sync,
+            patch(
+                "probes.management.commands.sync_package_repos.checkout_size",
+                return_value=7 * 1024 * 1024,
+            ),
+        ):
+            sync.return_value = (repo_root / "plain", "cloned")
+            call_command("sync_package_repos")
+
+        package.refresh_from_db()
+        assert package.probe_bytes == 7 * 1024 * 1024
+
+
+class TestPruning:
+    """A profile outlives the package leaving the probed set."""
+
+    def test_djangos_own_profile_is_dropped(self, repo_root):
+        from probes.models import PackageProbe
+
+        package = baker.make(
+            "package.Package",
+            slug="django",
+            repo_url="https://github.com/django/django",
+            pypi_url="https://pypi.org/project/Django/",
+            score=100,
+        )
+        baker.make(PackageProbe, package=package, files_scanned=9)
+
+        call_command("prune_package_probes")
+
+        assert PackageProbe.objects.count() == 0
+
+    def test_a_package_we_still_probe_is_left_alone(self, repo_root):
+        from probes.models import PackageProbe
+
+        package = baker.make(
+            "package.Package",
+            slug="django-filter",
+            repo_url="https://github.com/carltongibson/django-filter",
+            pypi_url="https://pypi.org/project/django-filter/",
+            score=10,
+        )
+        baker.make(PackageProbe, package=package, files_scanned=9)
+
+        call_command("prune_package_probes")
+
+        assert PackageProbe.objects.count() == 1
+
+    def test_an_unwanted_package_loses_its_profile(self, repo_root):
+        from probes.models import PackageProbe
+
+        package = baker.make(
+            "package.Package",
+            slug="huge",
+            repo_url="https://github.com/x/huge",
+            pypi_url="https://pypi.org/project/huge/",
+            score=10,
+            probe_wanted=False,
+        )
+        baker.make(PackageProbe, package=package, files_scanned=9)
+
+        call_command("prune_package_probes")
+
+        assert PackageProbe.objects.count() == 0
+
+    def test_a_dry_run_keeps_everything(self, repo_root):
+        from probes.models import PackageProbe
+
+        package = baker.make(
+            "package.Package",
+            slug="django",
+            repo_url="https://github.com/django/django",
+            pypi_url="https://pypi.org/project/Django/",
+            score=100,
+        )
+        baker.make(PackageProbe, package=package, files_scanned=9)
+
+        call_command("prune_package_probes", "--dry-run")
+
+        assert PackageProbe.objects.count() == 1

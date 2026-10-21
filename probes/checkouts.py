@@ -155,6 +155,13 @@ def scannable_packages(*, min_score: int | None = 0):
         # new package does not wait to be approved one at a time.
         .exclude(probe=False)
         .exclude(probe_wanted=False)
+        # Django itself is not one of the packages we probe. Its source
+        # defines the symbols we count rather than using them, so it
+        # would come out as the heaviest user of its own API and drown
+        # every real package in the roll-ups.
+        .exclude(
+            Q(slug__iexact="django") | Q(repo_url__icontains="github.com/django/django")
+        )
         .order_by("-score", "title")
     )
 

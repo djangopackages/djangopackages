@@ -26,6 +26,10 @@ class PackageAdmin(VersionAdmin, DynamicArrayMixin):
         "date_repo_archived",
         "date_deprecated",
         "repo_host",
+        # Can we keep a checkout, and do we want one. Separate questions:
+        # check_package_sources owns the first and people own the second.
+        "probe",
+        "probe_wanted",
     ]
     list_display = [
         "title",
@@ -36,8 +40,20 @@ class PackageAdmin(VersionAdmin, DynamicArrayMixin):
         "date_deprecated",
         "last_fetched",
         "created",
+        "probe",
+        "probe_wanted",
+        "checkout_size",
     ]
+    list_editable = ["probe_wanted"]
     date_hierarchy = "created"
+
+    @admin.display(description="checkout", ordering="probe_bytes")
+    def checkout_size(self, obj):
+        """Megabytes, because bytes at this size are unreadable."""
+        if obj.probe_bytes is None:
+            return "-"
+        return f"{obj.probe_bytes / (1024 * 1024):,.0f} MB"
+
     raw_id_fields = ["usage", "deprecated_by", "deprecates_package"]
     inlines = [
         PackageExampleInline,

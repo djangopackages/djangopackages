@@ -8,6 +8,8 @@ from package.models import Package
 from probes.checkouts import (
     CheckoutError,
     checkout_path,
+    checkout_size,
+    discard_checkout,
     is_cloneable,
     scannable_packages,
     sync_checkout,
@@ -40,6 +42,17 @@ from probes.checkouts import (
         "months without a commit; pass -500 to reach those too (default: 0)"
     ),
 )
+@click.option(
+    "--max-mb",
+    default=None,
+    type=int,
+    help=(
+        "Discard a checkout bigger than this and mark the package as one "
+        "we do not want, so later runs skip it. Sizes are long tailed: "
+        "the median checkout is around 11MB and the largest is over a "
+        "gigabyte, so a cap costs few packages and most of the disk"
+    ),
+)
 @click.option("--dry-run", is_flag=True, help="List what would be fetched")
 def command(
     slugs: tuple[str, ...],
@@ -48,6 +61,7 @@ def command(
     timeout: int,
     missing_only: bool,
     min_score: int,
+    max_mb: int | None,
     dry_run: bool,
 ):
     """Clone or update local git checkouts of the packages we index.
@@ -73,7 +87,8 @@ def command(
     if not dry_run:
         root.mkdir(parents=True, exist_ok=True)
 
-    cloned = updated = skipped = failed = 0
+    cloned = updated = skipped = failed = too_big = 0
+    reclaimed = 0
 
     for package in queryset:
         if not is_cloneable(package.repo_url):
@@ -98,6 +113,32 @@ def command(
             rprint(f"[red]{package.slug}[/red] {exc}")
             continue
 
+        # Measured every time, not just against a cap: the size is worth
+        # knowing on its own, and it is what any later cap reads.
+        size = checkout_size(path)
+        package.probe_bytes = size
+
+        if max_mb is not None and size > max_mb * 1024 * 1024:
+            # Cloning it was the only way to find out how big it is, so
+            # the cost is already paid; what the cap saves is keeping it
+            # and fetching it again on every run after this.
+            discard_checkout(path)
+            package.probe_wanted = False
+            package.probe_wanted_note = f"checkout is {size // (1024 * 1024):,}MB"
+            package.probe_bytes = size
+            package.save(
+                update_fields=["probe_wanted", "probe_wanted_note", "probe_bytes"]
+            )
+            too_big += 1
+            reclaimed += size
+            rprint(
+                f"[yellow]{package.slug}[/yellow] "
+                f"{size // (1024 * 1024):,}MB over the {max_mb:,}MB cap, discarded"
+            )
+            continue
+
+        package.save(update_fields=["probe_bytes"])
+
         if action == "cloned":
             cloned += 1
         else:
@@ -108,6 +149,8 @@ def command(
 
     rprint(
         f"cloned {cloned:,}  updated {updated:,}  "
-        f"skipped {skipped:,}  failed {failed:,}"
+        f"skipped {skipped:,}  failed {failed:,}  too big {too_big:,}"
     )
+    if too_big:
+        rprint(f"[dim]{reclaimed // (1024 * 1024):,}MB discarded by the cap[/dim]")
     rprint(f"[dim]checkouts in {root}[/dim]")
