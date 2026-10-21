@@ -288,19 +288,28 @@ def resolves(dotted: str) -> bool:
     caller filters those out; `django.core.mail.outbox` is the usual
     example, since it appears only under the locmem backend.
 
-    Where we cannot tell, we say it resolves. Reading an attribute can
-    run code that fails for reasons of its own: `django.contrib.gis`
-    raises ImportError when the GEOS library is not installed, which
-    says nothing about whether the name exists. Calling that "removed"
-    would put it on a page that accuses packages of using dead APIs, so
-    the benefit of the doubt goes to the package.
+    Where we cannot tell, we say it resolves. Importing a module or
+    reading an attribute can run code that fails for reasons of its
+    own: `django.contrib.gis` raises ImproperlyConfigured when GDAL is
+    not installed, which says nothing about whether the name exists.
+    Calling that "removed" would put it on a page that accuses packages
+    of using dead APIs, so the benefit of the doubt goes to the package.
     """
     parts = dotted.split(".")
     for i in range(len(parts), 0, -1):
+        path = ".".join(parts[:i])
         try:
-            module = importlib.import_module(".".join(parts[:i]))
+            module = importlib.import_module(path)
+        except ModuleNotFoundError as exc:
+            # Only keep walking up when the module we asked for is the
+            # one that is not there. A ModuleNotFoundError naming
+            # something else means the import ran and tripped over its
+            # own missing dependency.
+            if exc.name and (path == exc.name or path.startswith(f"{exc.name}.")):
+                continue
+            return True
         except Exception:
-            continue
+            return True
         found = module
         for attribute in parts[i:]:
             try:
