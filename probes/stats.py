@@ -315,13 +315,29 @@ def unresolved_rows() -> list[Row]:
     whose classifiers claim Django 5.2 while its source calls
     `ugettext_lazy` is telling you two different things, and only one of
     them was tested.
+
+    Read from the catalogue, which `build_probe_catalog --check` fills
+    in by resolving each name once against the installed Django. Doing
+    that here instead meant importing every dotted path on a cache
+    miss, which is 4,765 imports against production data and times the
+    page out. A web request has no business importing arbitrary
+    modules, and the `missing` column exists so it does not have to.
+
+    The answer is therefore as fresh as the last catalogue rebuild, and
+    only covers what was checked against the Django we are running.
     """
+    missing = set(
+        ProbeSymbol.objects.filter(
+            kind=ProbeSymbol.Kind.SYMBOL,
+            library="django",
+            missing=True,
+            checked_against=django.get_version(),
+        ).values_list("name", flat=True)
+    )
     gone = [
         row
         for row in symbol_rows()
-        if row.label.startswith("django.")
-        and row.label not in RUNTIME_ONLY
-        and not resolves(row.label)
+        if row.label in missing and row.label not in RUNTIME_ONLY
     ]
 
     # What the catalogue has been curated with wins; the table of known
