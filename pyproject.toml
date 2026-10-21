@@ -115,7 +115,7 @@ dependencies = [
     "pytz",
     "rich",
     "sentry-sdk",
-    "social-auth-app-django==7.0.0",
+    "social-auth-app-django==7.1.0",
     "social-auth-core",
     "sqlite-utils",
     "structlog",
