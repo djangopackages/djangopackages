@@ -16,8 +16,19 @@ RELEASE = f"{DOCS}/releases/{{version}}.txt"
 TOKEN = re.compile(r"``([^`]+)``|:[a-z:]+:`~?([^`]+)`")
 DOTTED = re.compile(r"[A-Za-z_][\w.]*")
 SHORTHAND = (
-    "conf.", "contrib.", "core.", "db.", "dispatch.", "forms.", "http.",
-    "middleware.", "shortcuts.", "template.", "test.", "urls.", "utils.",
+    "conf.",
+    "contrib.",
+    "core.",
+    "db.",
+    "dispatch.",
+    "forms.",
+    "http.",
+    "middleware.",
+    "shortcuts.",
+    "template.",
+    "test.",
+    "urls.",
+    "utils.",
     "views.",
 )
 
@@ -99,9 +110,7 @@ def command(versions: tuple[str, ...]):
         documented.update(from_release_notes(version, response.text))
 
     unknown = {
-        name: version
-        for name, version in documented.items()
-        if name not in REMOVED_IN
+        name: version for name, version in documented.items() if name not in REMOVED_IN
     }
     counts = dict(
         ProbeSymbol.objects.filter(
