@@ -287,6 +287,13 @@ def resolves(dotted: str) -> bool:
     Attributes that only exist at runtime look removed here, so the
     caller filters those out; `django.core.mail.outbox` is the usual
     example, since it appears only under the locmem backend.
+
+    Where we cannot tell, we say it resolves. Reading an attribute can
+    run code that fails for reasons of its own: `django.contrib.gis`
+    raises ImportError when the GEOS library is not installed, which
+    says nothing about whether the name exists. Calling that "removed"
+    would put it on a page that accuses packages of using dead APIs, so
+    the benefit of the doubt goes to the package.
     """
     parts = dotted.split(".")
     for i in range(len(parts), 0, -1):
@@ -296,9 +303,12 @@ def resolves(dotted: str) -> bool:
             continue
         found = module
         for attribute in parts[i:]:
-            if not hasattr(found, attribute):
+            try:
+                found = getattr(found, attribute)
+            except AttributeError:
                 return False
-            found = getattr(found, attribute)
+            except Exception:
+                return True
         return True
     return False
 

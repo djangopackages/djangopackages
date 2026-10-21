@@ -1,5 +1,8 @@
 """The unlisted stats page."""
 
+import sys
+import types
+
 import pytest
 from django.core.cache import cache
 from django.urls import reverse
@@ -434,3 +437,32 @@ class TestGoneRollupReadsTheCatalogue:
         from probes import stats
 
         assert stats.unresolved_rows() == []
+
+
+class TestResolvingAwkwardNames:
+    """Reading an attribute can run code that fails on its own account."""
+
+    def test_an_import_error_behind_an_attribute_is_not_a_removal(self):
+        """django.contrib.gis does this when GEOS is not installed."""
+        from probes import stats
+
+        class Hostile:
+            def __getattr__(self, name):
+                raise ImportError("Could not find the GEOS library")
+
+        module = types.ModuleType("probes_fake_module")
+        module.gis = Hostile()
+        sys.modules["probes_fake_module"] = module
+        try:
+            stats.resolves.cache_clear()
+            assert stats.resolves("probes_fake_module.gis.GEOSGeometry") is True
+        finally:
+            del sys.modules["probes_fake_module"]
+            stats.resolves.cache_clear()
+
+    def test_a_name_that_is_really_absent_is_still_a_removal(self):
+        from probes import stats
+
+        stats.resolves.cache_clear()
+        assert stats.resolves("django.utils.translation.ugettext_lazy") is False
+        assert stats.resolves("django.utils.translation.gettext_lazy") is True

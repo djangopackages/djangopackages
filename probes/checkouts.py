@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import ast
 import os
+import shutil
 import subprocess
 import warnings
 from collections import Counter
@@ -148,10 +149,12 @@ def scannable_packages(*, min_score: int | None = 0):
         Package.objects.exclude(repo_url="")
         .exclude(pypi_url="")
         .filter(host_q)
-        # probe is the stored verdict from check_package_sources. Null
-        # means undecided, which we take as "worth a try": a new package
-        # should not have to wait for a check to be looked at.
+        # probe is the stored verdict from check_package_sources: can we
+        # clone it at all. probe_wanted is ours: do we want to. Null on
+        # either means undecided, which we take as "worth a try", so a
+        # new package does not wait to be approved one at a time.
         .exclude(probe=False)
+        .exclude(probe_wanted=False)
         .order_by("-score", "title")
     )
 
@@ -252,6 +255,29 @@ def pypi_is_published(pypi_url: str, *, timeout: float = 10.0) -> tuple[bool, st
     if response.status_code >= 400:
         return False, f"pypi returned {response.status_code}"
     return True, ""
+
+
+def checkout_size(path: Path) -> int:
+    """Bytes on disk under a checkout, .git and all.
+
+    Walked rather than shelled out to `du`, so it works the same on the
+    server and in a test, and counts what the filesystem reports rather
+    than block usage.
+    """
+    total = 0
+    for dirpath, _dirnames, filenames in os.walk(path):
+        for name in filenames:
+            try:
+                total += (Path(dirpath) / name).lstat().st_size
+            except OSError:
+                # A file that vanished mid-walk, or a broken symlink.
+                continue
+    return total
+
+
+def discard_checkout(path: Path) -> None:
+    """Delete a checkout we have decided we do not want."""
+    shutil.rmtree(path, ignore_errors=True)
 
 
 def sync_checkout(package, *, depth: int = 1, timeout: int = 300) -> tuple[Path, str]:
