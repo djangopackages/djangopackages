@@ -74,7 +74,6 @@ version="2025.10.10"
 requires-python = ">=3.12"
 dependencies = [
     "croniter",
-    "django-anymail",
     "django-better-admin-arrayfield",
     "django-click",
     "django-debug-toolbar",

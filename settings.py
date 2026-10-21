@@ -203,18 +203,11 @@ PREREQ_APPS = [
     "waffle",
     "django_q",
     "django_prodserver",
-    "anymail",
     # health checks
     "health_check",
 ]
 
 INSTALLED_APPS = PREREQ_APPS + PROJECT_APPS
-
-ANYMAIL = {
-    "MAILGUN_API_KEY": env.str("MAILGUN_API_KEY", "mail-gun-api-key"),
-    "MAILGUN_SENDER_DOMAIN": env.str("MAILGUN_SENDER_DOMAIN", "mail-gun-sender-domain"),
-}
-
 
 # Set the default scheme for forms.URLField to "https"
 # TODO: Remove transitional setting in Django 6.0
@@ -243,16 +236,16 @@ SECRET_KEY = env("SECRET_KEY", default="CHANGEME")
 
 DEFAULT_FROM_EMAIL = "Django Packages <djangopackages-noreply@djangopackages.org>"
 
-if DEBUG:
-    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    EMAIL_SUBJECT_PREFIX = "[Django Packages] "
-else:
-    EMAIL_BACKEND = "anymail.backends.mailgun.MailgunBackend"
-    EMAIL_SUBJECT_PREFIX = env("EMAIL_SUBJECT_PREFIX", default="[Django Packages] ")
+# Nothing in the site sends mail today, so this is deliberately the plain
+# SMTP backend with no host configured: a stray send fails loudly instead of
+# quietly going nowhere. It is read from the environment so wiring up a real
+# provider is a config change rather than a deploy.
+EMAIL_BACKEND = env(
+    "EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend"
+)
+EMAIL_SUBJECT_PREFIX = env("EMAIL_SUBJECT_PREFIX", default="[Django Packages] ")
 
 SERVER_EMAIL = "info@djangopackages.org"
-
-EMAIL_SUBJECT_PREFIX = "[Django Packages]"
 
 PACKAGINATOR_HELP_TEXT = {
     "REPO_URL": "Enter your project repo hosting URL here. Example: https://github.com/djangopackages/djangopackages",
