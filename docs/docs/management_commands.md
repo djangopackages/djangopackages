@@ -334,6 +334,20 @@ Counts which Django APIs the checked out packages actually use, by parsing
 their source rather than reading their metadata. Reads only what
 `sync_package_repos` has already fetched and never touches the network.
 
+Results are saved to the package's `PackageProbe` as `symbols`, a JSON list
+of `{"symbol": "django.conf.settings", "count": 16}`, most used first, along
+with `files_scanned`, `files_skipped`, the `commit` the tree was on and
+`scanned_at`. It only writes the scan half, so the versions and dependencies
+that `build_probe_profiles` filled in are left alone. Pass `--dry-run` to
+report without saving.
+
+This is the half that metadata cannot give you. `dj-twilio-sms` declares no
+dependencies at all, yet its scan shows `ugettext_lazy`, `force_text` and
+`django.utils.six`, all removed from Django years ago.
+
+Counts are weighted by test suites, since tests import the most, which is why
+the roll-up reports how many packages use a symbol alongside the raw total.
+
 The counting comes from `django-probe`, which follows import aliasing, so
 `from django.db import models` followed by `models.CharField` resolves to
 `django.db.models.CharField` rather than being matched as text. A name in a

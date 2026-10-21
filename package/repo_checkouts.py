@@ -246,6 +246,49 @@ def iter_python_files(root: Path):
                 yield Path(dirpath) / name
 
 
+def checkout_commit(root: Path) -> str:
+    """The commit the working tree is on, read straight off disk.
+
+    Deliberately not `git rev-parse`: the scan runs over thousands of
+    checkouts and shelling out once each would dominate it, for a value
+    that is sitting in two small files. It also keeps the scan a pure
+    filesystem reader, which is what lets it promise never to run git
+    at all.
+
+    Returns "" rather than raising, since a missing commit should
+    degrade a profile, not fail a scan.
+    """
+    git_dir = root / ".git"
+    try:
+        head = (git_dir / "HEAD").read_text().strip()
+    except OSError:
+        return ""
+
+    if not head.startswith("ref:"):
+        # Detached, so HEAD already holds the sha.
+        return head
+
+    ref = head.removeprefix("ref:").strip()
+    try:
+        return (git_dir / ref).read_text().strip()
+    except OSError:
+        pass
+
+    # A freshly cloned repo keeps its refs in packed-refs instead of as
+    # loose files.
+    try:
+        for line in (git_dir / "packed-refs").read_text().splitlines():
+            if line.startswith(("#", "^")):
+                continue
+            sha, _, name = line.partition(" ")
+            if name.strip() == ref:
+                return sha.strip()
+    except OSError:
+        pass
+
+    return ""
+
+
 def scan_checkout(root: Path, packages: tuple[str, ...] = ("django",)) -> ScanResult:
     """Count which symbols from ``packages`` a checkout uses.
 

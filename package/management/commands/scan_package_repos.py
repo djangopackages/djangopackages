@@ -6,8 +6,11 @@ import djclick as click
 from django.conf import settings
 from rich import print as rprint
 
-from package.models import Package
+from django.utils.timezone import now
+
+from package.models import Package, PackageProbe
 from package.repo_checkouts import (
+    checkout_commit,
     checkout_path,
     scan_checkout,
     scannable_packages,
@@ -30,6 +33,7 @@ from package.repo_checkouts import (
 @click.option(
     "--totals-only", is_flag=True, help="Only print the roll-up across all packages"
 )
+@click.option("--dry-run", is_flag=True, help="Report without saving profiles")
 @click.option(
     "--min-score",
     default=0,
@@ -46,6 +50,7 @@ def command(
     top: int,
     totals_only: bool,
     min_score: int,
+    dry_run: bool,
 ):
     """Count which Django APIs the checked out packages actually use.
 
@@ -83,6 +88,24 @@ def command(
         scanned += 1
         files += result.files_scanned
 
+        if not dry_run:
+            # Sorted most used first, since the list keeps its order and
+            # the first thing anyone wants is the top of it.
+            symbols = [
+                {"symbol": symbol, "count": count}
+                for symbol, count in result.usage.most_common()
+            ]
+            PackageProbe.objects.update_or_create(
+                package=package,
+                defaults={
+                    "symbols": symbols,
+                    "files_scanned": result.files_scanned,
+                    "files_skipped": result.files_skipped,
+                    "commit": checkout_commit(path),
+                    "scanned_at": now(),
+                },
+            )
+
         if not result.usage:
             empty += 1
             continue
@@ -102,6 +125,7 @@ def command(
     rprint(
         f"\nscanned {scanned:,}  missing checkout {missing:,}  "
         f"no usage {empty:,}  files {files:,}"
+        + ("  [dim](dry run, nothing saved)[/dim]" if dry_run else "")
     )
 
     if overall:

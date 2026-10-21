@@ -509,9 +509,14 @@ class PackageProbe(BaseModel):
 
     symbols = models.JSONField(
         _("symbol usage"),
-        default=dict,
+        default=list,
         blank=True,
-        help_text=_("What the AST scan counted, as {dotted.path: uses}"),
+        help_text=_(
+            "What the AST scan counted, most used first, as "
+            '[{"symbol": "django.conf.settings", "count": 16}]. A list '
+            "rather than a mapping so it keeps that order, and so a "
+            "dotted path stays a value instead of becoming a key."
+        ),
     )
     files_scanned = models.IntegerField(default=0)
     files_skipped = models.IntegerField(default=0)
@@ -544,6 +549,11 @@ class PackageProbe(BaseModel):
         if len(versions) == 1:
             return versions[0]
         return f"{versions[0]} - {versions[-1]}"
+
+    @property
+    def symbol_counts(self) -> dict[str, int]:
+        """The symbol list as a mapping, for when a lookup is what you want."""
+        return {row["symbol"]: row["count"] for row in self.symbols}
 
     @property
     def required(self) -> list[dict]:

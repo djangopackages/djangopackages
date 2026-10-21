@@ -126,3 +126,106 @@ class TestBuildProbeProfiles:
 
         assert counts["django"] == (2, 2)
         assert counts["boto3"] == (2, 1)
+
+
+class TestScanStoresSymbols:
+    """scan_package_repos writing the AST half of the profile."""
+
+    @pytest.fixture()
+    def checkout(self, settings, tmp_path):
+        settings.PACKAGE_REPO_ROOT = tmp_path
+        package = make_package("a")
+        root = tmp_path / "a"
+        (root / ".git").mkdir(parents=True)
+        (root / "models.py").write_text(
+            "from django.db import models\n"
+            "from django.conf import settings\n"
+            "x = models.CharField\n"
+            "y = models.CharField\n"
+            "z = settings.DEBUG\n"
+        )
+        return package, root
+
+    def test_symbols_are_a_list_of_objects_most_used_first(self, checkout):
+        call_command("scan_package_repos", "--totals-only")
+
+        profile = PackageProbe.objects.get(package__slug="a")
+        assert isinstance(profile.symbols, list)
+        assert all({"symbol", "count"} == set(row) for row in profile.symbols)
+        counts = [row["count"] for row in profile.symbols]
+        assert counts == sorted(counts, reverse=True)
+
+    def test_it_counts_repeated_use(self, checkout):
+        call_command("scan_package_repos", "--totals-only")
+
+        profile = PackageProbe.objects.get(package__slug="a")
+        assert profile.symbol_counts["django.db.models.CharField"] == 2
+        assert profile.files_scanned == 1
+
+    def test_it_records_the_commit_it_read(self, checkout):
+        """Read off disk, not from git, so the scan stays a file reader."""
+        _, root = checkout
+        (root / ".git" / "HEAD").write_text("ref: refs/heads/main\n")
+        (root / ".git" / "refs" / "heads").mkdir(parents=True)
+        (root / ".git" / "refs" / "heads" / "main").write_text("abc123\n")
+
+        call_command("scan_package_repos", "--totals-only")
+
+        assert PackageProbe.objects.get(package__slug="a").commit == "abc123"
+
+    def test_a_detached_head_is_read_directly(self, checkout):
+        _, root = checkout
+        (root / ".git" / "HEAD").write_text("deadbeef\n")
+
+        call_command("scan_package_repos", "--totals-only")
+
+        assert PackageProbe.objects.get(package__slug="a").commit == "deadbeef"
+
+    def test_packed_refs_are_used_when_there_is_no_loose_ref(self, checkout):
+        """A fresh clone keeps its refs packed."""
+        _, root = checkout
+        (root / ".git" / "HEAD").write_text("ref: refs/heads/main\n")
+        (root / ".git" / "packed-refs").write_text(
+            "# pack-refs with: peeled fully-peeled sorted\n"
+            "cafe1234 refs/heads/main\n"
+            "^99999999\n"
+        )
+
+        call_command("scan_package_repos", "--totals-only")
+
+        assert PackageProbe.objects.get(package__slug="a").commit == "cafe1234"
+
+    def test_an_unreadable_commit_does_not_fail_the_scan(self, checkout):
+        call_command("scan_package_repos", "--totals-only")
+
+        profile = PackageProbe.objects.get(package__slug="a")
+        assert profile.commit == ""
+        assert profile.symbols
+
+    def test_a_dry_run_saves_nothing(self, checkout):
+        call_command("scan_package_repos", "--totals-only", "--dry-run")
+
+        assert not PackageProbe.objects.exists()
+
+    def test_rescanning_replaces_rather_than_appends(self, checkout):
+        call_command("scan_package_repos", "--totals-only")
+        first = len(PackageProbe.objects.get(package__slug="a").symbols)
+
+        call_command("scan_package_repos", "--totals-only")
+
+        assert len(PackageProbe.objects.get(package__slug="a").symbols) == first
+        assert PackageProbe.objects.count() == 1
+
+    def test_the_metadata_half_is_left_alone(self, checkout):
+        """A scan must not wipe what build_probe_profiles wrote."""
+        package, _ = checkout
+        PackageProbe.objects.create(
+            package=package, python_versions=["3.12"], django_versions=["5.2"]
+        )
+
+        call_command("scan_package_repos", "--totals-only")
+
+        profile = PackageProbe.objects.get(package__slug="a")
+        assert profile.python_versions == ["3.12"]
+        assert profile.django_versions == ["5.2"]
+        assert profile.symbols
