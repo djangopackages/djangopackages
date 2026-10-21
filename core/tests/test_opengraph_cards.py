@@ -181,3 +181,21 @@ class TestCardFitsTheFrame:
 
         assert "line-clamp-2 mb-5 shrink-0" in content  # heading
         assert "line-clamp-2 min-h-0 flex-1" in content  # blurb
+
+
+class TestCardsAreNotIndexed:
+    """A card is an image rendered as a page, so it has an indexable URL."""
+
+    @pytest.mark.parametrize(
+        "url_name",
+        [
+            "home_opengraph",
+            "packages_opengraph",
+            "grids_opengraph",
+        ],
+    )
+    def test_every_card_asks_not_to_be_indexed(self, client, url_name):
+        response = client.get(reverse(url_name))
+
+        assert response.status_code == 200
+        assert 'name="robots" content="noindex, nofollow"' in response.content.decode()

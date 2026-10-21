@@ -8,6 +8,14 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
+        {% comment %}
+            A card is an image rendered as a page, so it has a URL that a
+            crawler can reach and index. What it would index is the card's
+            text stripped of its design, duplicating the page the card is
+            for. The preview gallery already says this; the cards
+            themselves did not.
+        {% endcomment %}
+        <meta name="robots" content="noindex, nofollow">
         {% block card_head %}{% endblock %}
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
