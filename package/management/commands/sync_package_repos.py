@@ -31,6 +31,15 @@ from package.repo_checkouts import (
     is_flag=True,
     help="Only clone packages with no checkout yet, skipping updates",
 )
+@click.option(
+    "--min-score",
+    default=0,
+    type=int,
+    help=(
+        "Lowest package score to include. Below zero means roughly thirty "
+        "months without a commit; pass -500 to reach those too (default: 0)"
+    ),
+)
 @click.option("--dry-run", is_flag=True, help="List what would be fetched")
 def command(
     slugs: tuple[str, ...],
@@ -38,6 +47,7 @@ def command(
     depth: int,
     timeout: int,
     missing_only: bool,
+    min_score: int,
     dry_run: bool,
 ):
     """Clone or update local git checkouts of the packages we index.
@@ -50,7 +60,9 @@ def command(
     # An explicit --slug is an explicit request, so it reaches packages
     # the default set leaves out.
     queryset = (
-        Package.objects.order_by("-score", "title") if slugs else scannable_packages()
+        Package.objects.order_by("-score", "title")
+        if slugs
+        else scannable_packages(min_score=min_score)
     )
     if slugs:
         queryset = queryset.filter(slug__in=slugs)

@@ -30,12 +30,22 @@ from package.repo_checkouts import (
 @click.option(
     "--totals-only", is_flag=True, help="Only print the roll-up across all packages"
 )
+@click.option(
+    "--min-score",
+    default=0,
+    type=int,
+    help=(
+        "Lowest package score to include. Below zero means roughly thirty "
+        "months without a commit; pass -500 to reach those too (default: 0)"
+    ),
+)
 def command(
     slugs: tuple[str, ...],
     limit: int | None,
     scan_packages: tuple[str, ...],
     top: int,
     totals_only: bool,
+    min_score: int,
 ):
     """Count which Django APIs the checked out packages actually use.
 
@@ -46,7 +56,9 @@ def command(
     # An explicit --slug is an explicit request, so it reaches packages
     # the default set leaves out.
     queryset = (
-        Package.objects.order_by("-score", "title") if slugs else scannable_packages()
+        Package.objects.order_by("-score", "title")
+        if slugs
+        else scannable_packages(min_score=min_score)
     )
     if slugs:
         queryset = queryset.filter(slug__in=slugs)

@@ -78,6 +78,9 @@ def command(
         package.probe_checked_at = now()
         package.save(update_fields=["probe", "probe_note", "probe_checked_at"])
 
-    rprint(f"\nprobe on {on:,}  off {off:,}" + ("  [dim](dry run)[/dim]" if dry_run else ""))
+    rprint(
+        f"\nprobe on {on:,}  off {off:,}"
+        + ("  [dim](dry run)[/dim]" if dry_run else "")
+    )
     for reason, count in sorted(reasons.items(), key=lambda kv: -kv[1])[:10]:
         rprint(f"   [dim]{count:>5,}[/dim]  {reason}")

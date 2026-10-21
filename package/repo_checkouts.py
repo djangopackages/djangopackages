@@ -78,7 +78,7 @@ def is_cloneable(repo_url: str) -> bool:
     return host in CLONEABLE_HOSTS
 
 
-def scannable_packages():
+def scannable_packages(*, min_score: int | None = 0):
     """The packages worth keeping a checkout of.
 
     A repo we can clone from and a PyPI release, because a package with
@@ -94,7 +94,7 @@ def scannable_packages():
     for host in CLONEABLE_HOSTS:
         host_q |= Q(repo_url__icontains=host)
 
-    return (
+    queryset = (
         Package.objects.exclude(repo_url="")
         .exclude(pypi_url="")
         .filter(host_q)
@@ -104,6 +104,16 @@ def scannable_packages():
         .exclude(probe=False)
         .order_by("-score", "title")
     )
+
+    # A negative score is not a popularity judgement. The penalties only
+    # overtake the stars after roughly thirty months without a commit, so
+    # below zero reads as abandoned, whether the package has three stars
+    # or three thousand. Zero is kept deliberately: a package added
+    # yesterday has no stars and scores zero.
+    if min_score is not None:
+        queryset = queryset.filter(score__gte=min_score)
+
+    return queryset
 
 
 def checkout_path(package) -> Path:

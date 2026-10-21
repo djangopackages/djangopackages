@@ -268,7 +268,18 @@ Clones or updates local git checkouts of the packages we index, so their
 source can be scanned. It covers packages with both a repo we can clone from
 (GitHub, GitLab, Bitbucket or Codeberg) and a PyPI release, which in
 production is 4,714 of 5,849. A named `--slug` is fetched whether or not it
-meets that bar. Checkouts live under `PACKAGE_REPO_ROOT` (`/repos` in
+meets that bar.
+
+`--min-score` defaults to 0, which halves that again to around 1,960. A
+negative score is not a popularity judgement: the staleness penalty only
+overtakes the stars after roughly thirty months without a commit, so below
+zero reads as abandoned whether a package has three stars or three thousand.
+Zero itself is kept, since a package added yesterday has no stars and scores
+zero.
+
+Pass `--min-score=-500` to reach the abandoned ones. That is the set worth
+scanning when the question is which packages are broken against modern
+Django, because that is exactly where removed APIs survive. Checkouts live under `PACKAGE_REPO_ROOT` (`/repos` in
 the container), one directory per
 package slug, and are refreshed in place rather than re-cloned.
 

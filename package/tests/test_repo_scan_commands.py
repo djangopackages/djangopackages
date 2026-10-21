@@ -181,3 +181,44 @@ class TestWhichPackagesAreSynced:
         call_command("sync_package_repos", "--dry-run")
 
         assert "googlecode" not in capsys.readouterr().out
+
+    def test_an_abandoned_package_is_left_out_by_default(self, repo_root, capsys):
+        """Below zero means ~30 months untouched, not merely unpopular."""
+        baker.make(
+            "package.Package",
+            slug="abandoned",
+            repo_url="https://github.com/x/abandoned",
+            pypi_url="https://pypi.org/project/abandoned/",
+            score=-120,
+        )
+
+        call_command("sync_package_repos", "--dry-run")
+
+        assert "abandoned" not in capsys.readouterr().out
+
+    def test_min_score_can_reach_the_abandoned_ones(self, repo_root, capsys):
+        baker.make(
+            "package.Package",
+            slug="abandoned",
+            repo_url="https://github.com/x/abandoned",
+            pypi_url="https://pypi.org/project/abandoned/",
+            score=-120,
+        )
+
+        call_command("sync_package_repos", "--dry-run", "--min-score", "-500")
+
+        assert "abandoned" in capsys.readouterr().out
+
+    def test_a_brand_new_package_scoring_zero_is_kept(self, repo_root, capsys):
+        """No stars yet is not the same as abandoned."""
+        baker.make(
+            "package.Package",
+            slug="brand-new",
+            repo_url="https://github.com/x/brand-new",
+            pypi_url="https://pypi.org/project/brand-new/",
+            score=0,
+        )
+
+        call_command("sync_package_repos", "--dry-run")
+
+        assert "brand-new" in capsys.readouterr().out
