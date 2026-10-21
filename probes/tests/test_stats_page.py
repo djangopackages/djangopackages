@@ -55,6 +55,30 @@ def empty_cache():
     cache.clear()
 
 
+@pytest.fixture()
+def catalogued(profile):
+    """What `build_probe_catalog --check` would have written.
+
+    The gone table reads the catalogue rather than importing each
+    dotted path, so a profile on its own is not enough to put a symbol
+    in it; the catalogue has to have been checked.
+    """
+    import django
+
+    from probes.models import ProbeSymbol
+
+    baker.make(
+        ProbeSymbol,
+        kind=ProbeSymbol.Kind.SYMBOL,
+        library="django",
+        name="django.utils.translation.ugettext_lazy",
+        missing=True,
+        checked_against=django.get_version(),
+    )
+    cache.clear()
+    return profile
+
+
 class TestProbeStatsPage:
     def test_it_needs_no_login(self, client, profile):
         """Unlisted, not private: a password would only stop us looking."""
@@ -267,7 +291,7 @@ class TestRemovalFilter:
     def url(self):
         return reverse("probes:section", kwargs={"section": "gone"})
 
-    def test_it_offers_only_versions_something_hits(self, client, profile):
+    def test_it_offers_only_versions_something_hits(self, client, catalogued):
         """A filter that can return nothing is a filter nobody should see."""
         facets = client.get(self.url()).context["facets"]
         offered = {facet["label"] for facet in facets} - {"All"}
@@ -277,7 +301,7 @@ class TestRemovalFilter:
         assert offered == {"4.0"}
         assert all(facet["count"] for facet in facets)
 
-    def test_choosing_a_version_narrows_the_table(self, client, profile):
+    def test_choosing_a_version_narrows_the_table(self, client, catalogued):
         response = client.get(self.url(), {"removed_in": "4.0"})
         labels = [row["label"] for row in response.context["section"]["rows"]]
 
@@ -299,7 +323,7 @@ class TestRemovalFilter:
 
         assert response.context["facets"] == []
 
-    def test_the_table_says_which_version_took_each_symbol(self, client, profile):
+    def test_the_table_says_which_version_took_each_symbol(self, client, catalogued):
         response = client.get(self.url())
         row = next(
             row
@@ -338,6 +362,8 @@ class TestKnownRemovals:
         assert removed_in("django.db.models.CharField") == ""
 
     def test_curation_in_the_catalogue_wins(self, profile):
+        import django
+
         from probes import stats
         from probes.models import ProbeSymbol
 
@@ -347,6 +373,8 @@ class TestKnownRemovals:
             library="django",
             name="django.utils.translation.ugettext_lazy",
             removed_in="9.9",
+            missing=True,
+            checked_against=django.get_version(),
         )
         cache.clear()
 
@@ -356,3 +384,53 @@ class TestKnownRemovals:
             if row.label == "django.utils.translation.ugettext_lazy"
         )
         assert row.note == "9.9"
+
+
+class TestGoneRollupReadsTheCatalogue:
+    """The page must not import a module to answer a request.
+
+    Resolving each dotted path live meant 4,765 imports on a cache miss
+    against production data, which timed the page out.
+    """
+
+    def test_it_reports_what_the_catalogue_marked_missing(self, catalogued):
+        from probes import stats
+
+        assert [row.label for row in stats.unresolved_rows()] == [
+            "django.utils.translation.ugettext_lazy"
+        ]
+
+    def test_it_imports_nothing(self, catalogued, monkeypatch):
+        import importlib
+
+        from probes import stats
+
+        def explode(*args, **kwargs):
+            raise AssertionError("a page request tried to import a module")
+
+        monkeypatch.setattr(importlib, "import_module", explode)
+        stats.unresolved_rows()
+
+    def test_an_unchecked_catalogue_reports_nothing_rather_than_guessing(self, profile):
+        """Empty is honest; a rebuild fills it in."""
+        from probes import stats
+
+        cache.clear()
+        assert stats.unresolved_rows() == []
+
+    def test_a_check_against_another_django_is_not_reused(self, profile):
+        from probes.models import ProbeSymbol
+
+        baker.make(
+            ProbeSymbol,
+            kind=ProbeSymbol.Kind.SYMBOL,
+            library="django",
+            name="django.utils.translation.ugettext_lazy",
+            missing=True,
+            checked_against="4.2",
+        )
+        cache.clear()
+
+        from probes import stats
+
+        assert stats.unresolved_rows() == []
