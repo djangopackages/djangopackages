@@ -282,7 +282,11 @@ class ProbeStatsView(SectionMixin, TemplateView):
         context["libraries"] = Library.objects.filter(scan=True).order_by("import_name")
         context["sections"] = [
             self.build_section(
-                spec, spec.rows(), param=spec.param, per_page=self.PER_PAGE, url=spec.url
+                spec,
+                spec.rows(),
+                param=spec.param,
+                per_page=self.PER_PAGE,
+                url=spec.url,
             )
             for spec in SECTIONS.values()
         ]

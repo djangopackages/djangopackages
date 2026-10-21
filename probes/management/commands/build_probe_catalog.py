@@ -35,13 +35,19 @@ def command(libraries: tuple[str, ...], check: bool, prune: bool, dry_run: bool)
     rows: list[tuple[str, str, str, int, int]] = []
     for row in probe_stats.symbol_rows():
         library = row.label.partition(".")[0]
-        rows.append((ProbeSymbol.Kind.SYMBOL, library, row.label, row.packages, row.uses))
+        rows.append(
+            (ProbeSymbol.Kind.SYMBOL, library, row.label, row.packages, row.uses)
+        )
     for row in probe_stats.setting_rows():
-        rows.append((ProbeSymbol.Kind.SETTING, "django", row.label, row.packages, row.uses))
+        rows.append(
+            (ProbeSymbol.Kind.SETTING, "django", row.label, row.packages, row.uses)
+        )
     for row in probe_stats.pattern_rows():
         # Patterns are named by whoever registered the probe, so the
         # library is the probe's namespace rather than an import.
-        rows.append((ProbeSymbol.Kind.PATTERN, "django", row.label, row.packages, row.uses))
+        rows.append(
+            (ProbeSymbol.Kind.PATTERN, "django", row.label, row.packages, row.uses)
+        )
 
     if wanted:
         rows = [row for row in rows if row[1] in wanted]

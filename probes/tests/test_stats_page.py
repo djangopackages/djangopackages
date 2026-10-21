@@ -123,9 +123,7 @@ class TestColumnsMatchTheirFields:
         )
 
         response = client.get(reverse("probes:stats"))
-        section = next(
-            s for s in response.context["sections"] if s["param"] == "deps"
-        )
+        section = next(s for s in response.context["sections"] if s["param"] == "deps")
         rows = {row["label"]: row["values"] for row in section["rows"]}
 
         # [depended on by, required by]: boto3 is behind an extra.
@@ -194,7 +192,14 @@ class TestSectionPages:
 
         assert urls == {
             reverse("probes:section", kwargs={"section": param})
-            for param in ["libraries", "patterns", "settings", "gone", "symbols", "deps"]
+            for param in [
+                "libraries",
+                "patterns",
+                "settings",
+                "gone",
+                "symbols",
+                "deps",
+            ]
         }
 
     def test_an_unknown_section_is_a_404(self, client, profile):

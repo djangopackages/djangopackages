@@ -17,6 +17,7 @@ from django.utils.translation import gettext_lazy as _
 
 from core.models import BaseModel
 
+
 class PackageProbe(BaseModel):
     """What probing a package turned up, in the spirit of django-probe.
 

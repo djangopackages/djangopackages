@@ -75,7 +75,9 @@ class TestBuildProbeCatalog:
     def test_a_rebuild_never_overwrites_curation(self, profiles):
         """The whole point of the table: our notes outlive the counts."""
         call_command("build_probe_catalog")
-        ProbeSymbol.objects.filter(name="django.utils.translation.ugettext_lazy").update(
+        ProbeSymbol.objects.filter(
+            name="django.utils.translation.ugettext_lazy"
+        ).update(
             deprecated=True, deprecated_in="3.0", removed_in="4.0", notes="use gettext"
         )
 

@@ -138,7 +138,9 @@ class TestBuildProbeLibraries:
 
 class TestWhichLibrariesAreScannedFor:
     def test_django_comes_first(self):
-        baker.make("probes.Library", pypi_name="wagtail", import_name="wagtail", scan=True)
+        baker.make(
+            "probes.Library", pypi_name="wagtail", import_name="wagtail", scan=True
+        )
 
         assert Library.scan_for()[0] == "django"
 
@@ -146,9 +148,7 @@ class TestWhichLibrariesAreScannedFor:
         baker.make(
             "probes.Library", pypi_name="celery", import_name="celery", scan=None
         )
-        baker.make(
-            "probes.Library", pypi_name="ninja", import_name="ninja", scan=False
-        )
+        baker.make("probes.Library", pypi_name="ninja", import_name="ninja", scan=False)
         baker.make(
             "probes.Library", pypi_name="wagtail", import_name="wagtail", scan=True
         )
