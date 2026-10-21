@@ -1,0 +1,110 @@
+{% load i18n humanize %}
+
+{% comment %}
+    One paginated table with a bar per row. Each section carries its own
+    page parameter, so paging one table leaves the others where they are.
+    Bars are drawn against the widest row on the page rather than the
+    overall maximum, or a long tail would collapse to nothing.
+
+    The paging links are ordinary anchors with ordinary URLs. htmx
+    intercepts them and swaps this element for the fresh one, and the id
+    it sends back in HX-Target is how the view knows which table was
+    asked for. Without JavaScript the same href loads the whole page.
+{% endcomment %}
+
+<section class="mt-12" id="{{ section.dom_id }}">
+    <div class="flex flex-wrap items-baseline justify-between gap-2">
+        {% if section.url %}
+            <h2 class="text-xl font-bold">
+                <a class="text-foreground hover:text-primary transition-colors"
+                   href="{{ section.url }}"
+                   title="{% translate 'See all of this table, with search' %}">
+                    {{ section.label }} <span aria-hidden="true">&rarr;</span>
+                </a>
+            </h2>
+        {% elif section.label %}
+            <h2 class="text-foreground text-xl font-bold">{{ section.label }}</h2>
+        {% endif %}
+        <span class="text-muted-foreground text-sm">
+            {% blocktranslate with count=section.paginator.count %}{{ count }} rows{% endblocktranslate %}
+        </span>
+    </div>
+
+    {% if section.rows %}
+        <div class="border-border mt-3 overflow-hidden rounded-lg border">
+            <table class="w-full text-sm">
+                <thead class="bg-muted/50">
+                    <tr class="text-muted-foreground text-left">
+                        {% for column in section.columns %}
+                            <th class="px-3 py-2 font-medium {% if not forloop.first %}text-right{% endif %}">{{ column }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in section.rows %}
+                        <tr class="border-border hover:bg-muted/30 border-t transition-colors">
+                            <td class="px-3 py-2">
+                                <span class="text-foreground font-mono">{{ item.label }}</span>
+                                <span class="bg-muted mt-1 block h-1 w-full overflow-hidden rounded">
+                                    <span class="bg-primary block h-full rounded" style="width: {{ item.width|floatformat:1 }}%"></span>
+                                </span>
+                            </td>
+                            {% for value in item.values %}
+                                <td class="{% if forloop.first %}text-foreground{% else %}text-muted-foreground{% endif %} px-3 py-2 text-right tabular-nums">
+                                    {{ value|intcomma }}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if section.paginator.num_pages > 1 %}
+            <nav class="mt-3 flex items-center justify-between gap-4"
+                 aria-label="{{ section.label|default:_('Results') }} {% translate 'pagination' %}">
+                <span class="flex items-center gap-2">
+                    {% if section.first_url %}
+                        <a class="btn-secondary"
+                           href="{{ section.first_url }}"
+                           hx-get="{{ section.first_url }}"
+                           hx-target="#{{ section.dom_id }}"
+                           hx-swap="outerHTML"
+                           hx-push-url="true">{% translate "First" %}</a>
+                    {% endif %}
+                    {% if section.previous_url %}
+                        <a class="btn-secondary"
+                           href="{{ section.previous_url }}"
+                           hx-get="{{ section.previous_url }}"
+                           hx-target="#{{ section.dom_id }}"
+                           hx-swap="outerHTML"
+                           hx-push-url="true">{% translate "Previous" %}</a>
+                    {% endif %}
+                </span>
+                <span class="text-muted-foreground text-sm">
+                    {% blocktranslate with page=section.page.number pages=section.paginator.num_pages %}Page {{ page }} of {{ pages }}{% endblocktranslate %}
+                </span>
+                <span class="flex items-center gap-2">
+                    {% if section.next_url %}
+                        <a class="btn-secondary"
+                           href="{{ section.next_url }}"
+                           hx-get="{{ section.next_url }}"
+                           hx-target="#{{ section.dom_id }}"
+                           hx-swap="outerHTML"
+                           hx-push-url="true">{% translate "Next" %}</a>
+                    {% endif %}
+                    {% if section.last_url %}
+                        <a class="btn-secondary"
+                           href="{{ section.last_url }}"
+                           hx-get="{{ section.last_url }}"
+                           hx-target="#{{ section.dom_id }}"
+                           hx-swap="outerHTML"
+                           hx-push-url="true">{% translate "Last" %}</a>
+                    {% endif %}
+                </span>
+            </nav>
+        {% endif %}
+    {% else %}
+        <p class="text-muted-foreground mt-3 text-sm">{% translate "Nothing found." %}</p>
+    {% endif %}
+</section>

@@ -249,12 +249,21 @@ exist, otherwise `requires_python` or the Django pin in `requires_dist`,
 resolved against the real release cycles in `products.Release`.
 `dependencies` is a JSON list of `{name, specifier, extra, marker}`.
 
+A specifier with no upper bound is only read as far as the day the package
+was last published. `Django>=1.8` in a release from 2021 resolves to 1.8
+through 3.2, not through 6.1: the lower bound is a minimum, and nothing
+about it says the package was ever run on a Django that shipped afterwards.
+A pin that does bound itself above is taken at face value whatever the date,
+and classifiers are never capped, since they name exact versions. A package
+we cannot date resolves to nothing from its specifiers, because there is no
+point in time to read them against.
+
 Grouping across packages is still a single query, because Postgres can
 unnest the list:
 
 ```sql
 SELECT dep->>'name', count(DISTINCT p.package_id)
-FROM package_packageprobe p, jsonb_array_elements(p.dependencies) AS dep
+FROM probes_packageprobe p, jsonb_array_elements(p.dependencies) AS dep
 WHERE dep->>'extra' = ''
 GROUP BY 1 ORDER BY 2 DESC;
 ```
@@ -328,6 +337,79 @@ immediately instead of blocking on a credential prompt.
 docker compose run django uv run manage.py sync_package_repos [--slug=<slug>] [--limit=<number>] [--depth=<n>] [--missing-only] [--dry-run]
 ```
 
+## The probes app
+
+All of this lives in the `probes` app: the checkouts, the AST scan, the
+profiles and the catalogue. It uses `django-probe`'s AST visitor and probe
+registry, whose importable name is `django_probe`, so the two sit side by
+side without colliding. The flags that decide whether a package gets probed
+at all stay on `package.Package`, because they describe the package.
+
+Three tables:
+
+- `probes.PackageProbe`, one row per package: the versions it claims, the
+  symbols and patterns its source uses, and when we last looked.
+- `probes.ProbeSymbol`, one row per thing a scan can name. This is where a
+  deprecation or a removal version belongs, since that is a fact about the
+  API rather than about any package calling it.
+- `probes.Library`, the distribution name next to the import name, with the
+  toggle that decides which libraries a scan counts.
+
+## build_probe_libraries
+
+Records what each distribution is imported as, because PyPI does not publish
+it. `pip install django-debug-toolbar` then `import debug_toolbar`;
+djangorestframework imports as `rest_framework`, django-q2 as `django_q`. A
+scan that guesses by swapping hyphens for underscores finds nothing for any
+of those, and across the packages we have checkouts for, a guess is wrong
+about half the time.
+
+The import name is read out of the checkout we already cloned: the top-level
+importable directories, preferring a package under `src/` over a loose script
+at the root, and preferring a name that echoes the distribution. Where there
+is no checkout it falls back to the guess and records `source` as `guess`, so
+a guess is never mistaken for a fact.
+
+Set `scan` on a library to have scans count its usage too. It is nullable and
+starts unset, which reads as off, because every library added is counted in
+every file of every checkout. `django` ships toggled on.
+
+```shell
+docker compose run django uv run manage.py build_probe_libraries [--slug=<slug>] [--limit=<number>] [--min-score=<n>] [--differences-only] [--dry-run]
+```
+
+## build_probe_catalog
+
+Rolls the scanned symbols, settings and patterns up into `ProbeSymbol`, one
+row per library and name, with the counts replaced from the current profiles.
+
+The curation on each row is left alone: a rebuild that quietly dropped a
+deprecation would be worse than no catalogue at all. `deprecated`,
+`deprecated_in`, `removed_in` and `notes` are ours to set, in the admin.
+`--check` additionally records whether the installed Django still has each
+symbol, with the version it was checked against, which beats keeping a list
+of removals because the list goes stale and this answers for whatever is
+deployed. `--prune` drops rows nothing uses any more, except any row we have
+annotated.
+
+```shell
+docker compose run django uv run manage.py build_probe_catalog [--library=<name>] [--check] [--prune] [--dry-run]
+```
+
+## /probes/
+
+An unlisted page at `/probes/` showing what the profiles add up to: the share
+of packages supporting each Django and Python version, where those claims came
+from, which libraries the source uses, the patterns, the settings read, the
+APIs the running Django no longer has, and the declared dependencies. Long
+tables are paginated, each on its own query parameter so paging one leaves the
+others alone.
+
+No login. Nothing on it is private, and a password would only stop us looking
+at it, so it is kept out of the nav and the sitemap and marked noindex
+instead. The roll-ups are full table scans, so each is cached for fifteen
+minutes.
+
 ## scan_package_repos
 
 Counts which Django APIs the checked out packages actually use, by parsing
@@ -341,6 +423,23 @@ with `files_scanned`, `files_skipped`, the `commit` the tree was on and
 that `build_probe_profiles` filled in are left alone. Pass `--dry-run` to
 report without saving.
 
+`patterns` is the second half of the same parse: django-probe's named probes,
+as `{"pattern": "probe:queryset_filter", "count": 12}`, most hit first. These
+answer questions a dotted path cannot. `transaction.atomic` resolves to the
+same symbol whether it was a decorator or a context manager, and a class
+inheriting `AbstractUser` is a custom user model rather than a mention of a
+name. The probes that ship today cover the queryset methods, `cache_page`,
+`transaction.atomic`, `@receiver`, Django Tasks, a custom user model and
+`AUTH_USER_MODEL`. Probe keys are `namespace:name`, so our own probes can be
+registered under their own namespace rather than forking the package.
+
+Setting names are kept rather than folded. `settings.AUTH_USER_MODEL` is
+stored as `django.conf.settings.AUTH_USER_MODEL`, and the `settings_used`
+property on the profile reads them back without the prefix. A setting Django
+does not define, which is most of what a project invents, still folds onto the
+bare `django.conf.settings`, so that count stays meaningful instead of turning
+into an inventory of other people's naming habits.
+
 This is the half that metadata cannot give you. `dj-twilio-sms` declares no
 dependencies at all, yet its scan shows `ugettext_lazy`, `force_text` and
 `django.utils.six`, all removed from Django years ago.
@@ -352,7 +451,8 @@ The counting comes from `django-probe`, which follows import aliasing, so
 `from django.db import models` followed by `models.CharField` resolves to
 `django.db.models.CharField` rather than being matched as text. A name in a
 string or comment is not counted. `--package` takes any top-level import
-name, so this is not limited to Django.
+name, so this is not limited to Django. With no `--package`, the scan counts
+the libraries toggled on in `probes.Library`, falling back to `django`.
 
 ```shell
 docker compose run django uv run manage.py scan_package_repos [--slug=<slug>] [--limit=<number>] [--package=<import-name>] [--top=<n>] [--totals-only]

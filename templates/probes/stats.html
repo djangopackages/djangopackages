@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% load i18n humanize page_metadata_tags %}
+
+{% block metadata %}
+    {% page_metadata page_title="Probe stats" %}
+    <meta name="robots" content="noindex, nofollow">
+{% endblock metadata %}
+
+{% block content %}
+    <div class="mx-auto max-w-5xl px-4 py-8">
+        <h1 class="text-foreground text-3xl font-bold">{% translate "Probe stats" %}</h1>
+        <p class="text-muted-foreground mt-2 max-w-3xl">
+            {% blocktranslate %}
+                What our scans of the packages we index add up to. Unlisted and
+                noindex, but not private: everything here is read from public
+                source and public metadata.
+            {% endblocktranslate %}
+        </p>
+
+        {% if not totals.probed %}
+            <p class="text-muted-foreground mt-8">
+                {% blocktranslate %}
+                    No profiles yet. Run sync_package_repos, then
+                    build_probe_profiles and scan_package_repos.
+                {% endblocktranslate %}
+            </p>
+        {% else %}
+
+            <section class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+                {% include "probes/partials/stat.html" with label=_("Packages probed") value=totals.probed %}
+                {% include "probes/partials/stat.html" with label=_("Source scanned") value=totals.scanned %}
+                {% include "probes/partials/stat.html" with label=_("Files read") value=totals.files_scanned %}
+                {% include "probes/partials/stat.html" with label=_("Distinct symbols") value=totals.distinct_symbols %}
+                {% include "probes/partials/stat.html" with label=_("Symbol uses") value=totals.total_uses %}
+                {% include "probes/partials/stat.html" with label=_("Settings named") value=totals.distinct_settings %}
+                {% include "probes/partials/stat.html" with label=_("Patterns seen") value=totals.distinct_patterns %}
+                {% include "probes/partials/stat.html" with label=_("Gone from Django") value=totals.unresolved_packages %}
+            </section>
+
+            <p class="text-muted-foreground mt-6 text-sm">
+                {% blocktranslate with python=totals.with_python django=totals.with_django deps=totals.with_dependencies probed=totals.probed %}
+                    Of {{ probed }} profiles, {{ python }} name the Python versions they
+                    support, {{ django }} name the Django versions, and {{ deps }} declare
+                    a dependency.
+                {% endblocktranslate %}
+                {% if libraries %}
+                    {% blocktranslate %}Scanning for:{% endblocktranslate %}
+                    {% for library in libraries %}<code>{{ library.import_name }}</code>{% if not forloop.last %}, {% endif %}{% endfor %}.
+                {% endif %}
+            </p>
+
+            <div class="mt-10 grid gap-10 lg:grid-cols-2">
+                {% include "probes/partials/versions.html" with label=_("Django versions supported") rows=django_versions total=totals.with_django sources=django_sources %}
+                {% include "probes/partials/versions.html" with label=_("Python versions supported") rows=python_versions total=totals.with_python sources=python_sources %}
+            </div>
+
+            {% for section in sections %}
+                {% include "probes/partials/section.html" %}
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock content %}

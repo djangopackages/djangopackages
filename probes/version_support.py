@@ -11,10 +11,17 @@ The resolving is why this needs the database: a specifier like ">=3.10"
 only means something against a list of real releases, and `products.Release`
 already tracks those from endoflife.date. Hard-coding the list here would
 mean a new Python release silently stopped showing up.
+
+A specifier with no upper bound is resolved against the releases that
+existed when the package was last published, not against everything
+released since. `Django>=1.8` in a package from 2016 is a minimum, not a
+promise about Django 6.1, and reading it as a range would have us claim
+eighteen cycles of support on the strength of one line of metadata.
 """
 
 from __future__ import annotations
 
+import datetime
 import re
 from dataclasses import dataclass
 from functools import lru_cache
@@ -28,6 +35,10 @@ EXTRA_MARKER = re.compile(r"""extra\s*==\s*['"]([^'"]+)['"]""")
 
 PYTHON_CLASSIFIER = re.compile(r"^Programming Language :: Python :: (\d+\.\d+)$")
 DJANGO_CLASSIFIER = re.compile(r"^Framework :: Django :: (\d+\.\d+)$")
+
+# Operators that say something about the top of a range. `!=` excludes a
+# single version without closing the range, so it is not one of them.
+BOUNDS_ABOVE = frozenset({"<", "<=", "==", "===", "~="})
 
 
 @dataclass(frozen=True)
@@ -70,21 +81,48 @@ def _sorted(versions) -> tuple[str, ...]:
 
 
 @lru_cache(maxsize=2)
-def released_cycles(product_slug: str) -> tuple[str, ...]:
-    """Version cycles of a product that have actually shipped.
+def release_dates(product_slug: str) -> tuple[tuple[str, datetime.date], ...]:
+    """When each of a product's version cycles shipped, oldest first.
+
+    Cached per product and filtered in Python by the callers below,
+    because resolving a few thousand packages against a date each would
+    otherwise be a few thousand queries for the same handful of rows.
+    """
+    from products.models import Release
+
+    rows = Release.objects.filter(
+        product__slug=product_slug, release__isnull=False
+    ).values_list("cycle", "release")
+
+    dated = {
+        cycle: release
+        for cycle, release in rows
+        if re.fullmatch(r"\d+\.\d+", cycle or "")
+    }
+    return tuple((cycle, dated[cycle]) for cycle in _sorted(dated))
+
+
+def released_cycles(
+    product_slug: str, *, on: datetime.date | None = None
+) -> tuple[str, ...]:
+    """Version cycles of a product that had shipped by `on` (default today).
 
     Unreleased cycles are left out so that resolving ">=3.10" does not
     claim support for a Python that does not exist yet.
     """
-    from products.models import Release
+    cutoff = on or timezone.now().date()
+    return tuple(
+        cycle for cycle, release in release_dates(product_slug) if release <= cutoff
+    )
 
-    cycles = Release.objects.filter(
-        product__slug=product_slug,
-        release__isnull=False,
-        release__lte=timezone.now().date(),
-    ).values_list("cycle", flat=True)
 
-    return _sorted(c for c in cycles if re.fullmatch(r"\d+\.\d+", c or ""))
+def bounded_above(specifier: str) -> bool:
+    """Whether a specifier says anything about the top of its range."""
+    try:
+        spec = SpecifierSet(specifier)
+    except InvalidSpecifier:
+        return False
+    return any(s.operator in BOUNDS_ABOVE for s in spec)
 
 
 def _matching(specifier: str, cycles: tuple[str, ...]) -> tuple[str, ...]:
@@ -95,6 +133,31 @@ def _matching(specifier: str, cycles: tuple[str, ...]) -> tuple[str, ...]:
     # prereleases=True so a cycle like "3.14" still matches a specifier
     # written against its alphas.
     return _sorted(c for c in cycles if spec.contains(c, prereleases=True))
+
+
+def _resolve(
+    specifier: str, product_slug: str, *, as_of: datetime.date | None
+) -> tuple[str, ...]:
+    """Turn a specifier into the cycles it covers.
+
+    An open-ended specifier is only read up to the day the package was
+    published. With no publication date there is nothing to read it
+    against, so it resolves to nothing rather than to everything: a
+    lower bound on its own is not evidence of support.
+    """
+    if bounded_above(specifier):
+        return _matching(specifier, released_cycles(product_slug))
+    if as_of is None:
+        return ()
+    return _matching(specifier, released_cycles(product_slug, on=as_of))
+
+
+def published_on(package) -> datetime.date | None:
+    """The day the package's latest release landed on PyPI."""
+    version = package.latest_version if package.latest_version_id else None
+    if version and version.upload_time:
+        return version.upload_time.date()
+    return None
 
 
 def _django_specifier(requires_dist) -> str:
@@ -121,6 +184,10 @@ def _django_specifier(requires_dist) -> str:
 def version_support(package) -> VersionSupport:
     """Piece together the Python and Django versions a package supports."""
     classifiers = package.pypi_classifiers or []
+    # Classifiers name exact versions, so they need no date. The two
+    # specifier sources do, to keep an open-ended pin from growing a
+    # range every time Django ships.
+    as_of = published_on(package)
 
     python = _sorted(
         m.group(1) for c in classifiers if (m := PYTHON_CLASSIFIER.match(c))
@@ -128,7 +195,7 @@ def version_support(package) -> VersionSupport:
     python_source = "classifiers" if python else ""
 
     if not python and (requires_python := (package.pypi_requires_python or "").strip()):
-        python = _matching(requires_python, released_cycles("python"))
+        python = _resolve(requires_python, "python", as_of=as_of)
         python_source = "requires_python" if python else ""
 
     django = _sorted(
@@ -140,7 +207,7 @@ def version_support(package) -> VersionSupport:
         info = package.pypi_info or {}
         inner = info.get("info") if isinstance(info.get("info"), dict) else info
         if specifier := _django_specifier(inner.get("requires_dist")):
-            django = _matching(specifier, released_cycles("django"))
+            django = _resolve(specifier, "django", as_of=as_of)
             django_source = "requires_dist" if django else ""
 
     return VersionSupport(

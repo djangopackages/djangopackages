@@ -6,8 +6,8 @@ from django.utils.timezone import now
 from rich import print as rprint
 
 from package.models import Package
-from package.version_support import version_support
-from package.repo_checkouts import (
+from probes.version_support import version_support
+from probes.checkouts import (
     CLONEABLE_HOSTS,
     pypi_is_published,
     repo_is_reachable,

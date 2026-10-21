@@ -4,9 +4,10 @@ import djclick as click
 from django.utils.timezone import now
 from rich import print as rprint
 
-from package.models import Package, PackageProbe
-from package.repo_checkouts import scannable_packages
-from package.version_support import declared_dependencies, version_support
+from package.models import Package
+from probes.models import PackageProbe
+from probes.checkouts import scannable_packages
+from probes.version_support import declared_dependencies, version_support
 
 
 @click.command()

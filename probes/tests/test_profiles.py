@@ -8,21 +8,21 @@ from django.db import connection
 from django.utils import timezone
 from model_bakery import baker
 
-from package.models import PackageProbe
-from package.version_support import released_cycles
+from probes.models import PackageProbe
+from probes.version_support import release_dates
 
 pytestmark = pytest.mark.django_db
 
 
 @pytest.fixture()
 def cycles(db):
-    released_cycles.cache_clear()
+    release_dates.cache_clear()
     shipped = timezone.now().date() - datetime.timedelta(days=365)
     product = baker.make("products.Product", slug="django", title="django")
     for cycle in ("4.2", "5.0", "5.1"):
         baker.make("products.Release", product=product, cycle=cycle, release=shipped)
     yield
-    released_cycles.cache_clear()
+    release_dates.cache_clear()
 
 
 def make_package(slug, **kwargs):
@@ -116,7 +116,7 @@ class TestBuildProbeProfiles:
                        count(DISTINCT p.package_id) AS packages,
                        count(DISTINCT p.package_id)
                            FILTER (WHERE dep->>'extra' = '') AS core
-                FROM package_packageprobe p,
+                FROM probes_packageprobe p,
                      jsonb_array_elements(p.dependencies) AS dep
                 GROUP BY 1
                 ORDER BY packages DESC, name
@@ -151,7 +151,10 @@ class TestScanStoresSymbols:
 
         profile = PackageProbe.objects.get(package__slug="a")
         assert isinstance(profile.symbols, list)
-        assert all({"symbol", "count"} == set(row) for row in profile.symbols)
+        assert all(
+            {"symbol", "count", "library"} == set(row) for row in profile.symbols
+        )
+        assert {row["library"] for row in profile.symbols} == {"django"}
         counts = [row["count"] for row in profile.symbols]
         assert counts == sorted(counts, reverse=True)
 
@@ -229,3 +232,69 @@ class TestScanStoresSymbols:
         assert profile.python_versions == ["3.12"]
         assert profile.django_versions == ["5.2"]
         assert profile.symbols
+
+
+class TestScanStoresPatterns:
+    """The pattern half of the AST scan, stored alongside the symbols."""
+
+    @pytest.fixture()
+    def checkout(self, settings, tmp_path):
+        settings.PACKAGE_REPO_ROOT = tmp_path
+        package = make_package("b")
+        root = tmp_path / "b"
+        (root / ".git").mkdir(parents=True)
+        (root / "views.py").write_text(
+            "from django.conf import settings\n"
+            "from django.db import transaction\n"
+            "@transaction.atomic\n"
+            "def view():\n"
+            "    return settings.AUTH_USER_MODEL\n"
+        )
+        return package, root
+
+    def test_patterns_are_a_list_of_objects_most_hit_first(self, checkout):
+        call_command("scan_package_repos", "--totals-only")
+
+        profile = PackageProbe.objects.get(package__slug="b")
+        assert isinstance(profile.patterns, list)
+        assert all({"pattern", "count"} == set(row) for row in profile.patterns)
+        counts = [row["count"] for row in profile.patterns]
+        assert counts == sorted(counts, reverse=True)
+        assert profile.pattern_counts["probe:transaction_atomic"] == 1
+
+    def test_the_settings_a_package_reads_survive_the_round_trip(self, checkout):
+        call_command("scan_package_repos", "--totals-only")
+
+        profile = PackageProbe.objects.get(package__slug="b")
+        assert profile.settings_used == {"AUTH_USER_MODEL": 1}
+
+    def test_rescanning_replaces_the_patterns(self, checkout):
+        _, root = checkout
+        call_command("scan_package_repos", "--totals-only")
+        (root / "views.py").write_text("x = 1\n")
+
+        call_command("scan_package_repos", "--totals-only")
+
+        assert PackageProbe.objects.get(package__slug="b").patterns == []
+
+    def test_a_dry_run_stores_no_patterns(self, checkout):
+        call_command("scan_package_repos", "--totals-only", "--dry-run")
+
+        assert not PackageProbe.objects.filter(package__slug="b").exists()
+
+    def test_the_rollup_over_patterns_is_one_query(self, checkout):
+        """Who uses a pattern at all, which is the question worth asking."""
+        call_command("scan_package_repos", "--totals-only")
+
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT pattern->>'pattern', count(DISTINCT p.package_id)
+                FROM probes_packageprobe p,
+                     jsonb_array_elements(p.patterns) AS pattern
+                GROUP BY 1 ORDER BY 2 DESC, 1
+                """
+            )
+            rows = cursor.fetchall()
+
+        assert ("probe:transaction_atomic", 1) in rows

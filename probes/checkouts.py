@@ -11,6 +11,7 @@ from __future__ import annotations
 import ast
 import os
 import subprocess
+import warnings
 from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -29,6 +30,10 @@ CLONEABLE_HOSTS = frozenset(
         "codeberg.org",
     }
 )
+
+# django-probe reports a recognised setting as django.conf.settings.NAME
+# and anything it does not recognise as the bare path.
+SETTINGS_PREFIX = "django.conf.settings."
 
 # Directories that never hold a package's own source.
 SKIP_DIRS = frozenset(
@@ -58,9 +63,20 @@ class CheckoutError(RuntimeError):
 
 @dataclass
 class ScanResult:
-    """What one scan of one checkout found."""
+    """What one scan of one checkout found.
+
+    Two kinds of count, from the same parse. ``usage`` is every symbol
+    the source resolves to; ``patterns`` is django-probe's named probes,
+    which answer questions a dotted path cannot, like whether
+    ``transaction.atomic`` was used as a decorator or a context manager.
+    """
 
     usage: Counter[str] = field(default_factory=Counter)
+    patterns: Counter[str] = field(default_factory=Counter)
+    # What the scan looked for, kept so a zero can be told apart from
+    # never having asked. A profile with no rest_framework symbols means
+    # nothing unless we know rest_framework was among the libraries.
+    libraries: tuple[str, ...] = ()
     files_scanned: int = 0
     files_skipped: int = 0
 
@@ -71,6 +87,40 @@ class ScanResult:
     @property
     def total(self) -> int:
         return sum(self.usage.values())
+
+    @staticmethod
+    def library_of(symbol: str) -> str:
+        """The top-level import a symbol belongs to.
+
+        ``django.db.models.CharField`` belongs to ``django``. Stored
+        beside each symbol rather than worked out at read time, so
+        grouping by library is a plain GROUP BY.
+        """
+        return symbol.partition(".")[0]
+
+    @property
+    def by_library(self) -> Counter[str]:
+        """Uses per library, for when the question is which one at all."""
+        totals: Counter[str] = Counter()
+        for symbol, count in self.usage.items():
+            totals[self.library_of(symbol)] += count
+        return totals
+
+    @property
+    def settings_used(self) -> Counter[str]:
+        """Named Django settings the source reads, without the prefix.
+
+        A setting we do not recognise folds to a bare
+        ``django.conf.settings`` in ``usage``, so this only ever reports
+        real setting names.
+        """
+        return Counter(
+            {
+                symbol.removeprefix(SETTINGS_PREFIX): count
+                for symbol, count in self.usage.items()
+                if symbol.startswith(SETTINGS_PREFIX)
+            }
+        )
 
 
 def is_cloneable(repo_url: str) -> bool:
@@ -240,7 +290,9 @@ def sync_checkout(package, *, depth: int = 1, timeout: int = 300) -> tuple[Path,
 
 def iter_python_files(root: Path):
     for dirpath, dirnames, filenames in os.walk(root):
-        dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
+        dirnames[:] = [
+            d for d in dirnames if d not in SKIP_DIRS and not d.endswith(".egg-info")
+        ]
         for name in filenames:
             if name.endswith(".py"):
                 yield Path(dirpath) / name
@@ -290,28 +342,50 @@ def checkout_commit(root: Path) -> str:
 
 
 def scan_checkout(root: Path, packages: tuple[str, ...] = ("django",)) -> ScanResult:
-    """Count which symbols from ``packages`` a checkout uses.
+    """Count what a checkout uses, by symbol and by named pattern.
 
     The counting is django-probe's: a NodeVisitor that follows import
     aliasing, so ``from django.db import models`` and a later
     ``models.CharField`` resolve to the full dotted path rather than being
     matched as text.
+
+    Setting names are handed over so that ``settings.AUTH_USER_MODEL``
+    stays distinct instead of folding into a bare ``django.conf.settings``
+    along with every other setting in the file.
     """
+    # Importing the probes package is what registers the probes; without
+    # it count_patterns has nothing to count and returns an empty tally.
+    import django_probe.probes  # noqa: F401
+    from django_probe.ast_probe import count_patterns
+    from django_probe.settings import DJANGO_SETTING_NAMES
     from django_probe.usage import count_package_usage
 
-    result = ScanResult()
+    result = ScanResult(libraries=tuple(packages))
 
     for path in iter_python_files(root):
         try:
-            source = path.read_text(encoding="utf-8")
-            tree = ast.parse(source)
+            # Parsed as bytes, not text. A file that opens with a UTF-8
+            # BOM keeps it as U+FEFF when decoded, which the parser
+            # rejects as a non-printable character, and a file declaring
+            # a non-UTF-8 coding has to be decoded by the parser to be
+            # read at all. Both are common in packages this old.
+            with warnings.catch_warnings():
+                # A decade-old repo is full of invalid escape sequences.
+                # Nobody can act on the warning, so it should not reach
+                # the output of a scan over four thousand of them.
+                warnings.simplefilter("ignore")
+                tree = ast.parse(path.read_bytes())
         except (OSError, UnicodeDecodeError, SyntaxError, ValueError):
             # Other people's repos hold unparseable and non-UTF-8 files.
             # One bad file should not fail the package.
             result.files_skipped += 1
             continue
 
-        result.usage.update(count_package_usage(tree, packages))
+        result.usage.update(count_package_usage(tree, packages, DJANGO_SETTING_NAMES))
+        # Some probes key off the filename, so they need the path within
+        # the checkout. It never leaves this function.
+        relative = str(path.relative_to(root))
+        result.patterns.update(count_patterns(tree, relative))
         result.files_scanned += 1
 
     return result

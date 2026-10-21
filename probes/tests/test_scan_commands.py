@@ -26,7 +26,7 @@ class TestSyncCommand:
             score=1,
         )
 
-        with patch("package.repo_checkouts.subprocess.run") as run:
+        with patch("probes.checkouts.subprocess.run") as run:
             call_command("sync_package_repos", "--dry-run")
 
         run.assert_not_called()
@@ -39,7 +39,7 @@ class TestSyncCommand:
             score=1,
         )
 
-        with patch("package.repo_checkouts.subprocess.run") as run:
+        with patch("probes.checkouts.subprocess.run") as run:
             call_command("sync_package_repos")
 
         run.assert_not_called()
@@ -69,7 +69,7 @@ class TestSyncCommand:
                 return subprocess.CompletedProcess([], 128, "", "fatal: not found")
             return subprocess.CompletedProcess([], 0, "", "")
 
-        with patch("package.repo_checkouts.subprocess.run", side_effect=fake):
+        with patch("probes.checkouts.subprocess.run", side_effect=fake):
             call_command("sync_package_repos")
 
         assert any("/b" in str(c[-1]) for c in calls)
@@ -84,7 +84,7 @@ class TestSyncCommand:
         )
         (repo_root / "a" / ".git").mkdir(parents=True)
 
-        with patch("package.repo_checkouts.subprocess.run") as run:
+        with patch("probes.checkouts.subprocess.run") as run:
             call_command("sync_package_repos", "--missing-only")
 
         run.assert_not_called()
@@ -134,7 +134,7 @@ class TestScanCommand:
         )
         (repo_root / "a" / ".git").mkdir(parents=True)
 
-        with patch("package.repo_checkouts.subprocess.run") as run:
+        with patch("probes.checkouts.subprocess.run") as run:
             call_command("scan_package_repos")
 
         run.assert_not_called()

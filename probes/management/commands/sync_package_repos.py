@@ -5,7 +5,7 @@ from django.conf import settings
 from rich import print as rprint
 
 from package.models import Package
-from package.repo_checkouts import (
+from probes.checkouts import (
     CheckoutError,
     checkout_path,
     is_cloneable,

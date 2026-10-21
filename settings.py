@@ -174,6 +174,7 @@ PROJECT_APPS = [
     "feeds",
     "homepage",
     "package",
+    "probes",
     "products",
     "profiles",
     "searchv3",

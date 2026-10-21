@@ -221,6 +221,9 @@ urlpatterns = [
         cache_page(60 * 60 * 24)(CategoryOpenGraphView.as_view()),
         name="category_opengraph",
     ),
+    # Unlisted dashboard of what the probe profiles add up to. No login,
+    # kept out of the nav and the sitemap, noindex.
+    path("probes/", include("probes.urls", namespace="probes")),
     # Unlisted, staff-only gallery of every social card. Kept out of the
     # sitemap and noindex; see #1468.
     path(
