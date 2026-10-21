@@ -253,16 +253,6 @@ class ProbeSymbol(BaseModel):
     )
     notes = models.TextField(_("notes"), blank=True, default="")
 
-    # Whether the installed library still has it, which is a fact about
-    # this deploy rather than about the API, so the version it was
-    # checked against is stored with it.
-    missing = models.BooleanField(
-        _("missing from the installed library"), blank=True, null=True, default=None
-    )
-    checked_against = models.CharField(
-        _("version checked against"), max_length=20, blank=True, default=""
-    )
-
     class Meta:
         verbose_name = _("Probe symbol")
         verbose_name_plural = _("Probe symbols")
@@ -282,19 +272,13 @@ class ProbeSymbol(BaseModel):
 
     @property
     def gone(self) -> bool:
-        """Whether anyone should still be reaching for this.
-
-        Either we recorded the version that removed it, or the installed
-        library no longer has it.
-        """
-        return bool(self.removed_in) or bool(self.missing)
+        """Whether anyone should still be reaching for this."""
+        return bool(self.removed_in)
 
     @property
     def status(self) -> str:
         if self.removed_in:
             return f"removed in {self.removed_in}"
-        if self.missing:
-            return "gone"
         if self.deprecated_in:
             return f"deprecated in {self.deprecated_in}"
         if self.deprecated:

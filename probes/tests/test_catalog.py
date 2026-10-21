@@ -89,15 +89,6 @@ class TestBuildProbeCatalog:
         assert row.notes == "use gettext"
         assert row.uses == 9
 
-    def test_check_records_what_the_installed_django_still_has(self, profiles):
-        call_command("build_probe_catalog", "--check")
-
-        gone = ProbeSymbol.objects.get(name="django.utils.translation.ugettext_lazy")
-        here = ProbeSymbol.objects.get(name="django.urls.path")
-        assert gone.missing is True
-        assert here.missing is False
-        assert gone.checked_against
-
     def test_a_dry_run_writes_nothing(self, profiles):
         call_command("build_probe_catalog", "--dry-run")
 
@@ -123,14 +114,8 @@ class TestStatus:
         assert row.gone
         assert row.status == "removed in 4.0"
 
-    def test_missing_from_the_install_reads_as_gone_without_a_version(self):
-        row = ProbeSymbol(name="x", missing=True)
-
-        assert row.gone
-        assert row.status == "gone"
-
     def test_a_live_symbol_has_no_status(self):
-        row = ProbeSymbol(name="x", missing=False)
+        row = ProbeSymbol(name="x")
 
         assert not row.gone
         assert row.status == ""
