@@ -1,11 +1,10 @@
 from __future__ import annotations
 
 import djclick as click
-from django.db import transaction
 from django.utils.timezone import now
 from rich import print as rprint
 
-from package.models import Package, PackageDependency, PackageProbe
+from package.models import Package, PackageProbe
 from package.repo_checkouts import scannable_packages
 from package.version_support import declared_dependencies, version_support
 
@@ -56,37 +55,27 @@ def command(slugs: tuple[str, ...], limit: int | None, min_score: int, dry_run: 
         if dry_run:
             continue
 
-        with transaction.atomic():
-            PackageProbe.objects.update_or_create(
-                package=package,
-                defaults={
-                    "python_versions": list(support.python),
-                    "django_versions": list(support.django),
-                    "python_source": support.python_source,
-                    "django_source": support.django_source,
-                    "metadata_updated_at": now(),
-                },
-            )
-            # Replace rather than merge: a dependency dropped upstream
-            # should disappear here too, and the set is small enough
-            # that diffing it would cost more than rewriting it.
-            PackageDependency.objects.filter(
-                package=package, source=PackageDependency.Source.DECLARED
-            ).delete()
-            PackageDependency.objects.bulk_create(
-                [
-                    PackageDependency(
-                        package=package,
-                        name=dependency.name,
-                        specifier=dependency.specifier,
-                        extra=dependency.extra,
-                        marker=dependency.marker,
-                        source=PackageDependency.Source.DECLARED,
-                    )
+        # Replaced wholesale rather than merged: a dependency dropped
+        # upstream should disappear here too.
+        PackageProbe.objects.update_or_create(
+            package=package,
+            defaults={
+                "python_versions": list(support.python),
+                "django_versions": list(support.django),
+                "python_source": support.python_source,
+                "django_source": support.django_source,
+                "dependencies": [
+                    {
+                        "name": dependency.name,
+                        "specifier": dependency.specifier,
+                        "extra": dependency.extra,
+                        "marker": dependency.marker,
+                    }
                     for dependency in dependencies
                 ],
-                ignore_conflicts=True,
-            )
+                "metadata_updated_at": now(),
+            },
+        )
 
     suffix = "  [dim](dry run)[/dim]" if dry_run else ""
     rprint(

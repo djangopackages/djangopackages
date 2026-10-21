@@ -4,11 +4,11 @@ import datetime
 
 import pytest
 from django.core.management import call_command
-from django.db.models import Count, Q
+from django.db import connection
 from django.utils import timezone
 from model_bakery import baker
 
-from package.models import PackageDependency, PackageProbe
+from package.models import PackageProbe
 from package.version_support import released_cycles
 
 pytestmark = pytest.mark.django_db
@@ -57,26 +57,29 @@ class TestBuildProbeProfiles:
         assert profile.python_source == "classifiers"
         assert profile.metadata_updated_at is not None
 
-    def test_it_stores_one_row_per_dependency(self, cycles):
+    def test_it_stores_dependencies_as_a_list_of_objects(self, cycles):
         make_package(
             "a", pypi_info={"requires_dist": ["django>=5.0", 'boto3; extra == "s3"']}
         )
 
         call_command("build_probe_profiles")
 
-        rows = {d.name: d for d in PackageDependency.objects.all()}
-        assert rows["django"].specifier == ">=5.0"
-        assert rows["django"].extra == ""
-        assert rows["boto3"].extra == "s3"
+        profile = PackageProbe.objects.get(package__slug="a")
+        by_name = {d["name"]: d for d in profile.dependencies}
+        assert by_name["django"]["specifier"] == ">=5.0"
+        assert by_name["django"]["extra"] == ""
+        assert by_name["boto3"]["extra"] == "s3"
+        assert [d["name"] for d in profile.required] == ["django"]
+        assert [d["name"] for d in profile.optional] == ["boto3"]
 
-    def test_rerunning_does_not_duplicate_rows(self, cycles):
+    def test_rerunning_does_not_duplicate_anything(self, cycles):
         make_package("a", pypi_info={"requires_dist": ["django>=5.0"]})
 
         call_command("build_probe_profiles")
         call_command("build_probe_profiles")
 
-        assert PackageDependency.objects.count() == 1
         assert PackageProbe.objects.count() == 1
+        assert len(PackageProbe.objects.get().dependencies) == 1
 
     def test_a_dependency_dropped_upstream_disappears(self, cycles):
         package = make_package(
@@ -88,9 +91,8 @@ class TestBuildProbeProfiles:
         package.save(update_fields=["pypi_info"])
         call_command("build_probe_profiles")
 
-        assert list(PackageDependency.objects.values_list("name", flat=True)) == [
-            "django"
-        ]
+        profile = PackageProbe.objects.get(package__slug="a")
+        assert [d["name"] for d in profile.dependencies] == ["django"]
 
     def test_a_dry_run_writes_nothing(self, cycles):
         make_package("a", pypi_info={"requires_dist": ["django>=5.0"]})
@@ -98,24 +100,29 @@ class TestBuildProbeProfiles:
         call_command("build_probe_profiles", "--dry-run")
 
         assert not PackageProbe.objects.exists()
-        assert not PackageDependency.objects.exists()
 
-    def test_the_rollup_counts_packages_not_rows(self, cycles):
-        """The query the dependency table exists for."""
+    def test_the_rollup_still_works_over_json(self, cycles):
+        """Grouping survives the move to JSON, via jsonb_array_elements."""
         make_package("a", pypi_info={"requires_dist": ["django>=5.0"]})
         make_package("b", pypi_info={"requires_dist": ["django>=4.2", "boto3"]})
         make_package("c", pypi_info={"requires_dist": ['boto3; extra == "s3"']})
 
         call_command("build_probe_profiles")
 
-        rows = (
-            PackageDependency.objects.values("name")
-            .annotate(
-                packages=Count("package", distinct=True),
-                core=Count("package", distinct=True, filter=Q(extra="")),
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT dep->>'name' AS name,
+                       count(DISTINCT p.package_id) AS packages,
+                       count(DISTINCT p.package_id)
+                           FILTER (WHERE dep->>'extra' = '') AS core
+                FROM package_packageprobe p,
+                     jsonb_array_elements(p.dependencies) AS dep
+                GROUP BY 1
+                ORDER BY packages DESC, name
+                """
             )
-            .order_by("-packages", "name")
-        )
-        counts = {r["name"]: (r["packages"], r["core"]) for r in rows}
+            counts = {row[0]: (row[1], row[2]) for row in cursor.fetchall()}
+
         assert counts["django"] == (2, 2)
         assert counts["boto3"] == (2, 1)

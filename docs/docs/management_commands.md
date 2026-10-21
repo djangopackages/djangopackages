@@ -242,13 +242,22 @@ docker compose run django uv run manage.py build_search_v3
 Fills in each package's probe profile from the PyPI metadata we already
 store, so it reads nothing from the network and clones nothing.
 
-It writes two things. `PackageProbe` holds the Python and Django cycles a
-package claims, as lists, with `python_source` and `django_source` recording
-where each came from: Trove classifiers where they exist, otherwise
-`requires_python` or the Django pin in `requires_dist`, resolved against the
-real release cycles in `products.Release`. `PackageDependency` holds one row
-per declared dependency, which is what makes "which libraries does the
-catalogue lean on" a group by rather than a scan over JSON.
+It writes one row per package into `PackageProbe`. `python_versions` and
+`django_versions` are JSON lists, oldest first, and `python_source` and
+`django_source` record where each came from: Trove classifiers where they
+exist, otherwise `requires_python` or the Django pin in `requires_dist`,
+resolved against the real release cycles in `products.Release`.
+`dependencies` is a JSON list of `{name, specifier, extra, marker}`.
+
+Grouping across packages is still a single query, because Postgres can
+unnest the list:
+
+```sql
+SELECT dep->>'name', count(DISTINCT p.package_id)
+FROM package_packageprobe p, jsonb_array_elements(p.dependencies) AS dep
+WHERE dep->>'extra' = ''
+GROUP BY 1 ORDER BY 2 DESC;
+```
 
 Dependencies behind an extra are stored and marked rather than dropped, since
 what anyone depends on and what a default install pulls in are different

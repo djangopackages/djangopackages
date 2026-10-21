@@ -32,13 +32,23 @@ def cycles(db):
     for slug, cycles_and_dates in (
         (
             "python",
-            [("3.9", shipped), ("3.10", shipped), ("3.11", shipped),
-             ("3.98", unshipped), ("3.99", None)],
+            [
+                ("3.9", shipped),
+                ("3.10", shipped),
+                ("3.11", shipped),
+                ("3.98", unshipped),
+                ("3.99", None),
+            ],
         ),
         (
             "django",
-            [("4.2", shipped), ("5.0", shipped), ("5.1", shipped),
-             ("9.8", unshipped), ("9.9", None)],
+            [
+                ("4.2", shipped),
+                ("5.0", shipped),
+                ("5.1", shipped),
+                ("9.8", unshipped),
+                ("9.9", None),
+            ],
         ),
     ):
         product = baker.make("products.Product", slug=slug, title=slug)
@@ -84,7 +94,7 @@ class TestVersionSupport:
         assert support.python_source == "requires_python"
 
     def test_an_unreleased_cycle_is_never_claimed(self, cycles):
-        """">=3.10" must not promise a Python that does not exist yet.
+        """ ">=3.10" must not promise a Python that does not exist yet.
 
         Both the undated cycle and the one dated in the future.
         """

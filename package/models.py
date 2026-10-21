@@ -451,6 +451,11 @@ class PackageProbe(BaseModel):
     uses. Kept out of Package because it is derived data with its own
     refresh cycle, and because a probe that goes wrong should be
     throwable away without touching the package itself.
+
+    The lists are JSON rather than columns because they are read as
+    whole documents. Postgres can still answer "who depends on X" over
+    them with jsonb_array_elements, so grouping is a query away rather
+    than a schema change.
     """
 
     class Source(models.TextChoices):
@@ -462,17 +467,17 @@ class PackageProbe(BaseModel):
         "package.Package", on_delete=models.CASCADE, related_name="probe_profile"
     )
 
-    python_versions = ArrayField(
-        models.CharField(max_length=10),
+    python_versions = models.JSONField(
+        _("Python versions"),
         default=list,
         blank=True,
-        help_text=_("Python cycles this package claims, oldest first"),
+        help_text=_('Cycles this package claims, oldest first: ["3.10", "3.11"]'),
     )
-    django_versions = ArrayField(
-        models.CharField(max_length=10),
+    django_versions = models.JSONField(
+        _("Django versions"),
         default=list,
         blank=True,
-        help_text=_("Django cycles this package claims, oldest first"),
+        help_text=_('Cycles this package claims, oldest first: ["5.1", "5.2"]'),
     )
     python_source = models.CharField(
         _("where the Python versions came from"),
@@ -487,6 +492,19 @@ class PackageProbe(BaseModel):
         choices=Source,
         blank=True,
         default="",
+    )
+
+    dependencies = models.JSONField(
+        _("Dependencies"),
+        default=list,
+        blank=True,
+        help_text=_(
+            "One object per declared dependency, as "
+            '{"name", "specifier", "extra", "marker"}. An extra means it is '
+            "optional, which is kept rather than dropped because what anyone "
+            "depends on and what a default install pulls in are different "
+            "questions."
+        ),
     )
 
     symbols = models.JSONField(
@@ -527,55 +545,12 @@ class PackageProbe(BaseModel):
             return versions[0]
         return f"{versions[0]} - {versions[-1]}"
 
-
-class PackageDependency(BaseModel):
-    """One thing a package depends on.
-
-    A row per dependency rather than a blob on the package, because the
-    question worth asking is the other way round: which libraries does
-    the catalogue lean on, and how hard. That is a group by, and a
-    JSONField would make it a table scan.
-    """
-
-    class Source(models.TextChoices):
-        DECLARED = "requires_dist", _("Declared in PyPI metadata")
-        IMPORTED = "imports", _("Imported in the source")
-
-    package = models.ForeignKey(
-        "package.Package", on_delete=models.CASCADE, related_name="dependencies"
-    )
-    name = models.CharField(_("Dependency"), max_length=214, db_index=True)
-    specifier = models.CharField(
-        _("Version specifier"), max_length=120, blank=True, default=""
-    )
-    extra = models.CharField(
-        _("Extra it belongs to"),
-        max_length=100,
-        blank=True,
-        default="",
-        help_text=_("Blank when it is a plain dependency"),
-    )
-    marker = models.CharField(
-        _("Environment marker"), max_length=255, blank=True, default=""
-    )
-    source = models.CharField(
-        max_length=20, choices=Source, default=Source.DECLARED, db_index=True
-    )
-
-    class Meta:
-        verbose_name = _("Package dependency")
-        verbose_name_plural = _("Package dependencies")
-        constraints = [
-            models.UniqueConstraint(
-                fields=["package", "name", "extra", "source"],
-                name="unique_package_dependency",
-            )
-        ]
-        indexes = [models.Index(fields=["name", "source"])]
-
-    def __str__(self):
-        return f"{self.package.slug} -> {self.name}{self.specifier}"
+    @property
+    def required(self) -> list[dict]:
+        """Dependencies a plain install pulls in."""
+        return [d for d in self.dependencies if not d.get("extra")]
 
     @property
-    def is_optional(self) -> bool:
-        return bool(self.extra)
+    def optional(self) -> list[dict]:
+        """Dependencies that only apply behind an extra."""
+        return [d for d in self.dependencies if d.get("extra")]
