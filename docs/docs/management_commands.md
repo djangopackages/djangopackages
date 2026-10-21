@@ -237,6 +237,26 @@ Builds the SearchV3 index for package and grid search results.
 ```shell
 docker compose run django uv run manage.py build_search_v3
 ```
+## check_package_sources
+
+Decides which packages are worth keeping a source checkout of, by setting
+`Package.probe`. It asks two questions, neither of which needs a clone: does
+the git remote still answer (`git ls-remote`), and is the project still on
+PyPI.
+
+`probe` is a tri-state. Null means nobody has looked yet, so a new package is
+picked up by the next run and is treated as worth trying in the meantime.
+False excludes it from `sync_package_repos` and `scan_package_repos`, with
+`probe_note` recording why and `probe_checked_at` when.
+
+Already-decided packages are left alone, so a routine run only covers new
+ones. Pass `--recheck` to revisit, since a repo that was private last month
+may be public today.
+
+```shell
+docker compose run django uv run manage.py check_package_sources [--slug=<slug>] [--limit=<number>] [--recheck] [--timeout=<seconds>] [--dry-run]
+```
+
 ## sync_package_repos
 
 The checkouts are not mounted by default. Copy `compose.override.yml.example`

@@ -7,6 +7,8 @@ import pytest
 from model_bakery import baker
 
 from package.repo_checkouts import (
+    pypi_is_published,
+    repo_is_reachable,
     CheckoutError,
     checkout_path,
     is_cloneable,
@@ -190,3 +192,38 @@ class TestScanCheckout:
 
         assert result.files_scanned == 0
         assert result.total == 0
+
+
+class TestReachabilityChecks:
+    """The cheap pre-flight that decides `probe`, with git stubbed out."""
+
+    def test_an_unclonable_host_never_touches_the_network(self):
+        with patch("package.repo_checkouts.subprocess.run") as run:
+            ok, note = repo_is_reachable("https://code.google.com/p/old")
+
+        assert ok is False
+        assert "cannot clone" in note
+        run.assert_not_called()
+
+    def test_it_asks_the_remote_without_cloning(self):
+        with patch("package.repo_checkouts.subprocess.run") as run:
+            run.return_value = subprocess.CompletedProcess([], 0, "sha\tHEAD\n", "")
+            ok, note = repo_is_reachable("https://github.com/x/a")
+
+        assert (ok, note) == (True, "")
+        assert "ls-remote" in run.call_args[0][0]
+        assert "clone" not in run.call_args[0][0]
+
+    def test_a_credential_prompt_is_reported_as_gone(self):
+        """GitHub asks for a username for both private and deleted repos."""
+        with patch("package.repo_checkouts.subprocess.run") as run:
+            run.return_value = subprocess.CompletedProcess(
+                [], 128, "", "fatal: could not read Username for 'https://github.com'"
+            )
+            ok, note = repo_is_reachable("https://github.com/x/gone")
+
+        assert ok is False
+        assert note == "repo is private or deleted"
+
+    def test_a_blank_pypi_url_is_not_published(self):
+        assert pypi_is_published("") == (False, "no pypi url")

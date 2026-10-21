@@ -98,6 +98,10 @@ def scannable_packages():
         Package.objects.exclude(repo_url="")
         .exclude(pypi_url="")
         .filter(host_q)
+        # probe is the stored verdict from check_package_sources. Null
+        # means undecided, which we take as "worth a try": a new package
+        # should not have to wait for a check to be looked at.
+        .exclude(probe=False)
         .order_by("-score", "title")
     )
 
@@ -137,6 +141,57 @@ def _git(*args: str, cwd: Path | None = None, timeout: int = 300) -> str:
         raise CheckoutError(detail[-1] if detail else f"git {args[0]} failed")
 
     return result.stdout
+
+
+def repo_is_reachable(repo_url: str, *, timeout: int = 30) -> tuple[bool, str]:
+    """Ask the remote whether it exists, without downloading it.
+
+    `git ls-remote` is a single request that returns the ref list, so a
+    dead or private repo costs a round trip instead of a clone. At four
+    thousand packages that is the difference between a pre-flight check
+    and an afternoon.
+    """
+    if not is_cloneable(repo_url):
+        return False, f"cannot clone from {repo_url or 'no repo url'}"
+
+    try:
+        _git("ls-remote", "--exit-code", repo_url, "HEAD", timeout=timeout)
+    except CheckoutError as exc:
+        detail = str(exc)
+        # A host that wants credentials is telling us the repo is gone or
+        # private; it cannot say which, because saying which would leak
+        # the existence of private repos. Either way we cannot read it.
+        if "could not read Username" in detail or "Authentication failed" in detail:
+            return False, "repo is private or deleted"
+        return False, detail
+    return True, ""
+
+
+def pypi_is_published(pypi_url: str, *, timeout: float = 10.0) -> tuple[bool, str]:
+    """Whether PyPI still serves this project.
+
+    A package can be delisted or renamed long after we recorded it, and
+    the stored pypi_url is not evidence that anything is there now.
+    """
+    import httpx2
+
+    from package.pypi import PyPIClient
+
+    name = (pypi_url or "").strip().strip("/").rsplit("/", 1)[-1]
+    if not name:
+        return False, "no pypi url"
+
+    url = PyPIClient().get_package_json_url(name)
+    try:
+        response = httpx2.head(url, timeout=timeout, follow_redirects=True)
+    except httpx2.RequestError as exc:
+        return False, f"pypi unreachable: {type(exc).__name__}"
+
+    if response.status_code == 404:
+        return False, "not on pypi"
+    if response.status_code >= 400:
+        return False, f"pypi returned {response.status_code}"
+    return True, ""
 
 
 def sync_checkout(package, *, depth: int = 1, timeout: int = 300) -> tuple[Path, str]:

@@ -139,6 +139,24 @@ class Package(BaseModel):
         _("Documentation URL"), blank=True, null=True, default="", max_length=500
     )
 
+    probe = models.BooleanField(
+        _("Probe source"),
+        blank=True,
+        null=True,
+        default=None,
+        help_text=_(
+            "Whether to keep a git checkout of this package and scan its "
+            "source. Null means nobody has looked yet, which is where "
+            "check_package_sources starts."
+        ),
+    )
+    probe_checked_at = models.DateTimeField(
+        _("date probe status was last checked"), blank=True, null=True
+    )
+    probe_note = models.CharField(
+        _("why probing is off"), max_length=200, blank=True, default=""
+    )
+
     score = models.IntegerField(_("Score"), default=0)
 
     date_deprecated = models.DateTimeField(blank=True, null=True)
