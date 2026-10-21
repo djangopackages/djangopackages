@@ -415,14 +415,28 @@ row per library and name, with the counts replaced from the current profiles.
 The curation on each row is left alone: a rebuild that quietly dropped a
 deprecation would be worse than no catalogue at all. `deprecated`,
 `deprecated_in`, `removed_in` and `notes` are ours to set, in the admin.
-`--check` additionally records whether the installed Django still has each
-symbol, with the version it was checked against, which beats keeping a list
-of removals because the list goes stale and this answers for whatever is
-deployed. `--prune` drops rows nothing uses any more, except any row we have
-annotated.
+`--prune` drops rows nothing uses any more, except any row we have annotated.
 
 ```shell
-docker compose run django uv run manage.py build_probe_catalog [--library=<name>] [--check] [--prune] [--dry-run]
+docker compose run django uv run manage.py build_probe_catalog [--library=<name>] [--prune] [--dry-run]
+```
+
+## check_removals
+
+Compares `probes/removals.py`, the table of what Django has removed, against
+Django's own documentation: the deprecation timeline, plus any release notes
+you name. Prints what the docs mention that the table does not have, sorted by
+how many of our packages call it, so a new Django release turns into a short
+list to read.
+
+It writes nothing. The table is edited by hand on purpose, because the
+alternative, inferring removals from whether a name still imports, is what
+filled the page with false positives: two in five rows were wrong, most of
+them `django.contrib.gis` names that fail to import only because the image has
+no GDAL.
+
+```shell
+docker compose run django uv run manage.py check_removals [--version=6.1]
 ```
 
 ## /probes/

@@ -1,8 +1,5 @@
 """The unlisted stats page."""
 
-import sys
-import types
-
 import pytest
 from django.core.cache import cache
 from django.urls import reverse
@@ -60,24 +57,12 @@ def empty_cache():
 
 @pytest.fixture()
 def catalogued(profile):
-    """What `build_probe_catalog --check` would have written.
+    """A profile whose symbols the removals table knows about.
 
-    The gone table reads the catalogue rather than importing each
-    dotted path, so a profile on its own is not enough to put a symbol
-    in it; the catalogue has to have been checked.
+    The gone table is driven by `probes.removals`, so the fixture only
+    has to clear the cache: `ugettext_lazy` is in the table because
+    Django 4.0 removed it.
     """
-    import django
-
-    from probes.models import ProbeSymbol
-
-    baker.make(
-        ProbeSymbol,
-        kind=ProbeSymbol.Kind.SYMBOL,
-        library="django",
-        name="django.utils.translation.ugettext_lazy",
-        missing=True,
-        checked_against=django.get_version(),
-    )
     cache.clear()
     return profile
 
@@ -365,8 +350,6 @@ class TestKnownRemovals:
         assert removed_in("django.db.models.CharField") == ""
 
     def test_curation_in_the_catalogue_wins(self, profile):
-        import django
-
         from probes import stats
         from probes.models import ProbeSymbol
 
@@ -376,8 +359,6 @@ class TestKnownRemovals:
             library="django",
             name="django.utils.translation.ugettext_lazy",
             removed_in="9.9",
-            missing=True,
-            checked_against=django.get_version(),
         )
         cache.clear()
 
@@ -389,14 +370,15 @@ class TestKnownRemovals:
         assert row.note == "9.9"
 
 
-class TestGoneRollupReadsTheCatalogue:
+class TestGoneRollupReadsTheTable:
     """The page must not import a module to answer a request.
 
     Resolving each dotted path live meant 4,765 imports on a cache miss
-    against production data, which timed the page out.
+    against production data, which timed the page out, and two in five
+    of the answers were wrong anyway.
     """
 
-    def test_it_reports_what_the_catalogue_marked_missing(self, catalogued):
+    def test_it_reports_what_the_table_knows(self, catalogued):
         from probes import stats
 
         assert [row.label for row in stats.unresolved_rows()] == [
@@ -414,80 +396,49 @@ class TestGoneRollupReadsTheCatalogue:
         monkeypatch.setattr(importlib, "import_module", explode)
         stats.unresolved_rows()
 
-    def test_an_unchecked_catalogue_reports_nothing_rather_than_guessing(self, profile):
-        """Empty is honest; a rebuild fills it in."""
-        from probes import stats
 
-        cache.clear()
-        assert stats.unresolved_rows() == []
+class TestNamesThatOnlyLookRemoved:
+    """The old check called these removed. None of them are."""
 
-    def test_a_check_against_another_django_is_not_reused(self, profile):
-        from probes.models import ProbeSymbol
+    def test_gis_is_alive_even_without_gdal(self):
+        from probes.removals import removed_in
 
-        baker.make(
-            ProbeSymbol,
-            kind=ProbeSymbol.Kind.SYMBOL,
-            library="django",
-            name="django.utils.translation.ugettext_lazy",
-            missing=True,
-            checked_against="4.2",
-        )
-        cache.clear()
+        assert removed_in("django.contrib.gis.db.models.GeometryField") == ""
+        assert removed_in("django.contrib.gis.geos.Point") == ""
 
-        from probes import stats
+    def test_an_app_we_do_not_install_is_alive(self):
+        from probes.removals import removed_in
 
-        assert stats.unresolved_rows() == []
+        assert removed_in("django.contrib.flatpages.models.FlatPage") == ""
+
+    def test_a_driver_we_do_not_have_is_alive(self):
+        from probes.removals import removed_in
+
+        assert removed_in("django.db.backends.mysql.base.DatabaseWrapper") == ""
+
+    def test_something_another_package_bolted_on_is_alive(self):
+        """django-cockroachdb and friends patch methods onto Django."""
+        from probes.removals import removed_in
+
+        assert removed_in("django.db.models.functions.Coalesce.as_cockroachdb") == ""
+        assert removed_in("django.core.cache.cache.ttl") == ""
+
+    def test_a_test_only_name_is_alive(self):
+        from probes.removals import removed_in
+
+        assert removed_in("django.core.mail.outbox") == ""
 
 
-class TestResolvingAwkwardNames:
-    """Reading an attribute can run code that fails on its own account."""
+class TestTheTableCoversWhatItShould:
+    def test_a_removed_module_answers_for_its_contents(self):
+        from probes.removals import removed_in
 
-    def test_an_import_error_behind_an_attribute_is_not_a_removal(self):
-        """django.contrib.gis does this when GEOS is not installed."""
-        from probes import stats
+        assert removed_in("django.core.urlresolvers") == "2.0"
+        assert removed_in("django.core.urlresolvers.reverse") == "2.0"
 
-        class Hostile:
-            def __getattr__(self, name):
-                raise ImportError("Could not find the GEOS library")
+    def test_gis_removals_are_still_removals(self):
+        """Nothing under gis imports here, so these are hand entries."""
+        from probes.removals import removed_in
 
-        module = types.ModuleType("probes_fake_module")
-        module.gis = Hostile()
-        sys.modules["probes_fake_module"] = module
-        try:
-            stats.resolves.cache_clear()
-            assert stats.resolves("probes_fake_module.gis.GEOSGeometry") is True
-        finally:
-            del sys.modules["probes_fake_module"]
-            stats.resolves.cache_clear()
-
-    def test_a_name_that_is_really_absent_is_still_a_removal(self):
-        from probes import stats
-
-        stats.resolves.cache_clear()
-        assert stats.resolves("django.utils.translation.ugettext_lazy") is False
-        assert stats.resolves("django.utils.translation.gettext_lazy") is True
-
-    def test_gis_names_survive_a_missing_gdal(self):
-        """Importing django.contrib.gis raises when GDAL is absent.
-
-        The walk up the dotted path then reaches django.contrib.gis.db,
-        which imports fine but has no `models` attribute until the
-        submodule is imported, so the name looked removed.
-        """
-        from probes import stats
-
-        stats.resolves.cache_clear()
-        assert stats.resolves("django.contrib.gis.db.models.GeometryField") is True
-
-    def test_a_dependency_of_its_own_is_not_a_removal(self, monkeypatch):
-        from probes import stats
-
-        def missing_dependency(name):
-            raise ModuleNotFoundError("No module named 'nowhere'", name="nowhere")
-
-        monkeypatch.setattr(stats.importlib, "import_module", missing_dependency)
-        stats.resolves.cache_clear()
-        try:
-            assert stats.resolves("probes_fake_package.thing") is True
-        finally:
-            stats.resolves.cache_clear()
+        assert removed_in("django.contrib.gis.admin.OSMGeoAdmin") == "5.0"
+        assert removed_in("django.contrib.gis.geoip.GeoIP") == "2.0"

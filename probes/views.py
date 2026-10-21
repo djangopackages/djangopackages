@@ -34,10 +34,8 @@ def _unresolved_rows():
 
 
 def _gone_label():
-    """Named for the Django we checked against, which moves under us."""
-    return _("APIs no longer in Django %(version)s") % {
-        "version": _totals().django_version
-    }
+    """Not named for a version: the table spans every release."""
+    return _("APIs Django has removed")
 
 
 @dataclass(frozen=True)

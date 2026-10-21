@@ -12,9 +12,7 @@ live data: a probe profile only changes when a scan runs.
 
 from __future__ import annotations
 
-import importlib
 from dataclasses import dataclass, field
-from functools import lru_cache
 
 import django
 from django.core.cache import cache
@@ -277,98 +275,35 @@ def dependency_rows() -> list[Row]:
     return [Row(label=label, packages=n, extra=required) for label, n, required in rows]
 
 
-@lru_cache(maxsize=20_000)
-def resolves(dotted: str) -> bool:
-    """Whether a dotted path still resolves against the running Django.
-
-    Asking the installed Django beats keeping a list of removals: the
-    list goes stale, and this answers for whichever version is deployed.
-
-    Attributes that only exist at runtime look removed here, so the
-    caller filters those out; `django.core.mail.outbox` is the usual
-    example, since it appears only under the locmem backend.
-
-    Where we cannot tell, we say it resolves. Importing a module or
-    reading an attribute can run code that fails for reasons of its
-    own: `django.contrib.gis` raises ImproperlyConfigured when GDAL is
-    not installed, which says nothing about whether the name exists.
-    Calling that "removed" would put it on a page that accuses packages
-    of using dead APIs, so the benefit of the doubt goes to the package.
-    """
-    parts = dotted.split(".")
-    for i in range(len(parts), 0, -1):
-        path = ".".join(parts[:i])
-        try:
-            module = importlib.import_module(path)
-        except ModuleNotFoundError as exc:
-            # Only keep walking up when the module we asked for is the
-            # one that is not there. A ModuleNotFoundError naming
-            # something else means the import ran and tripped over its
-            # own missing dependency.
-            if exc.name and (path == exc.name or path.startswith(f"{exc.name}.")):
-                continue
-            return True
-        except Exception:
-            return True
-        found = module
-        for attribute in parts[i:]:
-            try:
-                found = getattr(found, attribute)
-            except AttributeError:
-                return False
-            except Exception:
-                return True
-        return True
-    return False
-
-
-# Names that exist only while something is running, so a static scan
-# cannot tell them apart from an API that was removed.
-RUNTIME_ONLY = frozenset({"django.core.mail.outbox"})
-
-
 def unresolved_rows() -> list[Row]:
-    """Symbols the running Django no longer has.
+    """Symbols the packages use that Django has since removed.
 
     This is the half of a probe that metadata cannot give you. A package
     whose classifiers claim Django 5.2 while its source calls
     `ugettext_lazy` is telling you two different things, and only one of
     them was tested.
 
-    Read from the catalogue, which `build_probe_catalog --check` fills
-    in by resolving each name once against the installed Django. Doing
-    that here instead meant importing every dotted path on a cache
-    miss, which is 4,765 imports against production data and times the
-    page out. A web request has no business importing arbitrary
-    modules, and the `missing` column exists so it does not have to.
-
-    The answer is therefore as fresh as the last catalogue rebuild, and
-    only covers what was checked against the Django we are running.
+    A row appears only when `probes.removals` can name the version that
+    removed it, or when somebody has curated the catalogue to say so.
+    We used to ask the installed Django instead, by importing each
+    dotted path and calling whatever failed removed. Two in five of the
+    rows that produced were wrong, because plenty of live APIs do not
+    import here: anything under `django.contrib.gis` without GDAL, a
+    database backend whose driver we skip, an app that is not in
+    INSTALLED_APPS.
     """
-    missing = set(
-        ProbeSymbol.objects.filter(
-            kind=ProbeSymbol.Kind.SYMBOL,
-            library="django",
-            missing=True,
-            checked_against=django.get_version(),
-        ).values_list("name", flat=True)
-    )
-    gone = [
-        row
-        for row in symbol_rows()
-        if row.label in missing and row.label not in RUNTIME_ONLY
-    ]
-
-    # What the catalogue has been curated with wins; the table of known
-    # removals fills the rest. Plenty stay blank, because a lot of what
-    # stops resolving was never a public API with a removal note.
     curated = dict(
         ProbeSymbol.objects.filter(kind=ProbeSymbol.Kind.SYMBOL)
         .exclude(removed_in="")
         .values_list("name", "removed_in")
     )
-    for row in gone:
-        row.note = curated.get(row.label) or removals.removed_in(row.label)
+
+    gone = []
+    for row in symbol_rows():
+        version = curated.get(row.label) or removals.removed_in(row.label)
+        if version:
+            row.note = version
+            gone.append(row)
     return gone
 
 

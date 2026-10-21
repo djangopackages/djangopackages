@@ -15,14 +15,9 @@ from probes.models import ProbeSymbol
     multiple=True,
     help="Only rebuild these libraries (default: all that were scanned)",
 )
-@click.option(
-    "--check",
-    is_flag=True,
-    help="Also record whether the installed library still has each symbol",
-)
 @click.option("--prune", is_flag=True, help="Delete rows nothing uses any more")
 @click.option("--dry-run", is_flag=True, help="Report without writing")
-def command(libraries: tuple[str, ...], check: bool, prune: bool, dry_run: bool):
+def command(libraries: tuple[str, ...], prune: bool, dry_run: bool):
     """Roll the scanned symbols up into the catalogue.
 
     One row per library and name, with the counts replaced from the
@@ -52,7 +47,7 @@ def command(libraries: tuple[str, ...], check: bool, prune: bool, dry_run: bool)
     if wanted:
         rows = [row for row in rows if row[1] in wanted]
 
-    created = updated = checked = 0
+    created = updated = 0
     timestamp = now()
     seen: list[int] = []
 
@@ -60,12 +55,6 @@ def command(libraries: tuple[str, ...], check: bool, prune: bool, dry_run: bool)
         if dry_run:
             continue
         defaults = {"packages": packages, "uses": uses, "counted_at": timestamp}
-        if check and kind == ProbeSymbol.Kind.SYMBOL and library == "django":
-            import django
-
-            defaults["missing"] = not probe_stats.resolves(name)
-            defaults["checked_against"] = django.get_version()
-            checked += 1
         symbol, was_created = ProbeSymbol.objects.update_or_create(
             kind=kind, library=library, name=name, defaults=defaults
         )
@@ -85,15 +74,10 @@ def command(libraries: tuple[str, ...], check: bool, prune: bool, dry_run: bool)
 
     rprint(
         f"catalogue rows {len(rows):,}  created {created:,}  updated {updated:,}"
-        + (f"  checked {checked:,}" if check else "")
         + (f"  pruned {pruned:,}" if prune else "")
         + ("  [dim](dry run, nothing written)[/dim]" if dry_run else "")
     )
 
     if not dry_run:
         flagged = ProbeSymbol.objects.exclude(removed_in="").count()
-        missing = ProbeSymbol.objects.filter(missing=True).count()
-        rprint(
-            f"[dim]curated: {flagged:,} with a removal version, "
-            f"{missing:,} missing from the installed library[/dim]"
-        )
+        rprint(f"[dim]curated: {flagged:,} with a removal version[/dim]")

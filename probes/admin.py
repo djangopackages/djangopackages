@@ -32,17 +32,14 @@ class ProbeSymbolAdmin(admin.ModelAdmin):
         "deprecated",
         "deprecated_in",
         "removed_in",
-        "missing",
     ]
     list_editable = ["deprecated", "deprecated_in", "removed_in"]
-    list_filter = ["kind", "library", "deprecated", "missing"]
+    list_filter = ["kind", "library", "deprecated"]
     search_fields = ["name"]
     readonly_fields = [
         "packages",
         "uses",
         "counted_at",
-        "missing",
-        "checked_against",
         "created",
         "modified",
     ]
