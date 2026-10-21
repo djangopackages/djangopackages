@@ -237,6 +237,33 @@ Builds the SearchV3 index for package and grid search results.
 ```shell
 docker compose run django uv run manage.py build_search_v3
 ```
+## build_probe_profiles
+
+Fills in each package's probe profile from the PyPI metadata we already
+store, so it reads nothing from the network and clones nothing.
+
+It writes two things. `PackageProbe` holds the Python and Django cycles a
+package claims, as lists, with `python_source` and `django_source` recording
+where each came from: Trove classifiers where they exist, otherwise
+`requires_python` or the Django pin in `requires_dist`, resolved against the
+real release cycles in `products.Release`. `PackageDependency` holds one row
+per declared dependency, which is what makes "which libraries does the
+catalogue lean on" a group by rather than a scan over JSON.
+
+Dependencies behind an extra are stored and marked rather than dropped, since
+what anyone depends on and what a default install pulls in are different
+questions. They do not count as evidence of Django support: Celery declares
+`Django>=2.2.28; extra == "django"` and is not a Django package.
+
+In production 64% of eligible packages carry Python classifiers, 37% carry
+Django ones, and 71% have at least one usable signal. About half have no
+`requires_dist` at all, because that metadata postdates them. That gap is
+what the AST scan is for.
+
+```shell
+docker compose run django uv run manage.py build_probe_profiles [--slug=<slug>] [--limit=<number>] [--min-score=<n>] [--dry-run]
+```
+
 ## check_package_sources
 
 Decides which packages are worth keeping a source checkout of, by setting

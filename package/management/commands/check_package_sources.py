@@ -6,6 +6,7 @@ from django.utils.timezone import now
 from rich import print as rprint
 
 from package.models import Package
+from package.version_support import version_support
 from package.repo_checkouts import (
     CLONEABLE_HOSTS,
     pypi_is_published,
@@ -64,6 +65,13 @@ def command(
 
         if ok:
             on += 1
+            support = version_support(package)
+            if support:
+                rprint(
+                    f"[dim]on [/dim] {package.slug}: "
+                    f"py {support.python_range or '?'}  "
+                    f"django {support.django_range or '?'}"
+                )
         else:
             off += 1
             key = note.split(":")[0][:40]

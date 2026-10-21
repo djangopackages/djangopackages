@@ -441,3 +441,141 @@ class Version(BaseModel):
 
     def __str__(self):
         return f"{self.package.title}: {self.number}"
+
+
+class PackageProbe(BaseModel):
+    """What probing a package turned up, in the spirit of django-probe.
+
+    One row per package, holding the two things a probe can learn about
+    it: the versions it claims to support, and what its source actually
+    uses. Kept out of Package because it is derived data with its own
+    refresh cycle, and because a probe that goes wrong should be
+    throwable away without touching the package itself.
+    """
+
+    class Source(models.TextChoices):
+        CLASSIFIERS = "classifiers", _("Trove classifiers")
+        REQUIRES_PYTHON = "requires_python", _("requires_python")
+        REQUIRES_DIST = "requires_dist", _("requires_dist")
+
+    package = models.OneToOneField(
+        "package.Package", on_delete=models.CASCADE, related_name="probe_profile"
+    )
+
+    python_versions = ArrayField(
+        models.CharField(max_length=10),
+        default=list,
+        blank=True,
+        help_text=_("Python cycles this package claims, oldest first"),
+    )
+    django_versions = ArrayField(
+        models.CharField(max_length=10),
+        default=list,
+        blank=True,
+        help_text=_("Django cycles this package claims, oldest first"),
+    )
+    python_source = models.CharField(
+        _("where the Python versions came from"),
+        max_length=20,
+        choices=Source,
+        blank=True,
+        default="",
+    )
+    django_source = models.CharField(
+        _("where the Django versions came from"),
+        max_length=20,
+        choices=Source,
+        blank=True,
+        default="",
+    )
+
+    symbols = models.JSONField(
+        _("symbol usage"),
+        default=dict,
+        blank=True,
+        help_text=_("What the AST scan counted, as {dotted.path: uses}"),
+    )
+    files_scanned = models.IntegerField(default=0)
+    files_skipped = models.IntegerField(default=0)
+    commit = models.CharField(
+        _("commit the scan read"), max_length=40, blank=True, default=""
+    )
+
+    metadata_updated_at = models.DateTimeField(blank=True, null=True)
+    scanned_at = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        verbose_name = _("Package probe")
+        verbose_name_plural = _("Package probes")
+
+    def __str__(self):
+        return f"probe for {self.package.slug}"
+
+    @property
+    def python_range(self) -> str:
+        return self._span(self.python_versions)
+
+    @property
+    def django_range(self) -> str:
+        return self._span(self.django_versions)
+
+    @staticmethod
+    def _span(versions) -> str:
+        if not versions:
+            return ""
+        if len(versions) == 1:
+            return versions[0]
+        return f"{versions[0]} - {versions[-1]}"
+
+
+class PackageDependency(BaseModel):
+    """One thing a package depends on.
+
+    A row per dependency rather than a blob on the package, because the
+    question worth asking is the other way round: which libraries does
+    the catalogue lean on, and how hard. That is a group by, and a
+    JSONField would make it a table scan.
+    """
+
+    class Source(models.TextChoices):
+        DECLARED = "requires_dist", _("Declared in PyPI metadata")
+        IMPORTED = "imports", _("Imported in the source")
+
+    package = models.ForeignKey(
+        "package.Package", on_delete=models.CASCADE, related_name="dependencies"
+    )
+    name = models.CharField(_("Dependency"), max_length=214, db_index=True)
+    specifier = models.CharField(
+        _("Version specifier"), max_length=120, blank=True, default=""
+    )
+    extra = models.CharField(
+        _("Extra it belongs to"),
+        max_length=100,
+        blank=True,
+        default="",
+        help_text=_("Blank when it is a plain dependency"),
+    )
+    marker = models.CharField(
+        _("Environment marker"), max_length=255, blank=True, default=""
+    )
+    source = models.CharField(
+        max_length=20, choices=Source, default=Source.DECLARED, db_index=True
+    )
+
+    class Meta:
+        verbose_name = _("Package dependency")
+        verbose_name_plural = _("Package dependencies")
+        constraints = [
+            models.UniqueConstraint(
+                fields=["package", "name", "extra", "source"],
+                name="unique_package_dependency",
+            )
+        ]
+        indexes = [models.Index(fields=["name", "source"])]
+
+    def __str__(self):
+        return f"{self.package.slug} -> {self.name}{self.specifier}"
+
+    @property
+    def is_optional(self) -> bool:
+        return bool(self.extra)
