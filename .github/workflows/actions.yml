@@ -59,8 +59,6 @@ jobs:
         env:
           DATABASE_URL: 'postgres://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/postgres'
           SECRET_KEY: 'for-testing'
-          MAILGUN_API_KEY: 'test-mailgun-api-key'
-          MAILGUN_SENDER_DOMAIN: 'test-mailgun-sender-domain'
         run: |
           uv run -m pytest
 

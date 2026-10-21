@@ -429,21 +429,6 @@ wheels = [
 ]
 
 [[package]]
-name = "django-anymail"
-version = "15.2"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "django" },
-    { name = "idna" },
-    { name = "requests" },
-    { name = "urllib3" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/0b/f9/7fb704db13b2de283d51f1524861e37a87d1e4c345068c90dd578047404f/django_anymail-15.2.tar.gz", hash = "sha256:65b26b1c99e6a09051b71b012ac4dfdd75a33aeb057315944dd9fb872cae57cf", size = 110533, upload-time = "2026-09-05T23:04:17.67Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/bc/5a/fe84e7afa8297f86b95b0120e3e635d045719d217fbca321cf56d363286e/django_anymail-15.2-py3-none-any.whl", hash = "sha256:866ed547e9d3110210e6fad343a2311eead55dbd4d544195fb628d06ae25d737", size = 150759, upload-time = "2026-09-05T23:04:16.007Z" },
-]
-
-[[package]]
 name = "django-better-admin-arrayfield"
 version = "1.4.2"
 source = { registry = "https://pypi.org/simple" }
@@ -684,7 +669,6 @@ dependencies = [
     { name = "blessed" },
     { name = "croniter" },
     { name = "django" },
-    { name = "django-anymail" },
     { name = "django-better-admin-arrayfield" },
     { name = "django-click" },
     { name = "django-debug-toolbar" },
@@ -766,7 +750,6 @@ requires-dist = [
     { name = "blessed", specifier = ">=1.50.0" },
     { name = "croniter" },
     { name = "django", specifier = ">5.0" },
-    { name = "django-anymail" },
     { name = "django-better-admin-arrayfield" },
     { name = "django-click" },
     { name = "django-debug-toolbar" },
