@@ -134,3 +134,22 @@ class TestStatus:
 
         assert not row.gone
         assert row.status == ""
+
+
+@pytest.mark.django_db
+class TestTheSeededLibrary:
+    """The initial migration creates the one library we always scan for."""
+
+    def test_django_is_there_and_switched_on(self):
+        from probes.models import Library
+
+        django = Library.objects.get(pypi_name="django")
+
+        assert django.import_name == "django"
+        assert django.scan is True
+        assert django.source == Library.Source.MANUAL
+
+    def test_scans_pick_it_up_without_anyone_configuring_anything(self):
+        from probes.models import Library
+
+        assert Library.scan_for() == ("django",)
