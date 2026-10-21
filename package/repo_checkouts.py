@@ -17,6 +17,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from django.conf import settings
+from django.db.models import Q
 
 # Hosts we know how to clone from. Anything else is skipped rather than
 # attempted, so a dead host does not cost us a network timeout per run.
@@ -75,6 +76,30 @@ class ScanResult:
 def is_cloneable(repo_url: str) -> bool:
     host = urlparse(repo_url or "").netloc.lower().removeprefix("www.")
     return host in CLONEABLE_HOSTS
+
+
+def scannable_packages():
+    """The packages worth keeping a checkout of.
+
+    A repo we can clone from and a PyPI release, because a package with
+    no release is usually an abandoned idea or someone's fork, and its
+    imports say nothing about what the ecosystem actually depends on.
+    Narrowing here rather than at the call site keeps sync and scan
+    looking at the same set, so a scan cannot quietly cover less than
+    the sync fetched.
+    """
+    from package.models import Package
+
+    host_q = Q()
+    for host in CLONEABLE_HOSTS:
+        host_q |= Q(repo_url__icontains=host)
+
+    return (
+        Package.objects.exclude(repo_url="")
+        .exclude(pypi_url="")
+        .filter(host_q)
+        .order_by("-score", "title")
+    )
 
 
 def checkout_path(package) -> Path:

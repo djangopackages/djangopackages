@@ -1,7 +1,6 @@
 """Checkouts and the AST scan. Nothing here touches the network."""
 
 import subprocess
-from pathlib import Path
 from unittest.mock import patch
 
 import pytest
@@ -117,7 +116,9 @@ class TestSyncCheckout:
                 sync_checkout(package)
 
     def test_a_missing_git_binary_says_so(self, package):
-        with patch("package.repo_checkouts.subprocess.run", side_effect=FileNotFoundError):
+        with patch(
+            "package.repo_checkouts.subprocess.run", side_effect=FileNotFoundError
+        ):
             with pytest.raises(CheckoutError, match="git is not installed"):
                 sync_checkout(package)
 
@@ -177,8 +178,7 @@ class TestScanCheckout:
     def test_other_packages_can_be_counted_too(self, tmp_path):
         """The probe is not Django specific, which is the point."""
         (tmp_path / "views.py").write_text(
-            "from rest_framework.views import APIView\n"
-            "class V(APIView):\n    pass\n"
+            "from rest_framework.views import APIView\nclass V(APIView):\n    pass\n"
         )
 
         result = scan_checkout(tmp_path, ("django", "rest_framework"))

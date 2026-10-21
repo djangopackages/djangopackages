@@ -7,7 +7,11 @@ from django.conf import settings
 from rich import print as rprint
 
 from package.models import Package
-from package.repo_checkouts import checkout_path, scan_checkout
+from package.repo_checkouts import (
+    checkout_path,
+    scan_checkout,
+    scannable_packages,
+)
 
 
 @click.command()
@@ -39,7 +43,11 @@ def command(
     touches the network. Packages with no checkout are counted as
     missing rather than treated as using nothing.
     """
-    queryset = Package.objects.order_by("-score", "title")
+    # An explicit --slug is an explicit request, so it reaches packages
+    # the default set leaves out.
+    queryset = (
+        Package.objects.order_by("-score", "title") if slugs else scannable_packages()
+    )
     if slugs:
         queryset = queryset.filter(slug__in=slugs)
     if limit:

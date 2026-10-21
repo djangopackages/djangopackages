@@ -19,7 +19,11 @@ def repo_root(settings, tmp_path):
 class TestSyncCommand:
     def test_a_dry_run_runs_no_git(self, repo_root):
         baker.make(
-            "package.Package", slug="a", repo_url="https://github.com/x/a", score=1
+            "package.Package",
+            slug="a",
+            repo_url="https://github.com/x/a",
+            pypi_url="https://pypi.org/project/a/",
+            score=1,
         )
 
         with patch("package.repo_checkouts.subprocess.run") as run:
@@ -43,10 +47,18 @@ class TestSyncCommand:
     def test_one_failure_does_not_stop_the_rest(self, repo_root):
         """A deleted repo is normal at this scale."""
         baker.make(
-            "package.Package", slug="a", repo_url="https://github.com/x/a", score=2
+            "package.Package",
+            slug="a",
+            repo_url="https://github.com/x/a",
+            pypi_url="https://pypi.org/project/a/",
+            score=2,
         )
         baker.make(
-            "package.Package", slug="b", repo_url="https://github.com/x/b", score=1
+            "package.Package",
+            slug="b",
+            repo_url="https://github.com/x/b",
+            pypi_url="https://pypi.org/project/b/",
+            score=1,
         )
 
         calls = []
@@ -64,7 +76,11 @@ class TestSyncCommand:
 
     def test_missing_only_leaves_existing_checkouts_alone(self, repo_root):
         baker.make(
-            "package.Package", slug="a", repo_url="https://github.com/x/a", score=1
+            "package.Package",
+            slug="a",
+            repo_url="https://github.com/x/a",
+            pypi_url="https://pypi.org/project/a/",
+            score=1,
         )
         (repo_root / "a" / ".git").mkdir(parents=True)
 
@@ -77,7 +93,11 @@ class TestSyncCommand:
 class TestScanCommand:
     def test_a_package_with_no_checkout_is_counted_missing(self, repo_root, capsys):
         baker.make(
-            "package.Package", slug="a", repo_url="https://github.com/x/a", score=1
+            "package.Package",
+            slug="a",
+            repo_url="https://github.com/x/a",
+            pypi_url="https://pypi.org/project/a/",
+            score=1,
         )
 
         call_command("scan_package_repos")
@@ -86,7 +106,11 @@ class TestScanCommand:
 
     def test_it_reports_what_a_checkout_uses(self, repo_root, capsys):
         baker.make(
-            "package.Package", slug="a", repo_url="https://github.com/x/a", score=1
+            "package.Package",
+            slug="a",
+            repo_url="https://github.com/x/a",
+            pypi_url="https://pypi.org/project/a/",
+            score=1,
         )
         (repo_root / "a" / ".git").mkdir(parents=True)
         (repo_root / "a" / "models.py").write_text(
@@ -102,7 +126,11 @@ class TestScanCommand:
     def test_it_never_reaches_the_network(self, repo_root):
         """Scanning reads checkouts only; fetching is the other command."""
         baker.make(
-            "package.Package", slug="a", repo_url="https://github.com/x/a", score=1
+            "package.Package",
+            slug="a",
+            repo_url="https://github.com/x/a",
+            pypi_url="https://pypi.org/project/a/",
+            score=1,
         )
         (repo_root / "a" / ".git").mkdir(parents=True)
 
@@ -110,3 +138,46 @@ class TestScanCommand:
             call_command("scan_package_repos")
 
         run.assert_not_called()
+
+
+class TestWhichPackagesAreSynced:
+    """The default set is "has a repo we can clone and a PyPI release"."""
+
+    def test_a_package_with_no_pypi_release_is_left_out(self, repo_root, capsys):
+        baker.make(
+            "package.Package",
+            slug="no-release",
+            repo_url="https://github.com/x/no-release",
+            pypi_url="",
+            score=1,
+        )
+
+        call_command("sync_package_repos", "--dry-run")
+
+        assert "no-release" not in capsys.readouterr().out
+
+    def test_an_explicit_slug_still_reaches_it(self, repo_root, capsys):
+        baker.make(
+            "package.Package",
+            slug="no-release",
+            repo_url="https://github.com/x/no-release",
+            pypi_url="",
+            score=1,
+        )
+
+        call_command("sync_package_repos", "--slug", "no-release", "--dry-run")
+
+        assert "no-release" in capsys.readouterr().out
+
+    def test_an_unreachable_host_is_left_out(self, repo_root, capsys):
+        baker.make(
+            "package.Package",
+            slug="googlecode",
+            repo_url="https://code.google.com/p/old",
+            pypi_url="https://pypi.org/project/googlecode/",
+            score=1,
+        )
+
+        call_command("sync_package_repos", "--dry-run")
+
+        assert "googlecode" not in capsys.readouterr().out

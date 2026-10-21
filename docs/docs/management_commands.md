@@ -239,9 +239,17 @@ docker compose run django uv run manage.py build_search_v3
 ```
 ## sync_package_repos
 
+The checkouts are not mounted by default. Copy `compose.override.yml.example`
+to `compose.override.yml` to mount them, which puts them in a sibling of the
+checkout rather than inside it, so no tool that walks the project tree has to
+learn to skip thousands of other people's repositories.
+
 Clones or updates local git checkouts of the packages we index, so their
-source can be scanned. Checkouts live under `PACKAGE_REPO_ROOT` (`/repos` in
-the container, bind mounted to `./repos` on the host), one directory per
+source can be scanned. It covers packages with both a repo we can clone from
+(GitHub, GitLab, Bitbucket or Codeberg) and a PyPI release, which in
+production is 4,714 of 5,849. A named `--slug` is fetched whether or not it
+meets that bar. Checkouts live under `PACKAGE_REPO_ROOT` (`/repos` in
+the container), one directory per
 package slug, and are refreshed in place rather than re-cloned.
 
 Clones are shallow by default, since only the working tree is read. Packages

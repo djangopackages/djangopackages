@@ -9,6 +9,7 @@ from package.repo_checkouts import (
     CheckoutError,
     checkout_path,
     is_cloneable,
+    scannable_packages,
     sync_checkout,
 )
 
@@ -46,7 +47,11 @@ def command(
     cannot clone from are skipped and counted, so a zero result reads as
     "nothing to clone" rather than "nothing found".
     """
-    queryset = Package.objects.order_by("-score", "title")
+    # An explicit --slug is an explicit request, so it reaches packages
+    # the default set leaves out.
+    queryset = (
+        Package.objects.order_by("-score", "title") if slugs else scannable_packages()
+    )
     if slugs:
         queryset = queryset.filter(slug__in=slugs)
     if limit:
