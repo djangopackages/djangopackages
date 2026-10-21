@@ -355,6 +355,35 @@ Three tables:
 - `probes.Library`, the distribution name next to the import name, with the
   toggle that decides which libraries a scan counts.
 
+### The order they run in
+
+Six commands, and the order matters because each one reads what the one
+before it wrote.
+
+1. `check_package_sources` decides which packages are worth a checkout at
+   all and sets `Package.probe`. Everything downstream filters on that flag,
+   so this goes first. Network bound: one `git ls-remote` and one PyPI
+   lookup per package.
+2. `sync_package_repos` clones or pulls the checkouts for the packages that
+   survived step 1. The slowest step, and the only one that needs disk.
+3. `build_probe_libraries` reads the top level packages out of those
+   checkouts to learn what each distribution is imported as. Needs the
+   checkouts, and the scan needs its answers, so it sits between them.
+4. `scan_package_repos` walks the checkouts with the AST probe and writes
+   the symbols, patterns and settings. Reads `Library.scan_for()` from step
+   3 to know which libraries to count.
+5. `build_probe_profiles` fills in the metadata half of the same profiles,
+   the Python and Django ranges and the declared dependencies. It reads
+   only the PyPI columns we already hold, so it does not need a checkout
+   and can run any time after a PyPI import; it is listed here because the
+   profile is not complete without it.
+6. `build_probe_catalog` rolls the finished profiles up into `ProbeSymbol`.
+   Last, because it is a summary of everything above.
+
+Steps 1 and 2 are the expensive ones and hold the only network calls. Steps
+3 to 6 run against the database and the disk we already have, so they are
+cheap to re-run and safe to repeat.
+
 ## build_probe_libraries
 
 Records what each distribution is imported as, because PyPI does not publish
