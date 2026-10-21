@@ -1,0 +1,47 @@
+{% load humanize i18n %}
+
+{% comment %}
+    One version chart. The bars are percentages of the packages that
+    name any version at all, which is the only denominator that means
+    anything: a package with no classifiers is not a package that
+    supports nothing.
+{% endcomment %}
+
+<section>
+    <h2 class="text-foreground text-xl font-bold">{{ label }}</h2>
+    <p class="text-muted-foreground mt-1 text-sm">
+        {% blocktranslate with total=total %}As a share of the {{ total }} that say.{% endblocktranslate %}
+    </p>
+
+    {% if rows %}
+        <div class="mt-4 space-y-1.5">
+            {% for row in rows %}
+                <div class="flex items-center gap-3">
+                    <span class="text-foreground w-12 shrink-0 text-right font-mono text-sm">{{ row.label }}</span>
+                    <span class="bg-muted relative h-5 flex-1 overflow-hidden rounded">
+                        <span class="bg-primary absolute inset-y-0 left-0 rounded"
+                              style="width: {% widthratio row.packages total 100 %}%"></span>
+                    </span>
+                    <span class="text-muted-foreground w-24 shrink-0 text-right text-sm tabular-nums">
+                        {{ row.packages|intcomma }} &middot; {% widthratio row.packages total 100 %}%
+                    </span>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted-foreground mt-4 text-sm">{% translate "Nothing recorded yet." %}</p>
+    {% endif %}
+
+    {% if sources %}
+        <h3 class="text-foreground mt-6 text-sm font-semibold">{% translate "Where that came from" %}</h3>
+        <ul class="text-muted-foreground mt-2 space-y-1 text-sm">
+            {% for source in sources %}
+                <li>
+                    <code>{{ source.label }}</code> &mdash;
+                    {{ source.packages|intcomma }}
+                    ({% widthratio source.packages totals.probed 100 %}%)
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</section>

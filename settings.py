@@ -174,6 +174,7 @@ PROJECT_APPS = [
     "feeds",
     "homepage",
     "package",
+    "probes",
     "products",
     "profiles",
     "searchv3",
@@ -290,6 +291,11 @@ LOCAL_INSTALLED_APPS = []
 ########################## Site specific stuff
 FRAMEWORK_TITLE = env("FRAMEWORK_TITLE", default="Django")
 SITE_TITLE = env("SITE_TITLE", default="Django Packages")
+
+# Where git checkouts of the packages we index are kept. Mounted from the
+# host in compose, so the clones outlive a container and can be inspected
+# or deleted without Docker.
+PACKAGE_REPO_ROOT = Path(env("PACKAGE_REPO_ROOT", default="/repos"))
 
 # Bump this to force every social card to be re-rendered.
 #

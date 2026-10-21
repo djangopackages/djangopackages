@@ -14,6 +14,7 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     && apt-get -y --no-install-recommends install \
        curl \
        gcc \
+       git \
        wget \
        build-essential
 

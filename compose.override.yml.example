@@ -1,0 +1,19 @@
+# Copy to compose.override.yml to mount the package checkouts.
+#
+# The clones live outside the checkout on purpose. Thousands of other
+# people's repositories inside the project tree is a standing invitation
+# for pytest, ruff, the Docker build context and your editor's indexer to
+# wander into them, and every one of those needs its own exclude.
+#
+# The path is relative to this file, so ../repos is a sibling of the
+# checkout. Point it anywhere you like; only the container side has to
+# stay at /repos, or set PACKAGE_REPO_ROOT to match.
+
+services:
+  django:
+    volumes:
+      - ../repos:/repos
+
+  django-q:
+    volumes:
+      - ../repos:/repos

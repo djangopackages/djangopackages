@@ -24,5 +24,8 @@ docs
 htmlcov
 LICENSE.txt
 node_modules
+# git checkouts of the packages we index; tens of GB that must never
+# reach the build context, let alone get COPYed into the image.
+repos
 script
 .venv

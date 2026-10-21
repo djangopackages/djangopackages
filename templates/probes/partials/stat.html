@@ -1,0 +1,6 @@
+{% load humanize %}
+
+<div class="border-border bg-card rounded-lg border p-4">
+    <div class="text-muted-foreground text-xs tracking-wide uppercase">{{ label }}</div>
+    <div class="text-foreground mt-1 text-2xl font-bold">{{ value|intcomma }}</div>
+</div>
