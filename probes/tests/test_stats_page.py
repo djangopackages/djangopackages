@@ -466,3 +466,28 @@ class TestResolvingAwkwardNames:
         stats.resolves.cache_clear()
         assert stats.resolves("django.utils.translation.ugettext_lazy") is False
         assert stats.resolves("django.utils.translation.gettext_lazy") is True
+
+    def test_gis_names_survive_a_missing_gdal(self):
+        """Importing django.contrib.gis raises when GDAL is absent.
+
+        The walk up the dotted path then reaches django.contrib.gis.db,
+        which imports fine but has no `models` attribute until the
+        submodule is imported, so the name looked removed.
+        """
+        from probes import stats
+
+        stats.resolves.cache_clear()
+        assert stats.resolves("django.contrib.gis.db.models.GeometryField") is True
+
+    def test_a_dependency_of_its_own_is_not_a_removal(self, monkeypatch):
+        from probes import stats
+
+        def missing_dependency(name):
+            raise ModuleNotFoundError("No module named 'nowhere'", name="nowhere")
+
+        monkeypatch.setattr(stats.importlib, "import_module", missing_dependency)
+        stats.resolves.cache_clear()
+        try:
+            assert stats.resolves("probes_fake_package.thing") is True
+        finally:
+            stats.resolves.cache_clear()
