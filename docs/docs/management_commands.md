@@ -395,9 +395,10 @@ about half the time.
 
 The import name is read out of the checkout we already cloned: the top-level
 importable directories, preferring a package under `src/` over a loose script
-at the root, and preferring a name that echoes the distribution. Where there
-is no checkout it falls back to the guess and records `source` as `guess`, so
-a guess is never mistaken for a fact.
+at the root, and preferring a name that echoes the distribution. A package we
+have no checkout for gets no row at all. It used to fall back to the guess and
+label it `source=guess`, but a row nobody can tell from a read one once it is
+in the table is worse than a missing row.
 
 Set `scan` on a library to have scans count its usage too. It is nullable and
 starts unset, which reads as off, because every library added is counted in

@@ -104,7 +104,8 @@ class TestBuildProbeLibraries:
         assert library.source == Library.Source.CHECKOUT
         assert library.names_differ
 
-    def test_it_falls_back_to_a_guess_and_says_so(self, settings, tmp_path):
+    def test_no_checkout_means_no_row(self, settings, tmp_path):
+        """It used to write django_nothing here, which is a made up fact."""
         settings.PACKAGE_REPO_ROOT = tmp_path
         baker.make(
             "package.Package",
@@ -117,9 +118,7 @@ class TestBuildProbeLibraries:
 
         call_command("build_probe_libraries")
 
-        library = Library.objects.get(pypi_name="django-nothing")
-        assert library.import_name == "django_nothing"
-        assert library.source == Library.Source.GUESS
+        assert not Library.objects.filter(pypi_name="django-nothing").exists()
 
     def test_a_rebuild_leaves_the_scan_toggle_alone(self, package):
         """Toggling a library on is a decision, not derived data."""

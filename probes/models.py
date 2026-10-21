@@ -302,7 +302,6 @@ class Library(BaseModel):
     class Source(models.TextChoices):
         CHECKOUT = "checkout", _("Read from the checkout")
         MANUAL = "manual", _("Entered by hand")
-        GUESS = "guess", _("Guessed from the distribution name")
 
     pypi_name = models.CharField(
         _("PyPI name"),
@@ -329,7 +328,7 @@ class Library(BaseModel):
         _("where the import name came from"),
         max_length=10,
         choices=Source.choices,
-        default=Source.GUESS,
+        default=Source.CHECKOUT,
     )
     package = models.ForeignKey(
         "package.Package",
@@ -365,7 +364,12 @@ class Library(BaseModel):
 
     @property
     def names_differ(self) -> bool:
-        """Whether guessing the import name would have got it wrong."""
+        """Whether swapping hyphens for underscores would have got it wrong.
+
+        Nothing is stored from that: it decides which rows are worth
+        printing when the table is rebuilt, since those are the ones
+        anyone matching names by hand would trip over.
+        """
         return self.import_name != self.pypi_name.replace("-", "_").lower()
 
     @property

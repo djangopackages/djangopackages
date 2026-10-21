@@ -115,7 +115,11 @@ def _candidates(directory: Path) -> tuple[list[str], list[str]]:
 
 
 def normalize(pypi_name: str) -> str:
-    """The import name a naive guess would produce."""
+    """The distribution name written the way an import would be.
+
+    Used to rank the directories a checkout really ships, never to
+    invent an import name for a package we have no checkout for.
+    """
     return (pypi_name or "").strip().lower().replace("-", "_").replace(".", "_")
 
 

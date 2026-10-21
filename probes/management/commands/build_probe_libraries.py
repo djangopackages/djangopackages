@@ -5,7 +5,7 @@ from rich import print as rprint
 
 from package.models import Package
 from probes.checkouts import checkout_path, scannable_packages
-from probes.imports import canonical_name, detect_import_names, normalize
+from probes.imports import canonical_name, detect_import_names
 from probes.models import Library
 
 
@@ -16,7 +16,7 @@ from probes.models import Library
 @click.option(
     "--differences-only",
     is_flag=True,
-    help="Only print the ones a guess would have got wrong",
+    help="Only print the ones whose import name differs",
 )
 @click.option("--dry-run", is_flag=True, help="Report without writing")
 def command(
@@ -29,10 +29,11 @@ def command(
     """Record what each package is imported as, read from its checkout.
 
     PyPI does not publish the import name, so this reads the top-level
-    importable directories out of the source we already cloned. Where
-    there is no checkout it falls back to the usual guess of swapping
-    hyphens for underscores, and says so in `source`, because a guess
-    that cannot be told from a fact is worse than no answer.
+    importable directories out of the source we already cloned. A
+    package we have no checkout for gets no row. We used to fall back
+    to swapping hyphens for underscores, which is wrong for about one
+    package in five, and a row nobody can tell from a read one is
+    worse than a missing row.
     """
     queryset = (
         Package.objects.order_by("-score", "title")
@@ -44,19 +45,18 @@ def command(
     if limit:
         queryset = queryset[:limit]
 
-    read = guessed = differs = 0
+    read = skipped = differs = 0
 
     for package in queryset:
         pypi_name = canonical_name(package.pypi_name or package.slug)
         names = detect_import_names(checkout_path(package), pypi_name=pypi_name)
 
-        if names:
-            source = Library.Source.CHECKOUT
-            read += 1
-        else:
-            names = [normalize(pypi_name)]
-            source = Library.Source.GUESS
-            guessed += 1
+        if not names:
+            skipped += 1
+            continue
+
+        source = Library.Source.CHECKOUT
+        read += 1
 
         if not dry_run:
             library, _created = Library.objects.update_or_create(
@@ -85,7 +85,7 @@ def command(
             rprint(f"  {pypi_name} [dim]{source}[/dim]")
 
     rprint(
-        f"\nread from a checkout {read:,}  guessed {guessed:,}  "
-        f"where a guess would be wrong {differs:,}"
+        f"\nread from a checkout {read:,}  no checkout to read {skipped:,}  "
+        f"where the names differ {differs:,}"
         + ("  [dim](dry run, nothing written)[/dim]" if dry_run else "")
     )
