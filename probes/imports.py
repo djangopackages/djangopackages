@@ -153,10 +153,10 @@ def detect_import_names(root: Path, *, pypi_name: str = "") -> list[str]:
     ``taggit`` and a ``sample_taggit`` demo reports the one someone
     would import.
     """
-    # Every source directory is looked at before anything is chosen. A
-    # project with its package under src/ usually has loose scripts at
-    # the root too, and stopping at the first directory that held
-    # anything would report one of those.
+    # Candidates from every source directory are pooled and then ranked
+    # together. Taking the first directory that held anything would
+    # report django-oscar as `sandbox`, because the demo project sits at
+    # the root while the package people import lives under src/.
     packages: list[str] = []
     modules: list[str] = []
     for relative in SOURCE_DIRS:
@@ -164,10 +164,11 @@ def detect_import_names(root: Path, *, pypi_name: str = "") -> list[str]:
         if not directory.is_dir():
             continue
         found_packages, found_modules = _candidates(directory)
-        if found_packages and not packages:
-            packages = found_packages
-        if found_modules and not modules:
-            modules = found_modules
+        packages += found_packages
+        modules += found_modules
+
+    packages = list(dict.fromkeys(packages))
+    modules = list(dict.fromkeys(modules))
 
     normalized = normalize(pypi_name)
     ranked = sorted(packages, key=lambda name: _rank(name, normalized))

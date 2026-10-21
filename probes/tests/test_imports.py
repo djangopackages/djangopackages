@@ -183,3 +183,25 @@ class TestWhichLibrariesAreScannedFor:
         profile = PackageProbe.objects.get(package__slug="a")
         assert "rest_framework" in profile.libraries
         assert profile.library_counts["rest_framework"] >= 1
+
+
+class TestSourceDirsArePooled:
+    """A package under src/ beats a demo project at the root."""
+
+    def test_the_root_demo_does_not_win(self, tmp_path):
+        """django-oscar ships `sandbox` at the root and `oscar` in src."""
+        for name in ["sandbox", "tests"]:
+            (tmp_path / name).mkdir()
+            (tmp_path / name / "__init__.py").touch()
+        (tmp_path / "src" / "oscar").mkdir(parents=True)
+        (tmp_path / "src" / "oscar" / "__init__.py").touch()
+
+        assert detect_import_names(tmp_path, pypi_name="django-oscar")[0] == "oscar"
+
+    def test_a_root_package_still_wins_when_it_is_the_match(self, tmp_path):
+        (tmp_path / "taggit").mkdir()
+        (tmp_path / "taggit" / "__init__.py").touch()
+        (tmp_path / "src" / "helpers").mkdir(parents=True)
+        (tmp_path / "src" / "helpers" / "__init__.py").touch()
+
+        assert detect_import_names(tmp_path, pypi_name="django-taggit")[0] == "taggit"
