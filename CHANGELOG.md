@@ -1,5 +1,17 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-10-20]
+### Changed
+- Fix stale social cards and text spilling off them ([#1721](https://github.com/djangopackages/djangopackages/pull/1721))
+- Tidy the footer links and drop two stale lines ([#1723](https://github.com/djangopackages/djangopackages/pull/1723))
+- Give every public page its own social card ([#1719](https://github.com/djangopackages/djangopackages/pull/1719))
+- Add a staff-only preview page for our social cards ([#1718](https://github.com/djangopackages/djangopackages/pull/1718))
+- Give grid pages their own social card ([#1717](https://github.com/djangopackages/djangopackages/pull/1717))
+- Rename the stack page to /colophon/ and refresh what it lists ([#1715](https://github.com/djangopackages/djangopackages/pull/1715))
+- Fix just purge_cache and drop the unused cloudflare SDK ([#1714](https://github.com/djangopackages/djangopackages/pull/1714))
+- Stop showing &#34;Sites using this package&#34; ([#1713](https://github.com/djangopackages/djangopackages/pull/1713))
+- Fetch stats from self-hosted GitLab instances ([#1712](https://github.com/djangopackages/djangopackages/pull/1712))
+
 ## [2026-10-19]
 ### Changed
 - [prek]: auto-update hooks ([#1711](https://github.com/djangopackages/djangopackages/pull/1711))
