@@ -112,6 +112,10 @@ SECTIONS: dict[str, SectionSpec] = {
                 (_("Uses"), "uses"),
             ),
             rows=lambda: probe_stats.cached("symbols", probe_stats.symbol_rows),
+            facet_param="library",
+            facet_label=_("Library"),
+            facet_field="library",
+            facets=probe_stats.symbol_libraries,
         ),
         SectionSpec(
             param="deps",

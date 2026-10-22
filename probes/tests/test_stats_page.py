@@ -315,7 +315,7 @@ class TestRemovalFilter:
         assert response.context["section"]["rows"] == []
 
     def test_sections_without_a_facet_offer_none(self, client, profile):
-        response = client.get(reverse("probes:section", kwargs={"section": "symbols"}))
+        response = client.get(reverse("probes:section", kwargs={"section": "patterns"}))
 
         assert response.context["facets"] == []
 
@@ -475,3 +475,82 @@ class TestNamesThatOnlyLookRemoved:
         from probes.removals import removed_in
 
         assert removed_in("django.core.mail.outbox") == ""
+
+
+@pytest.fixture()
+def two_libraries(profile):
+    """A second package scanned for rest_framework as well as Django."""
+    package = baker.make(
+        "package.Package",
+        slug="drf-thing",
+        title="drf-thing",
+        repo_url="https://github.com/x/drf-thing",
+    )
+    baker.make(
+        PackageProbe,
+        package=package,
+        symbols=[
+            {"symbol": "django.urls.path", "count": 1, "library": "django"},
+            {
+                "symbol": "rest_framework.serializers.Serializer",
+                "count": 4,
+                "library": "rest_framework",
+            },
+        ],
+        libraries=["django", "rest_framework"],
+    )
+    cache.clear()
+    return profile
+
+
+class TestLibraryFilter:
+    """The symbols table filters by the library a symbol belongs to."""
+
+    def url(self):
+        return reverse("probes:section", kwargs={"section": "symbols"})
+
+    def test_it_offers_the_libraries_something_uses(self, client, two_libraries):
+        facets = client.get(self.url()).context["facets"]
+
+        assert [facet["label"] for facet in facets] == [
+            "All",
+            "django",
+            "rest_framework",
+        ]
+        # Counts are symbols, matching what "All" counts.
+        assert facets[0]["count"] == 3
+        assert facets[2]["count"] == 1
+
+    def test_django_comes_first_even_with_fewer_symbols(self):
+        from probes.stats import Row, symbol_libraries
+
+        rows = [
+            Row(label="wagtail.a", library="wagtail", packages=1),
+            Row(label="wagtail.b", library="wagtail", packages=1),
+            Row(label="django.a", library="django", packages=1),
+        ]
+
+        assert [row.label for row in symbol_libraries(rows)] == ["django", "wagtail"]
+
+    def test_choosing_a_library_narrows_the_table(self, client, two_libraries):
+        response = client.get(self.url(), {"library": "rest_framework"})
+        labels = [row["label"] for row in response.context["section"]["rows"]]
+
+        assert labels == ["rest_framework.serializers.Serializer"]
+
+    def test_the_filter_and_the_search_both_apply(self, client, two_libraries):
+        response = client.get(self.url(), {"library": "rest_framework", "q": "path"})
+
+        assert response.context["section"]["rows"] == []
+
+    def test_a_symbol_stored_without_a_library_is_read_off_its_path(
+        self, client, profile
+    ):
+        """Older profiles predate the library key."""
+        profile.symbols = [{"symbol": "ninja.NinjaAPI", "count": 2}]
+        profile.save()
+        cache.clear()
+
+        facets = client.get(self.url()).context["facets"]
+
+        assert "ninja" in [facet["label"] for facet in facets]
