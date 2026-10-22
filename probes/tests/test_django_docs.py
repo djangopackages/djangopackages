@@ -25,8 +25,7 @@ class TestReadingABullet:
 
     def test_an_argument_going_leaves_the_class(self):
         bullet = (
-            "* The ``safe`` parameter of "
-            "``django.http.JsonResponse`` will be removed."
+            "* The ``safe`` parameter of ``django.http.JsonResponse`` will be removed."
         )
 
         assert names_in(bullet) == []
