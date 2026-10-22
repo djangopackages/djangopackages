@@ -1,5 +1,21 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-10-21]
+### Changed
+- Stop guessing import names ([#1741](https://github.com/djangopackages/djangopackages/pull/1741))
+- Drive removed APIs from Django&#39;s docs, not from imports ([#1740](https://github.com/djangopackages/djangopackages/pull/1740))
+- Stop calling unimportable Django APIs removed ([#1738](https://github.com/djangopackages/djangopackages/pull/1738))
+- Keep the opengraph cards out of search results ([#1736](https://github.com/djangopackages/djangopackages/pull/1736))
+- Count the sync limit by what we fetched ([#1734](https://github.com/djangopackages/djangopackages/pull/1734))
+- Cap checkout size, skip Django, and prune what we stop probing ([#1733](https://github.com/djangopackages/djangopackages/pull/1733))
+- Separate what we can probe from what we want to probe ([#1732](https://github.com/djangopackages/djangopackages/pull/1732))
+- Rank import names across every source directory ([#1730](https://github.com/djangopackages/djangopackages/pull/1730))
+- Read the gone-from-Django table out of the catalogue ([#1731](https://github.com/djangopackages/djangopackages/pull/1731))
+- Move probing into its own app and give it a stats page ([#1728](https://github.com/djangopackages/djangopackages/pull/1728))
+- ⬆️ Bump the all-dependencies group with 8 updates ([#1727](https://github.com/djangopackages/djangopackages/pull/1727))
+- ⬆️ Bump certifi from 2025.11.12 to 2026.10.19 ([#1725](https://github.com/djangopackages/djangopackages/pull/1725))
+- Drop the Mailgun email backend ([#1724](https://github.com/djangopackages/djangopackages/pull/1724))
+
 ## [2026-10-20]
 ### Changed
 - Fix stale social cards and text spilling off them ([#1721](https://github.com/djangopackages/djangopackages/pull/1721))
