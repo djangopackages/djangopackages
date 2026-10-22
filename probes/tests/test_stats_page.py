@@ -57,12 +57,20 @@ def empty_cache():
 
 @pytest.fixture()
 def catalogued(profile):
-    """A profile whose symbols the removals table knows about.
+    """A symbol somebody has curated as removed.
 
-    The gone table is driven by `probes.removals`, so the fixture only
-    has to clear the cache: `ugettext_lazy` is in the table because
-    Django 4.0 removed it.
+    The gone table has no built-in list any more, so a row only
+    appears once a person sets `removed_in` on it in the admin.
     """
+    from probes.models import ProbeSymbol
+
+    baker.make(
+        ProbeSymbol,
+        kind=ProbeSymbol.Kind.SYMBOL,
+        library="django",
+        name="django.utils.translation.ugettext_lazy",
+        removed_in="4.0",
+    )
     cache.clear()
     return profile
 
@@ -329,25 +337,33 @@ class TestRemovalFilter:
 
 
 class TestKnownRemovals:
-    """The curated table of what Django removed and when."""
+    """The table of what Django removed and when, which ships empty."""
 
-    def test_a_module_covers_what_lived_in_it(self):
-        from probes.removals import removed_in
+    def test_it_claims_nothing_by_default(self):
+        from probes.removals import REMOVED_IN, removed_in
 
-        assert removed_in("django.core.urlresolvers.reverse") == "2.0"
-
-    def test_an_exact_entry_wins_over_a_prefix(self):
-        from probes.removals import removed_in
-
-        assert removed_in("django.conf.urls.url") == "4.0"
-        assert removed_in("django.conf.urls.patterns") == "1.10"
-
-    def test_what_we_do_not_know_stays_blank(self):
-        """A guessed version would be a wrong fact on a page people trust."""
-        from probes.removals import removed_in
-
-        assert removed_in("django.core.mail.outbox.append") == ""
+        assert REMOVED_IN == {}
+        assert removed_in("django.conf.urls.url") == ""
         assert removed_in("django.db.models.CharField") == ""
+
+    def test_a_module_covers_what_lived_in_it(self, monkeypatch):
+        from probes import removals
+
+        monkeypatch.setattr(removals, "REMOVED_IN", {"django.core.urlresolvers": "2.0"})
+
+        assert removals.removed_in("django.core.urlresolvers.reverse") == "2.0"
+
+    def test_an_exact_entry_wins_over_a_prefix(self, monkeypatch):
+        from probes import removals
+
+        monkeypatch.setattr(
+            removals,
+            "REMOVED_IN",
+            {"django.conf.urls": "1.6", "django.conf.urls.url": "4.0"},
+        )
+
+        assert removals.removed_in("django.conf.urls.url") == "4.0"
+        assert removals.removed_in("django.conf.urls.include") == "1.6"
 
     def test_curation_in_the_catalogue_wins(self, profile):
         from probes import stats
@@ -378,12 +394,18 @@ class TestGoneRollupReadsTheTable:
     of the answers were wrong anyway.
     """
 
-    def test_it_reports_what_the_table_knows(self, catalogued):
+    def test_it_reports_only_what_somebody_curated(self, catalogued):
         from probes import stats
 
         assert [row.label for row in stats.unresolved_rows()] == [
             "django.utils.translation.ugettext_lazy"
         ]
+
+    def test_an_uncurated_catalogue_claims_nothing(self, profile):
+        from probes import stats
+
+        cache.clear()
+        assert stats.unresolved_rows() == []
 
     def test_it_imports_nothing(self, catalogued, monkeypatch):
         import importlib
@@ -427,18 +449,3 @@ class TestNamesThatOnlyLookRemoved:
         from probes.removals import removed_in
 
         assert removed_in("django.core.mail.outbox") == ""
-
-
-class TestTheTableCoversWhatItShould:
-    def test_a_removed_module_answers_for_its_contents(self):
-        from probes.removals import removed_in
-
-        assert removed_in("django.core.urlresolvers") == "2.0"
-        assert removed_in("django.core.urlresolvers.reverse") == "2.0"
-
-    def test_gis_removals_are_still_removals(self):
-        """Nothing under gis imports here, so these are hand entries."""
-        from probes.removals import removed_in
-
-        assert removed_in("django.contrib.gis.admin.OSMGeoAdmin") == "5.0"
-        assert removed_in("django.contrib.gis.geoip.GeoIP") == "2.0"

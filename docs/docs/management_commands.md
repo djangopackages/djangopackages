@@ -427,14 +427,17 @@ docker compose run django uv run manage.py build_probe_catalog [--library=<name>
 Compares `probes/removals.py`, the table of what Django has removed, against
 Django's own documentation: the deprecation timeline, plus any release notes
 you name. Prints what the docs mention that the table does not have, sorted by
-how many of our packages call it, so a new Django release turns into a short
-list to read.
+how many of our packages call it.
 
-It writes nothing. The table is edited by hand on purpose, because the
-alternative, inferring removals from whether a name still imports, is what
-filled the page with false positives: two in five rows were wrong, most of
-them `django.contrib.gis` names that fail to import only because the image has
-no GDAL.
+The table ships empty, so right now it prints everything. That is on purpose.
+Two earlier attempts at filling it automatically both produced wrong rows:
+inferring removals from whether a name still imports flagged two in five
+names wrongly, and parsing the docs picks up the replacement names the same
+bullets mention. A page that tells package authors their code calls a dead API
+is worth being slow and right about, so rows get added by hand, either here or
+by setting `removed_in` on a symbol in the admin.
+
+It writes nothing.
 
 ```shell
 docker compose run django uv run manage.py check_removals [--version=6.1]
