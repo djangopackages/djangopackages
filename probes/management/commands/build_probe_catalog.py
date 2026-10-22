@@ -1,11 +1,19 @@
 from __future__ import annotations
 
 import djclick as click
+from django.db import transaction
+from django.db.models import Q
 from django.utils.timezone import now
 from rich import print as rprint
 
 from probes import stats as probe_stats
+from probes.checkouts import ScanResult
 from probes.models import ProbeSymbol
+
+# Rows per INSERT ... ON CONFLICT. Large enough that tens of thousands
+# of symbols take a handful of statements, small enough to keep each
+# one well clear of any parameter limit.
+BATCH_SIZE = 1000
 
 
 @click.command()
@@ -24,14 +32,23 @@ def command(libraries: tuple[str, ...], prune: bool, dry_run: bool):
     current profiles. The curation on each row, whether something is
     deprecated and which version removed it, is left alone: a rebuild
     that quietly dropped a deprecation would be worse than no catalogue.
+
+    A row nothing uses any more has its counts set to zero, so an old
+    number does not sit there looking current. --prune deletes those
+    rows instead, unless someone has annotated them.
     """
     wanted = set(libraries)
 
     rows: list[tuple[str, str, str, int, int]] = []
     for row in probe_stats.symbol_rows():
-        library = row.label.partition(".")[0]
         rows.append(
-            (ProbeSymbol.Kind.SYMBOL, library, row.label, row.packages, row.uses)
+            (
+                ProbeSymbol.Kind.SYMBOL,
+                ScanResult.library_of(row.label),
+                row.label,
+                row.packages,
+                row.uses,
+            )
         )
     for row in probe_stats.setting_rows():
         rows.append(
@@ -47,34 +64,61 @@ def command(libraries: tuple[str, ...], prune: bool, dry_run: bool):
     if wanted:
         rows = [row for row in rows if row[1] in wanted]
 
-    created = updated = 0
+    in_scope = ProbeSymbol.objects.all()
+    if wanted:
+        in_scope = in_scope.filter(library__in=wanted)
+
+    existing = set(in_scope.values_list("kind", "library", "name"))
+    created = sum(1 for row in rows if row[:3] not in existing)
+    updated = len(rows) - created
+
     timestamp = now()
-    seen: list[int] = []
+    pruned = zeroed = 0
 
-    for kind, library, name, packages, uses in rows:
-        if dry_run:
-            continue
-        defaults = {"packages": packages, "uses": uses, "counted_at": timestamp}
-        symbol, was_created = ProbeSymbol.objects.update_or_create(
-            kind=kind, library=library, name=name, defaults=defaults
-        )
-        seen.append(symbol.pk)
-        created += was_created
-        updated += not was_created
+    if not dry_run:
+        with transaction.atomic():
+            # One upsert per batch instead of two queries per row. Only
+            # the counts are in update_fields, which is what keeps the
+            # curation columns out of reach of a rebuild.
+            ProbeSymbol.objects.bulk_create(
+                [
+                    ProbeSymbol(
+                        kind=kind,
+                        library=library,
+                        name=name,
+                        packages=packages,
+                        uses=uses,
+                        counted_at=timestamp,
+                    )
+                    for kind, library, name, packages, uses in rows
+                ],
+                batch_size=BATCH_SIZE,
+                update_conflicts=True,
+                unique_fields=["kind", "library", "name"],
+                update_fields=["packages", "uses", "counted_at", "modified"],
+            )
 
-    pruned = 0
-    if prune and not dry_run:
-        stale = ProbeSymbol.objects.exclude(pk__in=seen)
-        if wanted:
-            stale = stale.filter(library__in=wanted)
-        # Anything we have taken the trouble to annotate is kept even
-        # when nothing uses it today, since that is the record of why.
-        stale = stale.filter(deprecated=False, removed_in="", notes="")
-        pruned, _ = stale.delete()
+            # Anything this rebuild did not touch is something no profile
+            # uses any more. Read off the timestamp rather than a list of
+            # the ids we wrote, which at this size is a very long query.
+            stale = in_scope.filter(
+                Q(counted_at__lt=timestamp) | Q(counted_at__isnull=True)
+            )
+            if prune:
+                # Anything we have taken the trouble to annotate is kept
+                # even when nothing uses it today, since that is the
+                # record of why.
+                pruned, _ = stale.filter(
+                    deprecated=False, deprecated_in="", removed_in="", notes=""
+                ).delete()
+            zeroed = stale.update(packages=0, uses=0, counted_at=timestamp)
+
+        probe_stats.invalidate()
 
     rprint(
         f"catalogue rows {len(rows):,}  created {created:,}  updated {updated:,}"
         + (f"  pruned {pruned:,}" if prune else "")
+        + (f"  zeroed {zeroed:,}" if zeroed else "")
         + ("  [dim](dry run, nothing written)[/dim]" if dry_run else "")
     )
 

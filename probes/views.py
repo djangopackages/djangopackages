@@ -262,7 +262,7 @@ class ProbeStatsView(SectionMixin, TemplateView):
         context = super().get_context_data(**kwargs)
 
         counts = _totals()
-        counts.unresolved_packages = len({row.label for row in _unresolved_rows()})
+        counts.removed_symbols = len(_unresolved_rows())
 
         context["totals"] = counts
         context["django_versions"] = probe_stats.cached(

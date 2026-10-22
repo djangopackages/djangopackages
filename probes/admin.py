@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from probes import stats as probe_stats
 from probes.models import Library, PackageProbe, ProbeSymbol
 
 
@@ -10,6 +11,7 @@ class LibraryAdmin(admin.ModelAdmin):
     list_display = ["pypi_name", "import_name", "scan", "source", "package"]
     list_editable = ["scan"]
     list_filter = ["scan", "source"]
+    list_select_related = ["package"]
     search_fields = ["pypi_name", "import_name"]
     autocomplete_fields = ["package"]
     readonly_fields = ["created", "modified"]
@@ -21,6 +23,9 @@ class ProbeSymbolAdmin(admin.ModelAdmin):
 
     The counts are rebuilt by build_probe_catalog and are read-only
     here, so an edit cannot be silently undone by the next rebuild.
+
+    A removal version set here changes the stats page, so every save
+    and delete starts the cached roll-ups over.
     """
 
     list_display = [
@@ -44,6 +49,18 @@ class ProbeSymbolAdmin(admin.ModelAdmin):
         "modified",
     ]
 
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        probe_stats.invalidate()
+
+    def delete_model(self, request, obj):
+        super().delete_model(request, obj)
+        probe_stats.invalidate()
+
+    def delete_queryset(self, request, queryset):
+        super().delete_queryset(request, queryset)
+        probe_stats.invalidate()
+
 
 @admin.register(PackageProbe)
 class PackageProbeAdmin(admin.ModelAdmin):
@@ -57,8 +74,8 @@ class PackageProbeAdmin(admin.ModelAdmin):
         "scanned_at",
     ]
     list_filter = ["python_source", "django_source"]
+    list_select_related = ["package"]
     search_fields = ["package__slug", "package__title"]
-    autocomplete_fields = ["package"]
 
     def has_add_permission(self, request):
         return False

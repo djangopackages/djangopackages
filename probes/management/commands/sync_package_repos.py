@@ -109,6 +109,12 @@ def command(
 
         if dry_run:
             rprint(f"[dim]would {'update' if exists else 'clone'}[/dim] {package.slug}")
+            # Counted, so --limit stops a dry run where it would stop a
+            # real one instead of listing every package.
+            if exists:
+                updated += 1
+            else:
+                cloned += 1
             continue
 
         try:

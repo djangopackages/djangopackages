@@ -13,7 +13,9 @@ from __future__ import annotations
 
 import re
 
+import django
 import httpx2
+from packaging.version import Version
 
 DOCS = "https://raw.githubusercontent.com/django/django/main/docs"
 TIMELINE = f"{DOCS}/internals/deprecation.txt"
@@ -231,6 +233,39 @@ def from_release_notes(
     return found
 
 
+def version_key(version: str) -> tuple[int, ...]:
+    """A version as numbers, so 1.10 sorts after 1.9.
+
+    Read with `packaging`, so a pre-release like 6.1a1 is 6.1 rather
+    than a crash.
+    """
+    return Version(version).release
+
+
+def feature_release(version: str | None = None) -> tuple[int, ...]:
+    """The feature release a version belongs to, the installed Django's
+    by default: 5.2.7 and 6.0rc1 are 5.2 and 6.0."""
+    return version_key(version or django.get_version())[:2]
+
+
+def released(
+    documented: dict[str, str], current: str | None = None
+) -> tuple[dict[str, str], int]:
+    """The removals that have happened, and how many have not yet.
+
+    The timeline lists removals a release still to come will make. Those
+    are scheduled, not done, and the table is about what is gone, so
+    they are counted and set aside.
+    """
+    here = feature_release(current)
+    done = {
+        name: version
+        for name, version in documented.items()
+        if version_key(version) <= here
+    }
+    return done, len(documented) - len(done)
+
+
 def fetch(url: str) -> str:
     response = httpx2.get(url, timeout=30)
     response.raise_for_status()
@@ -257,7 +292,4 @@ def documented(
     # The last release to mention a name is the one that removed it.
     # Earlier mentions are the deprecation, or an argument going, and
     # taking those would date a removal years before it happened.
-    return {
-        name: max(found, key=lambda v: tuple(int(part) for part in v.split(".")))
-        for name, found in seen.items()
-    }
+    return {name: max(found, key=version_key) for name, found in seen.items()}

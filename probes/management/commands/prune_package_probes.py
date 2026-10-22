@@ -5,6 +5,7 @@ from django.conf import settings
 from rich import print as rprint
 
 from package.models import Package
+from probes import stats as probe_stats
 from probes.checkouts import checkout_path, discard_checkout, scannable_packages
 from probes.models import PackageProbe
 
@@ -30,7 +31,9 @@ def command(keep_checkouts: bool, dry_run: bool):
     the profiles, so it keeps counting what this removed until it is
     rebuilt.
     """
-    wanted = set(scannable_packages(min_score=None).values_list("pk", flat=True))
+    # A subquery, so the database compares the two sets rather than us
+    # sending it thousands of ids.
+    wanted = scannable_packages(min_score=None).order_by().values("pk")
 
     stale = (
         PackageProbe.objects.exclude(package_id__in=wanted)
@@ -66,6 +69,9 @@ def command(keep_checkouts: bool, dry_run: bool):
     if dry_run:
         rprint(f"[dim]would drop {removed:,} profiles[/dim]")
         return
+
+    if removed:
+        probe_stats.invalidate()
 
     rprint(f"dropped {removed:,} profiles")
     if freed:

@@ -5,8 +5,9 @@ from django.utils.timezone import now
 from rich import print as rprint
 
 from package.models import Package
-from probes.models import PackageProbe
+from probes import stats as probe_stats
 from probes.checkouts import scannable_packages
+from probes.models import PackageProbe
 from probes.version_support import declared_dependencies, version_support
 
 
@@ -37,6 +38,9 @@ def command(slugs: tuple[str, ...], limit: int | None, min_score: int, dry_run: 
         if slugs
         else scannable_packages(min_score=min_score)
     )
+    # version_support reads the latest release's upload date, which would
+    # otherwise be a query per package.
+    queryset = queryset.select_related("latest_version")
     if limit:
         queryset = queryset[:limit]
 
@@ -77,6 +81,9 @@ def command(slugs: tuple[str, ...], limit: int | None, min_score: int, dry_run: 
                 "metadata_updated_at": now(),
             },
         )
+
+    if not dry_run:
+        probe_stats.invalidate()
 
     suffix = "  [dim](dry run)[/dim]" if dry_run else ""
     rprint(

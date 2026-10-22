@@ -7,11 +7,13 @@ rather than a loop in Python. The alternative, columns per symbol, would
 need a migration every time Django grew an API.
 
 The queries scan the whole table, so each one is cached. Nothing here is
-live data: a probe profile only changes when a scan runs.
+live data: a probe profile only changes when a scan runs, and the
+commands that write one call `invalidate()` when they finish.
 """
 
 from __future__ import annotations
 
+import time
 from dataclasses import dataclass, field
 
 import django
@@ -20,9 +22,10 @@ from django.db import connection
 from packaging.version import InvalidVersion, Version
 
 from probes import removals
-from probes.models import PackageProbe, ProbeSymbol
+from probes.models import SETTINGS_PREFIX, ProbeSymbol
 
 CACHE_SECONDS = 60 * 15
+GENERATION_KEY = "probe-stats:generation"
 
 # Vocabulary, so the page and the code agree on what to call things.
 #
@@ -34,7 +37,6 @@ CACHE_SECONDS = 60 * 15
 #          dotted path cannot, like whether transaction.atomic was a
 #          decorator or a context manager.
 # setting  a Django setting name read through django.conf.settings.
-SETTINGS_PREFIX = "django.conf.settings."
 
 
 @dataclass
@@ -66,7 +68,9 @@ class Totals:
     distinct_settings: int = 0
     distinct_patterns: int = 0
     total_uses: int = 0
-    unresolved_packages: int = 0
+    # Distinct removed APIs something still uses. Symbols, not packages:
+    # one package calling three of them counts three times here.
+    removed_symbols: int = 0
     django_version: str = field(default_factory=django.get_version)
 
 
@@ -313,6 +317,10 @@ def removal_versions(rows: list[Row]) -> list[Row]:
     Only versions something actually hit, so the filter never offers a
     release that would come back empty. Rows we have no removal version
     for are not counted here; they are still in the table.
+
+    `packages` on each returned row holds how many table rows, which
+    are symbols, carry that version. That is the number the filter
+    button shows, and it matches the "All" button, which counts rows too.
     """
     counts: dict[str, Row] = {}
     for row in rows:
@@ -324,9 +332,29 @@ def removal_versions(rows: list[Row]) -> list[Row]:
     return _sorted_by_version(list(counts.values()))
 
 
+def _generation() -> int:
+    """Which round of data the cached roll-ups belong to.
+
+    Kept with no expiry. If the cache drops it anyway, the new value is
+    the time, so it cannot land back on a number some stale entry
+    still answers to.
+    """
+    return cache.get_or_set(GENERATION_KEY, time.time_ns, timeout=None)
+
+
+def invalidate() -> None:
+    """Start a new round, so every roll-up is rebuilt on next read.
+
+    Called by whatever writes profiles or curation. Cheaper than
+    counting the table on every read, and unlike a count it notices a
+    rescan that changed rows without adding any.
+    """
+    cache.set(GENERATION_KEY, time.time_ns(), timeout=None)
+
+
 def cached(name: str, builder):
     """One cache entry per roll-up, since each is a full table scan."""
-    key = f"probe-stats:{name}:{PackageProbe.objects.count()}"
+    key = f"probe-stats:{name}:{_generation()}"
     value = cache.get(key)
     if value is None:
         value = builder()
