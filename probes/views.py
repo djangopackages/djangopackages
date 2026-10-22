@@ -18,6 +18,7 @@ from django.core.paginator import Paginator
 from django.http import Http404
 from django.shortcuts import render
 from django.urls import reverse
+from django.utils.http import urlencode
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView
 
@@ -283,16 +284,33 @@ class ProbeStatsView(SectionMixin, TemplateView):
         )
         context["libraries"] = Library.objects.filter(scan=True).order_by("import_name")
         context["sections"] = [
-            self.build_section(
-                spec,
-                spec.rows(),
-                param=spec.param,
-                per_page=self.PER_PAGE,
-                url=spec.url,
-            )
-            for spec in SECTIONS.values()
+            self.overview_section(spec) for spec in SECTIONS.values()
         ]
         return context
+
+    def overview_section(self, spec) -> dict:
+        """One table for the overview, with its filters as links.
+
+        The overview does not filter in place; each button opens the
+        table's own page already narrowed, so a reader who wants only
+        rest_framework gets there in one click instead of having to
+        know the filter exists.
+        """
+        rows = spec.rows()
+        section = self.build_section(
+            spec, rows, param=spec.param, per_page=self.PER_PAGE, url=spec.url
+        )
+        if spec.facets is not None:
+            section["facet_label"] = spec.facet_label
+            section["facets"] = [
+                {
+                    "label": row.label,
+                    "count": row.packages,
+                    "url": f"{spec.url}?{urlencode({spec.facet_param: row.label})}",
+                }
+                for row in spec.facets(rows)
+            ]
+        return section
 
 
 class ProbeSectionView(SectionMixin, TemplateView):

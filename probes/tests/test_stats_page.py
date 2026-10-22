@@ -554,3 +554,17 @@ class TestLibraryFilter:
         facets = client.get(self.url()).context["facets"]
 
         assert "ninja" in [facet["label"] for facet in facets]
+
+    def test_the_overview_links_to_each_library(self, client, two_libraries):
+        """The buttons on the overview open the symbols page narrowed."""
+        sections = client.get(reverse("probes:stats")).context["sections"]
+        symbols = next(s for s in sections if s["param"] == "symbols")
+
+        assert [f["label"] for f in symbols["facets"]] == ["django", "rest_framework"]
+        assert symbols["facets"][1]["url"] == self.url() + "?library=rest_framework"
+
+    def test_tables_without_a_filter_get_no_buttons(self, client, two_libraries):
+        sections = client.get(reverse("probes:stats")).context["sections"]
+        patterns = next(s for s in sections if s["param"] == "patterns")
+
+        assert "facets" not in patterns
