@@ -41,6 +41,26 @@ DJANGO_CLASSIFIER = re.compile(r"^Framework :: Django :: (\d+\.\d+)$")
 BOUNDS_ABOVE = frozenset({"<", "<=", "==", "===", "~="})
 
 
+def version_span(versions) -> str:
+    """A sorted list of cycles written as a range: "3.10 - 3.13"."""
+    if not versions:
+        return ""
+    if len(versions) == 1:
+        return versions[0]
+    return f"{versions[0]} - {versions[-1]}"
+
+
+def pypi_info(package) -> dict:
+    """The `info` block of the stored PyPI JSON.
+
+    Older rows hold the whole response and newer ones only its `info`,
+    so both shapes are read the same way here.
+    """
+    info = package.pypi_info or {}
+    inner = info.get("info")
+    return inner if isinstance(inner, dict) else info
+
+
 @dataclass(frozen=True)
 class VersionSupport:
     """What a package says it runs on, and where we got that from."""
@@ -50,21 +70,13 @@ class VersionSupport:
     python_source: str = ""
     django_source: str = ""
 
-    @staticmethod
-    def _span(versions: tuple[str, ...]) -> str:
-        if not versions:
-            return ""
-        if len(versions) == 1:
-            return versions[0]
-        return f"{versions[0]} - {versions[-1]}"
-
     @property
     def python_range(self) -> str:
-        return self._span(self.python)
+        return version_span(self.python)
 
     @property
     def django_range(self) -> str:
-        return self._span(self.django)
+        return version_span(self.django)
 
     def __bool__(self) -> bool:
         return bool(self.python or self.django)
@@ -204,9 +216,7 @@ def version_support(package) -> VersionSupport:
     django_source = "classifiers" if django else ""
 
     if not django:
-        info = package.pypi_info or {}
-        inner = info.get("info") if isinstance(info.get("info"), dict) else info
-        if specifier := _django_specifier(inner.get("requires_dist")):
+        if specifier := _django_specifier(pypi_info(package).get("requires_dist")):
             django = _resolve(specifier, "django", as_of=as_of)
             django_source = "requires_dist" if django else ""
 
@@ -249,11 +259,8 @@ def declared_dependencies(package) -> tuple[Dependency, ...]:
     dropped, since "what does anyone depend on" and "what does a default
     install pull in" are different questions.
     """
-    info = package.pypi_info or {}
-    inner = info.get("info") if isinstance(info.get("info"), dict) else info
-
     found: list[Dependency] = []
-    for entry in inner.get("requires_dist") or []:
+    for entry in pypi_info(package).get("requires_dist") or []:
         try:
             requirement = Requirement(entry)
         except InvalidRequirement:

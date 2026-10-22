@@ -1,17 +1,12 @@
 from __future__ import annotations
 
 import djclick as click
-from django.db.models import Q
 from django.utils.timezone import now
 from rich import print as rprint
 
 from package.models import Package
+from probes.checkouts import pypi_is_published, repo_is_reachable
 from probes.version_support import version_support
-from probes.checkouts import (
-    CLONEABLE_HOSTS,
-    pypi_is_published,
-    repo_is_reachable,
-)
 
 
 @click.command()
@@ -42,8 +37,15 @@ def command(
 
     Packages are left alone once decided, so the default run only picks
     up new ones. Pass --recheck to revisit.
+
+    A check that could not get an answer, a timeout or a dropped
+    connection or PyPI having a bad minute, decides nothing. The
+    package stays as it was and the next run asks again.
     """
-    queryset = Package.objects.order_by("-score", "title")
+    # version_support reads the latest release's upload date.
+    queryset = Package.objects.select_related("latest_version").order_by(
+        "-score", "title"
+    )
     if slugs:
         queryset = queryset.filter(slug__in=slugs)
     elif not recheck:
@@ -51,17 +53,18 @@ def command(
     if limit:
         queryset = queryset[:limit]
 
-    host_q = Q()
-    for host in CLONEABLE_HOSTS:
-        host_q |= Q(repo_url__icontains=host)
-
-    on = off = 0
+    on = off = unsure = 0
     reasons: dict[str, int] = {}
 
     for package in queryset:
         ok, note = repo_is_reachable(package.repo_url, timeout=timeout)
         if ok:
             ok, note = pypi_is_published(package.pypi_url)
+
+        if ok is None:
+            unsure += 1
+            rprint(f"[dim]?? [/dim] {package.slug}: {note}, will ask again")
+            continue
 
         if ok:
             on += 1
@@ -87,7 +90,7 @@ def command(
         package.save(update_fields=["probe", "probe_note", "probe_checked_at"])
 
     rprint(
-        f"\nprobe on {on:,}  off {off:,}"
+        f"\nprobe on {on:,}  off {off:,}  no answer {unsure:,}"
         + ("  [dim](dry run)[/dim]" if dry_run else "")
     )
     for reason, count in sorted(reasons.items(), key=lambda kv: -kv[1])[:10]:

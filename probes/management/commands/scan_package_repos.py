@@ -4,11 +4,11 @@ from collections import Counter
 
 import djclick as click
 from django.conf import settings
+from django.utils.timezone import now
 from rich import print as rprint
 
-from django.utils.timezone import now
-
 from package.models import Package
+from probes import stats as probe_stats
 from probes.models import Library, PackageProbe
 from probes.checkouts import (
     checkout_commit,
@@ -39,6 +39,14 @@ from probes.checkouts import (
 )
 @click.option("--dry-run", is_flag=True, help="Report without saving profiles")
 @click.option(
+    "--force",
+    is_flag=True,
+    help=(
+        "Rescan checkouts whose commit has not changed since the last scan, "
+        "as after upgrading django-probe"
+    ),
+)
+@click.option(
     "--min-score",
     default=0,
     type=int,
@@ -55,12 +63,19 @@ def command(
     totals_only: bool,
     min_score: int,
     dry_run: bool,
+    force: bool,
 ):
     """Count which Django APIs the checked out packages actually use.
 
     Reads the checkouts that sync_package_repos produced; it never
     touches the network. Packages with no checkout are counted as
     missing rather than treated as using nothing.
+
+    A checkout still on the commit its profile was read from, scanned
+    for the same libraries, is skipped: parsing it again would only
+    write back what is already stored. Skipped packages are left out of
+    the roll-up printed at the end, which covers what this run read.
+    Pass --force to read everything.
     """
     # An explicit --slug is an explicit request, so it reaches packages
     # the default set leaves out.
@@ -71,6 +86,8 @@ def command(
     )
     if slugs:
         queryset = queryset.filter(slug__in=slugs)
+    # The stored profile is what decides whether a checkout has changed.
+    queryset = queryset.select_related("probe_profile")
     if limit:
         queryset = queryset[:limit]
 
@@ -89,7 +106,7 @@ def command(
     library_packages: Counter[str] = Counter()
     library_uses: Counter[str] = Counter()
     settings_packages: Counter[str] = Counter()
-    scanned = missing = empty = 0
+    scanned = missing = empty = unchanged = 0
     files = 0
 
     for package in queryset:
@@ -98,7 +115,20 @@ def command(
             missing += 1
             continue
 
-        result = scan_checkout(path, tuple(scan_packages))
+        commit = checkout_commit(path)
+        profile = getattr(package, "probe_profile", None)
+        if (
+            not force
+            and commit
+            and profile is not None
+            and profile.scanned_at is not None
+            and profile.commit == commit
+            and tuple(profile.libraries) == scan_packages
+        ):
+            unchanged += 1
+            continue
+
+        result = scan_checkout(path, scan_packages)
         scanned += 1
         files += result.files_scanned
 
@@ -125,7 +155,7 @@ def command(
                     "libraries": list(result.libraries),
                     "files_scanned": result.files_scanned,
                     "files_skipped": result.files_skipped,
-                    "commit": checkout_commit(path),
+                    "commit": commit,
                     "scanned_at": now(),
                 },
             )
@@ -158,9 +188,12 @@ def command(
                 )
                 rprint(f"  [dim]patterns: {hits}[/dim]")
 
+    if scanned and not dry_run:
+        probe_stats.invalidate()
+
     rprint(
-        f"\nscanned {scanned:,}  missing checkout {missing:,}  "
-        f"no usage {empty:,}  files {files:,}"
+        f"\nscanned {scanned:,}  unchanged {unchanged:,}  "
+        f"missing checkout {missing:,}  no usage {empty:,}  files {files:,}"
         + ("  [dim](dry run, nothing saved)[/dim]" if dry_run else "")
     )
 

@@ -21,6 +21,8 @@ from urllib.parse import urlparse
 from django.conf import settings
 from django.db.models import Q
 
+from probes.models import SETTINGS_PREFIX
+
 # Hosts we know how to clone from. Anything else is skipped rather than
 # attempted, so a dead host does not cost us a network timeout per run.
 CLONEABLE_HOSTS = frozenset(
@@ -31,10 +33,6 @@ CLONEABLE_HOSTS = frozenset(
         "codeberg.org",
     }
 )
-
-# django-probe reports a recognised setting as django.conf.settings.NAME
-# and anything it does not recognise as the bare path.
-SETTINGS_PREFIX = "django.conf.settings."
 
 # Directories that never hold a package's own source.
 SKIP_DIRS = frozenset(
@@ -58,8 +56,35 @@ SKIP_DIRS = frozenset(
 )
 
 
+# A .py file bigger than this is generated or vendored, not something
+# anyone wrote, and parsing it costs more memory than it tells us.
+MAX_FILE_BYTES = 2 * 1024 * 1024
+
+# What git prints when the network let it down rather than the repo.
+# Seeing one of these says nothing about whether the repo exists.
+NETWORK_ERRORS = (
+    "could not resolve host",
+    "failed to connect",
+    "connection timed out",
+    "connection reset",
+    "operation timed out",
+    "the requested url returned error: 5",
+    "the requested url returned error: 429",
+    "early eof",
+)
+
+
 class CheckoutError(RuntimeError):
-    """A git command failed, or the repo cannot be cloned at all."""
+    """A git command failed, or the repo cannot be cloned at all.
+
+    `transient` is set when the failure was ours or the network's, a
+    timeout or a missing git, so the caller knows not to read it as a
+    verdict on the repo.
+    """
+
+    def __init__(self, message: str, *, transient: bool = False):
+        super().__init__(message)
+        self.transient = transient
 
 
 @dataclass
@@ -202,24 +227,36 @@ def _git(*args: str, cwd: Path | None = None, timeout: int = 300) -> str:
             timeout=timeout,
         )
     except FileNotFoundError as exc:
-        raise CheckoutError("git is not installed in this image") from exc
+        raise CheckoutError(
+            "git is not installed in this image", transient=True
+        ) from exc
     except subprocess.TimeoutExpired as exc:
-        raise CheckoutError(f"git {args[0]} timed out after {timeout}s") from exc
+        raise CheckoutError(
+            f"git {args[0]} timed out after {timeout}s", transient=True
+        ) from exc
 
     if result.returncode != 0:
-        detail = (result.stderr or result.stdout).strip().splitlines()
-        raise CheckoutError(detail[-1] if detail else f"git {args[0]} failed")
+        output = (result.stderr or result.stdout).strip()
+        detail = output.splitlines()
+        lowered = output.lower()
+        raise CheckoutError(
+            detail[-1] if detail else f"git {args[0]} failed",
+            transient=any(error in lowered for error in NETWORK_ERRORS),
+        )
 
     return result.stdout
 
 
-def repo_is_reachable(repo_url: str, *, timeout: int = 30) -> tuple[bool, str]:
+def repo_is_reachable(repo_url: str, *, timeout: int = 30) -> tuple[bool | None, str]:
     """Ask the remote whether it exists, without downloading it.
 
     `git ls-remote` is a single request that returns the ref list, so a
     dead or private repo costs a round trip instead of a clone. At four
     thousand packages that is the difference between a pre-flight check
     and an afternoon.
+
+    Returns None instead of False when the check itself failed, a
+    timeout or a dropped connection, since that is no answer at all.
     """
     if not is_cloneable(repo_url):
         return False, f"cannot clone from {repo_url or 'no repo url'}"
@@ -233,15 +270,23 @@ def repo_is_reachable(repo_url: str, *, timeout: int = 30) -> tuple[bool, str]:
         # the existence of private repos. Either way we cannot read it.
         if "could not read Username" in detail or "Authentication failed" in detail:
             return False, "repo is private or deleted"
+        if exc.transient:
+            return None, detail
         return False, detail
     return True, ""
 
 
-def pypi_is_published(pypi_url: str, *, timeout: float = 10.0) -> tuple[bool, str]:
+def pypi_is_published(
+    pypi_url: str, *, timeout: float = 10.0
+) -> tuple[bool | None, str]:
     """Whether PyPI still serves this project.
 
     A package can be delisted or renamed long after we recorded it, and
     the stored pypi_url is not evidence that anything is there now.
+
+    Returns None instead of False when PyPI could not answer, a network
+    error or a 5xx or a rate limit, so a bad minute is not recorded as
+    the project being gone.
     """
     import httpx2
 
@@ -255,10 +300,12 @@ def pypi_is_published(pypi_url: str, *, timeout: float = 10.0) -> tuple[bool, st
     try:
         response = httpx2.head(url, timeout=timeout, follow_redirects=True)
     except httpx2.RequestError as exc:
-        return False, f"pypi unreachable: {type(exc).__name__}"
+        return None, f"pypi unreachable: {type(exc).__name__}"
 
-    if response.status_code == 404:
+    if response.status_code in (404, 410):
         return False, "not on pypi"
+    if response.status_code == 429 or response.status_code >= 500:
+        return None, f"pypi returned {response.status_code}"
     if response.status_code >= 400:
         return False, f"pypi returned {response.status_code}"
     return True, ""
@@ -292,8 +339,11 @@ def sync_checkout(package, *, depth: int = 1, timeout: int = 300) -> tuple[Path,
 
     Returns the path and what happened, "cloned" or "updated". Shallow by
     default: we only ever read the working tree, so history is weight we
-    do not need across thousands of repos.
+    do not need across thousands of repos. A depth of 0 means full
+    history, which git spells as no --depth at all.
     """
+    depth_args = ("--depth", str(depth)) if depth > 0 else ()
+
     if not is_cloneable(package.repo_url):
         raise CheckoutError(f"cannot clone from {package.repo_url or 'no repo url'}")
 
@@ -302,7 +352,11 @@ def sync_checkout(package, *, depth: int = 1, timeout: int = 300) -> tuple[Path,
     if (path / ".git").is_dir():
         # Reset rather than pull: the tree is ours to throw away, and a
         # merge conflict in a checkout nobody edits is not worth handling.
-        _git("fetch", "--depth", str(depth), "origin", cwd=path, timeout=timeout)
+        #
+        # HEAD rather than the default refspec, which names the branch we
+        # cloned. A repo that renames master to main would otherwise
+        # fail every fetch from then on.
+        _git("fetch", *depth_args, "origin", "HEAD", cwd=path, timeout=timeout)
         head = _git("rev-parse", "FETCH_HEAD", cwd=path, timeout=timeout).strip()
         _git("reset", "--hard", head, cwd=path, timeout=timeout)
         _git("clean", "-qfdx", cwd=path, timeout=timeout)
@@ -311,8 +365,7 @@ def sync_checkout(package, *, depth: int = 1, timeout: int = 300) -> tuple[Path,
     path.parent.mkdir(parents=True, exist_ok=True)
     _git(
         "clone",
-        "--depth",
-        str(depth),
+        *depth_args,
         "--quiet",
         package.repo_url,
         str(path),
@@ -322,13 +375,20 @@ def sync_checkout(package, *, depth: int = 1, timeout: int = 300) -> tuple[Path,
 
 
 def iter_python_files(root: Path):
+    """Every .py file in a checkout, leaving out symlinks.
+
+    A symlink in somebody else's repo can point anywhere: at a file
+    outside the checkout, or at /dev/zero, which would never finish
+    reading. Either way it is not the package's own source.
+    """
     for dirpath, dirnames, filenames in os.walk(root):
         dirnames[:] = [
             d for d in dirnames if d not in SKIP_DIRS and not d.endswith(".egg-info")
         ]
         for name in filenames:
-            if name.endswith(".py"):
-                yield Path(dirpath) / name
+            path = Path(dirpath) / name
+            if name.endswith(".py") and not path.is_symlink():
+                yield path
 
 
 def checkout_commit(root: Path) -> str:
@@ -396,7 +456,13 @@ def scan_checkout(root: Path, packages: tuple[str, ...] = ("django",)) -> ScanRe
     result = ScanResult(libraries=tuple(packages))
 
     for path in iter_python_files(root):
+        # Some probes key off the filename, so they need the path within
+        # the checkout. It never leaves this function.
+        relative = str(path.relative_to(root))
         try:
+            if path.stat().st_size > MAX_FILE_BYTES:
+                result.files_skipped += 1
+                continue
             # Parsed as bytes, not text. A file that opens with a UTF-8
             # BOM keeps it as U+FEFF when decoded, which the parser
             # rejects as a non-printable character, and a file declaring
@@ -408,17 +474,25 @@ def scan_checkout(root: Path, packages: tuple[str, ...] = ("django",)) -> ScanRe
                 # the output of a scan over four thousand of them.
                 warnings.simplefilter("ignore")
                 tree = ast.parse(path.read_bytes())
-        except (OSError, UnicodeDecodeError, SyntaxError, ValueError):
+            usage = count_package_usage(tree, packages, DJANGO_SETTING_NAMES)
+            patterns = count_patterns(tree, relative)
+        except (
+            OSError,
+            UnicodeDecodeError,
+            SyntaxError,
+            ValueError,
+            # A deeply nested expression overflows the parser, which says
+            # so with a MemoryError, or the visitor, with a RecursionError.
+            MemoryError,
+            RecursionError,
+        ):
             # Other people's repos hold unparseable and non-UTF-8 files.
-            # One bad file should not fail the package.
+            # One bad file should not fail the package, let alone the run.
             result.files_skipped += 1
             continue
 
-        result.usage.update(count_package_usage(tree, packages, DJANGO_SETTING_NAMES))
-        # Some probes key off the filename, so they need the path within
-        # the checkout. It never leaves this function.
-        relative = str(path.relative_to(root))
-        result.patterns.update(count_patterns(tree, relative))
+        result.usage.update(usage)
+        result.patterns.update(patterns)
         result.files_scanned += 1
 
     return result

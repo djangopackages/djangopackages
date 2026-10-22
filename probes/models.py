@@ -16,6 +16,11 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from core.models import BaseModel
+from probes.version_support import version_span
+
+# django-probe reports a recognised setting as django.conf.settings.NAME
+# and anything it does not recognise as the bare path.
+SETTINGS_PREFIX = "django.conf.settings."
 
 
 class PackageProbe(BaseModel):
@@ -135,19 +140,11 @@ class PackageProbe(BaseModel):
 
     @property
     def python_range(self) -> str:
-        return self._span(self.python_versions)
+        return version_span(self.python_versions)
 
     @property
     def django_range(self) -> str:
-        return self._span(self.django_versions)
-
-    @staticmethod
-    def _span(versions) -> str:
-        if not versions:
-            return ""
-        if len(versions) == 1:
-            return versions[0]
-        return f"{versions[0]} - {versions[-1]}"
+        return version_span(self.django_versions)
 
     @property
     def symbol_counts(self) -> dict[str, int]:
@@ -177,11 +174,10 @@ class PackageProbe(BaseModel):
         `django.conf.settings`, so what is left here is real setting
         names, and the bare path still counts the rest.
         """
-        prefix = "django.conf.settings."
         return {
-            row["symbol"].removeprefix(prefix): row["count"]
+            row["symbol"].removeprefix(SETTINGS_PREFIX): row["count"]
             for row in self.symbols
-            if row["symbol"].startswith(prefix)
+            if row["symbol"].startswith(SETTINGS_PREFIX)
         }
 
     @property

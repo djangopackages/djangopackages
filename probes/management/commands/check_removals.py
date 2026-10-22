@@ -20,10 +20,21 @@ def command(versions: tuple[str, ...]):
 
     Prints what the docs name that we do not have, and how much of it
     our packages actually use, so a new Django release turns into a
-    short list to read rather than a guess. Nothing is written: the
-    table is edited by hand, on purpose.
+    short list to read rather than a guess. Nothing is written: run
+    import_django_removals to rebuild the table.
+
+    The docs are read the same way the import reads them, with the
+    names our scans have seen and without removals that have not
+    happened yet, so what this reports is what an import would add.
     """
-    documented = django_docs.documented(versions)
+    known = set(
+        ProbeSymbol.objects.filter(kind=ProbeSymbol.Kind.SYMBOL).values_list(
+            "name", flat=True
+        )
+    )
+    documented, unreleased = django_docs.released(
+        django_docs.documented(versions, known)
+    )
 
     unknown = {
         name: version for name, version in documented.items() if name not in REMOVED_IN
@@ -36,7 +47,7 @@ def command(versions: tuple[str, ...]):
 
     rprint(
         f"documented {len(documented):,}  in our table {len(REMOVED_IN):,}  "
-        f"not in our table {len(unknown):,}"
+        f"not in our table {len(unknown):,}  not released yet {unreleased:,}"
     )
     if not unknown:
         return

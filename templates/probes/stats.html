@@ -35,7 +35,7 @@
                 {% include "probes/partials/stat.html" with label=_("Symbol uses") value=totals.total_uses %}
                 {% include "probes/partials/stat.html" with label=_("Settings named") value=totals.distinct_settings %}
                 {% include "probes/partials/stat.html" with label=_("Patterns seen") value=totals.distinct_patterns %}
-                {% include "probes/partials/stat.html" with label=_("Gone from Django") value=totals.unresolved_packages %}
+                {% include "probes/partials/stat.html" with label=_("Removed APIs in use") value=totals.removed_symbols %}
             </section>
 
             <p class="text-muted-foreground mt-6 text-sm">

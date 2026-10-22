@@ -1,0 +1,152 @@
+{
+  "1.4": [
+    "django.contrib.gis.db.backend",
+    "django.db.models.fields.XMLField",
+    "django.utils.translation.get_date_formats",
+    "django.utils.translation.get_partial_date_formats"
+  ],
+  "1.5": [
+    "django.contrib.formtools.utils.security_hash",
+    "django.core.context_processors.PermLookupDict",
+    "django.core.context_processors.PermWrapper",
+    "django.core.servers.basehttp.AdminMediaHandler",
+    "django.db.models.fields.URLField.verify_exists",
+    "django.http.CompatCookie",
+    "django.test.simple.DjangoTestRunner"
+  ],
+  "1.6": [
+    "django.conf.urls.defaults",
+    "django.contrib.databrowse",
+    "django.contrib.localflavor",
+    "django.contrib.markup"
+  ],
+  "1.7": [
+    "django.utils.itercompat.product",
+    "django.utils.simplejson"
+  ],
+  "1.8": [
+    "django.conf.urls.shortcut",
+    "django.contrib.comments",
+    "django.forms.widgets.RadioInput",
+    "django.middleware.doc.XViewMiddleware",
+    "django.test._doctest",
+    "django.test.simple",
+    "django.test.simple.DjangoTestSuiteRunner",
+    "django.views.defaults.shortcut"
+  ],
+  "1.9": [
+    "django.contrib.contenttypes.generic",
+    "django.contrib.sitemaps.FlatPageSitemap",
+    "django.core.cache.get_cache",
+    "django.db.backends.DatabaseValidation.validate_field",
+    "django.db.models.loading",
+    "django.db.models.signals.post_syncdb",
+    "django.db.models.signals.pre_syncdb",
+    "django.utils.datastructures.MergeDict",
+    "django.utils.datastructures.SortedDict",
+    "django.utils.dictconfig",
+    "django.utils.importlib",
+    "django.utils.module_loading.import_by_path",
+    "django.utils.text.javascript_quote",
+    "django.utils.tzinfo",
+    "django.utils.unittest"
+  ],
+  "1.10": [
+    "django.conf.urls.patterns",
+    "django.contrib.gis.db.models.sql.aggregates",
+    "django.core.context_processors",
+    "django.core.management.NoArgsCommand",
+    "django.db.models.field.subclassing.SubfieldBase",
+    "django.db.models.sql.aggregates",
+    "django.template.resolve_variable",
+    "django.utils.checksums"
+  ],
+  "2.0": [
+    "django.contrib.auth.tests.utils.skipIfCustomUser",
+    "django.contrib.gis.geoip",
+    "django.contrib.gis.utils.precision_wkt",
+    "django.core.urlresolvers",
+    "django.db.backends.base.BaseDatabaseOperations.check_aggregate_support",
+    "django.db.models.fields.add_lazy_relation",
+    "django.forms.extras",
+    "django.template.loaders.base.Loader.__call__",
+    "django.template.loaders.eggs.Loader",
+    "django.utils.functional.allow_lazy"
+  ],
+  "2.1": [
+    "django.db.models.permalink",
+    "django.test.runner.setup_databases",
+    "django.utils.translation.string_concat"
+  ],
+  "3.0": [
+    "django.contrib.gis.db.models.functions.ForceRHR",
+    "django.contrib.staticfiles.templatetags.static",
+    "django.contrib.staticfiles.templatetags.staticfiles.static",
+    "django.db.backends.postgresql_psycopg2",
+    "django.shortcuts.render_to_response",
+    "django.test.utils.patch_logger",
+    "django.test.utils.str_prefix",
+    "django.utils._os.abspathu",
+    "django.utils.decorators.ContextDecorator",
+    "django.utils.decorators.available_attrs",
+    "django.utils.encoding.python_2_unicode_compatible",
+    "django.utils.functional.curry",
+    "django.utils.http.cookie_date",
+    "django.utils.lru_cache.lru_cache",
+    "django.utils.safestring.SafeBytes",
+    "django.utils.six"
+  ],
+  "3.1": [
+    "django.contrib.postgres.fields.FloatRangeField",
+    "django.contrib.postgres.forms.FloatRangeField",
+    "django.contrib.staticfiles.storage.CachedStaticFilesStorage",
+    "django.core.paginator.QuerySetPaginator",
+    "django.utils.timezone.FixedOffset"
+  ],
+  "4.0": [
+    "django.conf.urls.url",
+    "django.contrib.postgres.fields.JSONField",
+    "django.contrib.postgres.fields.jsonb.KeyTextTransform",
+    "django.contrib.postgres.fields.jsonb.KeyTransform",
+    "django.contrib.postgres.forms.JSONField",
+    "django.utils.encoding.force_text",
+    "django.utils.encoding.smart_text",
+    "django.utils.http.is_safe_url",
+    "django.utils.http.urlquote",
+    "django.utils.http.urlunquote",
+    "django.utils.text.unescape_entities",
+    "django.utils.translation.ugettext",
+    "django.utils.translation.ugettext_lazy",
+    "django.utils.translation.ugettext_noop",
+    "django.utils.translation.ungettext"
+  ],
+  "4.1": [
+    "django.core.cache.backends.memcached.MemcachedCache"
+  ],
+  "5.0": [
+    "django.contrib.auth.hashers.CryptPasswordHasher",
+    "django.contrib.gis.admin.GeoModelAdmin",
+    "django.contrib.gis.admin.OSMGeoAdmin",
+    "django.contrib.gis.admin.OpenLayersWidget",
+    "django.contrib.sessions.serializers.PickleSerializer",
+    "django.utils.baseconv",
+    "django.utils.datetime_safe",
+    "django.utils.timezone.utc"
+  ],
+  "5.1": [
+    "django.contrib.auth.hashers.SHA1PasswordHasher",
+    "django.contrib.auth.hashers.UnsaltedMD5PasswordHasher",
+    "django.contrib.auth.hashers.UnsaltedSHA1PasswordHasher",
+    "django.contrib.postgres.fields.CICharField",
+    "django.contrib.postgres.fields.CIEmailField",
+    "django.contrib.postgres.fields.CITextField",
+    "django.core.files.storage.get_storage_class"
+  ],
+  "6.0": [
+    "django.contrib.gis.geoip2.GeoIP2.coords",
+    "django.contrib.gis.geoip2.GeoIP2.open",
+    "django.db.models.enums.ChoicesMeta",
+    "django.utils.itercompat",
+    "django.utils.itercompat.is_iterable"
+  ]
+}
