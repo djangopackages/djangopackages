@@ -51,6 +51,9 @@ class Row:
     # such as the Django version that removed a symbol. Empty unless
     # the roll-up has something to say.
     note: str = ""
+    # The top-level import a symbol belongs to, so the symbols table can
+    # be filtered down to one library once scans count more than Django.
+    library: str = ""
 
     def share(self, total: int) -> float:
         return (self.packages / total * 100) if total else 0.0
@@ -254,15 +257,39 @@ def symbol_rows() -> list[Row]:
     rows = _query(
         """
         SELECT sym->>'symbol',
+               coalesce(sym->>'library', split_part(sym->>'symbol', '.', 1)),
                count(DISTINCT p.package_id),
                coalesce(sum((sym->>'count')::bigint), 0)
         FROM probes_packageprobe p, jsonb_array_elements(p.symbols) AS sym
         WHERE sym->>'symbol' NOT LIKE %s
-        GROUP BY 1 ORDER BY 2 DESC, 3 DESC, 1
+        GROUP BY 1, 2 ORDER BY 3 DESC, 4 DESC, 1
         """,
         [f"{SETTINGS_PREFIX}%"],
     )
-    return [Row(label=label, packages=n, uses=uses) for label, n, uses in rows]
+    return [
+        Row(label=label, library=library, packages=n, uses=uses)
+        for label, library, n, uses in rows
+    ]
+
+
+def symbol_libraries(rows: list[Row]) -> list[Row]:
+    """The libraries these symbols belong to, most symbols first.
+
+    `packages` on each returned row is how many symbols, since that is
+    what the filter button narrows the table to and what the "All"
+    button counts. Django first when it is there, because it is the
+    one everyone came to see.
+    """
+    counts: dict[str, Row] = {}
+    for row in rows:
+        if not row.library:
+            continue
+        found = counts.setdefault(row.library, Row(label=row.library, packages=0))
+        found.packages += 1
+        found.uses += row.uses
+    return sorted(
+        counts.values(), key=lambda row: (row.label != "django", -row.packages)
+    )
 
 
 def dependency_rows() -> list[Row]:

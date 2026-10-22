@@ -30,6 +30,23 @@
         </span>
     </div>
 
+    {% if section.facets %}
+        {% comment %}
+            Only on the overview. Each link opens this table's own page
+            narrowed to that value; the page itself renders its filter
+            outside this element, so it survives the htmx swap.
+        {% endcomment %}
+        <div class="mt-3 flex flex-wrap items-center gap-2">
+            <span class="text-muted-foreground text-sm">{{ section.facet_label }}</span>
+            {% for facet in section.facets %}
+                <a class="bg-muted text-muted-foreground hover:text-foreground rounded-full px-3 py-1 text-sm transition-colors"
+                   href="{{ facet.url }}">
+                    {{ facet.label }} <span class="opacity-70">{{ facet.count|intcomma }}</span>
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+
     {% if section.rows %}
         <div class="border-border mt-3 overflow-hidden rounded-lg border">
             <table class="w-full text-sm">
