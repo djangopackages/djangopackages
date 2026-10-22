@@ -339,12 +339,33 @@ class TestRemovalFilter:
 class TestKnownRemovals:
     """The table of what Django removed and when, which ships empty."""
 
-    def test_it_claims_nothing_by_default(self):
-        from probes.removals import REMOVED_IN, removed_in
+    def test_every_version_is_a_feature_release(self):
+        """Django removes things in 4.0 or 4.1, never in 4.0.3.
 
-        assert REMOVED_IN == {}
-        assert removed_in("django.conf.urls.url") == ""
+        A three-part version would mean the import read a release
+        number out of prose it did not understand.
+        """
+        import re
+
+        from probes.removals import REMOVED_IN
+
+        assert REMOVED_IN
+        assert [
+            v for v in REMOVED_IN.values() if not re.fullmatch(r"\d+\.\d+", v)
+        ] == []
+
+    def test_nothing_in_it_still_exists(self):
+        """The table is what Django dropped, so none of it can import."""
+        from probes.management.commands.import_django_removals import present
+        from probes.removals import REMOVED_IN
+
+        assert [name for name in REMOVED_IN if present(name)] == []
+
+    def test_what_we_do_not_know_stays_blank(self):
+        from probes.removals import removed_in
+
         assert removed_in("django.db.models.CharField") == ""
+        assert removed_in("django.core.mail.outbox") == ""
 
     def test_a_module_covers_what_lived_in_it(self, monkeypatch):
         from probes import removals
@@ -401,11 +422,14 @@ class TestGoneRollupReadsTheTable:
             "django.utils.translation.ugettext_lazy"
         ]
 
-    def test_an_uncurated_catalogue_claims_nothing(self, profile):
+    def test_a_live_symbol_never_appears(self, profile):
         from probes import stats
 
         cache.clear()
-        assert stats.unresolved_rows() == []
+        labels = [row.label for row in stats.unresolved_rows()]
+
+        assert "django.db.models.CharField" not in labels
+        assert "django.urls.path" not in labels
 
     def test_it_imports_nothing(self, catalogued, monkeypatch):
         import importlib
