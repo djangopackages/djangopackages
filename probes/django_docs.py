@@ -20,6 +20,31 @@ TIMELINE = f"{DOCS}/internals/deprecation.txt"
 RELEASE = f"{DOCS}/releases/{{version}}.txt"
 
 SETTINGS = "django.conf.global_settings"
+
+# Django's docs say a thing is removed in one of a few set phrases, and
+# everything after that phrase is advice about what to use instead.
+# Reading only what comes before it is how the replacement in "force_text
+# is removed, use force_str" stays off a list of dead APIs.
+REMOVAL = re.compile(r"\b(?:will be|is|are|was|were|has been|have been)\s+removed\b")
+
+# Words a bullet may put around the name without changing what it
+# says: "The ``django.utils.six`` module will be removed" is about
+# six. Anything else in the subject, "support for", "the safe
+# parameter of", "old-style middleware using", means the sentence is
+# about something other than the name itself, and the bullet is left
+# alone. Terse to the point of losing real removals, which is the
+# direction to lose them in.
+FILLER = frozenset(
+    """
+    a an and the this these those
+    also as at by for from in into of on or to with
+    alias class classes decorator decorators field fields function
+    functions method methods model models module modules package
+    packages setting settings subclass subclasses tag tags template
+    templates value values view views widget widgets
+    deprecated legacy old private undocumented
+    """.split()
+)
 TOKEN = re.compile(r"``([^`]+)``|:[a-z:]+:`~?([^`]+)`")
 DOTTED = re.compile(r"[A-Za-z_][\w.]*")
 SHORTHAND = (
@@ -40,8 +65,49 @@ SHORTHAND = (
 )
 
 
-def names_in(bullet: str, known: set[str] | None = None) -> list[str]:
+def removal_subject(bullet: str, heading_says_removed: bool = False) -> str:
+    """The part of a bullet that says what was removed, or "".
+
+    Empty when the bullet does not assert a removal at all, or when
+    it says anything beyond naming what went: the removal of one
+    argument of a class, or of support for using it some way, leaves
+    the class itself alive.
+    """
+    match = REMOVAL.search(bullet)
+    if match:
+        subject = bullet[: match.start()]
+    elif heading_says_removed:
+        # Under a heading that says these are removed, a bullet can
+        # just name the thing and then talk about what to do instead:
+        # "``django.utils.six`` - Remove usage of this vendored
+        # library". The name is everything before that turn.
+        subject = re.split(r"\s+[-\u2013]\s+|(?<=`)\.\s", bullet)[0]
+    else:
+        return ""
+
+    # What is left once the names and the words that may surround them
+    # are taken out. Anything at all means the sentence is doing more
+    # than naming a thing that went.
+    rest = TOKEN.sub(" ", subject).replace("*", " ")
+    leftover = [
+        word
+        for word in re.findall(r"[A-Za-z_][\w.]*", rest)
+        if word.lower() not in FILLER
+    ]
+    if leftover:
+        return ""
+    return subject
+
+
+def names_in(
+    bullet: str,
+    known: set[str] | None = None,
+    heading_says_removed: bool = False,
+) -> list[str]:
     """The dotted Django paths a documentation bullet names.
+
+    Only from a bullet that says something was removed, and only from
+    the part of it that names what went.
 
     Paths written out in full, the shorthand the notes use when no
     full path is in the same bullet, and the siblings written bare,
@@ -52,19 +118,28 @@ def names_in(bullet: str, known: set[str] | None = None) -> list[str]:
     paths out of prose: "Message" in a sentence about contrib became
     `django.contrib.Message` the first time this was written.
     """
+    bullet = removal_subject(bullet, heading_says_removed)
+    if not bullet:
+        return []
+
     found = []
     shorthand = []
     bare = []
+    first_path = first_bare = None
     for token in TOKEN.finditer(bullet):
         name = (token.group(1) or token.group(2)).strip()
         name = name.split("<")[-1].rstrip(">").replace("()", "")
         if not DOTTED.fullmatch(name):
             continue
         if name.startswith("django."):
+            if first_path is None:
+                first_path = token.start()
             found.append(name)
         elif name.startswith(SHORTHAND) and not name.endswith(".py"):
             shorthand.append(f"django.{name}")
         elif "." not in name:
+            if first_bare is None:
+                first_bare = token.start()
             bare.append(name)
 
     # Shorthand is how the notes write a path when the bullet has no
@@ -74,24 +149,51 @@ def names_in(bullet: str, known: set[str] | None = None) -> list[str]:
     if not found:
         found = shorthand
 
-    if known:
-        # A bare name in capitals is a setting. The notes write them
-        # that way with no path at all, "the ``MIDDLEWARE_CLASSES``
-        # setting will be removed", and settings live in one module.
-        found += [
-            f"{SETTINGS}.{name}"
-            for name in bare
-            if name.isupper() and f"{SETTINGS}.{name}" in known
-        ]
+    known = known or set()
 
-    if found and known:
-        parent = found[0].rpartition(".")[0]
-        found += [
-            f"{parent}.{name}"
-            for name in bare
-            if not name.isupper() and f"{parent}.{name}" in known
-        ]
-    return found
+    # A bare name in capitals is a setting. The notes write them that
+    # way with no path at all, "the ``MIDDLEWARE_CLASSES`` setting
+    # will be removed", and settings live in one module.
+    settings = [
+        f"{SETTINGS}.{name}"
+        for name in bare
+        if name.isupper() and f"{SETTINGS}.{name}" in known
+    ]
+    bare = [name for name in bare if not name.isupper()]
+
+    # Shorthand next to a full path means the full path is where the
+    # shorthand lives, as in "``views.feed()`` in
+    # ``django.contrib.syndication``". The container outlives what was
+    # taken out of it, so a bullet shaped that way says nothing we can
+    # use about the path it names.
+    if shorthand and found:
+        return settings
+    if not found:
+        found = shorthand
+    if not found:
+        return settings
+
+    if bare:
+        # Either the bare names live in the path, "``remove_tags()``
+        # in ``django.utils.html``", or they are its siblings,
+        # "``ugettext()``, ``ugettext_lazy()``". Our own scans decide
+        # which reading produces real names, and if neither does the
+        # bullet is left alone rather than read generously.
+        inside = [f"{found[0]}.{name}" for name in bare]
+        beside = [f"{found[0].rpartition('.')[0]}.{name}" for name in bare]
+        # A list of siblings puts the full path first and the rest
+        # bare. A bare name before the path is something that lived in
+        # it or pointed at it, "The ``ChoicesMeta`` alias to
+        # ``...ChoicesType``", and then the path stays.
+        leads = first_bare is not None and first_bare < (first_path or 0)
+        if any(name in known for name in inside):
+            return settings + [name for name in inside if name in known]
+        if any(name in known for name in beside):
+            kept = [name for name in beside if name in known]
+            return settings + kept if leads else settings + found + kept
+        return settings
+
+    return settings + found
 
 
 def from_timeline(text: str, known: set[str] | None = None) -> dict[str, str]:
@@ -124,7 +226,7 @@ def from_release_notes(
         end = re.search(rf"\n[^\n]+\n{underline}{{3,}}\n", rest)
         body = rest[: end.start()] if end else rest
         for bullet in re.split(r"\n\n(?=\* )", body):
-            for name in names_in(bullet, known):
+            for name in names_in(bullet, known, heading_says_removed=True):
                 found.setdefault(name, version)
     return found
 

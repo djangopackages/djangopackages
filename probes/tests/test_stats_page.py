@@ -354,12 +354,14 @@ class TestKnownRemovals:
             v for v in REMOVED_IN.values() if not re.fullmatch(r"\d+\.\d+", v)
         ] == []
 
-    def test_nothing_in_it_still_exists(self):
-        """The table is what Django dropped, so none of it can import."""
-        from probes.management.commands.import_django_removals import present
-        from probes.removals import REMOVED_IN
+    def test_it_covers_what_packages_still_reach_for(self):
+        """The handful that matter, so a thin import is noticed."""
+        from probes.removals import removed_in
 
-        assert [name for name in REMOVED_IN if present(name)] == []
+        assert removed_in("django.conf.urls.url") == "4.0"
+        assert removed_in("django.utils.translation.ugettext_lazy") == "4.0"
+        assert removed_in("django.core.urlresolvers.reverse") == "2.0"
+        assert removed_in("django.utils.six") == "3.0"
 
     def test_what_we_do_not_know_stays_blank(self):
         from probes.removals import removed_in

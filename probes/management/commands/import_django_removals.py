@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import importlib
 import pathlib
 import re
 
@@ -23,16 +22,14 @@ HEADER = '''"""What Django removed, and when.
 
 Written by `manage import_django_removals`, which reads Django's own
 documentation: the deprecation timeline and the "removed" sections of
-the release notes. A name is kept only when the docs name it in full
-and the installed Django no longer has it, because those same bullets
-also name the replacement to use, and a replacement is very much not
-removed.
+the release notes.
 
-That second test cuts both ways and is meant to. A name that fails to
-import for its own reasons, anything under `django.contrib.gis`
-without GDAL for instance, is treated as present and left out. We lose
-a few real removals that way. The alternative, which this page shipped
-once, was calling four hundred live APIs dead.
+Nothing here asks the installed Django anything. A name is kept when a
+bullet says it was removed and names it before saying so; the advice
+that follows, "use force_str() instead", is not read, and neither is a
+bullet that only removes an argument or an attribute of something
+still here. What the documentation does not say plainly, this does not
+claim.
 
 Add anything missing by setting `removed_in` on a symbol in the admin,
 which wins over this file and survives a rebuild.
@@ -68,43 +65,6 @@ def removed_in(symbol: str) -> str:
 
 def order(version: str) -> tuple[int, ...]:
     return tuple(int(part) for part in version.split("."))
-
-
-def present(dotted: str) -> bool:
-    """Whether the installed Django still has this name.
-
-    A module answers for itself: `django.conf.urls` imports, so it is
-    here, even though `django.conf` grows no `urls` attribute until
-    something imports it. Only once that fails is the name read as an
-    attribute of its parent.
-
-    Anything we cannot answer counts as present, so an import that
-    fails for its own reasons keeps a live name off the table rather
-    than putting a dead one on it.
-    """
-    try:
-        importlib.import_module(dotted)
-        return True
-    except ModuleNotFoundError as error:
-        # Some other module is missing, which says nothing about this
-        # name; only "there is no such module" sends us on.
-        missing = error.name or ""
-        if not (dotted == missing or dotted.startswith(f"{missing}.")):
-            return True
-    except Exception:
-        return True
-
-    module, _, attribute = dotted.rpartition(".")
-    if not module:
-        return True
-    try:
-        found = importlib.import_module(module)
-    except Exception:
-        return True
-    try:
-        return hasattr(found, attribute)
-    except Exception:
-        return True
 
 
 @click.command()
@@ -148,7 +108,7 @@ def command(versions: tuple[str, ...], dry_run: bool):
     )
     documented = django_docs.documented(versions, known)
     table: dict[str, str] = {}
-    unreleased = alive = 0
+    unreleased = 0
 
     for name, version in sorted(documented.items()):
         if not VERSION.match(version):
@@ -158,14 +118,11 @@ def command(versions: tuple[str, ...], dry_run: bool):
         if order(version) > here:
             unreleased += 1
             continue
-        if present(name):
-            alive += 1
-            continue
         table[name] = version
 
     rprint(
         f"documented {len(documented):,}  kept {len(table):,}  "
-        f"still here {alive:,}  not released yet {unreleased:,}"
+        f"not released yet {unreleased:,}"
     )
 
     counts = dict(
