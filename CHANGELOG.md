@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-10-22]
+### Changed
+- Filter the symbols table by library ([#1744](https://github.com/djangopackages/djangopackages/pull/1744))
+- Harden the probes scan and tidy the commands around it ([#1743](https://github.com/djangopackages/djangopackages/pull/1743))
+- Re-import the removals table from Django&#39;s docs ([#1742](https://github.com/djangopackages/djangopackages/pull/1742))
+
 ## [2026-10-21]
 ### Changed
 - Stop guessing import names ([#1741](https://github.com/djangopackages/djangopackages/pull/1741))
