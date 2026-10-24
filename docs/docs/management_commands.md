@@ -315,6 +315,29 @@ source can be scanned. It covers packages with both a repo we can clone from
 production is 4,714 of 5,849. A named `--slug` is fetched whether or not it
 meets that bar.
 
+So is a package tagged `awesome-list` in `Package.tags`: awesome-django,
+awesome-django-rest-framework and awesome-wagtail have no PyPI release and
+nothing to import, but their READMEs are the data we read back when checking
+which listed packages have gone quiet. Add the tag in the admin to track
+another list.
+
+## tag_awesome_packages
+
+Reads the README out of each `awesome-list` package's checkout and gives
+every repository or PyPI project it links to the list's slug as a tag, so
+`Package.objects.filter(tags__contains=["awesome-django"])` is the set of
+packages Awesome Django lists today. A package that drops off the list loses
+the tag on the next run; a list whose checkout has no README changes nothing.
+
+```shell
+just run tag_awesome_packages              # every list
+just run tag_awesome_packages --sync       # pull the checkouts first
+just run tag_awesome_packages --slug awesome-wagtail --dry-run
+```
+
+The scheduled form is the `awesome-lists` job in `init_scheduled_jobs`, which
+runs `probes.tasks.refresh_awesome_lists` nightly: sync each list, then tag.
+
 `--min-score` defaults to 0, which halves that again to around 1,960. A
 negative score is not a popularity judgement: the staleness penalty only
 overtakes the stars after roughly thirty months without a commit, so below

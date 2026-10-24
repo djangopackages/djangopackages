@@ -20,7 +20,7 @@ from django.utils.timezone import now
 from django_q.tasks import async_task
 
 from package.models import Package
-from probes import pipeline
+from probes import awesome, pipeline
 from probes.checkouts import is_cloneable, scannable_packages
 
 # How long a verdict from check_source stands before it is asked again.
@@ -121,3 +121,25 @@ def queue_probe_refresh(
         refreshes += 1
 
     return {"checks": checks, "refreshes": refreshes}
+
+
+def refresh_awesome_lists() -> dict[str, str]:
+    """Pull each awesome list's checkout and re-tag the packages it names.
+
+    Three small repos, so this runs in one task rather than fanning out.
+    A list whose checkout failed keeps yesterday's tags: nothing is
+    removed on the strength of a README we could not read.
+    """
+    index = awesome.package_index()
+    report: dict[str, str] = {}
+    for list_package in awesome.awesome_lists():
+        sync = pipeline.sync_package(list_package)
+        if not sync.ok:
+            report[list_package.slug] = f"{sync.action}: {sync.note}"
+            continue
+        outcome = awesome.tag_listed_packages(list_package, index=index)
+        report[list_package.slug] = (
+            outcome.note
+            or f"{outcome.listed} listed, +{outcome.added} -{outcome.removed}"
+        )
+    return report

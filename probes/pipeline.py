@@ -39,7 +39,8 @@ def check_source(package, *, timeout: int = 30, save: bool = True):
     previous verdict.
     """
     ok, note = repo_is_reachable(package.repo_url, timeout=timeout)
-    if ok:
+    # A curated list has no release to check; the repo answering is enough.
+    if ok and not package.is_awesome_list:
         ok, note = pypi_is_published(package.pypi_url)
 
     if ok is None or not save:
