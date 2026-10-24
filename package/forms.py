@@ -2,6 +2,7 @@ from django import forms
 from django.forms import ModelForm, TextInput
 from django.utils.translation import gettext_lazy as _
 
+from core.utils import PackageStatus
 from package.models import Category, FlaggedPackage, Package
 from package.repos.repo_url_normelizer import normalize_repo_url
 
@@ -148,6 +149,12 @@ class BasePackageFilterForm(forms.Form):
     )
     page = forms.IntegerField(required=False, min_value=1)
     q = forms.CharField(required=False)
+    status = forms.ChoiceField(
+        choices=[("all", _("All"))]
+        + [(str(choice.value), choice.label) for choice in PackageStatus],
+        required=False,
+        initial="all",
+    )
 
 
 class PackageFilterForm(BasePackageFilterForm):

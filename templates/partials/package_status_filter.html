@@ -1,0 +1,21 @@
+{% load i18n %}
+<div class="mb-8 flex flex-wrap items-center gap-3">
+    <label for="package-status-filter" class="text-muted-foreground text-sm font-medium">
+        {% translate "Dev Status" %}
+    </label>
+    <select id="package-status-filter"
+            name="status"
+            class="bg-background text-foreground focus:ring-primary h-10 rounded-lg border px-3 text-sm shadow-sm focus:ring-2 focus:outline-none"
+            hx-get="{{ list_url }}"
+            hx-trigger="change"
+            hx-target="#package-list-container"
+            hx-indicator="#package-list-spinner"
+            hx-include="#package-list-state input:not([name='status']), [name='q']"
+            hx-push-url="true">
+        {% for value, label in status_choices %}
+            <option value="{{ value }}" {% if value == current_status %}selected{% endif %}>
+                {{ label|cut:"Development Status :: " }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
