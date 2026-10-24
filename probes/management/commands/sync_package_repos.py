@@ -5,15 +5,8 @@ from django.conf import settings
 from rich import print as rprint
 
 from package.models import Package
-from probes.checkouts import (
-    CheckoutError,
-    checkout_path,
-    checkout_size,
-    discard_checkout,
-    is_cloneable,
-    scannable_packages,
-    sync_checkout,
-)
+from probes.checkouts import checkout_path, is_cloneable, scannable_packages
+from probes.pipeline import MB, sync_package
 
 
 @click.command()
@@ -117,40 +110,19 @@ def command(
                 cloned += 1
             continue
 
-        try:
-            _, action = sync_checkout(package, depth=depth, timeout=timeout)
-        except CheckoutError as exc:
+        outcome = sync_package(package, depth=depth, timeout=timeout, max_mb=max_mb)
+
+        if outcome.action == "failed":
             failed += 1
-            rprint(f"[red]{package.slug}[/red] {exc}")
-            continue
-
-        # Measured every time, not just against a cap: the size is worth
-        # knowing on its own, and it is what any later cap reads.
-        size = checkout_size(path)
-        package.probe_bytes = size
-
-        if max_mb is not None and size > max_mb * 1024 * 1024:
-            # Cloning it was the only way to find out how big it is, so
-            # the cost is already paid; what the cap saves is keeping it
-            # and fetching it again on every run after this.
-            discard_checkout(path)
-            package.probe_wanted = False
-            package.probe_wanted_note = f"checkout is {size // (1024 * 1024):,}MB"
-            package.probe_bytes = size
-            package.save(
-                update_fields=["probe_wanted", "probe_wanted_note", "probe_bytes"]
-            )
+            rprint(f"[red]{package.slug}[/red] {outcome.note}")
+        elif outcome.action == "too_big":
             too_big += 1
-            reclaimed += size
+            reclaimed += outcome.size
             rprint(
                 f"[yellow]{package.slug}[/yellow] "
-                f"{size // (1024 * 1024):,}MB over the {max_mb:,}MB cap, discarded"
+                f"{outcome.size // MB:,}MB over the {max_mb:,}MB cap, discarded"
             )
-            continue
-
-        package.save(update_fields=["probe_bytes"])
-
-        if action == "cloned":
+        elif outcome.action == "cloned":
             cloned += 1
         else:
             updated += 1
@@ -163,5 +135,5 @@ def command(
         f"skipped {skipped:,}  failed {failed:,}  too big {too_big:,}"
     )
     if too_big:
-        rprint(f"[dim]{reclaimed // (1024 * 1024):,}MB discarded by the cap[/dim]")
+        rprint(f"[dim]{reclaimed // MB:,}MB discarded by the cap[/dim]")
     rprint(f"[dim]checkouts in {root}[/dim]")

@@ -1,93 +1,88 @@
-from django.core.management.base import BaseCommand
+import djclick as click
 from django.db import IntegrityError
 from django_q.models import Schedule
 from django_q.tasks import schedule
+from rich import print as rprint
 
 TIMEOUT = 20 * 60 * 60  # 20 hours
 
+# Each job is a Django Q schedule. The key is what --only takes; the
+# name is the unique Schedule row, so re-running never duplicates one.
+JOBS = {
+    "search": {
+        "name": "Build Search V3",
+        "func": "django.core.management.call_command",
+        "args": ("build_search_v3",),
+        "cron": "12 23 * * *",
+    },
+    "package-updater": {
+        "name": "Update All Packages from GitHub",
+        "func": "django.core.management.call_command",
+        "args": ("package_updater",),
+        "cron": "36 17 * * *",
+    },
+    "pypi-updater": {
+        "name": "Update All Packages from PyPI",
+        "func": "django.core.management.call_command",
+        "args": ("pypi_updater",),
+        "cron": "48 21 * * *",
+    },
+    # The probe pipeline. The fan-out queues one task per package for
+    # the network bound steps; the two single-pass roll-ups follow once
+    # the cluster has had time to work through the queue.
+    "probe-refresh": {
+        "name": "Probe: queue source checks and checkout refreshes",
+        "func": "probes.tasks.queue_probe_refresh",
+        "args": (),
+        "cron": "17 2 * * *",
+    },
+    "probe-profiles": {
+        "name": "Probe: build profiles",
+        "func": "django.core.management.call_command",
+        "args": ("build_probe_profiles",),
+        "cron": "12 5 * * *",
+    },
+    "probe-catalog": {
+        "name": "Probe: build catalogue",
+        "func": "django.core.management.call_command",
+        "args": ("build_probe_catalog",),
+        "cron": "12 6 * * *",
+    },
+}
 
-class Command(BaseCommand):
-    help = "Add Scheduled Jobs to django-q cluster"
 
-    def handle(self, *args, **options):
-        searchv3_build_tasks_name = "Build Search V3"
-        package_updater_tasks_name = "Update All Packages from GitHub"
-        pypi_updater = "Update All Packages from PyPI"
+@click.command()
+@click.option(
+    "--only",
+    "keys",
+    multiple=True,
+    type=click.Choice(sorted(JOBS)),
+    help="Add just these jobs. Repeatable. Default is every job.",
+)
+@click.option("--list", "list_jobs", is_flag=True, help="Show the jobs and exit")
+def command(keys: tuple[str, ...], list_jobs: bool):
+    """Add the scheduled jobs to the Django Q cluster.
 
-        success_message = "Created '{tasks_name}' scheduled task successfully"
-        integrity_error_message = "'{tasks_name}' scheduled task already exists"
+    Safe to re-run: a job whose schedule already exists is left alone
+    and reported, not duplicated.
+    """
+    if list_jobs:
+        for key, job in JOBS.items():
+            rprint(f"  [bold]{key:18}[/bold] {job['cron']:14} {job['name']}")
+        return
 
+    for key in keys or JOBS:
+        job = JOBS[key]
         try:
             schedule(
-                "django.core.management.call_command",
-                "build_search_v3",
-                name=searchv3_build_tasks_name,
+                job["func"],
+                *job["args"],
+                name=job["name"],
                 schedule_type=Schedule.CRON,
-                cron="12 23 * * *",
-                q_options={
-                    "timeout": TIMEOUT,
-                    "max_attempts": 1,
-                },
+                cron=job["cron"],
+                q_options={"timeout": TIMEOUT, "max_attempts": 1},
             )
         except IntegrityError:
-            self.stdout.write(
-                self.style.WARNING(
-                    integrity_error_message.format(tasks_name=searchv3_build_tasks_name)
-                )
-            )
+            rprint(f"[yellow]exists[/yellow]  {job['name']}")
         else:
-            self.stdout.write(
-                self.style.SUCCESS(
-                    success_message.format(tasks_name=searchv3_build_tasks_name)
-                )
-            )
-
-        try:
-            schedule(
-                "django.core.management.call_command",
-                "package_updater",
-                name=package_updater_tasks_name,
-                schedule_type=Schedule.CRON,
-                cron="36 17 * * *",
-                q_options={
-                    "timeout": TIMEOUT,
-                    "max_attempts": 1,
-                },
-            )
-        except IntegrityError:
-            self.stdout.write(
-                self.style.WARNING(
-                    integrity_error_message.format(
-                        tasks_name=package_updater_tasks_name
-                    )
-                )
-            )
-        else:
-            self.stdout.write(
-                self.style.SUCCESS(
-                    success_message.format(tasks_name=package_updater_tasks_name)
-                )
-            )
-
-        try:
-            schedule(
-                "django.core.management.call_command",
-                "pypi_updater",
-                name=pypi_updater,
-                schedule_type=Schedule.CRON,
-                cron="48 21 * * *",
-                q_options={
-                    "timeout": TIMEOUT,
-                    "max_attempts": 1,
-                },
-            )
-        except IntegrityError:
-            self.stdout.write(
-                self.style.WARNING(
-                    integrity_error_message.format(tasks_name=pypi_updater)
-                )
-            )
-        else:
-            self.stdout.write(
-                self.style.SUCCESS(success_message.format(tasks_name=pypi_updater))
-            )
+            rprint(f"[green]created[/green] {job['name']}")

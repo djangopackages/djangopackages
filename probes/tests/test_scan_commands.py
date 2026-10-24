@@ -270,16 +270,12 @@ class TestTheSizeCap:
         package = self._package()
 
         with (
+            patch("probes.pipeline.sync_checkout") as sync,
             patch(
-                "probes.management.commands.sync_package_repos.sync_checkout"
-            ) as sync,
-            patch(
-                "probes.management.commands.sync_package_repos.checkout_size",
+                "probes.pipeline.checkout_size",
                 return_value=600 * 1024 * 1024,
             ),
-            patch(
-                "probes.management.commands.sync_package_repos.discard_checkout"
-            ) as discard,
+            patch("probes.pipeline.discard_checkout") as discard,
         ):
             sync.return_value = (repo_root / "big", "cloned")
             call_command("sync_package_repos", "--max-mb", "500")
@@ -304,16 +300,12 @@ class TestTheSizeCap:
         package = self._package(slug="small")
 
         with (
+            patch("probes.pipeline.sync_checkout") as sync,
             patch(
-                "probes.management.commands.sync_package_repos.sync_checkout"
-            ) as sync,
-            patch(
-                "probes.management.commands.sync_package_repos.checkout_size",
+                "probes.pipeline.checkout_size",
                 return_value=5 * 1024 * 1024,
             ),
-            patch(
-                "probes.management.commands.sync_package_repos.discard_checkout"
-            ) as discard,
+            patch("probes.pipeline.discard_checkout") as discard,
         ):
             sync.return_value = (repo_root / "small", "cloned")
             call_command("sync_package_repos", "--max-mb", "500")
@@ -327,11 +319,9 @@ class TestTheSizeCap:
         package = self._package(slug="plain")
 
         with (
+            patch("probes.pipeline.sync_checkout") as sync,
             patch(
-                "probes.management.commands.sync_package_repos.sync_checkout"
-            ) as sync,
-            patch(
-                "probes.management.commands.sync_package_repos.checkout_size",
+                "probes.pipeline.checkout_size",
                 return_value=7 * 1024 * 1024,
             ),
         ):
@@ -434,7 +424,7 @@ class TestTheLimitCountsWork:
         for slug in ["pkg-0", "pkg-1"]:
             (repo_root / slug / ".git").mkdir(parents=True)
 
-        MOD = "probes.management.commands.sync_package_repos"
+        MOD = "probes.pipeline"
         with (
             patch(f"{MOD}.sync_checkout") as sync,
             patch(f"{MOD}.checkout_size", return_value=1024),
@@ -451,7 +441,7 @@ class TestTheLimitCountsWork:
     def test_the_limit_still_stops_at_the_limit(self, repo_root):
         self._packages(10)
 
-        MOD = "probes.management.commands.sync_package_repos"
+        MOD = "probes.pipeline"
         with (
             patch(f"{MOD}.sync_checkout") as sync,
             patch(f"{MOD}.checkout_size", return_value=1024),

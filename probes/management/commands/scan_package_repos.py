@@ -4,18 +4,12 @@ from collections import Counter
 
 import djclick as click
 from django.conf import settings
-from django.utils.timezone import now
 from rich import print as rprint
 
 from package.models import Package
 from probes import stats as probe_stats
-from probes.models import Library, PackageProbe
-from probes.checkouts import (
-    checkout_commit,
-    checkout_path,
-    scan_checkout,
-    scannable_packages,
-)
+from probes.checkouts import scannable_packages
+from probes.pipeline import libraries_to_scan, scan_package
 
 
 @click.command()
@@ -91,10 +85,7 @@ def command(
     if limit:
         queryset = queryset[:limit]
 
-    # An explicit --package wins; otherwise the libraries someone has
-    # toggled on, which is how this grows without a code change. Django
-    # is the fallback so a fresh install still scans something.
-    scan_packages = tuple(scan_packages) or Library.scan_for() or ("django",)
+    scan_packages = libraries_to_scan(scan_packages)
 
     overall: Counter[str] = Counter()
     # How many packages use a symbol at all, which is a better popularity
@@ -110,55 +101,18 @@ def command(
     files = 0
 
     for package in queryset:
-        path = checkout_path(package)
-        if not (path / ".git").is_dir():
+        status, result = scan_package(
+            package, scan_packages, force=force, save=not dry_run
+        )
+        if status == "missing":
             missing += 1
             continue
-
-        commit = checkout_commit(path)
-        profile = getattr(package, "probe_profile", None)
-        if (
-            not force
-            and commit
-            and profile is not None
-            and profile.scanned_at is not None
-            and profile.commit == commit
-            and tuple(profile.libraries) == scan_packages
-        ):
+        if status == "unchanged":
             unchanged += 1
             continue
 
-        result = scan_checkout(path, scan_packages)
         scanned += 1
         files += result.files_scanned
-
-        if not dry_run:
-            # Sorted most used first, since the list keeps its order and
-            # the first thing anyone wants is the top of it.
-            symbols = [
-                {
-                    "symbol": symbol,
-                    "count": count,
-                    "library": result.library_of(symbol),
-                }
-                for symbol, count in result.usage.most_common()
-            ]
-            patterns = [
-                {"pattern": pattern, "count": count}
-                for pattern, count in result.patterns.most_common()
-            ]
-            PackageProbe.objects.update_or_create(
-                package=package,
-                defaults={
-                    "symbols": symbols,
-                    "patterns": patterns,
-                    "libraries": list(result.libraries),
-                    "files_scanned": result.files_scanned,
-                    "files_skipped": result.files_skipped,
-                    "commit": commit,
-                    "scanned_at": now(),
-                },
-            )
 
         library_uses.update(result.by_library)
         library_packages.update(result.by_library.keys())
