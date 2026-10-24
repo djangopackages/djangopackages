@@ -337,6 +337,40 @@ immediately instead of blocking on a credential prompt.
 docker compose run django uv run manage.py sync_package_repos [--slug=<slug>] [--limit=<number>] [--depth=<n>] [--missing-only] [--dry-run]
 ```
 
+## Running the probe pipeline on a schedule
+
+The commands above are the right tool for building the pipeline and for
+one-off runs. For keeping the catalogue current they run as Django Q jobs,
+registered with `init_scheduled_jobs`:
+
+| job | when | what |
+| --- | --- | --- |
+| `probe-refresh` | 02:17 | `probes.tasks.queue_probe_refresh` queues one task per package |
+| `probe-profiles` | 05:12 | `build_probe_profiles` |
+| `probe-catalog` | 06:12 | `build_probe_catalog` |
+
+The fan-out queues two kinds of task. `check_package_source` revisits
+packages nobody has decided on yet and packages whose verdict is more than
+30 days old, so a repo that goes private or comes back is noticed within a
+month. `refresh_package_checkout` syncs one checkout, records what it is
+imported as, and scans it, for every package `sync_package_repos` would
+cover. A checkout still on the commit its profile was read from is not
+scanned again. Each task is independent, so the cluster works through them
+in parallel and one dead repo costs one failed task rather than a stalled
+run.
+
+The worker needs the checkouts volume mounted at `PACKAGE_REPO_ROOT`, the
+same as the web container, since that is where the tasks read and write.
+
+```shell
+docker compose run django uv run manage.py init_scheduled_jobs --only probe-refresh --only probe-profiles --only probe-catalog
+docker compose run django uv run manage.py init_scheduled_jobs --list
+```
+
+Without `--only` the command adds every job it knows about, including the
+search rebuild and the two package updaters, so pass it on an install where
+those are run some other way.
+
 ## The probes app
 
 All of this lives in the `probes` app: the checkouts, the AST scan, the

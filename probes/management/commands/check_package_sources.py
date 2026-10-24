@@ -1,11 +1,10 @@
 from __future__ import annotations
 
 import djclick as click
-from django.utils.timezone import now
 from rich import print as rprint
 
 from package.models import Package
-from probes.checkouts import pypi_is_published, repo_is_reachable
+from probes.pipeline import check_source
 from probes.version_support import version_support
 
 
@@ -57,9 +56,7 @@ def command(
     reasons: dict[str, int] = {}
 
     for package in queryset:
-        ok, note = repo_is_reachable(package.repo_url, timeout=timeout)
-        if ok:
-            ok, note = pypi_is_published(package.pypi_url)
+        ok, note = check_source(package, timeout=timeout, save=not dry_run)
 
         if ok is None:
             unsure += 1
@@ -80,14 +77,6 @@ def command(
             key = note.split(":")[0][:40]
             reasons[key] = reasons.get(key, 0) + 1
             rprint(f"[dim]off[/dim] {package.slug}: {note}")
-
-        if dry_run:
-            continue
-
-        package.probe = ok
-        package.probe_note = "" if ok else note[:200]
-        package.probe_checked_at = now()
-        package.save(update_fields=["probe", "probe_note", "probe_checked_at"])
 
     rprint(
         f"\nprobe on {on:,}  off {off:,}  no answer {unsure:,}"
