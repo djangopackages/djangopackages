@@ -315,6 +315,12 @@ source can be scanned. It covers packages with both a repo we can clone from
 production is 4,714 of 5,849. A named `--slug` is fetched whether or not it
 meets that bar.
 
+So is a package tagged `awesome-list` in `Package.tags`: awesome-django,
+awesome-django-rest-framework and awesome-wagtail have no PyPI release and
+nothing to import, but their READMEs are the data we read back when checking
+which listed packages have gone quiet. Add the tag in the admin to track
+another list.
+
 `--min-score` defaults to 0, which halves that again to around 1,960. A
 negative score is not a popularity judgement: the staleness penalty only
 overtakes the stars after roughly thirty months without a commit, so below

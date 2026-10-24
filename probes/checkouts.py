@@ -163,17 +163,32 @@ def scannable_packages(*, min_score: int | None = 0):
     Narrowing here rather than at the call site keeps sync and scan
     looking at the same set, so a scan cannot quietly cover less than
     the sync fetched.
+
+    The exception is a package tagged as an awesome list: no release and
+    often no score to speak of, but its README is what we are after.
     """
-    from package.models import Package
+    from package.models import Package, PackageTag
 
     host_q = Q()
     for host in CLONEABLE_HOSTS:
         host_q |= Q(repo_url__icontains=host)
 
-    queryset = (
+    # A curated list (awesome-django and friends) is the one kind of repo
+    # we keep without a PyPI release or a score: its README is the data.
+    awesome_q = Q(tags__contains=[PackageTag.AWESOME_LIST])
+    released_q = ~Q(pypi_url="")
+    # A negative score is not a popularity judgement. The penalties only
+    # overtake the stars after roughly thirty months without a commit, so
+    # below zero reads as abandoned, whether the package has three stars
+    # or three thousand. Zero is kept deliberately: a package added
+    # yesterday has no stars and scores zero.
+    if min_score is not None:
+        released_q &= Q(score__gte=min_score)
+
+    return (
         Package.objects.exclude(repo_url="")
-        .exclude(pypi_url="")
         .filter(host_q)
+        .filter(released_q | awesome_q)
         # probe is the stored verdict from check_package_sources: can we
         # clone it at all. probe_wanted is ours: do we want to. Null on
         # either means undecided, which we take as "worth a try", so a
@@ -189,16 +204,6 @@ def scannable_packages(*, min_score: int | None = 0):
         )
         .order_by("-score", "title")
     )
-
-    # A negative score is not a popularity judgement. The penalties only
-    # overtake the stars after roughly thirty months without a commit, so
-    # below zero reads as abandoned, whether the package has three stars
-    # or three thousand. Zero is kept deliberately: a package added
-    # yesterday has no stars and scores zero.
-    if min_score is not None:
-        queryset = queryset.filter(score__gte=min_score)
-
-    return queryset
 
 
 def checkout_path(package) -> Path:

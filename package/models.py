@@ -68,6 +68,18 @@ class Category(BaseModel):
         return reverse("category_opengraph", args=[self.slug])
 
 
+class PackageTag(models.TextChoices):
+    """Loose labels kept in Package.tags.
+
+    A JSON list rather than a m2m because there are a handful of these,
+    they change rarely, and a query is `tags__contains=[tag]`.
+    """
+
+    # The package *is* a curated list (awesome-django and friends) whose
+    # README we keep a checkout of so the entries can be read back.
+    AWESOME_LIST = "awesome-list", _("Awesome list")
+
+
 class Package(BaseModel):
     title = models.CharField(_("Title"), max_length=100)
     slug = models.SlugField(
@@ -147,6 +159,16 @@ class Package(BaseModel):
     last_fetched = models.DateTimeField(blank=True, null=True, default=now)
     documentation_url = models.URLField(
         _("Documentation URL"), blank=True, null=True, default="", max_length=500
+    )
+    tags = models.JSONField(
+        _("Tags"),
+        default=list,
+        blank=True,
+        help_text=_(
+            "Internal labels, a list of PackageTag values. "
+            '["awesome-list"] marks a package as a curated list whose '
+            "checkout we keep even though it has no PyPI release."
+        ),
     )
 
     probe = models.BooleanField(
@@ -245,6 +267,10 @@ class Package(BaseModel):
     @property
     def is_deprecated(self):
         return self.date_deprecated is not None
+
+    @property
+    def is_awesome_list(self):
+        return PackageTag.AWESOME_LIST in (self.tags or [])
 
     @property
     def has_favorite(self):
