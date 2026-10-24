@@ -120,6 +120,8 @@ MIDDLEWARE = [
     "waffle.middleware.WaffleMiddleware",
     "django_structlog.middlewares.RequestMiddleware",
     "maintenance_mode.middleware.MaintenanceModeMiddleware",
+    # Last, so it only answers 404s with a Redirect row from the admin.
+    "django.contrib.redirects.middleware.RedirectFallbackMiddleware",
 ]
 
 TEMPLATES = [
@@ -186,6 +188,7 @@ PREREQ_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.postgres",
+    "django.contrib.redirects",
     "django.contrib.sessions",
     "django.contrib.sitemaps",
     "django.contrib.sites",
