@@ -307,6 +307,13 @@ def from_pypi(
     add(normalize(license_expression))
     for classifier in classifiers:
         add(from_classifier(classifier))
+
+    specific = normalize(legacy)
     if not found:
-        add(normalize(legacy))
+        add(specific)
+    elif specific and specific.startswith(found[0] + "-"):
+        # The classifier only names a family ("BSD License", "GNU General
+        # Public License (GPL)") and the legacy field says which member
+        # ("BSD-3-Clause", "GPL-3.0-only"). The member is the better answer.
+        found.insert(0, specific)
     return found
