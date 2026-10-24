@@ -232,7 +232,6 @@ class GridDetailView(DetailView):
                     "repo_url": package.repo_url,
                     "pypi_url": package.pypi_url,
                     "documentation_url": package.documentation_url,
-                    "supports_python3": package.supports_python3,
                     "repo_watchers": package.repo_watchers,
                     "repo_forks": package.repo_forks,
                     "pypi_downloads": package.pypi_downloads,
