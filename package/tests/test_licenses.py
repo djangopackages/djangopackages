@@ -124,6 +124,31 @@ class TestFromPyPI:
             license_expression=None, classifiers=[], legacy="BSD"
         ) == ["BSD"]
 
+    def test_legacy_field_sharpens_a_family_classifier(self):
+        """ "BSD License" is a family; "BSD-3-Clause" in the legacy field
+        says which member, so it wins. Same for GPL."""
+        found = licenses.from_pypi(
+            license_expression=None,
+            classifiers=["License :: OSI Approved :: BSD License"],
+            legacy="BSD-3-Clause",
+        )
+        assert found == ["BSD-3-Clause", "BSD"]
+
+        found = licenses.from_pypi(
+            license_expression=None,
+            classifiers=["License :: OSI Approved :: GNU General Public License (GPL)"],
+            legacy="GPLv3",
+        )
+        assert found == ["GPL-3.0-only", "GPL"]
+
+    def test_legacy_field_cannot_override_a_different_family(self):
+        found = licenses.from_pypi(
+            license_expression=None,
+            classifiers=["License :: OSI Approved :: MIT License"],
+            legacy="BSD-3-Clause",
+        )
+        assert found == ["MIT"]
+
     def test_a_filename_in_the_legacy_field_is_not_a_license(self):
         assert (
             licenses.from_pypi(
