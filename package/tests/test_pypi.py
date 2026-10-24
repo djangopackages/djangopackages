@@ -209,6 +209,92 @@ class TestPyPIPackage:
         assert pkg.docs_url == "https://docs.example.com"
         assert pkg.homepage_url == "https://example.com"
 
+    def test_docs_url_matches_label_prefix(self):
+        for label in ("Documentation (stable)", "Docs: API"):
+            pkg = PyPIPackage(
+                {"info": {"project_urls": {label: "https://example.com/guide"}}}
+            )
+            assert pkg.docs_url == "https://example.com/guide"
+
+    def test_docs_url_matches_documentation_hostname(self):
+        for hostname in (
+            "readthedocs.io",
+            "project.readthedocs.org",
+            "project.rtfd.io",
+            "project.rtfd.org",
+            "docs.example.com",
+            "documentation.example.com",
+        ):
+            pkg = PyPIPackage(
+                {"info": {"project_urls": {"Website": f"https://{hostname}/guide"}}}
+            )
+            assert pkg.docs_url == f"https://{hostname}/guide"
+
+    def test_homepage_url_accepts_home_page_label(self):
+        pkg = PyPIPackage(
+            {"info": {"project_urls": {"Home Page": "https://example.com"}}}
+        )
+        assert pkg.homepage_url == "https://example.com"
+
+    def test_exact_documentation_label_beats_hostname_match(self):
+        pkg = PyPIPackage(
+            {
+                "info": {
+                    "project_urls": {
+                        "Manual": "https://project.readthedocs.io/",
+                        "Documentation": "https://example.com/docs",
+                    }
+                }
+            }
+        )
+        assert pkg.docs_url == "https://example.com/docs"
+
+    def test_homepage_on_a_docs_host_stays_a_homepage(self):
+        """Label wins over host, as in Warehouse: a Homepage link is the
+        homepage even when it lives on Read the Docs."""
+        pkg = PyPIPackage(
+            {"info": {"project_urls": {"Homepage": "https://project.readthedocs.io/"}}}
+        )
+        assert pkg.homepage_url == "https://project.readthedocs.io/"
+        assert pkg.docs_url is None
+
+    def test_a_google_doc_is_not_documentation(self):
+        pkg = PyPIPackage(
+            {
+                "info": {
+                    "project_urls": {
+                        "Roadmap": "https://docs.google.com/document/d/abc/edit"
+                    }
+                }
+            }
+        )
+        assert pkg.docs_url is None
+
+    def test_changelog_on_docs_host_is_not_docs(self):
+        pkg = PyPIPackage(
+            {
+                "info": {
+                    "project_urls": {"Changelog": "https://docs.example.com/changelog"}
+                }
+            }
+        )
+        assert pkg.docs_url is None
+
+    def test_legacy_docs_url_used_when_no_project_url_matches(self):
+        pkg = PyPIPackage(
+            {
+                "info": {
+                    "docs_url": "https://pythonhosted.org/example/",
+                    "project_urls": {"Changelog": "https://docs.example.com/changelog"},
+                }
+            }
+        )
+        assert pkg.docs_url == "https://pythonhosted.org/example/"
+
+    def test_malformed_project_url_does_not_raise(self):
+        pkg = PyPIPackage({"info": {"project_urls": {"Weird": "http://[bad"}}})
+        assert pkg.docs_url is None
+
 
 @pytest.mark.django_db
 class TestUpdatePackageFromPyPI:
