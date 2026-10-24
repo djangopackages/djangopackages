@@ -1,4 +1,4 @@
-"""The replacement for `package.scores._calculate_score` (#1563).
+"""How `Package.score` is computed (#1563).
 
 A package scores 0 to 100. The number is how popular the package is,
 scaled down by how recently it has been maintained:
@@ -20,11 +20,8 @@ with neither a release date nor a commit date: there is nothing to say
 it is maintained, so it scores zero.
 
 Everything tunable lives in `ScoreWeights`. `compare_scores` prints what
-the grids would show under a given set, so tune there before changing
-the defaults.
-
-This module is not wired into `update_package_score` yet; `scores.py`
-still runs the legacy formula until the comparison is signed off.
+the grids would show under a given set against what is stored, so tune
+there before changing the defaults.
 """
 
 from __future__ import annotations

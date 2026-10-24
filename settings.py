@@ -314,7 +314,11 @@ OG_IMAGE_VERSION = env("OG_IMAGE_VERSION", default="2")
 # side-by-side. A grid where nothing clears the bar falls back to showing
 # whatever scores above zero (see grid/scoring.py). Raise or lower it per
 # environment without a deploy.
-PACKAGE_SCORE_MIN = env.int("PACKAGE_SCORE_MIN", default=50)
+#
+# The score is 0 to 100 (package/scoring.py). 35 keeps the comparison
+# tables about the size they were under the old stars-based score at 50;
+# `manage.py compare_scores --new-min N` shows what another value would do.
+PACKAGE_SCORE_MIN = env.int("PACKAGE_SCORE_MIN", default=35)
 
 if LOCAL_INSTALLED_APPS:
     INSTALLED_APPS.extend(LOCAL_INSTALLED_APPS)

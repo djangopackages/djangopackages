@@ -23,7 +23,6 @@ class TestCalculateScoreCommand:
             slug="test-package",
             category=category,
             repo_watchers=100,
-            supports_python3=True,
             last_commit_date=timezone.now(),
             score=0,
         )
@@ -38,21 +37,18 @@ class TestCalculateScoreCommand:
         # Verify
         assert result.exit_code == 0
         package.refresh_from_db()
-        # Base score 100 (watchers) - 0 penalty = 100
-        assert package.score == 100
+        # 100 stars, committed today, nothing else known (see test_scoring.py)
+        assert package.score == 43
 
-    def test_calculate_score_with_penalties(self, runner, package):
-        # Setup: No python 3 support (30% penalty)
-        package.supports_python3 = False
+    def test_calculate_score_archived_is_zero(self, runner, package):
+        package.date_repo_archived = timezone.now()
+        package.score = 100
         package.save()
 
-        # Execute
         runner.invoke(command, [])
 
-        # Verify
         package.refresh_from_db()
-        # 100 - 30 = 70
-        assert package.score == 70
+        assert package.score == 0
 
     def test_min_watchers_filter(self, runner, category):
         p1 = Package.objects.create(
@@ -60,7 +56,6 @@ class TestCalculateScoreCommand:
             slug="p1",
             category=category,
             repo_watchers=100,
-            supports_python3=True,
             last_commit_date=timezone.now(),
             repo_url="https://github.com/p1/p1",
         )
@@ -69,7 +64,6 @@ class TestCalculateScoreCommand:
             slug="p2",
             category=category,
             repo_watchers=10,
-            supports_python3=True,
             last_commit_date=timezone.now(),
             repo_url="https://github.com/p2/p2",
         )
@@ -78,7 +72,7 @@ class TestCalculateScoreCommand:
 
         p1.refresh_from_db()
         p2.refresh_from_db()
-        assert p1.score == 100
+        assert p1.score == 43
         assert p2.score == 0  # Should not be updated
 
     def test_dry_run(self, runner, package):
