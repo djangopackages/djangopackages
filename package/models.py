@@ -15,7 +15,7 @@ from core.models import BaseModel
 from core.utils import PackageStatus
 from package.managers import PackageManager
 from package.repos import get_repo_for_repo_url
-from package.utils import normalize_license
+from package import licenses
 
 repo_url_help_text = settings.PACKAGINATOR_HELP_TEXT["REPO_URL"]
 pypi_url_help_text = settings.PACKAGINATOR_HELP_TEXT["PYPI_URL"]
@@ -112,6 +112,16 @@ class Package(BaseModel):
         _("PyPI License"), max_length=100, blank=True, null=True
     )
     pypi_licenses = ArrayField(models.CharField(max_length=100), blank=True, null=True)
+    repo_license = models.CharField(
+        _("Repo License"),
+        max_length=100,
+        blank=True,
+        default="",
+        help_text=_(
+            "The license the repository host detected, as an SPDX id. "
+            "Used when PyPI does not say."
+        ),
+    )
     pypi_requires_python = models.CharField(
         _("PyPI Requires Python"), max_length=100, blank=True, null=True
     )
@@ -336,8 +346,12 @@ class Package(BaseModel):
         return None
 
     @property
-    def pypi_license_display(self):
-        return self.pypi_license or "UNKNOWN"
+    def license_display(self):
+        """What PyPI says, else what the repository host detected."""
+        return self.pypi_license or self.repo_license or licenses.UNKNOWN
+
+    # The old name, kept for callers and templates that still use it.
+    pypi_license_display = license_display
 
 
 class FlaggedPackage(BaseModel):
@@ -460,7 +474,7 @@ class Version(BaseModel):
         return self.get_development_status_display().split(" ")[-1]
 
     def save(self, *args, **kwargs):
-        self.license = normalize_license(self.license)
+        self.license = licenses.normalize(self.license)
 
         if not self.upload_time:
             self.upload_time = self.created

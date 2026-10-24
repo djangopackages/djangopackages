@@ -10,6 +10,19 @@ from package.utils import maybe_set_documentation_url, uniquer
 from .base_handler import BaseHandler, RepoRateLimitError
 
 
+def detected_license(repo) -> str:
+    """The SPDX id GitHub detected for the repo, or "" when it has none.
+
+    GitHub says NOASSERTION for a license file it could not match,
+    which tells us nothing, so that is treated the same as no license.
+    """
+    license = getattr(repo, "original_license", None)
+    spdx_id = getattr(license, "spdx_id", None) if license else None
+    if not spdx_id or spdx_id == "NOASSERTION":
+        return ""
+    return str(spdx_id)[:100]
+
+
 class GitHubHandler(BaseHandler):
     title = "GitHub"
     url_regex = "(http|https|git)://github.com/"
@@ -76,6 +89,7 @@ class GitHubHandler(BaseHandler):
             package.repo_forks = repo.forks_count
             package.repo_watchers = repo.watchers_count
             maybe_set_documentation_url(package, getattr(repo, "homepage", None))
+            package.repo_license = detected_license(repo)
 
             contributors = []
             for contributor in repo.contributors():

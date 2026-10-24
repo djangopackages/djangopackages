@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from urllib.parse import quote, urlparse
 
-from trove_classifiers import classifiers
 
 if TYPE_CHECKING:
     from django.db.models import QuerySet
@@ -105,23 +104,11 @@ def uniquer(seq, idfun=None):
     return result
 
 
-def normalize_license(license: str):
-    """Handles when:
+def normalize_license(license: str | None) -> str:
+    """One spelling for a license, or UNKNOWN. See `package.licenses`."""
+    from package import licenses
 
-    * No license is passed
-    * Made up licenses are submitted
-    * Official PyPI trove classifier licenses
-    * Common abbreviations of licenses
-
-    """
-    if license is not None:
-        stripped_license = license.strip()
-        if stripped_license.startswith("License") and stripped_license in classifiers:
-            return stripped_license
-        if len(stripped_license) > 20:
-            return "Custom"
-        return stripped_license
-    return "UNKNOWN"
+    return licenses.normalize(license) or licenses.UNKNOWN
 
 
 def iterate_in_batches(queryset: QuerySet, batch_size: int):

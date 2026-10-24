@@ -105,6 +105,11 @@ class TestPyPIPackage:
         pkg = PyPIPackage(raw)
         assert pkg.license_list == ["BSD"]
 
+        # Spellings collapse to one id
+        raw = {"info": {"license": "MIT License"}}
+        pkg = PyPIPackage(raw)
+        assert pkg.license_list == ["MIT"]
+
         # Test classifiers
         raw = {
             "info": {
@@ -112,7 +117,7 @@ class TestPyPIPackage:
             }
         }
         pkg = PyPIPackage(raw)
-        assert pkg.license_list == ["Apache Software License"]
+        assert pkg.license_list == ["Apache-2.0"]
 
     def test_license_list_priority(self):
         raw = {
@@ -130,11 +135,7 @@ class TestPyPIPackage:
             }
         }
         pkg = PyPIPackage(raw)
-        assert pkg.license_list == [
-            "MIT",
-            "Apache Software License",
-            "GNU General Public License v3 (GPLv3)",
-        ]
+        assert pkg.license_list == ["MIT", "Apache-2.0", "GPL-3.0-only"]
 
     def test_no_license(self):
         raw = {"info": {"license_expression": ""}}
@@ -362,8 +363,8 @@ class TestUpdatePackageFromPyPI:
             update_package_from_pypi(package)
 
             package.refresh_from_db()
-            assert package.pypi_license == "BSD License"
-            assert package.pypi_licenses == ["BSD License"]
+            assert package.pypi_license == "BSD"
+            assert package.pypi_licenses == ["BSD"]
 
     def test_update_license_from_classifiers(self, package, pypi_data):
         pypi_data["info"]["license"] = None
@@ -375,8 +376,8 @@ class TestUpdatePackageFromPyPI:
             update_package_from_pypi(package)
 
             package.refresh_from_db()
-            assert package.pypi_license == "BSD License"
-            assert package.pypi_licenses == ["BSD License"]
+            assert package.pypi_license == "BSD"
+            assert package.pypi_licenses == ["BSD"]
 
     def test_update_license_too_long(self, package, pypi_data):
         long_license = "x" * 50
@@ -389,8 +390,8 @@ class TestUpdatePackageFromPyPI:
             update_package_from_pypi(package)
 
             package.refresh_from_db()
-            assert package.pypi_license == "Custom"
-            assert package.pypi_licenses == ["Custom"]
+            assert package.pypi_license is None
+            assert package.pypi_licenses is None
 
     def test_update_development_status(self, package, pypi_data):
         pypi_data["info"]["classifiers"] = ["Development Status :: 3 - Alpha"]
