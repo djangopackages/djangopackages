@@ -137,6 +137,22 @@ class Package(BaseModel):
     pypi_requires_python = models.CharField(
         _("PyPI Requires Python"), max_length=100, blank=True, null=True
     )
+    # From deps.dev, for the current PyPI release; see deps_dev_sync. Null
+    # means deps.dev has no row or we have not asked yet; zero is a real
+    # answer, and a common one for end-user apps nothing builds on.
+    pypi_dependents = models.IntegerField(
+        _("PyPI dependents"),
+        blank=True,
+        null=True,
+        help_text=_(
+            "PyPI projects that depend on the current release, directly or "
+            "through another dependency, according to deps.dev."
+        ),
+    )
+    pypi_direct_dependents = models.IntegerField(
+        _("PyPI direct dependents"), blank=True, null=True
+    )
+    pypi_dependents_synced_at = models.DateTimeField(blank=True, null=True)
     markers = ArrayField(models.CharField(max_length=100), blank=True, null=True)
     supports_python3 = models.BooleanField(
         _("Supports Python 3"), blank=True, null=True

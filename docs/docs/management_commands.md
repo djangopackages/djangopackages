@@ -26,6 +26,28 @@ Migrates legacy (http) GitHub packages to https. Migrates existing packages that
 docker compose run django uv run manage.py cleanup_github_projects [--limit=<number-of-records>]
 ```
 
+## deps_dev_sync
+
+Asks [deps.dev](https://deps.dev) how many PyPI projects depend on each
+package's current release and records the answer in `Package.pypi_dependents`
+(direct plus indirect) and `pypi_direct_dependents`. Dependents show on the
+package page next to stars and forks once a package has been synced.
+
+Two unauthenticated requests per package, one to find the default version and
+one for its dependents, with a short delay between packages. A request that
+fails or returns a 5xx is retried once; a package deps.dev does not know gets
+nulls, not a stale number. The count is for the current version only, so a
+package whose users pin an old release reads low.
+
+```shell
+just run deps_dev_sync                      # every package with a PyPI URL
+just run deps_dev_sync --slug django-nh3    # one package
+just run deps_dev_sync --limit 100 --dry-run
+```
+
+The scheduled form is the `deps-dev` job in `init_scheduled_jobs`, weekly on
+Tuesday morning.
+
 ## evaluate_grid_elements
 
 Archived and deprecated packages are skipped by every one of these commands. Reviewing a dead package buys nothing, and in production 939 of the 5,836 packages are archived or deprecated, including 83 of the 680 still sitting in "Other". Pass `--include-archived` to put them back.

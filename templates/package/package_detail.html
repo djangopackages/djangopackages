@@ -156,6 +156,20 @@
                                         </div>
                                     </div>
 
+                                    {% if package.pypi_dependents is not None %}
+                                        <!-- Dependents -->
+                                        <div class="tooltip-wrapper group">
+                                            <span class="flex cursor-help items-center gap-1">
+                                                <i class="ph-bold ph-tree-structure text-base"></i>
+                                                {{ package.pypi_dependents|intcomma }}
+                                            </span>
+
+                                            <div class="tooltip group-hover:opacity-100">
+                                                {% translate "PyPI projects that depend on the current release, per deps.dev" %}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
                                     {% flag "enabled_packages_score_values" %}
                                         <!-- Score -->
                                         <div class="tooltip-wrapper group">

@@ -48,6 +48,14 @@ JOBS = {
         "args": ("build_probe_catalog",),
         "cron": "12 6 * * *",
     },
+    # Dependents from deps.dev, two small requests per package. Weekly;
+    # the graph does not move faster than that for our purposes. See #834.
+    "deps-dev": {
+        "name": "Update dependents from deps.dev",
+        "func": "django.core.management.call_command",
+        "args": ("deps_dev_sync",),
+        "cron": "30 4 * * 2",
+    },
     # The awesome lists: pull their READMEs and re-tag the packages they
     # name. Daily, since the lists change a few times a week at most.
     "awesome-lists": {
