@@ -84,11 +84,9 @@ def command(
     """
     Calculate and update package scores efficiently.
 
-    Score calculation rules:
-    - Base score: repo_watchers (GitHub stars)
-    - Penalty: 10% of stars for each 3 months since last update
-    - Penalty: 30% of stars (max 1000) if no Python 3 support
-    - Minimum score: -500
+    The score is 0 to 100: popularity (log-scaled stars and monthly PyPI
+    downloads) scaled by maintenance (release and commit freshness).
+    Deprecated and archived packages score 0. See package/scoring.py.
 
     Examples:
 

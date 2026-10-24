@@ -52,10 +52,10 @@ def test_compare_scores_runs_and_writes_nothing(grid_with_packages, settings, tm
     assert result.exit_code == 0, result.output
     assert "2 active packages, 1 approved grids" in result.output
     assert "Effect on the grids" in result.output
-    # Under the legacy score both show and stale is on top; the new score
-    # drops the abandoned one and the grid's top package changes.
+    # Under the stored (old-formula) scores both show and stale is on top;
+    # the computed score drops the abandoned one and the top changes.
     assert "grids whose top package changes" in result.output
-    assert "legacy only" in result.output
+    assert "stored only" in result.output
     assert "No approved grid with slug 'missing'" in result.output
     assert dict(Package.objects.values_list("slug", "score")) == before
     assert csv_path.read_text().count("\n") == 3

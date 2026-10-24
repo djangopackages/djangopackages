@@ -1,34 +1,33 @@
-import datetime
-
 from django.utils import timezone
 from model_bakery import baker
 
 from package.models import Package
 from package.scores import (
     UpdateResult,
-    _calculate_score,
     update_package_score,
     update_package_scores_bulk,
 )
+from package.scoring import ScoreInputs, calculate_score
+
+# 100 stars, committed today, nothing else known. The formula itself is
+# covered in test_scoring.py; here the number only has to be stable.
+FRESH_100_STARS = 43
 
 
-def test_calculate_score_recent_python3():
-    last_commit_date = timezone.now() - datetime.timedelta(days=10)
-    score = _calculate_score(
+def test_update_package_score_archived_package_is_zero(db, category):
+    package = baker.make(
+        Package,
+        category=category,
+        repo_url="https://github.com/test/score-archived",
         repo_watchers=100,
-        last_commit_date=last_commit_date,
-        supports_python3=True,
+        last_commit_date=timezone.now(),
+        date_repo_archived=timezone.now(),
+        score=100,
     )
-    assert score == 100
 
-
-def test_calculate_score_no_commit_date_and_no_python3():
-    score = _calculate_score(
-        repo_watchers=100,
-        last_commit_date=None,
-        supports_python3=False,
-    )
-    assert score == 60
+    assert update_package_score(package, save=True) is True
+    package.refresh_from_db()
+    assert package.score == 0
 
 
 def test_update_package_score_updates_when_changed(db, category):
@@ -37,7 +36,6 @@ def test_update_package_score_updates_when_changed(db, category):
         category=category,
         repo_url="https://github.com/test/score-updates",
         repo_watchers=100,
-        supports_python3=True,
         last_commit_date=timezone.now(),
         score=0,
     )
@@ -46,7 +44,7 @@ def test_update_package_score_updates_when_changed(db, category):
 
     assert updated is True
     package.refresh_from_db()
-    assert package.score == 100
+    assert package.score == FRESH_100_STARS
 
     updated_again = update_package_score(package, save=True)
     assert updated_again is False
@@ -58,13 +56,10 @@ def test_update_package_scores_bulk_updates_only_changed(db, category):
         category=category,
         repo_url="https://github.com/test/score-unchanged",
         repo_watchers=50,
-        supports_python3=True,
         last_commit_date=timezone.now(),
     )
-    package_unchanged.score = _calculate_score(
-        repo_watchers=package_unchanged.repo_watchers,
-        last_commit_date=package_unchanged.last_commit_date,
-        supports_python3=package_unchanged.supports_python3,
+    package_unchanged.score = calculate_score(
+        ScoreInputs.from_package(package_unchanged)
     )
     package_unchanged.save(update_fields=["score"])
 
@@ -73,7 +68,6 @@ def test_update_package_scores_bulk_updates_only_changed(db, category):
         category=category,
         repo_url="https://github.com/test/score-changed",
         repo_watchers=80,
-        supports_python3=True,
         last_commit_date=timezone.now(),
         score=0,
     )
@@ -95,7 +89,10 @@ def test_update_package_scores_bulk_updates_only_changed(db, category):
     assert progress[-1][0] == 2
 
     package_changed.refresh_from_db()
-    assert package_changed.score == 80
+    assert package_changed.score == calculate_score(
+        ScoreInputs.from_package(package_changed)
+    )
+    assert package_changed.score > 0
 
 
 def test_update_result_success_rate():

@@ -1,9 +1,11 @@
-"""Dry run of the new package score (`package.scoring`) against the legacy one.
+"""Dry run of `package.scoring` against the stored `Package.score`.
 
-Nothing is written. For every active package the command computes the new
-score and sets it beside the stored legacy `Package.score`, then answers
-the question that matters for #1563: what would each grid's comparison
-table show if the new score were the stored one?
+Nothing is written. For every active package the command computes the
+score, with the default weights or the ones given as flags, and sets it
+beside what is stored, then answers the question that matters when tuning:
+what would each grid's comparison table show if the computed score were
+the stored one? Written for the switch from the old formula (#1563); now
+it is how a change to `ScoreWeights` or `PACKAGE_SCORE_MIN` is previewed.
 
     manage.py compare_scores
     manage.py compare_scores --new-min 30
@@ -163,15 +165,15 @@ def _grid_detail(
     table = Table(
         title=(
             f"{grid.title} ({grid.slug}): {len(members)} active, "
-            f"legacy shows {len(legacy.shown)} at >= {legacy.cutoff}, "
-            f"new shows {len(new.shown)} at >= {new.cutoff}"
+            f"stored shows {len(legacy.shown)} at >= {legacy.cutoff}, "
+            f"computed shows {len(new.shown)} at >= {new.cutoff}"
         ),
         title_justify="left",
     )
     for name in ("package", "stars", "downloads", "released", "committed"):
         table.add_column(name, justify="right" if name != "package" else "left")
-    table.add_column("legacy", justify="right")
-    table.add_column("new", justify="right")
+    table.add_column("stored", justify="right")
+    table.add_column("computed", justify="right")
     table.add_column("shown", justify="center")
 
     shown_legacy = {row.pk for row in legacy.shown}
@@ -180,8 +182,8 @@ def _grid_detail(
         was, now = row.pk in shown_legacy, row.pk in shown_new
         marker = {
             (True, True): "both",
-            (True, False): "[red]legacy only[/red]",
-            (False, True): "[green]new only[/green]",
+            (True, False): "[red]stored only[/red]",
+            (False, True): "[green]computed only[/green]",
             (False, False): "[dim]neither[/dim]",
         }[(was, now)]
         note = (
@@ -209,8 +211,8 @@ def _write_csv(path: str, rows: dict[int, Row]) -> None:
             [
                 "pk",
                 "slug",
-                "legacy",
-                "new",
+                "stored",
+                "computed",
                 "popularity",
                 "maintenance",
                 "stars",
@@ -260,7 +262,7 @@ def _weight_options(func):
     "--new-min",
     type=int,
     default=None,
-    help="Cutoff to apply to the new score. Defaults to PACKAGE_SCORE_MIN.",
+    help="Cutoff to apply to the computed score. Defaults to PACKAGE_SCORE_MIN.",
 )
 @click.option(
     "--grid",
@@ -284,7 +286,7 @@ def _weight_options(func):
 )
 @_weight_options
 def command(new_min, grid_slugs, changes, csv_path, **weight_kwargs):
-    """Compare the new 0 to 100 package score with the stored legacy score. Writes nothing."""
+    """Compare the computed package score with the stored one, grid by grid. Writes nothing."""
     console = Console(width=max(Console().width, 140))
     weights = ScoreWeights(**weight_kwargs)
     legacy_min = settings.PACKAGE_SCORE_MIN
@@ -303,13 +305,11 @@ def command(new_min, grid_slugs, changes, csv_path, **weight_kwargs):
     # 1. Distributions.
     legacy_scores = [row.legacy for row in rows.values()]
     new_scores = [row.new for row in rows.values()]
+    console.print(_histogram("Stored Package.score", legacy_scores, LEGACY_BUCKETS))
+    console.print(_histogram("Computed score", new_scores, NEW_BUCKETS))
     console.print(
-        _histogram("Legacy score (stored Package.score)", legacy_scores, LEGACY_BUCKETS)
-    )
-    console.print(_histogram("New score", new_scores, NEW_BUCKETS))
-    console.print(
-        f"median legacy {statistics.median(legacy_scores) if legacy_scores else 0:g}, "
-        f"median new {statistics.median(new_scores) if new_scores else 0:g}\n"
+        f"median stored {statistics.median(legacy_scores) if legacy_scores else 0:g}, "
+        f"median computed {statistics.median(new_scores) if new_scores else 0:g}\n"
     )
     zeroed = defaultdict(int)
     for row in rows.values():
@@ -317,7 +317,7 @@ def command(new_min, grid_slugs, changes, csv_path, **weight_kwargs):
             zeroed[row.breakdown.zeroed_by] += 1
     if zeroed:
         console.print(
-            "new score is zero because: "
+            "computed score is zero because: "
             + ", ".join(f"{k} ({v:,})" for k, v in zeroed.items())
             + "\n"
         )
@@ -350,8 +350,8 @@ def command(new_min, grid_slugs, changes, csv_path, **weight_kwargs):
     new_summary = summarize(new_out, new_min)
     table = Table(title="Effect on the grids", title_justify="left")
     table.add_column("")
-    table.add_column(f"legacy >= {legacy_min}", justify="right")
-    table.add_column(f"new >= {new_min}", justify="right")
+    table.add_column(f"stored >= {legacy_min}", justify="right")
+    table.add_column(f"computed >= {new_min}", justify="right")
     for key in legacy_summary:
         table.add_row(key, f"{legacy_summary[key]:,}", f"{new_summary[key]:,}")
     top_changed = sum(
@@ -383,10 +383,10 @@ def command(new_min, grid_slugs, changes, csv_path, **weight_kwargs):
             title_justify="left",
         )
         table.add_column("grid")
-        table.add_column("legacy shows", justify="right")
-        table.add_column("new shows", justify="right")
-        table.add_column("legacy top")
-        table.add_column("new top")
+        table.add_column("stored shows", justify="right")
+        table.add_column("computed shows", justify="right")
+        table.add_column("stored top")
+        table.add_column("computed top")
         for _, grid, was, now_ in churn[:changes]:
             lt, nt = legacy_out[grid].top, new_out[grid].top
             table.add_row(
