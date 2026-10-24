@@ -63,7 +63,7 @@
                                 <span
                                     class="badge suggestion-badge flex items-center gap-1 whitespace-nowrap"
                                     data-toggle="tooltip"
-                                    title="{% translate 'Scores (0-100) are based on Repository stars, with deductions for inactivity (-10% every 3 months) and lack of Python 3 support (-30%).' %}"
+                                    title="{% translate 'Scores (0-100) combine GitHub stars and PyPI downloads, scaled by how recently the package released and committed. Deprecated and archived packages score 0.' %}"
                                 >
                                     <i class="ph-bold ph-chart-bar text-xs"></i>
                                     {{ item.score|intcomma|default:"n/a" }}
