@@ -48,6 +48,16 @@ JOBS = {
         "args": ("build_probe_catalog",),
         "cron": "12 6 * * *",
     },
+    # Last-month download counts from pypistats.org, one request per
+    # package two seconds apart, so a full pass takes about three hours.
+    # Weekly, because the number is a 30-day window and the API is
+    # someone else's. See #1065.
+    "pypi-stats": {
+        "name": "Update PyPI download counts",
+        "func": "django.core.management.call_command",
+        "args": ("pypi_stats",),
+        "cron": "30 4 * * 0",
+    },
     # The awesome lists: pull their READMEs and re-tag the packages they
     # name. Daily, since the lists change a few times a week at most.
     "awesome-lists": {
