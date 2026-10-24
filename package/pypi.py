@@ -12,7 +12,8 @@ from django.utils.dateparse import parse_datetime
 from packaging.specifiers import InvalidSpecifier, SpecifierSet
 
 from core.utils import status_choices_switch
-from package.utils import maybe_set_documentation_url, normalize_license
+from package import licenses
+from package.utils import maybe_set_documentation_url
 
 logger = logging.getLogger(__name__)
 
@@ -145,42 +146,17 @@ class PyPIPackage:
 
     @cached_property
     def license_list(self) -> list[str]:
+        """The licenses PyPI reports, normalised, best evidence first.
+
+        Order: PEP 639 `license_expression`, then the `License ::`
+        classifiers, then the legacy free text field when it is short
+        enough to be a name. See `package.licenses.from_pypi`.
         """
-        Extract license information from multiple sources.
-
-        Priority order (as per PEP 639):
-        1. license_expression (preferred)
-        2. license field (legacy)
-        3. classifiers
-
-        Returns:
-            List of unique, non-empty license identifiers
-        """
-        licenses = []
-        legacy_license = self.info.get("license")
-        license_expression = self.info.get("license_expression")
-        classifiers = self.classifiers
-
-        # PEP 639 license_expression takes precedence
-        if license_expression:
-            text = normalize_license(license_expression)
-            if text:  # Ensure non-empty after normalization
-                licenses.append(text)
-
-        # Add legacy license field if not already present
-        if not licenses and legacy_license:
-            text = normalize_license(legacy_license)
-            if text and text not in licenses:
-                licenses.append(text)
-
-        # Extract from classifiers
-        for classifier in classifiers:
-            if classifier.startswith("License"):
-                text = classifier.split("::")[-1].strip()
-                if text and text not in licenses:
-                    licenses.append(text)
-
-        return licenses
+        return licenses.from_pypi(
+            license_expression=self.info.get("license_expression"),
+            classifiers=self.classifiers,
+            legacy=self.info.get("license"),
+        )
 
     @cached_property
     def development_status(self) -> str | None:
@@ -337,11 +313,9 @@ def update_package_from_pypi(
         defaults["supports_python3"] = True
 
     # License information
-    licenses = pypi_info.license_list
-
-    if licenses:
-        defaults["license"] = licenses[0]
-        defaults["licenses"] = licenses
+    found_licenses = pypi_info.license_list
+    defaults["license"] = found_licenses[0] if found_licenses else None
+    defaults["licenses"] = found_licenses or None
 
     # Upload time
     if pypi_info.version_upload_time is not None:
@@ -361,13 +335,11 @@ def update_package_from_pypi(
     else:
         logger.debug("Updated version %s for package %s", pypi_info.version, pypi_name)
 
-    # Sync license information back to Package
-    if licenses:
-        if package.pypi_license != version_obj.license:
-            package.pypi_license = version_obj.license
-
-        if package.pypi_licenses != version_obj.licenses:
-            package.pypi_licenses = version_obj.licenses
+    # Sync license information back to Package. An empty answer clears a
+    # stale one, so a package whose metadata lost its license falls back
+    # to what the repository host detected rather than keeping old text.
+    package.pypi_license = version_obj.license if found_licenses else None
+    package.pypi_licenses = version_obj.licenses if found_licenses else None
 
     # Update latest version reference
     package.latest_version = version_obj

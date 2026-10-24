@@ -14,18 +14,13 @@ def test_uniquer():
 
 def test_normalize_license():
     assert normalize_license(None) == "UNKNOWN"
-    assert (
-        normalize_license(
-            """License :: OSI Approved :: MIT License
-            """
-        )
-        == "License :: OSI Approved :: MIT License"
-    )
-    assert normalize_license("Pow" * 80) == "Custom"
+    assert normalize_license("Pow" * 80) == "UNKNOWN"
     assert normalize_license("MIT") == "MIT"
-
-    # TODO: fix in #888
-    assert normalize_license("GPL-2.0-only OR LGPL-2.1-or-later") == "Custom"
+    assert normalize_license("MIT License") == "MIT"
+    assert (
+        normalize_license("GPL-2.0-only OR LGPL-2.1-or-later")
+        == "GPL-2.0-only OR LGPL-2.1-or-later"
+    )
 
 
 def test_usable_homepage_url():
