@@ -127,9 +127,7 @@ class GridDetailView(DetailView):
         )
         packages = (
             Package.objects.active()
-            .filter(
-                gridpackage__grid=grid, score__gte=max(0, settings.PACKAGE_SCORE_MIN)
-            )
+            .filter(gridpackage__grid=grid, score__gte=settings.PACKAGE_SCORE_MIN)
             .select_related(
                 "category",
                 "latest_version",
@@ -404,9 +402,7 @@ class GridListView(ListView):
                 active_gridpackage_count=Count(
                     "gridpackage",
                     filter=Q(
-                        gridpackage__package__score__gte=max(
-                            0, settings.PACKAGE_SCORE_MIN
-                        )
+                        gridpackage__package__score__gte=settings.PACKAGE_SCORE_MIN
                     ),
                     distinct=True,
                 ),

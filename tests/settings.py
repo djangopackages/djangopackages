@@ -16,6 +16,10 @@ TEMPLATES[0]["OPTIONS"]["debug"] = DEBUG  # noqa
 SERVE_MEDIA = DEBUG
 
 
+# The fixture packages score 0. Tests that are about the cutoff set it
+# themselves; the rest should not have to care that production uses 50.
+PACKAGE_SCORE_MIN = 0
+
 ########## TEST
 # TEST_RUNNER = "testrunner.OurTestRunner"
 
