@@ -5,6 +5,7 @@ import logging
 from dataclasses import dataclass
 from typing import Any, TYPE_CHECKING
 from collections.abc import Mapping
+from urllib.parse import urlparse
 
 import httpx2
 from django.utils import timezone
@@ -15,7 +16,6 @@ from core.utils import status_choices_switch
 from package.utils import maybe_set_documentation_url, normalize_license
 
 logger = logging.getLogger(__name__)
-
 
 if TYPE_CHECKING:
     from package.models import Package
@@ -43,6 +43,52 @@ _PY3_PROBE_VERSIONS = [
     "3.1",
     "3.0",
 ]
+
+_HOMEPAGE_LABELS = {"home", "homepage", "home page"}
+_CHANGELOG_LABELS = {
+    "changelog",
+    "change log",
+    "changes",
+    "news",
+    "whatsnew",
+    "what's new",
+    "history",
+}
+_RELEASE_NOTES_LABELS = {"releasenotes", "release notes"}
+_DOCS_LABEL_PREFIXES = ("docs", "documentation")
+_DOCS_HOSTS = {"readthedocs.io", "readthedocs.org", "rtfd.io", "rtfd.org"}
+_DOCS_HOST_SUFFIXES = tuple(f".{host}" for host in _DOCS_HOSTS)
+_DOCS_HOST_PREFIXES = ("docs.", "documentation.")
+
+def classify_project_link(label: str, url: str) -> str | None:
+    """Classify a PyPI project link by label and hostname.
+
+    Mirrors the order of Warehouse's project-links.html, so a "Changelog" link
+    that lives on a docs host is a changelog, not documentation.
+    """
+    name = str(label).strip().lower()
+    try:
+        host = (urlparse(str(url)).hostname or "").lower()
+    except ValueError:
+        # Malformed URLs (e.g. "http://[bad") must not break a package update.
+        host = ""
+
+    if name == "download":
+        return "download"
+    if name in _HOMEPAGE_LABELS:
+        return "homepage"
+    if name in _CHANGELOG_LABELS:
+        return "changelog"
+    if name in _RELEASE_NOTES_LABELS:
+        return "release_notes"
+    if (
+        name.startswith(_DOCS_LABEL_PREFIXES)
+        or host in _DOCS_HOSTS
+        or host.endswith(_DOCS_HOST_SUFFIXES)
+        or host.startswith(_DOCS_HOST_PREFIXES)
+    ):
+        return "docs"
+    return None
 
 
 @dataclass(frozen=True)
@@ -99,19 +145,30 @@ class PyPIPackage:
                 return value
         return None
 
+    def _first_project_url_in_category(self, category: str) -> str | None:
+        for label, url in self.project_urls.items():
+            if not label or not url:
+                continue
+            if classify_project_link(label, url) == category:
+                return url
+        return None
     @cached_property
     def docs_url(self) -> str | None:
         # project_urls is maintained by the author; info.docs_url is the legacy
         # pythonhosted field and is often years out of date.
+        # An exact "documentation"/"docs" label still wins, so existing results
+        # don't change; then fall back to label-prefix / hostname matching.
         if docs_url := self._first_project_url("documentation", "docs"):
+            return docs_url
+
+        if docs_url := self._first_project_url_in_category("docs"):
             return docs_url
 
         return self.info.get("docs_url")
 
     @cached_property
     def homepage_url(self) -> str | None:
-        return self._first_project_url("homepage", "home")
-
+        return self._first_project_url("homepage", "home", "home page")
     @cached_property
     def supports_python3(self) -> bool | None:
         classifier_says_py3 = any(
@@ -152,7 +209,6 @@ class PyPIPackage:
         1. license_expression (preferred)
         2. license field (legacy)
         3. classifiers
-
         Returns:
             List of unique, non-empty license identifiers
         """
