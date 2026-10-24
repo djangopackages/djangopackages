@@ -197,6 +197,22 @@ docker compose run django uv run manage.py pypi_updater
 ```
 Warning: This can take a long, long time.
 
+## pypi_stats
+
+Fetches each package's downloads over the last month from
+[pypistats.org](https://pypistats.org) into `Package.pypi_downloads`, which the
+package list can sort by. One request per package, two seconds apart, so a full
+pass over the catalogue takes about three hours.
+
+```shell
+just run pypi_stats                      # every package with a PyPI URL
+just run pypi_stats --slug django-nh3    # one package
+just run pypi_stats --delay 1            # faster, at the API's mercy
+```
+
+The scheduled form is the `pypi-stats` job in `init_scheduled_jobs`, weekly on
+Sunday morning.
+
 ## recategorize_from_grids
 
 Refiles packages into the category the grids they are already on imply.
