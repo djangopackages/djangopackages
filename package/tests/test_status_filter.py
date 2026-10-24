@@ -103,3 +103,12 @@ def test_status_is_carried_in_the_htmx_state(client, packages):
         in body
     )
     assert f'&status={PackageStatus.STABLE.value}"' in body
+
+
+def test_the_select_does_not_also_send_the_stale_hidden_status(client, packages):
+    """htmx sends the select's own value plus everything in hx-include. If the
+    hidden status input were included too, Django would read the last value,
+    which is the old one, and the change would be ignored."""
+    body = client.get(reverse("packages")).content.decode()
+
+    assert "#package-list-state input:not([name='status'])" in body

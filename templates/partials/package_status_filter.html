@@ -10,7 +10,7 @@
             hx-trigger="change"
             hx-target="#package-list-container"
             hx-indicator="#package-list-spinner"
-            hx-include="#package-list-state input, [name='q']"
+            hx-include="#package-list-state input:not([name='status']), [name='q']"
             hx-push-url="true">
         {% for value, label in status_choices %}
             <option value="{{ value }}" {% if value == current_status %}selected{% endif %}>
