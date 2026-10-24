@@ -81,31 +81,6 @@
                         {% endfor %}
                     </tr>
 
-                <!-- Python 3 Row -->
-                    <tr class="hover:bg-muted/30 transition-colors">
-                        <td class="bg-card text-muted-foreground sticky left-0 z-10 px-3 py-2.5 text-xs font-medium">
-                            <div class="flex items-center gap-1.5">
-                                <i class="ph-bold ph-file-py text-primary"></i>
-                                {% translate "Python 3?" %}
-                            </div>
-                        </td>
-                        {% for package in packages %}
-                            <td class="border-border/30 border-l px-3 py-2.5 text-center">
-                                {% if package.supports_python3 %}
-                                    <span class="inline-flex items-center gap-1 rounded-md bg-emerald-500/10 px-2 py-0.5 text-xs font-medium text-emerald-700 dark:text-emerald-400">
-                                        <i class="ph-bold ph-check-circle text-xs"></i>
-                                        {% translate "Yes" %}
-                                    </span>
-                                {% else %}
-                                    <span class="inline-flex items-center gap-1 rounded-md bg-rose-500/10 px-2 py-0.5 text-xs font-medium text-rose-700 dark:text-rose-400">
-                                        <i class="ph-bold ph-x-circle text-xs"></i>
-                                        {% translate "No" %}
-                                    </span>
-                                {% endif %}
-                            </td>
-                        {% endfor %}
-                    </tr>
-
                     <!-- Development Status Row -->
                     <tr>
                         <td class="bg-card text-muted-foreground sticky left-0 z-10 px-3 py-2.5 text-xs font-medium">
@@ -469,7 +444,7 @@
                             {% endif %}
 
                     <!-- Stats Grid -->
-                            <div class="mb-4 grid grid-cols-4 gap-3">
+                            <div class="mb-4 grid grid-cols-3 gap-3">
                                 <div class="bg-muted/50 rounded-lg p-2 text-center">
                                     <div class="text-foreground text-lg font-bold" data-abbreviate>{{ package.repo_watchers|default:0|intcomma }}</div>
                                     <div class="text-muted-foreground text-[10px] uppercase">{% translate "Stars" %}</div>
@@ -481,18 +456,6 @@
                                 <div class="bg-muted/50 rounded-lg p-2 text-center">
                                     <div id="mobile-usage-count-{{ package.id }}" class="text-foreground text-lg font-bold">{{ package.usage_count|default:0 }}</div>
                                     <div class="text-muted-foreground text-[10px] uppercase">{% translate "Usage" %}</div>
-                                </div>
-                                <div class="bg-muted/50 rounded-lg p-2 text-center">
-                                    {% if package.supports_python3 %}
-                                        <div class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500/10">
-                                            <i class="ph-bold ph-check text-emerald-600 dark:text-emerald-400"></i>
-                                        </div>
-                                    {% else %}
-                                        <div class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-rose-500/10">
-                                            <i class="ph-bold ph-x text-rose-600 dark:text-rose-400"></i>
-                                        </div>
-                                    {% endif %}
-                                    <div class="text-muted-foreground text-[10px] uppercase">{% translate "Py3" %}</div>
                                 </div>
                             </div>
 
