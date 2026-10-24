@@ -30,6 +30,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from django_q.tasks import async_task
 from django.utils.translation import gettext_lazy as _
 
+from core.utils import PackageStatus
 from grid.models import Grid, GridPackage
 from package.forms import (
     CategoryPackageFilterForm,
@@ -551,13 +552,30 @@ class BasePackageListView(ListView):
 
         self.form = self.get_filter_form()
         self.filter_data = self.get_default_filter_data()
+        self.filter_data.setdefault("status", "all")
 
         if self.form.is_valid():
             self.update_filter_data(self.form.cleaned_data)
 
         queryset = self.apply_filters(queryset)
+        queryset = self.apply_status_filter(queryset)
 
         return queryset.order_by(self.filter_data["sort"])
+
+    def apply_status_filter(self, queryset):
+        """
+        Narrow to one PyPI development status, read off the latest release.
+        "Unknown" also covers packages with no release on record.
+        """
+        status = self.filter_data["status"]
+        if status == "all":
+            return queryset
+        if int(status) == PackageStatus.UNKNOWN:
+            return queryset.filter(
+                Q(latest_version__isnull=True)
+                | Q(latest_version__development_status=PackageStatus.UNKNOWN)
+            )
+        return queryset.filter(latest_version__development_status=int(status))
 
     def update_filter_data(self, cleaned_data):
         """
@@ -572,6 +590,8 @@ class BasePackageListView(ListView):
         context.update(
             {
                 "current_sort": self.filter_data["sort"],
+                "current_status": self.filter_data["status"],
+                "status_choices": self.form.fields["status"].choices,
                 "search_query": self.filter_data.get("q", ""),
                 "form": self.form,
                 "list_url": self.get_list_url(),
