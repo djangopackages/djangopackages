@@ -60,6 +60,8 @@ _DOCS_LABEL_PREFIXES = ("docs", "documentation")
 _DOCS_HOSTS = {"readthedocs.io", "readthedocs.org", "rtfd.io", "rtfd.org"}
 _DOCS_HOST_SUFFIXES = tuple(f".{host}" for host in _DOCS_HOSTS)
 _DOCS_HOST_PREFIXES = ("docs.", "documentation.")
+# Hosts that start with "docs." but are not where a project's manual lives.
+_NOT_DOCS_HOSTS = {"docs.google.com", "docs.github.com", "docs.python.org"}
 
 
 def classify_project_link(label: str, url: str) -> str | None:
@@ -83,9 +85,12 @@ def classify_project_link(label: str, url: str) -> str | None:
         return "changelog"
     if name in _RELEASE_NOTES_LABELS:
         return "release_notes"
+    if name.startswith(_DOCS_LABEL_PREFIXES):
+        return "docs"
+    if host in _NOT_DOCS_HOSTS:
+        return None
     if (
-        name.startswith(_DOCS_LABEL_PREFIXES)
-        or host in _DOCS_HOSTS
+        host in _DOCS_HOSTS
         or host.endswith(_DOCS_HOST_SUFFIXES)
         or host.startswith(_DOCS_HOST_PREFIXES)
     ):
@@ -171,7 +176,7 @@ class PyPIPackage:
 
     @cached_property
     def homepage_url(self) -> str | None:
-        return self._first_project_url("homepage", "home", "home page")
+        return self._first_project_url(*_HOMEPAGE_LABELS)
 
     @cached_property
     def supports_python3(self) -> bool | None:

@@ -249,6 +249,27 @@ class TestPyPIPackage:
         )
         assert pkg.docs_url == "https://example.com/docs"
 
+    def test_homepage_on_a_docs_host_stays_a_homepage(self):
+        """Label wins over host, as in Warehouse: a Homepage link is the
+        homepage even when it lives on Read the Docs."""
+        pkg = PyPIPackage(
+            {"info": {"project_urls": {"Homepage": "https://project.readthedocs.io/"}}}
+        )
+        assert pkg.homepage_url == "https://project.readthedocs.io/"
+        assert pkg.docs_url is None
+
+    def test_a_google_doc_is_not_documentation(self):
+        pkg = PyPIPackage(
+            {
+                "info": {
+                    "project_urls": {
+                        "Roadmap": "https://docs.google.com/document/d/abc/edit"
+                    }
+                }
+            }
+        )
+        assert pkg.docs_url is None
+
     def test_changelog_on_docs_host_is_not_docs(self):
         pkg = PyPIPackage(
             {
