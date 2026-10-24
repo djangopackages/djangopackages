@@ -42,6 +42,7 @@ from grid.forms import (
     GridPackageForm,
 )
 from grid.models import Element, Feature, Grid, GridPackage
+from grid.scoring import annotate_active_count, cutoff_for
 from package.models import Package
 
 User = get_user_model()
@@ -127,7 +128,7 @@ class GridDetailView(DetailView):
         )
         packages = (
             Package.objects.active()
-            .filter(gridpackage__grid=grid, score__gte=settings.PACKAGE_SCORE_MIN)
+            .filter(gridpackage__grid=grid, score__gte=cutoff_for(grid))
             .select_related(
                 "category",
                 "latest_version",
@@ -394,20 +395,8 @@ class GridListView(ListView):
 
     def get_queryset(self):
         queryset = (
-            Grid.objects.approved()
-            .annotate(
-                # `distinct=True` parameter is required here for multiple annotations to not yield the wrong results
-                # See: https://docs.djangoproject.com/en/4.2/topics/db/aggregation/#combining-multiple-aggregations
-                gridpackage_count=Count("gridpackage", distinct=True),
-                active_gridpackage_count=Count(
-                    "gridpackage",
-                    filter=Q(
-                        gridpackage__package__score__gte=settings.PACKAGE_SCORE_MIN
-                    ),
-                    distinct=True,
-                ),
-                feature_count=Count("feature", distinct=True),
-            )
+            annotate_active_count(Grid.objects.approved())
+            .annotate(feature_count=Count("feature", distinct=True))
             .filter(gridpackage_count__gt=0)
         )
 

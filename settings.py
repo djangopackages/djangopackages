@@ -311,7 +311,9 @@ OG_IMAGE_VERSION = env("OG_IMAGE_VERSION", default="2")
 # The lowest score a package needs to appear in a grid's comparison table.
 # Packages below it still count toward the grid's total and still appear
 # on the grid's full package list; they are only left out of the
-# side-by-side. Raise or lower it per environment without a deploy.
+# side-by-side. A grid where nothing clears the bar falls back to showing
+# whatever scores above zero (see grid/scoring.py). Raise or lower it per
+# environment without a deploy.
 PACKAGE_SCORE_MIN = env.int("PACKAGE_SCORE_MIN", default=50)
 
 if LOCAL_INSTALLED_APPS:
