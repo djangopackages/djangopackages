@@ -873,7 +873,7 @@ class NewAccountGridReviewTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-@override_settings(PACKAGE_SCORE_MIN=0)
+@override_settings(PACKAGE_SCORE_MIN=10)
 class GridHiddenPackageCountTest(TestCase):
     """What the page says when the score cutoff, not the cap, is what hides things.
 
@@ -987,3 +987,126 @@ class GridHiddenPackageCountTest(TestCase):
         self.assertEqual(len(response.context["packages"]), 10)
         self.assertTrue(response.context["has_more_packages"])
         self.assertContains(response, "Showing 10 of 15 packages")
+
+
+class GridScoreCutoffTest(TestCase):
+    """The setting is the cutoff. It used to be clamped at zero, so -500 in
+    settings meant zero in practice and nothing above zero could be asked for.
+    See #1757."""
+
+    def setUp(self):
+        for cache_backend in caches.all(initialized_only=False):
+            cache_backend.clear()
+        self.category = Category.objects.create(slug="cutoff-cat", title="Cutoff")
+        self.grid = Grid.objects.create(
+            title="Cutoff Grid", slug="cutoff", description="d"
+        )
+        for slug, score in (("strong", 60), ("middling", 20), ("stale", -10)):
+            package = Package.objects.create(
+                title=slug,
+                slug=slug,
+                category=self.category,
+                repo_url=f"https://github.com/test/{slug}",
+                score=score,
+            )
+            GridPackage.objects.create(grid=self.grid, package=package)
+
+    def _shown(self):
+        response = self.client.get(reverse("grid", kwargs={"slug": "cutoff"}))
+        return response, sorted(p["slug"] for p in response.context["packages"])
+
+    @override_settings(PACKAGE_SCORE_MIN=50)
+    def test_the_comparison_table_honours_a_cutoff_above_zero(self):
+        response, shown = self._shown()
+
+        self.assertEqual(shown, ["strong"])
+        self.assertEqual(response.context["total_package_count"], 3)
+        self.assertContains(response, "Showing 1 of 3 packages")
+
+    @override_settings(PACKAGE_SCORE_MIN=-100)
+    def test_a_cutoff_below_zero_is_honoured_too(self):
+        _response, shown = self._shown()
+
+        self.assertEqual(shown, ["middling", "stale", "strong"])
+
+    @override_settings(PACKAGE_SCORE_MIN=50)
+    def test_the_full_package_list_ignores_the_cutoff(self):
+        response = self.client.get(reverse("grid_packages", kwargs={"slug": "cutoff"}))
+
+        self.assertEqual(
+            sorted(p.slug for p in response.context["packages"]),
+            ["middling", "stale", "strong"],
+        )
+
+    @override_settings(PACKAGE_SCORE_MIN=50)
+    def test_the_grid_list_counts_both_ways(self):
+        response = self.client.get(reverse("grids"))
+
+        grid = next(g for g in response.context["grids"] if g.slug == "cutoff")
+        self.assertEqual(grid.gridpackage_count, 3)
+        self.assertEqual(grid.active_gridpackage_count, 1)
+
+
+@override_settings(PACKAGE_SCORE_MIN=50)
+class GridScoreFallbackTest(TestCase):
+    """A grid where nothing clears the bar shows what scores above zero,
+    rather than nothing, as long as it holds more than one package."""
+
+    def setUp(self):
+        for cache_backend in caches.all(initialized_only=False):
+            cache_backend.clear()
+        self.category = Category.objects.create(slug="fb-cat", title="Fallback")
+
+    def _grid(self, slug, scores):
+        grid = Grid.objects.create(title=slug, slug=slug, description="d")
+        for i, score in enumerate(scores):
+            package = Package.objects.create(
+                title=f"{slug} {i}",
+                slug=f"{slug}-{i}",
+                category=self.category,
+                repo_url=f"https://github.com/test/{slug}-{i}",
+                score=score,
+            )
+            GridPackage.objects.create(grid=grid, package=package)
+        return grid
+
+    def _shown(self, slug):
+        response = self.client.get(reverse("grid", kwargs={"slug": slug}))
+        return response, sorted(p["score"] for p in response.context["packages"])
+
+    def _active(self, slug):
+        response = self.client.get(reverse("grids"))
+        return next(g for g in response.context["grids"] if g.slug == slug)
+
+    def test_nothing_above_the_bar_shows_whatever_is_above_zero(self):
+        self._grid("weak", [30, 12, 0, -15])
+
+        response, shown = self._shown("weak")
+
+        self.assertEqual(shown, [12, 30])
+        self.assertContains(response, "Showing 2 of 4 packages")
+        self.assertEqual(self._active("weak").active_gridpackage_count, 2)
+
+    def test_one_package_over_the_bar_hides_the_rest(self):
+        self._grid("mixed", [60, 30, 12])
+
+        _response, shown = self._shown("mixed")
+
+        self.assertEqual(shown, [60])
+        self.assertEqual(self._active("mixed").active_gridpackage_count, 1)
+
+    def test_zero_is_still_too_low(self):
+        self._grid("stale", [0, 0, -500])
+
+        _response, shown = self._shown("stale")
+
+        self.assertEqual(shown, [])
+        self.assertEqual(self._active("stale").active_gridpackage_count, 0)
+
+    def test_a_single_package_grid_gets_no_fallback(self):
+        self._grid("lonely", [30])
+
+        _response, shown = self._shown("lonely")
+
+        self.assertEqual(shown, [])
+        self.assertEqual(self._active("lonely").active_gridpackage_count, 0)

@@ -308,7 +308,13 @@ PACKAGE_REPO_ROOT = Path(env("PACKAGE_REPO_ROOT", default="/repos"))
 # renderer had already cached our 404 page against several of them.
 OG_IMAGE_VERSION = env("OG_IMAGE_VERSION", default="2")
 
-PACKAGE_SCORE_MIN = env.int("PACKAGE_SCORE_MIN", default=-500)
+# The lowest score a package needs to appear in a grid's comparison table.
+# Packages below it still count toward the grid's total and still appear
+# on the grid's full package list; they are only left out of the
+# side-by-side. A grid where nothing clears the bar falls back to showing
+# whatever scores above zero (see grid/scoring.py). Raise or lower it per
+# environment without a deploy.
+PACKAGE_SCORE_MIN = env.int("PACKAGE_SCORE_MIN", default=50)
 
 if LOCAL_INSTALLED_APPS:
     INSTALLED_APPS.extend(LOCAL_INSTALLED_APPS)

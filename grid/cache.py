@@ -3,6 +3,7 @@ import logging
 from collections.abc import Iterable
 from typing import Any
 
+from django.conf import settings
 from django.core.cache import cache
 
 logger = logging.getLogger(__name__)
@@ -80,11 +81,15 @@ def get_grid_detail_payload_cache_key(
     - normalized filter_data (hashed)
     - max_packages (affects slicing)
     - show_features (whether grid features are displayed)
+    - the score cutoff, so changing PACKAGE_SCORE_MIN takes effect on the
+      next request instead of after the cached tables expire
     """
     version = get_grid_detail_cache_version(grid_id)
     lang = language or ""
     feat = "1" if show_features else "0"
-    normalized = _normalized_filter_data_key(filter_data)
+    normalized = (
+        f"{_normalized_filter_data_key(filter_data)}&min={settings.PACKAGE_SCORE_MIN}"
+    )
     digest = hashlib.blake2s(normalized.encode("utf-8"), digest_size=8).hexdigest()
     return (
         f"grid.detail.payload:{grid_id}:{version}:{lang}:{max_packages}:{feat}:{digest}"
