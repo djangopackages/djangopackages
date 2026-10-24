@@ -8,7 +8,9 @@ from django.core.cache import cache
 logger = logging.getLogger(__name__)
 
 GRID_DETAIL_PAYLOAD_TIMEOUT = 60 * 60  # 1 hour
-_GRID_DETAIL_VERSION_DEFAULT = 1
+# Bumped when the payload shape changes, so a deploy does not serve
+# cached dicts that the new template cannot read.
+_GRID_DETAIL_VERSION_DEFAULT = 2
 
 
 def _version_key(grid_id: int) -> str:

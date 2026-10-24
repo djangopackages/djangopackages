@@ -4,9 +4,9 @@ import djclick as click
 from rich import print as rprint
 
 from package.models import Package
-from probes.checkouts import checkout_path, scannable_packages
-from probes.imports import canonical_name, detect_import_names
+from probes.checkouts import scannable_packages
 from probes.models import Library
+from probes.pipeline import record_import_names
 
 
 @click.command()
@@ -48,30 +48,16 @@ def command(
     read = skipped = differs = 0
 
     for package in queryset:
-        pypi_name = canonical_name(package.pypi_name or package.slug)
-        names = detect_import_names(checkout_path(package), pypi_name=pypi_name)
+        library = record_import_names(package, save=not dry_run)
 
-        if not names:
+        if library is None:
             skipped += 1
             continue
 
         source = Library.Source.CHECKOUT
+        pypi_name = library.pypi_name
+        names = [library.import_name, *library.also_imports]
         read += 1
-
-        if not dry_run:
-            library, _created = Library.objects.update_or_create(
-                pypi_name=pypi_name,
-                defaults={
-                    "import_name": names[0],
-                    "also_imports": names[1:],
-                    "source": source,
-                    "package": package,
-                },
-            )
-        else:
-            library = Library(
-                pypi_name=pypi_name, import_name=names[0], also_imports=names[1:]
-            )
 
         if library.names_differ:
             differs += 1

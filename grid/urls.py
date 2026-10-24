@@ -1,6 +1,7 @@
 """grid url patterns"""
 
 from django.urls import path
+from django.views.generic.base import RedirectView
 from django.views.decorators.cache import cache_page
 
 from grid.views import (
@@ -21,7 +22,21 @@ from grid.views import (
 )
 from package.views import PackageByGridListView
 
+# Grids that were renamed. The old slug keeps working with a permanent redirect.
+RENAMED_GRIDS = {
+    "static-builders": "static-site-generators",
+}
+
 urlpatterns = [
+    *[
+        path(
+            f"g/{old}/",
+            view=RedirectView.as_view(
+                url=f"/grids/g/{new}/", permanent=True, query_string=True
+            ),
+        )
+        for old, new in RENAMED_GRIDS.items()
+    ],
     path(
         "add/",
         view=AddGridView.as_view(),

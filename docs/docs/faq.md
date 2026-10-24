@@ -21,6 +21,20 @@ Read the page on [contributions].
 - Go the Home page, <https://www.djangopackages.org/>
 - Click the appropriate button, where a package is a program and a grid is a category.
 
+### What belongs in a grid, and when should I make a new one?
+
+A grid is a comparison: a handful of packages that solve the same problem, side by side, with features you can tick off. Anyone with a trusted account can create grids, add packages to them, add features, and fill in the cells. It is a community site and that is how it is meant to work.
+
+Some guidelines that keep grids useful:
+
+- **Make a new grid when the existing one answers a different question.** "Asset Managers" (bundling CSS and JS) and "Static Site Generators" (rendering a site to flat files) look similar but compare different things, so they are separate grids. Search for the topic first, and check the grid's description, not just its title.
+- **Keep a grid focused.** A grid with 60 packages that only loosely share a theme compares nothing. If a grid has drifted, it is fine to narrow its description and move packages that no longer fit to a grid where they do.
+- **Removing a package from a grid is allowed** when it does not belong there. Removing it does not delete the package; it still has its own page and can sit in other grids.
+- **Features should be things you can answer for every package in the grid**, like "Supports Django 5" or "Has an admin integration", not opinions. Fill in what you know and leave the rest blank rather than guessing.
+- **A grid is not a category.** Categories (App, Framework, Project, and so on) describe what a package is. Grids describe what it is for.
+
+Everything you need is on the grid page itself once you are logged in: **Edit Grid**, **Add Package**, and **Add Feature** at the top, and clicking any cell in the comparison table edits that value. A package page has a **Fetch latest data** button that refreshes its GitHub and PyPI details.
+
 ### Why can't I edit a grid, or why is my new grid not listed?
 
 To cut down on spam, new accounts go through a short review period before they can change grids.

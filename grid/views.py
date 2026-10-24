@@ -232,7 +232,6 @@ class GridDetailView(DetailView):
                     "repo_url": package.repo_url,
                     "pypi_url": package.pypi_url,
                     "documentation_url": package.documentation_url,
-                    "supports_python3": package.supports_python3,
                     "repo_watchers": package.repo_watchers,
                     "repo_forks": package.repo_forks,
                     "pypi_downloads": package.pypi_downloads,
@@ -252,7 +251,7 @@ class GridDetailView(DetailView):
                     "development_status": package.development_status,
                     "last_commit_date": package.last_commit_date,
                     "latest_version": package.latest_version,
-                    "pypi_license_display": package.pypi_license_display,
+                    "license_display": package.license_display,
                     "commits_over_52w_str": package.commits_over_52w_str,
                     "latest_version_number": package.latest_version_number,
                 }

@@ -3,6 +3,7 @@
 <div id="package-list-state" class="hidden">
     <input type="hidden" name="category" value="{{ current_category }}">
     <input type="hidden" name="sort" value="{{ current_sort }}">
+    <input type="hidden" name="status" value="{{ current_status }}">
 </div>
 
 {% if request.htmx %}
@@ -18,7 +19,7 @@
             <tr class="border-b text-left">
                 <th class="text-muted-foreground pr-6 pb-3 font-medium">
                     <button class="hover:text-foreground flex items-center gap-1"
-                            hx-get="{{ list_url }}?category={{ current_category }}&sort={% if current_sort == 'title' %}-title{% elif current_sort == '-title' %}{% else %}title{% endif %}&q={{ search_query }}"
+                            hx-get="{{ list_url }}?category={{ current_category }}&sort={% if current_sort == 'title' %}-title{% elif current_sort == '-title' %}{% else %}title{% endif %}&q={{ search_query }}&status={{ current_status }}"
                             hx-target="#package-list-container"
                             hx-push-url="true" hx-indicator="#package-list-spinner">
                         <i class="ph-bold ph-package text-lg"></i>
@@ -32,7 +33,7 @@
                 </th>
                 <th class="text-muted-foreground hidden pb-3 font-medium sm:table-cell">
                     <button class="hover:text-foreground flex items-center gap-1"
-                            hx-get="{{ list_url }}?category={{ current_category }}&sort={% if current_sort == 'category' %}-category{% elif current_sort == '-category' %}{% else %}category{% endif %}&q={{ search_query }}"
+                            hx-get="{{ list_url }}?category={{ current_category }}&sort={% if current_sort == 'category' %}-category{% elif current_sort == '-category' %}{% else %}category{% endif %}&q={{ search_query }}&status={{ current_status }}"
                             hx-target="#package-list-container"
                             hx-push-url="true" hx-indicator="#package-list-spinner">
                         <i class="ph-bold ph-tag text-lg"></i>
@@ -52,7 +53,7 @@
                 </th>
                 <th class="text-muted-foreground hidden pb-3 font-medium lg:table-cell">
                     <button class="hover:text-foreground flex items-center gap-1"
-                            hx-get="{{ list_url }}?category={{ current_category }}&sort={% if current_sort == '-usage_count' %}usage_count{% elif current_sort == 'usage_count' %}{% else %}-usage_count{% endif %}&q={{ search_query }}"
+                            hx-get="{{ list_url }}?category={{ current_category }}&sort={% if current_sort == '-usage_count' %}usage_count{% elif current_sort == 'usage_count' %}{% else %}-usage_count{% endif %}&q={{ search_query }}&status={{ current_status }}"
                             hx-target="#package-list-container"
                             hx-push-url="true" hx-indicator="#package-list-spinner">
                         <i class="ph-bold ph-users text-lg"></i>
@@ -66,7 +67,7 @@
                 </th>
                 <th class="text-muted-foreground pb-3 font-medium">
                     <button class="hover:text-foreground flex items-center gap-1"
-                            hx-get="{{ list_url }}?category={{ current_category }}&sort={% if current_sort == '-repo_watchers' %}repo_watchers{% elif current_sort == 'repo_watchers' %}{% else %}-repo_watchers{% endif %}&q={{ search_query }}"
+                            hx-get="{{ list_url }}?category={{ current_category }}&sort={% if current_sort == '-repo_watchers' %}repo_watchers{% elif current_sort == 'repo_watchers' %}{% else %}-repo_watchers{% endif %}&q={{ search_query }}&status={{ current_status }}"
                             hx-target="#package-list-container"
                             hx-push-url="true" hx-indicator="#package-list-spinner">
                         <i class="ph-bold ph-star text-lg"></i>
@@ -80,7 +81,7 @@
                 </th>
                 <th class="text-muted-foreground pb-3 font-medium">
                     <button class="hover:text-foreground flex items-center gap-1"
-                            hx-get="{{ list_url }}?category={{ current_category }}&sort={% if current_sort == '-repo_forks' %}repo_forks{% elif current_sort == 'repo_forks' %}{% else %}-repo_forks{% endif %}&q={{ search_query }}"
+                            hx-get="{{ list_url }}?category={{ current_category }}&sort={% if current_sort == '-repo_forks' %}repo_forks{% elif current_sort == 'repo_forks' %}{% else %}-repo_forks{% endif %}&q={{ search_query }}&status={{ current_status }}"
                             hx-target="#package-list-container"
                             hx-push-url="true" hx-indicator="#package-list-spinner">
                         <i class="ph-bold ph-git-fork text-lg"></i>
@@ -94,7 +95,7 @@
                 </th>
                 <th class="text-muted-foreground hidden pb-3 font-medium lg:table-cell">
                     <button class="hover:text-foreground flex items-center gap-1"
-                            hx-get="{{ list_url }}?category={{ current_category }}&sort={% if current_sort == '-last_fetched' %}last_fetched{% elif current_sort == 'last_fetched' %}{% else %}-last_fetched{% endif %}&q={{ search_query }}"
+                            hx-get="{{ list_url }}?category={{ current_category }}&sort={% if current_sort == '-last_fetched' %}last_fetched{% elif current_sort == 'last_fetched' %}{% else %}-last_fetched{% endif %}&q={{ search_query }}&status={{ current_status }}"
                             hx-target="#package-list-container"
                             hx-push-url="true" hx-indicator="#package-list-spinner">
                         <i class="ph-bold ph-clock text-lg"></i>
@@ -198,7 +199,7 @@
         <div class="inline-flex flex-wrap items-center gap-1">
             <button
                 {% if page_obj.has_previous %}
-                    hx-get="{{ list_url }}?page={{ page_obj.previous_page_number }}&category={{ current_category }}&sort={{ current_sort }}&q={{ search_query }}"
+                    hx-get="{{ list_url }}?page={{ page_obj.previous_page_number }}&category={{ current_category }}&sort={{ current_sort }}&q={{ search_query }}&status={{ current_status }}"
                     hx-target="#package-list-container"
                     hx-push-url="true" hx-indicator="#package-list-spinner"
                 {% else %}
@@ -218,7 +219,7 @@
                         </button>
                     {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
                         <button
-                            hx-get="{{ list_url }}?page={{ i }}&category={{ current_category }}&sort={{ current_sort }}&q={{ search_query }}"
+                            hx-get="{{ list_url }}?page={{ i }}&category={{ current_category }}&sort={{ current_sort }}&q={{ search_query }}&status={{ current_status }}"
                             hx-target="#package-list-container"
                             hx-push-url="true" hx-indicator="#package-list-spinner"
                             class="border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-9 w-9 items-center justify-center rounded-md border text-sm font-medium whitespace-nowrap transition-colors">
@@ -230,7 +231,7 @@
 
             <button
                 {% if page_obj.has_next %}
-                    hx-get="{{ list_url }}?page={{ page_obj.next_page_number }}&category={{ current_category }}&sort={{ current_sort }}&q={{ search_query }}"
+                    hx-get="{{ list_url }}?page={{ page_obj.next_page_number }}&category={{ current_category }}&sort={{ current_sort }}&q={{ search_query }}&status={{ current_status }}"
                     hx-target="#package-list-container"
                     hx-push-url="true" hx-indicator="#package-list-spinner"
                 {% else %}

@@ -26,9 +26,9 @@ def test_version_order(package_cms):
 
 
 def test_version_license_length(version):
-    version.license = "x" * 50
+    version.license = "x" * 80
     version.save()
-    assert version.license == "Custom"
+    assert version.license is None
 
 
 class PackageTests(TestCase):
