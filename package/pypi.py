@@ -60,6 +60,7 @@ _DOCS_HOSTS = {"readthedocs.io", "readthedocs.org", "rtfd.io", "rtfd.org"}
 _DOCS_HOST_SUFFIXES = tuple(f".{host}" for host in _DOCS_HOSTS)
 _DOCS_HOST_PREFIXES = ("docs.", "documentation.")
 
+
 def classify_project_link(label: str, url: str) -> str | None:
     """Classify a PyPI project link by label and hostname.
 
@@ -152,6 +153,7 @@ class PyPIPackage:
             if classify_project_link(label, url) == category:
                 return url
         return None
+
     @cached_property
     def docs_url(self) -> str | None:
         # project_urls is maintained by the author; info.docs_url is the legacy
@@ -169,6 +171,7 @@ class PyPIPackage:
     @cached_property
     def homepage_url(self) -> str | None:
         return self._first_project_url("homepage", "home", "home page")
+
     @cached_property
     def supports_python3(self) -> bool | None:
         classifier_says_py3 = any(
