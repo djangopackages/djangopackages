@@ -212,6 +212,34 @@ just run pypi_stats --delay 1            # faster, at the API's mercy
 
 The scheduled form is the `pypi-stats` job in `init_scheduled_jobs`, weekly on
 Sunday morning.
+## pypi_data_sync
+
+Pulls the [pypi-data](https://github.com/sethmlarson/pypi-data) dump, a SQLite
+database of every project on PyPI, and records what it says about our packages:
+
+- `pypi_dependents`: how many PyPI projects list the package as a requirement.
+  This is the closest thing PyPI has to "used by", and no per-project endpoint
+  offers it.
+- `pypi_dependencies`: how many projects the package requires, extras excluded.
+- `pypi_scorecard` and `pypi_has_vulnerabilities`, from OpenSSF Scorecard and
+  the PyPI advisory feed.
+
+A package the dump does not know gets nulls, not stale numbers. Dependents show
+on the package page next to stars and forks.
+
+The dump is about 1.6GB unpacked and is released a few times a year. It is kept
+under `PYPI_DATA_ROOT` (`/repos/.pypi-data` by default) with the release tag
+beside it, and a run that finds the same release on disk skips the download.
+
+```shell
+just run pypi_data_sync                   # fetch if new, then update
+just run pypi_data_sync --force           # fetch regardless
+just run pypi_data_sync --db pypi.db      # use a database already on disk
+just run pypi_data_sync --dry-run
+```
+
+The scheduled form is the `pypi-data` job in `init_scheduled_jobs`, weekly on
+Monday morning.
 
 ## recategorize_from_grids
 

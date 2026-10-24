@@ -137,6 +137,26 @@ class Package(BaseModel):
     pypi_requires_python = models.CharField(
         _("PyPI Requires Python"), max_length=100, blank=True, null=True
     )
+    # From the pypi-data dump (sethmlarson/pypi-data), see pypi_data_sync.
+    # Null means the dump had no row for this project, or we have not run
+    # the sync yet; zero is a real answer.
+    pypi_dependents = models.IntegerField(
+        _("PyPI dependents"),
+        blank=True,
+        null=True,
+        help_text=_("How many PyPI projects list this one as a requirement."),
+    )
+    pypi_dependencies = models.IntegerField(
+        _("PyPI dependencies"),
+        blank=True,
+        null=True,
+        help_text=_("How many projects this one requires, extras excluded."),
+    )
+    pypi_scorecard = models.FloatField(_("OpenSSF Scorecard"), blank=True, null=True)
+    pypi_has_vulnerabilities = models.BooleanField(
+        _("Known vulnerabilities on PyPI"), blank=True, null=True
+    )
+    pypi_data_synced_at = models.DateTimeField(blank=True, null=True)
     markers = ArrayField(models.CharField(max_length=100), blank=True, null=True)
     supports_python3 = models.BooleanField(
         _("Supports Python 3"), blank=True, null=True

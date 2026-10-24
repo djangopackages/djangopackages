@@ -299,6 +299,12 @@ SITE_TITLE = env("SITE_TITLE", default="Django Packages")
 # host in compose, so the clones outlive a container and can be inspected
 # or deleted without Docker.
 PACKAGE_REPO_ROOT = Path(env("PACKAGE_REPO_ROOT", default="/repos"))
+# Where pypi_data_sync keeps the pypi-data SQLite dump (about 1.6GB).
+# Under the checkout root by default so it lands on the same volume; the
+# leading dot keeps it clear of the per-slug checkout directories.
+PYPI_DATA_ROOT = Path(
+    env("PYPI_DATA_ROOT", default=str(PACKAGE_REPO_ROOT / ".pypi-data"))
+)
 
 # Bump this to force every social card to be re-rendered.
 #

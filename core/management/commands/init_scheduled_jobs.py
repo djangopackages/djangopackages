@@ -58,6 +58,15 @@ JOBS = {
         "args": ("pypi_stats",),
         "cron": "30 4 * * 0",
     },
+    # Dependents and friends from the pypi-data dump. It is released a
+    # few times a year and the sync skips the download when nothing has
+    # changed, so weekly costs one small request most weeks. See #834.
+    "pypi-data": {
+        "name": "Sync metrics from the pypi-data dump",
+        "func": "django.core.management.call_command",
+        "args": ("pypi_data_sync",),
+        "cron": "30 5 * * 1",
+    },
     # The awesome lists: pull their READMEs and re-tag the packages they
     # name. Daily, since the lists change a few times a week at most.
     "awesome-lists": {
