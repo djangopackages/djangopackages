@@ -40,7 +40,7 @@ def titles(response):
 def test_no_status_shows_everything(client, packages):
     response = client.get(reverse("packages"))
 
-    assert titles(response) == set(p.slug for p in packages.values())
+    assert titles(response) == {p.slug for p in packages.values()}
     assert response.context["current_status"] == "all"
 
 
