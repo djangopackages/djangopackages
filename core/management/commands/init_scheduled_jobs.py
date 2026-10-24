@@ -48,6 +48,14 @@ JOBS = {
         "args": ("build_probe_catalog",),
         "cron": "12 6 * * *",
     },
+    # The awesome lists: pull their READMEs and re-tag the packages they
+    # name. Daily, since the lists change a few times a week at most.
+    "awesome-lists": {
+        "name": "Awesome lists: tag the packages they name",
+        "func": "probes.tasks.refresh_awesome_lists",
+        "args": (),
+        "cron": "42 3 * * *",
+    },
 }
 
 
