@@ -18,6 +18,16 @@ Calculates the new star score for all Package objects.
 docker compose run django uv run manage.py calculate_score
 ```
 
+## compare_scores
+
+Dry run of the new 0 to 100 package score (`package/scoring.py`, see #1563) against the stored legacy score. Prints both distributions and, for every approved grid, what the comparison table would show under each. Writes nothing.
+
+```shell
+docker compose run django uv run manage.py compare_scores [--new-min 30] [--grid <slug>] [--csv scores.csv] [--stars-cap N] [--release-weight 0.6] ...
+```
+
+Every field of `ScoreWeights` is a flag, so caps can be tuned from the command line before the defaults change.
+
 ## cleanup_github_projects
 
 Migrates legacy (http) GitHub packages to https. Migrates existing packages that have moved on GitHub, so their data stays up-to-date.
