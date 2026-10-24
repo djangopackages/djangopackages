@@ -10,8 +10,9 @@ logger = logging.getLogger(__name__)
 
 GRID_DETAIL_PAYLOAD_TIMEOUT = 60 * 60  # 1 hour
 # Bumped when the payload shape changes, so a deploy does not serve
-# cached dicts that the new template cannot read.
-_GRID_DETAIL_VERSION_DEFAULT = 2
+# cached dicts that the new template cannot read. 3: the scores in the
+# payload moved to the 0 to 100 scale (#1563).
+_GRID_DETAIL_VERSION_DEFAULT = 3
 
 
 def _version_key(grid_id: int) -> str:

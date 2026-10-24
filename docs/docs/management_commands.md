@@ -12,11 +12,21 @@ docker compose run django uv run manage.py audit_textfield_max_length
 
 ## calculate_score
 
-Calculates the new star score for all Package objects.
+Recalculates `Package.score` (0 to 100, see `package/scoring.py`) for all Package objects. Only packages whose score changed are written.
 
 ```shell
 docker compose run django uv run manage.py calculate_score
 ```
+
+## compare_scores
+
+Dry run of the package score as `package/scoring.py` would compute it, with the default weights or the flags given, against the stored `Package.score`. Prints both distributions and, for every approved grid, what the comparison table would show under each. Writes nothing. Use it to preview a change to `ScoreWeights` or `PACKAGE_SCORE_MIN`.
+
+```shell
+docker compose run django uv run manage.py compare_scores [--new-min 30] [--grid <slug>] [--csv scores.csv] [--stars-cap N] [--release-weight 0.6] ...
+```
+
+Every field of `ScoreWeights` is a flag, so caps can be tuned from the command line before the defaults change.
 
 ## cleanup_github_projects
 

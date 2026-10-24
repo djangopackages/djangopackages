@@ -86,22 +86,18 @@ def test_package_score(package_cms):
 
 
 def test_package_abandoned_score(package_abandoned):
-    # score should be -100
-    # abandoned for 2 years = loss 10% for each 3 months = 80% of the stars
-    # + a -30% for not supporting python 3
+    # Two years without a commit or release: halfway down the slope from
+    # fresh (one year) to zero (three years), so about half the ceiling.
     assert package_abandoned.repo_watchers == 1000
     update_package_score(package_abandoned, save=True)
-    assert package_abandoned.score == -100
+    assert 0 < package_abandoned.score < 50
 
 
 def test_package_abandoned_ten_years_score(package_abandoned_ten_years):
-    # package_abandoned_ten_years.calculate_score()
-    # score should be -100
-    # abandoned for 2 years = loss 10% for each 3 months = 80% of the stars
-    # + a -30% for not supporting python 3
+    # Ten years without a commit or release is zero, however many stars.
     assert package_abandoned_ten_years.repo_watchers == 1000
     update_package_score(package_abandoned_ten_years, save=True)
-    assert package_abandoned_ten_years.score == -500.0
+    assert package_abandoned_ten_years.score == 0
 
 
 def test_package_example(package_example):

@@ -16,16 +16,29 @@ from django.db.models import Case, Count, F, Q, Value, When
 FALLBACK_SCORE_MIN = 1
 
 
+def cutoff_from_scores(scores: list[int], score_min: int) -> int:
+    """The rule itself, on the scores of a grid's active packages.
+
+    Pure so that `compare_scores` can ask what a grid would show under
+    scores that are not stored yet.
+    """
+    if any(score >= score_min for score in scores):
+        return score_min
+    if len(scores) > 1:
+        return FALLBACK_SCORE_MIN
+    return score_min
+
+
 def cutoff_for(grid) -> int:
     """The score a package needs to appear in this grid's comparison table."""
     from package.models import Package
 
-    in_grid = Package.objects.active().filter(gridpackage__grid=grid)
-    if in_grid.filter(score__gte=settings.PACKAGE_SCORE_MIN).exists():
-        return settings.PACKAGE_SCORE_MIN
-    if in_grid.count() > 1:
-        return FALLBACK_SCORE_MIN
-    return settings.PACKAGE_SCORE_MIN
+    scores = list(
+        Package.objects.active()
+        .filter(gridpackage__grid=grid)
+        .values_list("score", flat=True)
+    )
+    return cutoff_from_scores(scores, settings.PACKAGE_SCORE_MIN)
 
 
 def annotate_active_count(grids):
