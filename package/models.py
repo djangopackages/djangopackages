@@ -467,7 +467,7 @@ class Version(BaseModel):
 
     @property
     def pretty_license(self):
-        return self.license.replace("License", "").replace("license", "")
+        return (self.license or "").replace("License", "").replace("license", "")
 
     @property
     def pretty_status(self):
