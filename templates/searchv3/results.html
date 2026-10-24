@@ -26,6 +26,45 @@
             </p>
         </div>
 
+        {% if type_filters %}
+            <div class="card mb-6">
+                <div class="card-content space-y-4 p-6">
+                    <div class="flex flex-wrap gap-2">
+                        {% for item in type_filters %}
+                            <a href="{{ item.url }}"
+                               class="{% if item.active %}bg-primary text-primary-foreground border-primary hover:bg-primary/90{% else %}bg-background text-muted-foreground border-border hover:bg-accent hover:text-accent-foreground{% endif %} inline-flex items-center rounded-full border px-4 py-2 text-sm font-medium transition-colors">
+                                {{ item.label }}
+                                <span class="ml-2 text-xs">({{ item.count }})</span>
+                            </a>
+                        {% endfor %}
+                    </div>
+
+                    {% if category_filters|length > 2 %}
+                        <div class="flex flex-wrap gap-2">
+                            {% for item in category_filters %}
+                                <a href="{{ item.url }}"
+                                   class="{% if item.active %}bg-primary text-primary-foreground border-primary hover:bg-primary/90{% else %}bg-background text-muted-foreground border-border hover:bg-accent hover:text-accent-foreground{% endif %} inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-medium transition-colors">
+                                    {{ item.label }}
+                                    <span class="ml-1.5">({{ item.count }})</span>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <div class="text-muted-foreground flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
+                        <span class="font-medium">{% translate "Sort by" %}</span>
+                        {% for item in sort_options %}
+                            {% if item.active %}
+                                <span class="text-foreground font-medium">{{ item.label }}</span>
+                            {% else %}
+                                <a href="{{ item.url }}" class="hover:text-foreground hover:underline">{{ item.label }}</a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
         <div class="card">
             <div class="card-content p-6">
                 {% if search_results %}
@@ -68,7 +107,7 @@
                     {% if is_paginated %}
                         <nav class="mt-6 flex items-center justify-between gap-4" aria-label="{% translate 'Pagination' %}">
                             {% if page_obj.has_previous %}
-                                <a class="btn-secondary" href="?q={{ query|urlencode }}&page={{ page_obj.previous_page_number }}">
+                                <a class="btn-secondary" href="{{ page_url }}&page={{ page_obj.previous_page_number }}">
                                     {% translate "Previous" %}
                                 </a>
                             {% else %}
@@ -82,7 +121,7 @@
                             </span>
 
                             {% if page_obj.has_next %}
-                                <a class="btn-secondary" href="?q={{ query|urlencode }}&page={{ page_obj.next_page_number }}">
+                                <a class="btn-secondary" href="{{ page_url }}&page={{ page_obj.next_page_number }}">
                                     {% translate "Next" %}
                                 </a>
                             {% else %}
@@ -92,7 +131,12 @@
                     {% endif %}
                 {% else %}
                     <p class="text-muted-foreground py-8 text-center">
-                        {% blocktranslate with query=query %}No results found for "{{ query }}". Try another search.{% endblocktranslate %}
+                        {% if current_type != "all" or current_category %}
+                            {% blocktranslate with query=query %}No results found for "{{ query }}" with these filters.{% endblocktranslate %}
+                            <a href="{% url 'search_results' %}?q={{ query|urlencode }}" class="text-primary hover:underline">{% translate "Clear filters" %}</a>
+                        {% else %}
+                            {% blocktranslate with query=query %}No results found for "{{ query }}". Try another search.{% endblocktranslate %}
+                        {% endif %}
                     </p>
                 {% endif %}
             </div>
