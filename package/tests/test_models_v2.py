@@ -1,5 +1,4 @@
 from django.db import IntegrityError
-from package.models import Package
 from package.scores import update_package_score
 import pytest
 from model_bakery import baker
@@ -87,27 +86,22 @@ def test_package_score(package_cms):
 
 
 def test_package_abandoned_score(package_abandoned):
-    # Two years without a commit or release loses both activity rules
-    # (40 of 160 points) but is not yet dormant, so the score stays above 0.
+    # Two years without a commit or release: the factor is about 0.63, so
+    # the score is well below what the same checks earn when fresh.
     assert package_abandoned.repo_watchers == 1000
+    assert 0.6 < package_abandoned.activity_factor < 0.66
     update_package_score(package_abandoned, save=True)
-    assert 0 < package_abandoned.score <= 75
+    assert 0 < package_abandoned.score <= 66
 
 
 def test_package_abandoned_ten_years_score(package_abandoned_ten_years):
-    # Ten years idle, but still 26,257 downloads a month: in use, so not
-    # dormant. Drop the downloads and it is a hard zero however many stars.
+    # Ten years idle: the factor is about 0.016, so even a thousand stars
+    # and 26,257 downloads a month leave at most a point or two.
     package = package_abandoned_ten_years
     assert package.repo_watchers == 1000
-    assert package.pypi_downloads >= Package.DORMANT_MIN_DOWNLOADS
+    assert package.activity_factor < 0.02
     update_package_score(package, save=True)
-    assert not package.is_dormant
-    assert 0 < package.score <= 75
-
-    package.pypi_downloads = 100
-    update_package_score(package, save=True)
-    assert package.is_dormant
-    assert package.score == 0
+    assert 0 <= package.score <= 2
 
 
 def test_package_example(package_example):

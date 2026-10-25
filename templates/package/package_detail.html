@@ -73,19 +73,21 @@
                 </div>
             </div>
         </div>
-    {% elif package.is_dormant %}
+    {% elif package.activity_factor < 1 %}
         <div class="container mx-auto px-4 pt-6">
             <div class="border-border bg-muted/40 text-muted-foreground flex items-center rounded-lg border p-4 text-sm" role="note">
                 <i class="ph-bold ph-moon mr-3 text-lg"></i>
                 <div>
-                    {% if not package.dormant_since %}
-                        {% translate "No release or commit date on record." %}
-                    {% elif package.on_pypi and package.latest_version.upload_time %}
-                        {% blocktranslate with since=package.dormant_since|date:"F Y" %}No release since {{ since }}.{% endblocktranslate %}
+                    {% if not package.last_activity %}
+                        {% translate "No release or commit date on record, so the score is 0." %}
                     {% else %}
-                        {% blocktranslate with since=package.dormant_since|date:"F Y" %}Not on PyPI and no commit since {{ since }}.{% endblocktranslate %}
+                        {% if package.release_dates_it %}
+                            {% blocktranslate with since=package.last_activity|date:"F Y" %}Last release {{ since }}.{% endblocktranslate %}
+                        {% else %}
+                            {% blocktranslate with since=package.last_activity|date:"F Y" %}Not on PyPI, and last commit {{ since }}.{% endblocktranslate %}
+                        {% endif %}
+                        {% blocktranslate with percent=package.activity_percent %}Scores fade after a year without a release, so this package keeps {{ percent }}% of the points its checks earn.{% endblocktranslate %}
                     {% endif %}
-                    {% translate "It is left out of grid comparison tables until one ships." %}
                     <a href="{% url 'package_rules' package.slug %}" class="hover:underline">{% translate "How the score works" %}</a>
                 </div>
             </div>
@@ -182,7 +184,7 @@
                                             </span>
 
                                             <div class="tooltip tooltip-lg group-hover:opacity-100">
-                                                {% translate "Scores (0-100) add up eight checks worth 20 points each: not deprecated or archived, has a description, PyPI downloads, forks, a commit in the last year, a release in the last year, usage count, and stars. A package whose latest release is three or more years old, with few downloads, scores 0." %}
+                                                {% translate "Scores (0-100) add up six checks worth 20 points each: not deprecated or archived, has a description, PyPI downloads, forks, usage count, and stars. The total then fades with time since the latest release: full for a year, then halved every eighteen months." %}
                                             </div>
                                         </div>
                                     {% endflag %}

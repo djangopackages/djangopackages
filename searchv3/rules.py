@@ -1,4 +1,4 @@
-"""The package score: eight checks, 20 points each, scaled to 0 to 100.
+"""The package score: six checks, 20 points each, faded by time since the last release.
 
 `Package.score` is `score_package(package)["total_score"]`. The grids
 sort on it and cut their comparison tables at `PACKAGE_SCORE_MIN`, the
@@ -6,19 +6,18 @@ search index weights packages by it, and the Package Score page lists
 the checks with the points each one earned. One number, one place
 (#1563).
 
-One check is a gate rather than points: `DormantRule`. A package whose
-latest PyPI release is `Package.DORMANT_YEARS` old or older scores 0
-whatever else it has, so it leaves the comparison tables while staying
-listed and searchable. A package that is not on PyPI is judged on its
-latest commit instead, and one still downloaded 10,000 times a month is
-never dormant. It comes back on its own with the next release.
+The six point rules add up to 120, scaled to 100. That total is then
+multiplied by `Package.activity_factor` (`ActivityRule`): 1.0 for a
+year after the latest PyPI release, or the latest commit for a package
+not on PyPI, then halving every eighteen months. Two and a half years
+without a release leaves half the points, five years a sixth, ten
+years nothing worth showing. A package drifts down its grids as it
+ages instead of vanishing on a birthday, and comes back with the next
+release.
 """
 
 import math
-from datetime import timedelta
-
 from django.conf import settings
-from django.utils import timezone
 from pydantic import BaseModel
 
 from package.models import Package
@@ -27,8 +26,8 @@ from package.models import Package
 class CheckResult(BaseModel):
     score: int
     message: str
-    # True from a gate rule: the whole score is 0, not just this rule's share.
-    zero_score: bool = False
+    # From `ActivityRule`: the whole score is multiplied by this.
+    factor: float = 1.0
 
 
 class ScoreRule(BaseModel):
@@ -60,50 +59,56 @@ class ScoreRuleGroup(ScoreRule):
         return CheckResult(score=int(normalized_score), message=" ".join(messages))
 
 
-class DormantRule(ScoreRule):
-    """Zero the score of a package that has not shipped in three years.
+class ActivityRule(ScoreRule):
+    """Fade the score with time since the package last shipped.
 
-    Dormant means the latest PyPI release is `Package.DORMANT_YEARS` old
-    or older. Commits do not keep a released package awake: a project
-    that commits but never ships is not maintained in any way its users
-    can install. A package that is not on PyPI (no PyPI link, as for
-    deployable apps and project templates) is judged on its latest
-    commit instead, and one with no dates at all is dormant. A package
-    still downloaded `Package.DORMANT_MIN_DOWNLOADS` times a month is
-    never dormant: it is in use whatever its release date. Computed
-    from dates and counts, never set by hand; clears itself with the
-    next release. Carries no points of its own.
+    `Package.last_activity` is the latest PyPI release for a package on
+    PyPI, since a project that commits but never ships is not maintained
+    in any way its users can install, and the latest commit for one that
+    is not on PyPI (no PyPI link, as for deployable apps and project
+    templates). `Package.activity_factor` is 1.0 for the first
+    `Package.ACTIVITY_FULL_YEARS` after that date, then halves every
+    `Package.ACTIVITY_HALF_LIFE_YEARS`. The six point rules' total is
+    multiplied by it, so an old package keeps its place relative to
+    other old packages while falling below the grid cutoff. A package
+    with no release or commit date on record scores 0. Computed from
+    dates on every score run, never set by hand. Carries no points of
+    its own.
     """
 
-    name: str = "Dormant Rule"
+    name: str = "Activity Rule"
     description: str = (
-        "Score is 0 while the latest release (or latest commit, for a package "
-        "not on PyPI) is three or more years old and the package is downloaded "
-        "fewer than 10,000 times a month"
+        "The score keeps all its points for a year after the latest release "
+        "(or latest commit, for a package not on PyPI), then halves every "
+        "eighteen months"
     )
     max_score: int = 0
-    documentation_url: str = f"{settings.DOCS_URL}/rules/#searchv3.rules.DormantRule"
+    documentation_url: str = f"{settings.DOCS_URL}/rules/#searchv3.rules.ActivityRule"
 
     def check(self, package: Package) -> CheckResult:
-        if not package.is_dormant:
-            return CheckResult(score=0, message="Package has recent activity.")
-        since = package.dormant_since
-        if since is None:
-            message = "No release or commit date on record, so the score is 0."
-        elif (
-            package.on_pypi
-            and package.latest_version_id
-            and package.latest_version.upload_time
-        ):
-            message = (
-                f"No release since {since:%B %Y}, so the score is 0 until one ships."
+        last = package.last_activity
+        if last is None:
+            return CheckResult(
+                score=0,
+                message="No release or commit date on record, so the score is 0.",
+                factor=0.0,
             )
-        else:
-            message = (
-                f"Not on PyPI and no commit since {since:%B %Y}, so the score is 0 "
-                "until one lands."
+        factor = package.activity_factor
+        what = "release" if package.release_dates_it else "commit"
+        if factor >= 1.0:
+            return CheckResult(
+                score=0,
+                message=f"Last {what} {last:%B %Y}, within the last year: full score.",
+                factor=1.0,
             )
-        return CheckResult(score=0, message=message, zero_score=True)
+        return CheckResult(
+            score=0,
+            message=(
+                f"Last {what} {last:%B %Y}, {package.activity_age_text} ago: "
+                f"score scaled to {package.activity_percent}%."
+            ),
+            factor=factor,
+        )
 
 
 class DeprecatedRule(ScoreRule):
@@ -212,70 +217,6 @@ class ForkRule(ScoreRule):
         return CheckResult(score=0, message="No forks data for the package repository.")
 
 
-class LastUpdatedRule(ScoreRule):
-    name: str = "Last Updated Rule"
-    description: str = "Score based on how recently the package was last updated"
-    max_score: int = 20
-    documentation_url: str = (
-        f"{settings.DOCS_URL}/rules/#searchv3.rules.LastUpdatedRule"
-    )
-
-    def check(self, package: Package) -> CheckResult:
-        try:
-            last_updated = package.last_commit_date
-            now = timezone.now()
-
-            if last_updated:
-                if (now - last_updated) < timedelta(90):
-                    return CheckResult(
-                        score=self.max_score,
-                        message="Package was updated less than 3 months ago.",
-                    )
-                if (now - last_updated) < timedelta(182):
-                    return CheckResult(
-                        score=int(self.max_score / 2),
-                        message="Package was updated less than 6 months ago.",
-                    )
-                if (now - last_updated) < timedelta(365):
-                    return CheckResult(
-                        score=int(self.max_score / 4),
-                        message="Package was updated less than 1 year ago.",
-                    )
-                return CheckResult(
-                    score=0, message="Package was updated more than 1 year ago."
-                )
-
-            return CheckResult(score=0, message="No update data found for the package.")
-
-        except AttributeError:
-            return CheckResult(score=0, message="No update data found for the package.")
-
-
-class RecentReleaseRule(ScoreRule):
-    name: str = "Recent Release Rule"
-    description: str = "Score if the last release is less than a year old"
-    max_score: int = 20
-    documentation_url: str = (
-        f"{settings.DOCS_URL}/rules/#searchv3.rules.RecentReleaseRule"
-    )
-
-    def check(self, package: Package) -> CheckResult:
-        last_released = package.latest_version
-        if not last_released or not last_released.upload_time:
-            return CheckResult(
-                score=0, message="No release data found for the package."
-            )
-
-        now = timezone.now()
-        if now - last_released.upload_time < timedelta(365):
-            return CheckResult(
-                score=self.max_score,
-                message="Last release is less than a year old.",
-            )
-
-        return CheckResult(score=0, message="Last release is more than a year old.")
-
-
 class UsageCountRule(ScoreRule):
     name: str = "Usage Count Rule"
     description: str = "Score based on the usage count"
@@ -320,12 +261,12 @@ def calc_package_weight(
     total_score = 0
     breakdown = []
     messages = []
-    zeroed = False
+    factor = 1.0
 
     for rule in rules:
         result = rule.check(package=package)
         total_score += result.score
-        zeroed = zeroed or result.zero_score
+        factor *= result.factor
         messages.append(result.message)
         breakdown.append(
             {
@@ -342,28 +283,24 @@ def calc_package_weight(
     normalized_score = (
         (total_score / max_possible_score) * max_score if max_possible_score > 0 else 0
     )
-    if zeroed:
-        normalized_score = 0
 
     return {
-        "total_score": int(normalized_score),
+        "total_score": int(normalized_score * factor),
         "message": " ".join(messages),
         "breakdown": breakdown,
-        "zeroed": zeroed,
+        "factor": factor,
     }
 
 
 # The checks that make up `Package.score`, in the order the score page
-# lists them. The gate first, then eight rules at 20 points each, 160
-# scaled to 100.
+# lists them. The activity factor first, then six rules at 20 points
+# each, 120 scaled to 100 and multiplied by the factor.
 PACKAGE_RULES: list[ScoreRule] = [
-    DormantRule(),
+    ActivityRule(),
     DeprecatedRule(),
     DescriptionRule(),
     DownloadsRule(),
     ForkRule(),
-    LastUpdatedRule(),
-    RecentReleaseRule(),
     UsageCountRule(),
     WatchersRule(),
 ]
@@ -372,7 +309,7 @@ PACKAGE_SCORE_MAX = 100
 
 
 def score_package(package: Package) -> dict:
-    """`Package.score` with its working: total_score, message, breakdown, zeroed.
+    """`Package.score` with its working: total_score, message, breakdown, factor.
 
     Reads `latest_version` and `usage`, so load the package with
     `select_related("latest_version")` and `annotate(usage_count=Count("usage",

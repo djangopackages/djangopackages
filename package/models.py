@@ -284,17 +284,13 @@ class Package(BaseModel):
     def is_deprecated(self):
         return self.date_deprecated is not None
 
-    # A package that has not shipped for this long is dormant: still
-    # listed, still searchable, but scored 0 so it leaves the grid
-    # comparison tables (searchv3.rules.DormantRule). It clears itself
-    # with the next release, or the next commit for a package that is
-    # not on PyPI.
-    DORMANT_YEARS = 3
-    # ...unless people are still installing it. This many downloads a
-    # month means the package is in use whatever its release date, so
-    # it is not dormant. Finished software (diskcache) stays visible;
-    # cabot at a hundred a month does not.
-    DORMANT_MIN_DOWNLOADS = 10_000
+    # The score keeps all its points for this long after the latest
+    # release (or commit, for a package not on PyPI)...
+    ACTIVITY_FULL_YEARS = 1
+    # ...then halves this often. Two and a half years idle leaves half
+    # the points, five years a sixth, ten years about 1%. See
+    # searchv3.rules.ActivityRule.
+    ACTIVITY_HALF_LIFE_YEARS = 1.5
 
     @property
     def on_pypi(self):
@@ -318,30 +314,57 @@ class Package(BaseModel):
         return self.last_commit_date
 
     @property
-    def dormant_since(self):
-        """When the package last shipped, if that was `DORMANT_YEARS` or more ago.
-
-        None for a package that shipped recently or is still downloaded
-        `DORMANT_MIN_DOWNLOADS` times a month. A package with no release
-        date and no commit date is dormant too; `last_activity` is None
-        then, so callers should word it as "no activity on record" rather
-        than quoting a date.
-        """
-        if (self.pypi_downloads or 0) >= self.DORMANT_MIN_DOWNLOADS:
-            return None
-        last = self.last_activity
-        if last is None:
-            return None
-        cutoff = timezone.now() - timedelta(days=365 * self.DORMANT_YEARS)
-        return last if last <= cutoff else None
+    def release_dates_it(self):
+        """Whether `last_activity` is a PyPI release rather than a commit."""
+        return bool(
+            self.on_pypi
+            and self.latest_version_id
+            and self.latest_version
+            and self.latest_version.upload_time
+        )
 
     @property
-    def is_dormant(self):
-        if (self.pypi_downloads or 0) >= self.DORMANT_MIN_DOWNLOADS:
-            return False
-        if self.last_activity is None:
-            return True
-        return self.dormant_since is not None
+    def activity_age(self):
+        """Time since the package last shipped, or None when unknown."""
+        last = self.last_activity
+        return None if last is None else timezone.now() - last
+
+    @property
+    def activity_factor(self):
+        """What share of its points the package keeps for its age, 0.0 to 1.0.
+
+        1.0 for `ACTIVITY_FULL_YEARS` after `last_activity`, then halving
+        every `ACTIVITY_HALF_LIFE_YEARS`. 0.0 when no date is on record.
+        """
+        age = self.activity_age
+        if age is None:
+            return 0.0
+        years = age.days / 365
+        if years <= self.ACTIVITY_FULL_YEARS:
+            return 1.0
+        return 0.5 ** (
+            (years - self.ACTIVITY_FULL_YEARS) / self.ACTIVITY_HALF_LIFE_YEARS
+        )
+
+    @property
+    def activity_percent(self):
+        """`activity_factor` as a whole-number percentage, for display."""
+        return int(round(self.activity_factor * 100))
+
+    @property
+    def activity_age_text(self):
+        """`activity_age` in words: "3 years", "1 year 6 months", "4 months"."""
+        age = self.activity_age
+        if age is None:
+            return ""
+        months = age.days // 30
+        years, months = divmod(months, 12)
+        parts = []
+        if years:
+            parts.append(f"{years} year{'s' if years != 1 else ''}")
+        if months and years < 3:
+            parts.append(f"{months} month{'s' if months != 1 else ''}")
+        return " ".join(parts) or "under a month"
 
     @property
     def is_awesome_list(self):
