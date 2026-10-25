@@ -49,8 +49,12 @@
                                 <tr class="border-border hover:bg-muted/50 border-b last:border-0">
                                     <td class="px-4 py-3">{{ breakdown.rule }}</td>
                                     <td class="px-4 py-3">{{ breakdown.description }}</td>
-                                    <td class="px-4 py-3">{{ breakdown.score }}</td>
-                                    <td class="px-4 py-3">{{ breakdown.max_score }}</td>
+                                    {% if breakdown.max_score %}
+                                        <td class="px-4 py-3">{{ breakdown.score }}</td>
+                                        <td class="px-4 py-3">{{ breakdown.max_score }}</td>
+                                    {% else %}
+                                        <td class="px-4 py-3" colspan="2">{{ breakdown.message }}</td>
+                                    {% endif %}
                                     <td class="px-4 py-3">
                                         {% if breakdown.documentation_url %}
                                             <a href="{{ breakdown.documentation_url }}" class="text-primary hover:underline">{% translate "Details" %}</a>

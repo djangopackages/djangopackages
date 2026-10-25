@@ -63,7 +63,7 @@
                                 <span
                                     class="badge suggestion-badge flex items-center gap-1 whitespace-nowrap"
                                     data-toggle="tooltip"
-                                    title="{% translate 'Scores (0-100) add up eight checks worth 20 points each: not deprecated or archived, has a description, PyPI downloads, forks, a commit in the last year, a release in the last year, usage count, and stars.' %}"
+                                    title="{% translate 'Scores (0-100) add up eight checks worth 20 points each: not deprecated or archived, has a description, PyPI downloads, forks, a commit in the last year, a release in the last year, usage count, and stars. A package with no release or commit in three years scores 0.' %}"
                                 >
                                     <i class="ph-bold ph-chart-bar text-xs"></i>
                                     {{ item.score|intcomma|default:"n/a" }}

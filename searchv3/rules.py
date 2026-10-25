@@ -5,6 +5,12 @@ sort on it and cut their comparison tables at `PACKAGE_SCORE_MIN`, the
 search index weights packages by it, and the Package Score page lists
 the checks with the points each one earned. One number, one place
 (#1563).
+
+One check is a gate rather than points: `DormantRule`. A package with
+no release and no commit for `Package.DORMANT_YEARS` scores 0 whatever
+else it has, so it leaves the comparison tables while staying listed
+and searchable. It comes back on its own with the next commit or
+release.
 """
 
 from datetime import timedelta
@@ -19,6 +25,8 @@ from package.models import Package
 class CheckResult(BaseModel):
     score: int
     message: str
+    # True from a gate rule: the whole score is 0, not just this rule's share.
+    zero_score: bool = False
 
 
 class ScoreRule(BaseModel):
@@ -48,6 +56,37 @@ class ScoreRuleGroup(ScoreRule):
         )
         messages = [result.message for result in results]
         return CheckResult(score=int(normalized_score), message=" ".join(messages))
+
+
+class DormantRule(ScoreRule):
+    """Zero the score of a package that has not moved in three years.
+
+    Dormant means neither the latest commit nor the latest release is
+    younger than `Package.DORMANT_YEARS`, or no commit date and no
+    release date are on record at all. It is computed from dates, never
+    set by hand, and clears itself with the next commit or release.
+    Carries no points of its own.
+    """
+
+    name: str = "Dormant Rule"
+    description: str = (
+        "Score is 0 while the package has had no release and no commit for three years"
+    )
+    max_score: int = 0
+    documentation_url: str = f"{settings.DOCS_URL}/rules/#searchv3.rules.DormantRule"
+
+    def check(self, package: Package) -> CheckResult:
+        if not package.is_dormant:
+            return CheckResult(score=0, message="Package has recent activity.")
+        since = package.dormant_since
+        if since is None:
+            message = "No release or commit date on record, so the score is 0."
+        else:
+            message = (
+                f"No release or commit since {since:%B %Y}, so the score is 0 "
+                "until one lands."
+            )
+        return CheckResult(score=0, message=message, zero_score=True)
 
 
 class DeprecatedRule(ScoreRule):
@@ -248,10 +287,12 @@ def calc_package_weight(
     total_score = 0
     breakdown = []
     messages = []
+    zeroed = False
 
     for rule in rules:
         result = rule.check(package=package)
         total_score += result.score
+        zeroed = zeroed or result.zero_score
         messages.append(result.message)
         breakdown.append(
             {
@@ -268,17 +309,22 @@ def calc_package_weight(
     normalized_score = (
         (total_score / max_possible_score) * max_score if max_possible_score > 0 else 0
     )
+    if zeroed:
+        normalized_score = 0
 
     return {
         "total_score": int(normalized_score),
         "message": " ".join(messages),
         "breakdown": breakdown,
+        "zeroed": zeroed,
     }
 
 
 # The checks that make up `Package.score`, in the order the score page
-# lists them. Equal weight: 20 points each, 160 scaled to 100.
+# lists them. The gate first, then eight rules at 20 points each, 160
+# scaled to 100.
 PACKAGE_RULES: list[ScoreRule] = [
+    DormantRule(),
     DeprecatedRule(),
     DescriptionRule(),
     DownloadsRule(),
@@ -293,7 +339,7 @@ PACKAGE_SCORE_MAX = 100
 
 
 def score_package(package: Package) -> dict:
-    """`Package.score` with its working: total_score, message, breakdown.
+    """`Package.score` with its working: total_score, message, breakdown, zeroed.
 
     Reads `latest_version` and `usage`, so load the package with
     `select_related("latest_version")` and `annotate(usage_count=Count("usage",

@@ -20,7 +20,7 @@ docker compose run django uv run manage.py calculate_score
 
 ## compare_scores
 
-Dry run of the package score as `searchv3/rules.py` computes it against the stored `Package.score`. Prints both distributions and, for every approved grid, what the comparison table would show under each, at the current `PACKAGE_SCORE_MIN` or the `--new-min` given. Writes nothing. Use it to preview a rule change or a new cutoff, and to check that stored scores are current.
+Dry run of the package score as `searchv3/rules.py` computes it against the stored `Package.score`. Prints both distributions and, for every approved grid, what the comparison table would show under each, at the current `PACKAGE_SCORE_MIN` or the `--new-min` given. Writes nothing. Use it to preview a rule change or a new cutoff, and to check that stored scores are current. The points-by-rule table also counts how many packages the dormant gate zeroes.
 
 ```shell
 docker compose run django uv run manage.py compare_scores [--new-min 30] [--grid <slug>] [--csv scores.csv]

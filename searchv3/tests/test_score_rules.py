@@ -6,6 +6,7 @@ from searchv3.builders import calc_grid_weight
 from searchv3.rules import (
     PACKAGE_RULES,
     DeprecatedRule,
+    DormantRule,
     DescriptionRule,
     DownloadsRule,
     ForkRule,
@@ -67,11 +68,67 @@ class CalcPackageWeightTest(TestCase):
         self.assertEqual(self._score(date_repo_archived=timezone.now()), 60)
 
 
-class ScorePackageTest(TestCase):
-    """`score_package` is `Package.score`: the eight rules, 20 points each."""
+class DormantRuleTest(TestCase):
+    def _package(self, **overrides):
+        defaults = {"repo_watchers": 500, "repo_forks": 50, "repo_description": "x"}
+        defaults.update(overrides)
+        return baker.make("package.Package", **defaults)
 
-    def test_eight_rules_scaled_to_100(self):
-        self.assertEqual(len(PACKAGE_RULES), 8)
+    def test_recent_commit_is_not_dormant(self):
+        package = self._package(
+            last_commit_date=timezone.now() - timezone.timedelta(days=700)
+        )
+        result = DormantRule().check(package=package)
+        self.assertFalse(result.zero_score)
+        self.assertFalse(package.is_dormant)
+
+    def test_three_idle_years_is_dormant(self):
+        when = timezone.now() - timezone.timedelta(days=365 * 3 + 1)
+        package = self._package(last_commit_date=when)
+        result = DormantRule().check(package=package)
+        self.assertTrue(result.zero_score)
+        self.assertEqual(package.dormant_since, when)
+        self.assertIn(f"since {when:%B %Y}", result.message)
+
+    def test_recent_release_keeps_an_old_repo_awake(self):
+        package = self._package(
+            last_commit_date=timezone.now() - timezone.timedelta(days=365 * 4)
+        )
+        version = baker.make(
+            "package.Version",
+            package=package,
+            upload_time=timezone.now() - timezone.timedelta(days=100),
+        )
+        package.latest_version = version
+        package.save(update_fields=["latest_version"])
+        self.assertFalse(package.is_dormant)
+        self.assertFalse(DormantRule().check(package=package).zero_score)
+
+    def test_no_dates_at_all_is_dormant(self):
+        package = self._package(last_commit_date=None)
+        result = DormantRule().check(package=package)
+        self.assertTrue(result.zero_score)
+        self.assertIsNone(package.dormant_since)
+        self.assertIn("No release or commit date on record", result.message)
+
+    def test_dormant_zeroes_the_whole_score(self):
+        package = self._package(
+            last_commit_date=timezone.now() - timezone.timedelta(days=365 * 5),
+            pypi_downloads=50_000,
+        )
+        result = score_package(package)
+        self.assertEqual(result["total_score"], 0)
+        self.assertTrue(result["zeroed"])
+        # The point rules still report what they would have earned.
+        self.assertEqual(sum(item["score"] for item in result["breakdown"]), 100)
+
+
+class ScorePackageTest(TestCase):
+    """`score_package` is `Package.score`: a gate plus eight rules, 20 points each."""
+
+    def test_gate_plus_eight_rules_scaled_to_100(self):
+        self.assertEqual(len(PACKAGE_RULES), 9)
+        self.assertIsInstance(PACKAGE_RULES[0], DormantRule)
         self.assertEqual(sum(rule.max_score for rule in PACKAGE_RULES), 160)
 
     def test_fresh_100_stars_nothing_else(self):
