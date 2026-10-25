@@ -1,4 +1,27 @@
 {% load i18n %}
+{% if detail %}
+    {# Package page header: styled like the favorite button, swapped whole on toggle. #}
+    <div id="usage-btn-{{ package.id }}" class="flex-1 flex-shrink-0 sm:flex-none">
+        {% if request.user.is_authenticated %}
+            <button type="button"
+                    class="btn-secondary w-full {% if is_using %}bg-primary/10 text-primary border-primary/20{% endif %}"
+                    hx-get="{% url 'usage' package.slug is_using|yesno:'remove,add' %}?htmx=1&detail=1"
+                    hx-target="#usage-btn-{{ package.id }}"
+                    hx-swap="outerHTML"
+                    title="{% if is_using %}{% translate 'Remove from your usage list' %}{% else %}{% translate 'Add to your usage list' %}{% endif %}">
+                <i class="ph-bold {% if is_using %}ph-check text-emerald-600 dark:text-emerald-400{% else %}ph-plus{% endif %} mr-1 text-base"></i>
+                <span>{% if is_using %}{% translate "Using" %}{% else %}{% translate "I use this" %}{% endif %}</span>
+                <span class="bg-muted text-muted-foreground ml-2 rounded-full px-2 py-0.5 text-xs font-semibold">{% if usage_count is not None and usage_count != "" %}{{ usage_count|default:0 }}{% else %}{{ package.usage.count|default:0 }}{% endif %}</span>
+            </button>
+        {% else %}
+            <a href="{% url 'login' %}?next={{ request.path|urlencode }}" class="btn-secondary w-full" title="{% translate 'Log in to say you use this package' %}">
+                <i class="ph-bold ph-users mr-1 text-base"></i>
+                <span>{% translate "Used by" %}</span>
+                <span class="bg-muted text-muted-foreground ml-2 rounded-full px-2 py-0.5 text-xs font-semibold">{{ package.usage.count|default:0 }}</span>
+            </a>
+        {% endif %}
+    </div>
+{% else %}
 <div id="{% if mobile %}mobile-usage-btn-{{ package.id }}{% else %}usage-btn-{{ package.id }}{% endif %}" class="flex items-center gap-1.5">
     {% if mobile %}
         <div id="mobile-usage-count-{{ package.id }}" hx-swap-oob="true" class="text-foreground text-lg font-bold">
@@ -50,3 +73,4 @@
         {% endif %}
     {% endif %}
 </div>
+{% endif %}

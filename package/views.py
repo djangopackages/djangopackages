@@ -285,10 +285,17 @@ class PackageUsageToggleView(LoginRequiredMixin, View):
         # Handle HTMX requests - return updated button partial
         if self.request.htmx:
             mobile = bool(request.GET.get("mobile"))
+            detail = bool(request.GET.get("detail"))
             return render(
                 request,
                 "partials/usage_button.html",
-                {"package": package, "is_using": is_using, "mobile": mobile},
+                {
+                    "package": package,
+                    "is_using": is_using,
+                    "mobile": mobile,
+                    "detail": detail,
+                    "usage_count": package.usage.count(),
+                },
             )
 
         # Standard redirect for non-AJAX requests
@@ -374,7 +381,12 @@ class PackageDetailView(DetailView):
                     Favorite.objects.filter(
                         favorited_by=self.request.user, package_id=OuterRef("pk")
                     )
-                )
+                ),
+                _is_using=Exists(
+                    Package.usage.through.objects.filter(
+                        user_id=self.request.user.pk, package_id=OuterRef("pk")
+                    )
+                ),
             )
         return qs
 
@@ -383,6 +395,8 @@ class PackageDetailView(DetailView):
         context.update(
             {
                 "is_favorited": getattr(self.object, "_is_favorited", False),
+                "is_using": getattr(self.object, "_is_using", False),
+                "usage_count": self.object.usage.count(),
                 "commit_count": self.object.commit_count,
                 "version_count": getattr(self.object, "_version_count", 0),
                 "has_approved_flag": getattr(self.object, "_has_approved_flag", False),
