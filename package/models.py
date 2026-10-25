@@ -224,12 +224,27 @@ class Package(BaseModel):
         _("date when repo was archived"), blank=True, null=True
     )
     deprecated_by = models.ForeignKey(
-        User, blank=True, null=True, related_name="deprecator", on_delete=models.PROTECT
+        User,
+        verbose_name=_("deprecated by"),
+        help_text=_("The user who marked this package as deprecated."),
+        blank=True,
+        null=True,
+        related_name="deprecator",
+        on_delete=models.PROTECT,
     )
+    # The name reads backwards: this is not a package that *this* one
+    # deprecates, it is the one that replaces it. Set it on the old
+    # package, pointing at the new one, and only there. A package with
+    # it set is treated as deprecated (see `PackageQuerySet.active`).
     deprecates_package = models.ForeignKey(
         "self",
+        verbose_name=_("replaced by"),
+        help_text=_(
+            "The package that replaces this one. Set this on the OLD package, "
+            "pointing at its successor. A package with this set is treated as "
+            "deprecated and left out of grids and search."
+        ),
         blank=True,
-        help_text="The Package that replaces *this* Package",
         null=True,
         on_delete=models.PROTECT,
         related_name="replacement",
