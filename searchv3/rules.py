@@ -1,3 +1,12 @@
+"""The package score: eight checks, 20 points each, scaled to 0 to 100.
+
+`Package.score` is `score_package(package)["total_score"]`. The grids
+sort on it and cut their comparison tables at `PACKAGE_SCORE_MIN`, the
+search index weights packages by it, and the Package Score page lists
+the checks with the points each one earned. One number, one place
+(#1563).
+"""
+
 from datetime import timedelta
 
 from django.conf import settings
@@ -48,11 +57,11 @@ class DeprecatedRule(ScoreRule):
     documentation_url: str = f"{settings.DOCS_URL}/rules/#searchv3.rules.DeprecatedRule"
 
     def check(self, package: Package) -> CheckResult:
-        if not package.is_deprecated:
-            return CheckResult(
-                score=self.max_score, message="Package is not deprecated."
-            )
-        return CheckResult(score=0, message="Package is deprecated.")
+        if package.is_deprecated:
+            return CheckResult(score=0, message="Package is deprecated.")
+        if package.date_repo_archived:
+            return CheckResult(score=0, message="Package repository is archived.")
+        return CheckResult(score=self.max_score, message="Package is not deprecated.")
 
 
 class FavoritePackageRule(ScoreRule):
@@ -202,7 +211,11 @@ class UsageCountRule(ScoreRule):
     documentation_url: str = f"{settings.DOCS_URL}/rules/#searchv3.rules.UsageCountRule"
 
     def check(self, package: Package) -> CheckResult:
-        usage_count = package.usage.count()
+        # `score_package` querysets annotate `usage_count`; fall back to a
+        # query for a bare instance.
+        usage_count = getattr(package, "usage_count", None)
+        if usage_count is None:
+            usage_count = package.usage.count()
         if usage_count:
             score = min(usage_count, self.max_score)
             return CheckResult(
@@ -261,3 +274,31 @@ def calc_package_weight(
         "message": " ".join(messages),
         "breakdown": breakdown,
     }
+
+
+# The checks that make up `Package.score`, in the order the score page
+# lists them. Equal weight: 20 points each, 160 scaled to 100.
+PACKAGE_RULES: list[ScoreRule] = [
+    DeprecatedRule(),
+    DescriptionRule(),
+    DownloadsRule(),
+    ForkRule(),
+    LastUpdatedRule(),
+    RecentReleaseRule(),
+    UsageCountRule(),
+    WatchersRule(),
+]
+
+PACKAGE_SCORE_MAX = 100
+
+
+def score_package(package: Package) -> dict:
+    """`Package.score` with its working: total_score, message, breakdown.
+
+    Reads `latest_version` and `usage`, so load the package with
+    `select_related("latest_version")` and `annotate(usage_count=Count("usage",
+    distinct=True))` when scoring in bulk.
+    """
+    return calc_package_weight(
+        package=package, rules=PACKAGE_RULES, max_score=PACKAGE_SCORE_MAX
+    )

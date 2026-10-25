@@ -4,17 +4,18 @@ from model_bakery import baker
 from package.models import Package
 from package.scores import (
     UpdateResult,
+    calculate_score,
     update_package_score,
     update_package_scores_bulk,
 )
-from package.scoring import ScoreInputs, calculate_score
 
-# 100 stars, committed today, nothing else known. The formula itself is
-# covered in test_scoring.py; here the number only has to be stable.
-FRESH_100_STARS = 43
+# 100 stars, committed today, nothing else known: not deprecated (20),
+# commit in the last 3 months (20), watchers (20) of 160, scaled to 100.
+# The rules themselves are covered in searchv3/tests/test_score_rules.py.
+FRESH_100_STARS = 37
 
 
-def test_update_package_score_archived_package_is_zero(db, category):
+def test_update_package_score_archived_loses_the_deprecated_rule(db, category):
     package = baker.make(
         Package,
         category=category,
@@ -27,7 +28,8 @@ def test_update_package_score_archived_package_is_zero(db, category):
 
     assert update_package_score(package, save=True) is True
     package.refresh_from_db()
-    assert package.score == 0
+    # Fresh with 100 stars is 37; archived forfeits the 20 "not deprecated" points.
+    assert package.score == 25
 
 
 def test_update_package_score_updates_when_changed(db, category):
@@ -58,9 +60,7 @@ def test_update_package_scores_bulk_updates_only_changed(db, category):
         repo_watchers=50,
         last_commit_date=timezone.now(),
     )
-    package_unchanged.score = calculate_score(
-        ScoreInputs.from_package(package_unchanged)
-    )
+    package_unchanged.score = calculate_score(package_unchanged)
     package_unchanged.save(update_fields=["score"])
 
     package_changed = baker.make(
@@ -89,9 +89,7 @@ def test_update_package_scores_bulk_updates_only_changed(db, category):
     assert progress[-1][0] == 2
 
     package_changed.refresh_from_db()
-    assert package_changed.score == calculate_score(
-        ScoreInputs.from_package(package_changed)
-    )
+    assert package_changed.score == calculate_score(package_changed)
     assert package_changed.score > 0
 
 

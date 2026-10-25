@@ -2,7 +2,6 @@ from functools import cached_property
 import json
 from urllib.parse import urlparse
 
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -48,16 +47,7 @@ from package.models import (
     RepoHost,
     Version,
 )
-from searchv3.rules import calc_package_weight
-from searchv3.rules import DeprecatedRule
-from searchv3.rules import DescriptionRule
-from searchv3.rules import DownloadsRule
-from searchv3.rules import ForkRule
-from searchv3.rules import LastUpdatedRule
-from searchv3.rules import RecentReleaseRule
-from searchv3.rules import ScoreRuleGroup
-from searchv3.rules import UsageCountRule
-from searchv3.rules import WatchersRule
+from searchv3.rules import score_package
 from favorites.models import Favorite
 
 
@@ -328,29 +318,9 @@ class PackageRulesView(DetailView):
         context = super().get_context_data(**kwargs)
         package = self.object
 
-        group = ScoreRuleGroup(
-            name="Activity Rules",
-            description="Rules related to the package's recent activity",
-            max_score=40,
-            documentation_url=f"{settings.DOCS_URL}/rules/#searchv3.rules.ScoreRuleGroup",
-            rules=[LastUpdatedRule(), RecentReleaseRule()],
-        )
-
-        rules = [
-            DeprecatedRule(),
-            DescriptionRule(),
-            DownloadsRule(),
-            ForkRule(),
-            UsageCountRule(),
-            WatchersRule(),
-            group,
-        ]
-
-        package_score = calc_package_weight(
-            package=package,
-            rules=rules,
-            max_score=100,
-        )
+        # The same checks that produce the stored score, shown with their
+        # points, so the page and the grids agree.
+        package_score = score_package(package)
 
         context.update(
             dict(

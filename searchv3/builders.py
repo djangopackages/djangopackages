@@ -7,18 +7,6 @@ from rich import print
 
 from grid.models import Grid
 from package.models import Package
-from searchv3.rules import (
-    DeprecatedRule,
-    DescriptionRule,
-    DownloadsRule,
-    ForkRule,
-    LastUpdatedRule,
-    RecentReleaseRule,
-    UsageCountRule,
-    WatchersRule,
-    calc_package_weight,
-)
-
 from searchv3.models import ItemType, SearchV3
 
 
@@ -100,18 +88,6 @@ class SearchIndexBuilder(ABC):
         return len(payload_by_slug)
 
 
-_PACKAGE_RULES = [
-    DeprecatedRule(),
-    DescriptionRule(),
-    DownloadsRule(),
-    ForkRule(),
-    LastUpdatedRule(),
-    RecentReleaseRule(),
-    UsageCountRule(),
-    WatchersRule(),
-]
-
-
 class PackageIndexBuilder(SearchIndexBuilder):
     item_type = ItemType.PACKAGE
 
@@ -123,10 +99,9 @@ class PackageIndexBuilder(SearchIndexBuilder):
         )
 
     def calc_weight(self, package: Package) -> int:
-        result = calc_package_weight(
-            package=package, rules=_PACKAGE_RULES, max_score=100
-        )
-        return result["total_score"]
+        # The stored score is these same rules (`searchv3.rules.score_package`),
+        # kept current by the fetchers and `calculate_score`.
+        return package.score
 
     def get_defaults(self, package: Package) -> dict:
         return {

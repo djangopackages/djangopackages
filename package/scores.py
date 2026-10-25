@@ -1,32 +1,31 @@
 """Keep `Package.score` current.
 
-The number itself comes from `package.scoring`; this module is the glue
-that reads a package, computes it, and writes it back only when it
-changed. See #1563 for the switch from the old stars-minus-penalties
-formula.
+The number itself is `searchv3.rules.score_package`; this module is the
+glue that reads a package, computes it, and writes it back only when it
+changed.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass
 
-from django.db.models import QuerySet
+from django.db.models import Count, QuerySet
 
 from package.models import Package
-from package.scoring import ScoreInputs, calculate_score
 from package.utils import iterate_in_batches
+from searchv3.rules import score_package
 
-# The columns `ScoreInputs.from_package` reads, for `.only()`.
-SCORE_FIELDS = (
-    "pk",
-    "score",
-    "repo_watchers",
-    "pypi_downloads",
-    "last_commit_date",
-    "date_deprecated",
-    "date_repo_archived",
-    "latest_version__upload_time",
-)
+
+def calculate_score(package: Package) -> int:
+    """0 to 100. See `searchv3.rules` for the checks."""
+    return score_package(package)["total_score"]
+
+
+def scoring_queryset(queryset: QuerySet) -> QuerySet:
+    """What the rules read, loaded up front: the latest release and the usage count."""
+    return queryset.select_related("latest_version").annotate(
+        usage_count=Count("usage", distinct=True)
+    )
 
 
 @dataclass(frozen=True)
@@ -53,13 +52,8 @@ def _batch_update_scores(package_ids: list[int]) -> int:
         return 0
 
     packages_to_update = []
-    packages = (
-        Package.objects.filter(pk__in=package_ids)
-        .select_related("latest_version")
-        .only(*SCORE_FIELDS)
-    )
-    for package in packages:
-        new_score = calculate_score(ScoreInputs.from_package(package))
+    for package in scoring_queryset(Package.objects.filter(pk__in=package_ids)):
+        new_score = calculate_score(package)
         if package.score != new_score:
             package.score = new_score
             packages_to_update.append(package)
@@ -77,8 +71,8 @@ def update_package_score(package: Package, save: bool = True) -> bool:
     Update the score field for a single Package.
 
     Only updates if the calculated score differs from the current score.
-    Reads `package.latest_version`, so load it with `select_related` when
-    calling this in a loop.
+    Reads `package.latest_version` and the usage count, so load packages
+    through `scoring_queryset` when calling this in a loop.
 
     Args:
         package: Package instance to update
@@ -91,7 +85,7 @@ def update_package_score(package: Package, save: bool = True) -> bool:
         >>> if update_package_score(package):
         ...     print(f"New score: {package.score}")
     """
-    new_score = calculate_score(ScoreInputs.from_package(package))
+    new_score = calculate_score(package)
 
     if package.score != new_score:
         package.score = new_score
@@ -113,8 +107,8 @@ def update_package_scores_bulk(
     """
     Update scores for multiple packages efficiently.
 
-    Processes packages in batches, loading only the columns the score
-    reads. Only updates packages whose scores have changed.
+    Processes packages in batches and only updates packages whose scores
+    have changed.
 
     Args:
         packages_qs: QuerySet of Package objects

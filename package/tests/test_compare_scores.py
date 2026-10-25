@@ -21,7 +21,10 @@ def grid_with_packages(db):
         slug="fresh",
         category=category,
         repo_url="https://github.com/t/fresh",
+        repo_description="Fresh and described",
         repo_watchers=5_000,
+        repo_forks=0,
+        pypi_downloads=0,
         last_commit_date=now - timedelta(days=3),
         score=5_000,
     )
@@ -31,7 +34,10 @@ def grid_with_packages(db):
         slug="stale",
         category=category,
         repo_url="https://github.com/t/stale",
+        repo_description="Stale and described",
         repo_watchers=20_000,
+        repo_forks=0,
+        pypi_downloads=0,
         last_commit_date=now - timedelta(days=365 * 5),
         score=4_000,
     )
@@ -52,8 +58,10 @@ def test_compare_scores_runs_and_writes_nothing(grid_with_packages, settings, tm
     assert result.exit_code == 0, result.output
     assert "2 active packages, 1 approved grids" in result.output
     assert "Effect on the grids" in result.output
-    # Under the stored (old-formula) scores both show and stale is on top;
-    # the computed score drops the abandoned one and the top changes.
+    # Under the stored scores both show and stale is on top. Under the
+    # rules fresh is 50 (not deprecated, description, updated, watchers)
+    # and stale 37, so at a cutoff of 50 stale drops and the top changes.
+    assert "Points by rule" in result.output
     assert "grids whose top package changes" in result.output
     assert "stored only" in result.output
     assert "No approved grid with slug 'missing'" in result.output
@@ -61,7 +69,7 @@ def test_compare_scores_runs_and_writes_nothing(grid_with_packages, settings, tm
     assert csv_path.read_text().count("\n") == 3
 
 
-def test_weights_are_options(grid_with_packages):
-    result = CliRunner().invoke(command, ["--stale-days", "10000", "--new-min", "1"])
+def test_new_min_is_an_option(grid_with_packages):
+    result = CliRunner().invoke(command, ["--new-min", "1"])
     assert result.exit_code == 0, result.output
-    assert "stale_days=10000" in result.output
+    assert "computed cutoff 1" in result.output

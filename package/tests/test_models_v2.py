@@ -86,18 +86,18 @@ def test_package_score(package_cms):
 
 
 def test_package_abandoned_score(package_abandoned):
-    # Two years without a commit or release: halfway down the slope from
-    # fresh (one year) to zero (three years), so about half the ceiling.
+    # Two years without a commit or release loses both activity rules
+    # (40 of 160 points), so the score cannot pass 75 however many stars.
     assert package_abandoned.repo_watchers == 1000
     update_package_score(package_abandoned, save=True)
-    assert 0 < package_abandoned.score < 50
+    assert 0 < package_abandoned.score <= 75
 
 
 def test_package_abandoned_ten_years_score(package_abandoned_ten_years):
-    # Ten years without a commit or release is zero, however many stars.
+    # Same ceiling at ten years: the rules do not decay further with age.
     assert package_abandoned_ten_years.repo_watchers == 1000
     update_package_score(package_abandoned_ten_years, save=True)
-    assert package_abandoned_ten_years.score == 0
+    assert 0 < package_abandoned_ten_years.score <= 75
 
 
 def test_package_example(package_example):

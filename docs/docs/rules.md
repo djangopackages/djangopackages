@@ -1,5 +1,7 @@
 ## Single Rule Logic
 
+`Package.score` is the sum of the eight rules below, 20 points each, scaled to 0 to 100 (`searchv3.rules.score_package`). The grids sort on it and show packages at or above `PACKAGE_SCORE_MIN` in their comparison tables, the search index weights packages by it, and the Package Score page on each package lists the rules with the points earned.
+
 ### ::: searchv3.rules.DeprecatedRule
 
 

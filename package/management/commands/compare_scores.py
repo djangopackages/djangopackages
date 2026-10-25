@@ -1,66 +1,42 @@
-"""Dry run of `package.scoring` against the stored `Package.score`.
+"""Dry run of the package score against the stored `Package.score`.
 
 Nothing is written. For every active package the command computes the
-score, with the default weights or the ones given as flags, and sets it
-beside what is stored, then answers the question that matters when tuning:
-what would each grid's comparison table show if the computed score were
-the stored one? Written for the switch from the old formula (#1563); now
-it is how a change to `ScoreWeights` or `PACKAGE_SCORE_MIN` is previewed.
+score from `searchv3.rules.PACKAGE_RULES`, sets it beside what is stored,
+and answers the question that matters when tuning: what would each grid's
+comparison table show if the computed score were the stored one, at the
+current `PACKAGE_SCORE_MIN` or the `--new-min` given?
 
     manage.py compare_scores
     manage.py compare_scores --new-min 30
     manage.py compare_scores --grid ecommerce --grid rest
     manage.py compare_scores --csv scores.csv
-    manage.py compare_scores --stars-cap 20000 --release-weight 0.7
 """
 
 from __future__ import annotations
 
 import csv
-import dataclasses
 import statistics
 from collections import defaultdict
 from dataclasses import dataclass
-from datetime import datetime
 
 import djclick as click
 from django.conf import settings
-from django.utils import timezone
 from rich.console import Console
 from rich.table import Table
 
 from grid.models import Grid, GridPackage
 from grid.scoring import cutoff_from_scores
 from package.models import Package
-from package.scoring import (
-    DEFAULT_WEIGHTS,
-    ScoreBreakdown,
-    ScoreInputs,
-    ScoreWeights,
-    explain_score,
-)
+from package.scores import scoring_queryset
+from searchv3.rules import PACKAGE_RULES, score_package
 
-LEGACY_BUCKETS = [
-    ("<= 0", lambda s: s <= 0),
-    ("1-9", lambda s: 1 <= s <= 9),
-    ("10-49", lambda s: 10 <= s <= 49),
-    ("50-99", lambda s: 50 <= s <= 99),
-    ("100-499", lambda s: 100 <= s <= 499),
-    ("500-999", lambda s: 500 <= s <= 999),
-    ("1000+", lambda s: s >= 1000),
-]
-NEW_BUCKETS = [("0", lambda s: s == 0)] + [
+BUCKETS = [("0", lambda s: s == 0)] + [
     (f"{lo}-{min(lo + 9, 100)}", lambda s, lo=lo: lo <= s <= min(lo + 9, 100))
     for lo in range(1, 101, 10)
 ]
 
-
-# Short forms of ScoreBreakdown.zeroed_by for the per-package table.
-ZERO_NOTES = {
-    "deprecated": "dep",
-    "archived": "arch",
-    "no release or commit date": "no dates",
-}
+# Column headings for the per-rule points, in PACKAGE_RULES order.
+RULE_LABELS = [rule.name.removesuffix(" Rule").lower() for rule in PACKAGE_RULES]
 
 
 @dataclass
@@ -68,13 +44,9 @@ class Row:
     pk: int
     slug: str
     title: str
-    legacy: int
-    inputs: ScoreInputs
-    breakdown: ScoreBreakdown
-
-    @property
-    def new(self) -> int:
-        return self.breakdown.score
+    stored: int
+    computed: int
+    points: list[int]  # per rule, PACKAGE_RULES order
 
 
 @dataclass
@@ -89,34 +61,18 @@ class GridOutcome:
         return self.shown[0] if self.shown else None
 
 
-def _load_rows(weights: ScoreWeights, now: datetime) -> dict[int, Row]:
-    packages = (
-        Package.objects.active()
-        .select_related("latest_version")
-        .only(
-            "pk",
-            "slug",
-            "title",
-            "score",
-            "repo_watchers",
-            "pypi_downloads",
-            "last_commit_date",
-            "date_deprecated",
-            "date_repo_archived",
-            "latest_version__upload_time",
-        )
-        .order_by("pk")
-    )
+def _load_rows() -> dict[int, Row]:
     rows = {}
+    packages = scoring_queryset(Package.objects.active()).order_by("pk")
     for package in packages.iterator(chunk_size=1000):
-        inputs = ScoreInputs.from_package(package)
+        result = score_package(package)
         rows[package.pk] = Row(
             pk=package.pk,
             slug=package.slug,
             title=package.title,
-            legacy=package.score,
-            inputs=inputs,
-            breakdown=explain_score(inputs, weights, now=now),
+            stored=package.score,
+            computed=result["total_score"],
+            points=[item["score"] for item in result["breakdown"]],
         )
     return rows
 
@@ -143,62 +99,51 @@ def _outcome(members: list[Row], score_of, score_min: int) -> GridOutcome:
     return GridOutcome(shown=shown, cutoff=cutoff)
 
 
-def _histogram(title: str, scores: list[int], buckets) -> Table:
+def _histogram(title: str, scores: list[int]) -> Table:
     table = Table(title=title, title_justify="left")
     table.add_column("score")
     table.add_column("packages", justify="right")
     table.add_column("share", justify="right")
     total = len(scores) or 1
-    for label, member in buckets:
+    for label, member in BUCKETS:
         count = sum(1 for score in scores if member(score))
         table.add_row(label, f"{count:,}", f"{100 * count / total:.0f}%")
     return table
 
 
-def _date(value: datetime | None) -> str:
-    return value.date().isoformat() if value else "-"
-
-
 def _grid_detail(
-    grid: Grid, members: list[Row], legacy: GridOutcome, new: GridOutcome
+    grid: Grid, members: list[Row], stored: GridOutcome, computed: GridOutcome
 ) -> Table:
     table = Table(
         title=(
             f"{grid.title} ({grid.slug}): {len(members)} active, "
-            f"stored shows {len(legacy.shown)} at >= {legacy.cutoff}, "
-            f"computed shows {len(new.shown)} at >= {new.cutoff}"
+            f"stored shows {len(stored.shown)} at >= {stored.cutoff}, "
+            f"computed shows {len(computed.shown)} at >= {computed.cutoff}"
         ),
         title_justify="left",
     )
-    for name in ("package", "stars", "downloads", "released", "committed"):
-        table.add_column(name, justify="right" if name != "package" else "left")
+    table.add_column("package")
+    for label in RULE_LABELS:
+        table.add_column(label, justify="right")
     table.add_column("stored", justify="right")
     table.add_column("computed", justify="right")
     table.add_column("shown", justify="center")
 
-    shown_legacy = {row.pk for row in legacy.shown}
-    shown_new = {row.pk for row in new.shown}
-    for row in sorted(members, key=lambda r: (-r.new, -r.legacy)):
-        was, now = row.pk in shown_legacy, row.pk in shown_new
+    shown_stored = {row.pk for row in stored.shown}
+    shown_computed = {row.pk for row in computed.shown}
+    for row in sorted(members, key=lambda r: (-r.computed, -r.stored)):
+        was, now = row.pk in shown_stored, row.pk in shown_computed
         marker = {
             (True, True): "both",
             (True, False): "[red]stored only[/red]",
             (False, True): "[green]computed only[/green]",
             (False, False): "[dim]neither[/dim]",
         }[(was, now)]
-        note = (
-            f" [dim]({ZERO_NOTES[row.breakdown.zeroed_by]})[/dim]"
-            if row.breakdown.zeroed_by
-            else ""
-        )
         table.add_row(
             row.title[:40],
-            f"{row.inputs.repo_watchers:,}",
-            f"{row.inputs.pypi_downloads:,}" if row.inputs.pypi_downloads else "-",
-            _date(row.inputs.last_release_date),
-            _date(row.inputs.last_commit_date),
-            f"{row.legacy:,}",
-            f"{row.new}{note}",
+            *(str(points) for points in row.points),
+            f"{row.stored:,}",
+            str(row.computed),
             marker,
         )
     return table
@@ -207,54 +152,9 @@ def _grid_detail(
 def _write_csv(path: str, rows: dict[int, Row]) -> None:
     with open(path, "w", newline="") as handle:
         writer = csv.writer(handle)
-        writer.writerow(
-            [
-                "pk",
-                "slug",
-                "stored",
-                "computed",
-                "popularity",
-                "maintenance",
-                "stars",
-                "downloads",
-                "last_release",
-                "last_commit",
-                "zeroed_by",
-            ]
-        )
+        writer.writerow(["pk", "slug", "stored", "computed", *RULE_LABELS])
         for row in rows.values():
-            b = row.breakdown
-            writer.writerow(
-                [
-                    row.pk,
-                    row.slug,
-                    row.legacy,
-                    row.new,
-                    f"{b.popularity:.3f}",
-                    f"{b.maintenance:.3f}",
-                    row.inputs.repo_watchers,
-                    row.inputs.pypi_downloads,
-                    _date(row.inputs.last_release_date),
-                    _date(row.inputs.last_commit_date),
-                    b.zeroed_by or "",
-                ]
-            )
-
-
-def _weight_options(func):
-    """One --flag per ScoreWeights field, defaulting to the field's default."""
-    for field in reversed(dataclasses.fields(ScoreWeights)):
-        flag = "--" + field.name.replace("_", "-")
-        func = click.option(
-            flag,
-            field.name,
-            # Annotations are strings under `from __future__ import annotations`.
-            type=int if field.type in (int, "int") else float,
-            default=getattr(DEFAULT_WEIGHTS, field.name),
-            show_default=True,
-            help=f"ScoreWeights.{field.name}",
-        )(func)
-    return func
+            writer.writerow([row.pk, row.slug, row.stored, row.computed, *row.points])
 
 
 @click.command()
@@ -282,52 +182,56 @@ def _weight_options(func):
     "csv_path",
     type=click.Path(),
     default=None,
-    help="Dump every package's scores and inputs to this CSV.",
+    help="Dump every package's scores and per-rule points to this CSV.",
 )
-@_weight_options
-def command(new_min, grid_slugs, changes, csv_path, **weight_kwargs):
+def command(new_min, grid_slugs, changes, csv_path):
     """Compare the computed package score with the stored one, grid by grid. Writes nothing."""
-    console = Console(width=max(Console().width, 140))
-    weights = ScoreWeights(**weight_kwargs)
-    legacy_min = settings.PACKAGE_SCORE_MIN
-    new_min = legacy_min if new_min is None else new_min
-    now = timezone.now()
+    console = Console(width=max(Console().width, 180))
+    stored_min = settings.PACKAGE_SCORE_MIN
+    new_min = stored_min if new_min is None else new_min
 
-    rows = _load_rows(weights, now)
+    rows = _load_rows()
     grids = _load_grids(rows)
 
     console.print(
         f"[bold]{len(rows):,} active packages, {len(grids):,} approved grids[/bold]"
     )
-    console.print(f"[dim]weights: {weights}[/dim]")
-    console.print(f"[dim]legacy cutoff {legacy_min}, new cutoff {new_min}[/dim]\n")
+    console.print(
+        f"[dim]rules: {', '.join(RULE_LABELS)} (20 points each, scaled to 100)[/dim]"
+    )
+    console.print(f"[dim]stored cutoff {stored_min}, computed cutoff {new_min}[/dim]\n")
 
     # 1. Distributions.
-    legacy_scores = [row.legacy for row in rows.values()]
-    new_scores = [row.new for row in rows.values()]
-    console.print(_histogram("Stored Package.score", legacy_scores, LEGACY_BUCKETS))
-    console.print(_histogram("Computed score", new_scores, NEW_BUCKETS))
+    stored_scores = [row.stored for row in rows.values()]
+    computed_scores = [row.computed for row in rows.values()]
+    console.print(_histogram("Stored Package.score", stored_scores))
+    console.print(_histogram("Computed score", computed_scores))
     console.print(
-        f"median stored {statistics.median(legacy_scores) if legacy_scores else 0:g}, "
-        f"median computed {statistics.median(new_scores) if new_scores else 0:g}\n"
+        f"median stored {statistics.median(stored_scores) if stored_scores else 0:g}, "
+        f"median computed {statistics.median(computed_scores) if computed_scores else 0:g}, "
+        f"{sum(1 for r in rows.values() if r.stored != r.computed):,} packages differ\n"
     )
-    zeroed = defaultdict(int)
-    for row in rows.values():
-        if row.breakdown.zeroed_by:
-            zeroed[row.breakdown.zeroed_by] += 1
-    if zeroed:
-        console.print(
-            "computed score is zero because: "
-            + ", ".join(f"{k} ({v:,})" for k, v in zeroed.items())
-            + "\n"
+
+    # Which rules carry the score.
+    table = Table(title="Points by rule", title_justify="left")
+    table.add_column("rule")
+    table.add_column("packages scoring", justify="right")
+    table.add_column("mean points", justify="right")
+    for index, label in enumerate(RULE_LABELS):
+        points = [row.points[index] for row in rows.values()]
+        scoring = sum(1 for p in points if p > 0)
+        table.add_row(
+            label, f"{scoring:,}", f"{statistics.fmean(points) if points else 0:.1f}"
         )
+    console.print(table)
+    console.print()
 
     # 2. Grid-level effect, the #1758 table.
-    legacy_out = {}
-    new_out = {}
+    stored_out = {}
+    computed_out = {}
     for grid, members in grids.items():
-        legacy_out[grid] = _outcome(members, lambda r: r.legacy, legacy_min)
-        new_out[grid] = _outcome(members, lambda r: r.new, new_min)
+        stored_out[grid] = _outcome(members, lambda r: r.stored, stored_min)
+        computed_out[grid] = _outcome(members, lambda r: r.computed, new_min)
 
     def summarize(outcomes, score_min):
         with_packages = [g for g, m in grids.items() if m]
@@ -346,20 +250,20 @@ def command(new_min, grid_slugs, changes, csv_path, **weight_kwargs):
             ),
         }
 
-    legacy_summary = summarize(legacy_out, legacy_min)
-    new_summary = summarize(new_out, new_min)
+    stored_summary = summarize(stored_out, stored_min)
+    computed_summary = summarize(computed_out, new_min)
     table = Table(title="Effect on the grids", title_justify="left")
     table.add_column("")
-    table.add_column(f"stored >= {legacy_min}", justify="right")
+    table.add_column(f"stored >= {stored_min}", justify="right")
     table.add_column(f"computed >= {new_min}", justify="right")
-    for key in legacy_summary:
-        table.add_row(key, f"{legacy_summary[key]:,}", f"{new_summary[key]:,}")
+    for key in stored_summary:
+        table.add_row(key, f"{stored_summary[key]:,}", f"{computed_summary[key]:,}")
     top_changed = sum(
         1
         for g in grids
-        if legacy_out[g].top is not None
-        and new_out[g].top is not None
-        and legacy_out[g].top.pk != new_out[g].top.pk
+        if stored_out[g].top is not None
+        and computed_out[g].top is not None
+        and stored_out[g].top.pk != computed_out[g].top.pk
     )
     table.add_row("grids whose top package changes", "", f"{top_changed:,}")
     console.print(table)
@@ -368,14 +272,14 @@ def command(new_min, grid_slugs, changes, csv_path, **weight_kwargs):
     # 3. The grids that move most.
     churn = []
     for grid, members in grids.items():
-        was = {r.pk for r in legacy_out[grid].shown}
-        now_ = {r.pk for r in new_out[grid].shown}
-        if was != now_ or (
-            legacy_out[grid].top
-            and new_out[grid].top
-            and legacy_out[grid].top.pk != new_out[grid].top.pk
+        was = {r.pk for r in stored_out[grid].shown}
+        now = {r.pk for r in computed_out[grid].shown}
+        if was != now or (
+            stored_out[grid].top
+            and computed_out[grid].top
+            and stored_out[grid].top.pk != computed_out[grid].top.pk
         ):
-            churn.append((len(was ^ now_), grid, len(was), len(now_)))
+            churn.append((len(was ^ now), grid, len(was), len(now)))
     churn.sort(key=lambda item: (-item[0], item[1].title))
     if churn:
         table = Table(
@@ -387,15 +291,15 @@ def command(new_min, grid_slugs, changes, csv_path, **weight_kwargs):
         table.add_column("computed shows", justify="right")
         table.add_column("stored top")
         table.add_column("computed top")
-        for _, grid, was, now_ in churn[:changes]:
-            lt, nt = legacy_out[grid].top, new_out[grid].top
+        for _, grid, was, now in churn[:changes]:
+            st, ct = stored_out[grid].top, computed_out[grid].top
             table.add_row(
                 grid.slug,
                 str(was),
-                str(now_),
-                lt.title[:30] if lt else "-",
-                (nt.title[:30] if nt else "-")
-                if not (lt and nt and lt.pk == nt.pk)
+                str(now),
+                st.title[:30] if st else "-",
+                (ct.title[:30] if ct else "-")
+                if not (st and ct and st.pk == ct.pk)
                 else "[dim]same[/dim]",
             )
         console.print(table)
@@ -408,7 +312,9 @@ def command(new_min, grid_slugs, changes, csv_path, **weight_kwargs):
         if grid is None:
             console.print(f"[red]No approved grid with slug {slug!r}[/red]")
             continue
-        console.print(_grid_detail(grid, grids[grid], legacy_out[grid], new_out[grid]))
+        console.print(
+            _grid_detail(grid, grids[grid], stored_out[grid], computed_out[grid])
+        )
         console.print()
 
     if csv_path:

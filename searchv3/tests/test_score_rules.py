@@ -4,13 +4,16 @@ from model_bakery import baker
 
 from searchv3.builders import calc_grid_weight
 from searchv3.rules import (
+    PACKAGE_RULES,
     DeprecatedRule,
     DescriptionRule,
     DownloadsRule,
     ForkRule,
     RecentReleaseRule,
+    UsageCountRule,
     WatchersRule,
     calc_package_weight,
+    score_package,
 )
 
 RULES = [
@@ -59,6 +62,39 @@ class CalcPackageWeightTest(TestCase):
 
     def test_low_downloads_bonus(self):
         self.assertEqual(self._score(pypi_downloads=1_000), 81)
+
+    def test_archived_deduction(self):
+        self.assertEqual(self._score(date_repo_archived=timezone.now()), 60)
+
+
+class ScorePackageTest(TestCase):
+    """`score_package` is `Package.score`: the eight rules, 20 points each."""
+
+    def test_eight_rules_scaled_to_100(self):
+        self.assertEqual(len(PACKAGE_RULES), 8)
+        self.assertEqual(sum(rule.max_score for rule in PACKAGE_RULES), 160)
+
+    def test_fresh_100_stars_nothing_else(self):
+        package = baker.make(
+            "package.Package",
+            repo_watchers=100,
+            repo_description="",
+            repo_forks=0,
+            pypi_downloads=0,
+            last_commit_date=timezone.now(),
+        )
+        result = score_package(package)
+        # not deprecated 20 + updated 20 + watchers 20 = 60 of 160.
+        self.assertEqual(result["total_score"], 37)
+        self.assertEqual(
+            [item["rule"] for item in result["breakdown"]],
+            [rule.name for rule in PACKAGE_RULES],
+        )
+
+    def test_usage_count_annotation_is_used(self):
+        package = baker.make("package.Package")
+        package.usage_count = 7
+        self.assertEqual(UsageCountRule().check(package=package).score, 7)
 
 
 class CalcGridWeightTest(TestCase):
