@@ -216,8 +216,28 @@ class ScorePackageTest(TestCase):
 
     def test_usage_count_annotation_is_used(self):
         package = baker.make("package.Package")
-        package.usage_count = 7
+        package.usage_count = 10
         self.assertEqual(UsageCountRule().check(package=package).score, 7)
+
+    def test_usage_count_log_scale_with_a_floor_of_one(self):
+        package = baker.make("package.Package")
+        for users, expected in [
+            (0, 0),
+            (1, 1),
+            (2, 2),
+            (5, 4),
+            (10, 7),
+            (50, 11),
+            (100, 14),
+            (541, 19),
+            (1000, 20),
+            (5000, 20),
+        ]:
+            with self.subTest(users=users):
+                package.usage_count = users
+                self.assertEqual(
+                    UsageCountRule().check(package=package).score, expected
+                )
 
 
 class CalcGridWeightTest(TestCase):

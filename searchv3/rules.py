@@ -218,10 +218,24 @@ class ForkRule(ScoreRule):
 
 
 class UsageCountRule(ScoreRule):
+    """Points for the people who clicked "I use this", on a log scale.
+
+    Seven points per tenfold: one user is 1 (the floor: any usage at all
+    is worth a point), 10 users are 7, 100 are 14, 1,000 or more are 20.
+    Linear per user, as before, gave the full 20 to the 131 packages with
+    20 or more users and could not tell 20 from 541.
+    """
+
     name: str = "Usage Count Rule"
-    description: str = "Score based on the usage count"
+    description: str = (
+        "Score based on how many people say they use the package, log scaled: "
+        "1 user is 1 point, 10 are 7, 100 are 14, 1,000 or more are 20"
+    )
     max_score: int = 20
     documentation_url: str = f"{settings.DOCS_URL}/rules/#searchv3.rules.UsageCountRule"
+
+    points_per_decade: int = 7
+    floor_points: int = 1
 
     def check(self, package: Package) -> CheckResult:
         # `score_package` querysets annotate `usage_count`; fall back to a
@@ -230,11 +244,13 @@ class UsageCountRule(ScoreRule):
         if usage_count is None:
             usage_count = package.usage.count()
         if usage_count:
-            score = min(usage_count, self.max_score)
+            points = math.log10(usage_count) * self.points_per_decade
+            score = int(min(max(points, self.floor_points), self.max_score))
             return CheckResult(
-                score=score, message=f"Package has a usage count of {usage_count}."
+                score=score,
+                message=f"{usage_count:,} {'person says' if usage_count == 1 else 'people say'} they use the package.",
             )
-        return CheckResult(score=0, message="No usage data found for the package.")
+        return CheckResult(score=0, message="Nobody has said they use the package yet.")
 
 
 class WatchersRule(ScoreRule):
