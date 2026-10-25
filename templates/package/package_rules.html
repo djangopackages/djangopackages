@@ -16,7 +16,7 @@
                 <span class="mx-2">»</span>
                 <a href="{{ package.get_absolute_url }}" class="hover:underline">{{ package.title }}</a>
                 <span class="mx-2">»</span>
-                <span class="text-foreground truncate font-medium">{% translate "Score" %}</span>
+                <span class="text-foreground truncate font-medium">{% translate "Rules" %}</span>
             </div>
         </div>
     </section>
@@ -24,19 +24,9 @@
     <div class="container mx-auto px-4 py-8">
         <div class="mb-10 text-center">
             <h1 class="text-foreground text-3xl font-bold md:text-4xl">
-                {% translate "Package Score" %}: {{ breakdown.score }}
+                {% translate "Package Score" %}: {{ package_score.total_score }}
             </h1>
-            <p class="text-muted-foreground mt-2 mb-6 text-base">
-                {% if breakdown.zeroed_by == "deprecated" %}
-                    {% translate "This package is deprecated, so it scores 0." %}
-                {% elif breakdown.zeroed_by == "archived" %}
-                    {% translate "This package's repository is archived, so it scores 0." %}
-                {% elif breakdown.zeroed_by %}
-                    {% translate "We have no release date and no commit date for this package, so it scores 0." %}
-                {% else %}
-                    {% blocktranslate with popularity=popularity maintenance=maintenance %}Popularity {{ popularity }} × maintenance {{ maintenance }}, out of 100.{% endblocktranslate %}
-                {% endif %}
-            </p>
+            <p class="text-muted-foreground mt-2 mb-6 text-base">{{ package_score.message }}</p>
         </div>
 
         {% include "partials/_ethicalads-tag.html" with ea_type="text" ea_id="package-rule-inline" ea_outer_class="mb-4" ea_inner_class="flex justify-center" %}
@@ -47,19 +37,29 @@
                     <table class="w-full border-collapse text-left">
                         <thead>
                             <tr class="border-border border-b">
-                                <th class="px-4 py-3 font-semibold">{% translate "Signal" %}</th>
-                                <th class="px-4 py-3 font-semibold">{% translate "Value" %}</th>
-                                <th class="px-4 py-3 font-semibold">{% translate "Counts as" %}</th>
-                                <th class="px-4 py-3 font-semibold">{% translate "How it is scored" %}</th>
+                                <th class="px-4 py-3 font-semibold">{% translate "Rule" %}</th>
+                                <th class="px-4 py-3 font-semibold">{% translate "Description" %}</th>
+                                <th class="px-4 py-3 font-semibold">{% translate "Score" %}</th>
+                                <th class="px-4 py-3 font-semibold">{% translate "Max Score" %}</th>
+                                <th class="px-4 py-3 font-semibold">{% translate "More Info" %}</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for signal in signals %}
+                            {% for breakdown in package_score.breakdown %}
                                 <tr class="border-border hover:bg-muted/50 border-b last:border-0">
-                                    <td class="px-4 py-3">{{ signal.name }}</td>
-                                    <td class="px-4 py-3">{{ signal.value }}</td>
-                                    <td class="px-4 py-3">{{ signal.contribution }}</td>
-                                    <td class="text-muted-foreground px-4 py-3">{{ signal.note }}</td>
+                                    <td class="px-4 py-3">{{ breakdown.rule }}</td>
+                                    <td class="px-4 py-3">{{ breakdown.description }}</td>
+                                    {% if breakdown.max_score %}
+                                        <td class="px-4 py-3">{{ breakdown.score }}</td>
+                                        <td class="px-4 py-3">{{ breakdown.max_score }}</td>
+                                    {% else %}
+                                        <td class="px-4 py-3" colspan="2">{{ breakdown.message }}</td>
+                                    {% endif %}
+                                    <td class="px-4 py-3">
+                                        {% if breakdown.documentation_url %}
+                                            <a href="{{ breakdown.documentation_url }}" class="text-primary hover:underline">{% translate "Details" %}</a>
+                                        {% endif %}
+                                    </td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -69,16 +69,8 @@
         </div>
 
         <div class="card mt-8">
-            <div class="card-content text-muted-foreground space-y-2 p-6 text-sm">
-                <p>
-                    {% blocktranslate with popularity=popularity %}<strong>Popularity {{ popularity }}</strong> is the average of the stars and downloads signals. When the download count is not known, stars stand alone.{% endblocktranslate %}
-                </p>
-                <p>
-                    {% blocktranslate with maintenance=maintenance release_weight=release_weight commit_weight=commit_weight %}<strong>Maintenance {{ maintenance }}</strong> weighs the latest release at {{ release_weight }} and the latest commit at {{ commit_weight }}. A package that is not on PyPI is judged on its commits alone.{% endblocktranslate %}
-                </p>
-                <p>
-                    {% translate "The score is popularity times maintenance, so a package nobody has touched in three years falls to 0 however many stars it has, and a deprecated or archived package is 0 outright." %}
-                </p>
+            <div class="card-content p-6">
+                <pre class="bg-muted rounded p-4 font-mono text-sm break-words whitespace-pre-wrap">package_score:: {{ package_score }}</pre>
             </div>
         </div>
     </div>

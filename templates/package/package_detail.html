@@ -73,6 +73,23 @@
                 </div>
             </div>
         </div>
+    {% elif package.is_dormant %}
+        <div class="container mx-auto px-4 pt-6">
+            <div class="border-border bg-muted/40 text-muted-foreground flex items-center rounded-lg border p-4 text-sm" role="note">
+                <i class="ph-bold ph-moon mr-3 text-lg"></i>
+                <div>
+                    {% if not package.dormant_since %}
+                        {% translate "No release or commit date on record." %}
+                    {% elif package.latest_version.upload_time %}
+                        {% blocktranslate with since=package.dormant_since|date:"F Y" %}No release since {{ since }}.{% endblocktranslate %}
+                    {% else %}
+                        {% blocktranslate with since=package.dormant_since|date:"F Y" %}Not on PyPI and no commit since {{ since }}.{% endblocktranslate %}
+                    {% endif %}
+                    {% translate "It is left out of grid comparison tables until one ships." %}
+                    <a href="{% url 'package_rules' package.slug %}" class="hover:underline">{% translate "How the score works" %}</a>
+                </div>
+            </div>
+        </div>
     {% endif %}
 
     <!-- Main Content -->
@@ -165,7 +182,7 @@
                                             </span>
 
                                             <div class="tooltip tooltip-lg group-hover:opacity-100">
-                                                {% translate "Scores (0-100) combine GitHub stars and PyPI downloads, scaled by how recently the package released and committed. Deprecated and archived packages score 0." %}
+                                                {% translate "Scores (0-100) add up eight checks worth 20 points each: not deprecated or archived, has a description, PyPI downloads, forks, a commit in the last year, a release in the last year, usage count, and stars. A package whose latest release is three or more years old scores 0." %}
                                             </div>
                                         </div>
                                     {% endflag %}

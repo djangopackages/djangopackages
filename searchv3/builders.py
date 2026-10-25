@@ -99,8 +99,8 @@ class PackageIndexBuilder(SearchIndexBuilder):
         )
 
     def calc_weight(self, package: Package) -> int:
-        # The stored score is already 0 to 100 (package/scoring.py), so the
-        # index ranks packages by the same number the grids sort on.
+        # The stored score is these same rules (`searchv3.rules.score_package`),
+        # kept current by the fetchers and `calculate_score`.
         return package.score
 
     def get_defaults(self, package: Package) -> dict:

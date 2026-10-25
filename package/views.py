@@ -47,10 +47,7 @@ from package.models import (
     RepoHost,
     Version,
 )
-from django.contrib.humanize.templatetags.humanize import intcomma
-from django.utils.formats import date_format
-
-from package.scoring import DEFAULT_WEIGHTS, ScoreInputs, explain_score
+from searchv3.rules import score_package
 from favorites.models import Favorite
 
 
@@ -320,72 +317,14 @@ class PackageRulesView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         package = self.object
-        weights = DEFAULT_WEIGHTS
-        inputs = ScoreInputs.from_package(package)
-        breakdown = explain_score(inputs, weights)
 
-        def pct(part):
-            return f"{100 * part:.0f}%" if part is not None else _("not known")
-
-        def freshness(when, part):
-            if when is None:
-                return _("not known")
-            return _("%(date)s, %(fresh)s fresh") % {
-                "date": date_format(when, "DATE_FORMAT"),
-                "fresh": pct(part),
-            }
+        # The same checks that produce the stored score, shown with their
+        # points, so the page and the grids agree.
+        package_score = score_package(package)
 
         context.update(
             dict(
-                breakdown=breakdown,
-                # Flattened for the template: one row per signal.
-                signals=[
-                    {
-                        "name": _("Stars"),
-                        "value": intcomma(inputs.repo_watchers),
-                        "contribution": pct(breakdown.stars_part),
-                        "note": _("Log-scaled; %(cap)s stars or more is full marks.")
-                        % {"cap": intcomma(weights.stars_cap)},
-                    },
-                    {
-                        "name": _("Downloads last month"),
-                        "value": intcomma(inputs.pypi_downloads)
-                        if inputs.pypi_downloads
-                        else _("not known"),
-                        "contribution": pct(breakdown.downloads_part),
-                        "note": _(
-                            "Log-scaled; %(cap)s a month or more is full marks. "
-                            "Left out when not known."
-                        )
-                        % {"cap": intcomma(weights.downloads_cap)},
-                    },
-                    {
-                        "name": _("Latest release"),
-                        "value": freshness(
-                            inputs.last_release_date, breakdown.release_part
-                        ),
-                        "contribution": pct(breakdown.release_part),
-                        "note": _(
-                            "Full marks within a year, none after %(years)d years."
-                        )
-                        % {"years": weights.stale_days // 365},
-                    },
-                    {
-                        "name": _("Latest commit"),
-                        "value": freshness(
-                            inputs.last_commit_date, breakdown.commit_part
-                        ),
-                        "contribution": pct(breakdown.commit_part),
-                        "note": _(
-                            "Full marks within a year, none after %(years)d years."
-                        )
-                        % {"years": weights.stale_days // 365},
-                    },
-                ],
-                popularity=pct(breakdown.popularity),
-                maintenance=pct(breakdown.maintenance),
-                release_weight=f"{100 * weights.release_weight:.0f}%",
-                commit_weight=f"{100 * (1 - weights.release_weight):.0f}%",
+                package_score=package_score,
                 latest_version=package.latest_version,
                 repo=package.repo,
             )

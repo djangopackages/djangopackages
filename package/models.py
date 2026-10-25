@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 from django.db import models
+from django.utils import timezone
 from django.db.models.constraints import UniqueConstraint
 from django.urls import reverse
 from django.utils.timezone import now
@@ -282,6 +283,50 @@ class Package(BaseModel):
     @property
     def is_deprecated(self):
         return self.date_deprecated is not None
+
+    # A package that has not shipped for this long is dormant: still
+    # listed, still searchable, but scored 0 so it leaves the grid
+    # comparison tables (searchv3.rules.DormantRule). It clears itself
+    # with the next release, or the next commit for a package that is
+    # not on PyPI.
+    DORMANT_YEARS = 3
+
+    @property
+    def last_activity(self):
+        """When the package last shipped.
+
+        The latest PyPI release when there is one. A package that only
+        commits may not be maintained in any way its users can install,
+        so commits count only for a package with no release on record.
+        None when neither is known. Reads `latest_version`, so load it
+        with `select_related`.
+        """
+        if self.latest_version_id and self.latest_version:
+            if self.latest_version.upload_time:
+                return self.latest_version.upload_time
+        return self.last_commit_date
+
+    @property
+    def dormant_since(self):
+        """When the package last shipped, if that was `DORMANT_YEARS` or more ago.
+
+        None for a package that shipped recently. A package with no
+        release date and no commit date is dormant too; `last_activity`
+        is None then, so callers should word it as "no activity on
+        record" rather than quoting a date.
+        """
+        last = self.last_activity
+        if last is None:
+            return None
+        cutoff = timezone.now() - timedelta(days=365 * self.DORMANT_YEARS)
+        return last if last <= cutoff else None
+
+    @property
+    def is_dormant(self):
+        last = self.last_activity
+        if last is None:
+            return True
+        return self.dormant_since is not None
 
     @property
     def is_awesome_list(self):
