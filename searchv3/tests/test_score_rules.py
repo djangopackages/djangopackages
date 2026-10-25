@@ -207,8 +207,8 @@ class ScorePackageTest(TestCase):
             last_commit_date=timezone.now(),
         )
         result = score_package(package)
-        # not deprecated 20 + watchers 20 = 40 of 120.
-        self.assertEqual(result["total_score"], 33)
+        # not deprecated 20 + usage floor 1 + watchers 20 = 41 of 120.
+        self.assertEqual(result["total_score"], 34)
         self.assertEqual(
             [item["rule"] for item in result["breakdown"]],
             [rule.name for rule in PACKAGE_RULES],
@@ -219,8 +219,39 @@ class ScorePackageTest(TestCase):
         package.usage_count = 10
         self.assertEqual(UsageCountRule().check(package=package).score, 7)
 
+    def test_maintained_package_with_no_users_gets_the_floor(self):
+        fresh = baker.make(
+            "package.Package",
+            repo_url="https://github.com/t/fresh",
+            last_commit_date=timezone.now() - timezone.timedelta(days=365 * 2),
+        )
+        fresh.usage_count = 0
+        result = UsageCountRule().check(package=fresh)
+        self.assertEqual(result.score, 1)
+        self.assertIn("one point for a release or commit", result.message)
+
+        stale = baker.make(
+            "package.Package",
+            repo_url="https://github.com/t/stale",
+            last_commit_date=timezone.now() - timezone.timedelta(days=365 * 3 + 1),
+        )
+        stale.usage_count = 0
+        self.assertEqual(UsageCountRule().check(package=stale).score, 0)
+
+        undated = baker.make(
+            "package.Package",
+            repo_url="https://github.com/t/undated",
+            last_commit_date=None,
+        )
+        undated.usage_count = 0
+        self.assertEqual(UsageCountRule().check(package=undated).score, 0)
+
     def test_usage_count_log_scale_with_a_floor_of_one(self):
-        package = baker.make("package.Package")
+        # Last commit four years ago, so the zero case is a real zero.
+        package = baker.make(
+            "package.Package",
+            last_commit_date=timezone.now() - timezone.timedelta(days=365 * 4),
+        )
         for users, expected in [
             (0, 0),
             (1, 1),
