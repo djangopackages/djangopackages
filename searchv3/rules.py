@@ -125,20 +125,6 @@ class DeprecatedRule(ScoreRule):
         return CheckResult(score=self.max_score, message="Package is not deprecated.")
 
 
-class FavoritePackageRule(ScoreRule):
-    name: str = "Favorite Package Rule"
-    description: str = "Check if the package is favorite"
-    max_score: int = 20
-    documentation_url: str = (
-        f"{settings.DOCS_URL}/rules/#searchv3.rules.FavoritePackageRule"
-    )
-
-    def check(self, package: Package) -> CheckResult:
-        if package.has_favorite:
-            return CheckResult(score=self.max_score, message="Package is favorite.")
-        return CheckResult(score=0, message="Package is not favorite.")
-
-
 class DescriptionRule(ScoreRule):
     name: str = "Description Rule"
     description: str = "Check if the package has a description"
@@ -218,22 +204,24 @@ class ForkRule(ScoreRule):
 
 
 class UsageCountRule(ScoreRule):
-    """Points for the people who clicked "I use this", on a log scale.
+    """Points for the people behind the package: "I use this" clicks or
+    favorites, whichever is higher, on a log scale.
 
-    Seven points per tenfold: 10 users are 7, 100 are 14, 1,000 or more
-    are 20. The floor is one point for any package with a release or
-    commit in the last `maintained_years`, whether or not anyone has
-    clicked yet: a maintained package is in use somewhere. Only an
-    unmaintained package nobody has claimed scores 0. Linear per user,
-    as before, gave the full 20 to the 131 packages with 20 or more
-    users and could not tell 20 from 541.
+    Seven points per tenfold of either count: 10 are 7, 100 are 14, 1,000
+    or more are 20. Each count is scaled on its own and the higher wins,
+    so a package with 13 favorites and 3 users scores as 13. The floor is
+    one point for any package with a release or commit in the last
+    `maintained_years`, whether or not anyone has clicked yet: a
+    maintained package is in use somewhere. Only an unmaintained package
+    nobody has claimed scores 0.
     """
 
     name: str = "Usage Count Rule"
     description: str = (
-        "Score based on how many people say they use the package, log scaled: "
-        "10 users are 7 points, 100 are 14, 1,000 or more are 20. At least 1 "
-        "for any package with a release or commit in the last three years"
+        "Score based on how many people say they use or have favorited the "
+        "package, whichever is higher, log scaled: 10 are 7 points, 100 are 14, "
+        "1,000 or more are 20. At least 1 for any package with a release or "
+        "commit in the last three years"
     )
     max_score: int = 20
     documentation_url: str = f"{settings.DOCS_URL}/rules/#searchv3.rules.UsageCountRule"
@@ -242,30 +230,41 @@ class UsageCountRule(ScoreRule):
     floor_points: int = 1
     maintained_years: int = 3
 
+    def _points(self, count: int) -> int:
+        if count <= 0:
+            return 0
+        points = math.log10(count) * self.points_per_decade
+        return int(min(max(points, self.floor_points), self.max_score))
+
     def check(self, package: Package) -> CheckResult:
-        # `score_package` querysets annotate `usage_count`; fall back to a
-        # query for a bare instance.
+        # `score_package` querysets annotate `usage_count` and
+        # `favorites_count`; fall back to queries for a bare instance.
         usage_count = getattr(package, "usage_count", None)
         if usage_count is None:
             usage_count = package.usage.count()
-        age = package.activity_age
-        maintained = age is not None and age.days < 365 * self.maintained_years
-        if usage_count:
-            points = math.log10(usage_count) * self.points_per_decade
-            score = int(min(max(points, self.floor_points), self.max_score))
+        favorites_count = getattr(package, "favorites_count", None)
+        if favorites_count is None:
+            favorites_count = package.favorite_set.count()
+
+        if usage_count or favorites_count:
+            users = f"{usage_count:,} {'person says' if usage_count == 1 else 'people say'} they use the package"
+            favs = f"{favorites_count:,} favorited it"
             return CheckResult(
-                score=score,
-                message=f"{usage_count:,} {'person says' if usage_count == 1 else 'people say'} they use the package.",
+                score=max(self._points(usage_count), self._points(favorites_count)),
+                message=f"{users}, {favs}.",
             )
-        if maintained:
+        age = package.activity_age
+        if age is not None and age.days < 365 * self.maintained_years:
             return CheckResult(
                 score=self.floor_points,
                 message=(
-                    "Nobody has said they use the package yet; one point for a "
-                    "release or commit in the last three years."
+                    "Nobody has said they use or favorited the package yet; one "
+                    "point for a release or commit in the last three years."
                 ),
             )
-        return CheckResult(score=0, message="Nobody has said they use the package yet.")
+        return CheckResult(
+            score=0, message="Nobody has said they use or favorited the package yet."
+        )
 
 
 class WatchersRule(ScoreRule):
