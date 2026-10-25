@@ -284,30 +284,34 @@ class Package(BaseModel):
     def is_deprecated(self):
         return self.date_deprecated is not None
 
-    # A package with no release and no commit for this long is dormant:
-    # still listed, still searchable, but scored 0 so it leaves the grid
+    # A package that has not shipped for this long is dormant: still
+    # listed, still searchable, but scored 0 so it leaves the grid
     # comparison tables (searchv3.rules.DormantRule). It clears itself
-    # the day a commit or release lands.
+    # with the next release, or the next commit for a package that is
+    # not on PyPI.
     DORMANT_YEARS = 3
 
     @property
     def last_activity(self):
-        """The later of the latest commit and the latest release, or None.
+        """When the package last shipped.
 
-        Reads `latest_version`, so load it with `select_related`.
+        The latest PyPI release when there is one. A package that only
+        commits may not be maintained in any way its users can install,
+        so commits count only for a package with no release on record.
+        None when neither is known. Reads `latest_version`, so load it
+        with `select_related`.
         """
-        dates = [self.last_commit_date]
         if self.latest_version_id and self.latest_version:
-            dates.append(self.latest_version.upload_time)
-        dates = [d for d in dates if d]
-        return max(dates) if dates else None
+            if self.latest_version.upload_time:
+                return self.latest_version.upload_time
+        return self.last_commit_date
 
     @property
     def dormant_since(self):
-        """When activity stopped, if that was `DORMANT_YEARS` or more ago.
+        """When the package last shipped, if that was `DORMANT_YEARS` or more ago.
 
-        None for a package that has moved recently. A package with no
-        commit date and no release date is dormant too; `last_activity`
+        None for a package that shipped recently. A package with no
+        release date and no commit date is dormant too; `last_activity`
         is None then, so callers should word it as "no activity on
         record" rather than quoting a date.
         """

@@ -1,3 +1,5 @@
+import uuid
+
 from django.test import TestCase
 from django.utils import timezone
 from model_bakery import baker
@@ -70,7 +72,13 @@ class CalcPackageWeightTest(TestCase):
 
 class DormantRuleTest(TestCase):
     def _package(self, **overrides):
-        defaults = {"repo_watchers": 500, "repo_forks": 50, "repo_description": "x"}
+        defaults = {
+            "repo_watchers": 500,
+            "repo_forks": 50,
+            "repo_description": "x",
+            # repo_url is unique; two blank ones in one test collide.
+            "repo_url": f"https://github.com/t/{uuid.uuid4().hex[:8]}",
+        }
         defaults.update(overrides)
         return baker.make("package.Package", **defaults)
 
@@ -88,7 +96,7 @@ class DormantRuleTest(TestCase):
         result = DormantRule().check(package=package)
         self.assertTrue(result.zero_score)
         self.assertEqual(package.dormant_since, when)
-        self.assertIn(f"since {when:%B %Y}", result.message)
+        self.assertIn(f"no commit since {when:%B %Y}", result.message)
 
     def test_recent_release_keeps_an_old_repo_awake(self):
         package = self._package(
@@ -103,6 +111,33 @@ class DormantRuleTest(TestCase):
         package.save(update_fields=["latest_version"])
         self.assertFalse(package.is_dormant)
         self.assertFalse(DormantRule().check(package=package).zero_score)
+
+    def test_old_release_is_dormant_even_with_recent_commits(self):
+        # django-jet: commits in 2025, last PyPI release 2018.
+        released = timezone.now() - timezone.timedelta(days=365 * 7)
+        package = self._package(
+            last_commit_date=timezone.now() - timezone.timedelta(days=30)
+        )
+        version = baker.make("package.Version", package=package, upload_time=released)
+        package.latest_version = version
+        package.save(update_fields=["latest_version"])
+        result = DormantRule().check(package=package)
+        self.assertTrue(result.zero_score)
+        self.assertEqual(package.dormant_since, released)
+        self.assertIn("No release since", result.message)
+
+    def test_not_on_pypi_is_judged_on_commits(self):
+        package = self._package(
+            last_commit_date=timezone.now() - timezone.timedelta(days=30)
+        )
+        self.assertFalse(package.is_dormant)
+        result = DormantRule().check(
+            package=self._package(
+                last_commit_date=timezone.now() - timezone.timedelta(days=365 * 4)
+            )
+        )
+        self.assertTrue(result.zero_score)
+        self.assertIn("Not on PyPI and no commit since", result.message)
 
     def test_no_dates_at_all_is_dormant(self):
         package = self._package(last_commit_date=None)

@@ -85,8 +85,8 @@ def command(
     Calculate and update package scores efficiently.
 
     The score is 0 to 100: eight checks worth 20 points each, scaled, and
-    0 outright for a dormant package (no release or commit in three
-    years). See searchv3/rules.py.
+    0 outright for a dormant package (latest release three or more years
+    old, or latest commit for a package not on PyPI). See searchv3/rules.py.
 
     Examples:
 

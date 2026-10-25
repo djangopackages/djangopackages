@@ -6,10 +6,11 @@ search index weights packages by it, and the Package Score page lists
 the checks with the points each one earned. One number, one place
 (#1563).
 
-One check is a gate rather than points: `DormantRule`. A package with
-no release and no commit for `Package.DORMANT_YEARS` scores 0 whatever
-else it has, so it leaves the comparison tables while staying listed
-and searchable. It comes back on its own with the next commit or
+One check is a gate rather than points: `DormantRule`. A package whose
+latest PyPI release is `Package.DORMANT_YEARS` old or older scores 0
+whatever else it has, so it leaves the comparison tables while staying
+listed and searchable. A package with no release on record is judged
+on its latest commit instead. It comes back on its own with the next
 release.
 """
 
@@ -81,9 +82,13 @@ class DormantRule(ScoreRule):
         since = package.dormant_since
         if since is None:
             message = "No release or commit date on record, so the score is 0."
+        elif package.latest_version_id and package.latest_version.upload_time:
+            message = (
+                f"No release since {since:%B %Y}, so the score is 0 until one ships."
+            )
         else:
             message = (
-                f"No release or commit since {since:%B %Y}, so the score is 0 "
+                f"Not on PyPI and no commit since {since:%B %Y}, so the score is 0 "
                 "until one lands."
             )
         return CheckResult(score=0, message=message, zero_score=True)

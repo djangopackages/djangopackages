@@ -40,4 +40,4 @@ def test_dormant_package_page_says_so(db, client, category):
     response = client.get(reverse("package", kwargs={"slug": "dormant"}))
 
     assert response.status_code == 200
-    assert "No release or commit since" in response.content.decode()
+    assert "Not on PyPI and no commit since" in response.content.decode()
