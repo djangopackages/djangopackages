@@ -38,7 +38,7 @@ class TestCalculateScoreCommand:
         assert result.exit_code == 0
         package.refresh_from_db()
         # 100 stars, committed today, nothing else known (see test_scores.py)
-        assert package.score == 33
+        assert package.score == 34
 
     def test_calculate_score_archived_loses_points(self, runner, package):
         package.date_repo_archived = timezone.now()
@@ -48,7 +48,7 @@ class TestCalculateScoreCommand:
         runner.invoke(command, [])
 
         package.refresh_from_db()
-        assert package.score == 16
+        assert package.score == 17
 
     def test_min_watchers_filter(self, runner, category):
         p1 = Package.objects.create(
@@ -72,7 +72,7 @@ class TestCalculateScoreCommand:
 
         p1.refresh_from_db()
         p2.refresh_from_db()
-        assert p1.score == 33
+        assert p1.score == 34
         assert p2.score == 0  # Should not be updated
 
     def test_dry_run(self, runner, package):

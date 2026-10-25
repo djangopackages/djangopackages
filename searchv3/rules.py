@@ -220,22 +220,27 @@ class ForkRule(ScoreRule):
 class UsageCountRule(ScoreRule):
     """Points for the people who clicked "I use this", on a log scale.
 
-    Seven points per tenfold: one user is 1 (the floor: any usage at all
-    is worth a point), 10 users are 7, 100 are 14, 1,000 or more are 20.
-    Linear per user, as before, gave the full 20 to the 131 packages with
-    20 or more users and could not tell 20 from 541.
+    Seven points per tenfold: 10 users are 7, 100 are 14, 1,000 or more
+    are 20. The floor is one point for any package with a release or
+    commit in the last `maintained_years`, whether or not anyone has
+    clicked yet: a maintained package is in use somewhere. Only an
+    unmaintained package nobody has claimed scores 0. Linear per user,
+    as before, gave the full 20 to the 131 packages with 20 or more
+    users and could not tell 20 from 541.
     """
 
     name: str = "Usage Count Rule"
     description: str = (
         "Score based on how many people say they use the package, log scaled: "
-        "1 user is 1 point, 10 are 7, 100 are 14, 1,000 or more are 20"
+        "10 users are 7 points, 100 are 14, 1,000 or more are 20. At least 1 "
+        "for any package with a release or commit in the last three years"
     )
     max_score: int = 20
     documentation_url: str = f"{settings.DOCS_URL}/rules/#searchv3.rules.UsageCountRule"
 
     points_per_decade: int = 7
     floor_points: int = 1
+    maintained_years: int = 3
 
     def check(self, package: Package) -> CheckResult:
         # `score_package` querysets annotate `usage_count`; fall back to a
@@ -243,12 +248,22 @@ class UsageCountRule(ScoreRule):
         usage_count = getattr(package, "usage_count", None)
         if usage_count is None:
             usage_count = package.usage.count()
+        age = package.activity_age
+        maintained = age is not None and age.days < 365 * self.maintained_years
         if usage_count:
             points = math.log10(usage_count) * self.points_per_decade
             score = int(min(max(points, self.floor_points), self.max_score))
             return CheckResult(
                 score=score,
                 message=f"{usage_count:,} {'person says' if usage_count == 1 else 'people say'} they use the package.",
+            )
+        if maintained:
+            return CheckResult(
+                score=self.floor_points,
+                message=(
+                    "Nobody has said they use the package yet; one point for a "
+                    "release or commit in the last three years."
+                ),
             )
         return CheckResult(score=0, message="Nobody has said they use the package yet.")
 
