@@ -315,10 +315,11 @@ OG_IMAGE_VERSION = env("OG_IMAGE_VERSION", default="2")
 # whatever scores above zero (see grid/scoring.py). Raise or lower it per
 # environment without a deploy.
 #
-# The score is 0 to 100 (package/scoring.py). 35 keeps the comparison
-# tables about the size they were under the old stars-based score at 50;
+# The score is 0 to 100 (package/scoring.py). 32 keeps the comparison
+# tables a little fuller than they were under the old stars-based score
+# at 50, so small active grids show their runners-up (#1563);
 # `manage.py compare_scores --new-min N` shows what another value would do.
-PACKAGE_SCORE_MIN = env.int("PACKAGE_SCORE_MIN", default=35)
+PACKAGE_SCORE_MIN = env.int("PACKAGE_SCORE_MIN", default=32)
 
 if LOCAL_INSTALLED_APPS:
     INSTALLED_APPS.extend(LOCAL_INSTALLED_APPS)
