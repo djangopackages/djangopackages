@@ -301,7 +301,9 @@ class FunctionalPackageTest(TestCase):
         self.assertTrue(response.context["is_using"] is False)
 
         toggle = reverse("usage", kwargs={"slug": "testability", "action": "add"})
-        response = self.client.get(f"{toggle}?htmx=1&detail=1", HTTP_HX_REQUEST="true")
+        response = self.client.get(
+            f"{toggle}?htmx=1&detail=1", headers={"hx-request": "true"}
+        )
         self.assertContains(response, "Using")
         self.assertContains(response, 'id="usage-btn-')
 
