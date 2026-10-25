@@ -14,6 +14,7 @@ latest commit instead, and one still downloaded 10,000 times a month is
 never dormant. It comes back on its own with the next release.
 """
 
+import math
 from datetime import timedelta
 
 from django.conf import settings
@@ -164,19 +165,35 @@ class DocumentationRule(ScoreRule):
 
 
 class DownloadsRule(ScoreRule):
+    """Points for monthly PyPI downloads, on a log scale.
+
+    Four points per tenfold above 10 downloads a month: 100 a month is 4,
+    1,000 is 8, 10,000 is 12, 100,000 is 16, a million or more is 20.
+    Linear per thousand, as before, gave nothing to seven in ten packages
+    and the same 20 to everything from 20,000 up.
+    """
+
     name: str = "Downloads Rule"
-    description: str = "Score based on the number of PyPi downloads"
+    description: str = (
+        "Score based on monthly PyPI downloads, log scaled: 100 a month is 4 "
+        "points, 1,000 is 8, 10,000 is 12, 100,000 is 16, a million is 20"
+    )
     max_score: int = 20
     documentation_url: str = f"{settings.DOCS_URL}/rules/#searchv3.rules.DownloadsRule"
 
+    # Points per tenfold, and the count that is worth nothing.
+    points_per_decade: int = 4
+    floor_downloads: int = 10
+
     def check(self, package: Package) -> CheckResult:
         if package.pypi_downloads:
-            score = min(int(package.pypi_downloads / 1_000), self.max_score)
+            decades = math.log10(package.pypi_downloads / self.floor_downloads)
+            score = int(min(max(decades, 0) * self.points_per_decade, self.max_score))
             return CheckResult(
                 score=score,
-                message=f"Package has {package.pypi_downloads} PyPi downloads.",
+                message=f"Package has {package.pypi_downloads:,} PyPI downloads a month.",
             )
-        return CheckResult(score=0, message="No PyPi downloads data for the package.")
+        return CheckResult(score=0, message="No PyPI downloads data for the package.")
 
 
 class ForkRule(ScoreRule):

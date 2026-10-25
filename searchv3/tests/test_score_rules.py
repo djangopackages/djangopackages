@@ -32,10 +32,12 @@ class CalcPackageWeightTest(TestCase):
     def _score(self, **overrides) -> int:
         defaults = {
             "date_deprecated": None,
-            "pypi_downloads": 20,
+            "pypi_downloads": 10,
             "repo_description": "A package description",
             "repo_forks": 20,
             "repo_watchers": 20,
+            # repo_url is unique; several packages in one test collide.
+            "repo_url": f"https://github.com/t/{uuid.uuid4().hex[:8]}",
         }
         defaults.update(overrides)
         package = baker.make("package.Package", **defaults)
@@ -57,14 +59,23 @@ class CalcPackageWeightTest(TestCase):
     def test_no_forks_deduction(self):
         self.assertEqual(self._score(repo_forks=0), 60)
 
-    def test_high_downloads_bonus(self):
-        self.assertEqual(self._score(pypi_downloads=20_000), 100)
+    def test_downloads_log_scale(self):
+        # 4 points per tenfold above 10 a month, capped at 20.
+        for downloads, expected in [
+            (10, 80),
+            (100, 84),
+            (286, 85),
+            (1_000, 88),
+            (10_000, 92),
+            (100_000, 96),
+            (1_000_000, 100),
+            (5_000_000, 100),
+        ]:
+            with self.subTest(downloads=downloads):
+                self.assertEqual(self._score(pypi_downloads=downloads), expected)
 
-    def test_medium_downloads_bonus(self):
-        self.assertEqual(self._score(pypi_downloads=10_000), 90)
-
-    def test_low_downloads_bonus(self):
-        self.assertEqual(self._score(pypi_downloads=1_000), 81)
+    def test_no_downloads_data(self):
+        self.assertEqual(self._score(pypi_downloads=0), 80)
 
     def test_archived_deduction(self):
         self.assertEqual(self._score(date_repo_archived=timezone.now()), 60)
@@ -190,8 +201,8 @@ class DormantRuleTest(TestCase):
         self.assertEqual(result["total_score"], 0)
         self.assertTrue(result["zeroed"])
         # The point rules still report what they would have earned:
-        # not deprecated 20, description 20, downloads 5, forks 20, watchers 20 = 85.
-        self.assertEqual(sum(item["score"] for item in result["breakdown"]), 85)
+        # not deprecated 20, description 20, downloads 10, forks 20, watchers 20 = 90.
+        self.assertEqual(sum(item["score"] for item in result["breakdown"]), 90)
 
 
 class ScorePackageTest(TestCase):
