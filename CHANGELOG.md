@@ -1,5 +1,24 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-10-24]
+### Changed
+- Match PyPI docs links by label prefix and hostname ([#1745](https://github.com/djangopackages/djangopackages/pull/1745))
+- Show the real score on the Package Score page and rank search by it ([#1766](https://github.com/djangopackages/djangopackages/pull/1766))
+- ⬆️ Bump opentelemetry-api from 1.45.0 to 1.45.1 ([#1762](https://github.com/djangopackages/djangopackages/pull/1762))
+- Switch Package.score to the 0 to 100 formula and lower the grid cutoff to 35 ([#1765](https://github.com/djangopackages/djangopackages/pull/1765))
+- Add the new package score beside the legacy one, with a compare dry run ([#1764](https://github.com/djangopackages/djangopackages/pull/1764))
+- Schedule pypi_stats weekly ([#1760](https://github.com/djangopackages/djangopackages/pull/1760))
+- Honour PACKAGE_SCORE_MIN and default it to 50 ([#1758](https://github.com/djangopackages/djangopackages/pull/1758))
+- Tag awesome lists so their checkouts are kept ([#1756](https://github.com/djangopackages/djangopackages/pull/1756))
+- Filter and sort the search results page ([#1755](https://github.com/djangopackages/djangopackages/pull/1755))
+- Let a specific legacy license sharpen a family classifier ([#1754](https://github.com/djangopackages/djangopackages/pull/1754))
+- Detect licenses properly: SPDX ids, classifiers first, GitHub fallback ([#1753](https://github.com/djangopackages/djangopackages/pull/1753))
+- Filter package lists by development status ([#1749](https://github.com/djangopackages/djangopackages/pull/1749))
+- Run the probe pipeline as Django Q tasks ([#1751](https://github.com/djangopackages/djangopackages/pull/1751))
+- FAQ: explain what belongs in a grid and when to make a new one ([#1750](https://github.com/djangopackages/djangopackages/pull/1750))
+- Drop the Python 3 row from grids ([#1747](https://github.com/djangopackages/djangopackages/pull/1747))
+- Enable django.contrib.redirects for renamed grids ([#1746](https://github.com/djangopackages/djangopackages/pull/1746))
+
 ## [2026-10-22]
 ### Changed
 - Filter the symbols table by library ([#1744](https://github.com/djangopackages/djangopackages/pull/1744))
