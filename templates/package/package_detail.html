@@ -39,6 +39,7 @@
                             <span id="flag-text">{% translate "Flag" %}</span>
                         </a>
                     {% endif %}
+                    {% include 'partials/usage_button.html' with detail=True %}
                     {% flag "favorite_feature_flag" %} {% include 'partials/favorite_button.html' %} {% endflag %}
                 </div>
             </div>

@@ -286,6 +286,31 @@ class FunctionalPackageTest(TestCase):
             response = self.client.get(url)
         self.assertEqual(count, user.package_set.count())
 
+    def test_usage_button_on_package_page(self):
+        url = reverse("package", kwargs={"slug": "testability"})
+
+        # Anonymous: the count is shown with a login link, no toggle.
+        response = self.client.get(url)
+        self.assertContains(response, "Used by")
+        self.assertNotContains(response, "I use this")
+
+        # Logged in: the toggle, which flips after an htmx click.
+        self.assertTrue(self.client.login(username="user", password="user"))
+        response = self.client.get(url)
+        self.assertContains(response, "I use this")
+        self.assertTrue(response.context["is_using"] is False)
+
+        toggle = reverse("usage", kwargs={"slug": "testability", "action": "add"})
+        response = self.client.get(
+            f"{toggle}?htmx=1&detail=1", headers={"hx-request": "true"}
+        )
+        self.assertContains(response, "Using")
+        self.assertContains(response, 'id="usage-btn-')
+
+        response = self.client.get(url)
+        self.assertTrue(response.context["is_using"])
+        self.assertContains(response, "Using")
+
     def test_most_liked_package_list_view(self):
         user = User.objects.get(username="user")
         admin = User.objects.get(username="admin")
