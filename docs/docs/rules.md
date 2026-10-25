@@ -1,10 +1,10 @@
 ## Single Rule Logic
 
-`Package.score` is the sum of the eight point rules below, 20 points each, scaled to 0 to 100 (`searchv3.rules.score_package`). The grids sort on it and show packages at or above `PACKAGE_SCORE_MIN` in their comparison tables, the search index weights packages by it, and the Package Score page on each package lists the rules with the points earned.
+`Package.score` is the sum of the six point rules below, 20 points each, scaled to 0 to 100 and then multiplied by the activity factor (`searchv3.rules.score_package`). The grids sort on it and show packages at or above `PACKAGE_SCORE_MIN` in their comparison tables, the search index weights packages by it, and the Package Score page on each package lists the rules with the points earned.
 
-One rule is a gate instead of points. A **dormant** package, one whose latest PyPI release is three or more years old, scores 0 whatever else it has. Commits do not keep a released package awake. A package that is not on PyPI (no PyPI link, as for deployable apps and project templates) is judged on its latest commit instead, and one with no dates at all is dormant. A package still downloaded 10,000 or more times a month is never dormant, whatever its release date. It stays listed on its grids' full package lists and in search, with its page saying when it last shipped, and it leaves the comparison tables. Dormancy is computed from dates on every score run, never set by hand, and clears itself with the next release.
+The **activity factor** fades the score with time since the package last shipped. The date is the latest PyPI release for a package on PyPI; commits do not count for a released package, since a project that commits but never ships is not maintained in any way its users can install. A package that is not on PyPI (no PyPI link, as for deployable apps and project templates) is dated by its latest commit instead. The factor is 1.0 for a year after that date, then halves every eighteen months: two and a half years idle keeps half the points, five years a sixth, ten years about 1%. A package with no date on record scores 0. An ageing package drifts down its grids and out of the comparison table rather than vanishing on a birthday, stays on the full package lists and in search with its page saying when it last shipped, and comes back with the next release. The factor is computed from dates on every score run, never set by hand.
 
-### ::: searchv3.rules.DormantRule
+### ::: searchv3.rules.ActivityRule
 
 
 ### ::: searchv3.rules.DeprecatedRule
@@ -29,9 +29,6 @@ One rule is a gate instead of points. A **dormant** package, one whose latest Py
 
 
 ### ::: searchv3.rules.DocumentationRule
-
-
-### ::: searchv3.rules.RecentReleaseRule
 
 
 ## Group Rule Logic

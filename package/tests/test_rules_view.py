@@ -22,22 +22,26 @@ def test_rules_page_total_matches_stored_score(db, client, category):
 
     assert response.status_code == 200
     assert response.context["package_score"]["total_score"] == package.score
-    assert len(response.context["package_score"]["breakdown"]) == 9
+    assert len(response.context["package_score"]["breakdown"]) == 7
 
 
-def test_dormant_package_page_says_so(db, client, category):
+def test_faded_package_page_says_so(db, client, category):
     package = baker.make(
         Package,
         category=category,
-        slug="dormant",
-        repo_url="https://github.com/t/dormant",
+        slug="faded",
+        repo_url="https://github.com/t/faded",
         repo_watchers=3000,
-        last_commit_date=timezone.now() - timezone.timedelta(days=365 * 6),
+        repo_description="x",
+        last_commit_date=timezone.now() - timezone.timedelta(days=365 * 4),
     )
     update_package_score(package, save=True)
-    assert package.score == 0
+    # not deprecated 20, description 20, watchers 20 = 60 of 120 = 50, a quarter of it.
+    assert package.score == 12
 
-    response = client.get(reverse("package", kwargs={"slug": "dormant"}))
+    response = client.get(reverse("package", kwargs={"slug": "faded"}))
 
     assert response.status_code == 200
-    assert "Not on PyPI and no commit since" in response.content.decode()
+    html = response.content.decode()
+    assert "Not on PyPI, and last commit" in html
+    assert "keeps 25% of the points" in html

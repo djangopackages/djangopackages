@@ -39,7 +39,7 @@ class FunctionalPackageTest(TestCase):
         self.assertTemplateUsed(response, "package/package_detail.html")
         self.assertContains(
             response,
-            "Scores (0-100) add up eight checks",
+            "Scores (0-100) add up six checks",
         )
 
     def test_package_detail_renders_readme_badge(self):
@@ -66,7 +66,7 @@ class FunctionalPackageTest(TestCase):
         self.assertTemplateUsed(response, "package/package_detail.html")
         self.assertNotContains(
             response,
-            "Scores (0-100) add up eight checks",
+            "Scores (0-100) add up six checks",
         )
 
     def test_add_package_view(self):

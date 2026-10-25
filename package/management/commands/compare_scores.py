@@ -47,7 +47,7 @@ class Row:
     stored: int
     computed: int
     points: list[int]  # per rule, PACKAGE_RULES order
-    zeroed: bool  # a gate rule (dormant) set the score to 0
+    factor: float  # the activity factor the total was multiplied by
 
 
 @dataclass
@@ -74,7 +74,7 @@ def _load_rows() -> dict[int, Row]:
             stored=package.score,
             computed=result["total_score"],
             points=[item["score"] for item in result["breakdown"]],
-            zeroed=result["zeroed"],
+            factor=result["factor"],
         )
     return rows
 
@@ -144,9 +144,7 @@ def _grid_detail(
         table.add_row(
             row.title[:40],
             *(
-                ("[red]zero[/red]" if row.zeroed else "-")
-                if rule.max_score == 0
-                else str(points)
+                f"x{row.factor:.2f}" if rule.max_score == 0 else str(points)
                 for rule, points in zip(PACKAGE_RULES, row.points)
             ),
             f"{row.stored:,}",
@@ -159,7 +157,7 @@ def _grid_detail(
 def _write_csv(path: str, rows: dict[int, Row]) -> None:
     with open(path, "w", newline="") as handle:
         writer = csv.writer(handle)
-        writer.writerow(["pk", "slug", "stored", "computed", "zeroed", *RULE_LABELS])
+        writer.writerow(["pk", "slug", "stored", "computed", "factor", *RULE_LABELS])
         for row in rows.values():
             writer.writerow(
                 [
@@ -167,7 +165,7 @@ def _write_csv(path: str, rows: dict[int, Row]) -> None:
                     row.slug,
                     row.stored,
                     row.computed,
-                    int(row.zeroed),
+                    f"{row.factor:.3f}",
                     *row.points,
                 ]
             )
@@ -235,8 +233,13 @@ def command(new_min, grid_slugs, changes, csv_path):
     table.add_column("mean points", justify="right")
     for index, (label, rule) in enumerate(zip(RULE_LABELS, PACKAGE_RULES)):
         if rule.max_score == 0:
-            zeroed = sum(1 for row in rows.values() if row.zeroed)
-            table.add_row(label, f"[red]{zeroed:,} zeroed[/red]", "gate")
+            factors = [row.factor for row in rows.values()]
+            at_zero = sum(1 for f in factors if f < 0.005)
+            table.add_row(
+                label,
+                f"[red]{at_zero:,} at zero[/red]",
+                f"x{statistics.fmean(factors) if factors else 0:.2f} mean",
+            )
             continue
         points = [row.points[index] for row in rows.values()]
         scoring = sum(1 for p in points if p > 0)
