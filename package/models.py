@@ -290,18 +290,29 @@ class Package(BaseModel):
     # with the next release, or the next commit for a package that is
     # not on PyPI.
     DORMANT_YEARS = 3
+    # ...unless people are still installing it. This many downloads a
+    # month means the package is in use whatever its release date, so
+    # it is not dormant. Finished software (diskcache) stays visible;
+    # cabot at a hundred a month does not.
+    DORMANT_MIN_DOWNLOADS = 10_000
+
+    @property
+    def on_pypi(self):
+        """Whether PyPI is how this package ships, so releases date it."""
+        return bool(self.pypi_url and self.pypi_url.strip())
 
     @property
     def last_activity(self):
         """When the package last shipped.
 
-        The latest PyPI release when there is one. A package that only
-        commits may not be maintained in any way its users can install,
-        so commits count only for a package with no release on record.
-        None when neither is known. Reads `latest_version`, so load it
-        with `select_related`.
+        The latest PyPI release for a package on PyPI. A package that
+        only commits may not be maintained in any way its users can
+        install, so commits count only for a package that is not on
+        PyPI (empty `pypi_url`), such as a deployable app or a project
+        template. None when neither is known. Reads `latest_version`,
+        so load it with `select_related`.
         """
-        if self.latest_version_id and self.latest_version:
+        if self.on_pypi and self.latest_version_id and self.latest_version:
             if self.latest_version.upload_time:
                 return self.latest_version.upload_time
         return self.last_commit_date
@@ -310,11 +321,14 @@ class Package(BaseModel):
     def dormant_since(self):
         """When the package last shipped, if that was `DORMANT_YEARS` or more ago.
 
-        None for a package that shipped recently. A package with no
-        release date and no commit date is dormant too; `last_activity`
-        is None then, so callers should word it as "no activity on
-        record" rather than quoting a date.
+        None for a package that shipped recently or is still downloaded
+        `DORMANT_MIN_DOWNLOADS` times a month. A package with no release
+        date and no commit date is dormant too; `last_activity` is None
+        then, so callers should word it as "no activity on record" rather
+        than quoting a date.
         """
+        if (self.pypi_downloads or 0) >= self.DORMANT_MIN_DOWNLOADS:
+            return None
         last = self.last_activity
         if last is None:
             return None
@@ -323,8 +337,9 @@ class Package(BaseModel):
 
     @property
     def is_dormant(self):
-        last = self.last_activity
-        if last is None:
+        if (self.pypi_downloads or 0) >= self.DORMANT_MIN_DOWNLOADS:
+            return False
+        if self.last_activity is None:
             return True
         return self.dormant_since is not None
 

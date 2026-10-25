@@ -100,7 +100,8 @@ class DormantRuleTest(TestCase):
 
     def test_recent_release_keeps_an_old_repo_awake(self):
         package = self._package(
-            last_commit_date=timezone.now() - timezone.timedelta(days=365 * 4)
+            pypi_url="https://pypi.org/project/x/",
+            last_commit_date=timezone.now() - timezone.timedelta(days=365 * 4),
         )
         version = baker.make(
             "package.Version",
@@ -116,7 +117,8 @@ class DormantRuleTest(TestCase):
         # django-jet: commits in 2025, last PyPI release 2018.
         released = timezone.now() - timezone.timedelta(days=365 * 7)
         package = self._package(
-            last_commit_date=timezone.now() - timezone.timedelta(days=30)
+            pypi_url="https://pypi.org/project/django-jet/",
+            last_commit_date=timezone.now() - timezone.timedelta(days=30),
         )
         version = baker.make("package.Version", package=package, upload_time=released)
         package.latest_version = version
@@ -139,6 +141,39 @@ class DormantRuleTest(TestCase):
         self.assertTrue(result.zero_score)
         self.assertIn("Not on PyPI and no commit since", result.message)
 
+    def test_heavy_downloads_are_never_dormant(self):
+        # diskcache: last release 2023, 24 million downloads a month.
+        released = timezone.now() - timezone.timedelta(days=365 * 3 + 60)
+        package = self._package(
+            pypi_url="https://pypi.org/project/diskcache/",
+            pypi_downloads=24_000_000,
+            last_commit_date=released,
+        )
+        version = baker.make("package.Version", package=package, upload_time=released)
+        package.latest_version = version
+        package.save(update_fields=["latest_version"])
+        self.assertFalse(package.is_dormant)
+        self.assertFalse(DormantRule().check(package=package).zero_score)
+        package.pypi_downloads = 9_999
+        self.assertTrue(package.is_dormant)
+
+    def test_no_pypi_link_is_judged_on_commits_despite_old_releases(self):
+        # sentry: old PyPI releases on record, PyPI link cleared, commits daily.
+        package = self._package(
+            pypi_url="",
+            pypi_downloads=2_905,
+            last_commit_date=timezone.now() - timezone.timedelta(days=1),
+        )
+        version = baker.make(
+            "package.Version",
+            package=package,
+            upload_time=timezone.now() - timezone.timedelta(days=365 * 4),
+        )
+        package.latest_version = version
+        package.save(update_fields=["latest_version"])
+        self.assertFalse(package.on_pypi)
+        self.assertFalse(package.is_dormant)
+
     def test_no_dates_at_all_is_dormant(self):
         package = self._package(last_commit_date=None)
         result = DormantRule().check(package=package)
@@ -149,13 +184,14 @@ class DormantRuleTest(TestCase):
     def test_dormant_zeroes_the_whole_score(self):
         package = self._package(
             last_commit_date=timezone.now() - timezone.timedelta(days=365 * 5),
-            pypi_downloads=50_000,
+            pypi_downloads=5_000,
         )
         result = score_package(package)
         self.assertEqual(result["total_score"], 0)
         self.assertTrue(result["zeroed"])
-        # The point rules still report what they would have earned.
-        self.assertEqual(sum(item["score"] for item in result["breakdown"]), 100)
+        # The point rules still report what they would have earned:
+        # not deprecated 20, description 20, downloads 5, forks 20, watchers 20 = 85.
+        self.assertEqual(sum(item["score"] for item in result["breakdown"]), 85)
 
 
 class ScorePackageTest(TestCase):

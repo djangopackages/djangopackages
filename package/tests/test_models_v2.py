@@ -1,4 +1,5 @@
 from django.db import IntegrityError
+from package.models import Package
 from package.scores import update_package_score
 import pytest
 from model_bakery import baker
@@ -94,11 +95,19 @@ def test_package_abandoned_score(package_abandoned):
 
 
 def test_package_abandoned_ten_years_score(package_abandoned_ten_years):
-    # Ten years idle is dormant: a hard zero, however many stars.
-    assert package_abandoned_ten_years.repo_watchers == 1000
-    update_package_score(package_abandoned_ten_years, save=True)
-    assert package_abandoned_ten_years.is_dormant
-    assert package_abandoned_ten_years.score == 0
+    # Ten years idle, but still 26,257 downloads a month: in use, so not
+    # dormant. Drop the downloads and it is a hard zero however many stars.
+    package = package_abandoned_ten_years
+    assert package.repo_watchers == 1000
+    assert package.pypi_downloads >= Package.DORMANT_MIN_DOWNLOADS
+    update_package_score(package, save=True)
+    assert not package.is_dormant
+    assert 0 < package.score <= 75
+
+    package.pypi_downloads = 100
+    update_package_score(package, save=True)
+    assert package.is_dormant
+    assert package.score == 0
 
 
 def test_package_example(package_example):

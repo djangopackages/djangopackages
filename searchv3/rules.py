@@ -9,9 +9,9 @@ the checks with the points each one earned. One number, one place
 One check is a gate rather than points: `DormantRule`. A package whose
 latest PyPI release is `Package.DORMANT_YEARS` old or older scores 0
 whatever else it has, so it leaves the comparison tables while staying
-listed and searchable. A package with no release on record is judged
-on its latest commit instead. It comes back on its own with the next
-release.
+listed and searchable. A package that is not on PyPI is judged on its
+latest commit instead, and one still downloaded 10,000 times a month is
+never dormant. It comes back on its own with the next release.
 """
 
 from datetime import timedelta
@@ -60,18 +60,25 @@ class ScoreRuleGroup(ScoreRule):
 
 
 class DormantRule(ScoreRule):
-    """Zero the score of a package that has not moved in three years.
+    """Zero the score of a package that has not shipped in three years.
 
-    Dormant means neither the latest commit nor the latest release is
-    younger than `Package.DORMANT_YEARS`, or no commit date and no
-    release date are on record at all. It is computed from dates, never
-    set by hand, and clears itself with the next commit or release.
-    Carries no points of its own.
+    Dormant means the latest PyPI release is `Package.DORMANT_YEARS` old
+    or older. Commits do not keep a released package awake: a project
+    that commits but never ships is not maintained in any way its users
+    can install. A package that is not on PyPI (no PyPI link, as for
+    deployable apps and project templates) is judged on its latest
+    commit instead, and one with no dates at all is dormant. A package
+    still downloaded `Package.DORMANT_MIN_DOWNLOADS` times a month is
+    never dormant: it is in use whatever its release date. Computed
+    from dates and counts, never set by hand; clears itself with the
+    next release. Carries no points of its own.
     """
 
     name: str = "Dormant Rule"
     description: str = (
-        "Score is 0 while the package has had no release and no commit for three years"
+        "Score is 0 while the latest release (or latest commit, for a package "
+        "not on PyPI) is three or more years old and the package is downloaded "
+        "fewer than 10,000 times a month"
     )
     max_score: int = 0
     documentation_url: str = f"{settings.DOCS_URL}/rules/#searchv3.rules.DormantRule"
@@ -82,7 +89,11 @@ class DormantRule(ScoreRule):
         since = package.dormant_since
         if since is None:
             message = "No release or commit date on record, so the score is 0."
-        elif package.latest_version_id and package.latest_version.upload_time:
+        elif (
+            package.on_pypi
+            and package.latest_version_id
+            and package.latest_version.upload_time
+        ):
             message = (
                 f"No release since {since:%B %Y}, so the score is 0 until one ships."
             )
