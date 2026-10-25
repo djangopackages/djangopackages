@@ -1,8 +1,32 @@
-# Package score
+## Single Rule Logic
 
-Every package has a score from 0 to 100. It is what the grids sort on,
-what decides whether a package appears in a grid's comparison table
-(`PACKAGE_SCORE_MIN`), and what the search index ranks packages by. The
-"Package Score" page on each package shows the working.
+### ::: searchv3.rules.DeprecatedRule
 
-::: package.scoring
+
+### ::: searchv3.rules.DescriptionRule
+
+
+### ::: searchv3.rules.DownloadsRule
+
+
+### ::: searchv3.rules.ForkRule
+
+
+### ::: searchv3.rules.UsageCountRule
+
+
+### ::: searchv3.rules.WatchersRule
+
+
+### ::: searchv3.rules.FavoritePackageRule
+
+
+### ::: searchv3.rules.DocumentationRule
+
+
+### ::: searchv3.rules.RecentReleaseRule
+
+
+## Group Rule Logic
+
+### ::: searchv3.rules.ScoreRuleGroup
