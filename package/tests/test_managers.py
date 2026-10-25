@@ -138,3 +138,29 @@ def test_supports_python3_managers(db, search_fixtures):
     assert Package.objects.all().count() == all_packages + 3
     assert Package.objects.active().count() == active_packages + 3
     assert Package.objects.supports_python3().count() > supports_python3_packages
+
+
+def test_replaced_package_is_inactive_and_its_successor_is_active(db, category):
+    """`deprecates_package` lives on the OLD package and names its successor.
+
+    Pins the direction, since the field name reads the other way round
+    and rows have been entered backwards before (iommi / tri.table).
+    """
+    successor = baker.make(
+        Package,
+        category=category,
+        repo_url="https://github.com/iommirocks/iommi",
+        slug="iommi",
+    )
+    old = baker.make(
+        Package,
+        category=category,
+        deprecates_package=successor,
+        repo_url="https://github.com/TriOptima/tri.table",
+        slug="tri-table",
+    )
+
+    assert successor in Package.objects.active()
+    assert old not in Package.objects.active()
+    assert old in Package.objects.deprecated()
+    assert list(successor.replacement.all()) == [old]
