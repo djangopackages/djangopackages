@@ -86,7 +86,8 @@ def command(
 
     The score is 0 to 100: eight checks worth 20 points each, scaled, and
     0 outright for a dormant package (latest release three or more years
-    old, or latest commit for a package not on PyPI). See searchv3/rules.py.
+    old, or latest commit for a package not on PyPI, and fewer than 10,000
+    downloads a month). See searchv3/rules.py.
 
     Examples:
 
