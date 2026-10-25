@@ -22,9 +22,10 @@ def calculate_score(package: Package) -> int:
 
 
 def scoring_queryset(queryset: QuerySet) -> QuerySet:
-    """What the rules read, loaded up front: the latest release and the usage count."""
+    """What the rules read, loaded up front: the latest release, usage and favorite counts."""
     return queryset.select_related("latest_version").annotate(
-        usage_count=Count("usage", distinct=True)
+        usage_count=Count("usage", distinct=True),
+        favorites_count=Count("favorite", distinct=True),
     )
 
 

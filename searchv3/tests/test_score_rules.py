@@ -217,6 +217,28 @@ class ScorePackageTest(TestCase):
     def test_usage_count_annotation_is_used(self):
         package = baker.make("package.Package")
         package.usage_count = 10
+        package.favorites_count = 0
+        self.assertEqual(UsageCountRule().check(package=package).score, 7)
+
+    def test_higher_of_usage_and_favorites_wins(self):
+        package = baker.make("package.Package")
+        for users, favorites, expected in [
+            (3, 13, 7),
+            (13, 3, 7),
+            (100, 100, 14),
+            (0, 1, 1),
+            (1, 0, 1),
+        ]:
+            with self.subTest(users=users, favorites=favorites):
+                package.usage_count = users
+                package.favorites_count = favorites
+                result = UsageCountRule().check(package=package)
+                self.assertEqual(result.score, expected)
+                self.assertIn(f"{favorites} favorited it", result.message)
+
+    def test_favorites_fall_back_to_a_query(self):
+        package = baker.make("package.Package", repo_url="https://github.com/t/fav")
+        baker.make("favorites.Favorite", package=package, _quantity=10)
         self.assertEqual(UsageCountRule().check(package=package).score, 7)
 
     def test_maintained_package_with_no_users_gets_the_floor(self):
@@ -226,6 +248,7 @@ class ScorePackageTest(TestCase):
             last_commit_date=timezone.now() - timezone.timedelta(days=365 * 2),
         )
         fresh.usage_count = 0
+        fresh.favorites_count = 0
         result = UsageCountRule().check(package=fresh)
         self.assertEqual(result.score, 1)
         self.assertIn("one point for a release or commit", result.message)
@@ -236,6 +259,7 @@ class ScorePackageTest(TestCase):
             last_commit_date=timezone.now() - timezone.timedelta(days=365 * 3 + 1),
         )
         stale.usage_count = 0
+        stale.favorites_count = 0
         self.assertEqual(UsageCountRule().check(package=stale).score, 0)
 
         undated = baker.make(
@@ -244,6 +268,7 @@ class ScorePackageTest(TestCase):
             last_commit_date=None,
         )
         undated.usage_count = 0
+        undated.favorites_count = 0
         self.assertEqual(UsageCountRule().check(package=undated).score, 0)
 
     def test_usage_count_log_scale_with_a_floor_of_one(self):
