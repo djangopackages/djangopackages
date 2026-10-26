@@ -18,7 +18,7 @@ class PostFeed(Feed):
         return "Django Packages"
 
     def items(self):
-        queryset = Post.objects.active().order_by("-published_date")
+        queryset = Post.objects.published().order_by("-published_date")
         return queryset[:10]
 
     def item_title(self, item):
