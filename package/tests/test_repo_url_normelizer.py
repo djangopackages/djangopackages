@@ -146,3 +146,36 @@ class TestNormalizeRepoURL:
     def test_invalid_urls(self, url):
         with pytest.raises(RepoURLError):
             normalize_repo_url(url)
+
+    @pytest.mark.parametrize(
+        "url",
+        [
+            "https://pypi.org/project/django-salesman/",
+            "http://pypi.python.org/pypi/django-autoreports",
+            "https://test.pypi.org/project/something/",
+        ],
+    )
+    def test_pypi_page_is_not_a_repository(self, url):
+        with pytest.raises(RepoURLError, match="PyPI page, not a repository"):
+            normalize_repo_url(url)
+
+    @pytest.mark.parametrize(
+        "url,expected",
+        [
+            # Self-hosted forges on any domain keep passing.
+            (
+                "https://git.boelz.eu/tmb/django-svg-sprite",
+                "https://git.boelz.eu/tmb/django-svg-sprite",
+            ),
+            (
+                "https://framagit.org/SebGen/wagtailpress",
+                "https://framagit.org/sebgen/wagtailpress",
+            ),
+            (
+                "https://forge.cliss21.org/cliss21/wagtailembedpeertube",
+                "https://forge.cliss21.org/cliss21/wagtailembedpeertube",
+            ),
+        ],
+    )
+    def test_self_hosted_forges_still_pass(self, url, expected):
+        assert normalize_repo_url(url) == expected

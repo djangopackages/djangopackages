@@ -22,6 +22,11 @@ PROVIDERS = {
     "gitlab.com": {"type": "nested", "max_segments": None},
 }
 
+# A PyPI page is not a repository, and the add form has a separate PyPI URL
+# field for it. Nothing else is judged by host: self-hosted Forgejo, GitLab,
+# Gitea and the rest live on any domain and must keep passing.
+PYPI_HOSTS = frozenset({"pypi.org", "pypi.python.org", "test.pypi.org"})
+
 # URL path markers to strip
 URL_MARKERS = {
     "tree",
@@ -86,6 +91,12 @@ def normalize_repo_url(
 
     if not host:
         raise RepoURLError("Could not extract hostname from URL")
+
+    if host in PYPI_HOSTS:
+        raise RepoURLError(
+            "That is a PyPI page, not a repository. Enter the URL of the source "
+            "repository here and put the PyPI page in the PyPI URL field."
+        )
 
     # Validate allowed hosts
     if allowed_hosts and host not in allowed_hosts:

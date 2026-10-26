@@ -93,7 +93,6 @@ https://code.google.com/p/django-pgsql-interval-field
 http://code.google.com/p/django-profile/
 lukaszb/django-projector/
 http://pypi.python.org/pypi/django-proxy-users
-https://bitbucket.org/dias.kev/django-quotidian
 nabucosound/django-rbac/
 http://djangorestmodel.sourceforge.net/index.html
 kmike/django-robokassa/
