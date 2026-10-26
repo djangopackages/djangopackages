@@ -12,8 +12,9 @@ class BitbucketHandler(BaseHandler):
     title = "Bitbucket"
     url_regex = "https://bitbucket.org/"
     url = "https://bitbucket.org"
-    repo_regex = r"https://bitbucket.org/[\w\-\_]+/([\w\-\_]+)/{0,1}"
-    slug_regex = r"https://bitbucket.org/[\w\-\_]+/([\w\-\_]+)/{0,1}"
+    # Bitbucket usernames and repo slugs may contain dots (dias.kev).
+    repo_regex = r"https://bitbucket.org/[\w.\-]+/([\w.\-]+)/{0,1}"
+    slug_regex = repo_regex
 
     def _fetch_commit_stats(self, package):
         workspace, repo_slug = package.repo_name().split("/")
