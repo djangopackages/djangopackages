@@ -253,10 +253,15 @@ if settings.DEBUG and not settings.TEST_MODE:
 
     urlpatterns.append(path("__debug__/", include(debug_toolbar.urls)))
 
+
 # Uploads land in MEDIA_ROOT (the /data volume in production), so Django has
 # to serve them itself: `static()` registers nothing when DEBUG is off, and
 # whitenoise only handles static files, indexed once at startup, so a file
 # uploaded after boot would never appear in it.
-urlpatterns += [
-    re_path(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT}),
-]
+def media(request, path):
+    # Read MEDIA_ROOT per request rather than at import, so a test (or a
+    # settings override) that points it elsewhere is honoured.
+    return serve(request, path, document_root=settings.MEDIA_ROOT)
+
+
+urlpatterns += [re_path(r"^media/(?P<path>.*)$", media)]
