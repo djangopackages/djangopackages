@@ -2,6 +2,7 @@ from html import unescape
 
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.html import strip_tags
 from django.utils.text import Truncator, slugify
 from markdown_it import MarkdownIt
@@ -40,13 +41,26 @@ class Post(BaseModel):
         return self.title
 
     def save(self, *args, **kwargs):
-        # If the post is being published for the first time, generate a slug
-        if self.published_date and not self.slug:
-            # Format the published_date to include only the date portion
-            date_str = self.published_date.strftime("%Y-%m-%d")
-            self.slug = slugify(f"{date_str}-{self.title}")
+        # A post needs a slug before it is published so staff can preview
+        # it at its URL (#1799). Dated slugs are kept for posts that are
+        # published on first save, matching the older posts.
+        if not self.slug:
+            if self.published_date:
+                date_str = self.published_date.strftime("%Y-%m-%d")
+                self.slug = slugify(f"{date_str}-{self.title}")
+            else:
+                self.slug = slugify(self.title)
 
         super().save(*args, **kwargs)
+
+    @property
+    def is_public(self) -> bool:
+        """Published, and the publish date has arrived."""
+        return (
+            self.status == self.Status.PUBLISHED
+            and self.published_date is not None
+            and self.published_date <= timezone.now()
+        )
 
     def get_absolute_url(self):
         return reverse("post_detail", args=[self.slug])

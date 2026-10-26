@@ -6,6 +6,28 @@
 {% endblock metadata %}
 
 {% block content %}
+    {% if is_preview %}
+        <!-- Staff preview: this post is not public -->
+        <div class="border-b border-amber-500/40 bg-amber-500/10" data-testid="preview-banner">
+            <div class="container mx-auto flex flex-col gap-2 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+                <p class="text-foreground flex items-center gap-2 text-sm">
+                    <i class="ph-bold ph-eye-slash text-lg text-amber-600 dark:text-amber-400"></i>
+                    <span>
+                        <strong>{% translate "Preview." %}</strong>
+                        {% if post.status == "published" and post.published_date %}
+                            {% blocktranslate with when=post.published_date|date:"F j, Y" %}This post is scheduled for {{ when }} and is not visible to the public yet.{% endblocktranslate %}
+                        {% else %}
+                            {% translate "This post is a draft and is not visible to the public." %}
+                        {% endif %}
+                    </span>
+                </p>
+                <a href="{% url 'admin:blog_post_change' post.pk %}" class="text-primary text-sm underline">
+                    {% translate "Edit in admin" %}
+                </a>
+            </div>
+        </div>
+    {% endif %}
+
     <!-- Breadcrumb Section -->
     <section class="bg-primary/10 py-4">
         <div class="container mx-auto px-4">
@@ -28,7 +50,7 @@
                     <h1 class="text-foreground mb-2 text-3xl font-bold">{{ post.title }}</h1>
                     <div class="text-muted-foreground flex items-center gap-2">
                         <i class="ph-bold ph-calendar-blank"></i>
-                        <span>{{ post.published_date|date:"F j, Y" }}</span>
+                        <span>{{ post.published_date|date:"F j, Y"|default:_("Not published") }}</span>
                     </div>
                 </div>
 

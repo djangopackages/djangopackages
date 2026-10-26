@@ -9,7 +9,17 @@ class PostDetail(DetailView):
     context_object_name = "post"
 
     def get_queryset(self):
+        # Staff can open a draft or scheduled post at its public URL to see
+        # it rendered as it will appear. Everyone else gets a 404 until it
+        # is published (#1799).
+        if self.request.user.is_staff:
+            return Post.objects.all()
         return Post.objects.published()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["is_preview"] = not self.object.is_public
+        return context
 
 
 class PostOpenGraphView(DetailView):
