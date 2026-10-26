@@ -1,10 +1,10 @@
 from django.conf import settings
-from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.sitemaps import views as sitemap_views
 from django.urls import include, path, re_path
 from django.views.decorators.cache import cache_page
 from django.views.generic.base import RedirectView, TemplateView
+from django.views.static import serve
 
 from blog.sitemaps import BlogSitemap
 from core import __version__
@@ -253,4 +253,10 @@ if settings.DEBUG and not settings.TEST_MODE:
 
     urlpatterns.append(path("__debug__/", include(debug_toolbar.urls)))
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Uploads land in MEDIA_ROOT (the /data volume in production), so Django has
+# to serve them itself: `static()` registers nothing when DEBUG is off, and
+# whitenoise only handles static files, indexed once at startup, so a file
+# uploaded after boot would never appear in it.
+urlpatterns += [
+    re_path(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT}),
+]
