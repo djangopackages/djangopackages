@@ -7,13 +7,14 @@
 #
 # The path is relative to this file, so ../repos is a sibling of the
 # checkout. Point it anywhere you like; only the container side has to
-# stay at /repos, or set PACKAGE_REPO_ROOT to match.
+# stay at /data/repos, or set PACKAGE_REPO_ROOT to match. Production
+# mounts one volume at /data, holding both repos/ and media/.
 
 services:
   django:
     volumes:
-      - ../repos:/repos
+      - ../repos:/data/repos
 
   django-q:
     volumes:
-      - ../repos:/repos
+      - ../repos:/data/repos

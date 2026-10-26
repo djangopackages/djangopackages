@@ -45,7 +45,7 @@ RUN DATABASE_URL=sqlite://:memory: SECRET_KEY=build-key uv run -m manage collect
 
 RUN groupadd -r django \
     && useradd -r -g django django \
-    && mkdir -p /data/media \
+    && mkdir -p /data/media /data/repos \
     && chown -R django:django /data \
     && chown -R django:django /code
 
