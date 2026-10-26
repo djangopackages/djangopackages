@@ -102,6 +102,9 @@
                 <p>
                     {% blocktranslate %}Thank you to our <a href="https://github.com/djangopackages/djangopackages/graphs/contributors" class="hover:underline">maintainers and contributors</a> and to <a href="https://www.revsys.com/" class="hover:underline">REVSYS</a> for sponsoring development.{% endblocktranslate %}
                 </p>
+                <p class="opacity-75" data-testid="site-version">
+                    {{ SITE_TITLE }} v{{ VERSION }}
+                </p>
             </div>
         </div>
     </div>
