@@ -1,5 +1,19 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-10-25]
+### Changed
+- Put the &#34;I use this&#34; button back on the package page ([#1786](https://github.com/djangopackages/djangopackages/pull/1786))
+- Grid cutoff 55 to 52 ([#1785](https://github.com/djangopackages/djangopackages/pull/1785))
+- Score the higher of usage and favorites, log scaled ([#1784](https://github.com/djangopackages/djangopackages/pull/1784))
+- Usage Count floor of one for any package active in the last three years ([#1783](https://github.com/djangopackages/djangopackages/pull/1783))
+- Log-scale the Usage Count rule with a floor of one point ([#1782](https://github.com/djangopackages/djangopackages/pull/1782))
+- Fade the score by time since the last release instead of a 3-year gate ([#1781](https://github.com/djangopackages/djangopackages/pull/1781))
+- Log-scale the Downloads rule ([#1772](https://github.com/djangopackages/djangopackages/pull/1772))
+- Dormancy: heavy downloads keep a package awake, and only a PyPI link makes releases count ([#1773](https://github.com/djangopackages/djangopackages/pull/1773))
+- Make the searchv3 rules the package score ([#1771](https://github.com/djangopackages/djangopackages/pull/1771))
+- Label deprecates_package as &#34;replaced by&#34; so it is set on the right package ([#1770](https://github.com/djangopackages/djangopackages/pull/1770))
+- Lower the grid cutoff from 35 to 32 ([#1768](https://github.com/djangopackages/djangopackages/pull/1768))
+
 ## [2026-10-24]
 ### Changed
 - Match PyPI docs links by label prefix and hostname ([#1745](https://github.com/djangopackages/djangopackages/pull/1745))
