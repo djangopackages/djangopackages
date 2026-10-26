@@ -11,6 +11,10 @@ from core.models import BaseModel
 
 
 class Post(BaseModel):
+    class Status(models.TextChoices):
+        DRAFT = "draft", "Draft"
+        PUBLISHED = "published", "Published"
+
     title = models.CharField(max_length=200)
     slug = models.SlugField(
         blank=True,
@@ -21,6 +25,11 @@ class Post(BaseModel):
     content = models.TextField()
     author = models.CharField(blank=True, max_length=200, null=True)
     published_date = models.DateTimeField(blank=True, null=True)
+    status = models.CharField(
+        max_length=10,
+        choices=Status.choices,
+        default=Status.DRAFT,
+    )
 
     objects = PostManager()
 

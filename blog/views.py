@@ -8,11 +8,17 @@ class PostDetail(DetailView):
     template_name = "blog/post_detail.html"
     context_object_name = "post"
 
+    def get_queryset(self):
+        return Post.objects.published()
+
 
 class PostOpenGraphView(DetailView):
     model = Post
     template_name = "partials/opengraph_card.html"
     context_object_name = "post"
+
+    def get_queryset(self):
+        return Post.objects.published()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -31,3 +37,6 @@ class PostList(ListView):
     model = Post
     ordering = ["-published_date"]
     template_name = "blog/post_list.html"
+
+    def get_queryset(self):
+        return Post.objects.published()

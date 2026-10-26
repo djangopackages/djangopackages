@@ -73,7 +73,7 @@ class OpenGraphPreviewView(LoginRequiredMixin, UserPassesTestMixin, TemplateView
             Profile.objects.order_by("-user__date_joined"),
             prefer={"github_account__gt": ""},
         )
-        post = Post.objects.active().first()
+        post = Post.objects.published().first()
         category = Category.objects.order_by("title").first()
         release = Release.objects.select_related("product").order_by("-release").first()
 

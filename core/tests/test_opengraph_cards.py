@@ -87,7 +87,8 @@ class TestChangelogCard:
             title="A release",
             slug="a-release",
             content="We shipped a thing. " * 30,
-            published_date="2026-01-01T00:00:00Z",
+            published_date="2020-01-01T00:00:00Z",
+            status="published",
         )
 
     def test_the_page_points_at_the_card(self, client, post):
