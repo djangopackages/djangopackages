@@ -22,30 +22,10 @@ PROVIDERS = {
     "gitlab.com": {"type": "nested", "max_segments": None},
 }
 
-# Hosts that are never a source repository, whatever the path looks like.
-# Each one has turned up in the repository field in production: PyPI pages
-# (there is a separate PyPI URL field), gists and GitHub Pages sites,
-# documentation hosts, storefronts, this site itself, and hosting that shut
-# down years ago. A match on the host or any parent domain is rejected.
-NOT_REPOSITORY_HOSTS = frozenset(
-    {
-        "pypi.org",
-        "pypi.python.org",
-        "test.pypi.org",
-        "gist.github.com",
-        "github.io",
-        "gitlab.io",
-        "readthedocs.io",
-        "readthedocs.org",
-        "djangopackages.org",
-        "localhost",
-        "gumroad.com",
-        "code.google.com",
-        "googlecode.com",
-        "launchpad.net",
-        "sourceforge.net",
-    }
-)
+# A PyPI page is not a repository, and the add form has a separate PyPI URL
+# field for it. Nothing else is judged by host: self-hosted Forgejo, GitLab,
+# Gitea and the rest live on any domain and must keep passing.
+PYPI_HOSTS = frozenset({"pypi.org", "pypi.python.org", "test.pypi.org"})
 
 # URL path markers to strip
 URL_MARKERS = {
@@ -112,11 +92,10 @@ def normalize_repo_url(
     if not host:
         raise RepoURLError("Could not extract hostname from URL")
 
-    if _is_not_a_repository_host(host):
+    if host in PYPI_HOSTS:
         raise RepoURLError(
-            f"'{host}' is not a source code host. Enter the GitHub, GitLab, "
-            "Bitbucket, Codeberg or Forgejo URL of the repository. A PyPI "
-            "page goes in the PyPI URL field."
+            "That is a PyPI page, not a repository. Enter the URL of the source "
+            "repository here and put the PyPI page in the PyPI URL field."
         )
 
     # Validate allowed hosts
@@ -149,16 +128,6 @@ def normalize_repo_url(
         repo_path = "/".join(segments[:2])
 
     return f"https://{host}/{repo_path}".lower()
-
-
-def _is_not_a_repository_host(host: str) -> bool:
-    """True for a host in NOT_REPOSITORY_HOSTS or under one of them."""
-    # GitHub has no per-user subdomains: anything.github.com is a legacy
-    # GitHub Pages site (or the API), never a repository.
-    if host.endswith(".github.com"):
-        return True
-    parts = host.split(".")
-    return any(".".join(parts[i:]) in NOT_REPOSITORY_HOSTS for i in range(len(parts)))
 
 
 def _parse_url(url: str) -> tuple[str, str]:

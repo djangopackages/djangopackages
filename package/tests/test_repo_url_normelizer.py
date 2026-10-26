@@ -150,27 +150,32 @@ class TestNormalizeRepoURL:
     @pytest.mark.parametrize(
         "url",
         [
-            # Every one of these has been saved as a repository URL in production.
             "https://pypi.org/project/django-salesman/",
             "http://pypi.python.org/pypi/django-autoreports",
-            "https://gist.github.com/ionelmc/7128465",
-            "http://znc-sistemas.github.com/django-municipios",
-            "http://znc-sistemas.github.io/django-municipios",
-            "http://entegrator.readthedocs.io/en/latest",
-            "https://djangopackages.org/packages/add/chogiday",
-            "http://localhost:8000/polls",
-            "https://websightful.gumroad.com/l/django-gdpr-cookie-consent",
-            "http://code.google.com/p/django-forum/",
-            "http://django-thumbs.googlecode.com/svn/trunk/",
-            "https://launchpad.net/django-testscenarios/",
+            "https://test.pypi.org/project/something/",
         ],
     )
-    def test_not_a_repository_host(self, url):
-        with pytest.raises(RepoURLError, match="not a source code host"):
+    def test_pypi_page_is_not_a_repository(self, url):
+        with pytest.raises(RepoURLError, match="PyPI page, not a repository"):
             normalize_repo_url(url)
 
-    def test_github_pages_rule_does_not_catch_github_com(self):
-        assert (
-            normalize_repo_url("https://github.com/django/django")
-            == "https://github.com/django/django"
-        )
+    @pytest.mark.parametrize(
+        "url,expected",
+        [
+            # Self-hosted forges on any domain keep passing.
+            (
+                "https://git.boelz.eu/tmb/django-svg-sprite",
+                "https://git.boelz.eu/tmb/django-svg-sprite",
+            ),
+            (
+                "https://framagit.org/SebGen/wagtailpress",
+                "https://framagit.org/sebgen/wagtailpress",
+            ),
+            (
+                "https://forge.cliss21.org/cliss21/wagtailembedpeertube",
+                "https://forge.cliss21.org/cliss21/wagtailembedpeertube",
+            ),
+        ],
+    )
+    def test_self_hosted_forges_still_pass(self, url, expected):
+        assert normalize_repo_url(url) == expected
