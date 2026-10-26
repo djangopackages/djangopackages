@@ -371,7 +371,7 @@ zero.
 
 Pass `--min-score=-500` to reach the abandoned ones. That is the set worth
 scanning when the question is which packages are broken against modern
-Django, because that is exactly where removed APIs survive. Checkouts live under `PACKAGE_REPO_ROOT` (`/repos` in
+Django, because that is exactly where removed APIs survive. Checkouts live under `PACKAGE_REPO_ROOT` (`/data/repos` in
 the container), one directory per
 package slug, and are refreshed in place rather than re-cloned.
 
