@@ -109,6 +109,7 @@ dependencies = [
     "numpy",
     "openai",
     "packaging",
+    "Pillow",
     "psutil",
     "psycopg[binary, pool]",
     "pydantic",
