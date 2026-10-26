@@ -268,7 +268,7 @@ def command(new_min, grid_slugs, changes, csv_path):
             "grids showing 3 or more": sum(
                 1 for o in outcomes.values() if len(o.shown) >= 3
             ),
-            "grids on the above-zero fallback": sum(
+            "grids showing everything (nothing clears the bar)": sum(
                 1 for o in outcomes.values() if o.cutoff != score_min
             ),
         }

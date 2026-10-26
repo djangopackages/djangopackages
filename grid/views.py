@@ -117,9 +117,11 @@ class GridDetailView(DetailView):
         )
 
     def get_packages(
-        self, grid: Grid, filter_data: dict[str, Any]
+        self, grid: Grid, filter_data: dict[str, Any], cutoff: int | None = None
     ) -> QuerySet[Package]:
         """Get filtered and sorted packages"""
+        if cutoff is None:
+            cutoff = cutoff_for(grid)
         usage_count_subquery = (
             User.objects.filter(package__id=OuterRef("pk"))
             .values("package__id")
@@ -128,7 +130,7 @@ class GridDetailView(DetailView):
         )
         packages = (
             Package.objects.active()
-            .filter(gridpackage__grid=grid, score__gte=cutoff_for(grid))
+            .filter(gridpackage__grid=grid, score__gte=cutoff)
             .select_related(
                 "category",
                 "latest_version",
@@ -274,7 +276,8 @@ class GridDetailView(DetailView):
         self, *, grid: Grid, filter_data: dict[str, Any]
     ) -> dict[str, Any]:
         # Compute the expensive payload once per grid/version/filter.
-        packages_qs = self.get_packages(grid, filter_data)
+        cutoff = cutoff_for(grid)
+        packages_qs = self.get_packages(grid, filter_data, cutoff)
 
         total_package_count = self._get_total_package_count(grid)
         packages, has_more_packages = self._limit_packages(
@@ -308,6 +311,10 @@ class GridDetailView(DetailView):
             "is_filtered": bool(filter_data.get("q"))
             or bool(filter_data.get("stable")),
             "show_features": show_features,
+            # Nothing in this grid clears the bar, so the table is showing
+            # packages that would otherwise be hidden. The page warns.
+            "below_threshold": bool(packages) and cutoff < settings.PACKAGE_SCORE_MIN,
+            "score_min": settings.PACKAGE_SCORE_MIN,
         }
 
     def _get_or_build_payload(
@@ -342,6 +349,8 @@ class GridDetailView(DetailView):
                 "has_more_packages": payload["has_more_packages"],
                 "is_filtered": payload.get("is_filtered", False),
                 "show_features": payload.get("show_features", True),
+                "below_threshold": payload.get("below_threshold", False),
+                "score_min": payload.get("score_min", settings.PACKAGE_SCORE_MIN),
                 "max_packages": self.max_packages,
                 **self._edit_permissions(grid),
             }

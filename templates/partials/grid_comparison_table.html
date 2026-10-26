@@ -1,6 +1,20 @@
 {% load grid_tags humanize i18n package_tags static waffle_tags %}
 
 {% if packages %}
+    {% if below_threshold %}
+        <!-- Below-threshold warning: nothing in this grid clears the score bar -->
+        <div class="mb-4 rounded-lg border border-amber-500/40 bg-amber-500/10 p-4" data-testid="below-threshold-warning">
+            <div class="flex items-start gap-3">
+                <i class="ph-bold ph-warning text-xl text-amber-600 dark:text-amber-400"></i>
+                <p class="text-foreground text-sm">
+                    {% blocktranslate with score_min=score_min %}
+                        None of these packages meets our quality threshold. Each scores below {{ score_min }}, usually because it has gone a long time without a release or commit. They are shown so you can still see what exists, not as a recommendation.
+                    {% endblocktranslate %}
+                    <a href="{% url 'grid_packages' grid.slug %}" class="text-primary underline">{% translate "View the full list" %}</a>
+                </p>
+            </div>
+        </div>
+    {% endif %}
 <!-- Desktop Table View -->
     <div class="card hidden overflow-hidden md:block">
         <div class="overflow-x-auto">
