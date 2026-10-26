@@ -66,3 +66,23 @@ class Post(BaseModel):
         html = MarkdownIt("gfm-like", {"linkify": True}).render(self.content)
         text = " ".join(unescape(strip_tags(html)).split())
         return Truncator(text).chars(130)
+
+
+class PostImage(BaseModel):
+    """An image an author uploads to embed in a Post's Markdown content.
+
+    The admin shows a ready-to-paste `![](url)` snippet; the author drops it
+    into a post's `content`, where the `markdown` filter renders it as `<img>`.
+    """
+
+    image = models.ImageField(upload_to="blog/")
+
+    def __str__(self):
+        return self.image.name
+
+    @property
+    def markdown(self):
+        if not self.image:
+            return ""
+        # ty: ignore[unresolved-attribute] — ImageField returns a FieldFile with .url
+        return f"![]({self.image.url})"
