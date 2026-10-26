@@ -920,15 +920,19 @@ class GridHiddenPackageCountTest(TestCase):
         self.assertTrue(response.context["has_more_packages"])
         self.assertContains(response, "Showing 2 of 7 packages")
 
-    def test_a_grid_of_only_low_scorers_explains_itself(self):
+    def test_a_grid_of_only_low_scorers_shows_them_with_a_warning(self):
         self._add(7, -10, "weak")
 
         response = self.get()
 
         self.assertEqual(response.context["total_package_count"], 7)
-        self.assertEqual(len(response.context["packages"]), 0)
-        self.assertContains(response, "Nothing to compare yet")
-        self.assertContains(response, "score too low")
+        self.assertEqual(len(response.context["packages"]), 7)
+        self.assertTrue(response.context["below_threshold"])
+        self.assertContains(
+            response, "None of these packages meets our quality threshold"
+        )
+        self.assertContains(response, "Each scores below 10")
+        self.assertNotContains(response, "Nothing to compare yet")
         # Inviting someone to add a package to a grid that already holds seven
         # was the actively wrong part.
         self.assertNotContains(response, "No packages found")
@@ -941,6 +945,15 @@ class GridHiddenPackageCountTest(TestCase):
         self.assertContains(
             response, reverse("grid_packages", kwargs={"slug": "hidden-count"})
         )
+
+    def test_a_grid_that_clears_the_bar_gets_no_warning(self):
+        self._add(2, 50, "good")
+        self._add(5, -10, "weak")
+
+        response = self.get()
+
+        self.assertFalse(response.context["below_threshold"])
+        self.assertNotContains(response, "quality threshold")
 
     def test_a_genuinely_empty_grid_still_asks_for_packages(self):
         response = self.get()
@@ -1049,8 +1062,8 @@ class GridScoreCutoffTest(TestCase):
 
 @override_settings(PACKAGE_SCORE_MIN=50)
 class GridScoreFallbackTest(TestCase):
-    """A grid where nothing clears the bar shows what scores above zero,
-    rather than nothing, as long as it holds more than one package."""
+    """A grid where nothing clears the bar shows every active package under
+    a warning, rather than nothing. See #1790."""
 
     def setUp(self):
         for cache_backend in caches.all(initialized_only=False):
@@ -1078,14 +1091,16 @@ class GridScoreFallbackTest(TestCase):
         response = self.client.get(reverse("grids"))
         return next(g for g in response.context["grids"] if g.slug == slug)
 
-    def test_nothing_above_the_bar_shows_whatever_is_above_zero(self):
+    def test_nothing_above_the_bar_shows_everything(self):
         self._grid("weak", [30, 12, 0, -15])
 
         response, shown = self._shown("weak")
 
-        self.assertEqual(shown, [12, 30])
-        self.assertContains(response, "Showing 2 of 4 packages")
-        self.assertEqual(self._active("weak").active_gridpackage_count, 2)
+        self.assertEqual(shown, [-15, 0, 12, 30])
+        self.assertTrue(response.context["below_threshold"])
+        self.assertContains(response, "Each scores below 50")
+        self.assertNotContains(response, "packages in this grid")
+        self.assertEqual(self._active("weak").active_gridpackage_count, 4)
 
     def test_one_package_over_the_bar_hides_the_rest(self):
         self._grid("mixed", [60, 30, 12])
@@ -1095,18 +1110,19 @@ class GridScoreFallbackTest(TestCase):
         self.assertEqual(shown, [60])
         self.assertEqual(self._active("mixed").active_gridpackage_count, 1)
 
-    def test_zero_is_still_too_low(self):
+    def test_zero_scorers_are_shown_too(self):
         self._grid("stale", [0, 0, -500])
 
         _response, shown = self._shown("stale")
 
-        self.assertEqual(shown, [])
-        self.assertEqual(self._active("stale").active_gridpackage_count, 0)
+        self.assertEqual(shown, [-500, 0, 0])
+        self.assertEqual(self._active("stale").active_gridpackage_count, 3)
 
-    def test_a_single_package_grid_gets_no_fallback(self):
+    def test_a_single_package_grid_shows_its_package(self):
         self._grid("lonely", [30])
 
-        _response, shown = self._shown("lonely")
+        response, shown = self._shown("lonely")
 
-        self.assertEqual(shown, [])
-        self.assertEqual(self._active("lonely").active_gridpackage_count, 0)
+        self.assertEqual(shown, [30])
+        self.assertTrue(response.context["below_threshold"])
+        self.assertEqual(self._active("lonely").active_gridpackage_count, 1)
