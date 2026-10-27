@@ -26,6 +26,22 @@ Dry run of the package score as `searchv3/rules.py` computes it against the stor
 docker compose run django uv run manage.py compare_scores [--new-min 30] [--grid <slug>] [--csv scores.csv]
 ```
 
+## clean_documentation_urls
+
+Blanks every `documentation_url` that only leads back to something the
+package page already links: the package's own repository (with or without a
+fragment like `#readme`), a README file in any repository, a bare
+`owner/repo` page on a code host, or a PyPI page. A wiki or a `docs/` folder
+inside the repository is kept, since that is a separate thing to read. The
+package forms and the PyPI updater reject or skip the same URLs for new
+values (`package.utils.documentation_url_problem`), so this is for what was
+saved before that rule existed. `--dry-run` prints the counts and examples
+per reason without writing.
+
+```shell
+docker compose run django uv run manage.py clean_documentation_urls [--dry-run] [--slug <slug>]
+```
+
 ## cleanup_github_projects
 
 Migrates legacy (http) GitHub packages to https. Migrates existing packages that have moved on GitHub, so their data stays up-to-date.

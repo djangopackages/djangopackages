@@ -5,6 +5,34 @@ from django.utils.translation import gettext_lazy as _
 from core.utils import PackageStatus
 from package.models import Category, FlaggedPackage, Package
 from package.repos.repo_url_normelizer import normalize_repo_url
+from package.utils import documentation_url_problem
+
+DOCUMENTATION_URL_ERRORS = {
+    "pypi": _(
+        "That is the PyPI page, which the package page already links. "
+        "Enter a documentation site here, or leave it blank."
+    ),
+    "repo": _(
+        "That is the repository, which the package page already links. "
+        "Enter a documentation site here, or leave it blank."
+    ),
+    "readme": _(
+        "That is the README, which the repository link already shows. "
+        "Enter a documentation site here, or leave it blank."
+    ),
+    "forge": _(
+        "That is a repository page, which only shows a README. "
+        "Enter a documentation site here, or leave it blank."
+    ),
+}
+
+
+def clean_documentation_url_field(form, repo_url):
+    """Shared clean for the two forms that take a documentation URL."""
+    url = form.cleaned_data.get("documentation_url")
+    if problem := documentation_url_problem(url, repo_url=repo_url):
+        raise forms.ValidationError(DOCUMENTATION_URL_ERRORS[problem])
+    return url
 
 
 def package_help_text():
@@ -91,6 +119,13 @@ class BasePackageForm(ModelForm):
             pypi_url = f"https://pypi.org/project/{pypi_url}/"
         return pypi_url
 
+    def clean_documentation_url(self):
+        # Fields clean in Meta.fields order, so repo_url is already in.
+        repo_url = self.cleaned_data.get("repo_url") or (
+            self.instance.repo_url if self.instance.pk else None
+        )
+        return clean_documentation_url_field(self, repo_url)
+
 
 class PackageCreateForm(BasePackageForm):
     def __init__(self, *args, **kwargs):
@@ -124,6 +159,9 @@ class DocumentationForm(ModelForm):
         fields = [
             "documentation_url",
         ]
+
+    def clean_documentation_url(self):
+        return clean_documentation_url_field(self, self.instance.repo_url)
 
 
 class BasePackageFilterForm(forms.Form):
