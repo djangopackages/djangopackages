@@ -1,5 +1,19 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-10-26]
+### Changed
+- Show the deployed version in the footer ([#1803](https://github.com/djangopackages/djangopackages/pull/1803))
+- Link the Fosstodon account in the footer with rel=me ([#1801](https://github.com/djangopackages/djangopackages/pull/1801))
+- Let staff preview a draft or scheduled post at its URL, with a banner ([#1800](https://github.com/djangopackages/djangopackages/pull/1800))
+- :sparkles: Let authors embed uploaded images in a Post&#39;s content ([#1795](https://github.com/djangopackages/djangopackages/pull/1795))
+- Read MEDIA_ROOT per request in the media view ([#1798](https://github.com/djangopackages/djangopackages/pull/1798))
+- :sparkles: Add Post status; only published posts display ([#1793](https://github.com/djangopackages/djangopackages/pull/1793))
+- Serve uploaded media from MEDIA_ROOT with DEBUG off ([#1797](https://github.com/djangopackages/djangopackages/pull/1797))
+- Move package checkouts to /data/repos beside /data/media ([#1796](https://github.com/djangopackages/djangopackages/pull/1796))
+- Show every package, under a warning, in a grid where nothing clears the score bar ([#1791](https://github.com/djangopackages/djangopackages/pull/1791))
+- [prek]: auto-update hooks ([#1789](https://github.com/djangopackages/djangopackages/pull/1789))
+- Reject a PyPI page in the repository URL field, allow dotted Bitbucket usernames ([#1787](https://github.com/djangopackages/djangopackages/pull/1787))
+
 ## [2026-10-25]
 ### Changed
 - Put the &#34;I use this&#34; button back on the package page ([#1786](https://github.com/djangopackages/djangopackages/pull/1786))
