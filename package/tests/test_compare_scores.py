@@ -22,6 +22,7 @@ def grid_with_packages(db):
         category=category,
         repo_url="https://github.com/t/fresh",
         repo_description="Fresh and described",
+        documentation_url="https://fresh.readthedocs.io/",
         repo_watchers=5_000,
         repo_forks=0,
         pypi_downloads=0,
@@ -59,8 +60,9 @@ def test_compare_scores_runs_and_writes_nothing(grid_with_packages, settings, tm
     assert "2 active packages, 1 approved grids" in result.output
     assert "Effect on the grids" in result.output
     # Under the stored scores both show and stale is on top. Under the
-    # rules fresh is 50 (not deprecated, description, updated, watchers)
-    # and stale 37, so at a cutoff of 50 stale drops and the top changes.
+    # rules fresh is 57 (not deprecated, description, documentation,
+    # usage floor, watchers: 81 of 140) and stale fades to single digits,
+    # so at a cutoff of 50 stale drops and the top changes.
     assert "Points by rule" in result.output
     assert "grids whose top package changes" in result.output
     assert "stored only" in result.output

@@ -160,7 +160,7 @@ class FunctionalGridTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "grid/grid_detail.html")
 
-        self.assertContains(response, "Scores (0-100) add up six checks")
+        self.assertContains(response, "Scores (0-100) add up seven checks")
 
     @override_flag("enabled_packages_score_values", active=False)
     @pytest.mark.deprecated(
@@ -178,7 +178,7 @@ class FunctionalGridTest(TestCase):
 
         self.assertNotContains(
             response,
-            "Scores (0-100) add up six checks",
+            "Scores (0-100) add up seven checks",
         )
 
     def test_add_feature_view(self):

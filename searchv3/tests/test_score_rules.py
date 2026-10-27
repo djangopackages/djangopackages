@@ -10,6 +10,7 @@ from searchv3.rules import (
     DeprecatedRule,
     ActivityRule,
     DescriptionRule,
+    DocumentationRule,
     DownloadsRule,
     ForkRule,
     UsageCountRule,
@@ -170,10 +171,10 @@ class ActivityRuleTest(TestCase):
         )
         result = score_package(package)
         # not deprecated 20, description 20, downloads 16, forks 20, watchers 20
-        # = 96 of 120 = 80, then a quarter of that at four years.
+        # = 96 of 140 = 68.6, then a quarter of that at four years.
         self.assertEqual(sum(item["score"] for item in result["breakdown"]), 96)
         self.assertAlmostEqual(result["factor"], 0.25, places=2)
-        self.assertEqual(result["total_score"], 20)
+        self.assertEqual(result["total_score"], 17)
 
     def test_age_text(self):
         for days, text in [
@@ -190,12 +191,12 @@ class ActivityRuleTest(TestCase):
 
 
 class ScorePackageTest(TestCase):
-    """`score_package` is `Package.score`: the activity factor plus six rules, 20 points each."""
+    """`score_package` is `Package.score`: the activity factor plus seven rules, 20 points each."""
 
-    def test_factor_plus_six_rules_scaled_to_100(self):
-        self.assertEqual(len(PACKAGE_RULES), 7)
+    def test_factor_plus_seven_rules_scaled_to_100(self):
+        self.assertEqual(len(PACKAGE_RULES), 8)
         self.assertIsInstance(PACKAGE_RULES[0], ActivityRule)
-        self.assertEqual(sum(rule.max_score for rule in PACKAGE_RULES), 120)
+        self.assertEqual(sum(rule.max_score for rule in PACKAGE_RULES), 140)
 
     def test_fresh_100_stars_nothing_else(self):
         package = baker.make(
@@ -207,8 +208,8 @@ class ScorePackageTest(TestCase):
             last_commit_date=timezone.now(),
         )
         result = score_package(package)
-        # not deprecated 20 + usage floor 1 + watchers 20 = 41 of 120.
-        self.assertEqual(result["total_score"], 34)
+        # not deprecated 20 + usage floor 1 + watchers 20 = 41 of 140.
+        self.assertEqual(result["total_score"], 29)
         self.assertEqual(
             [item["rule"] for item in result["breakdown"]],
             [rule.name for rule in PACKAGE_RULES],
@@ -294,6 +295,47 @@ class ScorePackageTest(TestCase):
                 self.assertEqual(
                     UsageCountRule().check(package=package).score, expected
                 )
+
+
+class DocumentationRuleTest(TestCase):
+    def _check(self, url):
+        # Not saved: repo_url is unique and the subtests reuse it.
+        package = baker.prepare(
+            "package.Package",
+            repo_url="https://github.com/t/docs-rule",
+            documentation_url=url,
+        )
+        return DocumentationRule().check(package=package)
+
+    def test_a_documentation_site_scores(self):
+        result = self._check("https://docs-rule.readthedocs.io/")
+        self.assertEqual(result.score, 20)
+        self.assertIn(
+            "Documentation at https://docs-rule.readthedocs.io/", result.message
+        )
+
+    def test_a_wiki_inside_the_repository_counts(self):
+        self.assertEqual(self._check("https://github.com/t/docs-rule/wiki").score, 20)
+
+    def test_no_url_scores_nothing(self):
+        for url in ("", None):
+            with self.subTest(url=url):
+                result = self._check(url)
+                self.assertEqual(result.score, 0)
+                self.assertEqual(result.message, "No documentation URL.")
+
+    def test_the_repository_readme_and_pypi_score_nothing(self):
+        for url, what in [
+            ("https://github.com/t/docs-rule", "the repository"),
+            ("https://github.com/t/docs-rule#readme", "the repository"),
+            ("https://github.com/t/docs-rule/blob/main/README.md", "a README"),
+            ("https://github.com/other/docs-rule", "a repository page"),
+            ("https://pypi.org/project/docs-rule/", "the PyPI page"),
+        ]:
+            with self.subTest(url=url):
+                result = self._check(url)
+                self.assertEqual(result.score, 0)
+                self.assertIn(what, result.message)
 
 
 class CalcGridWeightTest(TestCase):
