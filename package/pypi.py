@@ -14,7 +14,7 @@ from packaging.specifiers import InvalidSpecifier, SpecifierSet
 
 from core.utils import status_choices_switch
 from package import licenses
-from package.utils import maybe_set_documentation_url
+from package.utils import maybe_set_documentation_url, usable_documentation_url
 
 logger = logging.getLogger(__name__)
 
@@ -362,8 +362,12 @@ def update_package_from_pypi(
     if pypi_info.supports_python3 is not None:
         package.supports_python3 = pypi_info.supports_python3
 
-    if pypi_info.docs_url:
-        package.documentation_url = pypi_info.docs_url
+    # A Documentation link that is really the repository or README is
+    # treated as none, so the homepage fallback gets its turn.
+    if docs_url := usable_documentation_url(
+        pypi_info.docs_url, repo_url=package.repo_url
+    ):
+        package.documentation_url = docs_url
     else:
         maybe_set_documentation_url(package, pypi_info.homepage_url)
 

@@ -54,6 +54,23 @@ def test_github_skips_homepage_that_points_at_repo(package, github_handler):
     assert package.documentation_url in {"", None}
 
 
+def test_github_homepage_that_is_another_repo_page_is_skipped(package, github_handler):
+    # A repository that moved owners often keeps the old URL as its homepage.
+    package.documentation_url = ""
+    package.save()
+    repo = _mock_github_repo(homepage="https://github.com/old-owner/django-probe")
+
+    with (
+        patch.object(github_handler, "_get_repo", return_value=repo),
+        patch.object(github_handler, "_fetch_commit_stats"),
+        patch.object(github_handler, "manage_ratelimit"),
+    ):
+        github_handler.fetch_metadata(package)
+
+    package = Package.objects.get(id=package.id)
+    assert package.documentation_url in {"", None}
+
+
 def test_github_does_not_overwrite_existing_documentation_url(package, github_handler):
     package.documentation_url = "https://manual.example.com"
     package.save()
