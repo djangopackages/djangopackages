@@ -22,7 +22,7 @@ def test_rules_page_total_matches_stored_score(db, client, category):
 
     assert response.status_code == 200
     assert response.context["package_score"]["total_score"] == package.score
-    assert len(response.context["package_score"]["breakdown"]) == 7
+    assert len(response.context["package_score"]["breakdown"]) == 8
 
 
 def test_faded_package_page_says_so(db, client, category):
@@ -36,8 +36,8 @@ def test_faded_package_page_says_so(db, client, category):
         last_commit_date=timezone.now() - timezone.timedelta(days=365 * 4),
     )
     update_package_score(package, save=True)
-    # not deprecated 20, description 20, watchers 20 = 60 of 120 = 50, a quarter of it.
-    assert package.score == 12
+    # not deprecated 20, description 20, watchers 20 = 60 of 140 = 42.9, a quarter of it.
+    assert package.score == 10
 
     response = client.get(reverse("package", kwargs={"slug": "faded"}))
 

@@ -10,9 +10,9 @@ from package.scores import (
 )
 
 # 100 stars, committed today, nothing else known: not deprecated (20),
-# commit in the last 3 months (20), watchers (20) of 160, scaled to 100.
+# usage floor (1), watchers (20) of 140, scaled to 100.
 # The rules themselves are covered in searchv3/tests/test_score_rules.py.
-FRESH_100_STARS = 34
+FRESH_100_STARS = 29
 
 
 def test_update_package_score_archived_loses_the_deprecated_rule(db, category):
@@ -28,8 +28,8 @@ def test_update_package_score_archived_loses_the_deprecated_rule(db, category):
 
     assert update_package_score(package, save=True) is True
     package.refresh_from_db()
-    # Fresh with 100 stars is 34; archived forfeits the 20 "not deprecated" points.
-    assert package.score == 17
+    # Fresh with 100 stars is 29; archived forfeits the 20 "not deprecated" points.
+    assert package.score == 15
 
 
 def test_update_package_score_updates_when_changed(db, category):

@@ -1,4 +1,4 @@
-"""The package score: six checks, 20 points each, faded by time since the last release.
+"""The package score: seven checks, 20 points each, faded by time since the last release.
 
 `Package.score` is `score_package(package)["total_score"]`. The grids
 sort on it and cut their comparison tables at `PACKAGE_SCORE_MIN`, the
@@ -6,7 +6,7 @@ search index weights packages by it, and the Package Score page lists
 the checks with the points each one earned. One number, one place
 (#1563).
 
-The six point rules add up to 120, scaled to 100. That total is then
+The seven point rules add up to 140, scaled to 100. That total is then
 multiplied by `Package.activity_factor` (`ActivityRule`): 1.0 for a
 year after the latest PyPI release, or the latest commit for a package
 not on PyPI, then halving every eighteen months. Two and a half years
@@ -21,6 +21,7 @@ from django.conf import settings
 from pydantic import BaseModel
 
 from package.models import Package
+from package.utils import documentation_url_problem
 
 
 class CheckResult(BaseModel):
@@ -142,17 +143,41 @@ class DescriptionRule(ScoreRule):
 
 
 class DocumentationRule(ScoreRule):
+    """Points for a documentation site.
+
+    The documentation URL has to lead somewhere the package page does
+    not already: a link back to the repository, to a README, or to the
+    PyPI page scores nothing (`package.utils.documentation_url_problem`
+    is the test, the same one the forms apply). A wiki or a docs folder
+    inside the repository counts.
+    """
+
     name: str = "Documentation Rule"
-    description: str = "Check if the package has a documentation URL"
+    description: str = (
+        "Check if the package links a documentation site, not just its "
+        "repository, README or PyPI page"
+    )
     max_score: int = 20
     documentation_url: str = (
         f"{settings.DOCS_URL}/rules/#searchv3.rules.DocumentationRule"
     )
 
     def check(self, package: Package) -> CheckResult:
-        if package.documentation_url:
-            return CheckResult(score=self.max_score, message="Documentation exists.")
-        return CheckResult(score=0, message="No documentation.")
+        url = (package.documentation_url or "").strip()
+        if not url:
+            return CheckResult(score=0, message="No documentation URL.")
+        if problem := documentation_url_problem(url, repo_url=package.repo_url):
+            what = {
+                "pypi": "the PyPI page",
+                "repo": "the repository",
+                "readme": "a README",
+                "forge": "a repository page",
+            }[problem]
+            return CheckResult(
+                score=0,
+                message=f"The documentation URL is {what}, which does not count.",
+            )
+        return CheckResult(score=self.max_score, message=f"Documentation at {url}.")
 
 
 class DownloadsRule(ScoreRule):
@@ -323,12 +348,13 @@ def calc_package_weight(
 
 
 # The checks that make up `Package.score`, in the order the score page
-# lists them. The activity factor first, then six rules at 20 points
-# each, 120 scaled to 100 and multiplied by the factor.
+# lists them. The activity factor first, then seven rules at 20 points
+# each, 140 scaled to 100 and multiplied by the factor.
 PACKAGE_RULES: list[ScoreRule] = [
     ActivityRule(),
     DeprecatedRule(),
     DescriptionRule(),
+    DocumentationRule(),
     DownloadsRule(),
     ForkRule(),
     UsageCountRule(),

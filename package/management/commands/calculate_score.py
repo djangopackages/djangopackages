@@ -84,7 +84,7 @@ def command(
     """
     Calculate and update package scores efficiently.
 
-    The score is 0 to 100: six checks worth 20 points each, scaled, then
+    The score is 0 to 100: seven checks worth 20 points each, scaled, then
     multiplied by the activity factor (full for a year after the latest
     release, or latest commit for a package not on PyPI, then halving every
     eighteen months). See searchv3/rules.py.
