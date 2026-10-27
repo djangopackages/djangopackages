@@ -23,6 +23,7 @@ from packaging.version import InvalidVersion, Version
 
 from probes import removals
 from probes.models import SETTINGS_PREFIX, ProbeSymbol
+from probes.version_support import FRAMEWORK_CLASSIFIERS
 
 CACHE_SECONDS = 60 * 15
 GENERATION_KEY = "probe-stats:generation"
@@ -65,6 +66,8 @@ class Totals:
     scanned: int = 0
     with_python: int = 0
     with_django: int = 0
+    with_wagtail: int = 0
+    with_django_cms: int = 0
     with_dependencies: int = 0
     files_scanned: int = 0
     distinct_symbols: int = 0
@@ -108,6 +111,8 @@ def totals() -> Totals:
         result.scanned,
         result.with_python,
         result.with_django,
+        result.with_wagtail,
+        result.with_django_cms,
         result.with_dependencies,
         result.files_scanned,
     ) = _query(
@@ -116,6 +121,8 @@ def totals() -> Totals:
                count(*) FILTER (WHERE scanned_at IS NOT NULL),
                count(*) FILTER (WHERE jsonb_array_length(python_versions) > 0),
                count(*) FILTER (WHERE jsonb_array_length(django_versions) > 0),
+               count(*) FILTER (WHERE framework_versions ? 'wagtail'),
+               count(*) FILTER (WHERE framework_versions ? 'django-cms'),
                count(*) FILTER (WHERE jsonb_array_length(dependencies) > 0),
                coalesce(sum(files_scanned), 0)
         FROM probes_packageprobe
@@ -157,6 +164,26 @@ def version_rows(column: str) -> list[Row]:
              jsonb_array_elements_text(p.{column}) AS cycle
         GROUP BY 1
         """  # noqa: S608 - column is checked against a literal set above
+    )
+    return _sorted_by_version([Row(label=cycle, packages=n) for cycle, n in rows])
+
+
+def framework_version_rows(framework: str) -> list[Row]:
+    """How many packages claim each cycle of a framework in framework_versions.
+
+    The column is one JSON object keyed by framework, so the cycles come
+    out of `->` rather than straight from the column.
+    """
+    if framework not in FRAMEWORK_CLASSIFIERS:
+        raise ValueError(framework)
+    rows = _query(
+        """
+        SELECT cycle, count(DISTINCT p.package_id)
+        FROM probes_packageprobe p,
+             jsonb_array_elements_text(p.framework_versions -> %s) AS cycle
+        GROUP BY 1
+        """,
+        [framework],
     )
     return _sorted_by_version([Row(label=cycle, packages=n) for cycle, n in rows])
 

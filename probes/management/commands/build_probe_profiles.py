@@ -44,7 +44,7 @@ def command(slugs: tuple[str, ...], limit: int | None, min_score: int, dry_run: 
     if limit:
         queryset = queryset[:limit]
 
-    profiles = deps_written = with_python = with_django = 0
+    profiles = deps_written = with_python = with_django = with_frameworks = 0
 
     for package in queryset.iterator(chunk_size=200):
         support = version_support(package)
@@ -54,6 +54,8 @@ def command(slugs: tuple[str, ...], limit: int | None, min_score: int, dry_run: 
             with_python += 1
         if support.django:
             with_django += 1
+        if support.frameworks:
+            with_frameworks += 1
         profiles += 1
         deps_written += len(dependencies)
 
@@ -67,6 +69,10 @@ def command(slugs: tuple[str, ...], limit: int | None, min_score: int, dry_run: 
             defaults={
                 "python_versions": list(support.python),
                 "django_versions": list(support.django),
+                "framework_versions": {
+                    framework: list(versions)
+                    for framework, versions in support.frameworks.items()
+                },
                 "python_source": support.python_source,
                 "django_source": support.django_source,
                 "dependencies": [
@@ -88,5 +94,6 @@ def command(slugs: tuple[str, ...], limit: int | None, min_score: int, dry_run: 
     suffix = "  [dim](dry run)[/dim]" if dry_run else ""
     rprint(
         f"profiles {profiles:,}  dependencies {deps_written:,}  "
-        f"python {with_python:,}  django {with_django:,}{suffix}"
+        f"python {with_python:,}  django {with_django:,}  "
+        f"wagtail/django-cms {with_frameworks:,}{suffix}"
     )

@@ -113,6 +113,34 @@ class TestVersionSupport:
         assert support.python_range == "3.10 - 3.11"
         assert support.django == ("5.1",)
 
+    def test_wagtail_and_django_cms_classifiers_are_kept_by_framework(self, cycles):
+        package = make_package(
+            pypi_classifiers=[
+                "Framework :: Wagtail",
+                "Framework :: Wagtail :: 8",
+                "Framework :: Wagtail :: 7",
+                "Framework :: Django CMS :: 5.1",
+                "Framework :: Django CMS :: 4.1",
+                "Framework :: Django CMS :: 5.0",
+            ],
+        )
+
+        support = version_support(package)
+
+        assert support.frameworks == {
+            "wagtail": ("7", "8"),
+            "django-cms": ("4.1", "5.0", "5.1"),
+        }
+        assert support.framework_range("wagtail") == "7 - 8"
+        assert support.framework_range("django-cms") == "4.1 - 5.1"
+        assert support.framework_range("flask") == ""
+        assert support.django == ()
+        assert support
+
+    def test_a_bare_framework_classifier_names_no_version(self, cycles):
+        package = make_package(pypi_classifiers=["Framework :: Wagtail"])
+        assert version_support(package).frameworks == {}
+
     def test_requires_python_is_resolved_when_there_are_no_classifiers(self, cycles):
         package = make_package(pypi_requires_python=">=3.10", published=days_ago(1))
 

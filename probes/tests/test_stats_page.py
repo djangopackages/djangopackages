@@ -25,6 +25,7 @@ def profile():
         python_source=PackageProbe.Source.CLASSIFIERS,
         django_versions=["5.1", "5.2"],
         django_source=PackageProbe.Source.CLASSIFIERS,
+        framework_versions={"wagtail": ["7", "8"], "django-cms": ["5.1"]},
         dependencies=[
             {"name": "django", "specifier": ">=5.1", "extra": "", "marker": ""}
         ],
@@ -93,6 +94,16 @@ class TestProbeStatsPage:
 
         assert "5.2" in content
         assert "3.12" in content
+
+    def test_it_shows_the_other_framework_shares(self, client, profile):
+        response = client.get(reverse("probes:stats"))
+        content = response.content.decode()
+
+        assert "Wagtail versions supported" in content
+        assert "Django CMS versions supported" in content
+        # The cycles from the fixture, drawn as bars.
+        assert ">8<" in content
+        assert ">5.1<" in content
 
     def test_it_shows_patterns_and_settings(self, client, profile):
         response = client.get(reverse("probes:stats"))

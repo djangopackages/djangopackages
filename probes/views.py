@@ -282,6 +282,14 @@ class ProbeStatsView(SectionMixin, TemplateView):
         context["python_sources"] = probe_stats.cached(
             "python_source", lambda: probe_stats.source_rows("python_source")
         )
+        context["wagtail_versions"] = probe_stats.cached(
+            "wagtail_versions",
+            lambda: probe_stats.framework_version_rows("wagtail"),
+        )
+        context["django_cms_versions"] = probe_stats.cached(
+            "django_cms_versions",
+            lambda: probe_stats.framework_version_rows("django-cms"),
+        )
         context["libraries"] = Library.objects.filter(scan=True).order_by("import_name")
         context["sections"] = [
             self.overview_section(spec) for spec in SECTIONS.values()
