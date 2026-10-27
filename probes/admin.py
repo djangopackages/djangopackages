@@ -70,6 +70,8 @@ class PackageProbeAdmin(admin.ModelAdmin):
         "package",
         "python_range",
         "django_range",
+        "wagtail_range",
+        "django_cms_range",
         "files_scanned",
         "scanned_at",
     ]

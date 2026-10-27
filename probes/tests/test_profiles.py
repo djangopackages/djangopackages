@@ -55,7 +55,29 @@ class TestBuildProbeProfiles:
         assert profile.python_versions == ["3.11"]
         assert profile.django_versions == ["5.1"]
         assert profile.python_source == "classifiers"
+        assert profile.framework_versions == {}
         assert profile.metadata_updated_at is not None
+
+    def test_it_stores_other_framework_versions_by_framework(self, cycles):
+        make_package(
+            "w",
+            pypi_classifiers=[
+                "Framework :: Django :: 5.2",
+                "Framework :: Wagtail :: 7",
+                "Framework :: Wagtail :: 8",
+                "Framework :: Django CMS :: 5.1",
+            ],
+        )
+
+        call_command("build_probe_profiles")
+
+        profile = PackageProbe.objects.get(package__slug="w")
+        assert profile.framework_versions == {
+            "wagtail": ["7", "8"],
+            "django-cms": ["5.1"],
+        }
+        assert profile.wagtail_range == "7 - 8"
+        assert profile.django_cms_range == "5.1"
 
     def test_it_stores_dependencies_as_a_list_of_objects(self, cycles):
         make_package(

@@ -1,4 +1,4 @@
-"""Work out which Python and Django versions a package claims to support.
+"""Work out which Python, Django and other framework versions a package claims.
 
 Three sources, in descending order of trust:
 
@@ -23,7 +23,7 @@ from __future__ import annotations
 
 import datetime
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from functools import lru_cache
 
 from django.utils import timezone
@@ -35,6 +35,16 @@ EXTRA_MARKER = re.compile(r"""extra\s*==\s*['"]([^'"]+)['"]""")
 
 PYTHON_CLASSIFIER = re.compile(r"^Programming Language :: Python :: (\d+\.\d+)$")
 DJANGO_CLASSIFIER = re.compile(r"^Framework :: Django :: (\d+\.\d+)$")
+
+# The other framework families PyPI has classifiers for. Wagtail names
+# only its major ("Framework :: Wagtail :: 7"), Django CMS a major.minor.
+# These are classifiers only: neither has a release list on
+# endoflife.date to resolve a specifier against, and both are optional
+# dependencies more often than not, so a pin would say little anyway.
+FRAMEWORK_CLASSIFIERS = {
+    "wagtail": re.compile(r"^Framework :: Wagtail :: (\d+)$"),
+    "django-cms": re.compile(r"^Framework :: Django CMS :: (\d+\.\d+)$"),
+}
 
 # Operators that say something about the top of a range. `!=` excludes a
 # single version without closing the range, so it is not one of them.
@@ -69,6 +79,10 @@ class VersionSupport:
     django: tuple[str, ...] = ()
     python_source: str = ""
     django_source: str = ""
+    # Other frameworks the classifiers name, keyed as in
+    # FRAMEWORK_CLASSIFIERS. Only frameworks with at least one version
+    # are present.
+    frameworks: dict[str, tuple[str, ...]] = field(default_factory=dict)
 
     @property
     def python_range(self) -> str:
@@ -78,8 +92,11 @@ class VersionSupport:
     def django_range(self) -> str:
         return version_span(self.django)
 
+    def framework_range(self, framework: str) -> str:
+        return version_span(self.frameworks.get(framework, ()))
+
     def __bool__(self) -> bool:
-        return bool(self.python or self.django)
+        return bool(self.python or self.django or self.frameworks)
 
 
 def _sorted(versions) -> tuple[str, ...]:
@@ -220,11 +237,18 @@ def version_support(package) -> VersionSupport:
             django = _resolve(specifier, "django", as_of=as_of)
             django_source = "requires_dist" if django else ""
 
+    frameworks = {}
+    for framework, pattern in FRAMEWORK_CLASSIFIERS.items():
+        versions = _sorted(m.group(1) for c in classifiers if (m := pattern.match(c)))
+        if versions:
+            frameworks[framework] = versions
+
     return VersionSupport(
         python=python,
         django=django,
         python_source=python_source,
         django_source=django_source,
+        frameworks=frameworks,
     )
 
 

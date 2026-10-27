@@ -272,6 +272,11 @@ It writes one row per package into `PackageProbe`. `python_versions` and
 exist, otherwise `requires_python` or the Django pin in `requires_dist`,
 resolved against the real release cycles in `products.Release`.
 `dependencies` is a JSON list of `{name, specifier, extra, marker}`.
+`framework_versions` is a JSON object for the other framework classifier
+families PyPI has, keyed by framework and read from classifiers only:
+`{"wagtail": ["7", "8"], "django-cms": ["5.0", "5.1"]}`. Wagtail classifiers
+name a major, Django CMS a major.minor. Neither has a release list on
+endoflife.date, so no specifier is resolved for them.
 
 A specifier with no upper bound is only read as far as the day the package
 was last published. `Django>=1.8` in a release from 2021 resolves to 1.8

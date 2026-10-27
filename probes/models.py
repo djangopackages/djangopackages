@@ -59,6 +59,16 @@ class PackageProbe(BaseModel):
         blank=True,
         help_text=_('Cycles this package claims, oldest first: ["5.1", "5.2"]'),
     )
+    framework_versions = models.JSONField(
+        _("other framework versions"),
+        default=dict,
+        blank=True,
+        help_text=_(
+            "Cycles this package claims for frameworks other than Django, "
+            'from its classifiers, oldest first: {"wagtail": ["7", "8"], '
+            '"django-cms": ["5.0", "5.1"]}'
+        ),
+    )
     python_source = models.CharField(
         _("where the Python versions came from"),
         max_length=20,
@@ -145,6 +155,17 @@ class PackageProbe(BaseModel):
     @property
     def django_range(self) -> str:
         return version_span(self.django_versions)
+
+    def framework_range(self, framework: str) -> str:
+        return version_span((self.framework_versions or {}).get(framework, []))
+
+    @property
+    def wagtail_range(self) -> str:
+        return self.framework_range("wagtail")
+
+    @property
+    def django_cms_range(self) -> str:
+        return self.framework_range("django-cms")
 
     @property
     def symbol_counts(self) -> dict[str, int]:

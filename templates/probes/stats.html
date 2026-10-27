@@ -39,10 +39,11 @@
             </section>
 
             <p class="text-muted-foreground mt-6 text-sm">
-                {% blocktranslate with python=totals.with_python django=totals.with_django deps=totals.with_dependencies probed=totals.probed %}
+                {% blocktranslate with python=totals.with_python django=totals.with_django wagtail=totals.with_wagtail cms=totals.with_django_cms deps=totals.with_dependencies probed=totals.probed %}
                     Of {{ probed }} profiles, {{ python }} name the Python versions they
-                    support, {{ django }} name the Django versions, and {{ deps }} declare
-                    a dependency.
+                    support, {{ django }} name the Django versions, {{ wagtail }} name
+                    Wagtail versions, {{ cms }} name Django CMS versions, and {{ deps }}
+                    declare a dependency.
                 {% endblocktranslate %}
                 {% if libraries %}
                     {% blocktranslate %}Scanning for:{% endblocktranslate %}
@@ -53,6 +54,8 @@
             <div class="mt-10 grid gap-10 lg:grid-cols-2">
                 {% include "probes/partials/versions.html" with label=_("Django versions supported") rows=django_versions total=totals.with_django sources=django_sources %}
                 {% include "probes/partials/versions.html" with label=_("Python versions supported") rows=python_versions total=totals.with_python sources=python_sources %}
+                {% include "probes/partials/versions.html" with label=_("Wagtail versions supported") rows=wagtail_versions total=totals.with_wagtail %}
+                {% include "probes/partials/versions.html" with label=_("Django CMS versions supported") rows=django_cms_versions total=totals.with_django_cms %}
             </div>
 
             {% for section in sections %}
