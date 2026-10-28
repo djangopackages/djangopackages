@@ -120,7 +120,7 @@ dependencies = [
     "pytz",
     "rich",
     "sentry-sdk",
-    "social-auth-app-django==7.1.0",
+    "social-auth-app-django==7.2.0",
     "social-auth-core",
     "sqlite-utils",
     "structlog",
@@ -129,7 +129,7 @@ dependencies = [
     "whitenoise",
     # Redis support
     "redis",
-    "blessed>=1.50.0",
+    "blessed>=1.52.0",
 ]
 
 [dependency-groups]
@@ -161,7 +161,7 @@ docs = [
   "zensical",
   # 2.0.3 switched from griffe to griffelib; older releases install a second
   # top-level `griffe` package that collides with the one pydantic-ai pulls in.
-  "mkdocstrings-python>=2.0.3",
+  "mkdocstrings-python>=2.0.10",
 ]
 
 maintenance = [
