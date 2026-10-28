@@ -1,5 +1,12 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-10-27]
+### Changed
+- Remove the debug dump of the score dict from the rules page ([#1809](https://github.com/djangopackages/djangopackages/pull/1809))
+- Score packages for linking a documentation site ([#1808](https://github.com/djangopackages/djangopackages/pull/1808))
+- Treat a documentation URL that is the repo, its README, or PyPI as no docs ([#1806](https://github.com/djangopackages/djangopackages/pull/1806))
+- Record Wagtail and Django CMS versions in the probe profile ([#1805](https://github.com/djangopackages/djangopackages/pull/1805))
+
 ## [2026-10-26]
 ### Changed
 - Show the deployed version in the footer ([#1803](https://github.com/djangopackages/djangopackages/pull/1803))
