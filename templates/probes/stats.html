@@ -39,7 +39,7 @@
             </section>
 
             <p class="text-muted-foreground mt-6 text-sm">
-                {% blocktranslate with python=totals.with_python django=totals.with_django wagtail=totals.with_wagtail cms=totals.with_django_cms deps=totals.with_dependencies probed=totals.probed %}
+                {% blocktranslate with python=totals.with_python|intcomma django=totals.with_django|intcomma wagtail=totals.with_wagtail|intcomma cms=totals.with_django_cms|intcomma deps=totals.with_dependencies|intcomma probed=totals.probed|intcomma %}
                     Of {{ probed }} profiles, {{ python }} name the Python versions they
                     support, {{ django }} name the Django versions, {{ wagtail }} name
                     Wagtail versions, {{ cms }} name Django CMS versions, and {{ deps }}

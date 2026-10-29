@@ -10,7 +10,7 @@
 <section>
     <h2 class="text-foreground text-xl font-bold">{{ label }}</h2>
     <p class="text-muted-foreground mt-1 text-sm">
-        {% blocktranslate with total=total %}As a share of the {{ total }} that say.{% endblocktranslate %}
+        {% blocktranslate with total=total|intcomma %}As a share of the {{ total }} that say.{% endblocktranslate %}
     </p>
 
     {% if rows %}
