@@ -216,13 +216,16 @@ have (matched by PyPI name) and packages new to us. Nothing is created.
 
 ```shell
 just run pypi_discover --framework wagtail --days 7        # the weekly feed
-just run pypi_discover --framework django --all --csv django.csv   # backfill
+just run pypi_discover --framework django --all --csv   # backfill, saved as CSV
 just run pypi_discover --framework django-cms --estimate   # bytes it would scan
 ```
 
-`--show-tracked` also prints the matches we already index. `--estimate` is a
-BigQuery dry run, which costs nothing and reports the bytes the query would
-scan. There is no classifier for Django REST Framework, so it is not an option.
+`--show-tracked` also prints the matches we already index. `--csv` saves the
+whole list, new and indexed rows with a `status` column, to
+`MEDIA_ROOT/pypi-discover/<framework>-<7d|all>-<date>.csv`, which in
+production is served at `https://djangopackages.org/media/pypi-discover/`, so
+the file can be pulled without a shell. `--estimate` is a BigQuery dry run,
+which costs nothing and reports the bytes the query would scan. There is no classifier for Django REST Framework, so it is not an option.
 
 ### Setup
 

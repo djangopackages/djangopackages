@@ -1,23 +1,81 @@
 """Find Django, Wagtail or Django CMS packages on PyPI we do not index yet.
 
     manage.py pypi_discover --framework wagtail --days 7
-    manage.py pypi_discover --framework django --all --csv django.csv
+    manage.py pypi_discover --framework django --all --csv
     manage.py pypi_discover --framework django-cms --days 30 --estimate
 
 Reads `bigquery-public-data.pypi.distribution_metadata` through the
 service account in `GOOGLE_BIGQUERY_CREDENTIALS`. Prints a review list;
-creates nothing. See #1810.
+creates nothing. `--csv` saves the full list under MEDIA_ROOT so it can
+be pulled from the site afterwards. See #1810.
 """
 
 from __future__ import annotations
 
 import csv
+from datetime import date
+from pathlib import Path
 
 import djclick as click
+from django.conf import settings
 from rich.console import Console
 from rich.table import Table
 
+from package.models import Package
 from probes import discovery
+
+CSV_DIR = "pypi-discover"
+CSV_COLUMNS = [
+    "status",
+    "name",
+    "pypi_url",
+    "package_slug",
+    "version",
+    "first_upload",
+    "last_upload",
+    "home_page",
+    "summary",
+]
+
+
+def csv_destination(framework: str, window: int | None) -> Path:
+    """`MEDIA_ROOT/pypi-discover/<framework>-<7d|all>-<today>.csv`.
+
+    Media is served at `MEDIA_URL`, so the file can be pulled from the
+    site once written; running twice in a day overwrites the same file.
+    """
+    span = "all" if window is None else f"{window}d"
+    return (
+        Path(settings.MEDIA_ROOT) / CSV_DIR / f"{framework}-{span}-{date.today()}.csv"
+    )
+
+
+def write_csv(path: Path, found: discovery.Discovery) -> int:
+    """Every row, new ones first, with a status column telling them apart."""
+    slugs = Package.objects.in_bulk([pk for _, pk in found.tracked])
+    path.parent.mkdir(parents=True, exist_ok=True)
+    rows = [(row, "new", "") for row in found.new] + [
+        (row, "indexed", getattr(slugs.get(pk), "slug", ""))
+        for row, pk in found.tracked
+    ]
+    with path.open("w", newline="") as handle:
+        writer = csv.writer(handle)
+        writer.writerow(CSV_COLUMNS)
+        for row, status, slug in rows:
+            writer.writerow(
+                [
+                    status,
+                    row.name,
+                    row.pypi_url,
+                    slug,
+                    row.version,
+                    row.first_upload.isoformat(),
+                    row.last_upload.isoformat(),
+                    row.home_page,
+                    row.summary,
+                ]
+            )
+    return len(rows)
 
 
 @click.command()
@@ -52,12 +110,11 @@ from probes import discovery
 )
 @click.option(
     "--csv",
-    "csv_path",
-    type=click.Path(),
-    default=None,
-    help="Write the new-to-us rows to this CSV as well.",
+    "save_csv",
+    is_flag=True,
+    help="Also save the whole list as a CSV under MEDIA_ROOT/pypi-discover/.",
 )
-def command(framework, days, whole_index, estimate, show_tracked, csv_path):
+def command(framework, days, whole_index, estimate, show_tracked, save_csv):
     """Search PyPI by trove classifier and list the packages we do not have."""
     console = Console()
     window = None if whole_index else days
@@ -105,30 +162,9 @@ def command(framework, days, whole_index, estimate, show_tracked, csv_path):
             table.add_row(row.name, row.last_upload.date().isoformat(), str(pk))
         console.print(table)
 
-    if csv_path:
-        with open(csv_path, "w", newline="") as handle:
-            writer = csv.writer(handle)
-            writer.writerow(
-                [
-                    "name",
-                    "pypi_url",
-                    "version",
-                    "first_upload",
-                    "last_upload",
-                    "home_page",
-                    "summary",
-                ]
-            )
-            for row in found.new:
-                writer.writerow(
-                    [
-                        row.name,
-                        row.pypi_url,
-                        row.version,
-                        row.first_upload.isoformat(),
-                        row.last_upload.isoformat(),
-                        row.home_page,
-                        row.summary,
-                    ]
-                )
-        console.print(f"Wrote {len(found.new):,} rows to {csv_path}")
+    if save_csv:
+        path = csv_destination(framework, window)
+        written = write_csv(path, found)
+        url = f"{settings.MEDIA_URL}{CSV_DIR}/{path.name}"
+        console.print(f"Wrote {written:,} rows to {path}")
+        console.print(f"Pull it from {url}")
