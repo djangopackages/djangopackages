@@ -300,6 +300,16 @@ SITE_TITLE = env("SITE_TITLE", default="Django Packages")
 # or deleted without Docker.
 PACKAGE_REPO_ROOT = Path(env("PACKAGE_REPO_ROOT", default="/data/repos"))
 
+# Package discovery on BigQuery (`pypi_discover`, #1810). The whole
+# service-account JSON, as one env var. Empty means the command refuses
+# to run; nothing else on the site touches Google.
+GOOGLE_BIGQUERY_CREDENTIALS = env("GOOGLE_BIGQUERY_CREDENTIALS", default="")
+# Per-query cap so a bad query fails rather than bills. 20 GB is several
+# times what the classifier search needs and a tiny fraction of the free tier.
+GOOGLE_BIGQUERY_MAX_BYTES_BILLED = env.int(
+    "GOOGLE_BIGQUERY_MAX_BYTES_BILLED", default=20 * 1024**3
+)
+
 # Bump this to force every social card to be re-rendered.
 #
 # The screenshot service caches by the URL it is asked to fetch and nothing
