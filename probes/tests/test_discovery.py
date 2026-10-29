@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import UTC, datetime
+from pathlib import Path
 from unittest.mock import patch
 
 import pytest
@@ -131,7 +132,7 @@ class TestClient:
 
 
 class TestCommand:
-    def test_it_lists_what_is_new_and_writes_the_csv(self, tmp_path):
+    def test_it_saves_the_csv_under_media(self, tmp_path):
         baker.make(
             "package.Package",
             slug="old",
@@ -139,23 +140,30 @@ class TestCommand:
             repo_url="https://github.com/x/old",
         )
         client = FakeClient(rows=[_row("old"), _row("shiny")])
-        csv_path = tmp_path / "new.csv"
 
-        with patch.object(discovery, "bigquery_client", return_value=client):
+        with (
+            override_settings(MEDIA_ROOT=tmp_path, MEDIA_URL="/media/"),
+            patch.object(discovery, "bigquery_client", return_value=client),
+        ):
             call_command(
-                "pypi_discover",
-                "--framework",
-                "django",
-                "--days",
-                "7",
-                "--show-tracked",
-                "--csv",
-                str(csv_path),
+                "pypi_discover", "--framework", "django", "--days", "7", "--csv"
             )
 
-        text = csv_path.read_text()
-        assert "shiny,https://pypi.org/project/shiny/" in text
-        assert "old," not in text
+        (path,) = (tmp_path / "pypi-discover").glob("django-7d-*.csv")
+        lines = path.read_text().splitlines()
+        assert lines[0].startswith("status,name,pypi_url,package_slug,")
+        assert lines[1].startswith("new,shiny,https://pypi.org/project/shiny/,,")
+        assert lines[2].startswith("indexed,old,https://pypi.org/project/old/,old,")
+
+    def test_the_backfill_csv_is_named_all(self):
+        from probes.management.commands.pypi_discover import csv_destination
+
+        with override_settings(MEDIA_ROOT="/data/media"):
+            assert csv_destination("wagtail", None).parent == Path(
+                "/data/media/pypi-discover"
+            )
+            assert csv_destination("wagtail", None).name.startswith("wagtail-all-")
+            assert csv_destination("wagtail", 30).name.startswith("wagtail-30d-")
 
     def test_estimate_runs_no_query(self):
         client = FakeClient()
