@@ -26,7 +26,7 @@
             <h2 class="text-foreground text-xl font-bold">{{ section.label }}</h2>
         {% endif %}
         <span class="text-muted-foreground text-sm">
-            {% blocktranslate with count=section.paginator.count %}{{ count }} rows{% endblocktranslate %}
+            {% blocktranslate with count=section.paginator.count|intcomma %}{{ count }} rows{% endblocktranslate %}
         </span>
     </div>
 

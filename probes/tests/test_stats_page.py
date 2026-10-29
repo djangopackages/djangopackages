@@ -105,6 +105,34 @@ class TestProbeStatsPage:
         assert ">8<" in content
         assert ">5.1<" in content
 
+    def test_counts_in_the_prose_get_thousands_separators(self, client, profile):
+        """The numbers in the summary, chart subtitles and "N rows" labels.
+
+        Each is a blocktranslate variable, which the humanize filter has
+        to be applied to by hand. Fewer than a thousand of anything is
+        made in a test, so the totals are patched and the symbol table is
+        padded.
+        """
+        from unittest.mock import patch
+
+        from probes.stats import Totals
+
+        profile.symbols = [
+            {"symbol": f"django.thing_{n}", "count": 1, "library": "django"}
+            for n in range(1_200)
+        ]
+        profile.save()
+        cache.clear()
+        big = Totals(probed=4_270, with_python=3_116, with_django=2_070)
+        with patch("probes.views._totals", return_value=big):
+            content = client.get(reverse("probes:stats")).content.decode()
+
+        assert "Of 4,270 profiles, 3,116 name" in content
+        assert "share of the 2,070 that say" in content
+        assert "1,200 rows" in content
+        assert "4270" not in content
+        assert "1200 rows" not in content
+
     def test_it_shows_patterns_and_settings(self, client, profile):
         response = client.get(reverse("probes:stats"))
         content = response.content.decode()
