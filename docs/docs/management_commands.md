@@ -204,6 +204,45 @@ Warning: This can take a long, long time.
 docker compose run django uv run manage.py package_updater
 ```
 
+## pypi_discover
+
+Searches PyPI by trove classifier for Django, Wagtail or Django CMS packages
+and lists the ones we do not index yet. It reads the public BigQuery dataset
+`bigquery-public-data.pypi.distribution_metadata`, which has one row per
+uploaded file with its classifiers and upload time, so it can answer both
+"what was tagged `Framework :: Wagtail` in the last 7 days" and "everything
+ever tagged". The result is a review list split into packages we already
+have (matched by PyPI name) and packages new to us. Nothing is created.
+
+```shell
+just run pypi_discover --framework wagtail --days 7        # the weekly feed
+just run pypi_discover --framework django --all --csv django.csv   # backfill
+just run pypi_discover --framework django-cms --estimate   # bytes it would scan
+```
+
+`--show-tracked` also prints the matches we already index. `--estimate` is a
+BigQuery dry run, which costs nothing and reports the bytes the query would
+scan. There is no classifier for Django REST Framework, so it is not an option.
+
+### Setup
+
+The command needs a Google Cloud service account that can run queries. Reading
+public datasets is free; our own queries count against the 1 TiB a month free
+tier, and the classifier search scans a few GB each.
+
+1. Create a Google Cloud project and enable the BigQuery API. A billing account
+   is optional: without one the project runs in sandbox mode and anything over
+   the free tier fails rather than bills.
+2. Create a service account with the `BigQuery Job User` role on the project.
+   It needs no access to any dataset of ours.
+3. Create a JSON key for it and put the whole JSON in the
+   `GOOGLE_BIGQUERY_CREDENTIALS` environment variable (a Coolify env var in
+   production, `.env.local` locally). The command refuses to run when it is
+   empty.
+4. `GOOGLE_BIGQUERY_MAX_BYTES_BILLED` caps each query, 20 GB by default, so a
+   wrong query fails instead of costing money. Run `--estimate` on any new
+   query shape before scheduling it.
+
 ## pypi_find_missing
 
 Shows count of Packages without pypi URLs or with outdated pypi URLs
