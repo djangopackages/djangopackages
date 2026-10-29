@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-10-28]
+### Changed
+- ⬆️ Bump dnspython from 2.8.0 to 2.9.0 ([#1812](https://github.com/djangopackages/djangopackages/pull/1812))
+- ⬆️ Bump the all-dependencies group with 10 updates ([#1811](https://github.com/djangopackages/djangopackages/pull/1811))
+
 ## [2026-10-27]
 ### Changed
 - Remove the debug dump of the score dict from the rules page ([#1809](https://github.com/djangopackages/djangopackages/pull/1809))
