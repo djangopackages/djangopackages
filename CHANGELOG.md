@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-10-29]
+### Changed
+- pypi_discover --csv saves under MEDIA_ROOT so the list can be pulled from the site ([#1816](https://github.com/djangopackages/djangopackages/pull/1816))
+- Discover Django, Wagtail and Django CMS packages on PyPI via BigQuery ([#1815](https://github.com/djangopackages/djangopackages/pull/1815))
+- Put thousands separators on the remaining counts on the probes page ([#1814](https://github.com/djangopackages/djangopackages/pull/1814))
+
 ## [2026-10-28]
 ### Changed
 - ⬆️ Bump dnspython from 2.8.0 to 2.9.0 ([#1812](https://github.com/djangopackages/djangopackages/pull/1812))
