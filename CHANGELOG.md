@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-10-31]
+### Changed
+- Switch to django-probe&#39;s reusuable workflow ([#1817](https://github.com/djangopackages/djangopackages/pull/1817))
+
 ## [2026-10-29]
 ### Changed
 - pypi_discover --csv saves under MEDIA_ROOT so the list can be pulled from the site ([#1816](https://github.com/djangopackages/djangopackages/pull/1816))
