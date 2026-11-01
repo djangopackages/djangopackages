@@ -144,6 +144,78 @@ def released_cycles(
         cycle for cycle, release in release_dates(product_slug) if release <= cutoff
     )
 
+@lru_cache(maxsize=2)
+def lifecycle(
+    product_slug: str,
+) -> dict[str, tuple[datetime.date | None, datetime.date | None, str | None]]:
+    """Each version cycle's release date, end-of-life date and support value.
+
+    Cached per product, like `release_dates`, so scoring thousands of
+    packages reads these few rows once. Callers must not change it.
+    """
+    from products.models import Release
+
+    rows = Release.objects.filter(product__slug=product_slug).values_list(
+        "cycle", "release", "eol", "support"
+    )
+    return {
+        cycle: (release, eol, support)
+        for cycle, release, eol, support in rows
+        if re.fullmatch(r"\d+\.\d+", cycle or "")
+    }
+
+
+def _support_is_active(support: str | None, today: datetime.date) -> bool:
+    """endoflife.date gives `support` as "true", "false" or a date.
+
+    Missing or unreadable counts as active: with no sign that support
+    ended, a cycle that has not hit end of life gets the benefit of the doubt.
+    """
+    value = (support or "").strip().lower()
+    if value in ("", "true"):
+        return True
+    if value == "false":
+        return False
+    try:
+        return datetime.date.fromisoformat(value) >= today
+    except ValueError:
+        return True
+
+
+def support_grade(
+    product_slug: str, cycles, *, today: datetime.date | None = None
+) -> float | None:
+    """How alive the best cycle a package claims is: 1.0, 0.5 or 0.0.
+
+    1.0: a cycle that has not reached end of life and still gets active
+    support. 0.5: one in extended support (active support over, not yet
+    end of life), or the newest cycle that is past end of life. 0.0: only
+    older end-of-life cycles. None when none of the claimed cycles are in
+    the release table, so the caller can leave the check out.
+    """
+    today = today or timezone.now().date()
+    table = lifecycle(product_slug)
+    claimed = [(cycle, table[cycle]) for cycle in cycles if cycle in table]
+    if not claimed:
+        return None
+
+    ended = [
+        (release, cycle)
+        for cycle, (release, eol, _) in table.items()
+        if eol is not None and eol < today and release is not None
+    ]
+    newest_ended = max(ended)[1] if ended else None
+
+    best = 0.0
+    for cycle, (_, eol, support) in claimed:
+        if eol is not None and eol < today:
+            grade = 0.5 if cycle == newest_ended else 0.0
+        elif _support_is_active(support, today):
+            grade = 1.0
+        else:
+            grade = 0.5
+        best = max(best, grade)
+    return best
 
 def bounded_above(specifier: str) -> bool:
     """Whether a specifier says anything about the top of its range."""

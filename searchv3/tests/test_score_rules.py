@@ -191,12 +191,12 @@ class ActivityRuleTest(TestCase):
 
 
 class ScorePackageTest(TestCase):
-    """`score_package` is `Package.score`: the activity factor plus seven rules, 20 points each."""
+    """`score_package` is `Package.score`: the activity factor plus eight rules, 20 points each."""
 
-    def test_factor_plus_seven_rules_scaled_to_100(self):
-        self.assertEqual(len(PACKAGE_RULES), 8)
+    def test_factor_plus_eight_rules_scaled_to_100(self):
+        self.assertEqual(len(PACKAGE_RULES), 9)
         self.assertIsInstance(PACKAGE_RULES[0], ActivityRule)
-        self.assertEqual(sum(rule.max_score for rule in PACKAGE_RULES), 140)
+        self.assertEqual(sum(rule.max_score for rule in PACKAGE_RULES), 160)
 
     def test_fresh_100_stars_nothing_else(self):
         package = baker.make(

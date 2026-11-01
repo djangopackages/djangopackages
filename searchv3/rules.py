@@ -1,4 +1,4 @@
-"""The package score: seven checks, 20 points each, faded by time since the last release.
+"""The package score: eight checks, 20 points each, faded by time since the last release.
 
 `Package.score` is `score_package(package)["total_score"]`. The grids
 sort on it and cut their comparison tables at `PACKAGE_SCORE_MIN`, the
@@ -6,8 +6,9 @@ search index weights packages by it, and the Package Score page lists
 the checks with the points each one earned. One number, one place
 (#1563).
 
-The seven point rules add up to 140, scaled to 100. That total is then
-multiplied by `Package.activity_factor` (`ActivityRule`): 1.0 for a
+The eight point rules add up to 160, scaled to 100. 
+A rule with nothing to read for a package (the version check, for one with no PyPI data) is left out of both totals.
+That total is then multiplied by `Package.activity_factor` (`ActivityRule`): 1.0 for a
 year after the latest PyPI release, or the latest commit for a package
 not on PyPI, then halving every eighteen months. Two and a half years
 without a release leaves half the points, five years a sixth, ten
@@ -22,13 +23,16 @@ from pydantic import BaseModel
 
 from package.models import Package
 from package.utils import documentation_url_problem
-
+from probes.version_support import support_grade, version_support
 
 class CheckResult(BaseModel):
     score: int
     message: str
     # From `ActivityRule`: the whole score is multiplied by this.
     factor: float = 1.0
+    # True when the rule has nothing to read for this package. Its points
+    # leave the total too, so missing data is not scored as zero.
+    skipped: bool = False
 
 
 class ScoreRule(BaseModel):
@@ -291,6 +295,50 @@ class UsageCountRule(ScoreRule):
             score=0, message="Nobody has said they use or favorited the package yet."
         )
 
+GRADE_TEXT = {1.0: "still supported", 0.5: "near end of life", 0.0: "end of life"}
+
+
+class VersionSupportRule(ScoreRule):
+    """Points for claiming Python and Django versions that are still supported.
+
+    Each of Python and Django is graded on the best version the package
+    claims: 1.0 for one that is still supported, 0.5 for one in extended
+    support or the newest end-of-life one, 0.0 for older. The two grades
+    are averaged. A package with no Python or Django version data is left
+    out of the total instead of scoring 0.
+    """
+
+    name: str = "Version Support Rule"
+    description: str = (
+        "Check if the package supports Python and Django versions that are "
+        "still supported. Packages with no version data are left out"
+    )
+    max_score: int = 20
+    documentation_url: str = (
+        f"{settings.DOCS_URL}/rules/#searchv3.rules.VersionSupportRule"
+    )
+
+    def check(self, package: Package) -> CheckResult:
+        support = version_support(package)
+        parts = []
+        for label, slug, cycles in (
+            ("Python", "python", support.python),
+            ("Django", "django", support.django),
+        ):
+            grade = support_grade(slug, cycles) if cycles else None
+            if grade is not None:
+                parts.append((label, grade))
+
+        if not parts:
+            return CheckResult(
+                score=0,
+                skipped=True,
+                message="No Python or Django version data, so this check is left out.",
+            )
+
+        score = round(self.max_score * sum(grade for _, grade in parts) / len(parts))
+        message = " ".join(f"{label}: {GRADE_TEXT[grade]}." for label, grade in parts)
+        return CheckResult(score=score, message=message)
 
 class WatchersRule(ScoreRule):
     name: str = "Watchers Rule"
@@ -309,11 +357,11 @@ class WatchersRule(ScoreRule):
             score=0, message="No watchers data for the package repository."
         )
 
-
 def calc_package_weight(
     *, package: Package, rules: list[ScoreRule], max_score: int
 ) -> dict:
     total_score = 0
+    max_possible_score = 0
     breakdown = []
     messages = []
     factor = 1.0
@@ -322,19 +370,22 @@ def calc_package_weight(
         result = rule.check(package=package)
         total_score += result.score
         factor *= result.factor
+        # A skipped rule has nothing to read, so its points leave the
+        # total too instead of counting as zero.
+        rule_max = 0 if result.skipped else rule.max_score
+        max_possible_score += rule_max
         messages.append(result.message)
         breakdown.append(
             {
                 "rule": rule.name,
                 "description": rule.description,
                 "score": result.score,
-                "max_score": rule.max_score,
+                "max_score": rule_max,
                 "message": result.message,
                 "documentation_url": rule.documentation_url,
             }
         )
 
-    max_possible_score = sum(rule.max_score for rule in rules)
     normalized_score = (
         (total_score / max_possible_score) * max_score if max_possible_score > 0 else 0
     )
@@ -346,10 +397,9 @@ def calc_package_weight(
         "factor": factor,
     }
 
-
 # The checks that make up `Package.score`, in the order the score page
-# lists them. The activity factor first, then seven rules at 20 points
-# each, 140 scaled to 100 and multiplied by the factor.
+# lists them. The activity factor first, then eight rules at 20 points
+# each, up to 160 scaled to 100 and multiplied by the factor.
 PACKAGE_RULES: list[ScoreRule] = [
     ActivityRule(),
     DeprecatedRule(),
@@ -358,6 +408,7 @@ PACKAGE_RULES: list[ScoreRule] = [
     DownloadsRule(),
     ForkRule(),
     UsageCountRule(),
+    VersionSupportRule(),
     WatchersRule(),
 ]
 
