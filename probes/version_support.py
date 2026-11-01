@@ -144,6 +144,7 @@ def released_cycles(
         cycle for cycle, release in release_dates(product_slug) if release <= cutoff
     )
 
+
 @lru_cache(maxsize=2)
 def lifecycle(
     product_slug: str,
@@ -216,6 +217,7 @@ def support_grade(
             grade = 0.5
         best = max(best, grade)
     return best
+
 
 def bounded_above(specifier: str) -> bool:
     """Whether a specifier says anything about the top of its range."""

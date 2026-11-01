@@ -6,7 +6,7 @@ search index weights packages by it, and the Package Score page lists
 the checks with the points each one earned. One number, one place
 (#1563).
 
-The eight point rules add up to 160, scaled to 100. 
+The eight point rules add up to 160, scaled to 100.
 A rule with nothing to read for a package (the version check, for one with no PyPI data) is left out of both totals.
 That total is then multiplied by `Package.activity_factor` (`ActivityRule`): 1.0 for a
 year after the latest PyPI release, or the latest commit for a package
@@ -24,6 +24,7 @@ from pydantic import BaseModel
 from package.models import Package
 from package.utils import documentation_url_problem
 from probes.version_support import support_grade, version_support
+
 
 class CheckResult(BaseModel):
     score: int
@@ -295,6 +296,7 @@ class UsageCountRule(ScoreRule):
             score=0, message="Nobody has said they use or favorited the package yet."
         )
 
+
 GRADE_TEXT = {1.0: "still supported", 0.5: "near end of life", 0.0: "end of life"}
 
 
@@ -340,6 +342,7 @@ class VersionSupportRule(ScoreRule):
         message = " ".join(f"{label}: {GRADE_TEXT[grade]}." for label, grade in parts)
         return CheckResult(score=score, message=message)
 
+
 class WatchersRule(ScoreRule):
     name: str = "Watchers Rule"
     description: str = "Score based on the number of watchers"
@@ -356,6 +359,7 @@ class WatchersRule(ScoreRule):
         return CheckResult(
             score=0, message="No watchers data for the package repository."
         )
+
 
 def calc_package_weight(
     *, package: Package, rules: list[ScoreRule], max_score: int
@@ -396,6 +400,7 @@ def calc_package_weight(
         "breakdown": breakdown,
         "factor": factor,
     }
+
 
 # The checks that make up `Package.score`, in the order the score page
 # lists them. The activity factor first, then eight rules at 20 points

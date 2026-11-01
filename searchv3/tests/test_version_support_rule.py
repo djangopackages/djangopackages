@@ -12,6 +12,8 @@ from searchv3.rules import (
     VersionSupportRule,
     calc_package_weight,
 )
+
+
 def days(n: int) -> datetime.date:
     return timezone.now().date() + datetime.timedelta(days=n)
 
