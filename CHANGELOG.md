@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-11-02]
+### Changed
+- [prek]: auto-update hooks ([#1819](https://github.com/djangopackages/djangopackages/pull/1819))
+
 ## [2026-10-31]
 ### Changed
 - Switch to django-probe&#39;s reusuable workflow ([#1817](https://github.com/djangopackages/djangopackages/pull/1817))
