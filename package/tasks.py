@@ -13,3 +13,18 @@ def fetch_package_data_task(slug):
     update_package_score(package, save=False)
     package.last_fetched = timezone.now()
     package.save()
+
+
+def import_from_pypi_task(name: str, category_slug: str = "apps") -> str:
+    """Create one package from its PyPI name and fill it in.
+
+    Queued by `pypi_import --queue`. Not scheduled anywhere, on purpose:
+    nothing filters spam or malware out of the discovery feed yet, so a
+    person reviews the list before this runs (#1810).
+    """
+    from package.importer import import_from_pypi
+    from package.models import Category
+
+    category = Category.objects.get(slug=category_slug)
+    result = import_from_pypi(name, category=category)
+    return f"{result.name}: {result.status} {result.note}".strip()
