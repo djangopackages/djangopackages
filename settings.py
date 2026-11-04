@@ -327,7 +327,7 @@ OG_IMAGE_VERSION = env("OG_IMAGE_VERSION", default="2")
 # The score is 0 to 100: seven checks at 20 points each, scaled, then faded
 # by time since the last release (searchv3/rules.py). `manage.py compare_scores --new-min N` shows what
 # another value would do to the grids before it is changed.
-PACKAGE_SCORE_MIN = env.int("PACKAGE_SCORE_MIN", default=52)
+PACKAGE_SCORE_MIN = env.int("PACKAGE_SCORE_MIN", default=48)
 
 if LOCAL_INSTALLED_APPS:
     INSTALLED_APPS.extend(LOCAL_INSTALLED_APPS)
