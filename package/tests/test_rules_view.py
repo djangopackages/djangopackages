@@ -22,7 +22,8 @@ def test_rules_page_total_matches_stored_score(db, client, category):
 
     assert response.status_code == 200
     assert response.context["package_score"]["total_score"] == package.score
-    assert len(response.context["package_score"]["breakdown"]) == 8
+    # Activity plus the eight point rules.
+    assert len(response.context["package_score"]["breakdown"]) == 9
     # The raw score dict is not dumped onto the page.
     assert "package_score::" not in response.content.decode()
 

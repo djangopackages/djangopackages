@@ -20,7 +20,6 @@ def days(n: int) -> datetime.date:
 
 def build_lifecycle():
     """cycle: (release, eol, support), the shape `lifecycle` returns."""
-    today = timezone.now().date()
     python = {
         "3.9": (days(-2000), days(-400), "false"),  # end of life, not the newest
         "3.10": (days(-1500), days(-30), "false"),  # newest end of life
