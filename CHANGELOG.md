@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-11-03]
+### Changed
+- Upgrade Django to 6.0.10 (2026-11-03 security release) ([#1824](https://github.com/djangopackages/djangopackages/pull/1824))
+- pypi_import: create packages from PyPI names and fill them in ([#1822](https://github.com/djangopackages/djangopackages/pull/1822))
+
 ## [2026-11-02]
 ### Changed
 - [prek]: auto-update hooks ([#1819](https://github.com/djangopackages/djangopackages/pull/1819))
