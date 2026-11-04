@@ -56,13 +56,14 @@ class ScoreRuleGroup(ScoreRule):
         results = [rule.check(package=package) for rule in self.rules]
         total_score = sum(result.score for result in results)
         max_possible_score = sum(rule.max_score for rule in self.rules)
+        # Integer arithmetic: 57 / 100 * 100 is 56.999 in floating point.
         normalized_score = (
-            (total_score / max_possible_score) * self.max_score
+            total_score * self.max_score // max_possible_score
             if max_possible_score > 0
             else 0
         )
         messages = [result.message for result in results]
-        return CheckResult(score=int(normalized_score), message=" ".join(messages))
+        return CheckResult(score=normalized_score, message=" ".join(messages))
 
 
 class ActivityRule(ScoreRule):
@@ -426,8 +427,10 @@ def calc_package_weight(
             }
         )
 
+    # Integer arithmetic: 57 / 100 * 100 is 56.999 in floating point, and
+    # int() of that is 56.
     normalized_score = (
-        (total_score / max_possible_score) * max_score if max_possible_score > 0 else 0
+        total_score * max_score // max_possible_score if max_possible_score > 0 else 0
     )
 
     return {

@@ -66,7 +66,7 @@ class CalcPackageWeightTest(TestCase):
         for downloads, expected in [
             (10, 52),
             (100, 56),
-            (286, 56),  # 57 points, but 0.57 * 100 truncates to 56
+            (286, 57),
             (1_000, 60),
             (10_000, 64),
             (100_000, 68),
