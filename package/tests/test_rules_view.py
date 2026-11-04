@@ -39,7 +39,7 @@ def test_faded_package_page_says_so(db, client, category):
         last_commit_date=timezone.now() - timezone.timedelta(days=365 * 4),
     )
     update_package_score(package, save=True)
-    # not deprecated 20, description 20, watchers 20 = 60 of 140 = 42.9, a quarter of it.
+    # not deprecated 20, description 20, stars 17 (3,000) = 57 of 140 = 40.7, a quarter of it.
     assert package.score == 10
 
     response = client.get(reverse("package", kwargs={"slug": "faded"}))
