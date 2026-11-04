@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from unittest.mock import patch
 
@@ -57,9 +57,19 @@ class TestBuildQuery:
         sql, params = discovery.build_query("wagtail", days=7)
 
         assert "STARTS_WITH(c, @prefix)" in sql
-        assert params == {"prefix": "Framework :: Wagtail", "days": 7}
-        assert "INTERVAL @days DAY" in sql
+        assert params["prefix"] == "Framework :: Wagtail"
+        assert "upload_time >= @since" in sql
         assert "GROUP BY name" in sql
+
+    def test_it_is_cacheable_for_the_whole_day(self):
+        # BigQuery skips its cache for CURRENT_TIMESTAMP(), so the cutoff
+        # must be a fixed midnight-UTC parameter instead.
+        sql, params = discovery.build_query("wagtail", days=7)
+
+        assert "CURRENT_TIMESTAMP" not in sql
+        midnight = datetime.now(UTC).replace(hour=0, minute=0, second=0, microsecond=0)
+        assert params["since"] == midnight - timedelta(days=7)
+        assert discovery.build_query("wagtail", days=7) == (sql, params)
 
     def test_the_whole_index_has_no_date_filter(self):
         sql, params = discovery.build_query("django-cms", days=None)
@@ -101,7 +111,10 @@ class TestDiscover:
         assert config.dry_run is False
         assert config.maximum_bytes_billed == 20 * 1024**3
         by_name = {p.name: p.value for p in config.query_parameters}
-        assert by_name == {"prefix": "Framework :: Wagtail", "days": 30}
+        assert by_name["prefix"] == "Framework :: Wagtail"
+        assert by_name["since"].tzinfo is UTC
+        types = {p.name: p.type_ for p in config.query_parameters}
+        assert types == {"prefix": "STRING", "since": "TIMESTAMP"}
 
     def test_estimate_is_a_dry_run(self):
         client = FakeClient(scanned=7 * 1024**3)

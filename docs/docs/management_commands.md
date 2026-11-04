@@ -246,6 +246,35 @@ tier, and the classifier search scans a few GB each.
    wrong query fails instead of costing money. Run `--estimate` on any new
    query shape before scheduling it.
 
+## pypi_import
+
+Creates packages from PyPI names and fills them in. Each name becomes a
+`Package` with its title, slug, PyPI URL and repository URL taken from the
+PyPI project, in the category given (`apps` by default), tagged
+`pypi-import` so the admin can find it. The same fetches the site runs for an
+existing package follow: PyPI metadata, repository metadata and the score.
+
+A repository link on PyPI is required. A project without one is reported as
+`no repo` and skipped, since `repo_url` is unique and a package with no
+repository has nothing for the score or the probes to read. A name we already
+index, by PyPI name or by repository, is reported as `exists`.
+
+```shell
+just run pypi_import django-nanopages wagtail-pagetree
+just run pypi_import --csv /data/media/pypi-discover/wagtail-7d-2026-10-29.csv --dry-run
+just run pypi_import --csv new.csv --category apps
+just run pypi_import --csv new.csv --queue
+```
+
+`--csv` takes a `pypi_discover` file and imports its `new` rows. `--dry-run`
+fetches from PyPI and reports what would be created without writing.
+`--queue` hands each name to the Django Q cluster as
+`package.tasks.import_from_pypi_task`, one task per name, which is the shape
+a scheduled job would use.
+
+There is no scheduled job, on purpose. Nothing filters spam or malware out of
+the discovery feed, so a person reviews the list before this runs. See #1810.
+
 ## pypi_find_missing
 
 Shows count of Packages without pypi URLs or with outdated pypi URLs

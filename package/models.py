@@ -79,6 +79,9 @@ class PackageTag(models.TextChoices):
     # The package *is* a curated list (awesome-django and friends) whose
     # README we keep a checkout of so the entries can be read back.
     AWESOME_LIST = "awesome-list", _("Awesome list")
+    # Created by `pypi_import` from a discovery list rather than by a
+    # person, so the admin can find and review them.
+    PYPI_IMPORT = "pypi-import", _("Imported from PyPI")
 
 
 class Package(BaseModel):

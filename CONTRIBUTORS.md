@@ -602,6 +602,13 @@ Listed in alphabetical order.
     <td></td>
   </tr>
   <tr>
+    <td>Tim Schilling</td>
+    <td>
+      <a href="https://github.com/tim-schilling">tim-schilling</a>
+    </td>
+    <td>CodenameTim</td>
+  </tr>
+  <tr>
     <td>Timo Zimmermann</td>
     <td>
       <a href="https://github.com/fallenhitokiri">fallenhitokiri</a>

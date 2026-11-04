@@ -22,8 +22,7 @@ TEMPLATE_DEBUG = env.bool("TEMPLATE_DEBUG", True)
 TEST_MODE = "pytest" in sys.modules or "test" in sys.argv
 
 ########## CACHE
-# TODO: Add back Redis for caching in production by setting CACHE_URL env var
-# e.g., CACHE_URL=redis://redis:6379/0
+# Production sets CACHE_URL to Redis; without it, each process has its own cache.
 CACHES = {"default": env.cache_url("CACHE_URL", default="locmemcache://")}
 
 REDIS_URL = env("CACHE_URL", default=None)
