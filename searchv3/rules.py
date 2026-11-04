@@ -185,6 +185,13 @@ class DocumentationRule(ScoreRule):
         return CheckResult(score=self.max_score, message=f"Documentation at {url}.")
 
 
+def log_points(count: int, points_per_decade: int, max_score: int) -> int:
+    """`points_per_decade` per tenfold of `count`, capped. One is zero points."""
+    if count <= 0:
+        return 0
+    return int(min(math.log10(count) * points_per_decade, max_score))
+
+
 class DownloadsRule(ScoreRule):
     """Points for monthly PyPI downloads, on a log scale.
 
@@ -218,17 +225,31 @@ class DownloadsRule(ScoreRule):
 
 
 class ForkRule(ScoreRule):
+    """Points for repository forks, on a log scale.
+
+    Five points per tenfold: 10 forks are 5, 100 are 10, 1,000 are 15,
+    10,000 or more are 20. Linear, as before, gave full marks to every
+    repository with 20 forks, which was a quarter of the catalogue.
+    """
+
     name: str = "Fork Rule"
-    description: str = "Score based on the number of forks"
+    description: str = (
+        "Score based on repository forks, log scaled: 10 forks are 5 points, "
+        "100 are 10, 1,000 are 15, 10,000 are 20"
+    )
     max_score: int = 20
     documentation_url: str = f"{settings.DOCS_URL}/rules/#searchv3.rules.ForkRule"
 
+    points_per_decade: int = 5
+
     def check(self, package: Package) -> CheckResult:
         if package.repo_forks:
-            score = min(package.repo_forks, self.max_score)
+            score = log_points(
+                package.repo_forks, self.points_per_decade, self.max_score
+            )
             return CheckResult(
                 score=score,
-                message=f"Package repository has {package.repo_forks} forks.",
+                message=f"Package repository has {package.repo_forks:,} forks.",
             )
         return CheckResult(score=0, message="No forks data for the package repository.")
 
@@ -344,17 +365,32 @@ class VersionSupportRule(ScoreRule):
 
 
 class WatchersRule(ScoreRule):
+    """Points for repository stars, on a log scale.
+
+    Five points per tenfold: 10 stars are 5, 100 are 10, 1,000 are 15,
+    10,000 or more are 20. Linear, as before, gave full marks to every
+    repository with 20 stars, which was half the catalogue, so the rule
+    could not tell a 20-star package from a 20,000-star one.
+    """
+
     name: str = "Watchers Rule"
-    description: str = "Score based on the number of watchers"
+    description: str = (
+        "Score based on repository stars, log scaled: 10 stars are 5 points, "
+        "100 are 10, 1,000 are 15, 10,000 are 20"
+    )
     max_score: int = 20
     documentation_url: str = f"{settings.DOCS_URL}/rules/#searchv3.rules.WatchersRule"
 
+    points_per_decade: int = 5
+
     def check(self, package: Package) -> CheckResult:
         if package.repo_watchers:
-            score = min(package.repo_watchers, self.max_score)
+            score = log_points(
+                package.repo_watchers, self.points_per_decade, self.max_score
+            )
             return CheckResult(
                 score=score,
-                message=f"Package repository has {package.repo_watchers} watchers.",
+                message=f"Package repository has {package.repo_watchers:,} stars.",
             )
         return CheckResult(
             score=0, message="No watchers data for the package repository."

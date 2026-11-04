@@ -34,6 +34,7 @@ class CalcPackageWeightTest(TestCase):
             "date_deprecated": None,
             "pypi_downloads": 10,
             "repo_description": "A package description",
+            # 20 of each is 6 points on the log scale.
             "repo_forks": 20,
             "repo_watchers": 20,
             # repo_url is unique; several packages in one test collide.
@@ -45,40 +46,66 @@ class CalcPackageWeightTest(TestCase):
         return result["total_score"]
 
     def test_baseline(self):
-        self.assertEqual(self._score(), 80)
+        # not deprecated 20, description 20, downloads 0, forks 6, stars 6.
+        self.assertEqual(self._score(), 52)
 
     def test_deprecated_deduction(self):
-        self.assertEqual(self._score(date_deprecated=timezone.now()), 60)
+        self.assertEqual(self._score(date_deprecated=timezone.now()), 32)
 
     def test_no_description_deduction(self):
-        self.assertEqual(self._score(repo_description=""), 60)
+        self.assertEqual(self._score(repo_description=""), 32)
 
     def test_no_watchers_deduction(self):
-        self.assertEqual(self._score(repo_watchers=0), 60)
+        self.assertEqual(self._score(repo_watchers=0), 46)
 
     def test_no_forks_deduction(self):
-        self.assertEqual(self._score(repo_forks=0), 60)
+        self.assertEqual(self._score(repo_forks=0), 46)
 
     def test_downloads_log_scale(self):
         # 4 points per tenfold above 10 a month, capped at 20.
         for downloads, expected in [
-            (10, 80),
-            (100, 84),
-            (286, 85),
-            (1_000, 88),
-            (10_000, 92),
-            (100_000, 96),
-            (1_000_000, 100),
-            (5_000_000, 100),
+            (10, 52),
+            (100, 56),
+            (286, 56),  # 57 points, but 0.57 * 100 truncates to 56
+            (1_000, 60),
+            (10_000, 64),
+            (100_000, 68),
+            (1_000_000, 72),
+            (5_000_000, 72),
         ]:
             with self.subTest(downloads=downloads):
                 self.assertEqual(self._score(pypi_downloads=downloads), expected)
 
     def test_no_downloads_data(self):
-        self.assertEqual(self._score(pypi_downloads=0), 80)
+        self.assertEqual(self._score(pypi_downloads=0), 52)
 
     def test_archived_deduction(self):
-        self.assertEqual(self._score(date_repo_archived=timezone.now()), 60)
+        self.assertEqual(self._score(date_repo_archived=timezone.now()), 32)
+
+
+class StarsAndForksLogScaleTest(TestCase):
+    """Five points per tenfold, so 20 stars and 20,000 stars no longer tie."""
+
+    def test_watchers_ladder(self):
+        for stars, expected in [
+            (0, 0),
+            (1, 0),
+            (10, 5),
+            (20, 6),
+            (100, 10),
+            (1_000, 15),
+            (10_000, 20),
+            (50_000, 20),
+        ]:
+            with self.subTest(stars=stars):
+                package = baker.prepare("package.Package", repo_watchers=stars)
+                self.assertEqual(WatchersRule().check(package=package).score, expected)
+
+    def test_forks_ladder(self):
+        for forks, expected in [(0, 0), (10, 5), (100, 10), (1_000, 15), (10_000, 20)]:
+            with self.subTest(forks=forks):
+                package = baker.prepare("package.Package", repo_forks=forks)
+                self.assertEqual(ForkRule().check(package=package).score, expected)
 
 
 class ActivityRuleTest(TestCase):
@@ -170,11 +197,11 @@ class ActivityRuleTest(TestCase):
             pypi_downloads=100_000,
         )
         result = score_package(package)
-        # not deprecated 20, description 20, downloads 16, forks 20, watchers 20
-        # = 96 of 140 = 68.6, then a quarter of that at four years.
-        self.assertEqual(sum(item["score"] for item in result["breakdown"]), 96)
+        # not deprecated 20, description 20, downloads 16, forks 8 (50),
+        # stars 13 (500) = 77 of 140 = 55, then a quarter of that at four years.
+        self.assertEqual(sum(item["score"] for item in result["breakdown"]), 77)
         self.assertAlmostEqual(result["factor"], 0.25, places=2)
-        self.assertEqual(result["total_score"], 17)
+        self.assertEqual(result["total_score"], 13)
 
     def test_age_text(self):
         for days, text in [
@@ -208,8 +235,8 @@ class ScorePackageTest(TestCase):
             last_commit_date=timezone.now(),
         )
         result = score_package(package)
-        # not deprecated 20 + usage floor 1 + watchers 20 = 41 of 140.
-        self.assertEqual(result["total_score"], 29)
+        # not deprecated 20 + usage floor 1 + stars 10 (100 stars) = 31 of 140.
+        self.assertEqual(result["total_score"], 22)
         self.assertEqual(
             [item["rule"] for item in result["breakdown"]],
             [rule.name for rule in PACKAGE_RULES],
