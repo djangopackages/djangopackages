@@ -93,7 +93,7 @@ dependencies = [
     "django-reversion",
     "django-secure",
     "django-structlog",
-    "django-tailwind-cli>=4.8.1",
+    "django-tailwind-cli>=4.8.2",
     "django-waffle",
     "Django>5.0",
     "djangorestframework<3.19",
