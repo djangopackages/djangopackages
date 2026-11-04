@@ -16,7 +16,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import UTC, datetime, timedelta
 
 from django.conf import settings
 
@@ -64,6 +64,11 @@ def build_query(framework: str, days: int | None) -> tuple[str, dict]:
     count. BigQuery prunes this table by `upload_time`: measured on
     2026-10-29, seven days scanned 0.23 GB against 9 GB for the whole
     index, so the date filter is what keeps the feed cheap.
+
+    The cutoff is computed here, not with `CURRENT_TIMESTAMP()`: BigQuery
+    never caches a query that calls it. Snapping to midnight UTC keeps
+    the SQL and parameters identical all day, so a rerun is a free cache
+    hit. The window therefore reaches back up to one extra day.
     """
     prefix = FRAMEWORKS[framework]
     where = [
@@ -71,10 +76,9 @@ def build_query(framework: str, days: int | None) -> tuple[str, dict]:
     ]
     params = {"prefix": prefix}
     if days is not None:
-        where.append(
-            "upload_time >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL @days DAY)"
-        )
-        params["days"] = days
+        where.append("upload_time >= @since")
+        today = datetime.now(UTC).replace(hour=0, minute=0, second=0, microsecond=0)
+        params["since"] = today - timedelta(days=days)
     sql = f"""
 SELECT
   name,
@@ -113,10 +117,13 @@ def bigquery_client():
 def _job_config(params: dict, *, dry_run: bool):
     from google.cloud import bigquery
 
+    types = {
+        datetime: "TIMESTAMP",
+        int: "INT64",
+        str: "STRING",
+    }
     query_parameters = [
-        bigquery.ScalarQueryParameter(
-            key, "INT64" if isinstance(value, int) else "STRING", value
-        )
+        bigquery.ScalarQueryParameter(key, types[type(value)], value)
         for key, value in params.items()
     ]
     return bigquery.QueryJobConfig(
