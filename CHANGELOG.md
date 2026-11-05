@@ -1,5 +1,12 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-11-04]
+### Changed
+- Grid cutoff 52 to 48 ([#1828](https://github.com/djangopackages/djangopackages/pull/1828))
+- Log scale the Watchers and Fork rules ([#1827](https://github.com/djangopackages/djangopackages/pull/1827))
+- Score packages on the Python and Django versions they support ([#1818](https://github.com/djangopackages/djangopackages/pull/1818))
+- 🐛 Let BigQuery cache pypi_discover queries ([#1825](https://github.com/djangopackages/djangopackages/pull/1825))
+
 ## [2026-11-03]
 ### Changed
 - Upgrade Django to 6.0.10 (2026-11-03 security release) ([#1824](https://github.com/djangopackages/djangopackages/pull/1824))
