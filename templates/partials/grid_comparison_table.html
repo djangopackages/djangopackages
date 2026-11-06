@@ -308,7 +308,7 @@
                         {% for feature in features %}
                             <tr class="hover:bg-muted/30 transition-colors"
                                 {% if not can_edit_grid_feature and feature in empty_features %}
-                                data-grid-empty-feature hidden style="display: none;"
+                                    data-grid-empty-feature hidden style="display: none;"
                                 {% endif %}>
                                 <td class="bg-card text-muted-foreground sticky left-0 z-10 max-w-[180px] px-3 py-2.5 align-top text-xs font-medium">
                                     <div class="flex items-start gap-1.5">
@@ -572,9 +572,9 @@
                                                          onclick="window.location.href='{% url 'edit_element' grid_slug=grid.slug feature_id=feature.id package_id=package.id %}'"
                                                          title="{% translate 'Tap to edit' %}"
                                                      {% endif %}
-                                                    {% if not can_edit_grid_feature and feature in empty_features %}
-                                                    data-grid-empty-feature hidden style="display: none;"
-                                                    {% endif %}>
+                                                     {% if not can_edit_grid_feature and feature in empty_features %}
+                                                         data-grid-empty-feature hidden style="display: none;"
+                                                     {% endif %}>
                                                     <span class="text-muted-foreground text-xs" title="{{ feature.title }}">{{ feature.title }}</span>
                                                     <div class="flex max-w-[55%] flex-shrink-0 items-start">
                                                         {% if element %}
