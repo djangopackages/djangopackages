@@ -785,3 +785,21 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+document.addEventListener("click", (event) => {
+    if (!(event.target instanceof Element)) return;
+
+    const button = event.target.closest("[data-grid-empty-features-toggle]");
+    if (!button) return;
+
+    const comparison = button.closest("#comparison-table");
+    if (!comparison) return;
+
+    const expand = button.getAttribute("aria-expanded") === "false";
+
+    for (const row of comparison.querySelectorAll("[data-grid-empty-feature]")) {
+        row.hidden = !expand;
+        row.style.display = expand ? "" : "none";
+    }
+
+    button.setAttribute("aria-expanded", String(expand));
+});

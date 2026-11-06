@@ -338,6 +338,16 @@ class GridDetailView(DetailView):
 
         payload = self._get_or_build_payload(grid=grid, filter_data=filter_data)
 
+        filled_features = []
+        empty_features = []
+
+        for feature in payload["features"]:
+            cells = payload["element_map"].get(feature["id"], {})
+            if any(cell["text"] for cell in cells.values()):
+                filled_features.append(feature)
+            else:
+                empty_features.append(feature)
+
         context.update(
             {
                 "packages": payload["packages"],
@@ -353,6 +363,8 @@ class GridDetailView(DetailView):
                 "score_min": payload.get("score_min", settings.PACKAGE_SCORE_MIN),
                 "max_packages": self.max_packages,
                 **self._edit_permissions(grid),
+                "filled_features": filled_features,
+                "empty_features": empty_features,
             }
         )
         return context
