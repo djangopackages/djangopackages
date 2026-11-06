@@ -773,6 +773,59 @@ class GridShowFeaturesTest(TestCase):
         self.assertEqual(response.context["total_package_count"], 3)
         self.assertNotContains(response, "Test Feature")
 
+    @override_flag("enabled_packages_score_values", active=True)
+    @override_settings(DISPLAY_GRID_FEATURES=True)
+    def test_reader_gets_toggle_for_empty_feature(self):
+        self._create_packages(3)
+        grid_package = GridPackage.objects.get(
+            grid=self.grid, package__slug="package-0"
+        )
+        filled_feature = Feature.objects.create(
+            grid=self.grid,
+            title="Python compatibility",
+            description="Supported Python versions",
+        )
+        Element.objects.create(
+            feature=filled_feature,
+            grid_package=grid_package,
+            text="Python 3.12+",
+        )
+
+        url = reverse("grid", kwargs={"slug": self.grid.slug})
+        response = self.client.get(url)
+
+        self.assertContains(response, "Python 3.12+")
+        self.assertEqual(
+            [feature["id"] for feature in response.context["empty_features"]],
+            [self.feature.pk],
+        )
+        self.assertContains(response, "1 feature with no data")
+        self.assertContains(response, "data-grid-empty-features-toggle", count=1)
+        self.assertContains(
+            response, 'data-grid-empty-feature style="display: none;"', count=4
+        )
+
+    @override_flag("enabled_packages_score_values", active=True)
+    @override_settings(DISPLAY_GRID_FEATURES=True, RESTRICT_GRID_EDITORS=True)
+    def test_editor_sees_empty_feature_expanded(self):
+        self._create_packages(3)
+        editor = User.objects.create_user(username="feature-editor")
+        Profile.objects.get_or_create(user=editor)
+        editor.user_permissions.add(
+            Permission.objects.get(
+                content_type__app_label="grid",
+                codename="change_feature",
+            )
+        )
+        self.client.force_login(editor)
+
+        url = reverse("grid", kwargs={"slug": self.grid.slug})
+        response = self.client.get(url)
+
+        self.assertTrue(response.context["can_edit_grid_feature"])
+        self.assertContains(response, 'title="Test Feature"', count=4)
+        self.assertNotContains(response, "data-grid-empty-feature")
+
 
 @override_settings(RESTRICT_GRID_EDITORS=False)
 class NewAccountGridReviewTest(TestCase):

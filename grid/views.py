@@ -338,6 +338,29 @@ class GridDetailView(DetailView):
 
         payload = self._get_or_build_payload(grid=grid, filter_data=filter_data)
 
+        permissions = self._edit_permissions(grid)
+        can_edit_feature = permissions["can_edit_grid_feature"]
+        show_features = payload.get("show_features", True)
+
+        filled_features = []
+        empty_features = []
+
+        for feature in payload["features"]:
+            cells = payload["element_map"].get(feature["id"], {})
+            if any(cell["text"] for cell in cells.values()):
+                filled_features.append(feature)
+            else:
+                empty_features.append(feature)
+
+        # Readers only see features that have data; editors see every feature.
+        show_feature_rows = show_features and bool(
+            filled_features or (can_edit_feature and payload["features"])
+        )
+        collapse_empty_features = show_feature_rows and not can_edit_feature
+        show_empty_features_toggle = bool(
+            collapse_empty_features and filled_features and empty_features
+        )
+
         context.update(
             {
                 "packages": payload["packages"],
@@ -348,11 +371,16 @@ class GridDetailView(DetailView):
                 "total_package_count": payload["total_package_count"],
                 "has_more_packages": payload["has_more_packages"],
                 "is_filtered": payload.get("is_filtered", False),
-                "show_features": payload.get("show_features", True),
+                "show_features": show_features,
                 "below_threshold": payload.get("below_threshold", False),
                 "score_min": payload.get("score_min", settings.PACKAGE_SCORE_MIN),
                 "max_packages": self.max_packages,
-                **self._edit_permissions(grid),
+                **permissions,
+                "filled_features": filled_features,
+                "empty_features": empty_features,
+                "show_feature_rows": show_feature_rows,
+                "collapse_empty_features": collapse_empty_features,
+                "show_empty_features_toggle": show_empty_features_toggle,
             }
         )
         return context
