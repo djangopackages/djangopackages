@@ -801,7 +801,9 @@ class GridShowFeaturesTest(TestCase):
         )
         self.assertContains(response, "1 feature with no data")
         self.assertContains(response, "data-grid-empty-features-toggle", count=1)
-        self.assertContains(response, "data-grid-empty-feature hidden", count=4)
+        self.assertContains(
+            response, 'data-grid-empty-feature style="display: none;"', count=4
+        )
 
     @override_flag("enabled_packages_score_values", active=True)
     @override_settings(DISPLAY_GRID_FEATURES=True, RESTRICT_GRID_EDITORS=True)

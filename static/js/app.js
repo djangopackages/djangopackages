@@ -797,7 +797,6 @@ document.addEventListener("click", (event) => {
     const expand = button.getAttribute("aria-expanded") === "false";
 
     for (const row of comparison.querySelectorAll("[data-grid-empty-feature]")) {
-        row.hidden = !expand;
         row.style.display = expand ? "" : "none";
     }
 

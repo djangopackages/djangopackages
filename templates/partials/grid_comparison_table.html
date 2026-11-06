@@ -289,7 +289,7 @@
                         {% endfor %}
                     </tr>
 
-                    {% if show_features and filled_features or show_features and can_edit_grid_feature and features %}
+                    {% if show_feature_rows %}
                     <!-- Custom Features Section Header -->
                         <tr class="bg-primary/5">
                             <td class="bg-primary/5 sticky left-0 z-10 px-3 py-2.5 whitespace-nowrap">
@@ -307,8 +307,8 @@
                     <!-- Custom Features -->
                         {% for feature in features %}
                             <tr class="hover:bg-muted/30 transition-colors"
-                                {% if not can_edit_grid_feature and feature in empty_features %}
-                                    data-grid-empty-feature hidden style="display: none;"
+                                {% if collapse_empty_features and feature in empty_features %}
+                                    data-grid-empty-feature style="display: none;"
                                 {% endif %}>
                                 <td class="bg-card text-muted-foreground sticky left-0 z-10 max-w-[180px] px-3 py-2.5 align-top text-xs font-medium">
                                     <div class="flex items-start gap-1.5">
@@ -553,7 +553,7 @@
                             </div>
 
                     <!-- Feature Comparison -->
-                            {% if show_features and filled_features or show_features and can_edit_grid_feature and features %}
+                            {% if show_feature_rows %}
                                 <div class="border-border mt-4 border-t pt-4">
                                     <div class="text-foreground mb-3 flex items-center gap-2 text-xs font-semibold">
                                         <i class="ph-bold ph-list-checks text-primary"></i>
@@ -572,8 +572,8 @@
                                                          onclick="window.location.href='{% url 'edit_element' grid_slug=grid.slug feature_id=feature.id package_id=package.id %}'"
                                                          title="{% translate 'Tap to edit' %}"
                                                      {% endif %}
-                                                     {% if not can_edit_grid_feature and feature in empty_features %}
-                                                         data-grid-empty-feature hidden style="display: none;"
+                                                     {% if collapse_empty_features and feature in empty_features %}
+                                                         data-grid-empty-feature style="display: none;"
                                                      {% endif %}>
                                                     <span class="text-muted-foreground text-xs" title="{{ feature.title }}">{{ feature.title }}</span>
                                                     <div class="flex max-w-[55%] flex-shrink-0 items-start">
@@ -669,7 +669,7 @@
 {% block extra_js %}
     <script type="module" src="{% static 'js/svg-sparkline.js' %}"></script>
 {% endblock extra_js %}
-{% if show_features and filled_features and empty_features and not can_edit_grid_feature %}
+{% if show_empty_features_toggle %}
     <button type="button"
             class="text-muted-foreground hover:text-primary mt-2 cursor-pointer px-3 py-2 text-xs font-medium"
             data-grid-empty-features-toggle
