@@ -497,6 +497,13 @@ Listed in alphabetical order.
     <td></td>
   </tr>
   <tr>
+    <td>Raffaele-Maccarrone</td>
+    <td>
+      <a href="https://github.com/Raffaele-Maccarrone">Raffaele-Maccarrone</a>
+    </td>
+    <td></td>
+  </tr>
+  <tr>
     <td>Ramez Ashraf</td>
     <td>
       <a href="https://github.com/RamezIssac">RamezIssac</a>
