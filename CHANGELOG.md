@@ -1,5 +1,10 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-11-06]
+### Changed
+- Collapse empty feature rows in grid comparisons ([#1831](https://github.com/djangopackages/djangopackages/pull/1831))
+- ⬆️ Bump oauthlib from 4.0.0 to 4.0.1 ([#1830](https://github.com/djangopackages/djangopackages/pull/1830))
+
 ## [2026-11-04]
 ### Changed
 - Grid cutoff 52 to 48 ([#1828](https://github.com/djangopackages/djangopackages/pull/1828))
