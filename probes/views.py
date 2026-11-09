@@ -15,6 +15,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import render
 from django.urls import reverse
@@ -22,6 +23,7 @@ from django.utils.http import urlencode
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView
 
+from package.models import Package
 from probes import stats as probe_stats
 from probes.models import Library
 
@@ -61,6 +63,14 @@ class SectionSpec:
     facet_field: str = ""
     facets: Callable[[list], list] | None = None
 
+    # Which packages one row stands for, as (package_id, uses), most
+    # uses first. Set when the table's labels are worth a page of their
+    # own; each label then links to the packages that use it.
+    users: Callable[[str], list[tuple[int, int]]] | None = None
+    # Whether the second value `users` returns is a count worth showing.
+    # A dependency is declared or not, so its page has no uses column.
+    counts_uses: bool = True
+
     @property
     def heading(self) -> str:
         return self.label() if callable(self.label) else self.label
@@ -68,6 +78,11 @@ class SectionSpec:
     @property
     def url(self) -> str:
         return reverse("probes:section", kwargs={"section": self.param})
+
+    def users_url(self, label: str) -> str:
+        if self.users is None:
+            return ""
+        return reverse("probes:users", kwargs={"section": self.param, "label": label})
 
 
 SECTIONS: dict[str, SectionSpec] = {
@@ -83,6 +98,7 @@ SECTIONS: dict[str, SectionSpec] = {
                 (_("Scanned for"), "extra"),
             ),
             rows=lambda: probe_stats.cached("libraries", probe_stats.library_rows),
+            users=probe_stats.library_users,
         ),
         SectionSpec(
             param="patterns",
@@ -93,6 +109,7 @@ SECTIONS: dict[str, SectionSpec] = {
                 (_("Hits"), "uses"),
             ),
             rows=lambda: probe_stats.cached("patterns", probe_stats.pattern_rows),
+            users=probe_stats.pattern_users,
         ),
         SectionSpec(
             param="settings",
@@ -103,6 +120,7 @@ SECTIONS: dict[str, SectionSpec] = {
                 (_("Uses"), "uses"),
             ),
             rows=lambda: probe_stats.cached("settings", probe_stats.setting_rows),
+            users=probe_stats.setting_users,
         ),
         SectionSpec(
             param="symbols",
@@ -113,6 +131,7 @@ SECTIONS: dict[str, SectionSpec] = {
                 (_("Uses"), "uses"),
             ),
             rows=lambda: probe_stats.cached("symbols", probe_stats.symbol_rows),
+            users=probe_stats.symbol_users,
             facet_param="library",
             facet_label=_("Library"),
             facet_field="library",
@@ -129,6 +148,8 @@ SECTIONS: dict[str, SectionSpec] = {
             rows=lambda: probe_stats.cached(
                 "dependencies", probe_stats.dependency_rows
             ),
+            users=probe_stats.dependency_users,
+            counts_uses=False,
         ),
         # Last, because it is the most opinionated table on the page and
         # the least use as an opening fact about what we scanned.
@@ -142,6 +163,7 @@ SECTIONS: dict[str, SectionSpec] = {
                 (_("Removed in"), "note"),
             ),
             rows=_unresolved_rows,
+            users=probe_stats.symbol_users,
             facet_param="removed_in",
             facet_label=_("Removed in Django"),
             facet_field="note",
@@ -209,6 +231,7 @@ class SectionMixin:
             "rows": [
                 {
                     "label": row.label,
+                    "url": spec.users_url(row.label),
                     "values": [getattr(row, field) for field in fields],
                     "width": (row.packages / widest * 100) if widest else 0,
                 }
@@ -430,3 +453,111 @@ class ProbeSectionView(SectionMixin, TemplateView):
             for row in spec.facets(rows)
         ]
         return buttons
+
+
+class ProbeUsersView(SectionMixin, TemplateView):
+    """The packages behind one row of a table: who uses this symbol or library.
+
+    The symbol and library tables say how many packages use a thing.
+    This is the page that says which. The package ids and their use
+    counts come from one cached query over the profiles; the packages
+    themselves are read fresh so the titles and descriptions are current,
+    and the search is applied to those in SQL rather than to the
+    cached list, since that is where the text lives.
+    """
+
+    template_name = "probes/users.html"
+    PER_PAGE = 50
+    PARAM = "page"
+    DOM_PARAM = "users"
+
+    def get_spec(self):
+        spec = SECTIONS.get(self.kwargs["section"])
+        if spec is None or spec.users is None:
+            raise Http404(
+                f"No per-package view for probe section {self.kwargs['section']!r}"
+            )
+        return spec
+
+    def get(self, request, *args, **kwargs):
+        spec = self.get_spec()
+        if self.requested_section() != self.DOM_PARAM:
+            return super().get(request, *args, **kwargs)
+        return render(
+            request,
+            "probes/partials/users.html",
+            {"users": self.users(spec, self.kwargs["label"])},
+        )
+
+    def usage(self, spec, label: str) -> list[tuple[int, int]]:
+        found = probe_stats.cached(
+            f"users:{spec.param}:{label}", lambda: spec.users(label)
+        )
+        if not found:
+            raise Http404(f"Nothing in {spec.param} is named {label!r}")
+        return found
+
+    def users(self, spec, label: str) -> dict:
+        usage = self.usage(spec, label)
+        uses = dict(usage)
+
+        packages = Package.objects.filter(id__in=uses)
+        query = self.request.GET.get("q", "").strip()
+        if query:
+            packages = packages.filter(
+                Q(title__icontains=query)
+                | Q(slug__icontains=query)
+                | Q(repo_description__icontains=query)
+            )
+        by_id = {package.id: package for package in packages}
+        # The cached list already has the order; keep it rather than
+        # sorting again, so a package's position never depends on the
+        # search that found it.
+        matched = [by_id[pk] for pk, _count in usage if pk in by_id]
+
+        paginator = Paginator(matched, self.PER_PAGE)
+        page = paginator.get_page(self.request.GET.get(self.PARAM))
+        widest = max((uses[p.id] for p in page.object_list), default=0)
+
+        def link(number):
+            params = self.request.GET.copy()
+            params[self.PARAM] = number
+            return f"{self.request.path}?{params.urlencode()}"
+
+        return {
+            "dom_id": f"{self.SECTION_PREFIX}{self.DOM_PARAM}",
+            "page": page,
+            "paginator": paginator,
+            "counts_uses": spec.counts_uses,
+            "total_uses": sum(uses.values()),
+            "rows": [
+                {
+                    "package": package,
+                    "uses": uses[package.id],
+                    "width": (uses[package.id] / widest * 100) if widest else 0,
+                }
+                for package in page.object_list
+            ],
+            "first_url": link(1) if page.number > 2 else "",
+            "last_url": (
+                link(paginator.num_pages)
+                if page.number < paginator.num_pages - 1
+                else ""
+            ),
+            "previous_url": link(page.previous_page_number())
+            if page.has_previous()
+            else "",
+            "next_url": link(page.next_page_number()) if page.has_next() else "",
+        }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        spec = self.get_spec()
+        label = self.kwargs["label"]
+        users = self.users(spec, label)
+        context["spec"] = spec
+        context["label"] = label
+        context["query"] = self.request.GET.get("q", "")
+        context["users"] = users
+        context["total_packages"] = len(self.usage(spec, label))
+        return context

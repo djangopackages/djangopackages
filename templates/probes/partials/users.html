@@ -1,0 +1,101 @@
+{% load humanize i18n %}
+
+{% comment %}
+    The packages that use one symbol or library, most uses first, with a
+    bar per row drawn against the widest row on the page. Swapped whole
+    by htmx when the reader pages or searches; the id is what the view
+    reads back from HX-Target.
+{% endcomment %}
+
+<section class="mt-8" id="{{ users.dom_id }}">
+    <div class="flex items-baseline justify-end">
+        <span class="text-muted-foreground text-sm">
+            {% blocktranslate with count=users.paginator.count|intcomma %}{{ count }} packages{% endblocktranslate %}
+        </span>
+    </div>
+
+    {% if users.rows %}
+        <div class="border-border mt-3 overflow-hidden rounded-lg border">
+            <table class="w-full text-sm">
+                <thead class="bg-muted/50">
+                    <tr class="text-muted-foreground text-left">
+                        <th class="px-3 py-2 font-medium">{% translate "Package" %}</th>
+                        <th class="px-3 py-2 text-right font-medium">{% if users.counts_uses %}{% translate "Uses" %}{% else %}{% translate "Required" %}{% endif %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in users.rows %}
+                        <tr class="border-border hover:bg-muted/30 border-t transition-colors">
+                            <td class="px-3 py-2">
+                                <a class="text-foreground hover:text-primary font-medium transition-colors"
+                                   href="{{ item.package.get_absolute_url }}">{{ item.package.title }}</a>
+                                {% if item.package.repo_description %}
+                                    <span class="text-muted-foreground block text-xs">{{ item.package.repo_description|truncatechars:120 }}</span>
+                                {% endif %}
+                                <span class="bg-muted mt-1 block h-1 w-full overflow-hidden rounded">
+                                    <span class="bg-primary block h-full rounded" style="width: {{ item.width|floatformat:1 }}%"></span>
+                                </span>
+                            </td>
+                            <td class="text-foreground px-3 py-2 text-right align-top tabular-nums">
+                                {% if users.counts_uses %}
+                                    {{ item.uses|intcomma }}
+                                {% elif item.uses %}
+                                    {% translate "Yes" %}
+                                {% else %}
+                                    <span class="text-muted-foreground">{% translate "Extra only" %}</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if users.paginator.num_pages > 1 %}
+            <nav class="mt-3 flex items-center justify-between gap-4"
+                 aria-label="{% translate 'Packages pagination' %}">
+                <span class="flex items-center gap-2">
+                    {% if users.first_url %}
+                        <a class="btn-secondary"
+                           href="{{ users.first_url }}"
+                           hx-get="{{ users.first_url }}"
+                           hx-target="#{{ users.dom_id }}"
+                           hx-swap="outerHTML"
+                           hx-push-url="true">{% translate "First" %}</a>
+                    {% endif %}
+                    {% if users.previous_url %}
+                        <a class="btn-secondary"
+                           href="{{ users.previous_url }}"
+                           hx-get="{{ users.previous_url }}"
+                           hx-target="#{{ users.dom_id }}"
+                           hx-swap="outerHTML"
+                           hx-push-url="true">{% translate "Previous" %}</a>
+                    {% endif %}
+                </span>
+                <span class="text-muted-foreground text-sm">
+                    {% blocktranslate with page=users.page.number pages=users.paginator.num_pages %}Page {{ page }} of {{ pages }}{% endblocktranslate %}
+                </span>
+                <span class="flex items-center gap-2">
+                    {% if users.next_url %}
+                        <a class="btn-secondary"
+                           href="{{ users.next_url }}"
+                           hx-get="{{ users.next_url }}"
+                           hx-target="#{{ users.dom_id }}"
+                           hx-swap="outerHTML"
+                           hx-push-url="true">{% translate "Next" %}</a>
+                    {% endif %}
+                    {% if users.last_url %}
+                        <a class="btn-secondary"
+                           href="{{ users.last_url }}"
+                           hx-get="{{ users.last_url }}"
+                           hx-target="#{{ users.dom_id }}"
+                           hx-swap="outerHTML"
+                           hx-push-url="true">{% translate "Last" %}</a>
+                    {% endif %}
+                </span>
+            </nav>
+        {% endif %}
+    {% else %}
+        <p class="text-muted-foreground mt-3 text-sm">{% translate "Nothing found." %}</p>
+    {% endif %}
+</section>

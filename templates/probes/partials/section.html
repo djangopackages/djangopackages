@@ -61,7 +61,13 @@
                     {% for item in section.rows %}
                         <tr class="border-border hover:bg-muted/30 border-t transition-colors">
                             <td class="px-3 py-2">
-                                <span class="text-foreground font-mono">{{ item.label }}</span>
+                                {% if item.url %}
+                                    <a class="text-foreground hover:text-primary font-mono transition-colors"
+                                       href="{{ item.url }}"
+                                       title="{% translate 'See which packages use this' %}">{{ item.label }}</a>
+                                {% else %}
+                                    <span class="text-foreground font-mono">{{ item.label }}</span>
+                                {% endif %}
                                 <span class="bg-muted mt-1 block h-1 w-full overflow-hidden rounded">
                                     <span class="bg-primary block h-full rounded" style="width: {{ item.width|floatformat:1 }}%"></span>
                                 </span>
