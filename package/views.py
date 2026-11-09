@@ -1,5 +1,6 @@
 from functools import cached_property
 import json
+from urllib.parse import quote as urlquote
 from urllib.parse import urlparse
 
 from django.contrib import messages
@@ -23,6 +24,7 @@ from django.urls import reverse
 from django.template.defaultfilters import slugify
 from django.utils.decorators import method_decorator
 from django.utils import timezone
+from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView, ListView, RedirectView, View
 from django.views.generic.edit import CreateView, UpdateView
@@ -40,6 +42,7 @@ from package.forms import (
     RepositoryURLForm,
     PackageFilterForm,
 )
+from probes import stats as probe_stats
 from package.models import (
     Category,
     FlaggedPackage,
@@ -537,14 +540,74 @@ class BasePackageListView(ListView):
         self.form = self.get_filter_form()
         self.filter_data = self.get_default_filter_data()
         self.filter_data.setdefault("status", "all")
+        for param, _column in self.VERSION_FILTERS:
+            self.filter_data.setdefault(param, "all")
 
         if self.form.is_valid():
             self.update_filter_data(self.form.cleaned_data)
 
         queryset = self.apply_filters(queryset)
         queryset = self.apply_status_filter(queryset)
+        queryset = self.apply_version_filters(queryset)
 
         return queryset.order_by(self.filter_data["sort"])
+
+    # Query parameter -> the PackageProbe JSON list it filters on.
+    VERSION_FILTERS = (
+        ("django_version", "django_versions"),
+        ("python_version", "python_versions"),
+    )
+
+    def version_choices(self) -> dict[str, list]:
+        """The cycles worth offering, newest first, with how many claim each.
+
+        Read from the probe roll-up the stats page already caches, so a
+        version nothing claims is never offered and the list costs no
+        query of its own once warm.
+        """
+        if not hasattr(self, "_version_choices"):
+            self._version_choices = {
+                param: probe_stats.cached(
+                    column, lambda column=column: probe_stats.version_rows(column)
+                )
+                for param, column in self.VERSION_FILTERS
+            }
+        return self._version_choices
+
+    def apply_version_filters(self, queryset):
+        """Narrow to packages whose probe profile claims the chosen cycle.
+
+        Containment on the JSON list, so "5.2" matches ["5.1", "5.2"].
+        A package with no profile, or an empty list, drops out once a
+        version is chosen and stays while it is not. A value we do not
+        offer is treated as "all" rather than returning nothing.
+        """
+        for param, column in self.VERSION_FILTERS:
+            chosen = self.filter_data[param]
+            if chosen == "all":
+                continue
+            offered = {row.label for row in self.version_choices()[param]}
+            if chosen not in offered:
+                self.filter_data[param] = "all"
+                continue
+            queryset = queryset.filter(
+                **{f"probe_profile__{column}__contains": [chosen]}
+            )
+        return queryset
+
+    def version_query(self) -> str:
+        """The version parameters as a query-string tail, for hand-built links.
+
+        Marked safe because every value has been URL-quoted, and the
+        templates write the rest of these query strings with bare
+        ampersands too.
+        """
+        return mark_safe(  # noqa: S308 - values are URL-quoted above
+            "".join(
+                f"&{param}={urlquote(self.filter_data[param])}"
+                for param, _column in self.VERSION_FILTERS
+            )
+        )
 
     def apply_status_filter(self, queryset):
         """
@@ -579,6 +642,11 @@ class BasePackageListView(ListView):
                 "search_query": self.filter_data.get("q", ""),
                 "form": self.form,
                 "list_url": self.get_list_url(),
+                "current_django_version": self.filter_data["django_version"],
+                "current_python_version": self.filter_data["python_version"],
+                "django_version_choices": self.version_choices()["django_version"],
+                "python_version_choices": self.version_choices()["python_version"],
+                "version_query": self.version_query(),
                 **self.get_extra_context(),
             }
         )
