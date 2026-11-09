@@ -58,9 +58,10 @@
                            hx-push-url="true">
                 </div>
 
-                {% include "partials/package_status_filter.html" %}
-
-                {% include "partials/package_version_filter.html" %}
+                <div class="mb-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+                    {% include "partials/package_status_filter.html" %}
+                    {% include "partials/package_version_filter.html" %}
+                </div>
 
                 <div id="package-categories-container">
                     {% include "partials/package_categories.html" %}
