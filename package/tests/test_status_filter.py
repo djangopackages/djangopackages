@@ -102,7 +102,7 @@ def test_status_is_carried_in_the_htmx_state(client, packages):
         f'<input type="hidden" name="status" value="{PackageStatus.STABLE.value}">'
         in body
     )
-    assert f'&status={PackageStatus.STABLE.value}"' in body
+    assert f"&status={PackageStatus.STABLE.value}&django_version=all" in body
 
 
 def test_the_select_does_not_also_send_the_stale_hidden_status(client, packages):

@@ -1,0 +1,57 @@
+{% load i18n %}
+{% comment %}
+    Two selects over the cycles the probe profiles claim. Only versions
+    something claims are offered, with how many packages claim each.
+    Each select sends every other piece of filter state along, the same
+    way the status select does, so changing one keeps the rest.
+{% endcomment %}
+{% if django_version_choices or python_version_choices %}
+    <div class="mb-8 flex flex-wrap items-center gap-x-6 gap-y-3">
+        {% if django_version_choices %}
+            <div class="flex items-center gap-3">
+                <label for="package-django-version-filter" class="text-muted-foreground text-sm font-medium">
+                    {% translate "Django" %}
+                </label>
+                <select id="package-django-version-filter"
+                        name="django_version"
+                        class="bg-background text-foreground focus:ring-primary h-10 rounded-lg border px-3 text-sm shadow-sm focus:ring-2 focus:outline-none"
+                        hx-get="{{ list_url }}"
+                        hx-trigger="change"
+                        hx-target="#package-list-container"
+                        hx-indicator="#package-list-spinner"
+                        hx-include="#package-list-state input:not([name='django_version']), [name='q']"
+                        hx-push-url="true">
+                    <option value="all" {% if current_django_version == 'all' %}selected{% endif %}>{% translate "All" %}</option>
+                    {% for row in django_version_choices %}
+                        <option value="{{ row.label }}" {% if row.label == current_django_version %}selected{% endif %}>
+                            {{ row.label }} ({{ row.packages }})
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        {% endif %}
+        {% if python_version_choices %}
+            <div class="flex items-center gap-3">
+                <label for="package-python-version-filter" class="text-muted-foreground text-sm font-medium">
+                    {% translate "Python" %}
+                </label>
+                <select id="package-python-version-filter"
+                        name="python_version"
+                        class="bg-background text-foreground focus:ring-primary h-10 rounded-lg border px-3 text-sm shadow-sm focus:ring-2 focus:outline-none"
+                        hx-get="{{ list_url }}"
+                        hx-trigger="change"
+                        hx-target="#package-list-container"
+                        hx-indicator="#package-list-spinner"
+                        hx-include="#package-list-state input:not([name='python_version']), [name='q']"
+                        hx-push-url="true">
+                    <option value="all" {% if current_python_version == 'all' %}selected{% endif %}>{% translate "All" %}</option>
+                    {% for row in python_version_choices %}
+                        <option value="{{ row.label }}" {% if row.label == current_python_version %}selected{% endif %}>
+                            {{ row.label }} ({{ row.packages }})
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        {% endif %}
+    </div>
+{% endif %}

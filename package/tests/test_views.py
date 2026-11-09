@@ -22,7 +22,10 @@ class FunctionalPackageTest(TestCase):
 
     def test_package_list_view(self):
         url = reverse("packages")
-        with self.assertNumQueries(7):
+        # Two of these are the probe version roll-ups behind the Django
+        # and Python filters, which are cached for 15 minutes in
+        # production and cold here.
+        with self.assertNumQueries(9):
             response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "package/package_list.html")
@@ -509,13 +512,15 @@ class ValidateRepositoryURLViewTest(TestCase):
 
 
 def test_category_view(django_assert_num_queries, tp, initial_test_data):
-    with django_assert_num_queries(6):
+    # Two are the cold probe version roll-ups behind the version filters.
+    with django_assert_num_queries(8):
         response = tp.client.get("/categories/apps/")
     assert "apps" in str(response.content)
 
 
 def test_grid_package_list(django_assert_num_queries, tp, initial_test_data):
-    with django_assert_num_queries(8):
+    # Two are the cold probe version roll-ups behind the version filters.
+    with django_assert_num_queries(10):
         url = tp.reverse("grid_packages", slug="testing")
         response = tp.client.get(url)
 

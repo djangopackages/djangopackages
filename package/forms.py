@@ -193,6 +193,12 @@ class BasePackageFilterForm(forms.Form):
         required=False,
         initial="all",
     )
+    # A Django or Python cycle the package's probe profile claims, like
+    # "5.2" or "3.12". Free text rather than a ChoiceField because the
+    # cycles worth offering come from the probe roll-up at request time;
+    # the view checks the value against that list and ignores the rest.
+    django_version = forms.CharField(required=False)
+    python_version = forms.CharField(required=False)
 
 
 class PackageFilterForm(BasePackageFilterForm):
