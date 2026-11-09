@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% load humanize i18n page_metadata_tags %}
+
+{% block metadata %}
+    {% page_metadata page_title=label %}
+    <meta name="robots" content="noindex, nofollow">
+{% endblock metadata %}
+
+{% block content %}
+    <div class="mx-auto max-w-5xl px-4 py-8">
+        <a class="text-muted-foreground hover:text-foreground text-sm transition-colors"
+           href="{{ spec.url }}">&larr; {{ spec.heading }}</a>
+
+        <h1 class="text-foreground mt-2 font-mono text-2xl font-bold break-all sm:text-3xl">{{ label }}</h1>
+        <p class="text-muted-foreground mt-2">
+            {% if users.counts_uses %}
+                {% blocktranslate trimmed with packages=total_packages|intcomma uses=users.total_uses|intcomma count counter=total_packages %}
+                    Used by {{ packages }} package, {{ uses }} times in all.
+                {% plural %}
+                    Used by {{ packages }} packages, {{ uses }} times in all.
+                {% endblocktranslate %}
+            {% else %}
+                {% blocktranslate trimmed with packages=total_packages|intcomma required=users.total_uses|intcomma count counter=total_packages %}
+                    Declared by {{ packages }} package, required by {{ required }} for a plain install.
+                {% plural %}
+                    Declared by {{ packages }} packages, required by {{ required }} for a plain install.
+                {% endblocktranslate %}
+            {% endif %}
+        </p>
+
+        {% comment %}
+            Searching and paging swap the table below rather than the
+            page, the same way the section pages do. The form still
+            submits normally without JavaScript.
+        {% endcomment %}
+        <form class="mt-6"
+              action="{{ request.path }}"
+              method="get"
+              role="search"
+              hx-get="{{ request.path }}"
+              hx-target="#{{ users.dom_id }}"
+              hx-swap="outerHTML"
+              hx-push-url="true"
+              hx-trigger="input changed delay:300ms from:find input, search from:find input, submit">
+            <label class="sr-only" for="probe-search">{% translate "Search" %}</label>
+            <input class="border-border bg-card text-foreground placeholder:text-muted-foreground focus:border-primary w-full rounded-lg border px-3 py-2 text-sm transition-colors focus:outline-none"
+                   id="probe-search"
+                   name="q"
+                   type="search"
+                   value="{{ query }}"
+                   autocomplete="off"
+                   placeholder="{% translate 'Filter these packages' %}">
+        </form>
+
+        {% include "probes/partials/users.html" %}
+    </div>
+{% endblock content %}

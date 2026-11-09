@@ -299,6 +299,74 @@ def symbol_rows() -> list[Row]:
     ]
 
 
+def symbol_users(symbol: str) -> list[tuple[int, int]]:
+    """Which packages use one symbol, most uses first, as (package_id, uses).
+
+    The id rather than the package, so the result can be cached as a
+    small list and the packages themselves read fresh, with whatever
+    search the page applies, when it renders.
+    """
+    return _query(
+        """
+        SELECT p.package_id, coalesce(sum((sym->>'count')::bigint), 0) AS uses
+        FROM probes_packageprobe p, jsonb_array_elements(p.symbols) AS sym
+        WHERE sym->>'symbol' = %s
+        GROUP BY 1 ORDER BY 2 DESC, 1
+        """,
+        [symbol],
+    )
+
+
+def library_users(library: str) -> list[tuple[int, int]]:
+    """Which packages use anything from one library, most uses first."""
+    return _query(
+        """
+        SELECT p.package_id, coalesce(sum((sym->>'count')::bigint), 0) AS uses
+        FROM probes_packageprobe p, jsonb_array_elements(p.symbols) AS sym
+        WHERE coalesce(sym->>'library', split_part(sym->>'symbol', '.', 1)) = %s
+        GROUP BY 1 ORDER BY 2 DESC, 1
+        """,
+        [library],
+    )
+
+
+def setting_users(name: str) -> list[tuple[int, int]]:
+    """Which packages read one setting. Takes the bare name the table shows."""
+    return symbol_users(f"{SETTINGS_PREFIX}{name}")
+
+
+def pattern_users(name: str) -> list[tuple[int, int]]:
+    """Which packages hit one pattern. Takes the name without `probe:`."""
+    return _query(
+        """
+        SELECT p.package_id, coalesce(sum((pat->>'count')::bigint), 0) AS uses
+        FROM probes_packageprobe p, jsonb_array_elements(p.patterns) AS pat
+        WHERE pat->>'pattern' = %s
+        GROUP BY 1 ORDER BY 2 DESC, 1
+        """,
+        [f"probe:{name}"],
+    )
+
+
+def dependency_users(name: str) -> list[tuple[int, int]]:
+    """Which packages declare one dependency.
+
+    There is no use count for a dependency, so the second value is 1
+    when a plain install needs it and 0 when only an extra does. That
+    puts the packages that really require it first.
+    """
+    return _query(
+        """
+        SELECT p.package_id,
+               max(CASE WHEN coalesce(dep->>'extra', '') = '' THEN 1 ELSE 0 END)
+        FROM probes_packageprobe p, jsonb_array_elements(p.dependencies) AS dep
+        WHERE dep->>'name' = %s
+        GROUP BY 1 ORDER BY 2 DESC, 1
+        """,
+        [name],
+    )
+
+
 def symbol_libraries(rows: list[Row]) -> list[Row]:
     """The libraries these symbols belong to, most symbols first.
 
