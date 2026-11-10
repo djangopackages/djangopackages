@@ -116,7 +116,6 @@ dependencies = [
     "pydantic",
     "PyGithub",
     "pypistats",
-    "python-dateutil",
     "python-gitlab",
     "pytz",
     "rich",
