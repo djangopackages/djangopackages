@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from core.models import BaseModel
+from grid.feature_types import FeatureType, Parsed, parse
 from package.models import Package
 
 
@@ -141,9 +142,34 @@ class Feature(BaseModel):
     grid = models.ForeignKey(Grid, on_delete=models.CASCADE)
     title = models.CharField(_("Title"), max_length=100)
     description = models.TextField(_("Description"), blank=True, max_length=1000)
+    # What kind of answer the cells hold. Text, the default, is what
+    # every feature was before this existed and accepts anything. The
+    # stricter types validate new cells on save and say how to read the
+    # old ones; they never rewrite what is stored. See grid.feature_types.
+    type = models.CharField(
+        _("Type"),
+        max_length=10,
+        choices=FeatureType.choices,
+        default=FeatureType.TEXT,
+        help_text=_(
+            "What the cells hold. Text accepts anything. Yes / no, version "
+            "list and URL check what is typed. One of a list checks it "
+            "against the choices below."
+        ),
+    )
+    choices = models.JSONField(
+        _("Choices"),
+        default=list,
+        blank=True,
+        help_text=_('The allowed values for a "one of a list" feature.'),
+    )
 
     def __str__(self):
         return f"{self.grid.slug} : {self.title}"
+
+    def parse(self, text: str) -> Parsed:
+        """Read a cell's text the way this feature's type says to."""
+        return parse(self.type, text, tuple(self.choices or ()))
 
 
 help_text = """

@@ -50,6 +50,8 @@ class ElementAdmin(VersionAdmin):
 class FeatureAdmin(VersionAdmin):
     raw_id_fields = ["grid"]
     search_fields = ["grid__title", "title"]
+    list_display = ["title", "grid", "type"]
+    list_filter = ["type"]
 
 
 @admin.register(GridPackage)

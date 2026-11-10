@@ -17,8 +17,9 @@ minus_two_re = re.compile(r"^(\-2|\-{2})$")
 plus_three_re = re.compile(r"^(\+[3-9]{1,}|\+{3,}|\+[1-9][0-9]+)$")
 minus_three_re = re.compile(r"^(\-[3-9]{1,}|\-{3,}|\-[1-9][0-9]+)$")
 
-YES_KEYWORDS = ("check", "yes", "good", "+1", "+")
-NO_KEYWORDS = ("bad", "negative", "evil", "sucks", "no", "-1", "-")
+# Defined once, in grid.feature_types, so a boolean feature parses the
+# same words this filter draws icons for.
+from grid.feature_types import NO_KEYWORDS, YES_KEYWORDS  # noqa: E402
 
 # Tailwind + Phosphor icons
 YES_ICON = '<span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500/10"><i class="ph-bold ph-check text-emerald-600 dark:text-emerald-400 text-xs"></i></span>'
