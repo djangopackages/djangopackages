@@ -12,16 +12,20 @@ import logging
 from dataclasses import dataclass, field
 
 import httpx2
+from django.db.models import F, Q
 from django.utils import timezone
 
 from package.importer import repo_url_from_pypi
 from package.models import Package
 from package.pypi import PyPIClient, PyPIPackage
 from probes.discovery import Discovery
-from probes.ecosystems import EcosystemsClient
+from probes.ecosystems import BULK_SIZE, EcosystemsClient, canonical
 from probes.models import Candidate
 
 logger = logging.getLogger(__name__)
+
+# Requests to leave in ecosyste.ms's daily quota for everything else.
+ECOSYSTEMS_RESERVE = 500
 
 # Keys of the PyPI `info` block worth keeping. `description` is the
 # whole README and can run to hundreds of kilobytes; everything else is
@@ -113,13 +117,15 @@ def enrich(
     client: PyPIClient | None = None,
     ecosystems: EcosystemsClient | None = None,
 ) -> bool:
-    """Fetch the PyPI JSON and the ecosyste.ms record for one candidate.
+    """Fetch the PyPI JSON for one candidate, and its ecosyste.ms record
+    too when an `ecosystems` client is passed.
 
     Returns False when PyPI had nothing for the name or the request
-    failed; the row is left as it was so the next run tries again. The
-    ecosyste.ms half is best effort: they lag PyPI by days for new
-    names, so a miss is recorded by the timestamp alone and retried
-    later, and an outage there never blocks the PyPI half.
+    failed. A 404 stamps `pypi_fetched_at` with no data, which is how a
+    removed project is told apart; any other failure leaves the row as
+    it was so the next run tries again. The ecosyste.ms half is best
+    effort and never blocks the PyPI half. `enrich_missing` leaves it
+    out and asks ecosyste.ms in batches of 100 instead.
     """
     client = client or PyPIClient()
     try:
@@ -127,6 +133,12 @@ def enrich(
     except httpx2.HTTPStatusError as exc:
         status = exc.response.status_code if exc.response is not None else "?"
         logger.info("PyPI returned %s for candidate %s", status, candidate.name)
+        if status == 404:
+            # Deleted by its author or removed by PyPI; BigQuery keeps the
+            # uploads either way. Stamp it so screening can say so and the
+            # next run does not ask again unless a newer upload appears.
+            candidate.pypi_fetched_at = timezone.now()
+            candidate.save(update_fields=["pypi_fetched_at", "modified"])
         return False
     except httpx2.RequestError as exc:
         logger.warning("PyPI request failed for candidate %s: %s", candidate.name, exc)
@@ -140,7 +152,8 @@ def enrich(
     if pypi.info.get("summary"):
         candidate.summary = pypi.info["summary"]
 
-    enrich_from_ecosystems(candidate, ecosystems=ecosystems, save=False)
+    if ecosystems is not None:
+        enrich_from_ecosystems(candidate, ecosystems=ecosystems, save=False)
     candidate.save()
     return True
 
@@ -159,51 +172,118 @@ def enrich_from_ecosystems(
         logger.warning("ecosyste.ms failed for candidate %s: %s", candidate.name, exc)
         return False
 
-    candidate.ecosystems_fetched_at = timezone.now()
-    if record is None:
-        candidate.ecosystems_data = {}
-    else:
-        candidate.ecosystems_data = record
-        if not candidate.repo_url and record.get("repository_url"):
-            candidate.repo_url = record["repository_url"][:500]
+    apply_ecosystems(candidate, record)
     if save:
         candidate.save()
     return record is not None
 
 
+def apply_ecosystems(candidate: Candidate, record: dict | None) -> None:
+    """Store a record, or a miss: they lag PyPI by days for new names, so
+    a miss is the timestamp alone and the row is asked about again later.
+    The repository fills in only when PyPI named none."""
+    candidate.ecosystems_fetched_at = timezone.now()
+    if record is None:
+        candidate.ecosystems_data = {}
+        return
+    candidate.ecosystems_data = record
+    if not candidate.repo_url and record.get("repository_url"):
+        candidate.repo_url = record["repository_url"][:500]
+
+
+@dataclass
+class Enriched:
+    pypi: int = 0
+    ecosystems_asked: int = 0
+    ecosystems_found: int = 0
+    ecosystems_requests: int = 0
+    ecosystems_remaining: int | None = None
+    stopped_early: bool = False
+
+
 def enrich_missing(
     *,
     limit: int | None = None,
+    ecosystems_limit: int | None = None,
     client: PyPIClient | None = None,
     ecosystems: EcosystemsClient | None = None,
-) -> int:
-    """Fill in every candidate that has no PyPI data yet, newest first.
+) -> Enriched:
+    """Fill in candidates in two passes.
 
-    Then retry ecosyste.ms for rows it did not know last time, oldest
-    attempt first, within the same cap, since their index catches up
-    with PyPI over a few days.
+    PyPI first: every row with no PyPI data yet, newest first, capped by
+    `limit`. Names PyPI already answered 404 for are skipped unless
+    BigQuery has seen an upload since we asked.
+
+    Then ecosyste.ms, 100 names a request, for every row with PyPI data
+    and no record from them, never asked first and then oldest attempt,
+    capped by `ecosystems_limit` names. It stops early on an error or
+    when their quota header drops below `ECOSYSTEMS_RESERVE`, so a big
+    backlog spreads itself over a few runs on its own.
     """
     client = client or PyPIClient()
     ecosystems = ecosystems or EcosystemsClient()
-    rows = Candidate.objects.filter(pypi_data={}).order_by("-last_upload", "name")
+    result = Enriched()
+
+    rows = (
+        Candidate.objects.filter(pypi_data={})
+        .filter(
+            Q(pypi_fetched_at__isnull=True) | Q(last_upload__gt=F("pypi_fetched_at"))
+        )
+        .order_by("-last_upload", "name")
+    )
     if limit is not None:
         rows = rows[:limit]
-    done = 0
     for candidate in rows:
-        if enrich(candidate, client=client, ecosystems=ecosystems):
-            done += 1
+        if enrich(candidate, client=client):
+            result.pypi += 1
 
-    retry = (
+    pending = (
         Candidate.objects.exclude(pypi_data={})
         .filter(ecosystems_data={})
         .exclude(status__in=[Candidate.Status.REJECTED, Candidate.Status.IMPORTED])
-        .order_by("ecosystems_fetched_at", "name")
+        .order_by(F("ecosystems_fetched_at").asc(nulls_first=True), "name")
     )
-    if limit is not None:
-        retry = retry[: max(limit - done, 0)]
-    for candidate in retry:
-        enrich_from_ecosystems(candidate, ecosystems=ecosystems)
-    return done
+    if ecosystems_limit is not None:
+        pending = pending[:ecosystems_limit]
+    batch: list[Candidate] = []
+    for candidate in pending.iterator(chunk_size=BULK_SIZE):
+        batch.append(candidate)
+        if len(batch) == BULK_SIZE:
+            if not _ecosystems_batch(batch, ecosystems, result):
+                break
+            batch = []
+    else:
+        if batch:
+            _ecosystems_batch(batch, ecosystems, result)
+    result.ecosystems_requests = ecosystems.requests
+    result.ecosystems_remaining = ecosystems.remaining
+    return result
+
+
+def _ecosystems_batch(
+    batch: list[Candidate], ecosystems: EcosystemsClient, result: Enriched
+) -> bool:
+    """One bulk request. False means stop asking for this run."""
+    if ecosystems.remaining is not None and ecosystems.remaining < ECOSYSTEMS_RESERVE:
+        logger.warning("ecosyste.ms quota down to %s; stopping", ecosystems.remaining)
+        result.stopped_early = True
+        return False
+    try:
+        found = ecosystems.fetch_packages(c.name for c in batch)
+    except httpx2.HTTPError as exc:
+        logger.warning("ecosyste.ms bulk lookup failed: %s", exc)
+        result.stopped_early = True
+        return False
+    now = timezone.now()
+    for candidate in batch:
+        apply_ecosystems(candidate, found.get(canonical(candidate.name)))
+        candidate.modified = now
+    Candidate.objects.bulk_update(
+        batch, ["ecosystems_data", "ecosystems_fetched_at", "repo_url", "modified"]
+    )
+    result.ecosystems_asked += len(batch)
+    result.ecosystems_found += len(found)
+    return True
 
 
 def mark_imported(name: str, package: Package) -> None:

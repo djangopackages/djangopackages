@@ -23,7 +23,7 @@ from rich.console import Console
 from rich.table import Table
 
 from package.models import Package
-from probes import candidates, discovery
+from probes import candidates, discovery, screening
 
 CSV_DIR = "pypi-discover"
 CSV_COLUMNS = [
@@ -128,6 +128,18 @@ def write_csv(path: Path, found: discovery.Discovery) -> int:
     help="Do not fetch PyPI details for candidates that have none yet.",
 )
 @click.option(
+    "--no-screen",
+    "skip_screen",
+    is_flag=True,
+    help="Do not run the screening rules on the candidates afterwards.",
+)
+@click.option(
+    "--ecosystems-limit",
+    type=int,
+    default=None,
+    help="Ask ecosyste.ms about at most this many candidates (100 a request).",
+)
+@click.option(
     "--enrich-limit",
     type=int,
     default=None,
@@ -142,6 +154,8 @@ def command(
     save_csv,
     skip_record,
     skip_enrich,
+    skip_screen,
+    ecosystems_limit,
     enrich_limit,
 ):
     """Search PyPI by trove classifier and record the packages we do not have."""
@@ -198,8 +212,25 @@ def command(
             f"before, {recorded.linked:,} linked to packages we already index."
         )
         if not skip_enrich:
-            enriched = candidates.enrich_missing(limit=enrich_limit)
-            console.print(f"Fetched PyPI details for {enriched:,} candidate(s).")
+            enriched = candidates.enrich_missing(
+                limit=enrich_limit, ecosystems_limit=ecosystems_limit
+            )
+            console.print(f"Fetched PyPI details for {enriched.pypi:,} candidate(s).")
+            left = enriched.ecosystems_remaining
+            console.print(
+                f"Asked ecosyste.ms about {enriched.ecosystems_asked:,} in "
+                f"{enriched.ecosystems_requests:,} request(s); it knew "
+                f"{enriched.ecosystems_found:,}"
+                + ("" if left is None else f"; {left:,} requests left today")
+                + (" (stopped early)" if enriched.stopped_early else "")
+                + "."
+            )
+        if not skip_screen:
+            screened = screening.screen_all(apply=True)
+            console.print(
+                f"Screened {screened.seen:,} candidate(s): "
+                f"{screened.held:,} held, {screened.released:,} released back to new."
+            )
 
     if save_csv:
         path = csv_destination(framework, window)
