@@ -211,21 +211,53 @@ and lists the ones we do not index yet. It reads the public BigQuery dataset
 `bigquery-public-data.pypi.distribution_metadata`, which has one row per
 uploaded file with its classifiers and upload time, so it can answer both
 "what was tagged `Framework :: Wagtail` in the last 7 days" and "everything
-ever tagged". The result is a review list split into packages we already
-have (matched by PyPI name) and packages new to us. Nothing is created.
+ever tagged". The result is split into packages we already have (matched by
+PyPI name) and packages new to us. No `Package` is created.
+
+Every new name is saved as a `probes.Candidate`, the review queue in the
+admin under Probes. The row keeps what the BigQuery query said (version,
+summary, upload dates) and, after one request to PyPI, the project's `info`
+block minus the long description plus the earliest upload per release: author,
+`requires_dist`, project URLs, release count and first release date. The
+repository link is resolved from the project URLs the same way `pypi_import`
+does it. A second request goes to [packages.ecosyste.ms](https://packages.ecosyste.ms),
+which indexes PyPI and the forges together, for the repository's stars, age,
+forks, commit counts, monthly downloads, dependents, advisories and the PyPI
+maintainers, and for the repository URL when PyPI named none. Their index lags
+PyPI by a few days for brand-new names, so a miss is retried on later runs.
+Set `ECOSYSTEMS_CONTACT_EMAIL` to a project address to join their polite
+pool, which they ask of regular users (see https://ecosyste.ms/api); it is
+sent as the `From` header. Running again refreshes those fields and never
+changes a row's status, so a name rejected once stays rejected.
 
 ```shell
 just run pypi_discover --framework wagtail --days 7        # the weekly feed
 just run pypi_discover --framework django --all --csv   # backfill, saved as CSV
 just run pypi_discover --framework django-cms --estimate   # bytes it would scan
+just run pypi_discover --framework django --no-record      # print only
 ```
 
+`--no-record` prints without writing candidates. `--no-enrich` records them
+without the PyPI request, and `--enrich-limit N` caps that request count for
+a run; candidates still missing details are picked up next time.
 `--show-tracked` also prints the matches we already index. `--csv` saves the
 whole list, new and indexed rows with a `status` column, to
 `MEDIA_ROOT/pypi-discover/<framework>-<7d|all>-<date>.csv`, which in
 production is served at `https://djangopackages.org/media/pypi-discover/`, so
 the file can be pulled without a shell. `--estimate` is a BigQuery dry run,
-which costs nothing and reports the bytes the query would scan. There is no classifier for Django REST Framework, so it is not an option.
+which costs nothing and reports the bytes the query would scan. There is no
+classifier for Django REST Framework, so it is not an option.
+
+### Reviewing candidates
+
+In the admin, Probes, PyPI candidates. Each row is `new`, `held`, `approved`,
+`rejected` or `imported`. The list shows the release count, first release
+date, whether `django` is in `requires_dist`, the repository, its stars and
+creation date, monthly downloads and dependent repositories. Three
+actions: **Approve and import as packages** runs `pypi_import` for the
+selection and links the package it made; **Hold for review** and **Reject**
+record who decided and when. Rejected names are never offered again. The
+screening rules that will set `held` and `rejected` automatically are #1838.
 
 ### Setup
 
@@ -272,8 +304,12 @@ fetches from PyPI and reports what would be created without writing.
 `package.tasks.import_from_pypi_task`, one task per name, which is the shape
 a scheduled job would use.
 
-There is no scheduled job, on purpose. Nothing filters spam or malware out of
-the discovery feed, so a person reviews the list before this runs. See #1810.
+Importing a name also marks its candidate row, if there is one, as
+`imported` and links the package.
+
+There is no scheduled import, on purpose. Nothing filters spam or malware out
+of the discovery feed yet, so a person reviews the candidates in the admin
+before this runs. See #1810 and #1838.
 
 ## pypi_find_missing
 

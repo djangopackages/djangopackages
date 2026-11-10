@@ -308,6 +308,9 @@ GOOGLE_BIGQUERY_CREDENTIALS = env("GOOGLE_BIGQUERY_CREDENTIALS", default="")
 GOOGLE_BIGQUERY_MAX_BYTES_BILLED = env.int(
     "GOOGLE_BIGQUERY_MAX_BYTES_BILLED", default=20 * 1024**3
 )
+# Email sent as the From header to packages.ecosyste.ms so our requests
+# land in their polite pool. Optional; empty means the common pool.
+ECOSYSTEMS_CONTACT_EMAIL = env("ECOSYSTEMS_CONTACT_EMAIL", default="")
 
 # Bump this to force every social card to be re-rendered.
 #
