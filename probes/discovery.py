@@ -43,6 +43,7 @@ class Discovered:
     version: str
     home_page: str
     summary: str
+    classifiers: tuple[str, ...] = ()
 
     @property
     def pypi_url(self) -> str:
@@ -86,7 +87,9 @@ SELECT
   MAX(upload_time) AS last_upload,
   ARRAY_AGG(version ORDER BY upload_time DESC LIMIT 1)[OFFSET(0)] AS version,
   ARRAY_AGG(home_page ORDER BY upload_time DESC LIMIT 1)[OFFSET(0)] AS home_page,
-  ARRAY_AGG(summary ORDER BY upload_time DESC LIMIT 1)[OFFSET(0)] AS summary
+  ARRAY_AGG(summary ORDER BY upload_time DESC LIMIT 1)[OFFSET(0)] AS summary,
+  ARRAY_AGG(STRUCT(classifiers) ORDER BY upload_time DESC LIMIT 1)[OFFSET(0)].classifiers
+    AS classifiers
 FROM {TABLE}
 WHERE {" AND ".join(where)}
 GROUP BY name
@@ -155,6 +158,7 @@ def discover(framework: str, days: int | None, *, client=None) -> Discovery:
             version=row["version"] or "",
             home_page=row["home_page"] or "",
             summary=row["summary"] or "",
+            classifiers=tuple(row["classifiers"] or ()),
         )
         for row in job.result()
     ]

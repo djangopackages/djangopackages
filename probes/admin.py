@@ -2,10 +2,12 @@ from django.contrib import admin, messages
 
 from probes import stats as probe_stats
 from django.utils import timezone
-from django.utils.html import format_html
+from django.utils.html import format_html, format_html_join
+from django.utils.safestring import mark_safe
 
 from package.importer import import_from_pypi
 from package.models import Category
+from probes.discovery import FRAMEWORKS
 from probes.models import Candidate, Library, PackageProbe, ProbeSymbol
 
 
@@ -91,6 +93,27 @@ class PackageProbeAdmin(admin.ModelAdmin):
         return [field.name for field in self.model._meta.fields]
 
 
+class FrameworkFilter(admin.SimpleListFilter):
+    """Filter by classifier family, read from the stored classifiers.
+
+    Matches the opening quote plus the prefix in the jsonb text, so the
+    bare classifier and every versioned one count. Django CMS packages
+    also match Django, which is true of them.
+    """
+
+    title = "framework"
+    parameter_name = "framework"
+
+    def lookups(self, request, model_admin):
+        return [(key, key) for key in FRAMEWORKS]
+
+    def queryset(self, request, queryset):
+        prefix = FRAMEWORKS.get(self.value())
+        if prefix is None:
+            return queryset
+        return queryset.filter(classifiers__icontains=f'"{prefix}')
+
+
 @admin.register(Candidate)
 class CandidateAdmin(admin.ModelAdmin):
     """The review queue for PyPI projects discovery found.
@@ -103,7 +126,7 @@ class CandidateAdmin(admin.ModelAdmin):
 
     list_display = [
         "name",
-        "framework",
+        "framework_list",
         "status",
         "version",
         "release_count",
@@ -117,7 +140,7 @@ class CandidateAdmin(admin.ModelAdmin):
         "last_upload",
         "package",
     ]
-    list_filter = ["status", "framework"]
+    list_filter = ["status", FrameworkFilter]
     search_fields = ["name", "summary", "repo_url", "notes"]
     list_select_related = ["package", "reviewed_by"]
     autocomplete_fields = ["package"]
@@ -125,7 +148,8 @@ class CandidateAdmin(admin.ModelAdmin):
     actions = ["approve_and_import", "hold", "reject"]
     readonly_fields = [
         "name",
-        "framework",
+        "framework_list",
+        "classifier_list",
         "version",
         "summary",
         "home_page",
@@ -153,7 +177,16 @@ class CandidateAdmin(admin.ModelAdmin):
     fieldsets = (
         (
             None,
-            {"fields": ("name", "framework", "status", "reasons", "notes", "package")},
+            {
+                "fields": (
+                    "name",
+                    "framework_list",
+                    "status",
+                    "reasons",
+                    "notes",
+                    "package",
+                )
+            },
         ),
         (
             "From PyPI",
@@ -164,6 +197,7 @@ class CandidateAdmin(admin.ModelAdmin):
                     "summary",
                     "author",
                     "requires_dist",
+                    "classifier_list",
                     "release_count",
                     "first_release",
                     "home_page",
@@ -203,6 +237,17 @@ class CandidateAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request):
         return False
+
+    @admin.display(description="framework")
+    def framework_list(self, obj):
+        return ", ".join(obj.frameworks) or "-"
+
+    @admin.display(description="classifiers")
+    def classifier_list(self, obj):
+        return (
+            format_html_join(mark_safe("<br>"), "{}", ((c,) for c in obj.classifiers))
+            or "-"
+        )
 
     @admin.display(description="PyPI")
     def pypi_link(self, obj):

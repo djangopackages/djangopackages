@@ -216,7 +216,7 @@ PyPI name) and packages new to us. No `Package` is created.
 
 Every new name is saved as a `probes.Candidate`, the review queue in the
 admin under Probes. The row keeps what the BigQuery query said (version,
-summary, upload dates) and, after one request to PyPI, the project's `info`
+summary, upload dates and the latest upload's trove classifiers) and, after one request to PyPI, the project's `info`
 block minus the long description plus the earliest upload per release: author,
 `requires_dist`, project URLs, release count and first release date. The
 repository link is resolved from the project URLs the same way `pypi_import`
@@ -251,7 +251,9 @@ classifier for Django REST Framework, so it is not an option.
 ### Reviewing candidates
 
 In the admin, Probes, PyPI candidates. Each row is `new`, `held`, `approved`,
-`rejected` or `imported`. The list shows the release count, first release
+`rejected` or `imported`. The framework column and filter are read from the
+stored classifiers, so a Wagtail package found by the Django run still shows
+as Wagtail. The list shows the release count, first release
 date, whether `django` is in `requires_dist`, the repository, its stars and
 creation date, monthly downloads and dependent repositories. Three
 actions: **Approve and import as packages** runs `pypi_import` for the

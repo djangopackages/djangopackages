@@ -53,7 +53,7 @@ class Recorded:
     names: list[str] = field(default_factory=list)
 
 
-def record(found: Discovery, framework: str) -> Recorded:
+def record(found: Discovery) -> Recorded:
     """Upsert one candidate per new name; refresh the ones seen before.
 
     A row's status is never touched here. Rejected stays rejected,
@@ -67,7 +67,7 @@ def record(found: Discovery, framework: str) -> Recorded:
         candidate, created = Candidate.objects.update_or_create(
             name=row.name,
             defaults={
-                "framework": framework,
+                "classifiers": list(row.classifiers),
                 "version": row.version,
                 "summary": row.summary,
                 "home_page": row.home_page[:500],

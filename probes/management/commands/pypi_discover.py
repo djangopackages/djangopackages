@@ -192,7 +192,7 @@ def command(
         console.print(table)
 
     if not skip_record:
-        recorded = candidates.record(found, framework)
+        recorded = candidates.record(found)
         console.print(
             f"Candidates: {recorded.created:,} new, {recorded.refreshed:,} seen "
             f"before, {recorded.linked:,} linked to packages we already index."

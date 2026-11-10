@@ -428,10 +428,11 @@ class Candidate(BaseModel):
     name = models.CharField(
         _("PyPI name"), max_length=255, unique=True, help_text=_("As PyPI spells it.")
     )
-    framework = models.CharField(
-        _("framework"),
-        max_length=20,
-        help_text=_("Which classifier family found it: django, wagtail, django-cms."),
+    classifiers = models.JSONField(
+        _("classifiers"),
+        default=list,
+        blank=True,
+        help_text=_("Trove classifiers on the latest upload, as BigQuery has them."),
     )
     # What the BigQuery row said, refreshed on every run that sees the name.
     version = models.CharField(_("latest version"), max_length=100, blank=True)
@@ -492,10 +493,21 @@ class Candidate(BaseModel):
         verbose_name = _("PyPI candidate")
         verbose_name_plural = _("PyPI candidates")
         ordering = ["-last_upload", "name"]
-        indexes = [models.Index(fields=["status", "framework"])]
+        indexes = [models.Index(fields=["status"])]
 
     def __str__(self):
         return self.name
+
+    @property
+    def frameworks(self) -> list[str]:
+        """Which classifier families it claims: django, wagtail, django-cms."""
+        from probes.discovery import FRAMEWORKS
+
+        return [
+            key
+            for key, prefix in FRAMEWORKS.items()
+            if any(c.startswith(prefix) for c in self.classifiers)
+        ]
 
     @property
     def pypi_url(self) -> str:
