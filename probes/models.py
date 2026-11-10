@@ -405,3 +405,126 @@ class Library(BaseModel):
         names = cls.objects.filter(scan=True).values_list("import_name", flat=True)
         ordered = sorted(set(names), key=lambda name: (name != "django", name))
         return tuple(ordered)
+
+
+class Candidate(BaseModel):
+    """A PyPI project that claims a Django family classifier and that we
+    do not index yet, with what PyPI says about it and what we decided.
+
+    Discovery (#1810) writes these. Nothing becomes a ``Package`` until
+    someone, or a rule that has earned it, moves the row to ``approved``
+    and the importer runs. The evidence stays here so a burst of names
+    from one author is visible as rows side by side, a release cadence is
+    visible across weeks, and a name rejected once is not offered again.
+    """
+
+    class Status(models.TextChoices):
+        NEW = "new", _("New")
+        HELD = "held", _("Held for review")
+        APPROVED = "approved", _("Approved")
+        REJECTED = "rejected", _("Rejected")
+        IMPORTED = "imported", _("Imported")
+
+    name = models.CharField(
+        _("PyPI name"), max_length=255, unique=True, help_text=_("As PyPI spells it.")
+    )
+    framework = models.CharField(
+        _("framework"),
+        max_length=20,
+        help_text=_("Which classifier family found it: django, wagtail, django-cms."),
+    )
+    # What the BigQuery row said, refreshed on every run that sees the name.
+    version = models.CharField(_("latest version"), max_length=100, blank=True)
+    summary = models.TextField(_("summary"), blank=True)
+    home_page = models.URLField(_("home page"), max_length=500, blank=True)
+    first_upload = models.DateTimeField(
+        _("first upload in window"), null=True, blank=True
+    )
+    last_upload = models.DateTimeField(_("last upload"), null=True, blank=True)
+    last_seen = models.DateTimeField(_("last seen by discovery"), null=True, blank=True)
+
+    # The PyPI JSON `info` block, minus the long description, plus the
+    # earliest upload per release. One fetch, kept so the rules and the
+    # admin can read author, requires_dist, project_urls and release
+    # cadence without going back to the network.
+    pypi_data = models.JSONField(_("PyPI data"), default=dict, blank=True)
+    pypi_fetched_at = models.DateTimeField(null=True, blank=True)
+    repo_url = models.URLField(
+        _("repository"),
+        max_length=500,
+        blank=True,
+        help_text=_("The forge link resolved from PyPI's project URLs, if any."),
+    )
+
+    status = models.CharField(
+        _("status"), max_length=10, choices=Status.choices, default=Status.NEW
+    )
+    reasons = models.JSONField(
+        _("reasons"),
+        default=list,
+        blank=True,
+        help_text=_("The screening signals that fired, one short string each."),
+    )
+    reviewed_by = models.ForeignKey(
+        "auth.User", on_delete=models.SET_NULL, null=True, blank=True, related_name="+"
+    )
+    reviewed_at = models.DateTimeField(null=True, blank=True)
+    notes = models.TextField(_("notes"), blank=True)
+    package = models.ForeignKey(
+        "package.Package",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="pypi_candidates",
+        help_text=_("The package this became, once imported."),
+    )
+
+    class Meta:
+        verbose_name = _("PyPI candidate")
+        verbose_name_plural = _("PyPI candidates")
+        ordering = ["-last_upload", "name"]
+        indexes = [models.Index(fields=["status", "framework"])]
+
+    def __str__(self):
+        return self.name
+
+    @property
+    def pypi_url(self) -> str:
+        return f"https://pypi.org/project/{self.name}/"
+
+    @property
+    def info(self) -> dict:
+        return self.pypi_data.get("info") or {}
+
+    @property
+    def author(self) -> str:
+        return self.info.get("author") or self.info.get("author_email") or ""
+
+    @property
+    def requires_dist(self) -> list[str]:
+        return list(self.info.get("requires_dist") or [])
+
+    @property
+    def release_dates(self) -> dict[str, str]:
+        """Version -> ISO date of its earliest file, from the stored JSON."""
+        return dict(self.pypi_data.get("releases") or {})
+
+    @property
+    def release_count(self) -> int:
+        return len(self.release_dates)
+
+    @property
+    def first_release(self) -> str:
+        """The earliest upload across every release, as an ISO date, or ""."""
+        return min(self.release_dates.values(), default="")
+
+    @property
+    def depends_on_django(self) -> bool | None:
+        """Whether `django` is in requires_dist. None when we have no data."""
+        if not self.pypi_data:
+            return None
+        return any(
+            req.split(";")[0].strip().lower().startswith(("django", "wagtail"))
+            and not req.lower().startswith("django-")
+            for req in self.requires_dist
+        )

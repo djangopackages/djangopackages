@@ -171,11 +171,23 @@ def import_from_pypi(
             tags=[PackageTag.PYPI_IMPORT],
         )
     fill_in(package, client=client)
+    mark_imported(name, package)
     # Keep the index current for the rest of a batch run.
     by_pypi[canonical] = package.pk
     if key:
         by_repo[key] = package.pk
     return ImportResult(name, "created", package)
+
+
+def mark_imported(name: str, package: Package) -> None:
+    """Let the candidate row, if there is one, follow its package.
+
+    Imported inside the function: probes.candidates imports this module
+    for repo_url_from_pypi, and a module-level import would be circular.
+    """
+    from probes.candidates import mark_imported as _mark
+
+    _mark(name, package)
 
 
 def fill_in(package: Package, *, client: PyPIClient | None = None) -> Package:

@@ -5,9 +5,10 @@
     manage.py pypi_discover --framework django-cms --days 30 --estimate
 
 Reads `bigquery-public-data.pypi.distribution_metadata` through the
-service account in `GOOGLE_BIGQUERY_CREDENTIALS`. Prints a review list;
-creates nothing. `--csv` saves the full list under MEDIA_ROOT so it can
-be pulled from the site afterwards. See #1810.
+service account in `GOOGLE_BIGQUERY_CREDENTIALS`. Every new name is
+saved as a `probes.Candidate` with its PyPI details, for review in the
+admin before anything becomes a package; `--no-record` just prints.
+`--csv` also saves the list under MEDIA_ROOT. See #1810 and #1838.
 """
 
 from __future__ import annotations
@@ -22,7 +23,7 @@ from rich.console import Console
 from rich.table import Table
 
 from package.models import Package
-from probes import discovery
+from probes import candidates, discovery
 
 CSV_DIR = "pypi-discover"
 CSV_COLUMNS = [
@@ -114,8 +115,36 @@ def write_csv(path: Path, found: discovery.Discovery) -> int:
     is_flag=True,
     help="Also save the whole list as a CSV under MEDIA_ROOT/pypi-discover/.",
 )
-def command(framework, days, whole_index, estimate, show_tracked, save_csv):
-    """Search PyPI by trove classifier and list the packages we do not have."""
+@click.option(
+    "--no-record",
+    "skip_record",
+    is_flag=True,
+    help="Only print. By default every new name is saved as a probes.Candidate.",
+)
+@click.option(
+    "--no-enrich",
+    "skip_enrich",
+    is_flag=True,
+    help="Do not fetch PyPI details for candidates that have none yet.",
+)
+@click.option(
+    "--enrich-limit",
+    type=int,
+    default=None,
+    help="Fetch PyPI details for at most this many candidates this run.",
+)
+def command(
+    framework,
+    days,
+    whole_index,
+    estimate,
+    show_tracked,
+    save_csv,
+    skip_record,
+    skip_enrich,
+    enrich_limit,
+):
+    """Search PyPI by trove classifier and record the packages we do not have."""
     console = Console()
     window = None if whole_index else days
     scope = "the whole index" if window is None else f"the last {window} days"
@@ -161,6 +190,16 @@ def command(framework, days, whole_index, estimate, show_tracked, save_csv):
         for row, pk in found.tracked:
             table.add_row(row.name, row.last_upload.date().isoformat(), str(pk))
         console.print(table)
+
+    if not skip_record:
+        recorded = candidates.record(found, framework)
+        console.print(
+            f"Candidates: {recorded.created:,} new, {recorded.refreshed:,} seen "
+            f"before, {recorded.linked:,} linked to packages we already index."
+        )
+        if not skip_enrich:
+            enriched = candidates.enrich_missing(limit=enrich_limit)
+            console.print(f"Fetched PyPI details for {enriched:,} candidate(s).")
 
     if save_csv:
         path = csv_destination(framework, window)
