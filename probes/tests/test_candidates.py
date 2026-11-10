@@ -17,7 +17,7 @@ from model_bakery import baker
 from package.models import Category, Package
 from package.pypi import PyPIPackage
 from probes import candidates
-from probes.admin import CandidateAdmin
+from probes.admin import CandidateAdmin, FrameworkFilter
 from probes.discovery import Discovered, Discovery
 from probes.ecosystems import trimmed
 from probes.models import Candidate
@@ -35,6 +35,7 @@ def row(name, **overrides):
         "version": "0.1.0",
         "home_page": "",
         "summary": f"{name} does things",
+        "classifiers": ("Framework :: Django", "Framework :: Django :: 5.2"),
     }
     fields.update(overrides)
     return Discovered(**fields)
@@ -121,7 +122,7 @@ class TestRecord:
     def test_new_names_become_candidates(self):
         found = Discovery(tracked=[], new=[row("karni-ai"), row("karni-charts")])
 
-        result = candidates.record(found, "django")
+        result = candidates.record(found)
 
         assert result.created == 2
         assert set(Candidate.objects.values_list("name", flat=True)) == {
@@ -129,17 +130,21 @@ class TestRecord:
             "karni-charts",
         }
         saved = Candidate.objects.get(name="karni-ai")
-        assert saved.framework == "django"
+        assert saved.classifiers == [
+            "Framework :: Django",
+            "Framework :: Django :: 5.2",
+        ]
+        assert saved.frameworks == ["django"]
         assert saved.status == Candidate.Status.NEW
         assert saved.last_upload == WHEN
         assert saved.last_seen is not None
 
     def test_a_second_run_refreshes_but_keeps_the_decision(self):
-        candidates.record(Discovery(tracked=[], new=[row("spammy")]), "django")
+        candidates.record(Discovery(tracked=[], new=[row("spammy")]))
         Candidate.objects.filter(name="spammy").update(status=Candidate.Status.REJECTED)
 
         later = row("spammy", version="0.2.0", last_upload=WHEN.replace(day=9))
-        result = candidates.record(Discovery(tracked=[], new=[later]), "django")
+        result = candidates.record(Discovery(tracked=[], new=[later]))
 
         assert result.created == 0
         assert result.refreshed == 1
@@ -148,15 +153,25 @@ class TestRecord:
         assert saved.version == "0.2.0"
         assert saved.last_upload.day == 9
 
+    def test_a_later_run_refreshes_the_classifiers(self):
+        candidates.record(Discovery(tracked=[], new=[row("wagtail-katex")]))
+        wagtail = row(
+            "wagtail-katex",
+            classifiers=("Framework :: Django", "Framework :: Wagtail :: 7"),
+        )
+
+        candidates.record(Discovery(tracked=[], new=[wagtail]))
+
+        saved = Candidate.objects.get(name="wagtail-katex")
+        assert saved.frameworks == ["django", "wagtail"]
+
     def test_names_we_already_index_link_their_stale_candidate(self):
         package = baker.make(
             Package, slug="x", title="x", repo_url="https://github.com/x/x"
         )
-        candidates.record(Discovery(tracked=[], new=[row("x")]), "django")
+        candidates.record(Discovery(tracked=[], new=[row("x")]))
 
-        result = candidates.record(
-            Discovery(tracked=[(row("x"), package.pk)], new=[]), "django"
-        )
+        result = candidates.record(Discovery(tracked=[(row("x"), package.pk)], new=[]))
 
         assert result.linked == 1
         saved = Candidate.objects.get(name="x")
@@ -167,7 +182,7 @@ class TestRecord:
         package = baker.make(
             Package, slug="y", title="y", repo_url="https://github.com/y/y"
         )
-        candidates.record(Discovery(tracked=[(row("y"), package.pk)], new=[]), "django")
+        candidates.record(Discovery(tracked=[(row("y"), package.pk)], new=[]))
         assert Candidate.objects.count() == 0
 
 
@@ -385,6 +400,37 @@ def admin_request():
     request.session = {}
     request._messages = FallbackStorage(request)
     return request
+
+
+class TestFrameworkFilter:
+    def filtered(self, value):
+        params = {} if value is None else {"framework": value}
+        request = RequestFactory().get("/", params)
+        model_admin = CandidateAdmin(Candidate, AdminSite())
+        lists = {key: [value] for key, value in params.items()}
+        found = FrameworkFilter(request, lists, Candidate, model_admin)
+        return set(
+            found.queryset(request, Candidate.objects.all()).values_list(
+                "name", flat=True
+            )
+        )
+
+    def test_it_reads_the_classifiers(self):
+        baker.make(Candidate, name="plain", classifiers=["Framework :: Django"])
+        baker.make(
+            Candidate,
+            name="tail",
+            classifiers=["Framework :: Django", "Framework :: Wagtail :: 7"],
+        )
+        baker.make(
+            Candidate, name="cms", classifiers=["Framework :: Django CMS :: 4.1"]
+        )
+        baker.make(Candidate, name="bare", classifiers=[])
+
+        assert self.filtered("wagtail") == {"tail"}
+        assert self.filtered("django-cms") == {"cms"}
+        assert self.filtered("django") == {"plain", "tail", "cms"}
+        assert self.filtered(None) == {"plain", "tail", "cms", "bare"}
 
 
 class TestAdminActions:

@@ -47,6 +47,7 @@ def _row(name, **overrides):
         "version": "1.0",
         "home_page": f"https://github.com/x/{name}",
         "summary": f"{name} does things",
+        "classifiers": ["Framework :: Django", "Framework :: Django :: 5.2"],
     }
     row.update(overrides)
     return row
@@ -135,6 +136,22 @@ class TestDiscover:
             "",
             "",
         )
+
+    def test_classifiers_come_back_with_each_row(self):
+        client = FakeClient(rows=[_row("x"), _row("y", classifiers=None)])
+
+        found = discovery.discover("django", 7, client=client)
+
+        by_name = {row.name: row.classifiers for row in found.new}
+        assert by_name == {
+            "x": ("Framework :: Django", "Framework :: Django :: 5.2"),
+            "y": (),
+        }
+
+    def test_it_selects_the_latest_classifiers(self):
+        sql, _ = discovery.build_query("django", days=7)
+
+        assert "AS classifiers" in sql
 
 
 class TestClient:
