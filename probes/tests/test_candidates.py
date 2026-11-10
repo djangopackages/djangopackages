@@ -19,7 +19,7 @@ from package.pypi import PyPIPackage
 from probes import candidates
 from probes.admin import CandidateAdmin, FrameworkFilter
 from probes.discovery import Discovered, Discovery
-from probes.ecosystems import trimmed
+from probes.ecosystems import canonical, trimmed
 from probes.models import Candidate
 
 pytestmark = pytest.mark.django_db
@@ -90,19 +90,36 @@ ECOSYSTEMS = {
 
 
 class FakeEcosystems:
-    def __init__(self, records, fail=False):
+    def __init__(self, records, fail=False, remaining=None):
         self.records = records
         self.fail = fail
         self.calls = []
+        self.batches = []
+        self.requests = 0
+        self.remaining = remaining
 
     def fetch_package(self, name):
         self.calls.append(name)
+        self.requests += 1
         if self.fail:
             raise httpx2.RequestError("down")
         payload = self.records.get(name)
         if payload is None:
             return None
         return trimmed(payload)
+
+    def fetch_packages(self, names):
+        names = list(names)
+        self.calls.extend(names)
+        self.batches.append(names)
+        self.requests += 1
+        if self.fail:
+            raise httpx2.RequestError("down")
+        return {
+            canonical(name): trimmed(self.records[name])
+            for name in names
+            if name in self.records
+        }
 
 
 class FakePyPI:
@@ -216,14 +233,14 @@ class TestEnrich:
     def test_no_data_yet_is_unknown_not_false(self):
         assert baker.make(Candidate, pypi_data={}).depends_on_django is None
 
-    def test_a_404_leaves_the_row_alone(self):
+    def test_a_404_stores_no_data_but_stamps_the_attempt(self):
         candidate = baker.make(Candidate, name="gone", pypi_data={})
         assert not candidates.enrich(
             candidate, client=FakePyPI({}), ecosystems=FakeEcosystems({})
         )
         candidate.refresh_from_db()
         assert candidate.pypi_data == {}
-        assert candidate.pypi_fetched_at is None
+        assert candidate.pypi_fetched_at is not None
 
     def test_enrich_missing_only_touches_rows_without_data(self):
         baker.make(Candidate, name="a", pypi_data={}, last_upload=WHEN)
@@ -232,7 +249,8 @@ class TestEnrich:
         client = FakePyPI({"a": pypi_json("a"), "c": pypi_json("c")})
 
         assert (
-            candidates.enrich_missing(client=client, ecosystems=FakeEcosystems({})) == 2
+            candidates.enrich_missing(client=client, ecosystems=FakeEcosystems({})).pypi
+            == 2
         )
         assert sorted(client.calls) == ["a", "c"]
 
@@ -243,7 +261,7 @@ class TestEnrich:
         assert (
             candidates.enrich_missing(
                 limit=2, client=client, ecosystems=FakeEcosystems({})
-            )
+            ).pypi
             == 2
         )
 
@@ -335,6 +353,61 @@ class TestEcosystems:
         assert candidate.author == "OpenOutreach"
         assert candidate.ecosystems_fetched_at is None
 
+    def test_enrich_missing_asks_ecosystems_in_batches_of_100(self):
+        for n in range(250):
+            baker.make(Candidate, name=f"pkg-{n:03}", pypi_data={"info": {}})
+        eco = FakeEcosystems({"pkg-007": ECOSYSTEMS})
+
+        result = candidates.enrich_missing(client=FakePyPI({}), ecosystems=eco)
+
+        assert [len(batch) for batch in eco.batches] == [100, 100, 50]
+        assert (result.ecosystems_asked, result.ecosystems_found) == (250, 1)
+        assert result.ecosystems_requests == 3
+        assert Candidate.objects.filter(ecosystems_fetched_at__isnull=True).count() == 0
+        assert Candidate.objects.get(name="pkg-007").stars == 3528
+
+    def test_new_pypi_rows_are_asked_about_in_the_same_run(self):
+        baker.make(Candidate, name="openoutreach", pypi_data={}, last_upload=WHEN)
+        eco = FakeEcosystems({"openoutreach": ECOSYSTEMS})
+
+        candidates.enrich_missing(
+            client=FakePyPI({"openoutreach": pypi_json("openoutreach")}),
+            ecosystems=eco,
+        )
+
+        assert eco.batches == [["openoutreach"]]
+        assert Candidate.objects.get().stars == 3528
+
+    def test_the_ecosystems_cap_counts_names(self):
+        for n in range(30):
+            baker.make(Candidate, name=f"pkg-{n:02}", pypi_data={"info": {}})
+        eco = FakeEcosystems({})
+
+        result = candidates.enrich_missing(
+            client=FakePyPI({}), ecosystems=eco, ecosystems_limit=12
+        )
+
+        assert result.ecosystems_asked == 12
+
+    def test_it_stops_when_their_quota_runs_low(self):
+        for n in range(150):
+            baker.make(Candidate, name=f"pkg-{n:03}", pypi_data={"info": {}})
+        eco = FakeEcosystems({}, remaining=candidates.ECOSYSTEMS_RESERVE - 1)
+
+        result = candidates.enrich_missing(client=FakePyPI({}), ecosystems=eco)
+
+        assert eco.batches == []
+        assert result.stopped_early
+
+    def test_an_outage_leaves_the_rows_to_ask_again(self):
+        baker.make(Candidate, name="a", pypi_data={"info": {}})
+        eco = FakeEcosystems({}, fail=True)
+
+        result = candidates.enrich_missing(client=FakePyPI({}), ecosystems=eco)
+
+        assert result.stopped_early
+        assert Candidate.objects.get().ecosystems_fetched_at is None
+
     def test_the_contact_email_goes_in_the_from_header_when_set(self, settings):
         from probes.ecosystems import EcosystemsClient
 
@@ -373,7 +446,9 @@ class TestCommand:
         client = FakeClient(rows=[_row("django-newthing")])
         with (
             patch("probes.discovery.bigquery_client", return_value=client),
-            patch("probes.candidates.enrich_missing", return_value=0) as enrich,
+            patch(
+                "probes.candidates.enrich_missing", return_value=candidates.Enriched()
+            ) as enrich,
         ):
             call_command("pypi_discover", "--framework", "django", "--days", "7")
 
@@ -491,3 +566,52 @@ class TestAdminActions:
         model_admin = CandidateAdmin(Candidate, AdminSite())
         model_admin.reject(admin_request, Candidate.objects.all())
         assert Candidate.objects.get(name="done").status == Candidate.Status.IMPORTED
+
+
+class FakeResponse:
+    def __init__(self, payload, remaining="4321", status_code=200):
+        self.payload = payload
+        self.headers = {"x-ratelimit-remaining": remaining}
+        self.status_code = status_code
+
+    def json(self):
+        return self.payload
+
+    def raise_for_status(self):
+        if self.status_code >= 400:
+            raise httpx2.HTTPStatusError("boom", request=Mock(), response=self)
+
+
+class TestBulkClient:
+    def client(self, payload):
+        from probes.ecosystems import EcosystemsClient
+
+        client = EcosystemsClient(contact_email="")
+        client._session = Mock()
+        client._session.post.return_value = FakeResponse(payload)
+        return client
+
+    def test_it_matches_records_by_canonical_name(self):
+        client = self.client(
+            [
+                {
+                    **ECOSYSTEMS,
+                    "name": "general-manager",
+                    "registry": {"name": "pypi.org"},
+                },
+                {**ECOSYSTEMS, "name": "django-x", "registry": {"name": "npmjs.org"}},
+            ]
+        )
+
+        found = client.fetch_packages(["General_Manager", "django-x"])
+
+        assert list(found) == ["general-manager"]
+        sent = client._session.post.call_args.kwargs["json"]["purls"]
+        assert sent == ["pkg:pypi/django-x", "pkg:pypi/general-manager"]
+        assert (client.requests, client.remaining) == (1, 4321)
+
+    def test_more_than_100_names_is_refused(self):
+        client = self.client([])
+        with pytest.raises(ValueError):
+            client.fetch_packages(f"pkg-{n}" for n in range(101))
+        client._session.post.assert_not_called()

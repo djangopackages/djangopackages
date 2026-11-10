@@ -1,26 +1,35 @@
-"""One request to ecosyste.ms for what it already knows about a PyPI project.
+"""Ask ecosyste.ms what it already knows about PyPI projects.
 
 https://packages.ecosyste.ms indexes PyPI and the forges together. For a
 name it returns the repository URL already resolved, the repository's
 stars, age and activity, monthly downloads, dependents and advisories.
-That is most of what vetting a candidate needs, and it costs one
-request instead of a PyPI call plus a rate-limited forge call.
+That is most of what vetting a candidate needs, without a rate-limited
+forge call of our own. `fetch_packages` asks for up to 100 names in one
+request through their bulk lookup, which is how a backlog of thousands
+fits inside the anonymous quota.
 
 The API is public (https://ecosyste.ms/api). Data is CC BY-SA 4.0.
 
 Coverage lags PyPI by days for brand-new names, so this is a second
 source next to the PyPI JSON, never the only one. Anonymous use allows
 5,000 requests a day and responses are cached for a day on their side.
+Every response says how many requests are left today; the client keeps
+the latest figure in `remaining` so a long run can stop before the
+quota runs out.
 """
 
 from __future__ import annotations
 
+import re
+from collections.abc import Iterable
 from typing import Any
 
 import httpx2
 from django.conf import settings
 
 REGISTRY_URL = "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages"
+BULK_URL = "https://packages.ecosyste.ms/api/v1/packages/bulk_lookup"
+BULK_SIZE = 100  # their maximum per request
 
 # Top-level fields worth keeping, and the repository fields under them.
 PACKAGE_KEYS = (
@@ -79,6 +88,15 @@ class EcosystemsClient:
         if contact_email:
             headers["From"] = contact_email
         self._session = httpx2.Client(timeout=timeout, headers=headers)
+        self.remaining: int | None = None
+        self.requests = 0
+
+    def _note(self, response) -> None:
+        self.requests += 1
+        try:
+            self.remaining = int(response.headers["x-ratelimit-remaining"])
+        except (KeyError, TypeError, ValueError):
+            pass
 
     def fetch_package(self, name: str) -> dict[str, Any] | None:
         """The trimmed record, or None when ecosyste.ms has not seen the name.
@@ -88,6 +106,7 @@ class EcosystemsClient:
         down" and only the former is worth remembering.
         """
         response = self._session.get(f"{REGISTRY_URL}/{name.strip()}")
+        self._note(response)
         if response.status_code == 404:
             return None
         response.raise_for_status()
@@ -95,6 +114,38 @@ class EcosystemsClient:
         if not isinstance(payload, dict) or payload.get("error"):
             return None
         return trimmed(payload)
+
+    def fetch_packages(self, names: Iterable[str]) -> dict[str, dict[str, Any]]:
+        """Trimmed records for up to `BULK_SIZE` names, in one request.
+
+        Keyed by `canonical(name)`. Names ecosyste.ms has not seen are
+        simply absent. Raises `httpx2.HTTPError` when the request fails.
+        """
+        wanted = sorted({canonical(name) for name in names})
+        if len(wanted) > BULK_SIZE:
+            raise ValueError(f"at most {BULK_SIZE} names per request")
+        if not wanted:
+            return {}
+        purls = [f"pkg:pypi/{name}" for name in wanted]
+        response = self._session.post(BULK_URL, json={"purls": purls})
+        self._note(response)
+        response.raise_for_status()
+        payload = response.json()
+        found = {}
+        for record in payload if isinstance(payload, list) else []:
+            if not isinstance(record, dict):
+                continue
+            if (record.get("registry") or {}).get("name") not in (None, "pypi.org"):
+                continue
+            name = canonical(record.get("name") or "")
+            if name in wanted:
+                found[name] = trimmed(record)
+        return found
+
+
+def canonical(name: str) -> str:
+    """PyPI's normalized form, which is how ecosyste.ms names its records."""
+    return re.sub(r"[-_.]+", "-", name).lower()
 
 
 def trimmed(payload: dict[str, Any]) -> dict[str, Any]:

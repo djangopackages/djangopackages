@@ -1,5 +1,6 @@
 from django.contrib import admin, messages
 
+from probes import screening
 from probes import stats as probe_stats
 from django.utils import timezone
 from django.utils.html import format_html, format_html_join
@@ -114,6 +115,21 @@ class FrameworkFilter(admin.SimpleListFilter):
         return queryset.filter(classifiers__icontains=f'"{prefix}')
 
 
+class ReasonFilter(admin.SimpleListFilter):
+    """Filter by one screening reason."""
+
+    title = "screening reason"
+    parameter_name = "reason"
+
+    def lookups(self, request, model_admin):
+        return [(code, label) for code, (label, _) in screening.REASONS.items()]
+
+    def queryset(self, request, queryset):
+        if self.value() not in screening.REASONS:
+            return queryset
+        return queryset.filter(reasons__contains=[self.value()])
+
+
 @admin.register(Candidate)
 class CandidateAdmin(admin.ModelAdmin):
     """The review queue for PyPI projects discovery found.
@@ -128,6 +144,7 @@ class CandidateAdmin(admin.ModelAdmin):
         "name",
         "framework_list",
         "status",
+        "reason_list",
         "version",
         "release_count",
         "first_release",
@@ -140,7 +157,7 @@ class CandidateAdmin(admin.ModelAdmin):
         "last_upload",
         "package",
     ]
-    list_filter = ["status", FrameworkFilter]
+    list_filter = ["status", ReasonFilter, FrameworkFilter]
     search_fields = ["name", "summary", "repo_url", "notes"]
     list_select_related = ["package", "reviewed_by"]
     autocomplete_fields = ["package"]
@@ -149,6 +166,7 @@ class CandidateAdmin(admin.ModelAdmin):
     readonly_fields = [
         "name",
         "framework_list",
+        "reason_list",
         "classifier_list",
         "version",
         "summary",
@@ -182,7 +200,7 @@ class CandidateAdmin(admin.ModelAdmin):
                     "name",
                     "framework_list",
                     "status",
-                    "reasons",
+                    "reason_list",
                     "notes",
                     "package",
                 )
@@ -241,6 +259,17 @@ class CandidateAdmin(admin.ModelAdmin):
     @admin.display(description="framework")
     def framework_list(self, obj):
         return ", ".join(obj.frameworks) or "-"
+
+    @admin.display(description="screening")
+    def reason_list(self, obj):
+        return (
+            format_html_join(
+                mark_safe("<br>"),
+                "{}",
+                ((screening.label(code),) for code in obj.reasons),
+            )
+            or "-"
+        )
 
     @admin.display(description="classifiers")
     def classifier_list(self, obj):

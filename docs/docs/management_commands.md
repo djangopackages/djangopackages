@@ -220,11 +220,15 @@ summary, upload dates and the latest upload's trove classifiers) and, after one 
 block minus the long description plus the earliest upload per release: author,
 `requires_dist`, project URLs, release count and first release date. The
 repository link is resolved from the project URLs the same way `pypi_import`
-does it. A second request goes to [packages.ecosyste.ms](https://packages.ecosyste.ms),
-which indexes PyPI and the forges together, for the repository's stars, age,
+does it. Then [packages.ecosyste.ms](https://packages.ecosyste.ms), which
+indexes PyPI and the forges together, is asked through its bulk lookup, 100
+names a request, for the repository's stars, age,
 forks, commit counts, monthly downloads, dependents, advisories and the PyPI
 maintainers, and for the repository URL when PyPI named none. Their index lags
 PyPI by a few days for brand-new names, so a miss is retried on later runs.
+Anonymous use allows 5,000 requests a day; each response says how many are
+left, and a run stops asking once fewer than 500 remain, leaving the rest for
+the next run.
 Set `ECOSYSTEMS_CONTACT_EMAIL` to a project address to join their polite
 pool, which they ask of regular users (see https://ecosyste.ms/api); it is
 sent as the `From` header. Running again refreshes those fields and never
@@ -238,8 +242,13 @@ just run pypi_discover --framework django --no-record      # print only
 ```
 
 `--no-record` prints without writing candidates. `--no-enrich` records them
-without the PyPI request, and `--enrich-limit N` caps that request count for
-a run; candidates still missing details are picked up next time.
+without asking PyPI or ecosyste.ms. `--enrich-limit N` caps the PyPI requests
+for a run and `--ecosystems-limit N` the names sent to ecosyste.ms; neither is
+capped by default, and candidates still missing details are picked up next
+time. A name
+PyPI answers 404 for is stamped as removed and not asked again unless
+BigQuery sees a newer upload. `--no-screen` skips the screening pass that
+otherwise runs at the end.
 `--show-tracked` also prints the matches we already index. `--csv` saves the
 whole list, new and indexed rows with a `status` column, to
 `MEDIA_ROOT/pypi-discover/<framework>-<7d|all>-<date>.csv`, which in
@@ -258,8 +267,40 @@ date, whether `django` is in `requires_dist`, the repository, its stars and
 creation date, monthly downloads and dependent repositories. Three
 actions: **Approve and import as packages** runs `pypi_import` for the
 selection and links the package it made; **Hold for review** and **Reject**
-record who decided and when. Rejected names are never offered again. The
-screening rules that will set `held` and `rejected` automatically are #1838.
+record who decided and when. Rejected names are never offered again.
+
+### Screening
+
+Every `pypi_discover` run ends by screening the candidates, and
+`screen_candidates` does the same on demand: a dry run by default that
+prints each reason with a count and examples, `--apply` to save.
+
+```bash
+just run screen_candidates            # what would change
+just run screen_candidates --apply    # save reasons, hold flagged rows
+```
+
+Each rule adds a reason code to the row, shown in the admin's screening
+column and filter. A strong reason alone, or two weak ones, moves a `new`
+row to `held`; a held row whose reasons clear goes back to `new`.
+Screening never rejects, and never touches a row a person has reviewed or
+one that is approved, rejected or imported.
+
+- Strong: PyPI no longer has the project (deleted by its author or removed
+  by PyPI, which is how most malware ends up); the name misspells django
+  (`djnago`, `djagno`, `dajngo`); 15 or more releases at four or more a
+  week.
+- Weak: no django, wagtail or django-cms in `requires_dist`; no
+  repository, or one ecosyste.ms cannot see, that is a fork, or whose name
+  shares nothing with the package; security advisories; no stars,
+  dependents or downloads; an empty or placeholder summary; first uploaded
+  in the same minute as two or more other candidates; the same author
+  email as two or more other candidates new in the last 90 days.
+- Informational, never counted: first upload in the last 30 days, and a
+  repository created a month or more after the first release.
+
+The rules live in `probes/screening.py`. None download or run package
+code.
 
 ### Setup
 
