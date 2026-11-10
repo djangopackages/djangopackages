@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-11-09]
+### Changed
+- Add Django and Python version filters to the package lists ([#1835](https://github.com/djangopackages/djangopackages/pull/1835))
+- Add per-row package pages to the probe stats tables ([#1834](https://github.com/djangopackages/djangopackages/pull/1834))
+- [prek]: auto-update hooks ([#1832](https://github.com/djangopackages/djangopackages/pull/1832))
+
 ## [2026-11-06]
 ### Changed
 - Collapse empty feature rows in grid comparisons ([#1831](https://github.com/djangopackages/djangopackages/pull/1831))
