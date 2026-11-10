@@ -453,8 +453,17 @@ class Candidate(BaseModel):
         _("repository"),
         max_length=500,
         blank=True,
-        help_text=_("The forge link resolved from PyPI's project URLs, if any."),
+        help_text=_(
+            "The forge link resolved from PyPI's project URLs, or failing "
+            "that the one ecosyste.ms resolved."
+        ),
     )
+    # What packages.ecosyste.ms knows: the repository's stars, age and
+    # activity, monthly downloads, dependents, advisories, maintainers.
+    # Empty with a fetched_at set means they had not indexed the name
+    # yet; it is tried again on a later run.
+    ecosystems_data = models.JSONField(_("ecosyste.ms data"), default=dict, blank=True)
+    ecosystems_fetched_at = models.DateTimeField(null=True, blank=True)
 
     status = models.CharField(
         _("status"), max_length=10, choices=Status.choices, default=Status.NEW
@@ -517,6 +526,31 @@ class Candidate(BaseModel):
     def first_release(self) -> str:
         """The earliest upload across every release, as an ISO date, or ""."""
         return min(self.release_dates.values(), default="")
+
+    @property
+    def repo(self) -> dict:
+        return self.ecosystems_data.get("repo") or {}
+
+    @property
+    def stars(self) -> int | None:
+        return self.repo.get("stargazers_count")
+
+    @property
+    def repo_created(self) -> str:
+        return (self.repo.get("created_at") or "")[:10]
+
+    @property
+    def downloads(self) -> int | None:
+        """Downloads over ecosyste.ms's period, which is the last month."""
+        return self.ecosystems_data.get("downloads")
+
+    @property
+    def dependents(self) -> int | None:
+        return self.ecosystems_data.get("dependent_repos_count")
+
+    @property
+    def advisories(self) -> int:
+        return self.ecosystems_data.get("advisories") or 0
 
     @property
     def depends_on_django(self) -> bool | None:

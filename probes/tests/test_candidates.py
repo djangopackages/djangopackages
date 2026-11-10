@@ -19,6 +19,7 @@ from package.pypi import PyPIPackage
 from probes import candidates
 from probes.admin import CandidateAdmin
 from probes.discovery import Discovered, Discovery
+from probes.ecosystems import trimmed
 from probes.models import Candidate
 
 pytestmark = pytest.mark.django_db
@@ -62,6 +63,45 @@ def pypi_json(name, **info):
             ],
         },
     }
+
+
+ECOSYSTEMS = {
+    "repository_url": "https://github.com/eracle/OpenOutreach",
+    "downloads": 2247,
+    "downloads_period": "last-month",
+    "dependent_repos_count": 3,
+    "versions_count": 72,
+    "first_release_published_at": "2026-08-21T00:00:00.000Z",
+    "advisories": [],
+    "maintainers": [{"login": "eracle", "packages_count": 2, "html_url": "x"}],
+    "repo_metadata": {
+        "full_name": "eracle/OpenOutreach",
+        "stargazers_count": 3528,
+        "forks_count": 400,
+        "archived": False,
+        "fork": False,
+        "created_at": "2016-10-07T12:00:00.000Z",
+        "commit_stats": {"total_commits": 900, "total_committers": 20},
+        "etag": "drop me",
+    },
+    "rankings": {"drop": "me"},
+}
+
+
+class FakeEcosystems:
+    def __init__(self, records, fail=False):
+        self.records = records
+        self.fail = fail
+        self.calls = []
+
+    def fetch_package(self, name):
+        self.calls.append(name)
+        if self.fail:
+            raise httpx2.RequestError("down")
+        payload = self.records.get(name)
+        if payload is None:
+            return None
+        return trimmed(payload)
 
 
 class FakePyPI:
@@ -136,7 +176,9 @@ class TestEnrich:
         candidate = baker.make(Candidate, name="openoutreach", pypi_data={})
         client = FakePyPI({"openoutreach": pypi_json("openoutreach")})
 
-        assert candidates.enrich(candidate, client=client)
+        assert candidates.enrich(
+            candidate, client=client, ecosystems=FakeEcosystems({})
+        )
 
         candidate.refresh_from_db()
         assert "description" not in candidate.pypi_data["info"]
@@ -152,7 +194,7 @@ class TestEnrich:
     def test_a_package_that_does_not_need_django_says_so(self):
         candidate = baker.make(Candidate, name="mailhive", pypi_data={})
         client = FakePyPI({"mailhive": pypi_json("mailhive", requires_dist=["httpx"])})
-        candidates.enrich(candidate, client=client)
+        candidates.enrich(candidate, client=client, ecosystems=FakeEcosystems({}))
         candidate.refresh_from_db()
         assert candidate.depends_on_django is False
 
@@ -161,7 +203,9 @@ class TestEnrich:
 
     def test_a_404_leaves_the_row_alone(self):
         candidate = baker.make(Candidate, name="gone", pypi_data={})
-        assert not candidates.enrich(candidate, client=FakePyPI({}))
+        assert not candidates.enrich(
+            candidate, client=FakePyPI({}), ecosystems=FakeEcosystems({})
+        )
         candidate.refresh_from_db()
         assert candidate.pypi_data == {}
         assert candidate.pypi_fetched_at is None
@@ -172,14 +216,117 @@ class TestEnrich:
         baker.make(Candidate, name="c", pypi_data={}, last_upload=WHEN)
         client = FakePyPI({"a": pypi_json("a"), "c": pypi_json("c")})
 
-        assert candidates.enrich_missing(client=client) == 2
+        assert (
+            candidates.enrich_missing(client=client, ecosystems=FakeEcosystems({})) == 2
+        )
         assert sorted(client.calls) == ["a", "c"]
 
     def test_enrich_missing_can_be_capped(self):
         for name in "abc":
             baker.make(Candidate, name=name, pypi_data={}, last_upload=WHEN)
         client = FakePyPI({n: pypi_json(n) for n in "abc"})
-        assert candidates.enrich_missing(limit=2, client=client) == 2
+        assert (
+            candidates.enrich_missing(
+                limit=2, client=client, ecosystems=FakeEcosystems({})
+            )
+            == 2
+        )
+
+
+class TestEcosystems:
+    def test_it_stores_the_trimmed_record_and_the_signals_read_off_it(self):
+        candidate = baker.make(Candidate, name="openoutreach", pypi_data={})
+        candidates.enrich(
+            candidate,
+            client=FakePyPI({"openoutreach": pypi_json("openoutreach")}),
+            ecosystems=FakeEcosystems({"openoutreach": ECOSYSTEMS}),
+        )
+        candidate.refresh_from_db()
+        assert candidate.stars == 3528
+        assert candidate.repo_created == "2016-10-07"
+        assert candidate.downloads == 2247
+        assert candidate.dependents == 3
+        assert candidate.advisories == 0
+        assert candidate.ecosystems_data["repo"]["total_commits"] == 900
+        assert "etag" not in candidate.ecosystems_data["repo"]
+        assert "rankings" not in candidate.ecosystems_data
+        assert candidate.ecosystems_data["maintainers"] == [
+            {"login": "eracle", "packages_count": 2, "html_url": "x"}
+        ]
+        assert candidate.ecosystems_fetched_at is not None
+
+    def test_its_repository_fills_in_when_pypi_has_none(self):
+        candidate = baker.make(Candidate, name="build-wagtail", pypi_data={})
+        candidates.enrich(
+            candidate,
+            client=FakePyPI(
+                {"build-wagtail": pypi_json("build-wagtail", project_urls={})}
+            ),
+            ecosystems=FakeEcosystems({"build-wagtail": ECOSYSTEMS}),
+        )
+        candidate.refresh_from_db()
+        assert candidate.repo_url == "https://github.com/eracle/OpenOutreach"
+
+    def test_pypi_wins_when_both_name_a_repository(self):
+        candidate = baker.make(Candidate, name="openoutreach", pypi_data={})
+        candidates.enrich(
+            candidate,
+            client=FakePyPI({"openoutreach": pypi_json("openoutreach")}),
+            ecosystems=FakeEcosystems({"openoutreach": ECOSYSTEMS}),
+        )
+        candidate.refresh_from_db()
+        assert candidate.repo_url == "https://github.com/eracle/openoutreach"
+
+    def test_a_name_they_have_not_seen_is_remembered_and_retried(self):
+        candidate = baker.make(
+            Candidate, name="brand-new", pypi_data={}, last_upload=WHEN
+        )
+        candidates.enrich(
+            candidate,
+            client=FakePyPI({"brand-new": pypi_json("brand-new")}),
+            ecosystems=FakeEcosystems({}),
+        )
+        candidate.refresh_from_db()
+        assert candidate.ecosystems_data == {}
+        assert candidate.ecosystems_fetched_at is not None
+        assert candidate.stars is None
+
+        later = FakeEcosystems({"brand-new": ECOSYSTEMS})
+        candidates.enrich_missing(client=FakePyPI({}), ecosystems=later)
+        assert later.calls == ["brand-new"]
+        candidate.refresh_from_db()
+        assert candidate.stars == 3528
+
+    def test_rejected_rows_are_not_retried(self):
+        baker.make(
+            Candidate,
+            name="spam",
+            pypi_data={"info": {}},
+            status=Candidate.Status.REJECTED,
+            last_upload=WHEN,
+        )
+        eco = FakeEcosystems({"spam": ECOSYSTEMS})
+        candidates.enrich_missing(client=FakePyPI({}), ecosystems=eco)
+        assert eco.calls == []
+
+    def test_an_outage_there_does_not_block_the_pypi_half(self):
+        candidate = baker.make(Candidate, name="openoutreach", pypi_data={})
+        assert candidates.enrich(
+            candidate,
+            client=FakePyPI({"openoutreach": pypi_json("openoutreach")}),
+            ecosystems=FakeEcosystems({}, fail=True),
+        )
+        candidate.refresh_from_db()
+        assert candidate.author == "OpenOutreach"
+        assert candidate.ecosystems_fetched_at is None
+
+    def test_the_contact_email_goes_in_the_from_header_when_set(self, settings):
+        from probes.ecosystems import EcosystemsClient
+
+        settings.ECOSYSTEMS_CONTACT_EMAIL = "team@example.org"
+        assert EcosystemsClient()._session.headers["From"] == "team@example.org"
+        settings.ECOSYSTEMS_CONTACT_EMAIL = ""
+        assert "From" not in EcosystemsClient()._session.headers
 
 
 class TestImporterLink:

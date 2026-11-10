@@ -220,8 +220,15 @@ summary, upload dates) and, after one request to PyPI, the project's `info`
 block minus the long description plus the earliest upload per release: author,
 `requires_dist`, project URLs, release count and first release date. The
 repository link is resolved from the project URLs the same way `pypi_import`
-does it. Running again refreshes those fields and never changes a row's
-status, so a name rejected once stays rejected.
+does it. A second request goes to [packages.ecosyste.ms](https://packages.ecosyste.ms),
+which indexes PyPI and the forges together, for the repository's stars, age,
+forks, commit counts, monthly downloads, dependents, advisories and the PyPI
+maintainers, and for the repository URL when PyPI named none. Their index lags
+PyPI by a few days for brand-new names, so a miss is retried on later runs.
+Set `ECOSYSTEMS_CONTACT_EMAIL` to a project address to join their polite
+pool, which they ask of regular users (see https://ecosyste.ms/api); it is
+sent as the `From` header. Running again refreshes those fields and never
+changes a row's status, so a name rejected once stays rejected.
 
 ```shell
 just run pypi_discover --framework wagtail --days 7        # the weekly feed
@@ -245,7 +252,8 @@ classifier for Django REST Framework, so it is not an option.
 
 In the admin, Probes, PyPI candidates. Each row is `new`, `held`, `approved`,
 `rejected` or `imported`. The list shows the release count, first release
-date, whether `django` is in `requires_dist`, and the repository. Three
+date, whether `django` is in `requires_dist`, the repository, its stars and
+creation date, monthly downloads and dependent repositories. Three
 actions: **Approve and import as packages** runs `pypi_import` for the
 selection and links the package it made; **Hold for review** and **Reject**
 record who decided and when. Rejected names are never offered again. The

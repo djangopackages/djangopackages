@@ -110,6 +110,10 @@ class CandidateAdmin(admin.ModelAdmin):
         "first_release",
         "depends_on_django",
         "repo_link",
+        "stars",
+        "repo_created",
+        "downloads",
+        "dependents",
         "last_upload",
         "package",
     ]
@@ -135,6 +139,12 @@ class CandidateAdmin(admin.ModelAdmin):
         "first_release",
         "author",
         "requires_dist",
+        "stars",
+        "repo_created",
+        "downloads",
+        "dependents",
+        "advisories",
+        "ecosystems_fetched_at",
         "reviewed_by",
         "reviewed_at",
         "created",
@@ -161,6 +171,19 @@ class CandidateAdmin(admin.ModelAdmin):
                     "first_upload",
                     "last_upload",
                     "pypi_fetched_at",
+                )
+            },
+        ),
+        (
+            "From ecosyste.ms",
+            {
+                "fields": (
+                    "stars",
+                    "repo_created",
+                    "downloads",
+                    "dependents",
+                    "advisories",
+                    "ecosystems_fetched_at",
                 )
             },
         ),
@@ -209,6 +232,26 @@ class CandidateAdmin(admin.ModelAdmin):
     @admin.display(description="author")
     def author(self, obj):
         return obj.author
+
+    @admin.display(description="stars")
+    def stars(self, obj):
+        return obj.stars if obj.stars is not None else ""
+
+    @admin.display(description="repo created")
+    def repo_created(self, obj):
+        return obj.repo_created
+
+    @admin.display(description="downloads / mo")
+    def downloads(self, obj):
+        return obj.downloads if obj.downloads is not None else ""
+
+    @admin.display(description="dependents")
+    def dependents(self, obj):
+        return obj.dependents if obj.dependents is not None else ""
+
+    @admin.display(description="advisories")
+    def advisories(self, obj):
+        return obj.advisories
 
     @admin.display(description="requires_dist")
     def requires_dist(self, obj):

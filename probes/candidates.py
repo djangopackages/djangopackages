@@ -18,6 +18,7 @@ from package.importer import repo_url_from_pypi
 from package.models import Package
 from package.pypi import PyPIClient, PyPIPackage
 from probes.discovery import Discovery
+from probes.ecosystems import EcosystemsClient
 from probes.models import Candidate
 
 logger = logging.getLogger(__name__)
@@ -106,11 +107,19 @@ def trimmed(pypi: PyPIPackage) -> dict:
     return {"info": info, "releases": releases}
 
 
-def enrich(candidate: Candidate, *, client: PyPIClient | None = None) -> bool:
-    """Fetch the PyPI JSON for one candidate and store what matters.
+def enrich(
+    candidate: Candidate,
+    *,
+    client: PyPIClient | None = None,
+    ecosystems: EcosystemsClient | None = None,
+) -> bool:
+    """Fetch the PyPI JSON and the ecosyste.ms record for one candidate.
 
     Returns False when PyPI had nothing for the name or the request
-    failed; the row is left as it was so the next run tries again.
+    failed; the row is left as it was so the next run tries again. The
+    ecosyste.ms half is best effort: they lag PyPI by days for new
+    names, so a miss is recorded by the timestamp alone and retried
+    later, and an outage there never blocks the PyPI half.
     """
     client = client or PyPIClient()
     try:
@@ -130,22 +139,70 @@ def enrich(candidate: Candidate, *, client: PyPIClient | None = None) -> bool:
         candidate.version = pypi.version
     if pypi.info.get("summary"):
         candidate.summary = pypi.info["summary"]
+
+    enrich_from_ecosystems(candidate, ecosystems=ecosystems, save=False)
     candidate.save()
     return True
 
 
+def enrich_from_ecosystems(
+    candidate: Candidate,
+    *,
+    ecosystems: EcosystemsClient | None = None,
+    save: bool = True,
+) -> bool:
+    """Store what ecosyste.ms knows; fill the repository if PyPI gave none."""
+    ecosystems = ecosystems or EcosystemsClient()
+    try:
+        record = ecosystems.fetch_package(candidate.name)
+    except httpx2.HTTPError as exc:
+        logger.warning("ecosyste.ms failed for candidate %s: %s", candidate.name, exc)
+        return False
+
+    candidate.ecosystems_fetched_at = timezone.now()
+    if record is None:
+        candidate.ecosystems_data = {}
+    else:
+        candidate.ecosystems_data = record
+        if not candidate.repo_url and record.get("repository_url"):
+            candidate.repo_url = record["repository_url"][:500]
+    if save:
+        candidate.save()
+    return record is not None
+
+
 def enrich_missing(
-    *, limit: int | None = None, client: PyPIClient | None = None
+    *,
+    limit: int | None = None,
+    client: PyPIClient | None = None,
+    ecosystems: EcosystemsClient | None = None,
 ) -> int:
-    """Fill in every candidate that has no PyPI data yet, newest first."""
+    """Fill in every candidate that has no PyPI data yet, newest first.
+
+    Then retry ecosyste.ms for rows it did not know last time, oldest
+    attempt first, within the same cap, since their index catches up
+    with PyPI over a few days.
+    """
+    client = client or PyPIClient()
+    ecosystems = ecosystems or EcosystemsClient()
     rows = Candidate.objects.filter(pypi_data={}).order_by("-last_upload", "name")
     if limit is not None:
         rows = rows[:limit]
-    client = client or PyPIClient()
     done = 0
     for candidate in rows:
-        if enrich(candidate, client=client):
+        if enrich(candidate, client=client, ecosystems=ecosystems):
             done += 1
+
+    retry = (
+        Candidate.objects.exclude(pypi_data={})
+        .filter(ecosystems_data={})
+        .exclude(status__in=[Candidate.Status.REJECTED, Candidate.Status.IMPORTED])
+        .order_by("ecosystems_fetched_at", "name")
+    )
+    if limit is not None:
+        retry = retry[: max(limit - done, 0)]
+    for candidate in retry:
+        enrich_from_ecosystems(candidate, ecosystems=ecosystems)
     return done
 
 
