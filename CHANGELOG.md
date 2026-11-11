@@ -1,5 +1,13 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-11-10]
+### Changed
+- Screen PyPI candidates and batch ecosyste.ms lookups ([#1841](https://github.com/djangopackages/djangopackages/pull/1841))
+- Store trove classifiers on candidates instead of a framework column ([#1840](https://github.com/djangopackages/djangopackages/pull/1840))
+- Record PyPI discovery results as candidates for review ([#1839](https://github.com/djangopackages/djangopackages/pull/1839))
+- Give grid features a type and validate cells against it ([#1837](https://github.com/djangopackages/djangopackages/pull/1837))
+- Drop python-dateutil and take the dependency bumps from #1829 ([#1836](https://github.com/djangopackages/djangopackages/pull/1836))
+
 ## [2026-11-09]
 ### Changed
 - Add Django and Python version filters to the package lists ([#1835](https://github.com/djangopackages/djangopackages/pull/1835))
