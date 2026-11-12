@@ -610,6 +610,15 @@ class TestBulkClient:
         assert sent == ["pkg:pypi/django-x", "pkg:pypi/general-manager"]
         assert (client.requests, client.remaining) == (1, 4321)
 
+    def test_bulk_requests_get_the_longer_timeout(self):
+        from probes.ecosystems import BULK_TIMEOUT
+
+        client = self.client([])
+        client.fetch_packages(["django-x"])
+
+        assert client._session.post.call_args.kwargs["timeout"] == BULK_TIMEOUT
+        assert BULK_TIMEOUT > 10
+
     def test_more_than_100_names_is_refused(self):
         client = self.client([])
         with pytest.raises(ValueError):
