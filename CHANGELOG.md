@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-11-11]
+### Changed
+- ⬆️ Bump the all-dependencies group with 7 updates ([#1842](https://github.com/djangopackages/djangopackages/pull/1842))
+
 ## [2026-11-10]
 ### Changed
 - Screen PyPI candidates and batch ecosyste.ms lookups ([#1841](https://github.com/djangopackages/djangopackages/pull/1841))
