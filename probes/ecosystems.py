@@ -30,6 +30,10 @@ from django.conf import settings
 REGISTRY_URL = "https://packages.ecosyste.ms/api/v1/registries/pypi.org/packages"
 BULK_URL = "https://packages.ecosyste.ms/api/v1/packages/bulk_lookup"
 BULK_SIZE = 100  # their maximum per request
+# A bulk lookup of 100 older packages with full repository data took more
+# than 10 seconds in production; the whole 18,000-name backfill averaged
+# about 3 seconds a batch with a few far slower.
+BULK_TIMEOUT = 90.0
 
 # Top-level fields worth keeping, and the repository fields under them.
 PACKAGE_KEYS = (
@@ -80,6 +84,7 @@ class EcosystemsClient:
         *,
         user_agent: str = "djangopackages/probes (+https://djangopackages.org)",
         timeout: float = 10.0,
+        bulk_timeout: float = BULK_TIMEOUT,
         contact_email: str | None = None,
     ):
         if contact_email is None:
@@ -88,6 +93,7 @@ class EcosystemsClient:
         if contact_email:
             headers["From"] = contact_email
         self._session = httpx2.Client(timeout=timeout, headers=headers)
+        self.bulk_timeout = bulk_timeout
         self.remaining: int | None = None
         self.requests = 0
 
@@ -127,7 +133,9 @@ class EcosystemsClient:
         if not wanted:
             return {}
         purls = [f"pkg:pypi/{name}" for name in wanted]
-        response = self._session.post(BULK_URL, json={"purls": purls})
+        response = self._session.post(
+            BULK_URL, json={"purls": purls}, timeout=self.bulk_timeout
+        )
         self._note(response)
         response.raise_for_status()
         payload = response.json()
