@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-11-12]
+### Changed
+- Give ecosyste.ms bulk lookups a 90 second timeout ([#1843](https://github.com/djangopackages/djangopackages/pull/1843))
+
 ## [2026-11-11]
 ### Changed
 - ⬆️ Bump the all-dependencies group with 7 updates ([#1842](https://github.com/djangopackages/djangopackages/pull/1842))
