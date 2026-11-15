@@ -1,5 +1,11 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-11-14]
+### Changed
+- ⬆️ Bump opentelemetry-api from 1.45.1 to 1.45.2 ([#1845](https://github.com/djangopackages/djangopackages/pull/1845))
+- ⬆️ Bump dnspython from 2.9.0 to 2.9.2 ([#1846](https://github.com/djangopackages/djangopackages/pull/1846))
+- ⬆️ Bump soupsieve from 2.9 to 4.0 ([#1844](https://github.com/djangopackages/djangopackages/pull/1844))
+
 ## [2026-11-12]
 ### Changed
 - Give ecosyste.ms bulk lookups a 90 second timeout ([#1843](https://github.com/djangopackages/djangopackages/pull/1843))
