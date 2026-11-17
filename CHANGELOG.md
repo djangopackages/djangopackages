@@ -1,5 +1,9 @@
 <!-- GENERATOR_PLACEHOLDER -->
 
+## [2026-11-16]
+### Changed
+- [prek]: auto-update hooks ([#1847](https://github.com/djangopackages/djangopackages/pull/1847))
+
 ## [2026-11-14]
 ### Changed
 - ⬆️ Bump opentelemetry-api from 1.45.1 to 1.45.2 ([#1845](https://github.com/djangopackages/djangopackages/pull/1845))
